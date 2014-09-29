@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="com.focosee.chingshow-web" basedir=".." default="all">
+    <!-- Gerneral spec -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+    <property environment="env" />
+
+    <property name="dir.src" value="${basedir}/src" />
+    <property name="dir.build" value="${basedir}/build" />
+
+    <property name="dir.temp" value="${basedir}/build/temp" />
+    <property name="dir.output" value="${basedir}/build/${ant.project.name}" />
+
+    <!-- Project spec -->
+    <property name="build.version" value="0.0.1" />
+    <target name="all" depends="prepare, build-src, copy, minify, package, after" />
+
+    <target name="prepare">
+        <delete dir="${dir.output}"/>
+    </target>
+
+    <target name="build-src">
+        <!-- ${dir.temp}/js/${ant.project.name}-aio.js -->
+        <exec executable="node">
+            <arg line="${env.tool_r}/r.js -o ${dir.build}/build.js out=${dir.temp}/js/${ant.project.name}-aio-node.js optimize=none" />
+        </exec>
+        <concat destfile="${dir.temp}/js/${ant.project.name}-aio.js" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <fileset file="${dir.build}/requirejs.syncload.head.js" />
+            <fileset file="${dir.temp}/js/${ant.project.name}-aio-node.js" />
+            <fileset file="${dir.build}/export.js" />
+            <fileset file="${dir.build}/requirejs.syncload.foot.js" />
+        </concat>
+        <!-- ${dir.output}/css/${ant.project.name}-aio.css -->
+        <concat destfile="${dir.output}/css/${ant.project.name}-aio.css" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <header filtering="no" trimleading="yes">/* ${ant.project.name} */</header>
+            <fileset file="${dir.src}/css/app.css" />
+        </concat>
+    </target>
+
+    <target name="copy">
+        <!-- ${dir.output}/index.html -->
+        <copy tofile="${dir.output}/index.html" file="${dir.src}/index.html" encoding="UTF-8" outputencoding="UTF-8"/>
+        <replaceregexp file="${dir.output}/index.html" encoding="UTF-8" flags="gs"
+            match="'mode' : 'development'" 
+            replace="'mode' : 'production'"/>
+        <!-- ${dir.output}/templates -->
+        <copy todir="${dir.output}/templates">
+            <fileset dir="${dir.src}/templates" />
+        </copy>
+        <!-- ${dir.output}/libs/lazyload-master/lazyload.js -->
+        <copy tofile="${dir.output}/libs/lazyload-master/lazyload.js" file="${dir.src}/libs/lazyload-master/lazyload.js" encoding="UTF-8" outputencoding="UTF-8"/>
+        <!-- ${dir.output}/libs/libs-aio.js -->
+        <concat destfile="${dir.output}/libs/libs-aio.js" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <fileset file="${dir.src}/libs/Modernizr-2.8.3/modernizr.js" />
+            <fileset file="${dir.src}/libs/jquery-2.1.1/jquery-2.1.1.js" />
+            <fileset file="${dir.src}/libs/PageTransitions/js/pagetransitions.andrea.js" />
+            <fileset file="${dir.src}/libs/spin-2.0.1/spin.js" />
+            <fileset file="${dir.src}/libs/underscore-1.7.0/underscore.js" />
+            <fileset file="${dir.src}/libs/video-js-4.8.1/video.dev.js" />
+            <fileset file="${dir.src}/libs/async-master/async.js" />
+            <fileset file="${dir.src}/libs/iscroll-master/build/iscroll.js" />
+            <fileset file="${dir.src}/libs/requirejs-2.1.5/require.js" />
+            <fileset file="${dir.src}/libs-andrea/andrea.js" />
+        </concat>
+        <!-- ${dir.output}/libs/libs-aio.css -->
+        <concat destfile="${dir.output}/libs/libs-aio.css" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <fileset file="${dir.src}/libs/PageTransitions/css/animations.css" />
+        </concat>
+        <!-- ${dir.output}/libs/font-awesome-4.2.0 -->
+        <copy tofile="${dir.output}/libs/font-awesome-4.2.0/css/font-awesome.css" 
+            file="${dir.src}/libs/font-awesome-4.2.0/css/font-awesome.css" encoding="UTF-8" outputencoding="UTF-8"/>
+        <copy todir="${dir.output}/libs/font-awesome-4.2.0/fonts">
+            <fileset dir="${dir.src}/libs/font-awesome-4.2.0/fonts" />
+        </copy>
+        <!-- ${dir.output}/libs/video-js-4.8.1 -->
+        <copy tofile="${dir.output}/libs/video-js-4.8.1/video-js.css" 
+            file="${dir.src}/libs/video-js-4.8.1/video-js.css" encoding="UTF-8" outputencoding="UTF-8"/>
+        <copy todir="${dir.output}/libs/video-js-4.8.1/font">
+            <fileset dir="${dir.src}/libs/video-js-4.8.1/font" />
+        </copy>
+    </target>
+
+    <target name="minify">
+        <!-- ${dir.output}/js/${ant.project.name}-aio.min.js -->
+        <java jar="${env.tool_yuicompressor}" fork="true" failonerror="true">
+            <arg line="--type js --charset utf-8 -o ${dir.temp}/js/${ant.project.name}-aio-noversion.js ${dir.temp}/js/${ant.project.name}-aio.js" />
+        </java>
+        <concat destfile="${dir.output}/js/${ant.project.name}-aio.js" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <header filtering="no" trimleading="yes">/* ${ant.project.name}-${build.version} */</header>
+            <fileset file="${dir.temp}/js/${ant.project.name}-aio.js" />
+        </concat>
+        <concat destfile="${dir.output}/js/${ant.project.name}-aio.min.js" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <header filtering="no" trimleading="yes">/* ${ant.project.name}-${build.version} */</header>
+            <fileset file="${dir.temp}/js/${ant.project.name}-aio-noversion.js" />
+        </concat>
+        <!-- ${dir.output}/css/${ant.project.name}-aio.min.css -->
+        <java jar="${env.tool_yuicompressor}" fork="true" failonerror="true">
+            <arg line="--type css --charset utf-8 -o ${dir.output}/css/${ant.project.name}-aio.min.css ${dir.output}/css/${ant.project.name}-aio.css" />
+        </java>
+        <!-- ${dir.output}/libs/libs-aio.min.js -->
+        <java jar="${env.tool_yuicompressor}" fork="true" failonerror="true">
+            <arg line="--type js --charset utf-8 -o ${dir.output}/libs/libs-aio.min.js ${dir.output}/libs/libs-aio.js" />
+        </java>
+        <!-- ${dir.output}/libs/libs-aio.min.css -->
+        <java jar="${env.tool_yuicompressor}" fork="true" failonerror="true">
+            <arg line="--type css --charset utf-8 -o ${dir.output}/libs/libs-aio.min.css ${dir.output}/libs/libs-aio.css" />
+        </java>
+    </target>
+
+    <target name="package" depends="minify">
+        <!-- ${dir.package}/${ant.project.name}-${build.version}.zip -->
+        <zip destfile="${basedir}/${ant.project.name}-${build.version}.zip">
+            <fileset dir="${dir.output}" />
+        </zip>
+    </target>
+
+    <target name="after">
+        <delete dir="${dir.temp}"/>
+        <delete dir="${dir.output}"/>
+    </target>
+</project>
