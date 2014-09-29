@@ -11,7 +11,7 @@
     <property name="dir.output" value="${basedir}/build/${ant.project.name}" />
 
     <!-- Project spec -->
-    <property name="build.version" value="0.0.1" />
+    <property name="build.version" value="0.2.0" />
     <target name="all" depends="prepare, build-src, copy, minify, package, after" />
 
     <target name="prepare">
