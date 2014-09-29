@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no;user-scalable=0;"/>
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+        Remove this if you use the .htaccess -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+        <title>倾秀 - 时尚新视觉</title>
+        <meta name="description" content="倾秀 - 时尚新视觉" />
+
+        <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+        <link rel="shortcut icon" href="" type="image/x-icon" />
+        <link rel="apple-touch-icon" href="" />
+
+        <script src="libs/lazyload-master/lazyload.js"></script>
+        <script>
+            (function() {
+                window.appConfig = {
+                    'mode' : 'development',
+                    'server' : {
+                        'url' : ''
+                    }
+                };
+
+                var cssURLs = [], jsURLs = [];
+                if (appConfig.mode === 'development') {
+                    cssURLs.push('libs/PageTransitions/css/animations.css');
+                    cssURLs.push('libs/font-awesome-4.2.0/css/font-awesome.css');
+                    cssURLs.push('libs/video-js-4.8.1/video-js.css');
+                    cssURLs.push('css/app.css');
+
+                    jsURLs.push('libs/Modernizr-2.8.3/modernizr.js');
+                    jsURLs.push('libs/jquery-2.1.1/jquery-2.1.1.js');
+                    jsURLs.push('libs/PageTransitions/js/pagetransitions.andrea.js');
+                    jsURLs.push('libs/spin-2.0.1/spin.js');
+                    jsURLs.push('libs/underscore-1.7.0/underscore.js');
+                    jsURLs.push('libs/video-js-4.8.1/video.dev.js');
+                    jsURLs.push('libs/async-master/async.js');
+                    jsURLs.push('libs/iscroll-master/build/iscroll.js');
+                    jsURLs.push('libs/requirejs-2.1.5/require.js');
+                    jsURLs.push('libs-andrea/andrea.js');
+                } else {
+                    var min = (window.location.hash.indexOf('#debug') === 0 ? '' : '.min');
+                    cssURLs.push('libs/libs-aio' + min + '.css');
+                    cssURLs.push('libs/font-awesome-4.2.0/css/font-awesome.css');
+                    cssURLs.push('libs/video-js-4.8.1/video-js.css');
+                    cssURLs.push('css/com.focosee.chingshow-web-aio' + min + '.css');
+
+                    jsURLs.push('libs/libs-aio' + min + '.js');
+                    jsURLs.push('js/com.focosee.chingshow-web-aio' + min + '.js');
+                }
+                LazyLoad.css(cssURLs, function() {
+                    LazyLoad.js(jsURLs, function() {
+                        $(function() {
+                            init();
+                        });
+                    });
+                });
+
+                var init = function() {
+                    // IScroll
+                    document.addEventListener('touchmove', function(e) {
+                        e.preventDefault();
+                    }, false);
+                    // this is important to prevent the whole page to bounce
+                    $(document.body).css('overflow', 'hidden');
+
+                    // QS
+                    window.appConfig = {
+                        'server' : {
+                            'url' : ''
+                        }
+                    };
+                    window.appRuntime = {
+                        'view' : {
+                            'to' : null,
+                            'back' : null
+                        },
+                        'popup' : {
+                            'create' : null,
+                            'remove' : null,
+                            'dock' : null
+                        },
+                        'events' : {
+                            'click' : Modernizr.touch ? 'touchstart' : 'click'
+                        }
+                    };
+                    // Bootstrap
+                    requirejs.config({
+                        'baseUrl' : 'js',
+                        'paths' : {
+                            'ui' : './ui',
+                            'app' : './app'
+                        }
+                    });
+                    require(['app']);
+                };
+            })();
+        </script>
+
+    </head>
+
+    <body>
+        <!-- Root -->
+        <div id="qsApp" class="qsApp"></div>
+    </body>
+</html>
