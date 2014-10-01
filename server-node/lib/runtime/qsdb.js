@@ -1,16 +1,18 @@
-var _db;
+var argv = require('minimist')(process.argv.slice(2));
+var connectCfg = argv['mongodb-connect'].split(',');
+var authCfg = argv['mongodb-auth'].split(',');
 
+var _db;
 var connect = function(callback) {
     if (_db) {
         callback(null, _db);
     } else {
         var mongodb = require('mongodb');
-        mongodb.MongoClient.connect('mongodb://127.0.0.1:' + 30002 + '/qingshow', function(err, db) {
+        mongodb.MongoClient.connect('mongodb://' + connectCfg[0] + ':' + connectCfg[1] + '/' + connectCfg[2], function(err, db) {
             if (err) {
                 callback(err);
             }
-            var user = 'qingshow', password = 'qingshow@mongo';
-            db.authenticate(user, password, function(err, res) {
+            db.authenticate(authCfg[0], authCfg[1], function(err, res) {
                 if (err) {
                     callback(err);
                 } else {

@@ -4,4 +4,11 @@
 export folder_qingshow=/Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow
 
 export folder_mongodb=/Applications/mongodb-osx-x86_64-2.6.4
-export port_mongodb=30002
+
+export mongodb_url=localhost
+export mongodb_port=30002
+export mongodb_db=qingshow
+export mongodb_user=qingshow
+export mongodb_password=qingshow@mongo
+
+export http_server_port=30001
