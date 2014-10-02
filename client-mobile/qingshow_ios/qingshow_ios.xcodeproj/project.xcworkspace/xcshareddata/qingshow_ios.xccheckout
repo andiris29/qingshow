@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>21E42606-2BCC-4B2E-A1CB-7B7681700B9B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>qingshow_ios</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>70CAE455D53E64CAACCD863910A109C27361F40F</key>
+		<string>https://github.com/andiris29/com.focosee.qingshow.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>client-mobile/qingshow_ios/qingshow_ios.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>70CAE455D53E64CAACCD863910A109C27361F40F</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/andiris29/com.focosee.qingshow.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>70CAE455D53E64CAACCD863910A109C27361F40F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>70CAE455D53E64CAACCD863910A109C27361F40F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>com.focosee.qingshow</string>
+		</dict>
+	</array>
+</dict>
+</plist>
