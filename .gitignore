@@ -13,3 +13,8 @@ mongodb/db
 *.perspectivev3
 *.pbxuser
 xcuserdata
+
+# For Android Client
+client-mobile/qingshow_android/.idea
+client-mobile/qingshow_android/out
+client-mobile/qingshow_android/bin
