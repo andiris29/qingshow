@@ -18,4 +18,4 @@ _registServices = function(path) {
 };
 _registServices('feeding');
 
-console.log('Web server startup complete!');
+console.log('Http server startup complete!');
