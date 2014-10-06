@@ -9,12 +9,12 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var Item, People;
+    var S03Show, P02Producer;
     var ItemGallery = function(dom) {
         ItemGallery.superclass.constructor.apply(this, arguments);
-        require(['app/views/Item', 'app/views/People'], function(rItem, rPeople) {
-            Item = rItem;
-            People = rPeople;
+        require(['app/views/show/S03Show', 'app/views/producer/P02Producer'], function(rItem, rPeople) {
+            S03Show = rItem;
+            P02Producer = rPeople;
         });
 
         this._tpltLiPeople$ = null;
@@ -73,10 +73,10 @@ define([
         $('.qsNumLikes', liPeople$).text(people.numLikes);
 
         $('.qsItemCover, .qsItemDescription', liPeople$).on('click', function() {
-            appRuntime.view.to(Item);
+            appRuntime.view.to(S03Show);
         }.bind(this));
         $('.qsPeople', liPeople$).on('click', function() {
-            appRuntime.view.to(People);
+            appRuntime.view.to(P02Producer);
         }.bind(this));
         return liPeople$;
     };

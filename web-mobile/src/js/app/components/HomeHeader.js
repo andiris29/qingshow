@@ -2,8 +2,8 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
-    'app/components/CategoryMenu'
-], function(UIComponent, TemplateManager, CategoryMenu) {
+    'app/components/Menu'
+], function(UIComponent, TemplateManager, Menu) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -19,7 +19,7 @@ define([
                 if (menu) {
                     return;
                 }
-                menu = appRuntime.popup.create(CategoryMenu, true);
+                menu = appRuntime.popup.create(Menu, true);
                 appRuntime.popup.dock(menu, this._dom$, 'lb', 'down', 0);
                 menu.on('destroy', function() {
                     menu = null;

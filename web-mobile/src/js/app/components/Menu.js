@@ -2,37 +2,37 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
-    'app/views/Category'
-], function(UIComponent, TemplateManager, Category) {
+    'app/views/show/S02TagRecommendation'
+], function(UIComponent, TemplateManager, S02TagRecommendation) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
-    var CategoryMenu = function(dom) {
-        CategoryMenu.superclass.constructor.apply(this, arguments);
+    var Menu = function(dom) {
+        Menu.superclass.constructor.apply(this, arguments);
 
         async.parallel([
         function(callback) {
-            TemplateManager.load('category-menu.html', callback);
+            TemplateManager.load('menu.html', callback);
         }], function(err, results) {
             var content$ = results[0];
             this._dom$.append(content$);
 
             $('li').on('click', function() {
-                appRuntime.view.to(Category);
+                appRuntime.view.to(S02TagRecommendation);
                 appRuntime.popup.remove(this);
             }.bind(this));
         }.bind(this));
     };
 
-    andrea.oo.extend(CategoryMenu, UIComponent);
+    andrea.oo.extend(Menu, UIComponent);
 
-    CategoryMenu.prototype.getPreferredSize = function() {
+    Menu.prototype.getPreferredSize = function() {
         return {
             'width' : 640,
             'height' : 510
         };
     };
 
-    return CategoryMenu;
+    return Menu;
 });

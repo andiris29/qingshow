@@ -1,8 +1,8 @@
 // @formatter:off
 define([
     'ui/UIComponent',
-    'app/views/Home'
-], function(UIComponent, Home) {
+    'app/views/show/S01Recommendation'
+], function(UIComponent, S01Recommendation) {
 // @formatter:on
     /**
      * View container, own the animation between view switch
@@ -15,7 +15,7 @@ define([
         this._currentView = null;
 
         appRuntime.view.to = $.proxy(this.to, this), appRuntime.view.back = $.proxy(this.back, this);
-        appRuntime.view.to(Home);
+        appRuntime.view.to(S01Recommendation);
     };
     andrea.oo.extend(ViewContainer, UIComponent);
 

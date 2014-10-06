@@ -2,17 +2,17 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/Header',
+    'app/components/HomeHeader',
     'app/components/ItemGallery',
-], function(IScrollContainer, ViewBase, Header, ItemGallery) {
+], function(IScrollContainer, ViewBase, HomeHeader, ItemGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
-    var People = function(dom) {
-        People.superclass.constructor.apply(this, arguments);
+    var S01Recommendation = function(dom) {
+        S01Recommendation.superclass.constructor.apply(this, arguments);
 
-        var header = new Header($('<div/>').appendTo(this._dom$), '网红 xxx');
+        var header = new HomeHeader($('<div/>').appendTo(this._dom$));
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height
@@ -21,7 +21,7 @@ define([
         var gallery = new ItemGallery($('<div/>'));
         body.append(gallery);
     };
-    andrea.oo.extend(People, ViewBase);
+    andrea.oo.extend(S01Recommendation, ViewBase);
 
-    return People;
+    return S01Recommendation;
 });

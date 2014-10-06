@@ -8,6 +8,7 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
+    // TODO Move to S03Show
     var ItemMain = function(dom) {
         ItemMain.superclass.constructor.apply(this, arguments);
 
