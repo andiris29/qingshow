@@ -7,10 +7,10 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var Header = function(dom, data) {
-        Header.superclass.constructor.apply(this, arguments);
+    var BackableHeader = function(dom, data) {
+        BackableHeader.superclass.constructor.apply(this, arguments);
 
-        TemplateManager.load('header.html', function(err, content$) {
+        TemplateManager.load('header/backable-header.html', function(err, content$) {
             this._dom$.append(content$);
 
             // Render
@@ -22,13 +22,13 @@ define([
         }.bind(this));
     };
 
-    andrea.oo.extend(Header, UIComponent);
+    andrea.oo.extend(BackableHeader, UIComponent);
 
-    Header.prototype.getPreferredSize = function() {
+    BackableHeader.prototype.getPreferredSize = function() {
         return {
             'height' : 96
         };
     };
 
-    return Header;
+    return BackableHeader;
 });

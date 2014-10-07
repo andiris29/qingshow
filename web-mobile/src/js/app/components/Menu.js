@@ -1,9 +1,8 @@
 // @formatter:off
 define([
     'ui/UIComponent',
-    'app/managers/TemplateManager',
-    'app/views/show/S02TagRecommendation'
-], function(UIComponent, TemplateManager, S02TagRecommendation) {
+    'app/managers/TemplateManager'
+], function(UIComponent, TemplateManager) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -13,9 +12,15 @@ define([
 
         async.parallel([
         function(callback) {
+            require(['app/views/show/S02TagRecommendation'], function(S02TagRecommendation) {
+                callback(null, S02TagRecommendation);
+            });
+        },
+        function(callback) {
             TemplateManager.load('menu.html', callback);
         }], function(err, results) {
-            var content$ = results[0];
+            var S02TagRecommendation = results[0];
+            var content$ = results[1];
             this._dom$.append(content$);
 
             $('li').on('click', function() {

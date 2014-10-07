@@ -8,10 +8,10 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var HomeHeader = function(dom) {
-        HomeHeader.superclass.constructor.apply(this, arguments);
+    var MainHeader = function(dom) {
+        MainHeader.superclass.constructor.apply(this, arguments);
 
-        TemplateManager.load('home-header.html', function(err, content$) {
+        TemplateManager.load('header/main-header.html', function(err, content$) {
             this._dom$.append(content$);
 
             var menu;
@@ -28,13 +28,13 @@ define([
         }.bind(this));
     };
 
-    andrea.oo.extend(HomeHeader, UIComponent);
+    andrea.oo.extend(MainHeader, UIComponent);
 
-    HomeHeader.prototype.getPreferredSize = function() {
+    MainHeader.prototype.getPreferredSize = function() {
         return {
             'height' : 96
         };
     };
 
-    return HomeHeader;
+    return MainHeader;
 });

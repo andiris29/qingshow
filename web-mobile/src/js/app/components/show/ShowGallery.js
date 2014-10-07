@@ -10,8 +10,8 @@ define([
      * The top level dom element, which will fit to screen
      */
     var S03Show, P02Producer;
-    var ItemGallery = function(dom) {
-        ItemGallery.superclass.constructor.apply(this, arguments);
+    var ShowGallery = function(dom) {
+        ShowGallery.superclass.constructor.apply(this, arguments);
         require(['app/views/show/S03Show', 'app/views/producer/P02Producer'], function(rItem, rPeople) {
             S03Show = rItem;
             P02Producer = rPeople;
@@ -22,7 +22,7 @@ define([
         this._dom$.css('overflow', 'auto');
         async.parallel([ function(callback) {
             // Load template
-            TemplateManager.load('item-gallery.html', function(err, content$) {
+            TemplateManager.load('show/show-gallery.html', function(err, content$) {
                 content$.css('minHeight', this._dom$.height() + 'px');
                 this._dom$.append(content$);
 
@@ -30,7 +30,7 @@ define([
             }.bind(this));
         }.bind(this), function(callback) {
             // Load template for list items
-            TemplateManager.load('item-gallery-li.html', function(err, content$) {
+            TemplateManager.load('show/show-gallery-li.html', function(err, content$) {
                 callback(null, content$);
             }.bind(this));
         }.bind(this), function(callback) {
@@ -42,9 +42,9 @@ define([
         }.bind(this));
     };
 
-    andrea.oo.extend(ItemGallery, UIComponent);
+    andrea.oo.extend(ShowGallery, UIComponent);
 
-    ItemGallery.prototype._render = function(peoples) {
+    ShowGallery.prototype._render = function(peoples) {
         var containers$ = $('.qsLiItemContainer', this._dom$);
 
         peoples.forEach( function(people, index) {
@@ -63,7 +63,7 @@ define([
         }.bind(this));
     };
 
-    ItemGallery.prototype._renderPeople = function(liPeople$, people) {
+    ShowGallery.prototype._renderPeople = function(liPeople$, people) {
         $('.qsItemCover', liPeople$).attr('src', people.cover);
         $('.qsItemDescription', liPeople$).text(people.itemDescription);
         $('.qsPortrait', liPeople$).css('background-image', andrea.string.substitute('url("{0}")', people.portrait));
@@ -81,5 +81,5 @@ define([
         return liPeople$;
     };
 
-    return ItemGallery;
+    return ShowGallery;
 });

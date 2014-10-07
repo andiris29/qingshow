@@ -2,10 +2,10 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/Header',
-    'app/components/ItemMain',
-    'app/components/ItemGallery'
-], function(IScrollContainer, ViewBase, Header, ItemMain, ItemGallery) {
+    'app/components/header/BackableHeader',
+    'app/components/show/Show',
+    'app/components/show/ShowGallery'
+], function(IScrollContainer, ViewBase, BackableHeader, ItemMain, ItemGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -13,7 +13,7 @@ define([
     var S03Show = function(dom) {
         S03Show.superclass.constructor.apply(this, arguments);
 
-        var header = new Header($('<div/>').appendTo(this._dom$), '商品 xxx');
+        var header = new BackableHeader($('<div/>').appendTo(this._dom$), '商品 xxx');
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height
