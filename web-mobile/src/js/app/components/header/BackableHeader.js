@@ -1,8 +1,8 @@
 // @formatter:off
 define([
-    'ui/UIComponent',
-    'app/managers/TemplateManager'
-], function(UIComponent, TemplateManager) {
+    'app/managers/TemplateManager',
+    'app/components/header/HeaderBase'
+], function(TemplateManager, HeaderBase) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -15,20 +15,12 @@ define([
 
             // Render
             $('.qsTitle', this._dom$).text(data);
-
-            $('.qsBack', this._dom$).on(appRuntime.events.click, function() {
-                appRuntime.view.back();
-            }.bind(this));
+            // Event listener
+            this._onBack();
         }.bind(this));
     };
 
-    andrea.oo.extend(BackableHeader, UIComponent);
-
-    BackableHeader.prototype.getPreferredSize = function() {
-        return {
-            'height' : 96
-        };
-    };
+    andrea.oo.extend(BackableHeader, HeaderBase);
 
     return BackableHeader;
 });

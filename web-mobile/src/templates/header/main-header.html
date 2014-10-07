@@ -7,24 +7,23 @@
         height: 96px;
         background-color: #fff;
     }
-    .qsTpltMainHeader .qsCategoryMenu {
-        height: 96px;
-        width: 120px;
-        position: absolute;
+    .qsTpltMainHeader .qsMenu {
+        left: 0px;
     }
-    .qsTpltMainHeader .qsCategoryMenu .qsIcon {
+    .qsTpltMainHeader .qsUser {
+        right: 0px;
+    }
+    .qsTpltMainHeader .qsIconButton {
+        position: absolute;
+        top: 0px;
+        width: 96px;
+        height: 96px;
+    }
+    .qsTpltMainHeader .qsIconButton .qsIcon {
         position: absolute;
         left: 20px;
         top: 24px;
         font-size: 48px;
-    }
-    .qsTpltMainHeader .qsSlogan {
-        position: absolute;
-        right: 20px;
-        top: 28px;
-        width: 166px;
-        height: 32px;
-        background-image: url('../../templates/assets/slogan.png');
     }
     .qsTpltMainHeader .qsLogo {
         width: 100%;
@@ -36,10 +35,12 @@
 </style>
 <div id="wrapper" style="width: 640px; position: relative; margin: auto;">
     <div class="qsTpltMainHeader">
-        <div class="qsCategoryMenu qsIconButton">
+        <div class="qsMenu qsIconButton">
             <div class="qsIcon fa fa-bars"></div>
         </div>
         <div class="qsLogo"></div>
-        <div class="qsSlogan"></div>
+        <div class="qsUser qsIconButton">
+            <div class="qsIcon fa fa-user"></div>
+        </div>
     </div>
 </div>
