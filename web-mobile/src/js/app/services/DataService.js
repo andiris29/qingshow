@@ -11,7 +11,8 @@ define([
         var request;
         if (andrea.env.debug) {
             request = {
-                'url' : '../deps-fake/data' + path + '.json'
+                'url' : '../deps-fake/data' + path + '.json',
+                'dataType' : 'json'
             };
         } else {
             request = {

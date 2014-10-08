@@ -21,10 +21,9 @@ define([
             $.ajax({
                 'url' : './templates/' + src + (andrea.env.debug ? ('?' + Math.random()) : '')
             }).done(function(data) {
-                data = data.replace('<link href="../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>', '');
-                data = data.replace('<link href="../css/app.css" rel="stylesheet"/>', '');
-                data = data.replace(new RegExp('./assets', 'g'), './templates/assets');
-                data = data.replace(new RegExp('../../deps-fake/pics', 'g'), '../deps-fake/pics');
+                data = data.replace(/<link.*>/g, '');
+                data = data.replace(/(\.\/|\.\.\/).*templates/g, './templates');
+                data = data.replace(/(\.\/|\.\.\/).*deps-fake/g,'../deps-fake');
                 var i = data.indexOf('<div id="wrapper"');
                 if (i !== -1) {
                     data = data.substring(0, i) + data.substring(data.indexOf('>', i) + 1, data.lastIndexOf('</div>'));

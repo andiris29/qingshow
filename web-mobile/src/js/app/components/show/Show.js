@@ -8,18 +8,18 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var ItemMain = function(dom) {
-        ItemMain.superclass.constructor.apply(this, arguments);
+    var Show = function(dom) {
+        Show.superclass.constructor.apply(this, arguments);
 
         async.parallel([ function(callback) {
             // Load template
-            TemplateManager.load('item.html', true, function(err, content$) {
+            TemplateManager.load('show/show.html', true, function(err, content$) {
                 this._dom$.append(content$);
                 callback(null);
             }.bind(this));
         }.bind(this), function(callback) {
             // Load template
-            TemplateManager.load('item-main.html', true, function(err, content$) {
+            TemplateManager.load('show/show-main.html', true, function(err, content$) {
                 callback(null, content$);
             }.bind(this));
         }.bind(this), function(callback) {
@@ -33,12 +33,12 @@ define([
         }.bind(this));
 
     };
-    andrea.oo.extend(ItemMain, UIComponent);
+    andrea.oo.extend(Show, UIComponent);
 
-    ItemMain.prototype._render = function(itemJSON) {
+    Show.prototype._render = function(itemJSON) {
 
         videojs($('.qsItemVideo', this._dom$).get(0));
     };
 
-    return ItemMain;
+    return Show;
 });

@@ -5,6 +5,6 @@
         'ui' : './ui',
         'app' : './app'
     },
-    include : ['app/views/Item', 'app/views/People'],
+    include : ['app/views/show/S03Show', 'app/views/show/P02Producer'],
     name : 'app'
 })
