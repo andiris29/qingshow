@@ -36,7 +36,8 @@ define([
     andrea.oo.extend(Show, UIComponent);
 
     Show.prototype._render = function(itemJSON) {
-
+        Show.superclass._render.apply(this, arguments);
+        
         videojs($('.qsItemVideo', this._dom$).get(0));
     };
 

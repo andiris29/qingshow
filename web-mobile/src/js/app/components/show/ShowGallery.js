@@ -19,7 +19,6 @@ define([
 
         this._tpltLiPeople$ = null;
 
-        this._dom$.css('overflow', 'auto');
         async.parallel([ function(callback) {
             // Load template
             TemplateManager.load('show/show-gallery.html', function(err, content$) {
@@ -45,6 +44,8 @@ define([
     andrea.oo.extend(ShowGallery, UIComponent);
 
     ShowGallery.prototype._render = function(peoples) {
+        ShowGallery.superclass._render.apply(this, arguments);
+
         var containers$ = $('.qsLiItemContainer', this._dom$);
 
         peoples.forEach( function(people, index) {
@@ -56,10 +57,6 @@ define([
                 }
             });
             liPeople$.appendTo(targetContainer$);
-        }.bind(this));
-
-        $('img', this._dom).on('load', function() {
-            this.trigger('resize');
         }.bind(this));
     };
 
