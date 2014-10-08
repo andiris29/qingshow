@@ -16,25 +16,27 @@ define([
 
         this._iscroll = null;
 
-        this._validateIScroll();
+        this._refreshIScroll();
     };
     andrea.oo.extend(IScrollContainer, UIContainer);
 
-    IScrollContainer.prototype._validateIScroll = function(uiComponent) {
+    IScrollContainer.prototype._refreshIScroll = function(uiComponent) {
         if (this._iscroll) {
-            this._iscroll.destroy();
+            this._iscroll.refresh();
+        } else {
+            this._iscroll = new IScroll(this.dom(), {
+                'mouseWheel' : true,
+                'click' : true
+            });
         }
-        this._iscroll = new IScroll(this.dom(), {
-            'mouseWheel' : true,
-            'click' : true
-        });
     };
 
     IScrollContainer.prototype.append = function(uiComponent) {
         uiComponent.dom$().appendTo(this._scroller$);
-        uiComponent.on('resize', function() {
-            this._validateIScroll();
-        }.bind(this));
+
+        uiComponent.on('resize', this._refreshIScroll.bind(this));
+        this._refreshIScroll();
+
         this._children.push(uiComponent);
     };
 

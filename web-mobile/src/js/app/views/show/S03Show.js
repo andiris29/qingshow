@@ -5,7 +5,7 @@ define([
     'app/components/header/BackableHeader',
     'app/components/show/Show',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, ViewBase, BackableHeader, ItemMain, ItemGallery) {
+], function(IScrollContainer, ViewBase, BackableHeader, Show, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -19,10 +19,10 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new ItemMain($('<div/>'));
-        var gallery = new ItemGallery($('<div/>'));
+        var main = new Show($('<div/>'));
+        var gallery = new ShowGallery($('<div/>'));
         body.append(main);
-        body.append(gallery);
+        // body.append(gallery);
     };
     andrea.oo.extend(S03Show, ViewBase);
 

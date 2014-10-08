@@ -45,5 +45,16 @@ define([], function() {
     UIComponent.prototype.getPreferredSize = function() {
     };
 
+    UIComponent.prototype._render = function() {
+        setTimeout(this._onAfterRender.bind(this), 0);
+    };
+
+    UIComponent.prototype._onAfterRender = function() {
+        $('img', this._dom).on('load', function() {
+            this.trigger('resize');
+        }.bind(this));
+        this.trigger('resize');
+    };
+
     return UIComponent;
 });
