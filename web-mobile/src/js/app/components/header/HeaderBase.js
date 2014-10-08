@@ -34,8 +34,8 @@ define([
 
     HeaderBase.prototype._onUser = function() {
         $('.qsUser', this._dom$).on(appRuntime.events.click, function() {
-            require(['app/views/user/U01User'], function(U01User) {
-                appRuntime.view.to(U01User);
+            require(['app/views/user/U02UserSetting'], function(U02UserSetting) {
+                appRuntime.view.to(U02UserSetting);
             });
         }.bind(this));
 
