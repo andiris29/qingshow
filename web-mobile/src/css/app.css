@@ -3,7 +3,7 @@ body {
     color: #666;
     background-color: #fff;
     font-family: Arial, Tahoma;
-    font-size: 1em;/*16px*/
+    font-size: 1.25em;/* 16px*1.25=20px */
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
