@@ -22,9 +22,6 @@ define([
             TemplateManager.load('show/show-main.html', true, function(err, content$) {
                 callback(null, content$);
             }.bind(this));
-        }.bind(this), function(callback) {
-            // Load data
-            DataService.request('/item', null, callback);
         }.bind(this)], function(err, results) {
             var main$ = results[1];
             main$.appendTo($('.qsItemMain', this._dom$));

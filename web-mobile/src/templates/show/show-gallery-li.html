@@ -1,5 +1,5 @@
-<link href="../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
-<link href="../css/app.css" rel="stylesheet"/>
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
 <style>
     .qsTpltShowGalleryLi {
         position: relative;
@@ -7,23 +7,15 @@
         border-radius: 8px;
         overflow: hidden;
     }
-    .qsTpltShowGalleryLi .qsItemCover {
+    .qsTpltShowGalleryLi .qsShowCover {
         width: 100%;
     }
-    .qsTpltShowGalleryLi .qsItemDescription {
-        padding: 10px 5px;
+    .qsTpltShowGalleryLi .qsModel {
+        overflow: auto;
+        margin: 10px 8px;
     }
-    .qsTpltShowGalleryLi .qsSplitter {
-        height: 2px;
-        background-color: #eee;
-    }
-    .qsTpltShowGalleryLi .qsPeople {
-        padding-top: 10px;
-    }
-    .qsTpltShowGalleryLi .qsPeople .qsPortrait {
+    .qsTpltShowGalleryLi .qsModel .qsPortrait {
         background-image: url('../../../deps-fake/pics/portraits/smallphoto01.jpg');
-        margin-left: 8px;
-        margin-bottom: 8px;
         float: left;
         width: 52px;
         height: 52px;
@@ -31,46 +23,42 @@
         border-radius: 26px;
         overflow: hidden;
     }
-    .qsTpltShowGalleryLi .qsPeople .qsTextContainer {
+    .qsTpltShowGalleryLi .qsModel .qsTextContainer {
         padding-bottom: 8px;
         float: left;
         margin: 0px 8px;
         width: calc(100% - 116px);
     }
-    .qsTpltShowGalleryLi .qsPeople .qsLine {
+    .qsTpltShowGalleryLi .qsModel .qsLine {
         height: 26px;
     }
-    .qsTpltShowGalleryLi .qsPeople .qsName {
+    .qsTpltShowGalleryLi .qsModel .qsName {
         float: left;
         color: 4e4e4e;
     }
-    .qsTpltShowGalleryLi .qsPeople .qsAge {
+    .qsTpltShowGalleryLi .qsModel .qsAge {
         float: right;
     }
-    .qsTpltShowGalleryLi .qsPeople .qsStatus {
+    .qsTpltShowGalleryLi .qsModel .qsStatus {
     }
-    .qsTpltShowGalleryLi .qsPeople .qsLikeContainer {
+    .qsTpltShowGalleryLi .qsModel .qsLikeContainer {
         float: left;
         width: 40px;
         text-align: center;
     }
-    .qsTpltShowGalleryLi .qsPeople .qsLike {
+    .qsTpltShowGalleryLi .qsModel .qsLike {
         font-size: 1.8em;
         margin-bottom: 4px;
     }
-    .qsTpltShowGalleryLi .qsPeople .qsNumLikes {
+    .qsTpltShowGalleryLi .qsModel .qsNumLikes {
         padding-right: 2px;
     }
 </style>
 
 <div id="wrapper" style="width: 290px; position: relative; margin: auto;">
     <div class="qsTpltShowGalleryLi">
-        <img class="qsItemCover fakeSrc" src="../../../deps-fake/pics/covers/moto01.jpg">
-        <div class="qsItemDescription fakeText">
-            精致合身的轮廓，公主般华丽的礼服！精致合身的轮廓，公主般华丽的礼服！精致合身的轮廓，公主般华丽的礼服！end
-        </div>
-        <div class="qsSplitter"></div>
-        <div class="qsPeople">
+        <img class="qsShowCover fakeSrc" src="../../../deps-fake/pics/covers/moto01.jpg">
+        <div class="qsModel">
             <div class="qsPortrait fakeBackgroundImage"></div>
             <div class="qsTextContainer">
                 <div class="qsLine">

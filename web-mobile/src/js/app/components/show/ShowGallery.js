@@ -3,8 +3,9 @@ define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
     'app/services/DataService',
-    'app/utils/DateUtils'
-], function(UIComponent, TemplateManager, DataService, DateUtils) {
+    'app/utils/DateUtils',
+    'app/utils/ImageUtils',
+], function(UIComponent, TemplateManager, DataService, DateUtils, ImageUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -17,7 +18,7 @@ define([
             P02Producer = rPeople;
         });
 
-        this._tpltLiPeople$ = null;
+        this._tpltLi$ = null;
 
         async.parallel([ function(callback) {
             // Load template
@@ -34,48 +35,51 @@ define([
             }.bind(this));
         }.bind(this), function(callback) {
             // Load data
-            DataService.request('/peoples', null, callback);
+            DataService.request('/feeding/byRecommendation', {
+                'pageNo' : 1,
+                'pageSize' : 100
+            }, callback);
         }.bind(this)], function(err, results) {
-            this._tpltLiPeople$ = results[1];
+            this._tpltLi$ = results[1];
             this._render(results[2]);
         }.bind(this));
     };
 
     andrea.oo.extend(ShowGallery, UIComponent);
 
-    ShowGallery.prototype._render = function(peoples) {
+    ShowGallery.prototype._render = function(response) {
         ShowGallery.superclass._render.apply(this, arguments);
 
         var containers$ = $('.qsLiItemContainer', this._dom$);
 
-        peoples.forEach( function(people, index) {
-            var liPeople$ = this._renderPeople(this._tpltLiPeople$.clone(), people);
+        var shows = response.data.shows;
+        shows.forEach( function(show, index) {
+            var li$ = this._renderOne(this._tpltLi$.clone(), show);
             var targetContainer$;
             containers$.each(function(index, container) {
                 if (!targetContainer$ || targetContainer$.children().length > $(container).children().length) {
                     targetContainer$ = $(container);
                 }
             });
-            liPeople$.appendTo(targetContainer$);
+            li$.appendTo(targetContainer$);
         }.bind(this));
     };
 
-    ShowGallery.prototype._renderPeople = function(liPeople$, people) {
-        $('.qsItemCover', liPeople$).attr('src', people.cover);
-        $('.qsItemDescription', liPeople$).text(people.itemDescription);
-        $('.qsPortrait', liPeople$).css('background-image', andrea.string.substitute('url("{0}")', people.portrait));
-        $('.qsName', liPeople$).text(people.name);
-        $('.qsAge', liPeople$).text(DateUtils.parseAge(people.birthtime) + '岁');
-        $('.qsStatus', liPeople$).text(people.status);
-        $('.qsNumLikes', liPeople$).text(people.numLikes);
+    ShowGallery.prototype._renderOne = function(li$, show) {
+        $('.qsShowCover', li$).attr('src', ImageUtils.formatURL(show.cover));
+        $('.qsPortrait', li$).css('background-image', ImageUtils.formatBackgroundImage(show.producerRef.portrait));
+        $('.qsName', li$).text(show.producerRef.name);
+        $('.qsAge', li$).text(DateUtils.parseAge(show.producerRef.birthtime) + '岁');
+        $('.qsStatus', li$).text(show.producerRef.modelInfo.status);
+        $('.qsNumLikes', li$).text(show.numLike);
 
-        $('.qsItemCover, .qsItemDescription', liPeople$).on('click', function() {
+        $('.qsShowCover, .qsStatus', li$).on('click', function() {
             appRuntime.view.to(S03Show);
         }.bind(this));
-        $('.qsPeople', liPeople$).on('click', function() {
+        $('.qsModel', li$).on('click', function() {
             appRuntime.view.to(P02Producer);
         }.bind(this));
-        return liPeople$;
+        return li$;
     };
 
     return ShowGallery;

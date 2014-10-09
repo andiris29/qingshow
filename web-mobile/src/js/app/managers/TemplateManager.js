@@ -19,11 +19,12 @@ define([
             callback(null, _cache[src].clone());
         } else {
             $.ajax({
-                'url' : './templates/' + src + (andrea.env.debug ? ('?' + Math.random()) : '')
+                'url' : './templates/' + src,
+                'cache' : !andrea.env.debug
             }).done(function(data) {
                 data = data.replace(/<link.*>/g, '');
                 data = data.replace(/(\.\/|\.\.\/).*templates/g, './templates');
-                data = data.replace(/(\.\/|\.\.\/).*deps-fake/g,'../deps-fake');
+                data = data.replace(/(\.\/|\.\.\/).*deps-fake/g, '../deps-fake');
                 var i = data.indexOf('<div id="wrapper"');
                 if (i !== -1) {
                     data = data.substring(0, i) + data.substring(data.indexOf('>', i) + 1, data.lastIndexOf('</div>'));

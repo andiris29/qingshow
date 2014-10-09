@@ -8,20 +8,22 @@ define([
     var DataService = {};
 
     DataService.request = function(path, requestData, callback) {
-        var request;
+        var request = {
+            'url' : appConfig.dataServerRoot + path,
+            'dataType' : 'json',
+            'cache' : !andrea.env.debug
+        };
         if (andrea.env.debug) {
-            request = {
-                'url' : '../deps-fake/data' + path + '.json',
-                'dataType' : 'json'
-            };
+            $.extend(request, {
+                'url' : request.url + '.json',
+            });
         } else {
-            request = {
-                'url' : appConfig.server.url + path,
+            $.extend(request, {
                 'type' : 'POST',
-                'dataType' : 'json',
                 'data' : requestData
-            };
+            });
         }
+
         $.ajax(request).done(function(responseData) {
             console.log('api: ' + path, requestData, responseData);
             callback(null, responseData);

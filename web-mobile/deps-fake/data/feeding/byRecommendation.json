@@ -1,0 +1,76 @@
+{
+    "metadata": {
+        "numPages": 1,
+        "invalidateTime": 3600000
+    },
+    "data": {
+        "shows": [
+            {
+                "cover": "/covers/moto01.jpg",
+                "video": "/1.mp4",
+                "posters": ["/motobig.jpg"],
+                "numLike": 7777,
+                "producerRef": {
+                    "name": "Sandy",
+                    "portrait": "/portraits/smallphoto01.jpg",
+                    "birthtime": 631123200000,
+                    "modelInfo": {
+                        "status": "Sandy每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。end",
+                        "numLikes": 105
+                    }
+                },
+                "itemRefs": [
+                    {
+                        "category": 0,
+                        "name": "韩系潮流褶花娃娃衫。",
+                        "cover": "http://gd2.alicdn.com/bao/uploaded/i2/T1I4KnFuNmXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp",
+                        "source": "http://item.taobao.com/item.htm?id=38351349002"
+                    }, {
+                        "category": 1,
+                        "name": "粉色日本裙边，短裙。",
+                        "cover": "http://gd3.alicdn.com/bao/uploaded/i3/TB1ccCyGXXXXXbhaXXXXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp",
+                        "source": "http://item.taobao.com/item.htm?id=40961650031"
+                    }, {
+                        "category": 2,
+                        "name": "高跟丝带凉鞋。",
+                        "cover": "http://gd2.alicdn.com/bao/uploaded/i2/T1SM1eFBlfXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp",
+                        "source": "http://item.taobao.com/item.htm?id=37943669428"
+                    }
+                ]
+            }, {
+                "cover": "/covers/moto02.jpg",
+                "video": "/1.mp4",
+                "posters": ["/motobig.jpg"],
+                "numLike": 7777,
+                "producerRef": {
+                    "name": "Daisy",
+                    "portrait": "/portraits/smallphoto02.jpg",
+                    "birthtime": 631123200000,
+                    "modelInfo": {
+                        "status": "Daisy每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。end",
+                        "numLikes": 105
+                    }
+                },
+                "itemRefs": [
+                    {
+                        "category": 0,
+                        "name": "韩系潮流褶花娃娃衫。",
+                        "cover": "http://gd2.alicdn.com/bao/uploaded/i2/T1I4KnFuNmXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp",
+                        "source": "http://item.taobao.com/item.htm?id=38351349002"
+                    }, {
+                        "category": 1,
+                        "name": "粉色日本裙边，短裙。",
+                        "cover": "http://gd3.alicdn.com/bao/uploaded/i3/TB1ccCyGXXXXXbhaXXXXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp",
+                        "source": "http://item.taobao.com/item.htm?id=40961650031"
+                    }, {
+                        "category": 2,
+                        "name": "高跟丝带凉鞋。",
+                        "cover": "http://gd2.alicdn.com/bao/uploaded/i2/T1SM1eFBlfXXXXXXXX_!!0-item_pic.jpg_400x400.jpg_.webp",
+                        "source": "http://item.taobao.com/item.htm?id=37943669428"
+                    }
+                ]
+            }
+        ]
+    }
+}
+

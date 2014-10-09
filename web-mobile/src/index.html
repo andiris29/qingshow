@@ -70,9 +70,9 @@
 
                     // QS
                     window.appConfig = {
-                        'server' : {
-                            'url' : ''
-                        }
+                        'dataServerRoot' : '../deps-fake/data',
+                        'imageServerRoot' : '../deps-fake/pics',
+                        'videoServerRoot' : '../deps-fake/videos'
                     };
                     window.appRuntime = {
                         'view' : {
@@ -85,7 +85,7 @@
                             'dock' : null
                         },
                         'events' : {
-                            'click' : Modernizr.touch ? 'touchstart' : 'click'
+                            'click' : 'tap click'
                         }
                     };
                     // Bootstrap
