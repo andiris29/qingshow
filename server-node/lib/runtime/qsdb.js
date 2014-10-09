@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+
 var argv = require('minimist')(process.argv.slice(2));
 var connectCfg = argv['mongodb-connect'].split(',');
 var authCfg = argv['mongodb-auth'].split(',');
@@ -23,7 +25,19 @@ var connect = function(callback) {
         });
     }
 };
+var mongooseConnect = function(){
+    var opts = {
+        server: {
+            socketOptions: { keepAlive : 1}
+        },
+        user: authCfg[0],
+        pass: authCfg[1]
+    };
+    connectStr = 'mongodb://' + connectCfg[0] + ':' + connectCfg[1] + '/' + connectCfg[2];
+    mongoose.connect(connectStr, opts);
+};
 
 module.exports = {
-    'connect' : connect
+    'connect' : connect,
+    'mongooseConnect' : mongooseConnect
 };
