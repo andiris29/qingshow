@@ -3,9 +3,8 @@ define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
     'app/components/header/BackableHeader',
-    'app/components/show/Show',
-    'app/components/show/ShowGallery'
-], function(IScrollContainer, ViewBase, BackableHeader, ItemMain, ItemGallery) {
+    'app/components/user/UserSettingComponents'
+], function(IScrollContainer, ViewBase, BackableHeader, UserSettingComponents) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -14,6 +13,14 @@ define([
         U02UserSetting.superclass.constructor.apply(this, arguments);
 
         var header = new BackableHeader($('<div/>').appendTo(this._dom$), '设置');
+
+        var body = new IScrollContainer($('<div/>').css({
+            'width' : '100%',
+            'height' : this._dom$.height() - header.getPreferredSize().height
+        }).appendTo(this._dom$));
+
+        var main = new UserSettingComponents($('<div/>'));
+        body.append(main);
     };
     andrea.oo.extend(U02UserSetting, ViewBase);
 

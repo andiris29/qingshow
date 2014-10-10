@@ -1,15 +1,99 @@
 <link href="../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
 <link href="../css/app.css" rel="stylesheet"/>
 <style>
-    .qsTpltUserSetting {
-        padding: 20px;
+    .qsTpltUserSettingMain {
+        /*padding: 20px;*/
         overflow: auto;
+    }
+
+    .qsTpltUserSettingMain .qsBtn {
+        margin: 15px 20px;
+        background-color: #fb915f;
+        border: 0;
+        border-radius: 4px;
+        width: 600px;
+        padding: 20px 0;
+        font-size: 1.3em;
+    }
+    .qsTpltUserSettingMain .qsBtn > span {
+        color: #fff;
+    }
+    .qsTpltUserSettingMain .qsSubTitle {
+        margin: 10px 20px; 
+        font-size: 1em
+    }
+
+    .qsTpltUserSettingMain .qsListInfoSection {
+        margin: 0 5px 10px;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        background-color: #fff;
+        width: 630px;
+    }
+
+    .qsTpltUserSettingMain .qsListInfoSection .qsInfo {
+        overflow:hidden;
+        border-bottom:#dadada solid 1px;
+        padding:9px 5px 9px 0;
+    }
+    .qsTpltUserSettingMain .qsListInfoSection .qsInfo > span {
+        margin: 0 0 0 15px;
     }
 </style>
 
 <div id="wrapper" style="width: 640px; position: relative; margin: auto;">
-    <div class="qsTpltUserSetting">
-        <div class=“qsTbltUserSettingMain">
-        </div>
+    <div class="qsTpltUserSettingMain">
+        <h2 class="qsSubTitle">选择图片</h2>
+        <section class="qsListInfoSection">
+            <div class="qsInfo">
+                <span>个人头像</span>
+            </div>
+            <div class="qsInfo">
+                <span>背景图像</span>
+            </div>
+        </section>
+        <h2 class="qsSubTitle">基本信息</h2>
+        <section class="qsListInfoSection">
+            <div class="qsInfo">
+                <span>姓名</span>
+            </div>
+            <div class="qsInfo">
+                <span>性别</span>
+            </div>
+            <div class="qsInfo">
+                <span>年龄</span>
+            </div>
+            <div class="qsInfo">
+                <span>身高</span>
+            </div>
+            <div class="qsInfo">
+                <span>体重</span>
+            </div>
+            <div class="qsInfo">
+                <span>发型</span>
+            </div>
+        </section>
+        <h2 class="qsSubTitle">其他</h2>
+        <section class="qsListInfoSection">
+            <div class="qsInfo">
+                <span>更改密码</span>
+            </div>
+            <div class="qsInfo">
+                <span>更改邮件地址</span>
+            </div>
+            <div class="qsInfo">
+                <span>通知设定</span>
+            </div>
+            <div class="qsInfo">
+                <span>使用条例</span>
+            </div>
+            <div class="qsInfo">
+                <span>帮助</span>
+            </div>
+            <div class="qsInfo">
+                <span>关于会员</span>
+            </div>
+        </section>
+        <button class="qsBtn"><span>退出登录<span></button>
     </div>
 </div>

@@ -13,14 +13,14 @@ define([
 
         async.parallel([ function(callback) {
             // load template
-            TemplateManager.load('user/user-Settings', true, function(err, content$) {
-                this._dom$.append(content);
+            TemplateManager.load('user/user-setting.html', true, function(err, content$) {
+                this._dom$.append(content$);
                 callback(null);
             }.bind(this));
         }.bind(this)], function(err, results) {
-            var main$ = results[1];
-            main$.appendTo($('.qsTbltUserSettingMain', this._dom$));
-            this._render(results[2]);
+            //var main$ = results[1];
+            //main$.appendTo($('.qsTpltUserSettingMain', this._dom$));
+            //this._render(results[2]);
         }.bind(this));
       
     };
