@@ -8,7 +8,6 @@
     "iconv-lite": "0.4.*",
     "minimist": "1.1.*",
     "moment": "2.8.*",
-    "mongodb": "1.4.*",
     "mongoose": "^3.8.17",
     "nodemailer": "1.3.*",
     "nodemailer-smtp-transport": "0.1.*",
