@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B60CFB2C19E764E000D62733 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFE7A39D19DD98770088852C /* Main.storyboard */; };
 		EFE7A39619DD98770088852C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A39519DD98770088852C /* main.m */; };
 		EFE7A39919DD98770088852C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A39819DD98770088852C /* AppDelegate.m */; };
 		EFE7A39C19DD98770088852C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A39B19DD98770088852C /* RootViewController.m */; };
@@ -200,6 +201,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B60CFB2C19E764E000D62733 /* Main.storyboard in Resources */,
 				EFF9F62519E5875A00C4B584 /* com in Resources */,
 				EFE7A3A119DD98770088852C /* Images.xcassets in Resources */,
 			);
