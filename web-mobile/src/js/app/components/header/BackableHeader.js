@@ -14,7 +14,7 @@ define([
             this._dom$.append(content$);
 
             // Render
-            $('.qsTitle', this._dom$).text(data);
+            this.title(data);
             // Event listener
             this._onBack();
         }.bind(this));

@@ -1,16 +1,151 @@
-<link href="../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
-<link href="../css/app.css" rel="stylesheet"/>
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
 <style>
     .qsTpltShow {
         padding: 20px;
         overflow: auto;
     }
+    .qsTpltShowMain {
+        position: relative;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .qsTpltShowMain .qsSplitter {
+        height: 2px;
+        background-color: #eee;
+    }
+    .qsTpltShowMain .qsDetail {
+        overflow: auto;
+        margin: 14px 10px;
+        color: 4e4e4e;
+    }
+    .qsTpltShowMain .qsDetail .qsPortrait {
+        background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
+        float: left;
+        width: 52px;
+        height: 52px;
+        background-size: cover;
+        border-radius: 26px;
+        overflow: hidden;
+    }
+    .qsTpltShowMain .qsDetail .qsTextContainer {
+        float: left;
+        margin: 0px 8px;
+        width: calc(100% - 52px - 52px - 16px);
+    }
+    .qsTpltShowMain .qsDetail .qsLine {
+        height: 26px;
+    }
+    .qsTpltShowMain .qsDetail .qsLine div {
+        line-height: 26px;
+    }
+    .qsTpltShowMain .qsDetail .qsLine > div {
+        margin-right: 12px;
+    }
+    .qsTpltShowMain .qsDetail .qsLine > div:last-child {
+        margin-right: 0px;
+    }
+    .qsTpltShowMain .qsDetail .qsName {
+        float: left;
+    }
+    .qsTpltShowMain .qsDetail .qsAge {
+    }
+    .qsTpltShowMain .qsDetail .qsStatus {
+    }
+    .qsTpltShowMain .qsDetail .qsLikeContainer {
+        float: left;
+        width: 52px;
+        text-align: center;
+    }
+    .qsTpltShowMain .qsDetail .qsLike {
+        font-size: 1.8em;
+        margin-bottom: 4px;
+    }
+    .qsTpltShowMain .qsDetail .qsNumFollowers {
+        padding-right: 2px;
+    }
+    .qsTpltShowMain .vjs-poster {
+        /*background-color: #fff;*/
+    }
+    .qsTpltShowMain .vjs-big-play-button {
+        right: 0.5em;
+        bottom: 0.5em;
+        left: inherit;
+        top: inherit;
+    }
+    .qsTpltShowMain .qsSlickItems {
+        margin: 10px 6px 30px;
+        width: calc(620px - 12px);
+    }
+    .qsTpltShowMain .qsSlickItem {
+        padding: 0px 5px;
+        float: left;
+    }
+    .qsTpltShowMain .qsSlickItems .qsItemCover {
+        width: 186px;
+        height: 248px;/* width/3*4 */
+        background-image: url('../../../../server-image-fake/covers/moto01.jpg');
+        background-size: cover;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .qsTpltShowMain .qsItemDescriptions {
+        margin: 10px 10px;
+    }
 </style>
 
 <div id="wrapper" style="width: 640px; position: relative; margin: auto;">
     <div class="qsTpltShow">
-        <div class="qsItemMain">
-            <div class="qsTpltShowMain fake"></div>
+        <div class="qsTpltShowMain">
+            <video class="qsItemVideo fakeVideo video-js vjs-default-skin" controls
+            preload="auto" width="600" height="800" poster="../../../../server-video-fake/motobig.jpg"
+            data-setup="{}">
+                <source class="fake" src="../../../../server-video-fake/10.mp4.mp4" type='video/mp4'></source>
+            </video>
+            <div class="qsDetail">
+                <div class="qsPortrait fakeBackgroundImage"></div>
+                <div class="qsTextContainer">
+                    <div class="qsLine">
+                        <div class="qsName fakeText">
+                            Sandygirl
+                        </div>
+                        <div class="qsAge fakeText">
+                            24岁
+                        </div>
+                    </div>
+                    <div class="qsStatus fakeText">
+                        每天都需要睡眠。end
+                    </div>
+                </div>
+                <div class="qsLikeContainer">
+                    <div class="qsLike fa fa-heart-o qsIconButton"></div>
+                    <div class="qsNumFollowers fakeText">
+                        1025
+                    </div>
+                </div>
+            </div>
+            <div class="qsSplitter"></div>
+            <div class="qsSlickItems">
+                <div class="clone qsSlickItem">
+                    <div class="qsItemCover fakeBackgroundImage"></div>
+                </div>
+                <div class="qsSlickItem fake">
+                    <div class="qsItemCover fakeBackgroundImage"></div>
+                </div>
+                <div class="qsSlickItem fake">
+                    <div class="qsItemCover fakeBackgroundImage"></div>
+                </div>
+            </div>
+            <div class="qsSplitter"></div>
+            <p class="qsItemDescriptions">
+                <span class="clone qsHighlight fakeText">上装：</span>
+                <span class="clone fakeText">韩系潮流褶花娃娃衫。</span>
+                <span class="fake qsHighlight fakeText">下装：</span>
+                <span class="fake fakeText">粉色日本裙边，短裙。</span>
+                <span class="fake qsHighlight fakeText">鞋子：</span>
+                <span class="fake fakeText">高跟丝带凉鞋。</span>
+            </p>
         </div>
     </div>
 </div>

@@ -59,6 +59,7 @@
             <fileset file="${dir.src}/libs/async-0.9.0/lib/async.js" />
             <fileset file="${dir.src}/libs/iscroll-5.1.3/build/iscroll.js" />
             <fileset file="${dir.src}/libs/requirejs-2.1.5/require.js" />
+            <fileset file="${dir.src}/libs/slick-1.3.11/slick/slick.js" />
             <fileset file="${dir.src}/libs-andrea/andrea.js" />
         </concat>
         <!-- ${dir.output}/libs/libs-aio.css -->
@@ -76,6 +77,12 @@
             file="${dir.src}/libs/video-js-4.8.1/video-js.css" encoding="UTF-8" outputencoding="UTF-8"/>
         <copy todir="${dir.output}/libs/video-js-4.8.1/font">
             <fileset dir="${dir.src}/libs/video-js-4.8.1/font" />
+        </copy>
+        <!-- ${dir.output}/libs/slick-1.3.11 -->
+        <copy tofile="${dir.output}/libs/slick-1.3.11/slick/slick.css" 
+            file="${dir.src}/libs/slick-1.3.11/slick/slick.css" encoding="UTF-8" outputencoding="UTF-8"/>
+        <copy todir="${dir.output}/libs/slick-1.3.11/fonts">
+            <fileset dir="${dir.src}/libs/slick-1.3.11/fonts" />
         </copy>
     </target>
 

@@ -7,6 +7,7 @@ define([], function() {
             this._dom = dom;
             this._dom$ = $(dom);
         }
+        this._data = data;
 
         this._trigger$ = $({});
     };

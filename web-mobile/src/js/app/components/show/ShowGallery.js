@@ -3,9 +3,8 @@ define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
     'app/services/DataService',
-    'app/utils/DateUtils',
-    'app/utils/ImageUtils',
-], function(UIComponent, TemplateManager, DataService, DateUtils, ImageUtils) {
+    'app/utils/RenderUtils'
+], function(UIComponent, TemplateManager, DataService, RenderUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -66,18 +65,18 @@ define([
     };
 
     ShowGallery.prototype._renderOne = function(li$, show) {
-        $('.qsShowCover', li$).attr('src', ImageUtils.formatURL(show.cover));
-        $('.qsPortrait', li$).css('background-image', ImageUtils.formatBackgroundImage(show.producerRef.portrait));
+        $('.qsShowCover', li$).attr('src', RenderUtils.imagePathToURL(show.cover));
+        $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.producerRef.portrait));
         $('.qsName', li$).text(show.producerRef.name);
-        $('.qsAge', li$).text(DateUtils.parseAge(show.producerRef.birthtime) + '岁');
+        $('.qsAge', li$).text(RenderUtils.timeToAge(show.producerRef.birthtime) + '岁');
         $('.qsStatus', li$).text(show.producerRef.modelInfo.status);
-        $('.qsNumLikes', li$).text(show.numLike);
+        $('.qsNumFollowers', li$).text(show.numLike);
 
         $('.qsShowCover, .qsStatus', li$).on('click', function() {
-            appRuntime.view.to(S03Show);
+            appRuntime.view.to(S03Show, show);
         }.bind(this));
         $('.qsModel', li$).on('click', function() {
-            appRuntime.view.to(P02Producer);
+            appRuntime.view.to(P02Producer, show.producerRef);
         }.bind(this));
         return li$;
     };

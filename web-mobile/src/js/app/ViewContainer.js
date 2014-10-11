@@ -19,8 +19,8 @@ define([
     };
     andrea.oo.extend(ViewContainer, UIComponent);
 
-    ViewContainer.prototype.to = function(clazz) {
-        var view = new clazz($('<div/>').appendTo(this._dom$));
+    ViewContainer.prototype.to = function(clazz, data) {
+        var view = new clazz($('<div/>').appendTo(this._dom$), data);
         this._views.push(view);
         // Render view
         if (this._currentView) {

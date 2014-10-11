@@ -10,19 +10,18 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var S03Show = function(dom) {
+    var S03Show = function(dom, data) {
         S03Show.superclass.constructor.apply(this, arguments);
+        this._show = data;
 
-        var header = new BackableHeader($('<div/>').appendTo(this._dom$), '商品 xxx');
+        var header = new BackableHeader($('<div/>').appendTo(this._dom$), this._show.name);
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new Show($('<div/>'));
-        var gallery = new ShowGallery($('<div/>'));
+        var main = new Show($('<div/>'), this._show);
         body.append(main);
-        // body.append(gallery);
     };
     andrea.oo.extend(S03Show, ViewBase);
 

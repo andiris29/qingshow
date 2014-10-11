@@ -14,6 +14,16 @@ define([
 
     andrea.oo.extend(HeaderBase, UIComponent);
 
+    HeaderBase.prototype.title = function(value) {
+        $('.qsTitle', this._dom$).text(value);
+    };
+
+    HeaderBase.prototype.getPreferredSize = function() {
+        return {
+            'height' : 96
+        };
+    };
+
     HeaderBase.prototype._onMenu = function() {
         var menu;
         $('.qsMenu', this._dom$).on(appRuntime.events.click, function() {
@@ -48,12 +58,6 @@ define([
         }.bind(this));
 
         return this;
-    };
-
-    HeaderBase.prototype.getPreferredSize = function() {
-        return {
-            'height' : 96
-        };
     };
 
     return HeaderBase;

@@ -7,7 +7,7 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var ViewBase = function(dom) {
+    var ViewBase = function(dom, data) {
         ViewBase.superclass.constructor.apply(this, arguments);
         this._dom$.addClass('qsView');
     };
