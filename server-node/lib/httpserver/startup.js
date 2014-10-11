@@ -14,9 +14,9 @@ _registServices = function(path) {
     for (var id in module) {
         var method = module[id][0], callback = module[id][1];
         if (method === 'get') {
-            app.get('/' + path + '/' + id, callback);
+            app.get('/services/' + path + '/' + id, callback);
         } else if (method === 'post') {
-            app.post('/' + path + '/' + id, callback);
+            app.post('/services/' + path + '/' + id, callback);
         }
     }
 };
