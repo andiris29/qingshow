@@ -1,4 +1,3 @@
-var qsdb = require('../../runtime/qsdb');
 var Show = require('../../model/shows');
 
 var _byRecommendation = function(req, res) {

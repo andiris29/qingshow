@@ -1,12 +1,39 @@
 var argv = require('minimist')(process.argv.slice(2));
-// Startup http server
 var express = require('express');
 var qsdb = require('../runtime/qsdb');
 var bodyParser = require('body-parser');
+var connect = require('connect');
+//Cookie and session
+var credentials = require("./credentials");
+var cookieParser = require("cookie-parser");
+var sessionMongoose = require("session-mongoose");
 
+//Database Connection
+qsdb.connect();
+
+// Startup http server
 var app = express();
 
 app.listen(argv['http-server-port']);
+
+//Cookie
+// app.use(cookieParser(credentials.cookieSecret));
+//Session
+var SessionStore = require("session-mongoose")(connect);
+var store = new SessionStore({
+    interval: 24 * 60 * 60 * 1000, 
+    connection: qsdb.getConnection(),
+    modelName : "sessionStores"
+});
+
+var session = require('express-session')({
+ store: store,
+ cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 },
+ resave: true,
+ saveUninitialized: true,
+ secret: 'keyboard cat'});
+
+app.use(session);
 
 // Regist http services
 _registServices = function(path) {
@@ -27,6 +54,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 _registServices('feeding');
+// _registServices('user');
 
-qsdb.mongooseConnect();
 console.log('Http server startup complete!');

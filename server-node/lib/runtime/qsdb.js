@@ -5,6 +5,7 @@ var connectCfg = argv['mongodb-connect'].split(',');
 var authCfg = argv['mongodb-auth'].split(',');
 
 var _db;
+/*
 var connect = function(callback) {
     if (_db) {
         callback(null, _db);
@@ -25,7 +26,8 @@ var connect = function(callback) {
         });
     }
 };
-var mongooseConnect = function(){
+*/
+var connect = function(){
     var opts = {
         server: {
             socketOptions: { keepAlive : 1}
@@ -36,8 +38,10 @@ var mongooseConnect = function(){
     connectStr = 'mongodb://' + connectCfg[0] + ':' + connectCfg[1] + '/' + connectCfg[2];
     mongoose.connect(connectStr, opts);
 };
-
+var getConnection = function(){
+    return mongoose.connection;
+}
 module.exports = {
     'connect' : connect,
-    'mongooseConnect' : mongooseConnect
+    'getConnection': getConnection
 };
