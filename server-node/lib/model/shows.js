@@ -22,7 +22,5 @@ showSchema = Schema({
 showSchema.methods.toResponseJSON = function () {
 
 };
-
-
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;
