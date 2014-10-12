@@ -1,35 +1,31 @@
 var Show = require('../../model/shows');
-
+var ServiceUtil = require('../../util/servicesUtil');
 
 var _byRecommendation;
-_byRecommendation = function (req, res) {
-    var param, tags, pageNo, pageSize, query;
-    param = req.body;
-    tags = param.tags || [];
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+var _byProducer;
 
-    function buildQuery(){
-        query = Show.find();
-        if (tags.length){
-            query.where({tags: {$in: tags}});
+var _sendShowsQueryToResponse;
+
+_sendShowsQueryToResponse = function(res, queryFunc, pageNo, pageSize){
+    var query;
+    query = queryFunc();
+    query.count(function (err, count) {
+        if (err) {
+            console.log(err);
+            res.send("err");
+            return;
         }
-        return query;
-    }
-
-    query = buildQuery();
-    query.count(function(err, count){
         var numPages = parseInt((count + pageSize - 1) / pageSize);
-        query = buildQuery();
+        query = queryFunc();
+        ServiceUtil.limitQuery(query, pageNo, pageSize);
 
-        query.skip((pageNo - 1) * pageSize)
-            .limit(pageSize)
-            .sort({numLike: 1})
-            .populate("producerRef")
+        query.sort({numLike: 1})
+            .populate({path: "producerRef"})
             .populate("itemRefs")
             .exec(function (err, shows) {
                 if (err) {
-                    res.send('error');
+                    console.log(err);
+                    res.send("err");
                 } else {
                     var retData = {
                         metadata: {
@@ -45,10 +41,43 @@ _byRecommendation = function (req, res) {
                 }
             });
     });
+}
 
+_byRecommendation = function (req, res) {
+    var param, tags, pageNo, pageSize, query;
+    param = req.body;
+    tags = param.tags || [];
+    pageNo = param.pageNo || 1;
+    pageSize = param.pageSize || 10;
 
+    function buildQuery() {
+        query = Show.find();
+        if (tags.length) {
+            query.where({tags: {$in: tags}});
+        }
+        return query;
+    }
+    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
+};
+
+_byProducer = function (req, res) {
+    var param, producerIDs, pageNo, pageSize, query;
+    param = req.body;
+    producerIDs = param.producerIDs || [];
+    producerIDs = ServiceUtil.stringArrayToObjectIdArray(producerIDs);
+    pageNo = param.pageNo || 1;
+    pageSize = param.pageSize || 10;
+    function buildQuery() {
+        query = Show.find();
+        if (producerIDs.length) {
+            query.where({producerRef: {$in: producerIDs}});
+        }
+        return query;
+    }
+    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
 };
 
 module.exports = {
-    'byRecommendation' : ['get', _byRecommendation]
+    'byRecommendation' : ['get', _byRecommendation],
+    'byProducer' : ['get', _byProducer]
 };

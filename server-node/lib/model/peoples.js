@@ -10,7 +10,7 @@ peopleSchema = Schema({
     portrait: String,
     height: Number,
     weight: Number,
-    gender: Number,	//male 0 female 1
+    gender: Number, //male 0 female 1
     hairTypes: Number, //0 all 1 long 2 super long 3 mid long
     userInfo: {
         type: {
@@ -34,4 +34,5 @@ peopleSchema = Schema({
     ]
 });
 var People = mongoose.model('peoples', peopleSchema);
+
 module.exports = People;
