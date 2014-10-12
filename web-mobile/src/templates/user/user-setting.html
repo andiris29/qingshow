@@ -6,6 +6,32 @@
         overflow: auto;
     }
 
+    .qsTpltUserSettingMain .fa-chevron-right2:after {
+        content: "\f054";
+        margin: 0 0 0 420px;
+    }
+
+    .qsTpltUserSettingMain .qsPortrait {
+      background-image: url('');
+      float: left;
+      width: 52px;
+      height: 52px;
+      background-size: cover;
+      border-radius: 26px;
+      overflow: hidden;
+      margin: 0 15px;
+    }
+
+    .qsTpltUserSettingMain .qsThumbnail {
+      background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
+      float: left;
+      width: 52px;
+      height: 52px;
+      background-size: cover;
+      border-radius: 26px;
+      overflow: hidden;
+      margin: 0 15px;
+    }
     .qsTpltUserSettingMain .qsBtn {
         margin: 15px 20px;
         background-color: #fb915f;
@@ -19,7 +45,7 @@
         color: #fff;
     }
     .qsTpltUserSettingMain .qsSubTitle {
-        margin: 10px 20px; 
+        margin: 10px 20px;
         font-size: 1em
     }
 
@@ -36,8 +62,22 @@
         border-bottom:#dadada solid 1px;
         padding:9px 5px 9px 0;
     }
-    .qsTpltUserSettingMain .qsListInfoSection .qsInfo > span {
+    .qsTpltUserSettingMain .qsListInfoSection .qsArrow{
+        position: relative;
+    }
+    .qsTpltUserSettingMain .qsListInfoSection .qsSpan {
         margin: 0 0 0 15px;
+    }
+    .qsTpltUserSettingMain .qsListInfoSection .qsLink {
+        margin: 0 0 15px 15px;
+    }
+    .qsTpltUserSettingMain .qsListInfoSection .qsInput {
+        border: 0;
+        font-size: 1em;
+    }
+    .qsTpltUserSettingMain .qsListInfoSection .qsSelect {
+        border: 0;
+        font-size: 1em;
     }
 </style>
 
@@ -46,52 +86,73 @@
         <h2 class="qsSubTitle">选择图片</h2>
         <section class="qsListInfoSection">
             <div class="qsInfo">
-                <span>个人头像</span>
+                <div class="qsPortrait fakeBackgroundImage"></div>
+                <span class="qsSpan">个人头像</span>
             </div>
             <div class="qsInfo">
-                <span>背景图像</span>
+                <div class="qsThumbnail fakeBackgroundImage"></div>
+                <span class="qsSpan">背景图像</span>
             </div>
         </section>
         <h2 class="qsSubTitle">基本信息</h2>
         <section class="qsListInfoSection">
             <div class="qsInfo">
-                <span>姓名</span>
+                <span class="qsSpan">姓名</span>
+                <span class="qsSpan">
+                    <input type="text" id="name" class="qsInput" placeholder="请填写姓名">
+                </span>
             </div>
             <div class="qsInfo">
-                <span>性别</span>
+                <span class="qsSpan">性别</span>
+                <span class="qsSpan">
+                    <select id="gender" class="qsSelect">
+                        <option value="0">男性</option>
+                        <option value="1">女性</option>
+                    </select>
+                </span>
             </div>
             <div class="qsInfo">
-                <span>年龄</span>
+                <span class="qsSpan">年龄</span>
+                <span class="qsSpan">
+                    <input type="text" id="age" class="qsInput" placeholder="请填写年龄">
+                </span>
             </div>
             <div class="qsInfo">
-                <span>身高</span>
+                <span class="qsSpan">身高</span>
+                <span class="qsSpan">
+                    <input type="text" id="height" class="qsInput" placeholder="请填写身高">
+                </span>
             </div>
             <div class="qsInfo">
-                <span>体重</span>
+                <span class="qsSpan">体重</span>
+                <span class="qsSpan">
+                    <input type="text" id="weight" class="qsInput" placeholder="请填写体重">
+                </span>
             </div>
-            <div class="qsInfo">
-                <span>发型</span>
+            <div class="qsInfo qsHariType"> 
+                <span class="qsSpan">发型</span>
+                <div class="fa fa-chevron-right2"><span class="qsLink">请输入发型</span></div>
             </div>
         </section>
         <h2 class="qsSubTitle">其他</h2>
         <section class="qsListInfoSection">
             <div class="qsInfo">
-                <span>更改密码</span>
+                <span class="qsSpan">更改密码</span>
             </div>
             <div class="qsInfo">
-                <span>更改邮件地址</span>
+                <span class="qsSpan">更改邮件地址</span>
             </div>
             <div class="qsInfo">
-                <span>通知设定</span>
+                <span class="qsSpan">通知设定</span>
             </div>
             <div class="qsInfo">
-                <span>使用条例</span>
+                <span class="qsSpan">使用条例</span>
             </div>
             <div class="qsInfo">
-                <span>帮助</span>
+                <span class="qsSpan">帮助</span>
             </div>
             <div class="qsInfo">
-                <span>关于会员</span>
+                <span class="qsSpan">关于会员</span>
             </div>
         </section>
         <button class="qsBtn"><span>退出登录<span></button>

@@ -2,7 +2,9 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
-], function(UIComponent, TemplateManager, DataService) {
+    'app/services/DataService',
+    'app/utils/RenderUtils'
+], function(UIComponent, TemplateManager, DataService, RenderUtils) {
 // @formatter:on
   
     /**
@@ -17,16 +19,38 @@ define([
                 this._dom$.append(content$);
                 callback(null);
             }.bind(this));
+        }.bind(this), function(callback) {
+            // Load data
+            DataService.request('/feeding/byPeople', {
+                'peopleId' : 1
+            }, callback);
         }.bind(this)], function(err, results) {
-            //var main$ = results[1];
-            //main$.appendTo($('.qsTpltUserSettingMain', this._dom$));
-            //this._render(results[2]);
+            this._render(results[1]);
         }.bind(this));
       
     };
     andrea.oo.extend(UserSettingComponents, UIComponent);
 
-    UserSettingComponents.prototype._render = function(peopeSettingJson) {
+    UserSettingComponents.prototype._render = function(response) {
+        UserSettingComponents.superclass._render.apply(this, arguments);
+
+        var view$ = $('.qsTpltUserSettingMain', this._dom$);
+        var people = response.data.people;
+
+        // Data Render
+        $('.qsPortrait', view$).css('background-image', RenderUtils.imagePathToBackground(people.portrait));
+        $('.qsThumbnail', view$).css('background-image', RenderUtils.imagePathToBackground(people.thumbnail));
+        $('#name', view$).attr('value', people.name);
+        $('#gender', view$).attr('value', people.gender);
+        $('#age', view$).attr('value', people.age);
+        $('#height', view$).attr('value', people.height);
+        $('#weight', view$).attr('value', people.weight);
+
+        //$('.qsShowCover, .qsStatus', li$).on('click', function() {
+        //    appRuntime.view.to(S03Show, show);
+        //}.bind(this));
+        
+        console.log("hello, world");
     };
 
     return UserSettingComponents;
