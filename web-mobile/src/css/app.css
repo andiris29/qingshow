@@ -11,6 +11,13 @@ div, p, span {
     -webkit-user-select: none;
 }
 
+input[type=text], textarea {
+    color: #666;
+    outline: none;
+    border: none;
+    font-size: 1em;
+}
+
 .qsApp {
     margin: auto;
 }

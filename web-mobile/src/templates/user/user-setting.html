@@ -1,5 +1,5 @@
-<link href="../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
-<link href="../css/app.css" rel="stylesheet"/>
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
 <style>
     .qsTpltUserSettingMain {
         /*padding: 20px;*/
@@ -12,25 +12,25 @@
     }
 
     .qsTpltUserSettingMain .qsPortrait {
-      background-image: url('');
-      float: left;
-      width: 52px;
-      height: 52px;
-      background-size: cover;
-      border-radius: 26px;
-      overflow: hidden;
-      margin: 0 15px;
+        background-image: url('');
+        float: left;
+        width: 52px;
+        height: 52px;
+        background-size: cover;
+        border-radius: 26px;
+        overflow: hidden;
+        margin: 0 15px;
     }
 
     .qsTpltUserSettingMain .qsThumbnail {
-      background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
-      float: left;
-      width: 52px;
-      height: 52px;
-      background-size: cover;
-      border-radius: 26px;
-      overflow: hidden;
-      margin: 0 15px;
+        background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
+        float: left;
+        width: 52px;
+        height: 52px;
+        background-size: cover;
+        border-radius: 26px;
+        overflow: hidden;
+        margin: 0 15px;
     }
     .qsTpltUserSettingMain .qsBtn {
         margin: 15px 20px;
@@ -52,17 +52,17 @@
     .qsTpltUserSettingMain .qsListInfoSection {
         margin: 0 5px 10px;
         border-radius: 4px;
-        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+        /*box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
         background-color: #fff;
         width: 630px;
     }
 
     .qsTpltUserSettingMain .qsListInfoSection .qsInfo {
-        overflow:hidden;
-        border-bottom:#dadada solid 1px;
-        padding:9px 5px 9px 0;
+        overflow: hidden;
+        border-bottom: #dadada solid 1px;
+        padding: 9px 5px 9px 0;
     }
-    .qsTpltUserSettingMain .qsListInfoSection .qsArrow{
+    .qsTpltUserSettingMain .qsListInfoSection .qsArrow {
         position: relative;
     }
     .qsTpltUserSettingMain .qsListInfoSection .qsSpan {
@@ -78,6 +78,35 @@
     .qsTpltUserSettingMain .qsListInfoSection .qsSelect {
         border: 0;
         font-size: 1em;
+    }
+    .qsTpltUserSettingMain .qsRow {
+        position: relative;
+        height: 49px;
+        border-bottom: #dadada solid 1px;
+    }
+    .qsTpltUserSettingMain .qsRow > div {
+        margin-left: 15px;
+    }
+    .qsTpltUserSettingMain .qsRow .qsTitle {
+        width: 60px;
+        float: left;
+        line-height: 49px;
+        height: 49px;
+    }
+    .qsTpltUserSettingMain .qsRow .qsValue {
+        float: left;
+        width: calc(100% - 15px - 60px - 15px);
+    }
+    .qsTpltUserSettingMain .qsRow .qsValue input {
+        width: 100%;
+        padding: 0px;
+        line-height: 49px;
+        height: 49px;
+    }
+    .qsTpltUserSettingMain .qsRow .fa-chevron-right2 {
+        position: absolute;
+        right: 12px;
+        line-height: 49px;
     }
 </style>
 
@@ -108,8 +137,7 @@
                     <select id="gender" class="qsSelect">
                         <option value="0">男性</option>
                         <option value="1">女性</option>
-                    </select>
-                </span>
+                    </select> </span>
             </div>
             <div class="qsInfo">
                 <span class="qsSpan">年龄</span>
@@ -129,9 +157,28 @@
                     <input type="text" id="weight" class="qsInput" placeholder="请填写体重">
                 </span>
             </div>
-            <div class="qsInfo qsHariType"> 
+            <div class="qsInfo qsHariType">
                 <span class="qsSpan">发型</span>
-                <div class="fa fa-chevron-right2"><span class="qsLink">请输入发型</span></div>
+                <div class="fa fa-chevron-right2">
+                    <span class="qsLink">请输入发型</span>
+                </div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">
+                    体重2
+                </div>
+                <div class="qsValue">
+                    <input type="text" placeholder="请填写体重">
+                </div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">
+                    发型2
+                </div>
+                <div class="qsValue">
+                    <input type="text" placeholder="请填写发型">
+                </div>
+                <div class="fa fa-chevron-right2"></div>
             </div>
         </section>
         <h2 class="qsSubTitle">其他</h2>
@@ -155,6 +202,8 @@
                 <span class="qsSpan">关于会员</span>
             </div>
         </section>
-        <button class="qsBtn"><span>退出登录<span></button>
+        <button class="qsBtn">
+            <span>退出登录<span>
+        </button>
     </div>
 </div>

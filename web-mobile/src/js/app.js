@@ -8,8 +8,10 @@ define([
      */
 
     var dom = $(document.body).children()[0], dom$ = $(dom);
-    // Ref: iPhone 4: 960 x 640
-    // Ref: iPhone 5: 1136 x 640
+    // iPhone 6 Plus: 1920-by-1080-pixel resolution at 401 ppi
+    // iPhone 6: 1334-by-750-pixel resolution at 326 ppi
+    // iPhone 5s: 1136-by-640-pixel resolution at 326 ppi
+    // iPhone 5c: 1136-by-640-pixel resolution at 326 ppi
     var screenW = $(window).width(), screenH = $(window).height();
     var ratio = screenW < screenH ? screenW / screenH : 640 / 960;
     var height = Math.max(0, screenH), width = ratio * height;
