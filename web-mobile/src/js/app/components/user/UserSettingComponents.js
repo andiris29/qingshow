@@ -46,11 +46,18 @@ define([
         $('#height', view$).attr('value', people.height);
         $('#weight', view$).attr('value', people.weight);
 
-        //$('.qsShowCover, .qsStatus', li$).on('click', function() {
-        //    appRuntime.view.to(S03Show, show);
-        //}.bind(this));
-        
-        console.log("hello, world");
+        var hairType = RenderUtils.hairTypeCodesToValue(people.hairType);
+
+        $('#hairType', view$).attr('value', hairType);
+
+        $('.qsHairType', view$).on('click', function() {
+            // TODO EVENT GOTO HairType
+            console.log('Goto HairType');
+            //appRuntime.view.to(S03Show, show);
+        }.bind(this));
+    };
+
+    UserSettingComponents.prototype._save = function() {
     };
 
     return UserSettingComponents;

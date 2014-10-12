@@ -9,7 +9,7 @@
             "height": "161",
             "weight": "45",
             "gender": "1",
-            "hairType": "1",
+            "hairType": "1,2,3",
             "userInfo": {
                 "mail": "m.atsuko@gmail.com"
             },
