@@ -7,7 +7,8 @@
         kv = kv.split('=');
         env.hashParams[kv[0]] = kv.length === 1 ? true : kv[1];
     });
-    env.debug = Boolean(env.hashParams.debug);
+    env.debug = env.hashParams.debug === 'true';
+    env.fake = env.hashParams.fake === 'true';
     // OO
     var oo = {};
     oo.extend = function(subClz, superClz) {

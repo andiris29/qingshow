@@ -13,9 +13,9 @@ define([
             'dataType' : 'json',
             'cache' : !andrea.env.debug
         };
-        if (andrea.env.debug) {
+        if (andrea.env.fake) {
             $.extend(request, {
-                'url' : request.url + '.json',
+                'url' : request.url + '.json?' + Math.random(),
             });
         } else {
             $.extend(request, {

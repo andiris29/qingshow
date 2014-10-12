@@ -63,9 +63,6 @@ define([
         vjs.on('pause', function() {
             play$.show();
         });
-        // vjs.on('ended', function() {
-            // vjs.currentTime(0);
-        // });
         videoPostersContainer$.on('click', vjs.play.bind(vjs));
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.producerRef.portrait));

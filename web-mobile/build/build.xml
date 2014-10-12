@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="com.focosee.chingshow-web-mobile" basedir=".." default="all">
+<project name="web-mobile" basedir=".." default="all">
     <!-- Gerneral spec -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
     <property environment="env" />
@@ -11,7 +11,7 @@
     <property name="dir.output" value="${basedir}/build/${ant.project.name}" />
 
     <!-- Project spec -->
-    <property name="build.version" value="0.2.0" />
+    <property name="build.version" value="0.3.0" />
     <target name="all" depends="prepare, build-src, copy, minify, package, after" />
 
     <target name="prepare">
@@ -58,8 +58,8 @@
             <fileset file="${dir.src}/libs/video-js-4.8.1/video.dev.js" />
             <fileset file="${dir.src}/libs/async-0.9.0/lib/async.js" />
             <fileset file="${dir.src}/libs/iscroll-5.1.3/build/iscroll.js" />
-            <fileset file="${dir.src}/libs/requirejs-2.1.5/require.js" />
             <fileset file="${dir.src}/libs/slick-1.3.11/slick/slick.js" />
+            <fileset file="${dir.src}/libs/requirejs-2.1.5/require.js" />
             <fileset file="${dir.src}/libs-andrea/andrea.js" />
         </concat>
         <!-- ${dir.output}/libs/libs-aio.css -->
@@ -81,8 +81,8 @@
         <!-- ${dir.output}/libs/slick-1.3.11 -->
         <copy tofile="${dir.output}/libs/slick-1.3.11/slick/slick.css" 
             file="${dir.src}/libs/slick-1.3.11/slick/slick.css" encoding="UTF-8" outputencoding="UTF-8"/>
-        <copy todir="${dir.output}/libs/slick-1.3.11/fonts">
-            <fileset dir="${dir.src}/libs/slick-1.3.11/fonts" />
+        <copy todir="${dir.output}/libs/slick-1.3.11/slick/fonts">
+            <fileset dir="${dir.src}/libs/slick-1.3.11/slick/fonts" />
         </copy>
     </target>
 
