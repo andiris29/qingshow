@@ -1,8 +1,10 @@
 var argv = require('minimist')(process.argv.slice(2));
 var express = require('express');
 var qsdb = require('../runtime/qsdb');
-var bodyParser = require('body-parser');
 var connect = require('connect');
+//param parser
+var bodyParser = require('body-parser');
+var queryStringParser = require('./middleware/query-string-parser');
 //Cookie and session
 var credentials = require("./credentials");
 var cookieParser = require("cookie-parser");
@@ -19,7 +21,7 @@ app.listen(argv['http-server-port']);
 //Cookie
 // app.use(cookieParser(credentials.cookieSecret));
 //Session
-var SessionStore = require("session-mongoose")(connect);
+var SessionStore = sessionMongoose(connect);
 var store = new SessionStore({
     interval: 24 * 60 * 60 * 1000, 
     connection: qsdb.getConnection(),
@@ -27,11 +29,12 @@ var store = new SessionStore({
 });
 
 var session = require('express-session')({
- store: store,
- cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 },
- resave: true,
- saveUninitialized: true,
- secret: 'keyboard cat'});
+    store: store,
+    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 },
+    resave: true,
+    saveUninitialized: true,
+    secret: 'keyboard cat'
+});
 
 app.use(session);
 
@@ -48,6 +51,7 @@ _registServices = function(path) {
     }
 };
 
+app.use(queryStringParser);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
