@@ -13,8 +13,11 @@ peopleSchema = Schema({
     gender: Number,	//male 0 female 1
     hairTypes: Number, //0 all 1 long 2 super long 3 mid long
     userInfo: {
-        main: String,
-        encryptedPassword: String
+        type: {
+            main: String,
+            encryptedPassword: String
+        },
+        select: false
     },
     modelInfo: {
         status: Number,
