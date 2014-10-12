@@ -31,13 +31,42 @@ define([
 
         var show = this._show;
         // Video
-        var video$ = $('.qsItemVideo', this._dom$);
+        var video$ = $('.qsVideo', this._dom$);
         $('<source/>').attr({
             'type' : 'video/mp4',
             'src' : RenderUtils.videoPathToURL(show.video)
         }).appendTo(video$);
-        videojs(video$.get(0));
+        var vjs = videojs(video$.get(0));
 
+        var videoPostersContainer$ = $('.qsSlickVideoPosters', this._dom$), slickItemTplt$;
+        show.posters.forEach(function(poster, index) {
+            var slickItem$;
+            if (index === 0) {
+                slickItem$ = slickItemTplt$ = $('.clone', videoPostersContainer$);
+            } else {
+                slickItem$ = slickItemTplt$.clone().appendTo(videoPostersContainer$);
+            }
+            $('.qsItemCover', slickItem$).css('background-image', RenderUtils.videoPathToBackground(poster));
+        });
+        videoPostersContainer$.slick({
+            'dots' : true,
+            'arrows' : false,
+            'slidesToShow' : 1,
+            'slidesToScroll' : 1
+        });
+
+        var play$ = $('.qsVideoPlay', this._dom$);
+        vjs.on('play', function() {
+            videoPostersContainer$.hide().off();
+            play$.hide();
+        });
+        vjs.on('pause', function() {
+            play$.show();
+        });
+        // vjs.on('ended', function() {
+            // vjs.currentTime(0);
+        // });
+        videoPostersContainer$.on('click', vjs.play.bind(vjs));
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.producerRef.portrait));
         $('.qsName', this._dom$).text(show.producerRef.name);
@@ -46,23 +75,23 @@ define([
         $('.qsNumFollowers', this._dom$).text(show.numLike);
 
         // Items
-        var slickItemsContainer$ = $('.qsSlickItems', this._dom$), slickItemTplt$;
+        var itemCoversContainer$ = $('.qsSlickItemCovers', this._dom$), slickItemTplt$;
         show.itemRefs.forEach(function(item, index) {
             var slickItem$;
             if (index === 0) {
-                slickItem$ = slickItemTplt$ = $('.clone', slickItemsContainer$);
+                slickItem$ = slickItemTplt$ = $('.clone', itemCoversContainer$);
             } else {
-                slickItem$ = slickItemTplt$.clone().appendTo(slickItemsContainer$);
+                slickItem$ = slickItemTplt$.clone().appendTo(itemCoversContainer$);
             }
             $('.qsItemCover', slickItem$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
         });
-        slickItemsContainer$.slick({
+        itemCoversContainer$.slick({
             'dots' : true,
             'arrows' : false,
             'slidesToShow' : 3,
             'slidesToScroll' : 1
         });
-        // qsSlickItems
+
         var itemDescriptionContainer$ = $('.qsItemDescriptions', this._dom$), categoryTplt$, nameTplt$;
         show.itemRefs.forEach(function(item, index) {
             var category$, name$;

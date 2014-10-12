@@ -43,5 +43,9 @@ define([
         }
     };
 
+    RenderUtils.videoPathToBackground = function(path) {
+        return andrea.string.substitute('url("{0}")', RenderUtils.videoPathToURL(path));
+    };
+
     return RenderUtils;
 });

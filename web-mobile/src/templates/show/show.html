@@ -11,6 +11,60 @@
         border-radius: 8px;
         overflow: hidden;
     }
+    .qsTpltShowMain .qsVideoContainer {
+        position: relative;
+        width: 600px;
+        height: 800px;
+    }
+    .qsTpltShowMain .qsVideo {
+        position: absolute;
+    }
+    .qsTpltShowMain .qsVideo .vjs-big-play-button {
+        display: none;
+    }
+    .qsTpltShowMain .qsSlickVideoPosters {
+        position: absolute;
+        width: 600px;
+        height: 800px;
+    }
+    .qsTpltShowMain .qsSlickVideoPosters .slick-dots {
+        bottom: 0px;
+    }
+    .qsTpltShowMain .qsSlickVideoPosters .qsSlickItem {
+        padding: 0px;
+        float: left;
+    }
+    .qsTpltShowMain .qsSlickVideoPosters .qsItemCover {
+        width: 600px;
+        height: 800px;/* width/3*4 */
+        background-image: url('../../../../server-image-fake/covers/moto01.jpg');
+        background-size: cover;
+        overflow: hidden;
+    }
+
+    .qsTpltShowMain .qsSlickVideoPosters .slick-list {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .qsTpltShowMain .qsVideoPlay {
+        color: #fff;
+        opacity: .5;
+        position: absolute;
+        right: 25px;
+        bottom: 25px;
+    }
+    .qsTpltShowMain .qsVideoContainer:hover .qsVideoPlay {
+        opacity: .7;
+    }
+    .qsTpltShowMain .qsVideoPlay .qsCircle {
+        font-size: 140px;
+    }
+    .qsTpltShowMain .qsVideoPlay .qsPlayTriangle {
+        position: absolute;
+        font-size: 50px;
+        left: 45px;
+        top: 45px;
+    }
     .qsTpltShowMain .qsSplitter {
         height: 2px;
         background-color: #eee;
@@ -32,7 +86,7 @@
     .qsTpltShowMain .qsDetail .qsTextContainer {
         float: left;
         margin: 0px 8px;
-        width: calc(100% - 52px - 52px - 16px);
+        width: 460px;
     }
     .qsTpltShowMain .qsDetail .qsLine {
         height: 26px;
@@ -74,15 +128,15 @@
         left: inherit;
         top: inherit;
     }
-    .qsTpltShowMain .qsSlickItems {
+    .qsTpltShowMain .qsSlickItemCovers {
         margin: 10px 6px 30px;
-        width: calc(620px - 12px);
+        width: calc(600px - 12px);
     }
-    .qsTpltShowMain .qsSlickItem {
+    .qsTpltShowMain .qsSlickItemCovers .qsSlickItem {
         padding: 0px 5px;
         float: left;
     }
-    .qsTpltShowMain .qsSlickItems .qsItemCover {
+    .qsTpltShowMain .qsSlickItemCovers .qsItemCover {
         width: 186px;
         height: 248px;/* width/3*4 */
         background-image: url('../../../../server-image-fake/covers/moto01.jpg');
@@ -98,11 +152,22 @@
 <div id="wrapper" style="width: 640px; position: relative; margin: auto;">
     <div class="qsTpltShow">
         <div class="qsTpltShowMain">
-            <video class="qsItemVideo fakeVideo video-js vjs-default-skin" controls
-            preload="auto" width="600" height="800" poster="../../../../server-video-fake/motobig.jpg"
-            data-setup="{}">
-                <source class="fake" src="../../../../server-video-fake/10.mp4.mp4" type='video/mp4'></source>
-            </video>
+            <div class="qsVideoContainer">
+                <video class="qsVideo fakeVideo video-js vjs-default-skin"
+                preload="auto" width="600" height="800" poster="../../../../server-video-fake/motobig.jpg"
+                data-setup="{}">
+                    <source class="fake" src="../../../../server-video-fake/10.mp4.mp4" type='video/mp4'></source>
+                </video>
+                <div class="qsSlickVideoPosters">
+                    <div class="clone qsSlickItem">
+                        <div class="qsItemCover fakeBackgroundImage"></div>
+                    </div>
+                </div>
+                <div class="qsVideoPlay">
+                    <div class="qsCircle fa fa-circle-o"></div>
+                    <div class="qsPlayTriangle fa fa-play"></div>
+                </div>
+            </div>
             <div class="qsDetail">
                 <div class="qsPortrait fakeBackgroundImage"></div>
                 <div class="qsTextContainer">
@@ -126,7 +191,7 @@
                 </div>
             </div>
             <div class="qsSplitter"></div>
-            <div class="qsSlickItems">
+            <div class="qsSlickItemCovers">
                 <div class="clone qsSlickItem">
                     <div class="qsItemCover fakeBackgroundImage"></div>
                 </div>
