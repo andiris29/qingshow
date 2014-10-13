@@ -141,13 +141,13 @@ _byFollow = function (req, res){
 };
 
 module.exports = {
-    'recommendation' : ['get', _recommendation],
-    'hot' : ['get', _hot],
-    'like' : ['get', _like],
-    "choosen" : ['get', _choosen],
+    'recommendation' : {method: 'get', func: _recommendation},
+    'hot' : {method: 'get', func: _hot},
+    'like' : {method: 'get', func: _like},
+    "choosen" : {method: 'get', func: _choosen},
 
-    'byModel' : ['get', _byModel],
-    'byTag' : ['get', _byTag],
-    'byBrand' : ['get', _byBrand],
-    'byFollow' : ['get', _byFollow]
+    'byModel' : {method: 'get',func: _byModel},
+    'byTag' : {method: 'get', func: _byTag},
+    'byBrand' : {method: 'get', func: _byBrand},
+    'byFollow' : {method: 'get', func: _byFollow}
 };

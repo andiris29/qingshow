@@ -1,6 +1,6 @@
 var People = require('../../model/peoples');
 
-var _login;
+var _login, _update;
 _login = function (req, res) {
     var param, mail, encryptedPassword;
     param = req.body;
@@ -26,6 +26,13 @@ _login = function (req, res) {
     });
 };
 
+//TODO
+_update = function (req, res) {
+
+};
+
+
 module.exports = {
-    'login' : ['post', _login]
+    'login' : {method: 'post', func: _login},
+    'update' : {method: 'post', func: _update, needLogin: true}
 };

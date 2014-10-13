@@ -39,10 +39,10 @@ var session = require('express-session')({
 app.use(session);
 
 // Regist http services
-_registServices = function(path) {
+_registServices = function (path) {
     var module = require('./services/' + path);
     for (var id in module) {
-        var method = module[id][0], callback = module[id][1];
+        var method = module[id].method, callback = module[id].func;
         if (method === 'get') {
             app.get('/services/' + path + '/' + id, callback);
         } else if (method === 'post') {
@@ -57,7 +57,10 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-_registServices('feeding');
-_registServices('user');
+
+var servicesNames = ['feeding', 'user'];
+servicesNames.forEach(function (name){
+   _registServices(name);
+});
 
 console.log('Http server startup complete!');
