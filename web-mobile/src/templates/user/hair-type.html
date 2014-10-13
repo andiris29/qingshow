@@ -1,0 +1,108 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltHairTypeMain {
+        /*padding: 20px;*/
+        overflow: auto;
+    }
+
+    .qsTpltHairTypeMain .fa-chevron-right2:after {
+        content: "\f054";
+        margin: 0 0 0 420px;
+    }
+
+    .qsTpltHairTypeMain .qsPortrait {
+        background-image: url('');
+        float: left;
+        width: 52px;
+        height: 52px;
+        background-size: cover;
+        border-radius: 26px;
+        overflow: hidden;
+        margin: 0 15px;
+    }
+
+    .qsTpltHairTypeMain .qsThumbnail {
+        background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
+        float: left;
+        width: 52px;
+        height: 52px;
+        background-size: cover;
+        border-radius: 26px;
+        overflow: hidden;
+        margin: 0 15px;
+    }
+    .qsTpltHairTypeMain .qsBtn {
+        margin: 15px 20px;
+        background-color: #fb915f;
+        border: 0;
+        border-radius: 4px;
+        width: 600px;
+        padding: 20px 0;
+        font-size: 1.3em;
+    }
+    .qsTpltHairTypeMain .qsBtn > span {
+        color: #fff;
+    }
+    .qsTpltHairTypeMain .qsSubTitle {
+        margin: 10px 20px;
+        font-size: 1em
+    }
+
+    .qsTpltHairTypeMain .qsListInfoSection {
+        margin: 0 5px 10px;
+        border-radius: 4px;
+        /*box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
+        background-color: #fff;
+        width: 630px;
+    }
+
+    .qsTpltHairTypeMain .qsListInfoSection .qsRow {
+        overflow: hidden;
+        border-bottom: #dadada solid 1px;
+        padding: 9px 5px 9px 0;
+    }
+    .qsTpltHairTypeMain .qsRow {
+        position: relative;
+        height: 49px;
+        border-bottom: #dadada solid 1px;
+    }
+    .qsTpltHairTypeMain .qsRow > div {
+        margin-left: 15px;
+    }
+    .qsTpltHairTypeMain .qsRow .qsTitle {
+        float: left;
+        line-height: 49px;
+        height: 49px;
+    }
+    .qsTpltHairTypeMain .qsRow .qsValue {
+        float: left;
+        width: calc(100% - 15px - 60px - 15px);
+    }
+</style>
+
+<div id="wrapper" style="width: 640px; position: relative; margin: auto;">
+    <div class="qsTpltHairTypeMain">
+        <h2 class="qsSubTitle">请选择您的发型:</h2>
+        <section class="qsListInfoSection">
+            <div class="qsRow">
+                <div class="qsTitle">所有</div>
+                <div class="qsValue"></div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">长发</div>
+                <div class="qsValue"></div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">超级长发</div>
+                <div class="qsValue"></div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">中长发</div>
+                <div class="qsValue">
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
