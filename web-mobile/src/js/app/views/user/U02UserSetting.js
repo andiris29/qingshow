@@ -2,9 +2,9 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/header/SaveableHeader',
+    'app/components/header/CommonHeader',
     'app/components/user/UserSettingComponents'
-], function(IScrollContainer, ViewBase, SaveableHeader, UserSettingComponents) {
+], function(IScrollContainer, ViewBase, CommonHeader, UserSettingComponents) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -12,7 +12,16 @@ define([
     var U02UserSetting = function(dom) {
         U02UserSetting.superclass.constructor.apply(this, arguments);
 
-        var header = new SaveableHeader($('<div/>').appendTo(this._dom$), '设置');
+        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+            'title' : '设置',
+            'right' : '保存'
+        });
+        header.on('clickRight', function(event) {
+            // TODO
+            // DataService.request('/user/update', main.save(), function() {
+                // appRuntime.view.back();
+            // });
+        });
 
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',

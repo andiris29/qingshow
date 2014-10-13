@@ -2,10 +2,10 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/header/BackableHeader',
+    'app/components/header/CommonHeader',
     'app/components/show/Show',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, ViewBase, BackableHeader, ItemMain, ItemGallery) {
+], function(IScrollContainer, ViewBase, CommonHeader, ItemMain, ItemGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -13,7 +13,7 @@ define([
     var U01User = function(dom) {
         U01User.superclass.constructor.apply(this, arguments);
 
-        var header = new BackableHeader($('<div/>').appendTo(this._dom$), '用户 xxx');
+        var header = new CommonHeader($('<div/>').appendTo(this._dom$), '用户 xxx');
     };
     andrea.oo.extend(U01User, ViewBase);
 
