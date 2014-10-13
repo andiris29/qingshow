@@ -4,8 +4,6 @@ var ServiceUtil = require('../../util/servicesUtil');
 var _byRecommendation;
 var _byProducer;
 
-var _sendShowsQueryToResponse;
-
 //Utility for feeding service
 function _showPopulate(query) {
     query.populate({path: "producerRef"})
@@ -22,7 +20,7 @@ function _showDataGenFunc(data) {
 //feeding/xxx
 //feeding/recommendation
 _byRecommendation = function (req, res) {
-    var param, tags, pageNo, pageSize, query;
+    var param, tags, pageNo, pageSize;
     param = req.body;
     tags = param.tags || [];
     pageNo = param.pageNo || 1;
@@ -45,14 +43,14 @@ _byRecommendation = function (req, res) {
 
 //feeding/byXXX
 _byProducer = function (req, res) {
-    var param, producerIDs, pageNo, pageSize, query;
+    var param, producerIDs, pageNo, pageSize;
     param = req.body;
     producerIDs = param.producerIDs || [];
     producerIDs = ServiceUtil.stringArrayToObjectIdArray(producerIDs);
     pageNo = param.pageNo || 1;
     pageSize = param.pageSize || 10;
     function buildQuery() {
-        query = Show.find();
+        var query = Show.find();
         if (producerIDs.length) {
             query.where({producerRef: {$in: producerIDs}});
         }
