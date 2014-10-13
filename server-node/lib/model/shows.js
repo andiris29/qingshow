@@ -11,7 +11,7 @@ showSchema = Schema({
     video: String,
     posters: [String],
     numLike: Number,
-    producerRef: {type: Schema.Types.ObjectId, ref: 'peoples'},
+    modelRef: {type: Schema.Types.ObjectId, ref: 'peoples'},
     itemRefs: [
         {type: Schema.Types.ObjectId, ref: 'items'}
     ],
