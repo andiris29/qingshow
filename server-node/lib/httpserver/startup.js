@@ -58,6 +58,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 _registServices('feeding');
-// _registServices('user');
+_registServices('user');
 
 console.log('Http server startup complete!');

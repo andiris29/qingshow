@@ -14,8 +14,9 @@ peopleSchema = Schema({
     hairTypes: Number, //0 all 1 long 2 super long 3 mid long
     userInfo: {
         type: {
-            main: String,
-            encryptedPassword: String
+            mail: String,
+            encryptedPassword: String,
+            passwordUpdatedDate: { type: Date, default: Date.now }
         },
         select: false
     },

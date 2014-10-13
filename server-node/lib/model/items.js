@@ -7,6 +7,7 @@ itemSchema = Schema({
     category: Number,   //0 Tops 1 Bottoms 2 Shoes
     name: String,
     cover: String,
+    brand: Number,
     source: String
 });
 var Item = mongoose.model('items', itemSchema);
