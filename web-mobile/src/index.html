@@ -20,9 +20,9 @@
             (function() {
                 window.appConfig = {
                     'mode' : 'development',
-                    'server' : {
-                        'url' : ''
-                    }
+                    'dataServerRoot' : '../../server-node-fake/services',
+                    'imageServerRoot' : '../../server-image-fake',
+                    'videoServerRoot' : '../../server-video-fake'
                 };
 
                 var cssURLs = [], jsURLs = [];
@@ -72,11 +72,6 @@
                     $(document.body).css('overflow', 'hidden');
 
                     // QS
-                    window.appConfig = {
-                        'dataServerRoot' : '../../server-node-fake/services',
-                        'imageServerRoot' : '../../server-image-fake',
-                        'videoServerRoot' : '../../server-video-fake'
-                    };
                     window.appRuntime = {
                         'view' : {
                             'to' : null,
