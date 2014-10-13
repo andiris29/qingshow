@@ -16,7 +16,9 @@ define([
         }
 
         if (_cache[src]) {
-            callback(null, _cache[src].clone());
+            setTimeout(function() {
+                callback(null, _cache[src].clone());
+            });
         } else {
             $.ajax({
                 'url' : './templates/' + src,
