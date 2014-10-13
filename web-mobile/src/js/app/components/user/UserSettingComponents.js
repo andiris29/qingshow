@@ -31,6 +31,12 @@ define([
     };
     andrea.oo.extend(UserSettingComponents, UIComponent);
 
+    UserSettingComponents.prototype.save = function() {
+        return {
+            'xxx' : 'yyy'
+        };
+    };
+
     UserSettingComponents.prototype._render = function(response) {
         UserSettingComponents.superclass._render.apply(this, arguments);
 

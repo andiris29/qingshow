@@ -22,6 +22,10 @@ define([
 
         var main = new Show($('<div/>'), this._show);
         body.append(main);
+
+        this.on('destroying', function() {
+            main.destroy();
+        });
     };
     andrea.oo.extend(S03Show, ViewBase);
 

@@ -26,6 +26,12 @@ define([
     };
     andrea.oo.extend(Show, UIComponent);
 
+    Show.prototype.destroy = function() {
+        Show.superclass.destroy.apply(this, arguments);
+        $('.qsSlickVideoPosters', this._dom$).unslick();
+        $('.qsSlickItemCovers', this._dom$).unslick();
+    };
+
     Show.prototype._render = function() {
         Show.superclass._render.apply(this, arguments);
 

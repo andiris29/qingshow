@@ -16,10 +16,11 @@ define([
             'title' : '设置',
             'right' : '保存'
         });
+
         header.on('clickRight', function(event) {
-            // TODO
+            console.log('save', main.save());
             // DataService.request('/user/update', main.save(), function() {
-                // appRuntime.view.back();
+            // appRuntime.view.back();
             // });
         });
 
