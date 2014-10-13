@@ -6,43 +6,21 @@ var _byProducer;
 
 var _sendShowsQueryToResponse;
 
-_sendShowsQueryToResponse = function(res, queryFunc, pageNo, pageSize){
-    var query;
-    query = queryFunc();
-    query.count(function (err, count) {
-        if (err) {
-            console.log(err);
-            res.send("err");
-            return;
-        }
-        var numPages = parseInt((count + pageSize - 1) / pageSize);
-        query = queryFunc();
-        ServiceUtil.limitQuery(query, pageNo, pageSize);
-
-        query.sort({numLike: 1})
-            .populate({path: "producerRef"})
-            .populate("itemRefs")
-            .exec(function (err, shows) {
-                if (err) {
-                    console.log(err);
-                    res.send("err");
-                } else {
-                    var retData = {
-                        metadata: {
-                            //TODO change invilidateTime
-                            "numPages": numPages,
-                            "invalidateTime": 3600000
-                        },
-                        data: {
-                            shows: shows
-                        }
-                    };
-                    res.json(retData);
-                }
-            });
-    });
+//Utility for feeding service
+function _showPopulate(query) {
+    query.populate({path: "producerRef"})
+        .populate("itemRefs")
+    return query;
+}
+function _showDataGenFunc(data) {
+    return {
+        shows: data
+    };
 }
 
+
+//feeding/xxx
+//feeding/recommendation
 _byRecommendation = function (req, res) {
     var param, tags, pageNo, pageSize, query;
     param = req.body;
@@ -51,15 +29,21 @@ _byRecommendation = function (req, res) {
     pageSize = param.pageSize || 10;
 
     function buildQuery() {
-        query = Show.find();
+        var query = Show.find();
         if (tags.length) {
             query.where({tags: {$in: tags}});
         }
         return query;
     }
-    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
+    function additionFunc(query) {
+        query.sort({numLike: 1});
+        _showPopulate(query);
+        return query;
+    }
+    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 };
 
+//feeding/byXXX
 _byProducer = function (req, res) {
     var param, producerIDs, pageNo, pageSize, query;
     param = req.body;
@@ -74,7 +58,13 @@ _byProducer = function (req, res) {
         }
         return query;
     }
-    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
+    function additionFunc(query) {
+        query.sort({numLike: 1});
+        _showPopulate(query);
+        return query;
+    }
+    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+//    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
 };
 
 module.exports = {
