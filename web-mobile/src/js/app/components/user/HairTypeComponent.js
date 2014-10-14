@@ -6,11 +6,18 @@ define([
     'app/utils/RenderUtils'
 ], function(UIComponent, TemplateManager, DataService, RenderUtils) {
 // @formatter:on
-  
+
     var HairTypeComponent = function(dom, people) {
         HairTypeComponent.superclass.constructor.apply(this, arguments);
 
         async.parallel([function(callback) {
+            // load template
+            TemplateManager.load('user/hair-type.html', true, function(err, content$) {
+                this._dom$.append(content$);
+                callback(null);
+            }.bind(this));
+        }.bind(this), function(callback) {
+            // load data
         }.bind(this)], function(callback) {
             this._render(people);
         }.bind(this));
