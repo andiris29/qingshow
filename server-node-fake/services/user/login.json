@@ -1,9 +1,11 @@
 {
     "roles": [0],
-    "name": "qs",
-    "portrait": "",
-    "height": null,
-    "weight": null,
+    "name": "前田敦子",
+    "portrait": "/portraits/smallphoto02.jpg",
+    "thumbnail": "/covers/moto02.jpg",
+    "age": 23,
+    "height": 161,
+    "weight": 45,
     "gender": 0,
     "hairTypes": [1, 2],
     "userInfo": {
