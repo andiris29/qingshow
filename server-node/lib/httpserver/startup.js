@@ -10,8 +10,14 @@ var credentials = require("./credentials");
 var cookieParser = require("cookie-parser");
 var sessionMongoose = require("session-mongoose");
 
+//user-validate
+var userValidate = require('./middleware/user-validate');
+
 //Database Connection
 qsdb.connect();
+
+//Services Name
+var servicesNames = ['feeding', 'user'];
 
 // Startup http server
 var app = express();
@@ -19,11 +25,11 @@ var app = express();
 app.listen(argv['http-server-port']);
 
 //Cookie
-// app.use(cookieParser(credentials.cookieSecret));
+app.use(cookieParser(credentials.cookieSecret));
 //Session
 var SessionStore = sessionMongoose(connect);
 var store = new SessionStore({
-    interval: 24 * 60 * 60 * 1000, 
+    interval: 24 * 60 * 60 * 1000,
     connection: qsdb.getConnection(),
     modelName : "sessionStores"
 });
@@ -37,6 +43,9 @@ var session = require('express-session')({
 });
 
 app.use(session);
+
+//user validate
+app.use(userValidate(servicesNames));
 
 // Regist http services
 _registServices = function (path) {
@@ -58,7 +67,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-var servicesNames = ['feeding', 'user'];
+
 servicesNames.forEach(function (name){
    _registServices(name);
 });

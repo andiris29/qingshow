@@ -9,6 +9,7 @@ _login = function (req, res) {
     People.findOne({"userInfo.mail" : mail, "userInfo.encryptedPassword": encryptedPassword}, function (err, people) {
         if (err) {
             //TODO handle error
+
             res.send('err');
         }
         if (people) {
@@ -28,7 +29,7 @@ _login = function (req, res) {
 
 //TODO
 _update = function (req, res) {
-
+    res.send('update');
 };
 
 
