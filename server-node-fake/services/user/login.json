@@ -1,0 +1,17 @@
+{
+    "roles": [0],
+    "name": "qs",
+    "portrait": "",
+    "height": null,
+    "weight": null,
+    "gender": 0,
+    "hairTypes": [1, 2],
+    "userInfo": {
+        "mail": "qs@qs.com",
+        "encryptedPassword": "xxxxxx"
+    },
+    "modelInfo": null,
+    "likingShowRefs": [],
+    "followerRefs": [],
+    "followRefs": []
+}

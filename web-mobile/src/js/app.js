@@ -1,24 +1,26 @@
 // @formatter:off
 define([
     'app/Root',
-], function(Root) {
+    'app/model'
+], function(Root, model) {
 // @formatter:on
     /**
      * Bootstrap the application
      */
+    model.deserialize(function() {
+        var dom = $(document.body).children()[0], dom$ = $(dom);
+        // iPhone 6 Plus: 1920-by-1080-pixel resolution at 401 ppi
+        // iPhone 6: 1334-by-750-pixel resolution at 326 ppi
+        // iPhone 5s: 1136-by-640-pixel resolution at 326 ppi
+        // iPhone 5c: 1136-by-640-pixel resolution at 326 ppi
+        var screenW = $(window).width(), screenH = $(window).height();
+        var ratio = screenW < screenH ? screenW / screenH : 640 / 960;
+        var height = Math.max(0, screenH), width = ratio * height;
 
-    var dom = $(document.body).children()[0], dom$ = $(dom);
-    // iPhone 6 Plus: 1920-by-1080-pixel resolution at 401 ppi
-    // iPhone 6: 1334-by-750-pixel resolution at 326 ppi
-    // iPhone 5s: 1136-by-640-pixel resolution at 326 ppi
-    // iPhone 5c: 1136-by-640-pixel resolution at 326 ppi
-    var screenW = $(window).width(), screenH = $(window).height();
-    var ratio = screenW < screenH ? screenW / screenH : 640 / 960;
-    var height = Math.max(0, screenH), width = ratio * height;
-
-    dom$.css({
-        'width' : width + 'px',
-        'height' : height + 'px'
+        dom$.css({
+            'width' : width + 'px',
+            'height' : height + 'px'
+        });
+        new Root($('<div/>').appendTo(dom$), width, height);
     });
-    new Root($('<div/>').appendTo(dom$), width, height);
 });
