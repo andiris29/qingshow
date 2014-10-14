@@ -24,18 +24,21 @@ function validate(servicesNames) {
                         next(err);
                     }
                     else {
-                        if (!people)
+                        if (!people || !people.userInfo)
                         {
-                            err = new Error('user not found');
-                            err.code = 1000;
+                            //user not found
+                            err = new Error('session expire');
+                            err.code = 1002;
                             next(err);
+                            return;
                         }
+
                         if (!people.userInfo.passwordUpdatedDate){
                             people.userInfo.passwordUpdatedDate = loginDate;
                         }
                         if (loginDate < people.userInfo.passwordUpdatedDate) {
                             err = new Error('session expire');
-                            err.code = 1001;
+                            err.code = 1002;
                             next(err);
                         }
                         else {

@@ -1,4 +1,5 @@
 var People = require('../../model/peoples');
+var ServicesUtil = require('../../util/servicesUtil');
 
 var _login, _update;
 _login = function (req, res) {
@@ -8,9 +9,7 @@ _login = function (req, res) {
     encryptedPassword = param.encryptedPassword || '';
     People.findOne({"userInfo.mail" : mail, "userInfo.encryptedPassword": encryptedPassword}, function (err, people) {
         if (err) {
-            //TODO handle error
-
-            res.send('err');
+            ServicesUtil.responseError(res, err);
         }
         if (people) {
             //login succeed
@@ -18,11 +17,12 @@ _login = function (req, res) {
             req.session.loginDate = new Date();
             res.send(people);
         } else {
-            //TODO handle login fail
             //login fail
             delete req.session.userId;
             delete req.session.loginData;
-            res.send('login fail');
+            err = new Error('Incorrect mail or password');
+            err.code = 1001;
+            ServicesUtil.responseError(res, err);
         }
     });
 };

@@ -12,6 +12,8 @@ var sessionMongoose = require("session-mongoose");
 
 //user-validate
 var userValidate = require('./middleware/user-validate');
+//error-handler
+var error_handler = require('./middleware/error-handler');
 
 //Database Connection
 qsdb.connect();
@@ -66,7 +68,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-
+app.use(error_handler);
 
 servicesNames.forEach(function (name){
    _registServices(name);
