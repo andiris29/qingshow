@@ -1,13 +1,24 @@
 var mongoose = require('mongoose');
 
+function responseError(res, err) {
+    if (!err.code) {
+        err.code = 1000;
+    }
+    res.json({
+        //metadata.error
+        metadate: {
+            errpr: err.code
+        }
+    });
+}
 
-function limitQuery(query, pageNo, pageSize){
+function limitQuery(query, pageNo, pageSize) {
     pageNo = pageNo || 1;
     pageSize = pageSize || 10;
     return query.skip((pageNo - 1) * pageSize)
         .limit(pageSize);
 }
-function stringArrayToObjectIdArray(stringArray){
+function stringArrayToObjectIdArray(stringArray) {
     var retArray = [];
     stringArray.forEach(function (idStr) {
         var objId = mongoose.mongo.BSONPure.ObjectID(idStr);
@@ -22,8 +33,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
     query.count(function (err, count) {
         var numPages;
         if (err) {
-            console.log(err);
-            res.send("err");
+            responseError(res, err);
             return;
         }
         numPages = parseInt((count + pageSize - 1) / pageSize);
@@ -42,18 +52,15 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                 };
                 res.json(retData);
             } else {
-                console.log(err);
-                res.send("err");
+                responseError(res, err);
             }
         });
     });
 }
 
-
-
-
 module.exports = {
     'limitQuery' : limitQuery,
     'stringArrayToObjectIdArray' : stringArrayToObjectIdArray,
-    'sendSingleQueryToResponse' : sendSingleQueryToResponse
+    'sendSingleQueryToResponse' : sendSingleQueryToResponse,
+    'responseError' : responseError
 };
