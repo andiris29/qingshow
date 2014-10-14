@@ -3,14 +3,17 @@ define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/user/UserSettingComponents'
-], function(IScrollContainer, ViewBase, CommonHeader, UserSettingComponents) {
+    'app/components/user/UserSettingComponents',
+    'app/model'
+], function(IScrollContainer, ViewBase, CommonHeader, UserSettingComponents, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
     var U02UserSetting = function(dom) {
         U02UserSetting.superclass.constructor.apply(this, arguments);
+
+        console.log(model.user());
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
@@ -33,6 +36,10 @@ define([
         body.append(main);
     };
     andrea.oo.extend(U02UserSetting, ViewBase);
+
+    U02UserSetting.prototype.logout = function() {
+        model.user(null).serialize();
+    };
 
     return U02UserSetting;
 });

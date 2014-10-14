@@ -1,8 +1,9 @@
 // @formatter:off
 define([
     'app/managers/TemplateManager',
-    'app/components/header/HeaderBase'
-], function(TemplateManager, HeaderBase) {
+    'app/components/header/HeaderBase',
+    'app/model'
+], function(TemplateManager, HeaderBase, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -38,9 +39,12 @@ define([
 
     MainHeader.prototype._onUser = function() {
         $('.qsRight', this._dom$).on(appRuntime.events.click, function() {
-            require(['app/views/user/U02UserSetting'], function(U02UserSetting) {
-                appRuntime.view.to(U02UserSetting);
-            });
+            if (model.user()) {
+                // TODO go U01User
+                appRuntime.view.to('app/views/user/U02UserSetting');
+            } else {
+                appRuntime.view.to('app/views/user/U06Login');
+            }
         }.bind(this));
 
         return this;

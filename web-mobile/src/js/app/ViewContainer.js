@@ -20,17 +20,25 @@ define([
     andrea.oo.extend(ViewContainer, UIComponent);
 
     ViewContainer.prototype.to = function(clazz, data) {
-        var view = new clazz($('<div/>').appendTo(this._dom$), data);
-        this._views.push(view);
-        // Render view
-        if (this._currentView) {
-            // Animation from right
-            this._swapView(PageTransitions.animations.mobileNextPage, this._currentView, view, function() {
-                this._currentView.hide();
-                this._currentView = view;
+        if (_.isString(clazz)) {
+            var args = Array.prototype.slice.call(arguments, 0);
+            require([clazz], function(clazz) {
+                args[0] = clazz;
+                ViewContainer.prototype.to.apply(this, args);
             }.bind(this));
         } else {
-            this._currentView = view;
+            var view = new clazz($('<div/>').appendTo(this._dom$), data);
+            this._views.push(view);
+            // Render view
+            if (this._currentView) {
+                // Animation from right
+                this._swapView(PageTransitions.animations.mobileNextPage, this._currentView, view, function() {
+                    this._currentView.hide();
+                    this._currentView = view;
+                }.bind(this));
+            } else {
+                this._currentView = view;
+            }
         }
     };
 

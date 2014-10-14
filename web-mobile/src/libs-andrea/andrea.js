@@ -1,14 +1,19 @@
 (function() {
-    // Environment by url hash
+    // Environment by url hash & search
     var env = {
-        'hashParams' : {}
+        'hashParams' : {},
+        'searchParams' : {}
     };
     _.each((window.location.hash || '#').substr(1).split('&'), function(kv) {
         kv = kv.split('=');
         env.hashParams[kv[0]] = kv.length === 1 ? true : kv[1];
     });
-    env.debug = env.hashParams.debug === 'true';
-    env.fake = env.hashParams.fake === 'true';
+    _.each((window.location.search || '?').substr(1).split('&'), function(kv) {
+        kv = kv.split('=');
+        env.searchParams[kv[0]] = kv[1];
+    });
+    env.debug = env.hashParams.debug === 'true' || env.searchParams.debug === 'true';
+    env.fake = env.hashParams.fake === 'true' || env.searchParams.fake === 'true';
     // OO
     var oo = {};
     oo.extend = function(subClz, superClz) {
