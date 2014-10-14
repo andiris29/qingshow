@@ -6,8 +6,9 @@ function responseError(res, err) {
     }
     res.json({
         //metadata.error
-        metadate: {
-            errpr: err.code
+        metadata: {
+            error: err.code,
+            devInfo: err
         }
     });
 }

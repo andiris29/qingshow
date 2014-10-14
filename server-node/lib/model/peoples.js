@@ -21,7 +21,7 @@ peopleSchema = Schema({
         select: false
     },
     modelInfo: {
-        status: Number,
+        status: String,
         numberLike: Number
     },
     favoriteShowRefs: [

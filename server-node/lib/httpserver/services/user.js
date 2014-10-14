@@ -10,6 +10,7 @@ _login = function (req, res) {
     People.findOne({"userInfo.mail" : mail, "userInfo.encryptedPassword": encryptedPassword}, function (err, people) {
         if (err) {
             ServicesUtil.responseError(res, err);
+            return;
         }
         if (people) {
             //login succeed
@@ -19,7 +20,7 @@ _login = function (req, res) {
         } else {
             //login fail
             delete req.session.userId;
-            delete req.session.loginData;
+            delete req.session.loginDate;
             err = new Error('Incorrect mail or password');
             err.code = 1001;
             ServicesUtil.responseError(res, err);
@@ -29,7 +30,36 @@ _login = function (req, res) {
 
 //TODO
 _update = function (req, res) {
-    res.send('update');
+    var param;
+    param = req.body;
+    var people = req.currentUser;
+    var updateField = ['roles', 'name', 'portrait', 'height', 'weight',
+        'gender', 'hairTypes'];
+    updateField.forEach(function (field) {
+        if (param[field]) {
+            people[field] = param[field];
+        }
+    });
+    if (people.roles === 1) {
+        if (param.status) {
+            people.status = param.status;
+        }
+    }
+    people.save(function (err, people) {
+        if (err) {
+            console.log(err);
+            ServicesUtil.responseError(res, err);
+            return;
+        }
+        var retData = {
+            metadata: {
+                //TODO change invilidateTime
+                "invalidateTime": 3600000
+            },
+            data: people
+        };
+        res.json(retData);
+    });
 };
 
 
