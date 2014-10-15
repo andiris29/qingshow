@@ -1,5 +1,5 @@
-<link href="../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
-<link href="../css/app.css" rel="stylesheet"/>
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
 <style>
     .qsTpltShowGallery {
         padding: 20px;
@@ -18,11 +18,50 @@
     .qsTpltShowGallery .qsTpltShowGalleryLi:last-child {
         margin-bottom: 0px;
     }
+    .qsRefreshInfo {
+        margin-bottom: 20px;
+        width: 290px;
+        height: 60px;
+        background-color: #fff;
+        border-radius: 8px;
+    }
+    .qsRefreshInfo .qsNow {
+        float: right;
+        text-align: center;
+        margin-right: 12px;
+        margin-top: 6px;
+    }
+    .qsRefreshInfo .qsClock {
+        font-size: 28px;
+        margin-left: 12px;
+        margin-right: 2px;
+    }
+    .qsRefreshInfo .qsRefreshTime {
+        font-size: 24px;
+    }
+    .qsRefreshInfo .qsClock, .qsRefreshInfo .qsRefreshTime {
+        float: left;
+        line-height: 60px;
+    }
 </style>
 
-<div id="wrapper" style="width: 640px; position: relative; margin: auto;">
+<div id="wrapper" style="width: 640px; position: relative; margin: auto; background-color: #eee;">
     <div class="qsTpltShowGallery">
         <div class="qsLeftContainer">
+            <div class="qsRefreshInfo">
+                <div class="qsClock qsHighlight fa fa-clock-o"></div>
+                <div class="qsRefreshTime qsHighlight unfakeText">
+                    15:00 更新
+                </div>
+                <div class="qsNow">
+                    <div class="unfakeText">
+                        2014/09/26
+                    </div>
+                    <div class="unfakeText">
+                        星期三
+                    </div>
+                </div>
+            </div>
             <div class="qsLiItemContainer">
                 <div class="qsTpltShowGalleryLi fake"></div>
             </div>
