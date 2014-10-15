@@ -84,7 +84,7 @@
                             'dock' : null
                         },
                         'events' : {
-                            'click' : 'touchstart click'
+                            'click' : Modernizr.touch ? 'touchstart' : 'click'
                         }
                     };
                     // Bootstrap
