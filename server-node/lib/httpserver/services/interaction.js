@@ -6,9 +6,71 @@ var ServicesUtil = require('../servicesUtil');
 
 var _follow, _like, _comment;
 _follow = function (req, res) {
-    //TODO
-    res.send('follow');
+    //TODO refactor error handler
+    //TODO handle duplicate
+    try {
+        var param = req.body;
+        var followPeopleIdStr = param.peopleId;
+        var followPeopleIdObj = mongoose.mongo.BSONPure.ObjectID(followPeopleIdStr);
+        var userId = req.currentUser._id;
+     } catch (e) {
+        ServicesUtil.responseError(res, e);
+        return;
+    }
+
+    People.findOne({_id: userId})
+        .select('followRefs')
+        .exec(function (err, user) {
+            if (err || !user) {
+                err = err || new Error('err');
+                ServicesUtil.responseError(res, err);
+                return;
+            }
+            People.findOne({_id: followPeopleIdObj})
+                .select('followerRefs')
+                .exec(function (err, followPeople) {
+                    try {
+                        if (err) {
+                            throw err;
+                        }
+                        if (!followPeople) {
+                            throw new ServerError(ServerError.PeopleNotExist);
+                        }
+                        user.followRefs.push(followPeople._id);
+                        followPeople.followerRefs.push(user._id);
+
+                        user.save(function (err, u) {
+                            try {
+                                if (err || !u) {
+                                    err = err || new Error;
+                                    throw err;
+                                }
+                                followPeople.save(function (err, u) {
+                                    try {
+                                        if (err || !u) {
+                                            err = err || new Error;
+                                            throw err;
+                                        }
+                                    } catch (e) {
+                                        //TODO Restore user.followRefs
+                                        ServicesUtil.responseError(res, e);
+                                    }
+                                });
+                                res.send('succeed');
+                            } catch (e) {
+                                ServicesUtil.responseError(res, e);
+                                return;
+                            }
+                        });
+                    } catch (e) {
+                        ServicesUtil.responseError(res, e);
+                        return;
+                    }
+            });
+    });
+
 };
+
 _like = function (req, res) {
     var param = req.body;
     var showIdStr = param.showId;
@@ -35,7 +97,6 @@ _like = function (req, res) {
             ServicesUtil.responseError(res, e);
         }
     });
-
 };
 
 _comment = function (req, res) {

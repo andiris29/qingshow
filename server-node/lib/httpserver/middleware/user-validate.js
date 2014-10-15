@@ -27,9 +27,7 @@ function validate(servicesNames) {
                         if (!people || !people.userInfo)
                         {
                             //user not found
-                            err = new Error('session expire');
-                            err.code = 1002;
-                            next(err);
+                            next(new ServerError(ServerError.SessionExpired));
                             return;
                         }
 
