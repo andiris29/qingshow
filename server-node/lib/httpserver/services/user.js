@@ -16,7 +16,7 @@ _login = function (req, res) {
             //login succeed
             req.session.userId = people._id;
             req.session.loginDate = new Date();
-            res.send(people);
+            res.json(people);
         } else {
             //login fail
             delete req.session.userId;

@@ -19,7 +19,7 @@ var error_handler = require('./middleware/error-handler');
 qsdb.connect();
 
 //Services Name
-var servicesNames = ['feeding', 'user'];
+var servicesNames = ['feeding', 'user', 'interaction', 'query'];
 
 // Startup http server
 var app = express();
