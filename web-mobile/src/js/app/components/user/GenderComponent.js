@@ -8,13 +8,13 @@ define([
 ], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
 // @formatter:on
 
-    var HairTypeComponent = function(dom) {
-        HairTypeComponent.superclass.constructor.apply(this, arguments);
+    var GenderComponent = function(dom) {
+        GenderComponent.superclass.constructor.apply(this, arguments);
 
         console.log(this._data);
         async.parallel([function(callback) {
             // load template
-            TemplateManager.load('user/hair-type.html', true, function(err, content$) {
+            TemplateManager.load('user/gender.html', true, function(err, content$) {
                 this._dom$.append(content$);
                 callback(null);
             }.bind(this));
@@ -24,19 +24,19 @@ define([
 
     };
 
-    andrea.oo.extend(HairTypeComponent, UIComponent);
+    andrea.oo.extend(GenderComponent, UIComponent);
 
-    HairTypeComponent.prototype._render = function() {
-        var hairType = CodeUtils.getCodes('people.hairType');
+    GenderComponent.prototype._render = function() {
+        var gender = CodeUtils.getCodes('people.gender');
 
-        var view$ = $('.qsTpltHairTypeMain', this._dom$);
+        var view$ = $('.qsTpltGenderMain', this._dom$);
         var contain$ = $('.qsListInfoSection', view$);
         var tplt$ = $('.qsHidden', view$);
 
-        hairType.forEach(function(hair, index) {
+        gender.forEach(function(hair, index) {
             var li$ = $(".qsRow", tplt$).clone();
             $('.qsTitle', li$).text(hair);
-            $('div:last', li$).attr('id', 'hairType-'+index);
+            $('div:last', li$).attr('id', 'gender-'+index);
             li$.bind('click', function() {
                 if ($('.qsDisable', this).length > 0) {
                     $('div:last', this).removeClass('fa-check-circle-o2 qsDisable');
@@ -49,14 +49,15 @@ define([
             li$.appendTo(contain$);
         });
 
-        this._data._user.hairTypes.forEach(function(element) {
-            $('#hairType-' + element, contain$).removeClass('fa-check-circle-o2 qsDisable');
-            $('#hairType-' + element, contain$).toggleClass('fa-check-circle2 qsHighlight');
+        this._data._user.gender.forEach(function(element) {
+            $('#gender-' + element, contain$).removeClass('fa-check-circle-o2 qsDisable');
+            $('#gender-' + element, contain$).toggleClass('fa-check-circle2 qsHighlight');
         });
     };
 
-    HairTypeComponent.prototype.save = function() {
+    GenderComponent.prototype.save = function() {
     };
 
-    return HairTypeComponent;
+    return GenderComponent;
 });
+

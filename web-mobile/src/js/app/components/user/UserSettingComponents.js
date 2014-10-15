@@ -54,8 +54,6 @@ define([
         $('#weight', view$).attr('value', people.weight);
 
         $('.qsHairType', view$).on('click', function() {
-            // TODO EVENT GOTO HairType
-            console.log("EVENT GOTO HairType");
             appRuntime.view.to(U05HairType);
         }.bind(this));
     };
