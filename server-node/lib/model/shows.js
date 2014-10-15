@@ -15,9 +15,12 @@ showSchema = Schema({
     numView: Number,
     tags: [String],
     modelRef: {type: Schema.Types.ObjectId, ref: 'peoples'},
-    itemRefs: [
-        {type: Schema.Types.ObjectId, ref: 'items'}
-    ]
+    itemRefs: {
+        type: [
+            {type: Schema.Types.ObjectId, ref: 'items'}
+        ],
+        select: false
+    }
 });
 
 showSchema.methods.toResponseJSON = function () {

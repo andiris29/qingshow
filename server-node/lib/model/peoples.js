@@ -24,15 +24,24 @@ peopleSchema = Schema({
         status: String,
         numberLike: Number
     },
-    likingShowRefs: [
-        { type: Schema.Types.ObjectId, ref: 'shows'}
-    ],
-    followerRefs: [
-        { type: Schema.Types.ObjectId, ref: 'peoples'}
-    ],
-    followRefs: [
-        { type: Schema.Types.ObjectId, ref: 'peoples'}
-    ]
+    likingShowRefs: {
+        type: [
+            { type: Schema.Types.ObjectId, ref: 'shows'}
+        ],
+        select: false
+    },
+    followerRefs: {
+        type: [
+            { type: Schema.Types.ObjectId, ref: 'peoples'}
+        ],
+        select: false
+    },
+    followRefs: {
+        type: [
+            { type: Schema.Types.ObjectId, ref: 'peoples'}
+        ],
+        select: false
+    }
 });
 var People = mongoose.model('peoples', peopleSchema);
 
