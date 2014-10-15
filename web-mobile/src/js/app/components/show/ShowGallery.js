@@ -68,7 +68,11 @@ define([
         $('.qsShowCover', li$).attr('src', RenderUtils.imagePathToURL(show.cover));
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.producerRef.portrait));
         $('.qsName', li$).text(show.producerRef.name);
-        $('.qsAge', li$).text(RenderUtils.timeToAge(show.producerRef.birthtime) + '岁');
+        // $('.qsAge', li$).text(RenderUtils.timeToAge(show.producerRef.birthtime) + '岁');
+        // TODO
+        $('.qsRole', li$).text('设计师');
+        $('.qsHeight', li$).text(show.producerRef.height + 'cm');
+        $('.qsWeight', li$).text(show.producerRef.weight + 'kg');
         $('.qsStatus', li$).text(show.producerRef.modelInfo.status);
         $('.qsNumFollowers', li$).text(show.numLike);
 

@@ -14,6 +14,9 @@
         overflow: auto;
         margin: 10px 8px;
     }
+    .qsTpltShowGalleryLi .qsModel > div {
+        overflow: auto;
+    }
     .qsTpltShowGalleryLi .qsModel .qsPortrait {
         background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
         float: left;
@@ -24,22 +27,29 @@
         overflow: hidden;
     }
     .qsTpltShowGalleryLi .qsModel .qsTextContainer {
-        padding-bottom: 8px;
         float: left;
         margin: 0px 8px;
         width: calc(100% - 116px);
     }
     .qsTpltShowGalleryLi .qsModel .qsLine {
         height: 26px;
+        margin-top: 8px;
+    }
+    .qsTpltShowGalleryLi .qsModel .qsLine:first-child {
+        margin-top: 2px;
     }
     .qsTpltShowGalleryLi .qsModel .qsName {
         float: left;
         color: 4e4e4e;
     }
-    .qsTpltShowGalleryLi .qsModel .qsAge {
+    .qsTpltShowGalleryLi .qsModel .qsRole {
         float: right;
     }
-    .qsTpltShowGalleryLi .qsModel .qsStatus {
+    .qsTpltShowGalleryLi .qsStatus {
+        margin: 6px 8px 0 60px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
     }
     .qsTpltShowGalleryLi .qsModel .qsLikeContainer {
         float: left;
@@ -47,11 +57,17 @@
         text-align: center;
     }
     .qsTpltShowGalleryLi .qsModel .qsLike {
-        font-size: 1.8em;
+        font-size: 32px;
         margin-bottom: 4px;
     }
     .qsTpltShowGalleryLi .qsModel .qsNumFollowers {
         padding-right: 2px;
+    }
+    .qsTpltShowGalleryLi .qsHeight, .qsTpltShowGalleryLi .qsWeight {
+        float: left;
+    }
+    .qsTpltShowGalleryLi .qsHeight {
+        margin-right: 12px;
     }
 </style>
 
@@ -59,25 +75,35 @@
     <div class="qsTpltShowGalleryLi">
         <img class="qsShowCover fakeSrc" src="../../../../server-image-fake/covers/moto01.jpg">
         <div class="qsModel">
-            <div class="qsPortrait fakeBackgroundImage"></div>
-            <div class="qsTextContainer">
-                <div class="qsLine">
-                    <div class="qsName fakeText">
-                        Sandygirl
+            <div>
+                <div class="qsPortrait fakeBackgroundImage"></div>
+                <div class="qsTextContainer">
+                    <div class="qsLine">
+                        <div class="qsName fakeText">
+                            Sandygirl
+                        </div>
+                        <div class="qsRole fakeText">
+                            设计师
+                        </div>
                     </div>
-                    <div class="qsAge fakeText">
-                        24岁
+                    <div class="qsLine">
+                        <div class="qsHeight fakeText">
+                            171cm
+                        </div>
+                        <div class="qsWeight fakeText">
+                            45.6kg
+                        </div>
                     </div>
                 </div>
-                <div class="qsStatus fakeText">
-                    每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。end
+                <div class="qsLikeContainer">
+                    <div class="qsLike fa fa-heart-o qsIconButton"></div>
+                    <div class="qsNumFollowers fakeText">
+                        105
+                    </div>
                 </div>
             </div>
-            <div class="qsLikeContainer">
-                <div class="qsLike fa fa-heart-o qsIconButton"></div>
-                <div class="qsNumFollowers fakeText">
-                    105
-                </div>
+            <div class="qsStatus fakeText">
+                每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。每天都需要睡眠。end
             </div>
         </div>
     </div>
