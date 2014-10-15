@@ -24,7 +24,7 @@ peopleSchema = Schema({
         status: String,
         numberLike: Number
     },
-    favoriteShowRefs: [
+    likingShowRefs: [
         { type: Schema.Types.ObjectId, ref: 'shows'}
     ],
     followerRefs: [

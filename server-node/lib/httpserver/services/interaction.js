@@ -21,7 +21,7 @@ _like = function (req, res) {
                 throw new ServerError(ServerError.ShowNotExist);
             } else {
                 var user = req.currentUser;
-                user.favoriteShowRefs.push(showIdObj);
+                user.likingShowRefs.push(showIdObj);
                 user.save(function (err, p) {
                     if (err || !p) {
                         err = err || new Error();
