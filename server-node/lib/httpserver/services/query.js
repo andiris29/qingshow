@@ -1,5 +1,5 @@
 var People = require('../../model/peoples');
-var ServicesUtil = require('../../util/servicesUtil');
+var ServicesUtil = require('../servicesUtil');
 
 
 var _models, _comments, _terms;

@@ -1,5 +1,5 @@
 var People = require('../../model/peoples');
-
+var ServerError = require('../server-error');
 function validate(servicesNames) {
     var validatePaths = [];
     servicesNames.forEach(function (path) {
@@ -37,9 +37,7 @@ function validate(servicesNames) {
                             people.userInfo.passwordUpdatedDate = loginDate;
                         }
                         if (loginDate < people.userInfo.passwordUpdatedDate) {
-                            err = new Error('session expire');
-                            err.code = 1002;
-                            next(err);
+                            next(new ServerError(ServerError.SessionExpired));
                         }
                         else {
                             People.findOne({"_id" : userID}, function(err, people){

@@ -2,12 +2,12 @@ var mongoose = require('mongoose');
 
 function responseError(res, err) {
     if (!err.code) {
-        err.code = 1000;
+        err.errorCode = 1000;
     }
     res.json({
         //metadata.error
         metadata: {
-            error: err.code,
+            error: err.errorCode,
             devInfo: err
         }
     });
@@ -34,8 +34,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
     query.count(function (err, count) {
         var numPages;
         if (err) {
-            responseError(res, err);
-            return;
+            responseError(err);
         }
         numPages = parseInt((count + pageSize - 1) / pageSize);
         query = queryGenFunc();
@@ -53,7 +52,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                 };
                 res.json(retData);
             } else {
-                responseError(res, err);
+                responseError(err);
             }
         });
     });

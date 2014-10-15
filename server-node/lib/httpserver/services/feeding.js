@@ -1,5 +1,5 @@
 var Show = require('../../model/shows');
-var ServiceUtil = require('../../util/servicesUtil');
+var ServiceUtil = require('../servicesUtil');
 
 var _recommendation, _hot, _like, _choosen;
 var _byModel, _byTag, _byBrand, _byFollow;
