@@ -3,8 +3,9 @@ define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/user/HairTypeComponent'
-], function(IScrollContainer, ViewBase, SaveableHeader, HairTypeComponent) {
+    'app/components/user/HairTypeComponent',
+    'app/model'
+], function(IScrollContainer, ViewBase, CommonHeader, HairTypeComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -29,7 +30,7 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new HairTypeComponent($('<div/>'));
+        var main = new HairTypeComponent($('<div/>'), model);
         body.append(main);
     };
     andrea.oo.extend(U05HairType, ViewBase);

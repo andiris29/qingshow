@@ -3,15 +3,21 @@ define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
     'app/services/DataService',
+    'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, RenderUtils) {
+], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
 // @formatter:on
   
     /**
      * User Settings's UI Componets
      */
+    var U05HairType;
     var UserSettingComponents = function(dom) {
         UserSettingComponents.superclass.constructor.apply(this, arguments);
+
+        require(['app/views/user/U05HairType'], function(hairType) {
+            U05HairType = hairType;
+        });
 
         async.parallel([ function(callback) {
             // load template
@@ -19,29 +25,24 @@ define([
                 this._dom$.append(content$);
                 callback(null);
             }.bind(this));
-        }.bind(this), function(callback) {
-            // Load data
-            DataService.request('/feeding/byPeople', {
-                'peopleId' : 1
-            }, callback);
+        //}.bind(this), function(callback) {
+        //    // Load data
+        //    DataService.request('/feeding/byPeople', {
+        //        'peopleId' : 1
+        //    }, callback);
         }.bind(this)], function(err, results) {
-            this._render(results[1]);
+            this._render();
         }.bind(this));
       
     };
     andrea.oo.extend(UserSettingComponents, UIComponent);
 
-    UserSettingComponents.prototype.save = function() {
-        return {
-            'xxx' : 'yyy'
-        };
-    };
-
-    UserSettingComponents.prototype._render = function(response) {
+    UserSettingComponents.prototype._render = function() {
         UserSettingComponents.superclass._render.apply(this, arguments);
 
         var view$ = $('.qsTpltUserSettingMain', this._dom$);
-        var people = response.data.people;
+
+        var people = this._data._user;
 
         // Data Render
         $('.qsPortrait', view$).css('background-image', RenderUtils.imagePathToBackground(people.portrait));
@@ -52,14 +53,10 @@ define([
         $('#height', view$).attr('value', people.height);
         $('#weight', view$).attr('value', people.weight);
 
-        var hairType = RenderUtils.hairTypeCodesToValue(people.hairType);
-
-        $('#hairType', view$).attr('value', hairType);
-
         $('.qsHairType', view$).on('click', function() {
             // TODO EVENT GOTO HairType
-            console.log('Goto HairType');
-            //appRuntime.view.to(S03Show, show);
+            console.log("EVENT GOTO HairType");
+            appRuntime.view.to(U05HairType);
         }.bind(this));
     };
 

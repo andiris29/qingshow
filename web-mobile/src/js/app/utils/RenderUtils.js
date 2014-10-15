@@ -47,26 +47,5 @@ define([
         return andrea.string.substitute('url("{0}")', RenderUtils.videoPathToURL(path));
     };
 
-    RenderUtils.hairTypeCodesToValue = function(codes) {
-        
-        var value = '';
-        codes.split(',').forEach(function(code) {
-            if (code == '0') {
-                value = value + '所有,';
-            } 
-            if (code == '1') {
-                value = value + '长发,';
-            }
-            if (code == '2') {
-                value = value + '超长发,';
-            }
-            if (code == '3') {
-                value = value + '中长发,';
-            }
-        });
-
-        return value.substring(0, value.length - 1);
-    };
-
     return RenderUtils;
 });

@@ -32,7 +32,7 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new UserSettingComponents($('<div/>'));
+        var main = new UserSettingComponents($('<div/>'), model);
         body.append(main);
     };
     andrea.oo.extend(U02UserSetting, ViewBase);
