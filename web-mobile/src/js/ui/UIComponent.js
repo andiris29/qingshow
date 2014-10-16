@@ -54,7 +54,8 @@ define([], function() {
         $('img', this._dom).on('load', function() {
             this.trigger('resize');
         }.bind(this));
-        this.trigger('resize');
+        this.trigger('afterRender');
+
     };
 
     return UIComponent;

@@ -20,7 +20,8 @@ define([
 
         this._iscroll = new IScroll(this.dom(), {
             'mouseWheel' : true,
-            'click' : true
+            'click' : true,
+            'probeType' : 3
         });
         this._iscroll.on('scrollEnd', function() {
             if (this._iscroll.y === this._iscroll.maxScrollY) {
@@ -31,6 +32,9 @@ define([
                 });
             }
         }.bind(this));
+        this._iscroll.on('scroll', function() {
+            this._dom$.trigger('scroll');
+        }.bind(this));
     };
     andrea.oo.extend(IScrollContainer, UIContainer);
 
@@ -40,12 +44,23 @@ define([
      * uiComponent.grow will be invoke when scroll to bottom.
      */
     IScrollContainer.prototype.append = function(uiComponent) {
-        uiComponent.dom$().appendTo(this._scroller$);
-
-        uiComponent.on('resize', this._iscroll.refresh.bind(this._iscroll));
-        this._iscroll.refresh();
-
         this._children.push(uiComponent);
+
+        uiComponent.dom$().appendTo(this._scroller$);
+        uiComponent.on('resize', this._iscroll.refresh.bind(this._iscroll));
+        uiComponent.on('afterRender', function() {
+            this._afterRenderHandler(uiComponent);
+        }.bind(this));
+        this._afterRenderHandler(uiComponent);
+    };
+    IScrollContainer.prototype._afterRenderHandler = function(child) {
+        $('img.lazy', child.dom$()).lazyload({
+            'effect' : 'fadeIn',
+            'container' : this._dom$,
+            'failure_limit' : Number.POSITIVE_INFINITY
+        }).removeClass('lazy');
+
+        this._iscroll.refresh();
     };
 
     return IScrollContainer;

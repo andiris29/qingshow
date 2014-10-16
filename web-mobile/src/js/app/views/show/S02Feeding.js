@@ -4,7 +4,7 @@ define([
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, ViewBase, CommonHeader, ItemGallery) {
+], function(IScrollContainer, ViewBase, CommonHeader, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -19,7 +19,7 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var gallery = new ItemGallery($('<div/>'), {
+        var gallery = new ShowGallery($('<div/>'), {
             'feeding' : this._feeding
         });
         body.append(gallery);

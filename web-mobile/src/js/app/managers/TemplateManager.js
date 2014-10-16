@@ -41,7 +41,7 @@ define([
                 $('.fake', dom$).remove();
                 if (!debug) {
                     $('.fakeText', dom$).removeClass('fakeText').text('');
-                    $('.fakeSrc', dom$).removeClass('fakeSrc').attr('src', '');
+                    $('.fakeSrc', dom$).removeClass('fakeSrc').removeAttr('src');
                     $('.fakeBackgroundImage', dom$).removeClass('fakeBackgroundImage').css('background-image', 'none');
                     var fakeVideo$ = $('.fakeVideo', dom$);
                     if (fakeVideo$.length) {

@@ -14,13 +14,23 @@ define([
         this._dom$.addClass('qsRoot');
 
         // Set the size of root
-        this._scale = width / 640;
+        var scale = this._scale = width / 640;
         this._dom$.css({
             'width' : '640px',
             'height' : height / this._scale + 'px',
             '-webkit-transform' : andrea.string.substitute('scale({0}, {0})', this._scale)
         });
 
+        // Hack the jquery.fn.offset for jquery.lazyload
+        var offset = $.fn.offset;
+        $.fn.offset = function() {
+            var result = offset.apply(this, arguments);
+            result = {
+                'left' : result.left,
+                'top' : result.top / scale
+            };
+            return result;
+        };
         // View container
         this._viewContainer = new ViewContainer($('<div/>').appendTo(this._dom$));
         // Popup

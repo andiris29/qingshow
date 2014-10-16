@@ -66,7 +66,7 @@ define([
     };
 
     ShowGallery.prototype._renderOne = function(li$, show) {
-        $('.qsShowCover', li$).attr('src', RenderUtils.imagePathToURL(show.cover));
+        $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', li$).text(show.modelRef.name);
         var roles = [];
