@@ -11,12 +11,17 @@ define([
     /**
      * User Settings's UI Componets
      */
-    var U05HairType;
+    var U04Email, U05HairType, U08Passwd, U09Gender;
     var UserSettingComponents = function(dom) {
         UserSettingComponents.superclass.constructor.apply(this, arguments);
 
-        require(['app/views/user/U05HairType'], function(hairType) {
+        require(['app/views/user/U04Email', 'app/views/user/U05HairType',
+            'app/views/user/U08Passwd', 'app/views/user/U09Gender'
+            ], function(email, hairType, passwd, gender) {
+            U04Email = email;
             U05HairType = hairType;
+            U08Passwd = passwd;
+            U09Gender = gender;
         });
 
         async.parallel([ function(callback) {
@@ -53,8 +58,20 @@ define([
         $('#height', view$).attr('value', people.height);
         $('#weight', view$).attr('value', people.weight);
 
+        $('.qsGender', view$).on('click', function() {
+            appRuntime.view.to(U09Gender);
+        }.bind(this));
+
         $('.qsHairType', view$).on('click', function() {
             appRuntime.view.to(U05HairType);
+        }.bind(this));
+
+        $('.qsPasswd', view$).on('click', function() {
+            appRuntime.view.to(U08Passwd);
+        }.bind(this));
+
+        $('.qsEmail', view$).on('click', function() {
+            appRuntime.view.to(U04Email);
         }.bind(this));
     };
 

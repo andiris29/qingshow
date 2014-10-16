@@ -11,7 +11,6 @@ define([
     var GenderComponent = function(dom) {
         GenderComponent.superclass.constructor.apply(this, arguments);
 
-        console.log(this._data);
         async.parallel([ function(callback) {
             // load template
             TemplateManager.load('user/gender.html', true, function(err, content$) {
@@ -47,10 +46,10 @@ define([
             li$.appendTo(contain$);
         });
 
-        this._data._user.gender.forEach(function(element) {
-            $('#gender-' + element, contain$).removeClass('fa-check-circle-o2 qsDisable');
-            $('#gender-' + element, contain$).toggleClass('fa-check-circle2 qsHighlight');
-        });
+        var element = this._data._user.gender;
+
+        $('#gender-' + element, contain$).removeClass('fa-check-circle-o2 qsDisable');
+        $('#gender-' + element, contain$).toggleClass('fa-check-circle2 qsHighlight');
     };
 
     GenderComponent.prototype.save = function() {

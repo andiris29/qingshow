@@ -3,15 +3,15 @@ define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/user/GenderComponent',
+    'app/components/user/PasswdComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, CommonHeader, GenderComponent, model) {
+], function(IScrollContainer, ViewBase, CommonHeader, PasswdComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
-    var U09Gender = function(dom) {
-        U09Gender.superclass.constructor.apply(this, arguments);
+    var U08Passwd = function(dom) {
+        U08Passwd.superclass.constructor.apply(this, arguments);
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
@@ -30,12 +30,13 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new GenderComponent($('<div/>'), model);
+        var main = new PasswdComponent($('<div/>'), model);
         body.append(main);
     };
-    andrea.oo.extend(U09Gender, ViewBase);
+    andrea.oo.extend(U08Passwd, ViewBase);
 
-    return U09Gender;
+    return U08Passwd;
 });
+
 
 

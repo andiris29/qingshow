@@ -1,0 +1,69 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltEmailMain {
+        /*padding: 20px;*/
+        overflow: auto;
+    }
+
+    .qsTpltEmailMain .qsSubTitle {
+        margin: 10px 20px;
+        font-size: 1em
+    }
+
+    .qsTpltEmailMain .qsListInfoSection {
+        margin: 0 5px 10px;
+        border-radius: 4px;
+        /*box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
+        background-color: #fff;
+        width: 630px;
+    }
+
+    .qsTpltEmailMain .qsListInfoSection .qsRow {
+        overflow: hidden;
+        border-bottom: #dadada solid 1px;
+        padding: 9px 5px 9px 0;
+    }
+
+    .qsTpltEmailMain .qsHidden{
+        display: none;
+    }
+    .qsTpltEmailMain .qsRow {
+        position: relative;
+        height: 49px;
+        border-bottom: #dadada solid 1px;
+    }
+    .qsTpltEmailMain .qsRow > div {
+        margin-left: 15px;
+    }
+    .qsTpltEmailMain .qsRow .qsTitle {
+        float: left;
+        line-height: 49px;
+        height: 49px;
+    }
+    .qsTpltEmailMain .qsRow .qsValue {
+        float: left;
+        width: calc(100% - 15px - 60px - 15px);
+    }
+</style>
+
+<div id="wrapper" style="width: 640px; position: relative; margin: auto;">
+    <div class="qsTpltEmailMain">
+        <h2 class="qsSubTitle"></h2>
+        <section class="qsListInfoSection">
+            <div class="qsRow">
+                <div class="qsTitle">当前邮件地址</div>
+                <div class="qsValue"></div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">新邮件地址</div>
+                <div class="qsValue"></div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">地址确认</div>
+                <div class="qsValue"></div>
+            </div>
+        </section>
+    </div>
+</div>
+

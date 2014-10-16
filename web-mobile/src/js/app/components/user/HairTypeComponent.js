@@ -11,7 +11,6 @@ define([
     var HairTypeComponent = function(dom) {
         HairTypeComponent.superclass.constructor.apply(this, arguments);
 
-        console.log(this._data);
         async.parallel([ function(callback) {
             // load template
             TemplateManager.load('user/hair-type.html', true, function(err, content$) {

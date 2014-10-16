@@ -3,15 +3,15 @@ define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/user/GenderComponent',
+    'app/components/user/EmailComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, CommonHeader, GenderComponent, model) {
+], function(IScrollContainer, ViewBase, CommonHeader, EmailComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
-    var U09Gender = function(dom) {
-        U09Gender.superclass.constructor.apply(this, arguments);
+    var U04Email = function(dom) {
+        U04Email.superclass.constructor.apply(this, arguments);
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
@@ -30,12 +30,12 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new GenderComponent($('<div/>'), model);
+        var main = new EmailComponent($('<div/>'), model);
         body.append(main);
     };
-    andrea.oo.extend(U09Gender, ViewBase);
+    andrea.oo.extend(U04Email, ViewBase);
 
-    return U09Gender;
+    return U04Email;
 });
 
 
