@@ -54,7 +54,6 @@
             <fileset file="${dir.src}/libs/Modernizr-2.8.3/modernizr.js" />
             <fileset file="${dir.src}/libs/jquery-2.1.1/jquery-2.1.1.js" />
             <fileset file="${dir.src}/libs/PageTransitions/js/pagetransitions.andrea.js" />
-            <fileset file="${dir.src}/libs/spin-2.0.1/spin.js" />
             <fileset file="${dir.src}/libs/underscore-1.7.0/underscore.js" />
             <fileset file="${dir.src}/libs/video-js-4.8.1/video.dev.js" />
             <fileset file="${dir.src}/libs/async-0.9.0/lib/async.js" />

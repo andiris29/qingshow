@@ -38,11 +38,17 @@ define([
     andrea.oo.extend(ShowGallery, UIComponent);
 
     ShowGallery.prototype.grow = function() {
+        $('.qsLoading .qsSpin').fadeIn();
+        $('.qsLoading .qsText').text('努力加载中…');
+
         this._feeding(2, 100, this._render.bind(this));
     };
 
     ShowGallery.prototype._render = function(metadata, data) {
         ShowGallery.superclass._render.apply(this, arguments);
+
+        $('.qsLoading .qsSpin').hide();
+        $('.qsLoading .qsText').text('加载更多…');
 
         var containers$ = $('.qsLiItemContainer', this._dom$);
 
