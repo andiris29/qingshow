@@ -1,8 +1,9 @@
 // @formatter:off
 define([
     'ui/UIComponent',
-    'app/managers/TemplateManager'
-], function(UIComponent, TemplateManager) {
+    'app/managers/TemplateManager',
+    'app/services/FeedingService'
+], function(UIComponent, TemplateManager, FeedingService) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -10,21 +11,13 @@ define([
     var Menu = function(dom) {
         Menu.superclass.constructor.apply(this, arguments);
 
-        async.parallel([
-        function(callback) {
-            require(['app/views/show/S02TagRecommendation'], function(S02TagRecommendation) {
-                callback(null, S02TagRecommendation);
-            });
-        },
-        function(callback) {
-            TemplateManager.load('menu.html', callback);
-        }], function(err, results) {
-            var S02TagRecommendation = results[0];
-            var content$ = results[1];
+        TemplateManager.load('menu.html', function(err, content$) {
             this._dom$.append(content$);
 
             $('li').on('click', function() {
-                appRuntime.view.to(S02TagRecommendation);
+                appRuntime.view.to('app/views/show/S02Feeding', {
+                    'feeding' : FeedingService.choosen
+                });
                 appRuntime.popup.remove(this);
             }.bind(this));
         }.bind(this));

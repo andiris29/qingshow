@@ -9,8 +9,9 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var S02TagRecommendation = function(dom) {
-        S02TagRecommendation.superclass.constructor.apply(this, arguments);
+    var S02Feeding = function(dom, data) {
+        S02Feeding.superclass.constructor.apply(this, arguments);
+        this._feeding = data.feeding;
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), '分类 xxx');
         var body = new IScrollContainer($('<div/>').css({
@@ -18,10 +19,12 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var gallery = new ItemGallery($('<div/>'));
+        var gallery = new ItemGallery($('<div/>'), {
+            'feeding' : this._feeding
+        });
         body.append(gallery);
     };
-    andrea.oo.extend(S02TagRecommendation, ViewBase);
+    andrea.oo.extend(S02Feeding, ViewBase);
 
-    return S02TagRecommendation;
+    return S02Feeding;
 });

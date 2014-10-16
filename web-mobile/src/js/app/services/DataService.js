@@ -26,7 +26,7 @@ define([
 
         $.ajax(request).done(function(responseData) {
             console.log('api: ' + path, requestData, responseData);
-            callback(null, responseData);
+            callback(responseData.metadata, responseData.data);
         }).fail(function(target, msg, err) {
             callback(msg);
         }).always(function() {

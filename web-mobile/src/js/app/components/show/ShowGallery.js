@@ -2,8 +2,9 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
+    'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, RenderUtils) {
+], function(UIComponent, TemplateManager, CodeUtils, RenderUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -27,23 +28,25 @@ define([
             TemplateManager.load('show/show-gallery-li.html', function(err, content$) {
                 callback(null, content$);
             }.bind(this));
-        }.bind(this), function(callback) {
-            // Load data
-            this._feeding(1, 100, callback);
         }.bind(this)], function(err, results) {
             this._tpltLi$ = results[1];
-            this._render(results[2]);
+            // Load data
+            this._feeding(1, 100, this._render.bind(this));
         }.bind(this));
     };
 
     andrea.oo.extend(ShowGallery, UIComponent);
 
-    ShowGallery.prototype._render = function(response) {
+    ShowGallery.prototype.grow = function() {
+        this._feeding(2, 100, this._render.bind(this));
+    };
+
+    ShowGallery.prototype._render = function(metadata, data) {
         ShowGallery.superclass._render.apply(this, arguments);
 
         var containers$ = $('.qsLiItemContainer', this._dom$);
 
-        var shows = response.data.shows;
+        var shows = data.shows;
         shows.forEach( function(show, index) {
             var li$ = this._renderOne(this._tpltLi$.clone(), show);
             var targetContainer$;
@@ -60,8 +63,11 @@ define([
         $('.qsShowCover', li$).attr('src', RenderUtils.imagePathToURL(show.cover));
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', li$).text(show.modelRef.name);
-        // TODO
-        $('.qsRole', li$).text('设计师');
+        var roles = [];
+        show.modelRef.roles.forEach(function(role) {
+            roles.push(CodeUtils.getValue('people.role', role));
+        });
+        $('.qsRole', li$).text(roles.join(', '));
         $('.qsHeight', li$).text(show.modelRef.height + 'cm');
         $('.qsWeight', li$).text(show.modelRef.weight + 'kg');
         $('.qsStatus', li$).text(show.modelRef.modelInfo.status);

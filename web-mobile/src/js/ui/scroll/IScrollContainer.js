@@ -3,7 +3,11 @@ define([
     'ui/UIContainer'
 ], function(UIContainer) {
 // @formatter:on
-    var IScrollContainer = function(dom, data) {
+    /**
+     *
+     * @param {Object} dom
+     */
+    var IScrollContainer = function(dom) {
         IScrollContainer.superclass.constructor.apply(this, arguments);
 
         this._dom$.addClass('uiIScrollWrapper').css({
@@ -14,28 +18,32 @@ define([
             'position' : 'absolute'
         }).appendTo(this._dom$);
 
-        this._iscroll = null;
-
-        this._refreshIScroll();
+        this._iscroll = new IScroll(this.dom(), {
+            'mouseWheel' : true,
+            'click' : true
+        });
+        this._iscroll.on('scrollEnd', function() {
+            if (this._iscroll.y === this._iscroll.maxScrollY) {
+                this._children.forEach(function(child) {
+                    if (child.grow) {
+                        child.grow();
+                    };
+                });
+            }
+        }.bind(this));
     };
     andrea.oo.extend(IScrollContainer, UIContainer);
 
-    IScrollContainer.prototype._refreshIScroll = function(uiComponent) {
-        if (this._iscroll) {
-            this._iscroll.refresh();
-        } else {
-            this._iscroll = new IScroll(this.dom(), {
-                'mouseWheel' : true,
-                'click' : true
-            });
-        }
-    };
-
+    /**
+     *
+     * @param {Object} uiComponent
+     * uiComponent.grow will be invoke when scroll to bottom.
+     */
     IScrollContainer.prototype.append = function(uiComponent) {
         uiComponent.dom$().appendTo(this._scroller$);
 
-        uiComponent.on('resize', this._refreshIScroll.bind(this));
-        this._refreshIScroll();
+        uiComponent.on('resize', this._iscroll.refresh.bind(this._iscroll));
+        this._iscroll.refresh();
 
         this._children.push(uiComponent);
     };
