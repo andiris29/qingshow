@@ -4,8 +4,19 @@ var ServicesUtil = require('../servicesUtil');
 
 var _models, _comments, _terms;
 _models = function (req, res) {
-    //TODO
-    res.send('models');
+    param = req.body;
+    pageNo = param.pageNo || 1;
+    pageSize = param.pageSize || 10;
+
+    function buildQuery() {
+        return People.find({roles : 1});
+    }
+    function modelDataGenFunc(data) {
+        return {
+            peoples: data
+        };
+    }
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
 };
 _comments = function (req, res) {
     //TODO
@@ -13,7 +24,7 @@ _comments = function (req, res) {
 };
 
 _terms = function (req, res) {
-    //TODO
+    //TODO 暂时不做
     res.send('terms');
 };
 

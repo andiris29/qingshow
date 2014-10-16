@@ -39,7 +39,9 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
         numPages = parseInt((count + pageSize - 1) / pageSize);
         query = queryGenFunc();
         limitQuery(query, pageNo, pageSize);
-        additionFunc(query);
+        if (additionFunc) {
+            additionFunc(query);
+        }
         query.exec(function (err, shows) {
             if (!err) {
                 var retData = {
