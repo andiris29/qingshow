@@ -1,12 +1,15 @@
 var People = require('../../model/peoples');
 var ServicesUtil = require('../servicesUtil');
-
+var Comment = require('../../model/comments');
+var Show = require('../../model/shows');
+var ServerError = require('../server-error');
+var mongoose = require('mongoose');
 
 var _models, _comments, _terms;
 _models = function (req, res) {
-    param = req.body;
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    var param = req.body;
+    var pageNo = param.pageNo || 1;
+    var pageSize = param.pageSize || 10;
 
     function buildQuery() {
         return People.find({roles : 1});
@@ -19,8 +22,37 @@ _models = function (req, res) {
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
 };
 _comments = function (req, res) {
-    //TODO
-    res.send('comments');
+    try {
+        var param = req.body;
+        var pageNo = param.pageNo || 1;
+        var pageSize = param.pageSize || 10;
+        var showIdStr = param.showId;
+        var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
+        return;
+    }
+    Show.findOne({_id : showIdObj}, function (err, show) {
+        function buildQuery() {
+            return Comment.find({showRef : showIdObj});
+        }
+        function additionFunc(query) {
+            query.sort({time: 1})
+                .populate('peopleRef');
+        }
+        function commentDataGenFunc(data) {
+            return {
+                comments: data
+            };
+        }
+        if (err) {
+            ServicesUtil.responseError(res, err);
+        } else if (!show) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
+        } else {
+            ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, commentDataGenFunc, pageNo, pageSize);
+        }
+    });
 };
 
 _terms = function (req, res) {

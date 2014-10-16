@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 function responseError(res, err) {
-    if (!err.code) {
+    if (!err.errorCode) {
         err.errorCode = 1000;
     }
     res.json({
