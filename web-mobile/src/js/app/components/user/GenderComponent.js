@@ -12,7 +12,7 @@ define([
         GenderComponent.superclass.constructor.apply(this, arguments);
 
         console.log(this._data);
-        async.parallel([function(callback) {
+        async.parallel([ function(callback) {
             // load template
             TemplateManager.load('user/gender.html', true, function(err, content$) {
                 this._dom$.append(content$);
@@ -27,16 +27,14 @@ define([
     andrea.oo.extend(GenderComponent, UIComponent);
 
     GenderComponent.prototype._render = function() {
-        var gender = CodeUtils.getCodes('people.gender');
-
         var view$ = $('.qsTpltGenderMain', this._dom$);
         var contain$ = $('.qsListInfoSection', view$);
         var tplt$ = $('.qsHidden', view$);
 
-        gender.forEach(function(hair, index) {
+        [0, 1].forEach(function(code, index) {
             var li$ = $(".qsRow", tplt$).clone();
-            $('.qsTitle', li$).text(hair);
-            $('div:last', li$).attr('id', 'gender-'+index);
+            $('.qsTitle', li$).text(CodeUtils.getValue('people.gender', code));
+            $('div:last', li$).attr('id', 'gender-' + code);
             li$.bind('click', function() {
                 if ($('.qsDisable', this).length > 0) {
                     $('div:last', this).removeClass('fa-check-circle-o2 qsDisable');

@@ -1,16 +1,17 @@
 // @formatter:off
 define([
     'ui/scroll/IScrollContainer',
+    'app/services/FeedingService',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
     'app/components/show/ShowGallery',
-], function(IScrollContainer, ViewBase, CommonHeader, ItemGallery) {
+], function(IScrollContainer, FeedingService, ViewBase, CommonHeader, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
-    var S01Recommendation = function(dom) {
-        S01Recommendation.superclass.constructor.apply(this, arguments);
+    var S01Home = function(dom) {
+        S01Home.superclass.constructor.apply(this, arguments);
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
             'left' : CommonHeader.BUTTON_MENU
@@ -20,10 +21,12 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var gallery = new ItemGallery($('<div/>'));
+        var gallery = new ShowGallery($('<div/>'), {
+            'feeding' : FeedingService.choosen
+        });
         body.append(gallery);
     };
-    andrea.oo.extend(S01Recommendation, ViewBase);
+    andrea.oo.extend(S01Home, ViewBase);
 
-    return S01Recommendation;
+    return S01Home;
 });

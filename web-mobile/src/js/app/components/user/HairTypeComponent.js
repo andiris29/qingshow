@@ -12,7 +12,7 @@ define([
         HairTypeComponent.superclass.constructor.apply(this, arguments);
 
         console.log(this._data);
-        async.parallel([function(callback) {
+        async.parallel([ function(callback) {
             // load template
             TemplateManager.load('user/hair-type.html', true, function(err, content$) {
                 this._dom$.append(content$);
@@ -27,16 +27,14 @@ define([
     andrea.oo.extend(HairTypeComponent, UIComponent);
 
     HairTypeComponent.prototype._render = function() {
-        var hairType = CodeUtils.getCodes('people.hairType');
-
         var view$ = $('.qsTpltHairTypeMain', this._dom$);
         var contain$ = $('.qsListInfoSection', view$);
         var tplt$ = $('.qsHidden', view$);
 
-        hairType.forEach(function(hair, index) {
+        [0, 3, 1, 2].forEach(function(code, index) {
             var li$ = $(".qsRow", tplt$).clone();
-            $('.qsTitle', li$).text(hair);
-            $('div:last', li$).attr('id', 'hairType-'+index);
+            $('.qsTitle', li$).text(CodeUtils.getValue('people.hairType', code));
+            $('div:last', li$).attr('id', 'hairType-' + code);
             li$.bind('click', function() {
                 if ($('.qsDisable', this).length > 0) {
                     $('div:last', this).removeClass('fa-check-circle-o2 qsDisable');

@@ -12,7 +12,7 @@ define([
      */
     var S03Show = function(dom, data) {
         S03Show.superclass.constructor.apply(this, arguments);
-        this._show = data;
+        this._show = data.show;
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), this._show.name);
         var body = new IScrollContainer($('<div/>').css({

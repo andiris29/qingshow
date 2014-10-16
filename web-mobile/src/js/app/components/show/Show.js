@@ -71,10 +71,10 @@ define([
         });
         videoPostersContainer$.on('click', vjs.play.bind(vjs));
         // Model
-        $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.producerRef.portrait));
-        $('.qsName', this._dom$).text(show.producerRef.name);
-        $('.qsAge', this._dom$).text(RenderUtils.timeToAge(show.producerRef.birthtime) + '岁');
-        $('.qsStatus', this._dom$).text(show.producerRef.modelInfo.status);
+        $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
+        $('.qsName', this._dom$).text(show.modelRef.name);
+        $('.qsAge', this._dom$).text(RenderUtils.timeToAge(show.modelRef.birthtime) + '岁');
+        $('.qsStatus', this._dom$).text(show.modelRef.modelInfo.status);
         $('.qsNumFollowers', this._dom$).text(show.numLike);
 
         // Items

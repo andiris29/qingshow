@@ -2,21 +2,16 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
-    'app/services/DataService',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, RenderUtils) {
+], function(UIComponent, TemplateManager, RenderUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
-    var S03Show, P02Producer;
-    var ShowGallery = function(dom) {
+    var ShowGallery = function(dom, data) {
         ShowGallery.superclass.constructor.apply(this, arguments);
-        require(['app/views/show/S03Show', 'app/views/producer/P02Producer'], function(rItem, rPeople) {
-            S03Show = rItem;
-            P02Producer = rPeople;
-        });
 
+        this._feeding = data.feeding;
         this._tpltLi$ = null;
 
         async.parallel([ function(callback) {
@@ -34,10 +29,7 @@ define([
             }.bind(this));
         }.bind(this), function(callback) {
             // Load data
-            DataService.request('/feeding/byRecommendation', {
-                'pageNo' : 1,
-                'pageSize' : 100
-            }, callback);
+            this._feeding(1, 100, callback);
         }.bind(this)], function(err, results) {
             this._tpltLi$ = results[1];
             this._render(results[2]);
@@ -66,21 +58,24 @@ define([
 
     ShowGallery.prototype._renderOne = function(li$, show) {
         $('.qsShowCover', li$).attr('src', RenderUtils.imagePathToURL(show.cover));
-        $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.producerRef.portrait));
-        $('.qsName', li$).text(show.producerRef.name);
-        // $('.qsAge', li$).text(RenderUtils.timeToAge(show.producerRef.birthtime) + '岁');
+        $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
+        $('.qsName', li$).text(show.modelRef.name);
         // TODO
         $('.qsRole', li$).text('设计师');
-        $('.qsHeight', li$).text(show.producerRef.height + 'cm');
-        $('.qsWeight', li$).text(show.producerRef.weight + 'kg');
-        $('.qsStatus', li$).text(show.producerRef.modelInfo.status);
+        $('.qsHeight', li$).text(show.modelRef.height + 'cm');
+        $('.qsWeight', li$).text(show.modelRef.weight + 'kg');
+        $('.qsStatus', li$).text(show.modelRef.modelInfo.status);
         $('.qsNumFollowers', li$).text(show.numLike);
 
         $('.qsShowCover, .qsStatus', li$).on('click', function() {
-            appRuntime.view.to(S03Show, show);
+            appRuntime.view.to('app/views/show/S03Show', {
+                'show' : show
+            });
         }.bind(this));
         $('.qsModel', li$).on('click', function() {
-            appRuntime.view.to(P02Producer, show.producerRef);
+            appRuntime.view.to('app/views/producer/P02Model', {
+                'model' : show.modelRef
+            });
         }.bind(this));
         return li$;
     };
