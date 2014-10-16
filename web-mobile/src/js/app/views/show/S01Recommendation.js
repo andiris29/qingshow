@@ -2,9 +2,9 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/header/MainHeader',
+    'app/components/header/CommonHeader',
     'app/components/show/ShowGallery',
-], function(IScrollContainer, ViewBase, MainHeader, ItemGallery) {
+], function(IScrollContainer, ViewBase, CommonHeader, ItemGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -12,7 +12,9 @@ define([
     var S01Recommendation = function(dom) {
         S01Recommendation.superclass.constructor.apply(this, arguments);
 
-        var header = new MainHeader($('<div/>').appendTo(this._dom$));
+        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+            'left' : CommonHeader.BUTTON_MENU
+        });
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height
