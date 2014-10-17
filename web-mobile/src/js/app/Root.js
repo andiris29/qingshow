@@ -26,7 +26,7 @@ define([
         $.fn.offset = function() {
             var result = offset.apply(this, arguments);
             result = {
-                'left' : result.left,
+                'left' : result.left / scale,
                 'top' : result.top / scale
             };
             return result;
@@ -82,8 +82,8 @@ define([
         var rootRectangle = Rectangle.parseDOM(this._dom$);
         var elementRectangle = Rectangle.parseDOM(element$);
 
-        var left = Math.round((elementRectangle.left() - rootRectangle.left()) / this._scale);
-        var top = Math.round((elementRectangle.top() - rootRectangle.top()) / this._scale);
+        var left = Math.round(elementRectangle.left() - rootRectangle.left());
+        var top = Math.round(elementRectangle.top() - rootRectangle.top());
         DockToRectangle.dock(popup, new Rectangle(left, top, elementRectangle.width(), elementRectangle.height()), align, direction, gap);
     };
 

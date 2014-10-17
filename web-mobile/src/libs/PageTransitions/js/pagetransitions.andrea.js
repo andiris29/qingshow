@@ -297,19 +297,19 @@
                 inClass = 'pt-page-rotateSlideIn';
                 break;
             case 101:
-                outClass = 'pt-page-moveToLeft-1-3';
+                outClass = 'pt-page-andrea-moveToLeft-1-3';
                 inClass = 'pt-page-moveFromRight';
                 break;
             case 102:
                 outClass = 'pt-page-moveToRight';
-                inClass = 'pt-page-moveFromLeft-1-3';
+                inClass = 'pt-page-andrea-moveFromLeft-1-3';
                 break;
             case 103:
                 outClass = '';
-                inClass = 'pt-page-scaleUp-fast';
+                inClass = 'pt-page-andrea-popUp';
                 break;
             case 104:
-                outClass = 'pt-page-scaleDown-fast';
+                outClass = 'pt-page-andrea-popDown';
                 inClass = '';
                 break;
         }

@@ -68,6 +68,7 @@
         <!-- ${dir.output}/libs/libs-aio.css -->
         <concat destfile="${dir.output}/libs/libs-aio.css" force="yes" encoding="UTF-8" outputencoding="UTF-8">
             <fileset file="${dir.src}/libs/PageTransitions/css/animations.css" />
+            <fileset file="${dir.src}/libs/PageTransitions/css/animations.andrea.css" />
         </concat>
         <!-- ${dir.output}/libs/font-awesome-4.2.0 -->
         <copy tofile="${dir.output}/libs/font-awesome-4.2.0/css/font-awesome.css" 
