@@ -40,10 +40,10 @@
         margin-left: 12px;
         margin-right: 2px;
     }
-    .qsTpltShowGallery .qsRefreshInfo .qsRefreshTime {
+    .qsTpltShowGallery .qsRefreshInfo .qsTime {
         font-size: 24px;
     }
-    .qsTpltShowGallery .qsRefreshInfo .qsClock, .qsTpltShowGallery .qsRefreshInfo .qsRefreshTime {
+    .qsTpltShowGallery .qsRefreshInfo .qsTime > div {
         float: left;
         line-height: 60px;
     }
@@ -72,15 +72,20 @@
         <div class="qsContainer">
             <div class="qsLeftContainer">
                 <div class="qsRefreshInfo">
-                    <div class="qsClock qsHighlight fa fa-clock-o"></div>
-                    <div class="qsRefreshTime qsHighlight unfakeText">
-                        15:00 更新
+                    <div class="qsTime qsHighlight">
+                        <div class="qsClock qsHighlight fa fa-clock-o"></div>
+                        <div class="qsHM" style="margin-left: 2px; width: 60px;">
+                            00:00
+                        </div>
+                        <div style="margin-left: 8px">
+                            更新
+                        </div>
                     </div>
                     <div class="qsNow">
-                        <div class="unfakeText">
+                        <div class="qsDate fakeText">
                             2014/09/26
                         </div>
-                        <div class="unfakeText">
+                        <div class="qsDay fakeText">
                             星期三
                         </div>
                     </div>

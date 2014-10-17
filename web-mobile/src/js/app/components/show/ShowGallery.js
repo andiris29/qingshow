@@ -13,6 +13,8 @@ define([
         ShowGallery.superclass.constructor.apply(this, arguments);
 
         this._feeding = data.feeding;
+        this._pageNo = 1;
+        this._numPages = Number.POSITIVE_INFINITY;
         this._tpltLi$ = null;
 
         async.parallel([ function(callback) {
@@ -31,7 +33,7 @@ define([
         }.bind(this)], function(err, results) {
             this._tpltLi$ = results[1];
             // Load data
-            this._feeding(1, 100, this._render.bind(this));
+            this._feeding(this._pageNo, this._render.bind(this));
         }.bind(this));
     };
 
@@ -41,28 +43,42 @@ define([
         $('.qsLoading .qsSpin').fadeIn();
         $('.qsLoading .qsText').text('努力加载中…');
 
-        this._feeding(2, 100, this._render.bind(this));
+        this._pageNo++;
+        this._feeding(this._pageNo, this._render.bind(this));
     };
 
     ShowGallery.prototype._render = function(metadata, data) {
         ShowGallery.superclass._render.apply(this, arguments);
 
         $('.qsLoading .qsSpin').hide();
-        $('.qsLoading .qsText').text('加载更多…');
-
-        var containers$ = $('.qsLiItemContainer', this._dom$);
-
-        var shows = data.shows;
-        shows.forEach( function(show, index) {
-            var li$ = this._renderOne(this._tpltLi$.clone(), show);
-            var targetContainer$;
-            containers$.each(function(index, container) {
-                if (!targetContainer$ || targetContainer$.children().length > $(container).children().length) {
-                    targetContainer$ = $(container);
-                }
-            });
-            li$.appendTo(targetContainer$);
-        }.bind(this));
+        if (metadata.error) {
+            $('.qsLoading .qsText').text('都看完了哦。');
+        } else {
+            $('.qsLoading .qsText').text('加载更多…');
+            // Refresh time
+            if (metadata.refreshTime) {
+                $('.qsRefreshInfo', this._dom$).show();
+                var rm = moment(metadata.refreshTime);
+                $('.qsHM', this._dom$).text(rm.format('HH:mm'));
+                $('.qsDate', this._dom$).text(rm.format('YYYY/MM/DD'));
+                $('.qsDay', this._dom$).text(rm.format('dddd'));
+            } else {
+                $('.qsRefreshInfo', this._dom$).hide();
+            }
+            // Shows
+            var containers$ = $('.qsLiItemContainer', this._dom$);
+            var shows = data.shows;
+            shows.forEach( function(show, index) {
+                var li$ = this._renderOne(this._tpltLi$.clone(), show);
+                var targetContainer$;
+                containers$.each(function(index, container) {
+                    if (!targetContainer$ || targetContainer$.children().length > $(container).children().length) {
+                        targetContainer$ = $(container);
+                    }
+                });
+                li$.appendTo(targetContainer$);
+            }.bind(this));
+        }
     };
 
     ShowGallery.prototype._renderOne = function(li$, show) {

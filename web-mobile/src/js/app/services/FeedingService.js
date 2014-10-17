@@ -8,10 +8,11 @@ define([
      */
     var FeedingService = {};
 
-    FeedingService.choosen = function(pageNo, pageSize, callback) {
+    var _pageSize = 10;
+    FeedingService.choosen = function(pageNo, callback) {
         DataService.request('/feeding/choosen', {
             'pageNo' : pageNo,
-            'pageSize' : pageSize
+            'pageSize' : _pageSize
         }, callback);
     };
 

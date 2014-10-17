@@ -3,8 +3,9 @@ define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
     'app/services/DataService',
+    'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, RenderUtils) {
+], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -87,6 +88,9 @@ define([
                 slickItem$ = slickItemTplt$.clone().appendTo(itemCoversContainer$);
             }
             $('.qsItemCover', slickItem$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
+            $('.qsItemCover', slickItem$).on('click', function() {
+                console.log(item.name);
+            });
         });
         itemCoversContainer$.slick({
             'dots' : true,
@@ -105,7 +109,7 @@ define([
                 category$ = categoryTplt$.clone().appendTo(itemDescriptionContainer$);
                 name$ = nameTplt$.clone().appendTo(itemDescriptionContainer$);
             }
-            category$.text(item.category);
+            category$.text(CodeUtils.getValue('item.category', item.category));
             name$.text(item.name);
         });
     };
