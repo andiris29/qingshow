@@ -55,7 +55,8 @@ _update = function (req, res) {
             var retData = {
                 metadata: {
                     //TODO change invilidateTime
-                    "invalidateTime": 3600000
+                    "invalidateTime": 3600000,
+                    "result" : 0
                 },
                 data: people
             };
@@ -66,8 +67,49 @@ _update = function (req, res) {
     });
 };
 
+_updateEmail = function (req, res) {
+    try {
+        var param;
+        param = req.body;
+        var people = req.currentUser;
+        var email = param.new_email;
+        //TODO validate email address
+    } catch (e) {
+        ServicesUtil.responseError(res, new Error());
+        return;
+    }
+    People.findOne({_id : people._id})
+        .select('userInfo')
+        .exec(function (err, peopleUserInfo) {
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!people) {
+                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                return;
+            }
+            peopleUserInfo.userInfo.email = email;
+            peopleUserInfo.save(function (err, p) {
+                if (err) {
+                    ServicesUtil.responseError(res, err);
+                    return;
+                } else {
+                    var retData = {
+                        metadata: {
+                            "invalidateTime": 3600000,
+                            "result" : 0
+                        },
+                        data: people
+                    };
+                    res.json(retData);
+                    return;
+                }
+            });
+        });
+}
 
 module.exports = {
     'login' : {method: 'post', func: _login},
-    'update' : {method: 'post', func: _update, needLogin: true}
+    'update' : {method: 'post', func: _update, needLogin: true},
+    'updateEmail' : {method: 'post', func: _updateEmail, needLogin: true}
 };

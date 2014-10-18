@@ -110,7 +110,6 @@ _choosen = function (req, res){
                 ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
                 return;
             } else {
-                //TODO populate
                 var chosen = chosens[0];
 //                chosen.showRefs.populdate('modelRef');
                 Show.populate(chosen.showRefs, 'modelRef itemRefs', function(err, shows){
