@@ -43,7 +43,6 @@ input[type=text], textarea {
 .qsPopup {
 }
 .qsButton {
-    cursor: pointer;
     background-color: #e6e6e6;
     width: 80px;
     height: 36px;
@@ -64,7 +63,6 @@ input[type=text], textarea {
 }
 
 .qsIconButton {
-    cursor: pointer;
     color: #565656;
 }
 
