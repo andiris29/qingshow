@@ -6,3 +6,5 @@ brandSchema = Schema({
     logo: String,
     slogan : String
 });
+var Brand = mongoose.model('brands', brandSchema);
+module.exports = Brand;

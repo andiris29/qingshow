@@ -176,9 +176,6 @@ _byTag = function (req, res){
 
 //byBrand|_id string
 _byBrand = function (req, res){
-    //TODO
-    return _byTag(req, res);
-
     var param, brandIdStr, brandIdObj, pageNo, pageSize;
     try {
         param = req.body;
@@ -190,15 +187,6 @@ _byBrand = function (req, res){
         ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
     }
     Brand.findOne({_id: brandIdObj}, function (err, brand){
-
-//        function buildQuery() {
-//            var query = Show.find({});
-//            if (tags.length) {
-//                query.where({tags: {$in: tags}});
-//            }
-//            return query;
-//        }
-
         if (err) {
             ServicesUtil.responseError(res, err);
             return;
@@ -212,20 +200,20 @@ _byBrand = function (req, res){
                     ServicesUtil.responseError(res, err);
                     return;
                 } else if (!items || !items.length) {
-                    ServicesUtil.responseError(res, ServerError(ServerError.ShowNotExist));
+                    ServicesUtil.responseError(res, ServerError(res, ServerError.ShowNotExist));
                     return;
                 } else {
                     var itemsIdArray = [];
                     items.forEach(function (item){
                         itemsIdArray.push(item._id);
                     });
-
-//TODO
-
-
+                    function buildQuery(){
+                        var query = Show.find({itemRefs : {$in : itemsIdArray}});
+                        return query;
+                    }
+                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize);
                 }
             });
-
         }
     });
 
