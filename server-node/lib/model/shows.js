@@ -18,8 +18,8 @@ showSchema = Schema({
     itemRefs: {
         type: [
             {type: Schema.Types.ObjectId, ref: 'items'}
-        ],
-        select: false
+        ]
+//        select: false
     }
 });
 

@@ -1,7 +1,10 @@
+//model
 var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
 var Item = require('../../model/items');
 var People = require('../../model/peoples');
+var Chosen = require('../../model/chosens');
+//util
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var mongoose = require('mongoose');
@@ -79,10 +82,48 @@ _like = function (req, res){
     }
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 }
+
 //feeding/choosen
-//TODO
 _choosen = function (req, res){
-    return _like(req, res);
+    var param, pageNo, pageSize;
+    param = req.body;
+    pageNo = param.pageNo || 1;
+    pageSize = param.pageSize || 10;
+
+    Chosen.find()
+        .where('dateStart').lte(Date.now())
+        .sort({dateStart : 1})
+        .limit(1)
+        .populate({
+            path: 'showRefs',
+            options: {
+                skip: (pageNo - 1) * pageSize,
+                limit: pageSize
+            },
+            populdate: 'modelRef'
+        })
+        .exec(function (err, chosens) {
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!chosens || !chosens.length) {
+                ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
+                return;
+            } else {
+                //TODO populate
+                var chosen = chosens[0];
+//                chosen.showRefs.populdate('modelRef');
+                Show.populate(chosen.showRefs, 'modelRef itemRefs', function(err, shows){
+                    if (err) {
+                        ServicesUtil.responseError(res, err);
+                        return;
+                    } else {
+                        res.json(shows);
+                        return;
+                    }
+                });
+            }
+        });
 };
 
 //feeding/byXXX
@@ -149,15 +190,15 @@ _byBrand = function (req, res){
         ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
     }
     Brand.findOne({_id: brandIdObj}, function (err, brand){
-        /*
-        function buildQuery() {
-            var query = Show.find({});
-            if (tags.length) {
-                query.where({tags: {$in: tags}});
-            }
-            return query;
-        }
-        */
+
+//        function buildQuery() {
+//            var query = Show.find({});
+//            if (tags.length) {
+//                query.where({tags: {$in: tags}});
+//            }
+//            return query;
+//        }
+
         if (err) {
             ServicesUtil.responseError(res, err);
             return;
