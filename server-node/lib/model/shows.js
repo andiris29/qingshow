@@ -23,8 +23,8 @@ showSchema = Schema({
     }
 });
 
-showSchema.methods.toResponseJSON = function () {
-
-};
+//showSchema.methods.toJSON = function () {
+//    return "";
+//};
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;

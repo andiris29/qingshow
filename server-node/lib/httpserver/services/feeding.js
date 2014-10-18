@@ -1,5 +1,10 @@
 var Show = require('../../model/shows');
-var ServiceUtil = require('../servicesUtil');
+var Brand = require('../../model/brands');
+var Item = require('../../model/items');
+var People = require('../../model/peoples');
+var ServicesUtil = require('../servicesUtil');
+var ServerError = require('../server-error');
+var mongoose = require('mongoose');
 
 var _recommendation, _hot, _like, _choosen;
 var _byModel, _byTag, _byBrand, _byFollow;
@@ -38,7 +43,7 @@ _recommendation = function (req, res) {
         _showPopulate(query);
         return query;
     }
-    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 };
 
 //feeding/hot  sortedByNumView
@@ -55,7 +60,7 @@ _hot = function (req, res) {
         _showPopulate(query);
         return query;
     }
-    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 }
 
 //feeding/like sortedByNumLike
@@ -72,7 +77,7 @@ _like = function (req, res){
         _showPopulate(query);
         return query;
     }
-    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 }
 //feeding/choosen
 //TODO
@@ -86,7 +91,7 @@ _byModel = function (req, res) {
     var param, producerIDs, pageNo, pageSize;
     param = req.body;
     producerIDs = param.producerIDs || [];
-    producerIDs = ServiceUtil.stringArrayToObjectIdArray(producerIDs);
+    producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
     pageNo = param.pageNo || 1;
     pageSize = param.pageSize || 10;
     function buildQuery() {
@@ -101,7 +106,7 @@ _byModel = function (req, res) {
         _showPopulate(query);
         return query;
     }
-    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 //    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
 };
 
@@ -125,19 +130,110 @@ _byTag = function (req, res){
         _showPopulate(query);
         return query;
     }
-    ServiceUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
 };
 
-//byBrand|brand string
-//TODO
+//byBrand|_id string
 _byBrand = function (req, res){
+    //TODO
     return _byTag(req, res);
+
+    var param, brandIdStr, brandIdObj, pageNo, pageSize;
+    try {
+        param = req.body;
+        brandIdStr = param._id || [];
+        brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
+        pageNo = param.pageNo || 1;
+        pageSize = param.pageSize || 10;
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
+    }
+    Brand.findOne({_id: brandIdObj}, function (err, brand){
+        /*
+        function buildQuery() {
+            var query = Show.find({});
+            if (tags.length) {
+                query.where({tags: {$in: tags}});
+            }
+            return query;
+        }
+        */
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        } else if (!brand) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
+            return;
+        } else {
+            //find items
+            Item.find({brandRef: brandIdObj}, function (err, items){
+                if (err) {
+                    ServicesUtil.responseError(res, err);
+                    return;
+                } else if (!items || !items.length) {
+                    ServicesUtil.responseError(res, ServerError(ServerError.ShowNotExist));
+                    return;
+                } else {
+                    var itemsIdArray = [];
+                    items.forEach(function (item){
+                        itemsIdArray.push(item._id);
+                    });
+
+//TODO
+
+
+                }
+            });
+
+        }
+    });
+
 };
 
 //byFollow|_id string of ObjectId
-//TODO
 _byFollow = function (req, res){
-    return _byTag(req, res);
+    var param, peopleIdStr, peopleIdObj, pageNo, pageSize;
+    try {
+        param = req.body;
+        peopleIdStr = param._id || [];
+        peopleIdObj = mongoose.mongo.BSONPure.ObjectID(peopleIdStr);
+        pageNo = param.pageNo || 1;
+        pageSize = param.pageSize || 10;
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+        return;
+    }
+
+    People.findOne({_id : peopleIdObj})
+        .select('followRefs')
+        .exec(function (err, people) {
+            function buildQuery(){
+                var query = Show.find();
+                var followsIdArray;
+                if (!people.followRefs || !people.followRefs.length) {
+                    followsIdArray = [];
+                } else {
+                    followsIdArray = people.followRefs;
+                }
+                query.where({modelRef: {$in: followsIdArray}});
+                return query;
+            };
+            function additionFunc(query) {
+//                    query.sort({numLike: 1});
+                _showPopulate(query);
+                return query;
+            }
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!people) {
+                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                return;
+            } else {
+                ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+            }
+    });
+//    return _byTag(req, res);
 };
 
 module.exports = {

@@ -73,9 +73,13 @@ _follow = function (req, res) {
 };
 
 _like = function (req, res) {
-    var param = req.body;
-    var showIdStr = param.showId;
-    var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
+    try {
+        var param = req.body;
+        var showIdStr = param.showId;
+        var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
+    }
     Show.findOne({_id: showIdObj}, function (err, show) {
         try {
             if (err) {
