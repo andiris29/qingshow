@@ -14,7 +14,7 @@ define([
         TemplateManager.load('menu.html', function(err, content$) {
             this._dom$.append(content$);
 
-            $('li').on('click', function() {
+            $('li').on(appRuntime.events.click, function() {
                 appRuntime.view.to('app/views/show/S02Feeding', {
                     'feeding' : FeedingService.choosen
                 });

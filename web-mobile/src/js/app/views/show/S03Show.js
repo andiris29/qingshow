@@ -3,9 +3,8 @@ define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/show/Show',
-    'app/components/show/ShowGallery'
-], function(IScrollContainer, ViewBase, CommonHeader, Show, ShowGallery) {
+    'app/components/show/Show'
+], function(IScrollContainer, ViewBase, CommonHeader, Show) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen

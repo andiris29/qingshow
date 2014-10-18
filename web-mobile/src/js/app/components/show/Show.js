@@ -70,7 +70,7 @@ define([
         vjs.on('pause', function() {
             play$.show();
         });
-        videoPostersContainer$.on('click', vjs.play.bind(vjs));
+        videoPostersContainer$.on(appRuntime.events.click, vjs.play.bind(vjs));
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', this._dom$).text(show.modelRef.name);
@@ -88,8 +88,10 @@ define([
                 slickItem$ = slickItemTplt$.clone().appendTo(itemCoversContainer$);
             }
             $('.qsItemCover', slickItem$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
-            $('.qsItemCover', slickItem$).on('click', function() {
-                console.log(item.name);
+            $('.qsItemCover', slickItem$).on(appRuntime.events.click, function() {
+                appRuntime.popup.create('app/components/show/Item', {
+                    'data' : item
+                });
             });
         });
         itemCoversContainer$.slick({

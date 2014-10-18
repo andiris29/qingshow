@@ -35,35 +35,55 @@ define([
         this._viewContainer = new ViewContainer($('<div/>').appendTo(this._dom$));
         // Popup
         appRuntime.popup.create = $.proxy(this.createPopup, this), appRuntime.popup.remove = $.proxy(this.removePopup, this);
-        appRuntime.popup.dock = $.proxy(this.dockPopup, this);
+        appRuntime.popup.dock = $.proxy(this.dockPopup, this), appRuntime.popup.center = $.proxy(this.centerPopup, this);
         this._popups = [];
     };
 
     andrea.oo.extend(Root, UIComponent);
 
-    Root.prototype.createPopup = function(clazz, closeClickOutside) {
-        var popup = new clazz($('<div/>').addClass('qsPopup').appendTo(this._dom$));
-        this._popups.push(popup);
+    /**
+     *
+     * @param {Object} clazz
+     * @param {Object} options
+     *      data
+     *      closeClickOutside
+     * @param {Object} callback
+     */
+    Root.prototype.createPopup = function(clazz, options, callback) {
+        if (_.isString(clazz)) {
+            var args = Array.prototype.slice.call(arguments, 0);
+            require([clazz], function(clazz) {
+                args[0] = clazz;
+                appRuntime.popup.create.apply(this, args);
+            }.bind(this));
+        } else {
+            options = options || {};
 
-        // Close when click outside
-        if (closeClickOutside) {
-            var html$ = $('html');
-            var remove = function() {
-                html$.off(appRuntime.events.click);
-                appRuntime.popup.remove(popup);
-            };
-            _.defer(function() {
-                html$.on(appRuntime.events.click, remove);
-            });
+            var popup = new clazz($('<div/>').addClass('qsPopup').appendTo(this._dom$), options.data);
+            this._popups.push(popup);
 
-            popup.dom$().on(appRuntime.events.click, function(event) {
-                event.stopPropagation();
-            });
+            // Close when click outside
+            if (options.closeClickOutside) {
+                var html$ = $('html');
+                var remove = function() {
+                    html$.off(appRuntime.events.click);
+                    appRuntime.popup.remove(popup);
+                };
+                _.defer(function() {
+                    html$.on(appRuntime.events.click, remove);
+                });
+
+                popup.dom$().on(appRuntime.events.click, function(event) {
+                    event.stopPropagation();
+                });
+            }
+            // Animation
+            new PageTransitions(null, popup.dom$()).nextPage(PageTransitions.animations.createPopup);
+
+            if (callback) {
+                callback(popup);
+            }
         }
-        // Animation
-        new PageTransitions(null, popup.dom$()).nextPage(PageTransitions.animations.createPopup);
-
-        return popup;
     };
 
     Root.prototype.removePopup = function(popup, callback) {
@@ -87,5 +107,13 @@ define([
         DockToRectangle.dock(popup, new Rectangle(left, top, elementRectangle.width(), elementRectangle.height()), align, direction, gap);
     };
 
+    Root.prototype.centerPopup = function(popup) {
+        var rootRectangle = Rectangle.parseDOM(this._dom$);
+        var popupRectangle = Rectangle.parseDOM(popup.dom$());
+
+        var left = Math.round((rootRectangle.width() - popupRectangle.width()) / 2);
+        var top = Math.round((rootRectangle.height() - popupRectangle.height()) / 2);
+        DockToRectangle.dock(popup, new Rectangle(left, top, 0, 0), 'lb', 'down', 0);
+    };
     return Root;
 });

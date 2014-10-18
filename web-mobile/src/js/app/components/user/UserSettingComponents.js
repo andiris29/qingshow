@@ -58,19 +58,19 @@ define([
         $('#height', view$).attr('value', people.height);
         $('#weight', view$).attr('value', people.weight);
 
-        $('.qsGender', view$).on('click', function() {
+        $('.qsGender', view$).on(appRuntime.events.click, function() {
             appRuntime.view.to(U09Gender);
         }.bind(this));
 
-        $('.qsHairType', view$).on('click', function() {
+        $('.qsHairType', view$).on(appRuntime.events.click, function() {
             appRuntime.view.to(U05HairType);
         }.bind(this));
 
-        $('.qsPasswd', view$).on('click', function() {
+        $('.qsPasswd', view$).on(appRuntime.events.click, function() {
             appRuntime.view.to(U08Passwd);
         }.bind(this));
 
-        $('.qsEmail', view$).on('click', function() {
+        $('.qsEmail', view$).on(appRuntime.events.click, function() {
             appRuntime.view.to(U04Email);
         }.bind(this));
     };
