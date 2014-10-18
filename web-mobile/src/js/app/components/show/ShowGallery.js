@@ -95,12 +95,12 @@ define([
         $('.qsStatus', li$).text(show.modelRef.modelInfo.status);
         $('.qsNumFollowers', li$).text(show.numLike);
 
-        $('.qsShowCover, .qsStatus', li$).on('click', function() {
+        $('.qsShowCover, .qsStatus', li$).on(appRuntime.events.click, function() {
             appRuntime.view.to('app/views/show/S03Show', {
                 'show' : show
             });
         }.bind(this));
-        $('.qsModel', li$).on('click', function() {
+        $('.qsModel', li$).on(appRuntime.events.click, function() {
             appRuntime.view.to('app/views/producer/P02Model', {
                 'model' : show.modelRef
             });

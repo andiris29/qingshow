@@ -1,4 +1,3 @@
-
 .pt-page-andrea-moveToLeft-1-3 {
     -webkit-animation: moveToLeft-1-3 .3s ease both;
     -moz-animation: moveToLeft-1-3 .3s ease both;
@@ -59,4 +58,36 @@
 }
 @keyframes popDown {
     to { opacity: 0; transform: scale(0); }
+}
+
+.pt-page-moveToRight {
+    -webkit-animation: moveToRight .3s ease both;
+    -moz-animation: moveToRight .3s ease both;
+    animation: moveToRight .3s ease both;
+}
+
+@-webkit-keyframes moveToRight { 
+    to { -webkit-transform: translateX(100%); }
+}
+@-moz-keyframes moveToRight { 
+    to { -moz-transform: translateX(100%); }
+}
+@keyframes moveToRight { 
+    to { transform: translateX(100%); }
+}
+
+.pt-page-moveFromRight {
+    -webkit-animation: moveFromRight .3s ease both;
+    -moz-animation: moveFromRight .3s ease both;
+    animation: moveFromRight .3s ease both;
+}
+
+@-webkit-keyframes moveFromRight {
+    from { -webkit-transform: translateX(100%); }
+}
+@-moz-keyframes moveFromRight {
+    from { -moz-transform: translateX(100%); }
+}
+@keyframes moveFromRight {
+    from { transform: translateX(100%); }
 }

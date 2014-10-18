@@ -77,8 +77,10 @@ define([
         if (this._menu) {
             return;
         }
-        require(['app/components/Menu'], function(Menu) {
-            this._menu = appRuntime.popup.create(Menu, true);
+        appRuntime.popup.create('app/components/Menu', {
+            'closeClickOutside' : true
+        }, function(popup) {
+            this._menu = popup;
             this._menu.on('destroy', function() {
                 this._menu = null;
             }.bind(this));

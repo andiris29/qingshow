@@ -34,7 +34,7 @@ define([
             var li$ = $(".qsRow", tplt$).clone();
             $('.qsTitle', li$).text(CodeUtils.getValue('people.gender', code));
             $('div:last', li$).attr('id', 'gender-' + code);
-            li$.bind('click', function() {
+            li$.bind(appRuntime.events.click, function() {
                 if ($('.qsDisable', this).length > 0) {
                     $('div:last', this).removeClass('fa-check-circle-o2 qsDisable');
                     $('div:last', this).toggleClass('fa-check-circle2 qsHighlight');
