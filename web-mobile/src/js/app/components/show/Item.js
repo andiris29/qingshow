@@ -39,9 +39,13 @@ define([
         } else {
             $('.qsBrand', this._dom$).hide();
         }
-        $('.qsBuy', this._dom$).on(appRuntime.events.click, function() {
-            window.location = item.source;
-        });
+        if (item.source) {
+            $('.qsBuy', this._dom$).on(appRuntime.events.click, function() {
+                window.location = item.source;
+            });
+        } else {
+            $('.qsBuy', this._dom$).hide();
+        }
 
         $('.qsClose', this._dom$).on(appRuntime.events.click, function() {
             appRuntime.popup.remove(this);
