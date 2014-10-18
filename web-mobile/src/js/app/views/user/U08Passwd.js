@@ -19,10 +19,16 @@ define([
         });
 
         header.on('clickRight', function(event) {
-            // TODO
-            // DataService.request('/user/update', main.save(), function() {
-                // appRuntime.view.back();
-            // });
+            if (!main.validate()) {
+                return;
+            }
+            DataService.request('/user/updatePassword', main.save(), function(metadata) {
+                if(metadata.result == 0) {
+                    appRuntime.view.back();
+                } else {
+                    alert(metadata.message);
+                }
+            });
         });
 
         var body = new IScrollContainer($('<div/>').css({

@@ -11,7 +11,7 @@ div, p, span {
     -webkit-user-select: none;
 }
 
-input[type=text], textarea {
+input[type=text], input[type=password], textarea {
     color: #666;
     outline: none;
     border: none;

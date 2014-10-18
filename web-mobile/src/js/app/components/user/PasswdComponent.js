@@ -17,20 +17,42 @@ define([
                 callback(null);
             }.bind(this));
         }.bind(this)], function(callback) {
-            this._render();
         }.bind(this));
 
     };
 
     andrea.oo.extend(PasswdComponent, UIComponent);
 
-    PasswdComponent.prototype._render = function() {
+    PasswdComponent.prototype.validate = function() {
+        var view$ = $('.qsTpltPasswdMain', this._dom$);
+        var nowPasswd = $('#nowPasswd', view$).val();
+        var newPasswd = $('#newPasswd', view$).val();
+        var confirmPasswd= $('#confirmPasswd', view$).val();
 
-        //var element = this._data._user.gender;
+        if (nowPasswd.length == 0) {
+            alert("请输入当前密码");
+            return false;
+        }
+        if (newPasswd.length == 0) {
+            alert("请输入新密码");
+            return false;
+        }
+        if (newPasswd.length > 0) && (newPasswd == confirmPasswd) {
+            alert("密码不一致");
+            return false;
+        }
 
+        return true;
     };
 
     PasswdComponent.prototype.save = function() {
+        var nowPasswd = $('#nowPasswd', view$).val();
+        var newPasswd = $('#newPasswd', view$).val();
+        return {
+            "people_id": this._data._user.id,
+            "old_password": nowPasswd,
+            "new_password": newPasswd,
+        }
     };
 
     return PasswdComponent;

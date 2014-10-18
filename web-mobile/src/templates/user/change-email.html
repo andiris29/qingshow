@@ -43,7 +43,20 @@
     }
     .qsTpltEmailMain .qsRow .qsValue {
         float: left;
-        width: calc(100% - 15px - 60px - 15px);
+        width: calc(100% - 15px - 150px - 15px);
+    }
+
+    .qsTpltEmailMain .qsRow .qsValue input {
+        width: 100%;
+        padding: 0px;
+        line-height: 49px;
+        height: 49px;
+    }
+    .qsTpltEmailMain .qsRow .qsValue span {
+        width: 100%;
+        padding: 0px;
+        line-height: 49px;
+        height: 49px;
     }
 </style>
 
@@ -53,15 +66,19 @@
         <section class="qsListInfoSection">
             <div class="qsRow">
                 <div class="qsTitle">当前邮件地址</div>
-                <div class="qsValue"></div>
+                <div class="qsValue"><span class="qsNowEmail"></span></div>
             </div>
             <div class="qsRow">
                 <div class="qsTitle">新邮件地址</div>
-                <div class="qsValue"></div>
+                <div class="qsValue">
+                    <input type="text" id="newEmail" placeholder="请输入新邮件地址">
+                </div>
             </div>
             <div class="qsRow">
                 <div class="qsTitle">地址确认</div>
-                <div class="qsValue"></div>
+                <div class="qsValue">
+                    <input type='text' id="confirmEmail" placeholder="请再次输入新邮件地址" >
+                </div>
             </div>
         </section>
     </div>

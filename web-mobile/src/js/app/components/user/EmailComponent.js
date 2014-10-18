@@ -26,11 +26,45 @@ define([
 
     EmailComponent.prototype._render = function() {
 
-        //var element = this._data._user.gender;
+        var mail = this._data._user.userInfo.mail;
+        var view$ = $('.qsTpltEmailMain', this._dom$);
+
+        $('.qsNowEmail', view$).text(mail);
 
     };
 
+    EmailComponent.prototype.validate = function() {
+        var view$ = $('.qsTpltEmailMain', this._dom$);
+
+        var newEmail = $("#newEmail", view$);
+        var confirmEmail = $("#confirmEmail", view$);
+
+        if (newEmail.val().length == 0) {
+            alert('请输入新的邮件地址');
+            return false;
+        }
+
+        if (newEmail.val() != confirmEmail.val()) {
+            alert('输入的邮件地址不一致');
+            return false;
+        }
+
+        return true;
+    }
+
     EmailComponent.prototype.save = function() {
+        var view$ = $('.qsTpltEmailMain', this._dom$);
+
+        var newEmail = $("#newEmail", view$);
+
+        var data = [];
+        data['people_id'] = this._data._user.id;
+        data['new_mail'] = newEmail.val();
+
+        return {
+            "people_id": this._data._user.id,
+            "new_mail": newEmail.val()
+        };
     };
 
     return EmailComponent;
