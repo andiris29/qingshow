@@ -43,7 +43,14 @@
     }
     .qsTpltPasswdMain .qsRow .qsValue {
         float: left;
-        width: calc(100% - 15px - 60px - 15px);
+        width: calc(100% - 15px - 160px - 15px);
+    }
+
+    .qsTpltPasswdMain .qsRow .qsValue input {
+        width: 100%;
+        padding: 0px;
+        line-height: 49px;
+        height: 49px;
     }
 </style>
 
@@ -53,15 +60,21 @@
         <section class="qsListInfoSection">
             <div class="qsRow">
                 <div class="qsTitle">当前密码</div>
-                <div class="qsValue"></div>
+                <div class="qsValue">
+                    <input type="password" id="nowPasswd" placeholder="英文数字8-12字符">
+                </div>
             </div>
             <div class="qsRow">
                 <div class="qsTitle">新密码</div>
-                <div class="qsValue"></div>
+                <div class="qsValue">
+                    <input type="password" id="newPasswd" placeholder="英文数字8-12字符">
+                </div>
             </div>
             <div class="qsRow">
                 <div class="qsTitle">密码确认</div>
-                <div class="qsValue"></div>
+                <div class="qsValue">
+                    <input type="password" id="confirmPasswd" placeholder="英文数字8-12字符">
+                </div>
             </div>
         </section>
     </div>

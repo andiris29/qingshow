@@ -1,6 +1,7 @@
 {
     "metadata": {},
     "data": {
+        "id": 710,
         "roles": [0],
         "name": "前田敦子",
         "portrait": "/portraits/smallphoto02.jpg",
@@ -8,7 +9,7 @@
         "age": 23,
         "height": 161,
         "weight": 45,
-        "gender": 0,
+        "gender": 1,
         "hairTypes": [1, 2],
         "userInfo": {
             "mail": "qs@qs.com",
