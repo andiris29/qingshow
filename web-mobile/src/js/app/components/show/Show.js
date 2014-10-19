@@ -97,7 +97,10 @@ define([
             $('.qsItemCover', slickItem$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
             $('.qsItemCover', slickItem$).on('click', function() {
                 appRuntime.popup.create('app/components/show/Item', {
-                    'data' : item
+                    'data' : {
+                        'items' : show.itemRefs,
+                        'index' : index
+                    }
                 }, function(popup) {
                     popup.dom$().css({
                         'height' : '100%',
