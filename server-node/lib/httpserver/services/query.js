@@ -8,18 +8,51 @@ var mongoose = require('mongoose');
 var _models, _comments, _terms;
 _models = function (req, res) {
     var param = req.body;
-    var pageNo = param.pageNo || 1;
-    var pageSize = param.pageSize || 10;
+    if (param._ids) {
+        try {
+            var ids = param._ids;
+            var idsObjArray = ServicesUtil.stringArrayToObjectIdArray(ids);
+        } catch (e) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+            return;
+        }
 
-    function buildQuery() {
-        return People.find({roles : 1});
+        People.find({_id : {$in : idsObjArray}}, function (err, peoples){
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!peoples || !peoples.length) {
+                ServicesUtil.responseError(res, ServerError(ServerError.PeopleNotExist));
+                return;
+            } else {
+                var retObj = {
+                    metadata: {
+                        "numPages": 1,
+                        "invalidateTime": 3600000
+                    },
+                    data: {
+                        peoples: peoples
+                    }
+                };
+                res.json(retObj);
+                return;
+            }
+        });
+    } else {
+        var pageNo = param.pageNo || 1;
+        var pageSize = param.pageSize || 10;
+        function buildQuery() {
+            return People.find({roles : 1});
+        }
+        function modelDataGenFunc(data) {
+            return {
+                peoples: data
+            };
+        }
+        ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
     }
-    function modelDataGenFunc(data) {
-        return {
-            peoples: data
-        };
-    }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
+
+
 };
 _comments = function (req, res) {
     try {

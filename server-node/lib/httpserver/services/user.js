@@ -67,6 +67,7 @@ _update = function (req, res) {
     });
 };
 
+/*
 _updateEmail = function (req, res) {
     try {
         var param;
@@ -107,9 +108,10 @@ _updateEmail = function (req, res) {
             });
         });
 }
+*/
 
 module.exports = {
     'login' : {method: 'post', func: _login},
-    'update' : {method: 'post', func: _update, needLogin: true},
-    'updateEmail' : {method: 'post', func: _updateEmail, needLogin: true}
+    'update' : {method: 'post', func: _update, needLogin: true}
+//    ,'updateEmail' : {method: 'post', func: _updateEmail, needLogin: true}
 };

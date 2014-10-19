@@ -11,7 +11,7 @@ _follow = function (req, res) {
     //TODO handle duplicate
     try {
         var param = req.body;
-        var followPeopleIdStr = param.peopleId;
+        var followPeopleIdStr = param._id;
         var followPeopleIdObj = mongoose.mongo.BSONPure.ObjectID(followPeopleIdStr);
         var userId = req.currentUser._id;
      } catch (e) {
@@ -75,7 +75,7 @@ _follow = function (req, res) {
 _like = function (req, res) {
     try {
         var param = req.body;
-        var showIdStr = param.showId;
+        var showIdStr = param._id;
         var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
@@ -107,7 +107,7 @@ _like = function (req, res) {
 _comment = function (req, res) {
     try {
         var param = req.body;
-        var showIdStr = param.showId;
+        var showIdStr = param._id;
         var comment = param.comment;
         var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
         var userId = req.currentUser._id;
