@@ -23,13 +23,14 @@ define([
             if (!main.validate()) {
                 return;
             }
-            DataService.request('/user/updateEmail', main.save(), function(metadata) {
-                if (metadata.result == 0) {
+            DataService.request('/user/update', main.save(), function(metadata, data) {
+                if (metadata.error == undefined) {
+                    model.user(data).serialize();
                     appRuntime.view.back();
                 } else {
-                    alert("邮件地址更新失败");
+                    alert("更新失败");
                 }
-             });
+            });
         });
 
         var body = new IScrollContainer($('<div/>').css({

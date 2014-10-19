@@ -53,6 +53,13 @@ define([
     };
 
     HairTypeComponent.prototype.save = function() {
+        var arry = [];
+        var selected = $('.qsHighlight', this._dom$);
+        selected.each(function(index, element) {
+            var id = element.id;
+            arry[index] = id.replace('hairType-', '');
+        });
+        return { "hairType": arry};
     };
 
     return HairTypeComponent;

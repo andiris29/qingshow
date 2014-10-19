@@ -37,7 +37,11 @@ define([
             alert("请输入新密码");
             return false;
         }
-        if (newPasswd.length > 0) && (newPasswd == confirmPasswd) {
+        if (nowPasswd != this._data._user.userInfo.encryptedPassword) {
+            alert("当前密码不正确");
+            return false;
+        }
+        if ((newPasswd.length > 0) && (newPasswd == confirmPasswd)) {
             alert("密码不一致");
             return false;
         }
@@ -49,9 +53,7 @@ define([
         var nowPasswd = $('#nowPasswd', view$).val();
         var newPasswd = $('#newPasswd', view$).val();
         return {
-            "people_id": this._data._user.id,
-            "old_password": nowPasswd,
-            "new_password": newPasswd,
+            "password": newPasswd,
         }
     };
 

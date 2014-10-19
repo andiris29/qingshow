@@ -75,7 +75,42 @@ define([
         }.bind(this));
     };
 
-    UserSettingComponents.prototype._save = function() {
+    UserSettingComponents.prototype.validate = function() {
+        var view$ = $('.qsTpltUserSettingMain', this._dom$);
+
+        var name = $("#name", view$).val();
+        var age = $("#age", view$).val();
+        var height = $("#height", view$).val();
+        var weight = $("#weight", view$).val();
+
+        if (name.length == 0) {
+            alert("请输入姓名");
+            return false;
+        }
+        if (age.length == 0) {
+            alert("请输入年龄");
+            return false;
+        }
+        if (height.length == 0) {
+            alert("请输入身高");
+            return false;
+        }
+        if (weight.length == 0) {
+            alert("请输入体重");
+            return false;
+        }
+
+        return true;
+    }
+
+    UserSettingComponents.prototype.save = function() {
+        var view$ = $('.qsTpltUserSettingMain', this._dom$);
+        return {
+            "name": $("#name", view$).val(),
+            "age": $("#age", view$).val(),
+            "height": $("#height", view$).val(),
+            "weight": $("#weight", view$).val()
+        };
     };
 
     return UserSettingComponents;

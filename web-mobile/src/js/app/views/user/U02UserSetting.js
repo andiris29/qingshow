@@ -2,10 +2,11 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
+    'app/services/DataService',
     'app/components/header/CommonHeader',
     'app/components/user/UserSettingComponents',
     'app/model'
-], function(IScrollContainer, ViewBase, CommonHeader, UserSettingComponents, model) {
+], function(IScrollContainer, ViewBase, DataService, CommonHeader, UserSettingComponents, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -21,10 +22,17 @@ define([
         });
 
         header.on('clickRight', function(event) {
-            console.log('save', main.save());
-            // DataService.request('/user/update', main.save(), function() {
-            // appRuntime.view.back();
-            // });
+            if (!main.validate()) {
+                return;
+            }
+            DataService.request('/user/update', main.save(), function(metadata, data) {
+                if (metadata.error == undefined) {
+                    model.user(data).serialize();
+                    appRuntime.view.back();
+                } else {
+                    alert("更新失败");
+                }
+            });
         });
 
         var body = new IScrollContainer($('<div/>').css({

@@ -61,6 +61,12 @@ define([
     };
 
     GenderComponent.prototype.save = function() {
+        var arry = [];
+        $('.qsHighlight', this._dom$).each(function(index, element) {
+            var id = element.id;
+            arry[index] = id.replace('gender-', '');
+        });
+        return { "gender": arry};
     };
 
     return GenderComponent;

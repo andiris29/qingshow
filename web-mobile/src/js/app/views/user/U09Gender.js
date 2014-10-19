@@ -2,10 +2,11 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
+    'app/services/DataService',
     'app/components/header/CommonHeader',
     'app/components/user/GenderComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, CommonHeader, GenderComponent, model) {
+], function(IScrollContainer, ViewBase, DataService, CommonHeader, GenderComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -19,10 +20,14 @@ define([
         });
 
         header.on('clickRight', function(event) {
-            // TODO
-            // DataService.request('/user/update', main.save(), function() {
-                // appRuntime.view.back();
-            // });
+            DataService.request('/user/update', main.save(), function(metadata, data) {
+                if (metadata.error == undefined) {
+                    model.user(data).serialize();
+                    appRuntime.view.back();
+                } else {
+                    alert("更新失败");
+                }
+            });
         });
 
         var body = new IScrollContainer($('<div/>').css({

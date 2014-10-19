@@ -2,10 +2,11 @@
 define([
     'ui/scroll/IScrollContainer',
     'app/views/ViewBase',
+    'app/services/DataService',
     'app/components/header/CommonHeader',
     'app/components/user/PasswdComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, CommonHeader, PasswdComponent, model) {
+], function(IScrollContainer, ViewBase, DataService, CommonHeader, PasswdComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -22,11 +23,12 @@ define([
             if (!main.validate()) {
                 return;
             }
-            DataService.request('/user/updatePassword', main.save(), function(metadata) {
-                if(metadata.result == 0) {
+            DataService.request('/user/update', main.save(), function(metadata) {
+                if(metadata.error == undefined) {
+                    model.user(data).serialize();
                     appRuntime.view.back();
                 } else {
-                    alert(metadata.message);
+                    alert("更新失败");
                 }
             });
         });

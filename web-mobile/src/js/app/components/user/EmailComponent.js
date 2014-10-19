@@ -62,8 +62,7 @@ define([
         data['new_mail'] = newEmail.val();
 
         return {
-            "people_id": this._data._user.id,
-            "new_mail": newEmail.val()
+            "mail": newEmail.val()
         };
     };
 
