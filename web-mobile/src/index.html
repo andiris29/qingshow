@@ -94,13 +94,17 @@
                         }
                     };
                     // Bootstrap
-                    requirejs.config({
+                    var requireConfig = {
                         'baseUrl' : 'js',
                         'paths' : {
                             'ui' : './ui',
                             'app' : './app'
                         }
-                    });
+                    };
+                    if (andrea.env.debug) {
+                        requireConfig.urlArgs = new Date().getTime();
+                    }
+                    requirejs.config(requireConfig);
                     require(['app']);
                 };
             })();

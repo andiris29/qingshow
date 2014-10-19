@@ -70,7 +70,7 @@ define([
         vjs.on('pause', function() {
             play$.show();
         });
-        vjs.on('click', function() {
+        vjs.on('click', function(event) {
             if (vjs.paused()) {
                 vjs.play();
             } else {

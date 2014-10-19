@@ -15,10 +15,17 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+    .qsTpltItem .qsCloseHitArea {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 96px;
+        height: 96px;
+    }
     .qsTpltItem .qsClose {
         position: absolute;
-        right: 40px;
-        top: 40px;
+        right: 30px;
+        top: 30px;
         background-color: #fff;
         width: 60px;
         height: 60px;
@@ -65,7 +72,9 @@
 <div id="wrapper" style="width: 640px; height: 1136px; position: relative; margin: auto;">
     <div class="qsTpltItem">
         <div class="qsCover fakeBackgroundImage">
-            <div class="qsClose fa fa-close"></div>
+            <div class="qsCloseHitArea">
+                <div class="qsClose fa fa-close"></div>
+            </div>
             <div class="qsInfo">
                 <div class="qsName fakeText">
                     2014 夏季仿潮流蝙蝠T恤

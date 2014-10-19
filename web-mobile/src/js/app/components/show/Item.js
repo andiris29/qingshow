@@ -25,7 +25,6 @@ define([
         Item.superclass._render.apply(this, arguments);
 
         var item = this._item;
-
         $('.qsCover', this._dom$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
         $('.qsName', this._dom$).text(item.name);
         if (item.brandRef) {
@@ -41,7 +40,7 @@ define([
             $('.qsBuy', this._dom$).hide();
         }
 
-        $('.qsClose', this._dom$).on(appRuntime.events.click, function() {
+        $('.qsCloseHitArea', this._dom$).on(appRuntime.events.click, function(event) {
             appRuntime.popup.remove(this);
         }.bind(this));
     };
