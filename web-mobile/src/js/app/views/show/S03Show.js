@@ -13,7 +13,7 @@ define([
         S03Show.superclass.constructor.apply(this, arguments);
         this._show = data.show;
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), this._show.name);
+        var header = new CommonHeader($('<div/>').appendTo(this._dom$));
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height

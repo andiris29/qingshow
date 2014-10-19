@@ -15,7 +15,7 @@ define([
         P02Model.superclass.constructor.apply(this, arguments);
         this._model = data.model;
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), this._model.name);
+        var header = new CommonHeader($('<div/>').appendTo(this._dom$));
         var modelInfo = new ModelInfo($('<div/>').appendTo(this._dom$), this._model);
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',

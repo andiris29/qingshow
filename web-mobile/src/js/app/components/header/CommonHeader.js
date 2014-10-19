@@ -11,6 +11,7 @@ define([
     var CommonHeader = function(dom, data) {
         CommonHeader.superclass.constructor.apply(this, arguments);
 
+        data = data || {};
         if (_.isString(data)) {
             data = {
                 'title' : data
