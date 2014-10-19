@@ -85,15 +85,11 @@ define([
         $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', li$).text(show.modelRef.name);
-        var roles = [];
-        show.modelRef.roles.forEach(function(role) {
-            roles.push(CodeUtils.getValue('people.role', role));
-        });
-        $('.qsRole', li$).text(roles.join(', '));
-        $('.qsHeight', li$).text(show.modelRef.height + 'cm');
-        $('.qsWeight', li$).text(show.modelRef.weight + 'kg');
+        $('.qsRole', li$).text(RenderUtils.rolesToDisplay(show.modelRef.roles));
+        $('.qsHeight', li$).text(RenderUtils.heightToDisplay(show.modelRef.height));
+        $('.qsWeight', li$).text(RenderUtils.weightToDisplay(show.modelRef.weight));
         $('.qsStatus', li$).text(show.modelRef.modelInfo.status);
-        $('.qsNumFollowers', li$).text(show.numLike);
+        $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
         $('.qsShowCover, .qsStatus', li$).on(appRuntime.events.click, function() {
             appRuntime.view.to('app/views/show/S03Show', {

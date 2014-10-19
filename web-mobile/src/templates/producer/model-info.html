@@ -1,0 +1,160 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltModel {
+        cursor: default;
+        position: relative;
+        background-color: #000;
+        width: 100%;
+        height: 320px;
+        background-image: url('../../../../server-image-fake/backgrounds/20130623010204.jpeg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .qsTpltModel .qsBackground {
+    }
+
+    .qsTpltModel .qsNavi {
+        width: 480px;
+        height: 96px;
+        position: absolute;
+        bottom: 0;
+    }
+    .qsTpltModel .qsNavi .qsTab {
+        width: 159px;
+        height: 100%;
+        float: left;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(0,0,0,.5);
+    }
+    .qsTpltModel .qsNavi .qsTabSplitter {
+        float: left;
+        width: 1px;
+        height: 100%;
+        background-color: rgba(255,255,255,.7);
+    }
+    .qsTpltModel .qsNavi .qsTab .qsNumber {
+        margin: 18px 0 6px 0;
+        font-size: 1.5em;
+    }
+    .qsTpltModel .qsNavi .qsTabSelected {
+        color: inherit;
+        background-color: rgba(255,255,255,.7);
+    }
+    .qsTpltModel .qsNavi .qsTabSelected .qsNumber {
+    }
+    .qsTpltModel .qsFollow {
+        width: 160px;
+        height: 96px;
+        text-align: center;
+        color: #fff;
+        background-color: rgba(0,0,0,.5);
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+    .qsTpltModel .qsFollow .fa-heart {
+        margin: 18px 0 6px 0;
+        font-size: 1.5em;
+        width: 36px;
+        height: 34px;
+        position: relative;
+    }
+    .qsTpltModel .qsFollow .fa-heart .fa-plus {
+        position: absolute;
+        font-size: 12px;
+        right: 0;
+        bottom: 0;
+    }
+    .qsTpltModel .qsInfo {
+        width: 100%;
+        height: 224px;
+        color: #fff;
+    }
+    .qsTpltModel .qsInfo .qsPortraitContainer {
+        float: left;
+        width: 224px;
+        height: 224px;
+    }
+    .qsTpltModel .qsInfo .qsPortrait {
+        margin: 47px;
+        border: 2px #fff solid;
+        background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
+        width: 128px;
+        height: 128px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 64px;
+        overflow: hidden;
+    }
+    .qsTpltModel .qsInfo .qsDetailInfo {
+        float: left;
+        font-size: 1.2em;
+    }
+    .qsTpltModel .qsInfo .qsDetailInfo .qsName {
+        margin: 60px 0 18px 0;
+        font-size: 1.5em;
+    }
+</style>
+
+<div id="wrapper" style="width: 640px; height: 320px; position: relative; margin: auto;">
+    <div class="qsTpltModel fakeBackgroundImage">
+        <div class="qsInfo">
+            <div class="qsPortraitContainer">
+                <div class="qsPortrait fakeBackgroundImage"></div>
+            </div>
+            <div class="qsDetailInfo">
+                <div class="qsName fakeText">
+                    Sandygirl
+                </div>
+                <div class="qsRole fakeText">
+                    设计师
+                </div>
+                <div class="qsDetail fakeText">
+                    163cm/54kg
+                </div>
+            </div>
+        </div>
+        <div class="qsNavi">
+            <div class="qsTab qsTabSelected">
+                <div class="qsNumber qsNumShows fakeText">
+                    126
+                </div>
+                <div class="qsTitle">
+                    搭配
+                </div>
+            </div>
+            <div class="qsTabSplitter"></div>
+            <div class="qsTab">
+                <div class="qsNumber qsNumFollow fakeText">
+                    1,293
+                </div>
+                <div class="qsTitle">
+                    关注
+                </div>
+            </div>
+            <div class="qsTabSplitter"></div>
+            <div class="qsTab">
+                <div class="qsNumber qsNumFollowers fakeText">
+                    855
+                </div>
+                <div class="qsTitle">
+                    粉丝
+                </div>
+            </div>
+            <div class="qsTabSplitter"></div>
+        </div>
+        <div class="qsFollow">
+            <div class="fa fa-heart">
+                <div class="fa fa-plus"></div>
+            </div>
+            <div class="qsTitle">
+                Follow
+            </div>
+        </div>
+    </div>
+</div>

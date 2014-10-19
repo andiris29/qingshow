@@ -21,7 +21,9 @@
                     "modelInfo": {
                         "status": "每天都需要充足的睡眠。",
                         "numLikes": 105
-                    }
+                    },
+                    "$numFollowRefs": 105,
+                    "$numFollowerRefs": 105
                 },
                 "itemRefs": [
                     {

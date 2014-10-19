@@ -4,8 +4,9 @@ define([
     'app/services/FeedingService',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/show/ShowGallery',
-], function(IScrollContainer, FeedingService, ViewBase, CommonHeader, ShowGallery) {
+    'app/components/producer/ModelInfo',
+    'app/components/show/ShowGallery'
+], function(IScrollContainer, FeedingService, ViewBase, CommonHeader, ModelInfo, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -15,9 +16,10 @@ define([
         this._model = data.model;
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$), this._model.name);
+        var modelInfo = new ModelInfo($('<div/>').appendTo(this._dom$), this._model);
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
-            'height' : this._dom$.height() - header.getPreferredSize().height
+            'height' : this._dom$.height() - header.getPreferredSize().height - modelInfo.getPreferredSize().height
         }).appendTo(this._dom$));
 
         var gallery = new ShowGallery($('<div/>'), {

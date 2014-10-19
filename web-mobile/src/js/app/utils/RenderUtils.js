@@ -1,6 +1,7 @@
 // @formatter:off
 define([
-], function() {
+    'app/utils/CodeUtils'
+], function(CodeUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -45,6 +46,23 @@ define([
 
     RenderUtils.videoPathToBackground = function(path) {
         return andrea.string.substitute('url("{0}")', RenderUtils.videoPathToURL(path));
+    };
+
+    RenderUtils.rolesToDisplay = function(roles) {
+        roles = roles || [];
+        var displays = [];
+        roles.forEach(function(role) {
+            if (role !== 0) {
+                displays.push(CodeUtils.getValue('people.role', role));
+            }
+        });
+        return displays.join(' & ');
+    };
+    RenderUtils.heightToDisplay = function(height) {
+        return height ? height + 'cm' : '';
+    };
+    RenderUtils.weightToDisplay = function(weight) {
+        return weight ? weight + 'kg' : '';
     };
 
     return RenderUtils;

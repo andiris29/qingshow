@@ -91,6 +91,12 @@ define([
             $('.qsItemCover', slickItem$).on(appRuntime.events.click, function() {
                 appRuntime.popup.create('app/components/show/Item', {
                     'data' : item
+                }, function(popup) {
+                    popup.dom$().css({
+                        'height' : '100%',
+                        'width' : '100%'
+                    });
+                    appRuntime.popup.center(popup);
                 });
             });
         });

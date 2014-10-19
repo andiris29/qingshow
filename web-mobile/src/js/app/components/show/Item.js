@@ -14,15 +14,9 @@ define([
         Item.superclass.constructor.apply(this, arguments);
         this._item = data;
 
-        this._dom$.css({
-            'height' : '100%',
-            'width' : '100%'
-        });
-
         TemplateManager.load('show/item.html', function(err, content$) {
             this._dom$.append(content$);
             this._render();
-            appRuntime.popup.center(this);
         }.bind(this));
     };
     andrea.oo.extend(Item, UIComponent);
