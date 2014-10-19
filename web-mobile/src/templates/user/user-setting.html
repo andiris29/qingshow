@@ -46,7 +46,8 @@
     }
     .qsTpltUserSettingMain .qsSubTitle {
         margin: 10px 20px;
-        font-size: 1em
+        font-size: 1em;
+        line-height: 70px;
     }
 
     .qsTpltUserSettingMain .qsListInfoSection {
@@ -81,13 +82,18 @@
     }
     .qsTpltUserSettingMain .qsRow .qsValue {
         float: left;
-        width: calc(100% - 15px - 60px - 15px);
+        width: calc(100% - 15px - 60px - 15px - 25px);
+    }
+    .qsTpltUserSettingMain .qsRow .qsUnit {
+        line-height: 49px;
     }
     .qsTpltUserSettingMain .qsRow .qsValue input {
         width: 100%;
         padding: 0px;
         line-height: 49px;
         height: 49px;
+        text-align: right;
+        margin: 0 0 0 -5px
     }
     .qsTpltUserSettingMain .qsRow .fa-chevron-right2 {
         position: absolute;
@@ -126,18 +132,21 @@
                 <div class="qsValue">
                     <input type="text" id="age" placeholder="请填写年龄">
                 </div>
+                <div class="qsUnit">岁</div>
             </div>
             <div class="qsRow">
                 <div class="qsTitle">身高</div>
                 <div class="qsValue">
                     <input type="text" id="height" placeholder="请填写身高">
                 </div>
+                <div class="qsUnit">cm</div>
             </div>
             <div class="qsRow">
                 <div class="qsTitle">体重</div>
                 <div class="qsValue">
                     <input type="text" id="weight" placeholder="请填写体重">
                 </div>
+                <div class="qsUnit">kg</div>
             </div>
             <div class="qsRow qsHairType">
                 <div class="qsTitle">发型</div>
