@@ -72,16 +72,64 @@ _like = function (req, res){
     param = req.body;
     pageNo = param.pageNo || 1;
     pageSize = param.pageSize || 10;
-    function buildQuery() {
-        return Show.find();
-    }
-    function additionFunc(query) {
-        query.sort({numLike: 1});
-        _showPopulate(query);
-        return query;
-    }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
-}
+    var currentUser = req.currentUser;
+    People.findOne({_id : currentUser._id})
+        .select('likingShowRefs')
+        .exec(function (err, p){
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!p) {
+                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                return;
+            } else {
+                var count = p.likingShowRefs.length;
+//                Show.populate(chosen.showRefs, {path :'modelRef itemRefs'})
+                People.populate(p,
+                    {
+                        path : 'likingShowRefs',
+                        option : {
+                            skip: (pageNo - 1) * pageSize,
+                            limit: pageSize}
+                    },
+                    function (err, populatedPeople) {
+                        if (err) {
+                            ServicesUtil.responseError(res, err);
+                            return;
+                        } else if ( !populatedPeople) {
+                            ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                            return;
+                        } else {
+
+                            Show.populate(populatedPeople.likingShowRefs, {
+                                path :'modelRef itemRefs'
+                            },
+                                function (err, shows) {
+                                    if (err) {
+                                        ServicesUtil.responseError(res, err);
+                                        return;
+                                    } else if ( !shows) {
+                                        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                                        return;
+                                    } else {
+                                        var retData = {
+                                            metadata: {
+                                                "numPages": (count + pageSize - 1) / pageSize,
+                                                "refreshTime": 3600000
+                                            },
+                                            data: {
+                                                shows: populatedPeople.likingShowRefs
+                                            }
+                                        };
+                                        res.json(retData);
+                                        return;
+                                    }
+                                });
+                        }
+                });
+            }
+        });
+};
 
 //feeding/choosen
 _choosen = function (req, res){
@@ -99,8 +147,7 @@ _choosen = function (req, res){
             options: {
                 skip: (pageNo - 1) * pageSize,
                 limit: pageSize
-            },
-            populdate: 'modelRef'
+            }
         })
         .exec(function (err, chosens) {
             if (err) {
@@ -267,7 +314,7 @@ _byFollow = function (req, res){
 module.exports = {
     'recommendation' : {method: 'get', func: _recommendation},
     'hot' : {method: 'get', func: _hot},
-    'like' : {method: 'get', func: _like},
+    'like' : {method: 'get', func: _like, needLogin: true},
     "choosen" : {method: 'get', func: _choosen},
 
     'byModel' : {method: 'get',func: _byModel},
