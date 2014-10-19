@@ -40,7 +40,7 @@ define([
             $('.qsBuy', this._dom$).hide();
         }
 
-        $('.qsCloseHitArea', this._dom$).on(appRuntime.events.click, function(event) {
+        $('.qsCover', this._dom$).on('click', function(event) {
             appRuntime.popup.remove(this);
         }.bind(this));
     };
