@@ -70,7 +70,8 @@ define([
         vjs.on('pause', function() {
             play$.show();
         });
-        videoPostersContainer$.on(appRuntime.events.click, vjs.play.bind(vjs));
+        // User click here to avoid conflict with gesture
+        videoPostersContainer$.on('click', vjs.play.bind(vjs));
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', this._dom$).text(show.modelRef.name);
@@ -88,7 +89,8 @@ define([
                 slickItem$ = slickItemTplt$.clone().appendTo(itemCoversContainer$);
             }
             $('.qsItemCover', slickItem$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
-            $('.qsItemCover', slickItem$).on(appRuntime.events.click, function() {
+            // User click here to avoid conflict with gesture
+            $('.qsItemCover', slickItem$).on('click', function() {
                 appRuntime.popup.create('app/components/show/Item', {
                     'data' : item
                 }, function(popup) {

@@ -91,12 +91,14 @@ define([
         $('.qsStatus', li$).text(show.modelRef.modelInfo.status);
         $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
-        $('.qsShowCover, .qsStatus', li$).on(appRuntime.events.click, function() {
+        // User click here to avoid conflict with gesture
+        $('.qsShowCover, .qsStatus', li$).on('click', function() {
             appRuntime.view.to('app/views/show/S03Show', {
                 'show' : show
             });
         }.bind(this));
-        $('.qsModel', li$).on(appRuntime.events.click, function() {
+        // User click here to avoid conflict with gesture
+        $('.qsModel', li$).on('click', function() {
             appRuntime.view.to('app/views/producer/P02Model', {
                 'model' : show.modelRef
             });
