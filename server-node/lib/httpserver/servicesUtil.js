@@ -48,7 +48,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                     metadata: {
                         //TODO change invilidateTime
                         "numPages": numPages,
-                        "invalidateTime": 3600000
+                        "refreshTime": 3600000
                     },
                     data: dataGenFunc(shows)
                 };

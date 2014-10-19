@@ -10,6 +10,7 @@ define([], function() {
         this._data = data;
 
         this._trigger$ = $({});
+        this._destroyed = false;
     };
 
     UIComponent.prototype.destroy = function() {
@@ -17,8 +18,11 @@ define([], function() {
         this._dom$.remove();
         this.trigger('destroy');
         this._trigger$.off();
+        this._destroyed = true;
     };
-
+    UIComponent.prototype.destroyed = function() {
+        return this._destroyed;
+    };
     UIComponent.prototype.dom$ = function() {
         return this._dom$;
     };

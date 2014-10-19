@@ -12,7 +12,8 @@ define([
      */
     var Item = function(dom, data) {
         Item.superclass.constructor.apply(this, arguments);
-        this._item = data;
+        this._items = data.items;
+        this._index = data.index;
 
         TemplateManager.load('show/item.html', function(err, content$) {
             this._dom$.append(content$);
@@ -24,9 +25,35 @@ define([
     Item.prototype._render = function() {
         Item.superclass._render.apply(this, arguments);
 
-        var item = this._item;
+        // Slick covers
+        var itemCoversContainer$ = $('.qsSlickItemCovers', this._dom$), slickItemTplt$;
 
-        $('.qsCover', this._dom$).css('background-image', RenderUtils.imagePathToBackground(item.cover));
+        for (var i = 0; i < this._items.length; i++) {
+            var item = this._items[(this._index + i) % this._items.length];
+            if (i === 0) {
+                var slickItem$ = slickItemTplt$ = $('.clone', itemCoversContainer$);
+                this._renderInfo(item);
+            } else {
+                slickItem$ = slickItemTplt$.clone().appendTo(itemCoversContainer$);
+            }
+            slickItem$.height(itemCoversContainer$.height()).css('background-image', RenderUtils.imagePathToBackground(item.cover));
+        }
+        itemCoversContainer$.slick({
+            'dots' : true,
+            'arrows' : false,
+            'slidesToShow' : 1,
+            'slidesToScroll' : 1,
+            'onAfterChange' : function(slicker, index) {
+                this._renderInfo(this._items[index]);
+            }.bind(this)
+        });
+        // Event
+        itemCoversContainer$.on('click', function(event) {
+            appRuntime.popup.remove(this);
+        }.bind(this));
+    };
+
+    Item.prototype._renderInfo = function(item) {
         $('.qsName', this._dom$).text(item.name);
         if (item.brandRef) {
             $('.qsBrand', this._dom$).text(item.brandRef.name);
@@ -40,10 +67,6 @@ define([
         } else {
             $('.qsBuy', this._dom$).hide();
         }
-
-        $('.qsClose', this._dom$).on(appRuntime.events.click, function() {
-            appRuntime.popup.remove(this);
-        }.bind(this));
     };
 
     return Item;
