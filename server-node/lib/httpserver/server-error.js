@@ -15,5 +15,7 @@ ServerError.ShowNotExist = 1003;
 ServerError.ItemNotExist = 1004;
 ServerError.PeopleNotExist = 1005;
 ServerError.BrandNotExist = 1006;
+ServerError.InvalidEmail = 1007;
+ServerError.NotEnoughParam = 1008;
 
 module.exports = ServerError;

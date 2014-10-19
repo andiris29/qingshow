@@ -2,7 +2,7 @@ var People = require('../../model/peoples');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 
-var _login, _update;
+var _login, _update, _register;
 _login = function (req, res) {
     var param, mail, encryptedPassword;
     param = req.body;
@@ -17,7 +17,17 @@ _login = function (req, res) {
                 //login succeed
                 req.session.userId = people._id;
                 req.session.loginDate = new Date();
-                res.json(people);
+
+                var retData = {
+                    metadata: {
+                        //TODO change invilidateTime
+                        "invalidateTime": 3600000
+                    },
+                    data: {
+                        people : people
+                    }
+                };
+                res.json(retData);
             } else {
                 //login fail
                 delete req.session.userId;
@@ -26,6 +36,43 @@ _login = function (req, res) {
             }
         } catch (e) {
             ServicesUtil.responseError(res, e);
+        }
+    });
+};
+
+_register = function (req, res) {
+    var param, mail, encryptedPassword;
+    param = req.body;
+    mail = param.mail ;
+    encryptedPassword = param.encryptedPassword;
+    //TODO validate mail and encryptedPassword
+    if (!mail || !encryptedPassword || !mail.length || !encryptedPassword.length) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
+        return;
+    }
+    var people = new People({
+        userInfo : {
+            mail: mail,
+            encryptedPassword : encryptedPassword
+        }});
+    people.save(function (err, people){
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        } else if (!people) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.ServerError));
+            return;
+        } else {
+            var retData = {
+                metadata: {
+                    //TODO change invilidateTime
+                    "invalidateTime": 3600000
+                },
+                data: {
+                    people : people
+                }
+            };
+            res.json(retData);
         }
     });
 };
@@ -58,7 +105,9 @@ _update = function (req, res) {
                     "invalidateTime": 3600000,
                     "result" : 0
                 },
-                data: people
+                data: {
+                    people: people
+                }
             };
             res.json(retData);
         } catch (e) {
@@ -67,51 +116,9 @@ _update = function (req, res) {
     });
 };
 
-/*
-_updateEmail = function (req, res) {
-    try {
-        var param;
-        param = req.body;
-        var people = req.currentUser;
-        var email = param.new_email;
-        //TODO validate email address
-    } catch (e) {
-        ServicesUtil.responseError(res, new Error());
-        return;
-    }
-    People.findOne({_id : people._id})
-        .select('userInfo')
-        .exec(function (err, peopleUserInfo) {
-            if (err) {
-                ServicesUtil.responseError(res, err);
-                return;
-            } else if (!people) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                return;
-            }
-            peopleUserInfo.userInfo.email = email;
-            peopleUserInfo.save(function (err, p) {
-                if (err) {
-                    ServicesUtil.responseError(res, err);
-                    return;
-                } else {
-                    var retData = {
-                        metadata: {
-                            "invalidateTime": 3600000,
-                            "result" : 0
-                        },
-                        data: people
-                    };
-                    res.json(retData);
-                    return;
-                }
-            });
-        });
-}
-*/
-
 module.exports = {
     'login' : {method: 'post', func: _login},
+    'register' : {method: 'post', func: _register},
     'update' : {method: 'post', func: _update, needLogin: true}
-//    ,'updateEmail' : {method: 'post', func: _updateEmail, needLogin: true}
+
 };
