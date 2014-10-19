@@ -81,39 +81,52 @@ _update = function (req, res) {
 
     var param;
     param = req.body;
-    var people = req.currentUser;
-    var updateField = ['roles', 'name', 'portrait', 'height', 'weight',
-        'gender', 'hairTypes'];
-    updateField.forEach(function (field) {
-        if (param[field]) {
-            people[field] = param[field];
-        }
-    });
-    if (people.roles === 1) {
-        if (param.status) {
-            people.status = param.status;
-        }
-    }
-    people.save(function (err, people) {
-        try {
-            if (err) {
-                throw err;
-            }
-            var retData = {
-                metadata: {
-                    //TODO change invilidateTime
-                    "invalidateTime": 3600000,
-                    "result" : 0
-                },
-                data: {
-                    people: people
+    var curUser = req.currentUser;
+    People.findOne({_id : curUser._id})
+        .select('+userInfo')
+        .exec(function (err, people) {
+            var updateField = ['roles', 'name', 'portrait', 'height', 'weight',
+                'gender', 'hairTypes'];
+            updateField.forEach(function (field) {
+                if (param[field]) {
+                    people[field] = param[field];
                 }
-            };
-            res.json(retData);
-        } catch (e) {
-            ServicesUtil.responseError(res, e);
-        }
-    });
+            });
+
+            if (people.roles === 1) {
+                if (param.status) {
+                    people.status = param.status;
+                }
+            }
+            var userInfoField = ['mail', 'encryptedPassword'];
+            userInfoField.forEach(function (field) {
+                if (param[field]) {
+                    people.userInfo[field] = param[field];
+                }
+            });
+            people.save(function (err, p) {
+                try {
+                    if (err) {
+                        throw err;
+                    }
+                    delete p.userInfo.encryptedPassword;
+                    var retData = {
+                        metadata: {
+                            //TODO change invilidateTime
+                            "invalidateTime": 3600000,
+                            "result" : 0
+                        },
+                        data: {
+                            people: p
+                        }
+                    };
+                    res.json(retData);
+                } catch (e) {
+                    ServicesUtil.responseError(res, e);
+                    return;
+                }
+            });
+        });
 };
 
 module.exports = {
