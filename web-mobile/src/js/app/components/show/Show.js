@@ -64,20 +64,27 @@ define([
 
         var play$ = $('.qsVideoPlay', this._dom$);
         vjs.on('play', function() {
-            videoPostersContainer$.hide().off();
+            videoPostersContainer$.hide();
             play$.hide();
         });
         vjs.on('pause', function() {
             play$.show();
         });
         vjs.on('click', function(event) {
+            return;
             if (vjs.paused()) {
                 vjs.play();
             } else {
                 vjs.pause();
             }
         });
-        videoPostersContainer$.on('click', vjs.play.bind(vjs));
+        vjs.on('ended', function() {
+            videoPostersContainer$.show();
+            video$.get(0).load();
+        });
+        videoPostersContainer$.on('click', function() {
+            vjs.play();
+        });
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', this._dom$).text(show.modelRef.name);

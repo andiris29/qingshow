@@ -16,12 +16,13 @@ define([
         this._model = data.model;
 
         var header = new CommonHeader($('<div/>').appendTo(this._dom$));
-        var modelInfo = new ModelInfo($('<div/>').appendTo(this._dom$), this._model);
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
-            'height' : this._dom$.height() - header.getPreferredSize().height - modelInfo.getPreferredSize().height
+            'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
+        var modelInfo = new ModelInfo($('<div/>').appendTo(this._dom$), this._model);
+        body.append(modelInfo);
         var gallery = new ShowGallery($('<div/>'), {
             'feeding' : FeedingService.choosen
         });
