@@ -5,7 +5,7 @@ var People = require('./peoples');
 var Schema = mongoose.Schema;
 var peopleSchema;
 peopleSchema = Schema({
-    roles: Number,  //user 0 model 1
+    roles: [Number],  //user 0 model 1
     name: String,
     portrait: String,
     height: Number,

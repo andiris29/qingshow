@@ -78,7 +78,7 @@ _register = function (req, res) {
 };
 
 _update = function (req, res) {
-
+//TODO add api for upload image
     var param;
     param = req.body;
     var curUser = req.currentUser;

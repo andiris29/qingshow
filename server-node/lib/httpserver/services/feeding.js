@@ -135,20 +135,13 @@ _like = function (req, res){
 _choosen = function (req, res){
     var param, pageNo, pageSize;
     param = req.body;
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    pageNo = parseInt(param.pageNo || 1);
+    pageSize = parseInt(param.pageSize || 10);
 
     Chosen.find()
         .where('dateStart').lte(Date.now())
         .sort({dateStart : 1})
         .limit(1)
-        .populate({
-            path: 'showRefs',
-            options: {
-                skip: (pageNo - 1) * pageSize,
-                limit: pageSize
-            }
-        })
         .exec(function (err, chosens) {
             if (err) {
                 ServicesUtil.responseError(res, err);
@@ -158,14 +151,39 @@ _choosen = function (req, res){
                 return;
             } else {
                 var chosen = chosens[0];
-//                chosen.showRefs.populdate('modelRef');
-                Show.populate(chosen.showRefs, 'modelRef itemRefs', function(err, shows){
+                var count = chosen.showRefs.length;
+                Chosen.populate(chosen, {
+                    path: 'showRefs',
+                    options: {
+                        skip: (pageNo - 1) * pageSize,
+                        limit: pageSize
+                    }
+                }, function (err, chosen){
                     if (err) {
                         ServicesUtil.responseError(res, err);
                         return;
-                    } else {
-                        res.json(shows);
+                    } else if (!chosen) {
+                        ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
                         return;
+                    } else {
+                        Show.populate(chosen.showRefs, 'modelRef itemRefs', function(err, shows){
+                            if (err) {
+                                ServicesUtil.responseError(res, err);
+                                return;
+                            } else {
+                                var retData = {
+                                    metadata: {
+                                        "numPages": parseInt((count + pageSize - 1) / pageSize),
+                                        "refreshTime": 3600000
+                                    },
+                                    data: {
+                                        shows: shows
+                                    }
+                                };
+                                res.json(retData);
+                                return;
+                            }
+                        });
                     }
                 });
             }
@@ -315,7 +333,7 @@ module.exports = {
     'recommendation' : {method: 'get', func: _recommendation},
     'hot' : {method: 'get', func: _hot},
     'like' : {method: 'get', func: _like, needLogin: true},
-    "choosen" : {method: 'get', func: _choosen},
+    "choosen" : {method: 'post', func: _choosen},
 
     'byModel' : {method: 'get',func: _byModel},
     'byTag' : {method: 'get', func: _byTag},
