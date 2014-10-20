@@ -57,8 +57,8 @@ _models = function (req, res) {
 _comments = function (req, res) {
     try {
         var param = req.body;
-        var pageNo = param.pageNo || 1;
-        var pageSize = param.pageSize || 10;
+        var pageNo = parseInt(param.pageNo || 1);
+        var pageSize = parseInt(param.pageSize || 10);
         var showIdStr = param.showId;
         var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
     } catch (e) {

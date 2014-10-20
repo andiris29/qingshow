@@ -31,8 +31,8 @@ _recommendation = function (req, res) {
     var param, tags, pageNo, pageSize;
     param = req.body;
     tags = param.tags || [];
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    pageNo = parseInt(param.pageNo || 1);
+    pageSize = parseInt(param.pageSize || 10);
 
     function buildQuery() {
         var query = Show.find();
@@ -53,8 +53,8 @@ _recommendation = function (req, res) {
 _hot = function (req, res) {
     var param, pageNo, pageSize;
     param = req.body;
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    pageNo = parseInt(param.pageNo || 1);
+    pageSize = parseInt(param.pageSize || 10);
     function buildQuery() {
         return Show.find();
     }
@@ -70,8 +70,8 @@ _hot = function (req, res) {
 _like = function (req, res){
     var param, pageNo, pageSize;
     param = req.body;
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    pageNo = parseInt(param.pageNo || 1);
+    pageSize = parseInt(param.pageSize || 10);
     var currentUser = req.currentUser;
     People.findOne({_id : currentUser._id})
         .select('likingShowRefs')
@@ -114,7 +114,7 @@ _like = function (req, res){
                                     } else {
                                         var retData = {
                                             metadata: {
-                                                "numPages": (count + pageSize - 1) / pageSize,
+                                                "numPages": parseInt((count + pageSize - 1) / pageSize),
                                                 "refreshTime": 3600000
                                             },
                                             data: {
@@ -197,8 +197,8 @@ _byModel = function (req, res) {
     param = req.body;
     producerIDs = param.producerIDs || [];
     producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    pageNo = parseInt(param.pageNo || 1);
+    pageSize = parseInt(param.pageSize || 10);
     function buildQuery() {
         var query = Show.find();
         if (producerIDs.length) {
@@ -212,7 +212,6 @@ _byModel = function (req, res) {
         return query;
     }
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
-//    _sendShowsQueryToResponse(res, buildQuery, pageNo, pageSize);
 };
 
 //byTag
@@ -220,8 +219,8 @@ _byTag = function (req, res){
     var param, tags, pageNo, pageSize;
     param = req.body;
     tags = param.tags || [];
-    pageNo = param.pageNo || 1;
-    pageSize = param.pageSize || 10;
+    pageNo = parseInt(param.pageNo || 1);
+    pageSize = parseInt(param.pageSize || 10);
 
     function buildQuery() {
         var query = Show.find();
@@ -245,8 +244,8 @@ _byBrand = function (req, res){
         param = req.body;
         brandIdStr = param._id || [];
         brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
-        pageNo = param.pageNo || 1;
-        pageSize = param.pageSize || 10;
+        pageNo = parseInt(param.pageNo || 1);
+        pageSize = parseInt(param.pageSize || 10);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
     }
@@ -290,8 +289,8 @@ _byFollow = function (req, res){
         param = req.body;
         peopleIdStr = param._id || [];
         peopleIdObj = mongoose.mongo.BSONPure.ObjectID(peopleIdStr);
-        pageNo = param.pageNo || 1;
-        pageSize = param.pageSize || 10;
+        pageNo = parseInt(param.pageNo || 1);
+        pageSize = parseInt(param.pageSize || 10);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
