@@ -13,5 +13,13 @@ define([
     };
     andrea.oo.extend(ViewBase, UIComponent);
 
+    ViewBase.prototype.activate = function() {
+        this._dom$.show();
+    };
+
+    ViewBase.prototype.deactivate = function() {
+        this._dom$.hide();
+    };
+
     return ViewBase;
 });

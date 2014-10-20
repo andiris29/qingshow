@@ -23,20 +23,13 @@ define([], function() {
     UIComponent.prototype.destroyed = function() {
         return this._destroyed;
     };
+
     UIComponent.prototype.dom$ = function() {
         return this._dom$;
     };
 
     UIComponent.prototype.dom = function() {
         return this._dom;
-    };
-
-    UIComponent.prototype.hide = function() {
-        this._dom$.hide();
-    };
-
-    UIComponent.prototype.show = function() {
-        this._dom$.show();
     };
 
     UIComponent.prototype.on = function() {

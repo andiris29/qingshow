@@ -39,7 +39,7 @@ define([
                 this._animating = true;
                 this._swapView(PageTransitions.animations.mobileNextPage, this._currentView, view, function() {
                     this._animating = false;
-                    this._currentView.hide();
+                    this._currentView.deactivate();
                     this._currentView = view;
                 }.bind(this));
             } else {
@@ -57,6 +57,7 @@ define([
         this._views.pop();
 
         this._animating = true;
+        view.activate();
         this._swapView(PageTransitions.animations.mobilePrevPage, this._currentView, view, function() {
             this._animating = false;
             this._currentView.destroy();
@@ -65,7 +66,6 @@ define([
     };
 
     ViewContainer.prototype._swapView = function(animation, view1, view2, callback) {
-        view1.show(), view2.show();
         new PageTransitions(view1.dom$(), view2.dom$()).nextPage(animation, callback);
     };
 

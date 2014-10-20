@@ -14,6 +14,8 @@ define([
         Show.superclass.constructor.apply(this, arguments);
         this._show = data;
 
+        this._vjs = null;
+
         async.parallel([ function(callback) {
             // Load template
             TemplateManager.load('show/show.html', function(err, content$) {
@@ -23,14 +25,19 @@ define([
         }.bind(this)], function(err, results) {
             this._render();
         }.bind(this));
-
     };
     andrea.oo.extend(Show, UIComponent);
 
-    Show.prototype.destroy = function() {
-        Show.superclass.destroy.apply(this, arguments);
-        $('.qsSlickVideoPosters', this._dom$).unslick();
-        $('.qsSlickItemCovers', this._dom$).unslick();
+    Show.prototype.dispose = function() {
+        if (this._vjs) {
+            this._vjs.dispose();
+        }
+    };
+
+    Show.prototype.pause = function() {
+        if (this._vjs && !this._vjs.paused()) {
+            this._vjs.pause();
+        }
     };
 
     Show.prototype._render = function() {
@@ -43,7 +50,7 @@ define([
             'type' : 'video/mp4',
             'src' : RenderUtils.videoPathToURL(show.video)
         }).appendTo(video$);
-        var vjs = videojs(video$.get(0));
+        var vjs = this._vjs = videojs(video$.get(0));
 
         var videoPostersContainer$ = $('.qsSlickVideoPosters', this._dom$), slickItemTplt$;
         show.posters.forEach(function(poster, index) {
@@ -70,20 +77,16 @@ define([
         vjs.on('pause', function() {
             play$.show();
         });
-        vjs.on('click', function(event) {
-            return;
+        vjs.on('ended', function() {
+            videoPostersContainer$.show();
+            video$.get(0).load();
+        });
+        $('.qsVideoContainer', this._dom$).on('click', function(event) {
             if (vjs.paused()) {
                 vjs.play();
             } else {
                 vjs.pause();
             }
-        });
-        vjs.on('ended', function() {
-            videoPostersContainer$.show();
-            video$.get(0).load();
-        });
-        videoPostersContainer$.on('click', function() {
-            vjs.play();
         });
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));

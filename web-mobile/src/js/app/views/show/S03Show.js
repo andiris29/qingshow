@@ -19,14 +19,20 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = new Show($('<div/>'), this._show);
+        var main = this._main = new Show($('<div/>'), this._show);
         body.append(main);
 
         this.on('destroying', function() {
-            main.destroy();
+            main.dispose();
         });
     };
     andrea.oo.extend(S03Show, ViewBase);
+
+    S03Show.prototype.deactivate = function() {
+        S03Show.superclass.deactivate.apply(this, arguments);
+
+        this._main.pause();
+    };
 
     return S03Show;
 });
