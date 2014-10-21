@@ -38,6 +38,18 @@ define([
         $('.qsNumShows', this._dom$).text('99');
         $('.qsNumFollow', this._dom$).text(this._model.$numFollowRefs);
         $('.qsNumFollowers', this._dom$).text(this._model.$numFollowerRefs);
+
+        var tabs$ = $('.qsTab', this._dom$);
+        tabs$.on(appRuntime.events.click, function(event) {
+            var tab$ = $(event.currentTarget);
+            if (tab$.hasClass('qsTabSelected')) {
+                return;
+            }
+
+            $('.qsTab', this._dom$).removeClass('qsTabSelected');
+            tab$.addClass('qsTabSelected');
+            this.trigger('selectTab', tabs$.index(tab$));
+        }.bind(this));
     };
 
     return Model;

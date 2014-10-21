@@ -60,7 +60,7 @@ define([
     };
 
     IScrollContainer.prototype._refresh = function(child) {
-        $('img.lazy', child.dom$()).lazyload({
+        $('img.lazy:visible', child.dom$()).lazyload({
             'effect' : 'fadeIn',
             'container' : this._dom$,
             'failure_limit' : Number.POSITIVE_INFINITY

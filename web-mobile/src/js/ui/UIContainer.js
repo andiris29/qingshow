@@ -33,6 +33,9 @@ define([
     };
 
     UIContainer.prototype.delegateFunction = function(functionName) {
+        if (this[functionName]) {
+            return;
+        }
         this[functionName] = function() {
             var args = arguments;
             this._children.forEach( function(child) {

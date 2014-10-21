@@ -73,3 +73,10 @@ input[type=text], input[type=password], textarea {
 .qsHighlight {
     color: #fb915f;
 }
+
+.qsNavigator {
+    overflow: auto;
+}
+.qsNavigator > div {
+    position: absolute;
+}
