@@ -7,8 +7,6 @@
 //
 
 #import "RootViewController.h"
-#import <ShareSDK/ShareSDK.h>
-
 
 #define ROOT_URL @"http://121.199.31.4/antSoftware/com.focosee.chingshow/trunk/dev/web/index.html#debug"
 #define kErrorDelayTime 5.f
@@ -53,32 +51,6 @@
 }
 #pragma mark - IBAction
 - (IBAction)shareButtonPressed:(id)sender {
-    //NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"ShareSDK"  ofType:@"jpg"];
-    
-    //构造分享内容
-    id<ISSContent> publishContent = [ShareSDK content:@"分享内容"
-                                       defaultContent:@"默认分享内容，没内容时显示"
-                                                image:nil
-                                                title:@"ShareSDK"
-                                                  url:@"http://www.sharesdk.cn"
-                                          description:@"这是一条测试信息"
-                                            mediaType:SSPublishContentMediaTypeNews];
-    
-    [ShareSDK showShareActionSheet:nil
-                         shareList:nil
-                           content:publishContent
-                     statusBarTips:YES
-                       authOptions:nil
-                      shareOptions: nil
-                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-                                if (state == SSResponseStateSuccess)
-                                {
-                                    NSLog(@"分享成功");
-                                }
-                                else if (state == SSResponseStateFail)
-                                {
-                                    NSLog(NSLocalizedString(@"TEXT_SHARE_FAI", @"发布失败!error code == %d, error code == %@"), [error errorCode], [error errorDescription]);
-                                }
-                            }];
+
 }
 @end

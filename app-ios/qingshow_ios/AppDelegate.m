@@ -7,61 +7,15 @@
 //
 
 #import "AppDelegate.h"
-#import <ShareSDK/ShareSDK.h>
-#import <SinaWeiboConnection/SinaWeiboConnection.h>
-#import <QQConnection/QQConnection.h>
-#import <QZoneConnection/QZoneConnection.h>
-#import "WXApi.h"
 
 #define SHARE_APP_KEY @"3e9fbdc602ec"
 @interface AppDelegate ()
-- (void)registerSharePlatform;
+
 @end
 
 @implementation AppDelegate
-- (void)registerSharePlatform
-{
-    //添加新浪微博应用 注册网址 http://open.weibo.com
-    [ShareSDK connectSinaWeiboWithAppKey:@"568898243"
-                               appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
-                             redirectUri:@"http://www.sharesdk.cn"];
-    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
-    [ShareSDK  connectSinaWeiboWithAppKey:@"568898243"
-                                appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
-                              redirectUri:@"http://www.sharesdk.cn"
-                              weiboSDKCls:[SinaWeiboConnection class]];
-    //添加微信应用 注册网址 http://open.weixin.qq.com
-//    [ShareSDK connectWeChatWithAppId:@"wx4868b35061f87885" wechatCls:[WXApi class]];
-   /*
-    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-    [ShareSDK connectQZoneWithAppKey:@"100371282"
-                           appSecret:@"aed9b0303e3ed1e27bae87c33761161d"
-                   qqApiInterfaceCls:[QQApiInterface class]
-                     tencentOAuthCls:[TencentOAuth class]];
-    
-    //添加QQ应用  注册网址  http://open.qq.com/
-    [ShareSDK connectQQWithQZoneAppKey:@"100371282"
-                     qqApiInterfaceCls:[QQApiInterface class]
-                       tencentOAuthCls:[TencentOAuth class]];
-    
-                              appSecret:@"gZxwyNOvjFYpxwwlnuizHRRtBRZ2lV1j"
-                            redirectUri:@"http://www.shareSDK.cn"];
-    
-    //添加搜狐微博应用  注册网址  http://open.t.sohu.com
-    [ShareSDK connectSohuWeiboWithConsumerKey:@"SAfmTG1blxZY3HztESWx"
-                               consumerSecret:@"yfTZf)!rVwh*3dqQuVJVsUL37!F)!yS9S!Orcsij"
-                                  redirectUri:@"http://www.sharesdk.cn"];
-    
-    //添加豆瓣应用  注册网址 http://developers.douban.com
-    [ShareSDK connectDoubanWithAppKey:@"07d08fbfc1210e931771af3f43632bb9"
-                            appSecret:@"e32896161e72be91"
-                          redirectUri:@"http://dev.kumoway.com/braininference/infos.php"];
-    */
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [ShareSDK registerApp:SHARE_APP_KEY];
-    [self registerSharePlatform];
     // Override point for customization after application launch.
     return YES;
 }

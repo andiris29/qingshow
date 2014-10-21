@@ -17,27 +17,6 @@
 		EF4D79A619F6B4AC00B2F3D9 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79A519F6B4AC00B2F3D9 /* libstdc++.dylib */; };
 		EF4D79A819F6B4C600B2F3D9 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79A719F6B4C600B2F3D9 /* libsqlite3.dylib */; };
 		EF4D79AA19F6B4CF00B2F3D9 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79A919F6B4CF00B2F3D9 /* MessageUI.framework */; };
-		EF4D79CD19F6BA8700B2F3D9 /* MailConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79AD19F6BA8700B2F3D9 /* MailConnection.framework */; };
-		EF4D79CE19F6BA8700B2F3D9 /* QQConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79AE19F6BA8700B2F3D9 /* QQConnection.framework */; };
-		EF4D79CF19F6BA8700B2F3D9 /* QZoneConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79AF19F6BA8700B2F3D9 /* QZoneConnection.framework */; };
-		EF4D79D019F6BA8700B2F3D9 /* SinaWeiboConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79B019F6BA8700B2F3D9 /* SinaWeiboConnection.framework */; };
-		EF4D79D119F6BA8700B2F3D9 /* SMSConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79B119F6BA8700B2F3D9 /* SMSConnection.framework */; };
-		EF4D79D219F6BA8700B2F3D9 /* WeChatConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79B219F6BA8700B2F3D9 /* WeChatConnection.framework */; };
-		EF4D79D319F6BA8700B2F3D9 /* AGCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79B419F6BA8700B2F3D9 /* AGCommon.framework */; };
-		EF4D79D419F6BA8700B2F3D9 /* ShareSDKLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF4D79B519F6BA8700B2F3D9 /* ShareSDKLocalizable.strings */; };
-		EF4D79D519F6BA8700B2F3D9 /* Resource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF4D79B719F6BA8700B2F3D9 /* Resource.bundle */; };
-		EF4D79D619F6BA8700B2F3D9 /* ShareSDKCoreService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79B819F6BA8700B2F3D9 /* ShareSDKCoreService.framework */; };
-		EF4D79D719F6BA8700B2F3D9 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79BC19F6BA8700B2F3D9 /* TencentOpenAPI.framework */; };
-		EF4D79D819F6BA8700B2F3D9 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF4D79BD19F6BA8700B2F3D9 /* TencentOpenApi_IOS_Bundle.bundle */; };
-		EF4D79D919F6BA8700B2F3D9 /* libSinaWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79BF19F6BA8700B2F3D9 /* libSinaWeiboSDK.a */; };
-		EF4D79DA19F6BA8700B2F3D9 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF4D79C019F6BA8700B2F3D9 /* WeiboSDK.bundle */; };
-		EF4D79DB19F6BA8700B2F3D9 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79C319F6BA8700B2F3D9 /* libWeChatSDK.a */; };
-		EF4D79DC19F6BA8700B2F3D9 /* ShareSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79C619F6BA8700B2F3D9 /* ShareSDK.framework */; };
-		EF4D79DD19F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF4D79C819F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.bundle */; };
-		EF4D79DE19F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79C919F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.framework */; };
-		EF4D79DF19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF4D79CA19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.bundle */; };
-		EF4D79E019F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79CB19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.framework */; };
-		EF4D79E119F6BA8700B2F3D9 /* ShareSDKShareActionSheet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF4D79CC19F6BA8700B2F3D9 /* ShareSDKShareActionSheet.framework */; };
 		EFE7A39619DD98770088852C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A39519DD98770088852C /* main.m */; };
 		EFE7A39919DD98770088852C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A39819DD98770088852C /* AppDelegate.m */; };
 		EFE7A39C19DD98770088852C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE7A39B19DD98770088852C /* RootViewController.m */; };
@@ -66,31 +45,6 @@
 		EF4D79A519F6B4AC00B2F3D9 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		EF4D79A719F6B4C600B2F3D9 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		EF4D79A919F6B4CF00B2F3D9 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		EF4D79AD19F6BA8700B2F3D9 /* MailConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MailConnection.framework; sourceTree = "<group>"; };
-		EF4D79AE19F6BA8700B2F3D9 /* QQConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QQConnection.framework; sourceTree = "<group>"; };
-		EF4D79AF19F6BA8700B2F3D9 /* QZoneConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QZoneConnection.framework; sourceTree = "<group>"; };
-		EF4D79B019F6BA8700B2F3D9 /* SinaWeiboConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SinaWeiboConnection.framework; sourceTree = "<group>"; };
-		EF4D79B119F6BA8700B2F3D9 /* SMSConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMSConnection.framework; sourceTree = "<group>"; };
-		EF4D79B219F6BA8700B2F3D9 /* WeChatConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WeChatConnection.framework; sourceTree = "<group>"; };
-		EF4D79B419F6BA8700B2F3D9 /* AGCommon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AGCommon.framework; sourceTree = "<group>"; };
-		EF4D79B619F6BA8700B2F3D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ShareSDKLocalizable.strings; sourceTree = "<group>"; };
-		EF4D79B719F6BA8700B2F3D9 /* Resource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resource.bundle; sourceTree = "<group>"; };
-		EF4D79B819F6BA8700B2F3D9 /* ShareSDKCoreService.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKCoreService.framework; sourceTree = "<group>"; };
-		EF4D79B919F6BA8700B2F3D9 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/ShareSDKLocalizable.strings"; sourceTree = "<group>"; };
-		EF4D79BC19F6BA8700B2F3D9 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
-		EF4D79BD19F6BA8700B2F3D9 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
-		EF4D79BF19F6BA8700B2F3D9 /* libSinaWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSinaWeiboSDK.a; sourceTree = "<group>"; };
-		EF4D79C019F6BA8700B2F3D9 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
-		EF4D79C119F6BA8700B2F3D9 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
-		EF4D79C319F6BA8700B2F3D9 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
-		EF4D79C419F6BA8700B2F3D9 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
-		EF4D79C519F6BA8700B2F3D9 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		EF4D79C619F6BA8700B2F3D9 /* ShareSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDK.framework; sourceTree = "<group>"; };
-		EF4D79C819F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKFlatShareViewUI.bundle; sourceTree = "<group>"; };
-		EF4D79C919F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKFlatShareViewUI.framework; sourceTree = "<group>"; };
-		EF4D79CA19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ShareSDKiPadSimpleShareViewUI.bundle; sourceTree = "<group>"; };
-		EF4D79CB19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKiPadSimpleShareViewUI.framework; sourceTree = "<group>"; };
-		EF4D79CC19F6BA8700B2F3D9 /* ShareSDKShareActionSheet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ShareSDKShareActionSheet.framework; sourceTree = "<group>"; };
 		EFE7A39019DD98770088852C /* qingshow_ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qingshow_ios.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE7A39419DD98770088852C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE7A39519DD98770088852C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -113,29 +67,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4D79AA19F6B4CF00B2F3D9 /* MessageUI.framework in Frameworks */,
-				EF4D79DE19F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.framework in Frameworks */,
-				EF4D79D719F6BA8700B2F3D9 /* TencentOpenAPI.framework in Frameworks */,
-				EF4D79D019F6BA8700B2F3D9 /* SinaWeiboConnection.framework in Frameworks */,
 				EF4D79A819F6B4C600B2F3D9 /* libsqlite3.dylib in Frameworks */,
-				EF4D79CF19F6BA8700B2F3D9 /* QZoneConnection.framework in Frameworks */,
 				EF4D79A619F6B4AC00B2F3D9 /* libstdc++.dylib in Frameworks */,
-				EF4D79D919F6BA8700B2F3D9 /* libSinaWeiboSDK.a in Frameworks */,
-				EF4D79D219F6BA8700B2F3D9 /* WeChatConnection.framework in Frameworks */,
-				EF4D79E119F6BA8700B2F3D9 /* ShareSDKShareActionSheet.framework in Frameworks */,
 				EF4D79A419F6B4A300B2F3D9 /* Security.framework in Frameworks */,
-				EF4D79DC19F6BA8700B2F3D9 /* ShareSDK.framework in Frameworks */,
 				EF4D79A219F6B49C00B2F3D9 /* libz.1.2.5.dylib in Frameworks */,
-				EF4D79CD19F6BA8700B2F3D9 /* MailConnection.framework in Frameworks */,
-				EF4D79D619F6BA8700B2F3D9 /* ShareSDKCoreService.framework in Frameworks */,
-				EF4D79E019F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.framework in Frameworks */,
 				EF4D79A019F6B49500B2F3D9 /* libicucore.dylib in Frameworks */,
-				EF4D79CE19F6BA8700B2F3D9 /* QQConnection.framework in Frameworks */,
-				EF4D79DB19F6BA8700B2F3D9 /* libWeChatSDK.a in Frameworks */,
-				EF4D79D119F6BA8700B2F3D9 /* SMSConnection.framework in Frameworks */,
 				EF4D799E19F6B48C00B2F3D9 /* CoreTelephony.framework in Frameworks */,
 				EF4D799C19F6B48300B2F3D9 /* QuartzCore.framework in Frameworks */,
 				EF4D799A19F6B47800B2F3D9 /* SystemConfiguration.framework in Frameworks */,
-				EF4D79D319F6BA8700B2F3D9 /* AGCommon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,101 +88,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		EF4D796319F6B44000B2F3D9 /* share */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79AB19F6BA8700B2F3D9 /* ShareSDK */,
-			);
-			path = share;
-			sourceTree = "<group>";
-		};
-		EF4D79AB19F6BA8700B2F3D9 /* ShareSDK */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79AC19F6BA8700B2F3D9 /* Connection */,
-				EF4D79B319F6BA8700B2F3D9 /* Core */,
-				EF4D79BA19F6BA8700B2F3D9 /* Extend */,
-				EF4D79C619F6BA8700B2F3D9 /* ShareSDK.framework */,
-				EF4D79C719F6BA8700B2F3D9 /* UI */,
-			);
-			path = ShareSDK;
-			sourceTree = "<group>";
-		};
-		EF4D79AC19F6BA8700B2F3D9 /* Connection */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79AD19F6BA8700B2F3D9 /* MailConnection.framework */,
-				EF4D79AE19F6BA8700B2F3D9 /* QQConnection.framework */,
-				EF4D79AF19F6BA8700B2F3D9 /* QZoneConnection.framework */,
-				EF4D79B019F6BA8700B2F3D9 /* SinaWeiboConnection.framework */,
-				EF4D79B119F6BA8700B2F3D9 /* SMSConnection.framework */,
-				EF4D79B219F6BA8700B2F3D9 /* WeChatConnection.framework */,
-			);
-			path = Connection;
-			sourceTree = "<group>";
-		};
-		EF4D79B319F6BA8700B2F3D9 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79B419F6BA8700B2F3D9 /* AGCommon.framework */,
-				EF4D79B519F6BA8700B2F3D9 /* ShareSDKLocalizable.strings */,
-				EF4D79B719F6BA8700B2F3D9 /* Resource.bundle */,
-				EF4D79B819F6BA8700B2F3D9 /* ShareSDKCoreService.framework */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		EF4D79BA19F6BA8700B2F3D9 /* Extend */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79BB19F6BA8700B2F3D9 /* QQConnectSDK */,
-				EF4D79BE19F6BA8700B2F3D9 /* SinaWeiboSDK */,
-				EF4D79C219F6BA8700B2F3D9 /* WeChatSDK */,
-			);
-			path = Extend;
-			sourceTree = "<group>";
-		};
-		EF4D79BB19F6BA8700B2F3D9 /* QQConnectSDK */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79BC19F6BA8700B2F3D9 /* TencentOpenAPI.framework */,
-				EF4D79BD19F6BA8700B2F3D9 /* TencentOpenApi_IOS_Bundle.bundle */,
-			);
-			path = QQConnectSDK;
-			sourceTree = "<group>";
-		};
-		EF4D79BE19F6BA8700B2F3D9 /* SinaWeiboSDK */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79BF19F6BA8700B2F3D9 /* libSinaWeiboSDK.a */,
-				EF4D79C019F6BA8700B2F3D9 /* WeiboSDK.bundle */,
-				EF4D79C119F6BA8700B2F3D9 /* WeiboSDK.h */,
-			);
-			path = SinaWeiboSDK;
-			sourceTree = "<group>";
-		};
-		EF4D79C219F6BA8700B2F3D9 /* WeChatSDK */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79C319F6BA8700B2F3D9 /* libWeChatSDK.a */,
-				EF4D79C419F6BA8700B2F3D9 /* WXApi.h */,
-				EF4D79C519F6BA8700B2F3D9 /* WXApiObject.h */,
-			);
-			path = WeChatSDK;
-			sourceTree = "<group>";
-		};
-		EF4D79C719F6BA8700B2F3D9 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				EF4D79C819F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.bundle */,
-				EF4D79C919F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.framework */,
-				EF4D79CA19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.bundle */,
-				EF4D79CB19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.framework */,
-				EF4D79CC19F6BA8700B2F3D9 /* ShareSDKShareActionSheet.framework */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		EFE7A38719DD98770088852C = {
 			isa = PBXGroup;
 			children = (
@@ -265,7 +109,6 @@
 		EFE7A39219DD98770088852C /* qingshow_ios */ = {
 			isa = PBXGroup;
 			children = (
-				EF4D796319F6B44000B2F3D9 /* share */,
 				EFF9F62419E5875A00C4B584 /* com */,
 				EFE7A39719DD98770088852C /* AppDelegate.h */,
 				EFE7A39819DD98770088852C /* AppDelegate.m */,
@@ -395,15 +238,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF4D79DF19F6BA8700B2F3D9 /* ShareSDKiPadSimpleShareViewUI.bundle in Resources */,
-				EF4D79D819F6BA8700B2F3D9 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				B60CFB2C19E764E000D62733 /* Main.storyboard in Resources */,
 				EFF9F62519E5875A00C4B584 /* com in Resources */,
-				EF4D79D419F6BA8700B2F3D9 /* ShareSDKLocalizable.strings in Resources */,
-				EF4D79DA19F6BA8700B2F3D9 /* WeiboSDK.bundle in Resources */,
 				EFE7A3A119DD98770088852C /* Images.xcassets in Resources */,
-				EF4D79DD19F6BA8700B2F3D9 /* ShareSDKFlatShareViewUI.bundle in Resources */,
-				EF4D79D519F6BA8700B2F3D9 /* Resource.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,15 +283,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EF4D79B519F6BA8700B2F3D9 /* ShareSDKLocalizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EF4D79B619F6BA8700B2F3D9 /* en */,
-				EF4D79B919F6BA8700B2F3D9 /* zh-Hans */,
-			);
-			name = ShareSDKLocalizable.strings;
-			sourceTree = "<group>";
-		};
 		EFE7A39D19DD98770088852C /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
