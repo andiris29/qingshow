@@ -36,8 +36,8 @@ define([
         $('.qsDetail', this._dom$).text([RenderUtils.heightToDisplay(this._model.height), RenderUtils.weightToDisplay(this._model.weight)].join('／'));
         // TODO
         $('.qsNumShows', this._dom$).text('99');
-        $('.qsNumFollow', this._dom$).text(this._model.$numFollowRefs);
-        $('.qsNumFollowers', this._dom$).text(this._model.$numFollowerRefs);
+        $('.qsNumFollow', this._dom$).text('105');
+        $('.qsNumFollowers', this._dom$).text('321');
 
         var tabs$ = $('.qsTab', this._dom$);
         tabs$.on(appRuntime.events.click, function(event) {

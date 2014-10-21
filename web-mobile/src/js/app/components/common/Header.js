@@ -91,8 +91,7 @@ define([
 
     Header.prototype._userHandler = function() {
         if (model.user()) {
-            // TODO go U01User
-            appRuntime.view.to('app/views/user/U02UserSetting');
+            appRuntime.view.to('app/views/user/U01User');
         } else {
             appRuntime.view.to('app/views/user/U06Login');
         }
