@@ -37,7 +37,7 @@ define([
             if (this._currentView) {
                 // Animation from right
                 this._animating = true;
-                this._swapView(PageTransitions.animations.mobileNextPage, this._currentView, view, function() {
+                this._swapView(PageTransitions.animations.nextView, this._currentView, view, function() {
                     this._animating = false;
                     this._currentView.deactivate();
                     this._currentView = view;
@@ -58,7 +58,7 @@ define([
 
         this._animating = true;
         view.activate();
-        this._swapView(PageTransitions.animations.mobilePrevPage, this._currentView, view, function() {
+        this._swapView(PageTransitions.animations.prevView, this._currentView, view, function() {
             this._animating = false;
             this._currentView.destroy();
             this._currentView = view;

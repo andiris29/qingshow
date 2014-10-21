@@ -8,7 +8,6 @@
 
 #import "RootViewController.h"
 
-
 #define ROOT_URL @"http://121.199.31.4/antSoftware/com.focosee.chingshow/trunk/dev/web/index.html#debug"
 #define kErrorDelayTime 5.f
 
@@ -49,5 +48,9 @@
 #pragma mark - 
 - (void)loadUrl:(NSURL*)url{
     [self.rootWebView loadRequest:[NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.f]];
+}
+#pragma mark - IBAction
+- (IBAction)shareButtonPressed:(id)sender {
+
 }
 @end

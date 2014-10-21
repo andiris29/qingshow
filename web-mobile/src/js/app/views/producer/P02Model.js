@@ -6,8 +6,9 @@ define([
     'app/components/common/Header',
     'app/components/common/Navigator',
     'app/components/producer/Model',
+    'app/components/producer/FanGallery',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, FeedingService, ViewBase, Header, Navigator, Model, ShowGallery) {
+], function(IScrollContainer, FeedingService, ViewBase, Header, Navigator, Model, FanGallery, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -32,8 +33,7 @@ define([
         navi.append(new ShowGallery($('<div/>'), {
             'feeding' : FeedingService.choosen
         }));
-        navi.append(new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+        navi.append(new FanGallery($('<div/>'), {
         }));
         body.append(navi);
         //

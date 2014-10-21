@@ -8,12 +8,12 @@
 
 #import "AppDelegate.h"
 
+#define SHARE_APP_KEY @"3e9fbdc602ec"
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

@@ -60,6 +60,38 @@
     to { opacity: 0; transform: scale(0); }
 }
 
+.pt-page-moveToLeft {
+    -webkit-animation: moveToLeft .3s ease both;
+    -moz-animation: moveToLeft .3s ease both;
+    animation: moveToLeft .3s ease both;
+}
+
+@-webkit-keyframes moveToLeft {
+    to { -webkit-transform: translateX(-100%); }
+}
+@-moz-keyframes moveToLeft {
+    to { -moz-transform: translateX(-100%); }
+}
+@keyframes moveToLeft {
+    to { transform: translateX(-100%); }
+}
+
+.pt-page-moveFromLeft {
+    -webkit-animation: moveFromLeft .3s ease both;
+    -moz-animation: moveFromLeft .3s ease both;
+    animation: moveFromLeft .3s ease both;
+}
+
+@-webkit-keyframes moveFromLeft {
+    from { -webkit-transform: translateX(-100%); }
+}
+@-moz-keyframes moveFromLeft {
+    from { -moz-transform: translateX(-100%); }
+}
+@keyframes moveFromLeft {
+    from { transform: translateX(-100%); }
+}
+
 .pt-page-moveToRight {
     -webkit-animation: moveToRight .3s ease both;
     -moz-animation: moveToRight .3s ease both;
