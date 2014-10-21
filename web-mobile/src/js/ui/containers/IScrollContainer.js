@@ -26,8 +26,8 @@ define([
         this._iscroll.on('scrollEnd', function() {
             if (this._iscroll.y === this._iscroll.maxScrollY) {
                 this._children.forEach(function(child) {
-                    if (child.grow) {
-                        child.grow();
+                    if (child.expand) {
+                        child.expand();
                     };
                 });
             }
@@ -41,19 +41,25 @@ define([
     /**
      *
      * @param {Object} uiComponent
-     * uiComponent.grow will be invoke when scroll to bottom.
+     * uiComponent.expand will be invoke when scroll to bottom.
      */
     IScrollContainer.prototype.append = function(uiComponent) {
         this._children.push(uiComponent);
 
         uiComponent.dom$().appendTo(this._scroller$);
-        uiComponent.on('resize', this._iscroll.refresh.bind(this._iscroll));
-        uiComponent.on('afterRender', function() {
-            this._afterRenderHandler(uiComponent);
+        uiComponent.on('afterRender resize', function() {
+            this._refresh(uiComponent);
         }.bind(this));
-        this._afterRenderHandler(uiComponent);
+
+        if ( uiComponent instanceof UIContainer) {
+            uiComponent.delegateEvent('afterRender');
+            uiComponent.delegateEvent('resize');
+            uiComponent.delegateFunction('expand');
+        }
+        this._refresh(uiComponent);
     };
-    IScrollContainer.prototype._afterRenderHandler = function(child) {
+
+    IScrollContainer.prototype._refresh = function(child) {
         $('img.lazy', child.dom$()).lazyload({
             'effect' : 'fadeIn',
             'container' : this._dom$,

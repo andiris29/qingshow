@@ -1,12 +1,13 @@
 // @formatter:off
 define([
-    'ui/scroll/IScrollContainer',
+    'ui/containers/IScrollContainer',
+    'ui/containers/SlickContainer',
     'app/services/FeedingService',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',
-    'app/components/producer/ModelInfo',
+    'app/components/producer/Model',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, FeedingService, ViewBase, CommonHeader, ModelInfo, ShowGallery) {
+], function(IScrollContainer, SlickContainer, FeedingService, ViewBase, CommonHeader, Model, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -21,12 +22,20 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var modelInfo = new ModelInfo($('<div/>').appendTo(this._dom$), this._model);
-        body.append(modelInfo);
-        var gallery = new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+        var model = new Model($('<div/>'), this._model);
+        body.append(model);
+
+        var slickContainer = new SlickContainer($('<div/>'), {
+            'options' : {
+                'slidesToShow' : 1,
+                'infinite' : false,
+                'adaptiveHeight' : true
+            }
         });
-        body.append(gallery);
+        slickContainer.append(new ShowGallery($('<div/>'), {
+            'feeding' : FeedingService.choosen
+        }));
+        body.append(slickContainer);
     };
     andrea.oo.extend(P02Model, ViewBase);
 

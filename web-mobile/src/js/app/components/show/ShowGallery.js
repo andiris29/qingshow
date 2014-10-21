@@ -39,7 +39,7 @@ define([
 
     andrea.oo.extend(ShowGallery, UIComponent);
 
-    ShowGallery.prototype.grow = function() {
+    ShowGallery.prototype.expand = function() {
         $('.qsLoading .qsSpin').fadeIn();
         $('.qsLoading .qsText').text('努力加载中…');
 

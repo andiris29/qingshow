@@ -10,25 +10,25 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var ModelInfo = function(dom, data) {
-        ModelInfo.superclass.constructor.apply(this, arguments);
+    var Model = function(dom, data) {
+        Model.superclass.constructor.apply(this, arguments);
         this._model = data;
 
-        TemplateManager.load('producer/model-info.html', function(err, content$) {
+        TemplateManager.load('producer/model.html', function(err, content$) {
             this._dom$.append(content$);
             this._render();
         }.bind(this));
     };
-    andrea.oo.extend(ModelInfo, UIComponent);
+    andrea.oo.extend(Model, UIComponent);
 
-    ModelInfo.prototype.getPreferredSize = function() {
+    Model.prototype.getPreferredSize = function() {
         return {
             'height' : 320
         };
     };
 
-    ModelInfo.prototype._render = function() {
-        ModelInfo.superclass._render.apply(this, arguments);
+    Model.prototype._render = function() {
+        Model.superclass._render.apply(this, arguments);
 
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(this._model.portrait));
         $('.qsName', this._dom$).text(this._model.name);
@@ -40,5 +40,5 @@ define([
         $('.qsNumFollowers', this._dom$).text(this._model.$numFollowerRefs);
     };
 
-    return ModelInfo;
+    return Model;
 });

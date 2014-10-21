@@ -22,10 +22,25 @@ define([
         this._children.push(uiComponent);
     };
 
-    UIContainer.prototype.delegate = function(eventName) {
+    UIContainer.prototype.delegateEvent = function(eventName) {
+        var delegation = function() {
+            this.trigger(eventName);
+        }.bind(this);
+
         this._children.forEach( function(child) {
-            child.on(eventName, this.trigger(eventName));
+            child.on(eventName, delegation);
         }.bind(this));
+    };
+
+    UIContainer.prototype.delegateFunction = function(functionName) {
+        this[functionName] = function() {
+            var args = arguments;
+            this._children.forEach( function(child) {
+                if (child[functionName]) {
+                    child[functionName].apply(child, args);
+                }
+            }.bind(this));
+        }.bind(this);
     };
 
     return UIContainer;

@@ -1,6 +1,6 @@
 // @formatter:off
 define([
-    'ui/scroll/IScrollContainer',
+    'ui/containers/IScrollContainer',
     'app/services/FeedingService',
     'app/views/ViewBase',
     'app/components/header/CommonHeader',

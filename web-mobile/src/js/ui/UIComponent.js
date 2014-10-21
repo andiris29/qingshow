@@ -11,6 +11,7 @@ define([], function() {
 
         this._trigger$ = $({});
         this._destroyed = false;
+        this._invalidate = false;
     };
 
     UIComponent.prototype.destroy = function() {
@@ -20,6 +21,7 @@ define([], function() {
         this._trigger$.off();
         this._destroyed = true;
     };
+
     UIComponent.prototype.destroyed = function() {
         return this._destroyed;
     };
@@ -38,6 +40,16 @@ define([], function() {
 
     UIComponent.prototype.trigger = function() {
         this._trigger$.trigger.apply(this._trigger$, arguments);
+    };
+
+    UIComponent.prototype.invalidate = function() {
+        if (!this._invalidate) {
+            this._invalidate = true;
+            setTimeout(this.validate.bind(this), 0);
+        }
+    };
+
+    UIComponent.prototype.validate = function() {
     };
 
     UIComponent.prototype.getPreferredSize = function() {
