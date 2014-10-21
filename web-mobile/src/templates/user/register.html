@@ -1,0 +1,90 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltRegisterMain {
+        overflow: auto;
+    }
+
+    .qsTpltRegisterMain .qsListInfoSection {
+        margin: 0;
+        border-radius: 4px;
+        background-color: #fff;
+        width: 100%;
+    }
+
+    .qsTpltRegisterMain .qsSubTitle {
+        margin: 10px 20px;
+        /* font-size: 1em;*/
+        line-height: 49px;
+    }
+
+    .qsTpltRegisterMain .qsListInfoSection .qsRow {
+        overflow: hidden;
+        border-bottom: #dadada solid 1px;
+        padding: 9px 5px 9px 0;
+    }
+
+    .qsTpltRegisterMain .qsRow > div {
+        margin-left: 15px;
+    }
+    .qsTpltRegisterMain .qsRow .qsTitle {
+        float: left;
+        line-height: 49px;
+        height: 49px;
+    }
+    .qsTpltRegisterMain .qsRow .qsValue {
+        float: left;
+        width: calc(100% - 15px - 150px - 15px);
+    }
+
+    .qsTpltRegisterMain .qsRow .qsValue input {
+        width: 100%;
+        padding: 0px;
+        line-height: 49px;
+        height: 49px;
+    }
+
+    .qsTpltRegisterMain .qsBtn {
+        margin: 15px 20px;
+        background-color: #fb915f; 
+        border: 0;
+        border-radius: 4px;
+        width: 600px;
+        padding: 20px 0;
+        font-size: 1.3em;
+    }
+
+    .qsTpltRegisterMain .qsBtn > span {
+        color: #fff;
+    }
+</style>
+
+<div id="wrapper" style="width: 640px; position: relative; margin: auto;">
+    <div class="qsTpltRegisterMain">
+        <h2 class="qsSubTitle"></h2>
+        <section class="qsListInfoSection">
+            <div class="qsRow">
+                <div class="qsTitle">账号</div>
+                <div class="qsValue">
+                    <input type="text" id="user" placeholder="请输入邮箱或手机号码" >
+                </div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">密码</div>
+                <div class="qsValue">
+                    <input type="text" id="password" placeholder="英文数字8-12字符" >
+                </div>
+            </div>
+            <div class="qsRow">
+                <div class="qsTitle">密码确认</div>
+                <div class="qsValue">
+                    <input type="text" id="password_confirm" placeholder="英文数字8-12字符" >
+                </div>
+            </div>
+        </section>
+        <button class="qsBtn" id="register">
+            <span>提交<span>
+        </button>
+    </div>
+</div>
+

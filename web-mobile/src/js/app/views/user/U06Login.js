@@ -29,6 +29,7 @@ define([
 
         header.on('clickRight', function(event) {
             // TODO GOTO Register
+            appRuntime.view.to('app/views/user/U07Register');
         });
 
 
