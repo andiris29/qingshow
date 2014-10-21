@@ -3,10 +3,10 @@ define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
     'app/services/DataService',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/user/HairTypeComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, DataService, CommonHeader, HairTypeComponent, model) {
+], function(IScrollContainer, ViewBase, DataService, Header, HairTypeComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -14,7 +14,7 @@ define([
     var U05HairType = function(dom) {
         U05HairType.superclass.constructor.apply(this, arguments);
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+        var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
             'right' : '保存'
         });

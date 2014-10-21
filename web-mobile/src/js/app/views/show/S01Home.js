@@ -3,9 +3,9 @@ define([
     'ui/containers/IScrollContainer',
     'app/services/FeedingService',
     'app/views/ViewBase',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/show/ShowGallery',
-], function(IScrollContainer, FeedingService, ViewBase, CommonHeader, ShowGallery) {
+], function(IScrollContainer, FeedingService, ViewBase, Header, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -13,8 +13,8 @@ define([
     var S01Home = function(dom) {
         S01Home.superclass.constructor.apply(this, arguments);
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
-            'left' : CommonHeader.BUTTON_MENU
+        var header = new Header($('<div/>').appendTo(this._dom$), {
+            'left' : Header.BUTTON_MENU
         });
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',

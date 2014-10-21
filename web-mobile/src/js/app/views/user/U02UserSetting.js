@@ -3,10 +3,10 @@ define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
     'app/services/DataService',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/user/UserSettingComponents',
     'app/model'
-], function(IScrollContainer, ViewBase, DataService, CommonHeader, UserSettingComponents, model) {
+], function(IScrollContainer, ViewBase, DataService, Header, UserSettingComponents, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -16,7 +16,7 @@ define([
 
         console.log(model.user());
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+        var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
             'right' : '保存'
         });

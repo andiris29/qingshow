@@ -3,11 +3,11 @@ define([
     'ui/containers/IScrollContainer',
     'app/services/FeedingService',
     'app/views/ViewBase',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/common/Navigator',
     'app/components/producer/Model',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, FeedingService, ViewBase, CommonHeader, Navigator, Model, ShowGallery) {
+], function(IScrollContainer, FeedingService, ViewBase, Header, Navigator, Model, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -16,7 +16,7 @@ define([
         P02Model.superclass.constructor.apply(this, arguments);
         this._model = data.model;
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$));
+        var header = new Header($('<div/>').appendTo(this._dom$));
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height

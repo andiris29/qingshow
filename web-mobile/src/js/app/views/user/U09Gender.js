@@ -3,10 +3,10 @@ define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
     'app/services/DataService',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/user/GenderComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, DataService, CommonHeader, GenderComponent, model) {
+], function(IScrollContainer, ViewBase, DataService, Header, GenderComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -14,7 +14,7 @@ define([
     var U09Gender = function(dom) {
         U09Gender.superclass.constructor.apply(this, arguments);
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+        var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
             'right' : '保存'
         });

@@ -2,11 +2,11 @@
 define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/services/UserService',
     'app/components/user/LoginComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, CommonHeader, UserService, LoginComponent, model) {
+], function(IScrollContainer, ViewBase, Header, UserService, LoginComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -14,7 +14,7 @@ define([
     var U06Login = function(dom) {
         U06Login.superclass.constructor.apply(this, arguments);
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+        var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '登陆',
             'right' : '注册'
         });

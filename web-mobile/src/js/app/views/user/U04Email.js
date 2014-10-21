@@ -3,10 +3,10 @@ define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
     'app/services/DataService',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/user/EmailComponent',
     'app/model'
-], function(IScrollContainer, ViewBase, DataService, CommonHeader, EmailComponent, model) {
+], function(IScrollContainer, ViewBase, DataService, Header, EmailComponent, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -14,7 +14,7 @@ define([
     var U04Email = function(dom) {
         U04Email.superclass.constructor.apply(this, arguments);
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), {
+        var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
             'right' : '保存'
         });

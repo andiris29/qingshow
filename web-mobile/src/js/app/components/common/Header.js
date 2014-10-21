@@ -8,8 +8,8 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var CommonHeader = function(dom, data) {
-        CommonHeader.superclass.constructor.apply(this, arguments);
+    var Header = function(dom, data) {
+        Header.superclass.constructor.apply(this, arguments);
 
         data = data || {};
         if (_.isString(data)) {
@@ -18,11 +18,11 @@ define([
             };
         }
 
-        TemplateManager.load('header/common-header.html', function(err, content$) {
+        TemplateManager.load('common/header.html', function(err, content$) {
             this._dom$.append(content$);
 
-            this._renderButton($('.qsLeft', this._dom$), data.left || CommonHeader.BUTTON_BACK);
-            this._renderButton($('.qsRight', this._dom$), data.right || CommonHeader.BUTTON_USER);
+            this._renderButton($('.qsLeft', this._dom$), data.left || Header.BUTTON_BACK);
+            this._renderButton($('.qsRight', this._dom$), data.right || Header.BUTTON_USER);
             $('.qsLeft', this._dom$).on(appRuntime.events.click, function() {
                 this.trigger('clickLeft');
             }.bind(this));
@@ -37,48 +37,48 @@ define([
 
         this._menu = null;
     };
-    andrea.oo.extend(CommonHeader, UIComponent);
+    andrea.oo.extend(Header, UIComponent);
 
-    CommonHeader.BUTTON_BACK = {
+    Header.BUTTON_BACK = {
         'cssClass' : 'fa fa-chevron-left'
     };
-    CommonHeader.BUTTON_MENU = {
+    Header.BUTTON_MENU = {
         'cssClass' : 'fa fa-bars'
     };
-    CommonHeader.BUTTON_USER = {
+    Header.BUTTON_USER = {
         'cssClass' : 'fa fa-user'
     };
 
-    CommonHeader.prototype.getPreferredSize = function() {
+    Header.prototype.getPreferredSize = function() {
         return {
             'height' : 96
         };
     };
 
-    CommonHeader.prototype._renderButton = function(container$, button) {
+    Header.prototype._renderButton = function(container$, button) {
         if (_.isString(button)) {
             $('.qsText', container$).text(button);
         } else {
             $('.qsText', container$).addClass(button.cssClass);
-            if (button === CommonHeader.BUTTON_BACK) {
+            if (button === Header.BUTTON_BACK) {
                 container$.on(appRuntime.events.click, this._backHandler.bind(this));
-            } else if (button === CommonHeader.BUTTON_MENU) {
+            } else if (button === Header.BUTTON_MENU) {
                 container$.on(appRuntime.events.click, this._menuHandler.bind(this));
-            } else if (button === CommonHeader.BUTTON_USER) {
+            } else if (button === Header.BUTTON_USER) {
                 container$.on(appRuntime.events.click, this._userHandler.bind(this));
             }
         }
     };
 
-    CommonHeader.prototype._backHandler = function() {
+    Header.prototype._backHandler = function() {
         appRuntime.view.back();
     };
 
-    CommonHeader.prototype._menuHandler = function() {
+    Header.prototype._menuHandler = function() {
         if (this._menu) {
             return;
         }
-        appRuntime.popup.create('app/components/Menu', {
+        appRuntime.popup.create('app/components/common/Menu', {
             'closeClickOutside' : true
         }, function(popup) {
             this._menu = popup;
@@ -89,7 +89,7 @@ define([
         }.bind(this));
     };
 
-    CommonHeader.prototype._userHandler = function() {
+    Header.prototype._userHandler = function() {
         if (model.user()) {
             // TODO go U01User
             appRuntime.view.to('app/views/user/U02UserSetting');
@@ -98,5 +98,5 @@ define([
         }
     };
 
-    return CommonHeader;
+    return Header;
 });

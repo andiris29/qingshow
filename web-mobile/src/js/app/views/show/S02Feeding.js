@@ -2,9 +2,9 @@
 define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, ViewBase, CommonHeader, ShowGallery) {
+], function(IScrollContainer, ViewBase, Header, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -13,7 +13,7 @@ define([
         S02Feeding.superclass.constructor.apply(this, arguments);
         this._feeding = data.feeding;
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$), '分类 xxx');
+        var header = new Header($('<div/>').appendTo(this._dom$), '分类 xxx');
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height

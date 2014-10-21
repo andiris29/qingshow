@@ -2,9 +2,9 @@
 define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
-    'app/components/header/CommonHeader',
+    'app/components/common/Header',
     'app/components/show/Show'
-], function(IScrollContainer, ViewBase, CommonHeader, Show) {
+], function(IScrollContainer, ViewBase, Header, Show) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -13,7 +13,7 @@ define([
         S03Show.superclass.constructor.apply(this, arguments);
         this._show = data.show;
 
-        var header = new CommonHeader($('<div/>').appendTo(this._dom$));
+        var header = new Header($('<div/>').appendTo(this._dom$));
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height

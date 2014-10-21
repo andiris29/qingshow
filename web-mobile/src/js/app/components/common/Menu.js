@@ -11,7 +11,7 @@ define([
     var Menu = function(dom) {
         Menu.superclass.constructor.apply(this, arguments);
 
-        TemplateManager.load('menu.html', function(err, content$) {
+        TemplateManager.load('common/menu.html', function(err, content$) {
             this._dom$.append(content$);
 
             $('li').on(appRuntime.events.click, function() {
