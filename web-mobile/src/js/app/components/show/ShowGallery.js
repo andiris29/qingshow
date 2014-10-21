@@ -92,7 +92,7 @@ define([
         $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
         // User click here to avoid conflict with gesture
-        $('.qsShowCover, .qsStatus', li$).on('click', function() {
+        $('.qsShowCover', li$).on('click', function() {
             appRuntime.view.to('app/views/show/S03Show', {
                 'show' : show
             });
