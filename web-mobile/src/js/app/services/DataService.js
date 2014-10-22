@@ -10,12 +10,12 @@ define([
     DataService.request = function(path, requestData, callback) {
         var request = {
             'url' : appConfig.dataServerRoot + path,
-            'dataType' : 'json',
-            'cache' : !andrea.env.debug
+            'dataType' : 'json'
         };
         if (andrea.env.fake) {
             $.extend(request, {
                 'url' : request.url + '.json?' + Math.random(),
+                'cache' : !andrea.env.nocache
             });
         } else {
             $.extend(request, {

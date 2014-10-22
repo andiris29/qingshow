@@ -12,7 +12,7 @@
         kv = kv.split('=');
         env.searchParams[kv[0]] = kv[1];
     });
-    env.debug = env.hashParams.debug === 'true' || env.searchParams.debug === 'true';
+    env.nocache = env.hashParams.nocache === 'true' || env.searchParams.nocache === 'true';
     env.fake = env.hashParams.fake === 'true' || env.searchParams.fake === 'true';
     // OO
     var oo = {};

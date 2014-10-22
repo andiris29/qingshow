@@ -101,7 +101,7 @@
                             'app' : './app'
                         }
                     };
-                    if (andrea.env.debug) {
+                    if (andrea.env.nocache) {
                         requireConfig.urlArgs = new Date().getTime();
                     }
                     requirejs.config(requireConfig);

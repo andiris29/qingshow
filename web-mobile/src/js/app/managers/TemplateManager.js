@@ -22,7 +22,7 @@ define([
         } else {
             $.ajax({
                 'url' : './templates/' + src,
-                'cache' : !andrea.env.debug
+                'cache' : !andrea.env.nocache
             }).done(function(data) {
                 data = data.replace(/<link.*>/g, '');
                 data = data.replace(/(\.\/|\.\.\/).*templates/g, './templates');

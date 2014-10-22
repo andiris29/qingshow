@@ -18,5 +18,12 @@ define([
         }, callback);
     };
 
+    UserService.register = function(mail, password, callback) {
+        DataService.request('/user/register', {
+            'mail' : mail,
+            'encryptedPassword' : CryptoJS.AES.encrypt(password, _key).toString()
+        }, callback);
+    };
+
     return UserService;
 });
