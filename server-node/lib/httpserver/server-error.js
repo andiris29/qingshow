@@ -17,5 +17,6 @@ ServerError.PeopleNotExist = 1005;
 ServerError.BrandNotExist = 1006;
 ServerError.InvalidEmail = 1007;
 ServerError.NotEnoughParam = 1008;
+ServerError.PagingNotExist = 1009;
 
 module.exports = ServerError;

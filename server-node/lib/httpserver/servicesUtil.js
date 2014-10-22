@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var ServerError = require('./server-error');
 
 function responseError(res, err) {
     if (!err.errorCode) {
@@ -34,7 +35,12 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
     query.count(function (err, count) {
         var numPages;
         if (err) {
-            responseError(err);
+            responseError(res, err);
+            return;
+        }
+        if (!count) {
+            responseError(res, new ServerError.PagingNotExist);
+            return;
         }
         numPages = parseInt((count + pageSize - 1) / pageSize);
         query = queryGenFunc();
@@ -47,6 +53,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                 var retData = {
                     metadata: {
                         //TODO change invilidateTime
+                        "numTotal": count,
                         "numPages": numPages,
                         "refreshTime": 3600000
                     },
@@ -54,7 +61,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                 };
                 res.json(retData);
             } else {
-                responseError(err);
+                responseError(res, err);
             }
         });
     });

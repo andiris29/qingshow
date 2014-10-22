@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 
 var _models, _comments, _terms;
 _models = function (req, res) {
-    var param = req.body;
+    var param = req.queryString;
     if (param._ids) {
         try {
             var ids = param._ids;
@@ -27,6 +27,7 @@ _models = function (req, res) {
             } else {
                 var retObj = {
                     metadata: {
+                        //TODO
                         "numPages": 1,
                         "invalidateTime": 3600000
                     },
@@ -56,7 +57,7 @@ _models = function (req, res) {
 };
 _comments = function (req, res) {
     try {
-        var param = req.body;
+        var param = req.queryString;
         var pageNo = parseInt(param.pageNo || 1);
         var pageSize = parseInt(param.pageSize || 10);
         var showIdStr = param.showId;

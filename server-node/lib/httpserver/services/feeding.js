@@ -29,7 +29,7 @@ function _showDataGenFunc(data) {
 //feeding/recommendation
 _recommendation = function (req, res) {
     var param, tags, pageNo, pageSize;
-    param = req.body;
+    param = res.queryString;
     tags = param.tags || [];
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
@@ -52,7 +52,7 @@ _recommendation = function (req, res) {
 //feeding/hot  sortedByNumView
 _hot = function (req, res) {
     var param, pageNo, pageSize;
-    param = req.body;
+    param = res.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
     function buildQuery() {
@@ -69,7 +69,7 @@ _hot = function (req, res) {
 //feeding/like sortedByNumLike
 _like = function (req, res){
     var param, pageNo, pageSize;
-    param = req.body;
+    param = res.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
     var currentUser = req.currentUser;
@@ -84,6 +84,10 @@ _like = function (req, res){
                 return;
             } else {
                 var count = p.likingShowRefs.length;
+                if (!count) {
+                    ServicesUtil.responseError(res, new ServerError.PagingNotExist);
+                    return;
+                }
 //                Show.populate(chosen.showRefs, {path :'modelRef itemRefs'})
                 People.populate(p,
                     {
@@ -114,6 +118,7 @@ _like = function (req, res){
                                     } else {
                                         var retData = {
                                             metadata: {
+                                                "numTotal": count,
                                                 "numPages": parseInt((count + pageSize - 1) / pageSize),
                                                 "refreshTime": 3600000
                                             },
@@ -134,7 +139,7 @@ _like = function (req, res){
 //feeding/choosen
 _choosen = function (req, res){
     var param, pageNo, pageSize;
-    param = req.body;
+    param = res.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
 
@@ -152,17 +157,12 @@ _choosen = function (req, res){
             } else {
                 var chosen = chosens[0];
                 var count = chosen.showRefs.length;
+                if (!count) {
+                    ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
+                    return;
+                }
                 if ((pageNo - 1) * pageSize > count){
-                    var retData = {
-                        metadata: {
-                            "numPages": parseInt((count + pageSize - 1) / pageSize),
-                            "refreshTime": 3600000
-                        },
-                        data: {
-                            shows: []
-                        }
-                    };
-                    res.json(retData);
+                    ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
                     return;
                 }
                 Chosen.populate(chosen, {
@@ -186,6 +186,7 @@ _choosen = function (req, res){
                             } else {
                                 var retData = {
                                     metadata: {
+                                        "numTotal": count,
                                         "numPages": parseInt((count + pageSize - 1) / pageSize),
                                         "refreshTime": 3600000
                                     },
@@ -207,7 +208,7 @@ _choosen = function (req, res){
 //byModel
 _byModel = function (req, res) {
     var param, producerIDs, pageNo, pageSize;
-    param = req.body;
+    param = res.queryString;
     producerIDs = param.producerIDs || [];
     producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
     pageNo = parseInt(param.pageNo || 1);
@@ -230,7 +231,7 @@ _byModel = function (req, res) {
 //byTag
 _byTag = function (req, res){
     var param, tags, pageNo, pageSize;
-    param = req.body;
+    param = res.queryString;
     tags = param.tags || [];
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
@@ -254,7 +255,7 @@ _byTag = function (req, res){
 _byBrand = function (req, res){
     var param, brandIdStr, brandIdObj, pageNo, pageSize;
     try {
-        param = req.body;
+        param = res.queryString;
         brandIdStr = param._id || [];
         brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
         pageNo = parseInt(param.pageNo || 1);
@@ -299,7 +300,7 @@ _byBrand = function (req, res){
 _byFollow = function (req, res){
     var param, peopleIdStr, peopleIdObj, pageNo, pageSize;
     try {
-        param = req.body;
+        param = res.queryString;
         peopleIdStr = param._id || [];
         peopleIdObj = mongoose.mongo.BSONPure.ObjectID(peopleIdStr);
         pageNo = parseInt(param.pageNo || 1);

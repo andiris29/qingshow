@@ -4,9 +4,10 @@ var parseurl = require('parseurl');
 function parser(req, res, next) {
     if (req.method === 'get' || req.method === 'GET') {
         var query = qs.parse(parseurl(req).query, {arrayLimit: 0});
-        if (query.data) {
-            req.body = JSON.parse(query.data);
-        }
+        res.queryString = JSON.parse(JSON.stringify(query));
+//        if (query.data) {
+//            req.body = JSON.parse(query.data);
+//        }
     }
     next();
 }
