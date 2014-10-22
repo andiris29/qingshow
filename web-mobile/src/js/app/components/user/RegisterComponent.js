@@ -37,7 +37,7 @@ define([
                 alert("请输入账号");
                 return;
             }
-            
+
             if (passwd.length == 0) {
                 alert("请输入密码");
                 return;
@@ -50,7 +50,7 @@ define([
 
             UserService.register(user, passwd, function(metadata, data) {
                 if (metadata.error == undefined) {
-                    model.user(data).serialize();
+                    model.user(data.people).serialize();
                     appRuntime.view.to('app/views/show/S01Home');
                 } else {
                     alert("注册失败");

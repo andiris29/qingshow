@@ -59,7 +59,7 @@ define([
                 json = JSON.parse(json);
                 if (json.userInfo) {
                     tasks.push( function(callback) {
-                        UserService.login(json.userInfo.mail, json.userInfo.encryptedPassword, function(metadata, data) {
+                        UserService.loginByEncryptedPassword(json.userInfo.mail, json.userInfo.encryptedPassword, function(metadata, data) {
                             this.user(data);
                             callback(null);
                         }.bind(this));

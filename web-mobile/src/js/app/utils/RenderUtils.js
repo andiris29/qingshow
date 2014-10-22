@@ -25,8 +25,8 @@ define([
     };
 
     RenderUtils.imagePathToURL = function(path) {
-        if (path.indexOf('://') === -1) {
-            return appConfig.imageServerRoot + path;
+        if (path && path.indexOf('://') === -1) {
+            return (andrea.env.fake ? appConfig.fake.imageServerRoot : appConfig.imageServerRoot) + path;
         } else {
             return path;
         }
@@ -37,8 +37,8 @@ define([
     };
 
     RenderUtils.videoPathToURL = function(path) {
-        if (path.indexOf('://') === -1) {
-            return appConfig.videoServerRoot + path;
+        if (path && path.indexOf('://') === -1) {
+            return (andrea.env.fake ? appConfig.fake.videoServerRoot : appConfig.videoServerRoot) + path;
         } else {
             return path;
         }

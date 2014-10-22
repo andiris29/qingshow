@@ -27,7 +27,7 @@ define([
             }
             UserService.update(main.save(), function(metadata, data) {
                 if (metadata.error == undefined) {
-                    model.user(data).serialize();
+                    model.user(data.people).serialize();
                     appRuntime.view.back();
                 } else {
                     alert("更新失败");
