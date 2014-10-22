@@ -2,6 +2,7 @@ var argv = require('minimist')(process.argv.slice(2));
 var express = require('express');
 var qsdb = require('../runtime/qsdb');
 var connect = require('connect');
+var path = require('path');
 //param parser
 var bodyParser = require('body-parser');
 var queryStringParser = require('./middleware/query-string-parser');
@@ -23,8 +24,11 @@ var servicesNames = ['feeding', 'user', 'interaction', 'query'];
 
 // Startup http server
 var app = express();
-
 app.listen(argv['http-server-port']);
+
+//static
+var publicPath = path.join(__dirname, '../../public');
+app.use(express.static(publicPath));
 
 //Cookie
 app.use(cookieParser(credentials.cookieSecret));

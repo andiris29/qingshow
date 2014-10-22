@@ -22,3 +22,6 @@ client-mobile/qingshow_android/bin
 #ignore WebStorm file
 server-node/.idea
 .picasa.ini
+
+#ignore public
+server-node/public
