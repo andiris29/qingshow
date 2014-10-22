@@ -1,13 +1,14 @@
 // @formatter:off
 define([
     'ui/containers/IScrollContainer',
+    'app/model',
     'app/services/FeedingService',
     'app/views/ViewBase',
     'app/components/common/Header',
     'app/components/common/Navigator',
     'app/components/user/User',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, FeedingService, ViewBase, Header, Navigator, User, ShowGallery) {
+], function(IScrollContainer, model, FeedingService, ViewBase, Header, Navigator, User, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -26,18 +27,20 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var user = new User($('<div/>'), this._model);
+        var user = new User($('<div/>'), model.user());
         body.append(user);
 
         var navi = new Navigator($('<div/>'));
         navi.append(new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+            'feeding' : FeedingService.like
         }));
         navi.append(new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+            'feeding' : FeedingService.recommendation
         }));
         navi.append(new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+            'feeding' : function(pageNo, callback) {
+                FeedingService.byFollow(model.user()._id, pageNo, callback);
+            }.bind(this)
         }));
         body.append(navi);
         //

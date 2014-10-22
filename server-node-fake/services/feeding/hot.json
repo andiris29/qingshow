@@ -1,13 +1,12 @@
 {
     "metadata": {
-        "numPages": 1,
-        "refreshTime": 1413385200000
+        "numPages": 1
     },
     "data": {
         "shows": [
             {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
+                "cover": "/covers/moto01.jpg",
                 "video": "/02_2.mp4.mp4",
                 "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
@@ -68,7 +67,7 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
+                "cover": "/covers/moto01.jpg",
                 "video": "/02_2.mp4.mp4",
                 "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
@@ -129,7 +128,7 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
+                "cover": "/covers/moto01.jpg",
                 "video": "/02_2.mp4.mp4",
                 "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
@@ -190,7 +189,7 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
+                "cover": "/covers/moto01.jpg",
                 "video": "/02_2.mp4.mp4",
                 "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
@@ -251,7 +250,7 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
+                "cover": "/covers/moto01.jpg",
                 "video": "/02_2.mp4.mp4",
                 "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
@@ -312,7 +311,7 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
+                "cover": "/covers/moto01.jpg",
                 "video": "/02_2.mp4.mp4",
                 "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,

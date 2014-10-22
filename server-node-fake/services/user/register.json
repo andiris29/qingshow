@@ -1,15 +1,15 @@
 {
     "metadata": {},
     "data": {
-        "roles": [0],
+        "roles": ["user"],
         "name": "前田敦子",
         "portrait": "/portraits/smallphoto02.jpg",
         "thumbnail": "/covers/moto02.jpg",
         "age": 23,
         "height": 161,
         "weight": 45,
-        "gender": 1,
-        "hairTypes": [1, 2],
+        "gender": "female",
+        "hairTypes": ["long", "superlong"],
         "userInfo": {
             "mail": "qs@qs.com",
             "encryptedPassword": "xxxxxx"

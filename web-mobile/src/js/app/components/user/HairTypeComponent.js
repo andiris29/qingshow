@@ -29,8 +29,7 @@ define([
         var view$ = $('.qsTpltHairTypeMain', this._dom$);
         var contain$ = $('.qsListInfoSection', view$);
         var tplt$ = $('.qsHidden', view$);
-
-        [0, 3, 1, 2].forEach(function(code, index) {
+        ['all', 'midlong', 'long', 'superlong'].forEach(function(code, index) {
             var li$ = $(".qsRow", tplt$).clone();
             $('.qsTitle', li$).text(CodeUtils.getValue('people.hairType', code));
             $('div:last', li$).attr('id', 'hairType-' + code);

@@ -1,19 +1,18 @@
 // @formatter:off
 define([
     'ui/UIComponent',
-    'app/model',
     'app/managers/TemplateManager',
     'app/services/DataService',
     'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, model, TemplateManager, DataService, CodeUtils, RenderUtils) {
+], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
      */
     var User = function(dom, data) {
         User.superclass.constructor.apply(this, arguments);
-        this._user = model.user();
+        this._user = data;
 
         TemplateManager.load('user/user.html', function(err, content$) {
             this._dom$.append(content$);

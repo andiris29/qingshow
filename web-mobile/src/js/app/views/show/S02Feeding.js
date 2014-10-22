@@ -13,7 +13,9 @@ define([
         S02Feeding.superclass.constructor.apply(this, arguments);
         this._feeding = data.feeding;
 
-        var header = new Header($('<div/>').appendTo(this._dom$), '分类 xxx');
+        var header = new Header($('<div/>').appendTo(this._dom$), {
+            'title' : data.title
+        });
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height

@@ -28,10 +28,14 @@ define([
 
         var navi = new Navigator($('<div/>'));
         navi.append(new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+            'feeding' : function(pageNo, callback) {
+                FeedingService.byModel(this._model._id, pageNo, callback);
+            }.bind(this)
         }));
         navi.append(new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.choosen
+            'feeding' : function(pageNo, callback) {
+                FeedingService.byFollow(this._model._id, pageNo, callback);
+            }.bind(this)
         }));
         navi.append(new FanGallery($('<div/>'), {
         }));

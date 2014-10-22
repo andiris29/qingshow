@@ -30,7 +30,7 @@ define([
         var contain$ = $('.qsListInfoSection', view$);
         var tplt$ = $('.qsHidden', view$);
 
-        [0, 1].forEach(function(code, index) {
+        ['female', 'male'].forEach(function(code, index) {
             var li$ = $(".qsRow", tplt$).clone();
             $('.qsTitle', li$).text(CodeUtils.getValue('people.gender', code));
             $('div:last', li$).attr('id', 'gender-' + code);
