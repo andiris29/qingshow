@@ -12,17 +12,26 @@ define([
     var _key = 'qsPasswordKey';
 
     UserService.login = function(mail, password, callback) {
-        DataService.request('/user/login', {
+        DataService.request('POST', '/user/login', {
             'mail' : mail,
             'encryptedPassword' : CryptoJS.AES.encrypt(password, _key).toString()
         }, callback);
     };
 
     UserService.register = function(mail, password, callback) {
-        DataService.request('/user/register', {
+        DataService.request('POST', '/user/register', {
             'mail' : mail,
             'encryptedPassword' : CryptoJS.AES.encrypt(password, _key).toString()
         }, callback);
+    };
+
+    UserService.update = function(updated, callback) {
+        if (updated.password) {
+            updated.encryptedPassword = CryptoJS.AES.encrypt(updated.password, _key).toString();
+            delete updated.password;
+        }
+        DataService.request('POST', '/user/update', updated, callback);
+
     };
 
     return UserService;

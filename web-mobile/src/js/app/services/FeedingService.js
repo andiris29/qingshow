@@ -11,7 +11,7 @@ define([
     var _pageSize = 10;
 
     var _request = function(path, data, pageNo, callback) {
-        DataService.request(path, $.extend(data || {}, {
+        DataService.request('GET', path, $.extend(data || {}, {
             'pageNo' : pageNo,
             'pageSize' : _pageSize
         }), callback);

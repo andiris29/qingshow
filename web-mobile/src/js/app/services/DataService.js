@@ -7,7 +7,7 @@ define([
      */
     var DataService = {};
 
-    DataService.request = function(path, requestData, callback) {
+    DataService.request = function(type, path, requestData, callback) {
         var request = {
             'url' : appConfig.dataServerRoot + path,
             'dataType' : 'json'
@@ -19,7 +19,7 @@ define([
             });
         } else {
             $.extend(request, {
-                'type' : 'POST',
+                'type' : type,
                 'data' : requestData
             });
         }

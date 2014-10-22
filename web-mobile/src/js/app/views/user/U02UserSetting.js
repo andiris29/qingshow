@@ -2,11 +2,11 @@
 define([
     'ui/containers/IScrollContainer',
     'app/views/ViewBase',
-    'app/services/DataService',
+    'app/services/UserService',
     'app/components/common/Header',
     'app/components/user/UserSettingComponents',
     'app/model'
-], function(IScrollContainer, ViewBase, DataService, Header, UserSettingComponents, model) {
+], function(IScrollContainer, ViewBase, UserService, Header, UserSettingComponents, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -25,7 +25,7 @@ define([
             if (!main.validate()) {
                 return;
             }
-            DataService.request('/user/update', main.save(), function(metadata, data) {
+            UserService.update(main.save(), function(metadata, data) {
                 if (metadata.error == undefined) {
                     model.user(data).serialize();
                     appRuntime.view.back();
