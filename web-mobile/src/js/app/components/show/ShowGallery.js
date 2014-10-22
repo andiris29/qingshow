@@ -47,8 +47,8 @@ define([
         if (!this._expandable) {
             return;
         }
-        $('.qsLoading .qsSpin').fadeIn();
-        $('.qsLoading .qsText').text('努力加载中…');
+        $('.qsLoading .qsSpin', this._dom$).fadeIn();
+        $('.qsLoading .qsText', this._dom$).text('努力加载中…');
 
         this._pageNo++;
         this._feeding(this._pageNo, this._render.bind(this));
@@ -61,7 +61,7 @@ define([
     ShowGallery.prototype._render = function(metadata, data) {
         ShowGallery.superclass._render.apply(this, arguments);
 
-        $('.qsLoading .qsSpin').hide();
+        $('.qsLoading .qsSpin', this._dom$).hide();
         if (metadata.error) {
             this._expandable = false;
 
@@ -97,9 +97,9 @@ define([
             }.bind(this));
         }
         if (this._expandable) {
-            $('.qsLoading .qsText').text('加载更多…');
+            $('.qsLoading .qsText', this._dom$).text('加载更多…');
         } else {
-            $('.qsLoading .qsText').text('没有更多了…');
+            $('.qsLoading .qsText', this._dom$).text('没有更多了…');
         }
     };
 
