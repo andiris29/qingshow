@@ -9,33 +9,29 @@ _login = function (req, res) {
     mail = param.mail || '';
     encryptedPassword = param.encryptedPassword || '';
     People.findOne({"userInfo.mail" : mail, "userInfo.encryptedPassword": encryptedPassword}, function (err, people) {
-        try {
-            if (err) {
-                throw err;
-            }
-            if (people) {
-                //login succeed
-                req.session.userId = people._id;
-                req.session.loginDate = new Date();
+        if (err) {
+            ServicesUtil.responseError(res, err);
+        } else if (people) {
+            //login succeed
+            req.session.userId = people._id;
+            req.session.loginDate = new Date();
 
-                var retData = {
-                    metadata: {
-                        //TODO change invilidateTime
-                        "invalidateTime": 3600000
-                    },
-                    data: {
-                        people : people
-                    }
-                };
-                res.json(retData);
-            } else {
-                //login fail
-                delete req.session.userId;
-                delete req.session.loginDate;
-                throw new ServerError(ServerError.IncorrectMailOrPassword);
-            }
-        } catch (e) {
-            ServicesUtil.responseError(res, e);
+            var retData = {
+                metadata: {
+                    //TODO change invilidateTime
+                    "invalidateTime": 3600000
+                },
+                data: {
+                    people : people
+                }
+            };
+            res.json(retData);
+        } else {
+            //login fail
+            delete req.session.userId;
+            delete req.session.loginDate;
+            err = new ServerError(ServerError.IncorrectMailOrPassword);
+            ServicesUtil.responseError(res, err);
         }
     });
 };
