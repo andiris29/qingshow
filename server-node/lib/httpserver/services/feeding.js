@@ -152,6 +152,19 @@ _choosen = function (req, res){
             } else {
                 var chosen = chosens[0];
                 var count = chosen.showRefs.length;
+                if ((pageNo - 1) * pageSize > count){
+                    var retData = {
+                        metadata: {
+                            "numPages": parseInt((count + pageSize - 1) / pageSize),
+                            "refreshTime": 3600000
+                        },
+                        data: {
+                            shows: []
+                        }
+                    };
+                    res.json(retData);
+                    return;
+                }
                 Chosen.populate(chosen, {
                     path: 'showRefs',
                     options: {
