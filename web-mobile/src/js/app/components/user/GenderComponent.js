@@ -20,7 +20,6 @@ define([
         }.bind(this)], function(callback) {
             this._render();
         }.bind(this));
-
     };
 
     andrea.oo.extend(GenderComponent, UIComponent);
@@ -30,20 +29,20 @@ define([
         var contain$ = $('.qsListInfoSection', view$);
         var tplt$ = $('.qsHidden', view$);
 
-        ['female', 'male'].forEach(function(code, index) {
+        [1, 0].forEach(function(code, index) {
             var li$ = $(".qsRow", tplt$).clone();
             $('.qsTitle', li$).text(CodeUtils.getValue('people.gender', code));
             $('div:last', li$).attr('id', 'gender-' + code);
             li$.bind(appRuntime.events.click, function() {
                 if ($('.qsDisable', this).length > 0) {
-                    var other$ =  $('.qsHighlight', this.parentElement);
+                    var other$ = $('.qsHighlight', this.parentElement);
                     other$.removeClass('fa-check-circle2 qsHighlight');
                     other$.toggleClass('fa-check-circle-o2 qsDisable');
                     $('div:last', this).removeClass('fa-check-circle-o2 qsDisable');
                     $('div:last', this).toggleClass('fa-check-circle2 qsHighlight');
-                    
+
                 } else {
-                    var other$ =  $('.qsDisable', this.parentElement);
+                    var other$ = $('.qsDisable', this.parentElement);
                     other$.removeClass('fa-check-circle-o2 qsDisable');
                     other$.toggleClass('fa-check-circle2 qsHighlight');
 
@@ -66,7 +65,9 @@ define([
             var id = element.id;
             arry[index] = id.replace('gender-', '');
         });
-        return { "gender": arry};
+        return {
+            "gender" : arry
+        };
     };
 
     return GenderComponent;
