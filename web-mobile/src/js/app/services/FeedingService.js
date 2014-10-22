@@ -8,14 +8,13 @@ define([
      */
     var FeedingService = {};
 
-    var _pageSize = 10;
-
     var _request = function(path, data, pageNo, callback) {
         DataService.request('GET', path, $.extend(data || {}, {
             'pageNo' : pageNo,
-            'pageSize' : _pageSize
+            'pageSize' : FeedingService.PAGE_SIZE
         }), callback);
     };
+    FeedingService.PAGE_SIZE = 10;
 
     FeedingService.choosen = function(pageNo, callback) {
         _request('/feeding/choosen', null, pageNo, callback);

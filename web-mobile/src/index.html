@@ -20,9 +20,14 @@
             (function() {
                 window.appConfig = {
                     'mode' : 'development',
-                    'dataServerRoot' : '../../server-node-fake/services',
-                    'imageServerRoot' : '../../server-image-fake',
-                    'videoServerRoot' : '../../server-video-fake'
+                    'dataServerRoot' : 'http://121.41.162.102:30001/services',
+                    'imageServerRoot' : 'http://121.41.162.102:30001/images',
+                    'videoServerRoot' : 'http://121.41.162.102:30001/videos',
+                    'fake' : {
+                        'dataServerRoot' : '../../server-node-fake/services',
+                        'imageServerRoot' : '../../server-image-fake',
+                        'videoServerRoot' : '../../server-video-fake'
+                    }
                 };
 
                 var cssURLs = [], jsURLs = [];

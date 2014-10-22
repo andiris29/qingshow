@@ -2,9 +2,10 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
+    'app/services/FeedingService',
     'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, CodeUtils, RenderUtils) {
+], function(UIComponent, TemplateManager, FeedingService, CodeUtils, RenderUtils) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -15,6 +16,9 @@ define([
         this._feeding = data.feeding;
         this._pageNo = 1;
         this._numTotal = 0;
+
+        this._expandable = true;
+
         this._tpltLi$ = null;
 
         async.parallel([ function(callback) {
@@ -40,6 +44,9 @@ define([
     andrea.oo.extend(ShowGallery, UIComponent);
 
     ShowGallery.prototype.expand = function() {
+        if (!this._expandable) {
+            return;
+        }
         $('.qsLoading .qsSpin').fadeIn();
         $('.qsLoading .qsText').text('努力加载中…');
 
@@ -56,11 +63,15 @@ define([
 
         $('.qsLoading .qsSpin').hide();
         if (metadata.error) {
-            $('.qsLoading .qsText').text('都看完了哦。');
+            this._expandable = false;
+
+            if (this._pageNo === 1) {
+                $('.qsRefreshInfo', this._dom$).hide();
+            }
         } else {
             this._numTotal = metadata.numTotal;
+            this._expandable = (FeedingService.PAGE_SIZE * this._pageNo) < this._numTotal;
 
-            $('.qsLoading .qsText').text('加载更多…');
             // Refresh time
             if (metadata.refreshTime) {
                 $('.qsRefreshInfo', this._dom$).show();
@@ -84,6 +95,11 @@ define([
                 });
                 li$.appendTo(targetContainer$);
             }.bind(this));
+        }
+        if (this._expandable) {
+            $('.qsLoading .qsText').text('加载更多…');
+        } else {
+            $('.qsLoading .qsText').text('没有更多了…');
         }
     };
 
