@@ -332,7 +332,7 @@ module.exports = {
     'recommendation' : {method: 'get', func: _recommendation},
     'hot' : {method: 'get', func: _hot},
     'like' : {method: 'get', func: _like, needLogin: true},
-    "choosen" : {method: 'post', func: _choosen},
+    "choosen" : {method: 'get', func: _choosen},
 
     'byModel' : {method: 'get',func: _byModel},
     'byTag' : {method: 'get', func: _byTag},
