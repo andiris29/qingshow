@@ -11,13 +11,14 @@ define([
     /**
      * User Settings's UI Componets
      */
-    var U04Email, U05HairType, U08Passwd, U09Gender;
+    var U02UserSetting, U04Email, U05HairType, U08Passwd, U09Gender;
     var UserSettingComponents = function(dom) {
         UserSettingComponents.superclass.constructor.apply(this, arguments);
 
-        require(['app/views/user/U04Email', 'app/views/user/U05HairType',
+        require(['app/views/user/U02UserSetting', 'app/views/user/U04Email', 'app/views/user/U05HairType',
             'app/views/user/U08Passwd', 'app/views/user/U09Gender'
-            ], function(email, hairType, passwd, gender) {
+            ], function(userSetting, email, hairType, passwd, gender) {
+            U02UserSetting = userSetting;
             U04Email = email;
             U05HairType = hairType;
             U08Passwd = passwd;
@@ -72,6 +73,11 @@ define([
 
         $('.qsEmail', view$).on(appRuntime.events.click, function() {
             appRuntime.view.to(U04Email);
+        }.bind(this));
+    
+        $('#logout', view$).on(appRuntime.events.click, function() {
+            this._data.user(null).serialize();
+            appRuntime.view.to('app/views/show/S01Home');
         }.bind(this));
     };
 

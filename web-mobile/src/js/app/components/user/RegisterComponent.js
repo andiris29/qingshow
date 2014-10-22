@@ -26,7 +26,7 @@ define([
     andrea.oo.extend(RegisterComponent, UIComponent);
 
     RegisterComponent.prototype._render = function() {
-        $('#register', this._dom$).bind(appRuntime.events.click, function() {
+        $('#register', this._dom$).on(appRuntime.events.click, function() {
             var main = $('.qsTpltRegisterMain');
 
             var user = $('#user', main).val();
@@ -56,7 +56,7 @@ define([
                     alert("注册失败");
                 }
             }.bind(this));
-        });
+        }.bind(this));
     };
 
     return RegisterComponent;

@@ -4,6 +4,7 @@
     .qsTpltPasswdMain {
         /*padding: 20px;*/
         overflow: auto;
+        width: 640px;
     }
 
     .qsTpltPasswdMain .qsSubTitle {
@@ -12,11 +13,12 @@
     }
 
     .qsTpltPasswdMain .qsListInfoSection {
-        margin: 0 5px 10px;
+        margin: 0;
         border-radius: 4px;
         /*box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
         background-color: #fff;
-        width: 630px;
+        width: 100%;
+        line-height: 40px;
     }
 
     .qsTpltPasswdMain .qsListInfoSection .qsRow {
@@ -56,7 +58,7 @@
 
 <div id="wrapper" style="width: 640px; position: relative; margin: auto;">
     <div class="qsTpltPasswdMain">
-        <h2 class="qsSubTitle"></h2>
+        <h2 class="qsSubTitle">&nbsp;</h2>
         <section class="qsListInfoSection">
             <div class="qsRow">
                 <div class="qsTitle">当前密码</div>

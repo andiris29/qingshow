@@ -2,29 +2,32 @@
 <link href="../../css/app.css" rel="stylesheet"/>
 <style>
     .qsTpltHairTypeMain {
-        /*padding: 20px;*/
         overflow: auto;
+        width: 640px;
     }
 
     .qsTpltHairTypeMain .fa-check-circle2:after {
         content: "\f058";
+        margin: 0 0 0 420px;
     }
 
     .qsTpltHairTypeMain .fa-check-circle-o2:after {
         content: "\f05d";
+        margin: 0 0 0 420px;
     }
 
     .qsTpltHairTypeMain .qsSubTitle {
         margin: 10px 20px;
-        font-size: 1em
+        font-size: 1em;
+        line-height: 70px;
     }
 
     .qsTpltHairTypeMain .qsListInfoSection {
-        margin: 0 5px 10px;
+        margin: 0;
         border-radius: 4px;
         /*box-shadow: 0 1px 2px rgba(0,0,0,.2);*/
         background-color: #fff;
-        width: 630px;
+        width: 100%;
     }
 
     .qsTpltHairTypeMain .qsListInfoSection .qsRow {
@@ -56,12 +59,12 @@
     .qsTpltHairTypeMain .qsRow .qsDisable {
         color: #dbdbdb;
     }
-    .qsTpltHairTypeMain .qsRow .fa-check-circle2 {
+    .qsTpltHairTypeMain .qsListInfoSection .qsRow .fa-check-circle2 {
         position: absolute;
         right: 12px;
         line-height: 49px;
     }
-    .qsTpltHairTypeMain .qsRow .fa-check-circle-o2 {
+    .qsTpltHairTypeMain .qsListInfoSection .qsRow .fa-check-circle-o2 {
         position: absolute;
         right: 12px;
         line-height: 49px;
@@ -76,7 +79,6 @@
         <div class="qsHidden">
             <div class="qsRow">
                 <div class="qsTitle"></div>
-                <div class="qsValue"></div>
                 <div class="fa fa-check-circle-o2 qsDisable"></div>
             </div>
         </div>
