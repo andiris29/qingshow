@@ -12,6 +12,8 @@ define([
 
         this._animating = false;
         this._index = -1;
+
+        this._this_refresh = this._refresh.bind(this);
     };
     andrea.oo.extend(Navigator, UIContainer);
 
@@ -62,12 +64,12 @@ define([
 
     Navigator.prototype._activateChild = function(child) {
         child.dom$().show();
-        child.on('afterRender resize', this._refresh.bind(this));
+        child.on('afterRender resize', this._this_refresh);
     };
 
     Navigator.prototype._deactivateChild = function(child) {
         child.dom$().hide();
-        // child.off();
+        child.off('afterRender resize', this._this_refresh);
     };
 
     Navigator.prototype._refresh = function() {
