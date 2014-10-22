@@ -14,8 +14,6 @@ define([
     var U02UserSetting = function(dom) {
         U02UserSetting.superclass.constructor.apply(this, arguments);
 
-        console.log(model.user());
-
         var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '设置',
             'right' : '保存'
