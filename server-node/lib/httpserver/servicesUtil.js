@@ -39,7 +39,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
             return;
         }
         if ((pageNo - 1) * pageSize > count){
-            ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
+            responseError(res, new ServerError(ServerError.PagingNotExist));
             return;
         }
         numPages = parseInt((count + pageSize - 1) / pageSize);

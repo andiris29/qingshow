@@ -27,7 +27,8 @@ _models = function (req, res) {
             } else {
                 var retObj = {
                     metadata: {
-                        "numPages": 1, "numTotal": 105,
+                        "numPages": 1,
+                        "numTotal": peoples.length,
                         "invalidateTime": 3600000
                     },
                     data: {
