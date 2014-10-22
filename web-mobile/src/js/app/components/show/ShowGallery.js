@@ -14,7 +14,7 @@ define([
 
         this._feeding = data.feeding;
         this._pageNo = 1;
-        this._numPages = Number.POSITIVE_INFINITY;
+        this._numTotal = 0;
         this._tpltLi$ = null;
 
         async.parallel([ function(callback) {
@@ -47,6 +47,10 @@ define([
         this._feeding(this._pageNo, this._render.bind(this));
     };
 
+    ShowGallery.prototype.numTotal = function() {
+        return this._numTotal;
+    };
+
     ShowGallery.prototype._render = function(metadata, data) {
         ShowGallery.superclass._render.apply(this, arguments);
 
@@ -54,6 +58,8 @@ define([
         if (metadata.error) {
             $('.qsLoading .qsText').text('都看完了哦。');
         } else {
+            this._numTotal = metadata.numTotal;
+
             $('.qsLoading .qsText').text('加载更多…');
             // Refresh time
             if (metadata.refreshTime) {
