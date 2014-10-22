@@ -30,6 +30,14 @@ app.listen(argv['http-server-port']);
 var publicPath = path.join(__dirname, '../../public');
 app.use(express.static(publicPath));
 
+//cross domain
+app.use(function (req, res, next) {
+    // Set header for cross domain
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
+
 //Cookie
 app.use(cookieParser(credentials.cookieSecret));
 //Session
