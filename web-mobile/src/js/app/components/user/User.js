@@ -27,17 +27,24 @@ define([
         };
     };
 
+    User.prototype.numShowsLike = function(value) {
+        $('.qsNumShowsLike', this._dom$).text(value);
+    };
+    User.prototype.numShowsRecommendation = function(value) {
+        $('.qsNumShowsRecommendation', this._dom$).text(value);
+    };
+    User.prototype.numShowsFollow = function(value) {
+        $('.qsNumShowsFollow', this._dom$).text(value);
+    };
+
     User.prototype._render = function() {
         User.superclass._render.apply(this, arguments);
 
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(this._user.portrait));
         $('.qsName', this._dom$).text(this._user.name);
-        $('.qsRole', this._dom$).text(RenderUtils.rolesToDisplay(this._user.roles));
-        $('.qsDetail', this._dom$).text([RenderUtils.heightToDisplay(this._user.height), RenderUtils.weightToDisplay(this._user.weight)].join('／'));
         // TODO
-        $('.qsNumLike', this._dom$).text('99');
-        $('.qsNumRecommendation', this._dom$).text('21');
-        $('.qsNumFollows', this._dom$).text('199');
+        $('.qsAge', this._dom$).text('');
+        $('.qsDetail', this._dom$).text([RenderUtils.heightToDisplay(this._user.height), RenderUtils.weightToDisplay(this._user.weight)].join('／'));
 
         var tabs$ = $('.qsTab', this._dom$);
         tabs$.on(appRuntime.events.click, function(event) {

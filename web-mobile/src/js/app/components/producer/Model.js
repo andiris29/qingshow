@@ -27,6 +27,13 @@ define([
         };
     };
 
+    Model.prototype.numShows = function(value) {
+        $('.qsNumShows', this._dom$).text(value);
+    };
+    Model.prototype.numShowsFollow = function(value) {
+        $('.qsNumShowsFollow', this._dom$).text(value);
+    };
+
     Model.prototype._render = function() {
         Model.superclass._render.apply(this, arguments);
 
@@ -35,8 +42,6 @@ define([
         $('.qsRole', this._dom$).text(RenderUtils.rolesToDisplay(this._model.roles));
         $('.qsDetail', this._dom$).text([RenderUtils.heightToDisplay(this._model.height), RenderUtils.weightToDisplay(this._model.weight)].join('／'));
         // TODO
-        $('.qsNumShows', this._dom$).text('99');
-        $('.qsNumFollow', this._dom$).text('105');
         $('.qsNumFollowers', this._dom$).text('321');
 
         var tabs$ = $('.qsTab', this._dom$);

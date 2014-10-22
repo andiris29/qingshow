@@ -27,12 +27,13 @@ define([
         body.append(model);
 
         var navi = new Navigator($('<div/>'));
-        navi.append(new ShowGallery($('<div/>'), {
+        var byModel, byFollow;
+        navi.append( byModel = new ShowGallery($('<div/>'), {
             'feeding' : function(pageNo, callback) {
                 FeedingService.byModel(this._model._id, pageNo, callback);
             }.bind(this)
         }));
-        navi.append(new ShowGallery($('<div/>'), {
+        navi.append( byFollow = new ShowGallery($('<div/>'), {
             'feeding' : function(pageNo, callback) {
                 FeedingService.byFollow(this._model._id, pageNo, callback);
             }.bind(this)
@@ -43,6 +44,12 @@ define([
         //
         model.on('selectTab', function(event, index) {
             navi.index(index);
+        });
+        byModel.on('afterRender', function(event) {
+            model.numShows(byModel.numTotal());
+        });
+        byFollow.on('afterRender', function(event) {
+            model.numShowsFollow(byFollow.numTotal());
         });
     };
     andrea.oo.extend(P02Model, ViewBase);

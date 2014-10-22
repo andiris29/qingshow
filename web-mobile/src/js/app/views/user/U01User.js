@@ -31,13 +31,14 @@ define([
         body.append(user);
 
         var navi = new Navigator($('<div/>'));
-        navi.append(new ShowGallery($('<div/>'), {
+        var like, recommendation, byFollow;
+        navi.append( like = new ShowGallery($('<div/>'), {
             'feeding' : FeedingService.like
         }));
-        navi.append(new ShowGallery($('<div/>'), {
+        navi.append( recommendation = new ShowGallery($('<div/>'), {
             'feeding' : FeedingService.recommendation
         }));
-        navi.append(new ShowGallery($('<div/>'), {
+        navi.append( byFollow = new ShowGallery($('<div/>'), {
             'feeding' : function(pageNo, callback) {
                 FeedingService.byFollow(model.user()._id, pageNo, callback);
             }.bind(this)
@@ -46,6 +47,15 @@ define([
         //
         user.on('selectTab', function(event, index) {
             navi.index(index);
+        });
+        like.on('afterRender', function(event) {
+            user.numShowsLike(like.numTotal());
+        });
+        recommendation.on('afterRender', function(event) {
+            user.numShowsRecommendation(recommendation.numTotal());
+        });
+        byFollow.on('afterRender', function(event) {
+            user.numShowsFollow(byFollow.numTotal());
         });
     };
     andrea.oo.extend(U01User, ViewBase);
