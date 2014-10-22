@@ -84,8 +84,8 @@ _like = function (req, res){
                 return;
             } else {
                 var count = p.likingShowRefs.length;
-                if (!count) {
-                    ServicesUtil.responseError(res, new ServerError.PagingNotExist);
+                if ((pageNo - 1) * pageSize > count){
+                    ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
                     return;
                 }
 //                Show.populate(chosen.showRefs, {path :'modelRef itemRefs'})
@@ -157,10 +157,6 @@ _choosen = function (req, res){
             } else {
                 var chosen = chosens[0];
                 var count = chosen.showRefs.length;
-                if (!count) {
-                    ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
-                    return;
-                }
                 if ((pageNo - 1) * pageSize > count){
                     ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
                     return;
