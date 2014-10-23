@@ -16,8 +16,8 @@ define([
     };
     FeedingService.PAGE_SIZE = 10;
 
-    FeedingService.choosen = function(pageNo, callback) {
-        _request('/feeding/choosen', null, pageNo, callback);
+    FeedingService.chosen = function(pageNo, callback) {
+        _request('/feeding/chosen', null, pageNo, callback);
     };
 
     FeedingService.hot = function(pageNo, callback) {

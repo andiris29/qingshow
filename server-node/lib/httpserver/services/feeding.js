@@ -9,7 +9,7 @@ var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var mongoose = require('mongoose');
 
-var _recommendation, _hot, _like, _choosen;
+var _recommendation, _hot, _like, _chosen;
 var _byModel, _byTag, _byBrand, _byFollow;
 
 //Utility for feeding service
@@ -136,8 +136,8 @@ _like = function (req, res){
         });
 };
 
-//feeding/choosen
-_choosen = function (req, res){
+//feeding/chosen
+_chosen = function (req, res){
     var param, pageNo, pageSize;
     param = res.queryString;
     pageNo = parseInt(param.pageNo || 1);
@@ -342,7 +342,7 @@ module.exports = {
     'recommendation' : {method: 'get', func: _recommendation},
     'hot' : {method: 'get', func: _hot},
     'like' : {method: 'get', func: _like, needLogin: true},
-    "choosen" : {method: 'get', func: _choosen},
+    "chosen" : {method: 'get', func: _chosen},
 
     'byModel' : {method: 'get',func: _byModel},
     'byTag' : {method: 'get', func: _byTag},
