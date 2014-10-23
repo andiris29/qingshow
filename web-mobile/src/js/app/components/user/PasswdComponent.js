@@ -46,6 +46,12 @@ define([
             return false;
         }
 
+        var nowEncryptPasswd = CryptoJS.DES.encrypt(nowPasswd, _key, _cfg).toString();
+        if (this._data._user.userInfo.encryptedPassword != nowEncryptPasswd) {
+            alert("当前密码不正确！");
+            return false;
+        }
+
         return true;
     };
 

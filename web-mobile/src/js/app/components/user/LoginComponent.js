@@ -43,7 +43,7 @@ define([
             }
 
             UserService.login(user, passwd, function(metadata, data) {
-                model.user(data.people).serialize();
+                model.user(data).serialize();
                 appRuntime.view.back();
             }.bind(this));
         });
