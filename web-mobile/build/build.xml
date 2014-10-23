@@ -50,7 +50,7 @@
         <copy tofile="${dir.output}/libs/lazyload-release-2.0.3/lazyload.js" file="${dir.src}/libs/lazyload-release-2.0.3/lazyload.js" encoding="UTF-8" outputencoding="UTF-8"/>
         <!-- ${dir.output}/libs/libs-aio.js -->
         <concat destfile="${dir.output}/libs/libs-aio.js" force="yes" encoding="UTF-8" outputencoding="UTF-8">
-            <fileset file="${dir.src}/libs/CryptoJS v3.1.2/rollups/aes.js" />
+            <fileset file="${dir.src}/libs/CryptoJS v3.1.2/rollups/tripledes.js" />
             <fileset file="${dir.src}/libs/Modernizr-2.8.3/modernizr.js" />
             <fileset file="${dir.src}/libs/jquery-2.1.1/jquery-2.1.1.js" />
             <fileset file="${dir.src}/libs/PageTransitions/js/pagetransitions.andrea.js" />
