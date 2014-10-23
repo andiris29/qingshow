@@ -120,7 +120,6 @@ _like = function (req, res){
                                             metadata: {
                                                 "numTotal": count,
                                                 "numPages": parseInt((count + pageSize - 1) / pageSize),
-                                                "refreshTime": 3600000
                                             },
                                             data: {
                                                 shows: populatedPeople.likingShowRefs
