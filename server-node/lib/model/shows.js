@@ -9,6 +9,11 @@ var showSchema;
 showSchema = Schema({
     name: String,
     cover: String,
+    coverMetaData: {
+        cover: String,
+        width: Number,
+        height: Number
+    },
     video: String,
     posters: [String],
     numLike: Number,
@@ -20,7 +25,8 @@ showSchema = Schema({
             {type: Schema.Types.ObjectId, ref: 'items'}
         ]
 //        select: false
-    }
+    },
+    create: { type: Date, default: Date.now }
 });
 
 //showSchema.methods.toJSON = function () {
