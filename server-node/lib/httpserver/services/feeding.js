@@ -229,6 +229,12 @@ _byTag = function (req, res){
     var param, tags, pageNo, pageSize;
     param = res.queryString;
     tags = param.tags || [];
+
+    if (tags.length === 0){
+        ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
+        return;
+    }
+
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
 
