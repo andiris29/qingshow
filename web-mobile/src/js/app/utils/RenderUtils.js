@@ -8,6 +8,10 @@ define([
      */
     var RenderUtils = {};
 
+    RenderUtils.PASSWORD_REGEXP = "^[A-Za-z0-9]{8,12}$";
+    RenderUtils.EMAIL_REGEXP = "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$";
+    RenderUtils.MOBILE_REGEXP= "^1[0-9]{11}$";
+
     var _today;
     RenderUtils.timeToAge = function(time) {
         if (!_today) {
@@ -63,6 +67,17 @@ define([
     };
     RenderUtils.weightToDisplay = function(weight) {
         return weight ? weight + 'kg' : '';
+    };
+
+    RenderUtils.checkStringMatchPattern = function(pattern, value) {
+
+        var regExp= new RegExp(pattern);
+
+        if (!regExp.test(value)) {
+            return false;
+        }
+
+        return true;
     };
 
     return RenderUtils;
