@@ -4,7 +4,7 @@ define([
     'app/managers/TemplateManager',
     'app/services/DataService',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
+], function(UIComponent, TemplateManager, DataService, RenderUtils) {
 // @formatter:on
 
     var EmailComponent = function(dom) {
@@ -41,6 +41,11 @@ define([
 
         if (newEmail.val().length == 0) {
             alert('请输入新的邮件地址');
+            return false;
+        }
+
+        if (!RenderUtils.checkStringMatchPattern(RenderUtils.EMAIL_REGEXP, newEmail.val())) {
+            alert('邮件地址的格式不正确');
             return false;
         }
 

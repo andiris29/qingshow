@@ -9,8 +9,8 @@ define([
     var RenderUtils = {};
 
     RenderUtils.PASSWORD_REGEXP = "^[A-Za-z0-9]{8,12}$";
-    RenderUtils.EMAIL_REGEXP = "^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$";
-    RenderUtils.MOBILE_REGEXP= "^1[0-9]{11}$";
+    RenderUtils.EMAIL_REGEXP = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    RenderUtils.MOBILE_REGEXP= "^1[0-9]{10}$";
 
     var _today;
     RenderUtils.timeToAge = function(time) {

@@ -23,7 +23,7 @@ define([
             if (!main.validate()) {
                 return;
             }
-            UserService.update(main.save(), function(metadata) {
+            UserService.update(main.save(), function(metadata, data) {
                 if(metadata.error == undefined) {
                     model.user(data).serialize();
                     appRuntime.view.back();

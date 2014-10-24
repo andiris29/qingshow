@@ -36,12 +36,16 @@ define([
 
     UserService.update = function(updated, callback) {
         if (updated.password) {
-            updated.encryptedPassword = CryptoJS.DES.encrypt(updated.password, _key).toString();
+            updated.encryptedPassword = CryptoJS.DES.encrypt(updated.password, _key, _cfg).toString();
             delete updated.password;
         }
         DataService.request('POST', '/user/update', updated, callback);
 
     };
+
+    UserService.encrypt = function(value) {
+        return CryptoJS.DES.encrypt(value, _key, _cfg).toString();
+    }
 
     return UserService;
 });

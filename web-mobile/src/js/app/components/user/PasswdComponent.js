@@ -2,9 +2,9 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
-    'app/services/DataService',
+    'app/services/UserService',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
+], function(UIComponent, TemplateManager, UserService, RenderUtils) {
 // @formatter:on
 
     var PasswdComponent = function(dom) {
@@ -33,20 +33,26 @@ define([
             alert("请输入当前密码");
             return false;
         }
+        if (!RenderUtils.checkStringMatchPattern(RenderUtils.PASSWORD_REGEXP, newPasswd)) {
+            alert("当前密码格式不正确,请输入8-12位的英文或数字");
+            return false;
+        }
         if (newPasswd.length == 0) {
             alert("请输入新密码");
             return false;
         }
-        if (nowPasswd != this._data._user.userInfo.encryptedPassword) {
-            alert("当前密码不正确");
+
+        if (!RenderUtils.checkStringMatchPattern(RenderUtils.PASSWORD_REGEXP, newPasswd)) {
+            alert("新密码格式不正确请,输入8-12位的英文或数字");
             return false;
         }
-        if ((newPasswd.length > 0) && (newPasswd == confirmPasswd)) {
+
+        if ((newPasswd.length > 0) && (newPasswd != confirmPasswd)) {
             alert("密码不一致");
             return false;
         }
 
-        var nowEncryptPasswd = CryptoJS.DES.encrypt(nowPasswd, _key, _cfg).toString();
+        var nowEncryptPasswd = UserService.encrypt(nowPasswd).toString();
         if (this._data._user.userInfo.encryptedPassword != nowEncryptPasswd) {
             alert("当前密码不正确！");
             return false;
@@ -56,7 +62,7 @@ define([
     };
 
     PasswdComponent.prototype.save = function() {
-        var nowPasswd = $('#nowPasswd', view$).val();
+        var view$ = $('.qsTpltPasswdMain', this._dom$);
         var newPasswd = $('#newPasswd', view$).val();
         return {
             "password": newPasswd,
