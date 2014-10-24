@@ -52,16 +52,6 @@ define([
         return andrea.string.substitute('url("{0}")', RenderUtils.videoPathToURL(path));
     };
 
-    RenderUtils.rolesToDisplay = function(roles) {
-        roles = roles || [];
-        var displays = [];
-        roles.forEach(function(role) {
-            if (role !== 0) {
-                displays.push(CodeUtils.getValue('people.role', role));
-            }
-        });
-        return displays.join(' & ');
-    };
     RenderUtils.heightToDisplay = function(height) {
         return height ? height + 'cm' : '';
     };
