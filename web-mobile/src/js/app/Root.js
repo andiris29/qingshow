@@ -20,7 +20,6 @@ define([
             'height' : height / this._scale + 'px',
             '-webkit-transform' : andrea.string.substitute('scale({0}, {0})', this._scale)
         });
-
         // Hack the jquery.fn.offset for jquery.lazyload
         var offset = $.fn.offset;
         $.fn.offset = function() {

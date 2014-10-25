@@ -18,10 +18,13 @@ define([
             'position' : 'absolute'
         }).appendTo(this._dom$);
 
+        // enable useTransform will cause font rendered not clearly, and disable it will cause performance loss.
+        // Scroll fps will loss 30% both desktop chrome and mobile safari. Hard to choose...
         this._iscroll = new IScroll(this.dom(), {
             'mouseWheel' : true,
             'click' : true,
-            'probeType' : 3
+            'probeType' : 3,
+            'useTransform' : false
         });
         this._iscroll.on('scrollEnd', function() {
             if (this._iscroll.y === this._iscroll.maxScrollY) {
