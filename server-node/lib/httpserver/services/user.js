@@ -2,7 +2,7 @@ var People = require('../../model/peoples');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 
-var _login, _update, _register;
+var _login, _logout, _update, _register;
 _login = function (req, res) {
     var param, mail, encryptedPassword;
     param = req.body;
@@ -35,6 +35,18 @@ _login = function (req, res) {
         }
     });
 };
+
+_logout = function (req, res) {
+    delete req.session.userId;
+    delete req.session.loginDate;
+    var retData = {
+        metadata: {
+            "result": 0
+        }
+    };
+    res.json(retData);
+
+}
 
 _register = function (req, res) {
     var param, mail, encryptedPassword;
@@ -137,7 +149,7 @@ _update = function (req, res) {
 
 module.exports = {
     'login' : {method: 'post', func: _login},
+    'logout' : {method: 'post', func: _logout, needLogin: true},
     'register' : {method: 'post', func: _register},
     'update' : {method: 'post', func: _update, needLogin: true}
-
 };
