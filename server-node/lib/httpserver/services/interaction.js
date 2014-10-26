@@ -81,25 +81,43 @@ _like = function (req, res) {
         ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
     }
     Show.findOne({_id: showIdObj}, function (err, show) {
-        try {
-            if (err) {
-                throw err;
-            } else if (!show) {
-                throw new ServerError(ServerError.ShowNotExist);
-            } else {
-                var user = req.currentUser;
-                user.likingShowRefs.push(showIdObj);
-                user.save(function (err, p) {
-                    if (err || !p) {
-                        err = err || new Error();
-                        throw err;
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        } else if (!show) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
+            return;
+        } else {
+            var user = req.currentUser;
+            People.findOne({_id: user._id})
+                .where({likingShowRefs : showIdObj})
+                .exec(function(err, tempPeople) {
+                    if (err) {
+                        ServicesUtil.responseError(res, err);
+                        return;
+                    } else if (tempPeople) {
+                        ServicesUtil.responseError(res, ServerError.AlreadyLikeShow);
+                        return;
                     } else {
-                        res.send('succeed');
+                        People.collection.update({_id: user._id},
+                            {
+                                "$push": {
+                                    "likingShowRefs": {
+                                        "$each": [ showIdObj ],
+                                        "$position": 0
+                                    }
+                                }
+                            }, function (err, numAffected) {
+                                if (err) {
+                                    err = err || new Error();
+                                    ServicesUtil.responseError(res, err);
+                                    return;
+                                } else {
+                                    res.send('succeed');
+                                }
+                            });
                     }
                 });
-            }
-        } catch (e) {
-            ServicesUtil.responseError(res, e);
         }
     });
 };

@@ -19,5 +19,6 @@ ServerError.InvalidEmail = 1007;
 ServerError.NotEnoughParam = 1008;
 ServerError.PagingNotExist = 1009;
 ServerError.EmailAlreadyExist = 1010;
+ServerError.AlreadyLikeShow = 1011;
 
 module.exports = ServerError;
