@@ -120,7 +120,10 @@ define([
                 h = _heights[name];
             }
         }
-        $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover)).attr('height', h + 'px');
+        $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
+        if (h) {
+            $('.qsShowCover', li$).attr('height', h + 'px');
+        }
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', li$).text(show.modelRef.name);
         $('.qsRole', li$).text(show.modelRef.modelInfo.title);
