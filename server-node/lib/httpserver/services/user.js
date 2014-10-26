@@ -83,7 +83,7 @@ _register = function (req, res) {
                 var retData = {
                     metadata: {
                         //TODO change invilidateTime
-                        "invalidateTime": 3600000
+//                        "invalidateTime": 3600000
                     },
                     data: {
                         people : people
