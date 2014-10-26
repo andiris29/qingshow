@@ -46,30 +46,40 @@ _register = function (req, res) {
         ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
         return;
     }
-    var people = new People({
-        userInfo : {
-            mail: mail,
-            encryptedPassword : encryptedPassword
-        }});
-    people.save(function (err, people){
+    People.findOne({'userInfo.mail': mail}, function (err, people) {
         if (err) {
             ServicesUtil.responseError(res, err);
             return;
-        } else if (!people) {
-            ServicesUtil.responseError(res, new ServerError(ServerError.ServerError));
+        } else  if (people) {
+            ServicesUtil.responseError(res, ServerError.EmailAlreadyExist);
             return;
-        } else {
-            var retData = {
-                metadata: {
-                    //TODO change invilidateTime
-                    "invalidateTime": 3600000
-                },
-                data: {
-                    people : people
-                }
-            };
-            res.json(retData);
         }
+
+        var people = new People({
+            userInfo : {
+                mail: mail,
+                encryptedPassword : encryptedPassword
+            }});
+        people.save(function (err, people){
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!people) {
+                ServicesUtil.responseError(res, new ServerError(ServerError.ServerError));
+                return;
+            } else {
+                var retData = {
+                    metadata: {
+                        //TODO change invilidateTime
+                        "invalidateTime": 3600000
+                    },
+                    data: {
+                        people : people
+                    }
+                };
+                res.json(retData);
+            }
+        });
     });
 };
 
