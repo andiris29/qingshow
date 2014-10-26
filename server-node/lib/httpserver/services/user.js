@@ -119,8 +119,8 @@ _update = function (req, res) {
                     var retData = {
                         metadata: {
                             //TODO change invilidateTime
-                            "invalidateTime": 3600000,
-                            "result" : 0
+                            "invalidateTime": 3600000
+//                            "result" : 0
                         },
                         data: {
                             people: p
