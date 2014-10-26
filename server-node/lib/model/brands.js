@@ -4,6 +4,7 @@ var People = require('./peoples');
 var Schema = mongoose.Schema;
 var brandSchema;
 brandSchema = Schema({
+    type: Number, //brand studio
     name: String,
     logo: String,
     slogan : String,

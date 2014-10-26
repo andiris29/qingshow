@@ -26,6 +26,10 @@ showSchema = Schema({
         ]
 //        select: false
     },
+    discountInfo: {
+        start : Date,
+        end : Date
+    },
     create: { type: Date, default: Date.now }
 });
 
