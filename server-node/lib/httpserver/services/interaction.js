@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 
-var _follow, _like, _comment;
+var _follow, _unfollow, _like, _comment;
 _follow = function (req, res) {
     //TODO refactor error handler
     //TODO handle duplicate
@@ -43,13 +43,13 @@ _follow = function (req, res) {
                         user.save(function (err, u) {
                             try {
                                 if (err || !u) {
-                                    err = err || new Error;
+                                    err = err || new Error();
                                     throw err;
                                 }
                                 followPeople.save(function (err, u) {
                                     try {
                                         if (err || !u) {
-                                            err = err || new Error;
+                                            err = err || new Error();
                                             throw err;
                                         }
                                     } catch (e) {
@@ -69,8 +69,66 @@ _follow = function (req, res) {
                     }
             });
     });
-
 };
+
+_unfollow = function (req, res) {
+    try {
+        var param = req.body;
+        var idStr = param._id;
+        var idObj = mongoose.mongo.BSONPure.ObjectID(idStr);
+        var userId = req.currentUser._id;
+    }
+    catch (e) {
+        ServicesUtil.responseError(res, e);
+        return;
+    }
+    People.findOne({_id: userId})
+        .where({followRefs : idObj})
+        .select('followRefs')
+        .exec( function (err ,currentUser) {
+            if (err) {
+                ServicesUtil.responseError(res, err);
+                return;
+            } else if (!currentUser) {
+                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                return;
+            } else {
+                People.findOne({_id: idObj})
+                    .where({followerRefs : userId})
+                    .select('followerRefs')
+                    .exec(function (err, user) {
+                        if (err) {
+                            ServicesUtil.responseError(res, err);
+                            return;
+                        }
+                        else if (!user) {
+                            ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+                            return;
+                        }
+                        else {
+                            currentUser.followRefs.remove(idObj);
+                            user.followerRefs.remove(userId);
+                            currentUser.save(function (err, tempUser) {
+                                var fSuccess = true;
+                                if (err || !tempUser) {
+                                    fSuccess = false;
+                                }
+                                user.save(function (err, u) {
+                                    if (err || !u || !fSuccess) {
+                                        ServicesUtil.responseError(res, new Error());
+                                        return;
+                                    } else {
+                                        res.send('succeed');
+                                        return;
+                                    }
+                                });
+                            });
+                        }
+                    });
+            }
+        });
+};
+
 
 _like = function (req, res) {
     try {
@@ -161,6 +219,7 @@ _comment = function (req, res) {
 
 module.exports = {
     'follow' : {method: 'post', func: _follow, needLogin: true},
+    'unfollow' : {method: 'post', func: _unfollow, needLogin: true},
     'like' : {method: 'post', func: _like, needLogin: true},
     'comment' : {method: 'post', func: _comment, needLogin: true}
 };
