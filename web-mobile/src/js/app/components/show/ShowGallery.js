@@ -103,6 +103,11 @@ define([
         }
     };
 
+    // TODO performace optimize
+    // Use an placeholder to occupy the height of lis which are not visible for each left & right
+    // before, 200 li, 30fps@chrome
+    // after, 200 li, 60fps@chrome
+
     // TODO Remove these hard code heights
     var _heights = {
         'moto01' : 440,
