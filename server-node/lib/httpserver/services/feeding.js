@@ -10,7 +10,7 @@ var ServerError = require('../server-error');
 var mongoose = require('mongoose');
 
 var _recommendation, _hot, _like, _chosen;
-var _byModel, _byTag, _byBrand, _byFollow;
+var _byModel, _byTag, _byBrand, _byStudio, _byFollow;
 
 //Utility for feeding service
 function _showPopulate(query) {
@@ -294,8 +294,56 @@ _byBrand = function (req, res){
             });
         }
     });
-
 };
+
+_byStudio = function (req, res) {
+    var param, pageNo, pageSize;
+    try {
+        param = res.queryString;
+        pageNo = parseInt(param.pageNo || 1);
+        pageSize = parseInt(param.pageSize || 10);
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
+    }
+    Brand.find({type: 1}, function (err, brands){
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        } else if (!brands) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
+            return;
+        } else {
+
+            var brandIdArray = [];
+            brands.forEach(function (brand) {
+                brandIdArray.push(brand._id);
+            });
+
+            //find items
+            Item.find({brandRef: {$in : brandIdArray}}, function (err, items){
+                if (err) {
+                    ServicesUtil.responseError(res, err);
+                    return;
+                } else if (!items || !items.length) {
+                    ServicesUtil.responseError(res, ServerError(res, new ServerError(ServerError.ShowNotExist)));
+                    return;
+                } else {
+                    var itemsIdArray = [];
+                    items.forEach(function (item){
+                        itemsIdArray.push(item._id);
+                    });
+                    function buildQuery(){
+                        var query = Show.find({itemRefs : {$in : itemsIdArray}});
+                        return query;
+                    }
+                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize);
+                }
+            });
+        }
+    });
+}
+
+
 
 //byFollow|_id string of ObjectId
 _byFollow = function (req, res){
@@ -352,5 +400,6 @@ module.exports = {
     'byModel' : {method: 'get',func: _byModel},
     'byTag' : {method: 'get', func: _byTag},
     'byBrand' : {method: 'get', func: _byBrand},
+    'byStudio' : {method:'get', func: _byStudio},
     'byFollow' : {method: 'get', func: _byFollow}
 };
