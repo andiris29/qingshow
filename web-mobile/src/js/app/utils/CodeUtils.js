@@ -33,8 +33,21 @@ define([
         'item.category' : {
             0 : '上装',
             1 : '裤子',
-            2 : '裙子',
+            2 : '裙',
             3 : '鞋子'
+        },
+        'server.error': {
+            1000: '服务器出错',
+            1001: '账号或密码错误',
+            1002: '长时间未登录，请重新登录',
+            1003: 'Show Not Exist',
+            1004: 'Item Not Exist',
+            1005: 'People Not Exist',
+            1006: 'Brand Not Exist',
+            1007: '无效的邮箱',
+            1008: '参数个数不足',
+            1009: 'Paging Not Exist',
+            1010: '输入邮箱已被使用，请重新输入'
         }
     };
 

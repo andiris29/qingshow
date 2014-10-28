@@ -43,6 +43,10 @@ define([
 
     };
 
+    UserService.logout = function(callback) {
+        DataService.request('POST', '/user/logout', {}, callback);
+    }
+
     UserService.encrypt = function(value) {
         return CryptoJS.DES.encrypt(value, _key, _cfg).toString();
     }

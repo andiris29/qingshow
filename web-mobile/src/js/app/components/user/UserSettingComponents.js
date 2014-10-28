@@ -3,11 +3,12 @@ define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
     'app/services/DataService',
+    'app/services/UserService',
     'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, CodeUtils, RenderUtils) {
+], function(UIComponent, TemplateManager, DataService, UserService, CodeUtils, RenderUtils) {
 // @formatter:on
-  
+
     /**
      * User Settings's UI Componets
      */
@@ -39,7 +40,7 @@ define([
         }.bind(this)], function(err, results) {
             this._render();
         }.bind(this));
-      
+
     };
     andrea.oo.extend(UserSettingComponents, UIComponent);
 
@@ -74,9 +75,11 @@ define([
         $('.qsEmail', view$).on(appRuntime.events.click, function() {
             appRuntime.view.to(U04Email);
         }.bind(this));
-    
+
         $('#logout', view$).on(appRuntime.events.click, function() {
+            UserService.logout(null);
             this._data.user(null).serialize();
+
             appRuntime.view.to('app/views/show/S01Home');
         }.bind(this));
     };

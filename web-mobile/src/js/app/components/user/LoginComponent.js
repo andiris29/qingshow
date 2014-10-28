@@ -4,8 +4,9 @@ define([
     'app/managers/TemplateManager',
     'app/services/UserService',
     'app/utils/RenderUtils',
+    'app/utils/CodeUtils',
     'app/model'
-], function(UIComponent, TemplateManager, UserService, RenderUtils, model) {
+], function(UIComponent, TemplateManager, UserService, RenderUtils, CodeUtils, model) {
 // @formatter:on
 
     var LoginComponent = function(dom) {
@@ -36,19 +37,23 @@ define([
                 alert("请输入账号");
                 return;
             }
-            
+
             if (passwd.length == 0) {
                 alert("请输入密码");
                 return;
             }
 
             UserService.login(user, passwd, function(metadata, data) {
-                model.user(data.people).serialize();
-                appRuntime.view.back();
+                if (metadata.error == undefined) {
+                    model.user(data.people).serialize();
+                    appRuntime.view.back();
+                } else {
+                    var err = CodeUtils.getValue('server.error', metadata.error);
+                    alert(err);
+                }
             }.bind(this));
         });
     };
 
     return LoginComponent;
 });
-

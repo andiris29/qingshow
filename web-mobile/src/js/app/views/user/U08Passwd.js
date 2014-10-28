@@ -5,8 +5,9 @@ define([
     'app/services/UserService',
     'app/components/common/Header',
     'app/components/user/PasswdComponent',
+    'app/utils/CodeUtils',
     'app/model'
-], function(IScrollContainer, ViewBase, UserService, Header, PasswdComponent, model) {
+], function(IScrollContainer, ViewBase, UserService, Header, PasswdComponent, CodeUtils, model) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -28,7 +29,8 @@ define([
                     model.user(data).serialize();
                     appRuntime.view.back();
                 } else {
-                    alert("更新失败");
+                    var err = CodeUtils.getValue('server.error', metadata.error);
+                    alert(err);
                 }
             });
         });
@@ -45,6 +47,3 @@ define([
 
     return U08Passwd;
 });
-
-
-

@@ -4,8 +4,9 @@ define([
     'app/managers/TemplateManager',
     'app/services/UserService',
     'app/utils/RenderUtils',
+    'app/utils/CodeUtils',
     'app/model'
-], function(UIComponent, TemplateManager, UserService, RenderUtils, model) {
+], function(UIComponent, TemplateManager, UserService, RenderUtils, CodeUtils, model) {
 // @formatter:on
 
     var RegisterComponent = function(dom) {
@@ -38,7 +39,7 @@ define([
                 return;
             }
 
-            if (!RenderUtils.checkStringMatchPattern(RenderUtils.EMAIL_REGEXP, user) 
+            if (!RenderUtils.checkStringMatchPattern(RenderUtils.EMAIL_REGEXP, user)
                     && !RenderUtils.checkStringMatchPattern(RenderUtils.MOBILE_REGEXP, user)) {
                 alert("账号格式不正确，请使用邮箱或是手机号码");
                 return;
@@ -64,7 +65,8 @@ define([
                     model.user(data.people).serialize();
                     appRuntime.view.to('app/views/show/S01Home');
                 } else {
-                    alert("注册失败");
+                    var err = CodeUtils.getValue('server.error', metadata.error);
+                    alert(err);
                 }
             }.bind(this));
         }.bind(this));
@@ -72,4 +74,3 @@ define([
 
     return RegisterComponent;
 });
-
