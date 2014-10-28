@@ -2,12 +2,13 @@ var People = require('../../model/peoples');
 var ServicesUtil = require('../servicesUtil');
 var Comment = require('../../model/comments');
 var Show = require('../../model/shows');
+var Brand = require('../../model/brands');
 var ServerError = require('../server-error');
 var mongoose = require('mongoose');
 
-var _models, _comments, _terms;
+var _models, _comments, _brands, _terms;
 _models = function (req, res) {
-    var param = req.body;
+    param = res.queryString;
     if (param._ids) {
         try {
             var ids = param._ids;
@@ -52,12 +53,43 @@ _models = function (req, res) {
         }
         ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
     }
-
-
 };
+
+_brands = function (req, res) {
+    var param, pageNo, pageSize, type;
+    try {
+        param = res.queryString;
+        pageNo = parseInt(param.pageNo || 1);
+        pageSize = parseInt(param.pageSize || 10);
+        type = param.type;
+        if (type === 'brand') {
+            type = 0;
+        } else if (type === 'studio') {
+            type = 1;
+        }
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
+        return;
+    }
+    if (type === undefined) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
+        return;
+    }
+
+    function buildQuery() {
+        return Brand.find({type : type});
+    }
+    function modelDataGenFunc(data) {
+        return {
+            brands: data
+        };
+    }
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
+};
+
 _comments = function (req, res) {
     try {
-        var param = req.body;
+        param = res.queryString;
         var pageNo = parseInt(param.pageNo || 1);
         var pageSize = parseInt(param.pageSize || 10);
         var showIdStr = param.showId;
@@ -97,5 +129,6 @@ _terms = function (req, res) {
 module.exports = {
     'models' : {method: 'get', func: _models, needLogin: false},
     'comments' : {method: 'get', func: _comments, needLogin: false},
+    'brands' : {method: 'get', func:_brands, needLogin: false},
     'terms' : {method: 'get', func: _terms, needLogin: false}
 };
