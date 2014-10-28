@@ -8,7 +8,7 @@ var Chosen = require('../../model/chosens');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var mongoose = require('mongoose');
-
+var nimble = require('nimble');
 var _recommendation, _hot, _like, _chosen;
 var _byModel, _byTag, _byBrand, _byStudio, _byFollow;
 
@@ -22,6 +22,25 @@ function _showDataGenFunc(data) {
     return {
         shows: data
     };
+}
+
+function showsFinalHandler(shows, callBackFunc) {
+    nimble.series([
+        function (callback) {
+            var funcArray = [];
+            shows.forEach(function (show) {
+                var updateFunc = function (callback) {
+                    show.updateCoverMetaData(callback);
+                };
+                funcArray.push(updateFunc);
+            });
+            nimble.parallel(funcArray, callback);
+        },
+        function (callback) {
+            callBackFunc(shows);
+            callback();
+        }
+    ]);
 }
 
 
@@ -46,7 +65,7 @@ _recommendation = function (req, res) {
         _showPopulate(query);
         return query;
     }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
 };
 
 //feeding/hot  sortedByNumView
@@ -63,7 +82,7 @@ _hot = function (req, res) {
         _showPopulate(query);
         return query;
     }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
 }
 
 //feeding/like sortedByNumLike
@@ -220,7 +239,7 @@ _byModel = function (req, res) {
         _showPopulate(query);
         return query;
     }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
 };
 
 //byTag
@@ -249,7 +268,7 @@ _byTag = function (req, res){
         _showPopulate(query);
         return query;
     }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
 };
 
 //byBrand|_id string
@@ -289,7 +308,7 @@ _byBrand = function (req, res){
                         var query = Show.find({itemRefs : {$in : itemsIdArray}});
                         return query;
                     }
-                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize);
+                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
                 }
             });
         }
@@ -336,7 +355,7 @@ _byStudio = function (req, res) {
                         var query = Show.find({itemRefs : {$in : itemsIdArray}});
                         return query;
                     }
-                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize);
+                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
                 }
             });
         }
@@ -385,7 +404,7 @@ _byFollow = function (req, res){
                 ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
                 return;
             } else {
-                ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize);
+                ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
             }
     });
 //    return _byTag(req, res);

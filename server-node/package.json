@@ -13,6 +13,7 @@
     "minimist": "1.1.*",
     "moment": "2.8.*",
     "mongoose": "^3.8.17",
+    "nimble": "0.0.2",
     "nodemailer": "1.3.*",
     "nodemailer-smtp-transport": "0.1.*",
     "parseurl": "^1.3.0",

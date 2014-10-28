@@ -29,7 +29,7 @@ function stringArrayToObjectIdArray(stringArray) {
     return retArray;
 }
 
-function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc, pageNo, pageSize) {
+function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc, pageNo, pageSize, modelFinalHandler) {
     var query;
     query = queryGenFunc();
     query.count(function (err, count) {
@@ -50,16 +50,31 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
         }
         query.exec(function (err, shows) {
             if (!err) {
-                var retData = {
-                    metadata: {
-                        //TODO change invilidateTime
-                        "numTotal": count,
-                        "numPages": numPages,
+                if (modelFinalHandler) {
+                    modelFinalHandler(shows, function (s) {
+                        var retData = {
+                            metadata: {
+                                //TODO change invilidateTime
+                                "numTotal": count,
+                                "numPages": numPages,
 //                        "refreshTime": 3600000
-                    },
-                    data: dataGenFunc(shows)
-                };
-                res.json(retData);
+                            },
+                            data: dataGenFunc(shows)
+                        };
+                        res.json(retData);
+                    });
+                } else {
+                    var retData = {
+                        metadata: {
+                            //TODO change invilidateTime
+                            "numTotal": count,
+                            "numPages": numPages,
+//                        "refreshTime": 3600000
+                        },
+                        data: dataGenFunc(shows)
+                    };
+                    res.json(retData);
+                }
             } else {
                 responseError(res, err);
             }

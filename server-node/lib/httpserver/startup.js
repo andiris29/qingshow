@@ -3,6 +3,7 @@ var express = require('express');
 var qsdb = require('../runtime/qsdb');
 var connect = require('connect');
 var path = require('path');
+var pathConst = require('./path-const');
 //param parser
 var bodyParser = require('body-parser');
 var queryStringParser = require('./middleware/query-string-parser');
@@ -27,8 +28,7 @@ var app = express();
 app.listen(argv['http-server-port']);
 
 //static
-var publicPath = path.join(__dirname, '../../public');
-app.use(express.static(publicPath));
+app.use(express.static(pathConst.publicPath));
 
 //cross domain
 app.use(function (req, res, next) {
