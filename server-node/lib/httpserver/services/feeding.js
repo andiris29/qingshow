@@ -9,6 +9,7 @@ var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var mongoose = require('mongoose');
 var nimble = require('nimble');
+
 var _recommendation, _hot, _like, _chosen;
 var _byModel, _byTag, _byBrand, _byBrandDiscount, _byStudio, _byFollow;
 
@@ -276,7 +277,7 @@ _byBrand = function (req, res){
     var param, brandIdStr, brandIdObj, pageNo, pageSize;
     try {
         param = res.queryString;
-        brandIdStr = param._id || [];
+        brandIdStr = param._id || "";
         brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
         pageNo = parseInt(param.pageNo || 1);
         pageSize = parseInt(param.pageSize || 10);
@@ -320,7 +321,7 @@ _byBrandDiscount = function (req, res) {
     var param, brandIdStr, brandIdObj, pageNo, pageSize;
     try {
         param = res.queryString;
-        brandIdStr = param._id || [];
+        brandIdStr = param._id || "";
         brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
         pageNo = parseInt(param.pageNo || 1);
         pageSize = parseInt(param.pageSize || 10);

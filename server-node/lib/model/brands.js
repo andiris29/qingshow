@@ -8,7 +8,12 @@ brandSchema = Schema({
     name: String,
     logo: String,
     slogan : String,
-    followRefs: { type: Schema.Types.ObjectId, ref: 'peoples'}
+    followerRefs: {
+        type : [
+            { type: Schema.Types.ObjectId, ref: 'peoples'}
+        ],
+        select: false
+    }
 });
 var Brand = mongoose.model('brands', brandSchema);
 module.exports = Brand;

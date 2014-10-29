@@ -1,11 +1,15 @@
+//model
 var People = require('../../model/peoples');
 var Show = require('../../model/shows');
 var Comment = require('../../model/comments');
+var Brand = require('../../model/brands');
+//util
 var mongoose = require('mongoose');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
+var nimble = require('nimble');
 
-var _follow, _unfollow, _like, _comment;
+var _follow, _unfollow, _followBrand, _unfollowBrand, _like, _comment;
 _follow = function (req, res) {
     //TODO refactor error handler
     //TODO handle duplicate
@@ -100,12 +104,10 @@ _unfollow = function (req, res) {
                         if (err) {
                             ServicesUtil.responseError(res, err);
                             return;
-                        }
-                        else if (!user) {
+                        } else if (!user) {
                             ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
                             return;
-                        }
-                        else {
+                        } else {
                             currentUser.followRefs.remove(idObj);
                             user.followerRefs.remove(userId);
                             currentUser.save(function (err, tempUser) {
@@ -128,6 +130,96 @@ _unfollow = function (req, res) {
             }
         });
 };
+
+_followBrand = function (req, res) {
+    var error = null;
+    var brandIdObj = null;
+    var brand = null;
+    var user = null;
+    //TODO check follow already
+    nimble.parallel([
+        function (parallelCallback) {
+            //find brand
+            nimble.series([
+                function (callback) {
+                    try {
+                        var param = req.body;
+                        var brandIdStr = param._id || "";
+                        brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
+                    } catch (e) {
+                        error = new ServerError(ServerError.BrandNotExist);
+                    }
+                    callback();
+
+                }, function (callback) {
+                    if (error) {
+                        callback();
+                        return;
+                    }
+                    Brand.findOne({_id: brandIdObj})
+                        .select('followerRefs')
+                        .exec(function (err, b) {
+                            if (err) {
+                                error = err;
+                            } else if (!b) {
+                                error = new ServerError(ServerError.BrandNotExist);
+                            } else {
+                                brand = b;
+                            }
+                            callback();
+                        });
+
+                }, function (callback) {
+                    parallelCallback();
+                    callback();
+                }]);
+        }, function (callback) {
+            //find user
+            People.findOne({_id: req.currentUser._id})
+                .select("followBrandRefs")
+                .exec(function (err, u) {
+                    if (err) {
+                        error = err;
+                    } else if (!u) {
+                        error = new ServerError(ServerError.NeedLogin);
+                    } else {
+                        user = u;
+                    }
+                    callback();
+                });
+        }
+    ], function () {
+        //follow
+        if (error) {
+            ServicesUtil.responseError(res, error);
+            return;
+        }
+
+        user.followBrandRefs.unshift(brand._id);
+        brand.followerRefs.unshift(user._id);
+        nimble.parallel([
+            function (callback) {
+                user.save(function (err, u) {
+                    if (err || !u) {
+                        //TODO restore
+                        error = err || new Error();
+                    }
+                    callback();
+                });
+            }, function (callback) {
+                brand.save(function (err, b) {
+                    if (err || !b) {
+                        //TODO: restore
+                        error = err || new Error();
+                    }
+                    callback();
+                });
+            }
+        ], function () {
+            res.send('success');
+        });
+    });
+}
 
 
 _like = function (req, res) {
@@ -219,6 +311,7 @@ _comment = function (req, res) {
 
 module.exports = {
     'follow' : {method: 'post', func: _follow, needLogin: true},
+    'followBrand' : {method: 'post', func: _followBrand, needLogin: true},
     'unfollow' : {method: 'post', func: _unfollow, needLogin: true},
     'like' : {method: 'post', func: _like, needLogin: true},
     'comment' : {method: 'post', func: _comment, needLogin: true}

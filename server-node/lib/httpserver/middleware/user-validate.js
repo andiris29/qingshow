@@ -16,6 +16,11 @@ function validate(servicesNames) {
     var handleValidate = function(req, res, next){
         if (validatePaths.indexOf(req.path) !== -1){
             var userID = req.session.userId;
+            if (!userID) {
+                next(new ServerError(ServerError.NeedLogin));
+                return;
+            }
+
             var loginDate = req.session.loginDate;
             People.findOne({"_id" : userID})
                 .select('userInfo.passwordUpdatedDate')

@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Show = require('./shows');
-var People = require('./peoples');
+var Brand = require('./brands');
 
 var Schema = mongoose.Schema;
 var peopleSchema;
@@ -41,6 +41,12 @@ peopleSchema = Schema({
     followRefs: {
         type: [
             { type: Schema.Types.ObjectId, ref: 'peoples'}
+        ],
+        select: false
+    },
+    followBrandRefs : {
+        type : [
+            { type: Schema.Types.ObjectId, ref: 'brands'}
         ],
         select: false
     },
