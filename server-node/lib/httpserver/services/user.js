@@ -63,7 +63,7 @@ _register = function (req, res) {
             ServicesUtil.responseError(res, err);
             return;
         } else  if (people) {
-            ServicesUtil.responseError(res, ServerError.EmailAlreadyExist);
+            ServicesUtil.responseError(res, new ServerError(ServerError.EmailAlreadyExist));
             return;
         }
 
