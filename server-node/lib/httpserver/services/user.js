@@ -8,32 +8,34 @@ _login = function (req, res) {
     param = req.body;
     mail = param.mail || '';
     encryptedPassword = param.encryptedPassword || '';
-    People.findOne({"userInfo.mail" : mail, "userInfo.encryptedPassword": encryptedPassword}, function (err, people) {
-        if (err) {
-            ServicesUtil.responseError(res, err);
-        } else if (people) {
-            //login succeed
-            req.session.userId = people._id;
-            req.session.loginDate = new Date();
+    People.findOne({"userInfo.mail" : mail, "userInfo.encryptedPassword": encryptedPassword})
+        .select("+userInfo")
+        .exec(function (err, people) {
+            if (err) {
+                ServicesUtil.responseError(res, err);
+            } else if (people) {
+                //login succeed
+                req.session.userId = people._id;
+                req.session.loginDate = new Date();
 
-            var retData = {
-                metadata: {
-                    //TODO change invilidateTime
-                    "invalidateTime": 3600000
-                },
-                data: {
-                    people : people
-                }
-            };
-            res.json(retData);
-        } else {
-            //login fail
-            delete req.session.userId;
-            delete req.session.loginDate;
-            err = new ServerError(ServerError.IncorrectMailOrPassword);
-            ServicesUtil.responseError(res, err);
-        }
-    });
+                var retData = {
+                    metadata: {
+                        //TODO change invilidateTime
+                        "invalidateTime": 3600000
+                    },
+                    data: {
+                        people : people
+                    }
+                };
+                res.json(retData);
+            } else {
+                //login fail
+                delete req.session.userId;
+                delete req.session.loginDate;
+                err = new ServerError(ServerError.IncorrectMailOrPassword);
+                ServicesUtil.responseError(res, err);
+            }
+        });
 };
 
 _logout = function (req, res) {
