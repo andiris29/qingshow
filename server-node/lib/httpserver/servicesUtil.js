@@ -29,7 +29,7 @@ function stringArrayToObjectIdArray(stringArray) {
     return retArray;
 }
 
-function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc, pageNo, pageSize, modelFinalHandler) {
+function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc, pageNo, pageSize, modelFinalHandler, finishCallback) {
     var query;
     query = queryGenFunc();
     query.count(function (err, count) {
@@ -62,6 +62,9 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                             data: dataGenFunc(shows)
                         };
                         res.json(retData);
+                        if (finishCallback) {
+                            finishCallback();
+                        }
                     });
                 } else {
                     var retData = {
@@ -74,9 +77,15 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                         data: dataGenFunc(shows)
                     };
                     res.json(retData);
+                    if (finishCallback) {
+                        finishCallback();
+                    }
                 }
             } else {
                 responseError(res, err);
+                if (finishCallback) {
+                    finishCallback();
+                }
             }
         });
     });

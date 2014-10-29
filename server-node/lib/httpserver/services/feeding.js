@@ -10,7 +10,7 @@ var ServerError = require('../server-error');
 var mongoose = require('mongoose');
 var nimble = require('nimble');
 var _recommendation, _hot, _like, _chosen;
-var _byModel, _byTag, _byBrand, _byStudio, _byFollow;
+var _byModel, _byTag, _byBrand, _byBrandDiscount, _byStudio, _byFollow;
 
 //Utility for feeding service
 function _showPopulate(query) {
@@ -282,6 +282,7 @@ _byBrand = function (req, res){
         pageSize = parseInt(param.pageSize || 10);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
+        return;
     }
     Brand.findOne({_id: brandIdObj}, function (err, brand){
         if (err) {
@@ -297,7 +298,7 @@ _byBrand = function (req, res){
                     ServicesUtil.responseError(res, err);
                     return;
                 } else if (!items || !items.length) {
-                    ServicesUtil.responseError(res, ServerError(res, ServerError.ShowNotExist));
+                    ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
                     return;
                 } else {
                     var itemsIdArray = [];
@@ -313,6 +314,72 @@ _byBrand = function (req, res){
             });
         }
     });
+};
+
+_byBrandDiscount = function (req, res) {
+    var param, brandIdStr, brandIdObj, pageNo, pageSize;
+    try {
+        param = res.queryString;
+        brandIdStr = param._id || [];
+        brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
+        pageNo = parseInt(param.pageNo || 1);
+        pageSize = parseInt(param.pageSize || 10);
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
+    }
+    var brand = null;
+    var error = null;
+    var brandItems = null;
+    nimble.series([
+        function (callback) {
+            Brand.findOne({_id: brandIdObj}, function (err, b) {
+                error = err
+                if (!b) {
+                    error = new ServerError(ServerError.BrandNotExist);
+                } else {
+                    brand = b;
+                }
+                callback();
+            });
+        },function (callback) {
+            if (error) {
+                callback();
+                return;
+            } else {
+                Item.find({brandRef: brandIdObj}, function (err, items) {
+                    if (err) {
+                        error = err;
+                    } else if (!items || !items.length) {
+                        error = new ServerError(ServerError.ItemNotExist);
+                    } else {
+                        brandItems = items;
+                    }
+                    callback();
+                });
+            }
+        }, function (callback) {
+            if (error) {
+                ServicesUtil.responseError(res, error);
+                callback();
+                return;
+            } else {
+                var itemsIdArray = [];
+                brandItems.forEach(function (item){
+                    itemsIdArray.push(item._id);
+                });
+                function buildQuery(){
+                    var query = Show.find({itemRefs : {$in : itemsIdArray}});
+                    query.where('discountInfo').exists(true);
+                    return query;
+                }
+                function additionFunc(query) {
+                    query.sort({"discountInfo.start": -1});
+                    _showPopulate(query);
+                    return query;
+                }
+                ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler, callback);
+            }
+        }]);
 };
 
 _byStudio = function (req, res) {
@@ -419,6 +486,7 @@ module.exports = {
     'byModel' : {method: 'get',func: _byModel},
     'byTag' : {method: 'get', func: _byTag},
     'byBrand' : {method: 'get', func: _byBrand},
+    'byBrandDiscount': {method: 'get', func: _byBrandDiscount},
     'byStudio' : {method:'get', func: _byStudio},
     'byFollow' : {method: 'get', func: _byFollow}
 };
