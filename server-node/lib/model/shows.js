@@ -48,12 +48,9 @@ showSchema.methods.updateCoverMetaData = function (callBack){
 
     gm(imagePath).size(function (err, size) {
         _this.coverMetaData = {};
-//        _this.coverMetaData.cover = _this.cover;
-//        _this.coverMetaData.width = size.width;
-//        _this.coverMetaData.height = size.height;
-        console.log(err);
-//        console.log(size.width);
-//        console.log(size.height);
+        _this.coverMetaData.cover = _this.cover;
+        _this.coverMetaData.width = size.width;
+        _this.coverMetaData.height = size.height;
         _this.save(function (err, image) {
             callBack();
         });
