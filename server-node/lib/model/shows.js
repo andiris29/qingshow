@@ -49,11 +49,16 @@ showSchema.methods.updateCoverMetaData = function (callBack){
     gm(imagePath).size(function (err, size) {
         _this.coverMetaData = {};
         _this.coverMetaData.cover = _this.cover;
-        _this.coverMetaData.width = size.width;
-        _this.coverMetaData.height = size.height;
-        _this.save(function (err, image) {
+        if (size) {
+            _this.coverMetaData.width = size.width;
+            _this.coverMetaData.height = size.height;
+            _this.save(function (err, image) {
+                callBack();
+            });
+        } else {
             callBack();
-        });
+        }
+
     });
 
 };
