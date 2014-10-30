@@ -25,3 +25,4 @@ server-node/.idea
 
 #ignore public
 server-node/public
+.project
