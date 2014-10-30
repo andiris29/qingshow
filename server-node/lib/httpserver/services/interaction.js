@@ -136,7 +136,6 @@ _followBrand = function (req, res) {
     var brandIdObj = null;
     var brand = null;
     var user = null;
-    //TODO check follow already
     nimble.parallel([
         function (parallelCallback) {
             //find brand
@@ -194,9 +193,126 @@ _followBrand = function (req, res) {
             ServicesUtil.responseError(res, error);
             return;
         }
+        if (user.followBrandRefs.indexOf(brand._id) === -1) {
+            user.followBrandRefs.unshift(brand._id);
+        } else {
+            error = new ServerError(ServerError.AlreadyFollowBrand);
+        }
+        if (brand.followerRefs.indexOf(user._id) === -1) {
+            brand.followerRefs.unshift(user._id);
+        } else {
+            error = new ServerError(ServerError.AlreadyFollowBrand);
+        }
+        nimble.parallel([
+            function (callback) {
+                user.save(function (err, u) {
+                    if (error) {
+                        callback();
+                        return;
+                    }
+                    if (err || !u) {
+                        //TODO restore
+                        error = err || new Error();
+                    }
+                    callback();
+                });
+            }, function (callback) {
+                brand.save(function (err, b) {
+                    if (error) {
+                        callback();
+                        return;
+                    }
+                    if (err || !b) {
+                        //TODO: restore
+                        error = err || new Error();
+                    }
+                    callback();
+                });
+            }
+        ], function () {
+            if (error) {
+                ServicesUtil.responseError(res, error);
+            } else {
+                res.send('success');
+            }
 
-        user.followBrandRefs.unshift(brand._id);
-        brand.followerRefs.unshift(user._id);
+        });
+    });
+}
+
+_unfollowBrand = function (req, res) {
+    var error = null;
+    var brandIdObj = null;
+    var brand = null;
+    var user = null;
+    nimble.parallel([
+        function (parallelCallback) {
+            //find brand
+            nimble.series([
+                function (callback) {
+                    try {
+                        var param = req.body;
+                        var brandIdStr = param._id || "";
+                        brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
+                    } catch (e) {
+                        error = new ServerError(ServerError.BrandNotExist);
+                    }
+                    callback();
+
+                }, function (callback) {
+                    if (error) {
+                        callback();
+                        return;
+                    }
+                    Brand.findOne({_id: brandIdObj})
+                        .select('followerRefs')
+                        .exec(function (err, b) {
+                            if (err) {
+                                error = err;
+                            } else if (!b) {
+                                error = new ServerError(ServerError.BrandNotExist);
+                            } else {
+                                brand = b;
+                            }
+                            callback();
+                        });
+
+                }, function (callback) {
+                    parallelCallback();
+                    callback();
+                }]);
+        }, function (callback) {
+            //find user
+            People.findOne({_id: req.currentUser._id})
+                .select("followBrandRefs")
+                .exec(function (err, u) {
+                    if (err) {
+                        error = err;
+                    } else if (!u) {
+                        error = new ServerError(ServerError.NeedLogin);
+                    } else {
+                        user = u;
+                    }
+                    callback();
+                });
+        }
+    ], function () {
+        //follow
+        if (error) {
+            ServicesUtil.responseError(res, error);
+            return;
+        }
+        if (user.followBrandRefs.indexOf(brand._id) !== -1) {
+            user.followBrandRefs.remove(brand._id);
+        } else {
+            error = new ServerError(ServerError.DidNotFollowBrand);
+        }
+        if (brand.followerRefs.indexOf(user._id) !== -1) {
+            brand.followerRefs.remove(user._id);
+        } else {
+            error = new ServerError(ServerError.DidNotFollowBrand);
+        }
+
         nimble.parallel([
             function (callback) {
                 user.save(function (err, u) {
@@ -216,10 +332,14 @@ _followBrand = function (req, res) {
                 });
             }
         ], function () {
-            res.send('success');
+            if (error) {
+                ServicesUtil.responseError(res, error);
+            } else {
+                res.send('success');
+            }
         });
     });
-}
+};
 
 
 _like = function (req, res) {
@@ -311,8 +431,9 @@ _comment = function (req, res) {
 
 module.exports = {
     'follow' : {method: 'post', func: _follow, needLogin: true},
-    'followBrand' : {method: 'post', func: _followBrand, needLogin: true},
     'unfollow' : {method: 'post', func: _unfollow, needLogin: true},
+    'followBrand' : {method: 'post', func: _followBrand, needLogin: true},
+    'unfollowBrand': {method: 'post', func: _unfollowBrand, needLogin: true},
     'like' : {method: 'post', func: _like, needLogin: true},
     'comment' : {method: 'post', func: _comment, needLogin: true}
 };

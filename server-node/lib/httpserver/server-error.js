@@ -22,6 +22,10 @@ ServerError.PagingNotExist = 1009;
 ServerError.EmailAlreadyExist = 1010;
 ServerError.AlreadyLikeShow = 1011;
 ServerError.NeedLogin = 1012;
+ServerError.AlreadyFollowPeople = 1013;
+ServerError.DidNotFollowPeople = 1014;
+ServerError.AlreadyFollowBrand = 1015;
+ServerError.DidNotFollowBrand = 1016;
 
 var _codeToString = function (code) {
     switch (code) {
@@ -38,6 +42,10 @@ var _codeToString = function (code) {
         case 1010 : return "EmailAlreadyExist";
         case 1011 : return "AlreadyLikeShow";
         case 1012 : return "NeedLogin";
+        case 1013 : return "AlreadyFollowPeople";
+        case 1014 : return "DidNotFollowPeople";
+        case 1015 : return "AlreadyFollowBrand";
+        case 1016 : return "DidNotFollowBrand";
 
     }
 }
