@@ -11,124 +11,187 @@ var nimble = require('nimble');
 
 var _follow, _unfollow, _followBrand, _unfollowBrand, _like, _comment;
 _follow = function (req, res) {
-    //TODO refactor error handler
-    //TODO handle duplicate
     try {
         var param = req.body;
         var followPeopleIdStr = param._id;
         var followPeopleIdObj = mongoose.mongo.BSONPure.ObjectID(followPeopleIdStr);
         var userId = req.currentUser._id;
      } catch (e) {
-        ServicesUtil.responseError(res, e);
+        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
     }
 
-    People.findOne({_id: userId})
-        .select('followRefs')
-        .exec(function (err, user) {
-            if (err || !user) {
-                err = err || new Error('err');
-                ServicesUtil.responseError(res, err);
-                return;
-            }
-            People.findOne({_id: followPeopleIdObj})
-                .select('followerRefs')
-                .exec(function (err, followPeople) {
-                    try {
-                        if (err) {
-                            throw err;
-                        }
-                        if (!followPeople) {
-                            throw new ServerError(ServerError.PeopleNotExist);
-                        }
-                        user.followRefs.push(followPeople._id);
-                        followPeople.followerRefs.push(user._id);
+    var error = null;
+    var currentUser = null;
+    var followPeople = null;
 
-                        user.save(function (err, u) {
-                            try {
-                                if (err || !u) {
-                                    err = err || new Error();
-                                    throw err;
-                                }
-                                followPeople.save(function (err, u) {
-                                    try {
-                                        if (err || !u) {
-                                            err = err || new Error();
-                                            throw err;
-                                        }
-                                    } catch (e) {
-                                        //TODO Restore user.followRefs
-                                        ServicesUtil.responseError(res, e);
-                                    }
-                                });
-                                res.send('succeed');
-                            } catch (e) {
-                                ServicesUtil.responseError(res, e);
-                                return;
-                            }
-                        });
-                    } catch (e) {
-                        ServicesUtil.responseError(res, e);
-                        return;
+    nimble.parallel([
+        //Get current user
+        function (callback) {
+            People.findOne({_id: userId})
+                .select('followRefs')
+                .exec(function (err, user) {
+                    if (err || !user) {
+                        error = err || new ServerError(ServerError.NeedLogin);
+                    } else {
+                        currentUser = user;
                     }
-            });
+                    callback();
+                });
+        },
+        //Get follow user
+        function (callback) {
+            People.findOne({_id: followPeopleIdObj})
+                .select('+followerRefs')
+                .exec(function (err, user) {
+                    if (err || !user) {
+                        error = err || new ServerError(ServerError.PeopleNotExist);
+                    } else {
+                        followPeople = user;
+                    }
+                    callback();
+                });
+        }
+    ], function () {
+        //follow
+        if (error) {
+            ServicesUtil.responseError(res, error);
+            return;
+        }
+
+        if (currentUser.followRefs.indexOf(followPeople._id) === -1) {
+            currentUser.followRefs.unshift(followPeople._id);
+        } else {
+            error = new ServerError(ServerError.AlreadyFollowPeople);
+        }
+        if (followPeople.followerRefs.indexOf(currentUser._id) === -1) {
+            followPeople.followerRefs.unshift(currentUser._id);
+        } else {
+            error = new ServerError(ServerError.AlreadyFollowPeople);
+        }
+        //Save follow Info
+        nimble.parallel([
+            function (callback) {
+                currentUser.save(function (err, u) {
+                    if (error) {
+                        callback();
+                    }
+                    if (err || !u) {
+                        error = new ServerError(ServerError.ServerError);
+                    }
+                    callback();
+                });
+            }, function (callback) {
+                followPeople.save(function (err, u) {
+                    if (error) {
+                        callback();
+                    }
+                    if (err || !u) {
+                        error = new ServerError(ServerError.ServerError);
+                    }
+                    callback();
+                });
+            }
+        ], function () {
+            if (error) {
+                ServicesUtil.responseError(res, error);
+            } else {
+                res.send('succeed');
+            }
+        });
     });
 };
 
 _unfollow = function (req, res) {
     try {
         var param = req.body;
-        var idStr = param._id;
-        var idObj = mongoose.mongo.BSONPure.ObjectID(idStr);
+        var followPeopleIdStr = param._id;
+        var followPeopleIdObj = mongoose.mongo.BSONPure.ObjectID(followPeopleIdStr);
         var userId = req.currentUser._id;
-    }
-    catch (e) {
-        ServicesUtil.responseError(res, e);
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
     }
-    People.findOne({_id: userId})
-        .where({followRefs : idObj})
-        .select('followRefs')
-        .exec( function (err ,currentUser) {
-            if (err) {
-                ServicesUtil.responseError(res, err);
-                return;
-            } else if (!currentUser) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                return;
+
+    var error = null;
+    var currentUser = null;
+    var followPeople = null;
+
+    nimble.parallel([
+        //Get current user
+        function (callback) {
+            People.findOne({_id: userId})
+                .select('followRefs')
+                .exec(function (err, user) {
+                    if (err || !user) {
+                        error = err || new ServerError(ServerError.NeedLogin);
+                    } else {
+                        currentUser = user;
+                    }
+                    callback();
+                });
+        },
+        //Get follow user
+        function (callback) {
+            People.findOne({_id: followPeopleIdObj})
+                .select('followerRefs')
+                .exec(function (err, user) {
+                    if (err || !user) {
+                        error = err || new ServerError(ServerError.PeopleNotExist);
+                    } else {
+                        followPeople = user;
+                    }
+                    callback();
+                });
+        }
+    ], function () {
+        //follow
+        if (error) {
+            ServicesUtil.responseError(res, error);
+            return;
+        }
+
+        if (currentUser.followRefs.indexOf(followPeople._id) !== -1) {
+            currentUser.followRefs.remove(followPeople._id);
+        } else {
+            error = new ServerError(ServerError.DidNotFollowPeople);
+        }
+        if (followPeople.followerRefs.indexOf(currentUser._id) !== -1) {
+            followPeople.followerRefs.remove(currentUser._id);
+        } else {
+            error = new ServerError(ServerError.DidNotFollowPeople);
+        }
+        //Save follow Info
+        nimble.parallel([
+            function (callback) {
+                currentUser.save(function (err, u) {
+                    if (error) {
+                        callback();
+                    }
+                    if (err || !u) {
+                        error = new ServerError(ServerError.ServerError);
+                    }
+                    callback();
+                });
+            }, function (callback) {
+                followPeople.save(function (err, u) {
+                    if (error) {
+                        callback();
+                    }
+                    if (err || !u) {
+                        error = new ServerError(ServerError.ServerError);
+                    }
+                    callback();
+                });
+            }
+        ], function () {
+            if (error) {
+                ServicesUtil.responseError(res, error);
             } else {
-                People.findOne({_id: idObj})
-                    .where({followerRefs : userId})
-                    .select('followerRefs')
-                    .exec(function (err, user) {
-                        if (err) {
-                            ServicesUtil.responseError(res, err);
-                            return;
-                        } else if (!user) {
-                            ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                            return;
-                        } else {
-                            currentUser.followRefs.remove(idObj);
-                            user.followerRefs.remove(userId);
-                            currentUser.save(function (err, tempUser) {
-                                var fSuccess = true;
-                                if (err || !tempUser) {
-                                    fSuccess = false;
-                                }
-                                user.save(function (err, u) {
-                                    if (err || !u || !fSuccess) {
-                                        ServicesUtil.responseError(res, new Error());
-                                        return;
-                                    } else {
-                                        res.send('succeed');
-                                        return;
-                                    }
-                                });
-                            });
-                        }
-                    });
+                res.send('succeed');
             }
         });
+    });
 };
 
 _followBrand = function (req, res) {
@@ -326,7 +389,7 @@ _unfollowBrand = function (req, res) {
                 brand.save(function (err, b) {
                     if (err || !b) {
                         //TODO: restore
-                        error = err || new Error();
+                        error = err || new ServerError(ServerError.ServerError);
                     }
                     callback();
                 });
@@ -379,7 +442,7 @@ _like = function (req, res) {
                                 }
                             }, function (err, numAffected) {
                                 if (err) {
-                                    err = err || new Error();
+                                    err = err || new ServerError(ServerError.ServerError);
                                     ServicesUtil.responseError(res, err);
                                     return;
                                 } else {

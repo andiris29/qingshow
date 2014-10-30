@@ -46,7 +46,6 @@ var _codeToString = function (code) {
         case 1014 : return "DidNotFollowPeople";
         case 1015 : return "AlreadyFollowBrand";
         case 1016 : return "DidNotFollowBrand";
-
     }
 }
 
