@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface QSViewController : UIViewController
+#import "QSWaterFallCollectionViewLayout.h"
+@interface QSViewController : UIViewController<QSWaterFallLayoutDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @end

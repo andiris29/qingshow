@@ -32,6 +32,8 @@
 		EF9A74721A02A87900095F07 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A745E1A02A87900095F07 /* MKNetworkOperation.m */; };
 		EF9A74731A02A87900095F07 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74611A02A87900095F07 /* Reachability.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
+		EFBD2A191A03DC610005DE23 /* QSWaterFallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */; };
+		EFBD2A1C1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +99,10 @@
 		EF9A74771A02A89900095F07 /* QSNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkEngine.h; sourceTree = "<group>"; };
 		EF9A74781A02A89900095F07 /* QSNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkEngine.m; sourceTree = "<group>"; };
 		EF9A747C1A02A8F500095F07 /* QSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSBlock.h; sourceTree = "<group>"; };
+		EFBD2A171A03DC610005DE23 /* QSWaterFallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewCell.h; sourceTree = "<group>"; };
+		EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewCell.m; sourceTree = "<group>"; };
+		EFBD2A1A1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewLayout.h; sourceTree = "<group>"; };
+		EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +162,7 @@
 		EF9A74171A02A82600095F07 /* qingshow-ios-native */ = {
 			isa = PBXGroup;
 			children = (
+				EFBD2A151A03DC340005DE23 /* view */,
 				EF9A74461A02A87900095F07 /* model */,
 				EF9A74481A02A87900095F07 /* thirdPart */,
 				EF9A74681A02A87900095F07 /* utility */,
@@ -326,6 +333,25 @@
 			path = type;
 			sourceTree = "<group>";
 		};
+		EFBD2A151A03DC340005DE23 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				EFBD2A161A03DC340005DE23 /* waterfall */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		EFBD2A161A03DC340005DE23 /* waterfall */ = {
+			isa = PBXGroup;
+			children = (
+				EFBD2A171A03DC610005DE23 /* QSWaterFallCollectionViewCell.h */,
+				EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */,
+				EFBD2A1A1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.h */,
+				EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */,
+			);
+			path = waterfall;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -441,9 +467,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF9A74731A02A87900095F07 /* Reachability.m in Sources */,
+				EFBD2A191A03DC610005DE23 /* QSWaterFallCollectionViewCell.m in Sources */,
 				EF9A74281A02A82600095F07 /* QSViewController.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EF9A74711A02A87900095F07 /* MKNetworkEngine.m in Sources */,
+				EFBD2A1C1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EF9A746D1A02A87900095F07 /* NSDictionary+RequestEncoding.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF9A746B1A02A87900095F07 /* NSData+MKBase64.m in Sources */,
@@ -658,6 +686,7 @@
 				EF9A74421A02A82700095F07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EF9A74431A02A82700095F07 /* Build configuration list for PBXNativeTarget "qingshow-ios-nativeTests" */ = {
 			isa = XCConfigurationList;
@@ -666,6 +695,7 @@
 				EF9A74451A02A82700095F07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
