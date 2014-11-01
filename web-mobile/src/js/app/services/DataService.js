@@ -12,8 +12,18 @@ define([
             'dataType' : 'json'
         };
         if (andrea.env.fake) {
+            var suffix = [];
+            for (var key in requestData) {
+                if (path === '/feeding/chosen' && key === 'type') {
+                    suffix.push(key + '' + requestData[key]);
+                } else if (path === '/feeding/byTag' && key === 'tags') {
+                    suffix.push('tag' + requestData[key][0]);
+                }
+            }
+
+            suffix = suffix.length ? ('_' + suffix.join('_')) : '';
             $.extend(request, {
-                'url' : appConfig.fake.dataServerRoot + path + '.json',
+                'url' : appConfig.fake.dataServerRoot + path + suffix + '.json',
                 'cache' : !andrea.env.nocache
             });
         } else {

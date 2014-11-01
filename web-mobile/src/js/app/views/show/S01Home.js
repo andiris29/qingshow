@@ -22,7 +22,7 @@ define([
         }).appendTo(this._dom$));
 
         var gallery = new ShowGallery($('<div/>'), {
-            'feeding' : FeedingService.chosen
+            'feeding' : FeedingService.chosenByEditor
         });
         body.append(gallery);
     };

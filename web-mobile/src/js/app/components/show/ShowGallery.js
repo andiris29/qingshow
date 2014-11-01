@@ -108,27 +108,8 @@ define([
     // before, 200 li, 30fps@chrome
     // after, 200 li, 60fps@chrome
 
-    // TODO Remove these hard code heights
-    var _heights = {
-        'moto01' : 440,
-        'moto02' : 432,
-        'moto03' : 599,
-        'moto04' : 423,
-        'moto05' : 559,
-        'moto06' : 467,
-    };
-
     ShowGallery.prototype._renderOne = function(li$, show) {
-        var h = 0;
-        for (var name in _heights) {
-            if (show.cover.indexOf(name) !== -1) {
-                h = _heights[name];
-            }
-        }
         $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
-        if (h) {
-            $('.qsShowCover', li$).attr('height', h + 'px');
-        }
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', li$).text(show.modelRef.name);
         $('.qsRole', li$).text(show.modelRef.modelInfo.title);

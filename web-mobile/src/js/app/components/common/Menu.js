@@ -18,26 +18,23 @@ define([
                 var selected$ = $(event.currentTarget), feeding;
 
                 if ($('.qsHot', selected$).length) {
-                    feeding = FeedingService.hot;
-                } else if ($('.qsWomen', selected$).length) {
-                    feeding = function(pageNo, callback) {
-                        FeedingService.byTag('women', pageNo, callback);
-                    };
+                    if ($('.qsPromotion', selected$).length) {
+                        feeding = FeedingService.chosenByPromotion;
+                    } else {
+                        if (!$('.qsModels', selected$).length) {
+                            feeding = FeedingService.hot;
+                        }
+                    }
+                } else if ($('.qsComparison', selected$).length) {
+                    // TODO
                 } else if ($('.qsBag', selected$).length) {
-                    feeding = function(pageNo, callback) {
-                        FeedingService.byTag('bag', pageNo, callback);
-                    };
+                    feeding = FeedingService.tagBag;
                 } else if ($('.qsAccessories', selected$).length) {
-                    feeding = function(pageNo, callback) {
-                        FeedingService.byTag('accessories', pageNo, callback);
-                    };
+                    feeding = FeedingService.tagAccesories;
                 } else if ($('.qsShoe', selected$).length) {
-                    feeding = function(pageNo, callback) {
-                        FeedingService.byTag('shoe', pageNo, callback);
-                    };
-                } else {
-                    // TODO 最美搭配, 人气模特, 设计风尚, 品牌专区
-                    feeding = FeedingService.hot;
+                    feeding = FeedingService.tagShoe;
+                } else if ($('.qsCosmetic', selected$).length) {
+                    feeding = FeedingService.studio;
                 }
                 if (feeding) {
                     appRuntime.view.to('app/views/show/S02Feeding', {
