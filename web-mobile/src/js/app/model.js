@@ -60,7 +60,7 @@ define([
                 if (json.userInfo) {
                     tasks.push( function(callback) {
                         UserService.loginByEncryptedPassword(json.userInfo.mail, json.userInfo.encryptedPassword, function(metadata, data) {
-                            this.user(data);
+                            this.user(data.people);
                             callback(null);
                         }.bind(this));
                     }.bind(this));

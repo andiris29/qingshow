@@ -76,6 +76,10 @@ define([
             appRuntime.view.to(U04Email);
         }.bind(this));
 
+        $('.qsHelp', view$).on(appRuntime.events.click, function() {
+            appRuntime.view.to('app/views/user/U03Help', {"type": "help"});
+        }.bind(this));
+
         $('#logout', view$).on(appRuntime.events.click, function() {
             UserService.logout(null);
             this._data.user(null).serialize();
