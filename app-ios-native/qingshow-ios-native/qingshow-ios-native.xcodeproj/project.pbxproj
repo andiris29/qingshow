@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF0F9D491A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */; };
 		EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
 		EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74131A02A82600095F07 /* CoreGraphics.framework */; };
 		EF9A74161A02A82600095F07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74151A02A82600095F07 /* UIKit.framework */; };
@@ -32,6 +33,8 @@
 		EF9A74721A02A87900095F07 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A745E1A02A87900095F07 /* MKNetworkOperation.m */; };
 		EF9A74731A02A87900095F07 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74611A02A87900095F07 /* Reachability.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
+		EFB45D201A04F60E00D25177 /* QSTimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB45D1F1A04F60E00D25177 /* QSTimeCollectionViewCell.m */; };
+		EFB45D231A04F61900D25177 /* QSTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB45D221A04F61900D25177 /* QSTimeCollectionViewCell.xib */; };
 		EFBD2A191A03DC610005DE23 /* QSWaterFallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */; };
 		EFBD2A1C1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */; };
 /* End PBXBuildFile section */
@@ -54,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSWaterFallCollectionViewCell.xib; sourceTree = "<group>"; };
 		EF9A740E1A02A82600095F07 /* qingshow-ios-native.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "qingshow-ios-native.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9A74111A02A82600095F07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EF9A74131A02A82600095F07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -99,6 +103,9 @@
 		EF9A74771A02A89900095F07 /* QSNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkEngine.h; sourceTree = "<group>"; };
 		EF9A74781A02A89900095F07 /* QSNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkEngine.m; sourceTree = "<group>"; };
 		EF9A747C1A02A8F500095F07 /* QSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSBlock.h; sourceTree = "<group>"; };
+		EFB45D1E1A04F60E00D25177 /* QSTimeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTimeCollectionViewCell.h; sourceTree = "<group>"; };
+		EFB45D1F1A04F60E00D25177 /* QSTimeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTimeCollectionViewCell.m; sourceTree = "<group>"; };
+		EFB45D221A04F61900D25177 /* QSTimeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTimeCollectionViewCell.xib; sourceTree = "<group>"; };
 		EFBD2A171A03DC610005DE23 /* QSWaterFallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewCell.h; sourceTree = "<group>"; };
 		EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewCell.m; sourceTree = "<group>"; };
 		EFBD2A1A1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewLayout.h; sourceTree = "<group>"; };
@@ -346,8 +353,12 @@
 			children = (
 				EFBD2A171A03DC610005DE23 /* QSWaterFallCollectionViewCell.h */,
 				EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */,
+				EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */,
 				EFBD2A1A1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.h */,
 				EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */,
+				EFB45D1E1A04F60E00D25177 /* QSTimeCollectionViewCell.h */,
+				EFB45D1F1A04F60E00D25177 /* QSTimeCollectionViewCell.m */,
+				EFB45D221A04F61900D25177 /* QSTimeCollectionViewCell.xib */,
 			);
 			path = waterfall;
 			sourceTree = "<group>";
@@ -446,6 +457,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
+				EFB45D231A04F61900D25177 /* QSTimeCollectionViewCell.xib in Resources */,
+				EF0F9D491A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EF9A74251A02A82600095F07 /* Main.storyboard in Resources */,
 			);
@@ -470,6 +483,7 @@
 				EFBD2A191A03DC610005DE23 /* QSWaterFallCollectionViewCell.m in Sources */,
 				EF9A74281A02A82600095F07 /* QSViewController.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
+				EFB45D201A04F60E00D25177 /* QSTimeCollectionViewCell.m in Sources */,
 				EF9A74711A02A87900095F07 /* MKNetworkEngine.m in Sources */,
 				EFBD2A1C1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EF9A746D1A02A87900095F07 /* NSDictionary+RequestEncoding.m in Sources */,

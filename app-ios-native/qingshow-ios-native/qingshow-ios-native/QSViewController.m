@@ -8,29 +8,22 @@
 
 #import "QSViewController.h"
 #import "QSWaterFallCollectionViewCell.h"
+#import "QSTimeCollectionViewCell.h"
 @interface QSViewController ()
 
-@property (strong, nonatomic) UICollectionView *collectionView;
 
 @end
 
 @implementation QSViewController
-
+#pragma mark - Life Cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.MyLayout *layout=[[MyLayout alloc]init];
+
+    [self configNavBar];
+    [self configCollectionView];
     
-    //Water fall Collection View
-    QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
-    
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)) collectionViewLayout:layout];
-    self.collectionView.delegate=self;
-    self.collectionView.dataSource=self;
-    self.collectionView.scrollEnabled=YES;
-    [self.view addSubview:self.collectionView];
-    self.collectionView.backgroundColor=[UIColor clearColor];
-    [self.collectionView registerClass:[QSWaterFallCollectionViewCell class] forCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,20 +31,55 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - Configure View
+- (void)configNavBar
+{
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
+    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+    self.navigationItem.titleView = titleImageView;
+    
+    UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
+    self.navigationItem.leftBarButtonItem = menuItem;
+    UIBarButtonItem* accountItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
+    self.navigationItem.rightBarButtonItem = accountItem;
+}
+- (void)configCollectionView
+{
+    QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
+    self.collectionView.collectionViewLayout = layout;
+    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.collectionView.scrollEnabled=YES;
+    self.collectionView.backgroundColor=[UIColor colorWithRed:240.f/255.f green:240.f/255.f blue:240.f/255.f alpha:1.f];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"QSWaterFallCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell"];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"QSTimeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSTimeCollectionViewCell"];
+}
 
+#pragma mark - IBAction
+- (void)menuButtonPressed
+{
+    NSLog(@"menuBtnPressed");
+}
+- (void)accountButtonPressed
+{
+    NSLog(@"accountBtnPressed");
+}
 #pragma -mark UICollectionView delegate
-
-//定义每个UICollectionView 的大小
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(150, 160 * (indexPath.row % 3 + 1));
+    if (indexPath.row == 0) {
+        return CGSizeMake(145, 35);
+    } else {
+        return CGSizeMake(145, 270);
+    }
+
 }
 
 //margin
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -61,14 +89,19 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return 11;
 }
 
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSWaterFallCollectionViewCell *cell = (QSWaterFallCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
-    cell.backgroundColor=[UIColor redColor];
+    UICollectionViewCell* cell = nil;
+    if (indexPath.row == 0) {
+        cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
+    } else {
+        cell = (QSWaterFallCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
+        
+    }
     return cell;
 }
 

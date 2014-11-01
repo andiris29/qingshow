@@ -10,4 +10,6 @@
 #import "QSWaterFallCollectionViewLayout.h"
 @interface QSViewController : UIViewController<QSWaterFallLayoutDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
+
 @end
