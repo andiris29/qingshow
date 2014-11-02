@@ -9,9 +9,11 @@
 #import "QSViewController.h"
 
 #import "QSTimeCollectionViewCell.h"
+#import "QSNetworkEngine.h"
 @interface QSViewController ()
 
-
+@property (strong, nonatomic) NSMutableArray* resultArray;
+@property (assign, nonatomic) int currentPage;
 @end
 
 @implementation QSViewController
@@ -20,7 +22,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.MyLayout *layout=[[MyLayout alloc]init];
-
+    self.resultArray = [@[] mutableCopy];
+    self.currentPage = 1;
+    [self fetchDataOfPage:1];
+    
     [self configNavBar];
     [self configCollectionView];
     
@@ -31,6 +36,22 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - Network
+- (void)fetchDataOfPage:(int)page
+{
+    MKNetworkOperation* op = [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:^(NSArray *showArray, NSDictionary *metadata) {
+        if (page == 1) {
+            [self.resultArray removeAllObjects];
+        }
+        [self.resultArray addObjectsFromArray:showArray];
+        [self.collectionView reloadData];
+    } onError:^(NSError *error) {
+        NSLog(@"error");
+    }];
+}
+
+
+
 #pragma mark - Configure View
 - (void)configNavBar
 {
@@ -65,13 +86,19 @@
     NSLog(@"accountBtnPressed");
 }
 #pragma -mark UICollectionView delegate
+- (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
+{
+    return self.resultArray[indexPath.row - 1];
+}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
         return CGSizeMake(145, 35);
     } else {
-        return CGSizeMake(145, 270);
+        NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
+        float height = [QSWaterFallCollectionViewCell getHeightWithData:dict];
+        return CGSizeMake(145, height);
     }
 
 }
@@ -89,7 +116,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 11;
+    return self.resultArray.count + 1;
 }
 
 
@@ -100,8 +127,9 @@
         return cell;
     } else {
         QSWaterFallCollectionViewCell* cell = (QSWaterFallCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
-        
         cell.delegate = self;
+        NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
+        [cell bindData:dict];
         
         return cell;
     }

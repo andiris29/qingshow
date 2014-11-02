@@ -18,4 +18,6 @@ typedef void (^ErrorBlock) (NSError* error);
 typedef void (^OperationSucceedBlock)(MKNetworkOperation *completedOperation);
 typedef void (^OperationErrorBlock)(MKNetworkOperation *completedOperation, NSError *error);
 
+typedef void (^FeedingSuccessBlock)(NSArray* showArray, NSDictionary* metadata);
+
 #endif

@@ -9,8 +9,12 @@
 #import "QSNetworkEngine.h"
 #import "ServerPath.h"
 
+//User
 #define PATH_USER_LOGIN @"user/login"
 #define PATH_USER_LOGOUT @"user/logout"
+
+//Feeding
+#define PATH_FEEDING_CHOSEN @"feeding/chosen"
 
 
 @implementation QSNetworkEngine
@@ -89,5 +93,29 @@
                     errorBlock(error);
                 }
             }];
+}
+
+#pragma mark - Feeding
+- (MKNetworkOperation*)getChosenFeedingPage:(int)page
+                                  onSucceed:(FeedingSuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_FEEDING_CHOSEN
+                                 method:@"GET"
+                               paramers:@{@"pageNo" : @(page),
+                                          @"pageSize" : @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+    {
+        NSDictionary* retDict = completedOperation.responseJSON;
+        if (succeedBlock) {
+            succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
+        }
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+    {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
 }
 @end

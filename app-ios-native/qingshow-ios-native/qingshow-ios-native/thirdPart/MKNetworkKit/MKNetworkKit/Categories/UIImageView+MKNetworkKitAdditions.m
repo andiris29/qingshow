@@ -41,6 +41,13 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 @implementation UIImageView (MKNetworkKitAdditions)
 
++(void)initialize
+{
+    MKNetworkEngine* engine = [[MKNetworkEngine alloc] init];
+    [engine useCache];
+    [UIImageView setDefaultEngine:engine];
+}
+
 -(MKNetworkOperation*) imageFetchOperation {
   
   return (MKNetworkOperation*) objc_getAssociatedObject(self, &imageFetchOperationKey);

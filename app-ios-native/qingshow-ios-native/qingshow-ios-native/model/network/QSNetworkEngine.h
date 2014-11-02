@@ -13,7 +13,10 @@
 
 @interface QSNetworkEngine : MKNetworkEngine
 
+#pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine;
+
+#pragma mark - User
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
                            onSucceed:(VoidBlock)succeedBlock
@@ -21,4 +24,8 @@
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
+#pragma mark - Feeding
+- (MKNetworkOperation*)getChosenFeedingPage:(int)page
+                                  onSucceed:(FeedingSuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock;
 @end
