@@ -8,14 +8,14 @@
         "shows": [
             {
                 "name": "秀",
-                "cover": "/covers/moto04.jpg",
-                "video": "/02_2.mp4.mp4",
-                "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
+                "cover": "../../server-image-fake/covers/moto04.jpg",
+                "video": "../../server-video-fake/02_2.mp4.mp4",
+                "posters": ["../../server-video-fake/motobig.jpg", "../../server-video-fake/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
                 "modelRef": {
                     "roles": [1],
                     "name": "Sandygirl",
-                    "portrait": "/portraits/smallphoto01.jpg",
+                    "portrait": "../../server-image-fake/portraits/smallphoto01.jpg",
                     "birthtime": 631123200000,
                     "height": 171,
                     "weight": 45.6,
@@ -29,7 +29,7 @@
                         "_id": "i1",
                         "category": 3,
                         "name": "高跟丝带凉鞋。蓝",
-                        "cover": "/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
+                        "cover": "../../server-image-fake/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -39,7 +39,7 @@
                         "_id": "i2",
                         "category": 1,
                         "name": "粉色日本裙边，短裙。",
-                        "cover": "/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
+                        "cover": "../../server-image-fake/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=40961650031",
                         "brandRef": {
                             "_id": "b1",
@@ -49,7 +49,7 @@
                         "_id": "i3",
                         "category": 3,
                         "name": "高跟丝带凉鞋。粉",
-                        "cover": "/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
+                        "cover": "../../server-image-fake/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -59,7 +59,7 @@
                         "_id": "i4",
                         "category": 0,
                         "name": "韩系潮流褶花娃娃衫。",
-                        "cover": "/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
+                        "cover": "../../server-image-fake/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=38351349002",
                         "brandRef": {
                             "_id": "b1",
@@ -69,14 +69,14 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
-                "video": "/02_2.mp4.mp4",
-                "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
+                "cover": "../../server-image-fake/covers/moto05.jpg",
+                "video": "../../server-video-fake/02_2.mp4.mp4",
+                "posters": ["../../server-video-fake/motobig.jpg", "../../server-video-fake/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
                 "modelRef": {
                     "roles": [1],
                     "name": "Sandygirl",
-                    "portrait": "/portraits/smallphoto01.jpg",
+                    "portrait": "../../server-image-fake/portraits/smallphoto01.jpg",
                     "birthtime": 631123200000,
                     "height": 171,
                     "weight": 45.6,
@@ -90,7 +90,7 @@
                         "_id": "i1",
                         "category": 3,
                         "name": "高跟丝带凉鞋。蓝",
-                        "cover": "/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
+                        "cover": "../../server-image-fake/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -100,7 +100,7 @@
                         "_id": "i2",
                         "category": 1,
                         "name": "粉色日本裙边，短裙。",
-                        "cover": "/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
+                        "cover": "../../server-image-fake/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=40961650031",
                         "brandRef": {
                             "_id": "b1",
@@ -110,7 +110,7 @@
                         "_id": "i3",
                         "category": 3,
                         "name": "高跟丝带凉鞋。粉",
-                        "cover": "/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
+                        "cover": "../../server-image-fake/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -120,7 +120,7 @@
                         "_id": "i4",
                         "category": 0,
                         "name": "韩系潮流褶花娃娃衫。",
-                        "cover": "/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
+                        "cover": "../../server-image-fake/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=38351349002",
                         "brandRef": {
                             "_id": "b1",
@@ -130,14 +130,14 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
-                "video": "/02_2.mp4.mp4",
-                "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
+                "cover": "../../server-image-fake/covers/moto05.jpg",
+                "video": "../../server-video-fake/02_2.mp4.mp4",
+                "posters": ["../../server-video-fake/motobig.jpg", "../../server-video-fake/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
                 "modelRef": {
                     "roles": [1],
                     "name": "Sandygirl",
-                    "portrait": "/portraits/smallphoto01.jpg",
+                    "portrait": "../../server-image-fake/portraits/smallphoto01.jpg",
                     "birthtime": 631123200000,
                     "height": 171,
                     "weight": 45.6,
@@ -151,7 +151,7 @@
                         "_id": "i1",
                         "category": 3,
                         "name": "高跟丝带凉鞋。蓝",
-                        "cover": "/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
+                        "cover": "../../server-image-fake/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -161,7 +161,7 @@
                         "_id": "i2",
                         "category": 1,
                         "name": "粉色日本裙边，短裙。",
-                        "cover": "/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
+                        "cover": "../../server-image-fake/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=40961650031",
                         "brandRef": {
                             "_id": "b1",
@@ -171,7 +171,7 @@
                         "_id": "i3",
                         "category": 3,
                         "name": "高跟丝带凉鞋。粉",
-                        "cover": "/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
+                        "cover": "../../server-image-fake/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -181,7 +181,7 @@
                         "_id": "i4",
                         "category": 0,
                         "name": "韩系潮流褶花娃娃衫。",
-                        "cover": "/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
+                        "cover": "../../server-image-fake/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=38351349002",
                         "brandRef": {
                             "_id": "b1",
@@ -191,14 +191,14 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
-                "video": "/02_2.mp4.mp4",
-                "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
+                "cover": "../../server-image-fake/covers/moto05.jpg",
+                "video": "../../server-video-fake/02_2.mp4.mp4",
+                "posters": ["../../server-video-fake/motobig.jpg", "../../server-video-fake/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
                 "modelRef": {
                     "roles": [1],
                     "name": "Sandygirl",
-                    "portrait": "/portraits/smallphoto01.jpg",
+                    "portrait": "../../server-image-fake/portraits/smallphoto01.jpg",
                     "birthtime": 631123200000,
                     "height": 171,
                     "weight": 45.6,
@@ -212,7 +212,7 @@
                         "_id": "i1",
                         "category": 3,
                         "name": "高跟丝带凉鞋。蓝",
-                        "cover": "/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
+                        "cover": "../../server-image-fake/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -222,7 +222,7 @@
                         "_id": "i2",
                         "category": 1,
                         "name": "粉色日本裙边，短裙。",
-                        "cover": "/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
+                        "cover": "../../server-image-fake/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=40961650031",
                         "brandRef": {
                             "_id": "b1",
@@ -232,7 +232,7 @@
                         "_id": "i3",
                         "category": 3,
                         "name": "高跟丝带凉鞋。粉",
-                        "cover": "/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
+                        "cover": "../../server-image-fake/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -242,7 +242,7 @@
                         "_id": "i4",
                         "category": 0,
                         "name": "韩系潮流褶花娃娃衫。",
-                        "cover": "/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
+                        "cover": "../../server-image-fake/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=38351349002",
                         "brandRef": {
                             "_id": "b1",
@@ -252,14 +252,14 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
-                "video": "/02_2.mp4.mp4",
-                "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
+                "cover": "../../server-image-fake/covers/moto05.jpg",
+                "video": "../../server-video-fake/02_2.mp4.mp4",
+                "posters": ["../../server-video-fake/motobig.jpg", "../../server-video-fake/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
                 "modelRef": {
                     "roles": [1],
                     "name": "Sandygirl",
-                    "portrait": "/portraits/smallphoto01.jpg",
+                    "portrait": "../../server-image-fake/portraits/smallphoto01.jpg",
                     "birthtime": 631123200000,
                     "height": 171,
                     "weight": 45.6,
@@ -273,7 +273,7 @@
                         "_id": "i1",
                         "category": 3,
                         "name": "高跟丝带凉鞋。蓝",
-                        "cover": "/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
+                        "cover": "../../server-image-fake/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -283,7 +283,7 @@
                         "_id": "i2",
                         "category": 1,
                         "name": "粉色日本裙边，短裙。",
-                        "cover": "/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
+                        "cover": "../../server-image-fake/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=40961650031",
                         "brandRef": {
                             "_id": "b1",
@@ -293,7 +293,7 @@
                         "_id": "i3",
                         "category": 3,
                         "name": "高跟丝带凉鞋。粉",
-                        "cover": "/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
+                        "cover": "../../server-image-fake/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -303,7 +303,7 @@
                         "_id": "i4",
                         "category": 0,
                         "name": "韩系潮流褶花娃娃衫。",
-                        "cover": "/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
+                        "cover": "../../server-image-fake/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=38351349002",
                         "brandRef": {
                             "_id": "b1",
@@ -313,14 +313,14 @@
                 ]
             }, {
                 "name": "秀",
-                "cover": "/covers/moto05.jpg",
-                "video": "/02_2.mp4.mp4",
-                "posters": ["/motobig.jpg", "/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
+                "cover": "../../server-image-fake/covers/moto05.jpg",
+                "video": "../../server-video-fake/02_2.mp4.mp4",
+                "posters": ["../../server-video-fake/motobig.jpg", "../../server-video-fake/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg"],
                 "numLike": 105,
                 "modelRef": {
                     "roles": [1],
                     "name": "Sandygirl",
-                    "portrait": "/portraits/smallphoto01.jpg",
+                    "portrait": "../../server-image-fake/portraits/smallphoto01.jpg",
                     "birthtime": 631123200000,
                     "height": 171,
                     "weight": 45.6,
@@ -334,7 +334,7 @@
                         "_id": "i1",
                         "category": 3,
                         "name": "高跟丝带凉鞋。蓝",
-                        "cover": "/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
+                        "cover": "../../server-image-fake/taobao/18458fd8d0e4112c4cb1b8123f2da8cf.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -344,7 +344,7 @@
                         "_id": "i2",
                         "category": 1,
                         "name": "粉色日本裙边，短裙。",
-                        "cover": "/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
+                        "cover": "../../server-image-fake/taobao/2e99638b649b4f7d4fcd0bd7c4560680.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=40961650031",
                         "brandRef": {
                             "_id": "b1",
@@ -354,7 +354,7 @@
                         "_id": "i3",
                         "category": 3,
                         "name": "高跟丝带凉鞋。粉",
-                        "cover": "/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
+                        "cover": "../../server-image-fake/taobao/4440f2375a5183a60ac7f8a0b35ac7e4.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=37943669428",
                         "brandRef": {
                             "_id": "b1",
@@ -364,7 +364,7 @@
                         "_id": "i4",
                         "category": 0,
                         "name": "韩系潮流褶花娃娃衫。",
-                        "cover": "/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
+                        "cover": "../../server-image-fake/taobao/cc7308079eeb5c125e74f4da226df7aa.jpeg",
                         "source": "http://h5.m.taobao.com/awp/core/detail.htm?id=38351349002",
                         "brandRef": {
                             "_id": "b1",

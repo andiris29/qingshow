@@ -12,3 +12,4 @@ export mongodb_user=qingshow
 export mongodb_password=qingshow@mongo
 
 export http_server_port=30001
+export web_server_port=30080

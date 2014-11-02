@@ -27,9 +27,6 @@ var servicesNames = ['feeding', 'user', 'interaction', 'query'];
 var app = express();
 app.listen(argv['http-server-port']);
 
-//static
-app.use(express.static(pathConst.publicPath));
-
 //cross domain
 app.use(function (req, res, next) {
     // Set header for cross domain

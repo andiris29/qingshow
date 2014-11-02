@@ -1,12 +1,12 @@
 var path = require('path');
 
 // /com.focosee.qingshow
-var publicPath = path.join(__dirname, '../../../');
-var imagePath =  path.join(publicPath, '/server-image-fake');
-var videoPath = path.join(publicPath, '/server-video-fake');
+var _root = path.join(__dirname, '../../../');
+var webMobile = path.join(_root, '/web-mobile');
+// TODO Move to formal path
+var image = path.join(_root, '/server-image-fake');
 
 module.exports = {
-    publicPath : publicPath,
-    imagePath : imagePath,
-    videoPath : videoPath
+    webMobile : webMobile,
+    image : image
 };
