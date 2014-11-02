@@ -43,7 +43,7 @@ showSchema.methods.updateCoverMetaData = function (callBack){
         return;
     }
     var _this = this;
-    var imagePath = path.join(pathConst.imagePath, this.cover);
+    var imagePath = path.join(pathConst.image, this.cover);
     var g = gm(imagePath);
 
     gm(imagePath).size(function (err, size) {

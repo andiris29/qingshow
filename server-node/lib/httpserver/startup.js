@@ -28,7 +28,12 @@ var app = express();
 app.listen(argv['http-server-port']);
 
 //static
-app.use(express.static(pathConst.publicPath));
+app.use('/com.focosee.qingshow/web-mobile', express.static(pathConst.webMobile));
+// TODO Move to formal path
+var _root = path.join(__dirname, '../../../');
+app.use('/com.focosee.qingshow/server-node-fake', express.static(path.join(_root, '/server-node-fake')));
+app.use('/com.focosee.qingshow/server-image-fake', express.static(path.join(_root, '/server-image-fake')));
+app.use('/com.focosee.qingshow/server-video-fake', express.static(path.join(_root, '/server-video-fake')));
 
 //cross domain
 app.use(function (req, res, next) {
