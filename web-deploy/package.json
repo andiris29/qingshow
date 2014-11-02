@@ -1,8 +1,0 @@
-{
-    "name": "com.focosee.qingshow.webserver",
-    "version": "0.1.0",
-    "dependencies": {
-        "minimist": "1.1.*",
-        "express": "4.9.*"
-    }
-}
