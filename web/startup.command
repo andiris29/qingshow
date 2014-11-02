@@ -7,5 +7,5 @@ source /Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow/environmen
 # node
 # node --debug
 # node --debug-brk
-node $folder_qingshow/web-mobile/deploy/startup.js --web-server-port $web_server_port
+node $folder_qingshow/web/lib/startup.js --web-server-port $web_server_port
 read -n 1
