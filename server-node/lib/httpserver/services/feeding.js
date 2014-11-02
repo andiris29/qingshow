@@ -163,8 +163,8 @@ _chosen = function (req, res){
     pageSize = parseInt(param.pageSize || 10);
 
     Chosen.find()
-        .where('dateStart').lte(Date.now())
-        .sort({dateStart : 1})
+        .where('activateTime').lte(Date.now())
+        .sort({activateTime : 1})
         .limit(1)
         .exec(function (err, chosens) {
             if (err) {
