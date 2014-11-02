@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF0F9D491A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */; };
+		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
 		EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74131A02A82600095F07 /* CoreGraphics.framework */; };
 		EF9A74161A02A82600095F07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74151A02A82600095F07 /* UIKit.framework */; };
@@ -58,6 +59,10 @@
 
 /* Begin PBXFileReference section */
 		EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSWaterFallCollectionViewCell.xib; sourceTree = "<group>"; };
+		EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DatabaseConstant.h; sourceTree = "<group>"; };
+		EF8FD0551A064D470081F8EB /* ServerPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerPath.h; sourceTree = "<group>"; };
+		EF8FD0561A064DC30081F8EB /* PupblicResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PupblicResource.h; sourceTree = "<group>"; };
 		EF9A740E1A02A82600095F07 /* qingshow-ios-native.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "qingshow-ios-native.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9A74111A02A82600095F07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EF9A74131A02A82600095F07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,6 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */,
 				EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */,
 				EF9A74161A02A82600095F07 /* UIKit.framework in Frameworks */,
 				EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */,
@@ -136,6 +142,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF8FD0501A0637420081F8EB /* beans */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = beans;
+			sourceTree = "<group>";
+		};
 		EF9A74051A02A82600095F07 = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +171,7 @@
 		EF9A74101A02A82600095F07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */,
 				EF9A74111A02A82600095F07 /* Foundation.framework */,
 				EF9A74131A02A82600095F07 /* CoreGraphics.framework */,
 				EF9A74151A02A82600095F07 /* UIKit.framework */,
@@ -216,6 +230,7 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				EF8FD0501A0637420081F8EB /* beans */,
 				EF9A74471A02A87900095F07 /* network */,
 			);
 			path = model;
@@ -336,6 +351,9 @@
 			isa = PBXGroup;
 			children = (
 				EF9A747C1A02A8F500095F07 /* QSBlock.h */,
+				EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */,
+				EF8FD0551A064D470081F8EB /* ServerPath.h */,
+				EF8FD0561A064DC30081F8EB /* PupblicResource.h */,
 			);
 			path = type;
 			sourceTree = "<group>";

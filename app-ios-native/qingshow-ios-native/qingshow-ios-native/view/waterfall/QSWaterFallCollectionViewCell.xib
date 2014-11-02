@@ -34,6 +34,9 @@
                         <state key="normal" image="root_cell_icon_notice">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="favorBtnPressed:" destination="UiH-51-z6X" eventType="touchUpInside" id="1DY-tq-8aN"/>
+                        </connections>
                     </button>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="171cm 45.6kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XEZ-XA-4md">
                         <rect key="frame" x="39" y="234" width="68" height="12"/>
@@ -61,6 +64,15 @@
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <size key="customSize" width="211" height="186"/>
+            <connections>
+                <outlet property="contentLabel" destination="sdU-tE-XT9" id="fqy-vF-3NU"/>
+                <outlet property="favorButton" destination="jNo-Yf-xl7" id="C8L-iy-spc"/>
+                <outlet property="favorNumberLabel" destination="Xqq-sE-cmQ" id="CiR-bf-6gp"/>
+                <outlet property="headIconImageView" destination="5QP-d3-Fgd" id="OvA-w7-wqx"/>
+                <outlet property="nameLabel" destination="buo-TK-mWn" id="eoa-Ua-dLp"/>
+                <outlet property="photoImageView" destination="0gK-JO-VWd" id="tHJ-LT-U11"/>
+                <outlet property="statusLabel" destination="XEZ-XA-4md" id="Lo9-fE-mSX"/>
+            </connections>
         </collectionViewCell>
     </objects>
     <resources>

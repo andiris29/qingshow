@@ -7,7 +7,7 @@
 //
 
 #import "QSNetworkEngine.h"
-#define HOST_NAME @"localhost:30001/services"
+#import "ServerPath.h"
 
 #define PATH_USER_LOGIN @"user/login"
 #define PATH_USER_LOGOUT @"user/logout"
@@ -18,6 +18,7 @@
 #pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine
 {
+
     static QSNetworkEngine* s_networkEngine = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

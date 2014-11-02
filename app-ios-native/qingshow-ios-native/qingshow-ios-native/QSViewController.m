@@ -7,7 +7,7 @@
 //
 
 #import "QSViewController.h"
-#import "QSWaterFallCollectionViewCell.h"
+
 #import "QSTimeCollectionViewCell.h"
 @interface QSViewController ()
 
@@ -95,14 +95,22 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell* cell = nil;
     if (indexPath.row == 0) {
-        cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
+        QSTimeCollectionViewCell* cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
+        return cell;
     } else {
-        cell = (QSWaterFallCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
+        QSWaterFallCollectionViewCell* cell = (QSWaterFallCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
         
+        cell.delegate = self;
+        
+        return cell;
     }
-    return cell;
+}
+
+#pragma mark - QSWaterFallCollectionViewCellDelegate
+- (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell
+{
+    
 }
 
 @end

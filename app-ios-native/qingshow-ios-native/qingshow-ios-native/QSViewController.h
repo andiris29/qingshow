@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSWaterFallCollectionViewCell.h"
 #import "QSWaterFallCollectionViewLayout.h"
-@interface QSViewController : UIViewController<QSWaterFallLayoutDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface QSViewController : UIViewController<QSWaterFallLayoutDelegate, UICollectionViewDataSource, UICollectionViewDelegate, QSWaterFallCollectionViewCellDelegate>
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 
