@@ -10,7 +10,7 @@ define([
 
     RenderUtils.PASSWORD_REGEXP = "^[A-Za-z0-9]{8,12}$";
     RenderUtils.EMAIL_REGEXP = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    RenderUtils.MOBILE_REGEXP= "^1[0-9]{10}$";
+    RenderUtils.MOBILE_REGEXP = "^1[0-9]{10}$";
 
     var _today;
     RenderUtils.timeToAge = function(time) {
@@ -29,11 +29,7 @@ define([
     };
 
     RenderUtils.imagePathToURL = function(path) {
-        if (path && path.indexOf('://') === -1) {
-            return (andrea.env.fake ? appConfig.fake.imageServerRoot : appConfig.imageServerRoot) + path;
-        } else {
-            return path;
-        }
+        return path;
     };
 
     RenderUtils.imagePathToBackground = function(path) {
@@ -41,11 +37,7 @@ define([
     };
 
     RenderUtils.videoPathToURL = function(path) {
-        if (path && path.indexOf('://') === -1) {
-            return (andrea.env.fake ? appConfig.fake.videoServerRoot : appConfig.videoServerRoot) + path;
-        } else {
-            return path;
-        }
+        return path;
     };
 
     RenderUtils.videoPathToBackground = function(path) {
@@ -61,7 +53,7 @@ define([
 
     RenderUtils.checkStringMatchPattern = function(pattern, value) {
 
-        var regExp= new RegExp(pattern);
+        var regExp = new RegExp(pattern);
 
         if (!regExp.test(value)) {
             return false;
