@@ -80,6 +80,10 @@ define([
             appRuntime.view.to('app/views/user/U03Help', {"type": "help"});
         }.bind(this));
 
+        $('.qsRegulation', view$).on(appRuntime.events.click, function() {
+            appRuntime.view.to('app/views/user/U03Help', {"type": "regulation"});
+        }.bind(this));
+
         $('#logout', view$).on(appRuntime.events.click, function() {
             UserService.logout(null);
             this._data.user(null).serialize();
