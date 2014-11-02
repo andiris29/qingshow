@@ -6,17 +6,20 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSViewController.h"
+#import "QSRootViewController.h"
 
 #import "QSTimeCollectionViewCell.h"
 #import "QSNetworkEngine.h"
-@interface QSViewController ()
+
+@interface QSRootViewController ()
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (assign, nonatomic) int currentPage;
+@property (strong, nonatomic) QSRootMenuView* menuView;
+@property (assign, nonatomic) BOOL fIsShowMenu;
 @end
 
-@implementation QSViewController
+@implementation QSRootViewController
 #pragma mark - Life Cycle
 - (void)viewDidLoad
 {
@@ -28,7 +31,11 @@
     
     [self configNavBar];
     [self configCollectionView];
-    
+    QSRootMenuView* menuView = [QSRootMenuView generateView];
+    [self.menuContainer addSubview:menuView];
+    self.menuView = menuView;
+    self.fIsShowMenu = NO;
+    menuView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -79,7 +86,22 @@
 #pragma mark - IBAction
 - (void)menuButtonPressed
 {
-    NSLog(@"menuBtnPressed");
+    __weak QSRootViewController* weakSelf = self;
+    if (self.fIsShowMenu)
+    {
+        [self.menuView hideMenuAnimationComple:^{
+            weakSelf.menuContainer.hidden = YES;
+        }];
+    }
+    else
+    {
+        weakSelf.menuContainer.hidden = NO;
+        [self.menuView showMenuAnimationComple:^{
+        }];
+    }
+    self.fIsShowMenu = !self.fIsShowMenu;
+    
+
 }
 - (void)accountButtonPressed
 {
@@ -139,6 +161,11 @@
 - (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell
 {
     
+}
+#pragma mark - QSRootMenuViewDelegate
+- (void)rootMenuItemPressedType:(int)type
+{
+    NSLog(@"item pressed type: %d",type);
 }
 
 @end

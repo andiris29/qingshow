@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF0F9D491A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */; };
+		EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */; };
+		EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A591F1A06761800001AE0 /* QSTimeCollectionViewCell.xib */; };
+		EF1A59271A06761800001AE0 /* QSWaterFallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59211A06761800001AE0 /* QSWaterFallCollectionViewCell.m */; };
+		EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A59221A06761800001AE0 /* QSWaterFallCollectionViewCell.xib */; };
+		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
+		EF1A592C1A06763000001AE0 /* QSRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A592B1A06763000001AE0 /* QSRootViewController.m */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
 		EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74131A02A82600095F07 /* CoreGraphics.framework */; };
@@ -16,7 +21,6 @@
 		EF9A741E1A02A82600095F07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A741D1A02A82600095F07 /* main.m */; };
 		EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74211A02A82600095F07 /* QSAppDelegate.m */; };
 		EF9A74251A02A82600095F07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74231A02A82600095F07 /* Main.storyboard */; };
-		EF9A74281A02A82600095F07 /* QSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74271A02A82600095F07 /* QSViewController.m */; };
 		EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74291A02A82600095F07 /* Images.xcassets */; };
 		EF9A74311A02A82700095F07 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74301A02A82700095F07 /* XCTest.framework */; };
 		EF9A74321A02A82700095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
@@ -34,10 +38,10 @@
 		EF9A74721A02A87900095F07 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A745E1A02A87900095F07 /* MKNetworkOperation.m */; };
 		EF9A74731A02A87900095F07 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74611A02A87900095F07 /* Reachability.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
-		EFB45D201A04F60E00D25177 /* QSTimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB45D1F1A04F60E00D25177 /* QSTimeCollectionViewCell.m */; };
-		EFB45D231A04F61900D25177 /* QSTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB45D221A04F61900D25177 /* QSTimeCollectionViewCell.xib */; };
-		EFBD2A191A03DC610005DE23 /* QSWaterFallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */; };
-		EFBD2A1C1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */; };
+		EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */; };
+		EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE67291A0676A4001F4CA1 /* QSRootMenuView.m */; };
+		EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */; };
+		EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFFE672D1A0676CB001F4CA1 /* QSRootMenuView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +62,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSWaterFallCollectionViewCell.xib; sourceTree = "<group>"; };
+		EF1A591D1A06761800001AE0 /* QSTimeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTimeCollectionViewCell.h; sourceTree = "<group>"; };
+		EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTimeCollectionViewCell.m; sourceTree = "<group>"; };
+		EF1A591F1A06761800001AE0 /* QSTimeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTimeCollectionViewCell.xib; sourceTree = "<group>"; };
+		EF1A59201A06761800001AE0 /* QSWaterFallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewCell.h; sourceTree = "<group>"; };
+		EF1A59211A06761800001AE0 /* QSWaterFallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewCell.m; sourceTree = "<group>"; };
+		EF1A59221A06761800001AE0 /* QSWaterFallCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSWaterFallCollectionViewCell.xib; sourceTree = "<group>"; };
+		EF1A59231A06761800001AE0 /* QSWaterFallCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewLayout.h; sourceTree = "<group>"; };
+		EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
+		EF1A592A1A06763000001AE0 /* QSRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootViewController.h; sourceTree = "<group>"; };
+		EF1A592B1A06763000001AE0 /* QSRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootViewController.m; sourceTree = "<group>"; };
 		EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DatabaseConstant.h; sourceTree = "<group>"; };
 		EF8FD0551A064D470081F8EB /* ServerPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerPath.h; sourceTree = "<group>"; };
@@ -74,8 +87,6 @@
 		EF9A74201A02A82600095F07 /* QSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSAppDelegate.h; sourceTree = "<group>"; };
 		EF9A74211A02A82600095F07 /* QSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QSAppDelegate.m; sourceTree = "<group>"; };
 		EF9A74241A02A82600095F07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		EF9A74261A02A82600095F07 /* QSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSViewController.h; sourceTree = "<group>"; };
-		EF9A74271A02A82600095F07 /* QSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QSViewController.m; sourceTree = "<group>"; };
 		EF9A74291A02A82600095F07 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EF9A742F1A02A82700095F07 /* qingshow-ios-nativeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "qingshow-ios-nativeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9A74301A02A82700095F07 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -108,13 +119,12 @@
 		EF9A74771A02A89900095F07 /* QSNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkEngine.h; sourceTree = "<group>"; };
 		EF9A74781A02A89900095F07 /* QSNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkEngine.m; sourceTree = "<group>"; };
 		EF9A747C1A02A8F500095F07 /* QSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSBlock.h; sourceTree = "<group>"; };
-		EFB45D1E1A04F60E00D25177 /* QSTimeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTimeCollectionViewCell.h; sourceTree = "<group>"; };
-		EFB45D1F1A04F60E00D25177 /* QSTimeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTimeCollectionViewCell.m; sourceTree = "<group>"; };
-		EFB45D221A04F61900D25177 /* QSTimeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTimeCollectionViewCell.xib; sourceTree = "<group>"; };
-		EFBD2A171A03DC610005DE23 /* QSWaterFallCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewCell.h; sourceTree = "<group>"; };
-		EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewCell.m; sourceTree = "<group>"; };
-		EFBD2A1A1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterFallCollectionViewLayout.h; sourceTree = "<group>"; };
-		EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
+		EFFE67241A067699001F4CA1 /* QSRootMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootMenuItem.h; sourceTree = "<group>"; };
+		EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootMenuItem.m; sourceTree = "<group>"; };
+		EFFE67281A0676A4001F4CA1 /* QSRootMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootMenuView.h; sourceTree = "<group>"; };
+		EFFE67291A0676A4001F4CA1 /* QSRootMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootMenuView.m; sourceTree = "<group>"; };
+		EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSRootMenuItem.xib; sourceTree = "<group>"; };
+		EFFE672D1A0676CB001F4CA1 /* QSRootMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSRootMenuView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +152,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EF1A59191A06761800001AE0 /* vc */ = {
+			isa = PBXGroup;
+			children = (
+				EF1A591A1A06761800001AE0 /* root */,
+				EF1A591B1A06761800001AE0 /* view */,
+			);
+			path = vc;
+			sourceTree = "<group>";
+		};
+		EF1A591A1A06761800001AE0 /* root */ = {
+			isa = PBXGroup;
+			children = (
+				EF1A592A1A06763000001AE0 /* QSRootViewController.h */,
+				EF1A592B1A06763000001AE0 /* QSRootViewController.m */,
+				EFFE67241A067699001F4CA1 /* QSRootMenuItem.h */,
+				EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */,
+				EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */,
+				EFFE67281A0676A4001F4CA1 /* QSRootMenuView.h */,
+				EFFE67291A0676A4001F4CA1 /* QSRootMenuView.m */,
+				EFFE672D1A0676CB001F4CA1 /* QSRootMenuView.xib */,
+			);
+			path = root;
+			sourceTree = "<group>";
+		};
+		EF1A591B1A06761800001AE0 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				EF1A591C1A06761800001AE0 /* waterfall */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		EF1A591C1A06761800001AE0 /* waterfall */ = {
+			isa = PBXGroup;
+			children = (
+				EF1A591D1A06761800001AE0 /* QSTimeCollectionViewCell.h */,
+				EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */,
+				EF1A591F1A06761800001AE0 /* QSTimeCollectionViewCell.xib */,
+				EF1A59201A06761800001AE0 /* QSWaterFallCollectionViewCell.h */,
+				EF1A59211A06761800001AE0 /* QSWaterFallCollectionViewCell.m */,
+				EF1A59221A06761800001AE0 /* QSWaterFallCollectionViewCell.xib */,
+				EF1A59231A06761800001AE0 /* QSWaterFallCollectionViewLayout.h */,
+				EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */,
+			);
+			path = waterfall;
+			sourceTree = "<group>";
+		};
 		EF8FD0501A0637420081F8EB /* beans */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,15 +240,13 @@
 		EF9A74171A02A82600095F07 /* qingshow-ios-native */ = {
 			isa = PBXGroup;
 			children = (
-				EFBD2A151A03DC340005DE23 /* view */,
+				EF1A59191A06761800001AE0 /* vc */,
 				EF9A74461A02A87900095F07 /* model */,
 				EF9A74481A02A87900095F07 /* thirdPart */,
 				EF9A74681A02A87900095F07 /* utility */,
 				EF9A74201A02A82600095F07 /* QSAppDelegate.h */,
 				EF9A74211A02A82600095F07 /* QSAppDelegate.m */,
 				EF9A74231A02A82600095F07 /* Main.storyboard */,
-				EF9A74261A02A82600095F07 /* QSViewController.h */,
-				EF9A74271A02A82600095F07 /* QSViewController.m */,
 				EF9A74291A02A82600095F07 /* Images.xcassets */,
 				EF9A74181A02A82600095F07 /* Supporting Files */,
 			);
@@ -358,29 +413,6 @@
 			path = type;
 			sourceTree = "<group>";
 		};
-		EFBD2A151A03DC340005DE23 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				EFBD2A161A03DC340005DE23 /* waterfall */,
-			);
-			path = view;
-			sourceTree = "<group>";
-		};
-		EFBD2A161A03DC340005DE23 /* waterfall */ = {
-			isa = PBXGroup;
-			children = (
-				EFBD2A171A03DC610005DE23 /* QSWaterFallCollectionViewCell.h */,
-				EFBD2A181A03DC610005DE23 /* QSWaterFallCollectionViewCell.m */,
-				EF0F9D481A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib */,
-				EFBD2A1A1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.h */,
-				EFBD2A1B1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m */,
-				EFB45D1E1A04F60E00D25177 /* QSTimeCollectionViewCell.h */,
-				EFB45D1F1A04F60E00D25177 /* QSTimeCollectionViewCell.m */,
-				EFB45D221A04F61900D25177 /* QSTimeCollectionViewCell.xib */,
-			);
-			path = waterfall;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -474,11 +506,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
-				EFB45D231A04F61900D25177 /* QSTimeCollectionViewCell.xib in Resources */,
-				EF0F9D491A04E3030021E4A2 /* QSWaterFallCollectionViewCell.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
+				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF9A74251A02A82600095F07 /* Main.storyboard in Resources */,
+				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
+				EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,20 +532,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF9A74731A02A87900095F07 /* Reachability.m in Sources */,
-				EFBD2A191A03DC610005DE23 /* QSWaterFallCollectionViewCell.m in Sources */,
-				EF9A74281A02A82600095F07 /* QSViewController.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
-				EFB45D201A04F60E00D25177 /* QSTimeCollectionViewCell.m in Sources */,
 				EF9A74711A02A87900095F07 /* MKNetworkEngine.m in Sources */,
-				EFBD2A1C1A03DC770005DE23 /* QSWaterFallCollectionViewLayout.m in Sources */,
+				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EF9A746D1A02A87900095F07 /* NSDictionary+RequestEncoding.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF9A746B1A02A87900095F07 /* NSData+MKBase64.m in Sources */,
+				EF1A59271A06761800001AE0 /* QSWaterFallCollectionViewCell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
+				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF9A74721A02A87900095F07 /* MKNetworkOperation.m in Sources */,
 				EF9A746F1A02A87900095F07 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				EF9A74701A02A87900095F07 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF9A746A1A02A87900095F07 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
+				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
+				EF1A592C1A06763000001AE0 /* QSRootViewController.m in Sources */,
+				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				EF9A746E1A02A87900095F07 /* NSString+MKNetworkKitAdditions.m in Sources */,
 				EF9A746C1A02A87900095F07 /* NSDate+RFC1123.m in Sources */,
 			);

@@ -19,10 +19,10 @@
             </objects>
             <point key="canvasLocation" x="-553" y="-159"/>
         </scene>
-        <!--View Controller-->
+        <!--Root View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="QSViewController" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="QSRootViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TKs-h5-HPM"/>
                         <viewControllerLayoutGuide type="bottom" id="k8g-8o-nGg"/>
@@ -31,9 +31,8 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView appearanceType="aqua" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AhA-PP-XfW">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="AhA-PP-XfW">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RkL-MZ-tIp">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -46,18 +45,29 @@
                                     <outlet property="delegate" destination="vXZ-lx-hvc" id="rxH-y2-hcd"/>
                                 </connections>
                             </collectionView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxf-CQ-4qq">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="290" id="ujc-L3-qOg"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="k8g-8o-nGg" firstAttribute="top" secondItem="AhA-PP-XfW" secondAttribute="bottom" id="L5q-KA-A7u"/>
+                            <constraint firstAttribute="trailing" secondItem="Qxf-CQ-4qq" secondAttribute="trailing" id="RXU-EQ-Bzx"/>
                             <constraint firstAttribute="trailing" secondItem="AhA-PP-XfW" secondAttribute="trailing" id="XbC-5a-mgr"/>
                             <constraint firstItem="AhA-PP-XfW" firstAttribute="top" secondItem="TKs-h5-HPM" secondAttribute="bottom" id="rZE-NZ-Aau"/>
+                            <constraint firstItem="Qxf-CQ-4qq" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="rlr-gx-klV"/>
                             <constraint firstItem="AhA-PP-XfW" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="tmE-NB-g9l"/>
+                            <constraint firstItem="Qxf-CQ-4qq" firstAttribute="top" secondItem="TKs-h5-HPM" secondAttribute="bottom" id="uXh-yf-i1O"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZQu-BH-xB8"/>
                     <connections>
                         <outlet property="collectionView" destination="AhA-PP-XfW" id="jei-OD-X3f"/>
+                        <outlet property="menuContainer" destination="Qxf-CQ-4qq" id="S5q-DJ-qNL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
