@@ -166,7 +166,8 @@
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
 {
-    NSLog(@"item pressed type: %d",type);
+    UIViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"QSModelListViewController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

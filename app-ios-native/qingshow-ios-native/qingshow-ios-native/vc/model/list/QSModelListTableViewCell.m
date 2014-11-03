@@ -16,7 +16,7 @@
 #pragma mark - Life Cycle
 - (void)awakeFromNib
 {
-    // Initialization code
+    self.headPhotoImageView.layer.cornerRadius = self.headPhotoImageView.frame.size.height / 2;
 }
 
 

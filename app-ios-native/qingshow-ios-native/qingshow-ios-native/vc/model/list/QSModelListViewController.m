@@ -8,6 +8,7 @@
 
 #import "QSModelListViewController.h"
 
+
 @interface QSModelListViewController ()
 
 @end
@@ -23,10 +24,14 @@
     return self;
 }
 
+#pragma mark - Life Cycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.tableView registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
+    self.navigationItem.title = @"人气达人";
+    self.navigationItem.leftBarButtonItem.title = @"aa";
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,5 +50,32 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UITableView DataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSModelListTableViewCell* cell = (QSModelListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSModelListTableViewCell" forIndexPath:indexPath];
+    cell.delegate = self;
+
+    
+    return cell;
+}
+
+
+#pragma mark - UITableView Delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 62.f;
+}
+#pragma mark - QSModelListTableViewCellDelegate
+- (void)favorBtnPressed:(QSModelListTableViewCell *)cell
+{
+    
+}
+
 
 @end

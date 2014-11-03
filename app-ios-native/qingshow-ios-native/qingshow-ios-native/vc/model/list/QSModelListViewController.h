@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSModelListTableViewCell.h"
 
-@interface QSModelListViewController : UIViewController
+@interface QSModelListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, QSModelListTableViewCellDelegate>
+
+@property (strong, nonatomic) IBOutlet UITableView* tableView;
 
 @end
