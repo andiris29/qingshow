@@ -13,6 +13,10 @@
 		EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A59221A06761800001AE0 /* QSWaterFallCollectionViewCell.xib */; };
 		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
 		EF1A592C1A06763000001AE0 /* QSRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A592B1A06763000001AE0 /* QSRootViewController.m */; };
+		EF8AB6601A07D20500372538 /* QSModelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */; };
+		EF8AB6631A07D21D00372538 /* QSModelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6621A07D21D00372538 /* QSModelListViewController.m */; };
+		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
+		EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
 		EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
 		EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74131A02A82600095F07 /* CoreGraphics.framework */; };
@@ -72,6 +76,13 @@
 		EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
 		EF1A592A1A06763000001AE0 /* QSRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootViewController.h; sourceTree = "<group>"; };
 		EF1A592B1A06763000001AE0 /* QSRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootViewController.m; sourceTree = "<group>"; };
+		EF8AB65D1A07D20500372538 /* QSModelDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelDetailViewController.h; sourceTree = "<group>"; };
+		EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelDetailViewController.m; sourceTree = "<group>"; };
+		EF8AB6611A07D21D00372538 /* QSModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListViewController.h; sourceTree = "<group>"; };
+		EF8AB6621A07D21D00372538 /* QSModelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelListViewController.m; sourceTree = "<group>"; };
+		EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewCell.h; sourceTree = "<group>"; };
+		EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelListTableViewCell.m; sourceTree = "<group>"; };
+		EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSModelListTableViewCell.xib; sourceTree = "<group>"; };
 		EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DatabaseConstant.h; sourceTree = "<group>"; };
 		EF8FD0551A064D470081F8EB /* ServerPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerPath.h; sourceTree = "<group>"; };
@@ -155,6 +166,8 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EF8AB6561A07D0EE00372538 /* model */,
+				EF8AB6571A07D0EE00372538 /* show */,
 				EF1A591A1A06761800001AE0 /* root */,
 				EF1A591B1A06761800001AE0 /* view */,
 			);
@@ -197,6 +210,51 @@
 				EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */,
 			);
 			path = waterfall;
+			sourceTree = "<group>";
+		};
+		EF8AB6561A07D0EE00372538 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				EF8AB65C1A07D20500372538 /* detail */,
+				EF8AB65F1A07D20500372538 /* list */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		EF8AB6571A07D0EE00372538 /* show */ = {
+			isa = PBXGroup;
+			children = (
+				EF8AB6641A07D23500372538 /* detail */,
+			);
+			path = show;
+			sourceTree = "<group>";
+		};
+		EF8AB65C1A07D20500372538 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				EF8AB65D1A07D20500372538 /* QSModelDetailViewController.h */,
+				EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		EF8AB65F1A07D20500372538 /* list */ = {
+			isa = PBXGroup;
+			children = (
+				EF8AB6611A07D21D00372538 /* QSModelListViewController.h */,
+				EF8AB6621A07D21D00372538 /* QSModelListViewController.m */,
+				EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */,
+				EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */,
+				EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */,
+			);
+			path = list;
+			sourceTree = "<group>";
+		};
+		EF8AB6641A07D23500372538 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = detail;
 			sourceTree = "<group>";
 		};
 		EF8FD0501A0637420081F8EB /* beans */ = {
@@ -507,6 +565,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */,
+				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
@@ -531,6 +590,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF8AB6631A07D21D00372538 /* QSModelListViewController.m in Sources */,
+				EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */,
 				EF9A74731A02A87900095F07 /* Reachability.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EF9A74711A02A87900095F07 /* MKNetworkEngine.m in Sources */,
@@ -538,6 +599,7 @@
 				EF9A746D1A02A87900095F07 /* NSDictionary+RequestEncoding.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF9A746B1A02A87900095F07 /* NSData+MKBase64.m in Sources */,
+				EF8AB6601A07D20500372538 /* QSModelDetailViewController.m in Sources */,
 				EF1A59271A06761800001AE0 /* QSWaterFallCollectionViewCell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,

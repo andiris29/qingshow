@@ -68,7 +68,7 @@
     
     UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
     self.navigationItem.leftBarButtonItem = menuItem;
-    UIBarButtonItem* accountItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
+    UIBarButtonItem* accountItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
     self.navigationItem.rightBarButtonItem = accountItem;
 }
 - (void)configCollectionView
@@ -160,6 +160,7 @@
 #pragma mark - QSWaterFallCollectionViewCellDelegate
 - (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell
 {
+    
     
 }
 #pragma mark - QSRootMenuViewDelegate

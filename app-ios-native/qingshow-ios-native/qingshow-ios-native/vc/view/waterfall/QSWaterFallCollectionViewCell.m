@@ -58,6 +58,8 @@
 //    NSArray* roles = modelDict[@"roles"];
     self.nameLabel.text = modelDict[@"name"];
     self.statusLabel.text = [NSString stringWithFormat:@"%@cm %@kg",modelDict[@"height"], modelDict[@"weight"]];
+    NSString* headPhotoPath = [NSString stringWithFormat:@"%@%@",kImageUrlBase, modelDict[@"portrait"]];
+    [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     
     self.contentLabel.text = showData[@"name"];
 
