@@ -13,6 +13,11 @@
 #define PATH_USER_LOGIN @"user/login"
 #define PATH_USER_LOGOUT @"user/logout"
 
+//Model
+#define PATH_QUERY_MODELS @"query/models"
+#define PATH_INTERACTION_FOLLOW @""
+#define PATH_INTERACTION_UNFOLLOW @""
+
 //Feeding
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 
@@ -22,7 +27,7 @@
 #pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine
 {
-
+    
     static QSNetworkEngine* s_networkEngine = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -63,17 +68,17 @@
                                           @"encryptedPassword" : password
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
-    {
-        if (succeedBlock) {
-            succeedBlock();
-        }
-    }
+            {
+                if (succeedBlock) {
+                    succeedBlock();
+                }
+            }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
-    {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
 }
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock
@@ -97,7 +102,7 @@
 
 #pragma mark - Feeding
 - (MKNetworkOperation*)getChosenFeedingPage:(int)page
-                                  onSucceed:(FeedingSuccessBlock)succeedBlock
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_FEEDING_CHOSEN
@@ -105,17 +110,41 @@
                                paramers:@{@"pageNo" : @(page),
                                           @"pageSize" : @10}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
-    {
-        NSDictionary* retDict = completedOperation.responseJSON;
-        if (succeedBlock) {
-            succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
-        }
-    }
+            {
+                NSDictionary* retDict = completedOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
+                }
+            }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
-    {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+#pragma mark - Model
+- (MKNetworkOperation*)getModelListPage:(int)page
+                              onSucceed:(ArraySuccessBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_MODELS
+                                 method:@"GET"
+                               paramers:@{@"pageNo" : @(page),
+                                          @"paegSize" : @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary* retDict = completedOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"peoples"], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
 }
 @end

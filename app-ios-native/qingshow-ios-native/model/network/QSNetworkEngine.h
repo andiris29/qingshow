@@ -26,6 +26,10 @@
 
 #pragma mark - Feeding
 - (MKNetworkOperation*)getChosenFeedingPage:(int)page
-                                  onSucceed:(FeedingSuccessBlock)succeedBlock
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
+#pragma mark - Model
+- (MKNetworkOperation*)getModelListPage:(int)page
+                              onSucceed:(ArraySuccessBlock)succeedBlock
+                                onError:(ErrorBlock)errorBlock;
 @end
