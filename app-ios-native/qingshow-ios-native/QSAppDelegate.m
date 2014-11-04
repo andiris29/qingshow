@@ -7,12 +7,20 @@
 //
 
 #import "QSAppDelegate.h"
-#import "QSNetworkEngine.h"
+//#import "QSNetworkEngine.h"
+#import "QSRootViewController.h"
 
 @implementation QSAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    QSRootViewController* vc = [[QSRootViewController alloc] init];
+    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    nav.navigationBar.translucent = NO;
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
     return YES;
 }
 							

@@ -10,6 +10,7 @@
 
 #import "QSTimeCollectionViewCell.h"
 #import "QSNetworkEngine.h"
+#import "QSModelListViewController.h"
 
 @interface QSRootViewController ()
 
@@ -20,6 +21,15 @@
 @end
 
 @implementation QSRootViewController
+#pragma mark - 
+- (id)init
+{
+    self = [self initWithNibName:@"QSRootViewController" bundle:nil];
+    if (self) {
+        
+    }
+    return self;
+}
 #pragma mark - Life Cycle
 - (void)viewDidLoad
 {
@@ -169,7 +179,7 @@
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
 {
-    UIViewController* vc = [self.storyboard instantiateViewControllerWithIdentifier:@"QSModelListViewController"];
+    UIViewController* vc = [[QSModelListViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

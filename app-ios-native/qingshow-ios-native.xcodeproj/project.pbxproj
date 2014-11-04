@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF140A6B1A09254C00E3C4D4 /* QSRootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF140A6A1A09254C00E3C4D4 /* QSRootViewController.xib */; };
+		EF140A6F1A092B6400E3C4D4 /* QSModelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF140A6E1A092B6400E3C4D4 /* QSModelListViewController.xib */; };
 		EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */; };
 		EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A591F1A06761800001AE0 /* QSTimeCollectionViewCell.xib */; };
 		EF1A59271A06761800001AE0 /* QSWaterFallCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59211A06761800001AE0 /* QSWaterFallCollectionViewCell.m */; };
@@ -24,7 +26,6 @@
 		EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF9A741A1A02A82600095F07 /* InfoPlist.strings */; };
 		EF9A741E1A02A82600095F07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A741D1A02A82600095F07 /* main.m */; };
 		EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74211A02A82600095F07 /* QSAppDelegate.m */; };
-		EF9A74251A02A82600095F07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74231A02A82600095F07 /* Main.storyboard */; };
 		EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74291A02A82600095F07 /* Images.xcassets */; };
 		EF9A74311A02A82700095F07 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74301A02A82700095F07 /* XCTest.framework */; };
 		EF9A74321A02A82700095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
@@ -66,6 +67,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EF140A6A1A09254C00E3C4D4 /* QSRootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSRootViewController.xib; sourceTree = "<group>"; };
+		EF140A6E1A092B6400E3C4D4 /* QSModelListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSModelListViewController.xib; sourceTree = "<group>"; };
 		EF1A591D1A06761800001AE0 /* QSTimeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTimeCollectionViewCell.h; sourceTree = "<group>"; };
 		EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTimeCollectionViewCell.m; sourceTree = "<group>"; };
 		EF1A591F1A06761800001AE0 /* QSTimeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTimeCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -97,7 +100,6 @@
 		EF9A741F1A02A82600095F07 /* qingshow-ios-native-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "qingshow-ios-native-Prefix.pch"; sourceTree = "<group>"; };
 		EF9A74201A02A82600095F07 /* QSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSAppDelegate.h; sourceTree = "<group>"; };
 		EF9A74211A02A82600095F07 /* QSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = QSAppDelegate.m; sourceTree = "<group>"; };
-		EF9A74241A02A82600095F07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EF9A74291A02A82600095F07 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		EF9A742F1A02A82700095F07 /* qingshow-ios-nativeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "qingshow-ios-nativeTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9A74301A02A82700095F07 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -179,6 +181,7 @@
 			children = (
 				EF1A592A1A06763000001AE0 /* QSRootViewController.h */,
 				EF1A592B1A06763000001AE0 /* QSRootViewController.m */,
+				EF140A6A1A09254C00E3C4D4 /* QSRootViewController.xib */,
 				EFFE67241A067699001F4CA1 /* QSRootMenuItem.h */,
 				EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */,
 				EFFE672B1A0676BE001F4CA1 /* QSRootMenuItem.xib */,
@@ -243,6 +246,7 @@
 			children = (
 				EF8AB6611A07D21D00372538 /* QSModelListViewController.h */,
 				EF8AB6621A07D21D00372538 /* QSModelListViewController.m */,
+				EF140A6E1A092B6400E3C4D4 /* QSModelListViewController.xib */,
 				EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */,
 				EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */,
 				EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */,
@@ -304,7 +308,6 @@
 				EF9A74681A02A87900095F07 /* utility */,
 				EF9A74201A02A82600095F07 /* QSAppDelegate.h */,
 				EF9A74211A02A82600095F07 /* QSAppDelegate.m */,
-				EF9A74231A02A82600095F07 /* Main.storyboard */,
 				EF9A74291A02A82600095F07 /* Images.xcassets */,
 				EF9A74181A02A82600095F07 /* Supporting Files */,
 			);
@@ -567,9 +570,10 @@
 				EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */,
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
+				EF140A6B1A09254C00E3C4D4 /* QSRootViewController.xib in Resources */,
+				EF140A6F1A092B6400E3C4D4 /* QSModelListViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
-				EF9A74251A02A82600095F07 /* Main.storyboard in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */,
 			);
@@ -640,14 +644,6 @@
 				EF9A741B1A02A82600095F07 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		EF9A74231A02A82600095F07 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EF9A74241A02A82600095F07 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		EF9A74391A02A82700095F07 /* InfoPlist.strings */ = {

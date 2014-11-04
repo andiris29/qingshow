@@ -15,11 +15,11 @@
 
 @implementation QSModelListViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [self initWithNibName:@"QSModelListViewController" bundle:nil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
