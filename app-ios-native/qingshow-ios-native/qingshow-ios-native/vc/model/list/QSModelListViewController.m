@@ -31,7 +31,7 @@
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
     self.navigationItem.title = @"人气达人";
-    self.navigationItem.leftBarButtonItem.title = @"aa";
+
 }
 
 - (void)didReceiveMemoryWarning

@@ -36,6 +36,9 @@
     self.menuView = menuView;
     self.fIsShowMenu = NO;
     menuView.delegate = self;
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
 
 - (void)didReceiveMemoryWarning
