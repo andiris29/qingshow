@@ -86,6 +86,10 @@ define([
     };
 
     Root.prototype.removePopup = function(popup, callback) {
+        if (this._popups.indexOf(popup) === -1) {
+            return;
+        }
+
         this._popups.splice(this._popups.indexOf(popup), 1);
 
         // Animation

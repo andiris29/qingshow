@@ -51,6 +51,9 @@ define([
         itemCoversContainer$.on('click', function(event) {
             appRuntime.popup.remove(this);
         }.bind(this));
+        $('.qsClose', this._dom$).on('click', function(event) {
+            appRuntime.popup.remove(this);
+        }.bind(this));
     };
 
     Item.prototype._renderInfo = function(item) {
