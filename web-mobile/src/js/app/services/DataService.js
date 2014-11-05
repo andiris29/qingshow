@@ -9,7 +9,8 @@ define([
 
     DataService.request = function(type, path, requestData, callback) {
         var request = {
-            'dataType' : 'json'
+            'dataType' : 'json',
+            'cache' : false
         };
         if (andrea.env.fake) {
             var suffix = [];
@@ -23,8 +24,7 @@ define([
 
             suffix = suffix.length ? ('_' + suffix.join('_')) : '';
             $.extend(request, {
-                'url' : appConfig.fake.dataServerRoot + path + suffix + '.json',
-                'cache' : !andrea.env.nocache
+                'url' : appConfig.fake.dataServerRoot + path + suffix + '.json'
             });
         } else {
             $.extend(request, {
