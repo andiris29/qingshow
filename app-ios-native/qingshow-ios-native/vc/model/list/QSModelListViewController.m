@@ -7,6 +7,7 @@
 //
 
 #import "QSModelListViewController.h"
+#import "QSModelDetailViewController.h"
 
 #import "QSNetworkEngine.h"
 
@@ -14,10 +15,13 @@
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
 
+- (void)configView;
+- (void)fetchDataOfPage:(int)page;
 @end
 
 @implementation QSModelListViewController
 
+#pragma mark - Init Method
 - (id)init
 {
     self = [self initWithNibName:@"QSModelListViewController" bundle:nil];
@@ -33,14 +37,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
-    self.navigationItem.title = @"人气达人";
-    [SHARE_NW_ENGINE getModelListPage:1 onSucceed:^(NSArray *array, NSDictionary *metadata) {
-        [self.resultArray removeAllObjects];
-        [self.resultArray addObjectsFromArray:array];
-        [self.tableView reloadData];
-    } onError:^(NSError *error) {
-        NSLog(@"error");
-    }];
+    
+    [self configView];
+    [self fetchDataOfPage:1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,16 +48,26 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+#pragma mark - View
+- (void)configView
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    self.navigationItem.title = @"人气达人";
+    self.navigationItem.backBarButtonItem.title = @"";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
-*/
+
+#pragma mark - Network
+- (void)fetchDataOfPage:(int)page
+{
+    [SHARE_NW_ENGINE getModelListPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        [self.resultArray removeAllObjects];
+        [self.resultArray addObjectsFromArray:array];
+        [self.tableView reloadData];
+    } onError:^(NSError *error) {
+        NSLog(@"error");
+    }];
+}
 
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -80,6 +89,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 62.f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIViewController* vc = [[QSModelDetailViewController alloc] initWithModel:self.resultArray[indexPath.row]];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - QSModelListTableViewCellDelegate
 - (void)favorBtnPressed:(QSModelListTableViewCell *)cell

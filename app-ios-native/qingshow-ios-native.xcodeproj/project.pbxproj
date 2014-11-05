@@ -15,6 +15,15 @@
 		EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A59221A06761800001AE0 /* QSWaterFallCollectionViewCell.xib */; };
 		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
 		EF1A592C1A06763000001AE0 /* QSRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A592B1A06763000001AE0 /* QSRootViewController.m */; };
+		EF359ABE1A0A68E700885917 /* QSModelDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF359ABD1A0A68E700885917 /* QSModelDetailViewController.xib */; };
+		EF359AC91A0A6F5F00885917 /* QSModelBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF359AC71A0A6F5F00885917 /* QSModelBadgeView.m */; };
+		EF359ACA1A0A6F5F00885917 /* QSModelBadgeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF359AC81A0A6F5F00885917 /* QSModelBadgeView.xib */; };
+		EF359ACD1A0A6F9E00885917 /* QSSectionNumberTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF359ACC1A0A6F9E00885917 /* QSSectionNumberTextButton.m */; };
+		EF359AD01A0A6FB300885917 /* QSSectionButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = EF359ACF1A0A6FB300885917 /* QSSectionButtonGroup.m */; };
+		EF359AD31A0A6FFC00885917 /* QSSectionImageTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF359AD21A0A6FFC00885917 /* QSSectionImageTextButton.m */; };
+		EF359AD61A0A701700885917 /* QSSectionButtonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EF359AD51A0A701700885917 /* QSSectionButtonBase.m */; };
+		EF359AD81A0A705700885917 /* QSSectionNumberTextButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF359AD71A0A705700885917 /* QSSectionNumberTextButton.xib */; };
+		EF359ADA1A0A707100885917 /* QSSectionImageTextButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF359AD91A0A707100885917 /* QSSectionImageTextButton.xib */; };
 		EF8AB6601A07D20500372538 /* QSModelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */; };
 		EF8AB6631A07D21D00372538 /* QSModelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6621A07D21D00372538 /* QSModelListViewController.m */; };
 		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
@@ -79,6 +88,20 @@
 		EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
 		EF1A592A1A06763000001AE0 /* QSRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootViewController.h; sourceTree = "<group>"; };
 		EF1A592B1A06763000001AE0 /* QSRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootViewController.m; sourceTree = "<group>"; };
+		EF359ABD1A0A68E700885917 /* QSModelDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSModelDetailViewController.xib; sourceTree = "<group>"; };
+		EF359AC61A0A6F5F00885917 /* QSModelBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelBadgeView.h; sourceTree = "<group>"; };
+		EF359AC71A0A6F5F00885917 /* QSModelBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelBadgeView.m; sourceTree = "<group>"; };
+		EF359AC81A0A6F5F00885917 /* QSModelBadgeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSModelBadgeView.xib; sourceTree = "<group>"; };
+		EF359ACB1A0A6F9E00885917 /* QSSectionNumberTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionNumberTextButton.h; sourceTree = "<group>"; };
+		EF359ACC1A0A6F9E00885917 /* QSSectionNumberTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionNumberTextButton.m; sourceTree = "<group>"; };
+		EF359ACE1A0A6FB300885917 /* QSSectionButtonGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionButtonGroup.h; sourceTree = "<group>"; };
+		EF359ACF1A0A6FB300885917 /* QSSectionButtonGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionButtonGroup.m; sourceTree = "<group>"; };
+		EF359AD11A0A6FFC00885917 /* QSSectionImageTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionImageTextButton.h; sourceTree = "<group>"; };
+		EF359AD21A0A6FFC00885917 /* QSSectionImageTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionImageTextButton.m; sourceTree = "<group>"; };
+		EF359AD41A0A701700885917 /* QSSectionButtonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionButtonBase.h; sourceTree = "<group>"; };
+		EF359AD51A0A701700885917 /* QSSectionButtonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionButtonBase.m; sourceTree = "<group>"; };
+		EF359AD71A0A705700885917 /* QSSectionNumberTextButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSectionNumberTextButton.xib; sourceTree = "<group>"; };
+		EF359AD91A0A707100885917 /* QSSectionImageTextButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSectionImageTextButton.xib; sourceTree = "<group>"; };
 		EF8AB65D1A07D20500372538 /* QSModelDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelDetailViewController.h; sourceTree = "<group>"; };
 		EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelDetailViewController.m; sourceTree = "<group>"; };
 		EF8AB6611A07D21D00372538 /* QSModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListViewController.h; sourceTree = "<group>"; };
@@ -215,6 +238,26 @@
 			path = waterfall;
 			sourceTree = "<group>";
 		};
+		EF359AC51A0A6F5F00885917 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				EF359AC61A0A6F5F00885917 /* QSModelBadgeView.h */,
+				EF359AC71A0A6F5F00885917 /* QSModelBadgeView.m */,
+				EF359AC81A0A6F5F00885917 /* QSModelBadgeView.xib */,
+				EF359AD41A0A701700885917 /* QSSectionButtonBase.h */,
+				EF359AD51A0A701700885917 /* QSSectionButtonBase.m */,
+				EF359ACB1A0A6F9E00885917 /* QSSectionNumberTextButton.h */,
+				EF359ACC1A0A6F9E00885917 /* QSSectionNumberTextButton.m */,
+				EF359AD71A0A705700885917 /* QSSectionNumberTextButton.xib */,
+				EF359AD11A0A6FFC00885917 /* QSSectionImageTextButton.h */,
+				EF359AD21A0A6FFC00885917 /* QSSectionImageTextButton.m */,
+				EF359AD91A0A707100885917 /* QSSectionImageTextButton.xib */,
+				EF359ACE1A0A6FB300885917 /* QSSectionButtonGroup.h */,
+				EF359ACF1A0A6FB300885917 /* QSSectionButtonGroup.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		EF8AB6561A07D0EE00372538 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -235,8 +278,10 @@
 		EF8AB65C1A07D20500372538 /* detail */ = {
 			isa = PBXGroup;
 			children = (
+				EF359AC51A0A6F5F00885917 /* view */,
 				EF8AB65D1A07D20500372538 /* QSModelDetailViewController.h */,
 				EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */,
+				EF359ABD1A0A68E700885917 /* QSModelDetailViewController.xib */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -570,8 +615,12 @@
 				EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */,
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
+				EF359ABE1A0A68E700885917 /* QSModelDetailViewController.xib in Resources */,
 				EF140A6B1A09254C00E3C4D4 /* QSRootViewController.xib in Resources */,
+				EF359AD81A0A705700885917 /* QSSectionNumberTextButton.xib in Resources */,
+				EF359ACA1A0A6F5F00885917 /* QSModelBadgeView.xib in Resources */,
 				EF140A6F1A092B6400E3C4D4 /* QSModelListViewController.xib in Resources */,
+				EF359ADA1A0A707100885917 /* QSSectionImageTextButton.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
@@ -594,13 +643,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF359AD01A0A6FB300885917 /* QSSectionButtonGroup.m in Sources */,
 				EF8AB6631A07D21D00372538 /* QSModelListViewController.m in Sources */,
+				EF359ACD1A0A6F9E00885917 /* QSSectionNumberTextButton.m in Sources */,
 				EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */,
 				EF9A74731A02A87900095F07 /* Reachability.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EF9A74711A02A87900095F07 /* MKNetworkEngine.m in Sources */,
+				EF359AD61A0A701700885917 /* QSSectionButtonBase.m in Sources */,
 				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EF9A746D1A02A87900095F07 /* NSDictionary+RequestEncoding.m in Sources */,
+				EF359AC91A0A6F5F00885917 /* QSModelBadgeView.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF9A746B1A02A87900095F07 /* NSData+MKBase64.m in Sources */,
 				EF8AB6601A07D20500372538 /* QSModelDetailViewController.m in Sources */,
@@ -615,6 +668,7 @@
 				EF1A592C1A06763000001AE0 /* QSRootViewController.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				EF9A746E1A02A87900095F07 /* NSString+MKNetworkKitAdditions.m in Sources */,
+				EF359AD31A0A6FFC00885917 /* QSSectionImageTextButton.m in Sources */,
 				EF9A746C1A02A87900095F07 /* NSDate+RFC1123.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

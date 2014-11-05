@@ -7,26 +7,44 @@
 //
 
 #import "QSModelDetailViewController.h"
+#import "QSModelBadgeView.h"
 
 @interface QSModelDetailViewController ()
+
+@property (strong, nonatomic) NSDictionary* peopleDict;
 
 @end
 
 @implementation QSModelDetailViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+#pragma mark - Init
+- (id)initWithModel:(NSDictionary*)peopleDict
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self = [self initWithNibName:@"QSModelDetailViewController" bundle:nil];
+    if (self)
+    {
+        self.peopleDict = peopleDict;
     }
     return self;
 }
+#pragma mark - View
+- (void)configView
+{
+    QSModelBadgeView* badgeView = [QSModelBadgeView generateView];
+    [self.badgeContainer addSubview:badgeView];
+}
+
+
+#pragma mark - Network
+
+
+
+#pragma mark - Life Cycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self configView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,16 +52,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
