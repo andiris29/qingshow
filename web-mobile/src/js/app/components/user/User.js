@@ -27,6 +27,16 @@ define([
         };
     };
 
+    User.prototype.switchMode = function(mode) {
+        var comparison$ = $('.qsComparison', this._dom$);
+        var title$ = $('.qsTitle', comparison$);
+        if (mode === 'selectComparison') {
+            title$.text('取消');
+        } else {
+            title$.text('选择');
+        }
+    };
+
     User.prototype.numShowsLike = function(value) {
         $('.qsNumShowsLike', this._dom$).text(value);
     };
@@ -56,6 +66,18 @@ define([
             $('.qsTab', this._dom$).removeClass('qsTabSelected');
             tab$.addClass('qsTabSelected');
             this.trigger('selectTab', tabs$.index(tab$));
+        }.bind(this));
+
+        var comparison$ = $('.qsComparison', this._dom$);
+        comparison$.on(appRuntime.events.click, function(event) {
+            var title$ = $('.qsTitle', comparison$);
+            if (title$.text().trim() === '选择') {
+
+                this.trigger('requestSwitchMode', 'selectComparison');
+            } else {
+
+                this.trigger('requestSwitchMode', 'normal');
+            }
         }.bind(this));
     };
 

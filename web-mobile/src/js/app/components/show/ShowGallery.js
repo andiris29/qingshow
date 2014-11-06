@@ -17,6 +17,8 @@ define([
         this._pageNo = 1;
         this._numTotal = 0;
 
+        this._mode
+
         this._expandable = true;
 
         this._tpltLi$ = null;
@@ -43,6 +45,9 @@ define([
 
     andrea.oo.extend(ShowGallery, UIComponent);
 
+    ShowGallery.prototype.switchMode = function(mode) {
+        this._mode = mode;
+    };
     ShowGallery.prototype.expand = function() {
         if (!this._expandable) {
             return;
@@ -120,15 +125,19 @@ define([
 
         // User click here to avoid conflict with gesture
         $('.qsShowCover', li$).on('click', function() {
-            appRuntime.view.to('app/views/show/S03Show', {
-                'show' : show
-            });
+            if (this._mode !== 'selectComparison') {
+                appRuntime.view.to('app/views/show/S03Show', {
+                    'show' : show
+                });
+            }
         }.bind(this));
         // User click here to avoid conflict with gesture
         $('.qsModel', li$).on('click', function() {
-            appRuntime.view.to('app/views/producer/P02Model', {
-                'model' : show.modelRef
-            });
+            if (this._mode !== 'selectComparison') {
+                appRuntime.view.to('app/views/producer/P02Model', {
+                    'model' : show.modelRef
+                });
+            }
         }.bind(this));
         return li$;
     };

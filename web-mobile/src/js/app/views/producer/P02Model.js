@@ -35,7 +35,7 @@ define([
         }));
         navi.append( byFollow = new ShowGallery($('<div/>'), {
             'feeding' : function(pageNo, callback) {
-                FeedingService.byFollow(this._model._id, pageNo, callback);
+                // FeedingService.byFollow(this._model._id, pageNo, callback);
             }.bind(this)
         }));
         navi.append(new FanGallery($('<div/>'), {
