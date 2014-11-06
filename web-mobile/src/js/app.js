@@ -13,7 +13,7 @@ define([
         // iPhone 6: 1334-by-750-pixel resolution at 326 ppi
         // iPhone 5s: 1136-by-640-pixel resolution at 326 ppi
         // iPhone 5c: 1136-by-640-pixel resolution at 326 ppi
-        var screenW = $(window).width(), screenH = $(window).height();
+        var screenW = $(window).width(), screenH = window.innerHeight ? window.innerHeight : $(window).height();
         var ratio = screenW < screenH ? screenW / screenH : 640 / 960;
         var height = Math.max(0, screenH), width = ratio * height;
 
