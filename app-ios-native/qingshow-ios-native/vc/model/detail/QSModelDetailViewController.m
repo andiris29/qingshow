@@ -11,7 +11,14 @@
 
 @interface QSModelDetailViewController ()
 
+@property (strong, nonatomic) QSModelBadgeView* badgeView;
+
+#pragma mark - Data
 @property (strong, nonatomic) NSDictionary* peopleDict;
+@property (assign, nonatomic) QSModelSection currentSection;
+@property (strong, nonatomic) NSMutableArray* showsArray;
+@property (strong, nonatomic) NSMutableArray* followingArray;
+@property (strong, nonatomic) NSMutableArray* followerArray;
 
 @end
 
@@ -30,8 +37,13 @@
 #pragma mark - View
 - (void)configView
 {
-    QSModelBadgeView* badgeView = [QSModelBadgeView generateView];
-    [self.badgeContainer addSubview:badgeView];
+    //badge view
+    self.badgeView = [QSModelBadgeView generateView];
+    [self.badgeContainer addSubview:self.badgeView];
+    
+    //table view
+    
+    //collectioin view
 }
 
 
@@ -52,5 +64,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - QSModelBadgeViewDelegate
+- (void)changeToSection:(QSModelSection)section
+{
+    
+}
+- (void)followButtonPressed
+{
+    
+}
+#pragma mark - Table View
+
+
+#pragma mark - Colletion View
+
 
 @end

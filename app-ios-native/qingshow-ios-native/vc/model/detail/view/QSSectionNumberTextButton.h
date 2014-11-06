@@ -11,7 +11,7 @@
 
 @interface QSSectionNumberTextButton : QSSectionButtonBase
 @property (weak, nonatomic) IBOutlet UILabel *numberLabel;
-@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+
 
 + (QSSectionNumberTextButton*)generateView;
 

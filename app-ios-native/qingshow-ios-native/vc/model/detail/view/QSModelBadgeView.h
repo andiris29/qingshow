@@ -7,8 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSSectionButtonGroup.h"
 
-@interface QSModelBadgeView : UIView
+typedef NS_ENUM(NSInteger, QSModelSection) {
+    QSModelSectionShows = 0,
+    QSModelSectionFollowing = 1,
+    QSModelSectionFollower = 2
+};
+
+@protocol QSModelBadgeViewDelegate <NSObject>
+
+- (void)changeToSection:(QSModelSection)section;
+- (void)followButtonPressed;
+
+@end
+
+@interface QSModelBadgeView : UIView <QSSectionButtonGroupDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
