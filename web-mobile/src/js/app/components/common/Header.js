@@ -85,7 +85,11 @@ define([
             this._menu.on('destroy', function() {
                 this._menu = null;
             }.bind(this));
-            appRuntime.popup.dock(this._menu, this._dom$, 'lb', 'down', 0);
+            appRuntime.popup.dock(this._menu, this._dom$, {
+                'align' : 'lb',
+                'direction' : 'down',
+                'gap' : 0
+            });
         }.bind(this));
     };
 

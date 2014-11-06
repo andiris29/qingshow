@@ -40,7 +40,7 @@ define([
         }));
         navi.append( byFollow = new ShowGallery($('<div/>'), {
             'feeding' : function(pageNo, callback) {
-                FeedingService.byFollow(model.user()._id, pageNo, callback);
+                // FeedingService.byFollow(model.user()._id, pageNo, callback);
             }.bind(this)
         }));
         body.append(navi);
@@ -48,6 +48,35 @@ define([
         user.on('selectTab', function(event, index) {
             navi.index(index);
         });
+        var menu;
+        user.on('requestSwitchMode', function(event, mode) {
+            if (mode === 'selectComparison') {
+                // TODO Switch tab to like
+                // Popup comparison menu
+                appRuntime.popup.create('app/components/user/UserComparisonMenu', {
+                }, function(popup) {
+                    popup.dom$().width('100%');
+                    menu = popup;
+                    menu.on('destroy', function() {
+                        menu = null;
+                        user.switchMode('normal');
+                    }.bind(this));
+                    menu.on('afterRender', function() {
+                        appRuntime.popup.dock(menu, this._dom$, {
+                            'align' : 'lb',
+                            'direction' : 'up',
+                            'gap' : 0
+                        });
+                    }.bind(this));
+                }.bind(this));
+            } else {
+                if (menu) {
+                    appRuntime.popup.remove(menu);
+                }
+            }
+            like.switchMode(mode);
+            user.switchMode(mode);
+        }.bind(this));
         like.on('afterRender', function(event) {
             user.numShowsLike(like.numTotal());
         });
