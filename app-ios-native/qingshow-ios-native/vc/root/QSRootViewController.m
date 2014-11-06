@@ -11,6 +11,7 @@
 #import "QSTimeCollectionViewCell.h"
 #import "QSNetworkEngine.h"
 #import "QSModelListViewController.h"
+#import "QSUserSettingViewController.h"
 
 @interface QSRootViewController ()
 
@@ -119,6 +120,13 @@
 - (void)accountButtonPressed
 {
     NSLog(@"accountBtnPressed");
+    QSUserSettingViewController *vc = [[QSUserSettingViewController alloc]
+                                       initWithNibName:@"QSUserSettingViewController"
+                                                bundle:nil];
+    
+    [self presentViewController:vc
+                       animated:YES
+                     completion:nil];
 }
 #pragma -mark UICollectionView delegate
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
