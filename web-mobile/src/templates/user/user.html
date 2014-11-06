@@ -16,13 +16,13 @@
     }
 
     .qsTpltUser .qsNavi {
-        width: 640px;
+        width: 480px;
         height: 96px;
         position: absolute;
         bottom: 0;
     }
     .qsTpltUser .qsNavi .qsTab {
-        width: 212px;
+        width: 159px;
         height: 100%;
         float: left;
         text-align: center;
@@ -31,7 +31,7 @@
     }
     .qsTpltUser .qsNavi .qsTabSplitter {
         float: left;
-        width: 2px;
+        width: 1px;
         height: 100%;
         background-color: rgba(255,255,255,.7);
     }
@@ -45,7 +45,7 @@
     }
     .qsTpltUser .qsNavi .qsTabSelected .qsNumber {
     }
-    .qsTpltUser .qsFollow {
+    .qsTpltUser .qsComparison {
         width: 160px;
         height: 96px;
         text-align: center;
@@ -54,21 +54,10 @@
         position: absolute;
         bottom: 0;
         right: 0;
+        line-height: 96px;
+        font-size: 1.5em;
     }
 
-    .qsTpltUser .qsFollow .fa-heart {
-        margin: 18px 0 6px 0;
-        font-size: 1.5em;
-        width: 36px;
-        height: 34px;
-        position: relative;
-    }
-    .qsTpltUser .qsFollow .fa-heart .fa-plus {
-        position: absolute;
-        font-size: 12px;
-        right: 0;
-        bottom: 0;
-    }
     .qsTpltUser .qsInfo {
         width: 100%;
         height: 224px;
@@ -145,6 +134,12 @@
                 <div class="qsTitle">
                     关注
                 </div>
+            </div>
+            <div class="qsTabSplitter"></div>
+        </div>
+        <div class="qsComparison">
+            <div class="qsTitle">
+                选择
             </div>
         </div>
     </div>

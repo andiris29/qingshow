@@ -14,4 +14,6 @@
 
 @property (assign, nonatomic) BOOL selected;
 
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+
 @end

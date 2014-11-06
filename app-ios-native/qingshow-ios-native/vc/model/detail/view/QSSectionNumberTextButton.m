@@ -7,8 +7,25 @@
 //
 
 #import "QSSectionNumberTextButton.h"
+#define kQSSectionNumbetTextColorBlack [UIColor colorWithRed:50.f/255.f green:50.f/255.f blue:50.f/255.f alpha:1.f]
+#define kQSSectionNumbetTextColorWhite [UIColor whiteColor]
+
 
 @implementation QSSectionNumberTextButton
+- (void)setSelected:(BOOL)selected
+{
+    [super setSelected:selected];
+    if (self.selected)
+    {
+        self.textLabel.textColor = kQSSectionNumbetTextColorBlack;
+        self.numberLabel.textColor = kQSSectionNumbetTextColorBlack;
+    }
+    else
+    {
+        self.textLabel.textColor = kQSSectionNumbetTextColorWhite;
+        self.numberLabel.textColor = kQSSectionNumbetTextColorWhite;
+    }
+}
 
 + (QSSectionNumberTextButton*)generateView
 {

@@ -7,16 +7,16 @@
 //
 
 #import "QSModelBadgeView.h"
-#import "QSSectionButtonGroup.h"
+
+@interface QSModelBadgeView ()
+
+@property (strong, nonatomic) QSSectionButtonGroup* btnGroup;
+
+@end
 
 @implementation QSModelBadgeView
 
-- (void)awakeFromNib
-{
-    QSSectionButtonGroup* group = [[QSSectionButtonGroup alloc] init];
-    [self.sectionGroupContainer addSubview:group];
-}
-
+#pragma mark - Static Method
 + (QSModelBadgeView*)generateView
 {
     UINib* nib = [UINib nibWithNibName:@"QSModelBadgeView" bundle:nil];
@@ -24,22 +24,28 @@
     return array[0];
 }
 
-- (id)initWithFrame:(CGRect)frame
+#pragma mark - Life Cycle
+- (void)awakeFromNib
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
+    self.btnGroup = [[QSSectionButtonGroup alloc] init];
+    [self.sectionGroupContainer addSubview:self.btnGroup];
+    NSArray* titleArray = @[@"搭配",@"关注",@"粉丝"];
+    for (int i = 0; i < 3; i++) {
+        [self.btnGroup setNumber:@(0).stringValue atIndex:i];
+        [self.btnGroup setTitle:titleArray[i] atIndex:i];
     }
-    return self;
+    [self.btnGroup setSelect:0];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+
+#pragma mark - QSSectionButtonGroupDelegate
+- (void)groupButtonPressed:(int)index
 {
-    // Drawing code
+    
 }
-*/
+- (void)singleButtonPressed
+{
+    
+}
 
 @end

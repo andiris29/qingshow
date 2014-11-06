@@ -32,6 +32,10 @@
                 <constraint firstItem="eGH-dx-DXe" firstAttribute="centerX" secondItem="8Dg-vz-bih" secondAttribute="centerX" id="myD-q7-fdH"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="iconImageView" destination="eGH-dx-DXe" id="gmy-qj-udW"/>
+                <outlet property="textLabel" destination="8Dg-vz-bih" id="zpc-G4-j59"/>
+            </connections>
         </view>
     </objects>
     <resources>

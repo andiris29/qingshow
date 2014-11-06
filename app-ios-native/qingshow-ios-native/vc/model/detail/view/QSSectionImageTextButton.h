@@ -11,5 +11,7 @@
 
 @interface QSSectionImageTextButton : QSSectionButtonBase
 
+@property (strong, nonatomic) IBOutlet UIImageView* iconImageView;
+
 + (QSSectionImageTextButton*)generateView;
 @end

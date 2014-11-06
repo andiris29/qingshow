@@ -46,12 +46,6 @@ define([
         }, pageNo, callback);
     };
 
-    FeedingService.byFollow = function(_id, pageNo, callback) {
-        _request('/feeding/byFollow', {
-            '_id' : _id
-        }, pageNo, callback);
-    };
-
     FeedingService.byBrand = function(_id, pageNo, callback) {
         _request('/feeding/byBrand', {
             '_id' : _id

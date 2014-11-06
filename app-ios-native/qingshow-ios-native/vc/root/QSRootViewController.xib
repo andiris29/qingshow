@@ -25,10 +25,6 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                     <cells/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="kew-bI-EVy"/>
-                        <outlet property="delegate" destination="-1" id="9qf-ca-mYM"/>
-                    </connections>
                 </collectionView>
                 <view hidden="YES" appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MLt-jc-0Hd">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>

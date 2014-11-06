@@ -101,13 +101,13 @@ define([
         });
     };
 
-    Root.prototype.dockPopup = function(popup, element$, align, direction, gap) {
+    Root.prototype.dockPopup = function(popup, element$, options) {
         var rootRectangle = Rectangle.parseDOM(this._dom$);
         var elementRectangle = Rectangle.parseDOM(element$);
 
         var left = Math.round(elementRectangle.left() - rootRectangle.left());
         var top = Math.round(elementRectangle.top() - rootRectangle.top());
-        DockToRectangle.dock(popup, new Rectangle(left, top, elementRectangle.width(), elementRectangle.height()), align, direction, gap);
+        DockToRectangle.dock(popup, new Rectangle(left, top, elementRectangle.width(), elementRectangle.height()), options);
     };
 
     Root.prototype.centerPopup = function(popup) {
@@ -116,7 +116,11 @@ define([
 
         var left = Math.round((rootRectangle.width() - popupRectangle.width()) / 2);
         var top = Math.round((rootRectangle.height() - popupRectangle.height()) / 2);
-        DockToRectangle.dock(popup, new Rectangle(left, top, 0, 0), 'lb', 'down', 0);
+        DockToRectangle.dock(popup, new Rectangle(left, top, 0, 0), {
+            'align' : 'lb',
+            'direction' : 'down',
+            'gap' : 0
+        });
     };
     return Root;
 });

@@ -19,5 +19,6 @@ typedef void (^OperationSucceedBlock)(MKNetworkOperation *completedOperation);
 typedef void (^OperationErrorBlock)(MKNetworkOperation *completedOperation, NSError *error);
 
 typedef void (^ArraySuccessBlock)(NSArray* array, NSDictionary* metadata);
+typedef MKNetworkOperation* (^ArrayNetworkBlock)(ArraySuccessBlock, ErrorBlock, int);
 
 #endif
