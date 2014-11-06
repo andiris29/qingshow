@@ -25,6 +25,7 @@
 		EF359AD81A0A705700885917 /* QSSectionNumberTextButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF359AD71A0A705700885917 /* QSSectionNumberTextButton.xib */; };
 		EF359ADA1A0A707100885917 /* QSSectionImageTextButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF359AD91A0A707100885917 /* QSSectionImageTextButton.xib */; };
 		EF3D056B1A0BC63C00175E1D /* QSShowWaterfallDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056A1A0BC63C00175E1D /* QSShowWaterfallDelegateObj.m */; };
+		EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */; };
 		EF8AB6601A07D20500372538 /* QSModelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */; };
 		EF8AB6631A07D21D00372538 /* QSModelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6621A07D21D00372538 /* QSModelListViewController.m */; };
 		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
@@ -105,6 +106,8 @@
 		EF359AD91A0A707100885917 /* QSSectionImageTextButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSectionImageTextButton.xib; sourceTree = "<group>"; };
 		EF3D05691A0BC63C00175E1D /* QSShowWaterfallDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowWaterfallDelegateObj.h; sourceTree = "<group>"; };
 		EF3D056A1A0BC63C00175E1D /* QSShowWaterfallDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowWaterfallDelegateObj.m; sourceTree = "<group>"; };
+		EF3D056D1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewDelegateObj.h; sourceTree = "<group>"; };
+		EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelListTableViewDelegateObj.m; sourceTree = "<group>"; };
 		EF8AB65D1A07D20500372538 /* QSModelDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelDetailViewController.h; sourceTree = "<group>"; };
 		EF8AB65E1A07D20500372538 /* QSModelDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelDetailViewController.m; sourceTree = "<group>"; };
 		EF8AB6611A07D21D00372538 /* QSModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListViewController.h; sourceTree = "<group>"; };
@@ -266,6 +269,8 @@
 			children = (
 				EF3D05691A0BC63C00175E1D /* QSShowWaterfallDelegateObj.h */,
 				EF3D056A1A0BC63C00175E1D /* QSShowWaterfallDelegateObj.m */,
+				EF3D056D1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.h */,
+				EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */,
 			);
 			path = delegateObj;
 			sourceTree = "<group>";
@@ -683,6 +688,7 @@
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				EF9A746E1A02A87900095F07 /* NSString+MKNetworkKitAdditions.m in Sources */,
 				EF359AD31A0A6FFC00885917 /* QSSectionImageTextButton.m in Sources */,
+				EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */,
 				EF9A746C1A02A87900095F07 /* NSDate+RFC1123.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
