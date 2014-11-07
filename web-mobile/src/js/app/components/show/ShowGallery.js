@@ -17,7 +17,7 @@ define([
         this._pageNo = 1;
         this._numTotal = 0;
 
-        this._mode
+        this._mode = null;
 
         this._expandable = true;
 
@@ -124,7 +124,7 @@ define([
         $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
         // User click here to avoid conflict with gesture
-        $('.qsShowCover', li$).on('click', function() {
+        $('.qsShowCover', li$).on('iscrollTap', function() {
             if (this._mode !== 'selectComparison') {
                 appRuntime.view.to('app/views/show/S03Show', {
                     'show' : show
@@ -132,7 +132,7 @@ define([
             }
         }.bind(this));
         // User click here to avoid conflict with gesture
-        $('.qsModel', li$).on('click', function() {
+        $('.qsModel', li$).on('iscrollTap', function() {
             if (this._mode !== 'selectComparison') {
                 appRuntime.view.to('app/views/producer/P02Model', {
                     'model' : show.modelRef

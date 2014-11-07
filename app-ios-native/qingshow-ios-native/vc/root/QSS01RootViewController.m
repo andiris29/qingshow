@@ -10,6 +10,7 @@
 #import "QSNetworkEngine.h"
 #import "QSP01ModelListViewController.h"
 #import "QSShowWaterfallDelegateObj.h"
+#import "QSUserSettingViewController.h"
 
 @interface QSS01RootViewController ()
 
@@ -97,6 +98,13 @@
 - (void)accountButtonPressed
 {
     NSLog(@"accountBtnPressed");
+    QSUserSettingViewController *vc = [[QSUserSettingViewController alloc]
+                                       initWithNibName:@"QSUserSettingViewController"
+                                                bundle:nil];
+    
+    [self presentViewController:vc
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate
