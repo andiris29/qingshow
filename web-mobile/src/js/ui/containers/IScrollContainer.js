@@ -17,12 +17,17 @@ define([
         this._scroller$ = $('<div/>').addClass('uiIScroller').css({
             'position' : 'absolute'
         }).appendTo(this._dom$);
-
+        
+        // Mac chrome
+        // iscroll vs native scroll @1000 shows => 25 vs 20 fps (iscroll)
+        // probeType 3 + lazyload vs probeType 1 + lazyload when scrollEnd@1000 shows => 1 vs 25? (TODO)
+        
         // enable useTransform will cause font rendered not clearly, and disable it will cause performance loss.
         // Scroll fps will loss 30% both desktop chrome and mobile safari. Hard to choose...
         this._iscroll = new IScroll(this.dom(), {
             'mouseWheel' : true,
-            'click' : true,
+            'tap' : 'iscrollTap',
+            // TODO This is for lazy load image, but have impact on the cpu. Remove this option and lazyload when scrollEnd.
             'probeType' : 3,
             'useTransform' : false
         });
@@ -68,7 +73,6 @@ define([
             'container' : this._dom$,
             'failure_limit' : Number.POSITIVE_INFINITY
         }).removeClass('lazy');
-
         this._iscroll.refresh();
     };
 
