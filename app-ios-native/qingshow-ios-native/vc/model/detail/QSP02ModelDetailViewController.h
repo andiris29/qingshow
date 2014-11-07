@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QSModelBadgeView.h"
 
-@interface QSModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *badgeContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentContainer;

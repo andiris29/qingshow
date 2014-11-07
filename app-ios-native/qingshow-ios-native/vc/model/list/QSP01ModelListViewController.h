@@ -10,7 +10,7 @@
 #import "QSModelListTableViewCell.h"
 #import "QSModelListTableViewDelegateObj.h"
 
-@interface QSModelListViewController : UIViewController<QSModelListTableViewDelegateObjDelegate>
+@interface QSP01ModelListViewController : UIViewController<QSModelListTableViewDelegateObjDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 

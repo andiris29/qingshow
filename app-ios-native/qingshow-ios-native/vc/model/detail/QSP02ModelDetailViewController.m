@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSModelDetailViewController.h"
+#import "QSP02ModelDetailViewController.h"
 #import "QSModelBadgeView.h"
 
-@interface QSModelDetailViewController ()
+@interface QSP02ModelDetailViewController ()
 
 @property (strong, nonatomic) QSModelBadgeView* badgeView;
 
@@ -22,12 +22,12 @@
 
 @end
 
-@implementation QSModelDetailViewController
+@implementation QSP02ModelDetailViewController
 
 #pragma mark - Init
 - (id)initWithModel:(NSDictionary*)peopleDict
 {
-    self = [self initWithNibName:@"QSModelDetailViewController" bundle:nil];
+    self = [self initWithNibName:@"QSP02ModelDetailViewController" bundle:nil];
     if (self)
     {
         self.peopleDict = peopleDict;

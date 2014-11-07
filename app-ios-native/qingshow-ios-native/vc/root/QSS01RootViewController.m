@@ -6,23 +6,23 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSRootViewController.h"
+#import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
-#import "QSModelListViewController.h"
+#import "QSP01ModelListViewController.h"
 #import "QSShowWaterfallDelegateObj.h"
 
-@interface QSRootViewController ()
+@interface QSS01RootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (strong, nonatomic) QSShowWaterfallDelegateObj* delegateObj;
 @end
 
-@implementation QSRootViewController
+@implementation QSS01RootViewController
 #pragma mark - 
 - (id)init
 {
-    self = [self initWithNibName:@"QSRootViewController" bundle:nil];
+    self = [self initWithNibName:@"QSS01RootViewController" bundle:nil];
     if (self) {
         
     }
@@ -77,7 +77,7 @@
 #pragma mark - IBAction
 - (void)menuButtonPressed
 {
-    __weak QSRootViewController* weakSelf = self;
+    __weak QSS01RootViewController* weakSelf = self;
     if (self.fIsShowMenu)
     {
         [self.menuView hideMenuAnimationComple:^{
@@ -108,7 +108,7 @@
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
 {
-    UIViewController* vc = [[QSModelListViewController alloc] init];
+    UIViewController* vc = [[QSP01ModelListViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

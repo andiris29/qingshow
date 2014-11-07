@@ -6,24 +6,24 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSModelListViewController.h"
-#import "QSModelDetailViewController.h"
+#import "QSP01ModelListViewController.h"
+#import "QSP02ModelDetailViewController.h"
 
 
 #import "QSNetworkEngine.h"
 
-@interface QSModelListViewController ()
+@interface QSP01ModelListViewController ()
 
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* delegateObj;
 - (void)configView;
 @end
 
-@implementation QSModelListViewController
+@implementation QSP01ModelListViewController
 
 #pragma mark - Init Method
 - (id)init
 {
-    self = [self initWithNibName:@"QSModelListViewController" bundle:nil];
+    self = [self initWithNibName:@"QSP01ModelListViewController" bundle:nil];
     if (self) {
     }
     return self;
@@ -69,7 +69,7 @@
 #pragma mark - QSModelListTableViewDelegateObjDelegate
 - (void)clickModel:(NSDictionary*)model
 {
-    UIViewController* vc = [[QSModelDetailViewController alloc] initWithModel:model];
+    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)addFavorModel:(NSDictionary*)model

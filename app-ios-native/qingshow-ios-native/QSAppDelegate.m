@@ -8,7 +8,7 @@
 
 #import "QSAppDelegate.h"
 //#import "QSNetworkEngine.h"
-#import "QSRootViewController.h"
+#import "QSS01RootViewController.h"
 
 @implementation QSAppDelegate
 
@@ -16,7 +16,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    QSRootViewController* vc = [[QSRootViewController alloc] init];
+    QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;

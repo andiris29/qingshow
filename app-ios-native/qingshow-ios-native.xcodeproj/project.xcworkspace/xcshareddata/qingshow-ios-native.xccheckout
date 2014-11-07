@@ -14,11 +14,11 @@
 		<string>https://github.com/andiris29/com.focosee.qingshow.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>app-ios-native/qingshow-ios-native/qingshow-ios-native.xcodeproj</string>
+	<string>app-ios-native/qingshow-ios-native.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>70CAE455D53E64CAACCD863910A109C27361F40F</key>
-		<string>../../../..</string>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/andiris29/com.focosee.qingshow.git</string>
