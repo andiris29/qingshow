@@ -10,7 +10,7 @@
 #import "QSNetworkEngine.h"
 #import "QSP01ModelListViewController.h"
 #import "QSShowWaterfallDelegateObj.h"
-#import "QSUserSettingViewController.h"
+#import "QSU02UserSettingViewController.h"
 
 @interface QSS01RootViewController ()
 
@@ -97,14 +97,8 @@
 }
 - (void)accountButtonPressed
 {
-    NSLog(@"accountBtnPressed");
-    QSUserSettingViewController *vc = [[QSUserSettingViewController alloc]
-                                       initWithNibName:@"QSUserSettingViewController"
-                                                bundle:nil];
-    
-    [self presentViewController:vc
-                       animated:YES
-                     completion:nil];
+    QSU02UserSettingViewController *vc = [[QSU02UserSettingViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate

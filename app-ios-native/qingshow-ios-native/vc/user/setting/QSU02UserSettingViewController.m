@@ -6,17 +6,19 @@
 //  Copyright (c) 2014年 QS. All rights reserved.
 //
 
-#import "QSUserSettingViewController.h"
+#import "QSU02UserSettingViewController.h"
 
-@interface QSUserSettingViewController ()
+@interface QSU02UserSettingViewController ()
 
 @end
 
-@implementation QSUserSettingViewController
+@implementation QSU02UserSettingViewController
 
-- (id)init {
-    self = [self initWithNibName:@"QSUserSettingViewController"
-                          bundle:nil];
+- (id)init
+{
+    self = [self initWithNibName:@"QSU02UserSettingViewController" bundle:nil];
+    if (self) {
+    }
     return self;
 }
 
@@ -36,12 +38,16 @@
 - (void)initNavigation {
     NSLog(@"initNavigation");
     self.navigationItem.title = @"设置";
+    self.navigationItem.backBarButtonItem.title = @"";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
+    
     UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
                                                                style:UIBarButtonItemStylePlain
                                                               target:self
                                                               action:@selector(saveSetting)];
     
-    self.navigationItem.rightBarButtonItem = btnSave;
+    [[self navigationItem] setRightBarButtonItem:btnSave];
 }
 
 /*

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSUserSettingViewController : UIViewController
+@interface QSU02UserSettingViewController : UIViewController
 
 @end
