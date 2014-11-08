@@ -97,7 +97,11 @@
 }
 - (void)accountButtonPressed
 {
-    QSU02UserSettingViewController *vc = [[QSU02UserSettingViewController alloc]init];
+    UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting"
+                                                                  bundle:nil];
+    QSU02UserSettingViewController *vc = [tableViewStoryboard
+                                          instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+    //QSU02UserSettingViewController *vc = [[QSU02UserSettingViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
