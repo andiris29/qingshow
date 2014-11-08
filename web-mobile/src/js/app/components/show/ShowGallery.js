@@ -124,7 +124,7 @@ define([
         $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
         // User click here to avoid conflict with gesture
-        $('.qsShowCover', li$).on('iscrollTap', function() {
+        $('.qsShowCover', li$).on('click', function() {
             if (this._mode !== 'selectComparison') {
                 appRuntime.view.to('app/views/show/S03Show', {
                     'show' : show
@@ -132,7 +132,7 @@ define([
             }
         }.bind(this));
         // User click here to avoid conflict with gesture
-        $('.qsModel', li$).on('iscrollTap', function() {
+        $('.qsModel', li$).on('click', function() {
             if (this._mode !== 'selectComparison') {
                 appRuntime.view.to('app/views/producer/P02Model', {
                     'model' : show.modelRef
