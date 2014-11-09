@@ -9,14 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "QSModelBadgeView.h"
 
-@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+#import "QSShowWaterfallDelegateObj.h"
+#import "QSModelListTableViewDelegateObj.h"
 
+@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, UIScrollViewDelegate, QSShowWaterfallDelegateObjDelegate>
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
 @property (weak, nonatomic) IBOutlet UIView *badgeContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentContainer;
 
-@property (strong, nonatomic) IBOutlet UITableView* tableView;
-@property (strong, nonatomic) IBOutlet UICollectionView* collectionView;
+@property (strong, nonatomic) IBOutlet UICollectionView* showCollectionView;
+@property (strong, nonatomic) IBOutlet UITableView* followingTableView;
+@property (strong, nonatomic) IBOutlet UITableView* followerTableView;
+
 
 - (id)initWithModel:(NSDictionary*)peopleDict;
 
+
+- (IBAction)scrollGestureHandler:(UIGestureRecognizer*)ges;
 @end
