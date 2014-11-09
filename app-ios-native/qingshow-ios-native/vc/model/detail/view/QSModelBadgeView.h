@@ -30,5 +30,6 @@
 @property (weak, nonatomic) NSObject<QSModelBadgeViewDelegate>* delegate;
 
 + (QSModelBadgeView*)generateView;
+- (void)bindWithDict:(NSDictionary*)peopleDict;
 
 @end

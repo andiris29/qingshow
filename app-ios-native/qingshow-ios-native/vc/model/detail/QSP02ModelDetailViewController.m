@@ -16,7 +16,7 @@
 @property (strong, nonatomic) QSModelBadgeView* badgeView;
 @property (strong, nonatomic) NSArray* viewArray;
 #pragma mark - Data
-@property (strong, nonatomic) NSDictionary* peopleDict;
+@property (strong, nonatomic) NSMutableDictionary* peopleDict;
 @property (assign, nonatomic) int currentSection;
 @property (strong, nonatomic) NSMutableArray* showsArray;
 @property (strong, nonatomic) NSMutableArray* followingArray;
@@ -42,7 +42,7 @@
     self = [self initWithNibName:@"QSP02ModelDetailViewController" bundle:nil];
     if (self)
     {
-        self.peopleDict = peopleDict;
+        self.peopleDict = [peopleDict mutableCopy];
         
         [self delegateObjInit];
     }
@@ -66,6 +66,7 @@
     self.badgeView = [QSModelBadgeView generateView];
     [self.badgeContainer addSubview:self.badgeView];
     self.badgeView.delegate = self;
+    [self.badgeView bindWithDict:self.peopleDict];
     
     //following table view
     [self.followingDelegate bindWithTableView:self.followingTableView];
@@ -140,12 +141,26 @@
 }
 - (void)followButtonPressed
 {
-    [SHARE_NW_ENGINE followPeople:self.peopleDict[@"_id"] onSucceed:^{
-        [self showTextHud:@"follow successfully"];
-    } onError:^(NSError *error) {
-        [self showTextHud:@"error"];
-    }];
-
+    NSNumber* hasFollowed = self.peopleDict[@"hasFollowed"];
+    if (hasFollowed && hasFollowed.boolValue) {
+        [SHARE_NW_ENGINE unfollowPeople:self.peopleDict[@"_id"] onSucceed:^{
+            [self showTextHud:@"unfollow successfully"];
+            self.peopleDict[@"hasFollowed"] = @NO;
+            [self.badgeView bindWithDict:self.peopleDict];
+        } onError:^(NSError *error) {
+            [self showTextHud:@"error"];
+        }];
+    }
+    else {
+        [SHARE_NW_ENGINE followPeople:self.peopleDict[@"_id"] onSucceed:^{
+            [self showTextHud:@"follow successfully"];
+            self.peopleDict[@"hasFollowed"] = @YES;
+            [self.badgeView bindWithDict:self.peopleDict];
+        } onError:^(NSError *error) {
+            [self showTextHud:@"error"];
+        }];
+    }
+    
 }
 
 #pragma mark - Scroll View

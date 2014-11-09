@@ -43,6 +43,12 @@
     self.detailLabel.text = [NSString stringWithFormat:@"%@cm %@kg",modelDict[@"height"], modelDict[@"weight"]];
     NSString* headPhotoPath = [NSString stringWithFormat:@"%@%@",kImageUrlBase, modelDict[@"portrait"]];
     [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
+    NSNumber* hasFollowed = modelDict[@"hasFollowed"];
+    if (hasFollowed && hasFollowed.boolValue) {
+        [self.followBtn setTitle:@"取消" forState:UIControlStateNormal];
+    } else {
+        [self.followBtn setTitle:@"关注" forState:UIControlStateNormal];
+    }
 #warning 缺ShowNumber, FavorNumber
 }
 

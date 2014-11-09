@@ -38,6 +38,21 @@
     self.btnGroup.delegate = self;
 }
 
+#pragma mark - Binding
+- (void)bindWithDict:(NSDictionary*)peopleDict
+{
+    self.nameLabel.text = peopleDict[@"name"];
+#warning roles
+    self.roleLabel.text = @"roles";
+    self.statusLabel.text = [NSString stringWithFormat:@"%@cm,%@kg", peopleDict[@"height"], peopleDict[@"weight"]];
+#warning head photo
+    NSNumber* hasFollowed = peopleDict[@"hasFollowed"];
+    if (hasFollowed && hasFollowed.boolValue) {
+        self.btnGroup.singleButton.textLabel.text = @"取消关注";
+    } else {
+        self.btnGroup.singleButton.textLabel.text = @"关注";
+    }
+}
 
 #pragma mark - QSSectionButtonGroupDelegate
 - (void)groupButtonPressed:(int)index
