@@ -45,6 +45,11 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"QSTimeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSTimeCollectionViewCell"];
 }
 #pragma mark - Network
+- (void)reloadData
+{
+    [self fetchDataOfPage:1];
+}
+
 - (void)fetchDataOfPage:(int)page
 {
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {

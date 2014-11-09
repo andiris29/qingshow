@@ -14,7 +14,7 @@
 
 @optional
 - (void)clickModel:(NSDictionary*)model;
-- (void)addFavorModel:(NSDictionary*)model;
+- (void)followBtnPressed:(NSDictionary*)model;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 @end
 
@@ -31,6 +31,7 @@
 - (void)bindWithTableView:(UITableView*)tableView;
 
 #pragma mark - Network
+- (void)reloadData;
 - (void)fetchDataOfPage:(int)page;
 
 

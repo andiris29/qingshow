@@ -14,6 +14,7 @@
 
 
 typedef void (^VoidBlock)(void);
+typedef void (^BoolBlock)(BOOL);
 typedef void (^ErrorBlock) (NSError* error);
 typedef void (^OperationSucceedBlock)(MKNetworkOperation *completedOperation);
 typedef void (^OperationErrorBlock)(MKNetworkOperation *completedOperation, NSError *error);

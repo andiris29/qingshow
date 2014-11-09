@@ -32,5 +32,6 @@ typedef NS_ENUM(NSInteger, QSShowWaterfallDelegateObjType) {
 @property (weak, nonatomic) NSObject<QSShowWaterfallDelegateObjDelegate>* delegate;
 
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
+- (void)reloadData;
 - (void)fetchDataOfPage:(int)page;
 @end

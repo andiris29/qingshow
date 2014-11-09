@@ -195,9 +195,19 @@
 {
 
 }
-- (void)addFavorModel:(NSDictionary*)model
+- (void)followBtnPressed:(NSDictionary*)model
 {
-
+    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
+        if (fFollow) {
+            [self showTextHud:@"follow succeed"];
+        }
+        else
+        {
+            [self showTextHud:@"unfollow succeed"];
+        }
+    } onError:^(NSError *error) {
+        [self showErrorHudWithText:@"error"];
+    }];
 }
 
 @end

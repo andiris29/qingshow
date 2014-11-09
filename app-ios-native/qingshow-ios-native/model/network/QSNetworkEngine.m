@@ -184,6 +184,28 @@
 }
 
 #pragma mark - Interaction
+- (MKNetworkOperation*)handleFollowModel:(NSDictionary*)model
+                               onSucceed:(BoolBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    NSNumber* hasFollowed = model[@"hasFollowed"];
+    NSString* modelId = model[@"_id"];
+    if (hasFollowed && hasFollowed.boolValue) {
+        return [self unfollowPeople:modelId onSucceed:^{
+            if (succeedBlock) {
+                succeedBlock(NO);
+            }
+        } onError:errorBlock];
+    }
+    else
+    {
+        return [self followPeople:modelId onSucceed:^{
+            if (succeedBlock) {
+                succeedBlock(YES);
+            }
+        } onError:errorBlock];
+    }
+}
 - (MKNetworkOperation*)followPeople:(NSString*)peopleId
                           onSucceed:(VoidBlock)succeedBlock
                             onError:(ErrorBlock)errorBlock

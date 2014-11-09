@@ -8,7 +8,7 @@
 
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
-
+#import "UIViewController+ShowHud.h"
 
 #import "QSNetworkEngine.h"
 
@@ -36,7 +36,6 @@
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
     };
-    [self.delegateObj fetchDataOfPage:1];
 }
 
 #pragma mark - Life Cycle
@@ -48,7 +47,11 @@
     [self configView];
     
     [self configDelegateObj];
-    
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.delegateObj reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,9 +75,21 @@
     UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)addFavorModel:(NSDictionary*)model
+- (void)followBtnPressed:(NSDictionary*)model
 {
-    
+#warning 需要更新modelList内数据
+#warning 需要把所有follow and unfollow逻辑改为使用handleFOllowModel
+    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
+        if (fFollow) {
+            [self showTextHud:@"follow succeed"];
+        }
+        else
+        {
+            [self showTextHud:@"unfollow succeed"];
+        }
+    } onError:^(NSError *error) {
+        [self showErrorHudWithText:@"error"];
+    }];
 }
 
 @end

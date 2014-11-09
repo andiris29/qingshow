@@ -38,6 +38,9 @@
                                 onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Interaction
+- (MKNetworkOperation*)handleFollowModel:(NSDictionary*)model
+                               onSucceed:(BoolBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)followPeople:(NSString*)peopleId
                           onSucceed:(VoidBlock)succeedBlock
                             onError:(ErrorBlock)errorBlock;

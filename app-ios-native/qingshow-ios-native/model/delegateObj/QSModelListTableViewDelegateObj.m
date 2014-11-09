@@ -63,6 +63,10 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
 }
 #pragma mark - Network
+- (void)reloadData
+{
+    [self fetchDataOfPage:1];
+}
 - (void)fetchDataOfPage:(int)page
 {
     self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
@@ -112,8 +116,8 @@
 - (void)favorBtnPressed:(QSModelListTableViewCell *)cell
 {
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-    if ([self.delegate respondsToSelector:@selector(addFavorModel:)]) {
-        [self.delegate addFavorModel:self.resultArray[indexPath.row]];
+    if ([self.delegate respondsToSelector:@selector(followBtnPressed:)]) {
+        [self.delegate followBtnPressed:self.resultArray[indexPath.row]];
     }
 }
 
