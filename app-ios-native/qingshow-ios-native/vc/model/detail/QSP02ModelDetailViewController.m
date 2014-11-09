@@ -13,24 +13,24 @@
 @interface QSP02ModelDetailViewController ()
 
 @property (strong, nonatomic) QSModelBadgeView* badgeView;
-
+@property (strong, nonatomic) NSArray* viewArray;
 #pragma mark - Data
 @property (strong, nonatomic) NSDictionary* peopleDict;
-@property (assign, nonatomic) QSModelSection currentSection;
+@property (assign, nonatomic) int currentSection;
 @property (strong, nonatomic) NSMutableArray* showsArray;
 @property (strong, nonatomic) NSMutableArray* followingArray;
 @property (strong, nonatomic) NSMutableArray* followerArray;
 
-
-
 @property (assign, nonatomic) CGPoint touchLocation;
 @property (strong, nonatomic) UIView* currentTouchView;
+
 
 
 #pragma mark - Delegate Obj
 @property (strong, nonatomic) QSShowWaterfallDelegateObj* showsDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
+
 @end
 
 @implementation QSP02ModelDetailViewController
@@ -64,12 +64,25 @@
     //badge view
     self.badgeView = [QSModelBadgeView generateView];
     [self.badgeContainer addSubview:self.badgeView];
+    self.badgeView.delegate = self;
     
     //following table view
-    
+    [self.followingDelegate bindWithTableView:self.followingTableView];
+#warning 需要换成正确的api
+    self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    self.followingDelegate.delegate = self;
+    [self.followingDelegate fetchDataOfPage:1];
     
     //follower table view
-    
+    [self.followerDelegate bindWithTableView:self.followerTableView];
+#warning 需要换成正确的api
+    self.followerDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    self.followerDelegate.delegate = self;
+    [self.followerDelegate fetchDataOfPage:1];
     
     //Show collectioin view
     [self.showsDelegate bindWithCollectionView:self.showCollectionView];
@@ -94,6 +107,11 @@
 {
     [super viewDidLoad];
     [self configView];
+    self.viewArray = @[self.showCollectionView, self.followingTableView, self.followerTableView];
+    self.currentSection = 0;
+    self.showCollectionView.hidden = NO;
+    self.followerTableView.hidden = YES;
+    self.followingTableView.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,52 +122,27 @@
 
 
 #pragma mark - QSModelBadgeViewDelegate
-- (void)changeToSection:(QSModelSection)section
+- (void)changeToSection:(int)section
 {
+    UIScrollView* currentView = self.viewArray[self.currentSection];
+    CGPoint p = currentView.contentOffset;
     
+    for (int i = 0; i < self.viewArray.count; i++) {
+        UIScrollView* view = self.viewArray[i];
+        view.hidden = i != section;
+        if (p.y < 0.1) {
+            view.contentOffset = p;
+        }
+    }
+    
+    self.currentSection = section;
 }
 - (void)followButtonPressed
 {
     
 }
-#pragma mark - Table View
 
-
-#pragma mark - Colletion View
-
-
-#pragma mark - 
-- (IBAction)scrollGestureHandler:(UIGestureRecognizer*)ges
-{
-    
-    if (ges.state == UIGestureRecognizerStateBegan) {
-        self.currentTouchView = ges.view;
-        self.touchLocation = [ges locationInView:self.currentTouchView];
-    } else if (ges.state == UIGestureRecognizerStateChanged) {
-        if (self.currentTouchView == ges.view) {
-            CGPoint newLoc = [ges locationInView:self.currentTouchView];
-            self.topConstrain.constant += [ges locationInView:self.currentTouchView].y - self.touchLocation.y;
-            [self.view layoutIfNeeded];
-        }
-    } else {
-        NSLog(@"end");
-    }
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    NSLog(@"begin");
-}
-
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    NSLog(@"move");
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-//    NSLog(@"end");
-}
+#pragma mark - Scroll View
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
   
@@ -160,7 +153,7 @@
     }
     else
     {
-        self.topConstrain.constant += self.touchLocation.y - scrollView.contentOffset.y;
+        self.topConstrain.constant -= scrollView.contentOffset.y;
         BOOL f = YES;
         if (self.topConstrain.constant > 0) {
             self.topConstrain.constant = 0;
@@ -171,13 +164,20 @@
             f = NO;
         }
         if (f) {
-            scrollView.contentOffset = self.touchLocation;
+            scrollView.contentOffset = CGPointZero;
         }
 
         [self.view layoutIfNeeded];
         
     }
+}
 
+- (void)clickModel:(NSDictionary*)model
+{
+
+}
+- (void)addFavorModel:(NSDictionary*)model
+{
 
 }
 

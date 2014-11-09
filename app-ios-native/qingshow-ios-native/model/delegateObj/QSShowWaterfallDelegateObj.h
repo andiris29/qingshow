@@ -13,6 +13,7 @@
 
 @protocol QSShowWaterfallDelegateObjDelegate <NSObject>
 
+@optional
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 
 @end

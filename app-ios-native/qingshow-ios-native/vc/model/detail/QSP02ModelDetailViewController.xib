@@ -9,6 +9,8 @@
             <connections>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
+                <outlet property="followerTableView" destination="m8K-nt-VC0" id="csL-lo-A9O"/>
+                <outlet property="followingTableView" destination="PxT-sL-sPV" id="5RJ-Pr-Dfj"/>
                 <outlet property="showCollectionView" destination="veM-gh-tqs" id="ZKA-qc-8qC"/>
                 <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zNd-7b-5M4"/>
@@ -38,13 +40,29 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="m8K-nt-VC0">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="PxT-sL-sPV">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="m8K-nt-VC0" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="1rD-Pz-r8A"/>
                         <constraint firstAttribute="bottom" secondItem="veM-gh-tqs" secondAttribute="bottom" id="559-Es-7bp"/>
+                        <constraint firstAttribute="bottom" secondItem="m8K-nt-VC0" secondAttribute="bottom" id="8zV-Nd-1ST"/>
                         <constraint firstItem="veM-gh-tqs" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="9TK-ij-TjT"/>
+                        <constraint firstAttribute="trailing" secondItem="PxT-sL-sPV" secondAttribute="trailing" id="9kR-5L-9y0"/>
                         <constraint firstItem="veM-gh-tqs" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Aod-LT-lpO"/>
+                        <constraint firstItem="m8K-nt-VC0" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="C7N-fE-FHx"/>
+                        <constraint firstAttribute="trailing" secondItem="m8K-nt-VC0" secondAttribute="trailing" id="RQE-39-eXf"/>
                         <constraint firstAttribute="trailing" secondItem="veM-gh-tqs" secondAttribute="trailing" id="fak-UY-QAH"/>
+                        <constraint firstAttribute="bottom" secondItem="PxT-sL-sPV" secondAttribute="bottom" id="icI-hh-Muz"/>
+                        <constraint firstItem="PxT-sL-sPV" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="kyj-sd-RMj"/>
+                        <constraint firstItem="PxT-sL-sPV" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="tLN-iI-SCA"/>
                     </constraints>
                 </view>
             </subviews>

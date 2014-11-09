@@ -12,7 +12,7 @@
 #import "QSShowWaterfallDelegateObj.h"
 #import "QSModelListTableViewDelegateObj.h"
 
-@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, UIScrollViewDelegate, QSShowWaterfallDelegateObjDelegate>
+@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, QSShowWaterfallDelegateObjDelegate, QSModelListTableViewDelegateObjDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
 @property (weak, nonatomic) IBOutlet UIView *badgeContainer;
@@ -25,6 +25,4 @@
 
 - (id)initWithModel:(NSDictionary*)peopleDict;
 
-
-- (IBAction)scrollGestureHandler:(UIGestureRecognizer*)ges;
 @end

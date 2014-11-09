@@ -35,17 +35,22 @@
         [self.btnGroup setTitle:titleArray[i] atIndex:i];
     }
     [self.btnGroup setSelect:0];
+    self.btnGroup.delegate = self;
 }
 
 
 #pragma mark - QSSectionButtonGroupDelegate
 - (void)groupButtonPressed:(int)index
 {
-    
+    if ([self.delegate respondsToSelector:@selector(changeToSection:)]) {
+        [self.delegate changeToSection:index];
+    }
 }
 - (void)singleButtonPressed
 {
-    
+    if ([self.delegate respondsToSelector:@selector(followButtonPressed)]){
+        [self.delegate followButtonPressed];
+    }
 }
 
 @end

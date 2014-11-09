@@ -12,12 +12,13 @@
 
 @protocol QSModelListTableViewDelegateObjDelegate <NSObject>
 
+@optional
 - (void)clickModel:(NSDictionary*)model;
 - (void)addFavorModel:(NSDictionary*)model;
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 @end
 
-@interface QSModelListTableViewDelegateObj : NSObject<UITableViewDataSource, UITableViewDelegate, QSModelListTableViewCellDelegate>
+@interface QSModelListTableViewDelegateObj : NSObject<UITableViewDataSource, UITableViewDelegate, QSModelListTableViewCellDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;

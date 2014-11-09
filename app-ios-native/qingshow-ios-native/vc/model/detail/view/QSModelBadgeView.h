@@ -9,15 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "QSSectionButtonGroup.h"
 
-typedef NS_ENUM(NSInteger, QSModelSection) {
-    QSModelSectionShows = 0,
-    QSModelSectionFollowing = 1,
-    QSModelSectionFollower = 2
-};
-
 @protocol QSModelBadgeViewDelegate <NSObject>
 
-- (void)changeToSection:(QSModelSection)section;
+- (void)changeToSection:(int)sectionIndex;
 - (void)followButtonPressed;
 
 @end
@@ -32,6 +26,8 @@ typedef NS_ENUM(NSInteger, QSModelSection) {
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
+
+@property (weak, nonatomic) NSObject<QSModelBadgeViewDelegate>* delegate;
 
 + (QSModelBadgeView*)generateView;
 
