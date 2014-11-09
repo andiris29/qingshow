@@ -9,7 +9,7 @@
 #import "QSU02UserSettingViewController.h"
 
 @interface QSU02UserSettingViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *birthdayLabel;
+@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
 @property (strong, nonatomic) IBOutlet UITableView *settingTableView;
 @property (weak, nonatomic) IBOutlet UITextField *nameText;
 @property (weak, nonatomic) IBOutlet UITextField *lengthText;
@@ -18,15 +18,11 @@
 
 @implementation QSU02UserSettingViewController
 
-NSDate *_birthday;
+#pragma mark - private value
 
-- (id)init
-{
-//    self = [self initWithNibName:@"QSU02UserSettingViewController" bundle:nil];
-//    if (self) {
-//    }
-    return self;
-}
+//UIDatePicker *datePicker;
+
+#pragma mark - Method
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,19 +35,57 @@ NSDate *_birthday;
     // Dispose of any resources that can be recreated.
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+#pragma mark - UITableViewDataSource
+
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+//}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.section) {
+        case 0:
+            // 选择section
+            break;
+        case 1:
+            // 基本section
+            if (indexPath.row == 1) {
+                // GOTO Gender
+                NSLog(@"GOTO Gender");
+            } else if (indexPath.row == 2) {
+                // 选择生日
+            } else if (indexPath.row == 5) {
+                // GOTO HairType
+                NSLog(@"GOTO HairType");
+            }
+            
+            break;
+        case 2:
+            // 其他section
+            break;
+        default:
+            break;
+    }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [super tableView:tableView numberOfRowsInSection:section];
-}
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker setLocale:[NSLocale currentLocale]];
+    [datePicker setDate:[NSDate date]];
+    [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
+    
+    if (textField.tag == 11) {
+        self.birthdayText.inputView = datePicker;
+        [self updateBirthDayLabel:datePicker.date];
+    }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 #pragma mark - Private
+
 - (void)initNavigation {
     NSLog(@"initNavigation");
     self.navigationItem.title = @"设置";
@@ -68,20 +102,29 @@ NSDate *_birthday;
 }
 
 - (void)loadUserSetting {
-    _birthday = [NSDate date];
-    [self updateBirthDayLabel];
+    NSDate *_birthday = [NSDate date];
+    [self updateBirthDayLabel:_birthday];
 }
 
 
-- (void) updateBirthDayLabel {
+- (void)updateBirthDayLabel:(NSDate *)birthDay {
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy/MM/dd"];
-    self.birthdayLabel.text = [formatter stringFromDate:_birthday];
+    self.birthdayText.text = [formatter stringFromDate:birthDay];
+}
+
+- (void)showDatePicker {
+    
 }
 
 #pragma mark - Action
-- (void) actionSave {
+- (void)actionSave {
     
+}
+
+- (void)changeDate:(id)sender {
+    UIDatePicker *datePicker = (UIDatePicker *)self.birthdayText.inputView;
+    [self updateBirthDayLabel:datePicker.date];
 }
 
 @end
