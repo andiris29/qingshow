@@ -8,6 +8,7 @@
 
 #import "QSNetworkEngine.h"
 #import "ServerPath.h"
+#import "QSNetworkOperation.h"
 
 //User
 #define PATH_USER_LOGIN @"user/login"
@@ -15,16 +16,15 @@
 
 //Model
 #define PATH_QUERY_MODELS @"query/models"
-#define PATH_INTERACTION_FOLLOW @""
-#define PATH_INTERACTION_UNFOLLOW @""
+#define PATH_INTERACTION_FOLLOW @"interaction/follow"
+#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
 
 //Feeding
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
 
 #define Interaction
-#define PATH_INTERACTION_FOLLOW @"interaction/follow"
-#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
+
 
 
 @implementation QSNetworkEngine
@@ -37,6 +37,9 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:HOST_NAME];
+        [s_networkEngine registerOperationSubclass:[QSNetworkOperation class]];
+        [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
+
     });
     return s_networkEngine;
     
