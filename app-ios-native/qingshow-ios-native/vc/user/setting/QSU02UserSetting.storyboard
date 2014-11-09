@@ -44,7 +44,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写姓名" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="llD-2e-xUH">
-                                                    <rect key="frame" x="60" y="6" width="220" height="30"/>
+                                                    <rect key="frame" x="60" y="8" width="220" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -76,12 +76,14 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="yyyy/MM/dd" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l5E-7B-ayp">
-                                                    <rect key="frame" x="60" y="13" width="137" height="20"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" tag="11" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="yyyy/MM/dd" placeholder="请输入生日" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n7p-ef-h7u">
+                                                    <rect key="frame" x="60" y="8" width="199" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="E0l-eU-NZJ" id="R5o-WB-pGX"/>
+                                                    </connections>
+                                                </textField>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -199,7 +201,7 @@
                     </tableView>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="birthdayLabel" destination="l5E-7B-ayp" id="L9W-vz-wIf"/>
+                        <outlet property="birthdayText" destination="n7p-ef-h7u" id="x5h-oq-grd"/>
                         <outlet property="lengthText" destination="698-cL-GPO" id="Nbr-Ce-Jdc"/>
                         <outlet property="nameText" destination="llD-2e-xUH" id="cJj-Ib-FcP"/>
                         <outlet property="settingTableView" destination="7h1-FB-UMl" id="Eem-Bw-CqI"/>
@@ -208,7 +210,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="53y-Ly-6Y4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="232" y="411.5"/>
+            <point key="canvasLocation" x="232" y="410.5"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
