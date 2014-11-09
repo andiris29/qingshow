@@ -9,7 +9,7 @@
 #import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
 #import "QSP01ModelListViewController.h"
-#import "QSShowWaterfallDelegateObj.h"
+
 #import "QSU02UserSettingViewController.h"
 
 @interface QSS01RootViewController ()
@@ -55,6 +55,7 @@
 - (void)configDelegateObj
 {
     self.delegateObj = [[QSShowWaterfallDelegateObj alloc] init];
+    self.delegateObj.delegate = self;
     [self.delegateObj bindWithCollectionView:self.collectionView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
@@ -92,8 +93,6 @@
         }];
     }
     self.fIsShowMenu = !self.fIsShowMenu;
-    
-
 }
 - (void)accountButtonPressed
 {
@@ -118,4 +117,16 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - QSShowWaterfallDelegateObjDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.fIsShowMenu)
+    {
+        __weak QSS01RootViewController* weakSelf = self;
+        [self.menuView hideMenuAnimationComple:^{
+            weakSelf.menuContainer.hidden = YES;
+        }];
+        self.fIsShowMenu = NO;
+    }
+}
 @end

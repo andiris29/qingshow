@@ -39,10 +39,11 @@
     self.transform = CGAffineTransformMakeScale(1.f, 1.f);
     self.alpha = 1.f;
     [UIView animateWithDuration:0.2 animations:^{
-        self.transform = CGAffineTransformMakeScale(0.f, 0.f);
+        self.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
         self.alpha = 0.f;
     } completion:^(BOOL finished) {
-        if (block) {
+        self.transform = CGAffineTransformMakeScale(0.f, 0.f);
+        if (block && finished) {
             block();
         }
     }];
