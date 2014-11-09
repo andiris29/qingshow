@@ -9,6 +9,7 @@
 #import "QSP02ModelDetailViewController.h"
 #import "QSModelBadgeView.h"
 #import "QSNetworkEngine.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSP02ModelDetailViewController ()
 
@@ -139,14 +140,17 @@
 }
 - (void)followButtonPressed
 {
-    
+    [SHARE_NW_ENGINE followPeople:self.peopleDict[@"_id"] onSucceed:^{
+        [self showTextHud:@"follow successfully"];
+    } onError:^(NSError *error) {
+        [self showTextHud:@"error"];
+    }];
+
 }
 
 #pragma mark - Scroll View
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  
-    
     if (self.currentTouchView != scrollView) {
         self.currentTouchView = scrollView;
         self.touchLocation = scrollView.contentOffset;

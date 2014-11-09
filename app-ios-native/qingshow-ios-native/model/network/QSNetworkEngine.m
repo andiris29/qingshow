@@ -22,6 +22,10 @@
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
 
+#define Interaction
+#define PATH_INTERACTION_FOLLOW @"interaction/follow"
+#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
+
 
 @implementation QSNetworkEngine
 
@@ -166,6 +170,48 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"peoples"], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+#pragma mark - Interaction
+- (MKNetworkOperation*)followPeople:(NSString*)peopleId
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_FOLLOW
+                                 method:@"POST" paramers:@{@"_id" : peopleId}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    succeedBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation*)unfollowPeople:(NSString*)peopleId
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_UNFOLLOW
+                                 method:@"POST"
+                               paramers:@{@"_id" : peopleId}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    succeedBlock();
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

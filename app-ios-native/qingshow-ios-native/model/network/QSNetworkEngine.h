@@ -36,4 +36,12 @@
 - (MKNetworkOperation*)getModelListPage:(int)page
                               onSucceed:(ArraySuccessBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock;
+
+#pragma mark - Interaction
+- (MKNetworkOperation*)followPeople:(NSString*)peopleId
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)unfollowPeople:(NSString*)peopleId
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end
