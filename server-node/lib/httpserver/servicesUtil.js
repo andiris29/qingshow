@@ -59,7 +59,7 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                                 "numPages": numPages,
 //                        "refreshTime": 3600000
                             },
-                            data: dataGenFunc(shows)
+                            data: dataGenFunc(s)
                         };
                         res.json(retData);
                         if (finishCallback) {

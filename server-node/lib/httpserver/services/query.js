@@ -5,11 +5,13 @@ var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
 var ServerError = require('../server-error');
 var mongoose = require('mongoose');
+var nimble = require('nimble');
 
 var _models, _comments, _brands, _terms;
 _models = function (req, res) {
     param = res.queryString;
     if (param._ids) {
+        //TODO Check hasFollowed
         try {
             var ids = param._ids;
             var idsObjArray = ServicesUtil.stringArrayToObjectIdArray(ids);
@@ -41,17 +43,47 @@ _models = function (req, res) {
             }
         });
     } else {
-        var pageNo = param.pageNo || 1;
-        var pageSize = param.pageSize || 10;
-        function buildQuery() {
-            return People.find({roles : 1});
-        }
-        function modelDataGenFunc(data) {
-            return {
-                peoples: data
-            };
-        }
-        ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
+        var followingList = null;
+        nimble.series([function (callback) {
+            if (req.session.userId) {
+                People.findOne({_id : req.session.userId})
+                    .select('followRefs')
+                    .exec(function (err, p) {
+                        if (p) {
+                            followingList = p.followRefs;
+                        }
+                        callback();
+                    });
+            } else {
+                callback();
+            }
+
+        }, function (callback) {
+            var pageNo = param.pageNo || 1;
+            var pageSize = param.pageSize || 10;
+            function buildQuery() {
+                return People.find({roles : 1});
+            }
+            function modelDataGenFunc(data) {
+                return {
+                    peoples: data
+                };
+            }
+            ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function (models, cb) {
+                var retModels = [];
+                models.forEach(function (model) {
+                    var m = JSON.parse(JSON.stringify(model));
+                    if (followingList && followingList.indexOf(model._id) !== -1) {
+                        m.hasFollowed = true;
+                    } else {
+                        m.hasFollowed = false;
+                    }
+                    retModels.push(m);
+                });
+                cb(retModels);
+            });
+            callback();
+        }]);
     }
 };
 
