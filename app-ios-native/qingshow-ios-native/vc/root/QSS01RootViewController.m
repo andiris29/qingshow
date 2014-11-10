@@ -11,7 +11,7 @@
 #import "QSP01ModelListViewController.h"
 
 #import "QSU02UserSettingViewController.h"
-
+#import "QSS03ShowDetailViewController.h"
 @interface QSS01RootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
@@ -128,5 +128,10 @@
         }];
         self.fIsShowMenu = NO;
     }
+}
+- (void)didClickShow:(NSDictionary*)showDict
+{
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

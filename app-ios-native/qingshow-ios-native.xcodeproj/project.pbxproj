@@ -50,6 +50,10 @@
 		EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */; };
 		EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952F1A0FC3A9006A0AE3 /* QSError.m */; };
 		EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */; };
+		EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */; };
+		EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */; };
+		EFC7ADAF1A10FBAA0078D1F9 /* QSSingleImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADAE1A10FBAA0078D1F9 /* QSSingleImageScrollView.m */; };
+		EFC7ADB11A10FBB40078D1F9 /* QSSingleImageScrollView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADB01A10FBB40078D1F9 /* QSSingleImageScrollView.xib */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
 		EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114951A0D2EEC009B7361 /* NSDate+RFC1123.m */; };
@@ -155,6 +159,12 @@
 		EF9C952F1A0FC3A9006A0AE3 /* QSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSError.m; sourceTree = "<group>"; };
 		EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkOperation.h; sourceTree = "<group>"; };
 		EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkOperation.m; sourceTree = "<group>"; };
+		EFC7ADA71A10E22B0078D1F9 /* QSS03ShowDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ShowDetailViewController.h; sourceTree = "<group>"; };
+		EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ShowDetailViewController.m; sourceTree = "<group>"; };
+		EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ShowDetailViewController.xib; sourceTree = "<group>"; };
+		EFC7ADAD1A10FBAA0078D1F9 /* QSSingleImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSingleImageScrollView.h; sourceTree = "<group>"; };
+		EFC7ADAE1A10FBAA0078D1F9 /* QSSingleImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSingleImageScrollView.m; sourceTree = "<group>"; };
+		EFC7ADB01A10FBB40078D1F9 /* QSSingleImageScrollView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSingleImageScrollView.xib; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -214,9 +224,9 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EFC7ADA51A10E2130078D1F9 /* show */,
 				EFF114851A0D2EDD009B7361 /* user */,
 				EF8AB6561A07D0EE00372538 /* model */,
-				EF8AB6571A07D0EE00372538 /* show */,
 				EF1A591A1A06761800001AE0 /* root */,
 				EF1A591B1A06761800001AE0 /* view */,
 			);
@@ -242,6 +252,7 @@
 		EF1A591B1A06761800001AE0 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				EFC7ADAC1A10FB800078D1F9 /* imageScroll */,
 				EF1A591C1A06761800001AE0 /* waterfall */,
 			);
 			path = view;
@@ -302,14 +313,6 @@
 			path = model;
 			sourceTree = "<group>";
 		};
-		EF8AB6571A07D0EE00372538 /* show */ = {
-			isa = PBXGroup;
-			children = (
-				EF8AB6641A07D23500372538 /* detail */,
-			);
-			path = show;
-			sourceTree = "<group>";
-		};
 		EF8AB65C1A07D20500372538 /* detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,13 +335,6 @@
 				EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */,
 			);
 			path = list;
-			sourceTree = "<group>";
-		};
-		EF8AB6641A07D23500372538 /* detail */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = detail;
 			sourceTree = "<group>";
 		};
 		EF8FD0501A0637420081F8EB /* beans */ = {
@@ -482,6 +478,34 @@
 				EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */,
 			);
 			path = extension;
+			sourceTree = "<group>";
+		};
+		EFC7ADA51A10E2130078D1F9 /* show */ = {
+			isa = PBXGroup;
+			children = (
+				EFC7ADA61A10E2130078D1F9 /* detail */,
+			);
+			path = show;
+			sourceTree = "<group>";
+		};
+		EFC7ADA61A10E2130078D1F9 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				EFC7ADA71A10E22B0078D1F9 /* QSS03ShowDetailViewController.h */,
+				EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */,
+				EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		EFC7ADAC1A10FB800078D1F9 /* imageScroll */ = {
+			isa = PBXGroup;
+			children = (
+				EFC7ADAD1A10FBAA0078D1F9 /* QSSingleImageScrollView.h */,
+				EFC7ADAE1A10FBAA0078D1F9 /* QSSingleImageScrollView.m */,
+				EFC7ADB01A10FBB40078D1F9 /* QSSingleImageScrollView.xib */,
+			);
+			path = imageScroll;
 			sourceTree = "<group>";
 		};
 		EFF114851A0D2EDD009B7361 /* user */ = {
@@ -685,6 +709,7 @@
 				EF1A59281A06761800001AE0 /* QSWaterFallCollectionViewCell.xib in Resources */,
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
+				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
 				EF359ABE1A0A68E700885917 /* QSP02ModelDetailViewController.xib in Resources */,
 				EF140A6B1A09254C00E3C4D4 /* QSS01RootViewController.xib in Resources */,
 				EF359AD81A0A705700885917 /* QSSectionNumberTextButton.xib in Resources */,
@@ -696,6 +721,7 @@
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */,
+				EFC7ADB11A10FBB40078D1F9 /* QSSingleImageScrollView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,10 +758,12 @@
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF8AB6601A07D20500372538 /* QSP02ModelDetailViewController.m in Sources */,
+				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF1A59271A06761800001AE0 /* QSWaterFallCollectionViewCell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
 				EF3D056B1A0BC63C00175E1D /* QSShowWaterfallDelegateObj.m in Sources */,
+				EFC7ADAF1A10FBAA0078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */,
 				EFF114B01A0D2EEC009B7361 /* NSString+MKNetworkKitAdditions.m in Sources */,

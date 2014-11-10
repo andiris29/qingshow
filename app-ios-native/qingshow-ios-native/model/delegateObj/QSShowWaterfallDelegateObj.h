@@ -15,6 +15,7 @@
 
 @optional
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+- (void)didClickShow:(NSDictionary*)showDict;
 
 @end
 
