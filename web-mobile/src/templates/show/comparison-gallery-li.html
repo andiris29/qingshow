@@ -1,0 +1,80 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltComparisonGalleryLi {
+        position: relative;
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .qsTpltComparisonGalleryLi .qsComparisonCover {
+        width: 100%;
+    }
+    .qsTpltComparisonGalleryLi .qsModel {
+        overflow: auto;
+        margin: 10px 8px;
+    }
+    .qsTpltComparisonGalleryLi .qsModel > div {
+        overflow: auto;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsPortrait {
+        background-image: url('../../../../server-image-fake/portraits/smallphoto01.jpg');
+        float: left;
+        width: 52px;
+        height: 52px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 26px;
+        overflow: hidden;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsTextContainer {
+        float: left;
+        margin: 0px 8px;
+        width: calc(100% - 116px);
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsLine {
+        height: 26px;
+        margin-top: 8px;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsLine:first-child {
+        margin-top: 2px;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsName {
+        float: left;
+        color: 4e4e4e;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsRole {
+        float: right;
+    }
+    .qsTpltComparisonGalleryLi .qsStatus {
+        margin: 6px 8px 0 60px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsLikeContainer {
+        float: left;
+        width: 40px;
+        text-align: center;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsLike {
+        font-size: 32px;
+        margin-bottom: 4px;
+    }
+    .qsTpltComparisonGalleryLi .qsModel .qsNumFollowers {
+        padding-right: 2px;
+    }
+    .qsTpltComparisonGalleryLi .qsHeight, .qsTpltComparisonGalleryLi .qsWeight {
+        float: left;
+    }
+    .qsTpltComparisonGalleryLi .qsHeight {
+        margin-right: 12px;
+    }
+</style>
+
+<div id="wrapper" style="width: 600px; position: relative; margin: auto;">
+    <div class="qsTpltComparisonGalleryLi">
+        <img class="qsComparisonCover lazy fakeSrc" src="../../../../server-image-fake/comparison/image_eg01.png">
+    </div>
+</div>
