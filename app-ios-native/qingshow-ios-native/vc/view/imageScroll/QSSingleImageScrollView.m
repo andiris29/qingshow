@@ -24,7 +24,6 @@
         NSURL* imageUrl = self.imageUrlArray[imageIndex];
         [imageView setImageFromURL:imageUrl];
     }
-
     return imageView;
 }
 #pragma mark - Getter And Setter Method

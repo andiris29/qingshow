@@ -43,7 +43,7 @@
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.imageViewArray = [@[] mutableCopy];
-        self.scrollView = [[UIScrollView alloc] initWithFrame:self.frame];
+        self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         self.scrollView.showsHorizontalScrollIndicator = NO;
         self.scrollView.showsVerticalScrollIndicator = NO;
         self.scrollView.pagingEnabled = YES;
@@ -115,7 +115,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.scrollView.frame = self.frame;
+    self.scrollView.frame = self.bounds;
+    self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 20);
 }
 
 #pragma mark - UIScrollView Delegate

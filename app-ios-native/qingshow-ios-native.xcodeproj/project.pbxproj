@@ -55,6 +55,8 @@
 		EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADAE1A10FBAA0078D1F9 /* QSImageScrollViewBase.m */; };
 		EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB31A1115E20078D1F9 /* QSSingleImageScrollView.m */; };
 		EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */; };
+		EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */; };
+		EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
 		EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114951A0D2EEC009B7361 /* NSDate+RFC1123.m */; };
@@ -169,6 +171,9 @@
 		EFC7ADB31A1115E20078D1F9 /* QSSingleImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSingleImageScrollView.m; sourceTree = "<group>"; };
 		EFC7ADB51A1116650078D1F9 /* QSItemImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemImageScrollView.h; sourceTree = "<group>"; };
 		EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemImageScrollView.m; sourceTree = "<group>"; };
+		EFC7ADB81A11207E0078D1F9 /* QSItemContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemContainerView.h; sourceTree = "<group>"; };
+		EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemContainerView.m; sourceTree = "<group>"; };
+		EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemContainerView.xib; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -511,6 +516,9 @@
 				EFC7ADB31A1115E20078D1F9 /* QSSingleImageScrollView.m */,
 				EFC7ADB51A1116650078D1F9 /* QSItemImageScrollView.h */,
 				EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */,
+				EFC7ADB81A11207E0078D1F9 /* QSItemContainerView.h */,
+				EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */,
+				EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */,
 			);
 			path = imageScroll;
 			sourceTree = "<group>";
@@ -722,6 +730,7 @@
 				EF359AD81A0A705700885917 /* QSSectionNumberTextButton.xib in Resources */,
 				EF359ACA1A0A6F5F00885917 /* QSModelBadgeView.xib in Resources */,
 				EF140A6F1A092B6400E3C4D4 /* QSP01ModelListViewController.xib in Resources */,
+				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
 				EF359ADA1A0A707100885917 /* QSSectionImageTextButton.xib in Resources */,
 				8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
@@ -749,6 +758,7 @@
 				EF359AD01A0A6FB300885917 /* QSSectionButtonGroup.m in Sources */,
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
+				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				EF8AB6631A07D21D00372538 /* QSP01ModelListViewController.m in Sources */,
 				EF359ACD1A0A6F9E00885917 /* QSSectionNumberTextButton.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,

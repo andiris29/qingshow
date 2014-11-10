@@ -11,5 +11,7 @@
 
 @interface QSItemImageScrollView : QSImageScrollViewBase
 
+//@property (strong, nonatomic) NSArray* imageArray;
+@property (strong, nonatomic) NSArray* imageUrlArray;
 
 @end
