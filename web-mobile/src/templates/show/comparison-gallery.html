@@ -1,0 +1,53 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltComparisonGallery {
+        cursor: default;
+        padding: 20px;
+        overflow: auto;
+    }
+    .qsTpltComparisonGallery .qsContainer {
+        overflow: auto;
+        margin-bottom: 16px;
+    }
+    .qsTpltComparisonGallery .qsTpltComparisonGalleryLi {
+        margin-bottom: 20px;
+    }
+    .qsTpltComparisonGallery .qsTpltComparisonGalleryLi:last-child {
+        margin-bottom: 0px;
+    }
+    .qsTpltComparisonGallery .qsLoading {
+        position: relative;
+        width: 100%;
+        height: 60px;
+        border-radius: 8px;
+        background-color: #fff;
+    }
+    .qsTpltComparisonGallery .qsLoading .qsSpin {
+        position: absolute;
+        left: 200px;
+        font-size: 24px;
+        line-height: 60px;
+    }
+    .qsTpltComparisonGallery .qsLoading .qsText {
+        position: absolute;
+        left: 240px;
+        line-height: 60px;
+    }
+</style>
+
+<div id="wrapper" style="width: 640px; position: relative; margin: auto; background-color: #eee;">
+    <div class="qsTpltComparisonGallery">
+        <div class="qsContainer">
+            <div class="qsLiItemContainer">
+                <div class="qsTpltComparisonGalleryLi fake"></div>
+            </div>
+        </div>
+        <div class="qsLoading">
+            <div class="qsSpin fa fa-spinner fa-spin"></div>
+            <div class="qsText">
+                努力加载中…
+            </div>
+        </div>
+    </div>
+</div>
