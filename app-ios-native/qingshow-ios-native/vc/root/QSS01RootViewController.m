@@ -11,6 +11,7 @@
 #import "QSP01ModelListViewController.h"
 
 #import "QSU02UserSettingViewController.h"
+#import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 
 
@@ -138,6 +139,7 @@
 - (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell
 {
     
+    
 }
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
@@ -157,5 +159,10 @@
         }];
         self.fIsShowMenu = NO;
     }
+}
+- (void)didClickShow:(NSDictionary*)showDict
+{
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

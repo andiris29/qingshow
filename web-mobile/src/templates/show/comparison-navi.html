@@ -1,0 +1,39 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltComparisonNavi {
+        cursor: default;
+        position: relative;
+        padding: 20px;
+        width: 600px;
+        height: 40px;
+        background-color: #fff;
+    }
+    .qsTpltComparisonNavi .qsContainer {
+        width: 358px;
+        position: absolute;
+        left: calc(640px /2 - 360px /2 );
+        top: calc(80px /2 - 40px /2 );
+        height: 38px;
+        line-height: 38px;
+        border: solid 1px #fb915f;
+        border-radius: 3px;
+    }
+    .qsTpltComparisonNavi .qsNew, .qsTpltComparisonNavi .qsTop {
+        width: 50%;
+        float: left;
+        text-align: center;
+    }
+</style>
+<div id="wrapper" style="width: 640px; position: relative; margin: auto;">
+    <div class="qsTpltComparisonNavi">
+        <div class="qsContainer">
+            <div class="qsNew qsButtonHighlight">
+                New
+            </div>
+            <div class="qsTop qsHighlight">
+                Top
+            </div>
+        </div>
+    </div>
+</div>
