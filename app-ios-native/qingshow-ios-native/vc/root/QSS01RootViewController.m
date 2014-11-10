@@ -11,12 +11,15 @@
 #import "QSP01ModelListViewController.h"
 
 #import "QSU02UserSettingViewController.h"
+#import "QSU06LoginViewController.h"
+
 
 @interface QSS01RootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (strong, nonatomic) QSShowWaterfallDelegateObj* delegateObj;
+@property (assign, nonatomic) BOOL fISLogined;
 @end
 
 @implementation QSS01RootViewController
@@ -40,6 +43,7 @@
     [self.menuContainer addSubview:menuView];
     self.menuView = menuView;
     self.fIsShowMenu = NO;
+    self.fISLogined = NO;
     menuView.delegate = self;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -72,8 +76,26 @@
     
     UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
     self.navigationItem.leftBarButtonItem = menuItem;
-    UIBarButtonItem* accountItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
-    self.navigationItem.rightBarButtonItem = accountItem;
+    
+    UIBarButtonItem* rightButtonItem;
+    [SHARE_NW_ENGINE getLoginUserOnSucced: ^(NSDictionary* data, NSDictionary* metadata) {
+        NSLog(@"complete");
+        if (data != nil) {
+            self.fISLogined = YES;
+        } else {
+            self.fISLogined = NO;
+        }
+    }
+                                  onError: ^(NSError *error) {
+                                      NSLog(@"Error");
+                                  }];
+    
+    if (self.fISLogined) {
+        rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
+    } else {
+        rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonPressed)];
+    }
+    self.navigationItem.rightBarButtonItem = rightButtonItem;
 }
 
 #pragma mark - IBAction
@@ -104,10 +126,17 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void) loginButtonPressed
+{
+    NSLog(@"GOTO LOGIN");
+    
+    UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark - QSWaterFallCollectionViewCellDelegate
 - (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell
 {
-    
     
 }
 #pragma mark - QSRootMenuViewDelegate

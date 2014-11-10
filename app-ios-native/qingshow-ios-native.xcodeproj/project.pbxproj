@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */; };
 		8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */; };
+		826423361A11281A00D3F6BF /* QSU06LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 826423341A11281A00D3F6BF /* QSU06LoginViewController.m */; };
+		826423371A11281A00D3F6BF /* QSU06LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 826423351A11281A00D3F6BF /* QSU06LoginViewController.xib */; };
 		EF140A6B1A09254C00E3C4D4 /* QSS01RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF140A6A1A09254C00E3C4D4 /* QSS01RootViewController.xib */; };
 		EF140A6F1A092B6400E3C4D4 /* QSP01ModelListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF140A6E1A092B6400E3C4D4 /* QSP01ModelListViewController.xib */; };
 		EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A591E1A06761800001AE0 /* QSTimeCollectionViewCell.m */; };
@@ -87,6 +89,9 @@
 		8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
 		8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
 		8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QSU02UserSetting.storyboard; sourceTree = "<group>"; };
+		826423331A11281A00D3F6BF /* QSU06LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSU06LoginViewController.h; path = login/QSU06LoginViewController.h; sourceTree = "<group>"; };
+		826423341A11281A00D3F6BF /* QSU06LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSU06LoginViewController.m; path = login/QSU06LoginViewController.m; sourceTree = "<group>"; };
+		826423351A11281A00D3F6BF /* QSU06LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSU06LoginViewController.xib; path = login/QSU06LoginViewController.xib; sourceTree = "<group>"; };
 		EF140A6A1A09254C00E3C4D4 /* QSS01RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS01RootViewController.xib; sourceTree = "<group>"; };
 		EF140A6E1A092B6400E3C4D4 /* QSP01ModelListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSP01ModelListViewController.xib; sourceTree = "<group>"; };
 		EF1A591D1A06761800001AE0 /* QSTimeCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTimeCollectionViewCell.h; sourceTree = "<group>"; };
@@ -211,6 +216,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		826423311A1127BD00D3F6BF /* login */ = {
+			isa = PBXGroup;
+			children = (
+				826423331A11281A00D3F6BF /* QSU06LoginViewController.h */,
+				826423341A11281A00D3F6BF /* QSU06LoginViewController.m */,
+				826423351A11281A00D3F6BF /* QSU06LoginViewController.xib */,
+			);
+			name = login;
+			sourceTree = "<group>";
+		};
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
@@ -487,6 +502,7 @@
 		EFF114851A0D2EDD009B7361 /* user */ = {
 			isa = PBXGroup;
 			children = (
+				826423311A1127BD00D3F6BF /* login */,
 				EFF114861A0D2EDD009B7361 /* setting */,
 			);
 			path = user;
@@ -692,6 +708,7 @@
 				EF140A6F1A092B6400E3C4D4 /* QSP01ModelListViewController.xib in Resources */,
 				EF359ADA1A0A707100885917 /* QSSectionImageTextButton.xib in Resources */,
 				8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */,
+				826423371A11281A00D3F6BF /* QSU06LoginViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
@@ -745,6 +762,7 @@
 				EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				EF359AD31A0A6FFC00885917 /* QSSectionImageTextButton.m in Sources */,
+				826423361A11281A00D3F6BF /* QSU06LoginViewController.m in Sources */,
 				EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */,
 				EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */,
 				EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */,

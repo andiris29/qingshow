@@ -23,6 +23,9 @@
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
 
+//Query
+#define PATH_QUERY_LOGINUSER @"query/loginUser"
+
 #define Interaction
 
 
@@ -245,5 +248,24 @@
                     errorBlock(error);
                 }
             }];
+}
+
+- (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_QUERY_LOGINUSER
+                                 method:@"GET"
+                               paramers:nil
+                            onSucceeded:^(MKNetworkOperation *completeOperation)
+                            {
+                                NSDictionary* retDict = completeOperation.responseJSON;
+                                if (succeedBlock) {
+                                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+                                {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }];
 }
 @end

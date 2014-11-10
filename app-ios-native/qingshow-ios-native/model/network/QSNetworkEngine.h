@@ -47,4 +47,9 @@
 - (MKNetworkOperation*)unfollowPeople:(NSString*)peopleId
                             onSucceed:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
+
+#pragma mark - Query
+- (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock;
+
 @end
