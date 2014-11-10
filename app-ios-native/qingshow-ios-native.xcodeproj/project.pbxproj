@@ -52,8 +52,9 @@
 		EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */; };
 		EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */; };
 		EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */; };
-		EFC7ADAF1A10FBAA0078D1F9 /* QSSingleImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADAE1A10FBAA0078D1F9 /* QSSingleImageScrollView.m */; };
-		EFC7ADB11A10FBB40078D1F9 /* QSSingleImageScrollView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADB01A10FBB40078D1F9 /* QSSingleImageScrollView.xib */; };
+		EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADAE1A10FBAA0078D1F9 /* QSImageScrollViewBase.m */; };
+		EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB31A1115E20078D1F9 /* QSSingleImageScrollView.m */; };
+		EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
 		EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114951A0D2EEC009B7361 /* NSDate+RFC1123.m */; };
@@ -162,9 +163,12 @@
 		EFC7ADA71A10E22B0078D1F9 /* QSS03ShowDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ShowDetailViewController.h; sourceTree = "<group>"; };
 		EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ShowDetailViewController.m; sourceTree = "<group>"; };
 		EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ShowDetailViewController.xib; sourceTree = "<group>"; };
-		EFC7ADAD1A10FBAA0078D1F9 /* QSSingleImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSingleImageScrollView.h; sourceTree = "<group>"; };
-		EFC7ADAE1A10FBAA0078D1F9 /* QSSingleImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSingleImageScrollView.m; sourceTree = "<group>"; };
-		EFC7ADB01A10FBB40078D1F9 /* QSSingleImageScrollView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSingleImageScrollView.xib; sourceTree = "<group>"; };
+		EFC7ADAD1A10FBAA0078D1F9 /* QSImageScrollViewBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSImageScrollViewBase.h; sourceTree = "<group>"; };
+		EFC7ADAE1A10FBAA0078D1F9 /* QSImageScrollViewBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageScrollViewBase.m; sourceTree = "<group>"; };
+		EFC7ADB21A1115E20078D1F9 /* QSSingleImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSingleImageScrollView.h; sourceTree = "<group>"; };
+		EFC7ADB31A1115E20078D1F9 /* QSSingleImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSingleImageScrollView.m; sourceTree = "<group>"; };
+		EFC7ADB51A1116650078D1F9 /* QSItemImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemImageScrollView.h; sourceTree = "<group>"; };
+		EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemImageScrollView.m; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -501,9 +505,12 @@
 		EFC7ADAC1A10FB800078D1F9 /* imageScroll */ = {
 			isa = PBXGroup;
 			children = (
-				EFC7ADAD1A10FBAA0078D1F9 /* QSSingleImageScrollView.h */,
-				EFC7ADAE1A10FBAA0078D1F9 /* QSSingleImageScrollView.m */,
-				EFC7ADB01A10FBB40078D1F9 /* QSSingleImageScrollView.xib */,
+				EFC7ADAD1A10FBAA0078D1F9 /* QSImageScrollViewBase.h */,
+				EFC7ADAE1A10FBAA0078D1F9 /* QSImageScrollViewBase.m */,
+				EFC7ADB21A1115E20078D1F9 /* QSSingleImageScrollView.h */,
+				EFC7ADB31A1115E20078D1F9 /* QSSingleImageScrollView.m */,
+				EFC7ADB51A1116650078D1F9 /* QSItemImageScrollView.h */,
+				EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */,
 			);
 			path = imageScroll;
 			sourceTree = "<group>";
@@ -721,7 +728,6 @@
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */,
-				EFC7ADB11A10FBB40078D1F9 /* QSSingleImageScrollView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -762,12 +768,14 @@
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF1A59271A06761800001AE0 /* QSWaterFallCollectionViewCell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
+				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
 				EF3D056B1A0BC63C00175E1D /* QSShowWaterfallDelegateObj.m in Sources */,
-				EFC7ADAF1A10FBAA0078D1F9 /* QSSingleImageScrollView.m in Sources */,
+				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */,
 				EFF114B01A0D2EEC009B7361 /* NSString+MKNetworkKitAdditions.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
+				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFF114AF1A0D2EEC009B7361 /* NSDictionary+RequestEncoding.m in Sources */,
 				EFF114B11A0D2EEC009B7361 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */,

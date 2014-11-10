@@ -35,7 +35,7 @@
     self.containerScrollView.contentSize = self.contentView.bounds.size;
     [self.containerScrollView addSubview:self.contentView];
     
-    self.showImageScrollView = [QSSingleImageScrollView generateView];
+    self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 400)];
     [self.contentView addSubview:self.showImageScrollView];
 #warning 样例图片
     NSArray* urlArray = @[[NSURL URLWithString:@"http://d.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=b61e1813940a304e4d22adfae1f3c4f4/9358d109b3de9c829a5995986f81800a19d843ec.jpg"],

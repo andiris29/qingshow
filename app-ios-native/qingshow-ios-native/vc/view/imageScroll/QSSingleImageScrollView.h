@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSImageScrollViewBase.h"
 
-@interface QSSingleImageScrollView : UIView<UIScrollViewDelegate>
+@interface QSSingleImageScrollView : QSImageScrollViewBase
 
 @property (strong, nonatomic) NSArray* imageArray;
 @property (strong, nonatomic) NSArray* imageUrlArray;
-
-+ (QSSingleImageScrollView*)generateView;
 
 @end
