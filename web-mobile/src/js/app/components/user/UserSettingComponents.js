@@ -16,9 +16,7 @@ define([
     var UserSettingComponents = function(dom) {
         UserSettingComponents.superclass.constructor.apply(this, arguments);
 
-        require(['app/views/user/U02UserSetting', 'app/views/user/U04Email', 'app/views/user/U05HairType',
-            'app/views/user/U08Passwd', 'app/views/user/U09Gender'
-            ], function(userSetting, email, hairType, passwd, gender) {
+        require(['app/views/user/U02UserSetting', 'app/views/user/U04Email', 'app/views/user/U05HairType', 'app/views/user/U08Passwd', 'app/views/user/U09Gender'], function(userSetting, email, hairType, passwd, gender) {
             U02UserSetting = userSetting;
             U04Email = email;
             U05HairType = hairType;
@@ -32,11 +30,11 @@ define([
                 this._dom$.append(content$);
                 callback(null);
             }.bind(this));
-        //}.bind(this), function(callback) {
-        //    // Load data
-        //    DataService.request('/feeding/byPeople', {
-        //        'peopleId' : 1
-        //    }, callback);
+            //}.bind(this), function(callback) {
+            //    // Load data
+            //    DataService.request('/feeding/byPeople', {
+            //        'peopleId' : 1
+            //    }, callback);
         }.bind(this)], function(err, results) {
             this._render();
         }.bind(this));
@@ -77,16 +75,20 @@ define([
         }.bind(this));
 
         $('.qsHelp', view$).on(appRuntime.events.click, function() {
-            appRuntime.view.to('app/views/user/U03Help', {"type": "help"});
+            appRuntime.view.to('app/views/user/U03Help', {
+                "type" : "help"
+            });
         }.bind(this));
 
         $('.qsRegulation', view$).on(appRuntime.events.click, function() {
-            appRuntime.view.to('app/views/user/U03Help', {"type": "regulation"});
+            appRuntime.view.to('app/views/user/U03Help', {
+                "type" : "regulation"
+            });
         }.bind(this));
 
         $('#logout', view$).on(appRuntime.events.click, function() {
             UserService.logout(null);
-            this._data.user(null).serialize();
+            this._data.user(null);
 
             appRuntime.view.to('app/views/show/S01Home');
         }.bind(this));
@@ -118,15 +120,15 @@ define([
         }
 
         return true;
-    }
+    };
 
     UserSettingComponents.prototype.save = function() {
         var view$ = $('.qsTpltUserSettingMain', this._dom$);
         return {
-            "name": $("#name", view$).val(),
-            "age": $("#age", view$).val(),
-            "height": $("#height", view$).val(),
-            "weight": $("#weight", view$).val()
+            "name" : $("#name", view$).val(),
+            "age" : $("#age", view$).val(),
+            "height" : $("#height", view$).val(),
+            "weight" : $("#weight", view$).val()
         };
     };
 

@@ -26,7 +26,7 @@ define([
             }
             UserService.update(main.save(), function(metadata, data) {
                 if (metadata.error == undefined) {
-                    model.user(data.people).serialize();
+                    model.user(data.people);
                     appRuntime.view.back();
                 } else {
                     var err = CodeUtils.getValue('server.error', metadata.error);
@@ -46,7 +46,7 @@ define([
     andrea.oo.extend(U02UserSetting, ViewBase);
 
     U02UserSetting.prototype.logout = function() {
-        model.user(null).serialize();
+        model.user(null);
     };
 
     return U02UserSetting;

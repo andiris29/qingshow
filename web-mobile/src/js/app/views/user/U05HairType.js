@@ -23,7 +23,7 @@ define([
         header.on('clickRight', function(event) {
             UserService.update(main.save(), function(metadata, data) {
                 if(metadata.error == undefined) {
-                    model.user(data).serialize();
+                    model.user(data);
                     appRuntime.view.back();
                 } else {
                     var err = CodeUtils.getValue('server.error', metadata.error);

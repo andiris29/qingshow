@@ -45,7 +45,7 @@ define([
 
             UserService.login(user, passwd, function(metadata, data) {
                 if (metadata.error == undefined) {
-                    model.user(data.people).serialize();
+                    model.user(data.people);
                     appRuntime.view.back();
                 } else {
                     var err = CodeUtils.getValue('server.error', metadata.error);

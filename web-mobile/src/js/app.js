@@ -1,13 +1,13 @@
 // @formatter:off
 define([
     'app/Root',
-    'app/model'
-], function(Root, model) {
+    'app/services/SerializationService'
+], function(Root, SerializationService) {
 // @formatter:on
     /**
      * Bootstrap the application
      */
-    model.deserialize(function() {
+    SerializationService.deserializeLoginUser(function() {
         var dom = $(document.body).children()[0], dom$ = $(dom);
         // iPhone 6 Plus: 1920-by-1080-pixel resolution at 401 ppi
         // iPhone 6: 1334-by-750-pixel resolution at 326 ppi
