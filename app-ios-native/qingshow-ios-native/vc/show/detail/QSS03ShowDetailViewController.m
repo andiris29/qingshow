@@ -9,6 +9,7 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSSingleImageScrollView.h"
 #import "QSItemImageScrollView.h"
+#import "QSS03ItemDetailViewController.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -72,6 +73,9 @@
 
 - (IBAction)shareBtnPressed:(id)sender {
     NSLog(@"shareBtnPressed");
+#warning 暂时显示item detail
+    UIViewController* vc = [[QSS03ItemDetailViewController alloc] init];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 /*
 #pragma mark - Navigation

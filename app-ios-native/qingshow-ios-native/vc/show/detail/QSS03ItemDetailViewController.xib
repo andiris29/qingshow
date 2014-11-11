@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS03ItemDetailViewController">
+            <connections>
+                <outlet property="brandBtn" destination="NV4-RQ-OJT" id="PD2-7D-iun"/>
+                <outlet property="imageView" destination="LSG-if-kIf" id="UlX-D4-BVa"/>
+                <outlet property="shopBtn" destination="2l0-Sh-4uX" id="TFO-cc-neo"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-if-kIf">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVD-A6-Bfu">
+                    <rect key="frame" x="0.0" y="483" width="320" height="85"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NV4-RQ-OJT">
+                            <rect key="frame" x="24" y="23" width="135" height="40"/>
+                            <color key="backgroundColor" white="1" alpha="0.70000000000000007" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="135" id="Odf-kt-LZf"/>
+                                <constraint firstAttribute="height" constant="40" id="cj8-ad-pi8"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="莱蒙蒂娜">
+                                <color key="titleColor" red="0.11764705882352941" green="0.11764705882352941" blue="0.11764705882352941" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="brandBtnPressed:" destination="-1" eventType="touchUpInside" id="iVW-br-qSR"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l0-Sh-4uX">
+                            <rect key="frame" x="167" y="23" width="135" height="40"/>
+                            <color key="backgroundColor" red="1" green="0.41176470588235292" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="135" id="8YN-js-QJt"/>
+                                <constraint firstAttribute="height" constant="40" id="x05-6g-VJb"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <state key="normal" title="在售商店">
+                                <color key="titleColor" red="1" green="1" blue="1" alpha="0.70000000000000007" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="shopBtnPressed:" destination="-1" eventType="touchUpInside" id="da2-mE-sus"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="NV4-RQ-OJT" secondAttribute="bottom" constant="22" id="3sB-Vi-y2p"/>
+                        <constraint firstAttribute="bottom" secondItem="2l0-Sh-4uX" secondAttribute="bottom" constant="22" id="6JG-l6-3oo"/>
+                        <constraint firstAttribute="height" constant="85" id="PCN-W9-q5r"/>
+                        <constraint firstItem="NV4-RQ-OJT" firstAttribute="leading" secondItem="hVD-A6-Bfu" secondAttribute="leading" constant="24" id="aZQ-ON-iGp"/>
+                        <constraint firstAttribute="trailing" secondItem="2l0-Sh-4uX" secondAttribute="trailing" constant="18" id="qTR-C0-ptY"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QVD-Mt-6Md">
+                    <rect key="frame" x="261" y="26" width="35" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="BAg-DH-C6v"/>
+                        <constraint firstAttribute="height" constant="35" id="Je8-7a-p8v"/>
+                    </constraints>
+                    <state key="normal" image="s03_close_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="closeBtnPressed:" destination="-1" eventType="touchUpInside" id="c2U-9i-2HZ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="LSG-if-kIf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DbU-kh-q8t"/>
+                <constraint firstAttribute="trailing" secondItem="hVD-A6-Bfu" secondAttribute="trailing" id="Dqk-Ho-vNX"/>
+                <constraint firstAttribute="trailing" secondItem="LSG-if-kIf" secondAttribute="trailing" id="Ind-N8-M2l"/>
+                <constraint firstAttribute="bottom" secondItem="hVD-A6-Bfu" secondAttribute="bottom" id="TH1-Cr-wqt"/>
+                <constraint firstItem="LSG-if-kIf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="XyH-YB-21w"/>
+                <constraint firstItem="QVD-Mt-6Md" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="26" id="nXX-wk-PXt"/>
+                <constraint firstItem="hVD-A6-Bfu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qMq-K9-stN"/>
+                <constraint firstAttribute="bottom" secondItem="LSG-if-kIf" secondAttribute="bottom" id="x8l-l7-zjq"/>
+                <constraint firstAttribute="trailing" secondItem="QVD-Mt-6Md" secondAttribute="trailing" constant="24" id="x8w-7L-wlt"/>
+            </constraints>
+            <point key="canvasLocation" x="245" y="271"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="s03_close_btn" width="35" height="35"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
