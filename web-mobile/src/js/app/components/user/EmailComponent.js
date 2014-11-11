@@ -55,7 +55,7 @@ define([
         }
 
         return true;
-    }
+    };
 
     EmailComponent.prototype.save = function() {
         var view$ = $('.qsTpltEmailMain', this._dom$);

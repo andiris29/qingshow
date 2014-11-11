@@ -7,11 +7,11 @@ define([
 ], function(IScrollContainer, ViewBase, Header, Show) {
 // @formatter:on
     /**
-     * The top level dom element, which will fit to screen
+     * data
+     *      show An _id/entity of shows
      */
     var S03Show = function(dom, data) {
         S03Show.superclass.constructor.apply(this, arguments);
-        this._show = data.show;
 
         var header = new Header($('<div/>').appendTo(this._dom$));
         var body = new IScrollContainer($('<div/>').css({
@@ -19,7 +19,7 @@ define([
             'height' : this._dom$.height() - header.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var main = this._main = new Show($('<div/>'), this._show);
+        var main = this._main = new Show($('<div/>'), data.show);
         body.append(main);
 
         this.on('destroying', function() {

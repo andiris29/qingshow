@@ -10,6 +10,7 @@ define([
         this._trigger$ = $({});
 
         this._user = null;
+        this._showsLookup = {};
     };
 
     Model.prototype.on = function() {
@@ -28,6 +29,22 @@ define([
             return this;
         } else {
             return this._user;
+        }
+    };
+
+    Model.prototype.cacheShow = function(_id, show) {
+        this._showsLookup[_id] = show;
+    };
+
+    Model.prototype.queryShow = function(_id, callback) {
+        var show = this._showsLookup[_id];
+        if (show) {
+            callback(show);
+        } else {
+            QueryService.queryShow(_id, function() {
+                show = this._showsLookup[_id];
+                callback(show);
+            }.bind(this));
         }
     };
 
