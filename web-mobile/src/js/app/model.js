@@ -1,7 +1,8 @@
 // @formatter:off
 define([
-    'app/services/SerializationService'
-], function(SerializationService) {
+    'app/services/SerializationService',
+    'app/services/QueryService'
+], function(SerializationService, QueryService) {
 // @formatter:on
     /**
      *
@@ -36,7 +37,7 @@ define([
         this._showsLookup[_id] = show;
     };
 
-    Model.prototype.queryShow = function(_id, callback) {
+    Model.prototype.getShow = function(_id, callback) {
         var show = this._showsLookup[_id];
         if (show) {
             callback(show);

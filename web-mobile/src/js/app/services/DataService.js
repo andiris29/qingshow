@@ -41,7 +41,9 @@ define([
             }
         }).fail(function(target, msg, err) {
             if (callback) {
-                callback(msg);
+                callback({
+                    'error' : msg
+                });
             }
         }).always(function() {
         });

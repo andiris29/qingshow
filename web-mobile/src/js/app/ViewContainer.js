@@ -1,8 +1,8 @@
 // @formatter:off
 define([
     'ui/UIComponent',
-    'app/views/show/S01Home'
-], function(UIComponent, S01Home) {
+    'app/model'
+], function(UIComponent, model) {
 // @formatter:on
     /**
      * View container, own the animation between view switch
@@ -16,7 +16,20 @@ define([
         this._animating = false;
 
         appRuntime.view.to = $.proxy(this.to, this), appRuntime.view.back = $.proxy(this.back, this);
-        appRuntime.view.to(S01Home);
+
+        if (andrea.env.hashParams.page === 'S03') {
+            model.getShow(andrea.env.hashParams._id, function(show) {
+                if (show) {
+                    appRuntime.view.to('app/views/show/S03Show', {
+                        'show' : show
+                    });
+                } else {
+                    appRuntime.view.to('app/views/show/S01Home');
+                }
+            });
+        } else {
+            appRuntime.view.to('app/views/show/S01Home');
+        }
     };
     andrea.oo.extend(ViewContainer, UIComponent);
 
