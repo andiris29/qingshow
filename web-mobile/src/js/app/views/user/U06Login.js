@@ -21,7 +21,7 @@ define([
 
         //this._dom$.on(appRuntime.events.click, function() {
         //    UserService.login('qs@qs.com', 'xxxxxx', function(metadata, data) {
-        //        model.user(data).serialize();
+        //        model.user(data);
         //        // TODO go U01User
         //        appRuntime.view.back();
         //    }.bind(this));

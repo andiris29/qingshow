@@ -36,9 +36,13 @@ define([
 
         $.ajax(request).done(function(responseData) {
             console.log('api: ' + path, requestData, responseData);
-            callback(responseData.metadata, responseData.data);
+            if (callback) {
+                callback(responseData.metadata, responseData.data);
+            }
         }).fail(function(target, msg, err) {
-            callback(msg);
+            if (callback) {
+                callback(msg);
+            }
         }).always(function() {
         });
     };
