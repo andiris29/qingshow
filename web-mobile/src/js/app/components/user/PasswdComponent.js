@@ -66,7 +66,7 @@ define([
         var newPasswd = $('#newPasswd', view$).val();
         return {
             "password": newPasswd,
-        }
+        };
     };
 
     return PasswdComponent;
