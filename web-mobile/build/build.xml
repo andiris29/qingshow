@@ -53,6 +53,9 @@
             <fileset file="${dir.src}/libs/CryptoJS v3.1.2/rollups/tripledes.js" />
             <fileset file="${dir.src}/libs/Modernizr-2.8.3/modernizr.js" />
             <fileset file="${dir.src}/libs/jquery-2.1.1/jquery-2.1.1.js" />
+            <fileset file="${dir.src}/libs/jquery_lazyload-1.9.3/jquery.lazyload.js" />
+            <fileset file="${dir.src}/libs/URI.js-1.14.1/src/URI.js" />
+            <fileset file="${dir.src}/libs/URI.js-1.14.1/src/URI.fragmentQuery.js" />
             <fileset file="${dir.src}/libs/PageTransitions/js/pagetransitions.andrea.js" />
             <fileset file="${dir.src}/libs/underscore-1.7.0/underscore.js" />
             <fileset file="${dir.src}/libs/video-js-4.8.1/video.dev.js" />

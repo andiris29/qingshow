@@ -17,8 +17,8 @@ define([
 
         appRuntime.view.to = $.proxy(this.to, this), appRuntime.view.back = $.proxy(this.back, this);
 
-        if (andrea.env.hashParams.page === 'S03') {
-            model.getShow(andrea.env.hashParams._id, function(show) {
+        if (andrea.env.uriFragment.page === 'S03') {
+            model.getShow(andrea.env.uriFragment._id, function(show) {
                 if (show) {
                     appRuntime.view.to('app/views/show/S03Show', {
                         'show' : show

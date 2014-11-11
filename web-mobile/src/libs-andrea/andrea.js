@@ -1,19 +1,13 @@
 (function() {
     // Environment by url hash & search
+    var uri = URI(location.href);
     var env = {
-        'hashParams' : {},
-        'searchParams' : {}
+        'uri' : uri,
+        'uriQuery' : uri.query(true),
+        'uriFragment' : uri.fragment(true)
     };
-    _.each((window.location.hash || '#').substr(1).split('&'), function(kv) {
-        kv = kv.split('=');
-        env.hashParams[kv[0]] = kv.length === 1 ? true : kv[1];
-    });
-    _.each((window.location.search || '?').substr(1).split('&'), function(kv) {
-        kv = kv.split('=');
-        env.searchParams[kv[0]] = kv[1];
-    });
-    env.nocache = env.hashParams.nocache === 'true' || env.searchParams.nocache === 'true';
-    env.fake = env.hashParams.fake === 'true' || env.searchParams.fake === 'true';
+    env.nocache = env.uriQuery.nocache === 'true' || env.uriFragment.nocache === 'true';
+    env.fake = env.uriQuery.fake === 'true' || env.uriFragment.fake === 'true';
     // OO
     var oo = {};
     oo.extend = function(subClz, superClz) {
