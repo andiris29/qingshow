@@ -10,6 +10,7 @@
 #import "QSSingleImageScrollView.h"
 #import "QSItemImageScrollView.h"
 #import "QSS03ItemDetailViewController.h"
+#import "QSCommentListViewController.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -55,6 +56,10 @@
                           [NSURL URLWithString:@"http://e.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=8603fc8f0ff431ada3d24e397b0dcfdd/c75c10385343fbf286a5bf3eb37eca8065388f25.jpg"],
                           [NSURL URLWithString:@"http://e.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=8603fc8f0ff431ada3d24e397b0dcfdd/c75c10385343fbf286a5bf3eb37eca8065388f25.jpg"]];
     s.imageUrlArray = urlArray;
+
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,11 +73,11 @@
 }
 
 - (IBAction)commentBtnPressed:(id)sender {
-    NSLog(@"commentBtnPressed");
+    UIViewController* vc =[[QSCommentListViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)shareBtnPressed:(id)sender {
-    NSLog(@"shareBtnPressed");
 #warning 暂时显示item detail
     UIViewController* vc = [[QSS03ItemDetailViewController alloc] init];
     [self presentViewController:vc animated:YES completion:nil];
