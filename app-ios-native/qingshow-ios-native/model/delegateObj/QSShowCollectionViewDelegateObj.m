@@ -6,63 +6,20 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSShowWaterfallDelegateObj.h"
+#import "QSShowCollectionViewDelegateObj.h"
 #import "QSTimeCollectionViewCell.h"
 
-@interface QSShowWaterfallDelegateObj ()
-@property (strong, nonatomic) UICollectionView* collectionView;
-
-@property (assign, nonatomic) int currentPage;
+@interface QSShowCollectionViewDelegateObj ()
 
 @end
 
-@implementation QSShowWaterfallDelegateObj
-#pragma mark - Config
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        self.resultArray = [@[] mutableCopy];
-        self.currentPage = 1;
-    }
-    return self;
-}
+@implementation QSShowCollectionViewDelegateObj
 
-- (void)bindWithCollectionView:(UICollectionView *)collectionView
+- (void)registerCell
 {
-    self.collectionView = collectionView;
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    
-    
-    QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
-    self.collectionView.collectionViewLayout = layout;
-    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    self.collectionView.scrollEnabled=YES;
-    self.collectionView.backgroundColor=[UIColor colorWithRed:240.f/255.f green:240.f/255.f blue:240.f/255.f alpha:1.f];
     [self.collectionView registerNib:[UINib nibWithNibName:@"QSWaterFallCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell"];
     [self.collectionView registerNib:[UINib nibWithNibName:@"QSTimeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSTimeCollectionViewCell"];
 }
-#pragma mark - Network
-- (void)reloadData
-{
-    [self fetchDataOfPage:1];
-}
-
-- (void)fetchDataOfPage:(int)page
-{
-    MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
-        if (page == 1) {
-            [self.resultArray removeAllObjects];
-        }
-        [self.resultArray addObjectsFromArray:showArray];
-        [self.collectionView reloadData];
-    }, ^(NSError *error) {
-        NSLog(@"error");
-    }, page);
-}
-
 
 #pragma mark - UICollecitonView Datasource And Delegate
 
@@ -77,16 +34,10 @@
         return CGSizeMake(145, 35);
     } else {
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
-        float height = [QSWaterFallCollectionViewCell getHeightWithData:dict];
+        float height = [QSShowCollectionViewCell getHeightWithData:dict];
         return CGSizeMake(145, height);
     }
     
-}
-
-//margin
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -110,7 +61,7 @@
         QSTimeCollectionViewCell* cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
         return cell;
     } else {
-        QSWaterFallCollectionViewCell* cell = (QSWaterFallCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
+        QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSWaterFallCollectionViewCell" forIndexPath:indexPath];
         cell.delegate = self;
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
         [cell bindData:dict];
@@ -124,5 +75,13 @@
         [self.delegate scrollViewDidScroll:scrollView];
     }
 }
-
+#pragma QSShowCollectionViewCellDelegate
+- (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
+    NSDictionary* showDict = self.resultArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(addFavorShow:)]) {
+        [self.delegate addFavorShow:showDict];
+    }
+}
 @end

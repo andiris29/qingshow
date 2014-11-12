@@ -28,7 +28,7 @@
 
 
 #pragma mark - Delegate Obj
-@property (strong, nonatomic) QSShowWaterfallDelegateObj* showsDelegate;
+@property (strong, nonatomic) QSShowCollectionViewDelegateObj* showsDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
 
@@ -50,7 +50,7 @@
 }
 - (void)delegateObjInit
 {
-    self.showsDelegate = [[QSShowWaterfallDelegateObj alloc] init];
+    self.showsDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     

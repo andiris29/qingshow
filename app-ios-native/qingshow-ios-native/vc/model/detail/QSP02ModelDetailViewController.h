@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "QSModelBadgeView.h"
 
-#import "QSShowWaterfallDelegateObj.h"
+#import "QSShowCollectionViewDelegateObj.h"
 #import "QSModelListTableViewDelegateObj.h"
 
-@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, QSShowWaterfallDelegateObjDelegate, QSModelListTableViewDelegateObjDelegate>
+@interface QSP02ModelDetailViewController : UIViewController <QSModelBadgeViewDelegate, QSShowDelegateObjDelegate, QSModelListTableViewDelegateObjDelegate>
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
 @property (weak, nonatomic) IBOutlet UIView *badgeContainer;

@@ -19,7 +19,7 @@
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
 @property (assign, nonatomic) BOOL fIsShowMenu;
-@property (strong, nonatomic) QSShowWaterfallDelegateObj* delegateObj;
+@property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
 @property (assign, nonatomic) BOOL fISLogined;
 @end
 
@@ -59,7 +59,7 @@
 #pragma mark - Network
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSShowWaterfallDelegateObj alloc] init];
+    self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
     self.delegateObj.delegate = self;
     [self.delegateObj bindWithCollectionView:self.collectionView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -136,7 +136,7 @@
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate
-- (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell
+- (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
 {
     
     

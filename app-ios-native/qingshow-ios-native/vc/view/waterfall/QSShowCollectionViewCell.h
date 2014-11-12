@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class QSWaterFallCollectionViewCell;
+@class QSShowCollectionViewCell;
 
-@protocol QSWaterFallCollectionViewCellDelegate
+@protocol QSShowCollectionViewCellDelegate
 
-- (void)favorBtnPressed:(QSWaterFallCollectionViewCell*)cell;
+- (void)favorBtnPressed:(QSShowCollectionViewCell*)cell;
 
 @end
 
-@interface QSWaterFallCollectionViewCell : UICollectionViewCell
+@interface QSShowCollectionViewCell : UICollectionViewCell
 @property (strong, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -27,7 +27,7 @@
 
 - (IBAction)favorBtnPressed:(id)sender;
 
-@property (weak, nonatomic) NSObject<QSWaterFallCollectionViewCellDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSShowCollectionViewCellDelegate>* delegate;
 
 //Show
 - (void)bindData:(NSDictionary*)showData;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSWaterFallCollectionViewCell.h"
+#import "QSShowCollectionViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 
@@ -14,7 +14,7 @@
 #import "DatabaseConstant.h"
 
 
-@interface QSWaterFallCollectionViewCell ()
+@interface QSShowCollectionViewCell ()
 
 - (void)updateLayoutWithData:(NSDictionary*)showData;
 
@@ -31,7 +31,7 @@
 @end
 
 
-@implementation QSWaterFallCollectionViewCell
+@implementation QSShowCollectionViewCell
 #warning TODO 切圆角
 
 #pragma mark - Life Cycle
@@ -86,7 +86,7 @@
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
 {
-    float height = [QSWaterFallCollectionViewCell getImageHeightWithData:showData];
+    float height = [QSShowCollectionViewCell getImageHeightWithData:showData];
     CGRect photoRect = self.photoImageView.frame;
     photoRect.size.height = height;
     self.photoImageView.frame = photoRect;
@@ -122,7 +122,7 @@
 
 + (float)getHeightWithData:(NSDictionary*)showData
 {
-    float height = [QSWaterFallCollectionViewCell getImageHeightWithData:showData];
+    float height = [QSShowCollectionViewCell getImageHeightWithData:showData];
     height += 270 - 212;
     return height;
 }

@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSWaterFallCollectionViewCell.h"
+#import "QSShowCollectionViewCell.h"
 #import "QSWaterFallCollectionViewLayout.h"
 #import "QSRootMenuView.h"
-#import "QSShowWaterfallDelegateObj.h"
-@interface QSS01RootViewController : UIViewController< QSRootMenuViewDelegate, QSShowWaterfallDelegateObjDelegate>
+#import "QSShowCollectionViewDelegateObj.h"
+@interface QSS01RootViewController : UIViewController< QSRootMenuViewDelegate, QSShowDelegateObjDelegate>
 @property (weak, nonatomic) IBOutlet UIView *menuContainer;
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
