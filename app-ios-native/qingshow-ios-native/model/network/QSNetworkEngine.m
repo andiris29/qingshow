@@ -67,7 +67,7 @@
 #pragma mark - API
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
-                           onSucceed:(VoidBlock)succeedBlock
+                           onSucceed:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock
 {
     
@@ -81,7 +81,8 @@
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
-                    succeedBlock();
+                    NSDictionary *reDict = completedOperation.responseJSON;
+                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

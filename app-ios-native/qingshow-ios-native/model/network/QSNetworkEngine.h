@@ -19,7 +19,7 @@
 #pragma mark - User
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
-                           onSucceed:(VoidBlock)succeedBlock
+                           onSucceed:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
