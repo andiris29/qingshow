@@ -116,6 +116,12 @@
     self.followerTableView.hidden = YES;
     self.followingTableView.hidden = YES;
 
+    //Section title
+    NSArray* titleArray = @[@"搭配",@"关注",@"粉丝"];
+    for (int i = 0; i < 3; i++) {
+        [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
+        [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
+    }
 }
 
 

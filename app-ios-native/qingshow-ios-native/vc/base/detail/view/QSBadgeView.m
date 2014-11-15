@@ -10,9 +10,6 @@
 
 @interface QSBadgeView ()
 
-@property (strong, nonatomic) QSSectionButtonGroup* btnGroup;
-
-
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
@@ -21,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
-
 
 @end
 
@@ -40,11 +36,6 @@
 {
     self.btnGroup = [[QSSectionButtonGroup alloc] init];
     [self.sectionGroupContainer addSubview:self.btnGroup];
-    NSArray* titleArray = @[@"搭配",@"关注",@"粉丝"];
-    for (int i = 0; i < 3; i++) {
-        [self.btnGroup setNumber:@(0).stringValue atIndex:i];
-        [self.btnGroup setTitle:titleArray[i] atIndex:i];
-    }
     [self.btnGroup setSelect:0];
     self.btnGroup.delegate = self;
 }
@@ -63,6 +54,10 @@
     } else {
         self.btnGroup.singleButton.textLabel.text = @"关注";
     }
+}
+- (void)bindWithBrandDict:(NSDictionary*)brandDict
+{
+#warning 内容未写
 }
 
 #pragma mark - QSSectionButtonGroupDelegate

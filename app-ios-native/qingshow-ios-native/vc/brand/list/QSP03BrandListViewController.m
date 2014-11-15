@@ -7,7 +7,9 @@
 //
 
 #import "QSP03BrandListViewController.h"
+#import "QSP03BrandDetailViewController.h"
 #import "QSNetworkEngine.h"
+
 
 @interface QSP03BrandListViewController ()
 
@@ -53,7 +55,8 @@
 }
 #pragma mark - QSBrandCollectionViewDelegateObjDelegate
 - (void)didClickBrand:(NSDictionary*)brandDict {
-
+    UIViewController* vc = [[QSP03BrandDetailViewController alloc] initWithBrand:brandDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
 

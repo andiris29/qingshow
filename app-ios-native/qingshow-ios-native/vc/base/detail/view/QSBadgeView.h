@@ -19,12 +19,14 @@
 @interface QSBadgeView : UIView <QSSectionButtonGroupDelegate>
 
 @property (weak, nonatomic) NSObject<QSBadgeViewDelegate>* delegate;
+@property (strong, nonatomic) QSSectionButtonGroup* btnGroup;
 
 #pragma mark - Static
 + (QSBadgeView*)generateView;
 
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict;
+- (void)bindWithBrandDict:(NSDictionary*)brandDict;
 
 @end
 

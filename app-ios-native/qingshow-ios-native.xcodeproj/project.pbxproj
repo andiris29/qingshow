@@ -25,6 +25,8 @@
 		EF3D056B1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056A1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m */; };
 		EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */; };
 		EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D509D1A176AEC001E179B /* QSP02ModelDetailViewController.xib */; };
+		EF4D50A31A177158001E179B /* QSP03BrandDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4D50A21A177158001E179B /* QSP03BrandDetailViewController.m */; };
+		EF4D50A51A177174001E179B /* QSP03BrandDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D50A41A177174001E179B /* QSP03BrandDetailViewController.xib */; };
 		EF8AB6631A07D21D00372538 /* QSP01ModelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */; };
 		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
 		EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */; };
@@ -138,6 +140,9 @@
 		EF3D056D1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewDelegateObj.h; sourceTree = "<group>"; };
 		EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelListTableViewDelegateObj.m; sourceTree = "<group>"; };
 		EF4D509D1A176AEC001E179B /* QSP02ModelDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSP02ModelDetailViewController.xib; sourceTree = "<group>"; };
+		EF4D50A11A177158001E179B /* QSP03BrandDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP03BrandDetailViewController.h; sourceTree = "<group>"; };
+		EF4D50A21A177158001E179B /* QSP03BrandDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP03BrandDetailViewController.m; sourceTree = "<group>"; };
+		EF4D50A41A177174001E179B /* QSP03BrandDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSP03BrandDetailViewController.xib; sourceTree = "<group>"; };
 		EF8AB6611A07D21D00372538 /* QSP01ModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP01ModelListViewController.h; sourceTree = "<group>"; };
 		EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP01ModelListViewController.m; sourceTree = "<group>"; };
 		EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewCell.h; sourceTree = "<group>"; };
@@ -359,6 +364,16 @@
 				EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */,
 			);
 			path = delegateObj;
+			sourceTree = "<group>";
+		};
+		EF4D50A01A1770F7001E179B /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				EF4D50A11A177158001E179B /* QSP03BrandDetailViewController.h */,
+				EF4D50A21A177158001E179B /* QSP03BrandDetailViewController.m */,
+				EF4D50A41A177174001E179B /* QSP03BrandDetailViewController.xib */,
+			);
+			path = detail;
 			sourceTree = "<group>";
 		};
 		EF8AB6561A07D0EE00372538 /* model */ = {
@@ -737,6 +752,7 @@
 		EFF89DF91A13A3B5004E6C55 /* brand */ = {
 			isa = PBXGroup;
 			children = (
+				EF4D50A01A1770F7001E179B /* detail */,
 				EFF89E001A13A4AD004E6C55 /* list */,
 			);
 			path = brand;
@@ -866,6 +882,7 @@
 				EFF89E051A13A4AD004E6C55 /* QSP03BrandListViewController.xib in Resources */,
 				EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */,
 				EFC543671A1750AD001B2C49 /* QSSectionImageTextButton.xib in Resources */,
+				EF4D50A51A177174001E179B /* QSP03BrandDetailViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */,
 				EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */,
@@ -933,6 +950,7 @@
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFF114AF1A0D2EEC009B7361 /* NSDictionary+RequestEncoding.m in Sources */,
 				EFF114B11A0D2EEC009B7361 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
+				EF4D50A31A177158001E179B /* QSP03BrandDetailViewController.m in Sources */,
 				EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				826423361A11281A00D3F6BF /* QSU06LoginViewController.m in Sources */,
