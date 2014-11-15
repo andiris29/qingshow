@@ -6,20 +6,27 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSModelBadgeView.h"
+#import "QSBadgeView.h"
 
-@interface QSModelBadgeView ()
+@interface QSBadgeView ()
 
-@property (strong, nonatomic) QSSectionButtonGroup* btnGroup;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *roleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
 
 @end
 
-@implementation QSModelBadgeView
+@implementation QSBadgeView
 
 #pragma mark - Static Method
-+ (QSModelBadgeView*)generateView
++ (QSBadgeView*)generateView
 {
-    UINib* nib = [UINib nibWithNibName:@"QSModelBadgeView" bundle:nil];
+    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
     NSArray* array = [nib instantiateWithOwner:self options:nil];
     return array[0];
 }
@@ -29,17 +36,12 @@
 {
     self.btnGroup = [[QSSectionButtonGroup alloc] init];
     [self.sectionGroupContainer addSubview:self.btnGroup];
-    NSArray* titleArray = @[@"搭配",@"关注",@"粉丝"];
-    for (int i = 0; i < 3; i++) {
-        [self.btnGroup setNumber:@(0).stringValue atIndex:i];
-        [self.btnGroup setTitle:titleArray[i] atIndex:i];
-    }
     [self.btnGroup setSelect:0];
     self.btnGroup.delegate = self;
 }
 
 #pragma mark - Binding
-- (void)bindWithDict:(NSDictionary*)peopleDict
+- (void)bindWithPeopleDict:(NSDictionary*)peopleDict
 {
     self.nameLabel.text = peopleDict[@"name"];
 #warning roles
@@ -53,6 +55,10 @@
         self.btnGroup.singleButton.textLabel.text = @"关注";
     }
 }
+- (void)bindWithBrandDict:(NSDictionary*)brandDict
+{
+#warning 内容未写
+}
 
 #pragma mark - QSSectionButtonGroupDelegate
 - (void)groupButtonPressed:(int)index
@@ -63,8 +69,8 @@
 }
 - (void)singleButtonPressed
 {
-    if ([self.delegate respondsToSelector:@selector(followButtonPressed)]){
-        [self.delegate followButtonPressed];
+    if ([self.delegate respondsToSelector:@selector(singleButtonPressed)]){
+        [self.delegate singleButtonPressed];
     }
 }
 

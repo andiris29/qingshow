@@ -42,7 +42,7 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary* showDict = self.resultArray[indexPath.row];
+    NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     if ([self.delegate respondsToSelector:@selector(didClickShow:)]) {
         [self.delegate didClickShow:showDict];
     }
