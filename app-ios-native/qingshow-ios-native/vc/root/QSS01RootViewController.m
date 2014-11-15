@@ -9,6 +9,7 @@
 #import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
 #import "QSP01ModelListViewController.h"
+#import "QSP03BrandListViewController.h"
 
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
@@ -144,8 +145,24 @@
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
 {
-    UIViewController* vc = [[QSP01ModelListViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    switch (type) {
+        case 3:
+        {
+            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 9:
+        {
+            UIViewController* vc = [[QSP03BrandListViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
+
+
 }
 
 #pragma mark - QSShowWaterfallDelegateObjDelegate

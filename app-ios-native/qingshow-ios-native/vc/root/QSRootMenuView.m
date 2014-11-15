@@ -63,7 +63,7 @@
         
         float deltaY = (size.height - 3 * item.frame.size.height) / 4;
         float deltaX = (size.width - 3 * item.frame.size.width) / 4;
-        int index = i + 1;
+        int index = i;
         int column = index % 3 + 1;
         int row = i / 3 + 1;
         
