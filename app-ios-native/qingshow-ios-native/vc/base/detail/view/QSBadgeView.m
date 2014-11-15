@@ -6,20 +6,31 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSModelBadgeView.h"
+#import "QSBadgeView.h"
 
-@interface QSModelBadgeView ()
+@interface QSBadgeView ()
 
 @property (strong, nonatomic) QSSectionButtonGroup* btnGroup;
 
+
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
+
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *roleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
+
+
 @end
 
-@implementation QSModelBadgeView
+@implementation QSBadgeView
 
 #pragma mark - Static Method
-+ (QSModelBadgeView*)generateView
++ (QSBadgeView*)generateView
 {
-    UINib* nib = [UINib nibWithNibName:@"QSModelBadgeView" bundle:nil];
+    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
     NSArray* array = [nib instantiateWithOwner:self options:nil];
     return array[0];
 }
@@ -39,7 +50,7 @@
 }
 
 #pragma mark - Binding
-- (void)bindWithDict:(NSDictionary*)peopleDict
+- (void)bindWithPeopleDict:(NSDictionary*)peopleDict
 {
     self.nameLabel.text = peopleDict[@"name"];
 #warning roles
@@ -63,8 +74,8 @@
 }
 - (void)singleButtonPressed
 {
-    if ([self.delegate respondsToSelector:@selector(followButtonPressed)]){
-        [self.delegate followButtonPressed];
+    if ([self.delegate respondsToSelector:@selector(singleButtonPressed)]){
+        [self.delegate singleButtonPressed];
     }
 }
 
