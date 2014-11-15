@@ -79,17 +79,19 @@
     self.navigationItem.leftBarButtonItem = menuItem;
     
     UIBarButtonItem* rightButtonItem;
-    [SHARE_NW_ENGINE getLoginUserOnSucced: ^(NSDictionary* data, NSDictionary* metadata) {
-        NSLog(@"complete");
-        if (data != nil) {
-            self.fISLogined = YES;
-        } else {
-            self.fISLogined = NO;
-        }
-    }
-                                  onError: ^(NSError *error) {
-                                      NSLog(@"Error");
-                                  }];
+    [SHARE_NW_ENGINE getLoginUserOnSucced:
+                                    ^(NSDictionary* data, NSDictionary* metadata) {
+                                        if (data != nil) {
+                                            self.fISLogined = YES;
+                                        } else {
+                                            self.fISLogined = NO;
+                                        }
+                                    }
+                                  onError:
+                                    ^(NSError *error) {
+                                        NSLog(@"Error");
+                                    }
+     ];
     
     if (self.fISLogined) {
         rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];

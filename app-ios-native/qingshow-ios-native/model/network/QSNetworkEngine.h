@@ -24,6 +24,12 @@
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation *)registerByMail:(NSString *)mail
+                              Password:(NSString *)passwd
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock;
+
+
 #pragma mark - Feeding
 - (MKNetworkOperation*)getChosenFeedingPage:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock

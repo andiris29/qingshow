@@ -7,7 +7,10 @@
 //
 
 #import "QSU07RegisterViewController.h"
+#import "QSS01RootViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+Utility.h"
+#import "QSNetworkEngine.h"
 
 @interface QSU07RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *accountText;
@@ -64,9 +67,52 @@
     }
     
     if (passwd.length == 0) {
-        [self showErrorHudWithText:@"请输入账号"];
+        [self showErrorHudWithText:@"请输入密码"];
         return;
     }
+    
+    if (passwdCfm.length == 0) {
+        [self showErrorHudWithText:@"请再次输入密码"];
+        return;
+    }
+    
+    if ([self checkEmail:account] != YES) {
+        [self showErrorHudWithText:@"请输入正确的邮件地址"];
+        return;
+    }
+    
+    if ([self checkPasswd:passwd] != YES) {
+        [self showErrorHudWithText:@"请输入8-12位的英文或数字"];
+        return;
+    }
+    
+    if ([passwd compare:passwdCfm] != NSOrderedSame) {
+        [self showErrorHudWithText:@"密码不一致请重新输入"];
+        return;
+    }
+    
+    EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
+        [self showSuccessHudWithText:@"登陆成功"];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        UIViewController *vc = [[QSS01RootViewController alloc]initWithNibName:@"QSS01RootViewController" bundle:nil];
+        [self.navigationController pushViewController:vc animated:YES];
+    };
+    
+    ErrorBlock errorBlock = ^(NSError *error) {
+        NSDictionary *userInfo = error.userInfo;
+        NSNumber *errorCode = userInfo[@"error"];
+        if (errorCode == nil) {
+            [self showErrorHudWithText:@"网络连接失败"];
+            return;
+        }
+        
+        if (errorCode.longValue == 1010) {
+            [self showErrorHudWithText:@"该邮箱地址已被注册"];
+            return;
+        }
+    };
+    
+    [SHARE_NW_ENGINE registerByMail:account Password:passwd onSuccess:successBloc onError:errorBlock];
 }
 
 # pragma mark - private

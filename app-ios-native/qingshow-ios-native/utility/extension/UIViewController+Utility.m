@@ -10,4 +10,19 @@
 
 @implementation UIViewController (Utility)
 
+# pragma mark - Validation
+
+- (BOOL) checkString:(NSString *)target ByPattern:(NSString *)pattern {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
+    return [predicate evaluateWithObject:target];
+}
+
+- (BOOL) checkEmail:(NSString *)email {
+    return [self checkString:email ByPattern:EMAIL_PATTERN];
+}
+
+- (BOOL)checkPasswd:(NSString *)passwd {
+    return [self checkString:passwd ByPattern:PASSWD_PATTERN];
+}
+
 @end

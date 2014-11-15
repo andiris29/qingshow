@@ -7,6 +7,7 @@
 //
 
 #import "QSU06LoginViewController.h"
+#import "QSU07RegisterViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
 
@@ -98,7 +99,8 @@
 #pragma mark - Callback
 
 - (void)gotoRegister {
-    NSLog(@"GOTO Register");
+    UIViewController *vc = [[QSU07RegisterViewController alloc]initWithNibName:@"QSU07RegisterViewController" bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
