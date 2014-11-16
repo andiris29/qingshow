@@ -13,6 +13,8 @@
 //User
 #define PATH_USER_LOGIN @"user/login"
 #define PATH_USER_LOGOUT @"user/logout"
+#define PATH_USER_GET @"user/get"
+#define PATH_USER_REGISTER @"user/register"
 
 //Model
 #define PATH_QUERY_MODELS @"query/models"
@@ -24,7 +26,6 @@
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
 
 //Query
-#define PATH_QUERY_LOGINUSER @"query/loginUser"
 
 #define Interaction
 
@@ -252,21 +253,46 @@
 }
 
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_QUERY_LOGINUSER
+    return [self startOperationWithPath:PATH_USER_GET
                                  method:@"GET"
                                paramers:nil
-                            onSucceeded:^(MKNetworkOperation *completeOperation)
-                            {
-                                NSDictionary* retDict = completeOperation.responseJSON;
-                                if (succeedBlock) {
-                                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                            onSucceeded:
+                                ^(MKNetworkOperation *completeOperation) {
+                                    NSDictionary* retDict = completeOperation.responseJSON;
+                                    if (succeedBlock) {
+                                        succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                                    }
                                 }
-                            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-                                {
-                                    if (errorBlock) {
+                                onError:
+                                    ^(MKNetworkOperation *completedOperation, NSError *error) {
+                                        if (errorBlock) {
+                                            errorBlock(error);
+                                        }
+                                    }
+            ];
+}
+
+- (MKNetworkOperation *)registerByMail:(NSString *)mail
+                              Password:(NSString *)passwd
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    
+    return [self startOperationWithPath:PATH_USER_REGISTER
+                                 method:@"POST"
+                               paramers:@{@"mail" : mail, @"encryptedPassword": passwd}
+                            onSucceeded:
+                                ^(MKNetworkOperation *completeOperation) {
+                                    NSDictionary *retDict = completeOperation.responseJSON;
+                                    if (succeedBlock) {
+                                        succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                                    }
+                                }
+                            onError:
+                                ^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if(errorBlock) {
                                         errorBlock(error);
                                     }
-                                }];
+                                }
+            ];
 }
 @end

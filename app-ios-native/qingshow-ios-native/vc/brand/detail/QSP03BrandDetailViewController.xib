@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSP03BrandDetailViewController">
+            <connections>
+                <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
+                <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
+                <outlet property="discountCollectionView" destination="5PU-GX-PXr" id="QMd-dI-bDc"/>
+                <outlet property="followerTableView" destination="Rqf-XO-pUD" id="M0h-rR-ehY"/>
+                <outlet property="showCollectionView" destination="bsy-77-TgH" id="f3J-B2-7Lb"/>
+                <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
+                <outlet property="view" destination="iN0-l3-epB" id="zNd-7b-5M4"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="160" id="uMu-M4-U1U"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVA-uB-yhC">
+                    <rect key="frame" x="0.0" y="160" width="320" height="344"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="5PU-GX-PXr">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="i1I-uh-umt">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="bsy-77-TgH">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nar-7H-owH">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Rqf-XO-pUD">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="5PU-GX-PXr" secondAttribute="bottom" id="Lj8-Tu-j8E"/>
+                        <constraint firstAttribute="trailing" secondItem="5PU-GX-PXr" secondAttribute="trailing" id="MV4-35-aQW"/>
+                        <constraint firstAttribute="trailing" secondItem="bsy-77-TgH" secondAttribute="trailing" id="OAE-ux-efD"/>
+                        <constraint firstItem="5PU-GX-PXr" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="UqG-i9-6ld"/>
+                        <constraint firstItem="bsy-77-TgH" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2M-OY-C8B"/>
+                        <constraint firstItem="5PU-GX-PXr" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="aiE-KV-u13"/>
+                        <constraint firstItem="bsy-77-TgH" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="noh-1V-lNq"/>
+                        <constraint firstAttribute="bottom" secondItem="bsy-77-TgH" secondAttribute="bottom" id="wLQ-9i-Nvp"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
+                <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
+                <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="fec-uB-6s0" secondAttribute="bottom" id="cC0-fM-P8f"/>
+                <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
+                <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
+                <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
+                <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

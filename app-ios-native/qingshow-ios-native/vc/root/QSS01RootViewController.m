@@ -9,6 +9,7 @@
 #import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
 #import "QSP01ModelListViewController.h"
+#import "QSP03BrandListViewController.h"
 
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
@@ -78,24 +79,7 @@
     UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
     self.navigationItem.leftBarButtonItem = menuItem;
     
-    UIBarButtonItem* rightButtonItem;
-    [SHARE_NW_ENGINE getLoginUserOnSucced: ^(NSDictionary* data, NSDictionary* metadata) {
-        NSLog(@"complete");
-        if (data != nil) {
-            self.fISLogined = YES;
-        } else {
-            self.fISLogined = NO;
-        }
-    }
-                                  onError: ^(NSError *error) {
-                                      NSLog(@"Error");
-                                  }];
-    
-    if (self.fISLogined) {
-        rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
-    } else {
-        rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonPressed)];
-    }
+    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonPressed)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
 }
 
@@ -117,22 +101,34 @@
     }
     self.fIsShowMenu = !self.fIsShowMenu;
 }
-- (void)accountButtonPressed
-{
-    UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting"
-                                                                  bundle:nil];
-    QSU02UserSettingViewController *vc = [tableViewStoryboard
-                                          instantiateViewControllerWithIdentifier:@"U02UserSetting"];
-    //QSU02UserSettingViewController *vc = [[QSU02UserSettingViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
-}
 
-- (void) loginButtonPressed
+- (void)loginButtonPressed
 {
-    NSLog(@"GOTO LOGIN");
+    [SHARE_NW_ENGINE getLoginUserOnSucced:
+                                    ^(NSDictionary* data, NSDictionary* metadata) {
+                                        if (data != nil) {
+                                            self.fISLogined = YES;
+                                        } else {
+                                            self.fISLogined = NO;
+                                        }
+                                    }
+                                  onError:
+                                    ^(NSError *error) {
+                                        NSLog(@"Error");
+                                    }
+     ];
     
-    UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (self.fISLogined) {
+        UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting"
+                                                                      bundle:nil];
+        QSU02UserSettingViewController *vc = [tableViewStoryboard
+                                              instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate
@@ -144,8 +140,24 @@
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
 {
-    UIViewController* vc = [[QSP01ModelListViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+    switch (type) {
+        case 3:
+        {
+            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 9:
+        {
+            UIViewController* vc = [[QSP03BrandListViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
+
+
 }
 
 #pragma mark - QSShowWaterfallDelegateObjDelegate
