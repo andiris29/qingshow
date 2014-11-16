@@ -91,5 +91,8 @@
         [self showErrorHudWithText:@"error"];
     }];
 }
-
+- (void)handleNetworkError:(NSError *)error
+{
+    [self showErrorHudWithError:error];
+}
 @end

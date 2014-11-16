@@ -7,6 +7,14 @@
 //
 
 #import "QSWaterfallBasicDelegateObj.h"
+#import "MKNetworkOperation.h"
+@interface QSWaterfallBasicDelegateObj ()
+@property (strong, nonatomic) MKNetworkOperation* refreshOperation;
+@property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
+@property (assign, nonatomic) BOOL fIsAll;
+
+@end
+
 
 @implementation QSWaterfallBasicDelegateObj
 
@@ -28,6 +36,9 @@
     if (self) {
         _resultArray = [@[] mutableCopy];
         _currentPage = 1;
+        self.fIsAll = NO;
+        self.loadMoreOperation = nil;
+        self.refreshOperation = nil;
     }
     return self;
 }
@@ -53,6 +64,10 @@
     self.collectionView.backgroundColor=[UIColor colorWithRed:240.f/255.f green:240.f/255.f blue:240.f/255.f alpha:1.f];
 
     [self registerCell];
+    
+    UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(didPullRefreshControl:) forControlEvents:UIControlEventValueChanged];
+    [collectionView addSubview:refreshControl];
 }
 
 
@@ -64,15 +79,42 @@
 
 - (MKNetworkOperation*)fetchDataOfPage:(int)page
 {
+    return [self fetchDataOfPage:page completion:nil];
+}
+
+- (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block
+{
+
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
         if (page == 1) {
             [self.resultArray removeAllObjects];
+            self.refreshOperation = nil;
+            _currentPage = 1;
         }
         [self.resultArray addObjectsFromArray:showArray];
         [self.collectionView reloadData];
+        if (block) {
+            block();
+        }
     }, ^(NSError *error) {
-        NSLog(@"error");
+        if (error.code == 1009) {
+            self.fIsAll = YES;
+        }
+        if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
+            [self.delegate handleNetworkError:error];
+        }
+        if (block) {
+            block();
+        }
     }, page);
+    
+    if (page == 1) {
+        [self.loadMoreOperation cancel];
+        self.loadMoreOperation = nil;
+        self.fIsAll = NO;
+        self.refreshOperation = op;
+    }
+    
     return op;
 }
 
@@ -95,4 +137,27 @@
     return self.resultArray.count;
 }
 
+#pragma mark - Scroll View
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation) {
+        return;
+    }
+    
+    if (scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height) {
+        self.loadMoreOperation = [self fetchDataOfPage:self.currentPage + 1 completion:^{
+            _currentPage++;
+            self.loadMoreOperation = nil;
+        }];
+    }
+}
+
+
+#pragma mark - Refresh Control
+- (void)didPullRefreshControl:(UIRefreshControl*)refreshControl
+{
+    [self fetchDataOfPage:1 completion:^{
+        [refreshControl endRefreshing];
+    }];
+}
 @end

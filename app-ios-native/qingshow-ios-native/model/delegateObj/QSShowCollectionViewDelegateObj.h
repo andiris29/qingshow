@@ -11,7 +11,7 @@
 #import "QSShowCollectionViewCell.h"
 
 
-@protocol QSShowDelegateObjDelegate <NSObject>
+@protocol QSShowDelegateObjDelegate <NSObject, QSWaterfallBasicDelegateObjDelegate>
 
 @optional
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;

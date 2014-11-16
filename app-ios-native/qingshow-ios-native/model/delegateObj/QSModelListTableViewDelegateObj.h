@@ -13,6 +13,7 @@
 @protocol QSModelListTableViewDelegateObjDelegate <NSObject>
 
 @optional
+- (void)handleNetworkError:(NSError*)error;
 - (void)clickModel:(NSDictionary*)model;
 - (void)followBtnPressed:(NSDictionary*)model;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
@@ -22,6 +23,7 @@
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
+@property (readonly, nonatomic) int currentPage;
 
 #pragma mark - Init Method
 - (id)initWithCellClass:(Class)cellClass identifier:(NSString*)identifier;
@@ -32,7 +34,7 @@
 
 #pragma mark - Network
 - (void)reloadData;
-- (void)fetchDataOfPage:(int)page;
+- (MKNetworkOperation*)fetchDataOfPage:(int)page;
 
 
 @property (weak, nonatomic) NSObject<QSModelListTableViewDelegateObjDelegate>* delegate;

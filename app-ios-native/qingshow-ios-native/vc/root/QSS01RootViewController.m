@@ -5,6 +5,7 @@
 //  Created by wxy325 on 10/31/14.
 //  Copyright (c) 2014 QS. All rights reserved.
 //
+#import "UIViewController+ShowHud.h"
 
 #import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
@@ -185,5 +186,10 @@
     [self hideMenu];
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)handleNetworkError:(NSError*)error
+{
+    [self showErrorHudWithError:error];
 }
 @end

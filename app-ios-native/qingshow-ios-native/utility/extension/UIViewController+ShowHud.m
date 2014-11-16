@@ -33,6 +33,11 @@
     [HUD show:YES];
     [HUD hide:YES afterDelay:1.f];
 }
+- (void)showErrorHudWithError:(NSError*)error
+{
+#warning 需处理
+    [self showErrorHudWithText:[NSString stringWithFormat:@"code:%d", error.code]];
+}
 
 - (void)showSuccessHudWithText:(NSString*)text
 {

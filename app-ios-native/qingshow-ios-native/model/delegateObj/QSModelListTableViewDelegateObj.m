@@ -7,6 +7,7 @@
 //
 
 #import "QSModelListTableViewDelegateObj.h"
+#import "MKNetworkOperation.h"
 
 @interface QSModelListTableViewDelegateObj ()
 
@@ -14,6 +15,11 @@
 @property (strong, nonatomic) UINib* cellNib;
 @property (strong, nonatomic) NSString* identifier;
 @property (strong, nonatomic) UITableView* tableView;
+
+
+@property (strong, nonatomic) MKNetworkOperation* refreshOperation;
+@property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
+@property (assign, nonatomic) BOOL fIsAll;
 
 @end
 
@@ -50,6 +56,11 @@
     self = [super init];
     if (self) {
         self.resultArray = [@[] mutableCopy];
+
+        self.fIsAll = NO;
+        self.loadMoreOperation = nil;
+        self.refreshOperation = nil;
+        _currentPage = 1;
     }
     return self;
 }
@@ -61,25 +72,55 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     [self.tableView registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
+    
+    UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
+    [tableView addSubview:refreshControl];
+    [refreshControl addTarget:self action:@selector(tableViewDidPullToRefresh:) forControlEvents:UIControlEventValueChanged];
+    
 }
 #pragma mark - Network
 - (void)reloadData
 {
     [self fetchDataOfPage:1];
 }
-- (void)fetchDataOfPage:(int)page
+- (MKNetworkOperation*)fetchDataOfPage:(int)page
 {
-    self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
-        if (page == 1)
-        {
-            [self.resultArray removeAllObjects];
-        }
+    return [self fetchDataOfPage:page onComplete:nil];
+}
 
+- (MKNetworkOperation*)fetchDataOfPage:(int)page onComplete:(VoidBlock)block
+{
+    MKNetworkOperation* op = self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
+        if (page == 1) {
+            [self.resultArray removeAllObjects];
+            self.refreshOperation = nil;
+            _currentPage = 1;
+        }
+        
         [self.resultArray addObjectsFromArray:array];
         [self.tableView reloadData];
+        if (block) {
+            block();
+        }
     },^(NSError *error) {
-        NSLog(@"error");
+        if (error.code == 1009) {
+            self.fIsAll = YES;
+        }
+        if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
+            [self.delegate handleNetworkError:error];
+        }
+        if (block) {
+            block();
+        }
     },page);
+    
+    if (page == 1) {
+        [self.loadMoreOperation cancel];
+        self.loadMoreOperation = nil;
+        self.fIsAll = NO;
+        self.refreshOperation = op;
+    }
+    return op;
 }
 
 #pragma mark - UITableView DataSource
@@ -127,5 +168,24 @@
     if ([self.delegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
         [self.delegate scrollViewDidScroll:scrollView];
     }
+    
+    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation) {
+        return;
+    }
+    
+    if (scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height) {
+        self.loadMoreOperation = [self fetchDataOfPage:self.currentPage + 1 onComplete:^{
+            _currentPage++;
+            self.loadMoreOperation = nil;
+        }];
+    }
+}
+
+#pragma mark - 
+- (void)tableViewDidPullToRefresh:(UIRefreshControl*)refreshControl
+{
+    [self fetchDataOfPage:1 onComplete:^{
+        [refreshControl endRefreshing];
+    }];
 }
 @end

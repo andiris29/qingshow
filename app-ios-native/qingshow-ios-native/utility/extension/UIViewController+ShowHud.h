@@ -10,7 +10,9 @@
 
 @interface UIViewController (ShowHud)
 
+
 - (void)showTextHud:(NSString*)text;
 - (void)showErrorHudWithText:(NSString*)text;
+- (void)showErrorHudWithError:(NSError*)error;
 - (void)showSuccessHudWithText:(NSString*)text;
 @end

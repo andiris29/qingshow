@@ -71,6 +71,9 @@
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    if ([super respondsToSelector:@selector(scrollViewDidScroll:)]) {
+        [super scrollViewDidScroll:scrollView];
+    }
     if ([self.delegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
         [self.delegate scrollViewDidScroll:scrollView];
     }

@@ -10,10 +10,18 @@
 #import "QSWaterFallCollectionViewLayout.h"
 #import "QSBlock.h"
 
+@protocol QSWaterfallBasicDelegateObjDelegate <NSObject>
+
+@optional
+- (void)handleNetworkError:(NSError*)error;
+
+@end
+
 @interface QSWaterfallBasicDelegateObj : NSObject <UICollectionViewDataSource, UICollectionViewDelegate,QSWaterFallLayoutDelegate, UIScrollViewDelegate>
 
 @property (readonly, nonatomic) NSMutableArray* resultArray;
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
+@property (weak, nonatomic) NSObject<QSWaterfallBasicDelegateObjDelegate>* delegate;
 
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
 - (void)reloadData;
