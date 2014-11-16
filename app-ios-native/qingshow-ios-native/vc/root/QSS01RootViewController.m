@@ -11,6 +11,8 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP03BrandListViewController.h"
 
+#import "QSS02CategoryViewController.h"
+
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
@@ -105,24 +107,22 @@
 - (void)loginButtonPressed
 {
     [SHARE_NW_ENGINE getLoginUserOnSucced:
-                                    ^(NSDictionary* data, NSDictionary* metadata) {
-                                        if (data != nil) {
-                                            self.fISLogined = YES;
-                                        } else {
-                                            self.fISLogined = NO;
-                                        }
-                                    }
+     ^(NSDictionary* data, NSDictionary* metadata) {
+         if (data != nil) {
+             self.fISLogined = YES;
+         } else {
+             self.fISLogined = NO;
+         }
+     }
                                   onError:
-                                    ^(NSError *error) {
-                                        NSLog(@"Error");
-                                    }
+     ^(NSError *error) {
+         NSLog(@"Error");
+     }
      ];
     
     if (self.fISLogined) {
-        UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting"
-                                                                      bundle:nil];
-        QSU02UserSettingViewController *vc = [tableViewStoryboard
-                                              instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+        UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
+        QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
@@ -154,14 +154,18 @@
             break;
         }
         default:
+        {
+            UIViewController* vc = [[QSS02CategoryViewController alloc] initWithCategory:type];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
+        }
     }
 
 
 }
 
 #pragma mark - QSShowWaterfallDelegateObjDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)hideMenu
 {
     if (self.fIsShowMenu)
     {
@@ -172,8 +176,13 @@
         self.fIsShowMenu = NO;
     }
 }
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self hideMenu];
+}
 - (void)didClickShow:(NSDictionary*)showDict
 {
+    [self hideMenu];
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }

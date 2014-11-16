@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "QSShowCollectionViewCell.h"
-#import "QSWaterFallCollectionViewLayout.h"
 #import "QSRootMenuView.h"
 #import "QSShowCollectionViewDelegateObj.h"
 @interface QSS01RootViewController : UIViewController< QSRootMenuViewDelegate, QSShowDelegateObjDelegate>
