@@ -55,6 +55,7 @@
     _collectionView = collectionView;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    collectionView.alwaysBounceVertical = YES;
     
     QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
     self.collectionView.collectionViewLayout = layout;

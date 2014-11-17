@@ -36,7 +36,6 @@
 #pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine
 {
-    
     static QSNetworkEngine* s_networkEngine = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -46,8 +45,6 @@
 
     });
     return s_networkEngine;
-    
-    return nil;
 }
 
 #pragma mark - Basic

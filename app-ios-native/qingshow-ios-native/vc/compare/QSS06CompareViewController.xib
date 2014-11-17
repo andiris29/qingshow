@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS06CompareViewController">
+            <connections>
+                <outlet property="tableView" destination="E8O-PG-Y3g" id="4iy-Yh-8YY"/>
+                <outlet property="typeSegment" destination="n74-3H-enN" id="p5n-Zj-vxQ"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XcT-UH-q3Z">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                    <subviews>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nip-10-hq3">
+                            <rect key="frame" x="60" y="8" width="200" height="29"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="28" id="Pqh-Z3-c0e"/>
+                                <constraint firstAttribute="width" constant="200" id="qZX-NY-A8g"/>
+                            </constraints>
+                            <segments>
+                                <segment title="New"/>
+                                <segment title="Top"/>
+                            </segments>
+                            <color key="tintColor" red="1" green="0.52941176470588236" blue="0.18823529411764706" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="typeSegmentValueChanged:" destination="-1" eventType="valueChanged" id="7TT-cO-b07"/>
+                            </connections>
+                        </segmentedControl>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Nip-10-hq3" firstAttribute="centerX" secondItem="XcT-UH-q3Z" secondAttribute="centerX" id="g4f-oL-j21"/>
+                        <constraint firstAttribute="centerY" secondItem="Nip-10-hq3" secondAttribute="centerY" id="n74-3H-enN"/>
+                        <constraint firstAttribute="height" constant="44" id="sWm-bG-7bw"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="E8O-PG-Y3g">
+                    <rect key="frame" x="0.0" y="44" width="320" height="460"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="XcT-UH-q3Z" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="3FD-hU-u9G"/>
+                <constraint firstItem="XcT-UH-q3Z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ODX-xe-GL9"/>
+                <constraint firstAttribute="bottom" secondItem="E8O-PG-Y3g" secondAttribute="bottom" id="OWr-Mw-V46"/>
+                <constraint firstAttribute="trailing" secondItem="E8O-PG-Y3g" secondAttribute="trailing" id="X1d-fO-UyT"/>
+                <constraint firstItem="E8O-PG-Y3g" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="a4O-Gs-fkf"/>
+                <constraint firstAttribute="trailing" secondItem="XcT-UH-q3Z" secondAttribute="trailing" id="f2m-Gk-Ril"/>
+                <constraint firstItem="E8O-PG-Y3g" firstAttribute="top" secondItem="XcT-UH-q3Z" secondAttribute="bottom" id="tEm-SM-jfz"/>
+            </constraints>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <point key="canvasLocation" x="375" y="271"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
