@@ -39,19 +39,8 @@ define([
                 return;
             }
 
-            if (!RenderUtils.checkStringMatchPattern(RenderUtils.EMAIL_REGEXP, user)
-                    && !RenderUtils.checkStringMatchPattern(RenderUtils.MOBILE_REGEXP, user)) {
-                alert("账号格式不正确，请使用邮箱或是手机号码");
-                return;
-            }
-
             if (passwd.length == 0) {
                 alert("请输入密码");
-                return;
-            }
-
-            if (!RenderUtils.checkStringMatchPattern(RenderUtils.PASSWORD_REGEXP, passwd)) {
-                alert("密码格式不正确，请输入8-12位的英文或数字");
                 return;
             }
 

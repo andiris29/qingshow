@@ -1,8 +1,7 @@
 // @formatter:off
 define([
-    'app/services/SerializationService',
     'app/services/QueryService'
-], function(SerializationService, QueryService) {
+], function(QueryService) {
 // @formatter:on
     /**
      *
@@ -25,8 +24,6 @@ define([
     Model.prototype.user = function(value) {
         if (arguments.length > 0) {
             this._user = value;
-
-            SerializationService.serializeLoginUser(this._user);
             return this;
         } else {
             return this._user;
