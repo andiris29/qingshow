@@ -27,37 +27,24 @@ define([
         }
     };
 
-    SerializationService.serializeLoginUser = function(user) {
+    SerializationService.serialize = function(key, value) {
         var json = _getLocalStorage() || {
             'version' : _SERIALIZATION_METADATA.version
         };
-        if (user) {
-            $.extend(json, {
-                'loginUser' : {
-                    'userInfo' : {
-                        'mail' : user.userInfo.mail,
-                        'encryptedPassword' : user.userInfo.encryptedPassword
-                    }
-                }
-            });
+        if (value) {
+            var object = {};
+            object[key] = value;
+            $.extend(json, object);
         } else {
-            delete json.loginUser;
+            delete json[key];
         }
         _setLocalStorage(json);
     };
 
-    SerializationService.deserializeLoginUser = function(callback) {
+    SerializationService.deserialize = function(key) {
         var json = _getLocalStorage();
-        if (json && json.loginUser) {
-            var userInfo = json.loginUser.userInfo;
-            UserService.loginByEncryptedPassword(userInfo.mail, userInfo.encryptedPassword, function(metadata, data) {
-                require(['app/model'], function(model) {
-                    model.user(data.people);
-                    callback();
-                });
-            });
-        } else {
-            callback();
+        if (json) {
+            return json[key];
         }
     };
 

@@ -37,13 +37,14 @@ define([
         $.ajax(request).done(function(responseData) {
             console.log('api: ' + path, requestData, responseData);
             if (callback) {
-                callback(responseData.metadata, responseData.data);
+                callback(responseData.metadata || {}, responseData.data);
             }
         }).fail(function(target, msg, err) {
             if (callback) {
-                callback({
+                var metadata = {
                     'error' : msg
-                });
+                };
+                callback(metadata);
             }
         }).always(function() {
         });

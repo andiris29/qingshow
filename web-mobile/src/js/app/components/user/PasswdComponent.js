@@ -52,12 +52,6 @@ define([
             return false;
         }
 
-        var nowEncryptPasswd = UserService.encrypt(nowPasswd).toString();
-        if (this._data._user.userInfo.encryptedPassword != nowEncryptPasswd) {
-            alert("当前密码不正确！");
-            return false;
-        }
-
         return true;
     };
 

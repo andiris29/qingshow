@@ -1,13 +1,14 @@
 // @formatter:off
 define([
+    'app/model',
     'app/Root',
-    'app/services/SerializationService'
-], function(Root, SerializationService) {
+    'app/services/UserService'
+], function(model, Root, UserService) {
 // @formatter:on
     /**
      * Bootstrap the application
      */
-    SerializationService.deserializeLoginUser(function() {
+    var _bootstrap = function() {
         var dom = $(document.body).children()[0], dom$ = $(dom);
         // iPhone 6 Plus: 1920-by-1080-pixel resolution at 401 ppi
         // iPhone 6: 1334-by-750-pixel resolution at 326 ppi
@@ -22,5 +23,12 @@ define([
             'height' : height + 'px'
         });
         new Root($('<div/>').appendTo(dom$), width, height);
+    };
+
+    UserService.get(function(metadata, data) {
+        if (!metadata.error && data.people) {
+            model.user(data.people);
+        }
+        _bootstrap();
     });
 });
