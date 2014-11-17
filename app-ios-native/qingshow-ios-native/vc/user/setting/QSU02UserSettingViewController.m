@@ -7,6 +7,9 @@
 //
 
 #import "QSU02UserSettingViewController.h"
+#import "QSU04EmailViewController.h"
+#import "QSU05HairTypeGenderViewController.h"
+#import "QSU08PasswordViewController.h"
 
 @interface QSU02UserSettingViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *birthdayText;
@@ -64,6 +67,17 @@
             break;
         case 2:
             // 其他section
+            if (indexPath.row == 0) {
+                // Change Password
+                QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else if (indexPath.row == 1) {
+                // Change Email
+                QSU04EmailViewController *vc = [[QSU04EmailViewController alloc]initWithNibName:@"QSU04EmailViewController" bundle:nil];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                NSLog(@"Nothing");
+            }
             break;
         default:
             break;
