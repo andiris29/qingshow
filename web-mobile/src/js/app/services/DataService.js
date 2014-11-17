@@ -12,7 +12,7 @@ define([
             'dataType' : 'json',
             'cache' : false
         };
-        if (andrea.env.fake) {
+        if (andrea.env.uriQuery.appServer === 'fake') {
             var suffix = [];
             for (var key in requestData) {
                 if (path === '/feeding/chosen' && key === 'type') {
@@ -24,11 +24,11 @@ define([
 
             suffix = suffix.length ? ('_' + suffix.join('_')) : '';
             $.extend(request, {
-                'url' : appConfig.fake.dataServerRoot + path + suffix + '.json'
+                'url' : appConfig.appServer + path + suffix + '.json'
             });
         } else {
             $.extend(request, {
-                'url' : appConfig.dataServerRoot + path,
+                'url' : appConfig.appServer + path,
                 'type' : type,
                 'data' : requestData
             });

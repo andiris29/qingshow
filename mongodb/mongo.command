@@ -1,7 +1,7 @@
 #!/bin/bash
 source /Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow/environment.sh
 
-$folder_mongodb/bin/mongo --port $port_mongodb
+$folder_mongodb/bin/mongo --port $mongodb_port
 
 
 ###### Create user ######

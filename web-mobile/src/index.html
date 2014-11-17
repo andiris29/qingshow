@@ -26,9 +26,14 @@
             (function() {
                 window.appConfig = {
                     'mode' : 'development',
-                    'dataServerRoot' : 'http://121.41.162.102:30001/services',
-                    'fake' : {
-                        'dataServerRoot' : '../../server-node-fake/services'
+                    'appServer' : 'http://121.41.162.102:30001/services',
+                };
+                var appConfigMore = {
+                    'appServer' : {
+                        // #appServer=fake
+                        'fake' : '../../server-node-fake/services',
+                        // #appServer=local
+                        'local' : 'http://127.0.0.1:30001/services'
                     }
                 };
 
@@ -71,6 +76,18 @@
                 LazyLoad.css(cssURLs, function() {
                     LazyLoad.js(jsURLs, function() {
                         $(function() {
+                            // For backward, TODO Remove fake server
+                            if (andrea.env.fake) {
+                                andrea.env.uriQuery.appServer = 'fake';
+                            }
+                            // Override default config
+                            for (var key in appConfig) {
+                                var value = andrea.env.uriQuery[key];
+                                if (value) {
+                                    appConfig[key] = appConfigMore[key][value];
+                                }
+                            }
+                            // Bootstrap
                             init();
                         });
                     });

@@ -6,8 +6,9 @@
         'uriQuery' : uri.query(true),
         'uriFragment' : uri.fragment(true)
     };
-    env.nocache = env.uriQuery.nocache === 'true' || env.uriFragment.nocache === 'true';
-    env.fake = env.uriQuery.fake === 'true' || env.uriFragment.fake === 'true';
+    var uriParam = $.extend({}, env.uriQuery, env.uriFragment);
+    env.nocache = uriParam.nocache === 'true';
+    env.fake = uriParam.fake === 'true';
     // OO
     var oo = {};
     oo.extend = function(subClz, superClz) {
