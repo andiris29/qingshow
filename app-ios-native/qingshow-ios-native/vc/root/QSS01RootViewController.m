@@ -17,6 +17,7 @@
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
+#import "QSS06CompareViewController.h"
 
 
 @interface QSS01RootViewController ()
@@ -145,6 +146,12 @@
         case 3:
         {
             UIViewController* vc = [[QSP01ModelListViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 4:
+        {
+            UIViewController* vc = [[QSS06CompareViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
