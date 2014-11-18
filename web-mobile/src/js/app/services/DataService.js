@@ -41,6 +41,7 @@ define([
             }
         }).fail(function(target, msg, err) {
             if (callback) {
+                // TODO Handle network err
                 var metadata = {
                     'error' : msg
                 };
