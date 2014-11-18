@@ -74,7 +74,7 @@
                                  method:@"POST"
                                paramers:@{
                                           @"mail" : userName,
-                                          @"encryptedPassword" : password
+                                          @"password" : password
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -276,7 +276,7 @@
     
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:@{@"mail" : mail, @"encryptedPassword": passwd}
+                               paramers:@{@"mail" : mail, @"password": passwd}
                             onSucceeded:
                                 ^(MKNetworkOperation *completeOperation) {
                                     NSDictionary *retDict = completeOperation.responseJSON;
