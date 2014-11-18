@@ -31,7 +31,6 @@ define([
             delete updated.password;
         }
         DataService.request('POST', '/user/update', updated, callback);
-
     };
 
     UserService.logout = function(callback) {
