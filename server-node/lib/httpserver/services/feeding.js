@@ -16,9 +16,9 @@ var _byModel, _byTag, _byBrand, _byBrandDiscount, _byStudio, _byFollow;
 //Utility for feeding service
 function _showPopulate(query) {
     query.populate({path: "modelRef"})
-        .populate("itemRefs")
+        .populate("itemRefs");
     return query;
-}
+};
 function _showDataGenFunc(data) {
     return {
         shows: data
@@ -84,7 +84,7 @@ _hot = function (req, res) {
         return query;
     }
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-}
+};
 
 //feeding/like sortedByNumLike
 _like = function (req, res){
@@ -334,7 +334,7 @@ _byBrandDiscount = function (req, res) {
     nimble.series([
         function (callback) {
             Brand.findOne({_id: brandIdObj}, function (err, b) {
-                error = err
+                error = err;
                 if (!b) {
                     error = new ServerError(ServerError.BrandNotExist);
                 } else {
@@ -428,7 +428,7 @@ _byStudio = function (req, res) {
             });
         }
     });
-}
+};
 
 
 

@@ -4,7 +4,7 @@ var ServerError = function (errorCode) {
     Error.call(this, 'server error');
     this.errorCode = errorCode;
     this.description = _codeToString(errorCode);
-}
+};
 
 util.inherits(ServerError, Error);
 
@@ -47,6 +47,6 @@ var _codeToString = function (code) {
         case 1015 : return "AlreadyFollowBrand";
         case 1016 : return "DidNotFollowBrand";
     }
-}
+};
 
 module.exports = ServerError;

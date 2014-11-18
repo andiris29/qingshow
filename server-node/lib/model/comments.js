@@ -8,7 +8,7 @@ commentSchema = Schema({
     showRef: { type: Schema.Types.ObjectId, ref: 'shows'},
     peopleRef: { type: Schema.Types.ObjectId, ref: 'peoples'},
     comment: String,
-    create: { type: Date, default: Date.now }
+    create: { type: Date, 'default': Date.now }
 });
 var Comment = mongoose.model('comments', commentSchema);
 module.exports = Comment;
