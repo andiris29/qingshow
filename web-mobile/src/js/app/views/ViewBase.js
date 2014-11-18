@@ -10,6 +10,8 @@ define([
     var ViewBase = function(dom, data) {
         ViewBase.superclass.constructor.apply(this, arguments);
         this._dom$.addClass('qsView');
+
+        this.loginRequired = false;
     };
     andrea.oo.extend(ViewBase, UIComponent);
 

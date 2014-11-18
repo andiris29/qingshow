@@ -14,7 +14,10 @@ define([
     var U07Register = function(dom) {
         U07Register.superclass.constructor.apply(this, arguments);
 
-        var header = new Header($('<div/>').appendTo(this._dom$), '注册');
+        var header = new Header($('<div/>').appendTo(this._dom$), {
+            'title' : '注册',
+            'right' : null
+        });
 
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',

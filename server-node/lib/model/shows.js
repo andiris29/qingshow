@@ -4,7 +4,6 @@ var People = require('./peoples');
 var Item = require('./items');
 
 var path = require('path');
-var pathConst = require('../httpserver/path-const');
 var gm = require('gm').subClass({ imageMagick: true });
 
 
@@ -34,7 +33,7 @@ showSchema = Schema({
         start : Date,
         end : Date
     },
-    create: { type: Date, default: Date.now }
+    create: { type: Date, 'default': Date.now }
 });
 
 showSchema.methods.updateCoverMetaData = function (callBack){
@@ -43,10 +42,8 @@ showSchema.methods.updateCoverMetaData = function (callBack){
         return;
     }
     var _this = this;
-    var imagePath = path.join(pathConst.image, this.cover);
-    var g = gm(imagePath);
 
-    gm(imagePath).size(function (err, size) {
+    gm(this.cover).size(function (err, size) {
         _this.coverMetaData = {};
         _this.coverMetaData.cover = _this.cover;
         if (size) {
@@ -58,7 +55,6 @@ showSchema.methods.updateCoverMetaData = function (callBack){
         } else {
             callBack();
         }
-
     });
 
 };
