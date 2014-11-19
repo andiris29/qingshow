@@ -6,12 +6,13 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSU02UserDetailViewController.h"
+#import "QSU01UserDetailViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
+#import "QSU02UserSettingViewController.h"
 
-@interface QSU02UserDetailViewController ()
+@interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
 #pragma mark Delegate Obj
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* favorDelegate;
@@ -20,14 +21,15 @@
 
 @end
 
-@implementation QSU02UserDetailViewController
+@implementation QSU01UserDetailViewController
 #pragma mark - Init
 - (id)init
 {
-    self = [super initWithNibName:@"QSU02UserDetailViewController" bundle:nil];
+    self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
         [self delegateObjInit];
         self.userInfo = [QSUserManager shareUserManager].userInfo;
+        self.type = QSSectionButtonGroupTypeText;
     }
     return self;
 }
@@ -44,6 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self configNavBar];
     [self configView];
     [self bindDelegateObj];
 }
@@ -56,7 +59,7 @@
 #pragma mark - View
 - (void)bindDelegateObj
 {
-    __weak QSU02UserDetailViewController* weakSelf = self;
+    __weak QSU01UserDetailViewController* weakSelf = self;
     
     //favor collectioin view
     [self.favorDelegate bindWithCollectionView:self.favorCollectionView];
@@ -110,6 +113,23 @@
 }
 
 
+- (void)configNavBar
+{
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
+    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+    self.navigationItem.titleView = titleImageView;
+    
+    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
+    self.navigationItem.rightBarButtonItem = rightButtonItem;
+}
+
+#pragma mark - IBAction
+- (void)accountButtonPressed
+{
+    UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
+    QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark -
 - (void)clickModel:(NSDictionary*)model

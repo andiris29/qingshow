@@ -28,13 +28,26 @@
 {
     UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
     NSArray* array = [nib instantiateWithOwner:self options:nil];
+    QSBadgeView* v = array[0];
+    v.type = QSSectionButtonGroupTypeImage;
+    [v updateView];
+    return array[0];
+}
++ (QSBadgeView*)generateViewWithType:(QSSectionButtonGroupType)type
+{
+
+    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
+    NSArray* array = [nib instantiateWithOwner:self options:nil];
+    QSBadgeView* v = array[0];
+    v.type = type;
+    [v updateView];
     return array[0];
 }
 
 #pragma mark - Life Cycle
-- (void)awakeFromNib
+- (void)updateView
 {
-    self.btnGroup = [[QSSectionButtonGroup alloc] init];
+    self.btnGroup = [[QSSectionButtonGroup alloc] initWithType:self.type];
     [self.sectionGroupContainer addSubview:self.btnGroup];
     [self.btnGroup setSelect:0];
     self.btnGroup.delegate = self;

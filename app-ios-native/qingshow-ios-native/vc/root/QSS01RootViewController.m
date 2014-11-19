@@ -19,13 +19,16 @@
 #import "QSU06LoginViewController.h"
 #import "QSS06CompareViewController.h"
 
+#import "QSUserManager.h"
+#import "QSU01UserDetailViewController.h"
+
 
 @interface QSS01RootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
-@property (assign, nonatomic) BOOL fISLogined;
+//@property (assign, nonatomic) BOOL fISLogined;
 @end
 
 @implementation QSS01RootViewController
@@ -49,7 +52,6 @@
     [self.menuContainer addSubview:menuView];
     self.menuView = menuView;
     self.fIsShowMenu = NO;
-    self.fISLogined = NO;
     menuView.delegate = self;
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -83,7 +85,7 @@
     UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
     self.navigationItem.leftBarButtonItem = menuItem;
     
-    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(loginButtonPressed)];
+    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
 }
 
@@ -106,31 +108,24 @@
     self.fIsShowMenu = !self.fIsShowMenu;
 }
 
-- (void)loginButtonPressed
+- (void)accountButtonPressed
 {
-    [SHARE_NW_ENGINE getLoginUserOnSucced:
-     ^(NSDictionary* data, NSDictionary* metadata) {
-         if (data != nil) {
-             self.fISLogined = YES;
-         } else {
-             self.fISLogined = NO;
-         }
-     }
-                                  onError:
-     ^(NSError *error) {
-         NSLog(@"Error");
-     }
-     ];
-    
-    if (self.fISLogined) {
-        UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
-        QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
-        [self.navigationController pushViewController:vc animated:YES];
-    } else {
+    QSUserManager* userManager = [QSUserManager shareUserManager];
+    if (userManager.fIsLogined && userManager.userInfo) {
+        //还未获取到用户数据
+        [self showTextHud:@"请稍后再试"];
+        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+    } else if (!userManager.fIsLogined) {
+        //未登陆
         UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        //已登陆
+        UIViewController* vc = [[QSU01UserDetailViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+
     }
-    
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate

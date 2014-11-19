@@ -31,7 +31,7 @@
 - (void)_configView
 {
     //badge view
-    self.badgeView = [QSBadgeView generateView];
+    self.badgeView = [QSBadgeView generateViewWithType:self.type];
     [self.badgeContainer addSubview:self.badgeView];
     self.badgeView.delegate = self;
 

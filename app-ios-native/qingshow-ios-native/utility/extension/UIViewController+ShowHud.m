@@ -8,6 +8,7 @@
 
 #import "UIViewController+ShowHud.h"
 #import "MBProgressHUD.h"
+#import "QSError.h"
 
 @implementation UIViewController (ShowHud)
 - (void)showTextHud:(NSString*)text
@@ -36,7 +37,12 @@
 - (void)showErrorHudWithError:(NSError*)error
 {
 #warning 需处理
-    [self showErrorHudWithText:[NSString stringWithFormat:@"code:%d", error.code]];
+    if ([error isKindOfClass:[QSError class]] && error.code == 1009) {
+        [self showErrorHudWithText:@"没有更多了"];
+    } else {
+        [self showErrorHudWithText:[NSString stringWithFormat:@"code:%d", error.code]];
+    }
+
 }
 
 - (void)showSuccessHudWithText:(NSString*)text

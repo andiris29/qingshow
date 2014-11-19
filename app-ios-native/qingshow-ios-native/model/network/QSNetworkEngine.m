@@ -252,18 +252,24 @@
 }
 
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
+    
+    QSUserManager* manager = [QSUserManager shareUserManager];
     return [self startOperationWithPath:PATH_USER_GET
                                  method:@"GET"
                                paramers:nil
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary* retDict = completeOperation.responseJSON;
+                manager.fIsLogined = YES;
+                manager.userInfo = retDict[@"data"][@"people"];
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
             }
                                 onError:
             ^(MKNetworkOperation *completedOperation, NSError *error) {
+                manager.fIsLogined = NO;
+                manager.userInfo = nil;
                 if (errorBlock) {
                     errorBlock(error);
                 }

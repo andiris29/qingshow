@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-@interface QSU02UserDetailViewController : QSDetailBaseViewController
+@interface QSU01UserDetailViewController : QSDetailBaseViewController
 
 @property (strong, nonatomic) IBOutlet UICollectionView* favorCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;
