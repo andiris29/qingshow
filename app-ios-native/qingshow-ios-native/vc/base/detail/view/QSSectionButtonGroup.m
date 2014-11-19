@@ -11,19 +11,30 @@
 @interface QSSectionButtonGroup ()
 - (void)configView;
 
+@property (assign, nonatomic) QSSectionButtonGroupType type;
+
 @end
 
 @implementation QSSectionButtonGroup
 
+#pragma mark - Init Method
 - (id)init
+{
+    return [self initWithType:QSSectionButtonGroupTypeImage];
+}
+
+- (id)initWithType:(QSSectionButtonGroupType)type
 {
     self = [self initWithFrame:CGRectMake(0, 0, 320, 45)];
     if (self) {
+        self.type = type;
         [self configView];
         [self updateLayout];
     }
     return self;
+
 }
+
 #pragma mark - Layout
 - (void)configView
 {
@@ -32,7 +43,12 @@
                          [QSSectionNumberTextButton generateView],
                          [QSSectionNumberTextButton generateView]
                          ];
-    self.singleButton = [QSSectionImageTextButton generateView];
+    if (self.type == QSSectionButtonGroupTypeImage) {
+        self.singleButton = [QSSectionImageTextButton generateView];
+    } else {
+        self.singleButton = [QSSectionTextButton generateView];
+    }
+
     for (QSSectionButtonBase* btn in self.buttonGroup){
         UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(groupButtonPressed:)];
         [btn addGestureRecognizer:ges];

@@ -43,7 +43,7 @@
         s_networkEngine = [[QSNetworkEngine alloc] initWithHostName:HOST_NAME];
         [s_networkEngine registerOperationSubclass:[QSNetworkOperation class]];
         [NSHTTPCookieStorage sharedHTTPCookieStorage].cookieAcceptPolicy = NSHTTPCookieAcceptPolicyAlways;
-
+        
     });
     return s_networkEngine;
 }
@@ -256,18 +256,18 @@
                                  method:@"GET"
                                paramers:nil
                             onSucceeded:
-                                ^(MKNetworkOperation *completeOperation) {
-                                    NSDictionary* retDict = completeOperation.responseJSON;
-                                    if (succeedBlock) {
-                                        succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
-                                    }
-                                }
+            ^(MKNetworkOperation *completeOperation) {
+                NSDictionary* retDict = completeOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                }
+            }
                                 onError:
-                                    ^(MKNetworkOperation *completedOperation, NSError *error) {
-                                        if (errorBlock) {
-                                            errorBlock(error);
-                                        }
-                                    }
+            ^(MKNetworkOperation *completedOperation, NSError *error) {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }
             ];
 }
 
@@ -280,18 +280,18 @@
                                  method:@"POST"
                                paramers:@{@"mail" : mail, @"password": passwd}
                             onSucceeded:
-                                ^(MKNetworkOperation *completeOperation) {
-                                    NSDictionary *retDict = completeOperation.responseJSON;
-                                    if (succeedBlock) {
-                                        succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
-                                    }
-                                }
-                            onError:
-                                ^(MKNetworkOperation *completedOperation, NSError *error) {
-                                    if(errorBlock) {
-                                        errorBlock(error);
-                                    }
-                                }
+            ^(MKNetworkOperation *completeOperation) {
+                NSDictionary *retDict = completeOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                }
+            }
+                                onError:
+            ^(MKNetworkOperation *completedOperation, NSError *error) {
+                if(errorBlock) {
+                    errorBlock(error);
+                }
+            }
             ];
 }
 @end

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QSSectionNumberTextButton.h"
 #import "QSSectionImageTextButton.h"
+#import "QSSectionTextButton.h"
 
 @protocol QSSectionButtonGroupDelegate <NSObject>
 
@@ -17,19 +18,23 @@
 
 @end
 
+typedef NS_ENUM(NSInteger, QSSectionButtonGroupType) {
+    QSSectionButtonGroupTypeImage, QSSectionButtonGroupTypeText
+};
+
 
 @interface QSSectionButtonGroup : UIView
 
-- (id)init;
 @property (strong, nonatomic) NSArray* buttonGroup;
-@property (strong, nonatomic) QSSectionImageTextButton* singleButton;
+@property (strong, nonatomic) QSSectionButtonBase* singleButton;
 
+@property (weak, nonatomic) NSObject<QSSectionButtonGroupDelegate>* delegate;
+
+- (id)init;
+- (id)initWithType:(QSSectionButtonGroupType)type;
 
 - (void)setTitle:(NSString*)title atIndex:(int)index;
 - (void)setNumber:(NSString*)numberStr atIndex:(int)index;
 - (void)setSelect:(int)index;
-
-@property (weak, nonatomic) NSObject<QSSectionButtonGroupDelegate>* delegate;
-
 
 @end
