@@ -177,7 +177,7 @@ _terms = function (req, res) {
 
 _pItemsByCategories = function (req, res) {
     try {
-        var param = req.body;
+        var param = req.queryString;
         var pageNo = parseInt(param.pageNo || 1);
         var pageSize = parseInt(param.pageSize || 10);
         var categoriesString = param.categories;
@@ -208,5 +208,5 @@ module.exports = {
     'comments' : {method: 'get', func: _comments, needLogin: false},
     'brands' : {method: 'get', func:_brands, needLogin: false},
     'terms' : {method: 'get', func: _terms, needLogin: false},
-    "pItemsByCategories" : {method: 'post', func: _pItemsByCategories, needLogin: false}
+    "pItemsByCategories" : {method: 'get', func: _pItemsByCategories, needLogin: false}
 };
