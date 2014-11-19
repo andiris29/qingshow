@@ -10,14 +10,12 @@ define([
     /**
      *
      */
-    var ShowGallery = function(dom, data) {
-        ShowGallery.superclass.constructor.apply(this, arguments);
+    var PItemGallery = function(dom, data) {
+        PItemGallery.superclass.constructor.apply(this, arguments);
 
-        this._feeding = data.feeding;
+        this._query = data.query;
         this._pageNo = 1;
         this._numTotal = 0;
-
-        this._mode = null;
 
         this._expandable = true;
 
@@ -25,7 +23,7 @@ define([
 
         async.parallel([ function(callback) {
             // Load template
-            TemplateManager.load('show/show-gallery.html', function(err, content$) {
+            TemplateManager.load('show/pitem-gallery.html', function(err, content$) {
                 content$.css('minHeight', this._dom$.height() + 'px');
                 this._dom$.append(content$);
 
@@ -33,22 +31,19 @@ define([
             }.bind(this));
         }.bind(this), function(callback) {
             // Load template for list items
-            TemplateManager.load('show/show-gallery-li.html', function(err, content$) {
+            TemplateManager.load('show/pitem-gallery-li.html', function(err, content$) {
                 callback(null, content$);
             }.bind(this));
         }.bind(this)], function(err, results) {
             this._tpltLi$ = results[1];
             // Load data
-            this._feeding(this._pageNo, this._render.bind(this));
+            this._query(this._pageNo, this._render.bind(this));
         }.bind(this));
     };
 
-    andrea.oo.extend(ShowGallery, UIComponent);
+    andrea.oo.extend(PItemGallery, UIComponent);
 
-    ShowGallery.prototype.switchMode = function(mode) {
-        this._mode = mode;
-    };
-    ShowGallery.prototype.expand = function() {
+    PItemGallery.prototype.expand = function() {
         if (!this._expandable) {
             return;
         }
@@ -56,15 +51,15 @@ define([
         $('.qsLoading .qsText', this._dom$).text('努力加载中…');
 
         this._pageNo++;
-        this._feeding(this._pageNo, this._render.bind(this));
+        this._query(this._pageNo, this._render.bind(this));
     };
 
-    ShowGallery.prototype.numTotal = function() {
+    PItemGallery.prototype.numTotal = function() {
         return this._numTotal;
     };
 
-    ShowGallery.prototype._render = function(metadata, data) {
-        ShowGallery.superclass._render.apply(this, arguments);
+    PItemGallery.prototype._render = function(metadata, data) {
+        PItemGallery.superclass._render.apply(this, arguments);
 
         $('.qsLoading .qsSpin', this._dom$).hide();
         if (metadata.error) {
@@ -77,16 +72,6 @@ define([
             this._numTotal = metadata.numTotal;
             this._expandable = (FeedingService.PAGE_SIZE * this._pageNo) < this._numTotal;
 
-            // Refresh time
-            if (metadata.refreshTime) {
-                $('.qsRefreshInfo', this._dom$).show();
-                var rm = moment(metadata.refreshTime);
-                $('.qsHM', this._dom$).text(rm.format('HH:mm'));
-                $('.qsDate', this._dom$).text(rm.format('YYYY/MM/DD'));
-                $('.qsDay', this._dom$).text(rm.format('dddd'));
-            } else {
-                $('.qsRefreshInfo', this._dom$).hide();
-            }
             // Shows
             var containers$ = $('.qsLiItemContainer', this._dom$);
             var shows = data.shows;
@@ -108,39 +93,15 @@ define([
         }
     };
 
-    // TODO performace optimize
-    // Use an placeholder to occupy the height of lis which are not visible for each left & right
-    // before, 200 li, 30fps@chrome
-    // after, 200 li, 60fps@chrome
-
-    ShowGallery.prototype._renderOne = function(li$, show) {
+    PItemGallery.prototype._renderOne = function(li$, show) {
         $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
-        $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
-        $('.qsName', li$).text(show.modelRef.name);
-        $('.qsRole', li$).text(show.modelRef.modelInfo.title);
-        $('.qsHeight', li$).text(RenderUtils.heightToDisplay(show.modelRef.height));
-        $('.qsWeight', li$).text(RenderUtils.weightToDisplay(show.modelRef.weight));
-        $('.qsStatus', li$).text(show.modelRef.modelInfo.status);
-        $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
         // User click here to avoid conflict with gesture
         $('.qsShowCover', li$).on('click', function() {
-            if (this._mode !== 'selectComparison') {
-                appRuntime.view.to('app/views/show/S03Show', {
-                    'show' : show
-                });
-            }
-        }.bind(this));
-        // User click here to avoid conflict with gesture
-        $('.qsModel', li$).on('click', function() {
-            if (this._mode !== 'selectComparison') {
-                appRuntime.view.to('app/views/producer/P02Model', {
-                    'model' : show.modelRef
-                });
-            }
+            // TODO
         }.bind(this));
         return li$;
     };
 
-    return ShowGallery;
+    return PItemGallery;
 });

@@ -39,7 +39,7 @@ define([
         if (show) {
             callback(show);
         } else {
-            QueryService.queryShow(_id, function() {
+            QueryService.show(_id, function() {
                 show = this._showsLookup[_id];
                 callback(show);
             }.bind(this));
