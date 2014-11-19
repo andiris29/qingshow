@@ -10,6 +10,8 @@
 #import "QSU04EmailViewController.h"
 #import "QSU05HairTypeGenderViewController.h"
 #import "QSU08PasswordViewController.h"
+#import "QSNetworkEngine.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU02UserSettingViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *birthdayText;
@@ -88,7 +90,14 @@
     UIDatePicker *datePicker = [[UIDatePicker alloc] init];
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker setLocale:[NSLocale currentLocale]];
-    [datePicker setDate:[NSDate date]];
+    if (self.birthdayText.text.length == 0) {
+        [datePicker setDate:[NSDate date]];
+    } else {
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyy/MM/dd"];
+        NSDate *date = [dateFormat dateFromString:self.birthdayText.text];
+        [datePicker setDate:date];
+    }
     [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
     
     if (textField.tag == 11) {
@@ -116,8 +125,28 @@
 }
 
 - (void)loadUserSetting {
-    NSDate *_birthday = [NSDate date];
-    [self updateBirthDayLabel:_birthday];
+    
+    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
+        if (metadata[@"error"] == nil && people != nil) {
+            self.nameText.text = (NSString *)people[@"name"];
+            self.lengthText.text = (NSString *)people[@"height"];
+            self.nameText.text = (NSString *)people[@"width"];
+            if (people[@"birthtime"] == nil) {
+                self.birthdayText.text = @"";
+            } else {
+                self.birthdayText.text = (NSString *)people[@"birthtime"];
+            }
+        }
+        
+    };
+    
+    ErrorBlock error = ^(NSError *error) {
+        [self showErrorHudWithText:@"用户信息获取失败"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    };
+    
+    [SHARE_NW_ENGINE getLoginUserOnSucced:success onError:error];
+    
 }
 
 
@@ -127,13 +156,36 @@
     self.birthdayText.text = [formatter stringFromDate:birthDay];
 }
 
-- (void)showDatePicker {
-    
-}
-
 #pragma mark - Action
 - (void)actionSave {
+    NSString *name = self.nameText.text;
+    NSString *birthDay = self.birthdayText.text;
+    NSString *length = self.lengthText.text;
+    NSString *weight = self.weightText.text;
     
+    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
+        if (metadata[@"error"] == nil && people != nil) {
+            [self showSuccessHudWithText:@"更新成功"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        } else {
+            [self showErrorHudWithText:@"更新失败"];
+        }
+    };
+    
+    ErrorBlock error = ^(NSError *error) {
+        if (error.userInfo[@"error"] != nil) {
+            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
+            if (errorCode != nil) {
+                [self showErrorHudWithText:@"更新失败，请确认输入的内容"];
+            }
+        } else {
+            [self showErrorHudWithText:@"网络连接失败"];
+        }
+    };
+    
+    [SHARE_NW_ENGINE updateByPeople:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}
+                          onSucceed:success
+                            onError:error];
 }
 
 - (void)changeDate:(id)sender {
