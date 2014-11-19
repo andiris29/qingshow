@@ -300,4 +300,27 @@
             }
             ];
 }
+
+- (MKNetworkOperation *)updatePeople:(NSDictionary *)people
+                           onSuccess:(EntitySuccessBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock {
+    
+    return [self startOperationWithPath:PATH_USER_REGISTER
+                                 method:@"POST"
+                               paramers:people
+                            onSucceeded:
+            ^(MKNetworkOperation *completeOperation) {
+                NSDictionary *retDict = completeOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                }
+            }
+                                onError:
+            ^(MKNetworkOperation *completedOperation, NSError *error) {
+                if(errorBlock) {
+                    errorBlock(error);
+                }
+            }
+            ];
+}
 @end

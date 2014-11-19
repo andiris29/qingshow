@@ -129,27 +129,15 @@
 
 - (void)loadUserSetting {
     
-    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-        if (metadata[@"error"] == nil && people != nil) {
-            self.nameText.text = (NSString *)people[@"name"];
-            self.lengthText.text = (NSString *)people[@"height"];
-            self.nameText.text = (NSString *)people[@"width"];
-            if (people[@"birthtime"] == nil) {
-                self.birthdayText.text = @"";
-            } else {
-                self.birthdayText.text = (NSString *)people[@"birthtime"];
-            }
-        }
-        
-    };
-    
-    ErrorBlock error = ^(NSError *error) {
-        [self showErrorHudWithText:@"用户信息获取失败"];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    };
-    
-    [SHARE_NW_ENGINE getLoginUserOnSucced:success onError:error];
-    
+    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+    self.nameText.text = (NSString *)people[@"name"];
+    self.lengthText.text = (NSString *)people[@"height"];
+    self.nameText.text = (NSString *)people[@"width"];
+    if (people[@"birthtime"] == nil) {
+        self.birthdayText.text = @"";
+    } else {
+        self.birthdayText.text = (NSString *)people[@"birthtime"];
+    }
 }
 
 
@@ -185,10 +173,10 @@
             [self showErrorHudWithText:@"网络连接失败"];
         }
     };
-    
-    [SHARE_NW_ENGINE updateByPeople:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}
-                          onSucceed:success
-                            onError:error];
+
+    [SHARE_NW_ENGINE updatePeople:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}
+                        onSuccess:success
+                          onError:error];
 }
 
 - (void)changeDate:(id)sender {

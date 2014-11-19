@@ -29,6 +29,9 @@
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation *)updatePeople:(NSDictionary *)people
+                           onSuccess:(EntitySuccessBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Feeding
 - (MKNetworkOperation*)getChosenFeedingPage:(int)page
