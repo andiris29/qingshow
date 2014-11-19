@@ -40,6 +40,7 @@ define([
                 var dom$ = tplt$.eq(tplt$.length - 1);
                 $('.fake', dom$).remove();
                 if (!debug) {
+                    $('.fakeDisplay', dom$).removeClass('fakeDisplay').hide();
                     $('.fakeText', dom$).removeClass('fakeText').text('');
                     $('.fakeSrc', dom$).removeClass('fakeSrc').removeAttr('src');
                     $('.fakeBackgroundImage', dom$).removeClass('fakeBackgroundImage').css('background-image', 'none');

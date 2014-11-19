@@ -87,9 +87,7 @@ define([
         }.bind(this));
 
         $('#logout', view$).on(appRuntime.events.click, function() {
-            UserService.logout( function() {
-                this._data.user(null);
-            }.bind(this));
+            UserService.logout();
 
             appRuntime.view.to('app/views/show/S01Home');
         }.bind(this));

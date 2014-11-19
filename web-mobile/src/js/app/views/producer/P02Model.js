@@ -18,6 +18,7 @@ define([
         this._model = data.model;
 
         var header = new Header($('<div/>').appendTo(this._dom$));
+
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height

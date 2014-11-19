@@ -17,8 +17,9 @@ define([
 
         appRuntime.view.to = $.proxy(this.to, this), appRuntime.view.back = $.proxy(this.back, this);
 
-        if (andrea.env.uriFragment.entry === 'S03') {
-            model.getShow(andrea.env.uriFragment._id, function(show) {
+        var fragment = andrea.env.uriFragment, entry = (fragment.entry || '').toUpperCase();
+        if (entry === 'S03') {
+            model.getShow(fragment._id, function(show) {
                 if (show) {
                     appRuntime.view.to('app/views/show/S03Show', {
                         'show' : show
@@ -27,7 +28,7 @@ define([
                     appRuntime.view.to('app/views/show/S01Home');
                 }
             });
-        } else if (andrea.env.uriFragment.entry === 'P05') {
+        } else if (entry === 'P05') {
             appRuntime.view.to('app/views/producer/P05Collocation');
         } else {
             appRuntime.view.to('app/views/show/S01Home');

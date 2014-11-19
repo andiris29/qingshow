@@ -51,5 +51,16 @@ define([
         });
     };
 
+    DataService.injectBeforeCallback = function(callback, beforeCallback) {
+        return function(metadata, data) {
+            if (!metadata.error) {
+                beforeCallback(metadata, data, require('app/model'));
+            }
+            if (callback) {
+                callback.apply(null, arguments);
+            }
+        };
+    };
+
     return DataService;
 });
