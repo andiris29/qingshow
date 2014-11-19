@@ -1,15 +1,22 @@
+//Model
 var People = require('../../model/peoples');
-var ServicesUtil = require('../servicesUtil');
 var Comment = require('../../model/comments');
 var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
-var ServerError = require('../server-error');
+var PItems = require('../../model/pitems');
+
 var mongoose = require('mongoose');
+
+//Utils
+var ServicesUtil = require('../servicesUtil');
+var ServerError = require('../server-error');
 var nimble = require('nimble');
 
-var _models, _comments, _brands, _terms;
+
+
+var _models, _comments, _brands, _terms, _pItemsByCategories;
 _models = function (req, res) {
-    param = res.queryString;
+    var param = res.queryString;
     if (param._ids) {
         //TODO Check hasFollowed
         try {
@@ -121,7 +128,7 @@ _brands = function (req, res) {
 
 _comments = function (req, res) {
     try {
-        param = res.queryString;
+        var param = res.queryString;
         var pageNo = parseInt(param.pageNo || 1);
         var pageSize = parseInt(param.pageSize || 10);
         var showIdStr = param.showId;
@@ -158,9 +165,48 @@ _terms = function (req, res) {
     res.send('terms');
 };
 
+/*
+* query/pItemsByCategories [paging][get]
+
+ Request
+ categories array of code
+
+ Response
+ data.items array, entity in db.pItems
+* */
+
+_pItemsByCategories = function (req, res) {
+    try {
+        var param = req.queryString;
+        var pageNo = parseInt(param.pageNo || 1);
+        var pageSize = parseInt(param.pageSize || 10);
+        var categoriesString = param.categories;
+        var categoriesIds = categoriesString.map(function (s) { return parseInt(s); });
+    } catch (e) {
+        ServicesUtil.responseError(res, e);
+        return;
+    }
+    function buildQuery() {
+        var query = PItems.find();
+        query.where({category : {$in : categoriesIds}});
+        return query;
+    }
+    function additionFunc(query) {
+        //TODO: add sort?
+        return query;
+    }
+    function dateGenFunc(datas) {
+        return {
+            items: datas
+        };
+    }
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, dateGenFunc, pageNo, pageSize);
+};
+
 module.exports = {
     'models' : {method: 'get', func: _models, needLogin: false},
     'comments' : {method: 'get', func: _comments, needLogin: false},
     'brands' : {method: 'get', func:_brands, needLogin: false},
-    'terms' : {method: 'get', func: _terms, needLogin: false}
+    'terms' : {method: 'get', func: _terms, needLogin: false},
+    "pItemsByCategories" : {method: 'get', func: _pItemsByCategories, needLogin: false}
 };

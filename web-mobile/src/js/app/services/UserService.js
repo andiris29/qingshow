@@ -34,7 +34,9 @@ define([
     };
 
     UserService.logout = function(callback) {
-        DataService.request('POST', '/user/logout', {}, callback);
+        DataService.request('POST', '/user/logout', {}, DataService.injectBeforeCallback(callback, function(metadata, data, model) {
+            model.user(null);
+        }));
     };
 
     return UserService;

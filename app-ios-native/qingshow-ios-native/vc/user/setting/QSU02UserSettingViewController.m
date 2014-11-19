@@ -12,6 +12,9 @@
 #import "QSU08PasswordViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
+#import "QSUserManager.h"
+
+#warning 从UserManager取当前登陆用户信息
 
 @interface QSU02UserSettingViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *birthdayText;

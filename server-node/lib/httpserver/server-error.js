@@ -26,6 +26,7 @@ ServerError.AlreadyFollowPeople = 1013;
 ServerError.DidNotFollowPeople = 1014;
 ServerError.AlreadyFollowBrand = 1015;
 ServerError.DidNotFollowBrand = 1016;
+ServerError.PItemNotExist = 1017;
 
 var _codeToString = function (code) {
     switch (code) {
@@ -46,6 +47,7 @@ var _codeToString = function (code) {
         case 1014 : return "DidNotFollowPeople";
         case 1015 : return "AlreadyFollowBrand";
         case 1016 : return "DidNotFollowBrand";
+        case 1017 : return "PItemNotExist";
     }
 };
 

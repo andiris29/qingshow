@@ -13,5 +13,5 @@
 + (QSUserManager*)shareUserManager;
 
 @property (strong, nonatomic) NSDictionary* userInfo;
-
+@property (assign, nonatomic) BOOL fIsLogined;
 @end

@@ -21,7 +21,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_userManager = [[QSUserManager alloc] init];
-        
+        s_userManager.fIsLogined = YES;
     });
     return s_userManager;
 }

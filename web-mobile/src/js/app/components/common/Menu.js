@@ -26,34 +26,6 @@ define([
                         break;
                     }
                 }
-                // if ($('.qsHot', selected$).length) {
-                // if ($('.qsPromotion', selected$).length) {
-                // feeding = FeedingService.chosenByPromotion;
-                // } else {
-                // if (!$('.qsModels', selected$).length) {
-                // feeding = FeedingService.hot;
-                // }
-                // }
-                // } else if ($('.qsComparison', selected$).length) {
-                // appRuntime.view.to('app/views/show/S03Comparison', {
-                // 'feeding' : feeding,
-                // 'title' : $('.qsCategoryText', selected$).text()
-                // });
-                // } else if ($('.qsBag', selected$).length) {
-                // feeding = FeedingService.tagBag;
-                // } else if ($('.qsAccessories', selected$).length) {
-                // feeding = FeedingService.tagAccesories;
-                // } else if ($('.qsShoe', selected$).length) {
-                // feeding = FeedingService.tagShoe;
-                // } else if ($('.qsCosmetic', selected$).length) {
-                // feeding = FeedingService.studio;
-                // }
-                // if (feeding) {
-                // appRuntime.view.to('app/views/show/S02Feeding', {
-                // 'feeding' : feeding,
-                // 'title' : $('.qsCategoryText', selected$).text()
-                // });
-                // }
                 appRuntime.popup.remove(this);
             }.bind(this));
         }.bind(this));
