@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings Activity -->
+    <item name="line_activity_settings" type="color">#ffc5c5c5</item>
+    <item name="bg_activity_settings" type="color">#ffd4d4d4</item>
+
+</resources>
