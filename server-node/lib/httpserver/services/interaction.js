@@ -301,7 +301,7 @@ _followBrand = function (req, res) {
 
         });
     });
-}
+};
 
 _unfollowBrand = function (req, res) {
     var error = null;

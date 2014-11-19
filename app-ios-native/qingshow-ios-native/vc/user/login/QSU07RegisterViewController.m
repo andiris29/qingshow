@@ -94,8 +94,9 @@
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
         [self dismissViewControllerAnimated:YES completion:nil];
-        UIViewController *vc = [[QSS01RootViewController alloc]initWithNibName:@"QSS01RootViewController" bundle:nil];
-        [self.navigationController pushViewController:vc animated:YES];
+//        UIViewController *vc = [[QSS01RootViewController alloc]initWithNibName:@"QSS01RootViewController" bundle:nil];
+//        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {

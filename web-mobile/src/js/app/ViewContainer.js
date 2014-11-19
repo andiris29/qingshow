@@ -17,7 +17,7 @@ define([
 
         appRuntime.view.to = $.proxy(this.to, this), appRuntime.view.back = $.proxy(this.back, this);
 
-        if (andrea.env.uriFragment.page === 'S03') {
+        if (andrea.env.uriFragment.entry === 'S03') {
             model.getShow(andrea.env.uriFragment._id, function(show) {
                 if (show) {
                     appRuntime.view.to('app/views/show/S03Show', {
@@ -27,6 +27,8 @@ define([
                     appRuntime.view.to('app/views/show/S01Home');
                 }
             });
+        } else if (andrea.env.uriFragment.entry === 'P05') {
+            appRuntime.view.to('app/views/producer/P05Collocation');
         } else {
             appRuntime.view.to('app/views/show/S01Home');
         }
@@ -52,11 +54,10 @@ define([
                 this._animating = true;
                 this._swapView(PageTransitions.animations.nextView, this._currentView, view, function() {
                     this._animating = false;
-                    this._currentView.deactivate();
-                    this._currentView = view;
+                    this._postTo(view);
                 }.bind(this));
             } else {
-                this._currentView = view;
+                this._postTo(view);
             }
         }
     };
@@ -73,8 +74,8 @@ define([
         view.activate();
         this._swapView(PageTransitions.animations.prevView, this._currentView, view, function() {
             this._animating = false;
-            this._currentView.destroy();
-            this._currentView = view;
+
+            this._postBack(view);
         }.bind(this));
     };
 
@@ -82,5 +83,24 @@ define([
         new PageTransitions(view1.dom$(), view2.dom$()).nextPage(animation, callback);
     };
 
+    ViewContainer.prototype._postTo = function(view) {
+        if (this._currentView) {
+            this._currentView.deactivate();
+        }
+        this._postSwap(view);
+    };
+
+    ViewContainer.prototype._postBack = function(view) {
+        this._currentView.destroy();
+        this._postSwap(view);
+    };
+
+    ViewContainer.prototype._postSwap = function(view) {
+        this._currentView = view;
+
+        if (this._currentView.loginRequired && !model.user()) {
+            appRuntime.view.to('app/views/user/U06Login');
+        }
+    };
     return ViewContainer;
 });

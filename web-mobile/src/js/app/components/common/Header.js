@@ -21,8 +21,12 @@ define([
         TemplateManager.load('common/header.html', function(err, content$) {
             this._dom$.append(content$);
 
-            this._renderButton($('.qsLeft', this._dom$), data.left || Header.BUTTON_BACK);
-            this._renderButton($('.qsRight', this._dom$), data.right || Header.BUTTON_USER);
+            if (data.left !== null) {
+                this._renderButton($('.qsLeft', this._dom$), data.left || Header.BUTTON_BACK);
+            }
+            if (data.right !== null) {
+                this._renderButton($('.qsRight', this._dom$), data.right || Header.BUTTON_USER);
+            }
             $('.qsLeft', this._dom$).on(appRuntime.events.click, function() {
                 this.trigger('clickLeft');
             }.bind(this));

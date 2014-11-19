@@ -10,4 +10,8 @@
 
 @interface QSCompareTableViewCell : UITableViewCell
 
+@property (strong, nonatomic) IBOutlet UIImageView* leftImgView;
+@property (strong, nonatomic) IBOutlet UIImageView* rightImgView;
+
+- (void)bindWithDict:(NSDictionary*)dict;
 @end

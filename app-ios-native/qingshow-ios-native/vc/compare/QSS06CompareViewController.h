@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSS06CompareViewController : UIViewController
+@interface QSS06CompareViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *typeSegment;
 - (IBAction)typeSegmentValueChanged:(id)sender;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

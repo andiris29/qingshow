@@ -9,6 +9,7 @@
 #import "QSNetworkEngine.h"
 #import "ServerPath.h"
 #import "QSNetworkOperation.h"
+#import "QSUserManager.h"
 
 //User
 #define PATH_USER_LOGIN @"user/login"
@@ -74,12 +75,13 @@
                                  method:@"POST"
                                paramers:@{
                                           @"mail" : userName,
-                                          @"encryptedPassword" : password
+                                          @"password" : password
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
                     NSDictionary *reDict = completedOperation.responseJSON;
+                    [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
                     succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
                 }
             }
@@ -276,7 +278,7 @@
     
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:@{@"mail" : mail, @"encryptedPassword": passwd}
+                               paramers:@{@"mail" : mail, @"password": passwd}
                             onSucceeded:
                                 ^(MKNetworkOperation *completeOperation) {
                                     NSDictionary *retDict = completeOperation.responseJSON;

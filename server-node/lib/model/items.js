@@ -5,7 +5,7 @@ var Show = require('./shows');
 var Schema = mongoose.Schema;
 var itemSchema;
 itemSchema = Schema({
-    category: Number,   //0 Tops 1 Bottoms 2 Shoes
+    category: Number,   // <code>
     name: String,
     cover: String,
     brandRef: { type: Schema.Types.ObjectId, ref: 'brands'},

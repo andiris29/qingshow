@@ -3,7 +3,6 @@ var express = require('express');
 var qsdb = require('../runtime/qsdb');
 var connect = require('connect');
 var path = require('path');
-var pathConst = require('./path-const');
 //param parser
 var bodyParser = require('body-parser');
 var queryStringParser = require('./middleware/query-string-parser');

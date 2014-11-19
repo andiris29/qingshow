@@ -40,7 +40,7 @@ var connect = function(){
 };
 var getConnection = function(){
     return mongoose.connection;
-}
+};
 module.exports = {
     'connect' : connect,
     'getConnection': getConnection

@@ -8,6 +8,7 @@
 
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
+#import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
 
@@ -56,7 +57,7 @@
     NSLog(@"login to qingshow");
     
     NSString *user = self.userText.text;
-    NSString *passwd = self.userText.text;
+    NSString *passwd = self.passwordText.text;
     
     if (user.length == 0) {
         [self showErrorHudWithText:@"请输入账号"];
@@ -71,7 +72,7 @@
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [self showSuccessHudWithText:@"登陆成功"];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         } else {
             [self showErrorHudWithText:@"登陆失败"];
         }
