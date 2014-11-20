@@ -20,7 +20,7 @@ _models = function (req, res) {
     if (param._ids) {
         //TODO Check hasFollowed
         try {
-            var ids = param._ids;
+            var ids = param._ids.split(',');
             var idsObjArray = ServicesUtil.stringArrayToObjectIdArray(ids);
         } catch (e) {
             ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
