@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 15
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "qingshow.com.qingshow"
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
     }

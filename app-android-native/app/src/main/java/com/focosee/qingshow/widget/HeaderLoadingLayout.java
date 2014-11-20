@@ -1,4 +1,4 @@
-package qingshow.com.qingshow.widget;
+package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import qingshow.com.qingshow.R;
+import com.focosee.qingshow.R;
 
 
 /**

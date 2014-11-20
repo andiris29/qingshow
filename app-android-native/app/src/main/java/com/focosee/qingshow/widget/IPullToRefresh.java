@@ -1,8 +1,8 @@
-package qingshow.com.qingshow.widget;
+package com.focosee.qingshow.widget;
 
 import android.view.View;
 
-import qingshow.com.qingshow.widget.PullToRefreshBase.OnRefreshListener;
+import com.focosee.qingshow.widget.PullToRefreshBase.OnRefreshListener;
 
 /**
  * 定义了拉动刷新的接口

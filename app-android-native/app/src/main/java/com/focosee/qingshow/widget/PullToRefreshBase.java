@@ -1,4 +1,4 @@
-package qingshow.com.qingshow.widget;
+package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,7 +12,7 @@ import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import qingshow.com.qingshow.widget.ILoadingLayout.State;
+import com.focosee.qingshow.widget.ILoadingLayout.State;
 
 /**
  * 这个实现了下拉刷新和上拉加载更多的功能

@@ -1,4 +1,4 @@
-package qingshow.com.qingshow.widget;
+package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -201,35 +201,35 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     }
     
     /**
-     * 当状态设置为{@link qingshow.com.qingshow.widget.ILoadingLayout.State#RESET}时调用
+     * 当状态设置为{@link com.focosee.qingshow.widget.ILoadingLayout.State#RESET}时调用
      */
     protected void onReset() {
         
     }
     
     /**
-     * 当状态设置为{@link qingshow.com.qingshow.widget.ILoadingLayout.State#PULL_TO_REFRESH}时调用
+     * 当状态设置为{@link com.focosee.qingshow.widget.ILoadingLayout.State#PULL_TO_REFRESH}时调用
      */
     protected void onPullToRefresh() {
         
     }
     
     /**
-     * 当状态设置为{@link qingshow.com.qingshow.widget.ILoadingLayout.State#RELEASE_TO_REFRESH}时调用
+     * 当状态设置为{@link com.focosee.qingshow.widget.ILoadingLayout.State#RELEASE_TO_REFRESH}时调用
      */
     protected void onReleaseToRefresh() {
         
     }
     
     /**
-     * 当状态设置为{@link qingshow.com.qingshow.widget.ILoadingLayout.State#REFRESHING}时调用
+     * 当状态设置为{@link com.focosee.qingshow.widget.ILoadingLayout.State#REFRESHING}时调用
      */
     protected void onRefreshing() {
         
     }
     
     /**
-     * 当状态设置为{@link qingshow.com.qingshow.widget.ILoadingLayout.State#NO_MORE_DATA}时调用
+     * 当状态设置为{@link com.focosee.qingshow.widget.ILoadingLayout.State#NO_MORE_DATA}时调用
      */
     protected void onNoMoreData() {
         

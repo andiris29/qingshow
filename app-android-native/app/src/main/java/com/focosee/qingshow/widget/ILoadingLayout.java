@@ -1,4 +1,4 @@
-package qingshow.com.qingshow.widget;
+package com.focosee.qingshow.widget;
 
 /**
  * 下拉刷新和上拉加载更多的界面接口

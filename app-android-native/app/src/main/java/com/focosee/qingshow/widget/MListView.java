@@ -1,4 +1,4 @@
-package qingshow.com.qingshow.widget;
+package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

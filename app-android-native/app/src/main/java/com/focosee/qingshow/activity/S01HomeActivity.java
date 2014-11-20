@@ -1,12 +1,12 @@
-package qingshow.com.qingshow.activity;
+package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import qingshow.com.qingshow.R;
-import qingshow.com.qingshow.widget.MListView;
+import com.focosee.qingshow.R;
+import com.focosee.qingshow.widget.MListView;
 
 public class S01HomeActivity extends Activity {
 

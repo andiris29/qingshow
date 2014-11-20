@@ -1,11 +1,11 @@
-package qingshow.com.qingshow.activity;
+package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import qingshow.com.qingshow.R;
+import com.focosee.qingshow.R;
 
 public class RegisterActivity extends Activity {
 
