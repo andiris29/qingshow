@@ -48,33 +48,21 @@ showSchema.methods.updateCoverMetaData = function (callBack){
         width : 145,
         height : 270
     };
-    http.get(this.cover, function (res) {
-        res.on('data', function (buf) {
-            gm(buf).size(function (err, size) {
-                if (size) {
-                    _this.coverMetaData = {
-                        cover : _this.cover,
-                        width : size.width,
-                        height : size.height
-                    };
-                } else {
-                    _this.coverMetaData = defaultMetadata;
-                }
-                _this.save(function (err, image) {
-                    callBack();
-                });
-            });
-        });
-    })
-        .on('error', function (e) {
-            //http request error, use default server metadata
+
+    gm(_this.cover).size(function (err, size) {
+        if (size) {
+            _this.coverMetaData = {
+                cover : _this.cover,
+                width : size.width,
+                height : size.height
+            };
+        } else {
             _this.coverMetaData = defaultMetadata;
-            _this.save(function (err, image) {
-                callBack();
-            });
+        }
+        _this.save(function (err, image) {
+            callBack();
         });
-
-
+    });
 };
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;
