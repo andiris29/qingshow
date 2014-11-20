@@ -9,7 +9,8 @@
 #ifndef qingshow_ios_native_ServerPath_h
 #define qingshow_ios_native_ServerPath_h
 
-#define HOST_ADDRESS @"localhost:30001/"
+//#define HOST_ADDRESS @"localhost:30001/"
+#define HOST_ADDRESS @"121.41.162.102:30001/"
 #define HOST_NAME [NSString stringWithFormat:@"%@%@",HOST_ADDRESS, @"services"]
 #define kImageUrlBase [NSString stringWithFormat:@"http://%@%@",HOST_ADDRESS, @"images"]
 #define kVideoUrlBase [NSString stringWithFormat:@"http://%@%@",HOST_ADDRESS, @"videos"]
