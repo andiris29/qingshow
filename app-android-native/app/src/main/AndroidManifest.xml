@@ -20,6 +20,18 @@
             android:name="qingshow.com.qingshow.activity.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name="qingshow.com.qingshow.activity.RegisterActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name="qingshow.com.qingshow.activity.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="qingshow.com.qingshow.activity.PersonalActivity"
+            android:label="@string/title_activity_personal" >
+        </activity>
     </application>
 
 </manifest>

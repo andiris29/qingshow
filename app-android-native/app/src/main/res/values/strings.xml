@@ -28,7 +28,28 @@
     <string name="help_activity_settings">帮助</string>
     <string name="about_vip_activity_settings">关于会员</string>
     <string name="quit_activity_settings">退出登录</string>
-    <string name="left_ref_activity_settings">te</string>
+    <string name="left_ref_activity_settings">back</string>
     <string name="save_activity_settings">保存</string>
+
+    <!-- Register Activity -->
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="register_activity_register">注册</string>
+    <string name="account_activity_register">账号</string>
+    <string name="account_hint_activity_register">请输入邮箱或手机号码</string>
+    <string name="password_activity_register">密码</string>
+    <string name="password_hint_activity_register">英文数字8–12字符</string>
+    <string name="confirm_activity_register">密码确认</string>
+    <string name="submit_activity_register">提交</string>
+
+    <!-- Login Activity -->
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_bar_activity_login">登陆</string>
+    <string name="register_activity_login">注册</string>
+    <string name="account_hint_activity_login">请输入邮箱或手机号码</string>
+    <string name="account_activity_login">账号</string>
+    <string name="password_activity_login">密码</string>
+    <string name="password_hint_activity_login">英文数字8–12字符</string>
+    <string name="login_activity_login">登陆</string>
+    <string name="title_activity_personal">PersonalActivity</string>
 
 </resources>
