@@ -5,10 +5,10 @@ define([
     'app/views/ViewBase',
     'app/components/common/Header',
     'app/components/common/Navigator',
+    'app/components/common/PeopleList',
     'app/components/producer/Model',
-    'app/components/producer/FanGallery',
     'app/components/show/ShowGallery'
-], function(IScrollContainer, FeedingService, ViewBase, Header, Navigator, Model, FanGallery, ShowGallery) {
+], function(IScrollContainer, FeedingService, ViewBase, Header, Navigator, Model, PeopleList, ShowGallery) {
 // @formatter:on
     /**
      * The top level dom element, which will fit to screen
@@ -39,7 +39,7 @@ define([
                 // FeedingService.byFollow(this._model._id, pageNo, callback);
             }.bind(this)
         }));
-        navi.append(new FanGallery($('<div/>'), {
+        navi.append(new PeopleList($('<div/>'), {
         }));
         body.append(navi);
         //
