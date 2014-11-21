@@ -7,6 +7,8 @@
 //
 
 #import "QSU04EmailViewController.h"
+#import "UIViewController+ShowHud.h"
+#import "QSUserManager.h"
 
 @interface QSU04EmailViewController ()
 
@@ -16,7 +18,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // Initialize Navigation
+    self.navigationItem.title = @"设置";
+    self.navigationItem.backBarButtonItem.title = @"";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
+    
+    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(actionSave)];
+    
+    [[self navigationItem] setRightBarButtonItem:btnSave];
+    
+    // Initialize Current Email Label
+    self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +42,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Action
+- (void)actionSave {
+    
+    NSString *email = self.emailText.text;
+    NSString *confirmEmail = self.confirmEmailText.text;
+    
+    if (email.length == 0) {
+        [self showErrorHudWithText:@"请输入新地址"];
+        return;
+    }
+    if ([confirmEmail compare:email] != NSOrderedSame) {
+        [self showErrorHudWithText:@"两次地址不一致"];
+        return;
+    }
+    
+    [self.delegate emailViewController:self didSavingEmail:email];
 }
-*/
-
 @end
