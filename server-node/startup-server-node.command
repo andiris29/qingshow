@@ -7,5 +7,5 @@ source /Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow/environmen
 # node
 # node --debug
 # node --debug-brk
-node $folder_qingshow/server-node/lib/httpserver/startup.js --http-server-port $http_server_port --mongodb-connect $mongodb_url,$mongodb_port,$mongodb_db --mongodb-auth $mongodb_user,$mongodb_password
+node --debug $folder_qingshow/server-node/lib/httpserver/startup.js --http-server-port $http_server_port --mongodb-connect $mongodb_url,$mongodb_port,$mongodb_db --mongodb-auth $mongodb_user,$mongodb_password
 read -n 1

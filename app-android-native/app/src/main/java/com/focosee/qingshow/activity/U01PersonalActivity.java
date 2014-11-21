@@ -7,7 +7,8 @@ import android.view.MenuItem;
 
 import com.focosee.qingshow.R;
 
-public class PersonalActivity extends Activity {
+
+public class U01PersonalActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

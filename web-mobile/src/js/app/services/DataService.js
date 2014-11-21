@@ -12,9 +12,10 @@ define([
             'dataType' : 'json',
             'cache' : false
         };
+        var key;
         if (andrea.env.uriQuery.appServer === 'fake') {
             var suffix = [];
-            for (var key in requestData) {
+            for (key in requestData) {
                 if (path === '/feeding/chosen' && key === 'type') {
                     suffix.push(key + '' + requestData[key]);
                 } else if (path === '/feeding/byTag' && key === 'tags') {
@@ -27,6 +28,11 @@ define([
                 'url' : appConfig.appServer + path + suffix + '.json'
             });
         } else {
+            for (key in requestData) {
+                if (requestData[key] instanceof Array) {
+                    requestData[key] = requestData[key].join(',');
+                }
+            }
             $.extend(request, {
                 'url' : appConfig.appServer + path,
                 'type' : type,

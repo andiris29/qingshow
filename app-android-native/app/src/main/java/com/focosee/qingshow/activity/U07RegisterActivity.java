@@ -7,7 +7,8 @@ import android.view.MenuItem;
 
 import com.focosee.qingshow.R;
 
-public class RegisterActivity extends Activity {
+
+public class U07RegisterActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

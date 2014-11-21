@@ -5,6 +5,7 @@ var Item = require('./items');
 
 var path = require('path');
 var gm = require('gm').subClass({ imageMagick: true });
+var http = require('http');
 
 
 var Schema = mongoose.Schema;
@@ -42,21 +43,26 @@ showSchema.methods.updateCoverMetaData = function (callBack){
         return;
     }
     var _this = this;
+    var defaultMetadata = {
+        cover : "",
+        width : 145,
+        height : 270
+    };
 
-    gm(this.cover).size(function (err, size) {
-        _this.coverMetaData = {};
-        _this.coverMetaData.cover = _this.cover;
+    gm(_this.cover).size(function (err, size) {
         if (size) {
-            _this.coverMetaData.width = size.width;
-            _this.coverMetaData.height = size.height;
-            _this.save(function (err, image) {
-                callBack();
-            });
+            _this.coverMetaData = {
+                cover : _this.cover,
+                width : size.width,
+                height : size.height
+            };
         } else {
-            callBack();
+            _this.coverMetaData = defaultMetadata;
         }
+        _this.save(function (err, image) {
+            callBack();
+        });
     });
-
 };
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;

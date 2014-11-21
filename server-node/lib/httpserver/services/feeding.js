@@ -225,6 +225,7 @@ _byModel = function (req, res) {
     var param, producerIDs, pageNo, pageSize;
     param = res.queryString;
     producerIDs = param.producerIDs || [];
+    producerIDs = producerIDs.split(',');
     producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);

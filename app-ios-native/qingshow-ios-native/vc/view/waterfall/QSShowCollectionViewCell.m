@@ -58,12 +58,12 @@
 //    NSArray* roles = modelDict[@"roles"];
     self.nameLabel.text = modelDict[@"name"];
     self.statusLabel.text = [NSString stringWithFormat:@"%@cm %@kg",modelDict[@"height"], modelDict[@"weight"]];
-    NSString* headPhotoPath = [NSString stringWithFormat:@"%@%@",kImageUrlBase, modelDict[@"portrait"]];
+    NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     
     self.contentLabel.text = showData[@"name"];
 
-    NSString* coverPath = [NSString stringWithFormat:@"%@%@",kImageUrlBase,showData[@"cover"]];
+    NSString* coverPath = showData[@"cover"];
     [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath]];
     
     /*
@@ -111,12 +111,18 @@
 #pragma mark - Static Method
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
-    NSDictionary* coverMetadata = showData[@"coverMetadata"];
+    NSDictionary* coverMetadata = showData[@"coverMetaData"];
+    float iniWidth = 145;
     float height = 212;
-    //212 270
+    float width = iniWidth;
+    //212 145
     if (coverMetadata && coverMetadata[@"height"]) {
         height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
     }
+    if (coverMetadata && coverMetadata[@"width"]) {
+        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
+    }
+    height = height * iniWidth / width;
     return height;
 }
 

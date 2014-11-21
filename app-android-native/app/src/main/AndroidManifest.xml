@@ -6,7 +6,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name="com.focosee.qingshow.activity.BlankActivity"
             android:label="@string/title_activity_blank" >
@@ -17,23 +17,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.SettingsActivity"
+            android:name=".activity.U02SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.RegisterActivity"
+            android:name=".activity.U07RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.LoginActivity"
+            android:name=".activity.U06LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.PersonalActivity"
+            android:name=".activity.U01PersonalActivity"
             android:label="@string/title_activity_personal" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S01HomeActivity"
+            android:name=".activity.S01HomeActivity"
             android:label="@string/title_activity_s01_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

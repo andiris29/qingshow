@@ -1,15 +1,14 @@
 // @formatter:off
 define([
     'ui/containers/IScrollContainer',
-    'app/model',
     'app/services/UserService',
+    'app/services/QueryService',
     'app/views/ViewBase',
     'app/components/common/Header',
     'app/components/common/Navigator',
-    'app/components/producer/Model',
-    'app/components/producer/FanGallery',
-    'app/components/show/ShowGallery'
-], function(IScrollContainer, model, UserService, ViewBase, Header, Navigator, Model, FanGallery, ShowGallery) {
+    'app/components/producer/Collocation',
+    'app/components/show/PItemGallery'
+], function(IScrollContainer, UserService, QueryService, ViewBase, Header, Navigator, Collocation, PItemGallery) {
 // @formatter:on
     /**
      *
@@ -52,9 +51,9 @@ define([
     andrea.oo.extend(P05Collocation, ViewBase);
 
     _appendGallery = function(navi, categories, numTotalRenderer) {
-        var gallery = new ShowGallery($('<div/>'), {
-            'feeding' : function(pageNo, callback) {
-                FeedingService.pItemsByCategories(categories, pageNo, callback);
+        var gallery = new PItemGallery($('<div/>'), {
+            'query' : function(pageNo, callback) {
+                QueryService.pItemsByCategories(categories, pageNo, callback);
             }.bind(this)
         });
         navi.append(gallery);
