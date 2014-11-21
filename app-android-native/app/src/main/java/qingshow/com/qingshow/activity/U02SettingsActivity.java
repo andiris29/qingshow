@@ -7,19 +7,19 @@ import android.view.MenuItem;
 
 import qingshow.com.qingshow.R;
 
-public class PersonalActivity extends Activity {
+public class U02SettingsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal);
+        setContentView(R.layout.activity_settings);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_personal, menu);
+        getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
     }
 

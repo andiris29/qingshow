@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import qingshow.com.qingshow.R;
 
-public class LoginActivity extends Activity {
+public class U06LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
