@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSU04EmailViewController.h"
 #import "QSU08PasswordViewController.h"
 
-@interface QSU02UserSettingViewController : UITableViewController <QSU08PasswordViewControllerDelegate>
+@interface QSU02UserSettingViewController : UITableViewController <QSU04EmailViewControllerDelegate, QSU08PasswordViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *birthdayText;
 @property (strong, nonatomic) IBOutlet UITableView *settingTableView;

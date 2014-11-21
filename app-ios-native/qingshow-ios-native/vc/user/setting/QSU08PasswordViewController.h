@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class QSU08PasswordViewController;
+
 @protocol QSU08PasswordViewControllerDelegate <NSObject>
 
 - (void)passwordViewController:(QSU08PasswordViewController *)vc

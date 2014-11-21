@@ -186,4 +186,7 @@
     [self updatePeopleEntityViewController:vc byEntity:@{@"password":newPassword, @"currentPassword": curPasswrod}];
 }
 
+- (void)emailViewController:(QSU04EmailViewController *)vc didSavingEmail:(NSString *)email {
+    [self updatePeopleEntityViewController:vc byEntity:@{@"email": email}];
+}
 @end
