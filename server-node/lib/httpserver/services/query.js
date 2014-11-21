@@ -196,7 +196,7 @@ _pItemsByCategories = function (req, res) {
     }
     function dateGenFunc(datas) {
         return {
-            items: datas
+            pItems: datas
         };
     }
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, dateGenFunc, pageNo, pageSize);

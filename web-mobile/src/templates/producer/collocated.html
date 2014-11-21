@@ -1,0 +1,62 @@
+<link href="../../libs/font-awesome-4.2.0/css/font-awesome.css" rel="stylesheet"/>
+<link href="../../css/app.css" rel="stylesheet"/>
+<style>
+    .qsTpltCollocatedGallery {
+        cursor: default;
+        position: relative;
+        width: 640px;
+        min-height: 100px;
+        overflow: auto;
+    }
+    .qsTpltCollocatedGallery .qsCollocatedContainer {
+        overflow: auto;
+        width: 550px;
+        float: left;
+    }
+    .qsTpltCollocatedGallery .qsPItemCover {
+        margin: 10px 5px;
+        border-radius: 4px;
+        float: left;
+        width: 80px;
+        height: 80px;
+        background-image: url('../../../../server-image-fake/covers/moto01.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    .qsTpltCollocatedGallery .qsPItemCover:first-child {
+        margin-left: 10px;
+    }
+    .qsTpltCollocatedGallery .qsPItemCover:last-child {
+        margin-right: 10px;
+    }
+    .qsTpltCollocatedGallery .qsConfirm {
+        opacity: .9;
+        font-size: 18px;
+        text-align: center;
+        line-height: 36px;
+        bottom: 32px;
+        position: absolute;
+        width: 80px;
+        height: 36px;
+        right: 10px;
+    }
+</style>
+
+<div id="wrapper" style="width: 640px; height: 160px; position: relative; margin: auto;">
+    <div class="qsTpltCollocatedGallery">
+        <div class="qsCollocatedContainer">
+            <div class="qsPItemCover clone fakeBackgroundImage" ></div>
+            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
+            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
+            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
+            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
+            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
+        </div>
+        <div>
+            <div class="qsConfirm qsButtonHighlight">
+                确定
+            </div>
+        </div>
+    </div>
+</div>

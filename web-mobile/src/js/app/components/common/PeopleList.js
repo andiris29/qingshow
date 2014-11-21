@@ -9,15 +9,15 @@ define([
     /**
      * The top level dom element, which will fit to screen
      */
-    var FanGallery = function(dom, data) {
-        FanGallery.superclass.constructor.apply(this, arguments);
+    var PeopleList = function(dom, data) {
+        PeopleList.superclass.constructor.apply(this, arguments);
 
     };
 
-    andrea.oo.extend(FanGallery, UIComponent);
+    andrea.oo.extend(PeopleList, UIComponent);
 
-    FanGallery.prototype.expand = function() {
+    PeopleList.prototype.expand = function() {
     };
 
-    return FanGallery;
+    return PeopleList;
 });

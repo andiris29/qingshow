@@ -23,7 +23,7 @@ define([
 
         async.parallel([ function(callback) {
             // Load template
-            TemplateManager.load('show/pitem-gallery.html', function(err, content$) {
+            TemplateManager.load('producer/pitem-gallery.html', function(err, content$) {
                 content$.css('minHeight', this._dom$.height() + 'px');
                 this._dom$.append(content$);
 
@@ -31,7 +31,7 @@ define([
             }.bind(this));
         }.bind(this), function(callback) {
             // Load template for list items
-            TemplateManager.load('show/pitem-gallery-li.html', function(err, content$) {
+            TemplateManager.load('producer/pitem-gallery-li.html', function(err, content$) {
                 callback(null, content$);
             }.bind(this));
         }.bind(this)], function(err, results) {
@@ -54,6 +54,15 @@ define([
         this._query(this._pageNo, this._render.bind(this));
     };
 
+    PItemGallery.prototype.uncollocate = function(pItem) {
+        $('.qsCollocate', this._dom$).each(function(index, dom) {
+            var collocate$ = $(dom);
+            if (collocate$.data('pItem') && collocate$.data('pItem')._id === pItem._id) {
+                collocate$.hide();
+            }
+        });
+    };
+
     PItemGallery.prototype.numTotal = function() {
         return this._numTotal;
     };
@@ -74,8 +83,8 @@ define([
 
             // Shows
             var containers$ = $('.qsLiItemContainer', this._dom$);
-            data.items.forEach( function(show, index) {
-                var li$ = this._renderOne(this._tpltLi$.clone(), show);
+            data.pItems.forEach( function(pItem, index) {
+                var li$ = this._renderOne(this._tpltLi$.clone(), pItem);
                 var targetContainer$;
                 containers$.each(function(index, container) {
                     if (!targetContainer$ || targetContainer$.children().length > $(container).children().length) {
@@ -92,12 +101,19 @@ define([
         }
     };
 
-    PItemGallery.prototype._renderOne = function(li$, show) {
-        $('.qsPItemCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
+    PItemGallery.prototype._renderOne = function(li$, pItem) {
+        $('.qsPItemCover', li$).attr('data-original', RenderUtils.imagePathToURL(pItem.cover));
 
         // User click here to avoid conflict with gesture
         $('.qsPItemCover', li$).on('click', function() {
-            // TODO
+            var collocate$ = $('.qsCollocate', li$).data('pItem', pItem);
+            if (collocate$.is(":visible")) {
+                collocate$.hide();
+                this.trigger('uncollocate', pItem);
+            } else {
+                collocate$.show();
+                this.trigger('collocate', pItem);
+            }
         }.bind(this));
         return li$;
     };
