@@ -3,9 +3,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var itemSchema;
 itemSchema = Schema({
-    category: Number,   // <code>
-    cover: String,
-    source: String
+    category : String, // <code>
+    cover : String,
+    source : String,
+    remarkInfo : {
+        sales : String
+    }
+}, {
+    collection : 'pItems'
 });
-var PItem = mongoose.model('pItems', itemSchema);
-module.exports = PItem;
+module.exports = mongoose.model('PItem', itemSchema); 

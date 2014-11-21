@@ -3,7 +3,7 @@ var People = require('../../model/peoples');
 var Comment = require('../../model/comments');
 var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
-var PItems = require('../../model/pitems');
+var PItem = require('../../model/pItems');
 
 var mongoose = require('mongoose');
 
@@ -179,16 +179,15 @@ _pItemsByCategories = function (req, res) {
     try {
         var param = req.queryString;
         var pageNo = parseInt(param.pageNo || 1);
-        var pageSize = parseInt(param.pageSize || 10);
-        var categoriesString = param.categories;
-        var categoriesIds = categoriesString.map(function (s) { return parseInt(s); });
+        var pageSize = parseInt(param.pageSize || 20);
+        var categories = (param.categories || '').split(',');
     } catch (e) {
         ServicesUtil.responseError(res, e);
         return;
     }
     function buildQuery() {
-        var query = PItems.find();
-        query.where({category : {$in : categoriesIds}});
+        var query = PItem.find();
+        query.where({category : {$in : categories}});
         return query;
     }
     function additionFunc(query) {
