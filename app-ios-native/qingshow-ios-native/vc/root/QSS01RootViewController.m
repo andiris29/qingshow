@@ -37,7 +37,7 @@
 {
     self = [self initWithNibName:@"QSS01RootViewController" bundle:nil];
     if (self) {
-        
+        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
     }
     return self;
 }
@@ -111,7 +111,7 @@
 - (void)accountButtonPressed
 {
     QSUserManager* userManager = [QSUserManager shareUserManager];
-    if (userManager.fIsLogined && userManager.userInfo) {
+    if (userManager.fIsLogined && !userManager.userInfo) {
         //还未获取到用户数据
         [self showTextHud:@"请稍后再试"];
         [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];

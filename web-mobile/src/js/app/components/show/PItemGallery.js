@@ -74,8 +74,7 @@ define([
 
             // Shows
             var containers$ = $('.qsLiItemContainer', this._dom$);
-            var shows = data.shows;
-            shows.forEach( function(show, index) {
+            data.items.forEach( function(show, index) {
                 var li$ = this._renderOne(this._tpltLi$.clone(), show);
                 var targetContainer$;
                 containers$.each(function(index, container) {
@@ -94,10 +93,10 @@ define([
     };
 
     PItemGallery.prototype._renderOne = function(li$, show) {
-        $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
+        $('.qsPItemCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
 
         // User click here to avoid conflict with gesture
-        $('.qsShowCover', li$).on('click', function() {
+        $('.qsPItemCover', li$).on('click', function() {
             // TODO
         }.bind(this));
         return li$;

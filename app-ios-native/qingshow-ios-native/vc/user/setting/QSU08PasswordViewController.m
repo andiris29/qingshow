@@ -7,8 +7,13 @@
 //
 
 #import "QSU08PasswordViewController.h"
+#import "UIViewController+ShowHud.h"
+#import "QSUserManager.h"
 
 @interface QSU08PasswordViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *nowPasswdText;
+@property (weak, nonatomic) IBOutlet UITextField *confirmPasswdText;
+@property (weak, nonatomic) IBOutlet UITextField *passwdText;
 
 @end
 
@@ -16,7 +21,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // Initialize Navigation
+    self.navigationItem.title = @"设置";
+    self.navigationItem.backBarButtonItem.title = @"";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
+    
+    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(actionSave)];
+    
+    [[self navigationItem] setRightBarButtonItem:btnSave];
+    
+    // Initialize View
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +44,27 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Action
+- (void)actionSave {
+    
+    NSString *nowPasswd = self.nowPasswdText.text;
+    NSString *newPasswd = self.passwdText.text;
+    NSString *confirmPasswd = self.confirmPasswdText.text;
+    
+    if (nowPasswd.length == 0) {
+        [self showErrorHudWithText:@"请输入当前密码"];
+        return;
+    }
+    if (newPasswd.length == 0) {
+        [self showErrorHudWithText:@"请输入新密码"];
+        return;
+    }
+    if ([confirmPasswd compare:newPasswd] != NSOrderedSame) {
+        [self showErrorHudWithText:@"两次密码输入不一致"];
+        return;
+    }
+    
 }
-*/
 
 @end
