@@ -14,14 +14,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
-#warning 从UserManager取当前登陆用户信息
-
 @interface QSU02UserSettingViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
-@property (strong, nonatomic) IBOutlet UITableView *settingTableView;
-@property (weak, nonatomic) IBOutlet UITextField *nameText;
-@property (weak, nonatomic) IBOutlet UITextField *lengthText;
-@property (weak, nonatomic) IBOutlet UITextField *weightText;
 @end
 
 @implementation QSU02UserSettingViewController
@@ -147,19 +140,14 @@
     self.birthdayText.text = [formatter stringFromDate:birthDay];
 }
 
-#pragma mark - Action
-- (void)actionSave {
-    NSString *name = self.nameText.text;
-    NSString *birthDay = self.birthdayText.text;
-    NSString *length = self.lengthText.text;
-    NSString *weight = self.weightText.text;
-    
+// Update Peoples
+- (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity {
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
-            [self showSuccessHudWithText:@"更新成功"];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [vc showSuccessHudWithText:@"更新成功"];
+            [vc.navigationController popToRootViewControllerAnimated:YES];
         } else {
-            [self showErrorHudWithText:@"更新失败"];
+            [vc showErrorHudWithText:@"更新失败"];
         }
     };
     
@@ -167,21 +155,35 @@
         if (error.userInfo[@"error"] != nil) {
             NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
             if (errorCode != nil) {
-                [self showErrorHudWithText:@"更新失败，请确认输入的内容"];
+                [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
             }
         } else {
-            [self showErrorHudWithText:@"网络连接失败"];
+            [vc showErrorHudWithText:@"网络连接失败"];
         }
     };
 
-    [SHARE_NW_ENGINE updatePeople:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}
-                        onSuccess:success
-                          onError:error];
+    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+}
+
+#pragma mark - Action
+- (void)actionSave {
+    NSString *name = self.nameText.text;
+    NSString *birthDay = self.birthdayText.text;
+    NSString *length = self.lengthText.text;
+    NSString *weight = self.weightText.text;
+    
+    [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}];
 }
 
 - (void)changeDate:(id)sender {
     UIDatePicker *datePicker = (UIDatePicker *)self.birthdayText.inputView;
     [self updateBirthDayLabel:datePicker.date];
+}
+
+
+#pragma mark - Delegate
+- (void)passwordViewController:(QSU08PasswordViewController *)vc didSavingPassword:(NSString *)newPassword needCurrentPassword:(NSString *)curPasswrod {
+    [self updatePeopleEntityViewController:vc byEntity:@{@"password":newPassword, @"currentPassword": curPasswrod}];
 }
 
 @end
