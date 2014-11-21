@@ -8,7 +8,7 @@ import android.widget.Adapter;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 
-public class MListView extends PullToRefreshBase<MultiColumnListView> implements PLA_AbsListView.OnScrollListener {
+public class MPullRefreshListView extends PullToRefreshBase<MultiColumnListView> implements PLA_AbsListView.OnScrollListener {
 
     /**ListView*/
     private MultiColumnListView mListView;
@@ -22,7 +22,7 @@ public class MListView extends PullToRefreshBase<MultiColumnListView> implements
      *
      * @param context context
      */
-    public MListView(Context context) {
+    public MPullRefreshListView(Context context) {
         this(context, null);
     }
 
@@ -32,7 +32,7 @@ public class MListView extends PullToRefreshBase<MultiColumnListView> implements
      * @param context context
      * @param attrs attrs
      */
-    public MListView(Context context, AttributeSet attrs) {
+    public MPullRefreshListView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
@@ -43,7 +43,7 @@ public class MListView extends PullToRefreshBase<MultiColumnListView> implements
      * @param attrs attrs
      * @param defStyle defStyle
      */
-    public MListView(Context context, AttributeSet attrs, int defStyle) {
+    public MPullRefreshListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         setPullLoadEnabled(false);

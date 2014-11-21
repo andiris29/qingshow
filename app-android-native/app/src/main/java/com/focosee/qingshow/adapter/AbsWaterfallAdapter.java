@@ -9,7 +9,6 @@ import com.focosee.qingshow.entity.AbsEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.LinkedList;
-import java.util.List;
 
 abstract class AbsViewHolder{}
 
@@ -45,16 +44,6 @@ public abstract class AbsWaterfallAdapter extends BaseAdapter {
     @Override
     public long getItemId(int arg0) {
         return arg0;
-    }
-
-    public void addItemLast(List<AbsEntity> datas) {
-        _data.addAll(datas);
-    }
-
-    public void addItemTop(List<AbsEntity> datas) {
-        for (AbsEntity info : datas) {
-            _data.addFirst(info);
-        }
     }
 
 }
