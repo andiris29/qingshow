@@ -76,7 +76,7 @@
     self.contentLabel.text = showData[@"name"];
 
     NSString* coverPath = showData[@"cover"];
-    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
+    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     
     /*
     @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;

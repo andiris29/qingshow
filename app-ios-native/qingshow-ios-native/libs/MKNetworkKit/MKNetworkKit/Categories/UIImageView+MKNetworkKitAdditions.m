@@ -31,6 +31,7 @@
 
 static MKNetworkEngine *DefaultEngine;
 static char imageFetchOperationKey;
+static char currentImageUrlKey;
 
 const float kFromCacheAnimationDuration = 0.1f;
 const float kFreshLoadAnimationDuration = 0.35f;
@@ -57,6 +58,15 @@ const float kFreshLoadAnimationDuration = 0.35f;
   
   objc_setAssociatedObject(self, &imageFetchOperationKey, imageFetchOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+- (NSURL*)currentImageUrl
+{
+  return (NSURL*) objc_getAssociatedObject(self, &currentImageUrlKey);
+}
+- (void)setCurrentImageUrl:(NSURL*)url
+{
+  objc_setAssociatedObject(self, &currentImageUrlKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
 
 +(void) setDefaultEngine:(MKNetworkEngine*) engine {
   
@@ -79,8 +89,8 @@ const float kFreshLoadAnimationDuration = 0.35f;
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
-  
-    if (image) {
+    
+    if (![url isEqual:[self currentImageUrl]] && image) {
         self.image = image;
         self.contentMode = UIViewContentModeCenter;
     }
@@ -99,9 +109,12 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                             animations:^{
                                                                  self.image = fetchedImage;
                                                                 self.contentMode = UIViewContentModeScaleAspectFit;
+                                                                [self setCurrentImageUrl:url];
                                                                } completion:nil];
                                             } else {
-                                              self.image = fetchedImage;                                              
+                                                self.image = fetchedImage;
+                                                self.contentMode = UIViewContentModeScaleAspectFit;
+                                                [self setCurrentImageUrl:url];
                                             }
                                             
                                           } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {

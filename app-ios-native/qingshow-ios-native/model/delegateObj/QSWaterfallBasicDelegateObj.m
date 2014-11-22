@@ -87,13 +87,27 @@
 {
 
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
+        int preCount = 0;
         if (page == 1) {
             [self.resultArray removeAllObjects];
             self.refreshOperation = nil;
             _currentPage = 1;
         }
+        else {
+            preCount = self.resultArray.count;
+        }
+        
         [self.resultArray addObjectsFromArray:showArray];
-        [self.collectionView reloadData];
+        if (page == 1) {
+            [self.collectionView reloadData];
+        } else {
+            NSMutableArray* indexPaths = [@[] mutableCopy];
+            for (int i = preCount; i < self.resultArray.count; i++){
+                [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+            }
+            [self.collectionView insertItemsAtIndexPaths:indexPaths];
+        }
+
         if (block) {
             block();
         }
