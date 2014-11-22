@@ -11,12 +11,22 @@
     .qsTpltCollocatedGallery .qsCollocatedContainer {
         overflow: auto;
         width: 550px;
+        min-height: 100px;
         float: left;
     }
-    .qsTpltCollocatedGallery .qsPItemCover {
+    .qsTpltCollocatedGallery .qsTpltCollocated {
+        position: relative;
         margin: 10px 5px;
-        border-radius: 4px;
         float: left;
+    }
+    .qsTpltCollocatedGallery .qsTpltCollocated:first-child {
+        margin-left: 10px;
+    }
+    .qsTpltCollocatedGallery .qsTpltCollocated:last-child {
+        margin-right: 10px;
+    }
+    .qsTpltCollocatedGallery .qsPItemCover {
+        border-radius: 4px;
         width: 80px;
         height: 80px;
         background-image: url('../../../../server-image-fake/covers/moto01.jpg');
@@ -24,18 +34,29 @@
         background-repeat: no-repeat;
         background-position: center;
     }
-    .qsTpltCollocatedGallery .qsPItemCover:first-child {
-        margin-left: 10px;
+    .qsTpltCollocatedGallery .qsCollocate {
+        position: absolute;
+        right: 5px;
+        bottom: 5px;
+        font-size: 18px;
+        color: #21b384;
+        text-shadow: 1px 1px 0px #fff;
     }
-    .qsTpltCollocatedGallery .qsPItemCover:last-child {
-        margin-right: 10px;
+    .qsTpltCollocatedGallery .qsConfirmContainer {
+        float: left;
+    }
+    .qsTpltCollocatedGallery .qsNumCollocated {
+        position: absolute;
+        width: 80px;
+        text-align: center;
+        top: 16px;
     }
     .qsTpltCollocatedGallery .qsConfirm {
         opacity: .9;
         font-size: 18px;
         text-align: center;
         line-height: 36px;
-        bottom: 32px;
+        bottom: 20px;
         position: absolute;
         width: 80px;
         height: 36px;
@@ -46,14 +67,13 @@
 <div id="wrapper" style="width: 640px; height: 160px; position: relative; margin: auto;">
     <div class="qsTpltCollocatedGallery">
         <div class="qsCollocatedContainer">
-            <div class="qsPItemCover clone fakeBackgroundImage" ></div>
-            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
-            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
-            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
-            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
-            <div class="qsPItemCover fake fakeBackgroundImage" ></div>
+            <div class="qsTpltCollocated clone">
+                <div class="qsPItemCover fakeBackgroundImage" ></div>
+                <div class="qsCollocate fa fa-check-circle-o"></div>
+            </div>
         </div>
-        <div>
+        <div class="qsConfirmContainer">
+            <span class="qsNumCollocated fakeText">12</span>
             <div class="qsConfirm qsButtonHighlight">
                 确定
             </div>

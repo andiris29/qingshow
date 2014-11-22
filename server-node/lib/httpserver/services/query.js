@@ -4,6 +4,7 @@ var Comment = require('../../model/comments');
 var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
 var PItem = require('../../model/pItems');
+var PShow = require('../../model/pShows');
 
 var mongoose = require('mongoose');
 
@@ -12,10 +13,8 @@ var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var nimble = require('nimble');
 
-
-
-var _models, _comments, _brands, _terms, _pItemsByCategories;
-_models = function (req, res) {
+var _models, _comments, _brands, _terms, _pItemsByCategories, _pShowsByModel;
+_models = function(req, res) {
     var param = res.queryString;
     if (param._ids) {
         //TODO Check hasFollowed
@@ -27,7 +26,11 @@ _models = function (req, res) {
             return;
         }
 
-        People.find({_id : {$in : idsObjArray}}, function (err, peoples){
+        People.find({
+            _id : {
+                $in : idsObjArray
+            }
+        }, function(err, peoples) {
             if (err) {
                 ServicesUtil.responseError(res, err);
                 return;
@@ -36,13 +39,13 @@ _models = function (req, res) {
                 return;
             } else {
                 var retObj = {
-                    metadata: {
-                        "numPages": 1,
-                        "numTotal": peoples.length,
-                        "invalidateTime": 3600000
+                    metadata : {
+                        "numPages" : 1,
+                        "numTotal" : peoples.length,
+                        "invalidateTime" : 3600000
                     },
-                    data: {
-                        peoples: peoples
+                    data : {
+                        peoples : peoples
                     }
                 };
                 res.json(retObj);
@@ -51,34 +54,41 @@ _models = function (req, res) {
         });
     } else {
         var followingList = null;
-        nimble.series([function (callback) {
+        nimble.series([
+        function(callback) {
             if (req.session.userId) {
-                People.findOne({_id : req.session.userId})
-                    .select('followRefs')
-                    .exec(function (err, p) {
-                        if (p) {
-                            followingList = p.followRefs;
-                        }
-                        callback();
-                    });
+                People.findOne({
+                    _id : req.session.userId
+                }).select('followRefs').exec(function(err, p) {
+                    if (p) {
+                        followingList = p.followRefs;
+                    }
+                    callback();
+                });
             } else {
                 callback();
             }
 
-        }, function (callback) {
+        },
+        function(callback) {
             var pageNo = param.pageNo || 1;
             var pageSize = param.pageSize || 10;
             function buildQuery() {
-                return People.find({roles : 1});
+                return People.find({
+                    roles : 1
+                });
             }
+
             function modelDataGenFunc(data) {
                 return {
-                    peoples: data
+                    peoples : data
                 };
             }
-            ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function (models, cb) {
+
+
+            ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(models, cb) {
                 var retModels = [];
-                models.forEach(function (model) {
+                models.forEach(function(model) {
                     var m = JSON.parse(JSON.stringify(model));
                     if (followingList && followingList.indexOf(model._id) !== -1) {
                         m.hasFollowed = true;
@@ -94,7 +104,7 @@ _models = function (req, res) {
     }
 };
 
-_brands = function (req, res) {
+_brands = function(req, res) {
     var param, pageNo, pageSize, type;
     try {
         param = res.queryString;
@@ -116,17 +126,22 @@ _brands = function (req, res) {
     }
 
     function buildQuery() {
-        return Brand.find({type : type});
+        return Brand.find({
+            type : type
+        });
     }
+
     function modelDataGenFunc(data) {
         return {
-            brands: data
+            brands : data
         };
     }
+
+
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize);
 };
 
-_comments = function (req, res) {
+_comments = function(req, res) {
     try {
         var param = res.queryString;
         var pageNo = parseInt(param.pageNo || 1);
@@ -137,19 +152,27 @@ _comments = function (req, res) {
         ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
         return;
     }
-    Show.findOne({_id : showIdObj}, function (err, show) {
+    Show.findOne({
+        _id : showIdObj
+    }, function(err, show) {
         function buildQuery() {
-            return Comment.find({showRef : showIdObj});
+            return Comment.find({
+                showRef : showIdObj
+            });
         }
+
         function additionFunc(query) {
-            query.sort({time: 1})
-                .populate('peopleRef');
+            query.sort({
+                time : 1
+            }).populate('peopleRef');
         }
+
         function commentDataGenFunc(data) {
             return {
-                comments: data
+                comments : data
             };
         }
+
         if (err) {
             ServicesUtil.responseError(res, err);
         } else if (!show) {
@@ -160,22 +183,19 @@ _comments = function (req, res) {
     });
 };
 
-_terms = function (req, res) {
+_terms = function(req, res) {
     //TODO 暂时不做
     res.send('terms');
 };
 
-/*
-* query/pItemsByCategories [paging][get]
+// query/pItemsByCategories [paging][get]
+//
+// Request
+//  categories array of code
+// Response
+//  data.items array, entity in db.pItems
 
- Request
- categories array of code
-
- Response
- data.items array, entity in db.pItems
-* */
-
-_pItemsByCategories = function (req, res) {
+_pItemsByCategories = function(req, res) {
     try {
         var param = req.queryString;
         var pageNo = parseInt(param.pageNo || 1);
@@ -187,25 +207,91 @@ _pItemsByCategories = function (req, res) {
     }
     function buildQuery() {
         var query = PItem.find();
-        query.where({category : {$in : categories}});
+        query.where({
+            category : {
+                $in : categories
+            }
+        });
         return query;
     }
+
     function additionFunc(query) {
         //TODO: add sort?
         return query;
     }
+
     function dateGenFunc(datas) {
         return {
-            pItems: datas
+            pItems : datas
         };
     }
+
+
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, dateGenFunc, pageNo, pageSize);
 };
 
+// query/pShowsByModel [get]
+//
+// Request
+//  _id ObjectId in peoples
+// Response
+//  data.pShows array, entity in db.pShows
+_pShowsByModel = function(req, res) {
+    try {
+        var param = req.queryString;
+        var _id = param._id;
+    } catch (e) {
+        ServicesUtil.responseError(res, e);
+        return;
+    }
+
+    PShow.find({
+        'modelRef' : _id
+    }, function(err, pShows) {
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        } else {
+            var retObj = {
+                'data' : {
+                    'pShows' : pShows
+                }
+            };
+            res.json(retObj);
+            return;
+        }
+    });
+};
+
 module.exports = {
-    'models' : {method: 'get', func: _models, needLogin: false},
-    'comments' : {method: 'get', func: _comments, needLogin: false},
-    'brands' : {method: 'get', func:_brands, needLogin: false},
-    'terms' : {method: 'get', func: _terms, needLogin: false},
-    "pItemsByCategories" : {method: 'get', func: _pItemsByCategories, needLogin: false}
+    'models' : {
+        method : 'get',
+        func : _models,
+        needLogin : false
+    },
+    'comments' : {
+        method : 'get',
+        func : _comments,
+        needLogin : false
+    },
+    'brands' : {
+        method : 'get',
+        func : _brands,
+        needLogin : false
+    },
+    'terms' : {
+        method : 'get',
+        func : _terms,
+        needLogin : false
+    },
+    'pItemsByCategories' : {
+        method : 'get',
+        func : _pItemsByCategories,
+        needLogin : false
+    },
+    'pShowsByModel' : {
+        method : 'get',
+        func : _pShowsByModel,
+        needLogin : false
+    }
 };

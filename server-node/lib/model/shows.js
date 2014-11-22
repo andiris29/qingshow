@@ -11,7 +11,6 @@ var http = require('http');
 var Schema = mongoose.Schema;
 var showSchema;
 showSchema = Schema({
-    name: String,
     cover: String,
     $coverMetadata: {
         cover: String,

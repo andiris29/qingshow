@@ -26,6 +26,12 @@ define([
         }, callback);
     };
 
+    QueryService.pShowsByModel = function(_id, callback) {
+        DataService.request('GET', '/query/pShowsByModel', {
+            '_id' : _id
+        }, callback);
+    };
+
     var _shows = function(_ids, callback) {
         DataService.request('GET', '/query/shows', {
             '_ids' : _ids
