@@ -11,9 +11,6 @@
 #import "QSUserManager.h"
 
 @interface QSU08PasswordViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *nowPasswdText;
-@property (weak, nonatomic) IBOutlet UITextField *confirmPasswdText;
-@property (weak, nonatomic) IBOutlet UITextField *passwdText;
 
 @end
 
@@ -65,6 +62,7 @@
         return;
     }
     
+    [self.delegate passwordViewController:self didSavingPassword:newPasswd needCurrentPassword:nowPasswd];
 }
 
 @end

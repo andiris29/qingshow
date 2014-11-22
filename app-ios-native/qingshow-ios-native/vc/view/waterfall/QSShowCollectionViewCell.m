@@ -57,14 +57,25 @@
     NSDictionary* modelDict = showData[@"modelRef"];
 //    NSArray* roles = modelDict[@"roles"];
     self.nameLabel.text = modelDict[@"name"];
-    self.statusLabel.text = [NSString stringWithFormat:@"%@cm %@kg",modelDict[@"height"], modelDict[@"weight"]];
+    
+    NSNumber* height = modelDict[@"height"];
+    NSNumber* weight = modelDict[@"weight"];
+    NSMutableString* statusString = [@"" mutableCopy];
+    if (height) {
+        [statusString appendFormat:@"%@cm ", height];
+    }
+    if (weight) {
+        [statusString appendFormat:@"%@kg ", weight];
+    }
+    
+    self.statusLabel.text = statusString;
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     
     self.contentLabel.text = showData[@"name"];
 
     NSString* coverPath = showData[@"cover"];
-    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath]];
+    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
     
     /*
     @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;
@@ -111,7 +122,7 @@
 #pragma mark - Static Method
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
-    NSDictionary* coverMetadata = showData[@"coverMetaData"];
+    NSDictionary* coverMetadata = showData[@"$coverMetaData"];
     float iniWidth = 145;
     float height = 212;
     float width = iniWidth;

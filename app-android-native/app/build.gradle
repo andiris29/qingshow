@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 18
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "qingshow.com.qingshow"
         minSdkVersion 15
-        targetSdkVersion 20
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
     }
@@ -21,4 +21,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':likePinterest')
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+    compile 'com.google.code.gson:gson:2.3'
+    compile 'com.mcxiaoke.volley:library:1.0.7'
 }

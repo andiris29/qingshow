@@ -80,7 +80,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
   
-  if(image) self.image = image;
+    if (image) {
+        self.image = image;
+        self.contentMode = UIViewContentModeCenter;
+    }
   [self.imageFetchOperation cancel];
   if(!imageCacheEngine) imageCacheEngine = DefaultEngine;
   
@@ -95,6 +98,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                                options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
                                                             animations:^{
                                                                  self.image = fetchedImage;
+                                                                self.contentMode = UIViewContentModeScaleAspectFit;
                                                                } completion:nil];
                                             } else {
                                               self.image = fetchedImage;                                              

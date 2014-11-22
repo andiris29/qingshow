@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="145" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="root_cell_sample_image" id="0gK-JO-VWd">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="root_cell_placehold_image1" id="0gK-JO-VWd">
                         <rect key="frame" x="0.0" y="0.0" width="145" height="212"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -78,8 +78,8 @@
     </objects>
     <resources>
         <image name="root_cell_icon_notice" width="13" height="11"/>
+        <image name="root_cell_placehold_image1" width="84" height="112"/>
         <image name="root_cell_sample_head" width="26" height="26"/>
-        <image name="root_cell_sample_image" width="145" height="211"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

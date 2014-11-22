@@ -51,5 +51,7 @@
     <string name="password_hint_activity_login">英文数字8–12字符</string>
     <string name="login_activity_login">登陆</string>
     <string name="title_activity_personal">PersonalActivity</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_s01_home">S01HomeActivity</string>
 
 </resources>
