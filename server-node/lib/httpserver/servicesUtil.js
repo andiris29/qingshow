@@ -23,8 +23,10 @@ function limitQuery(query, pageNo, pageSize) {
 function stringArrayToObjectIdArray(stringArray) {
     var retArray = [];
     stringArray.forEach(function (idStr) {
-        var objId = mongoose.mongo.BSONPure.ObjectID(idStr);
-        retArray.push(objId);
+        try {
+            var objId = mongoose.mongo.BSONPure.ObjectID(idStr);
+            retArray.push(objId);
+        } catch(e) {}
     });
     return retArray;
 }

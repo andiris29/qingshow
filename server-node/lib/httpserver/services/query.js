@@ -15,7 +15,7 @@ var nimble = require('nimble');
 
 var _models, _comments, _brands, _terms, _pItemsByCategories, _pShowsByModel;
 _models = function(req, res) {
-    var param = res.queryString;
+    var param = req.queryString;
     if (param._ids) {
         //TODO Check hasFollowed
         try {

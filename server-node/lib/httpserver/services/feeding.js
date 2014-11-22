@@ -224,7 +224,7 @@ _chosen = function (req, res){
 _byModel = function (req, res) {
     var param, producerIDs, pageNo, pageSize;
     param = req.queryString;
-    producerIDs = param.producerIDs || [];
+    producerIDs = param.producerIDs || '';
     producerIDs = producerIDs.split(',');
     producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
     pageNo = parseInt(param.pageNo || 1);

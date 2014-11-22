@@ -110,7 +110,7 @@
     [self updateViewFrame:self.contentLabel withBase:self.contentLabelBaseY imageHeight:height];
     [self updateViewFrame:self.headIconImageView withBase:self.headIconImageViewBaseY imageHeight:height];
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
-    [self updateViewFrame:self.headIconImageView withBase:self.favorButtonBaseY imageHeight:height];
+    [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight
