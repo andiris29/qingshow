@@ -78,6 +78,13 @@
         [self.delegate scrollViewDidScroll:scrollView];
     }
 }
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([self.delegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+        [self.delegate scrollViewWillBeginDragging:scrollView];
+    }
+}
+
 #pragma QSShowCollectionViewCellDelegate
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
 {

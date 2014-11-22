@@ -181,6 +181,10 @@
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
     [self hideMenu];
 }
 - (void)didClickShow:(NSDictionary*)showDict
@@ -193,5 +197,9 @@
 - (void)handleNetworkError:(NSError*)error
 {
     [self showErrorHudWithError:error];
+}
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self hideMenu];
 }
 @end
