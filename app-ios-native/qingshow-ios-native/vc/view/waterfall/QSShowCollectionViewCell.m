@@ -6,13 +6,14 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSShowCollectionViewCell.h"
 #import <QuartzCore/QuartzCore.h>
-#import "UIImageView+MKNetworkKitAdditions.h"
 
+#import "QSShowCollectionViewCell.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 #import "ServerPath.h"
 #import "DatabaseConstant.h"
 
+#import "QSModelUtil.h"
 
 @interface QSShowCollectionViewCell ()
 
@@ -32,7 +33,6 @@
 
 
 @implementation QSShowCollectionViewCell
-#warning TODO 切圆角
 
 #pragma mark - Life Cycle
 - (void)awakeFromNib
@@ -40,6 +40,7 @@
     [super awakeFromNib];
     [self baseHeightSetup];
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.height / 2;
+    self.headIconImageView.layer.masksToBounds = YES;
 }
 
 #pragma mark - IBAction
@@ -58,27 +59,16 @@
 //    NSArray* roles = modelDict[@"roles"];
     self.nameLabel.text = modelDict[@"name"];
     
-    NSNumber* height = modelDict[@"height"];
-    NSNumber* weight = modelDict[@"weight"];
-    NSMutableString* statusString = [@"" mutableCopy];
-    if (height) {
-        [statusString appendFormat:@"%@cm ", height];
-    }
-    if (weight) {
-        [statusString appendFormat:@"%@kg ", weight];
-    }
-    
-    self.statusLabel.text = statusString;
+    self.statusLabel.text = [QSModelUtil buildModelStatusString:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     
     self.contentLabel.text = showData[@"name"];
 
     NSString* coverPath = showData[@"cover"];
-    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
+    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     
     /*
-    @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;
     @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
      */
 }
@@ -109,7 +99,7 @@
     [self updateViewFrame:self.contentLabel withBase:self.contentLabelBaseY imageHeight:height];
     [self updateViewFrame:self.headIconImageView withBase:self.headIconImageViewBaseY imageHeight:height];
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
-    [self updateViewFrame:self.headIconImageView withBase:self.favorButtonBaseY imageHeight:height];
+    [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight
@@ -122,7 +112,7 @@
 #pragma mark - Static Method
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
-    NSDictionary* coverMetadata = showData[@"$coverMetaData"];
+    NSDictionary* coverMetadata = showData[@"coverMetadata"];
     float iniWidth = 145;
     float height = 212;
     float width = iniWidth;

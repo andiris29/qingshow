@@ -10,6 +10,7 @@
 #import "ServerPath.h"
 #import "QSNetworkOperation.h"
 #import "QSUserManager.h"
+#import "QSFeedingCategory.h"
 
 //User
 #define PATH_USER_LOGIN @"user/login"
@@ -25,6 +26,9 @@
 //Feeding
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
+#define PATH_FEEDING_HOT @"feeding/hot"
+#define PATH_FEEDING_BY_TAGS @"feeding/byTags"
+#define PATH_FEEDING_STUDIO @"feeding/studio"
 
 //Query
 
@@ -117,7 +121,7 @@
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_FEEDING_CHOSEN
+    return [self startOperationWithPath:PATH_FEEDING_HOT
                                  method:@"GET"
                                paramers:@{@"pageNo" : @(page),
                                           @"pageSize" : @10}
@@ -159,6 +163,14 @@
                     errorBlock(error);
                 }
             }];
+}
+
+- (MKNetworkOperation*)getFeedByCategory:(QSFeedingCategory)category
+                                    page:(int)page
+                               onSucceed:(ArraySuccessBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    return nil;
 }
 
 

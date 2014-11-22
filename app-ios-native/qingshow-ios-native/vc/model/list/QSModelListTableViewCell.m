@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "ServerPath.h"
+#import "QSModelUtil.h"
 
 @implementation QSModelListTableViewCell
 
@@ -17,6 +18,7 @@
 - (void)awakeFromNib
 {
     self.headPhotoImageView.layer.cornerRadius = self.headPhotoImageView.frame.size.height / 2;
+    self.headPhotoImageView.layer.masksToBounds = YES;
 }
 
 
@@ -40,8 +42,8 @@
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
     self.nameLabel.text = modelDict[@"name"];
-    self.detailLabel.text = [NSString stringWithFormat:@"%@cm %@kg",modelDict[@"height"], modelDict[@"weight"]];
-    NSString* headPhotoPath = [NSString stringWithFormat:@"%@%@",kImageUrlBase, modelDict[@"portrait"]];
+    self.detailLabel.text = [QSModelUtil buildModelStatusString:modelDict];
+    NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     NSNumber* hasFollowed = modelDict[@"hasFollowed"];
     if (hasFollowed && hasFollowed.boolValue) {

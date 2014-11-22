@@ -7,6 +7,9 @@
 //
 
 #import "QSBadgeView.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+#import <QuartzCore/QuartzCore.h>
+#import "QSModelUtil.h"
 
 @interface QSBadgeView ()
 
@@ -45,6 +48,11 @@
 }
 
 #pragma mark - Life Cycle
+- (void)awakeFromNib
+{
+    self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
+    self.iconImageView.layer.masksToBounds = YES;
+}
 - (void)updateView
 {
     self.btnGroup = [[QSSectionButtonGroup alloc] initWithType:self.type];
@@ -59,8 +67,13 @@
     self.nameLabel.text = peopleDict[@"name"];
 #warning roles
     self.roleLabel.text = @"roles";
-    self.statusLabel.text = [NSString stringWithFormat:@"%@cm,%@kg", peopleDict[@"height"], peopleDict[@"weight"]];
-#warning head photo
+    
+    self.statusLabel.text = [QSModelUtil buildModelStatusString:peopleDict];
+
+    NSString* headPhotoPath = peopleDict[@"portrait"];
+    [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
+    
+    
     NSNumber* hasFollowed = peopleDict[@"hasFollowed"];
     if (hasFollowed && hasFollowed.boolValue) {
         self.btnGroup.singleButton.textLabel.text = @"取消关注";

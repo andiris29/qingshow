@@ -15,6 +15,7 @@
 
 @optional
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
 - (void)didClickShow:(NSDictionary*)showDict;
 - (void)addFavorShow:(NSDictionary*)showDict;
 @end
