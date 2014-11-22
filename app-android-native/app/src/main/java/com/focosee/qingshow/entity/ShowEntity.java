@@ -20,11 +20,15 @@ public class ShowEntity extends AbsEntity {
 
     // the image of the show
     public String getShowCover() {
-        return cover;
+        if (null != coverMetaData && null != coverMetaData.cover)
+            return coverMetaData.cover;
+        return null;
     }
 
     public String getCoverHeight() {
-        return coverMetaData.height;
+        if (null != coverMetaData && null != coverMetaData.cover)
+            return coverMetaData.height;
+        return null;
     }
 
     public String getCoverWidth() {

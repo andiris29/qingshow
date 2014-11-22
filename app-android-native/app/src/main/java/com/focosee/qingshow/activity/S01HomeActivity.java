@@ -2,7 +2,6 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -13,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowEntity;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -27,6 +27,7 @@ import java.util.LinkedList;
 
 public class S01HomeActivity extends Activity {
 
+//    private MNavigationView _navigationView;
     private MPullRefreshListView _wfPullRefreshView;
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
@@ -38,6 +39,11 @@ public class S01HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s01_home);
+
+//        _navigationView = (MNavigationView) findViewById(R.id.S01_navigation);
+//        _navigationView.setLeft_drawable(R.drawable.nav_btn_menu);
+//        _navigationView.setRight_drawable(R.drawable.nav_btn_account);
+//        _navigationView.setLogo_drawable(R.drawable.nav_btn_image_logo);
 
         _wfPullRefreshView = (MPullRefreshListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
@@ -79,36 +85,29 @@ public class S01HomeActivity extends Activity {
     }
 
     private void doRefreshTask() {
-        Log.i("okyu", "refresh: start");
         _getDataFromNet(true, "1", "10");
     }
 
     private void doGetMoreTask() {
-        Log.i("okyu", "loadmore: start");
         _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        String url = "http://121.41.162.102:30001/services/feeding/chosen?pageNo="+pageNo+"&pageSize="+pageSize;
-        JsonObjectRequest jor = new JsonObjectRequest(url, null, new Response.Listener<JSONObject>(){
+        JsonObjectRequest jor = new JsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
                     String resultStr = ((JSONObject) response.get("data")).get("shows").toString();
-                    Log.i("okyu", "receive:" + resultStr);
                     LinkedList<ShowEntity> results = ShowEntity.getLinkedListFromString(resultStr);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
-                        _adapter.notifyDataSetChanged();
                         _currentPageIndex = 1;
-                        Log.i("okyu", "refresh: ok");
                     } else {
                         _adapter.addItemLast(results);
-                        _adapter.notifyDataSetChanged();
                         _currentPageIndex++;
-                        Log.i("okyu", "load more: ok");
                     }
+                    _adapter.notifyDataSetChanged();
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
                     _wfPullRefreshView.setHasMoreData(true);
@@ -116,15 +115,19 @@ public class S01HomeActivity extends Activity {
 
                 }catch (Exception error){
                     Toast.makeText(S01HomeActivity.this, "Error:"+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    Log.i("okyu", "error" + error.toString());
+                    _wfPullRefreshView.onPullDownRefreshComplete();
+                    _wfPullRefreshView.onPullUpRefreshComplete();
+                    _wfPullRefreshView.setHasMoreData(true);
                 }
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S01HomeActivity.this, "Error:"+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                Log.i("okyu", "error" + error.getMessage());
+                Toast.makeText(S01HomeActivity.this, "Error:"+error.toString(), Toast.LENGTH_SHORT).show();
+                _wfPullRefreshView.onPullDownRefreshComplete();
+                _wfPullRefreshView.onPullUpRefreshComplete();
+                _wfPullRefreshView.setHasMoreData(true);
             }
         });
         QSApplication.QSRequestQueue().add(jor);
