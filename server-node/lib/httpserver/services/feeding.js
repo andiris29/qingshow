@@ -49,7 +49,7 @@ function showsFinalHandler(shows, callBackFunc) {
 //feeding/recommendation
 _recommendation = function (req, res) {
     var param, tags, pageNo, pageSize;
-    param = res.queryString;
+    param = req.queryString;
     tags = param.tags || [];
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
@@ -72,7 +72,7 @@ _recommendation = function (req, res) {
 //feeding/hot  sortedByNumView
 _hot = function (req, res) {
     var param, pageNo, pageSize;
-    param = res.queryString;
+    param = req.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
     function buildQuery() {
@@ -89,7 +89,7 @@ _hot = function (req, res) {
 //feeding/like sortedByNumLike
 _like = function (req, res){
     var param, pageNo, pageSize;
-    param = res.queryString;
+    param = req.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
     var currentUser = req.currentUser;
@@ -158,7 +158,7 @@ _like = function (req, res){
 //feeding/chosen
 _chosen = function (req, res){
     var param, pageNo, pageSize;
-    param = res.queryString;
+    param = req.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
 
@@ -223,7 +223,7 @@ _chosen = function (req, res){
 //byModel
 _byModel = function (req, res) {
     var param, producerIDs, pageNo, pageSize;
-    param = res.queryString;
+    param = req.queryString;
     producerIDs = param.producerIDs || [];
     producerIDs = producerIDs.split(',');
     producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
@@ -247,7 +247,7 @@ _byModel = function (req, res) {
 //byTag
 _byTag = function (req, res){
     var param, tags, pageNo, pageSize;
-    param = res.queryString;
+    param = req.queryString;
     tags = param.tags || [];
 
     if (tags.length === 0){
@@ -277,7 +277,7 @@ _byTag = function (req, res){
 _byBrand = function (req, res){
     var param, brandIdStr, brandIdObj, pageNo, pageSize;
     try {
-        param = res.queryString;
+        param = req.queryString;
         brandIdStr = param._id || "";
         brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
         pageNo = parseInt(param.pageNo || 1);
@@ -321,7 +321,7 @@ _byBrand = function (req, res){
 _byBrandDiscount = function (req, res) {
     var param, brandIdStr, brandIdObj, pageNo, pageSize;
     try {
-        param = res.queryString;
+        param = req.queryString;
         brandIdStr = param._id || "";
         brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
         pageNo = parseInt(param.pageNo || 1);
@@ -387,7 +387,7 @@ _byBrandDiscount = function (req, res) {
 _byStudio = function (req, res) {
     var param, pageNo, pageSize;
     try {
-        param = res.queryString;
+        param = req.queryString;
         pageNo = parseInt(param.pageNo || 1);
         pageSize = parseInt(param.pageSize || 10);
     } catch (e) {
@@ -437,7 +437,7 @@ _byStudio = function (req, res) {
 _byFollow = function (req, res){
     var param, peopleIdStr, peopleIdObj, pageNo, pageSize;
     try {
-        param = res.queryString;
+        param = req.queryString;
         peopleIdStr = param._id || [];
         peopleIdObj = mongoose.mongo.BSONPure.ObjectID(peopleIdStr);
         pageNo = parseInt(param.pageNo || 1);
