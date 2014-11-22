@@ -1,15 +1,19 @@
+var qsmail = require('../../runtime/qsmail');
 //model
 var People = require('../../model/peoples');
 var Show = require('../../model/shows');
 var Comment = require('../../model/comments');
 var Brand = require('../../model/brands');
+var PItem = require('../../model/pItems');
+var PShow = require('../../model/pShows');
 //util
+var async = require('async');
 var mongoose = require('mongoose');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 var nimble = require('nimble');
 
-var _follow, _unfollow, _followBrand, _unfollowBrand, _like, _comment;
+var _follow, _unfollow, _followBrand, _unfollowBrand, _like, _comment, _collocate;
 _follow = function (req, res) {
     try {
         var param = req.body;
@@ -429,7 +433,7 @@ _like = function (req, res) {
                         ServicesUtil.responseError(res, err);
                         return;
                     } else if (tempPeople) {
-                        ServicesUtil.responseError(res, ServerError.AlreadyLikeShow);
+                        ServicesUtil.responseError(res, new ServerError.AlreadyLikeShow);
                         return;
                     } else {
                         People.collection.update({_id: user._id},
@@ -492,11 +496,99 @@ _comment = function (req, res) {
         });
 };
 
+_collocate = function(req, res) {
+    try {
+        var param = req.body;
+        var _ids = param._ids.split(',');
+    } catch (e) {
+        ServicesUtil.responseError(res, e);
+        return;
+    }
+    var pItemRefs = ServicesUtil.stringArrayToObjectIdArray(_ids);
+    var modelRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+    // Find data
+    var fincPItems = function(callback) {
+        PItem.find({
+            '_id' : {
+                '$in' : pItemRefs
+            },
+            'modelRef' : null
+        }, function(err, pItems) {
+            if (err) {
+                callback(err);
+            } else if (!pItems || _ids.length !== pItems.length) {
+                callback(new ServerError(ServerError.PItemNotExist));
+            } else {
+                callback(null, pItems);
+            }
+        });
+    };
+    var findModel = function(callback) {
+        People.find({
+            '_id' : modelRef
+        }, function(err, models) {
+            if (err) {
+                callback(err);
+            } else if (!models || !models.length) {
+                callback(new ServerError(ServerError.PeopleNotExist));
+            } else {
+                callback(null, models[0]);
+            }
+        });
+    };
+    async.parallel([fincPItems, findModel], function(err, results) {
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        }
+        var pItems = results[0], model = results[1];
+        // Save potential show
+        var savePShow = function(callback) {
+            var pShow = new PShow({
+                'modelRef': mongoose.mongo.BSONPure.ObjectID(req.currentUser._id),
+                'pItemRefs': pItemRefs
+            });
+            pShow.save(function (err, c) {
+                if (err || !c) {
+                    callback(err || new Error());
+                } else {
+                    callback(null, c);
+                }
+            });
+        };
+        // Update potential items
+        var updatePItems = function(callback) {
+            pItems.forEach(function(pItem, index) {
+                pItem.set('modelRef', modelRef);
+                pItem.save();
+            });
+            callback(null);
+        };
+        async.parallel([savePShow, updatePItems], function(err, results) {
+            var pShow = results[0];
+            // Send mail
+            var subject = model.get('name') + '的新搭配';
+            var texts = [];
+            texts.push('模特_id：' + model.get('_id'));
+            texts.push('模特：' + model.get('name'));
+            texts.push('');
+            texts.push('PShow_id：' + pShow.get('_id'));
+            texts.push('商品:');
+            texts.push(JSON.stringify(pItems, null, 4));
+            qsmail.send(subject, texts.join('\n'), function(err, info) {
+                // Send response
+                res.json(pShow);
+            });
+        });
+    });
+};
+
 module.exports = {
     'follow' : {method: 'post', func: _follow, needLogin: true},
     'unfollow' : {method: 'post', func: _unfollow, needLogin: true},
     'followBrand' : {method: 'post', func: _followBrand, needLogin: true},
     'unfollowBrand': {method: 'post', func: _unfollowBrand, needLogin: true},
     'like' : {method: 'post', func: _like, needLogin: true},
-    'comment' : {method: 'post', func: _comment, needLogin: true}
+    'comment' : {method: 'post', func: _comment, needLogin: true},
+    'collocate' : {method: 'post', func: _collocate, needLogin: true}
 };

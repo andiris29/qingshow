@@ -54,6 +54,13 @@ define([
         this._query(this._pageNo, this._render.bind(this));
     };
 
+    PItemGallery.prototype.reset = function() {
+        var containers$ = $('.qsLiItemContainer', this._dom$);
+        containers$.empty();
+        this._pageNo = 1;
+        this._query(this._pageNo, this._render.bind(this));
+    };
+
     PItemGallery.prototype.uncollocate = function(pItem) {
         $('.qsCollocate', this._dom$).each(function(index, dom) {
             var collocate$ = $(dom);
