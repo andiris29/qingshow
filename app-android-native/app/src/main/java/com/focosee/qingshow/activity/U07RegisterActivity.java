@@ -16,7 +16,6 @@ public class U07RegisterActivity extends Activity {
         setContentView(R.layout.activity_register);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
