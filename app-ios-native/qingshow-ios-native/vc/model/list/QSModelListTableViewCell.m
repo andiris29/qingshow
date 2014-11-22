@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "ServerPath.h"
+#import "QSModelUtil.h"
 
 @implementation QSModelListTableViewCell
 
@@ -41,18 +42,7 @@
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
     self.nameLabel.text = modelDict[@"name"];
-    
-    NSNumber* height = modelDict[@"height"];
-    NSNumber* weight = modelDict[@"weight"];
-    NSMutableString* statusString = [@"" mutableCopy];
-    if (height) {
-        [statusString appendFormat:@"%@cm ", height];
-    }
-    if (weight) {
-        [statusString appendFormat:@"%@kg ", weight];
-    }
-    
-    self.detailLabel.text = statusString;
+    self.detailLabel.text = [QSModelUtil buildModelStatusString:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     NSNumber* hasFollowed = modelDict[@"hasFollowed"];
