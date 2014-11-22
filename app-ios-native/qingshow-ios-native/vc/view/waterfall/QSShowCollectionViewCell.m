@@ -40,6 +40,7 @@
     [super awakeFromNib];
     [self baseHeightSetup];
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.height / 2;
+    self.headIconImageView.layer.masksToBounds = YES;
 }
 
 #pragma mark - IBAction
@@ -122,7 +123,7 @@
 #pragma mark - Static Method
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
-    NSDictionary* coverMetadata = showData[@"$coverMetaData"];
+    NSDictionary* coverMetadata = showData[@"coverMetadata"];
     float iniWidth = 145;
     float height = 212;
     float width = iniWidth;

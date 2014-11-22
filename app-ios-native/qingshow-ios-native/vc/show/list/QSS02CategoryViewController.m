@@ -10,13 +10,13 @@
 #import "QSNetworkEngine.h"
 
 @interface QSS02CategoryViewController ()
-@property (assign, nonatomic) int type;
+@property (assign, nonatomic) QSFeedingCategory type;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
 @end
 
 @implementation QSS02CategoryViewController
 #pragma mark - Init
-- (id)initWithCategory:(int)type
+- (id)initWithCategory:(QSFeedingCategory)type;
 {
     self = [super initWithNibName:@"QSS02CategoryViewController" bundle:nil];
     if (self) {
@@ -30,6 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self configDelegateObj];
+    self.title = categoryToString(self.type);
 }
 
 - (void)didReceiveMemoryWarning {
