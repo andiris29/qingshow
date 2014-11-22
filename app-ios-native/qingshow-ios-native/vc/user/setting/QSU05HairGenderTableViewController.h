@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU05HairGenderTableViewController : UITableViewController
+@class QSU05HairGenderTableViewController;
 
+@protocol CodeUpdateViewControllerDelegate <NSObject>
+
+- (void)codeUpdateViewController:(QSU05HairGenderTableViewController *)vc
+                  bySelectedCode:(NSArray *)codes;
+
+@end
+
+@interface QSU05HairGenderTableViewController : UITableViewController
+@property (nonatomic, strong) NSArray *codeTable;
+@property (nonatomic, weak) id <CodeUpdateViewControllerDelegate> delegate;
 @end
