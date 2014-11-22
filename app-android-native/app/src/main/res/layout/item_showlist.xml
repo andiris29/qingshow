@@ -15,14 +15,15 @@
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
-        <ImageView
+        <com.focosee.qingshow.widget.MCircularImageView
             android:id="@+id/item_show_model_image"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_launcher" />
+            android:layout_centerVertical="true"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,7 +34,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="35dp"
+                android:layout_height="17dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -55,7 +56,7 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="35dp"
+                android:layout_height="17dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -78,16 +79,17 @@
 
         <LinearLayout
             android:id="@+id/item_show_love_ll"
-            android:layout_width="60dp"
-            android:layout_height="70dp"
+            android:layout_width="30dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/model_cell_icon02_noticeno" />
 
             <TextView
                 android:id="@+id/item_show_love"
@@ -102,9 +104,11 @@
 
     <TextView
         android:id="@+id/item_show_model_status"
-        android:layout_marginLeft="70dp"
+        android:layout_marginLeft="35dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:text="每天都需要充足的睡眠"/>
 
 </LinearLayout>
