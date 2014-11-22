@@ -12,7 +12,7 @@ var Schema = mongoose.Schema;
 var showSchema;
 showSchema = Schema({
     cover: String,
-    $coverMetadata: {
+    coverMetadata: {
         cover: String,
         width: Number,
         height: Number
@@ -37,7 +37,7 @@ showSchema = Schema({
 });
 
 showSchema.methods.updateCoverMetaData = function (callBack){
-    if (!this.cover.length || (this.$coverMetadata && (this.cover === this.$coverMetadata.cover))) {
+    if (!this.cover.length || (this.coverMetadata && (this.cover === this.coverMetadata.cover))) {
         callBack();
         return;
     }
@@ -50,13 +50,13 @@ showSchema.methods.updateCoverMetaData = function (callBack){
 
     gm(_this.cover).size(function (err, size) {
         if (size) {
-            _this.$coverMetadata = {
+            _this.coverMetadata = {
                 cover : _this.cover,
                 width : size.width,
                 height : size.height
             };
         } else {
-            _this.$coverMetadata = defaultMetadata;
+            _this.coverMetadata = defaultMetadata;
         }
         _this.save(function (err, image) {
             callBack();

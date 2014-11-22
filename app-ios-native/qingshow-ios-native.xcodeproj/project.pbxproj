@@ -66,6 +66,7 @@
 		EFA618AD1A125FCB00560699 /* QSCommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618AB1A125FCB00560699 /* QSCommentListViewController.xib */; };
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
+		EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */; };
 		EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543501A1750AD001B2C49 /* QSDetailBaseViewController.m */; };
 		EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC543511A1750AD001B2C49 /* QSDetailBaseViewController.xib */; };
 		EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543541A1750AD001B2C49 /* QSBadgeView.m */; };
@@ -223,6 +224,8 @@
 		EFA618AE1A125FE900560699 /* QSCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentTableViewCell.h; sourceTree = "<group>"; };
 		EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentTableViewCell.m; sourceTree = "<group>"; };
 		EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCommentTableViewCell.xib; sourceTree = "<group>"; };
+		EFAB90891A2073C800C69E42 /* QSFeedingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFeedingCategory.h; sourceTree = "<group>"; };
+		EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFeedingCategory.m; sourceTree = "<group>"; };
 		EFC5434F1A1750AD001B2C49 /* QSDetailBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDetailBaseViewController.h; sourceTree = "<group>"; };
 		EFC543501A1750AD001B2C49 /* QSDetailBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDetailBaseViewController.m; sourceTree = "<group>"; };
 		EFC543511A1750AD001B2C49 /* QSDetailBaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDetailBaseViewController.xib; sourceTree = "<group>"; };
@@ -462,13 +465,6 @@
 			path = list;
 			sourceTree = "<group>";
 		};
-		EF8FD0501A0637420081F8EB /* beans */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = beans;
-			sourceTree = "<group>";
-		};
 		EF9A74051A02A82600095F07 = {
 			isa = PBXGroup;
 			children = (
@@ -547,9 +543,9 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				EFAB90881A2073AA00C69E42 /* beans */,
 				EFD0B7EC1A1A4F7E00BCDFBA /* user */,
 				EF3D05671A0BC62100175E1D /* delegateObj */,
-				EF8FD0501A0637420081F8EB /* beans */,
 				EF9A74471A02A87900095F07 /* network */,
 			);
 			path = model;
@@ -619,6 +615,15 @@
 				EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */,
 			);
 			path = comment;
+			sourceTree = "<group>";
+		};
+		EFAB90881A2073AA00C69E42 /* beans */ = {
+			isa = PBXGroup;
+			children = (
+				EFAB90891A2073C800C69E42 /* QSFeedingCategory.h */,
+				EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */,
+			);
+			path = beans;
 			sourceTree = "<group>";
 		};
 		EFC5434D1A1750AD001B2C49 /* base */ = {
@@ -1039,6 +1044,7 @@
 				EFC543641A1750AD001B2C49 /* QSSectionButtonBase.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
+				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,
 				EFF89E101A13ADCC004E6C55 /* QSBrandCollectionViewDelegateObj.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,

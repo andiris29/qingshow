@@ -107,7 +107,7 @@ _models = function(req, res) {
 _brands = function(req, res) {
     var param, pageNo, pageSize, type;
     try {
-        param = res.queryString;
+        param = req.queryString;
         pageNo = parseInt(param.pageNo || 1);
         pageSize = parseInt(param.pageSize || 10);
         type = param.type;
@@ -143,7 +143,7 @@ _brands = function(req, res) {
 
 _comments = function(req, res) {
     try {
-        var param = res.queryString;
+        var param = req.queryString;
         var pageNo = parseInt(param.pageNo || 1);
         var pageSize = parseInt(param.pageSize || 10);
         var showIdStr = param.showId;

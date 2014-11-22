@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "QSShowCollectionViewDelegateObj.h"
+#import "QSFeedingCategory.h"
+
 
 @interface QSS02CategoryViewController : UIViewController<QSShowDelegateObjDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-- (id)initWithCategory:(int)type;
+- (id)initWithCategory:(QSFeedingCategory)type;
 
 @end
