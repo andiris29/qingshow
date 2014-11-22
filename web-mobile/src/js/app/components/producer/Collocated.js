@@ -94,9 +94,11 @@ define([
             var confirmed = confirm('确定搭配吗？');
             if (confirmed) {
                 _.each(this._pItemsInfo, function(info) {
-                    this.uncollocate(info.pItem);
+                    var pItem = info.pItem;
+                    this.uncollocate(pItem);
                 }.bind(this));
                 InteractionService.collocate(_ids, function() {
+                    this.trigger('save');
                     this._refreshCollocated();
                 }.bind(this));
             }

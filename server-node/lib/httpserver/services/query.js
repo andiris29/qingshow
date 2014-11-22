@@ -208,9 +208,10 @@ _pItemsByCategories = function(req, res) {
     function buildQuery() {
         var query = PItem.find();
         query.where({
-            category : {
-                $in : categories
-            }
+            'category' : {
+                '$in' : categories
+            },
+            'modelRef' : null
         });
         return query;
     }

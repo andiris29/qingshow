@@ -68,6 +68,9 @@ define([
         gallery.on('uncollocate', function(event, pItem) {
             collocated.uncollocate(pItem);
         });
+        collocated.on('save', function(event) {
+            gallery.reset();
+        });
         collocated.on('uncollocate', function(event, pItem) {
             gallery.uncollocate(pItem);
         });

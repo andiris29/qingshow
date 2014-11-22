@@ -57,7 +57,6 @@ define([], function() {
             this.trigger('resize');
         }.bind(this));
         this.trigger('afterRender');
-
     };
 
     return UIComponent;
