@@ -131,12 +131,18 @@ _update = function(req, res) {
     var curUser = req.currentUser;
     People.findOne({
         _id : curUser._id
-    }).select('+userInfo').exec(function(err, people) {
-        var updateField = ['name', 'portrait', 'height', 'weight', 'gender'];
+    }).select('+userInfo').exec(function (err, people) {
+        var updateField = ['name', 'portrait', 'gender'];
+        var numberField = ['height', 'weight'];
         var arrayField = ['roles', 'hairTypes'];
-        updateField.forEach(function(field) {
+        updateField.forEach(function (field) {
             if (param[field]) {
                 people[field] = param[field];
+            }
+        });
+        numberField.forEach(function (field) {
+            if (param[field]) {
+                people[field] = parseFloat(param[field]);
             }
         });
         arrayField.forEach(function (field) {
@@ -157,6 +163,7 @@ _update = function(req, res) {
         if (param.mail) {
             people.userInfo.mail = param.mail;
         }
+        //TODO: check param.currentPassword
         if (param.password) {
             people.userInfo.encryptedPassword = _encrypt(param.password);
         }
