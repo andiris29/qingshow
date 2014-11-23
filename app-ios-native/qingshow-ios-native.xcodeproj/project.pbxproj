@@ -42,6 +42,9 @@
 		EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55730D1A21B20000C3BC23 /* QSShowUtil.m */; };
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF5573151A22064200C3BC23 /* QSTableViewBasicDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573141A22064200C3BC23 /* QSTableViewBasicDelegateObj.m */; };
+		EF5573181A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573171A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.m */; };
+		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
+		EF55731E1A22179F00C3BC23 /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731D1A22179F00C3BC23 /* QSDateUtil.m */; };
 		EF8AB6631A07D21D00372538 /* QSP01ModelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */; };
 		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
 		EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */; };
@@ -70,7 +73,7 @@
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
 		EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */; };
-		EFAB90C21A20F88D00C69E42 /* QSModelUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB90C11A20F88D00C69E42 /* QSModelUtil.m */; };
+		EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */; };
 		EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543501A1750AD001B2C49 /* QSDetailBaseViewController.m */; };
 		EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC543511A1750AD001B2C49 /* QSDetailBaseViewController.xib */; };
 		EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543541A1750AD001B2C49 /* QSBadgeView.m */; };
@@ -189,6 +192,12 @@
 		EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemUtil.m; sourceTree = "<group>"; };
 		EF5573131A22064200C3BC23 /* QSTableViewBasicDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTableViewBasicDelegateObj.h; sourceTree = "<group>"; };
 		EF5573141A22064200C3BC23 /* QSTableViewBasicDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTableViewBasicDelegateObj.m; sourceTree = "<group>"; };
+		EF5573161A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentListTableViewDelegateObj.h; sourceTree = "<group>"; };
+		EF5573171A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentListTableViewDelegateObj.m; sourceTree = "<group>"; };
+		EF5573191A22105500C3BC23 /* QSCommentUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentUtil.h; sourceTree = "<group>"; };
+		EF55731A1A22105500C3BC23 /* QSCommentUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentUtil.m; sourceTree = "<group>"; };
+		EF55731C1A22179F00C3BC23 /* QSDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDateUtil.h; sourceTree = "<group>"; };
+		EF55731D1A22179F00C3BC23 /* QSDateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDateUtil.m; sourceTree = "<group>"; };
 		EF8AB6611A07D21D00372538 /* QSP01ModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP01ModelListViewController.h; sourceTree = "<group>"; };
 		EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP01ModelListViewController.m; sourceTree = "<group>"; };
 		EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewCell.h; sourceTree = "<group>"; };
@@ -236,8 +245,8 @@
 		EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCommentTableViewCell.xib; sourceTree = "<group>"; };
 		EFAB90891A2073C800C69E42 /* QSFeedingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFeedingCategory.h; sourceTree = "<group>"; };
 		EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFeedingCategory.m; sourceTree = "<group>"; };
-		EFAB90C01A20F88D00C69E42 /* QSModelUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelUtil.h; sourceTree = "<group>"; };
-		EFAB90C11A20F88D00C69E42 /* QSModelUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelUtil.m; sourceTree = "<group>"; };
+		EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleUtil.h; sourceTree = "<group>"; };
+		EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPeopleUtil.m; sourceTree = "<group>"; };
 		EFC5434F1A1750AD001B2C49 /* QSDetailBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDetailBaseViewController.h; sourceTree = "<group>"; };
 		EFC543501A1750AD001B2C49 /* QSDetailBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDetailBaseViewController.m; sourceTree = "<group>"; };
 		EFC543511A1750AD001B2C49 /* QSDetailBaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDetailBaseViewController.xib; sourceTree = "<group>"; };
@@ -433,6 +442,8 @@
 				EF5573141A22064200C3BC23 /* QSTableViewBasicDelegateObj.m */,
 				EF3D056D1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.h */,
 				EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */,
+				EF5573161A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.h */,
+				EF5573171A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.m */,
 			);
 			path = delegateObj;
 			sourceTree = "<group>";
@@ -652,12 +663,16 @@
 		EFAB90BF1A20F87B00C69E42 /* util */ = {
 			isa = PBXGroup;
 			children = (
-				EFAB90C01A20F88D00C69E42 /* QSModelUtil.h */,
-				EFAB90C11A20F88D00C69E42 /* QSModelUtil.m */,
+				EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */,
+				EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */,
 				EF55730C1A21B20000C3BC23 /* QSShowUtil.h */,
 				EF55730D1A21B20000C3BC23 /* QSShowUtil.m */,
 				EF5573101A21EC7B00C3BC23 /* QSItemUtil.h */,
 				EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */,
+				EF5573191A22105500C3BC23 /* QSCommentUtil.h */,
+				EF55731A1A22105500C3BC23 /* QSCommentUtil.m */,
+				EF55731C1A22179F00C3BC23 /* QSDateUtil.h */,
+				EF55731D1A22179F00C3BC23 /* QSDateUtil.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -1072,12 +1087,13 @@
 				8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */,
 				EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */,
 				EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */,
+				EF55731E1A22179F00C3BC23 /* QSDateUtil.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EFF89E091A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m in Sources */,
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,
 				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EFC543641A1750AD001B2C49 /* QSSectionButtonBase.m in Sources */,
-				EFAB90C21A20F88D00C69E42 /* QSModelUtil.m in Sources */,
+				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
@@ -1088,6 +1104,7 @@
 				EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
 				EFC543681A1750AD001B2C49 /* QSSectionNumberTextButton.m in Sources */,
+				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */,
 				EFF89E0D1A13A51D004E6C55 /* QSWaterfallBasicDelegateObj.m in Sources */,
@@ -1109,6 +1126,7 @@
 				82B955171A21052D0022C6EC /* QSU05HairGenderTableViewController.m in Sources */,
 				EF17292A1A1CDCF1001819E3 /* QSU01UserDetailViewController.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
+				EF5573181A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.m in Sources */,
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFF114AF1A0D2EEC009B7361 /* NSDictionary+RequestEncoding.m in Sources */,
 				EFF114B11A0D2EEC009B7361 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,

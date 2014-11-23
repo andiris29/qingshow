@@ -9,7 +9,7 @@
 #import "QSBadgeView.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <QuartzCore/QuartzCore.h>
-#import "QSModelUtil.h"
+#import "QSPeopleUtil.h"
 
 @interface QSBadgeView ()
 
@@ -68,7 +68,7 @@
 #warning roles
     self.roleLabel.text = @"roles";
     
-    self.statusLabel.text = [QSModelUtil buildModelStatusString:peopleDict];
+    self.statusLabel.text = [QSPeopleUtil buildModelStatusString:peopleDict];
 
     NSString* headPhotoPath = peopleDict[@"portrait"];
     [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];

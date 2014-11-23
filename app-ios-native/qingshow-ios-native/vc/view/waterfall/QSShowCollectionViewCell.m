@@ -13,7 +13,7 @@
 #import "ServerPath.h"
 #import "DatabaseConstant.h"
 
-#import "QSModelUtil.h"
+#import "QSPeopleUtil.h"
 
 @interface QSShowCollectionViewCell ()
 
@@ -59,7 +59,7 @@
 //    NSArray* roles = modelDict[@"roles"];
     self.nameLabel.text = modelDict[@"name"];
     
-    self.statusLabel.text = [QSModelUtil buildModelStatusString:modelDict];
+    self.statusLabel.text = [QSPeopleUtil buildModelStatusString:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     

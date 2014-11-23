@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSModelUtil.h"
+#import "QSPeopleUtil.h"
 
-@implementation QSModelUtil
+@implementation QSPeopleUtil
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
 {
@@ -34,4 +34,18 @@
     }
     return @"0";
 }
++ (NSString*)getName:(NSDictionary*)peopleDict
+{
+    return peopleDict[@"name"];
+}
++ (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict
+{
+    NSString* path = peopleDict[@"portrait"];
+    if (path) {
+        return [NSURL URLWithString:path];
+    }
+    
+    return nil;
+}
+
 @end

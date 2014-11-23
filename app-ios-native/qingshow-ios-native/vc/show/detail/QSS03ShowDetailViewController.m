@@ -12,7 +12,7 @@
 #import "QSS03ItemDetailViewController.h"
 #import "QSCommentListViewController.h"
 #import "QSShowUtil.h"
-#import "QSModelUtil.h"
+#import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
 
@@ -77,7 +77,7 @@
     [self.headIconImageView setImageFromURL:iconUrl];
     
     self.nameLabel.text = peopleInfo[@"name"];
-    self.detailLabel.text = [QSModelUtil buildModelStatusString:peopleInfo];
+    self.detailLabel.text = [QSPeopleUtil buildModelStatusString:peopleInfo];
     NSDictionary* modelInfo = peopleInfo[@"modelInfo"];
     NSString* status = nil;
     if (modelInfo) {
@@ -85,7 +85,7 @@
         status = status ? status : @"";
     }
     self.contentLabel.text = status;
-    self.favorNumberLabel.text = [QSModelUtil buildNumLikeString:peopleInfo];
+    self.favorNumberLabel.text = [QSPeopleUtil buildNumLikeString:peopleInfo];
     
     //Image
     NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:dict];

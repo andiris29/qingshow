@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "ServerPath.h"
-#import "QSModelUtil.h"
+#import "QSPeopleUtil.h"
 
 @implementation QSModelListTableViewCell
 
@@ -42,7 +42,7 @@
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
     self.nameLabel.text = modelDict[@"name"];
-    self.detailLabel.text = [QSModelUtil buildModelStatusString:modelDict];
+    self.detailLabel.text = [QSPeopleUtil buildModelStatusString:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     NSNumber* hasFollowed = modelDict[@"hasFollowed"];

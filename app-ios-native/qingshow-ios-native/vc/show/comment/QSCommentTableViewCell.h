@@ -15,4 +15,6 @@
 @property (strong, nonatomic) IBOutlet UILabel* dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel* contentLabel;
 
+- (void)bindWithComment:(NSDictionary*)commentDict;
+
 @end

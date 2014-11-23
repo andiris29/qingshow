@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSCommentListTableViewDelegateObj.h"
 
-@interface QSCommentListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface QSCommentListViewController : UIViewController<QSCommentListTableViewDelegateObj>
 
 - (id)initWithShow:(NSDictionary*)showDict;
 

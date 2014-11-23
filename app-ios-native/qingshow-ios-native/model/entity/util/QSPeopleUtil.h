@@ -8,8 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface QSModelUtil : NSObject
+@interface QSPeopleUtil : NSObject
 
 + (NSString*)buildModelStatusString:(NSDictionary*)peopleDict;
 + (NSString*)buildNumLikeString:(NSDictionary*)peopleDict;
++ (NSString*)getName:(NSDictionary*)peopleDict;
++ (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
+
 @end

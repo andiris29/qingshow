@@ -18,11 +18,6 @@
 #define PATH_USER_GET @"user/get"
 #define PATH_USER_REGISTER @"user/register"
 
-//Model
-#define PATH_QUERY_MODELS @"query/models"
-#define PATH_INTERACTION_FOLLOW @"interaction/follow"
-#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
-
 //Feeding
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
 #define PATH_FEEDING_BY_MODEL @"feeding/byModel"
@@ -31,9 +26,13 @@
 #define PATH_FEEDING_STUDIO @"feeding/studio"
 
 //Query
+#define PATH_QUERY_COMMENT @"query/comments"
+#define PATH_QUERY_MODELS @"query/models"
 
-#define Interaction
 
+//Interaction
+#define PATH_INTERACTION_FOLLOW @"interaction/follow"
+#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
 
 
 @implementation QSNetworkEngine
@@ -334,5 +333,34 @@
                 }
             }
             ];
+}
+
+#pragma mark - Query
+- (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
+                                    page:(int)page
+                               onSucceed:(ArraySuccessBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_COMMENT
+                                 method:@"GET"
+                               paramers:@{
+                                          @"showId": showDict[@"_id"],
+                                          @"pageNo" : @(page),
+                                          @"pageSize" : @10
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary *retDict = completedOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"comments"], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+                
+            }];
 }
 @end
