@@ -8,7 +8,7 @@
 
 #import "QSU02UserSettingViewController.h"
 #import "QSU04EmailViewController.h"
-#import "QSU05HairTypeGenderViewController.h"
+#import "QSU05HairGenderTableViewController.h"
 #import "QSU08PasswordViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
