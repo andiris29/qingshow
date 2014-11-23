@@ -56,7 +56,6 @@
     leftY = 0;
     rightY=0;
     NSMutableArray* attributes = [NSMutableArray array];
-    NSLog(@"cellCount=%d",self.cellCount);
     
     for (NSInteger i=0 ; i < self.cellCount; i++) {
         

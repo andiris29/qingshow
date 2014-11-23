@@ -132,10 +132,20 @@ _update = function(req, res) {
     People.findOne({
         _id : curUser._id
     }).select('+userInfo').exec(function(err, people) {
-        var updateField = ['roles', 'name', 'portrait', 'height', 'weight', 'gender', 'hairTypes'];
+        var updateField = ['name', 'portrait', 'height', 'weight', 'gender'];
+        var arrayField = ['roles', 'hairTypes'];
         updateField.forEach(function(field) {
             if (param[field]) {
                 people[field] = param[field];
+            }
+        });
+        arrayField.forEach(function (field) {
+            if (param[field]) {
+                var fieldArray = field.split(',');
+                fieldArray = fieldArray.filter(function (f){
+                    return f && f.length !== 0;
+                });
+                people[field] = fieldArray;
             }
         });
 
