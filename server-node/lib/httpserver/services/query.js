@@ -13,7 +13,7 @@ var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var nimble = require('nimble');
 
-var _models, _comments, _brands, _terms, _pItemsByCategories, _pShowsByModel;
+var _models, _comments, _brands, _terms;
 _models = function(req, res) {
     var param = req.queryString;
     if (param._ids) {
@@ -188,82 +188,6 @@ _terms = function(req, res) {
     res.send('terms');
 };
 
-// query/pItemsByCategories [paging][get]
-//
-// Request
-//  categories array of code
-// Response
-//  data.items array, entity in db.pItems
-
-_pItemsByCategories = function(req, res) {
-    try {
-        var param = req.queryString;
-        var pageNo = parseInt(param.pageNo || 1);
-        var pageSize = parseInt(param.pageSize || 20);
-        var categories = (param.categories || '').split(',');
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
-        return;
-    }
-    function buildQuery() {
-        var query = PItem.find();
-        query.where({
-            'category' : {
-                '$in' : categories
-            },
-            'modelRef' : null
-        });
-        return query;
-    }
-
-    function additionFunc(query) {
-        //TODO: add sort?
-        return query;
-    }
-
-    function dateGenFunc(datas) {
-        return {
-            pItems : datas
-        };
-    }
-
-
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, dateGenFunc, pageNo, pageSize);
-};
-
-// query/pShowsByModel [get]
-//
-// Request
-//  _id ObjectId in peoples
-// Response
-//  data.pShows array, entity in db.pShows
-_pShowsByModel = function(req, res) {
-    try {
-        var param = req.queryString;
-        var _id = param._id;
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
-        return;
-    }
-
-    PShow.find({
-        'modelRef' : _id
-    }, function(err, pShows) {
-        if (err) {
-            ServicesUtil.responseError(res, err);
-            return;
-        } else {
-            var retObj = {
-                'data' : {
-                    'pShows' : pShows
-                }
-            };
-            res.json(retObj);
-            return;
-        }
-    });
-};
-
 module.exports = {
     'models' : {
         method : 'get',
@@ -283,16 +207,6 @@ module.exports = {
     'terms' : {
         method : 'get',
         func : _terms,
-        needLogin : false
-    },
-    'pItemsByCategories' : {
-        method : 'get',
-        func : _pItemsByCategories,
-        needLogin : false
-    },
-    'pShowsByModel' : {
-        method : 'get',
-        func : _pShowsByModel,
         needLogin : false
     }
 };

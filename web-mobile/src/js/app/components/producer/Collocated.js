@@ -3,11 +3,10 @@ define([
     'ui/UIComponent',
     'app/model',
     'app/managers/TemplateManager',
-    'app/services/InteractionService',
-    'app/services/QueryService',
+    'app/services/PotentialService',
     'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, model, TemplateManager, InteractionService, QueryService, CodeUtils, RenderUtils) {
+], function(UIComponent, model, TemplateManager, PotentialService, CodeUtils, RenderUtils) {
 // @formatter:on
     /**
      *
@@ -105,7 +104,7 @@ define([
                     var pItem = info.pItem;
                     this.uncollocate(pItem);
                 }.bind(this));
-                InteractionService.collocate(_ids, function(metadata, data) {
+                PotentialService.collocate(_ids, function(metadata, data) {
                     if (metadata.error) {
                         alert(metadata.error);
                     } else {
@@ -128,7 +127,7 @@ define([
         }
     };
     Collocated.prototype._refreshCollocated = function(callback) {
-        QueryService.pShowsByModel(model.user()._id, function(metadata, data) {
+        PotentialService.getUnshotPShows(model.user()._id, function(metadata, data) {
             $('.qsNumCollocated', this._dom$).text(data.pShows.length);
 
             if (callback) {

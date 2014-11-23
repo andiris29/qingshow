@@ -20,7 +20,7 @@ var error_handler = require('./middleware/error-handler');
 qsdb.connect();
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'interaction', 'query'];
+var servicesNames = ['feeding', 'user', 'interaction', 'query', 'potential'];
 
 // Startup http server
 var app = express();
@@ -39,23 +39,21 @@ app.use(function(req, res, next) {
 //Cookie
 app.use(cookieParser(credentials.cookieSecret));
 //Session
-
+var SessionStore = sessionMongoose(connect);
 var session = require('express-session')({
-    'store' : new sessionMongoose(connect)({
-        'interval' : 24 * 60 * 60 * 1000,
-        'connection' : qsdb.getConnection(),
-        'modelName' : "sessionStores"
+    store : new SessionStore({
+        interval : 24 * 60 * 60 * 1000,
+        connection : qsdb.getConnection(),
+        modelName : "sessionStores"
     }),
-    'cookie' : {
-        'maxAge' : 365 * 24 * 60 * 60 * 1000
+    cookie : {
+        maxAge : 365 * 24 * 60 * 60 * 1000
     },
-    'resave' : true,
-    'saveUninitialized' : true,
-    'secret' : credentials.sessionSecret
+    resave : true,
+    saveUninitialized : true,
+    secret : credentials.sessionSecret
 });
-
 app.use(session);
-
 //user validate
 app.use(userValidate(servicesNames));
 

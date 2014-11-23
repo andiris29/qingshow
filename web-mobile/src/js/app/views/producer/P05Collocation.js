@@ -3,14 +3,14 @@ define([
     'ui/containers/IScrollContainer',
     'app/model',
     'app/services/UserService',
-    'app/services/QueryService',
+    'app/services/PotentialService',
     'app/views/ViewBase',
     'app/components/common/Header',
     'app/components/common/Navigator',
     'app/components/producer/Collocated',
     'app/components/producer/Collocation',
     'app/components/producer/PItemGallery'
-], function(IScrollContainer, model, UserService, QueryService, ViewBase, Header, Navigator, Collocated, Collocation, PItemGallery) {
+], function(IScrollContainer, model, UserService, PotentialService, ViewBase, Header, Navigator, Collocated, Collocation, PItemGallery) {
 // @formatter:on
     /**
      *
@@ -56,7 +56,7 @@ define([
     _appendGallery = function(navi, collocated, categories, numTotalRenderer) {
         var gallery = new PItemGallery($('<div/>'), {
             'query' : function(pageNo, callback) {
-                QueryService.pItemsByCategories(categories, pageNo, callback);
+                PotentialService.queryAvailablePItems(categories, pageNo, callback);
             }.bind(this)
         });
         navi.append(gallery);
