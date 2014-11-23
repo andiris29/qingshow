@@ -10,6 +10,6 @@
 
 @interface QSCommentListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-- (id)init;
+- (id)initWithShow:(NSDictionary*)showDict;
 
 @end

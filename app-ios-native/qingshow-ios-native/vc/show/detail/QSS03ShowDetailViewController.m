@@ -106,7 +106,7 @@
 }
 
 - (IBAction)commentBtnPressed:(id)sender {
-    UIViewController* vc =[[QSCommentListViewController alloc] init];
+    UIViewController* vc =[[QSCommentListViewController alloc] initWithShow:self.showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

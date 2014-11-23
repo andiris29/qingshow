@@ -25,7 +25,11 @@
 
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
 {
-    return self.resultArray[indexPath.row - 1];
+    if (indexPath.row < 1) {
+        return nil;
+    } else {
+        return self.resultArray[indexPath.row - 1];
+    }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -42,8 +46,9 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
-    if ([self.delegate respondsToSelector:@selector(didClickShow:)]) {
+    if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:)]) {
         [self.delegate didClickShow:showDict];
     }
 }

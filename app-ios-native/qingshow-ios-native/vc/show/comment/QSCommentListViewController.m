@@ -13,15 +13,16 @@
 
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 
+@property (strong, nonatomic) NSDictionary* showDict;
 @end
 
 @implementation QSCommentListViewController
 
-- (id)init
+- (id)initWithShow:(NSDictionary*)showDict;
 {
     self = [self initWithNibName:@"QSCommentListViewController" bundle:nil];
     if (self) {
-        
+        self.showDict = showDict;
     }
     return self;
 }
