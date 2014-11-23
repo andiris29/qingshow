@@ -13,7 +13,7 @@ peopleSchema = Schema({
     weight: Number,
     birthtime: Date,
     gender: Number, //male 0 female 1
-    hairTypes: Number, //0 all 1 long 2 super long 3 mid long
+    hairTypes: [Number], //0 all 1 long 2 super long 3 mid long
     userInfo: {
         type: {
             mail: String,

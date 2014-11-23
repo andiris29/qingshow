@@ -8,11 +8,5 @@ define([
      */
     var InteractionService = {};
 
-    InteractionService.collocate = function(_ids, callback) {
-        DataService.request('POST', '/interaction/collocate', {
-            '_ids' : _ids
-        }, callback);
-    };
-
     return InteractionService;
 });
