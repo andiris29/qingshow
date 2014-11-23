@@ -95,7 +95,7 @@ _like = function (req, res){
     var currentUser = req.currentUser;
     People.findOne({_id : currentUser._id})
         .select('likingShowRefs')
-        .exec(function (err, p){
+        .exec(function (err, p) {
             if (err) {
                 ServicesUtil.responseError(res, err);
                 return;
@@ -104,7 +104,7 @@ _like = function (req, res){
                 return;
             } else {
                 var count = p.likingShowRefs.length;
-                if ((pageNo - 1) * pageSize > count){
+                if ((pageNo - 1) * pageSize > count) {
                     ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
                     return;
                 }
@@ -114,39 +114,41 @@ _like = function (req, res){
                         path : 'likingShowRefs',
                         option : {
                             skip: (pageNo - 1) * pageSize,
-                            limit: pageSize}
+                            limit: pageSize
+                        }
                     },
                     function (err, populatedPeople) {
                         if (err) {
                             ServicesUtil.responseError(res, err);
                             return;
-                        } else if ( !populatedPeople) {
+                        } else if (!populatedPeople) {
                             ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
                             return;
                         } else {
 
                             Show.populate(populatedPeople.likingShowRefs, {
-                                path :'modelRef itemRefs'
+                                path : 'modelRef itemRefs'
                             },
                                 function (err, shows) {
                                     if (err) {
                                         ServicesUtil.responseError(res, err);
                                         return;
-                                    } else if ( !shows) {
+                                    } else if (!shows) {
                                         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
                                         return;
                                     } else {
-                                        var retData = {
-                                            metadata: {
-                                                "numTotal": count,
-                                                "numPages": parseInt((count + pageSize - 1) / pageSize),
-                                            },
-                                            data: {
-                                                shows: populatedPeople.likingShowRefs
-                                            }
-                                        };
-                                        res.json(retData);
-                                        return;
+                                        showsFinalHandler(populatedPeople.likingShowRefs, function (s) {
+                                            var retData = {
+                                                metadata: {
+                                                    "numTotal": count,
+                                                    "numPages": parseInt((count + pageSize - 1) / pageSize),
+                                                },
+                                                data: {
+                                                    shows: s
+                                                }
+                                            };
+                                            res.json(retData);
+                                        });
                                     }
                                 });
                         }
@@ -199,18 +201,19 @@ _chosen = function (req, res){
                                 ServicesUtil.responseError(res, err);
                                 return;
                             } else {
-                                var retData = {
-                                    metadata: {
-                                        "numTotal": count,
-                                        "numPages": parseInt((count + pageSize - 1) / pageSize),
-                                        "refreshTime": 3600000
-                                    },
-                                    data: {
-                                        shows: shows
-                                    }
-                                };
-                                res.json(retData);
-                                return;
+                                showsFinalHandler(shows, function (s) {
+                                    var retData = {
+                                        metadata: {
+                                            "numTotal": count,
+                                            "numPages": parseInt((count + pageSize - 1) / pageSize),
+                                            "refreshTime": 3600000
+                                        },
+                                        data: {
+                                            shows: s
+                                        }
+                                    };
+                                    res.json(retData);
+                                });
                             }
                         });
                     }

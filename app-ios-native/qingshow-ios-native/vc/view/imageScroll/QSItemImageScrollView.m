@@ -7,7 +7,7 @@
 //
 
 #import "QSItemImageScrollView.h"
-#import "QSItemContainerView.h"
+
 
 
 @implementation QSItemImageScrollView
@@ -19,6 +19,7 @@
 - (UIView*)getViewForPage:(int)imageIndex
 {
     QSItemContainerView* imageView = [QSItemContainerView generateView];
+    imageView.delegate = self;
     if (self.imageUrlArray) {
         int location = imageIndex * 3;
         int length = self.imageUrlArray.count - location < 3 ? self.imageUrlArray.count - location : 3;
@@ -31,6 +32,24 @@
 {
     _imageUrlArray = imageUrlArray;
     [self updateImages];
+}
+
+#pragma mark - QSItemContainerViewDelegate
+- (void)didTapImageIndex:(int)index ofView:(QSItemContainerView*)view
+{
+    int viewIndex = [self.imageViewArray indexOfObject:view];
+    int count = [self getViewCount];
+    if (viewIndex == 0) {
+        viewIndex = count - 1;
+    } else if (viewIndex == self.imageViewArray.count - 1) {
+        viewIndex = 0;
+    } else {
+        viewIndex -= 1;
+    }
+    int urlIndex = viewIndex * 3 + index;
+    if ([self.delegate respondsToSelector:@selector(didTapItemAtIndex:)]) {
+        [self.delegate didTapItemAtIndex:urlIndex];
+    }
 }
 
 @end

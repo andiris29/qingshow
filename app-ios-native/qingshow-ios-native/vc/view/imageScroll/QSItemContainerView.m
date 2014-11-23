@@ -31,6 +31,9 @@
         if (i < imageUrlArray.count) {
             NSURL* url = imageUrlArray[i];
             [imgView setImageFromURL:url];
+            UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesRecognize:)];
+            [imgView addGestureRecognizer:ges];
+            imgView.userInteractionEnabled = YES;
         }
         else
         {
@@ -38,6 +41,14 @@
         }
 
 
+    }
+}
+
+- (void)tapGesRecognize:(UIGestureRecognizer*)gesture
+{
+    if ([self.delegate respondsToSelector:@selector(didTapImageIndex:ofView:)]) {
+        int index = [self.imageViewArray indexOfObject:gesture.view];
+        [self.delegate didTapImageIndex:index ofView:self];
     }
 }
 @end

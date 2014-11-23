@@ -10,11 +10,11 @@
 
 @interface QSImageScrollViewBase : UIView<UIScrollViewDelegate>
 
-
-
 + (QSImageScrollViewBase*)generateView;
 
 - (int)getViewCount;
 - (UIView*)getViewForPage:(int)page;
 - (void)updateImages;
+@property (strong, nonatomic) NSMutableArray* imageViewArray;
+
 @end

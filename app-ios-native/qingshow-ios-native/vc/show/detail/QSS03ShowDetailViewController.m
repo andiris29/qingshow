@@ -8,13 +8,20 @@
 
 #import "QSS03ShowDetailViewController.h"
 #import "QSSingleImageScrollView.h"
-#import "QSItemImageScrollView.h"
+
 #import "QSS03ItemDetailViewController.h"
 #import "QSCommentListViewController.h"
+#import "QSShowUtil.h"
+#import "QSModelUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+
 
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) QSSingleImageScrollView* showImageScrollView;
+@property (strong, nonatomic) QSItemImageScrollView* itemImageScrollView;
+
+@property (strong, nonatomic) NSDictionary* showDict;
 
 @end
 
@@ -23,11 +30,11 @@
 - (IBAction)favorBtnPressed:(id)sender {
 }
 
-- (id)init
+- (id)initWithShow:(NSDictionary*)showDict
 {
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
     if (self) {
-        
+        self.showDict = showDict;
     }
     return self;
 }
@@ -43,23 +50,49 @@
     
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 400)];
     [self.showContainer addSubview:self.showImageScrollView];
-#warning 样例图片
-    NSArray* urlArray = @[[NSURL URLWithString:@"http://d.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=b61e1813940a304e4d22adfae1f3c4f4/9358d109b3de9c829a5995986f81800a19d843ec.jpg"],
-                          [NSURL URLWithString:@"http://f.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=1c9ba895d3a20cf45990f3df46322844/342ac65c10385343beeba8339013b07eca8088ff.jpg"],
-                          [NSURL URLWithString:@"http://e.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=8603fc8f0ff431ada3d24e397b0dcfdd/c75c10385343fbf286a5bf3eb37eca8065388f25.jpg"]];
-    self.showImageScrollView.imageUrlArray = urlArray;
     
-    QSItemImageScrollView* s = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
-    [self.itemContainer addSubview:s];
-    urlArray = @[[NSURL URLWithString:@"http://d.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=b61e1813940a304e4d22adfae1f3c4f4/9358d109b3de9c829a5995986f81800a19d843ec.jpg"],
-                          [NSURL URLWithString:@"http://f.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=1c9ba895d3a20cf45990f3df46322844/342ac65c10385343beeba8339013b07eca8088ff.jpg"],
-                          [NSURL URLWithString:@"http://e.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=8603fc8f0ff431ada3d24e397b0dcfdd/c75c10385343fbf286a5bf3eb37eca8065388f25.jpg"],
-                          [NSURL URLWithString:@"http://e.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=8603fc8f0ff431ada3d24e397b0dcfdd/c75c10385343fbf286a5bf3eb37eca8065388f25.jpg"]];
-    s.imageUrlArray = urlArray;
+
+    
+    self.itemImageScrollView = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
+    [self.itemContainer addSubview:self.itemImageScrollView];
+    self.itemImageScrollView.delegate = self;
 
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
     
+    
+    self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.width / 2;
+    self.headIconImageView.layer.masksToBounds = YES;
+    
+    [self bindWithDict:self.showDict];
+}
+
+- (void)bindWithDict:(NSDictionary*)dict
+{
+    //Model
+    NSDictionary* peopleInfo = dict[@"modelRef"];
+    
+    NSString* iconPath = peopleInfo[@"portrait"];
+    NSURL* iconUrl = [NSURL URLWithString:iconPath];
+    [self.headIconImageView setImageFromURL:iconUrl];
+    
+    self.nameLabel.text = peopleInfo[@"name"];
+    self.detailLabel.text = [QSModelUtil buildModelStatusString:peopleInfo];
+    NSDictionary* modelInfo = peopleInfo[@"modelInfo"];
+    NSString* status = nil;
+    if (modelInfo) {
+        status = modelInfo[@"status"];
+        status = status ? status : @"";
+    }
+    self.contentLabel.text = status;
+    self.favorNumberLabel.text = [QSModelUtil buildNumLikeString:peopleInfo];
+    
+    //Image
+    NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:dict];
+    self.showImageScrollView.imageUrlArray = previewArray;
+    NSArray* itemUrlArray = [QSShowUtil getItemsImageUrlArrayFromShow:dict];
+    self.itemImageScrollView.imageUrlArray = itemUrlArray;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,14 +115,13 @@
     UIViewController* vc = [[QSS03ItemDetailViewController alloc] init];
     [self presentViewController:vc animated:YES completion:nil];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+#pragma mark - QSItemImageScrollViewDelegate
+- (void)didTapItemAtIndex:(int)index
+{
+    NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:index];
+    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItemDict:itemDict];
+    [self presentViewController:vc animated:YES completion:nil];
 }
-*/
-
 @end

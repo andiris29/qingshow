@@ -121,7 +121,7 @@
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_FEEDING_HOT
+    return [self startOperationWithPath:PATH_FEEDING_CHOSEN
                                  method:@"GET"
                                paramers:@{@"pageNo" : @(page),
                                           @"pageSize" : @10}

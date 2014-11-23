@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "QSImageScrollViewBase.h"
+#import "QSItemContainerView.h"
 
-@interface QSItemImageScrollView : QSImageScrollViewBase
+@protocol QSItemImageScrollViewDelegate <NSObject>
+
+- (void)didTapItemAtIndex:(int)index;
+
+@end
+
+@interface QSItemImageScrollView : QSImageScrollViewBase<QSItemContainerViewDelegate>
 
 //@property (strong, nonatomic) NSArray* imageArray;
 @property (strong, nonatomic) NSArray* imageUrlArray;
+
+@property (assign, nonatomic) NSObject<QSItemImageScrollViewDelegate>* delegate;
 
 @end

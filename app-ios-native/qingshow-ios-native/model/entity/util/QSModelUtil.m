@@ -23,5 +23,15 @@
     }
     return statusString;
 }
-
++ (NSString*)buildNumLikeString:(NSDictionary*)peopleDict
+{
+    NSDictionary* modelInfo = peopleDict[@"modelInfo"];
+    if (modelInfo) {
+        NSNumber* numLike = modelInfo[@"numLikes"];
+        if (numLike) {
+            return [numLike stringValue];
+        }
+    }
+    return @"0";
+}
 @end
