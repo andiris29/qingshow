@@ -17,6 +17,7 @@
 #define PATH_USER_LOGOUT @"user/logout"
 #define PATH_USER_GET @"user/get"
 #define PATH_USER_REGISTER @"user/register"
+#define PATH_USER_UPDATE @"user/update"
 
 //Model
 #define PATH_QUERY_MODELS @"query/models"
@@ -317,7 +318,7 @@
                            onSuccess:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock {
     
-    return [self startOperationWithPath:PATH_USER_REGISTER
+    return [self startOperationWithPath:PATH_USER_UPDATE
                                  method:@"POST"
                                paramers:people
                             onSucceeded:
