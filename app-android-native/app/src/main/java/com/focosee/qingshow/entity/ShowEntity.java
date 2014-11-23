@@ -25,13 +25,13 @@ public class ShowEntity extends AbsEntity {
         return null;
     }
 
-    public String getCoverHeight() {
+    public int getCoverHeight() {
         if (null != coverMetaData && null != coverMetaData.cover)
             return coverMetaData.height;
-        return null;
+        return 0;
     }
 
-    public String getCoverWidth() {
+    public int getCoverWidth() {
         return coverMetaData.width;
     }
 
@@ -135,8 +135,8 @@ public class ShowEntity extends AbsEntity {
 
     public static class MetaDataCover {
         public String cover;
-        public String width;
-        public String height;
+        public int width;
+        public int height;
     }
 
     //--- Generated setMethod (User do not need to know, only for json conversion)

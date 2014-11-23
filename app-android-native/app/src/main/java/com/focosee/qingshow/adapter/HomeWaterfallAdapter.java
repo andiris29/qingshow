@@ -61,6 +61,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(R.layout.item_refresh_independent, null);
             convertView.setLayoutParams(new PLA_AbsListView.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 100));
+            convertView.setTag(position);
             return convertView;
         }
         position--;
@@ -84,15 +85,11 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         }
         holder = (HomeViewHolder) convertView.getTag();
 
-        String _height = showInfo.getCoverHeight();
-        if (null != _height) {
-            int __height = Integer.valueOf(showInfo.getCoverHeight());
-//            Log.i("error", "height:::::" + _height + "; int height:：：："+String.valueOf(__height));
-//            LinearLayout.LayoutParams _layout = ;
-            holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, __height));
-        }
+//        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)_myHeight));
 
-        _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, animateFirstListener);
+        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(showInfo.getCoverWidth(), showInfo.getCoverHeight()));
+
+        _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, coverOptions, animateFirstListener);
         _mImageFetcher.displayImage(showInfo.getModelImgSrc(), holder.modelIV, animateFirstListener);
         holder.modelNameTV.setText(showInfo.getModelName());
         holder.modelJobTV.setText(showInfo.getModelJob());

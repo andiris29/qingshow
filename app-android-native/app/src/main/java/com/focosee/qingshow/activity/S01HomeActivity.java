@@ -1,9 +1,13 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -28,6 +32,8 @@ import java.util.LinkedList;
 public class S01HomeActivity extends Activity {
 
 //    private MNavigationView _navigationView;
+    private LinearLayout _popView;
+
     private MPullRefreshListView _wfPullRefreshView;
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
@@ -44,6 +50,32 @@ public class S01HomeActivity extends Activity {
 //        _navigationView.setLeft_drawable(R.drawable.nav_btn_menu);
 //        _navigationView.setRight_drawable(R.drawable.nav_btn_account);
 //        _navigationView.setLogo_drawable(R.drawable.nav_btn_image_logo);
+
+        _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
+
+        _popView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                _popView.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        ((ImageView)findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (_popView.getVisibility() == View.INVISIBLE)
+                    _popView.setVisibility(View.VISIBLE);
+                else
+                    _popView.setVisibility(View.INVISIBLE);
+            }
+        });
+        ((ImageView)findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         _wfPullRefreshView = (MPullRefreshListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
