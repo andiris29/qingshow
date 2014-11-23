@@ -27,29 +27,31 @@ var app = express();
 app.listen(argv['http-server-port']);
 
 //cross domain
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     // Set header for cross domain
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
     next();
 });
 
 //Cookie
 app.use(cookieParser(credentials.cookieSecret));
 //Session
-var SessionStore = sessionMongoose(connect);
-var store = new SessionStore({
-    interval: 24 * 60 * 60 * 1000,
-    connection: qsdb.getConnection(),
-    modelName : "sessionStores"
-});
 
 var session = require('express-session')({
-    store: store,
-    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 },
-    resave: true,
-    saveUninitialized: true,
-    secret: 'keyboard cat'
+    'store' : new sessionMongoose(connect)({
+        'interval' : 24 * 60 * 60 * 1000,
+        'connection' : qsdb.getConnection(),
+        'modelName' : "sessionStores"
+    }),
+    'cookie' : {
+        'maxAge' : 365 * 24 * 60 * 60 * 1000
+    },
+    'resave' : true,
+    'saveUninitialized' : true,
+    'secret' : credentials.sessionSecret
 });
 
 app.use(session);
@@ -58,7 +60,7 @@ app.use(session);
 app.use(userValidate(servicesNames));
 
 // Regist http services
-_registServices = function (path) {
+_registServices = function(path) {
     var module = require('./services/' + path);
     for (var id in module) {
         var method = module[id].method, callback = module[id].func;
@@ -73,13 +75,13 @@ _registServices = function (path) {
 app.use(queryStringParser);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended : true
 }));
 
 app.use(error_handler);
 
-servicesNames.forEach(function (name){
-   _registServices(name);
+servicesNames.forEach(function(name) {
+    _registServices(name);
 });
 
 console.log('Http server startup complete!');

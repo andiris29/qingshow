@@ -10,7 +10,10 @@ define([
     DataService.request = function(type, path, requestData, callback) {
         var request = {
             'dataType' : 'json',
-            'cache' : false
+            'cache' : false,
+            'xhrFields' : {
+                'withCredentials' : true
+            }
         };
         var key;
         if (andrea.env.uriQuery.appServer === 'fake') {

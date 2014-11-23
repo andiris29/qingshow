@@ -576,9 +576,9 @@ _collocate = function(req, res) {
             texts.push('商品:');
             texts.push(JSON.stringify(pItems, null, 4));
             qsmail.send(subject, texts.join('\n'), function(err, info) {
-                // Send response
-                res.json(pShow);
             });
+            // Send response
+            res.json(pShow);
         });
     });
 };

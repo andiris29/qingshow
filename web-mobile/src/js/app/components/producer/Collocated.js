@@ -32,9 +32,11 @@ define([
             }.bind(this));
         }.bind(this);
 
-        async.series([loadTemplate, this._refreshCollocated], function() {
+        async.series([loadTemplate], function() {
             this._render();
         }.bind(this));
+
+        this.reset();
     };
     andrea.oo.extend(Collocated, UIComponent);
 
@@ -43,7 +45,12 @@ define([
             'height' : 100
         };
     };
-
+    Collocated.prototype.reset = function() {
+        if (!model.user()) {
+            return;
+        }
+        this._refreshCollocated();
+    };
     Collocated.prototype.collocate = function(pItem) {
         if (this._pItemsInfo[pItem._id]) {
             return;
@@ -53,7 +60,7 @@ define([
         }.bind(this));
 
         $('.qsPItemCover', collocated$).css('background-image', RenderUtils.imagePathToBackground(pItem.cover));
-        collocated$.on('click', function() {
+        collocated$.on(appRuntime.events.click, function() {
             this.uncollocate(pItem);
             this.trigger('uncollocate', pItem);
         }.bind(this));
@@ -82,8 +89,9 @@ define([
     Collocated.prototype._render = function() {
         Collocated.superclass._render.apply(this, arguments);
 
-        var confirm$ = $('.qsConfirm', this._dom$);
-        confirm$.on('click', function() {
+        var confirmContainer$ = $('.qsConfirmContainer', this._dom$);
+        var confirm$ = $('.qsConfirm', confirmContainer$);
+        confirmContainer$.on(appRuntime.events.click, function() {
             if (confirm$.hasClass('qsDisabled')) {
                 return;
             }
@@ -97,9 +105,13 @@ define([
                     var pItem = info.pItem;
                     this.uncollocate(pItem);
                 }.bind(this));
-                InteractionService.collocate(_ids, function() {
-                    this.trigger('save');
-                    this._refreshCollocated();
+                InteractionService.collocate(_ids, function(metadata, data) {
+                    if (metadata.error) {
+                        alert(metadata.error);
+                    } else {
+                        this.trigger('save');
+                        this._refreshCollocated();
+                    }
                 }.bind(this));
             }
         }.bind(this));

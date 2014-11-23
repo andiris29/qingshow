@@ -1,6 +1,7 @@
 // @formatter:off
 define([
     'ui/containers/IScrollContainer',
+    'app/model',
     'app/services/UserService',
     'app/services/QueryService',
     'app/views/ViewBase',
@@ -9,7 +10,7 @@ define([
     'app/components/producer/Collocated',
     'app/components/producer/Collocation',
     'app/components/producer/PItemGallery'
-], function(IScrollContainer, UserService, QueryService, ViewBase, Header, Navigator, Collocated, Collocation, PItemGallery) {
+], function(IScrollContainer, model, UserService, QueryService, ViewBase, Header, Navigator, Collocated, Collocation, PItemGallery) {
 // @formatter:on
     /**
      *
@@ -28,7 +29,7 @@ define([
                 appRuntime.view.to('app/views/user/U06Login');
             });
         });
-        var collocated = new Collocated($('<div/>').appendTo(this._dom$));
+        var collocated = this._collocated = new Collocated($('<div/>').appendTo(this._dom$));
         // Body
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
@@ -68,12 +69,18 @@ define([
         gallery.on('uncollocate', function(event, pItem) {
             collocated.uncollocate(pItem);
         });
-        collocated.on('save', function(event) {
-            gallery.reset();
-        });
+        collocated.on('save', gallery.reset.bind(gallery));
         collocated.on('uncollocate', function(event, pItem) {
             gallery.uncollocate(pItem);
         });
+        model.on('userChanged', gallery.reset.bind(gallery));
+        return gallery;
+    };
+
+    P05Collocation.prototype.activate = function() {
+        P05Collocation.superclass.activate.apply(this, arguments);
+
+        this._collocated.reset();
     };
 
     return P05Collocation;

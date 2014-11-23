@@ -23,7 +23,11 @@ define([
 
     Model.prototype.user = function(value) {
         if (arguments.length > 0) {
+            var changed = (value && !this._user) || (!value && this._user) || (value._id !== this._user._id);
             this._user = value;
+            if (changed) {
+                this.trigger('userChanged');
+            }
             return this;
         } else {
             return this._user;

@@ -1,3 +1,4 @@
 module.exports = {
-	cookieSecret: 'Cookie__Secrect__Qingshow'
+    'cookieSecret' : 'cookieSecret@qingshow',
+    'sessionSecret' : 'sessionSecret@qingshow'
 };

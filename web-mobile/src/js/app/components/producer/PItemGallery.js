@@ -1,11 +1,12 @@
 // @formatter:off
 define([
     'ui/UIComponent',
+    'app/model',
     'app/managers/TemplateManager',
     'app/services/FeedingService',
     'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, FeedingService, CodeUtils, RenderUtils) {
+], function(UIComponent, model, TemplateManager, FeedingService, CodeUtils, RenderUtils) {
 // @formatter:on
     /**
      *
@@ -37,7 +38,9 @@ define([
         }.bind(this)], function(err, results) {
             this._tpltLi$ = results[1];
             // Load data
-            this._query(this._pageNo, this._render.bind(this));
+            if (model.user()) {
+                this._query(this._pageNo, this._render.bind(this));
+            }
         }.bind(this));
     };
 
