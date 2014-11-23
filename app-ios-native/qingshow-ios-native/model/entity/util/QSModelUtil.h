@@ -11,5 +11,5 @@
 @interface QSModelUtil : NSObject
 
 + (NSString*)buildModelStatusString:(NSDictionary*)peopleDict;
-
++ (NSString*)buildNumLikeString:(NSDictionary*)peopleDict;
 @end

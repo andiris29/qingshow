@@ -28,7 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
 
 #pragma mark - Init
-- (id)init;
+- (id)initWithShow:(NSDictionary*)showDict;
 
 #pragma mark - IBAction
 - (IBAction)playBtnPressed:(id)sender;

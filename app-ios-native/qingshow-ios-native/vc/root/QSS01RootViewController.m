@@ -190,7 +190,7 @@
 - (void)didClickShow:(NSDictionary*)showDict
 {
     [self hideMenu];
-    UIViewController* vc = [[QSS03ShowDetailViewController alloc] init];
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
