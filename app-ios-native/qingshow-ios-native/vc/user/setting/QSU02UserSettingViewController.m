@@ -55,11 +55,27 @@
             if (indexPath.row == 1) {
                 // GOTO Gender
                 NSLog(@"GOTO Gender");
+                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
+                                                          initWithNibName:@"QSU05HairGenderTableViewController"
+                                                                   bundle:nil];
+                
+                vc.codeTable = GENDER_LIST;
+                vc.delegate = self;
+                vc.codeType = CODE_TYPE_GENDER;
+                [self.navigationController pushViewController:vc animated:YES];
             } else if (indexPath.row == 2) {
                 // 选择生日
             } else if (indexPath.row == 5) {
                 // GOTO HairType
                 NSLog(@"GOTO HairType");
+                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
+                                                          initWithNibName:@"QSU05HairGenderTableViewController"
+                                                                   bundle:nil];
+                
+                vc.codeTable = HAIR_LIST;
+                vc.delegate = self;
+                vc.codeType = CODE_TYPE_HAIR;
+                [self.navigationController pushViewController:vc animated:YES];
             }
             
             break;
@@ -124,8 +140,8 @@
     
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     self.nameText.text = (NSString *)people[@"name"];
-    self.lengthText.text = (NSString *)people[@"height"];
-    self.nameText.text = (NSString *)people[@"width"];
+    self.lengthText.text = [(NSNumber *)people[@"height"] stringValue];
+    self.weightText.text = [(NSNumber *)people[@"weight"] stringValue];
     if (people[@"birthtime"] == nil) {
         self.birthdayText.text = @"";
     } else {
@@ -188,5 +204,9 @@
 
 - (void)emailViewController:(QSU04EmailViewController *)vc didSavingEmail:(NSString *)email {
     [self updatePeopleEntityViewController:vc byEntity:@{@"email": email}];
+}
+
+- (void)codeUpdateViewController:(QSU05HairGenderTableViewController *)vc forCodeType:(NSString *)codeType bySelectedCode:(NSArray *)codes {
+    [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: codes}];
 }
 @end

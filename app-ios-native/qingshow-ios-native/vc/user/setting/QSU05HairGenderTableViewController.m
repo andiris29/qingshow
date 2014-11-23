@@ -7,6 +7,7 @@
 //
 
 #import "QSU05HairGenderTableViewController.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU05HairGenderTableViewController ()
 
@@ -49,15 +50,24 @@
     return [self.codeTable count];
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    static NSString* identifier = @"code";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
-    // Configure the cell...
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 50, 20)];
+        label.tag = 1000;
+        label.text = self.codeTable[indexPath.row];
+        [cell.contentView addSubview:label];
+    } else {
+        UILabel *label = (UILabel *)[cell viewWithTag:1000];
+        label.text = self.codeTable[indexPath.row];
+    }
     
+    [self configureCheckmarkForCell:cell atIndex:indexPath];
     return cell;
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
@@ -89,12 +99,43 @@
 
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Now Selected Row");
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    if (cell.accessoryType == UITableViewCellAccessoryNone) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
 }
 
 #pragma mark - Action
 - (void) actionSave {
+    NSMutableArray *selected = [[NSMutableArray alloc]init];
+    for (int i = 0; i < self.codeTable.count; i++) {
+        NSIndexPath *indexPaths = [NSIndexPath indexPathForRow:i inSection:0];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPaths];
+        if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+            [selected addObject:[NSNumber numberWithInt:i]];
+        }
+    }
     
+    if (selected.count == 0) {
+        [self showErrorHudWithText:@"内容没有选择"];
+        return;
+    }
+    
+    [self.delegate codeUpdateViewController:self forCodeType:self.codeType bySelectedCode:selected];
+}
+
+#pragma mark - private
+- (void)configureCheckmarkForCell:(UITableViewCell *)cell atIndex:(NSIndexPath *)indexPath {
+    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+    if (self.selectCodes == nil) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else if (![self.selectCodes containsObject:row]) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
 }
 
 @end

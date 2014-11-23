@@ -13,11 +13,14 @@
 @protocol CodeUpdateViewControllerDelegate <NSObject>
 
 - (void)codeUpdateViewController:(QSU05HairGenderTableViewController *)vc
+                     forCodeType:(NSString *)codeType
                   bySelectedCode:(NSArray *)codes;
 
 @end
 
 @interface QSU05HairGenderTableViewController : UITableViewController
 @property (nonatomic, strong) NSArray *codeTable;
+@property (nonatomic, strong) NSArray *selectCodes;
+@property (nonatomic, strong) NSString *codeType;
 @property (nonatomic, weak) id <CodeUpdateViewControllerDelegate> delegate;
 @end
