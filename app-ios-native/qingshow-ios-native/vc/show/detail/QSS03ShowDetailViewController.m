@@ -8,7 +8,7 @@
 
 #import "QSS03ShowDetailViewController.h"
 #import "QSSingleImageScrollView.h"
-#import "QSItemImageScrollView.h"
+
 #import "QSS03ItemDetailViewController.h"
 #import "QSCommentListViewController.h"
 #import "QSShowUtil.h"
@@ -55,7 +55,7 @@
     
     self.itemImageScrollView = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
     [self.itemContainer addSubview:self.itemImageScrollView];
-
+    self.itemImageScrollView.delegate = self;
 
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
@@ -115,14 +115,13 @@
     UIViewController* vc = [[QSS03ItemDetailViewController alloc] init];
     [self presentViewController:vc animated:YES completion:nil];
 }
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+
+#pragma mark - QSItemImageScrollViewDelegate
+- (void)didTapItemAtIndex:(int)index
+{
+    NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:index];
+    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItemDict:itemDict];
+    [self presentViewController:vc animated:YES completion:nil];
 }
-*/
-
 @end

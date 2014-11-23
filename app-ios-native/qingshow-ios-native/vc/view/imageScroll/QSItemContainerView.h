@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class QSItemContainerView;
+
+@protocol QSItemContainerViewDelegate <NSObject>
+
+- (void)didTapImageIndex:(int)index ofView:(QSItemContainerView*)view;
+
+@end
 
 @interface QSItemContainerView : UIView
+
+@property (weak, nonatomic) NSObject<QSItemContainerViewDelegate>* delegate;
 
 + (QSItemContainerView*)generateView;
 

@@ -7,7 +7,9 @@
 //
 
 #import "QSS03ItemDetailViewController.h"
+#import "UIViewController+ShowHud.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSItemUtil.h"
 
 @interface QSS03ItemDetailViewController ()
 
@@ -30,8 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSURL* sampleUrl = [NSURL URLWithString:@"http://e.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=8603fc8f0ff431ada3d24e397b0dcfdd/c75c10385343fbf286a5bf3eb37eca8065388f25.jpg"];
-    [self.imageView setImageFromURL:sampleUrl];
+    [self.imageView setImageFromURL:[QSItemUtil getCoverUrl:self.itemDict]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,6 +48,12 @@
     
 }
 - (IBAction)shopBtnPressed:(id)sender {
-    
+    NSURL* showUrl = [QSItemUtil getShopUrl:self.itemDict];
+    if (showUrl) {
+        [[UIApplication sharedApplication] openURL:showUrl];
+    } else {
+        [self showErrorHudWithText:@"暂无地址"];
+    }
+
 }
 @end

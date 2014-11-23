@@ -12,4 +12,5 @@
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict;
++ (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
 @end

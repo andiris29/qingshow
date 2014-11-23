@@ -33,4 +33,15 @@
     }
     return array;
 }
+
++ (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
+{
+    NSArray* items = showDict[@"itemRefs"];
+    if (items) {
+        return items[index];
+    }
+    
+    return nil;
+}
+
 @end
