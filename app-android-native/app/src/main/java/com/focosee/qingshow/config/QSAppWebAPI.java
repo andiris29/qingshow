@@ -5,8 +5,8 @@ package com.focosee.qingshow.config;
  */
 public class QSAppWebAPI {
     private static final String SITE_BASE = "http://121.41.162.102:30001";
-    //    private static final String SHOW_LIST_API = SITE_BASE + "/services/feeding/chosen?pageNo=";
-    private static final String SHOW_LIST_API = SITE_BASE + "/services/feeding/hot?pageNo=";
+        private static final String SHOW_LIST_API = SITE_BASE + "/services/feeding/chosen?pageNo=";
+//    private static final String SHOW_LIST_API = SITE_BASE + "/services/feeding/hot?pageNo=";
 
 
     public static String getAbsoluteApi(String url) {

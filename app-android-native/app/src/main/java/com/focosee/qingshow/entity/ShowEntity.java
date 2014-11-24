@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,20 +21,20 @@ public class ShowEntity extends AbsEntity {
 
     // the image of the show
     public String getShowCover() {
-        if (null != coverMetaData && null != coverMetaData.cover)
-            return coverMetaData.cover;
+        if (null != coverMetadata && null != coverMetadata.cover)
+            return coverMetadata.cover;
         return null;
     }
 
     public int getCoverHeight() {
-        if (null != coverMetaData && null != coverMetaData.cover)
-            return coverMetaData.height;
+        if (null != coverMetadata && null != coverMetadata.cover)
+            return coverMetadata.height;
         return 0;
     }
 
     public int getCoverWidth() {
-        if (null != coverMetaData && null != coverMetaData.cover)
-            return coverMetaData.width;
+        if (null != coverMetadata && null != coverMetadata.cover)
+            return coverMetadata.width;
         return 0;
     }
 
@@ -86,6 +87,12 @@ public class ShowEntity extends AbsEntity {
         return (itemIndex >=0 && itemIndex < itemRefs.size()) ? itemRefs.get(itemIndex)._id : null;
     }
 
+    // Posters
+    public ArrayList<String> getPosters() {
+        return posters;
+    }
+
+
     public static LinkedList<ShowEntity> getLinkedListFromString(String inputStr) {
         Type listType = new TypeToken<LinkedList<ShowEntity>>(){}.getType();
         Gson gson = new Gson();
@@ -104,8 +111,8 @@ public class ShowEntity extends AbsEntity {
     public String create;                   // "2014-11-21T15:52:27.740Z"
     public List<RefItem> itemRefs;          // "Item Object List"
     public List<String> tags;               // "Tag(str) List"
-    public List<String> posters;            // "Poster(str) List"
-    public MetaDataCover coverMetaData;     // "Cover Object"
+    public ArrayList<String> posters;            // "Poster(str) List"
+    public MetaDataCover coverMetadata;     // "Cover Object"
 
     //--- Item object in show
     public static class RefModel {
