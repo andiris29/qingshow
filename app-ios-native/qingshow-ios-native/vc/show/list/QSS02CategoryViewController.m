@@ -7,6 +7,9 @@
 //
 
 #import "QSS02CategoryViewController.h"
+#import "QSS03ShowDetailViewController.h"
+#import "QSP02ModelDetailViewController.h"
+#import "UIViewController+ShowHud.h"
 #import "QSNetworkEngine.h"
 
 @interface QSS02CategoryViewController ()
@@ -50,12 +53,21 @@
     [self.delegateObj fetchDataOfPage:1];
 }
 #pragma mark - QSShowDelegateObjDelegate
+#pragma mark -
 - (void)didClickShow:(NSDictionary*)showDict
 {
-
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)addFavorShow:(NSDictionary*)showDict
-{
 
+- (void)didClickPeople:(NSDictionary *)peopleDict
+{
+    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)handleNetworkError:(NSError*)error
+{
+    [self showErrorHudWithError:error];
 }
 @end

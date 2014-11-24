@@ -18,8 +18,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-if-kIf">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-if-kIf">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="UmW-CS-Uff" appends="YES" id="nKe-VZ-uXI"/>
+                    </connections>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVD-A6-Bfu">
                     <rect key="frame" x="0.0" y="483" width="320" height="85"/>
@@ -94,6 +97,11 @@
             </constraints>
             <point key="canvasLocation" x="245" y="271"/>
         </view>
+        <tapGestureRecognizer id="UmW-CS-Uff">
+            <connections>
+                <action selector="didClickImage:" destination="-1" id="Ymv-At-G9R"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="s03_close_btn" width="35" height="35"/>

@@ -12,10 +12,13 @@
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
 {
-#warning 暂用cover代替
-    NSString* cover = dict[@"cover"];
-    if (cover) {
-        return @[[NSURL URLWithString:cover]];
+    NSArray* posters = dict[@"posters"];
+    NSMutableArray* urlArray = [@[] mutableCopy];
+    if (posters && posters.count) {
+        for (NSString* path in posters) {
+            [urlArray addObject:[NSURL URLWithString:path]];
+        }
+        return urlArray;
     }
     else {
         return nil;
@@ -41,6 +44,13 @@
         return items[index];
     }
     
+    return nil;
+}
++ (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict
+{
+    if (showDict) {
+        return showDict[@"modelRef"];
+    }
     return nil;
 }
 

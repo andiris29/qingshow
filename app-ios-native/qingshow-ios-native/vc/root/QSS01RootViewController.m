@@ -10,6 +10,7 @@
 #import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
 #import "QSP01ModelListViewController.h"
+#import "QSP02ModelDetailViewController.h"
 #import "QSP03BrandListViewController.h"
 
 #import "QSS02CategoryViewController.h"
@@ -57,7 +58,11 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
 }
-
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self hideMenu];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -110,6 +115,8 @@
 
 - (void)accountButtonPressed
 {
+    [self hideMenu];
+    
     QSUserManager* userManager = [QSUserManager shareUserManager];
     if (userManager.fIsLogined && !userManager.userInfo) {
         //还未获取到用户数据
@@ -137,6 +144,7 @@
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
 {
+    [self hideMenu];
     switch (type) {
         case 3:
         {
@@ -187,10 +195,19 @@
 {
     [self hideMenu];
 }
+
+#pragma mark -
 - (void)didClickShow:(NSDictionary*)showDict
 {
     [self hideMenu];
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)didClickPeople:(NSDictionary *)peopleDict
+{
+    [self hideMenu];
+    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

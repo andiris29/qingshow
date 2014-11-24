@@ -78,7 +78,6 @@
 - (void)followBtnPressed:(NSDictionary*)model
 {
 #warning 需要更新modelList内数据
-#warning 需要把所有follow and unfollow逻辑改为使用handleFOllowModel
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
             [self showTextHud:@"follow succeed"];
@@ -88,7 +87,7 @@
             [self showTextHud:@"unfollow succeed"];
         }
     } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"error"];
+        [self showErrorHudWithError:error];
     }];
 }
 - (void)handleNetworkError:(NSError *)error

@@ -88,10 +88,12 @@
             if (indexPath.row == 0) {
                 // Change Password
                 QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
+                vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];
             } else if (indexPath.row == 1) {
                 // Change Email
                 QSU04EmailViewController *vc = [[QSU04EmailViewController alloc]initWithNibName:@"QSU04EmailViewController" bundle:nil];
+                vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];
             } else {
                 NSLog(@"Nothing");
@@ -100,6 +102,29 @@
         default:
             break;
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 2) {
+        return 100.0f;
+    }
+    
+    return [super tableView:tableView heightForFooterInSection:section];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == 2) {
+        UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
+        UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
+        [addcharity setTitle:@"退出当前账号" forState:UIControlStateNormal];
+        [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
+        [addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
+        [addcharity setBackgroundColor:[UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f]];
+        addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
+        [footerView addSubview:addcharity];
+        return footerView;
+    }
+    return [super tableView:tableView viewForFooterInSection:section];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -201,6 +226,15 @@
     [self updateBirthDayLabel:datePicker.date];
 }
 
+- (void)actionLogout {
+    NSLog(@"logout");
+    VoidBlock succss = ^ {
+        [QSUserManager shareUserManager].userInfo = nil;
+        [QSUserManager shareUserManager].fIsLogined = NO;
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    };
+    [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
+}
 
 #pragma mark - Delegate
 - (void)passwordViewController:(QSU08PasswordViewController *)vc didSavingPassword:(NSString *)newPassword needCurrentPassword:(NSString *)curPasswrod {
@@ -219,12 +253,12 @@
         // Update HairType
         NSMutableString *hairTypes = [[NSMutableString alloc]init];
         for (int i = 0; i < codes.count; i++) {
-            [hairTypes appendString:[NSString stringWithFormat:@"%d", (int)codes[i]]];
+            [hairTypes appendString:[NSString stringWithFormat:@"%@", codes[i]]];
             if (i < (codes.count - 1)) {
                 [hairTypes appendString:@","];
             }
         }
-        [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: codes[0]}];
+        [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: hairTypes}];
     }
 }
 @end

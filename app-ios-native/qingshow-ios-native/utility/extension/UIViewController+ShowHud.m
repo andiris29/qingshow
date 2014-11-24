@@ -36,13 +36,10 @@
 }
 - (void)showErrorHudWithError:(NSError*)error
 {
-#warning 需处理
-    if ([error isKindOfClass:[QSError class]] && error.code == 1009) {
-        [self showErrorHudWithText:@"没有更多了"];
-    } else {
-        [self showErrorHudWithText:[NSString stringWithFormat:@"code:%d", error.code]];
+    if ([error isKindOfClass:[QSError class]]) {
+        QSError* qsError = (QSError*)error;
+        [self showErrorHudWithText:[qsError toString]];
     }
-
 }
 
 - (void)showSuccessHudWithText:(NSString*)text

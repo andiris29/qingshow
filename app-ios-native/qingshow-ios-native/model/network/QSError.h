@@ -12,4 +12,6 @@
 
 @interface QSError : NSError
 
+- (NSString*)toString;
+
 @end

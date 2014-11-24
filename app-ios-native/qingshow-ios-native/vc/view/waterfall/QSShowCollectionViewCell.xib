@@ -60,10 +60,16 @@
                         <color key="textColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" id="xHi-J6-MDl">
+                        <rect key="frame" x="0.0" y="220" width="116" height="50"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
             <size key="customSize" width="211" height="186"/>
             <connections>
                 <outlet property="contentLabel" destination="sdU-tE-XT9" id="fqy-vF-3NU"/>
@@ -73,6 +79,7 @@
                 <outlet property="nameLabel" destination="buo-TK-mWn" id="eoa-Ua-dLp"/>
                 <outlet property="photoImageView" destination="0gK-JO-VWd" id="tHJ-LT-U11"/>
                 <outlet property="statusLabel" destination="XEZ-XA-4md" id="Lo9-fE-mSX"/>
+                <outlet property="tapView" destination="xHi-J6-MDl" id="R4d-Jr-B2F"/>
             </connections>
         </collectionViewCell>
     </objects>
