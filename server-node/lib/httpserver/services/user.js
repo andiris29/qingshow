@@ -147,7 +147,7 @@ _update = function(req, res) {
         });
         arrayField.forEach(function (field) {
             if (param[field]) {
-                var fieldArray = field.split(',');
+                var fieldArray = param[field].split(',');
                 fieldArray = fieldArray.filter(function (f){
                     return f && f.length !== 0;
                 });
