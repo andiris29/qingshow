@@ -55,6 +55,7 @@
             android:text="@string/account_activity_register" />
 
         <EditText
+            android:id="@+id/accountEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -79,6 +80,7 @@
             android:text="@string/password_activity_register" />
 
         <EditText
+            android:id="@+id/passwordEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -103,6 +105,7 @@
             android:text="@string/confirm_activity_register" />
 
         <EditText
+            android:id="@+id/confirmEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
