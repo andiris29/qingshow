@@ -86,6 +86,7 @@
                 if (succeedBlock) {
                     NSDictionary *reDict = completedOperation.responseJSON;
                     [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                    [QSUserManager shareUserManager].fIsLogined = YES;
                     succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
                 }
             }
@@ -105,6 +106,8 @@
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
+                    [QSUserManager shareUserManager].userInfo = nil;
+                    [QSUserManager shareUserManager].fIsLogined = NO;
                     succeedBlock();
                 }
             }
