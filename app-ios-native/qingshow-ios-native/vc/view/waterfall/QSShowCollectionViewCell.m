@@ -29,6 +29,7 @@
 @property (assign, nonatomic) float contentLabelBaseY;
 @property (assign, nonatomic) float favorNumberLabelBaseY;
 @property (assign, nonatomic) float favorButtonBaseY;
+@property (assign, nonatomic) float tapViewBaseY;
 @end
 
 
@@ -41,6 +42,8 @@
     [self baseHeightSetup];
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.height / 2;
     self.headIconImageView.layer.masksToBounds = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
+    [self.tapView addGestureRecognizer:ges];
 }
 
 #pragma mark - IBAction
@@ -63,11 +66,10 @@
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     
-    self.contentLabel.text = showData[@"name"];
+    self.contentLabel.text = [QSPeopleUtil getStatus:modelDict];
 
     NSString* coverPath = showData[@"cover"];
     [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    
     /*
     @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
      */
@@ -84,6 +86,7 @@
     self.contentLabelBaseY = self.contentLabel.frame.origin.y - baseHeight;
     self.favorNumberLabelBaseY = self.favorNumberLabel.frame.origin.y - baseHeight;
     self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
+    self.tapViewBaseY = self.tapView.frame.origin.y - baseHeight;
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
 {
@@ -100,6 +103,7 @@
     [self updateViewFrame:self.headIconImageView withBase:self.headIconImageViewBaseY imageHeight:height];
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
     [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
+    [self updateViewFrame:self.tapView withBase:self.tapViewBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight
@@ -134,4 +138,16 @@
     return height;
 }
 
+#pragma mark - 
+- (void)peopleTap:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
+        [self.delegate peoplePressed:self];
+    }
+}
+- (IBAction)favorPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
+        [self.delegate peoplePressed:self];
+    }
+}
 @end

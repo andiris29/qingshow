@@ -14,5 +14,5 @@
 + (NSString*)buildNumLikeString:(NSDictionary*)peopleDict;
 + (NSString*)getName:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
-
++ (NSString*)getStatus:(NSDictionary*)modelDict;
 @end

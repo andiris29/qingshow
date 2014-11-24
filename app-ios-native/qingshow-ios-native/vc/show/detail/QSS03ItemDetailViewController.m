@@ -56,4 +56,7 @@
     }
 
 }
+- (IBAction)didClickImage:(id)sender {
+    [self closeBtnPressed:nil];
+}
 @end

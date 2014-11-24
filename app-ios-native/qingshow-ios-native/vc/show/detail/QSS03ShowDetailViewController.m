@@ -14,7 +14,7 @@
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface QSS03ShowDetailViewController ()
 
@@ -102,7 +102,10 @@
 
 #pragma mark - IBAction
 - (IBAction)playBtnPressed:(id)sender {
-    NSLog(@"playBtnPressed");
+    NSString* video = self.showDict[@"video"];
+    if (video) {
+        [self playMovie:video];
+    }
 }
 
 - (IBAction)commentBtnPressed:(id)sender {
@@ -124,4 +127,27 @@
     UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItemDict:itemDict];
     [self presentViewController:vc animated:YES completion:nil];
 }
+
+
+#pragma mark - Movie
+-(void)playMovie:(NSString *)path{
+
+    NSURL *url = [NSURL URLWithString:path];
+
+    MPMoviePlayerViewController* vc = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+    [self presentMoviePlayerViewControllerAnimated:vc];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(myMovieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:vc];
+
+}
+
+-(void)myMovieFinishedCallback:(NSNotification*)notify
+{
+    [self performSelector:@selector(dismissMoviePlayerViewControllerAnimated) withObject:nil afterDelay:3.f];
+}
+
+
+
 @end

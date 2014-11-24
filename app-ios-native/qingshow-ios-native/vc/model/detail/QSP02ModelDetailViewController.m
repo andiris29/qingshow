@@ -134,7 +134,7 @@
             self.peopleDict[@"hasFollowed"] = @NO;
             [self.badgeView bindWithPeopleDict:self.peopleDict];
         } onError:^(NSError *error) {
-            [self showTextHud:@"error"];
+            [self showErrorHudWithError:error];
         }];
     }
     else {
@@ -143,7 +143,7 @@
             self.peopleDict[@"hasFollowed"] = @YES;
             [self.badgeView bindWithPeopleDict:self.peopleDict];
         } onError:^(NSError *error) {
-            [self showTextHud:@"error"];
+            [self showErrorHudWithError:error];
         }];
     }
     
@@ -165,7 +165,7 @@
             [self showTextHud:@"unfollow succeed"];
         }
     } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"error"];
+        [self showErrorHudWithError:error];
     }];
 }
 

@@ -12,11 +12,14 @@
 
 @protocol QSShowCollectionViewCellDelegate
 
+@optional
+- (void)peoplePressed:(QSShowCollectionViewCell*)cell;
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell;
 
 @end
 
 @interface QSShowCollectionViewCell : UICollectionViewCell
+
 @property (strong, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
@@ -29,10 +32,14 @@
 
 @property (weak, nonatomic) NSObject<QSShowCollectionViewCellDelegate>* delegate;
 
+@property (weak, nonatomic) IBOutlet UIView *tapView;
 //Show
 - (void)bindData:(NSDictionary*)showData;
 
 //static
 + (float)getHeightWithData:(NSDictionary*)showData;
 
+//IBAction
+- (void)peopleTap:(id)sender;
+- (IBAction)favorPressed:(id)sender;
 @end

@@ -10,6 +10,8 @@
 #import "QSBadgeView.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
+#import "QSP02ModelDetailViewController.h"
+#import "QSS03ShowDetailViewController.h"
 
 @interface QSDetailBaseViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
@@ -44,6 +46,8 @@
     [super viewDidLoad];
     [self _configView];
     self.currentSection = 0;
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,4 +108,39 @@
 {
     
 }
+
+#pragma mark - 
+- (void)didClickShow:(NSDictionary*)showDict
+{
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)didClickPeople:(NSDictionary *)peopleDict
+{
+    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+#pragma mark - QSModelListTableViewDelegateObjDelegate
+- (void)clickModel:(NSDictionary*)model
+{
+    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)followBtnPressed:(NSDictionary*)model
+{
+#warning 需要更新modelList内数据
+    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
+        if (fFollow) {
+            [self showTextHud:@"follow succeed"];
+        }
+        else
+        {
+            [self showTextHud:@"unfollow succeed"];
+        }
+    } onError:^(NSError *error) {
+        [self showErrorHudWithText:@"error"];
+    }];
+}
+
 @end

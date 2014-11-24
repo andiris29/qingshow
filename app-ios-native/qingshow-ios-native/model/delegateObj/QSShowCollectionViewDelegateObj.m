@@ -8,6 +8,7 @@
 
 #import "QSShowCollectionViewDelegateObj.h"
 #import "QSTimeCollectionViewCell.h"
+#import "QSShowUtil.h"
 
 @interface QSShowCollectionViewDelegateObj ()
 
@@ -94,9 +95,19 @@
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
 {
     NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
-    NSDictionary* showDict = self.resultArray[indexPath.row];
+    NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     if ([self.delegate respondsToSelector:@selector(addFavorShow:)]) {
         [self.delegate addFavorShow:showDict];
     }
 }
+
+- (void)peoplePressed:(QSShowCollectionViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
+    NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
+        [self.delegate didClickPeople:[QSShowUtil getPeopleFromShow:showDict]];
+    }
+}
+
 @end

@@ -48,4 +48,11 @@
     return nil;
 }
 
++ (NSString*)getStatus:(NSDictionary*)modelDict
+{
+    if (modelDict && modelDict[@"modelInfo"] && modelDict[@"modelInfo"][@"status"]) {
+        return modelDict[@"modelInfo"][@"status"];
+    }
+    return nil;
+}
 @end
