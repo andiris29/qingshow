@@ -46,6 +46,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     switch (indexPath.section) {
         case 0:
             // 选择section
@@ -59,6 +60,8 @@
                                                           initWithNibName:@"QSU05HairGenderTableViewController"
                                                                    bundle:nil];
                 
+                NSArray *codes = [NSArray arrayWithObject:people[@"gender"]];
+                vc.selectCodes = codes;
                 vc.codeTable = GENDER_LIST;
                 vc.delegate = self;
                 vc.codeType = CODE_TYPE_GENDER;
@@ -75,6 +78,7 @@
                 vc.codeTable = HAIR_LIST;
                 vc.delegate = self;
                 vc.codeType = CODE_TYPE_HAIR;
+                vc.selectCodes = people[@"hairTypes"];
                 [self.navigationController pushViewController:vc animated:YES];
             }
             
@@ -161,6 +165,7 @@
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [vc showSuccessHudWithText:@"更新成功"];
+            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
             [vc.navigationController popToRootViewControllerAnimated:YES];
         } else {
             [vc showErrorHudWithText:@"更新失败"];
@@ -207,6 +212,19 @@
 }
 
 - (void)codeUpdateViewController:(QSU05HairGenderTableViewController *)vc forCodeType:(NSString *)codeType bySelectedCode:(NSArray *)codes {
-    [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: codes}];
+    if ([codeType compare:CODE_TYPE_GENDER] == NSOrderedSame) {
+        // Update Gender
+        [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: codes[0]}];
+    } else {
+        // Update HairType
+        NSMutableString *hairTypes = [[NSMutableString alloc]init];
+        for (int i = 0; i < codes.count; i++) {
+            [hairTypes appendString:[NSString stringWithFormat:@"%d", (int)codes[i]]];
+            if (i < (codes.count - 1)) {
+                [hairTypes appendString:@","];
+            }
+        }
+        [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: codes[0]}];
+    }
 }
 @end

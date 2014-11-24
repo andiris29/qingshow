@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 QS. All rights reserved.
 //
 
+#import "QSU02UserSettingViewController.h"
 #import "QSU05HairGenderTableViewController.h"
 #import "UIViewController+ShowHud.h"
 
@@ -56,7 +57,7 @@
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 50, 20)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 12, 100, 20)];
         label.tag = 1000;
         label.text = self.codeTable[indexPath.row];
         [cell.contentView addSubview:label];
@@ -100,10 +101,26 @@
 // In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if (cell.accessoryType == UITableViewCellAccessoryNone) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    if ([self.codeType compare:CODE_TYPE_GENDER] == NSOrderedSame) {
+        for (int i = 0; i < self.codeTable.count; i++) {
+            if (i == indexPath.row) {
+                if (cell.accessoryType == UITableViewCellAccessoryNone) {
+                    cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                }
+                continue;
+            }
+            NSIndexPath *row = [NSIndexPath indexPathForRow:i inSection:0];
+            UITableViewCell *otherCell = [self.tableView cellForRowAtIndexPath:row];
+            if (otherCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+                otherCell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }
     } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        if (cell.accessoryType == UITableViewCellAccessoryNone) {
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
     }
 }
 
