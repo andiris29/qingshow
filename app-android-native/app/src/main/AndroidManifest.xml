@@ -2,51 +2,55 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.focosee.qingshow" >
 
-
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".app.QSApplication"
+        android:name="com.focosee.qingshow.app.QSApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
-        <!--<activity-->
-            <!--android:name=".activity.BlankActivity"-->
-            <!--android:label="@string/title_activity_blank" >-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name=".activity.BlankActivity" -->
+        <!-- android:label="@string/title_activity_blank" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
-            android:name=".activity.U02SettingsActivity"
+            android:name="com.focosee.qingshow.activity.U02SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".activity.U07RegisterActivity"
+            android:name="com.focosee.qingshow.activity.U07RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name=".activity.U06LoginActivity"
+            android:name="com.focosee.qingshow.activity.U06LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".activity.U01PersonalActivity"
+            android:name="com.focosee.qingshow.activity.U01PersonalActivity"
             android:label="@string/title_activity_personal" >
         </activity>
         <activity
-            android:name=".activity.S01HomeActivity"
+            android:name="com.focosee.qingshow.activity.S01HomeActivity"
             android:label="@string/title_activity_s01_home" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.S03SHowActivity"
+            android:label="@string/title_activity_s03_show" >
         </activity>
     </application>
 

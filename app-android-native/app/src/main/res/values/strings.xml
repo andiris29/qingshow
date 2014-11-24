@@ -53,5 +53,6 @@
     <string name="title_activity_personal">PersonalActivity</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_s01_home">S01HomeActivity</string>
+    <string name="title_activity_s03_show">S03SHowActivity</string>
 
 </resources>
