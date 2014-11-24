@@ -32,7 +32,9 @@ public class ShowEntity extends AbsEntity {
     }
 
     public int getCoverWidth() {
-        return coverMetaData.width;
+        if (null != coverMetaData && null != coverMetaData.cover)
+            return coverMetaData.width;
+        return 0;
     }
 
     // the image of the show
