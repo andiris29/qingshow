@@ -78,7 +78,7 @@
     return [self startOperationWithPath:PATH_USER_LOGIN
                                  method:@"POST"
                                paramers:@{
-                                          @"mail" : userName,
+                                          @"id" : userName,
                                           @"password" : password
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
@@ -292,14 +292,14 @@
             ];
 }
 
-- (MKNetworkOperation *)registerByMail:(NSString *)mail
+- (MKNetworkOperation *)registerById:(NSString *) pid
                               Password:(NSString *)passwd
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock {
     
     return [self startOperationWithPath:PATH_USER_REGISTER
                                  method:@"POST"
-                               paramers:@{@"mail" : mail, @"password": passwd}
+                               paramers:@{@"id" : pid, @"password": passwd}
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;

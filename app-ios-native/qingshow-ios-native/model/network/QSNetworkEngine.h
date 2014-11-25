@@ -24,7 +24,7 @@
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)registerByMail:(NSString *)mail
+- (MKNetworkOperation *)registerById:(NSString *)pid
                               Password:(NSString *)passwd
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
