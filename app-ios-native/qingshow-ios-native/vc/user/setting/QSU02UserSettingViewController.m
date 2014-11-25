@@ -25,6 +25,14 @@
 
 #pragma mark - Method
 
+- (void)awakeFromNib {
+    self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height / 2;
+    self.portraitImage.layer.masksToBounds = YES;
+    
+    self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
+    self.backgroundImage.layer.masksToBounds = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initNavigation];
@@ -60,8 +68,10 @@
                                                           initWithNibName:@"QSU05HairGenderTableViewController"
                                                                    bundle:nil];
                 
-                NSArray *codes = [NSArray arrayWithObject:people[@"gender"]];
-                vc.selectCodes = codes;
+                if (people[@"gender"] != nil) {
+                    NSArray *codes = [NSArray arrayWithObject:people[@"gender"]];
+                    vc.selectCodes = codes;
+                }
                 vc.codeTable = GENDER_LIST;
                 vc.delegate = self;
                 vc.codeType = CODE_TYPE_GENDER;
@@ -78,7 +88,9 @@
                 vc.codeTable = HAIR_LIST;
                 vc.delegate = self;
                 vc.codeType = CODE_TYPE_HAIR;
-                vc.selectCodes = people[@"hairTypes"];
+                if (people[@"hairTypes"] != nil) {
+                    vc.selectCodes = people[@"hairTypes"];
+                }
                 [self.navigationController pushViewController:vc animated:YES];
             }
             
@@ -175,6 +187,15 @@
         self.birthdayText.text = @"";
     } else {
         self.birthdayText.text = (NSString *)people[@"birthtime"];
+    }
+    
+    if (people[@"portait"] != nil) {
+        NSString *portaits = people[@"portait"];
+        [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
+    }
+    if (people[@"background"] != nil) {
+        NSString *background = people[@"background"];
+        [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
     }
 }
 

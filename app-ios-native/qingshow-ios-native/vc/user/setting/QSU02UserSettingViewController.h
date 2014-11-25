@@ -23,5 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameText;
 @property (weak, nonatomic) IBOutlet UITextField *lengthText;
 @property (weak, nonatomic) IBOutlet UITextField *weightText;
+@property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 
 @end

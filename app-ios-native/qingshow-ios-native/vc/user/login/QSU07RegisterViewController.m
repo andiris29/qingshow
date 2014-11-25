@@ -76,10 +76,10 @@
         return;
     }
     
-    if ([self checkEmail:account] != YES) {
-        [self showErrorHudWithText:@"请输入正确的邮件地址"];
-        return;
-    }
+//    if ([self checkEmail:account] != YES) {
+//        [self showErrorHudWithText:@"请输入正确的邮件地址"];
+//        return;
+//    }
     
     if ([self checkPasswd:passwd] != YES) {
         [self showErrorHudWithText:@"请输入8-12位的英文或数字"];
@@ -108,12 +108,12 @@
         }
         
         if (errorCode.longValue == 1010) {
-            [self showErrorHudWithText:@"该邮箱地址已被注册"];
+            [self showErrorHudWithText:@"该账号已被注册"];
             return;
         }
     };
     
-    [SHARE_NW_ENGINE registerByMail:account Password:passwd onSuccess:successBloc onError:errorBlock];
+    [SHARE_NW_ENGINE registerById:account Password:passwd onSuccess:successBloc onError:errorBlock];
 }
 
 # pragma mark - private
