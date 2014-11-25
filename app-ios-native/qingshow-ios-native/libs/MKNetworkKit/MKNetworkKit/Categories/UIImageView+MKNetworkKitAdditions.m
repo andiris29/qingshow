@@ -37,7 +37,11 @@ const float kFromCacheAnimationDuration = 0.1f;
 const float kFreshLoadAnimationDuration = 0.35f;
 
 @interface UIImageView (/*Private Methods*/)
+
 @property (strong, nonatomic) MKNetworkOperation *imageFetchOperation;
+@property (assign, nonatomic) UIViewContentMode preContentMode;
+@property (strong, nonatomic) NSURL* currentImageUrl;
+
 @end
 
 @implementation UIImageView (MKNetworkKitAdditions)

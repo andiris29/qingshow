@@ -19,7 +19,7 @@
 @end
 
 typedef NS_ENUM(NSInteger, QSSectionButtonGroupType) {
-    QSSectionButtonGroupTypeImage, QSSectionButtonGroupTypeText
+    QSSectionButtonGroupTypeImage, QSSectionButtonGroupTypeText, QSSectionButtonGroupTypeThree
 };
 
 

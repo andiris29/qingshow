@@ -45,7 +45,7 @@
                          ];
     if (self.type == QSSectionButtonGroupTypeImage) {
         self.singleButton = [QSSectionImageTextButton generateView];
-    } else {
+    } else  if (self.type == QSSectionButtonGroupTypeText){
         self.singleButton = [QSSectionTextButton generateView];
     }
 
@@ -54,10 +54,12 @@
         [btn addGestureRecognizer:ges];
         [self addSubview:btn];
     }
-    
-    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleButtonPressed:)];
-    [self.singleButton addGestureRecognizer:ges];
-    [self addSubview:self.singleButton];
+    if (self.singleButton) {
+        UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleButtonPressed:)];
+        [self.singleButton addGestureRecognizer:ges];
+        [self addSubview:self.singleButton];
+    }
+
 }
 - (void)layoutSubviews
 {
@@ -66,8 +68,16 @@
 }
 - (void)updateLayout
 {
+    
     CGSize size = self.frame.size;
-    float width = size.width / (self.buttonGroup.count + 1);
+    
+    float width = 0;
+    if (self.singleButton) {
+        width = size.width / (self.buttonGroup.count + 1);
+    } else {
+        width = size.width / self.buttonGroup.count;
+    }
+
     float height = size.height;
     for (int i = 0; i < self.buttonGroup.count; i++) {
         QSSectionButtonBase* btn = self.buttonGroup[i];

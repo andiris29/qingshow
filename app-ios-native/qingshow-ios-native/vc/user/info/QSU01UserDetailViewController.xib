@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
@@ -22,7 +23,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="160" id="uMu-M4-U1U"/>
                     </constraints>
@@ -39,7 +40,7 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-E8-rc6">
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-E8-rc6">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rQv-OK-BHc">
                                 <size key="itemSize" width="50" height="50"/>
@@ -48,16 +49,24 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="286-iQ-Nv4">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="286-iQ-Nv4">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="286-iQ-Nv4" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="3MV-b5-MYt"/>
+                        <constraint firstAttribute="trailing" secondItem="3Ou-E8-rc6" secondAttribute="trailing" id="3UK-xF-1Z0"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Ix9-jJ-DGi"/>
                         <constraint firstAttribute="bottom" secondItem="DrY-X6-QFu" secondAttribute="bottom" id="LP0-8m-16x"/>
+                        <constraint firstItem="3Ou-E8-rc6" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Mva-8b-SZ5"/>
+                        <constraint firstItem="3Ou-E8-rc6" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Wnz-mt-ErJ"/>
+                        <constraint firstItem="286-iQ-Nv4" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Wzr-lo-xqE"/>
+                        <constraint firstAttribute="trailing" secondItem="286-iQ-Nv4" secondAttribute="trailing" id="XDW-FZ-oro"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2a-2R-OyG"/>
+                        <constraint firstAttribute="bottom" secondItem="3Ou-E8-rc6" secondAttribute="bottom" id="raw-GU-h2y"/>
+                        <constraint firstAttribute="bottom" secondItem="286-iQ-Nv4" secondAttribute="bottom" id="yrk-Jf-hD4"/>
                         <constraint firstAttribute="trailing" secondItem="DrY-X6-QFu" secondAttribute="trailing" id="z1p-nF-Kpg"/>
                     </constraints>
                 </view>
