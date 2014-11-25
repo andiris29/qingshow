@@ -113,7 +113,7 @@
         }
     };
     
-    [SHARE_NW_ENGINE registerByMail:account Password:passwd onSuccess:successBloc onError:errorBlock];
+    [SHARE_NW_ENGINE registerById:account Password:passwd onSuccess:successBloc onError:errorBlock];
 }
 
 # pragma mark - private

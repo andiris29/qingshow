@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "QSDetailBaseViewController.h"
 #import "QSBadgeView.h"
 #import "QSNetworkEngine.h"
@@ -60,8 +62,22 @@
 #pragma mark - QSModelBadgeViewDelegate
 - (void)changeToSection:(int)section
 {
+    if (self.currentSection == section) {
+        return;
+    }
     UIScrollView* currentView = self.viewArray[self.currentSection];
+    [currentView.superview bringSubviewToFront:currentView];
     CGPoint p = currentView.contentOffset;
+    
+    CATransition* transition = [[CATransition alloc] init];
+    transition.type = kCATransitionPush;
+    if (self.currentSection < section) {
+        transition.subtype = kCATransitionFromRight;
+    } else {
+        transition.subtype = kCATransitionFromLeft;
+    }
+
+    [currentView.layer addAnimation:transition forKey:@"transition"];
     
     for (int i = 0; i < self.viewArray.count; i++) {
         UIScrollView* view = self.viewArray[i];
@@ -72,6 +88,8 @@
     }
     
     self.currentSection = section;
+
+
 }
 
 #pragma mark - Scroll View
