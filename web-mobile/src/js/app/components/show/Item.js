@@ -65,7 +65,7 @@ define([
         }
         if (item.source) {
             $('.qsBuy', this._dom$).on(appRuntime.events.click, function() {
-                window.location = item.source;
+                window.open(pitem.source, '_blank');
             });
         } else {
             $('.qsBuy', this._dom$).hide();
