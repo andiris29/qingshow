@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="145" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="root_cell_placehold_image1" id="0gK-JO-VWd">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="root_cell_placehold_image1" id="0gK-JO-VWd">
                         <rect key="frame" x="0.0" y="0.0" width="145" height="212"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -29,16 +29,6 @@
                         <color key="textColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jNo-Yf-xl7">
-                        <rect key="frame" x="124" y="215" width="13" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" image="root_cell_icon_notice">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="favorBtnPressed:" destination="UiH-51-z6X" eventType="touchUpInside" id="1DY-tq-8aN"/>
-                        </connections>
-                    </button>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="171cm 45.6kg" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XEZ-XA-4md">
                         <rect key="frame" x="39" y="234" width="68" height="12"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -65,6 +55,18 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jNo-Yf-xl7">
+                        <rect key="frame" x="122" y="219" width="15" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" image="root_cell_icon_notice">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="selected" image="s03_favor_btn"/>
+                        <state key="highlighted" image="s03_favor_btn"/>
+                        <connections>
+                            <action selector="favorBtnPressed:" destination="UiH-51-z6X" eventType="touchUpInside" id="1DY-tq-8aN"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -84,9 +86,10 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="root_cell_icon_notice" width="13" height="11"/>
+        <image name="root_cell_icon_notice" width="20" height="20"/>
         <image name="root_cell_placehold_image1" width="84" height="112"/>
         <image name="root_cell_sample_head" width="26" height="26"/>
+        <image name="s03_favor_btn" width="20" height="20"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

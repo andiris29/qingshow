@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-if-kIf">
+                <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-if-kIf">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="UmW-CS-Uff" appends="YES" id="nKe-VZ-uXI"/>

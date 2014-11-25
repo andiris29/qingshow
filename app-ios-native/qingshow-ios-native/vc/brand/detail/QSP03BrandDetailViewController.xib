@@ -23,7 +23,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="160" id="uMu-M4-U1U"/>
                     </constraints>
@@ -49,20 +49,24 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Rqf-XO-pUD">
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Rqf-XO-pUD">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="344"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="Rqf-XO-pUD" secondAttribute="bottom" id="Frd-LA-jpi"/>
                         <constraint firstAttribute="bottom" secondItem="5PU-GX-PXr" secondAttribute="bottom" id="Lj8-Tu-j8E"/>
                         <constraint firstAttribute="trailing" secondItem="5PU-GX-PXr" secondAttribute="trailing" id="MV4-35-aQW"/>
                         <constraint firstAttribute="trailing" secondItem="bsy-77-TgH" secondAttribute="trailing" id="OAE-ux-efD"/>
                         <constraint firstItem="5PU-GX-PXr" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="UqG-i9-6ld"/>
                         <constraint firstItem="bsy-77-TgH" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2M-OY-C8B"/>
                         <constraint firstItem="5PU-GX-PXr" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="aiE-KV-u13"/>
+                        <constraint firstItem="Rqf-XO-pUD" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="b6U-ba-lGp"/>
+                        <constraint firstAttribute="trailing" secondItem="Rqf-XO-pUD" secondAttribute="trailing" id="ibU-GT-AoK"/>
                         <constraint firstItem="bsy-77-TgH" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="noh-1V-lNq"/>
+                        <constraint firstItem="Rqf-XO-pUD" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="qNN-h4-SgL"/>
                         <constraint firstAttribute="bottom" secondItem="bsy-77-TgH" secondAttribute="bottom" id="wLQ-9i-Nvp"/>
                     </constraints>
                 </view>

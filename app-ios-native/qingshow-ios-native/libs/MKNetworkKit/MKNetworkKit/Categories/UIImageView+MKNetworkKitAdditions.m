@@ -32,12 +32,17 @@
 static MKNetworkEngine *DefaultEngine;
 static char imageFetchOperationKey;
 static char currentImageUrlKey;
+static char preContentModeKey;
 
 const float kFromCacheAnimationDuration = 0.1f;
 const float kFreshLoadAnimationDuration = 0.35f;
 
 @interface UIImageView (/*Private Methods*/)
+
 @property (strong, nonatomic) MKNetworkOperation *imageFetchOperation;
+@property (assign, nonatomic) UIViewContentMode preContentMode;
+@property (strong, nonatomic) NSURL* currentImageUrl;
+
 @end
 
 @implementation UIImageView (MKNetworkKitAdditions)
@@ -49,9 +54,20 @@ const float kFreshLoadAnimationDuration = 0.35f;
     [UIImageView setDefaultEngine:engine];
 }
 
+
+
 -(MKNetworkOperation*) imageFetchOperation {
   
   return (MKNetworkOperation*) objc_getAssociatedObject(self, &imageFetchOperationKey);
+}
+
+- (UIViewContentMode)preContentMode
+{
+  return ((NSNumber*)objc_getAssociatedObject(self, &preContentModeKey)).intValue;
+}
+- (void)setPreContentMode:(UIViewContentMode)preContentMode
+{
+  objc_setAssociatedObject(self, &preContentModeKey, @(preContentMode), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(void) setImageFetchOperation:(MKNetworkOperation *)imageFetchOperation {
@@ -89,7 +105,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
-    
+    self.preContentMode = self.contentMode;
     if (![url isEqual:[self currentImageUrl]] && image) {
         self.image = image;
         self.contentMode = UIViewContentModeCenter;
@@ -108,12 +124,12 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                                options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
                                                             animations:^{
                                                                  self.image = fetchedImage;
-                                                                self.contentMode = UIViewContentModeScaleAspectFit;
+                                                                self.contentMode = self.preContentMode;
                                                                 [self setCurrentImageUrl:url];
                                                                } completion:nil];
                                             } else {
                                                 self.image = fetchedImage;
-                                                self.contentMode = UIViewContentModeScaleAspectFit;
+                                                self.contentMode = self.preContentMode;
                                                 [self setCurrentImageUrl:url];
                                             }
                                             

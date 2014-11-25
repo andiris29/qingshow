@@ -29,7 +29,7 @@
     if (self) {
         [self delegateObjInit];
         self.userInfo = [QSUserManager shareUserManager].userInfo;
-        self.type = QSSectionButtonGroupTypeText;
+        self.type = QSSectionButtonGroupTypeThree;
     }
     return self;
 }
