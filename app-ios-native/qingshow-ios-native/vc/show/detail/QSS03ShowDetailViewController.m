@@ -22,7 +22,7 @@
 @property (strong, nonatomic) QSItemImageScrollView* itemImageScrollView;
 
 @property (strong, nonatomic) NSDictionary* showDict;
-
+@property (strong, nonatomic) MPMoviePlayerController* movieController;
 @end
 
 @implementation QSS03ShowDetailViewController
@@ -65,6 +65,12 @@
     self.headIconImageView.layer.masksToBounds = YES;
     
     [self bindWithDict:self.showDict];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self stopMovie];
 }
 
 - (void)bindWithDict:(NSDictionary*)dict
@@ -114,9 +120,8 @@
 }
 
 - (IBAction)shareBtnPressed:(id)sender {
-#warning 暂时显示item detail
-    UIViewController* vc = [[QSS03ItemDetailViewController alloc] init];
-    [self presentViewController:vc animated:YES completion:nil];
+#warning 未完成
+    NSLog(@"share btn pressed");
 }
 
 
@@ -133,19 +138,31 @@
 -(void)playMovie:(NSString *)path{
 
     NSURL *url = [NSURL URLWithString:path];
-
-    MPMoviePlayerViewController* vc = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
-    [self presentMoviePlayerViewControllerAnimated:vc];
+    if (!self.movieController) {
+        self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
+        [self.view addSubview:self.movieController.view];
+    }
+    self.movieController.view.hidden = NO;
+    
+    self.movieController.view.frame = self.videoContainerView.frame;
+    self.movieController.controlStyle = MPMovieControlStyleEmbedded;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(myMovieFinishedCallback:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:vc];
+                                               object:nil];
+    [self.movieController play];
 
+}
+- (void)stopMovie{
+    if (self.movieController) {
+        [self.movieController stop];
+        self.movieController.view.hidden = YES;
+    }
 }
 
 -(void)myMovieFinishedCallback:(NSNotification*)notify
 {
-    [self performSelector:@selector(dismissMoviePlayerViewControllerAnimated) withObject:nil afterDelay:3.f];
+    [self stopMovie];
 }
 
 

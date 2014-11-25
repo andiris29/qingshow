@@ -36,5 +36,6 @@
 - (IBAction)commentBtnPressed:(id)sender;
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)favorBtnPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *videoContainerView;
 
 @end
