@@ -30,16 +30,17 @@ define([
             });
         });
         var collocated = this._collocated = new Collocated($('<div/>').appendTo(this._dom$));
+        var collocation = new Collocation($('<div/>').appendTo(this._dom$));
+
         // Body
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
-            'height' : this._dom$.height() - header.getPreferredSize().height - collocated.getPreferredSize().height
+            'height' : this._dom$.height() - header.getPreferredSize().height - collocated.getPreferredSize().height - collocation.getPreferredSize().height
         }).appendTo(this._dom$));
 
-        var collocation = new Collocation($('<div/>'));
-        body.append(collocation);
-
-        var navi = new Navigator($('<div/>'));
+        var navi = new Navigator($('<div/>').css({
+            'width' : body.dom$().width()
+        }));
         _appendGallery(navi, collocated, [0], collocation.numUppers);
         _appendGallery(navi, collocated, [1], collocation.numLowers);
         _appendGallery(navi, collocated, [2], collocation.numShoes);

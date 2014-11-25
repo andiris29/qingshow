@@ -22,7 +22,7 @@ define([
 
     Collocation.prototype.getPreferredSize = function() {
         return {
-            'height' : 320
+            'height' : 48
         };
     };
 

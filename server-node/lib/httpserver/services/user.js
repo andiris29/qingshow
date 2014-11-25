@@ -27,13 +27,17 @@ _get = function(req, res) {
 };
 
 _login = function(req, res) {
-    var param, mail, password;
+    var param, id, password;
     param = req.body;
-    mail = param.mail || '';
+    id = param.id || '';
     password = param.password || '';
     People.findOne({
-        "userInfo.mail" : mail,
-        "userInfo.encryptedPassword" : _encrypt(password)
+        "userInfo.id" : id,
+        "$or" :[{
+            "userInfo.password" : password
+        }, {
+            "userInfo.encryptedPassword" : _encrypt(password)
+        }]
     }).select("+userInfo").exec(function(err, people) {
         if (err) {
             ServicesUtil.responseError(res, err);
@@ -75,17 +79,17 @@ _logout = function(req, res) {
 };
 
 _register = function(req, res) {
-    var param, mail, password;
+    var param, id, password;
     param = req.body;
-    mail = param.mail;
+    id = param.id;
     password = param.password;
-    //TODO validate mail and password
-    if (!mail || !password || !mail.length || !password.length) {
+    //TODO validate id and password
+    if (!id || !password || !id.length || !password.length) {
         ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
         return;
     }
     People.findOne({
-        'userInfo.mail' : mail
+        'userInfo.id' : id
     }, function(err, people) {
         if (err) {
             ServicesUtil.responseError(res, err);
@@ -97,7 +101,7 @@ _register = function(req, res) {
 
         var people = new People({
             userInfo : {
-                mail : mail,
+                id : id,
                 encryptedPassword : _encrypt(password)
             }
         });
@@ -160,8 +164,8 @@ _update = function(req, res) {
                 people.status = param.status;
             }
         }
-        if (param.mail) {
-            people.userInfo.mail = param.mail;
+        if (param.id) {
+            people.userInfo.id = param.id;
         }
         //TODO: check param.currentPassword
         if (param.password) {

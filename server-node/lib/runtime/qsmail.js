@@ -2,8 +2,8 @@ var _transporter;
 
 var send = function(subject, text, callback) {
     _send({
-        'from' : 'info@focosee.com',
-        'to' : 'info@focosee.com',
+        'from' : 'top@focosee.com',
+        'to' : 'top@focosee.com',
         'bcc' : '896815706@qq.com',
         'subject' : '[qingshow] ' + subject,
         'text' : text
@@ -12,7 +12,7 @@ var send = function(subject, text, callback) {
 
 var debug = function(subject, text, callback) {
     _send({
-        'from' : 'info@focosee.com',
+        'from' : 'top@focosee.com',
         'to' : '896815706@qq.com',
         'subject' : '[qingshow debug] ' + subject,
         'text' : text
@@ -29,8 +29,8 @@ var _send = function(options, callback) {
             'port' : 465,
             'secure' : true,
             'auth' : {
-                'user' : 'info@focosee.com',
-                'pass' : '123qaz'
+                'user' : 'top@focosee.com',
+                'pass' : 'ABCabc123'
             }
         }));
     }

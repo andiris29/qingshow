@@ -11,16 +11,16 @@ define([
         DataService.request('GET', '/user/get', null, callback);
     };
 
-    UserService.login = function(mail, password, callback) {
+    UserService.login = function(id, password, callback) {
         DataService.request('POST', '/user/login', {
-            'mail' : mail,
+            'id' : id,
             'password' : password
         }, callback);
     };
 
-    UserService.register = function(mail, password, callback) {
+    UserService.register = function(id, password, callback) {
         DataService.request('POST', '/user/register', {
-            'mail' : mail,
+            'id' : id,
             'password' : password
         }, callback);
     };

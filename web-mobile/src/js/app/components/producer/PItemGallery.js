@@ -115,8 +115,8 @@ define([
         $('.qsPItemCover', li$).attr('data-original', RenderUtils.imagePathToURL(pItem.cover));
 
         // User click here to avoid conflict with gesture
-        $('.qsPItemCover', li$).on('click', function() {
-            var collocate$ = $('.qsCollocate', li$).data('pItem', pItem);
+        $('.qsCollocate, .qsPItemCover', li$).on('click', function() {
+            var collocate$ = $('.qsCollocated', li$).data('pItem', pItem);
             if (collocate$.is(":visible")) {
                 collocate$.hide();
                 this.trigger('uncollocate', pItem);
@@ -125,6 +125,9 @@ define([
                 this.trigger('collocate', pItem);
             }
         }.bind(this));
+        $('.qsDetail', li$).on('click', function() {
+            window.open(pItem.source, '_blank');
+        });
         return li$;
     };
 

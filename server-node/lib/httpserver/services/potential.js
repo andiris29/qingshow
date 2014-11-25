@@ -36,7 +36,9 @@ _queryAvailablePItems = function(req, res) {
             'category' : {
                 '$in' : categories
             },
-            'modelRef' : null
+            'collocated' : {
+                '$ne' : true
+            }
         });
         return query;
     }
@@ -105,11 +107,13 @@ _collocate = function(req, res) {
             '_id' : {
                 '$in' : pItemRefs
             },
-            'modelRef' : null
+            'collocated' : {
+                '$ne' : true
+            }
         }, function(err, pItems) {
             if (err) {
                 callback(err);
-            } else if (!pItems || _ids.length !== pItems.length) {
+            } else if (!pItems) {
                 callback(new ServerError(ServerError.PItemNotExist));
             } else {
                 callback(null, pItems);
@@ -152,8 +156,16 @@ _collocate = function(req, res) {
         // Update potential items
         var updatePItems = function(callback) {
             pItems.forEach(function(pItem, index) {
-                pItem.set('modelRef', modelRef);
-                pItem.save();
+                PItem.collection.update({
+                    'source' : pItem.source
+                }, {
+                    '$set' : {
+                        'collocated' : true
+                    }
+                }, {
+                    'multi' : true
+                }, function(err, numAffected) {
+                });
             });
             callback(null);
         };
@@ -162,11 +174,9 @@ _collocate = function(req, res) {
             // Send mail
             var subject = model.get('name') + '的新搭配';
             var texts = [];
-            texts.push('模特_id：' + model.get('_id'));
             texts.push('模特：' + model.get('name'));
             texts.push('');
-            texts.push('PShow_id：' + pShow.get('_id'));
-            texts.push('商品:');
+            texts.push('商品：');
             texts.push(JSON.stringify(pItems, null, 4));
             qsmail.send(subject, texts.join('\n'), function(err, info) {
             });

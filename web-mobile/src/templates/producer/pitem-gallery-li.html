@@ -11,19 +11,37 @@
         width: 100%;
         display: block;
     }
-    .qsTpltPItemGalleryLi .qsCollocate {
+    .qsTpltPItemGalleryLi .qsCollocated {
         position: absolute;
         right: 20px;
-        bottom: 20px;
+        bottom: 60px;
         font-size: 60px;
         color: #21b384;
         text-shadow: 2px 2px 0px #fff;
+    }
+    .qsTpltPItemGalleryLi .qsNavi {
+        height: 40px;
+    }
+    .qsTpltPItemGalleryLi .qsNavi > div {
+        height: 40px;
+        line-height: 40px;
+        float: left;
+        width: 50%;
+        text-align: center;
     }
 </style>
 
 <div id="wrapper" style="width: 290px; position: relative; margin: auto;">
     <div class="qsTpltPItemGalleryLi">
         <img class="qsPItemCover lazy fakeSrc" src="../../../../server-image-fake/covers/moto01.jpg">
-        <div class="qsCollocate fa fa-check-circle-o fakeDisplay"></div>
+        <div class="qsCollocated fa fa-check-circle-o fakeDisplay"></div>
+        <div class="qsNavi">
+            <div class="qsCollocate qsButtonHighlight">
+                搭配
+            </div>
+            <div class="qsDetail">
+                详细
+            </div>
+        </div>
     </div>
 </div>

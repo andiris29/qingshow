@@ -16,7 +16,8 @@ define([
 
         var header = new Header($('<div/>').appendTo(this._dom$), {
             'title' : '登陆',
-            'right' : '注册'
+            // TODO Disable temporary for entry=p05
+            'right' : null// '注册'
         });
 
         //this._dom$.on(appRuntime.events.click, function() {
