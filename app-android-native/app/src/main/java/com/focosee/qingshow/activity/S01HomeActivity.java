@@ -21,6 +21,7 @@ import com.focosee.qingshow.entity.ShowEntity;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -97,6 +98,18 @@ public class S01HomeActivity extends Activity {
                 doGetMoreTask();
             }
         });
+
+        _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
+//                String text = _adapter.getItemDataAtIndex(position) + ", index = " + (position + 1);
+//                Toast.makeText(MListViewTest.this, text, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
+                intent.putStringArrayListExtra(S03SHowActivity.INPUT_POSTERS, _adapter.getItemDataAtIndex(position).getPosters());
+                startActivity(intent);
+            }
+        });
+
         setLastUpdateTime();
 
         _wfPullRefreshView.doPullRefreshing(true, 500);

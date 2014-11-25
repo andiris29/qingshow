@@ -1,8 +1,9 @@
 // @formatter:off
 define([
     'ui/UIComponent',
-    'app/model'
-], function(UIComponent, model) {
+    'app/model',
+    'app/views/user/U06Login'
+], function(UIComponent, model, U06Login) {
 // @formatter:on
     /**
      * View container, own the animation between view switch
@@ -71,13 +72,17 @@ define([
         var view = this._views[this._views.length - 2];
         this._views.pop();
 
-        this._animating = true;
-        view.activate();
-        this._swapView(PageTransitions.animations.prevView, this._currentView, view, function() {
-            this._animating = false;
+        if (model.user() && view instanceof U06Login) {
+            appRuntime.view.back();
+        } else {
+            this._animating = true;
+            view.activate();
+            this._swapView(PageTransitions.animations.prevView, this._currentView, view, function() {
+                this._animating = false;
 
-            this._postBack(view);
-        }.bind(this));
+                this._postBack(view);
+            }.bind(this));
+        }
     };
 
     ViewContainer.prototype._swapView = function(animation, view1, view2, callback) {
@@ -100,7 +105,7 @@ define([
         this._currentView = view;
 
         if (this._currentView.loginRequired && !model.user()) {
-            appRuntime.view.to('app/views/user/U06Login');
+            appRuntime.view.to(U06Login);
         }
     };
     return ViewContainer;

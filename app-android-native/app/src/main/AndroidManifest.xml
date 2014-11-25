@@ -49,8 +49,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S03SHowActivity"
+            android:name=".activity.S03SHowActivity"
             android:label="@string/title_activity_s03_show" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

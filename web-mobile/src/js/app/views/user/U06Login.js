@@ -32,7 +32,6 @@ define([
             appRuntime.view.to('app/views/user/U07Register');
         });
 
-
         var body = new IScrollContainer($('<div/>').css({
             'width' : '100%',
             'height' : this._dom$.height() - header.getPreferredSize().height
@@ -40,7 +39,6 @@ define([
 
         var main = new LoginComponent($('<div/>'), model);
         body.append(main);
-
     };
     andrea.oo.extend(U06Login, ViewBase);
 

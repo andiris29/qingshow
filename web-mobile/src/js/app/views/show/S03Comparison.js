@@ -11,8 +11,8 @@ define([
     /**
      * TODO
      */
-    var S03Comparison = function(dom, data) {
-        S03Comparison.superclass.constructor.apply(this, arguments);
+    var S06Comparison = function(dom, data) {
+        S06Comparison.superclass.constructor.apply(this, arguments);
         this._feeding = data.feeding;
 
         var header = new Header($('<div/>').appendTo(this._dom$), {
@@ -28,7 +28,7 @@ define([
             'feeding' : FeedingService.chosenByEditor
         }));
     };
-    andrea.oo.extend(S03Comparison, ViewBase);
+    andrea.oo.extend(S06Comparison, ViewBase);
 
-    return S03Comparison;
+    return S06Comparison;
 });

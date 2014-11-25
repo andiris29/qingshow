@@ -128,7 +128,12 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         _data.addAll(datas);
     }
 
+    public ShowEntity getItemDataAtIndex(int index) {
+        if (index >= _data.size()) return null;
+        return (ShowEntity)_data.get(index);
+    }
 
+    // Animation
     private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
         static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
