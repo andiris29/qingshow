@@ -26,11 +26,6 @@
 #pragma mark - Method
 
 - (void)awakeFromNib {
-    self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height / 2;
-    self.portraitImage.layer.masksToBounds = YES;
-    
-    self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
-    self.backgroundImage.layer.masksToBounds = YES;
 }
 
 - (void)viewDidLoad {
@@ -102,10 +97,10 @@
                 QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
                 vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];
-            } else if (indexPath.row == 1) {
-                // Change Email
-                QSU04EmailViewController *vc = [[QSU04EmailViewController alloc]initWithNibName:@"QSU04EmailViewController" bundle:nil];
-                vc.delegate = self;
+//            } else if (indexPath.row == 1) {
+//                // Change Email
+//                QSU04EmailViewController *vc = [[QSU04EmailViewController alloc]initWithNibName:@"QSU04EmailViewController" bundle:nil];
+//                vc.delegate = self;
                 [self.navigationController pushViewController:vc animated:YES];
             } else {
                 NSLog(@"Nothing");
@@ -128,11 +123,14 @@
     if (section == 2) {
         UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
         UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
-        [addcharity setTitle:@"退出当前账号" forState:UIControlStateNormal];
+        [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         [addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
-        [addcharity setBackgroundColor:[UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f]];
+//        [addcharity setBackgroundColor:[UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f]];
+        [addcharity setBackgroundColor:[UIColor redColor]];
         addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
+        addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
+        addcharity.layer.masksToBounds = YES;
         [footerView addSubview:addcharity];
         return footerView;
     }
@@ -183,19 +181,36 @@
     self.nameText.text = (NSString *)people[@"name"];
     self.lengthText.text = [(NSNumber *)people[@"height"] stringValue];
     self.weightText.text = [(NSNumber *)people[@"weight"] stringValue];
+    if (self.lengthText.text.length != 0) {
+        self.lengthText.text = [NSString stringWithFormat:@"%@ cm", self.lengthText.text];
+    }
+    if (self.weightText.text.length != 0) {
+        self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
+    }
     if (people[@"birthtime"] == nil) {
         self.birthdayText.text = @"";
     } else {
         self.birthdayText.text = (NSString *)people[@"birthtime"];
     }
     
+    self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height / 2;
+    self.portraitImage.layer.masksToBounds = YES;
+    
+    self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
+    self.backgroundImage.layer.masksToBounds = YES;
+    
     if (people[@"portait"] != nil) {
         NSString *portaits = people[@"portait"];
         [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
+    } else {
+        [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
     }
+    
     if (people[@"background"] != nil) {
         NSString *background = people[@"background"];
         [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
+    } else {
+        [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
     }
 }
 
@@ -212,7 +227,7 @@
         if (metadata[@"error"] == nil && people != nil) {
             [vc showSuccessHudWithText:@"更新成功"];
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-            [vc.navigationController popToRootViewControllerAnimated:YES];
+            [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
         } else {
             [vc showErrorHudWithText:@"更新失败"];
         }
@@ -238,6 +253,14 @@
     NSString *birthDay = self.birthdayText.text;
     NSString *length = self.lengthText.text;
     NSString *weight = self.weightText.text;
+    
+    if (length.length != 0) {
+        length = [length stringByReplacingOccurrencesOfString:@" cm" withString:@""];
+    }
+    
+    if (weight.length != 0) {
+        weight = [weight stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+    }
     
     [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}];
 }
@@ -281,5 +304,33 @@
         }
         [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: hairTypes}];
     }
+}
+
+- (IBAction)lengthEditingDidBegin:(id)sender {
+    if (self.lengthText.text.length == 0) {
+        return;
+    }
+    self.lengthText.text = [self.lengthText.text stringByReplacingOccurrencesOfString:@" cm" withString:@""];
+}
+
+- (IBAction)lengthEditingDidEnd:(id)sender {
+    if (self.lengthText.text.length == 0) {
+        return;
+    }
+    self.lengthText.text = [NSString stringWithFormat:@"%@ cm", self.lengthText.text];
+}
+
+- (IBAction)weightEditingDidBegin:(id)sender {
+    if (self.weightText.text.length == 0) {
+        return;
+    }
+    self.lengthText.text = [self.weightText.text stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+}
+
+- (IBAction)weightEditingDidEnd:(id)sender {
+    if (self.weightText.text.length == 0) {
+        return;
+    }
+    self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText];
 }
 @end
