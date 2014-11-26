@@ -17,7 +17,7 @@ var _decrypt = function(string) {
     return dec;
 };
 
-var _get, _login, _logout, _update, _register;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground;
 _get = function(req, res) {
     res.json({
         'data' : {
@@ -33,7 +33,7 @@ _login = function(req, res) {
     password = param.password || '';
     People.findOne({
         "userInfo.id" : id,
-        "$or" :[{
+        "$or" : [{
             "userInfo.password" : password
         }, {
             "userInfo.encryptedPassword" : _encrypt(password)
@@ -113,10 +113,11 @@ _register = function(req, res) {
                 ServicesUtil.responseError(res, new ServerError(ServerError.ServerError));
                 return;
             } else {
+                req.session.userId = people._id;
+                req.session.loginDate = new Date();
+
                 var retData = {
                     metadata : {
-                        //TODO change invilidateTime
-                        //                        "invalidateTime": 3600000
                     },
                     data : {
                         people : people
@@ -129,30 +130,29 @@ _register = function(req, res) {
 };
 
 _update = function(req, res) {
-    //TODO add api for upload image
     var param;
     param = req.body;
     var curUser = req.currentUser;
     People.findOne({
         _id : curUser._id
-    }).select('+userInfo').exec(function (err, people) {
+    }).select('+userInfo').exec(function(err, people) {
         var updateField = ['name', 'portrait', 'gender'];
         var numberField = ['height', 'weight'];
         var arrayField = ['roles', 'hairTypes'];
-        updateField.forEach(function (field) {
+        updateField.forEach(function(field) {
             if (param[field]) {
                 people[field] = param[field];
             }
         });
-        numberField.forEach(function (field) {
+        numberField.forEach(function(field) {
             if (param[field]) {
                 people[field] = parseFloat(param[field]);
             }
         });
-        arrayField.forEach(function (field) {
+        arrayField.forEach(function(field) {
             if (param[field]) {
                 var fieldArray = param[field].split(',');
-                fieldArray = fieldArray.filter(function (f){
+                fieldArray = fieldArray.filter(function(f) {
                     return f && f.length !== 0;
                 });
                 people[field] = fieldArray;
@@ -196,6 +196,29 @@ _update = function(req, res) {
     });
 };
 
+var formidable = require('formidable');
+var util = require('util');
+_updatePortrait = function(req, res) {
+    _upload(req, res, '/userPortrait');
+};
+
+_updateBackground = function(req, res) {
+    _upload(req, res, '/userBackground');
+};
+
+var _upload = function(req, res, folder) {
+    var form = new formidable.IncomingForm();
+    form.uploadDir = global.__qingshow_uploads.folder;
+    form.keepExtensions = true;
+    form.parse(req, function(err, fields, files) {
+        res.writeHead(200, {
+            'content-type' : 'text/plain'
+        });
+        res.end();
+    });
+    return;
+};
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -218,6 +241,16 @@ module.exports = {
     'update' : {
         method : 'post',
         func : _update,
+        needLogin : true
+    },
+    'updatePortrait' : {
+        method : 'post',
+        func : _updatePortrait,
+        needLogin : true
+    },
+    'updateBackground' : {
+        method : 'post',
+        func : _updateBackground,
         needLogin : true
     }
 };

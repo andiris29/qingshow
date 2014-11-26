@@ -28,7 +28,7 @@ define([
 
             suffix = suffix.length ? ('_' + suffix.join('_')) : '';
             $.extend(request, {
-                'url' : appConfig.appServer + path + suffix + '.json'
+                'url' : appConfig.appServer + '/services' + path + suffix + '.json'
             });
         } else {
             for (key in requestData) {
@@ -37,7 +37,7 @@ define([
                 }
             }
             $.extend(request, {
-                'url' : appConfig.appServer + path,
+                'url' : appConfig.appServer + '/services' + path,
                 'type' : type,
                 'data' : requestData
             });
@@ -58,6 +58,12 @@ define([
             }
         }).always(function() {
         });
+    };
+
+    DataService.upload = function(path, callback) {
+        var formImage$ = $('#formImage');
+        formImage$.attr('action', appConfig.appServer + '/services' + path);
+        formImage$[0].submit();
     };
 
     DataService.injectBeforeCallback = function(callback, beforeCallback) {

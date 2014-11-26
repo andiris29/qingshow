@@ -2,27 +2,17 @@
 define([
     'ui/UIComponent',
     'app/managers/TemplateManager',
-    'app/services/DataService',
     'app/services/UserService',
     'app/utils/CodeUtils',
     'app/utils/RenderUtils'
-], function(UIComponent, TemplateManager, DataService, UserService, CodeUtils, RenderUtils) {
+], function(UIComponent, TemplateManager, UserService, CodeUtils, RenderUtils) {
 // @formatter:on
 
     /**
      * User Settings's UI Componets
      */
-    var U02UserSetting, U04Email, U05HairType, U08Passwd, U09Gender;
     var UserSettingComponents = function(dom) {
         UserSettingComponents.superclass.constructor.apply(this, arguments);
-
-        require(['app/views/user/U02UserSetting', 'app/views/user/U04Email', 'app/views/user/U05HairType', 'app/views/user/U08Passwd', 'app/views/user/U09Gender'], function(userSetting, email, hairType, passwd, gender) {
-            U02UserSetting = userSetting;
-            U04Email = email;
-            U05HairType = hairType;
-            U08Passwd = passwd;
-            U09Gender = gender;
-        });
 
         async.parallel([ function(callback) {
             // load template
@@ -30,11 +20,6 @@ define([
                 this._dom$.append(content$);
                 callback(null);
             }.bind(this));
-            //}.bind(this), function(callback) {
-            //    // Load data
-            //    DataService.request('/feeding/byPeople', {
-            //        'peopleId' : 1
-            //    }, callback);
         }.bind(this)], function(err, results) {
             this._render();
         }.bind(this));
@@ -58,20 +43,35 @@ define([
         $('#height', view$).attr('value', people.height);
         $('#weight', view$).attr('value', people.weight);
 
+        var fileImage$ = $('#fileImage');
+
+        $('.qsPortraitContainer', view$).on(appRuntime.events.click, function() {
+            fileImage$[0].click();
+            fileImage$.off().on('change', function() {
+                UserService.updatePortrait();
+            });
+        }.bind(this));
+        $('.qsBackgroundContainer', view$).on(appRuntime.events.click, function() {
+            fileImage$[0].click();
+            fileImage$.off().on('change', function() {
+                UserService.updateBackground();
+            });
+        }.bind(this));
+
         $('.qsGender', view$).on(appRuntime.events.click, function() {
-            appRuntime.view.to(U09Gender);
+            appRuntime.view.to('app/views/user/U09Gender');
         }.bind(this));
 
         $('.qsHairType', view$).on(appRuntime.events.click, function() {
-            appRuntime.view.to(U05HairType);
+            appRuntime.view.to('app/views/user/U05HairType');
         }.bind(this));
 
         $('.qsPasswd', view$).on(appRuntime.events.click, function() {
-            appRuntime.view.to(U08Passwd);
+            appRuntime.view.to('app/views/user/U08Passwd');
         }.bind(this));
 
         $('.qsEmail', view$).on(appRuntime.events.click, function() {
-            appRuntime.view.to(U04Email);
+            appRuntime.view.to('app/views/user/U04Email');
         }.bind(this));
 
         $('.qsHelp', view$).on(appRuntime.events.click, function() {
