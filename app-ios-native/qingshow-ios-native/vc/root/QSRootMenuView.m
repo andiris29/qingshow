@@ -53,15 +53,17 @@
 - (void)awakeFromNib
 {
 
+    NSArray* typeArray = @[@1, @2, @3, @8, @9];   //1,2,3,8,9
     self.itemArray = [@[] mutableCopy];
 
     CGSize size = self.frame.size;
 
-    for (int i = 0; i < 9; i++) {
-        QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:i + 1];
+    for (int i = 0; i < 5; i++) {
+        NSNumber* typeNum = typeArray[i];
+        QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:typeNum.intValue];
         item.delegate = self;
         
-        float deltaY = (size.height - 3 * item.frame.size.height) / 4;
+        float deltaY = (size.height - 2 * item.frame.size.height) / 3;
         float deltaX = (size.width - 3 * item.frame.size.width) / 4;
         int index = i;
         int column = index % 3 + 1;

@@ -14,7 +14,7 @@
 {
     [super prepareLayout];
     self.itemWidth=145;
-    self.sectionInset=UIEdgeInsetsMake(5, 10, 5, 10);
+    self.sectionInset=UIEdgeInsetsMake(10, 10, 5, 10);
     self.delegate = (id<QSWaterFallLayoutDelegate>)self.collectionView.delegate;
     CGSize size = self.collectionView.frame.size;
     _cellCount = [[self collectionView] numberOfItemsInSection:0];
