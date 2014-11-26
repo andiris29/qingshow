@@ -9,14 +9,6 @@ public class QSAppWebAPI {
 //    private static final String SHOW_LIST_API = SITE_BASE + "/services/feeding/hot?pageNo=";
 
 
-    public static String getAbsoluteApi(String url) {
-        if (!url.startsWith(SITE_BASE)) {
-            url = (url.startsWith("/")) ? SITE_BASE + url : SITE_BASE + "/" + url;
-        }
-        return url;
-    }
-
-
     public static String getShowListApi(int pageIndex, int pageSize) {
         return SHOW_LIST_API + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }

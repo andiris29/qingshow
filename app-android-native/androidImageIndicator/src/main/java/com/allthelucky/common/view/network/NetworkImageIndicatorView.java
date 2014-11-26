@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.app.library.common.view.R;
@@ -45,7 +46,9 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 		if (len > 0) {
 			for (int index = 0; index < len; index++) {
 				final ImageView pageItem = new ImageView(getContext());
-				pageItem.setScaleType(ScaleType.FIT_XY);
+				pageItem.setScaleType(ScaleType.CENTER_CROP);
+//                pageItem.setAdjustViewBounds(true);
+                pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				pageItem.setImageResource(R.drawable.ic_launcher);
                 mImageLoader.displayImage(urlList.get(index), pageItem);
 				addViewItem(pageItem);

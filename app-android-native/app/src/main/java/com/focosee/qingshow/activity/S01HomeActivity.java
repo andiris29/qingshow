@@ -106,6 +106,7 @@ public class S01HomeActivity extends Activity {
 //                Toast.makeText(MListViewTest.this, text, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
                 intent.putStringArrayListExtra(S03SHowActivity.INPUT_POSTERS, _adapter.getItemDataAtIndex(position).getPosters());
+                intent.putExtra(S03SHowActivity.INPUT_VIDEO, _adapter.getItemDataAtIndex(position).getShowVideo());
                 startActivity(intent);
             }
         });
