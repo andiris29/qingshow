@@ -44,8 +44,10 @@
 //    
 //    
     // 登陆
-    self.registerButton.backgroundColor = [UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
-
+//    self.registerButton.backgroundColor = [UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
+    self.registerButton.backgroundColor = [UIColor redColor];
+    self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
+    self.registerButton.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {

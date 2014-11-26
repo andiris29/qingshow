@@ -303,6 +303,7 @@
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;
+                [QSUserManager shareUserManager].fIsLogined = YES;
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
