@@ -87,6 +87,7 @@
 {
 
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
+        self.metaDataDict = metadata;
         int preCount = 0;
         if (page == 1) {
             [self.resultArray removeAllObjects];

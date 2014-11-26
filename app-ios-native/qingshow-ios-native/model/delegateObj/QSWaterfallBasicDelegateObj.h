@@ -22,6 +22,8 @@
 @property (readonly, nonatomic) NSMutableArray* resultArray;
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
 @property (weak, nonatomic) NSObject<QSWaterfallBasicDelegateObjDelegate>* delegate;
+@property (strong, nonatomic) NSDictionary* metaDataDict;
+
 
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
 - (void)reloadData;

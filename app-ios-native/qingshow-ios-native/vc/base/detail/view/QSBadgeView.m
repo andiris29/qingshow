@@ -65,9 +65,7 @@
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict
 {
     self.nameLabel.text = peopleDict[@"name"];
-#warning roles
-    self.roleLabel.text = @"roles";
-    
+    self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
     self.statusLabel.text = [QSPeopleUtil buildModelStatusString:peopleDict];
 
     NSString* headPhotoPath = peopleDict[@"portrait"];
