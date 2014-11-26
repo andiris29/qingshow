@@ -42,6 +42,7 @@
     // Do any additional setup after loading the view from its nib.
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.delegate = self;
+    self.title = @"评论";
 }
 
 - (void)didReceiveMemoryWarning {

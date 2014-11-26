@@ -77,6 +77,7 @@
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
+    self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
     [self.delegateObj fetchDataOfPage:1];
 }
 

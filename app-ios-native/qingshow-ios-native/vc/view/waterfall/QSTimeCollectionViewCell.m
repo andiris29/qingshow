@@ -7,7 +7,7 @@
 //
 
 #import "QSTimeCollectionViewCell.h"
-
+#import <QuartzCore/QuartzCore.h>
 @implementation QSTimeCollectionViewCell
 
 - (id)initWithFrame:(CGRect)frame
@@ -17,6 +17,11 @@
         // Initialization code
     }
     return self;
+}
+- (void)awakeFromNib
+{
+    self.layer.cornerRadius = 4;
+    self.layer.masksToBounds = YES;
 }
 
 /*

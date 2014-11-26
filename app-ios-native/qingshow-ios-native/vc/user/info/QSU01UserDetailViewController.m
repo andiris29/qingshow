@@ -37,8 +37,11 @@
 - (void)delegateObjInit
 {
     self.favorDelegate  = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.favorDelegate.delegate = self;
     self.recommendationDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.recommendationCollectionView.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followingDelegate.delegate = self;
 }
 
 #pragma mark - Life Cycle
@@ -129,25 +132,5 @@
     UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
     QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark -
-- (void)clickModel:(NSDictionary*)model
-{
-    
-}
-- (void)followBtnPressed:(NSDictionary*)model
-{
-    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
-        if (fFollow) {
-            [self showTextHud:@"follow succeed"];
-        }
-        else
-        {
-            [self showTextHud:@"unfollow succeed"];
-        }
-    } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"error"];
-    }];
 }
 @end

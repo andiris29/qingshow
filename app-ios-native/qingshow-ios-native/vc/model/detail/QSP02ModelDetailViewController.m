@@ -42,8 +42,12 @@
 - (void)delegateObjInit
 {
     self.showsDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.showsDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followingDelegate.delegate = self;
     self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followerDelegate.delegate = self;
+    self.followerDelegate.type = QSModelListTableViewDelegateObjTypeHideFollow;
 }
 
 #pragma mark - Life Cycle
@@ -149,25 +153,6 @@
     
 }
 
-#pragma mark -
-- (void)clickModel:(NSDictionary*)model
-{
-    
-}
-- (void)followBtnPressed:(NSDictionary*)model
-{
-    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
-        if (fFollow) {
-            [self showTextHud:@"follow succeed"];
-        }
-        else
-        {
-            [self showTextHud:@"unfollow succeed"];
-        }
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
-}
 
 
 @end

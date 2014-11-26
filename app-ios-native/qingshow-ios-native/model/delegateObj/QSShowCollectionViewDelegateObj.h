@@ -23,8 +23,9 @@
 @end
 
 typedef NS_ENUM(NSInteger, QSShowDelegateObjType) {
-    QSShowWaterfallDelegateObjTypeWithDate,
-    QSShowWaterfallDelegateObjTypeWithoutDate
+    QSShowWaterfallDelegateObjTypeWithoutDate = 0,
+    QSShowWaterfallDelegateObjTypeWithDate = 1
+
 };
 
 @interface QSShowCollectionViewDelegateObj : QSWaterfallBasicDelegateObj< QSShowCollectionViewCellDelegate>

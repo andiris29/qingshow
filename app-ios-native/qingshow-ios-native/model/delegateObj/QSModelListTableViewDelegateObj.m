@@ -30,6 +30,7 @@
     cell.delegate = self;
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithPeople:dict];
+    cell.followBtn.hidden = self.type == QSModelListTableViewDelegateObjTypeHideFollow;
     return cell;
 }
 

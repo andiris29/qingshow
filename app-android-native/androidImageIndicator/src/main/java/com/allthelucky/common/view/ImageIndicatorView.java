@@ -1,9 +1,5 @@
 package com.allthelucky.common.view;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +17,10 @@ import android.widget.RelativeLayout;
 
 import com.app.library.common.view.R;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 用户指引,宣传画控件(类似于Gallery效果)
  * 
@@ -37,15 +37,20 @@ public class ImageIndicatorView extends RelativeLayout {
 	 */
 	private LinearLayout indicateLayout;
 
-	/**
-	 * 向左划箭头
-	 */
-	private Button leftButton;
+//	/**
+//	 * 向左划箭头
+//	 */
+//	private Button leftButton;
+//
+//	/**
+//	 * 向右划箭头
+//	 */
+//	private Button rightButton;
 
-	/**
-	 * 向右划箭头
-	 */
-	private Button rightButton;
+    /**
+     * 播放视频按钮
+     */
+    private Button startButton;
 
 	/**
 	 * 页面列表
@@ -123,17 +128,18 @@ public class ImageIndicatorView extends RelativeLayout {
 		LayoutInflater.from(context).inflate(R.layout.image_indicator_layout, this);
 		this.viewPager = (ViewPager) findViewById(R.id.view_pager);
 		this.indicateLayout = (LinearLayout) findViewById(R.id.indicater_layout);
-		this.leftButton = (Button) findViewById(R.id.left_button);
-		this.rightButton = (Button) findViewById(R.id.right_button);
+//		this.leftButton = (Button) findViewById(R.id.left_button);
+//		this.rightButton = (Button) findViewById(R.id.right_button);
+        this.startButton = (Button) findViewById(R.id.start_button);
 
-		this.leftButton.setVisibility(View.GONE);
-		this.rightButton.setVisibility(View.GONE);
+//		this.leftButton.setVisibility(View.GONE);
+//		this.rightButton.setVisibility(View.GONE);
 
 		this.viewPager.setOnPageChangeListener(new PageChangeListener());
 
 		final ArrowClickListener arrowClickListener = new ArrowClickListener();
-		this.leftButton.setOnClickListener(arrowClickListener);
-		this.rightButton.setOnClickListener(arrowClickListener);
+//		this.leftButton.setOnClickListener(arrowClickListener);
+//		this.rightButton.setOnClickListener(arrowClickListener);
 
 		this.refreshHandler = new ScrollIndicateHandler(ImageIndicatorView.this);
 	}
@@ -224,6 +230,7 @@ public class ImageIndicatorView extends RelativeLayout {
 		if (len > 0) {
 			for (int index = 0; index < len; index++) {
 				final View pageItem = new ImageView(getContext());
+                ((ImageView)pageItem).setAdjustViewBounds(true);
 				pageItem.setBackgroundResource(resList.get(index));
 				addViewItem(pageItem);
 			}
@@ -253,7 +260,7 @@ public class ImageIndicatorView extends RelativeLayout {
 	/**
 	 * 添加位置监听回调
 	 * 
-	 * @param onGuideListener
+	 * @param //onGuideListener
 	 */
 	public void setOnItemChangeListener(OnItemChangeListener onItemChangeListener) {
 		if (onItemChangeListener == null) {
@@ -298,19 +305,19 @@ public class ImageIndicatorView extends RelativeLayout {
 	private class ArrowClickListener implements View.OnClickListener {
 		@Override
 		public void onClick(View view) {
-			if (view == leftButton) {
-				if (currentIndex >= (totelCount - 1)) {
-					return;
-				} else {
-					viewPager.setCurrentItem(currentIndex + 1, true);
-				}
-			} else {
-				if (totelCount <= 0) {
-					return;
-				} else {
-					viewPager.setCurrentItem(currentIndex - 1, true);
-				}
-			}
+//			if (view == leftButton) {
+//				if (currentIndex >= (totelCount - 1)) {
+//					return;
+//				} else {
+//					viewPager.setCurrentItem(currentIndex + 1, true);
+//				}
+//			} else {
+//				if (totelCount <= 0) {
+//					return;
+//				} else {
+//					viewPager.setCurrentItem(currentIndex - 1, true);
+//				}
+//			}
 		}
 	}
 
@@ -349,34 +356,34 @@ public class ImageIndicatorView extends RelativeLayout {
 			}
 		}
 
-		if (INDICATE_USERGUIDE_STYLE == this.indicatorStyle) {// 操作指引不显示箭头
-			this.leftButton.setVisibility(View.GONE);
-			this.rightButton.setVisibility(View.GONE);
-		} else {// 显示箭头各状态
-			if (totelCount <= 1) {
-				leftButton.setVisibility(View.GONE);
-				rightButton.setVisibility(View.GONE);
-			} else if (totelCount == 2) {
-				if (currentIndex == 0) {
-					leftButton.setVisibility(View.VISIBLE);
-					rightButton.setVisibility(View.GONE);
-				} else {
-					leftButton.setVisibility(View.GONE);
-					rightButton.setVisibility(View.VISIBLE);
-				}
-			} else {
-				if (currentIndex == 0) {
-					leftButton.setVisibility(View.VISIBLE);
-					rightButton.setVisibility(View.GONE);
-				} else if (currentIndex == (totelCount - 1)) {
-					leftButton.setVisibility(View.GONE);
-					rightButton.setVisibility(View.VISIBLE);
-				} else {
-					leftButton.setVisibility(View.VISIBLE);
-					rightButton.setVisibility(View.VISIBLE);
-				}
-			}
-		}
+//		if (INDICATE_USERGUIDE_STYLE == this.indicatorStyle) {// 操作指引不显示箭头
+//			this.leftButton.setVisibility(View.GONE);
+//			this.rightButton.setVisibility(View.GONE);
+//		} else {// 显示箭头各状态
+//			if (totelCount <= 1) {
+//				leftButton.setVisibility(View.GONE);
+//				rightButton.setVisibility(View.GONE);
+//			} else if (totelCount == 2) {
+//				if (currentIndex == 0) {
+//					leftButton.setVisibility(View.VISIBLE);
+//					rightButton.setVisibility(View.GONE);
+//				} else {
+//					leftButton.setVisibility(View.GONE);
+//					rightButton.setVisibility(View.VISIBLE);
+//				}
+//			} else {
+//				if (currentIndex == 0) {
+//					leftButton.setVisibility(View.VISIBLE);
+//					rightButton.setVisibility(View.GONE);
+//				} else if (currentIndex == (totelCount - 1)) {
+//					leftButton.setVisibility(View.GONE);
+//					rightButton.setVisibility(View.VISIBLE);
+//				} else {
+//					leftButton.setVisibility(View.VISIBLE);
+//					rightButton.setVisibility(View.VISIBLE);
+//				}
+//			}
+//		}
 		if (this.onItemChangeListener != null) {// 页面改更了
 			try {
 				this.onItemChangeListener.onPosition(this.currentIndex, this.totelCount);
@@ -386,7 +393,21 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 	}
 
-	public class MyPagerAdapter extends PagerAdapter {
+    /**
+     * 获取开始播放的按钮
+     */
+    public Button getStartButton() {
+        return this.startButton;
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * 4 / 3) + MeasureSpec.EXACTLY;
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+
+    public class MyPagerAdapter extends PagerAdapter {
 		private List<View> pageViews = new ArrayList<View>();
 
 		public MyPagerAdapter(List<View> pageViews) {

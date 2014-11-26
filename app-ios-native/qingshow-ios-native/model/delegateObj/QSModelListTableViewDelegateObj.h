@@ -18,7 +18,14 @@
 - (void)followBtnPressed:(NSDictionary*)model;
 @end
 
+typedef NS_ENUM(NSInteger, QSModelListTableViewDelegateObjType) {
+    QSModelListTableViewDelegateObjTypeShowFollow = 0,
+    QSModelListTableViewDelegateObjTypeHideFollow = 1
+};
+
+
 @interface QSModelListTableViewDelegateObj : QSTableViewBasicDelegateObj< QSModelListTableViewCellDelegate>
 
 @property (weak, nonatomic) NSObject<QSModelListTableViewDelegateObjDelegate>* delegate;
+@property (assign ,nonatomic) QSModelListTableViewDelegateObjType type;
 @end
