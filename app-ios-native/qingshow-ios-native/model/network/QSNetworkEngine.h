@@ -64,5 +64,8 @@
                                     page:(int)page
                                onSucceed:(ArraySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)addComment:(NSString*)comment
+                           onShow:(NSDictionary*)showDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock;
 @end

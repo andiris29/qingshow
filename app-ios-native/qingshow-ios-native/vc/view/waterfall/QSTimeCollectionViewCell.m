@@ -30,7 +30,7 @@
         return;
     }
     NSString* timeStr = metaData[@"refreshTime"];
-    if (!timeStr || !timeStr.length) {
+    if (!timeStr || ![timeStr isKindOfClass:[NSString class]] || !timeStr.length) {
         return;
     }
     NSDate* date = [QSDateUtil buildDateFromResponseString:timeStr];

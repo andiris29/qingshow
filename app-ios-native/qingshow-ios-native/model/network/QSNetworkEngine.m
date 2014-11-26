@@ -34,6 +34,10 @@
 //Interaction
 #define PATH_INTERACTION_FOLLOW @"interaction/follow"
 #define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
+#define PATH_INTERACTION_FOLLOW_BRAND @"interaction/followBrand"
+#define PATH_INTERACTION_UNFOLLOW_BRAND @"interaction/unfollowBrand"
+#define PATH_INTERACTION_LIKE @"interaction/like"
+#define PATH_INTERACTION_COMMENT @"interaction/comment"
 
 
 @implementation QSNetworkEngine
@@ -280,6 +284,25 @@
                 }
             }];
 }
+
+
+- (MKNetworkOperation*)addComment:(NSString*)comment
+                           onShow:(NSDictionary*)showDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+
 
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
     

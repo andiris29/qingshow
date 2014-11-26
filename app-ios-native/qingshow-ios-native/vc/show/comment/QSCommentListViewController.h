@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "QSCommentListTableViewDelegateObj.h"
 
-@interface QSCommentListViewController : UIViewController<QSCommentListTableViewDelegateObj>
+@interface QSCommentListViewController : UIViewController<QSCommentListTableViewDelegateObj, UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UIView *commentContainer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentBottomConstrain;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UIImageView *headIcon;
+@property (weak, nonatomic) IBOutlet UIButton *sendBtn;
+
+- (IBAction)sendBtnPressed:(id)sender;
 
 - (id)initWithShow:(NSDictionary*)showDict;
 
