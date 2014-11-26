@@ -26,16 +26,20 @@
 
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
 {
-    if (indexPath.row < 1) {
+    int index = indexPath.row;
+    if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
+        index -= 1;
+    }
+    if (index < 0) {
         return nil;
     } else {
-        return self.resultArray[indexPath.row - 1];
+        return self.resultArray[index];
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
         return CGSizeMake(145, 35);
     } else {
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
@@ -57,13 +61,17 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.resultArray.count + 1;
+    if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
+        return self.resultArray.count + 1;
+    } else {
+        return self.resultArray.count;
+    }
 }
 
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
         QSTimeCollectionViewCell* cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
         return cell;
     } else {
