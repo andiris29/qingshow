@@ -8,7 +8,7 @@
 
 #import "QSS03ShowDetailViewController.h"
 #import "QSSingleImageScrollView.h"
-
+#import "QSP02ModelDetailViewController.h"
 #import "QSS03ItemDetailViewController.h"
 #import "QSCommentListViewController.h"
 #import "QSShowUtil.h"
@@ -27,9 +27,6 @@
 
 @implementation QSS03ShowDetailViewController
 #pragma mark - Init Method
-- (IBAction)favorBtnPressed:(id)sender {
-}
-
 - (id)initWithShow:(NSDictionary*)showDict
 {
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
@@ -65,6 +62,9 @@
     self.headIconImageView.layer.masksToBounds = YES;
     
     [self bindWithDict:self.showDict];
+    
+    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+    self.navigationItem.titleView = titleImageView;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -131,6 +131,17 @@
     NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:index];
     UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItemDict:itemDict];
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+
+- (IBAction)favorBtnPressed:(id)sender {
+    
+}
+
+- (IBAction)didTapModel:(id)sender {
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
+    QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

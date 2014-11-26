@@ -55,4 +55,15 @@
     }
     return nil;
 }
++ (NSString*)getRolesDescription:(NSDictionary*)modelDict
+{
+    NSArray* roles = modelDict[@"roles"];
+    for (NSNumber* r in roles) {
+        if (r.intValue == 1) {
+            return @"模特";
+        }
+    }
+    return @"";
+}
+
 @end

@@ -86,6 +86,7 @@
         {
             [self showTextHud:@"unfollow succeed"];
         }
+        [self.delegateObj.tableView reloadData];
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
     }];

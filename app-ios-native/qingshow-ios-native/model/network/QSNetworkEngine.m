@@ -191,7 +191,13 @@
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"peoples"], retDict[@"metadata"]);
+                    NSArray* peopleList = retDict[@"data"][@"peoples"];
+                    NSMutableArray* mutablePeopleList = [@[] mutableCopy];
+                    for (NSDictionary* dict in peopleList) {
+                        [mutablePeopleList addObject:[dict mutableCopy]];
+                    }
+                    
+                    succeedBlock(mutablePeopleList, retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -211,6 +217,11 @@
     NSString* modelId = model[@"_id"];
     if (hasFollowed && hasFollowed.boolValue) {
         return [self unfollowPeople:modelId onSucceed:^{
+            if ([model isKindOfClass:[NSMutableDictionary class]]) {
+                NSMutableDictionary* m = (NSMutableDictionary*)model;
+                m[@"hasFollowed"] = @NO;
+            }
+            
             if (succeedBlock) {
                 succeedBlock(NO);
             }
@@ -219,6 +230,10 @@
     else
     {
         return [self followPeople:modelId onSucceed:^{
+            if ([model isKindOfClass:[NSMutableDictionary class]]) {
+                NSMutableDictionary* m = (NSMutableDictionary*)model;
+                m[@"hasFollowed"] = @YES;
+            }
             if (succeedBlock) {
                 succeedBlock(YES);
             }
