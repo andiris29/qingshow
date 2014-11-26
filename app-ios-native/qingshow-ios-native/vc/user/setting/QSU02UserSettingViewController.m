@@ -39,13 +39,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UITableViewDataSource
-
-
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-//}
-
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,6 +46,18 @@
     switch (indexPath.section) {
         case 0:
             // 选择section
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIActionSheet *sheet = sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                           delegate:self
+                                                                  cancelButtonTitle:@"取消"
+                                                             destructiveButtonTitle:nil
+                                                                  otherButtonTitles:@"从相册选择", nil];
+                sheet.tag = 255;
+                [sheet showInView:self.view];
+            } else {
+                [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
+            }
+            
             break;
         case 1:
             // 基本section
@@ -137,28 +142,42 @@
     return [super tableView:tableView viewForFooterInSection:section];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker setLocale:[NSLocale currentLocale]];
-    if (self.birthdayText.text.length == 0) {
-        [datePicker setDate:[NSDate date]];
-    } else {
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"yyyy/MM/dd"];
-        NSDate *date = [dateFormat dateFromString:self.birthdayText.text];
-        [datePicker setDate:date];
-    }
-    [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
-    
-    if (textField.tag == 11) {
-        self.birthdayText.inputView = datePicker;
-        [self updateBirthDayLabel:datePicker.date];
-    }
+#pragma mark - UIActionSheetDelegate
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag != 255) {
+        return;
+    }
+    if (buttonIndex != 0) {
+        return;
+    }
+    
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    [self presentViewController:imagePickerController animated:YES completion:^{}];
 }
 
-#pragma mark - Private
+#pragma mark -  UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    
+//    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    /* 此处info 有六个值
+     * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
+     * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
+     * UIImagePickerControllerEditedImage;    // a UIImage 裁剪后图片
+     * UIImagePickerControllerCropRect;       // an NSValue (CGRect)
+     * UIImagePickerControllerMediaURL;       // an NSURL
+     * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
+     * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
+     */
+}
+
+
+#pragma mark - Private Init Method
 
 - (void)initNavigation {
     NSLog(@"initNavigation");
@@ -214,6 +233,7 @@
     }
 }
 
+#pragma mark - Private Method Update
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -280,7 +300,7 @@
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
 
-#pragma mark - Delegate
+#pragma mark - U04,U05,U08's Delegate
 - (void)passwordViewController:(QSU08PasswordViewController *)vc didSavingPassword:(NSString *)newPassword needCurrentPassword:(NSString *)curPasswrod {
     [self updatePeopleEntityViewController:vc byEntity:@{@"password":newPassword, @"currentPassword": curPasswrod}];
 }
@@ -306,6 +326,8 @@
     }
 }
 
+#pragma mark - Action
+
 - (IBAction)lengthEditingDidBegin:(id)sender {
     if (self.lengthText.text.length == 0) {
         return;
@@ -324,13 +346,34 @@
     if (self.weightText.text.length == 0) {
         return;
     }
-    self.lengthText.text = [self.weightText.text stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+    self.weightText.text = [self.weightText.text stringByReplacingOccurrencesOfString:@" kg" withString:@""];
 }
 
 - (IBAction)weightEditingDidEnd:(id)sender {
     if (self.weightText.text.length == 0) {
         return;
     }
-    self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText];
+    self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
+    datePicker.datePickerMode = UIDatePickerModeDate;
+    [datePicker setLocale:[NSLocale currentLocale]];
+    if (self.birthdayText.text.length == 0) {
+        [datePicker setDate:[NSDate date]];
+    } else {
+        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+        [dateFormat setDateFormat:@"yyyy/MM/dd"];
+        NSDate *date = [dateFormat dateFromString:self.birthdayText.text];
+        [datePicker setDate:date];
+    }
+    [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
+    
+    if (textField.tag == 11) {
+        self.birthdayText.inputView = datePicker;
+        [self updateBirthDayLabel:datePicker.date];
+    }
+    
 }
 @end
