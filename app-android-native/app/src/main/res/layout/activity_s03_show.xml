@@ -6,7 +6,7 @@
     tools:context="com.focosee.qingshow.activity.S03SHowActivity">
 
     <LinearLayout
-        android:id="@+id/S01_navigation"
+        android:id="@+id/S03_navigation"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
@@ -37,13 +37,126 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/S03_navigation">
 
-        <com.allthelucky.common.view.network.NetworkImageIndicatorView
-            android:id="@+id/S03_image_indicator"
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="fill_parent"
+            android:layout_margin="10dp"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <com.focosee.qingshow.widget.MRelativeLayout_3_4
+                android:id="@+id/S03_relative_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.allthelucky.common.view.network.NetworkImageIndicatorView
+                    android:id="@+id/S03_image_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <VideoView
+                    android:visibility="gone"
+                    android:id="@+id/S03_video_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.focosee.qingshow.widget.MRelativeLayout_3_4>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <com.focosee.qingshow.widget.MCircularImageView
+                    android:id="@+id/item_show_model_image"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/item_show_love_ll"
+                    android:layout_toRightOf="@+id/item_show_model_image"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="17dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_show_model_name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="SandyGirl" />
+
+                        <TextView
+                            android:id="@+id/item_show_model_job"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="设计师" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="17dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/item_show_model_height"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="171 CM" />
+
+                        <TextView
+                            android:id="@+id/item_show_model_weight"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="45.6 KG" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/item_show_love_ll"
+                    android:layout_width="30dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/model_cell_icon02_noticeno" />
+
+                    <TextView
+                        android:id="@+id/item_show_love"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:text="105" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
 
     </ScrollView>
