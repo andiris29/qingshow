@@ -70,11 +70,15 @@
     CGPoint p = currentView.contentOffset;
     
     CATransition* transition = [[CATransition alloc] init];
+    CATransition* transition2 = [[CATransition alloc] init];
     transition.type = kCATransitionPush;
+    transition2.type = kCATransitionPush;
     if (self.currentSection < section) {
         transition.subtype = kCATransitionFromRight;
+        transition2.subtype = kCATransitionFromRight;
     } else {
         transition.subtype = kCATransitionFromLeft;
+        transition2.subtype = kCATransitionFromLeft;
     }
 
     [currentView.layer addAnimation:transition forKey:@"transition"];
@@ -88,7 +92,8 @@
     }
     
     self.currentSection = section;
-
+    currentView = self.viewArray[self.currentSection];
+    [currentView.layer addAnimation:transition2 forKey:@"transition"];
 
 }
 
