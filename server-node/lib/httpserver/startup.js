@@ -29,11 +29,11 @@ var app = express();
 app.listen(argv['http-server-port']);
 
 // Upload
-var folderUploads = path.resolve(__dirname, '../../uploads');
+var uploadsCfg = argv['uploads'].split(',');
+var folderUploads = uploadsCfg[0], pathUploads = uploadsCfg[1];
 if (!fs.existsSync(folderUploads)) {
     fs.mkdirSync(folderUploads);
 }
-var pathUploads = '/static/uploads';
 global.__qingshow_uploads = {
     'folder' : folderUploads,
     'path' : pathUploads,

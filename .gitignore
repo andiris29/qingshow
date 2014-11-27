@@ -27,3 +27,4 @@ server-node/.idea
 server-node/public
 .project
 mongodb/_dump
+folder-uploads

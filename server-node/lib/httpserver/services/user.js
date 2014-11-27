@@ -196,25 +196,43 @@ _update = function(req, res) {
     });
 };
 
-var formidable = require('formidable');
-var util = require('util');
 _updatePortrait = function(req, res) {
-    _upload(req, res, '/userPortrait');
+    _upload(req, res, 'portrait');
 };
 
 _updateBackground = function(req, res) {
-    _upload(req, res, '/userBackground');
+    _upload(req, res, 'background');
 };
 
-var _upload = function(req, res, folder) {
+var _upload = function(req, res, keyword) {
+    var formidable = require('formidable');
+    var path = require('path');
+
     var form = new formidable.IncomingForm();
     form.uploadDir = global.__qingshow_uploads.folder;
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
-        res.writeHead(200, {
-            'content-type' : 'text/plain'
+        if (err) {
+            ServicesUtil.responseError(res, e);
+            return;
+        }
+        var file;
+        for (var key in files) {
+            file = files[key];
+        }
+        var set = {};
+        set[keyword] = global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path);
+        People.collection.update({
+            '_id' : req.currentUser._id
+        }, {
+            '$set' : set
+        }, function(err, numAffected) {
+            if (err) {
+                ServicesUtil.responseError(res, e);
+                return;
+            }
+            res.end();
         });
-        res.end();
     });
     return;
 };
