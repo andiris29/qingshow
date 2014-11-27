@@ -33,6 +33,14 @@ define([
         DataService.request('POST', '/user/update', updated, callback);
     };
 
+    UserService.updatePortrait = function() {
+        DataService.upload('/user/updatePortrait');
+    };
+
+    UserService.updateBackground = function() {
+        DataService.upload('/user/updateBackground');
+    };
+
     UserService.logout = function(callback) {
         DataService.request('POST', '/user/logout', {}, DataService.injectBeforeCallback(callback, function(metadata, data, model) {
             model.user(null);

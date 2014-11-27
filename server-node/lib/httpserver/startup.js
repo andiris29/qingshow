@@ -3,6 +3,8 @@ var express = require('express');
 var qsdb = require('../runtime/qsdb');
 var connect = require('connect');
 var path = require('path');
+var fs = require('fs');
+
 //param parser
 var bodyParser = require('body-parser');
 var queryStringParser = require('./middleware/query-string-parser');
@@ -26,6 +28,17 @@ var servicesNames = ['feeding', 'user', 'interaction', 'query', 'potential'];
 var app = express();
 app.listen(argv['http-server-port']);
 
+// Upload
+var uploadsCfg = argv['uploads'].split(',');
+var folderUploads = uploadsCfg[0], pathUploads = uploadsCfg[1];
+if (!fs.existsSync(folderUploads)) {
+    fs.mkdirSync(folderUploads);
+}
+global.__qingshow_uploads = {
+    'folder' : folderUploads,
+    'path' : pathUploads,
+};
+app.use(pathUploads, express.static(folderUploads));
 //cross domain
 app.use(function(req, res, next) {
     // Set header for cross domain

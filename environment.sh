@@ -14,3 +14,6 @@ export mongodb_password=qingshow@mongo
 
 export http_server_port=30001
 export web_server_port=30080
+
+export folder_qingshow_uploads=/Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow/folder-uploads
+export http_server_uploads=http://127.0.0.1:8080/com.focosee.qingshow/folder-uploads

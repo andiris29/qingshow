@@ -14,6 +14,7 @@
 
 
 typedef void (^VoidBlock)(void);
+typedef void (^DicBlock) (NSDictionary*);
 typedef void (^BoolBlock)(BOOL);
 typedef void (^ErrorBlock) (NSError* error);
 typedef void (^OperationSucceedBlock)(MKNetworkOperation *completedOperation);

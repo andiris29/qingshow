@@ -206,7 +206,7 @@ _chosen = function (req, res){
                                         metadata: {
                                             "numTotal": count,
                                             "numPages": parseInt((count + pageSize - 1) / pageSize),
-                                            "refreshTime": 3600000
+                                            "refreshTime": chosen.activateTime
                                         },
                                         data: {
                                             shows: s

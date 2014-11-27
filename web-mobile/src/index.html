@@ -8,7 +8,6 @@
         Remove this if you use the .htaccess -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-
         <!-- Hiding Safari User Interface Components
         <meta name="apple-mobile-web-app-capable" content="yes">
         <https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html#//apple_ref/doc/uid/TP40002051-CH3-SW2>
@@ -139,5 +138,12 @@
     <body>
         <!-- Root -->
         <div id="qsApp" class="qsApp"></div>
+        <!-- Acc -->
+        <div class="qsAcc">
+            <iframe id="uploadTarget" name="uploadTarget" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe>
+            <form id="formImage" enctype="multipart/form-data" target="uploadTarget" method="post">
+                <input id="fileImage" type="file" accept="image/*" name="fileImage" />
+            </form>
+        </div>
     </body>
 </html>

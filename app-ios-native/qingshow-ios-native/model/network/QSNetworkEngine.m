@@ -18,6 +18,8 @@
 #define PATH_USER_GET @"user/get"
 #define PATH_USER_REGISTER @"user/register"
 #define PATH_USER_UPDATE @"user/update"
+#define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
+#define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 
 //Feeding
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
@@ -34,6 +36,10 @@
 //Interaction
 #define PATH_INTERACTION_FOLLOW @"interaction/follow"
 #define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
+#define PATH_INTERACTION_FOLLOW_BRAND @"interaction/followBrand"
+#define PATH_INTERACTION_UNFOLLOW_BRAND @"interaction/unfollowBrand"
+#define PATH_INTERACTION_LIKE @"interaction/like"
+#define PATH_INTERACTION_COMMENT @"interaction/comment"
 
 
 @implementation QSNetworkEngine
@@ -67,7 +73,7 @@
 }
 
 
-#pragma mark - API
+#pragma mark - User
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
                            onSucceed:(EntitySuccessBlock)succeedBlock
@@ -109,6 +115,48 @@
                     [QSUserManager shareUserManager].userInfo = nil;
                     [QSUserManager shareUserManager].fIsLogined = NO;
                     succeedBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_USER_UPDATE_PORTRAIT
+                                 method:@"POST"
+                               paramers:@{@"portrait": portrait.images}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    NSDictionary* retDict = completedOperation.responseJSON;
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation *)updateBackground:(UIImage *)background
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_USER_UPDATE_BACKGROUND
+                                 method:@"POST"
+                               paramers:@{@"background": background.images}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    NSDictionary* retDict = completedOperation.responseJSON;
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -191,7 +239,13 @@
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"peoples"], retDict[@"metadata"]);
+                    NSArray* peopleList = retDict[@"data"][@"peoples"];
+                    NSMutableArray* mutablePeopleList = [@[] mutableCopy];
+                    for (NSDictionary* dict in peopleList) {
+                        [mutablePeopleList addObject:[dict mutableCopy]];
+                    }
+                    
+                    succeedBlock(mutablePeopleList, retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -211,6 +265,11 @@
     NSString* modelId = model[@"_id"];
     if (hasFollowed && hasFollowed.boolValue) {
         return [self unfollowPeople:modelId onSucceed:^{
+            if ([model isKindOfClass:[NSMutableDictionary class]]) {
+                NSMutableDictionary* m = (NSMutableDictionary*)model;
+                m[@"hasFollowed"] = @NO;
+            }
+            
             if (succeedBlock) {
                 succeedBlock(NO);
             }
@@ -219,6 +278,10 @@
     else
     {
         return [self followPeople:modelId onSucceed:^{
+            if ([model isKindOfClass:[NSMutableDictionary class]]) {
+                NSMutableDictionary* m = (NSMutableDictionary*)model;
+                m[@"hasFollowed"] = @YES;
+            }
             if (succeedBlock) {
                 succeedBlock(YES);
             }
@@ -266,6 +329,25 @@
             }];
 }
 
+
+- (MKNetworkOperation*)addComment:(NSString*)comment
+                           onShow:(NSDictionary*)showDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+
+
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {
     
     QSUserManager* manager = [QSUserManager shareUserManager];
@@ -303,6 +385,7 @@
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;
+                [QSUserManager shareUserManager].fIsLogined = YES;
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }

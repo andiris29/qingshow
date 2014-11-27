@@ -60,6 +60,12 @@ define([
         });
     };
 
+    DataService.upload = function(path, callback) {
+        var formImage$ = $('#formImage');
+        formImage$.attr('action', appConfig.appServer + path);
+        formImage$[0].submit();
+    };
+
     DataService.injectBeforeCallback = function(callback, beforeCallback) {
         return function(metadata, data) {
             if (!metadata.error) {

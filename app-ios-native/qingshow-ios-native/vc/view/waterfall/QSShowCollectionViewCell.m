@@ -39,7 +39,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.layer.cornerRadius = 5;
+    self.layer.cornerRadius = 4;
     self.layer.masksToBounds = YES;
     [self baseHeightSetup];
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.height / 2;

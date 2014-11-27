@@ -10,6 +10,8 @@
 
 @class QSModelListTableViewCell;
 
+
+
 @protocol QSModelListTableViewCellDelegate <NSObject>
 
 - (void)favorBtnPressed:(QSModelListTableViewCell*)cell;

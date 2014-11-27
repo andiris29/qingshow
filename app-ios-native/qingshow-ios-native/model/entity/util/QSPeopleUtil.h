@@ -15,4 +15,5 @@
 + (NSString*)getName:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
 + (NSString*)getStatus:(NSDictionary*)modelDict;
++ (NSString*)getRolesDescription:(NSDictionary*)modelDict;
 @end

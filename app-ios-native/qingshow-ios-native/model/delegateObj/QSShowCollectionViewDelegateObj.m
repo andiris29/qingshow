@@ -73,6 +73,7 @@
 {
     if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
         QSTimeCollectionViewCell* cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
+        [cell bindWithMetadata:self.metaDataDict];
         return cell;
     } else {
         QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSShowCollectionViewCell" forIndexPath:indexPath];

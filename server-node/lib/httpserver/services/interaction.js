@@ -477,12 +477,12 @@ _comment = function (req, res) {
             } else if (!show) {
                 ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
             } else {
-                var comment = new Comment({
+                var commentEntity = new Comment({
                     showRef: showIdObj,
                     peopleRef: userId,
                     comment : comment
                 });
-                comment.save(function (err, c) {
+                commentEntity.save(function (err, c) {
                     if (err || !c) {
                         err = err || new Error();
                         ServicesUtil.responseError(res, err);

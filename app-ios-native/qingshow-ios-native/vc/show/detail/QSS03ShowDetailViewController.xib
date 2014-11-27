@@ -88,6 +88,14 @@
                                 <action selector="favorBtnPressed:" destination="-1" eventType="touchUpInside" id="21T-ba-W7Z"/>
                             </connections>
                         </button>
+                        <view contentMode="scaleToFill" id="RRl-22-Xqh">
+                            <rect key="frame" x="8" y="1" width="253" height="49"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="ijS-NJ-Ux7" appends="YES" id="lKM-Ds-Pf9"/>
+                            </connections>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
@@ -126,7 +134,7 @@
                                 <action selector="commentBtnPressed:" destination="-1" eventType="touchUpInside" id="Faf-xe-YGg"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1sR-pr-gUL">
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1sR-pr-gUL">
                             <rect key="frame" x="257" y="234" width="26" height="22"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
@@ -146,6 +154,11 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="779" y="276.5"/>
         </view>
+        <tapGestureRecognizer id="ijS-NJ-Ux7">
+            <connections>
+                <action selector="didTapModel:" destination="-1" id="Avy-nV-9qJ"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="root_cell_icon_notice" width="20" height="20"/>

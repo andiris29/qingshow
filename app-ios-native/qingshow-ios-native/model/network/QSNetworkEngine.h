@@ -33,6 +33,14 @@
                            onSuccess:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation *)updateBackground:(UIImage *)background
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock;
+
 #pragma mark - Feeding
 - (MKNetworkOperation*)getChosenFeedingPage:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
@@ -64,5 +72,8 @@
                                     page:(int)page
                                onSucceed:(ArraySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)addComment:(NSString*)comment
+                           onShow:(NSDictionary*)showDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock;
 @end

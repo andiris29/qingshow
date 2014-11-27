@@ -50,5 +50,32 @@
     }
 
 }
++ (NSString*)getTime:(NSDate*)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:date];
+    return [NSString stringWithFormat:@"%d:%d",c.hour, c.minute];
+}
++ (NSString*)getMYD:(NSDate*)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date];
+    
+    return [NSString stringWithFormat:@"%d/%d/%d", c.year, c.month, c.day];
+}
++ (NSString*)getWeek:(NSDate*)date
+{
+    NSArray* a = @[
+                   @"星期二",
+                   @"星期三",
+                   @"星期四",
+                   @"星期五",
+                   @"星期六",
+                   @"星期日",
+                   @"星期一"];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    int week = [calendar component:NSWeekdayCalendarUnit fromDate:date];
 
+    return a[week];
+}
 @end
