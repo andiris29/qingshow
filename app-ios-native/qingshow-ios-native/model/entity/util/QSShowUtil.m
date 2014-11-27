@@ -54,4 +54,21 @@
     return nil;
 }
 
++ (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
+{
+    NSNumber* n = showDict[@"$numComments"];
+    if (!n) {
+        return @"0";
+    }
+    return n.stringValue;
+}
++ (NSString*)getNumberFavorDescription:(NSDictionary*)showDict
+{
+    NSNumber* n = showDict[@"$numFavors"];
+    if (!n) {
+        return @"0";
+    }
+    return n.stringValue;
+}
+
 @end

@@ -9,6 +9,7 @@
 #import "QSP02ModelDetailViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
+#import "QSPeopleUtil.h"
 
 
 @interface QSP02ModelDetailViewController ()
@@ -111,7 +112,8 @@
 {
     //title
     self.title = self.peopleDict[@"name"];
-    [self.badgeView bindWithPeopleDict:self.peopleDict];
+    [self updateView];
+
 
     //Show and Hide
     self.viewArray = @[self.showCollectionView, self.followingTableView, self.followerTableView];
@@ -136,7 +138,7 @@
         [SHARE_NW_ENGINE unfollowPeople:self.peopleDict[@"_id"] onSucceed:^{
             [self showTextHud:@"unfollow successfully"];
             self.peopleDict[@"hasFollowed"] = @NO;
-            [self.badgeView bindWithPeopleDict:self.peopleDict];
+            [self updateView];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
@@ -145,7 +147,7 @@
         [SHARE_NW_ENGINE followPeople:self.peopleDict[@"_id"] onSucceed:^{
             [self showTextHud:@"follow successfully"];
             self.peopleDict[@"hasFollowed"] = @YES;
-            [self.badgeView bindWithPeopleDict:self.peopleDict];
+            [self updateView];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
@@ -153,6 +155,12 @@
     
 }
 
-
+- (void)updateView
+{
+    [self.badgeView bindWithPeopleDict:self.peopleDict];
+    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberShowsDescription:self.peopleDict] atIndex:0];
+    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowingsDescription:self.peopleDict] atIndex:1];
+    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowersDescription:self.peopleDict] atIndex:2];
+}
 
 @end

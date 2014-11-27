@@ -161,6 +161,7 @@
         }
         case 9:
         {
+            return;
             UIViewController* vc = [[QSP03BrandListViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;

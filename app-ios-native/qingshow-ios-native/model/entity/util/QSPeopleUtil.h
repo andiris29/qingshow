@@ -16,4 +16,11 @@
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
 + (NSString*)getStatus:(NSDictionary*)modelDict;
 + (NSString*)getRolesDescription:(NSDictionary*)modelDict;
+
+
++ (NSString*)getNumberFollowingsDescription:(NSDictionary*)modelDict;
++ (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
++ (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
++ (NSString*)getNumberFavorsDescription:(NSDictionary*)modelDict;
++ (NSString*)getNumberRecommendationsDescription:(NSDictionary*)modelDict;
 @end

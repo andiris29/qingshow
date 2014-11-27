@@ -33,7 +33,7 @@
 {
     NSDictionary* peopleDict = [QSCommentUtil getPeople:commentDict];
     self.nameLabel.text = [QSPeopleUtil getName:peopleDict];
-    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"nav_btn_account"] animation:YES];
     self.dateLabel.text = [QSCommentUtil getFormatedDateString:commentDict];
     self.contentLabel.text = [QSCommentUtil getContent:commentDict];
 }

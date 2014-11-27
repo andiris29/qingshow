@@ -36,7 +36,11 @@
 }
 + (NSString*)getName:(NSDictionary*)peopleDict
 {
-    return peopleDict[@"name"];
+    NSString* name = peopleDict[@"name"];
+    if (!name || !name.length) {
+        name = @"未命名";
+    }
+    return name;
 }
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict
 {
@@ -64,6 +68,33 @@
         }
     }
     return @"";
+}
+
++ (NSString*)getNumberFollowingsDescription:(NSDictionary*)modelDict
+{
+    NSNumber* n = modelDict[@"$numFollowed"];
+    return n.stringValue;
+}
++ (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
+{
+    NSNumber* n = modelDict[@"$numFollowers"];
+    return n.stringValue;
+}
++ (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
+{
+    NSNumber* n = modelDict[@"$numShows"];
+    return n.stringValue;
+}
++ (NSString*)getNumberFavorsDescription:(NSDictionary*)modelDict
+{
+    NSNumber* n = modelDict[@"$numFavors"];
+    return n.stringValue;
+}
+
++ (NSString*)getNumberRecommendationsDescription:(NSDictionary*)modelDict
+{
+    NSNumber* n = modelDict[@"$numRecommendation"];
+    return n.stringValue;
 }
 
 @end

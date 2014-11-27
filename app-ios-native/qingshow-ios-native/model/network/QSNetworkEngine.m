@@ -190,6 +190,45 @@
                 }
             }];
 }
+- (MKNetworkOperation*)getCategoryFeeding:(int)type
+                                     page:(int)page
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock
+{
+    NSString* path = nil;
+    switch (type) {
+        case 1:
+            path = @"feeding/chosen";
+            break;
+        case 2:
+            path = @"feeding/hot";
+            break;
+        case 8:
+            path = @"feeding/chosen";
+            break;
+        default:
+            break;
+    }
+    
+    return [self startOperationWithPath:path
+                                 method:@"GET"
+                               paramers:@{@"pageNo" : @(page),
+                                          @"pageSize" : @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary* retDict = completedOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
 
 - (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
                                  page:(int)page

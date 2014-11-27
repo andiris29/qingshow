@@ -13,6 +13,7 @@
 #import "ServerPath.h"
 #import "DatabaseConstant.h"
 
+#import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 
 @interface QSShowCollectionViewCell ()
@@ -72,9 +73,7 @@
 
     NSString* coverPath = showData[@"cover"];
     [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    /*
-    @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
-     */
+    self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:showData];
 }
 
 #pragma mark - Layout Update

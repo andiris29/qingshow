@@ -98,7 +98,8 @@
     self.showImageScrollView.imageUrlArray = previewArray;
     NSArray* itemUrlArray = [QSShowUtil getItemsImageUrlArrayFromShow:dict];
     self.itemImageScrollView.imageUrlArray = itemUrlArray;
-
+    [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
+    self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:dict];
 }
 
 - (void)didReceiveMemoryWarning {

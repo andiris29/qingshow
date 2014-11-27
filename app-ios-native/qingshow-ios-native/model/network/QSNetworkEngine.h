@@ -76,4 +76,9 @@
                            onShow:(NSDictionary*)showDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)getCategoryFeeding:(int)type
+                                     page:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 @end

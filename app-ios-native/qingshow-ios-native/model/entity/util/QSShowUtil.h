@@ -15,5 +15,7 @@
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
 + (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict;
 
++ (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
++ (NSString*)getNumberFavorDescription:(NSDictionary*)showDict;
 
 @end
