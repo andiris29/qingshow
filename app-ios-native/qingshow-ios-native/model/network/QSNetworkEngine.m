@@ -73,6 +73,23 @@
     return op;
 }
 
+- (MKNetworkOperation *)startOperationWithPath:(NSString *)path
+                                        method:(NSString *)method
+                                      paramers:(NSDictionary *)paramDict
+                                       fileKey:(NSString *)fileKey
+                                         image:(NSData *)image
+                                    onSucceeded:(OperationSucceedBlock)succeedBlock
+                                       onError:(OperationErrorBlock)errorBlock {
+    
+    MKNetworkOperation *op = nil;
+    op = [self operationWithPath:path params:paramDict httpMethod:method];
+    [op addData:image forKey:fileKey];
+//    [op setFreezable:YES];
+    [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
+    [self enqueueOperation:op];
+    return op;
+}
+
 
 #pragma mark - User
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
@@ -126,12 +143,14 @@
             }];
 }
 
-- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+- (MKNetworkOperation *)updatePortrait:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_USER_UPDATE_PORTRAIT
                                  method:@"POST"
-                               paramers:@{@"portrait": portrait.images}
+                               paramers:@{}
+                                fileKey:@"portrait"
+                                  image:image
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
@@ -147,12 +166,16 @@
             }];
 }
 
-- (MKNetworkOperation *)updateBackground:(UIImage *)background
+- (MKNetworkOperation *)updateBackground:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock {
+    
+    
     return [self startOperationWithPath:PATH_USER_UPDATE_BACKGROUND
                                  method:@"POST"
-                               paramers:@{@"background": background.images}
+                               paramers:@{}
+                                fileKey:@"background"
+                                  image:image
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {

@@ -171,38 +171,37 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:^{}];
     
-    /* 此处info 有六个值
-     * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
-     * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
-     * UIImagePickerControllerEditedImage;    // a UIImage 裁剪后图片
-     * UIImagePickerControllerCropRect;       // an NSValue (CGRect)
-     * UIImagePickerControllerMediaURL;       // an NSURL
-     * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
-     * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
-     */
+    // Get Original Image from PhotoLibrary
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     
+    // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
         if (metadata[@"error"] == nil && people != nil) {
-            [self showSuccessHudWithText:@"更新成功"];
+            [self showSuccessHudWithText:@"上传成功"];
+            // refresh local login user's data
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
             [self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
         } else {
-            [self showErrorHudWithText:@"更新失败"];
+            [self showErrorHudWithText:@"上传失败"];
         }
     };
     
+    // Error Handle
     ErrorBlock error = ^(NSError *error) {
         [self showErrorHudWithError:error];
     };
     
+    // Convert UIImage to NSData
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    // write NSData to sandbox
+//    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
+//    [imageData writeToFile:fullPath atomically:NO];
     if (_uploadImageType == UPLOAD_PORTRAIT) {
-        [SHARE_NW_ENGINE updatePortrait:image onSuccess:success onError:error];
+        [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
     } else {
-        [SHARE_NW_ENGINE updateBackground:image onSuccess:success onError:error];
+        [SHARE_NW_ENGINE updateBackground:imageData onSuccess:success onError:error];
     }
 }
-
 
 #pragma mark - Private Init Method
 
@@ -245,8 +244,8 @@
     self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
     self.backgroundImage.layer.masksToBounds = YES;
     
-    if (people[@"portait"] != nil) {
-        NSString *portaits = people[@"portait"];
+    if (people[@"portrait"] != nil) {
+        NSString *portaits = people[@"portrait"];
         [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
     } else {
         [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];

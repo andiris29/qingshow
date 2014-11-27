@@ -33,11 +33,11 @@
                            onSuccess:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+- (MKNetworkOperation *)updatePortrait:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)updateBackground:(UIImage *)background
+- (MKNetworkOperation *)updateBackground:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
