@@ -1,21 +1,36 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 
 
 public class U01PersonalActivity extends Activity {
+    private TextView settingsTextView;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
-    }
+        context = getApplicationContext();
 
+        settingsTextView = (TextView) findViewById(R.id.settingsTextView);
+        settingsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(U01PersonalActivity.this, U02SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
