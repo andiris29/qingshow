@@ -81,4 +81,12 @@
                                      page:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
+
+
+- (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)unlikeShow:(NSDictionary*)showDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock;
 @end

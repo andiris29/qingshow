@@ -39,6 +39,7 @@
 #define PATH_INTERACTION_FOLLOW_BRAND @"interaction/followBrand"
 #define PATH_INTERACTION_UNFOLLOW_BRAND @"interaction/unfollowBrand"
 #define PATH_INTERACTION_LIKE @"interaction/like"
+#define PATH_INTERACTION_UNLIKE @"interaction/unlike"
 #define PATH_INTERACTION_COMMENT @"interaction/comment"
 
 
@@ -180,7 +181,12 @@
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
+                    NSArray* shows = retDict[@"data"][@"shows"];
+                    NSMutableArray* a = [@[] mutableCopy];
+                    for (NSDictionary* dict in shows) {
+                        [a addObject:[dict mutableCopy]];
+                    }
+                    succeedBlock(a, retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -218,7 +224,12 @@
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
+                    NSArray* shows = retDict[@"data"][@"shows"];
+                    NSMutableArray* a = [@[] mutableCopy];
+                    for (NSDictionary* dict in shows) {
+                        [a addObject:[dict mutableCopy]];
+                    }
+                    succeedBlock(a, retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -489,4 +500,39 @@
                 
             }];
 }
+- (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+            ((NSMutableDictionary*)showDict)[@"isLiked"] = @YES;
+        }
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation*)unlikeShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+            ((NSMutableDictionary*)showDict)[@"isLiked"] = @NO;
+        }
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 @end

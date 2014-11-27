@@ -70,5 +70,9 @@
     }
     return n.stringValue;
 }
-
++ (BOOL)getIsLike:(NSDictionary*)showDict
+{
+    NSNumber* n = showDict[@"isLiked"];
+    return n.boolValue;
+}
 @end

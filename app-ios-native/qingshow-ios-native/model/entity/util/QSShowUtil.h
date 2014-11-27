@@ -17,5 +17,6 @@
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
 + (NSString*)getNumberFavorDescription:(NSDictionary*)showDict;
++ (BOOL)getIsLike:(NSDictionary*)showDict;
 
 @end
