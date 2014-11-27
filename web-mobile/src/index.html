@@ -24,14 +24,14 @@
             (function() {
                 window.appConfig = {
                     'mode' : 'development',
-                    'appServer' : 'http://chingshow.com:30001',
+                    'appServer' : 'http://chingshow.com:30001/services',
                 };
                 var appConfigMore = {
                     'appServer' : {
                         // #appServer=fake
-                        'fake' : '../../server-node-fake',
+                        'fake' : '../../server-node-fake/services',
                         // #appServer=local
-                        'local' : 'http://' + location.hostname + ':30001'
+                        'local' : 'http://' + location.hostname + ':30001/services'
                     }
                 };
 

@@ -28,7 +28,7 @@ define([
 
             suffix = suffix.length ? ('_' + suffix.join('_')) : '';
             $.extend(request, {
-                'url' : appConfig.appServer + '/services' + path + suffix + '.json'
+                'url' : appConfig.appServer + path + suffix + '.json'
             });
         } else {
             for (key in requestData) {
@@ -37,7 +37,7 @@ define([
                 }
             }
             $.extend(request, {
-                'url' : appConfig.appServer + '/services' + path,
+                'url' : appConfig.appServer + path,
                 'type' : type,
                 'data' : requestData
             });
@@ -62,7 +62,7 @@ define([
 
     DataService.upload = function(path, callback) {
         var formImage$ = $('#formImage');
-        formImage$.attr('action', appConfig.appServer + '/services' + path);
+        formImage$.attr('action', appConfig.appServer + path);
         formImage$[0].submit();
     };
 
