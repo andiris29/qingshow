@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class ShowEntity extends AbsEntity {
 
@@ -78,17 +76,27 @@ public class ShowEntity extends AbsEntity {
         return modelRef.modelInfo.status;
     }
 
+    // model job
     public String getModelJob() {
-        return modelRef.roles.get(0);
+        return modelRef.roles[0];
     }
 
-    // item id
-    public String getItemId(int itemIndex) {
-        return (itemIndex >=0 && itemIndex < itemRefs.size()) ? itemRefs.get(itemIndex)._id : null;
+    // item
+    public RefItem getItem(int index) {
+        return (index < itemRefs.length) ? itemRefs[index] : null;
+    }
+
+    // tag
+    public String[] getTag() {
+        return tags;
+    }
+
+    public String getAge() {
+        return create;
     }
 
     // Posters
-    public ArrayList<String> getPosters() {
+    public String[] getPosters() {
         return posters;
     }
 
@@ -109,13 +117,13 @@ public class ShowEntity extends AbsEntity {
     public String numLike;                  // "7777"
     public RefModel modelRef;               // "Model Object"
     public String create;                   // "2014-11-21T15:52:27.740Z"
-    public List<RefItem> itemRefs;          // "Item Object List"
-    public List<String> tags;               // "Tag(str) List"
-    public ArrayList<String> posters;            // "Poster(str) List"
+    public RefItem[] itemRefs;          // "Item Object List"
+    public String[] tags;               // "Tag(str) List"
+    public String[] posters;            // "Poster(str) List"
     public MetaDataCover coverMetadata;     // "Cover Object"
 
     //--- Item object in show
-    public static class RefModel {
+    public static class RefModel extends AbsEntity {
         public String _id;
         public String name;
         public String portrait;
@@ -124,15 +132,15 @@ public class ShowEntity extends AbsEntity {
         public String update;
         public String create;
         public InfoModel modelInfo;
-        public List<String> roles;
+        public String[] roles;
 
-        public static class InfoModel {
+        public static class InfoModel extends AbsEntity {
             public String status;
             public String numLikes;
         }
     }
 
-    public static class RefItem {
+    public static class RefItem extends AbsEntity {
         //--- Inner data
         public String _id;
         public String category;
@@ -142,7 +150,7 @@ public class ShowEntity extends AbsEntity {
         public String brandRef;
     }
 
-    public static class MetaDataCover {
+    public static class MetaDataCover extends AbsEntity {
         public String cover;
         public int width;
         public int height;

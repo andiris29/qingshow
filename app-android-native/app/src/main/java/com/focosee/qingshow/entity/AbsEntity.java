@@ -1,4 +1,6 @@
 package com.focosee.qingshow.entity;
 
-public abstract class AbsEntity {
+import java.io.Serializable;
+
+public abstract class AbsEntity implements Serializable {
 }
