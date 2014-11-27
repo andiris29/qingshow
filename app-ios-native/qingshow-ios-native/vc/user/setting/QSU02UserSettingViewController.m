@@ -131,8 +131,7 @@
         [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         [addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
-//        [addcharity setBackgroundColor:[UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f]];
-        [addcharity setBackgroundColor:[UIColor redColor]];
+        [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
         addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
         addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
         addcharity.layer.masksToBounds = YES;
