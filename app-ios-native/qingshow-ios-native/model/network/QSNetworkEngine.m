@@ -18,6 +18,8 @@
 #define PATH_USER_GET @"user/get"
 #define PATH_USER_REGISTER @"user/register"
 #define PATH_USER_UPDATE @"user/update"
+#define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
+#define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 
 //Feeding
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
@@ -71,7 +73,7 @@
 }
 
 
-#pragma mark - API
+#pragma mark - User
 - (MKNetworkOperation*)loginWithName:(NSString*)userName
                             password:(NSString*)password
                            onSucceed:(EntitySuccessBlock)succeedBlock
@@ -113,6 +115,48 @@
                     [QSUserManager shareUserManager].userInfo = nil;
                     [QSUserManager shareUserManager].fIsLogined = NO;
                     succeedBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_USER_UPDATE_PORTRAIT
+                                 method:@"POST"
+                               paramers:@{@"portrait": portrait.images}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    NSDictionary* retDict = completedOperation.responseJSON;
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation *)updateBackground:(UIImage *)background
+                             onSuccess:(EntitySuccessBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_USER_UPDATE_BACKGROUND
+                                 method:@"POST"
+                               paramers:@{@"background": background.images}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    NSDictionary* retDict = completedOperation.responseJSON;
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
