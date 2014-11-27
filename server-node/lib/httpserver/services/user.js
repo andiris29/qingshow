@@ -220,18 +220,21 @@ var _upload = function(req, res, keyword) {
         for (var key in files) {
             file = files[key];
         }
-        var set = {};
-        set[keyword] = global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path);
-        People.collection.update({
+        People.findOne({
             '_id' : req.currentUser._id
-        }, {
-            '$set' : set
-        }, function(err, numAffected) {
-            if (err) {
-                ServicesUtil.responseError(res, e);
-                return;
-            }
-            res.end();
+        }, function(err, people) {
+            people.set(keyword, global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
+            people.save(function(err) {
+                if (err) {
+                    ServicesUtil.responseError(res, e);
+                    return;
+                }
+                res.json({
+                    data : {
+                        people : people
+                    }
+                });
+            });
         });
     });
     return;
