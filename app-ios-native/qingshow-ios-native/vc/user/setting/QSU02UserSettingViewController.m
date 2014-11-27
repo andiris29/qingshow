@@ -14,10 +14,17 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
+#define UPLOAD_PORTRAIT 0
+#define UPLOAD_BACKGROUND 1
+
 @interface QSU02UserSettingViewController ()
 @end
 
-@implementation QSU02UserSettingViewController
+@implementation QSU02UserSettingViewController {
+    
+@private
+    long _uploadImageType;
+}
 
 #pragma mark - private value
 
@@ -53,6 +60,7 @@
                                                              destructiveButtonTitle:nil
                                                                   otherButtonTitles:@"从相册选择", nil];
                 sheet.tag = 255;
+                _uploadImageType = indexPath.row;
                 [sheet showInView:self.view];
             } else {
                 [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
@@ -164,7 +172,6 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:^{}];
     
-//    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     /* 此处info 有六个值
      * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
      * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
@@ -174,6 +181,27 @@
      * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
      * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
      */
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
+        if (metadata[@"error"] == nil && people != nil) {
+            [self showSuccessHudWithText:@"更新成功"];
+            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+            [self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
+        } else {
+            [self showErrorHudWithText:@"更新失败"];
+        }
+    };
+    
+    ErrorBlock error = ^(NSError *error) {
+        [self showErrorHudWithError:error];
+    };
+    
+    if (_uploadImageType == UPLOAD_PORTRAIT) {
+        [SHARE_NW_ENGINE updatePortrait:image onSuccess:success onError:error];
+    } else {
+        [SHARE_NW_ENGINE updateBackground:image onSuccess:success onError:error];
+    }
 }
 
 
