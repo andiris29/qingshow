@@ -213,7 +213,7 @@ var _upload = function(req, res, keyword) {
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
         if (err) {
-            ServicesUtil.responseError(res, e);
+            ServicesUtil.responseError(res, err);
             return;
         }
         var file;
