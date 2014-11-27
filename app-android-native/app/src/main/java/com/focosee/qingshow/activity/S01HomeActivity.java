@@ -102,11 +102,10 @@ public class S01HomeActivity extends Activity {
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-//                String text = _adapter.getItemDataAtIndex(position) + ", index = " + (position + 1);
-//                Toast.makeText(MListViewTest.this, text, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
-                intent.putStringArrayListExtra(S03SHowActivity.INPUT_POSTERS, _adapter.getItemDataAtIndex(position).getPosters());
-                intent.putExtra(S03SHowActivity.INPUT_VIDEO, _adapter.getItemDataAtIndex(position).getShowVideo());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY, _adapter.getItemDataAtIndex(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

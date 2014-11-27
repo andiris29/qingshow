@@ -76,13 +76,23 @@ public class ShowEntity extends AbsEntity {
         return modelRef.modelInfo.status;
     }
 
+    // model job
     public String getModelJob() {
         return modelRef.roles[0];
     }
 
-    // item id
-    public String getItemId(int itemIndex) {
-        return (itemIndex >=0 && itemIndex < itemRefs.length) ? itemRefs[itemIndex]._id : null;
+    // item
+    public RefItem getItem(int index) {
+        return (index < itemRefs.length) ? itemRefs[index] : null;
+    }
+
+    // tag
+    public String[] getTag() {
+        return tags;
+    }
+
+    public String getAge() {
+        return create;
     }
 
     // Posters
