@@ -11,6 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 #import "QSU02UserSettingViewController.h"
+#import "QSPeopleUtil.h"
 
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
@@ -98,7 +99,7 @@
 {
     //title
     self.title = self.userInfo[@"name"];
-    [self.badgeView bindWithPeopleDict:self.userInfo];
+    [self updateView];
     
     //Show and Hide
     self.viewArray = @[self.favorCollectionView, self.recommendationCollectionView,self.followingTableView];
@@ -132,5 +133,13 @@
     UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
     QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)updateView
+{
+    [self.badgeView bindWithPeopleDict:self.userInfo];
+    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFavorsDescription:self.userInfo] atIndex:0];
+    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberRecommendationsDescription:self.userInfo] atIndex:1];
+    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowingsDescription:self.userInfo] atIndex:2];
 }
 @end

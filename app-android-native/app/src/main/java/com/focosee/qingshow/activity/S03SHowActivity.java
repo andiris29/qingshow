@@ -8,27 +8,45 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkImageIndicatorView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MRelativeLayout_3_4;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class S03SHowActivity extends Activity {
 
-    public static final String INPUT_POSTERS = "asfadf";
-    public static final String INPUT_VIDEO = "asfasdfadf";
+    // Input data
+    public static final String INPUT_SHOW_ENTITY = "asfadf";
 
+    private ShowEntity showEntity;
     private String videoUri;
 
+    // Component declaration
     private MRelativeLayout_3_4 mRelativeLayout_3_4;
     private NetworkImageIndicatorView imageIndicatorView;
     private VideoView videoView;
+    private MCircularImageView modelImage;
+    private TextView modelName;
+    private TextView modelAge;
+    private TextView modelStatus;
+    private TextView modelLoveNumber;
+
+    private ImageView itemIMG1;
+    private ImageView itemIMG2;
+    private ImageView itemIMG3;
+
+    private TextView description;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,33 +54,78 @@ public class S03SHowActivity extends Activity {
         setContentView(R.layout.activity_s03_show);
 
         Intent intent = getIntent();
-        List<String> urlList = intent.getStringArrayListExtra(S03SHowActivity.INPUT_POSTERS);
-        videoUri = intent.getStringExtra(S03SHowActivity.INPUT_VIDEO);
+        showEntity = (ShowEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
 
+        matchUI();
+        configData();
 
+        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
+            @Override
+            public void onPosition(int position, int totalCount) {
+
+            }
+        });
+        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
+            @Override
+            public void onPosition(int position, int totalCount) {
+
+            }
+        });
+
+        this.initView(showEntity.getPosters());
+    }
+
+    private void matchUI() {
         this.mRelativeLayout_3_4 = (MRelativeLayout_3_4) findViewById(R.id.S03_relative_layout);
         this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
         this.videoView = (VideoView) findViewById(R.id.S03_video_view);
 
-        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
-            @Override
-            public void onPosition(int position, int totalCount) {
+        modelImage = (MCircularImageView) findViewById(R.id.S03_item_show_model_image);
+        modelName = (TextView) findViewById(R.id.S03_item_show_model_name);
+        modelAge = (TextView) findViewById(R.id.S03_item_show_model_age);
+        modelStatus = (TextView) findViewById(R.id.S03_item_show_model_status);
+        modelLoveNumber = (TextView) findViewById(R.id.S03_item_show_love);
 
-            }
-        });
-        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
-            @Override
-            public void onPosition(int position, int totalCount) {
+        itemIMG1 = (ImageView) findViewById(R.id.S03_item_show_img1);
+        itemIMG2 = (ImageView) findViewById(R.id.S03_item_show_img2);
+        itemIMG3 = (ImageView) findViewById(R.id.S03_item_show_img3);
 
-            }
-        });
-
-        this.initView(urlList);
+        description = (TextView) findViewById(R.id.S03_item_show_description);
     }
 
-    private void initView(List<String> urlList) {
+    private void configData() {
+
+        videoUri = showEntity.getShowVideo();
+
+        ImageLoader.getInstance().displayImage(showEntity.getModelImgSrc(), modelImage);
+
+        modelName.setText(showEntity.getModelName());
+
+        modelAge.setText(showEntity.getAge());
+
+        modelStatus.setText(showEntity.getModelStatus());
+
+        modelLoveNumber.setText(showEntity.getShowNumLike());
+
+        ImageLoader.getInstance().displayImage(showEntity.getItem(0).cover, itemIMG1);
+
+        ImageLoader.getInstance().displayImage(showEntity.getItem(1).cover, itemIMG2);
+
+        ImageLoader.getInstance().displayImage(showEntity.getItem(2).cover, itemIMG3);
+
+        description.setText(arrayToString(showEntity.getTag()));
+    }
+
+    private String arrayToString(String[] input) {
+        String result = "";
+        for (String str : input)
+            result += str + " ";
+        return result;
+    }
+
+    private void initView(String[] urlList) {
         Log.i("app", urlList.toString());
-        this.imageIndicatorView.setupLayoutByImageUrl(urlList, ImageLoader.getInstance());
+        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
         this.imageIndicatorView.getStartButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -69,7 +69,7 @@
     self.tableView = tableView;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
     [tableView addSubview:refreshControl];

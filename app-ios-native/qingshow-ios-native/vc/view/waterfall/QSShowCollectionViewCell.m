@@ -13,6 +13,7 @@
 #import "ServerPath.h"
 #import "DatabaseConstant.h"
 
+#import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 
 @interface QSShowCollectionViewCell ()
@@ -72,9 +73,8 @@
 
     NSString* coverPath = showData[@"cover"];
     [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    /*
-    @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
-     */
+    self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:showData];
+    self.favorButton.selected = [QSShowUtil getIsLike:showData];
 }
 
 #pragma mark - Layout Update
@@ -148,8 +148,8 @@
 }
 - (IBAction)favorPressed:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
-        [self.delegate peoplePressed:self];
+    if ([self.delegate respondsToSelector:@selector(favorBtnPressed:)]) {
+        [self.delegate favorBtnPressed:self];
     }
 }
 @end

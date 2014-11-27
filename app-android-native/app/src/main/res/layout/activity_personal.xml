@@ -33,11 +33,12 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/settingsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="personal" />
+            android:text="@string/settings_activity_personal" />
     </RelativeLayout>
 
     <RelativeLayout
