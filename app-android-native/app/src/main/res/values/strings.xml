@@ -50,7 +50,12 @@
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">英文数字8–12字符</string>
     <string name="login_activity_login">登陆</string>
+
+    <!-- Personal Activity -->
     <string name="title_activity_personal">PersonalActivity</string>
+    <string name="settings_activity_personal">设置</string>
+
+    <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_s01_home">S01HomeActivity</string>
     <string name="title_activity_s03_show">S03SHowActivity</string>
