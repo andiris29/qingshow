@@ -137,6 +137,7 @@
         UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
         UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
         [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
+        [addcharity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         [addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
         [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
