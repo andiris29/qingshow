@@ -53,8 +53,8 @@ public class U07RegisterActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
-                    Toast.makeText(context, "请确认两次密码", Toast.LENGTH_LONG).show();
+                if (!passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
+                    Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
                 }
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
