@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var People = require('../../model/peoples');
-var RFollowPeople = require('../../model/rFollowPeople');
+var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 //util
 var ContextHelper = require('../helpers/ContextHelper');
 var ServerError = require('../server-error');
@@ -34,11 +34,11 @@ var _queryModels = function(req, res) {
 };
 
 var _queryFollowers = function(req, res) {
-    _followerAndFollowed(req, res, 'followRef', 'peopleRef');
+    _followerAndFollowed(req, res, 'affectedRef', 'initiatorRef');
 };
 
 var _queryFollowed = function(req, res) {
-    _followerAndFollowed(req, res, 'peopleRef', 'followRef');
+    _followerAndFollowed(req, res, 'initiatorRef', 'affectedRef');
 };
 
 var _followerAndFollowed = function(req, res, masterField, slaveField) {
@@ -51,27 +51,29 @@ var _followerAndFollowed = function(req, res, masterField, slaveField) {
 
     var criteria = {};
     criteria[masterField] = mongoose.mongo.BSONPure.ObjectID(param._id);
-    ServicesUtil.limitQuery(RFollowPeople.find(criteria), pageNo, pageSize).exec(function(err, relationships) {
+
+    async.waterfall([
+    function(callback) {
+        ServicesUtil.limitQuery(RPeopleFollowPeople.find(criteria), pageNo, pageSize).exec(callback);
+    },
+    function(relationships, callback) {
+        var _ids = [];
+        relationships.forEach(function(r) {
+            _ids.push(r[slaveField]);
+        });
+        People.find({
+            '_id' : {
+                '$in' : _ids
+            }
+        }, callback);
+    },
+    function(peoples, callback) {
+        ContextHelper.followedByCurrentUser(req.currentUser, peoples, callback);
+    }], function(err, peoples) {
         if (err) {
             ServicesUtil.responseError(res, new ServerError(err));
         } else {
-            var _ids = [];
-            relationships.forEach(function(r) {
-                _ids.push(r[slaveField]);
-            });
-            People.find({
-                '_id' : {
-                    '$in' : _ids
-                }
-            }, function(err, peoples) {
-                ContextHelper.followedByCurrentUser(req.currentUser, peoples, function(err, peoples) {
-                    if (err) {
-                        ServicesUtil.responseError(res, new ServerError(err));
-                    } else {
-                        res.json(peoples);
-                    }
-                });
-            });
+            res.json(peoples);
         }
     });
 };
@@ -80,15 +82,17 @@ var _followerAndFollowed = function(req, res, masterField, slaveField) {
 var _follow = function(req, res) {
     try {
         var param = req.body;
-        var followRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var peopleRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+        var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
     }
 
-    var validateAlreadyFollowed = function(callbck) {
-        _getRFollowPeople(peopleRef, followRef, function(err, r) {
+    async.waterfall([
+    function(callbck) {
+        // Validate existed relationship
+        _getRPeopleFollowPeople(initiatorRef, affectedRef, function(err, r) {
             if (err) {
                 callbck(err);
             } else if (r) {
@@ -97,22 +101,18 @@ var _follow = function(req, res) {
                 callbck(null);
             }
         });
-    };
-    async.parallel([validateAlreadyFollowed], function(err, results) {
+    },
+    function(callback) {
+        // Create relationship
+        new RPeopleFollowPeople({
+            'initiatorRef' : initiatorRef,
+            'affectedRef' : affectedRef
+        }).save(callback);
+    }], function(err) {
         if (err) {
             ServicesUtil.responseError(res, new ServerError(err));
         } else {
-            // Follow
-            new RFollowPeople({
-                'peopleRef' : peopleRef,
-                'followRef' : followRef
-            }).save(function(err, r) {
-                if (err) {
-                    ServicesUtil.responseError(res, new ServerError(err));
-                } else {
-                    res.end();
-                }
-            });
+            res.end();
         }
     });
 };
@@ -120,33 +120,34 @@ var _follow = function(req, res) {
 var _unfollow = function(req, res) {
     try {
         var param = req.body;
-        var followRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var peopleRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+        var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
     }
-    _getRFollowPeople(peopleRef, followRef, function(err, r) {
+
+    async.waterfall([
+    function(callback) {
+        // Get relationship
+        _getRPeopleFollowPeople(initiatorRef, affectedRef, callback);
+    },
+    function(relationship, callback) {
+        // Remove relationship
+        relationship.remove(callback);
+    }], function(err) {
         if (err) {
             ServicesUtil.responseError(res, new ServerError(err));
-        } else if (r) {
-            r.remove(function(err) {
-                if (err) {
-                    ServicesUtil.responseError(res, new ServerError(err));
-                } else {
-                    res.end();
-                }
-            });
         } else {
             res.end();
         }
     });
 };
 
-var _getRFollowPeople = function(peopleRef, followRef, callback) {
-    RFollowPeople.findOne({
-        'peopleRef' : peopleRef,
-        'followRef' : followRef
+var _getRPeopleFollowPeople = function(initiatorRef, affectedRef, callback) {
+    RPeopleFollowPeople.findOne({
+        'initiatorRef' : initiatorRef,
+        'affectedRef' : affectedRef
     }, callback);
 };
 

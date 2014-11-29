@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var People = require('../../model/peoples');
-var RFollowPeople = require('../../model/rFollowPeople');
+var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 
 /**
  * ContextHelper
@@ -20,7 +20,7 @@ module.exports.followedByCurrentUser = function(currentUser, peoples, callback) 
             followRefs.push(people._id);
         });
 
-        RFollowPeople.find({
+        RPeopleFollowPeople.find({
             'peopleRef' : peopleRef,
             'followRef' : {
                 '$in' : followRefs

@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 
 var People = require('./peoples');
 
-var RFollowPeople = mongoose.model('rFollowPeople', Schema({
-    'peopleRef' : {
+var RPeopleFollowPeople = mongoose.model('rPeopleFollowPeople', Schema({
+    'initiatorRef' : {
         'type' : Schema.Types.ObjectId,
         'ref' : 'peoples'
     },
-    'followRef' : {
+    'affectedRef' : {
         'type' : Schema.Types.ObjectId,
         'ref' : 'peoples'
     },
@@ -17,7 +17,7 @@ var RFollowPeople = mongoose.model('rFollowPeople', Schema({
         'default' : Date.now
     }
 }, {
-    collection : 'rFollowPeople'
+    collection : 'rPeopleFollowPeople'
 }));
 
-module.exports = RFollowPeople;
+module.exports = RPeopleFollowPeople;
