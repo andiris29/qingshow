@@ -139,7 +139,7 @@
         [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
         [addcharity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
-        [addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
+        //[addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
         [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
         addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
         addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
@@ -193,7 +193,7 @@
     };
     
     // Convert UIImage to NSData
-    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     // write NSData to sandbox
 //    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
 //    [imageData writeToFile:fullPath atomically:NO];
