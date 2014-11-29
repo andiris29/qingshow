@@ -10,19 +10,18 @@ var ServicesUtil = require('../servicesUtil');
 
 var _queryModels = function(req, res) {
     var param = req.queryString;
-    var pageNo = param.pageNo || 1;
-    var pageSize = param.pageSize || 10;
+    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
 
-    function buildQuery() {
+    var buildQuery = function() {
         return People.find({
             'roles' : 1
         });
-    }
-    function modelDataGenFunc(data) {
+    };
+    var modelDataGenFunc = function(data) {
         return {
             'peoples' : data
         };
-    }
+    };
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(peoples, callback) {
         ContextHelper.followedByCurrentUser(req.currentUser, peoples, function(err, peoples) {
             if (err) {
@@ -31,6 +30,49 @@ var _queryModels = function(req, res) {
                 callback(peoples);
             }
         });
+    });
+};
+
+var _queryFollowers = function(req, res) {
+    _followerAndFollowed(req, res, 'followRef', 'peopleRef');
+};
+
+var _queryFollowed = function(req, res) {
+    _followerAndFollowed(req, res, 'peopleRef', 'followRef');
+};
+
+var _followerAndFollowed = function(req, res, masterField, slaveField) {
+    var param = req.queryString;
+    if (!param._id) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        return;
+    }
+    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
+
+    var criteria = {};
+    criteria[masterField] = mongoose.mongo.BSONPure.ObjectID(param._id);
+    ServicesUtil.limitQuery(RFollowPeople.find(criteria), pageNo, pageSize).exec(function(err, relationships) {
+        if (err) {
+            ServicesUtil.responseError(res, new ServerError(err));
+        } else {
+            var _ids = [];
+            relationships.forEach(function(r) {
+                _ids.push(r[slaveField]);
+            });
+            People.find({
+                '_id' : {
+                    '$in' : _ids
+                }
+            }, function(err, peoples) {
+                ContextHelper.followedByCurrentUser(req.currentUser, peoples, function(err, peoples) {
+                    if (err) {
+                        ServicesUtil.responseError(res, new ServerError(err));
+                    } else {
+                        res.json(peoples);
+                    }
+                });
+            });
+        }
     });
 };
 // Request
@@ -112,6 +154,14 @@ module.exports = {
     'queryModels' : {
         method : 'get',
         func : _queryModels
+    },
+    'queryFollowers' : {
+        method : 'get',
+        func : _queryFollowers
+    },
+    'queryFollowed' : {
+        method : 'get',
+        func : _queryFollowed
     },
     'follow' : {
         method : 'post',

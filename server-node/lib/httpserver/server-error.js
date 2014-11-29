@@ -27,6 +27,7 @@ ServerError.DidNotFollowPeople = 1014;
 ServerError.AlreadyFollowBrand = 1015;
 ServerError.DidNotFollowBrand = 1016;
 ServerError.PItemNotExist = 1017;
+ServerError.RequestValidationFail = 1018;
 
 var _codeToString = function (code) {
     switch (code) {
