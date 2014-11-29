@@ -36,14 +36,6 @@ var _queryModels = function(req, res) {
 };
 
 var _queryFollowers = function(req, res) {
-    _followerAndFollowed(req, res, 'affectedRef', 'initiatorRef');
-};
-
-var _queryFollowed = function(req, res) {
-    _followerAndFollowed(req, res, 'initiatorRef', 'affectedRef');
-};
-
-var _followerAndFollowed = function(req, res, masterField, slaveField) {
     var param = req.queryString;
     if (!param._id) {
         ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
@@ -51,33 +43,22 @@ var _followerAndFollowed = function(req, res, masterField, slaveField) {
     }
     var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
 
-    var criteria = {};
-    criteria[masterField] = mongoose.mongo.BSONPure.ObjectID(param._id);
+    RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
+        'affectedRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
+    }, pageNo, pageSize, 'initiatorRef', req.currentUser, ResponseHelper.generateGeneralCallback(res));
+};
 
-    async.waterfall([
-    function(callback) {
-        ServicesUtil.limitQuery(RPeopleFollowPeople.find(criteria), pageNo, pageSize).exec(callback);
-    },
-    function(relationships, callback) {
-        var _ids = [];
-        relationships.forEach(function(r) {
-            _ids.push(r[slaveField]);
-        });
-        People.find({
-            '_id' : {
-                '$in' : _ids
-            }
-        }, callback);
-    },
-    function(peoples, callback) {
-        ContextHelper.followedByCurrentUser(req.currentUser, peoples, callback);
-    }], function(err, peoples) {
-        if (err) {
-            ServicesUtil.responseError(res, new ServerError(err));
-        } else {
-            res.json(peoples);
-        }
-    });
+var _queryFollowed = function(req, res) {
+    var param = req.queryString;
+    if (!param._id) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        return;
+    }
+    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
+
+    RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
+        'initiatorRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
+    }, pageNo, pageSize, 'affectedRef', req.currentUser, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _follow = function(req, res) {

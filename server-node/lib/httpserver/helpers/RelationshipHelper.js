@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
+var People = require('../../model/peoples');
+
+var ContextHelper = require('../helpers/ContextHelper');
+var ServicesUtil = require('../servicesUtil');
 
 module.exports.create = function(Model, initiatorRef, affectedRef, callback) {
     async.waterfall([
@@ -46,3 +50,25 @@ module.exports.remove = function(Model, initiatorRef, affectedRef, callback) {
         }
     }], callback);
 };
+
+module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUser, callback) {
+    async.waterfall([
+    function(callback) {
+        ServicesUtil.limitQuery(Model.find(criteria), pageNo, pageSize).exec(callback);
+    },
+    function(relationships, callback) {
+        var _ids = [];
+        relationships.forEach(function(r) {
+            _ids.push(r[peopleField]);
+        });
+        People.find({
+            '_id' : {
+                '$in' : _ids
+            }
+        }, callback);
+    },
+    function(peoples, callback) {
+        ContextHelper.followedByCurrentUser(currentUser, peoples, callback);
+    }], callback);
+};
+

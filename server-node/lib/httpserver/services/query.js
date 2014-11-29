@@ -26,10 +26,9 @@ var _shows = function(req, res) {
             '_id' : {
                 '$in' : _ids
             }
-        }).populate('modelRef').populate('itemRefs').populate('itemRefs').exec(callback);
+        }).populate('modelRef').populate('itemRefs').exec(callback);
     },
     function(shows, callback) {
-
         Show.populate(shows, {
             'path' : 'itemRefs.brandRef',
             'model' : 'brands'
