@@ -14,10 +14,17 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
+#define UPLOAD_PORTRAIT 0
+#define UPLOAD_BACKGROUND 1
+
 @interface QSU02UserSettingViewController ()
 @end
 
-@implementation QSU02UserSettingViewController
+@implementation QSU02UserSettingViewController {
+    
+@private
+    long _uploadImageType;
+}
 
 #pragma mark - private value
 
@@ -46,18 +53,27 @@
     switch (indexPath.section) {
         case 0:
             // 选择section
-            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-                UIActionSheet *sheet = sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"取消"
-                                                             destructiveButtonTitle:nil
-                                                                  otherButtonTitles:@"从相册选择", nil];
+            _uploadImageType = indexPath.row;
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                          otherButtonTitles:@"从相册选择", @"使用相机拍照", nil];
+                sheet.tag = 255;
+                [sheet showInView:self.view];
+                
+            } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                          otherButtonTitles:@"从相册选择", nil];
                 sheet.tag = 255;
                 [sheet showInView:self.view];
             } else {
                 [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
             }
-            
             break;
         case 1:
             // 基本section
@@ -129,10 +145,10 @@
         UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
         UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
         [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
+        [addcharity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
-        [addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
-//        [addcharity setBackgroundColor:[UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f]];
-        [addcharity setBackgroundColor:[UIColor redColor]];
+        //[addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
+        [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
         addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
         addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
         addcharity.layer.masksToBounds = YES;
@@ -148,14 +164,18 @@
     if (actionSheet.tag != 255) {
         return;
     }
-    if (buttonIndex != 0) {
+    
+    if (buttonIndex > 1) {
         return;
     }
-    
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = YES;
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    if (buttonIndex == 0) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    } else if (buttonIndex == 1) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    imagePickerController.allowsEditing = NO;
     [self presentViewController:imagePickerController animated:YES completion:^{}];
 }
 
@@ -164,20 +184,40 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:^{}];
     
-//    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    /* 此处info 有六个值
-     * UIImagePickerControllerMediaType; // an NSString UTTypeImage)
-     * UIImagePickerControllerOriginalImage;  // a UIImage 原始图片
-     * UIImagePickerControllerEditedImage;    // a UIImage 裁剪后图片
-     * UIImagePickerControllerCropRect;       // an NSValue (CGRect)
-     * UIImagePickerControllerMediaURL;       // an NSURL
-     * UIImagePickerControllerReferenceURL    // an NSURL that references an asset in the AssetsLibrary framework
-     * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
-     */
+    // Get Original Image from PhotoLibrary
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    // Success Handle
+    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
+        if (metadata[@"error"] == nil && people != nil) {
+            [self showSuccessHudWithText:@"上传成功"];
+            // refresh local login user's data
+            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+            [self refreshImage];
+            //[self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
+        } else {
+            [self showErrorHudWithText:@"上传失败"];
+        }
+    };
+    
+    // Error Handle
+    ErrorBlock error = ^(NSError *error) {
+        [self showErrorHudWithError:error];
+    };
+    
+    // Convert UIImage to NSData
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    // write NSData to sandbox
+//    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
+//    [imageData writeToFile:fullPath atomically:NO];
+    if (_uploadImageType == UPLOAD_PORTRAIT) {
+        [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
+    } else {
+        [SHARE_NW_ENGINE updateBackground:imageData onSuccess:success onError:error];
+    }
 }
 
-
-#pragma mark - Private Init Method
+#pragma mark - Private Method
 
 - (void)initNavigation {
     NSLog(@"initNavigation");
@@ -218,22 +258,9 @@
     self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
     self.backgroundImage.layer.masksToBounds = YES;
     
-    if (people[@"portait"] != nil) {
-        NSString *portaits = people[@"portait"];
-        [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
-    } else {
-        [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
-    }
-    
-    if (people[@"background"] != nil) {
-        NSString *background = people[@"background"];
-        [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
-    } else {
-        [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
-    }
+    // Get Portrait & Backgrund's Image
+    [self refreshImage];
 }
-
-#pragma mark - Private Method Update
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -265,6 +292,24 @@
     };
 
     [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+}
+
+- (void)refreshImage {
+    
+    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+    if (people[@"portrait"] != nil) {
+        NSString *portaits = people[@"portrait"];
+        [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
+    } else {
+        [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
+    }
+    
+    if (people[@"background"] != nil) {
+        NSString *background = people[@"background"];
+        [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
+    } else {
+        [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
+    }
 }
 
 #pragma mark - Action

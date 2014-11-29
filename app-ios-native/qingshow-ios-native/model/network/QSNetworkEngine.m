@@ -30,15 +30,17 @@
 
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"
-#define PATH_QUERY_MODELS @"query/models"
 
+// People
+#define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
+#define PATH_PEOPLE_FOLLOW @"people/follow"
+#define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
 
 //Interaction
-#define PATH_INTERACTION_FOLLOW @"interaction/follow"
-#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
-#define PATH_INTERACTION_FOLLOW_BRAND @"interaction/followBrand"
-#define PATH_INTERACTION_UNFOLLOW_BRAND @"interaction/unfollowBrand"
+#define PATH_PEOPLE_FOLLOW_BRAND @"interaction/followBrand"
+#define PATH_PEOPLE_UNFOLLOW_BRAND @"interaction/unfollowBrand"
 #define PATH_INTERACTION_LIKE @"interaction/like"
+#define PATH_INTERACTION_UNLIKE @"interaction/unlike"
 #define PATH_INTERACTION_COMMENT @"interaction/comment"
 
 
@@ -67,6 +69,23 @@
 {
     MKNetworkOperation* op = nil;
     op = [self operationWithPath:path params:paramDict httpMethod:method ];
+    [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
+    [self enqueueOperation:op];
+    return op;
+}
+
+- (MKNetworkOperation *)startOperationWithPath:(NSString *)path
+                                        method:(NSString *)method
+                                      paramers:(NSDictionary *)paramDict
+                                       fileKey:(NSString *)fileKey
+                                         image:(NSData *)image
+                                    onSucceeded:(OperationSucceedBlock)succeedBlock
+                                       onError:(OperationErrorBlock)errorBlock {
+    
+    MKNetworkOperation *op = nil;
+    op = [self operationWithPath:path params:paramDict httpMethod:method];
+    [op addData:image forKey:fileKey];
+//    [op setFreezable:YES];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
     return op;
@@ -125,12 +144,14 @@
             }];
 }
 
-- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+- (MKNetworkOperation *)updatePortrait:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock {
     return [self startOperationWithPath:PATH_USER_UPDATE_PORTRAIT
                                  method:@"POST"
-                               paramers:@{@"portrait": portrait.images}
+                               paramers:@{}
+                                fileKey:@"portrait"
+                                  image:image
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
@@ -146,12 +167,16 @@
             }];
 }
 
-- (MKNetworkOperation *)updateBackground:(UIImage *)background
+- (MKNetworkOperation *)updateBackground:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock {
+    
+    
     return [self startOperationWithPath:PATH_USER_UPDATE_BACKGROUND
                                  method:@"POST"
-                               paramers:@{@"background": background.images}
+                               paramers:@{}
+                                fileKey:@"background"
+                                  image:image
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
@@ -180,7 +205,12 @@
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
+                    NSArray* shows = retDict[@"data"][@"shows"];
+                    NSMutableArray* a = [@[] mutableCopy];
+                    for (NSDictionary* dict in shows) {
+                        [a addObject:[dict mutableCopy]];
+                    }
+                    succeedBlock(a, retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -190,6 +220,50 @@
                 }
             }];
 }
+- (MKNetworkOperation*)getCategoryFeeding:(int)type
+                                     page:(int)page
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock
+{
+    NSString* path = nil;
+    switch (type) {
+        case 1:
+            path = @"feeding/chosen";
+            break;
+        case 2:
+            path = @"feeding/hot";
+            break;
+        case 8:
+            path = @"feeding/chosen";
+            break;
+        default:
+            break;
+    }
+    
+    return [self startOperationWithPath:path
+                                 method:@"GET"
+                               paramers:@{@"pageNo" : @(page),
+                                          @"pageSize" : @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary* retDict = completedOperation.responseJSON;
+                if (succeedBlock) {
+                    NSArray* shows = retDict[@"data"][@"shows"];
+                    NSMutableArray* a = [@[] mutableCopy];
+                    for (NSDictionary* dict in shows) {
+                        [a addObject:[dict mutableCopy]];
+                    }
+                    succeedBlock(a, retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
 
 - (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
                                  page:(int)page
@@ -231,7 +305,7 @@
                               onSucceed:(ArraySuccessBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_MODELS
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_MODELS
                                  method:@"GET"
                                paramers:@{@"pageNo" : @(page),
                                           @"paegSize" : @10}
@@ -292,7 +366,7 @@
                           onSucceed:(VoidBlock)succeedBlock
                             onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_FOLLOW
+    return [self startOperationWithPath:PATH_PEOPLE_FOLLOW
                                  method:@"POST" paramers:@{@"_id" : peopleId}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -312,7 +386,7 @@
                             onSucceed:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_UNFOLLOW
+    return [self startOperationWithPath:PATH_PEOPLE_UNFOLLOW
                                  method:@"POST"
                                paramers:@{@"_id" : peopleId}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
@@ -450,4 +524,39 @@
                 
             }];
 }
+- (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+            ((NSMutableDictionary*)showDict)[@"isLiked"] = @YES;
+        }
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation*)unlikeShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_INTERACTION_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+            ((NSMutableDictionary*)showDict)[@"isLiked"] = @NO;
+        }
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 @end

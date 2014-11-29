@@ -10,7 +10,10 @@
 #import "QSCommentTableViewCell.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
-
+#import "QSP02ModelDetailViewController.h"
+#import "QSShowUtil.h"
+#import "QSCommentUtil.h"
+#import "QSPeopleUtil.h"
 
 @interface QSCommentListViewController ()
 
@@ -18,6 +21,7 @@
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) QSCommentListTableViewDelegateObj* delegateObj;
+@property (assign, nonatomic) int clickIndex;
 @end
 
 @implementation QSCommentListViewController
@@ -82,11 +86,32 @@
 #pragma mark - QSCommentListTableViewDelegateObj
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
-    
+    self.clickIndex = index;
+    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"查看个人主页", nil];
+    [sheet showInView:self.view];
+}
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    //0 回复
+    //1 查看个人主页
+    if (buttonIndex == 0) {
+        //回复
+        NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
+        NSDictionary* people = [QSCommentUtil getPeople:comment];
+        self.textField.placeholder = [NSString stringWithFormat:@"回复 %@ :", [QSPeopleUtil getName:people]];
+        [self.textField becomeFirstResponder];
+    } else
+    {
+        NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
+        NSDictionary* people = [QSCommentUtil getPeople:comment];
+        UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:people];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.textField resignFirstResponder];
+    self.textField.placeholder = @"回复评论";
 }
 #pragma mark - Text Field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -112,7 +137,7 @@
         __weak QSCommentListViewController* weakSelf = self;
         [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict onSucceed:^{
             [weakSelf.delegateObj reloadData];
-
+            [self showSuccessHudWithText:@"发送成功"];
             self.textField.text = @"";
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
@@ -135,7 +160,7 @@
 }
 
 - (void)keyboardWillHide:(NSNotification *)notif {
-    
+    self.textField.placeholder = @"回复评论";
     [UIView animateWithDuration:0.5 animations:^{
         self.commentBottomConstrain.constant = 0;
         [self.view layoutIfNeeded];

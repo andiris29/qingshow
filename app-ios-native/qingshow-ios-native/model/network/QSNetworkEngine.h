@@ -33,11 +33,11 @@
                            onSuccess:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)updatePortrait:(UIImage *)portrait
+- (MKNetworkOperation *)updatePortrait:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)updateBackground:(UIImage *)background
+- (MKNetworkOperation *)updateBackground:(NSData *)image
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
@@ -74,6 +74,19 @@
                                  onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)addComment:(NSString*)comment
                            onShow:(NSDictionary*)showDict
+                        onSucceed:(VoidBlock)succeedBlock
+                          onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)getCategoryFeeding:(int)type
+                                     page:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+
+
+- (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
+                      onSucceed:(VoidBlock)succeedBlock
+                        onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)unlikeShow:(NSDictionary*)showDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
 @end

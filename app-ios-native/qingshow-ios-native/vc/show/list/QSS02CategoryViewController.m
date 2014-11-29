@@ -47,8 +47,9 @@
     self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
     self.delegateObj.delegate = self;
     [self.delegateObj bindWithCollectionView:self.collectionView];
+    __weak QSS02CategoryViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE getCategoryFeeding:weakSelf.type page:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.delegateObj fetchDataOfPage:1];
 }

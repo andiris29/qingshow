@@ -11,23 +11,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.config.QSAppWebAPI;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class U06LoginActivity extends Activity {
-    private TextView registerTextView;
-    private Button submitButton;
     private EditText accountEditText;
     private EditText passwordEditText;
     private Context context;
@@ -39,6 +40,9 @@ public class U06LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         context = getApplicationContext();
+
+        TextView registerTextView;
+        Button submitButton;
 
         registerTextView = (TextView) findViewById(R.id.registerTextView);
         submitButton = (Button) findViewById(R.id.submitButton);
@@ -58,14 +62,42 @@ public class U06LoginActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        "http://121.41.162.102:30001/services/user/login",
-                        new Response.Listener<String>() {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("id", accountEditText.getText().toString());
+                params.put("password", passwordEditText.getText().toString());
+                JSONObject jsonObject = new JSONObject(params);
+                JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
+                        QSAppWebAPI.LOGIN_SERVICE_URL, jsonObject,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
-                                Log.d("TAG", response);
-                                Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
-                                startActivity(intent);
+                            public void onResponse(JSONObject response) {
+                                Log.v("TAG", response.toString());
+                                try {
+                                    if (response.getJSONObject("data") == null) {
+                                        Log.v("TAG", "error");
+                                        String errorCode = response.getJSONObject("metadata").getString("error");
+                                        Log.v("TAG", "error" + errorCode);
+                                        if (errorCode.equals("1001")) {
+                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+                                        Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
+                                        startActivity(intent);
+                                    }
+                                } catch (Exception e) {
+                                    Log.v("TAG", "exception");
+                                    try {
+                                        Log.v("TAG", "error");
+                                        String errorCode = response.getJSONObject("metadata").getString("error");
+                                        Log.v("TAG", "error" + errorCode);
+                                        if (errorCode.equals("1001")) {
+                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (Exception e1) {
+                                        Log.v("TAG", "e1");
+                                    }
+                                }
+
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -74,20 +106,27 @@ public class U06LoginActivity extends Activity {
                     }
                 }) {
                     @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
+                    protected Map<String, String> getParams() {
                         Map<String, String> map = new HashMap<String, String>();
-
-                        map.put("mail", accountEditText.getText().toString());
+                        Log.v("TAG", accountEditText.getText().toString());
+                        Log.v("TAG", passwordEditText.getText().toString());
+                        map.put("id", accountEditText.getText().toString());
                         map.put("password", passwordEditText.getText().toString());
                         return map;
                     }
-                };
 
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("Accept", "application/json");
+                        headers.put("Content-Type", "application/json; charset=UTF-8");
+                        return headers;
+                    }
+                };
                 requestQueue.add(stringRequest);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

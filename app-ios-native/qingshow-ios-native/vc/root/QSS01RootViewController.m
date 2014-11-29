@@ -22,7 +22,7 @@
 
 #import "QSUserManager.h"
 #import "QSU01UserDetailViewController.h"
-
+#import "QSShowUtil.h"
 
 @interface QSS01RootViewController ()
 
@@ -137,10 +137,24 @@
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate
-- (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
+- (void)addFavorShow:(NSDictionary*)showDict
 {
-    
-    
+#warning disable becuase server bug
+    return;
+    if ([QSShowUtil getIsLike:showDict]) {
+        [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
+            [self.delegateObj reloadData];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    } else {
+        [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
+            [self.delegateObj reloadData];
+        } onError:^(NSError *error) {
+            
+            [self showErrorHudWithError:error];
+        }];
+    }
 }
 #pragma mark - QSRootMenuViewDelegate
 - (void)rootMenuItemPressedType:(int)type
@@ -161,6 +175,7 @@
         }
         case 9:
         {
+            return;
             UIViewController* vc = [[QSP03BrandListViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/register_activity_register"
+            android:text="personal"
             android:textColor="#fb915f"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -69,5 +69,10 @@
 
     </RelativeLayout>
 
+    <com.focosee.qingshow.widget.MPullRefreshListView
+        android:id="@+id/waterfallListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/S01_navigation"></com.focosee.qingshow.widget.MPullRefreshListView>
 
 </LinearLayout>

@@ -11,8 +11,6 @@ var mongoose = require('mongoose');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 
-var _queryAvailablePItems, _getUnshotPShows, _collocate;
-
 // query/queryAvailablePItems [paging][get]
 //
 // Request
@@ -20,7 +18,7 @@ var _queryAvailablePItems, _getUnshotPShows, _collocate;
 // Response
 //  data.items array, entity in db.pItems
 
-_queryAvailablePItems = function(req, res) {
+var _queryAvailablePItems = function(req, res) {
     try {
         var param = req.queryString;
         var pageNo = parseInt(param.pageNo || 1);
@@ -64,7 +62,7 @@ _queryAvailablePItems = function(req, res) {
 //  _id ObjectId in peoples
 // Response
 //  data.pShows array, entity in db.pShows
-_getUnshotPShows = function(req, res) {
+var _getUnshotPShows = function(req, res) {
     try {
         var param = req.queryString;
         var _id = param._id;
@@ -91,7 +89,7 @@ _getUnshotPShows = function(req, res) {
     });
 };
 
-_collocate = function(req, res) {
+var _collocate = function(req, res) {
     try {
         var param = req.body;
         var _ids = param._ids.split(',');
@@ -181,7 +179,9 @@ _collocate = function(req, res) {
             qsmail.send(subject, texts.join('\n'), function(err, info) {
             });
             // Send response
-            res.json(pShow);
+            res.json({
+                'data' : pShow
+            });
         });
     });
 };
