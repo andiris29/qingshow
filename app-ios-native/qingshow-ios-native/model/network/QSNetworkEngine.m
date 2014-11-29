@@ -32,12 +32,13 @@
 #define PATH_QUERY_COMMENT @"query/comments"
 #define PATH_QUERY_MODELS @"query/models"
 
+// People
+#define PATH_PEOPLE_FOLLOW @"people/follow"
+#define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
 
 //Interaction
-#define PATH_INTERACTION_FOLLOW @"interaction/follow"
-#define PATH_INTERACTION_UNFOLLOW @"interaction/unfollow"
-#define PATH_INTERACTION_FOLLOW_BRAND @"interaction/followBrand"
-#define PATH_INTERACTION_UNFOLLOW_BRAND @"interaction/unfollowBrand"
+#define PATH_PEOPLE_FOLLOW_BRAND @"interaction/followBrand"
+#define PATH_PEOPLE_UNFOLLOW_BRAND @"interaction/unfollowBrand"
 #define PATH_INTERACTION_LIKE @"interaction/like"
 #define PATH_INTERACTION_UNLIKE @"interaction/unlike"
 #define PATH_INTERACTION_COMMENT @"interaction/comment"
@@ -365,7 +366,7 @@
                           onSucceed:(VoidBlock)succeedBlock
                             onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_FOLLOW
+    return [self startOperationWithPath:PATH_PEOPLE_FOLLOW
                                  method:@"POST" paramers:@{@"_id" : peopleId}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -385,7 +386,7 @@
                             onSucceed:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_UNFOLLOW
+    return [self startOperationWithPath:PATH_PEOPLE_UNFOLLOW
                                  method:@"POST"
                                paramers:@{@"_id" : peopleId}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
