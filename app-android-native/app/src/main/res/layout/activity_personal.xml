@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/register_activity_register"
+            android:text="personal"
             android:textColor="#fb915f"
             android:textSize="20sp"
             android:textStyle="bold" />
