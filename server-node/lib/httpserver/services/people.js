@@ -5,6 +5,8 @@ var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 //util
 var ContextHelper = require('../helpers/ContextHelper');
+var RelationshipHelper = require('../helpers/RelationshipHelper');
+var ResponseHelper = require('../helpers/ResponseHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 
@@ -77,8 +79,7 @@ var _followerAndFollowed = function(req, res, masterField, slaveField) {
         }
     });
 };
-// Request
-//  _id string ObjectId in peoples
+
 var _follow = function(req, res) {
     try {
         var param = req.body;
@@ -89,32 +90,7 @@ var _follow = function(req, res) {
         return;
     }
 
-    async.waterfall([
-    function(callbck) {
-        // Validate existed relationship
-        _getRPeopleFollowPeople(initiatorRef, affectedRef, function(err, r) {
-            if (err) {
-                callbck(err);
-            } else if (r) {
-                callbck(ServerError.AlreadyFollowPeople);
-            } else {
-                callbck(null);
-            }
-        });
-    },
-    function(callback) {
-        // Create relationship
-        new RPeopleFollowPeople({
-            'initiatorRef' : initiatorRef,
-            'affectedRef' : affectedRef
-        }).save(callback);
-    }], function(err) {
-        if (err) {
-            ServicesUtil.responseError(res, new ServerError(err));
-        } else {
-            res.end();
-        }
-    });
+    RelationshipHelper.create(RPeopleFollowPeople, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _unfollow = function(req, res) {
@@ -127,28 +103,7 @@ var _unfollow = function(req, res) {
         return;
     }
 
-    async.waterfall([
-    function(callback) {
-        // Get relationship
-        _getRPeopleFollowPeople(initiatorRef, affectedRef, callback);
-    },
-    function(relationship, callback) {
-        // Remove relationship
-        relationship.remove(callback);
-    }], function(err) {
-        if (err) {
-            ServicesUtil.responseError(res, new ServerError(err));
-        } else {
-            res.end();
-        }
-    });
-};
-
-var _getRPeopleFollowPeople = function(initiatorRef, affectedRef, callback) {
-    RPeopleFollowPeople.findOne({
-        'initiatorRef' : initiatorRef,
-        'affectedRef' : affectedRef
-    }, callback);
+    RelationshipHelper.remove(RPeopleFollowPeople, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 module.exports = {
