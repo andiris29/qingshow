@@ -21,6 +21,7 @@ import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MRelativeLayout_3_4;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class S03SHowActivity extends Activity {
@@ -47,6 +48,8 @@ public class S03SHowActivity extends Activity {
 
     private TextView description;
 
+    private ArrayList<ShowEntity.RefItem> itemsData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,10 @@ public class S03SHowActivity extends Activity {
 
         Intent intent = getIntent();
         showEntity = (ShowEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
+        itemsData = showEntity.getItemsList();
+//        itemUrlList = (ArrayList)showEntity.getItemUrlList();
+//        itemDescriptionList = (ArrayList)showEntity.getItemDescriptionList();
+//        itemBrandList = (ArrayList)showEntity.getItemBrandList();
 
         matchUI();
         configData();
@@ -74,6 +81,20 @@ public class S03SHowActivity extends Activity {
 
         this.initView(showEntity.getPosters());
     }
+
+    private ImageView.OnClickListener mImageClickListener = new ImageView.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(S03SHowActivity.this, S05ProductActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(S05ProductActivity.INPUT_ITEM_LIST, itemsData);
+            intent.putExtras(bundle);
+//            intent.putStringArrayListExtra(S05ProductActivity.INPUT_URL_LIST, itemUrlList);
+//            intent.putStringArrayListExtra(S05ProductActivity.INPUT_DESCRIPTION_LIST, itemDescriptionList);
+//            intent.putStringArrayListExtra(S05ProductActivity.INPUT_BRAND_LIST, itemBrandList);
+            startActivity(intent);
+        }
+    };
 
     private void matchUI() {
         this.mRelativeLayout_3_4 = (MRelativeLayout_3_4) findViewById(R.id.S03_relative_layout);
@@ -113,7 +134,11 @@ public class S03SHowActivity extends Activity {
 
         ImageLoader.getInstance().displayImage(showEntity.getItem(2).cover, itemIMG3);
 
-        description.setText(arrayToString(showEntity.getTag()));
+        itemIMG1.setOnClickListener(mImageClickListener);
+        itemIMG2.setOnClickListener(mImageClickListener);
+        itemIMG3.setOnClickListener(mImageClickListener);
+
+        description.setText(showEntity.getAllItemDescription());
     }
 
     private String arrayToString(String[] input) {
