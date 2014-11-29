@@ -4,9 +4,35 @@ var async = require('async');
 var People = require('../../model/peoples');
 var RFollowPeople = require('../../model/rFollowPeople');
 //util
+var ContextHelper = require('../helpers/ContextHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 
+var _queryModels = function(req, res) {
+    var param = req.queryString;
+    var pageNo = param.pageNo || 1;
+    var pageSize = param.pageSize || 10;
+
+    function buildQuery() {
+        return People.find({
+            'roles' : 1
+        });
+    }
+    function modelDataGenFunc(data) {
+        return {
+            'peoples' : data
+        };
+    }
+    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(peoples, callback) {
+        ContextHelper.followedByCurrentUser(req.currentUser, peoples, function(err, peoples) {
+            if (err) {
+                ServicesUtil.responseError(res, new ServerError(err));
+            } else {
+                callback(peoples);
+            }
+        });
+    });
+};
 // Request
 //  _id string ObjectId in peoples
 var _follow = function(req, res) {
@@ -83,6 +109,10 @@ var _getRFollowPeople = function(peopleRef, followRef, callback) {
 };
 
 module.exports = {
+    'queryModels' : {
+        method : 'get',
+        func : _queryModels
+    },
     'follow' : {
         method : 'post',
         func : _follow,

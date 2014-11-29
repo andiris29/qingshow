@@ -30,9 +30,9 @@
 
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"
-#define PATH_QUERY_MODELS @"query/models"
 
 // People
+#define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
 #define PATH_PEOPLE_FOLLOW @"people/follow"
 #define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
 
@@ -305,7 +305,7 @@
                               onSucceed:(ArraySuccessBlock)succeedBlock
                                 onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_MODELS
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_MODELS
                                  method:@"GET"
                                paramers:@{@"pageNo" : @(page),
                                           @"paegSize" : @10}

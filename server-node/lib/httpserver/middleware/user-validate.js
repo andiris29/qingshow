@@ -14,46 +14,49 @@ function validate(servicesNames) {
     });
 
     var handleValidate = function(req, res, next) {
-        if (validatePaths.indexOf(req.path) !== -1) {
-            var userID = req.session.userId;
-            if (!userID) {
+        var needLogin = validatePaths.indexOf(req.path) !== -1;
+
+        // No session
+        var userID = req.session.userId;
+        if (!userID) {
+            if (needLogin) {
                 next(new ServerError(ServerError.NeedLogin));
-                return;
+            } else {
+                next();
             }
-
-            var loginDate = req.session.loginDate;
-            People.findOne({
-                "_id" : userID
-            }).select('userInfo.passwordUpdatedDate').exec(function(err, people) {
-                if (err) {
-                    next(err);
-                } else {
-                    if (!people || !people.userInfo) {
-                        //user not found
-                        next(new ServerError(ServerError.SessionExpired));
-                        return;
-                    }
-
-                    if (!people.userInfo.passwordUpdatedDate) {
-                        people.userInfo.passwordUpdatedDate = loginDate;
-                    }
-                    if (loginDate < people.userInfo.passwordUpdatedDate) {
-                        next(new ServerError(ServerError.SessionExpired));
-                    } else {
-                        People.findOne({
-                            "_id" : userID
-                        }, function(err, people) {
-                            req.currentUser = people;
-                            next();
-                        });
-                    }
-                }
-            });
-        } else {
-            next();
+            return;
         }
+
+        var loginDate = req.session.loginDate;
+        People.findOne({
+            "_id" : userID
+        }).select('userInfo.passwordUpdatedDate').exec(function(err, people) {
+            if (err) {
+                next(err);
+            } else {
+                if (!people || !people.userInfo) {
+                    // User not found
+                    next(new ServerError(ServerError.SessionExpired));
+                    return;
+                }
+
+                if (!people.userInfo.passwordUpdatedDate) {
+                    people.userInfo.passwordUpdatedDate = loginDate;
+                }
+                if (loginDate < people.userInfo.passwordUpdatedDate) {
+                    next(new ServerError(ServerError.SessionExpired));
+                } else {
+                    People.findOne({
+                        "_id" : userID
+                    }, function(err, people) {
+                        req.currentUser = people;
+                        next();
+                    });
+                }
+            }
+        });
     };
     return handleValidate;
 }
 
-module.exports = validate; 
+module.exports = validate;
