@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ShowEntity extends AbsEntity {
 
@@ -38,7 +40,7 @@ public class ShowEntity extends AbsEntity {
 
     // the image of the show
     public String getShowVideo() {
-        return video;
+        return (null != video) ? video : null;
     }
 
     // the image of the show
@@ -86,9 +88,25 @@ public class ShowEntity extends AbsEntity {
         return (index < itemRefs.length) ? itemRefs[index] : null;
     }
 
+    // item list
+    public ArrayList<RefItem> getItemsList() {
+        ArrayList<RefItem> _itemsData = new ArrayList<RefItem>();
+        for (RefItem item : itemRefs)
+            _itemsData.add(item);
+        return _itemsData;
+    }
+
     // tag
     public String[] getTag() {
         return tags;
+    }
+
+    // All item description
+    public String getAllItemDescription() {
+        String description = "";
+        for (RefItem item : itemRefs)
+            description += item.name;
+        return description;
     }
 
     public String getAge() {
@@ -98,6 +116,33 @@ public class ShowEntity extends AbsEntity {
     // Posters
     public String[] getPosters() {
         return posters;
+    }
+
+    // Item url list
+    public List<String> getItemUrlList() {
+        ArrayList<String> itemUrlList = new ArrayList<String>();
+        for (RefItem item : itemRefs) {
+            itemUrlList.add(item.cover);
+        }
+        return itemUrlList;
+    }
+
+    // Item description list
+    public List<String> getItemDescriptionList() {
+        ArrayList<String> itemDescriptionList = new ArrayList<String>();
+        for (RefItem item : itemRefs) {
+            itemDescriptionList.add(item.name);
+        }
+        return itemDescriptionList;
+    }
+
+    // Item brand list
+    public List<String> getItemBrandList() {
+        ArrayList<String> itemBrandList = new ArrayList<String>();
+        for (RefItem item : itemRefs) {
+            itemBrandList.add(item.brandRef);
+        }
+        return itemBrandList;
     }
 
 

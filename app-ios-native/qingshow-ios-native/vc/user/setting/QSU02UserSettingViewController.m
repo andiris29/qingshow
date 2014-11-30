@@ -53,19 +53,27 @@
     switch (indexPath.section) {
         case 0:
             // 选择section
-            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-                UIActionSheet *sheet = sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
-                                                                           delegate:self
-                                                                  cancelButtonTitle:@"取消"
-                                                             destructiveButtonTitle:nil
-                                                                  otherButtonTitles:@"从相册选择", nil];
+            _uploadImageType = indexPath.row;
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                          otherButtonTitles:@"从相册选择", @"使用相机拍照", nil];
                 sheet.tag = 255;
-                _uploadImageType = indexPath.row;
+                [sheet showInView:self.view];
+                
+            } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                          otherButtonTitles:@"从相册选择", nil];
+                sheet.tag = 255;
                 [sheet showInView:self.view];
             } else {
                 [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
             }
-            
             break;
         case 1:
             // 基本section
@@ -156,14 +164,18 @@
     if (actionSheet.tag != 255) {
         return;
     }
-    if (buttonIndex != 0) {
+    
+    if (buttonIndex > 1) {
         return;
     }
-    
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = YES;
-    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    if (buttonIndex == 0) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    } else if (buttonIndex == 1) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    imagePickerController.allowsEditing = NO;
     [self presentViewController:imagePickerController animated:YES completion:^{}];
 }
 
@@ -181,7 +193,8 @@
             [self showSuccessHudWithText:@"上传成功"];
             // refresh local login user's data
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-            [self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
+            [self refreshImage];
+            //[self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
         } else {
             [self showErrorHudWithText:@"上传失败"];
         }
@@ -204,7 +217,7 @@
     }
 }
 
-#pragma mark - Private Init Method
+#pragma mark - Private Method
 
 - (void)initNavigation {
     NSLog(@"initNavigation");
@@ -245,22 +258,9 @@
     self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
     self.backgroundImage.layer.masksToBounds = YES;
     
-    if (people[@"portrait"] != nil) {
-        NSString *portaits = people[@"portrait"];
-        [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
-    } else {
-        [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
-    }
-    
-    if (people[@"background"] != nil) {
-        NSString *background = people[@"background"];
-        [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
-    } else {
-        [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
-    }
+    // Get Portrait & Backgrund's Image
+    [self refreshImage];
 }
-
-#pragma mark - Private Method Update
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
@@ -292,6 +292,24 @@
     };
 
     [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+}
+
+- (void)refreshImage {
+    
+    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+    if (people[@"portrait"] != nil) {
+        NSString *portaits = people[@"portrait"];
+        [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
+    } else {
+        [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
+    }
+    
+    if (people[@"background"] != nil) {
+        NSString *background = people[@"background"];
+        [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
+    } else {
+        [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
+    }
 }
 
 #pragma mark - Action

@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+var async = require('async');
 //Model
 var People = require('../../model/peoples');
 var Comment = require('../../model/comments');
@@ -5,103 +7,72 @@ var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
 var PItem = require('../../model/pItems');
 var PShow = require('../../model/pShows');
-
-var mongoose = require('mongoose');
-
 //Utils
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var nimble = require('nimble');
 
-var _models, _comments, _brands, _terms;
+var _shows = function(req, res) {
+    var param = req.queryString;
+    try {
+        var _ids = ServicesUtil.stringArrayToObjectIdArray(param._ids.split(','));
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        return;
+    }
+    async.waterfall([
+    function(callback) {
+        Show.find({
+            '_id' : {
+                '$in' : _ids
+            }
+        }).populate('modelRef').populate('itemRefs').exec(callback);
+    },
+    function(shows, callback) {
+        Show.populate(shows, {
+            'path' : 'itemRefs.brandRef',
+            'model' : 'brands'
+        }, callback);
+    }], function(err, shows) {
+        if (err) {
+            ServicesUtil.responseError(res, err);
+        } else {
+            res.json(shows);
+        }
+    });
+};
+
+var _models, _comments, _brands;
 _models = function(req, res) {
     var param = req.queryString;
-    if (param._ids) {
-        //TODO Check hasFollowed
-        try {
-            var ids = param._ids.split(',');
-            var idsObjArray = ServicesUtil.stringArrayToObjectIdArray(ids);
-        } catch (e) {
-            ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+    try {
+        var ids = param._ids.split(',');
+        var idsObjArray = ServicesUtil.stringArrayToObjectIdArray(ids);
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        return;
+    }
+
+    People.find({
+        _id : {
+            $in : idsObjArray
+        }
+    }, function(err, peoples) {
+        if (err) {
+            ServicesUtil.responseError(res, err);
+            return;
+        } else if (!peoples || !peoples.length) {
+            ServicesUtil.responseError(res, ServerError(ServerError.PeopleNotExist));
+            return;
+        } else {
+            res.json({
+                data : {
+                    peoples : peoples
+                }
+            });
             return;
         }
-
-        People.find({
-            _id : {
-                $in : idsObjArray
-            }
-        }, function(err, peoples) {
-            if (err) {
-                ServicesUtil.responseError(res, err);
-                return;
-            } else if (!peoples || !peoples.length) {
-                ServicesUtil.responseError(res, ServerError(ServerError.PeopleNotExist));
-                return;
-            } else {
-                var retObj = {
-                    metadata : {
-                        "numPages" : 1,
-                        "numTotal" : peoples.length,
-                        "invalidateTime" : 3600000
-                    },
-                    data : {
-                        peoples : peoples
-                    }
-                };
-                res.json(retObj);
-                return;
-            }
-        });
-    } else {
-        var followingList = null;
-        nimble.series([
-        function(callback) {
-            if (req.session.userId) {
-                People.findOne({
-                    _id : req.session.userId
-                }).select('followRefs').exec(function(err, p) {
-                    if (p) {
-                        followingList = p.followRefs;
-                    }
-                    callback();
-                });
-            } else {
-                callback();
-            }
-
-        },
-        function(callback) {
-            var pageNo = param.pageNo || 1;
-            var pageSize = param.pageSize || 10;
-            function buildQuery() {
-                return People.find({
-                    roles : 1
-                });
-            }
-
-            function modelDataGenFunc(data) {
-                return {
-                    peoples : data
-                };
-            }
-
-
-            ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(models, cb) {
-                var retModels = [];
-                models.forEach(function(model) {
-                    var m = JSON.parse(JSON.stringify(model));
-                    if (followingList && followingList.indexOf(model._id) !== -1) {
-                        m.hasFollowed = true;
-                    } else {
-                        m.hasFollowed = false;
-                    }
-                    retModels.push(m);
-                });
-                cb(retModels);
-            });
-            callback();
-        }]);
-    }
+    });
 };
 
 _brands = function(req, res) {
@@ -183,12 +154,12 @@ _comments = function(req, res) {
     });
 };
 
-_terms = function(req, res) {
-    //TODO 暂时不做
-    res.send('terms');
-};
-
 module.exports = {
+    'shows' : {
+        method : 'get',
+        func : _shows,
+        needLogin : false
+    },
     'models' : {
         method : 'get',
         func : _models,
@@ -202,11 +173,6 @@ module.exports = {
     'brands' : {
         method : 'get',
         func : _brands,
-        needLogin : false
-    },
-    'terms' : {
-        method : 'get',
-        func : _terms,
         needLogin : false
     }
 };
