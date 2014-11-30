@@ -40,7 +40,7 @@ var _unlike = function(req, res) {
 var _queryComments = function(req, res) {
     try {
         var param = req.queryString;
-        var _id = mongoose.mongo.BSONPure.ObjectID(param.showId);
+        var _id = mongoose.mongo.BSONPure.ObjectID(param._id);
         var pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
@@ -56,7 +56,7 @@ var _queryComments = function(req, res) {
     var additionFunc = function(query) {
         query.sort({
             'create' : 1
-        }).populate('peopleRef');
+        }).populate('authorRef').populate('atRef');
     };
     var commentDataGenFunc = function(data) {
         return {
