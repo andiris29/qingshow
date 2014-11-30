@@ -10,7 +10,7 @@ public class QSAppWebAPI {
 
     private static final String SITE_BASE = "http://chingshow.com:30001";
     private static final String SHOW_LIST_API = SITE_BASE + "/services/feeding/chosen?pageNo=";
-    private static final String[] SHOW_LIST_CATEGORY_API = {"/services/feeding/chosen", "/services/feeding/hot", "/services/feeding/chosen"};
+    private static final String[] SHOW_LIST_CATEGORY_API = {"/services/feeding/chosen?pageNo=", "/services/feeding/hot?pageNo=", "/services/feeding/chosen?pageNo="};
 
 
     public static String getShowListApi(int pageIndex, int pageSize) {

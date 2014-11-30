@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.ShowEntity;
-import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -55,16 +54,6 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (position == 0) {
-            LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
-            convertView = layoutInflator.inflate(R.layout.item_refresh_independent, null);
-            convertView.setLayoutParams(new PLA_AbsListView.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 100));
-            convertView.setTag(position);
-            return convertView;
-        }
-        position--;
-
         ClassifyViewHolder holder;
         ShowEntity showInfo = (ShowEntity) _data.get(position);
 
@@ -100,23 +89,6 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         return convertView;
     }
 
-    @Override
-    public int getCount() {
-//        return (super.getCount() == 0) ? super.getCount() : super.getCount()+ 1; // one more to show refresh status;
-        return (_data.size() == 0) ? 0 : _data.size() + 1;
-//        return _data.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) return 0;
-        else return 1;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 2;
-    }
 
     public void addItemLast(LinkedList<ShowEntity> datas) {
         _data.addAll(datas);
