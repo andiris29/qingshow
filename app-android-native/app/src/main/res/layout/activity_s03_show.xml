@@ -154,36 +154,19 @@
                 android:layout_marginBottom="20dp"
                 android:background="#ffe1e1e1" />
 
-            <LinearLayout
+            <com.focosee.qingshow.widget.MHorizontalScrollView
+                android:id="@+id/S03_item_scroll_view"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="60dp">
 
-                <ImageView
-                    android:id="@+id/S03_item_show_img1"
+                <LinearLayout
+                    android:id="@+id/S03_item_container"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_launcher"/>
-                <ImageView
-                    android:id="@+id/S03_item_show_img2"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_launcher"/>
-                <ImageView
-                    android:id="@+id/S03_item_show_img3"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_launcher"/>
-            </LinearLayout>
+                    android:orientation="horizontal">
+                </LinearLayout>
+            </com.focosee.qingshow.widget.MHorizontalScrollView>
+
 
             <View
                 android:layout_width="fill_parent"
