@@ -278,7 +278,7 @@ module.exports = {
     'get' : {
         method : 'get',
         func : _get,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'login' : {
         method : 'post',
@@ -287,7 +287,7 @@ module.exports = {
     'logout' : {
         method : 'post',
         func : _logout,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'register' : {
         method : 'post',
@@ -296,16 +296,16 @@ module.exports = {
     'update' : {
         method : 'post',
         func : _update,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'updatePortrait' : {
         method : 'post',
         func : _updatePortrait,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'updateBackground' : {
         method : 'post',
         func : _updateBackground,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     }
 };

@@ -123,12 +123,12 @@ module.exports = {
     'like' : {
         method : 'post',
         func : _like,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'unlike' : {
         method : 'post',
         func : _unlike,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'queryComments' : {
         method : 'get',
@@ -138,11 +138,11 @@ module.exports = {
     'comment' : {
         method : 'post',
         func : _comment,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'deleteComment' : {
         method : 'post',
         func : _deleteComment,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     }
 };

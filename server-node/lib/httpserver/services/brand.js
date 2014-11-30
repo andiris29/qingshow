@@ -87,11 +87,11 @@ module.exports = {
     'follow' : {
         method : 'post',
         func : _follow,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     },
     'unfollow' : {
         method : 'post',
         func : _unfollow,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     }
 };
