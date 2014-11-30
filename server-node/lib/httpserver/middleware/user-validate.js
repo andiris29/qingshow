@@ -26,6 +26,7 @@ function validate(servicesNames) {
             }
             return;
         }
+        // req.qsCurrentUserId = mongoose.mongo.BSONPure.ObjectID(req.session.userId);
 
         var loginDate = req.session.loginDate;
         People.findOne({

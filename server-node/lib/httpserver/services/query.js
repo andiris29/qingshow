@@ -8,22 +8,27 @@ var ServerError = require('../server-error');
 var ResponseHelper = require('../helpers/ResponseHelper');
 
 var _shows = function(req, res) {
-    var param = req.queryString;
-    try {
-        var _ids = ServicesUtil.stringArrayToObjectIdArray(param._ids.split(','));
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
-        return;
-    }
     async.waterfall([
     function(callback) {
+        // Parser req
+        try {
+            callback(null, {
+                '_ids' : ServicesUtil.stringArrayToObjectIdArray(req.queryString._ids.split(','))
+            });
+        } catch (e) {
+            ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        }
+    },
+    function(qsParams, callback) {
+        // Query & populate
         Show.find({
             '_id' : {
-                '$in' : _ids
+                '$in' : qsParams._ids
             }
         }).populate('modelRef').populate('itemRefs').exec(callback);
     },
     function(shows, callback) {
+        // Populate nested references
         Show.populate(shows, {
             'path' : 'itemRefs.brandRef',
             'model' : 'brands'
@@ -37,8 +42,8 @@ var _shows = function(req, res) {
 
 module.exports = {
     'shows' : {
-        method : 'get',
-        func : _shows,
-        needLogin : false
+        'method' : 'get',
+        'func' : _shows,
+        'needLogin' : false
     }
 };

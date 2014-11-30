@@ -1,6 +1,12 @@
+var mongoose = require('mongoose');
+var async = require('async');
+
 var People = require('../../model/peoples');
+
+var ResponseHelper = require('../helpers/ResponseHelper');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
+
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
 var _encrypt = function(string) {
@@ -19,11 +25,40 @@ var _decrypt = function(string) {
 
 var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground;
 _get = function(req, res) {
-    res.json({
-        'data' : {
-            'people' : req.currentUser
+    async.waterfall([
+    function(callback) {
+        if (req.session.userId) {
+            People.findOne({
+                '_id' : req.session.userId
+            }).select('userInfo.passwordUpdatedDate').exec(callback);
+        } else {
+            callback(ServerError.NeedLogin);
         }
-    });
+    },
+    function(people, callback) {
+        if (!people || !people.userInfo) {
+            callback(ServerError.SessionExpired);
+        } else {
+            var loginDate = req.session.loginDate;
+            if (!people.userInfo.passwordUpdatedDate) {
+                people.userInfo.passwordUpdatedDate = loginDate;
+            }
+            if (loginDate < people.userInfo.passwordUpdatedDate) {
+                callback(ServerError.SessionExpired);
+            } else {
+                callback(null);
+            }
+        }
+    },
+    function(callback) {
+        People.findOne({
+            '_id' : req.session.userId
+        }, callback);
+    }], ResponseHelper.generateGeneralCallback(res, function(result) {
+        return {
+            'people' : result
+        };
+    }));
 };
 
 _login = function(req, res) {

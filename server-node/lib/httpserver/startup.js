@@ -13,16 +13,17 @@ var credentials = require("./credentials");
 var cookieParser = require("cookie-parser");
 var sessionMongoose = require("session-mongoose");
 
-//user-validate
-var userValidate = require('./middleware/user-validate');
-//error-handler
-var error_handler = require('./middleware/error-handler');
-
 //Database Connection
 qsdb.connect();
 
 //Services Name
 var servicesNames = ['feeding', 'user', 'interaction', 'query', 'potential', 'people', 'brand', 'show'];
+var services = servicesNames.map(function(path) {
+    return {
+        'path' : path,
+        'module' : require('./services/' + path)
+    };
+});
 
 // Startup http server
 var app = express();
@@ -67,12 +68,24 @@ var session = require('express-session')({
     secret : credentials.sessionSecret
 });
 app.use(session);
+
+app.use(queryStringParser);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended : true
+}));
 //user validate
+var userValidate = require('./middleware/user-validate');
 app.use(userValidate(servicesNames));
 
+// app.use(require('./middleware/paramParser')(services));
+
+var error_handler = require('./middleware/error-handler');
+app.use(error_handler);
+
 // Regist http services
-_registServices = function(path) {
-    var module = require('./services/' + path);
+services.forEach(function(service) {
+    var module = service.module, path = service.path;
     for (var id in module) {
         var method = module[id].method, callback = module[id].func;
         if (method === 'get') {
@@ -81,18 +94,6 @@ _registServices = function(path) {
             app.post('/services/' + path + '/' + id, callback);
         }
     }
-};
-
-app.use(queryStringParser);
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended : true
-}));
-
-app.use(error_handler);
-
-servicesNames.forEach(function(name) {
-    _registServices(name);
 });
 
 console.log('Http server startup complete!');
