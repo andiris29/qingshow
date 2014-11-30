@@ -12,7 +12,6 @@
 @interface QSImageScrollViewBase ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 
 @end
 
@@ -130,11 +129,14 @@
     int currentIndex = offset.x / size.width;
     int currentPage = currentIndex;
     if (currentIndex == 0) {
-        currentPage = self.imageViewArray.count - 2;
+        currentPage = (int)(self.imageViewArray.count - 2);
     } else if (currentIndex == self.imageViewArray.count - 1) {
         currentPage = 1;
     }
     self.pageControl.currentPage = currentPage - 1;
+    if ([self.delegate respondsToSelector:@selector(imageScrollView:didChangeToPage:)]) {
+        [self.delegate imageScrollView:self didChangeToPage:(int)self.pageControl.currentPage];
+    }
     self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
 }
 

@@ -30,6 +30,7 @@
 
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"
+#define PATH_QUERY_SHOW @"query/shows"
 
 // People
 #define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
@@ -501,6 +502,38 @@
 }
 
 #pragma mark - Query
+- (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
+                             onSucceed:(DicBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
+            {
+                NSDictionary *retDict = completedOperation.responseJSON;
+                NSArray* dataArray = retDict[@"data"][@"shows"];
+                NSDictionary* d = nil;
+                if (dataArray.count) {
+                    d = dataArray[0];
+                }
+                succeedBlock(d);
+                return;
+            } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
+                NSArray* retArray = completedOperation.responseJSON;
+                if (retArray.count) {
+                    succeedBlock(retArray[0]);
+                    return;
+                }
+            }
+            succeedBlock(nil);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 - (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
                                     page:(int)page
                                onSucceed:(ArraySuccessBlock)succeedBlock

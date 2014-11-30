@@ -15,6 +15,8 @@
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "QSNetworkEngine.h"
+#import "QSItemUtil.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -38,6 +40,7 @@
 
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.containerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -65,6 +68,14 @@
     
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
     self.navigationItem.titleView = titleImageView;
+    
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+        weakSelf.showDict = dict;
+        [weakSelf bindWithDict:dict];
+    } onError:^(NSError *error) {
+        
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -103,6 +114,11 @@
     self.itemImageScrollView.imageUrlArray = itemUrlArray;
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:dict];
+    
+    //ItemDes
+    NSArray* items = [QSShowUtil getItems:dict];
+    NSAttributedString* itemDes = [QSItemUtil getItemsAttributedDescription:items];
+    self.itemDesLabel.attributedText = itemDes;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -132,8 +148,8 @@
 #pragma mark - QSItemImageScrollViewDelegate
 - (void)didTapItemAtIndex:(int)index
 {
-    NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:index];
-    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItemDict:itemDict];
+    NSArray* items = [QSShowUtil getItems:self.showDict];
+    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItems:items];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -200,7 +216,7 @@
 {
     if (self.movieController) {
         CGRect rect = self.movieController.view.frame;
-        rect.origin.y = self.videoContainerView.frame.origin.y -scrollView.contentOffset.y;
+        rect.origin.y = self.videoContainerView.frame.origin.y - scrollView.contentOffset.y;
         self.movieController.view.frame = rect;
     }
 }

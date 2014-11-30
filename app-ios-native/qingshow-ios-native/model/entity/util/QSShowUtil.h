@@ -13,6 +13,7 @@
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
++ (NSArray*)getItems:(NSDictionary*)showDict;
 + (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict;
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;

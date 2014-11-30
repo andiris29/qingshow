@@ -7,7 +7,7 @@
 //
 
 #import "QSShowUtil.h"
-
+#import "QSItemUtil.h"
 @implementation QSShowUtil
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
@@ -27,14 +27,13 @@
 
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict
 {
+    
     NSArray* itemArray = dict[@"itemRefs"];
-    NSMutableArray* array = [@[] mutableCopy];
-    for (NSDictionary* itemDict in itemArray) {
-        NSString* path = itemDict[@"cover"];
-        NSURL* url = [NSURL URLWithString:path];
-        [array addObject:url];
-    }
-    return array;
+    return [QSItemUtil getItemsImageUrlArray:itemArray];
+}
++ (NSArray*)getItems:(NSDictionary *)showDict
+{
+    return showDict[@"itemRefs"];
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
