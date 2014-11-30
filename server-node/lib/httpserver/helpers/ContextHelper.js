@@ -3,6 +3,7 @@ var async = require('async');
 // Models
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
 /**
  * ContextHelper
@@ -11,30 +12,34 @@ var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
  */
 
 module.exports.followedByCurrentUser = function(currentUserId, peoples, callback) {
-    _affectedByCurrentUser(RPeopleFollowPeople, currentUserId, peoples, 'followedByCurrentUser', callback);
+    _rTargetedByCurrentUser(RPeopleFollowPeople, currentUserId, peoples, 'followedByCurrentUser', callback);
 };
 
-var _affectedByCurrentUser = function(RModel, currentUserId, models, contextField, callback) {
+module.exports.likedByCurrentUser = function(currentUserId, shows, callback) {
+    _rTargetedByCurrentUser(RPeopleLikeShow, currentUserId, shows, 'likedByCurrentUser', callback);
+};
+
+var _rTargetedByCurrentUser = function(RModel, currentUserId, models, contextField, callback) {
     if (currentUserId) {
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(currentUserId);
 
-        var affectedRefs = [], _idToIndex = {};
+        var targetRefs = [], _idToIndex = {};
         models.forEach(function(people, index) {
             _idToIndex[people._id] = index;
-            affectedRefs.push(people._id);
+            targetRefs.push(people._id);
         });
 
         RModel.find({
             'initiatorRef' : initiatorRef,
-            'affectedRef' : {
-                '$in' : affectedRefs
+            'targetRef' : {
+                '$in' : targetRefs
             }
         }, function(err, relationships) {
             if (err) {
                 callback(err);
             } else {
                 relationships.forEach(function(r) {
-                    var index = _idToIndex[r.affectedRef];
+                    var index = _idToIndex[r.targetRef];
                     if (index !== undefined) {
                         var peopleJSON = models[index].toJSON();
                         peopleJSON.__context = {};

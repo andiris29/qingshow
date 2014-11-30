@@ -6,13 +6,13 @@ var ServerError = require('../server-error');
 var ContextHelper = require('../helpers/ContextHelper');
 var ServicesUtil = require('../servicesUtil');
 
-module.exports.create = function(Model, initiatorRef, affectedRef, callback) {
+module.exports.create = function(Model, initiatorRef, targetRef, callback) {
     async.waterfall([
     function(callbck) {
         // Validate existed relationship
         Model.findOne({
             'initiatorRef' : initiatorRef,
-            'affectedRef' : affectedRef
+            'targetRef' : targetRef
         }, function(err, r) {
             if (err) {
                 callbck(err);
@@ -27,18 +27,18 @@ module.exports.create = function(Model, initiatorRef, affectedRef, callback) {
         // Create relationship
         new Model({
             'initiatorRef' : initiatorRef,
-            'affectedRef' : affectedRef
+            'targetRef' : targetRef
         }).save(callback);
     }], callback);
 };
 
-module.exports.remove = function(Model, initiatorRef, affectedRef, callback) {
+module.exports.remove = function(Model, initiatorRef, targetRef, callback) {
     async.waterfall([
     function(callback) {
         // Get relationship
         Model.findOne({
             'initiatorRef' : initiatorRef,
-            'affectedRef' : affectedRef
+            'targetRef' : targetRef
         }, callback);
     },
     function(relationship, callback) {

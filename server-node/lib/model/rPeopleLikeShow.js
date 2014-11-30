@@ -6,7 +6,7 @@ var RPeopleLikeShow = mongoose.model('rPeopleLikeShow', Schema({
         'type' : Schema.Types.ObjectId,
         'ref' : 'peoples'
     },
-    'affectedRef' : {
+    'targetRef' : {
         'type' : Schema.Types.ObjectId,
         'ref' : 'shows'
     },

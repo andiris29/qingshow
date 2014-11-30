@@ -160,7 +160,7 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/S03_nav_icon_design"
+                        android:id="@+id/S01_nav_icon_design"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"

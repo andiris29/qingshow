@@ -7,7 +7,6 @@ var fs = require('fs');
 
 //param parser
 var bodyParser = require('body-parser');
-var queryStringParser = require('./middleware/query-string-parser');
 //Cookie and session
 var credentials = require("./credentials");
 var cookieParser = require("cookie-parser");
@@ -69,19 +68,14 @@ var session = require('express-session')({
 });
 app.use(session);
 
-app.use(queryStringParser);
+app.use(require('./middleware/queryStringParser'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended : true
 }));
-//user validate
-var userValidate = require('./middleware/user-validate');
-app.use(userValidate(servicesNames));
-
-// app.use(require('./middleware/paramParser')(services));
-
-var error_handler = require('./middleware/error-handler');
-app.use(error_handler);
+app.use(require('./middleware/sessionParser'));
+app.use(require('./middleware/permissionValidator')(services));
+app.use(require('./middleware/errorHandler'));
 
 // Regist http services
 services.forEach(function(service) {
