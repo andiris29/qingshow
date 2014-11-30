@@ -6,6 +6,7 @@ var Show = require('../../model/shows');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var ResponseHelper = require('../helpers/ResponseHelper');
+var ContextHelper = require('../helpers/ContextHelper');
 
 var _shows = function(req, res) {
     async.waterfall([
@@ -26,6 +27,10 @@ var _shows = function(req, res) {
                 '$in' : qsParams._ids
             }
         }).populate('modelRef').populate('itemRefs').exec(callback);
+    },
+    function(shows, callback) {
+        // Append followed by current user
+        ContextHelper.likedByCurrentUser(req.qsCurrentUserId, shows, callback);
     },
     function(shows, callback) {
         // Populate nested references

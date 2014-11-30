@@ -14,27 +14,27 @@ var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var _like = function(req, res) {
     try {
         var param = req.body;
-        var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
         return;
     }
 
-    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _unlike = function(req, res) {
     try {
         var param = req.body;
-        var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
         return;
     }
 
-    RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _queryComments = function(req, res) {

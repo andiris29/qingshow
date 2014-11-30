@@ -44,7 +44,7 @@ var _queryFollowers = function(req, res) {
     var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
 
     RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
-        'affectedRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
+        'targetRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
     }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, ResponseHelper.generateGeneralCallback(res));
 };
 
@@ -58,33 +58,33 @@ var _queryFollowed = function(req, res) {
 
     RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
         'initiatorRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'affectedRef', req.qsCurrentUserId, ResponseHelper.generateGeneralCallback(res));
+    }, pageNo, pageSize, 'targetRef', req.qsCurrentUserId, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _follow = function(req, res) {
     try {
         var param = req.body;
-        var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
     }
 
-    RelationshipHelper.create(RPeopleFollowPeople, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.create(RPeopleFollowPeople, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _unfollow = function(req, res) {
     try {
         var param = req.body;
-        var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
     }
 
-    RelationshipHelper.remove(RPeopleFollowPeople, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.remove(RPeopleFollowPeople, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 module.exports = {
