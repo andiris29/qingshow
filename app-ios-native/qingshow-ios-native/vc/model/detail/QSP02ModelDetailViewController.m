@@ -139,7 +139,7 @@
         }
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
-    }];    
+    }];
 }
 
 - (void)updateView

@@ -11,7 +11,7 @@
 #import "QSItemContainerView.h"
 
 @protocol QSItemImageScrollViewDelegate <QSImageScrollViewBaseDelegate>
-
+@optional
 - (void)didTapItemAtIndex:(int)index;
 
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class QSImageScrollViewBase;
 @protocol QSImageScrollViewBaseDelegate <NSObject>
-
+@optional
 - (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page;
 
 @end

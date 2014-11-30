@@ -84,7 +84,9 @@
 }
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self stopMovie];
+    
 }
 
 - (void)bindWithDict:(NSDictionary*)dict
@@ -172,10 +174,13 @@
     if (!self.movieController) {
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
         [self.view addSubview:self.movieController.view];
-//        self.movieController.view.userInteractionEnabled = NO;
+        self.movieController.view.userInteractionEnabled = NO;
         
-//        UIPanGestureRecognizer* ges = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-//        [self.view addGestureRecognizer:ges];
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
+        [self.videoContainerView addGestureRecognizer:tap];
+        UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
+        [self.videoContainerView addGestureRecognizer:pinch];
+        
     }
     self.movieController.view.frame = self.videoContainerView.frame;
 //    self.movieController.view.userInteractionEnabled = NO;
@@ -187,6 +192,10 @@
                                              selector:@selector(myMovieFinishedCallback:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(didEnterFullScreen)
+//                                                 name:MPMoviePlayerDidEnterFullscreenNotification
+//                                               object:nil];
     [self.movieController play];
 
     [self scrollViewDidScroll:self.containerScrollView];
@@ -198,6 +207,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
     [self.movieController setControlStyle:MPMovieControlStyleEmbedded];
     
+}
+
+- (void) didEnterFullScreen
+{
+    self.movieController.scalingMode = MPMovieScalingModeAspectFill;
 }
 
 - (void)stopMovie{
@@ -221,4 +235,20 @@
     }
 }
 
+- (void)didTapVideo
+{
+    if (self.movieController.playbackState == MPMoviePlaybackStatePaused) {
+        [self.movieController play];
+    } else {
+        [self.movieController pause];
+    }
+}
+- (void)didPinch:(UIPinchGestureRecognizer*)g
+{
+    if (!self.movieController.isFullscreen && g.scale >= 1.5) {
+//        self.movieController.fullscreen = YES;
+        [self.movieController setFullscreen:YES animated:YES];
+        self.movieController.scalingMode = MPMovieScalingModeAspectFill;
+    }
+}
 @end
