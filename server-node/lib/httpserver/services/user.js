@@ -30,7 +30,15 @@ _get = function(req, res) {
         if (req.qsCurrentUserId) {
             People.findOne({
                 '_id' : req.qsCurrentUserId
-            }, callback);
+            }, function(err, people) {
+                if (err) {
+                    callback(err);
+                } else if (people) {
+                    callback(null, people);
+                } else {
+                    callback(ServerError.NeedLogin);
+                }
+            });
         } else {
             callback(ServerError.NeedLogin);
         }

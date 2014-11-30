@@ -1295,7 +1295,7 @@
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "40A23946-638C-4A96-BC09-7B97DE041FF7";
+				PROVISIONING_PROFILE = "c3a7f5f9-4759-47bb-8e35-1ab7636f8c48";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1311,7 +1311,7 @@
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "40A23946-638C-4A96-BC09-7B97DE041FF7";
+				PROVISIONING_PROFILE = "c3a7f5f9-4759-47bb-8e35-1ab7636f8c48";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
