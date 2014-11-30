@@ -10,13 +10,13 @@ var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
  * Input models then output models with context
  */
 
-module.exports.followedByCurrentUser = function(currentUser, peoples, callback) {
-    _affectedByCurrentUser(RPeopleFollowPeople, currentUser, peoples, 'followedByCurrentUser', callback);
+module.exports.followedByCurrentUser = function(currentUserId, peoples, callback) {
+    _affectedByCurrentUser(RPeopleFollowPeople, currentUserId, peoples, 'followedByCurrentUser', callback);
 };
 
-var _affectedByCurrentUser = function(RModel, currentUser, models, contextField, callback) {
-    if (currentUser) {
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(currentUser._id);
+var _affectedByCurrentUser = function(RModel, currentUserId, models, contextField, callback) {
+    if (currentUserId) {
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(currentUserId);
 
         var affectedRefs = [], _idToIndex = {};
         models.forEach(function(people, index) {

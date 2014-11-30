@@ -26,7 +26,7 @@ var _queryBrands = function(req, res) {
         };
     };
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(peoples, callback) {
-        ContextHelper.followedByCurrentUser(req.currentUser, peoples, function(err, peoples) {
+        ContextHelper.followedByCurrentUser(req.qsCurrentUserId, peoples, function(err, peoples) {
             if (err) {
                 ServicesUtil.responseError(res, new ServerError(err));
             } else {
@@ -46,14 +46,14 @@ var _queryFollowers = function(req, res) {
 
     RelationshipHelper.queryPeoples(RPeopleFollowBrand, {
         'affectedRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'initiatorRef', req.currentUser, ResponseHelper.generateGeneralCallback(res));
+    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _follow = function(req, res) {
     try {
         var param = req.body;
         var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;
@@ -66,7 +66,7 @@ var _unfollow = function(req, res) {
     try {
         var param = req.body;
         var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
         return;

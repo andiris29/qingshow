@@ -51,7 +51,7 @@ module.exports.remove = function(Model, initiatorRef, affectedRef, callback) {
     }], callback);
 };
 
-module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUser, callback) {
+module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUserId, callback) {
     async.waterfall([
     function(callback) {
         // Query relationship
@@ -71,7 +71,7 @@ module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, people
     },
     function(peoples, callback) {
         // Append followed by current user
-        ContextHelper.followedByCurrentUser(currentUser, peoples, callback);
+        ContextHelper.followedByCurrentUser(currentUserId, peoples, callback);
     },
     function(peoples, callback) {
         // Buid response data

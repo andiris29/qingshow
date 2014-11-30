@@ -92,8 +92,7 @@ _like = function (req, res){
     param = req.queryString;
     pageNo = parseInt(param.pageNo || 1);
     pageSize = parseInt(param.pageSize || 10);
-    var currentUser = req.currentUser;
-    People.findOne({_id : currentUser._id})
+    People.findOne({_id : req.qsCurrentUserId})
         .select('likingShowRefs')
         .exec(function (err, p) {
             if (err) {
