@@ -60,5 +60,6 @@
     <string name="title_activity_s01_home">S01HomeActivity</string>
     <string name="title_activity_s03_show">S03SHowActivity</string>
     <string name="title_activity_s05_product">S05ProductActivity</string>
+    <string name="title_activity_s02_show_classify">S02ShowClassify</string>
 
 </resources>

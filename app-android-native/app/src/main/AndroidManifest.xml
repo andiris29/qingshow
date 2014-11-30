@@ -61,6 +61,10 @@
             android:name="com.focosee.qingshow.activity.S05ProductActivity"
             android:label="@string/title_activity_s05_product" >
         </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.S02ShowClassify"
+            android:label="@string/title_activity_s02_show_classify" >
+        </activity>
     </application>
 
 </manifest>

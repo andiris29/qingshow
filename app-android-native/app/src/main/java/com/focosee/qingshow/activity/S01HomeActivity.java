@@ -52,6 +52,47 @@ public class S01HomeActivity extends Activity {
 //        _navigationView.setRight_drawable(R.drawable.nav_btn_account);
 //        _navigationView.setLogo_drawable(R.drawable.nav_btn_image_logo);
 
+        ((ImageView)findViewById(R.id.S01_nav_icon_flash)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
+                startActivity(intent);
+            }
+        });
+        ((ImageView)findViewById(R.id.S01_nav_icon_match)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
+                startActivity(intent);
+            }
+        });
+        ((ImageView)findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+                startActivity(intent);
+            }
+        });
+        ((ImageView)findViewById(R.id.S01_nav_icon_design)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 3);
+                startActivity(intent);
+            }
+        });
+        ((ImageView)findViewById(R.id.S01_nav_icon_brand)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
+                startActivity(intent);
+            }
+        });
+
         _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
 
         _popView.setOnClickListener(new View.OnClickListener() {
