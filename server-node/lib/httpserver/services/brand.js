@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var People = require('../../model/peoples');
-var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var Brand = require('../../model/brands');
+var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 //util
 var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
@@ -10,18 +11,18 @@ var ResponseHelper = require('../helpers/ResponseHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 
-var _queryModels = function(req, res) {
+var _queryBrands = function(req, res) {
     var param = req.queryString;
-    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
+    var pageNo = param.pageNo || 1, pageSize = param.pageSize || Number.POSITIVE_INFINITY;
 
     var buildQuery = function() {
-        return People.find({
-            'roles' : 1
+        return Brand.find({
+            'type' : 0
         });
     };
     var modelDataGenFunc = function(data) {
         return {
-            'peoples' : data
+            'brands' : data
         };
     };
     ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(peoples, callback) {
@@ -43,22 +44,9 @@ var _queryFollowers = function(req, res) {
     }
     var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
 
-    RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
+    RelationshipHelper.queryPeoples(RPeopleFollowBrand, {
         'affectedRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
     }, pageNo, pageSize, 'initiatorRef', req.currentUser, ResponseHelper.generateGeneralCallback(res));
-};
-
-var _queryFollowed = function(req, res) {
-    var param = req.queryString;
-    if (!param._id) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
-        return;
-    }
-    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
-
-    RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
-        'initiatorRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'affectedRef', req.currentUser, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _follow = function(req, res) {
@@ -71,7 +59,7 @@ var _follow = function(req, res) {
         return;
     }
 
-    RelationshipHelper.create(RPeopleFollowPeople, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 var _unfollow = function(req, res) {
@@ -84,21 +72,17 @@ var _unfollow = function(req, res) {
         return;
     }
 
-    RelationshipHelper.remove(RPeopleFollowPeople, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, affectedRef, ResponseHelper.generateGeneralCallback(res));
 };
 
 module.exports = {
-    'queryModels' : {
+    'queryBrands' : {
         method : 'get',
-        func : _queryModels
+        func : _queryBrands
     },
     'queryFollowers' : {
         method : 'get',
         func : _queryFollowers
-    },
-    'queryFollowed' : {
-        method : 'get',
-        func : _queryFollowed
     },
     'follow' : {
         method : 'post',

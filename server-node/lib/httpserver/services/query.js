@@ -1,3 +1,5 @@
+var mongoose = require('mongoose');
+var async = require('async');
 //Model
 var People = require('../../model/peoples');
 var Comment = require('../../model/comments');
@@ -5,13 +7,40 @@ var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
 var PItem = require('../../model/pItems');
 var PShow = require('../../model/pShows');
-
-var mongoose = require('mongoose');
-
 //Utils
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 var nimble = require('nimble');
+
+var _shows = function(req, res) {
+    var param = req.queryString;
+    try {
+        var _ids = ServicesUtil.stringArrayToObjectIdArray(param._ids.split(','));
+    } catch (e) {
+        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        return;
+    }
+    async.waterfall([
+    function(callback) {
+        Show.find({
+            '_id' : {
+                '$in' : _ids
+            }
+        }).populate('modelRef').populate('itemRefs').exec(callback);
+    },
+    function(shows, callback) {
+        Show.populate(shows, {
+            'path' : 'itemRefs.brandRef',
+            'model' : 'brands'
+        }, callback);
+    }], function(err, shows) {
+        if (err) {
+            ServicesUtil.responseError(res, err);
+        } else {
+            res.json(shows);
+        }
+    });
+};
 
 var _models, _comments, _brands;
 _models = function(req, res) {
@@ -20,7 +49,7 @@ _models = function(req, res) {
         var ids = param._ids.split(',');
         var idsObjArray = ServicesUtil.stringArrayToObjectIdArray(ids);
     } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
         return;
     }
 
@@ -126,6 +155,11 @@ _comments = function(req, res) {
 };
 
 module.exports = {
+    'shows' : {
+        method : 'get',
+        func : _shows,
+        needLogin : false
+    },
     'models' : {
         method : 'get',
         func : _models,

@@ -31,33 +31,21 @@ public class ImageIndicatorView extends RelativeLayout {
 	/**
 	 * ViewPager控件
 	 */
-	private ViewPager viewPager;
+	protected ViewPager viewPager;
 	/**
 	 * 指示器容器
 	 */
-	private LinearLayout indicateLayout;
-
-//	/**
-//	 * 向左划箭头
-//	 */
-//	private Button leftButton;
-//
-//	/**
-//	 * 向右划箭头
-//	 */
-//	private Button rightButton;
-
+	protected LinearLayout indicateLayout;
     /**
      * 播放视频按钮
      */
     private Button startButton;
-
 	/**
 	 * 页面列表
 	 */
 	private List<View> viewList = new ArrayList<View>();
 
-	private Handler refreshHandler;
+	protected Handler refreshHandler;
 
 	/**
 	 * 滑动位置通知回调监听对象
@@ -124,22 +112,13 @@ public class ImageIndicatorView extends RelativeLayout {
 	/**
 	 * @param context
 	 */
-	private void init(Context context) {
+	public void init(Context context) {
 		LayoutInflater.from(context).inflate(R.layout.image_indicator_layout, this);
 		this.viewPager = (ViewPager) findViewById(R.id.view_pager);
 		this.indicateLayout = (LinearLayout) findViewById(R.id.indicater_layout);
-//		this.leftButton = (Button) findViewById(R.id.left_button);
-//		this.rightButton = (Button) findViewById(R.id.right_button);
         this.startButton = (Button) findViewById(R.id.start_button);
 
-//		this.leftButton.setVisibility(View.GONE);
-//		this.rightButton.setVisibility(View.GONE);
-
 		this.viewPager.setOnPageChangeListener(new PageChangeListener());
-
-		final ArrowClickListener arrowClickListener = new ArrowClickListener();
-//		this.leftButton.setOnClickListener(arrowClickListener);
-//		this.rightButton.setOnClickListener(arrowClickListener);
 
 		this.refreshHandler = new ScrollIndicateHandler(ImageIndicatorView.this);
 	}
@@ -324,7 +303,7 @@ public class ImageIndicatorView extends RelativeLayout {
 	/**
 	 * 页面变更监听
 	 */
-	private class PageChangeListener implements OnPageChangeListener {
+	protected class PageChangeListener implements OnPageChangeListener {
 		@Override
 		public void onPageSelected(int index) {
 			currentIndex = index;
@@ -356,34 +335,6 @@ public class ImageIndicatorView extends RelativeLayout {
 			}
 		}
 
-//		if (INDICATE_USERGUIDE_STYLE == this.indicatorStyle) {// 操作指引不显示箭头
-//			this.leftButton.setVisibility(View.GONE);
-//			this.rightButton.setVisibility(View.GONE);
-//		} else {// 显示箭头各状态
-//			if (totelCount <= 1) {
-//				leftButton.setVisibility(View.GONE);
-//				rightButton.setVisibility(View.GONE);
-//			} else if (totelCount == 2) {
-//				if (currentIndex == 0) {
-//					leftButton.setVisibility(View.VISIBLE);
-//					rightButton.setVisibility(View.GONE);
-//				} else {
-//					leftButton.setVisibility(View.GONE);
-//					rightButton.setVisibility(View.VISIBLE);
-//				}
-//			} else {
-//				if (currentIndex == 0) {
-//					leftButton.setVisibility(View.VISIBLE);
-//					rightButton.setVisibility(View.GONE);
-//				} else if (currentIndex == (totelCount - 1)) {
-//					leftButton.setVisibility(View.GONE);
-//					rightButton.setVisibility(View.VISIBLE);
-//				} else {
-//					leftButton.setVisibility(View.VISIBLE);
-//					rightButton.setVisibility(View.VISIBLE);
-//				}
-//			}
-//		}
 		if (this.onItemChangeListener != null) {// 页面改更了
 			try {
 				this.onItemChangeListener.onPosition(this.currentIndex, this.totelCount);

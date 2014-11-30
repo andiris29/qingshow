@@ -38,7 +38,7 @@ public class U02SettingsActivity extends Activity {
 
         context = getApplicationContext();
 
-        saveTextView = (Button) findViewById(R.id.saveTextView);
+        saveTextView = (TextView) findViewById(R.id.saveTextView);
 
         requestQueue = Volley.newRequestQueue(context);
 

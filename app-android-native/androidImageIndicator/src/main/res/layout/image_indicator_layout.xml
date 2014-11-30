@@ -18,34 +18,6 @@
         android:layout_margin="20dp"
         android:background="@drawable/video_start"/>
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:gravity="bottom" >-->
-
-        <!--<Button-->
-            <!--android:id="@+id/left_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/arrow_left_selector" />-->
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:gravity="bottom" >-->
-
-        <!--<Button-->
-            <!--android:id="@+id/right_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@drawable/arrow_right_selector" />-->
-    <!--</LinearLayout>-->
-
     <LinearLayout
         android:id="@+id/indicater_layout"
         android:layout_width="wrap_content"

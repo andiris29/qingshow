@@ -156,6 +156,8 @@
             {
                 if (succeedBlock) {
                     NSDictionary* retDict = completedOperation.responseJSON;
+                    QSUserManager* manager = [QSUserManager shareUserManager];
+                    manager.userInfo = retDict[@"data"][@"people"];
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
             }
@@ -181,6 +183,8 @@
             {
                 if (succeedBlock) {
                     NSDictionary* retDict = completedOperation.responseJSON;
+                    QSUserManager* manager = [QSUserManager shareUserManager];
+                    manager.userInfo = retDict[@"data"][@"people"];
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
             }

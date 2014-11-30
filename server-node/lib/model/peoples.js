@@ -33,18 +33,6 @@ peopleSchema = Schema({
         ],
         select: false
     },
-    followerRefs: {
-        type: [
-            { type: Schema.Types.ObjectId, ref: 'peoples'}
-        ],
-        select: false
-    },
-    followRefs: {
-        type: [
-            { type: Schema.Types.ObjectId, ref: 'peoples'}
-        ],
-        select: false
-    },
     followBrandRefs : {
         type : [
             { type: Schema.Types.ObjectId, ref: 'brands'}
