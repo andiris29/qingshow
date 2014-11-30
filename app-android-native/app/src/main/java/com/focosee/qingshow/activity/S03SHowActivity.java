@@ -26,7 +26,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class S03SHowActivity extends Activity {
 
@@ -45,10 +44,11 @@ public class S03SHowActivity extends Activity {
     private TextView modelAge;
     private TextView modelStatus;
     private TextView modelLoveNumber;
+    private ImageView nav_menu_back;
+    private ImageView nav_menu_account;
 
     private MHorizontalScrollView itemScrollView;
     private LinearLayout itemContainer;
-    private List<ImageView> itemImageViews = new ArrayList<ImageView>();
 
     private TextView description;
 
@@ -59,6 +59,23 @@ public class S03SHowActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
+
+        nav_menu_account = (ImageView) findViewById(R.id.S03_title_account);
+        nav_menu_back = (ImageView) findViewById(R.id.S03_title_back);
+
+        nav_menu_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S03SHowActivity.this.finish();
+            }
+        });
+        nav_menu_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S03SHowActivity.this, U06LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Intent intent = getIntent();
         showEntity = (ShowEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
