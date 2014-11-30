@@ -40,5 +40,10 @@
 - (IBAction)favorBtnPressed:(id)sender;
 - (IBAction)didTapModel:(id)sender;
 @property (weak, nonatomic) IBOutlet UIView *videoContainerView;
+@property (weak, nonatomic) IBOutlet UIView *modelContainer;
+
+@property (weak, nonatomic) IBOutlet UIButton *shareCancelButton;
+@property (weak, nonatomic) IBOutlet UIView *sharePanel;
+
 
 @end

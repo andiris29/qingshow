@@ -145,15 +145,16 @@
 {
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
-            [self.delegateObj reloadData];
+            [self showSuccessHudWithText:@"unlike succeed"];
+//            [self.delegateObj reloadData];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
-            [self.delegateObj reloadData];
+            [self showSuccessHudWithText:@"like succeed"];
+//            [self.delegateObj reloadData];
         } onError:^(NSError *error) {
-            
             [self showErrorHudWithError:error];
         }];
     }

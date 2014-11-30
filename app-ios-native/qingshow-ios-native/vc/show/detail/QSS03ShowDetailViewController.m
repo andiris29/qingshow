@@ -17,6 +17,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "QSNetworkEngine.h"
 #import "QSItemUtil.h"
+#import <Social/Social.h>
+#import "UIViewController+ShowHud.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -47,14 +49,24 @@
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.containerScrollView.contentSize = self.contentView.frame.size;
     [self.containerScrollView addSubview:self.contentView];
+    self.contentView.layer.cornerRadius = 4;
+    self.contentView.layer.masksToBounds = YES;
+    self.modelContainer.layer.cornerRadius = 4;
+    self.modelContainer.layer.masksToBounds = YES;
+    self.itemContainer.layer.cornerRadius = 4;
+    self.itemContainer.layer.masksToBounds = YES;
+    self.showContainer.layer.cornerRadius = 4;
+    self.showContainer.layer.masksToBounds = YES;
+    self.itemDesContainer.layer.cornerRadius = 4;
+    self.itemDesContainer.layer.masksToBounds = YES;
     
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 400)];
     [self.showContainer addSubview:self.showImageScrollView];
     
-
-    
     self.itemImageScrollView = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
     [self.itemContainer addSubview:self.itemImageScrollView];
+    self.itemContainer.layer.cornerRadius = 4;
+    self.itemContainer.layer.masksToBounds = YES;
     self.itemImageScrollView.delegate = self;
 
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -142,8 +154,7 @@
 }
 
 - (IBAction)shareBtnPressed:(id)sender {
-#warning 未完成
-    NSLog(@"share btn pressed");
+    [self showSharePanel];
 }
 
 
@@ -157,7 +168,21 @@
 
 
 - (IBAction)favorBtnPressed:(id)sender {
-    
+    if ([QSShowUtil getIsLike:self.showDict]) {
+        [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
+            [self showSuccessHudWithText:@"unlike succeed"];
+            //            [self.delegateObj reloadData];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    } else {
+        [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
+            [self showSuccessHudWithText:@"like succeed"];
+            //            [self.delegateObj reloadData];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    }
 }
 
 - (IBAction)didTapModel:(id)sender {
@@ -251,4 +276,37 @@
         self.movieController.scalingMode = MPMovieScalingModeAspectFill;
     }
 }
+
+#pragma mark - Share
+- (void)showSharePanel
+{
+    if (self.sharePanel.hidden == NO){
+        return;
+    }
+    self.sharePanel.hidden = NO;
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromTop;
+    [self.sharePanel.layer addAnimation:tran forKey:@"ShowAnimation"];
+}
+- (void)hideSharePanel
+{
+    if (self.sharePanel.hidden == YES) {
+        return;
+    }
+    self.sharePanel.hidden = YES;
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromBottom;
+    [self.sharePanel.layer addAnimation:tran forKey:@"ShowAnimation"];
+}
+
+- (IBAction)shareWeiboPressed:(id)sender {
+}
+- (IBAction)shareWechatPressed:(id)sender {
+}
+- (IBAction)shareCancelPressed:(id)sender {
+    [self hideSharePanel];
+}
+
 @end

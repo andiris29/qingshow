@@ -8,9 +8,13 @@
 
 #import "QSItemImageScrollView.h"
 
-
-
 @implementation QSItemImageScrollView
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.pageControl.hidden = YES;
+}
 
 - (int)getViewCount
 {

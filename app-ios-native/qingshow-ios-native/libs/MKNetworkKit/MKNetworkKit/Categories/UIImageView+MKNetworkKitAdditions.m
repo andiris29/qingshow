@@ -105,9 +105,14 @@ const float kFreshLoadAnimationDuration = 0.35f;
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
-    self.preContentMode = self.contentMode;
+    if (self.contentMode != UIViewContentModeCenter) {
+        self.preContentMode = self.contentMode;
+    }
+
     if (![url isEqual:[self currentImageUrl]] && image) {
+
         self.image = image;
+
         self.contentMode = UIViewContentModeCenter;
     }
   [self.imageFetchOperation cancel];
@@ -134,7 +139,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                             }
                                             
                                           } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-                                              self.image = image;
+//                                              self.image = image;
 //                                              self.contentMode = self.preContentMode;
                                             DLog(@"%@", error);
                                           }];
