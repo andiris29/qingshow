@@ -15,6 +15,8 @@
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "QSNetworkEngine.h"
+#import "QSItemUtil.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -38,6 +40,7 @@
 
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.containerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -65,6 +68,14 @@
     
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
     self.navigationItem.titleView = titleImageView;
+    
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+        weakSelf.showDict = dict;
+        [weakSelf bindWithDict:dict];
+    } onError:^(NSError *error) {
+        
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -73,7 +84,9 @@
 }
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self stopMovie];
+    
 }
 
 - (void)bindWithDict:(NSDictionary*)dict
@@ -103,6 +116,11 @@
     self.itemImageScrollView.imageUrlArray = itemUrlArray;
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:dict];
+    
+    //ItemDes
+    NSArray* items = [QSShowUtil getItems:dict];
+    NSAttributedString* itemDes = [QSItemUtil getItemsAttributedDescription:items];
+    self.itemDesLabel.attributedText = itemDes;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -132,8 +150,8 @@
 #pragma mark - QSItemImageScrollViewDelegate
 - (void)didTapItemAtIndex:(int)index
 {
-    NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:index];
-    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItemDict:itemDict];
+    NSArray* items = [QSShowUtil getItems:self.showDict];
+    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItems:items];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -156,10 +174,13 @@
     if (!self.movieController) {
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
         [self.view addSubview:self.movieController.view];
-//        self.movieController.view.userInteractionEnabled = NO;
+        self.movieController.view.userInteractionEnabled = NO;
         
-//        UIPanGestureRecognizer* ges = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-//        [self.view addGestureRecognizer:ges];
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
+        [self.videoContainerView addGestureRecognizer:tap];
+        UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
+        [self.videoContainerView addGestureRecognizer:pinch];
+        
     }
     self.movieController.view.frame = self.videoContainerView.frame;
 //    self.movieController.view.userInteractionEnabled = NO;
@@ -171,6 +192,10 @@
                                              selector:@selector(myMovieFinishedCallback:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(didEnterFullScreen)
+//                                                 name:MPMoviePlayerDidEnterFullscreenNotification
+//                                               object:nil];
     [self.movieController play];
 
     [self scrollViewDidScroll:self.containerScrollView];
@@ -182,6 +207,11 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
     [self.movieController setControlStyle:MPMovieControlStyleEmbedded];
     
+}
+
+- (void) didEnterFullScreen
+{
+    self.movieController.scalingMode = MPMovieScalingModeAspectFill;
 }
 
 - (void)stopMovie{
@@ -200,9 +230,25 @@
 {
     if (self.movieController) {
         CGRect rect = self.movieController.view.frame;
-        rect.origin.y = self.videoContainerView.frame.origin.y -scrollView.contentOffset.y;
+        rect.origin.y = self.videoContainerView.frame.origin.y - scrollView.contentOffset.y;
         self.movieController.view.frame = rect;
     }
 }
 
+- (void)didTapVideo
+{
+    if (self.movieController.playbackState == MPMoviePlaybackStatePaused) {
+        [self.movieController play];
+    } else {
+        [self.movieController pause];
+    }
+}
+- (void)didPinch:(UIPinchGestureRecognizer*)g
+{
+    if (!self.movieController.isFullscreen && g.scale >= 1.5) {
+//        self.movieController.fullscreen = YES;
+        [self.movieController setFullscreen:YES animated:YES];
+        self.movieController.scalingMode = MPMovieScalingModeAspectFill;
+    }
+}
 @end

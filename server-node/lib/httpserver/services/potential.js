@@ -98,7 +98,7 @@ var _collocate = function(req, res) {
         return;
     }
     var pItemRefs = ServicesUtil.stringArrayToObjectIdArray(_ids);
-    var modelRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+    var modelRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     // Find data
     var fincPItems = function(callback) {
         PItem.find({
@@ -140,7 +140,7 @@ var _collocate = function(req, res) {
         // Save potential show
         var savePShow = function(callback) {
             var pShow = new PShow({
-                'modelRef' : mongoose.mongo.BSONPure.ObjectID(req.currentUser._id),
+                'modelRef' : mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId),
                 'pItemRefs' : pItemRefs
             });
             pShow.save(function(err, c) {

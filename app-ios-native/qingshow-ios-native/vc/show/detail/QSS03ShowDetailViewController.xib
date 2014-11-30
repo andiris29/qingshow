@@ -16,6 +16,8 @@
                 <outlet property="favorNumberLabel" destination="msW-zF-yFh" id="tf1-hs-OV2"/>
                 <outlet property="headIconImageView" destination="XHO-if-252" id="mun-HV-iva"/>
                 <outlet property="itemContainer" destination="kU5-9C-LuZ" id="kF8-9y-U4m"/>
+                <outlet property="itemDesContainer" destination="6k0-Fj-nG5" id="Rzl-sO-SVn"/>
+                <outlet property="itemDesLabel" destination="e1k-l3-aQ4" id="YbU-cv-5vL"/>
                 <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
                 <outlet property="showContainer" destination="Rzs-4O-hfv" id="IFv-V1-6zA"/>
                 <outlet property="videoContainerView" destination="5Fn-9j-ahl" id="xg0-iQ-TbL"/>
@@ -35,12 +37,12 @@
                     </connections>
                 </scrollView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="375" y="243"/>
         </view>
         <view contentMode="scaleToFill" id="UED-2q-Lls">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="585"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="677"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" id="j8c-KL-RLo">
@@ -127,7 +129,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
-                            <rect key="frame" x="257" y="265" width="26" height="24"/>
+                            <rect key="frame" x="257" y="265" width="35" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
                             <state key="normal" title="52" backgroundImage="s03_comment_btn">
@@ -138,7 +140,7 @@
                             </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1sR-pr-gUL">
-                            <rect key="frame" x="257" y="234" width="26" height="22"/>
+                            <rect key="frame" x="257" y="222" width="35" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
                             <state key="normal" backgroundImage="s03_share_btn">
@@ -151,11 +153,24 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="6k0-Fj-nG5">
+                    <rect key="frame" x="10" y="586" width="300" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e1k-l3-aQ4">
+                            <rect key="frame" x="8" y="8" width="292" height="64"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <attributedString key="attributedText"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="779" y="276.5"/>
+            <point key="canvasLocation" x="779" y="322.5"/>
         </view>
         <tapGestureRecognizer id="ijS-NJ-Ux7">
             <connections>

@@ -96,7 +96,8 @@
     [self.followingDelegate bindWithTableView:self.followingTableView];
 #warning 需要换成正确的api
     self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+
+        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.followingDelegate.delegate = self;
     [self.followingDelegate fetchDataOfPage:1];

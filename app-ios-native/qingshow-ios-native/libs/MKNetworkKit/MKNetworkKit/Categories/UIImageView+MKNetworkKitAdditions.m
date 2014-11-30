@@ -134,7 +134,8 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                             }
                                             
                                           } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-                                            
+                                              self.image = image;
+//                                              self.contentMode = self.preContentMode;
                                             DLog(@"%@", error);
                                           }];
   } else {

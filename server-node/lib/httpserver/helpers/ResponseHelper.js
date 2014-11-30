@@ -22,7 +22,9 @@ var _general = module.exports.general = function(res, err, data) {
         });
     } else {
         if (data) {
-            res.json(data);
+            res.json({
+                'data' : data
+            });
         } else {
             res.end();
         }

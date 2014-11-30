@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *favorBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
+@property (weak, nonatomic) IBOutlet UIView *itemDesContainer;
+@property (weak, nonatomic) IBOutlet UILabel *itemDesLabel;
 
 #pragma mark - Init
 - (id)initWithShow:(NSDictionary*)showDict;

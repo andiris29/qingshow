@@ -11,6 +11,9 @@
 #import "QSNetworkOperation.h"
 #import "QSUserManager.h"
 #import "QSFeedingCategory.h"
+#import "NSArray+QSExtension.h"
+
+#import "QSPeopleUtil.h"
 
 //User
 #define PATH_USER_LOGIN @"user/login"
@@ -28,6 +31,9 @@
 #define PATH_FEEDING_BY_TAGS @"feeding/byTags"
 #define PATH_FEEDING_STUDIO @"feeding/studio"
 
+//Query
+#define PATH_QUERY_COMMENT @"query/comments"
+#define PATH_QUERY_SHOW @"query/shows"
 //Show
 #define PATH_SHOW_QUERY_COMMENTS @"show/queryComments"
 #define PATH_SHOW_COMMENT @"show/comment"
@@ -36,12 +42,14 @@
 #define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
 #define PATH_PEOPLE_FOLLOW @"people/follow"
 #define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
+#define PATH_PEOPLE_QUERY_FOLLOWER @"people/queryFollowers"
+#define PATH_PEOPLE_QUERY_FOLLOWED @"people/queryFollowed"
 
 //Interaction
 #define PATH_PEOPLE_FOLLOW_BRAND @"interaction/followBrand"
 #define PATH_PEOPLE_UNFOLLOW_BRAND @"interaction/unfollowBrand"
-#define PATH_INTERACTION_LIKE @"interaction/like"
-#define PATH_INTERACTION_UNLIKE @"interaction/unlike"
+#define PATH_SHOW_LIKE @"show/like"
+#define PATH_SHOW_UNLIKE @"show/unlike"
 
 
 @implementation QSNetworkEngine
@@ -68,7 +76,9 @@
                                       onError:(OperationErrorBlock)errorBlock
 {
     MKNetworkOperation* op = nil;
-    op = [self operationWithPath:path params:paramDict httpMethod:method ];
+    NSMutableDictionary* p = [paramDict mutableCopy];
+    p[@"version"] = @"1.0.0";
+    op = [self operationWithPath:path params:p httpMethod:method ];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
     return op;
@@ -81,9 +91,10 @@
                                          image:(NSData *)image
                                     onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
-    
+    NSMutableDictionary* p = [paramDict mutableCopy];
+    p[@"version"] = @"1.0.0";
     MKNetworkOperation *op = nil;
-    op = [self operationWithPath:path params:paramDict httpMethod:method];
+    op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];
 //    [op setFreezable:YES];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
@@ -318,12 +329,8 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* peopleList = retDict[@"data"][@"peoples"];
-                    NSMutableArray* mutablePeopleList = [@[] mutableCopy];
-                    for (NSDictionary* dict in peopleList) {
-                        [mutablePeopleList addObject:[dict mutableCopy]];
-                    }
                     
-                    succeedBlock(mutablePeopleList, retDict[@"metadata"]);
+                    succeedBlock([peopleList deepDictMutableCopy], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -334,6 +341,48 @@
             }];
 }
 
+- (MKNetworkOperation*)peopleQueryFollowed:(NSDictionary*)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock
+
+{
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_FOLLOWED
+                                 method:@"GET"
+                               paramers:@{@"_id" : peopleDict[@"_id"], @"pageNo" : @(page),@"paegSize" : @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+    {
+        NSDictionary* responseDict = completedOperation.responseJSON;
+        NSArray* a = responseDict[@"data"][@"peoples"];
+        if (succeedBlock) {
+            succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+        }
+    }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+    {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+- (MKNetworkOperation*)peopleQueryFollower:(NSDictionary*)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_FOLLOWER method:@"GET" paramers:@{@"_id" : peopleDict[@"_id"], @"pageNo" : @(page),@"paegSize" : @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* responseDict = completedOperation.responseJSON;
+        NSArray* a = responseDict[@"data"][@"peoples"];
+        if (succeedBlock) {
+            succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 #pragma mark - Interaction
 - (MKNetworkOperation*)handleFollowModel:(NSDictionary*)model
                                onSucceed:(BoolBlock)succeedBlock
@@ -341,12 +390,9 @@
 {
     NSNumber* hasFollowed = model[@"hasFollowed"];
     NSString* modelId = model[@"_id"];
-    if (hasFollowed && hasFollowed.boolValue) {
+    if ([QSPeopleUtil getPeopleIsFollowed:model]) {
         return [self unfollowPeople:modelId onSucceed:^{
-            if ([model isKindOfClass:[NSMutableDictionary class]]) {
-                NSMutableDictionary* m = (NSMutableDictionary*)model;
-                m[@"hasFollowed"] = @NO;
-            }
+            [QSPeopleUtil setPeople:model isFollowed:NO];
             
             if (succeedBlock) {
                 succeedBlock(NO);
@@ -356,10 +402,7 @@
     else
     {
         return [self followPeople:modelId onSucceed:^{
-            if ([model isKindOfClass:[NSMutableDictionary class]]) {
-                NSMutableDictionary* m = (NSMutableDictionary*)model;
-                m[@"hasFollowed"] = @YES;
-            }
+            [QSPeopleUtil setPeople:model isFollowed:YES];
             if (succeedBlock) {
                 succeedBlock(YES);
             }
@@ -501,6 +544,38 @@
 }
 
 #pragma mark - Query
+- (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
+                             onSucceed:(DicBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
+            {
+                NSDictionary *retDict = completedOperation.responseJSON;
+                NSArray* dataArray = retDict[@"data"][@"shows"];
+                NSDictionary* d = nil;
+                if (dataArray.count) {
+                    d = dataArray[0];
+                }
+                succeedBlock(d);
+                return;
+            } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
+                NSArray* retArray = completedOperation.responseJSON;
+                if (retArray.count) {
+                    succeedBlock(retArray[0]);
+                    return;
+                }
+            }
+            succeedBlock(nil);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 - (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
                                     page:(int)page
                                onSucceed:(ArraySuccessBlock)succeedBlock
@@ -532,7 +607,7 @@
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_SHOW_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
             ((NSMutableDictionary*)showDict)[@"isLiked"] = @YES;
         }
@@ -549,7 +624,7 @@
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
             ((NSMutableDictionary*)showDict)[@"isLiked"] = @NO;
         }

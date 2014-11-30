@@ -9,12 +9,13 @@ var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
+var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
 var _like = function(req, res) {
     try {
         var param = req.body;
         var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
         return;
@@ -27,7 +28,7 @@ var _unlike = function(req, res) {
     try {
         var param = req.body;
         var affectedRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.currentUser._id);
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
         ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
         return;
@@ -80,7 +81,7 @@ var _comment = function(req, res) {
         var comment = new ShowComment({
             'targetRef' : targetRef,
             'atRef' : atRef,
-            'authorRef' : req.currentUser._id,
+            'authorRef' : req.qsCurrentUserId,
             'comment' : comment
         });
         comment.save(function(err) {
@@ -102,7 +103,7 @@ var _deleteComment = function(req, res) {
     function(callback) {
         ShowComment.findOne({
             '_id' : _id,
-            'authorRef' : req.currentUser._id,
+            'authorRef' : req.qsCurrentUserId,
             'delete' : null
         }, callback);
     },
@@ -119,12 +120,12 @@ var _deleteComment = function(req, res) {
 };
 
 module.exports = {
-    'follow' : {
+    'like' : {
         method : 'post',
         func : _like,
         needLogin : true
     },
-    'unfollow' : {
+    'unlike' : {
         method : 'post',
         func : _unlike,
         needLogin : true

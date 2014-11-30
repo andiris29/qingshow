@@ -57,6 +57,10 @@
     
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
+    
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -139,8 +143,6 @@
 #pragma mark - QSWaterFallCollectionViewCellDelegate
 - (void)addFavorShow:(NSDictionary*)showDict
 {
-#warning disable becuase server bug
-    return;
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
             [self.delegateObj reloadData];

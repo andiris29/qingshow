@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class QSImageScrollViewBase;
+@protocol QSImageScrollViewBaseDelegate <NSObject>
+@optional
+- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page;
+
+@end
 
 @interface QSImageScrollViewBase : UIView<UIScrollViewDelegate>
 
@@ -15,6 +21,9 @@
 - (int)getViewCount;
 - (UIView*)getViewForPage:(int)page;
 - (void)updateImages;
+@property (weak, nonatomic) NSObject<QSImageScrollViewBaseDelegate>* delegate;
+
+@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 @property (strong, nonatomic) NSMutableArray* imageViewArray;
 
 @end

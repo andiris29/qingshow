@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var People = require('../../model/peoples');
-
+var ServerError = require('../server-error');
 var ContextHelper = require('../helpers/ContextHelper');
 var ServicesUtil = require('../servicesUtil');
 
@@ -51,7 +51,7 @@ module.exports.remove = function(Model, initiatorRef, affectedRef, callback) {
     }], callback);
 };
 
-module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUser, callback) {
+module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUserId, callback) {
     async.waterfall([
     function(callback) {
         // Query relationship
@@ -71,7 +71,7 @@ module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, people
     },
     function(peoples, callback) {
         // Append followed by current user
-        ContextHelper.followedByCurrentUser(currentUser, peoples, callback);
+        ContextHelper.followedByCurrentUser(currentUserId, peoples, callback);
     },
     function(peoples, callback) {
         // Buid response data

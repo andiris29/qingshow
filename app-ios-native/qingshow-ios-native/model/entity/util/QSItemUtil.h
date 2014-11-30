@@ -12,4 +12,10 @@
 
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
++ (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
++ (NSString*)getItemDescription:(NSDictionary*)item;
++ (NSString*)getItemTypeName:(NSDictionary*)item;
+
++ (NSDictionary*)getBrand:(NSDictionary*)item;
++ (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 @end

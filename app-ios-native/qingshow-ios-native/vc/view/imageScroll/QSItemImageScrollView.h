@@ -10,8 +10,8 @@
 #import "QSImageScrollViewBase.h"
 #import "QSItemContainerView.h"
 
-@protocol QSItemImageScrollViewDelegate <NSObject>
-
+@protocol QSItemImageScrollViewDelegate <QSImageScrollViewBaseDelegate>
+@optional
 - (void)didTapItemAtIndex:(int)index;
 
 @end

@@ -34,6 +34,8 @@
     // Do any additional setup after loading the view from its nib.
     [self configDelegateObj];
     self.title = categoryToString(self.type);
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
 
 - (void)didReceiveMemoryWarning {
