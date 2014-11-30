@@ -1,21 +1,21 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var RPeopleFollowPeople = mongoose.model('rPeopleFollowPeople', Schema({
+var RPeopleFollowBrand = mongoose.model('rPeopleFollowBrand', Schema({
     'initiatorRef' : {
         'type' : Schema.Types.ObjectId,
         'ref' : 'peoples'
     },
     'affectedRef' : {
         'type' : Schema.Types.ObjectId,
-        'ref' : 'peoples'
+        'ref' : 'brands'
     },
     'create' : {
         'type' : Date,
         'default' : Date.now
     }
 }, {
-    collection : 'rPeopleFollowPeople'
+    collection : 'rPeopleFollowBrand'
 }));
 
-module.exports = RPeopleFollowPeople;
+module.exports = RPeopleFollowBrand;
