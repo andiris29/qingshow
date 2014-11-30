@@ -45,8 +45,7 @@
     self.detailLabel.text = [QSPeopleUtil buildModelStatusString:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
-    NSNumber* hasFollowed = modelDict[@"hasFollowed"];
-    if (hasFollowed && hasFollowed.boolValue) {
+    if ([QSPeopleUtil getPeopleIsFollowed:modelDict]) {
         [self.followBtn setTitle:@"取消" forState:UIControlStateNormal];
     } else {
         [self.followBtn setTitle:@"关注" forState:UIControlStateNormal];

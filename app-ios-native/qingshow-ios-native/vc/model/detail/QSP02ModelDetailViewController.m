@@ -79,18 +79,17 @@
 {
     //following table view
     [self.followingDelegate bindWithTableView:self.followingTableView];
-#warning 需要换成正确的api
+    __weak QSP02ModelDetailViewController* weakSelf = self;
     self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.peopleDict page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.followingDelegate.delegate = self;
     [self.followingDelegate fetchDataOfPage:1];
     
     //follower table view
     [self.followerDelegate bindWithTableView:self.followerTableView];
-#warning 需要换成正确的api
     self.followerDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE peopleQueryFollower:weakSelf.peopleDict page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
@@ -98,8 +97,6 @@
 #warning 需要换成正确的api
     //Show collectioin view
     [self.showsDelegate bindWithCollectionView:self.showCollectionView];
-    __weak QSP02ModelDetailViewController* weakSelf = self;
-    
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:succeedBlock onError:errorBlock];
     };
@@ -133,26 +130,16 @@
 
 - (void)singleButtonPressed
 {
-    NSNumber* hasFollowed = self.peopleDict[@"hasFollowed"];
-    if (hasFollowed && hasFollowed.boolValue) {
-        [SHARE_NW_ENGINE unfollowPeople:self.peopleDict[@"_id"] onSucceed:^{
-            [self showTextHud:@"unfollow successfully"];
-            self.peopleDict[@"hasFollowed"] = @NO;
-            [self updateView];
-        } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
-        }];
-    }
-    else {
-        [SHARE_NW_ENGINE followPeople:self.peopleDict[@"_id"] onSucceed:^{
+    [SHARE_NW_ENGINE handleFollowModel:self.peopleDict onSucceed:^(BOOL f) {
+        [self updateView];
+        if (f) {
             [self showTextHud:@"follow successfully"];
-            self.peopleDict[@"hasFollowed"] = @YES;
-            [self updateView];
-        } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
-        }];
-    }
-    
+        } else {
+            [self showTextHud:@"unfollow successfully"];
+        }
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];    
 }
 
 - (void)updateView

@@ -72,8 +72,7 @@
     [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
     NSString* backgroundPath = peopleDict[@"background"];
     [self.backgroundImageView setImageFromURL:[NSURL URLWithString:backgroundPath] placeHolderImage:nil animation:YES];
-    NSNumber* hasFollowed = peopleDict[@"hasFollowed"];
-    if (hasFollowed && hasFollowed.boolValue) {
+    if ([QSPeopleUtil getPeopleIsFollowed:peopleDict]) {
         self.btnGroup.singleButton.textLabel.text = @"取消关注";
     } else {
         self.btnGroup.singleButton.textLabel.text = @"关注";

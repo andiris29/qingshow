@@ -143,8 +143,6 @@
 #pragma mark - QSWaterFallCollectionViewCellDelegate
 - (void)addFavorShow:(NSDictionary*)showDict
 {
-#warning disable becuase server bug
-    return;
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
             [self.delegateObj reloadData];

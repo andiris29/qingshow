@@ -12,7 +12,11 @@
 
 + (NSString*)getBrandName:(NSDictionary*)dict
 {
-    return dict[@"name"];
+    if ([dict isKindOfClass:[NSDictionary class]]) {
+        return dict[@"name"];
+    }
+    return @"";
+
 }
 
 @end

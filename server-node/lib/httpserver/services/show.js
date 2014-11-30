@@ -9,6 +9,7 @@ var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
+var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
 var _like = function(req, res) {
     try {
@@ -119,12 +120,12 @@ var _deleteComment = function(req, res) {
 };
 
 module.exports = {
-    'follow' : {
+    'like' : {
         method : 'post',
         func : _like,
         needLogin : true
     },
-    'unfollow' : {
+    'unlike' : {
         method : 'post',
         func : _unlike,
         needLogin : true

@@ -97,4 +97,31 @@
     return n.stringValue;
 }
 
++ (BOOL)getPeopleIsFollowed:(NSDictionary*)dict
+{
+    NSDictionary* context = dict[@"__context"];
+    if (context) {
+        NSNumber* f = context[@"followedByCurrentUser"];
+        if (f) {
+            return f.boolValue;
+        }
+    }
+    return NO;
+}
++ (void)setPeople:(NSDictionary*)dict isFollowed:(BOOL)isFollowed
+{
+    if (![dict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* mutableDict = (NSMutableDictionary*)dict;
+    NSMutableDictionary* context = [mutableDict[@"__context"] mutableCopy];
+    if (!context) {
+        context = [@{} mutableCopy];
+    }
+
+    context[@"followedByCurrentUser"] = @(isFollowed);
+    mutableDict[@"__context"] = context;
+
+}
+
 @end

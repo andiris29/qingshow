@@ -8,6 +8,7 @@
 
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "NSNumber+QSExtension.h"
 @implementation QSShowUtil
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
@@ -59,7 +60,7 @@
     if (!n) {
         return @"0";
     }
-    return n.stringValue;
+    return n.kmbtStringValue;
 }
 + (NSString*)getNumberFavorDescription:(NSDictionary*)showDict
 {
@@ -67,11 +68,11 @@
     if (!n) {
         return @"0";
     }
-    return n.stringValue;
+    return n.kmbtStringValue;
 }
 + (BOOL)getIsLike:(NSDictionary*)showDict
 {
     NSNumber* n = showDict[@"isLiked"];
-    return n.boolValue;
+    return n.kmbtStringValue;
 }
 @end

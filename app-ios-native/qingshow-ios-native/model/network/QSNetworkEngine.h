@@ -92,4 +92,13 @@
 - (MKNetworkOperation*)unlikeShow:(NSDictionary*)showDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)peopleQueryFollower:(NSDictionary*)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)peopleQueryFollowed:(NSDictionary*)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
 @end
