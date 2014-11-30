@@ -1,6 +1,12 @@
+var mongoose = require('mongoose');
+var async = require('async');
+
 var People = require('../../model/peoples');
+
+var ResponseHelper = require('../helpers/ResponseHelper');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
+
 var crypto = require('crypto'), _secret = 'qingshow@secret';
 
 var _encrypt = function(string) {
@@ -19,11 +25,40 @@ var _decrypt = function(string) {
 
 var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground;
 _get = function(req, res) {
-    res.json({
-        'data' : {
-            'people' : req.currentUser
+    async.waterfall([
+    function(callback) {
+        if (req.session.userId) {
+            People.findOne({
+                '_id' : req.session.userId
+            }).select('userInfo.passwordUpdatedDate').exec(callback);
+        } else {
+            callback(ServerError.NeedLogin);
         }
-    });
+    },
+    function(people, callback) {
+        if (!people || !people.userInfo) {
+            callback(ServerError.SessionExpired);
+        } else {
+            var loginDate = req.session.loginDate;
+            if (!people.userInfo.passwordUpdatedDate) {
+                people.userInfo.passwordUpdatedDate = loginDate;
+            }
+            if (loginDate < people.userInfo.passwordUpdatedDate) {
+                callback(ServerError.SessionExpired);
+            } else {
+                callback(null);
+            }
+        }
+    },
+    function(callback) {
+        People.findOne({
+            '_id' : req.session.userId
+        }, callback);
+    }], ResponseHelper.generateGeneralCallback(res, function(result) {
+        return {
+            'people' : result
+        };
+    }));
 };
 
 _login = function(req, res) {
@@ -69,7 +104,7 @@ _login = function(req, res) {
 _logout = function(req, res) {
     delete req.session.userId;
     delete req.session.loginDate;
-    delete req.currentUser;
+    delete req.qsCurrentUserId;
     var retData = {
         metadata : {
             "result" : 0
@@ -132,9 +167,8 @@ _register = function(req, res) {
 _update = function(req, res) {
     var param;
     param = req.body;
-    var curUser = req.currentUser;
     People.findOne({
-        _id : curUser._id
+        _id : req.qsCurrentUserId
     }).select('+userInfo').exec(function(err, people) {
         var updateField = ['name', 'portrait', 'gender'];
         var numberField = ['height', 'weight'];
@@ -221,7 +255,7 @@ var _upload = function(req, res, keyword) {
             file = files[key];
         }
         People.findOne({
-            '_id' : req.currentUser._id
+            '_id' : req.qsCurrentUserId
         }, function(err, people) {
             people.set(keyword, global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
             people.save(function(err) {

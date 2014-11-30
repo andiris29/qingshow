@@ -7,7 +7,8 @@
 //
 
 #import "QSItemUtil.h"
-
+#import <CoreText/CoreText.h>
+#import <CoreFoundation/CoreFoundation.h>
 @implementation QSItemUtil
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict
 {
@@ -26,5 +27,54 @@
         return url;
     }
     return nil;
+}
++ (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray
+{
+    NSMutableAttributedString* str = [[NSMutableAttributedString alloc] init];
+    for (NSDictionary* itemDict in itemsArray) {
+        NSString* typeStr = [QSItemUtil getItemTypeName:itemDict];
+//        NSAttributedString* typeAttributedStr = [NSAttributedString alloc] initWithString:typeStr attributes:@{}
+        NSString* des = [QSItemUtil getItemDescription:itemDict];
+        NSMutableAttributedString * a = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@ ", typeStr, des] attributes:nil];
+
+        [a addAttribute:NSFontAttributeName value:CFBridgingRelease(CTFontCreateWithName((CFStringRef)[UIFont fontWithName:@"Arial" size:14].fontName, 14, nil)) range:NSMakeRange(0, a.length)];
+        [a addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:78.f/255.f green:78.f/255.f blue:78.f/255.f alpha:1.f] range:NSMakeRange(0, a.length)];
+        [a addAttribute:NSForegroundColorAttributeName
+                  value:[UIColor colorWithRed:238.f/255.f green:120.f/255.f blue:37.f/255.f alpha:1.f]
+                  range:NSMakeRange(0, typeStr.length)];
+
+        [str appendAttributedString:a];
+    }
+    return str;
+}
++ (NSString*)getItemDescription:(NSDictionary*)item
+{
+    return item[@"name"];
+}
++ (NSString*)getItemTypeName:(NSDictionary*)item
+{
+    
+    NSArray* array = @[@"上装", @"下装", @"鞋子", @"配饰"];
+    NSNumber* category = item[@"category"];
+    if (category.intValue < array.count) {
+        return array[category.intValue];
+    } else {
+        return @"";
+    }
+}
+
++ (NSDictionary*)getBrand:(NSDictionary*)item
+{
+    return item[@"brandRef"];
+}
++ (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
+{
+    NSMutableArray* array = [@[] mutableCopy];
+    for (NSDictionary* itemDict in itemArray) {
+        NSString* path = itemDict[@"cover"];
+        NSURL* url = [NSURL URLWithString:path];
+        [array addObject:url];
+    }
+    return array;
 }
 @end

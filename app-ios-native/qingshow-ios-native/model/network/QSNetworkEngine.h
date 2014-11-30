@@ -66,6 +66,9 @@
                               onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Query
+- (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
+                             onSucceed:(DicBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict

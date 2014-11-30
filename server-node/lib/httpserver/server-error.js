@@ -1,9 +1,9 @@
 var util = require('util');
 
-var ServerError = function(errorCode) {
+var ServerError = function(errorCode, description) {
     Error.call(this, 'server error');
     this.errorCode = errorCode;
-    this.description = _codeToString(errorCode);
+    this.description = description || _codeToString(errorCode);
 };
 
 util.inherits(ServerError, Error);

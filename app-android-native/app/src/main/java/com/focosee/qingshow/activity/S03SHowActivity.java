@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -18,6 +20,7 @@ import com.allthelucky.common.view.network.NetworkImageIndicatorView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.ShowEntity;
 import com.focosee.qingshow.widget.MCircularImageView;
+import com.focosee.qingshow.widget.MHorizontalScrollView;
 import com.focosee.qingshow.widget.MRelativeLayout_3_4;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -41,10 +44,11 @@ public class S03SHowActivity extends Activity {
     private TextView modelAge;
     private TextView modelStatus;
     private TextView modelLoveNumber;
+    private ImageView nav_menu_back;
+    private ImageView nav_menu_account;
 
-    private ImageView itemIMG1;
-    private ImageView itemIMG2;
-    private ImageView itemIMG3;
+    private MHorizontalScrollView itemScrollView;
+    private LinearLayout itemContainer;
 
     private TextView description;
 
@@ -56,12 +60,26 @@ public class S03SHowActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
 
+        nav_menu_account = (ImageView) findViewById(R.id.S03_title_account);
+        nav_menu_back = (ImageView) findViewById(R.id.S03_title_back);
+
+        nav_menu_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S03SHowActivity.this.finish();
+            }
+        });
+        nav_menu_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S03SHowActivity.this, U06LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+
         Intent intent = getIntent();
         showEntity = (ShowEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
         itemsData = showEntity.getItemsList();
-//        itemUrlList = (ArrayList)showEntity.getItemUrlList();
-//        itemDescriptionList = (ArrayList)showEntity.getItemDescriptionList();
-//        itemBrandList = (ArrayList)showEntity.getItemBrandList();
 
         matchUI();
         configData();
@@ -89,9 +107,6 @@ public class S03SHowActivity extends Activity {
             Bundle bundle = new Bundle();
             bundle.putSerializable(S05ProductActivity.INPUT_ITEM_LIST, itemsData);
             intent.putExtras(bundle);
-//            intent.putStringArrayListExtra(S05ProductActivity.INPUT_URL_LIST, itemUrlList);
-//            intent.putStringArrayListExtra(S05ProductActivity.INPUT_DESCRIPTION_LIST, itemDescriptionList);
-//            intent.putStringArrayListExtra(S05ProductActivity.INPUT_BRAND_LIST, itemBrandList);
             startActivity(intent);
         }
     };
@@ -107,9 +122,8 @@ public class S03SHowActivity extends Activity {
         modelStatus = (TextView) findViewById(R.id.S03_item_show_model_status);
         modelLoveNumber = (TextView) findViewById(R.id.S03_item_show_love);
 
-        itemIMG1 = (ImageView) findViewById(R.id.S03_item_show_img1);
-        itemIMG2 = (ImageView) findViewById(R.id.S03_item_show_img2);
-        itemIMG3 = (ImageView) findViewById(R.id.S03_item_show_img3);
+        itemScrollView = (MHorizontalScrollView) findViewById(R.id.S03_item_scroll_view);
+        itemContainer = (LinearLayout) findViewById(R.id.S03_item_container);
 
         description = (TextView) findViewById(R.id.S03_item_show_description);
     }
@@ -128,15 +142,15 @@ public class S03SHowActivity extends Activity {
 
         modelLoveNumber.setText(showEntity.getShowNumLike());
 
-        ImageLoader.getInstance().displayImage(showEntity.getItem(0).cover, itemIMG1);
-
-        ImageLoader.getInstance().displayImage(showEntity.getItem(1).cover, itemIMG2);
-
-        ImageLoader.getInstance().displayImage(showEntity.getItem(2).cover, itemIMG3);
-
-        itemIMG1.setOnClickListener(mImageClickListener);
-        itemIMG2.setOnClickListener(mImageClickListener);
-        itemIMG3.setOnClickListener(mImageClickListener);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getWinWidth()/3, LinearLayout.LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < showEntity.getItemsList().size(); i++) {
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(params);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ImageLoader.getInstance().displayImage(showEntity.getItem(i).cover, imageView);
+            imageView.setOnClickListener(mImageClickListener);
+            itemContainer.addView(imageView);
+        }
 
         description.setText(showEntity.getAllItemDescription());
     }
@@ -192,5 +206,18 @@ public class S03SHowActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private int getWinWidth(){
+        DisplayMetrics dm = new DisplayMetrics();
+        //获取屏幕信息
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.widthPixels;
+    }
+    private int getWinHeight(){
+        DisplayMetrics dm = new DisplayMetrics();
+        //获取屏幕信息
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.heightPixels;
     }
 }

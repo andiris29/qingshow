@@ -30,6 +30,10 @@
 
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"
+#define PATH_QUERY_SHOW @"query/shows"
+//Show
+#define PATH_SHOW_QUERY_COMMENTS @"show/queryComments"
+#define PATH_SHOW_COMMENT @"show/comment"
 
 // People
 #define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
@@ -41,7 +45,6 @@
 #define PATH_PEOPLE_UNFOLLOW_BRAND @"interaction/unfollowBrand"
 #define PATH_INTERACTION_LIKE @"interaction/like"
 #define PATH_INTERACTION_UNLIKE @"interaction/unlike"
-#define PATH_INTERACTION_COMMENT @"interaction/comment"
 
 
 @implementation QSNetworkEngine
@@ -413,7 +416,7 @@
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }
@@ -501,12 +504,44 @@
 }
 
 #pragma mark - Query
+- (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
+                             onSucceed:(DicBlock)succeedBlock
+                               onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
+            {
+                NSDictionary *retDict = completedOperation.responseJSON;
+                NSArray* dataArray = retDict[@"data"][@"shows"];
+                NSDictionary* d = nil;
+                if (dataArray.count) {
+                    d = dataArray[0];
+                }
+                succeedBlock(d);
+                return;
+            } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
+                NSArray* retArray = completedOperation.responseJSON;
+                if (retArray.count) {
+                    succeedBlock(retArray[0]);
+                    return;
+                }
+            }
+            succeedBlock(nil);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 - (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
                                     page:(int)page
                                onSucceed:(ArraySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_COMMENT
+    return [self startOperationWithPath:PATH_SHOW_QUERY_COMMENTS
                                  method:@"GET"
                                paramers:@{
                                           @"showId": showDict[@"_id"],
@@ -517,7 +552,7 @@
             {
                 NSDictionary *retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"comments"], retDict[@"metadata"]);
+                    succeedBlock(retDict[@"data"][@"showComments"], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

@@ -51,12 +51,14 @@ module.exports.remove = function(Model, initiatorRef, affectedRef, callback) {
     }], callback);
 };
 
-module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUser, callback) {
+module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUserId, callback) {
     async.waterfall([
     function(callback) {
+        // Query relationship
         ServicesUtil.limitQuery(Model.find(criteria), pageNo, pageSize).exec(callback);
     },
     function(relationships, callback) {
+        // Query peoples
         var _ids = [];
         relationships.forEach(function(r) {
             _ids.push(r[peopleField]);
@@ -68,7 +70,14 @@ module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, people
         }, callback);
     },
     function(peoples, callback) {
-        ContextHelper.followedByCurrentUser(currentUser, peoples, callback);
+        // Append followed by current user
+        ContextHelper.followedByCurrentUser(currentUserId, peoples, callback);
+    },
+    function(peoples, callback) {
+        // Buid response data
+        callback(null, {
+            'peoples' : peoples
+        });
     }], callback);
 };
 

@@ -1,5 +1,7 @@
-var People = require('../../model/peoples');
+var mongoose = require('mongoose');
+
 var ServerError = require('../server-error');
+
 function validate(servicesNames) {
     var validatePaths = [];
     servicesNames.forEach(function(path) {
@@ -26,35 +28,8 @@ function validate(servicesNames) {
             }
             return;
         }
-
-        var loginDate = req.session.loginDate;
-        People.findOne({
-            "_id" : userID
-        }).select('userInfo.passwordUpdatedDate').exec(function(err, people) {
-            if (err) {
-                next(err);
-            } else {
-                if (!people || !people.userInfo) {
-                    // User not found
-                    next(new ServerError(ServerError.SessionExpired));
-                    return;
-                }
-
-                if (!people.userInfo.passwordUpdatedDate) {
-                    people.userInfo.passwordUpdatedDate = loginDate;
-                }
-                if (loginDate < people.userInfo.passwordUpdatedDate) {
-                    next(new ServerError(ServerError.SessionExpired));
-                } else {
-                    People.findOne({
-                        "_id" : userID
-                    }, function(err, people) {
-                        req.currentUser = people;
-                        next();
-                    });
-                }
-            }
-        });
+        req.qsCurrentUserId = mongoose.mongo.BSONPure.ObjectID(req.session.userId);
+        next();
     };
     return handleValidate;
 }
