@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var People = require('../../model/peoples');
-var RFollowPeople = require('../../model/rFollowPeople');
+var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 
 /**
  * ContextHelper
@@ -11,38 +11,41 @@ var RFollowPeople = require('../../model/rFollowPeople');
  */
 
 module.exports.followedByCurrentUser = function(currentUser, peoples, callback) {
-    if (currentUser) {
-        var peopleRef = mongoose.mongo.BSONPure.ObjectID(currentUser._id);
+    _affectedByCurrentUser(RPeopleFollowPeople, currentUser, peoples, 'followedByCurrentUser', callback);
+};
 
-        var followRefs = [], _idToIndex = {};
-        peoples.forEach(function(people, index) {
+var _affectedByCurrentUser = function(RModel, currentUser, models, contextField, callback) {
+    if (currentUser) {
+        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(currentUser._id);
+
+        var affectedRefs = [], _idToIndex = {};
+        models.forEach(function(people, index) {
             _idToIndex[people._id] = index;
-            followRefs.push(people._id);
+            affectedRefs.push(people._id);
         });
 
-        RFollowPeople.find({
-            'peopleRef' : peopleRef,
-            'followRef' : {
-                '$in' : followRefs
+        RModel.find({
+            'initiatorRef' : initiatorRef,
+            'affectedRef' : {
+                '$in' : affectedRefs
             }
         }, function(err, relationships) {
             if (err) {
                 callback(err);
             } else {
                 relationships.forEach(function(r) {
-                    var index = _idToIndex[r.followRef];
+                    var index = _idToIndex[r.affectedRef];
                     if (index !== undefined) {
-                        var peopleJSON = peoples[index].toJSON();
-                        peopleJSON.__context = {
-                            'followedByCurrentUser' : true
-                        };
-                        peoples[index] = peopleJSON;
+                        var peopleJSON = models[index].toJSON();
+                        peopleJSON.__context = {};
+                        peopleJSON.__context[contextField] = true;
+                        models[index] = peopleJSON;
                     }
                 });
-                callback(null, peoples);
+                callback(null, models);
             }
         });
     } else {
-        callback(null, peoples);
+        callback(null, models);
     }
 };

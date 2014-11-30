@@ -42,7 +42,7 @@
     // Do any additional setup after loading the view from its nib.
     self.containerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.containerScrollView.contentSize = self.contentView.bounds.size;
+    self.containerScrollView.contentSize = self.contentView.frame.size;
     [self.containerScrollView addSubview:self.contentView];
     
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 400)];
@@ -67,9 +67,12 @@
     self.navigationItem.titleView = titleImageView;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewWillDisappear:animated];
+}
+- (void)dealloc
+{
     [self stopMovie];
 }
 
@@ -143,28 +146,44 @@
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
     [self.navigationController pushViewController:vc animated:YES];
+    
 }
 
 
 #pragma mark - Movie
 -(void)playMovie:(NSString *)path{
-
     NSURL *url = [NSURL URLWithString:path];
     if (!self.movieController) {
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
         [self.view addSubview:self.movieController.view];
+//        self.movieController.view.userInteractionEnabled = NO;
+        
+//        UIPanGestureRecognizer* ges = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+//        [self.view addGestureRecognizer:ges];
     }
-    self.movieController.view.hidden = NO;
-    
     self.movieController.view.frame = self.videoContainerView.frame;
-    self.movieController.controlStyle = MPMovieControlStyleEmbedded;
+//    self.movieController.view.userInteractionEnabled = NO;
+    self.movieController.view.hidden = NO;
+    self.movieController.scalingMode = MPMovieScalingModeAspectFill;
+
+    self.movieController.controlStyle = MPMovieControlStyleNone;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(myMovieFinishedCallback:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:nil];
     [self.movieController play];
 
+    [self scrollViewDidScroll:self.containerScrollView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hidecontrol)
+                                                 name:MPMoviePlayerLoadStateDidChangeNotification
+                                               object:nil];
 }
+- (void) hidecontrol {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
+    [self.movieController setControlStyle:MPMovieControlStyleEmbedded];
+    
+}
+
 - (void)stopMovie{
     if (self.movieController) {
         [self.movieController stop];
@@ -177,6 +196,13 @@
     [self stopMovie];
 }
 
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.movieController) {
+        CGRect rect = self.movieController.view.frame;
+        rect.origin.y = self.videoContainerView.frame.origin.y -scrollView.contentOffset.y;
+        self.movieController.view.frame = rect;
+    }
+}
 
 @end

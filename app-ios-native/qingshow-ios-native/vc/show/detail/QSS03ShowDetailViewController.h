@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QSItemImageScrollView.h"
 
-@interface QSS03ShowDetailViewController : UIViewController <QSItemImageScrollViewDelegate>
+@interface QSS03ShowDetailViewController : UIViewController <QSItemImageScrollViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 #pragma mark - IBOutlet
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
