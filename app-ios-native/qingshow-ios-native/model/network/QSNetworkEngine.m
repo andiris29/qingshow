@@ -28,8 +28,9 @@
 #define PATH_FEEDING_BY_TAGS @"feeding/byTags"
 #define PATH_FEEDING_STUDIO @"feeding/studio"
 
-//Query
-#define PATH_QUERY_COMMENT @"query/comments"
+//Show
+#define PATH_SHOW_QUERY_COMMENTS @"show/queryComments"
+#define PATH_SHOW_COMMENT @"show/comment"
 
 // People
 #define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
@@ -41,7 +42,6 @@
 #define PATH_PEOPLE_UNFOLLOW_BRAND @"interaction/unfollowBrand"
 #define PATH_INTERACTION_LIKE @"interaction/like"
 #define PATH_INTERACTION_UNLIKE @"interaction/unlike"
-#define PATH_INTERACTION_COMMENT @"interaction/comment"
 
 
 @implementation QSNetworkEngine
@@ -413,7 +413,7 @@
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_INTERACTION_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }
@@ -506,7 +506,7 @@
                                onSucceed:(ArraySuccessBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_COMMENT
+    return [self startOperationWithPath:PATH_SHOW_QUERY_COMMENTS
                                  method:@"GET"
                                paramers:@{
                                           @"showId": showDict[@"_id"],
@@ -517,7 +517,7 @@
             {
                 NSDictionary *retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"comments"], retDict[@"metadata"]);
+                    succeedBlock(retDict[@"data"][@"showComments"], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

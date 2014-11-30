@@ -1,7 +1,6 @@
 //model
 var People = require('../../model/peoples');
 var Show = require('../../model/shows');
-var Comment = require('../../model/comments');
 var Brand = require('../../model/brands');
 var PItem = require('../../model/pItems');
 var PShow = require('../../model/pShows');
@@ -274,47 +273,9 @@ _like = function (req, res) {
     });
 };
 
-_comment = function (req, res) {
-    try {
-        var param = req.body;
-        var showIdStr = param._id;
-        var comment = param.comment;
-        var showIdObj = mongoose.mongo.BSONPure.ObjectID(showIdStr);
-        var userId = req.currentUser._id;
-
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
-        return;
-    }
-    Show.find({_id : showIdObj})
-        .select('_id')
-        .exec(function (err, show) {
-            if (err) {
-                ServicesUtil.responseError(res, err);
-            } else if (!show) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
-            } else {
-                var commentEntity = new Comment({
-                    showRef: showIdObj,
-                    peopleRef: userId,
-                    comment : comment
-                });
-                commentEntity.save(function (err, c) {
-                    if (err || !c) {
-                        err = err || new Error();
-                        ServicesUtil.responseError(res, err);
-                    } else {
-                        res.json(c);
-                    }
-                });
-            }
-        });
-};
-
 
 module.exports = {
     'followBrand' : {method: 'post', func: _followBrand, needLogin: true},
     'unfollowBrand': {method: 'post', func: _unfollowBrand, needLogin: true},
-    'like' : {method: 'post', func: _like, needLogin: true},
-    'comment' : {method: 'post', func: _comment, needLogin: true}
+    'like' : {method: 'post', func: _like, needLogin: true}
 };
