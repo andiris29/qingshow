@@ -221,6 +221,13 @@
         
         UIPinchGestureRecognizer*  ges = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
         [self.movieController.view addGestureRecognizer:ges];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didExitFullScreen)
+                                                     name:MPMoviePlayerDidExitFullscreenNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnd)
+                                                     name:MPMoviePlayerPlaybackDidFinishNotification
+                                                   object:nil];
     }
     self.movieController.view.frame = self.videoContainerView.frame;
 //    self.movieController.view.userInteractionEnabled = NO;
@@ -239,14 +246,15 @@
     [self.movieController play];
 
     [self scrollViewDidScroll:self.containerScrollView];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterFullScreen)
-//                                                 name:MPMoviePlayerDidEnterFullscreenNotification
-//                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didExitFullScreen)
-                                                 name:MPMoviePlayerDidExitFullscreenNotification
-                                               object:nil];
+
+
     
     [self setCommentSharePlayButtonHidden:YES];
+}
+- (void)didEnd
+{
+    [self.movieController setFullscreen:NO animated:YES];
+    self.movieController.initialPlaybackTime = 0;
 }
 - (void)didEnterFullScreen
 {
