@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS03ShowDetailViewController">
             <connections>
-                <outlet property="commentBtn" destination="DNE-pM-rCt" id="kkB-IV-VfI"/>
+                <outlet property="commentBtn" destination="DNE-pM-rCt" id="h59-dV-lrp"/>
                 <outlet property="containerScrollView" destination="bF0-sg-JX4" id="vNm-yj-Wcl"/>
                 <outlet property="contentLabel" destination="ZEr-7p-gCN" id="Sly-Xw-TLy"/>
                 <outlet property="contentView" destination="UED-2q-Lls" id="vVt-Di-K6w"/>
@@ -20,6 +20,8 @@
                 <outlet property="itemDesLabel" destination="e1k-l3-aQ4" id="YbU-cv-5vL"/>
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
                 <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
+                <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
+                <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
                 <outlet property="shareCancelButton" destination="Ri4-Ow-Eau" id="My8-u7-kyM"/>
                 <outlet property="sharePanel" destination="Kpv-28-WOt" id="bwN-xV-ZXM"/>
                 <outlet property="showContainer" destination="Rzs-4O-hfv" id="IFv-V1-6zA"/>
@@ -39,6 +41,38 @@
                         <outlet property="delegate" destination="-1" id="gLK-bs-YYM"/>
                     </connections>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4rz-ET-nsL">
+                    <rect key="frame" x="229" y="338" width="54" height="54"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" backgroundImage="s03_play_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="playBtnPressed:" destination="-1" eventType="touchUpInside" id="5Pc-Rz-1D3"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1sR-pr-gUL">
+                    <rect key="frame" x="247" y="222" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
+                    <state key="normal" backgroundImage="s03_share_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="shareBtnPressed:" destination="-1" eventType="touchUpInside" id="ooa-sT-iX4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
+                    <rect key="frame" x="247" y="265" width="50" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
+                    <state key="normal" title="52" backgroundImage="s03_comment_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="commentBtnPressed:" destination="-1" eventType="touchUpInside" id="Faf-xe-YGg"/>
+                    </connections>
+                </button>
                 <view hidden="YES" contentMode="scaleToFill" id="Kpv-28-WOt">
                     <rect key="frame" x="0.0" y="350" width="320" height="154"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -162,38 +196,6 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4rz-ET-nsL">
-                            <rect key="frame" x="229" y="338" width="54" height="54"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" backgroundImage="s03_play_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="playBtnPressed:" destination="-1" eventType="touchUpInside" id="5Pc-Rz-1D3"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
-                            <rect key="frame" x="257" y="265" width="35" height="35"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
-                            <state key="normal" title="52" backgroundImage="s03_comment_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="commentBtnPressed:" destination="-1" eventType="touchUpInside" id="Faf-xe-YGg"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="1sR-pr-gUL">
-                            <rect key="frame" x="257" y="222" width="35" height="35"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
-                            <state key="normal" backgroundImage="s03_share_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="shareBtnPressed:" destination="-1" eventType="touchUpInside" id="ooa-sT-iX4"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -224,10 +226,10 @@
     </objects>
     <resources>
         <image name="root_cell_icon_notice" width="20" height="20"/>
-        <image name="s03_comment_btn" width="26" height="24"/>
+        <image name="s03_comment_btn" width="50" height="50"/>
         <image name="s03_favor_btn" width="20" height="20"/>
         <image name="s03_play_btn" width="54" height="54"/>
-        <image name="s03_share_btn" width="26" height="22"/>
+        <image name="s03_share_btn" width="50" height="50"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

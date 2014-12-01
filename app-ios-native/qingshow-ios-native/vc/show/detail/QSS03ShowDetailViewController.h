@@ -46,4 +46,10 @@
 @property (weak, nonatomic) IBOutlet UIView *sharePanel;
 
 
+
+@property (weak, nonatomic) IBOutlet UIButton *shareBtn;
+@property (weak, nonatomic) IBOutlet UIButton *playBtn;
+
+
+
 @end

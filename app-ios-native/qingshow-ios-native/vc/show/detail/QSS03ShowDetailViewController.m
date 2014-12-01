@@ -27,6 +27,12 @@
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) MPMoviePlayerController* movieController;
+
+
+@property (assign, nonatomic) CGRect commentBtnRect;
+@property (assign, nonatomic) CGRect shareBtnRect;
+@property (assign, nonatomic) CGRect playBtnRect;
+
 @end
 
 @implementation QSS03ShowDetailViewController
@@ -88,6 +94,10 @@
     } onError:^(NSError *error) {
         
     }];
+    
+    self.commentBtnRect = self.commentBtn.frame;
+    self.shareBtnRect = self.shareBtn.frame;
+    self.playBtnRect = self.playBtn.frame;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -205,7 +215,9 @@
         [self.videoContainerView addGestureRecognizer:tap];
         UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
         [self.videoContainerView addGestureRecognizer:pinch];
-        
+        [self.view bringSubviewToFront:self.commentBtn];
+        [self.view bringSubviewToFront:self.shareBtn];
+        [self.view bringSubviewToFront:self.playBtn];
     }
     self.movieController.view.frame = self.videoContainerView.frame;
 //    self.movieController.view.userInteractionEnabled = NO;
@@ -224,20 +236,34 @@
     [self.movieController play];
 
     [self scrollViewDidScroll:self.containerScrollView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hidecontrol)
-                                                 name:MPMoviePlayerLoadStateDidChangeNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterFullScreen)
+                                                 name:MPMoviePlayerDidEnterFullscreenNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didExitFullScreen)
+                                                 name:MPMoviePlayerDidExitFullscreenNotification
+                                               object:nil];
+    [self setCommentSharePlayButtonHidden:YES];
 }
-- (void) hidecontrol {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
-    [self.movieController setControlStyle:MPMovieControlStyleEmbedded];
-    
-}
-
-- (void) didEnterFullScreen
+- (void)didEnterFullScreen
 {
     self.movieController.scalingMode = MPMovieScalingModeAspectFill;
+    [self.movieController setControlStyle:MPMovieControlStyleFullscreen];
 }
+- (void)setCommentSharePlayButtonHidden:(BOOL)hidden
+{
+    self.commentBtn.hidden = hidden;
+    self.playBtn.hidden = hidden;
+    self.shareBtn.hidden = hidden;
+}
+- (void)didExitFullScreen
+{
+    [self.movieController setControlStyle:MPMovieControlStyleNone];
+}
+//- (void) hidecontrol {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
+//    [self.movieController setControlStyle:MPMovieControlStyleEmbedded];
+    
+//}
 
 - (void)stopMovie{
     if (self.movieController) {
@@ -258,14 +284,19 @@
         rect.origin.y = self.videoContainerView.frame.origin.y - scrollView.contentOffset.y;
         self.movieController.view.frame = rect;
     }
+    self.commentBtn.frame = CGRectMake(self.commentBtnRect.origin.x, self.commentBtnRect.origin.y - scrollView.contentOffset.y, self.commentBtnRect.size.width, self.commentBtnRect.size.height);
+    self.playBtn.frame = CGRectMake(self.playBtnRect.origin.x, self.playBtnRect.origin.y - scrollView.contentOffset.y, self.playBtnRect.size.width, self.playBtnRect.size.height);
+    self.shareBtn.frame = CGRectMake(self.shareBtnRect.origin.x, self.shareBtnRect.origin.y - scrollView.contentOffset.y, self.shareBtnRect.size.width, self.shareBtnRect.size.height);
 }
 
 - (void)didTapVideo
 {
     if (self.movieController.playbackState == MPMoviePlaybackStatePaused) {
         [self.movieController play];
+        [self setCommentSharePlayButtonHidden:YES];
     } else {
         [self.movieController pause];
+        [self setCommentSharePlayButtonHidden:NO];
     }
 }
 - (void)didPinch:(UIPinchGestureRecognizer*)g
