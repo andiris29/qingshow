@@ -27,33 +27,21 @@ var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackgroun
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
-        if (req.session.userId) {
+        if (req.qsCurrentUserId) {
             People.findOne({
-                '_id' : req.session.userId
-            }).select('userInfo.passwordUpdatedDate').exec(callback);
+                '_id' : req.qsCurrentUserId
+            }, function(err, people) {
+                if (err) {
+                    callback(err);
+                } else if (people) {
+                    callback(null, people);
+                } else {
+                    callback(ServerError.NeedLogin);
+                }
+            });
         } else {
             callback(ServerError.NeedLogin);
         }
-    },
-    function(people, callback) {
-        if (!people || !people.userInfo) {
-            callback(ServerError.SessionExpired);
-        } else {
-            var loginDate = req.session.loginDate;
-            if (!people.userInfo.passwordUpdatedDate) {
-                people.userInfo.passwordUpdatedDate = loginDate;
-            }
-            if (loginDate < people.userInfo.passwordUpdatedDate) {
-                callback(ServerError.SessionExpired);
-            } else {
-                callback(null);
-            }
-        }
-    },
-    function(callback) {
-        People.findOne({
-            '_id' : req.session.userId
-        }, callback);
     }], ResponseHelper.generateGeneralCallback(res, function(result) {
         return {
             'people' : result

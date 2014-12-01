@@ -123,11 +123,12 @@
     [self hideMenu];
     
     QSUserManager* userManager = [QSUserManager shareUserManager];
-    if (userManager.fIsLogined && !userManager.userInfo) {
-        //还未获取到用户数据
-        [self showTextHud:@"请稍后再试"];
-        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-    } else if (!userManager.fIsLogined) {
+//    if (userManager.fIsLogined && !userManager.userInfo) {
+//        //还未获取到用户数据
+//        [self showTextHud:@"请稍后再试"];
+//        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+//    } else
+    if (!userManager.userInfo) {
         //未登陆
         UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];

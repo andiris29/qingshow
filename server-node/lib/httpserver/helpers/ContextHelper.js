@@ -19,14 +19,12 @@ module.exports.likedByCurrentUser = function(currentUserId, shows, callback) {
     _rTargetedByCurrentUser(RPeopleLikeShow, currentUserId, shows, 'likedByCurrentUser', callback);
 };
 
-var _rTargetedByCurrentUser = function(RModel, currentUserId, models, contextField, callback) {
-    if (currentUserId) {
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(currentUserId);
-
+var _rTargetedByCurrentUser = function(RModel, initiatorRef, models, contextField, callback) {
+    if (initiatorRef) {
         var targetRefs = [], _idToIndex = {};
-        models.forEach(function(people, index) {
-            _idToIndex[people._id] = index;
-            targetRefs.push(people._id);
+        models.forEach(function(model, index) {
+            _idToIndex[model._id] = index;
+            targetRefs.push(model._id);
         });
 
         RModel.find({
