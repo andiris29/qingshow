@@ -218,6 +218,9 @@
         [self.view bringSubviewToFront:self.commentBtn];
         [self.view bringSubviewToFront:self.shareBtn];
         [self.view bringSubviewToFront:self.playBtn];
+        
+        UIPinchGestureRecognizer*  ges = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
+        [self.movieController.view addGestureRecognizer:ges];
     }
     self.movieController.view.frame = self.videoContainerView.frame;
 //    self.movieController.view.userInteractionEnabled = NO;
@@ -236,16 +239,18 @@
     [self.movieController play];
 
     [self scrollViewDidScroll:self.containerScrollView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterFullScreen)
-                                                 name:MPMoviePlayerDidEnterFullscreenNotification
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnterFullScreen)
+//                                                 name:MPMoviePlayerDidEnterFullscreenNotification
+//                                               object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didExitFullScreen)
                                                  name:MPMoviePlayerDidExitFullscreenNotification
                                                object:nil];
+    
     [self setCommentSharePlayButtonHidden:YES];
 }
 - (void)didEnterFullScreen
 {
+    self.movieController.view.userInteractionEnabled = YES;
     self.movieController.scalingMode = MPMovieScalingModeAspectFill;
     [self.movieController setControlStyle:MPMovieControlStyleFullscreen];
 }
@@ -257,6 +262,7 @@
 }
 - (void)didExitFullScreen
 {
+    self.movieController.view.userInteractionEnabled = NO;
     [self.movieController setControlStyle:MPMovieControlStyleNone];
 }
 //- (void) hidecontrol {
@@ -302,11 +308,15 @@
 - (void)didPinch:(UIPinchGestureRecognizer*)g
 {
     if (!self.movieController.isFullscreen && g.scale >= 1.5) {
-//        self.movieController.fullscreen = YES;
         [self.movieController setFullscreen:YES animated:YES];
         self.movieController.scalingMode = MPMovieScalingModeAspectFill;
+    } else if (self.movieController.isFullscreen && g.scale <= .5)
+    {
+        [self.movieController setFullscreen:NO animated:YES];
     }
 }
+
+
 
 #pragma mark - Share
 - (void)showSharePanel
