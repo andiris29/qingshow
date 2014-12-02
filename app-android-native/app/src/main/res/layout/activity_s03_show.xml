@@ -70,6 +70,17 @@
                     android:layout_height="match_parent"
                     android:visibility="gone" />
 
+                <ImageButton
+                    android:id="@+id/S03_message_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/root_icon_message"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="150dp"
+                    android:layout_marginRight="15dp">
+                    </ImageButton>
+
             </com.focosee.qingshow.widget.MRelativeLayout_3_4>
 
             <RelativeLayout

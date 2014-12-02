@@ -18,7 +18,7 @@ import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowEntity;
-import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
@@ -35,7 +35,7 @@ public class S01HomeActivity extends Activity {
 //    private MNavigationView _navigationView;
     private LinearLayout _popView;
 
-    private MPullRefreshListView _wfPullRefreshView;
+    private MPullRefreshMultiColumnListView _wfPullRefreshView;
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
     private int _currentPageIndex = 1;
@@ -52,12 +52,14 @@ public class S01HomeActivity extends Activity {
 //        _navigationView.setRight_drawable(R.drawable.nav_btn_account);
 //        _navigationView.setLogo_drawable(R.drawable.nav_btn_image_logo);
 
+        // TODO: Improve code to add menu here
         ((ImageView)findViewById(R.id.S01_nav_icon_flash)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
                 startActivity(intent);
+                _popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_match)).setOnClickListener(new View.OnClickListener() {
@@ -66,6 +68,7 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
                 startActivity(intent);
+                _popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
@@ -74,6 +77,7 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
                 startActivity(intent);
+                _popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_design)).setOnClickListener(new View.OnClickListener() {
@@ -82,6 +86,7 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 3);
                 startActivity(intent);
+                _popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_brand)).setOnClickListener(new View.OnClickListener() {
@@ -90,6 +95,7 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
                 startActivity(intent);
+                _popView.setVisibility(View.GONE);
             }
         });
 
@@ -105,10 +111,10 @@ public class S01HomeActivity extends Activity {
         ((ImageView)findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (_popView.getVisibility() == View.INVISIBLE)
+                if (_popView.getVisibility() != View.VISIBLE)
                     _popView.setVisibility(View.VISIBLE);
                 else
-                    _popView.setVisibility(View.INVISIBLE);
+                    _popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
@@ -119,7 +125,7 @@ public class S01HomeActivity extends Activity {
             }
         });
 
-        _wfPullRefreshView = (MPullRefreshListView) findViewById(R.id.S01_waterfall_content);
+        _wfPullRefreshView = (MPullRefreshMultiColumnListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
         _adapter = new HomeWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
 

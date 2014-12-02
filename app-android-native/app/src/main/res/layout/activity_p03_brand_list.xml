@@ -1,20 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.focosee.qingshow.activity.S02ShowClassify">
+    tools:context="com.focosee.qingshow.activity.P03BrandListActivity">
 
     <com.focosee.qingshow.widget.MNavigationView
         xmlns:navi="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/S02_nav_bar"
+        android:id="@+id/P03_brand_list_navigation"
         android:layout_width="fill_parent"
+        android:layout_height="50dp"
         navi:left_drawable="@drawable/root_icon_back"
-        android:layout_height="50dp"></com.focosee.qingshow.widget.MNavigationView>
-
+        navi:tv_title="品牌"
+        ></com.focosee.qingshow.widget.MNavigationView>
 
     <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
-        android:id="@+id/S02_waterfall_content"
+        android:id="@+id/P03_brand_list_list_view"
+        android:layout_below="@+id/P03_brand_list_navigation"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/S02_nav_bar"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
+        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
 
 </RelativeLayout>

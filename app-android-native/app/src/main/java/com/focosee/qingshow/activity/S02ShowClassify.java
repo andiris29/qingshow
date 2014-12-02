@@ -17,7 +17,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowEntity;
 import com.focosee.qingshow.widget.MNavigationView;
-import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
@@ -47,7 +47,7 @@ public class S02ShowClassify extends Activity {
     public static final String INPUT_CATEGORY = "sfdsjflkasd";
 
     private MNavigationView _navigationView;
-    private MPullRefreshListView _pullRefreshListView;
+    private MPullRefreshMultiColumnListView _pullRefreshListView;
     private MultiColumnListView _waterfallListView;
     private ClassifyWaterfallAdapter _adapter;
 
@@ -64,7 +64,7 @@ public class S02ShowClassify extends Activity {
         classifyMod = intent.getIntExtra(S02ShowClassify.INPUT_CATEGORY, 0);
 
         _navigationView = (MNavigationView) findViewById(R.id.S02_nav_bar);
-        _pullRefreshListView = (MPullRefreshListView) findViewById(R.id.S02_waterfall_content);
+        _pullRefreshListView = (MPullRefreshMultiColumnListView) findViewById(R.id.S02_waterfall_content);
 
         _navigationView.getTv_title().setText(ShowClassifyConfig.getTitle(classifyMod));
         _navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {

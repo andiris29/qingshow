@@ -65,6 +65,18 @@
             android:name="com.focosee.qingshow.activity.S02ShowClassify"
             android:label="@string/title_activity_s02_show_classify" >
         </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.S04CommentActivity"
+            android:label="@string/title_activity_s04_comment" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.P03BrandListActivity"
+            android:label="@string/title_activity_p03_brand_list" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.P01ModelListActivity"
+            android:label="@string/title_activity_p01_model_list" >
+        </activity>
     </application>
 
 </manifest>

@@ -3,28 +3,26 @@ package com.focosee.qingshow.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.Adapter;
-import android.widget.ListView;
 
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 
-public class MPullRefreshListView extends PullToRefreshBase<ListView> implements AbsListView.OnScrollListener{
+public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColumnListView> implements PLA_AbsListView.OnScrollListener {
 
     /**ListView*/
-    private ListView mListView;
+    private MultiColumnListView mListView;
     /**用于滑到底部自动加载的Footer*/
     private LoadingLayout mLoadMoreFooterLayout;
     /**滚动的监听器*/
-    private AbsListView.OnScrollListener mScrollListener;
+    private PLA_AbsListView.OnScrollListener mScrollListener;
 
     /**
      * 构造方法
      *
      * @param context context
      */
-    public MPullRefreshListView(Context context) {
+    public MPullRefreshMultiColumnListView(Context context) {
         this(context, null);
     }
 
@@ -34,7 +32,7 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
      * @param context context
      * @param attrs attrs
      */
-    public MPullRefreshListView(Context context, AttributeSet attrs) {
+    public MPullRefreshMultiColumnListView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
@@ -45,15 +43,15 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
      * @param attrs attrs
      * @param defStyle defStyle
      */
-    public MPullRefreshListView(Context context, AttributeSet attrs, int defStyle) {
+    public MPullRefreshMultiColumnListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         setPullLoadEnabled(false);
     }
 
     @Override
-    protected ListView createRefreshableView(Context context, AttributeSet attrs) {
-        ListView listView = new ListView(context);
+    protected MultiColumnListView createRefreshableView(Context context, AttributeSet attrs) {
+        MultiColumnListView listView = new MultiColumnListView(context);
         mListView = listView;
         listView.setOnScrollListener(this);
 
@@ -83,7 +81,7 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
      *
      * @param l 监听器
      */
-    public void setOnScrollListener(AbsListView.OnScrollListener l) {
+    public void setOnScrollListener(PLA_AbsListView.OnScrollListener l) {
         mScrollListener = l;
     }
 
@@ -216,8 +214,33 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
         return false;
     }
 
+
+
+//    @Override
+//    public void onScrollStateChanged(AbsListView view, int scrollState) {
+//        if (isScrollLoadEnabled() && hasMoreData()) {
+//            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
+//                    || scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+//                if (isReadyForPullUp()) {
+//                    startLoading();
+//                }
+//            }
+//        }
+//
+//        if (null != mScrollListener) {
+//            mScrollListener.onScrollStateChanged(view, scrollState);
+//        }
+//    }
+//
+//    @Override
+//    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//        if (null != mScrollListener) {
+//            mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+//        }
+//    }
+
     @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
+    public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
         if (isScrollLoadEnabled() && hasMoreData()) {
             if (scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE
                     || scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
@@ -233,7 +256,7 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
     }
 
     @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         if (null != mScrollListener) {
             mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);

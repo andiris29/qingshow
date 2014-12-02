@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -94,6 +95,14 @@ public class S03SHowActivity extends Activity {
             @Override
             public void onPosition(int position, int totalCount) {
 
+            }
+        });
+
+        ((ImageButton)findViewById(R.id.S03_message_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
+                startActivity(intent);
             }
         });
 
