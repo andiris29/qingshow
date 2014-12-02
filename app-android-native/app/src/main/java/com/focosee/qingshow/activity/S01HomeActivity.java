@@ -18,7 +18,7 @@ import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowEntity;
-import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
@@ -35,7 +35,7 @@ public class S01HomeActivity extends Activity {
 //    private MNavigationView _navigationView;
     private LinearLayout _popView;
 
-    private MPullRefreshListView _wfPullRefreshView;
+    private MPullRefreshMultiColumnListView _wfPullRefreshView;
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
     private int _currentPageIndex = 1;
@@ -125,7 +125,7 @@ public class S01HomeActivity extends Activity {
             }
         });
 
-        _wfPullRefreshView = (MPullRefreshListView) findViewById(R.id.S01_waterfall_content);
+        _wfPullRefreshView = (MPullRefreshMultiColumnListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
         _adapter = new HomeWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
 

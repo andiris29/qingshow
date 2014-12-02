@@ -69,10 +69,10 @@
 
     </RelativeLayout>
 
-    <com.focosee.qingshow.widget.MPullRefreshListView
+    <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
         android:id="@+id/waterfallListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/S01_navigation"></com.focosee.qingshow.widget.MPullRefreshListView>
+        android:layout_below="@+id/S01_navigation"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
 
 </LinearLayout>
