@@ -200,6 +200,6 @@ module.exports = {
     'collocate' : {
         method : 'post',
         func : _collocate,
-        needLogin : true
+        permissionValidators : ['loginValidator']
     }
 };

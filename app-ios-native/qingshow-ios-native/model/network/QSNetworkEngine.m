@@ -221,11 +221,7 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* shows = retDict[@"data"][@"shows"];
-                    NSMutableArray* a = [@[] mutableCopy];
-                    for (NSDictionary* dict in shows) {
-                        [a addObject:[dict mutableCopy]];
-                    }
-                    succeedBlock(a, retDict[@"metadata"]);
+                    succeedBlock(shows.deepDictMutableCopy, retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -558,7 +554,7 @@
                 if (dataArray.count) {
                     d = dataArray[0];
                 }
-                succeedBlock(d);
+                succeedBlock([d mutableCopy]);
                 return;
             } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
                 NSArray* retArray = completedOperation.responseJSON;
@@ -609,7 +605,8 @@
 {
     return [self startOperationWithPath:PATH_SHOW_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-            ((NSMutableDictionary*)showDict)[@"isLiked"] = @YES;
+            NSMutableDictionary* d = (NSMutableDictionary*)showDict;
+            d[@"isLiked"] = @YES;
         }
         if (succeedBlock) {
             succeedBlock();
@@ -626,7 +623,8 @@
 {
     return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-            ((NSMutableDictionary*)showDict)[@"isLiked"] = @NO;
+            NSMutableDictionary* d = (NSMutableDictionary*)showDict;
+            d[@"isLiked"] = @NO;
         }
         if (succeedBlock) {
             succeedBlock();

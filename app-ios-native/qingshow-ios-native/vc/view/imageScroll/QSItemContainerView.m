@@ -30,7 +30,7 @@
         UIImageView* imgView = self.imageViewArray[i];
         if (i < imageUrlArray.count) {
             NSURL* url = imageUrlArray[i];
-            [imgView setImageFromURL:url];
+            [imgView setImageFromURL:url placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
             UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesRecognize:)];
             [imgView addGestureRecognizer:ges];
             imgView.userInteractionEnabled = YES;
@@ -41,6 +41,18 @@
         }
 
 
+    }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGSize size = self.frame.size;
+    float width = (size.width - 30) / 3;
+    float height = size.height;
+    for (int i = 0; i < self.imageViewArray.count; i++) {
+        UIImageView* imageView = self.imageViewArray[i];
+        imageView.frame = CGRectMake(5 + i * (width + 10) , 0, width, height);
     }
 }
 

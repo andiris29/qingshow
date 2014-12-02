@@ -123,11 +123,12 @@
     [self hideMenu];
     
     QSUserManager* userManager = [QSUserManager shareUserManager];
-    if (userManager.fIsLogined && !userManager.userInfo) {
-        //还未获取到用户数据
-        [self showTextHud:@"请稍后再试"];
-        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-    } else if (!userManager.fIsLogined) {
+//    if (userManager.fIsLogined && !userManager.userInfo) {
+//        //还未获取到用户数据
+//        [self showTextHud:@"请稍后再试"];
+//        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+//    } else
+    if (!userManager.userInfo) {
         //未登陆
         UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
         [self.navigationController pushViewController:vc animated:YES];
@@ -145,15 +146,16 @@
 {
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
-            [self.delegateObj reloadData];
+            [self showSuccessHudWithText:@"unlike succeed"];
+//            [self.delegateObj reloadData];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
-            [self.delegateObj reloadData];
+            [self showSuccessHudWithText:@"like succeed"];
+//            [self.delegateObj reloadData];
         } onError:^(NSError *error) {
-            
             [self showErrorHudWithError:error];
         }];
     }

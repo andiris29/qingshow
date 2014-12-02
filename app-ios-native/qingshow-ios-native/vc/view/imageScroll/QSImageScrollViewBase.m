@@ -38,7 +38,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.translatesAutoresizingMaskIntoConstraints = NO;
         self.imageViewArray = [@[] mutableCopy];
         self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         self.scrollView.showsHorizontalScrollIndicator = NO;

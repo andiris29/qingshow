@@ -6,7 +6,7 @@ var RPeopleFollowPeople = mongoose.model('rPeopleFollowPeople', Schema({
         'type' : Schema.Types.ObjectId,
         'ref' : 'peoples'
     },
-    'affectedRef' : {
+    'targetRef' : {
         'type' : Schema.Types.ObjectId,
         'ref' : 'peoples'
     },

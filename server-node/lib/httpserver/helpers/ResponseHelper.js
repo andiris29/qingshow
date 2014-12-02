@@ -11,7 +11,7 @@ module.exports.generateGeneralCallback = function(res, dataBuilder) {
 
 var _general = module.exports.general = function(res, err, data) {
     if (err) {
-        if (_.isString(err)) {
+        if (!(err instanceof ServerError)) {
             err = new ServerError(ServerError.ServerError, err);
         }
         res.json({
