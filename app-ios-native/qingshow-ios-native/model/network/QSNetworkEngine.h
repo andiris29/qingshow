@@ -80,6 +80,9 @@
                             reply:(NSDictionary*)peopleDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)deleteComment:(NSDictionary*)commentDict
+                           onSucceed:(VoidBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)getCategoryFeeding:(int)type
                                      page:(int)page

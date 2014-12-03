@@ -469,6 +469,20 @@
     }];
 }
 
+- (MKNetworkOperation*)deleteComment:(NSDictionary*)commentDict
+                           onSucceed:(VoidBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"show/deleteComment" method:@"POST" paramers:@{@"_id" : commentDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
 
 
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock {

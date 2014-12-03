@@ -40,7 +40,7 @@
     self.favorDelegate  = [[QSShowCollectionViewDelegateObj alloc] init];
     self.favorDelegate.delegate = self;
     self.recommendationDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
-    self.recommendationCollectionView.delegate = self;
+    self.recommendationDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     self.followingDelegate.delegate = self;
 }

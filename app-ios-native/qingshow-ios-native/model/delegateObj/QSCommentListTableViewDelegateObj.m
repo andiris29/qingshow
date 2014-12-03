@@ -24,7 +24,7 @@
     [cell bindWithComment:dict];
     return cell;
 }
-- (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 62.f;
 }
@@ -34,7 +34,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([self.delegate respondsToSelector:@selector(didClickComment:atIndex:)]) {
             NSDictionary* dict = self.resultArray[indexPath.row];
-        [self.delegate didClickComment:dict atIndex:indexPath.row];
+        [self.delegate didClickComment:dict atIndex:(int)indexPath.row];
     }
 }
 

@@ -54,14 +54,14 @@
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents* c = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:date];
-    return [NSString stringWithFormat:@"%d:%d",c.hour, c.minute];
+    return [NSString stringWithFormat:@"%d:%d",(int)c.hour, (int)c.minute];
 }
 + (NSString*)getMYD:(NSDate*)date
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents* c = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date];
     
-    return [NSString stringWithFormat:@"%d/%d/%d", c.year, c.month, c.day];
+    return [NSString stringWithFormat:@"%d/%d/%d", (int)c.year, (int)c.month, (int)c.day];
 }
 + (NSString*)getWeek:(NSDate*)date
 {
@@ -74,7 +74,7 @@
                    @"星期日",
                    @"星期一"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    int week = [calendar component:NSWeekdayCalendarUnit fromDate:date];
+    NSInteger week = [calendar component:NSWeekdayCalendarUnit fromDate:date];
 
     return a[week];
 }

@@ -14,6 +14,7 @@
 #import "QSShowUtil.h"
 #import "QSCommentUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSUserManager.h"
 
 @interface QSCommentListViewController ()
 
@@ -89,24 +90,38 @@
 #pragma mark - QSCommentListTableViewDelegateObj
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
+    NSString* destructiveTitle = nil;
+    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]] || [QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSShowUtil getPeopleFromShow:self.showDict]])
+    {
+        destructiveTitle = @"删除";
+    }
+    
     self.clickIndex = index;
-    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"回复", @"查看个人主页", nil];
+    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:@"回复", @"查看个人主页", nil];
     [sheet showInView:self.view];
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
+    NSDictionary* people = [QSCommentUtil getPeople:comment];
     //0 回复
     //1 查看个人主页
     if (buttonIndex == 0) {
         //回复
-        NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
-        NSDictionary* people = [QSCommentUtil getPeople:comment];
         self.textField.placeholder = [NSString stringWithFormat:@"回复 %@ :", [QSPeopleUtil getName:people]];
         [self.textField becomeFirstResponder];
-    } else
+    } if (buttonIndex == actionSheet.destructiveButtonIndex) {
+        int index = self.clickIndex;
+        self.clickIndex = -1;
+        [SHARE_NW_ENGINE deleteComment:comment onSucceed:^{
+            [self.delegateObj.resultArray removeObjectAtIndex:index];
+            [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    }
+    else
     {
-        NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
-        NSDictionary* people = [QSCommentUtil getPeople:comment];
         UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:people];
         [self.navigationController pushViewController:vc animated:YES];
     }

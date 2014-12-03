@@ -15,6 +15,4 @@
 + (NSDictionary*)getShow:(NSDictionary*)commentDict;
 + (NSString*)getFormatedDateString:(NSDictionary*)commentDict;
 
-
-
 @end
