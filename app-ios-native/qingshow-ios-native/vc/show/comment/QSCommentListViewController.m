@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) QSCommentListTableViewDelegateObj* delegateObj;
 @property (assign, nonatomic) int clickIndex;
+
 @end
 
 @implementation QSCommentListViewController
@@ -58,6 +59,8 @@
     self.textField.layer.masksToBounds = YES;
     self.sendBtn.layer.cornerRadius = 4;
     self.sendBtn.layer.masksToBounds = YES;
+    
+    self.clickIndex = -1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,6 +115,7 @@
 {
     [self.textField resignFirstResponder];
     self.textField.placeholder = @"回复评论";
+    self.clickIndex = -1;
 }
 #pragma mark - Text Field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -134,14 +138,21 @@
         [self showErrorHudWithText:@"请填写内容"];
     } else {
         [self.textField resignFirstResponder];
+        
+        NSDictionary* people = nil;
+        if (self.clickIndex >= 0 && self.clickIndex < self.delegateObj.resultArray.count) {
+            NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
+            people = [QSCommentUtil getPeople:comment];
+        }
         __weak QSCommentListViewController* weakSelf = self;
-        [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict onSucceed:^{
+        [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
             [weakSelf.delegateObj reloadData];
             [self showSuccessHudWithText:@"发送成功"];
             self.textField.text = @"";
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
+        self.clickIndex = -1;
 
     }
 }

@@ -18,5 +18,30 @@
     return @"";
 
 }
++ (NSURL*)getBrandLogoUrl:(NSDictionary*)dict
+{
+    NSString* s = dict[@"logo"];
+    return [NSURL URLWithString:s];
+}
++ (NSURL*)getBrandSloganUrl:(NSDictionary*)dict
+{
+    NSString* s = dict[@"slogan"];
+    return [NSURL URLWithString:s];
+}
++ (NSString*)getBrandTypeDesc:(NSDictionary*)dict
+{
+    NSNumber* type = dict[@"type"];
+    return @[@"brand", @"studio"][type.intValue];
+}
 
++ (BOOL)getHasFollowBrand:(NSDictionary*)dict
+{
+#warning TODO
+    return NO;
+}
++ (void)setHasFollow:(BOOL)f brand:(NSDictionary*)dict
+{
+#warning TODO
+    
+}
 @end

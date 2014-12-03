@@ -10,6 +10,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSPeopleUtil.h"
+#import "QSBrandUtil.h"
 
 @interface QSBadgeView ()
 
@@ -64,6 +65,8 @@
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict
 {
+    self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
+    self.iconImageView.layer.masksToBounds = YES;
     self.nameLabel.text = peopleDict[@"name"];
     self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
     self.statusLabel.text = [QSPeopleUtil buildModelStatusString:peopleDict];
@@ -81,7 +84,13 @@
 }
 - (void)bindWithBrandDict:(NSDictionary*)brandDict
 {
-#warning 内容未写
+    self.iconImageView.layer.cornerRadius = 0;
+    self.iconImageView.layer.masksToBounds = YES;
+    
+    [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
+    self.roleLabel.text = [QSBrandUtil getBrandTypeDesc:brandDict];
+    self.statusLabel.text = @"";
 }
 
 #pragma mark - QSSectionButtonGroupDelegate

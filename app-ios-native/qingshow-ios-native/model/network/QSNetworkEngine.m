@@ -12,7 +12,7 @@
 #import "QSUserManager.h"
 #import "QSFeedingCategory.h"
 #import "NSArray+QSExtension.h"
-
+#import "QSBrandUtil.h"
 #import "QSPeopleUtil.h"
 
 //User
@@ -245,7 +245,7 @@
             path = @"feeding/hot";
             break;
         case 8:
-            path = @"feeding/chosen";
+            path = @"feeding/studio";
             break;
         default:
             break;
@@ -449,10 +449,16 @@
 
 - (MKNetworkOperation*)addComment:(NSString*)comment
                            onShow:(NSDictionary*)showDict
+                            reply:(NSDictionary*)peopleDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:@{@"_id": showDict[@"_id" ], @"comment": comment} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    NSMutableDictionary* paramDict = [@{@"_id": showDict[@"_id"], @"comment": comment} mutableCopy];
+    if (peopleDict) {
+        paramDict[@"_atId"] = peopleDict[@"_id"];
+    }
+    
+    return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             succeedBlock();
         }
@@ -634,6 +640,148 @@
             errorBlock(error);
         }
     }];
+}
+
+#pragma mark - Brand
+- (MKNetworkOperation*)queryBrands:(int)type
+                              page:(int)page
+                         onSucceed:(ArraySuccessBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"brand/queryBrands" method:@"GET" paramers:@{@"type" : @(type), @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* retDict = completedOperation.responseJSON;
+        NSArray* retArray = retDict[@"data"][@"brands"];
+        if (succeedBlock) {
+            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)queryBrandFollower:(NSDictionary*)brandDict
+                                     page:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"brand/queryBrands" method:@"GET" paramers:@{@"_id" : brandDict[@"_id"], @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* retDict = completedOperation.responseJSON;
+        NSArray* retArray = retDict[@"data"][@"peoples"];
+        if (succeedBlock) {
+            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)feedingByBrand:(NSDictionary*)brandDict
+                                 page:(int)page
+                            onSucceed:(ArraySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"feeding/byBrand" method:@"GET" paramers:@{@"_id": brandDict[@"_id"], @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* retDict = completedOperation.responseJSON;
+        NSArray* retArray = retDict[@"data"][@"shows"];
+        if (succeedBlock) {
+            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
+                                         page:(int)page
+                                    onSucceed:(ArraySuccessBlock)succeedBlock
+                                      onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"feeding/byBrandDiscount" method:@"GET" paramers:@{@"_id": brandDict[@"_id"], @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* retDict = completedOperation.responseJSON;
+        NSArray* retArray = retDict[@"data"][@"shows"];
+        if (succeedBlock) {
+            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+
+
+
+
+- (MKNetworkOperation*)handleFollowBrand:(NSDictionary*)brandDict
+                               onSucceed:(BoolBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+
+    if ([QSBrandUtil getHasFollowBrand:brandDict]) {
+        return [self unfollowBrand:brandDict onSucceed:^{
+            [QSBrandUtil setHasFollow:NO brand:brandDict];
+            if (succeedBlock) {
+                succeedBlock(NO);
+            }
+        } onError:errorBlock];
+    }
+    else
+    {
+
+        return [self followBrand:brandDict onSucceed:^{
+            [QSBrandUtil setHasFollow:YES brand:brandDict];
+            if (succeedBlock) {
+                succeedBlock(YES);
+            }
+        } onError:errorBlock];
+    }
+}
+- (MKNetworkOperation*)followBrand:(NSDictionary*)brandDict
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"brand/follow"
+                                 method:@"POST" paramers:@{@"_id" : brandDict[@"_id"]}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    succeedBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation*)unfollowBrand:(NSDictionary*)brandDict
+                            onSucceed:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:@"brand/unfollow"
+                                 method:@"POST"
+                               paramers:@{@"_id" : brandDict[@"_id"]}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    succeedBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
 }
 
 @end
