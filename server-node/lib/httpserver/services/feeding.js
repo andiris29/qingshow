@@ -415,7 +415,7 @@ _byStudio = function (req, res) {
                     ServicesUtil.responseError(res, err);
                     return;
                 } else if (!items || !items.length) {
-                    ServicesUtil.responseError(res, ServerError(res, new ServerError(ServerError.ShowNotExist)));
+                    ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
                     return;
                 } else {
                     var itemsIdArray = [];
