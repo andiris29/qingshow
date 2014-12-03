@@ -12,6 +12,8 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.CommentEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
+
 class CommentViewHolder {
     public ImageView commentImage;
     public TextView commentName;
@@ -21,11 +23,11 @@ class CommentViewHolder {
 
 public class S04CommentListAdapter extends BaseAdapter {
 
-    private CommentEntity.Data.ShowComments[] data;
+    private ArrayList<CommentEntity> data;
     private Context context;
     private ImageLoader imageLoader;
 
-    public S04CommentListAdapter(Context context, CommentEntity.Data.ShowComments[] comments, ImageLoader imageLoader){
+    public S04CommentListAdapter(Context context, ArrayList<CommentEntity> comments, ImageLoader imageLoader){
         this.context = context;
         this.data = comments;
         this.imageLoader = imageLoader;
@@ -33,12 +35,12 @@ public class S04CommentListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.length;
+        return (null != data) ? data.size() : 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return data[position];
+        return data.get(position);
     }
 
     @Override
@@ -60,7 +62,18 @@ public class S04CommentListAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         holder = (CommentViewHolder)convertView.getTag();
-//        this.imageLoader.displayImage(data[position].authorRef);
+        this.imageLoader.displayImage(data.get(position).authorRef.portrait, holder.commentImage);
+        holder.commentName.setText(data.get(position).authorRef.name);
+        holder.commentContent.setText(data.get(position).comment);
+        holder.commentTime.setText(data.get(position).create);
         return null;
+    }
+
+    public void resetData(ArrayList<CommentEntity> commentEntities) {
+        this.data = commentEntities;
+    }
+
+    public void addDataInTail(ArrayList<CommentEntity> commentEntities) {
+        this.data.addAll(this.data.size(), commentEntities);
     }
 }
