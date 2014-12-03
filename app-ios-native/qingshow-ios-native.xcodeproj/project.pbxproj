@@ -32,6 +32,8 @@
 		EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A59221A06761800001AE0 /* QSShowCollectionViewCell.xib */; };
 		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
 		EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */; };
+		EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF2E0F231A2F790400F3A25C /* libWeiboSDK.a */; };
+		EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF2E0F2B1A2F790400F3A25C /* WeiboSDK.bundle */; };
 		EF3D056B1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056A1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m */; };
 		EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */; };
 		EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46461E1A2AEB5C00172618 /* CoreText.framework */; };
@@ -181,6 +183,17 @@
 		EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
 		EF1A592A1A06763000001AE0 /* QSS01RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS01RootViewController.h; sourceTree = "<group>"; };
 		EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS01RootViewController.m; sourceTree = "<group>"; };
+		EF2E0F231A2F790400F3A25C /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
+		EF2E0F241A2F790400F3A25C /* WBHttpRequest+WeiboShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboShare.h"; sourceTree = "<group>"; };
+		EF2E0F251A2F790400F3A25C /* WBHttpRequest+WeiboToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboToken.h"; sourceTree = "<group>"; };
+		EF2E0F261A2F790400F3A25C /* WBHttpRequest+WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WBHttpRequest+WeiboUser.h"; sourceTree = "<group>"; };
+		EF2E0F271A2F790400F3A25C /* WBHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBHttpRequest.h; sourceTree = "<group>"; };
+		EF2E0F281A2F790400F3A25C /* WBSDKBasicButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKBasicButton.h; sourceTree = "<group>"; };
+		EF2E0F291A2F790400F3A25C /* WBSDKCommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKCommentButton.h; sourceTree = "<group>"; };
+		EF2E0F2A1A2F790400F3A25C /* WBSDKRelationshipButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSDKRelationshipButton.h; sourceTree = "<group>"; };
+		EF2E0F2B1A2F790400F3A25C /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
+		EF2E0F2C1A2F790400F3A25C /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
+		EF2E0F2D1A2F790400F3A25C /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
 		EF3D05691A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowCollectionViewDelegateObj.h; sourceTree = "<group>"; };
 		EF3D056A1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowCollectionViewDelegateObj.m; sourceTree = "<group>"; };
 		EF3D056D1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewDelegateObj.h; sourceTree = "<group>"; };
@@ -349,6 +362,7 @@
 				EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */,
 				EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */,
 				EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */,
+				EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */,
 				EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */,
 				EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */,
 				EF9A74161A02A82600095F07 /* UIKit.framework in Frameworks */,
@@ -445,6 +459,24 @@
 				EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */,
 			);
 			path = waterfall;
+			sourceTree = "<group>";
+		};
+		EF2E0F221A2F790400F3A25C /* libWeiboSDK */ = {
+			isa = PBXGroup;
+			children = (
+				EF2E0F231A2F790400F3A25C /* libWeiboSDK.a */,
+				EF2E0F241A2F790400F3A25C /* WBHttpRequest+WeiboShare.h */,
+				EF2E0F251A2F790400F3A25C /* WBHttpRequest+WeiboToken.h */,
+				EF2E0F261A2F790400F3A25C /* WBHttpRequest+WeiboUser.h */,
+				EF2E0F271A2F790400F3A25C /* WBHttpRequest.h */,
+				EF2E0F281A2F790400F3A25C /* WBSDKBasicButton.h */,
+				EF2E0F291A2F790400F3A25C /* WBSDKCommentButton.h */,
+				EF2E0F2A1A2F790400F3A25C /* WBSDKRelationshipButton.h */,
+				EF2E0F2B1A2F790400F3A25C /* WeiboSDK.bundle */,
+				EF2E0F2C1A2F790400F3A25C /* WeiboSDK.h */,
+				EF2E0F2D1A2F790400F3A25C /* WeiboUser.h */,
+			);
+			path = libWeiboSDK;
 			sourceTree = "<group>";
 		};
 		EF3D05671A0BC62100175E1D /* delegateObj */ = {
@@ -849,6 +881,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EF2E0F221A2F790400F3A25C /* libWeiboSDK */,
 				EF9C95241A0FB7B3006A0AE3 /* MBProgressHUD */,
 				EFF1148D1A0D2EEC009B7361 /* MKNetworkKit */,
 			);
@@ -1064,6 +1097,7 @@
 				EFD0B7FD1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib in Resources */,
 				82F4E2721A165B98007A90B4 /* QSU07RegisterViewController.xib in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
+				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */,
 				EF140A6F1A092B6400E3C4D4 /* QSP01ModelListViewController.xib in Resources */,
@@ -1294,6 +1328,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
+				);
+				OTHER_LIBTOOLFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
 				WRAPPER_EXTENSION = app;
@@ -1310,6 +1349,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
+				);
+				OTHER_LIBTOOLFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
 				WRAPPER_EXTENSION = app;
