@@ -74,7 +74,7 @@
                    @"星期日",
                    @"星期一"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSInteger week = [calendar component:NSWeekdayCalendarUnit fromDate:date];
+    NSInteger week = [calendar components:NSWeekdayCalendarUnit fromDate:date].weekday;
 
     return a[week];
 }
