@@ -23,12 +23,12 @@
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
-            <ListView
+            <com.focosee.qingshow.widget.MPullRefreshListView
                 android:id="@+id/S04_container_list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
 
-            </ListView>
+            </com.focosee.qingshow.widget.MPullRefreshListView>
         </LinearLayout>
     </ScrollView>
     
@@ -45,14 +45,14 @@
             android:id="@+id/S04_user_image"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="4"
+            android:layout_weight="8"
             android:src="@drawable/root_user_background"/>
         
         <EditText
             android:id="@+id/S04_input"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:background="@drawable/root_input_backgound"
             android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
@@ -63,7 +63,11 @@
             android:id="@+id/S04_send_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="4"
+            android:layout_weight="7"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/s04_send_background"
             android:text="发送"/>
         </LinearLayout>

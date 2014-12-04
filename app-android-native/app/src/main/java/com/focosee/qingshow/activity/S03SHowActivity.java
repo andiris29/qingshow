@@ -102,6 +102,7 @@ public class S03SHowActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
+                intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showEntity._id);
                 startActivity(intent);
             }
         });
