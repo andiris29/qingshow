@@ -22,6 +22,7 @@
 
 #import "QSUserManager.h"
 #import "WeiboSDK.h"
+#import "WXApi.h"
 #import "QSSharePlatformConst.h"
 
 @interface QSS03ShowDetailViewController ()
@@ -345,7 +346,9 @@
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
     tran.subtype = kCATransitionFromTop;
+    tran.duration = 0.2f;
     [self.sharePanel.layer addAnimation:tran forKey:@"ShowAnimation"];
+
 }
 - (void)hideSharePanel
 {
@@ -356,6 +359,7 @@
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
     tran.subtype = kCATransitionFromBottom;
+    tran.duration = 0.2f;
     [self.sharePanel.layer addAnimation:tran forKey:@"ShowAnimation"];
 }
 
@@ -394,6 +398,23 @@
 }
 
 - (IBAction)shareWechatPressed:(id)sender {
+    [self hideSharePanel];
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.title = @"qingshow";
+    message.description = @"qingshow";
+    
+    WXVideoObject *ext = [WXVideoObject object];
+    ext.videoUrl = @"http://v.youku.com/v_show/id_XNTUxNDY1NDY4.html";
+    
+    message.mediaObject = ext;
+    
+    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
+    req.bText = NO;
+    req.message = message;
+    req.scene = WXSceneTimeline;
+    
+    [WXApi sendReq:req];
+    
 }
 - (IBAction)shareCancelPressed:(id)sender {
     [self hideSharePanel];

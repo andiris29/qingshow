@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "WeiboSDK.h"
-
-@interface QSAppDelegate : UIResponder <UIApplicationDelegate, WeiboSDKDelegate>
+#import "WXApi.h"
+@interface QSAppDelegate : UIResponder <UIApplicationDelegate, WeiboSDKDelegate, WXApiDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

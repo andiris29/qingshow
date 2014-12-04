@@ -27,6 +27,8 @@
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kWeiboAppKey];
     
+    [WXApi registerApp:@"wxef1d308f82e30c66"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -65,14 +67,26 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return [WeiboSDK handleOpenURL:url delegate:self];
+    if ([[url absoluteString] hasPrefix:@"wb271944535"]) {
+        return [WeiboSDK handleOpenURL:url delegate:self];
+    } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
+        return [WXApi handleOpenURL:url delegate:self];
+    }
+    return YES;
+
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    return [WeiboSDK handleOpenURL:url delegate:self ];
+    if ([[url absoluteString] hasPrefix:@"wb271944535"]) {
+        return [WeiboSDK handleOpenURL:url delegate:self ];
+    } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
+        return [WXApi handleOpenURL:url delegate:self];
+    }
+    return YES;
 }
 
+#pragma mark - Weibo
 - (void)didReceiveWeiboRequest:(WBBaseRequest *)request
 {
     
@@ -116,5 +130,7 @@
         
     }
 }
+
+#pragma mark - WeChat
 
 @end
