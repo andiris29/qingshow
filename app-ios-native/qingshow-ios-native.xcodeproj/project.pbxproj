@@ -313,6 +313,7 @@
 		EFD0B7F91A1A5C0500BCDFBA /* QSCompareTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCompareTableViewCell.h; sourceTree = "<group>"; };
 		EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCompareTableViewCell.m; sourceTree = "<group>"; };
 		EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCompareTableViewCell.xib; sourceTree = "<group>"; };
+		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -659,6 +660,7 @@
 				EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */,
 				EF8FD0551A064D470081F8EB /* ServerPath.h */,
 				EF8FD0561A064DC30081F8EB /* PupblicResource.h */,
+				EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */,
 			);
 			path = type;
 			sourceTree = "<group>";
@@ -1332,7 +1334,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
 				);
-				OTHER_LIBTOOLFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
 				WRAPPER_EXTENSION = app;
@@ -1353,7 +1356,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
 				);
-				OTHER_LIBTOOLFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
 				WRAPPER_EXTENSION = app;

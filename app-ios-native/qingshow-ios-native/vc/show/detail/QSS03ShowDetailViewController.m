@@ -20,6 +20,10 @@
 #import <Social/Social.h>
 #import "UIViewController+ShowHud.h"
 
+#import "QSUserManager.h"
+#import "WeiboSDK.h"
+#import "QSSharePlatformConst.h"
+
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) QSSingleImageScrollView* showImageScrollView;
@@ -98,6 +102,11 @@
     self.commentBtnRect = self.commentBtn.frame;
     self.shareBtnRect = self.shareBtn.frame;
     self.playBtnRect = self.playBtn.frame;
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -351,7 +360,39 @@
 }
 
 - (IBAction)shareWeiboPressed:(id)sender {
+    NSString* weiboAccessToken = [QSUserManager shareUserManager].weiboAccessToken;
+    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
+    request.redirectURI = kWeiboRedirectURI;
+    request.scope = @"all";
+    request.userInfo = nil;
+    if (!weiboAccessToken || !weiboAccessToken.length) {
+
+        [WeiboSDK sendRequest:request];
+    } else {
+        WBMessageObject *message = [WBMessageObject message];
+        WBWebpageObject* webPage = [WBWebpageObject object];
+        webPage.objectID = @"qingshow_webpage_id";
+        webPage.title = @"倾秀";
+        webPage.description = @"qingshow desc";
+        webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        message.mediaObject = webPage;
+        WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
+        [WeiboSDK sendRequest:msgRequest];
+    }
 }
+- (void)weiboSendMessageNotiHandler:(NSNotification*)notification
+{
+    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
+        [self showSuccessHudWithText:@"分享成功"];
+    }
+}
+- (void)weiboAuthorizeNotiHander:(NSNotification*)notification
+{
+    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
+        [self shareWeiboPressed:nil];
+    }
+}
+
 - (IBAction)shareWechatPressed:(id)sender {
 }
 - (IBAction)shareCancelPressed:(id)sender {
