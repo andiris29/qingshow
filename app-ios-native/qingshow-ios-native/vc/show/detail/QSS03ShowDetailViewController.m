@@ -360,25 +360,25 @@
 }
 
 - (IBAction)shareWeiboPressed:(id)sender {
+    [self hideSharePanel];
+    
     NSString* weiboAccessToken = [QSUserManager shareUserManager].weiboAccessToken;
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = kWeiboRedirectURI;
     request.scope = @"all";
     request.userInfo = nil;
-    if (!weiboAccessToken || !weiboAccessToken.length) {
 
-        [WeiboSDK sendRequest:request];
-    } else {
-        WBMessageObject *message = [WBMessageObject message];
-        WBWebpageObject* webPage = [WBWebpageObject object];
-        webPage.objectID = @"qingshow_webpage_id";
-        webPage.title = @"倾秀";
-        webPage.description = @"qingshow desc";
-        webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-        message.mediaObject = webPage;
-        WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
-        [WeiboSDK sendRequest:msgRequest];
-    }
+    WBMessageObject *message = [WBMessageObject message];
+    WBWebpageObject* webPage = [WBWebpageObject object];
+    webPage.objectID = @"qingshow_webpage_id";
+    webPage.title = @"倾秀";
+    webPage.description = @"qingshow desc";
+    webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    message.mediaObject = webPage;
+    WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
+    message.text = @"倾秀";
+    [WeiboSDK sendRequest:msgRequest];
+
 }
 - (void)weiboSendMessageNotiHandler:(NSNotification*)notification
 {
