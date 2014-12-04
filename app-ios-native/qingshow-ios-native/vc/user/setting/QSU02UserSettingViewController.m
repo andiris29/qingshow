@@ -122,7 +122,7 @@
 //                // Change Email
 //                QSU04EmailViewController *vc = [[QSU04EmailViewController alloc]initWithNibName:@"QSU04EmailViewController" bundle:nil];
 //                vc.delegate = self;
-                [self.navigationController pushViewController:vc animated:YES];
+//                [self.navigationController pushViewController:vc animated:YES];
             } else {
                 NSLog(@"Nothing");
             }
