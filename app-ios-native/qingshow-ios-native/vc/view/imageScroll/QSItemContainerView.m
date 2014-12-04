@@ -59,8 +59,8 @@
 - (void)tapGesRecognize:(UIGestureRecognizer*)gesture
 {
     if ([self.delegate respondsToSelector:@selector(didTapImageIndex:ofView:)]) {
-        int index = [self.imageViewArray indexOfObject:gesture.view];
-        [self.delegate didTapImageIndex:index ofView:self];
+        NSUInteger index = [self.imageViewArray indexOfObject:gesture.view];
+        [self.delegate didTapImageIndex:(int)index ofView:self];
     }
 }
 @end

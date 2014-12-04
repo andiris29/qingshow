@@ -77,8 +77,12 @@
                                  onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)addComment:(NSString*)comment
                            onShow:(NSDictionary*)showDict
+                            reply:(NSDictionary*)peopleDict
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)deleteComment:(NSDictionary*)commentDict
+                           onSucceed:(VoidBlock)succeedBlock
+                             onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)getCategoryFeeding:(int)type
                                      page:(int)page
@@ -101,4 +105,26 @@
                                       page:(int)page
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
+
+#pragma mark - Brand
+- (MKNetworkOperation*)queryBrands:(int)type
+                              page:(int)page
+                         onSucceed:(ArraySuccessBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)handleFollowBrand:(NSDictionary*)brandDict
+                               onSucceed:(BoolBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)queryBrandFollower:(NSDictionary*)brandDict
+                                     page:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)feedingByBrand:(NSDictionary*)brandDict
+                                 page:(int)page
+                            onSucceed:(ArraySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
+                                         page:(int)page
+                                    onSucceed:(ArraySuccessBlock)succeedBlock
+                                      onError:(ErrorBlock)errorBlock;
 @end

@@ -13,14 +13,18 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jHW-NV-3s3">
-                        <rect key="frame" x="0.0" y="0.0" width="150" height="200"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jHW-NV-3s3">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="60"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9rS-U9-jYe">
+                        <rect key="frame" x="0.0" y="60" width="150" height="140"/>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <connections>
                 <outlet property="brandImageView" destination="jHW-NV-3s3" id="8P7-ik-lge"/>
+                <outlet property="infoImageView" destination="9rS-U9-jYe" id="mdq-ZE-cej"/>
             </connections>
             <point key="canvasLocation" x="245" y="271"/>
         </collectionViewCell>

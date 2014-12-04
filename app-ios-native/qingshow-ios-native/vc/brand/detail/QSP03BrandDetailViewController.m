@@ -84,25 +84,23 @@
     __weak QSP03BrandDetailViewController* weakSelf = self;
     
     self.discountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getFeedByModel:weakSelf.brandDict[@"_id"] page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE feedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.discountDelegate.delegate = self;
     [self.discountDelegate fetchDataOfPage:1];
     
     //follower table view
     [self.followerDelegate bindWithTableView:self.followerTableView];
-#warning 需要换成正确的api
     self.followerDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryBrandFollower:weakSelf.brandDict page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
     
-#warning 需要换成正确的api
     //Show collectioin view
     [self.showsDelegate bindWithCollectionView:self.showCollectionView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getFeedByModel:weakSelf.brandDict[@"_id"] page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE feedingByBrand:weakSelf.brandDict page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.showsDelegate.delegate = self;
     [self.showsDelegate fetchDataOfPage:1];
@@ -112,25 +110,15 @@
 #pragma mark - 
 - (void)singleButtonPressed
 {
-    NSNumber* hasFollowed = self.brandDict[@"hasFollowed"];
-    if (hasFollowed && hasFollowed.boolValue) {
-        [SHARE_NW_ENGINE unfollowPeople:self.brandDict[@"_id"] onSucceed:^{
-            [self showTextHud:@"unfollow successfully"];
-            self.brandDict[@"hasFollowed"] = @NO;
-            [self.badgeView bindWithPeopleDict:self.brandDict];
-        } onError:^(NSError *error) {
-            [self showTextHud:@"error"];
-        }];
-    }
-    else {
-        [SHARE_NW_ENGINE followPeople:self.brandDict[@"_id"] onSucceed:^{
-            [self showTextHud:@"follow successfully"];
-            self.brandDict[@"hasFollowed"] = @YES;
-            [self.badgeView bindWithPeopleDict:self.brandDict];
-        } onError:^(NSError *error) {
-            [self showTextHud:@"error"];
-        }];
-    }
+    [SHARE_NW_ENGINE handleFollowBrand:self.brandDict onSucceed:^(BOOL f) {
+        if (f) {
+            [self showSuccessHudWithText:@"follow successfully"];
+        } else {
+            [self showSuccessHudWithText:@"unfollow successfully"];
+        }
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 - (void)clickModel:(NSDictionary*)model
 {

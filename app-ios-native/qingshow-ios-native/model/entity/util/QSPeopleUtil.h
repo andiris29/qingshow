@@ -27,4 +27,5 @@
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;
 + (void)setPeople:(NSDictionary*)peopleDict isFollowed:(BOOL)isFollowed;
 
++ (BOOL)isPeople:(NSDictionary*)l equalToPeople:(NSDictionary*)r;
 @end

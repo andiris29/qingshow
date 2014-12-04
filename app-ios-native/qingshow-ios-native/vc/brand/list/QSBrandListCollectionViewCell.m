@@ -8,7 +8,7 @@
 
 #import "QSBrandListCollectionViewCell.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import "QSBrandUtil.h"
 @implementation QSBrandListCollectionViewCell
 
 - (void)awakeFromNib {
@@ -17,8 +17,8 @@
 
 - (void)bindWithBrandDict:(NSDictionary*)brandDict
 {
-#warning 测试数据
-    [self.brandImageView setImageFromURL:[NSURL URLWithString:@"http://d.hiphotos.baidu.com/image/h%3D800%3Bcrop%3D0%2C0%2C1280%2C800/sign=b61e1813940a304e4d22adfae1f3c4f4/9358d109b3de9c829a5995986f81800a19d843ec.jpg"]];
+    [self.brandImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    [self.infoImageView setImageFromURL:[QSBrandUtil getBrandSloganUrl:brandDict]];
 }
 
 @end

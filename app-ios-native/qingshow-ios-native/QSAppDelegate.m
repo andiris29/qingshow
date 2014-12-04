@@ -10,10 +10,18 @@
 #import "QSNetworkEngine.h"
 #import "QSS01RootViewController.h"
 
+
+#define kWeiboAppKey @"271944535"
+#define kWeiboRedirectURI @"https://api.weibo.com/oauth2/default.html"
+
 @implementation QSAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kWeiboAppKey];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -48,6 +56,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    return [WeiboSDK handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [WeiboSDK handleOpenURL:url delegate:self ];
 }
 
 @end

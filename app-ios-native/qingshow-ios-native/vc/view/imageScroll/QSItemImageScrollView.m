@@ -18,7 +18,7 @@
 
 - (int)getViewCount
 {
-    return (self.imageUrlArray.count + 2) / 3;
+    return (int)(self.imageUrlArray.count + 2) / 3;
 }
 - (UIView*)getViewForPage:(int)imageIndex
 {
@@ -26,7 +26,7 @@
     imageView.delegate = self;
     if (self.imageUrlArray) {
         int location = imageIndex * 3;
-        int length = self.imageUrlArray.count - location < 3 ? self.imageUrlArray.count - location : 3;
+        NSInteger length = self.imageUrlArray.count - location < 3 ? self.imageUrlArray.count - location : 3;
         [imageView bindWithImageUrl:[self.imageUrlArray subarrayWithRange:NSMakeRange(location, length)]];
     }
     return imageView;
@@ -41,7 +41,7 @@
 #pragma mark - QSItemContainerViewDelegate
 - (void)didTapImageIndex:(int)index ofView:(QSItemContainerView*)view
 {
-    int viewIndex = [self.imageViewArray indexOfObject:view];
+    NSInteger viewIndex = [self.imageViewArray indexOfObject:view];
     int count = [self getViewCount];
     if (viewIndex == 0) {
         viewIndex = count - 1;
@@ -50,9 +50,9 @@
     } else {
         viewIndex -= 1;
     }
-    int urlIndex = viewIndex * 3 + index;
+    NSInteger urlIndex = viewIndex * 3 + index;
     if ([self.delegate respondsToSelector:@selector(didTapItemAtIndex:)]) {
-        [self.delegate didTapItemAtIndex:urlIndex];
+        [self.delegate didTapItemAtIndex:(int)urlIndex];
     }
 }
 

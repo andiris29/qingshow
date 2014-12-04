@@ -123,5 +123,13 @@
     mutableDict[@"__context"] = context;
 
 }
-
++ (BOOL)isPeople:(NSDictionary*)l equalToPeople:(NSDictionary*)r
+{
+    if (l == r) {
+        return YES;
+    }
+    NSString* lId = l[@"_id"];
+    NSString* rId = r[@"_id"];
+    return [lId isEqualToString:rId];
+}
 @end

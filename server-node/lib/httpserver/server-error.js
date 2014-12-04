@@ -4,6 +4,11 @@ var ServerError = function(errorCode, description) {
     Error.call(this, 'server error');
     this.errorCode = errorCode;
     this.description = description || _codeToString(errorCode);
+    if (errorCode === 1000) {
+        this.stack = new Error().stack;
+        console.log('Error: ' + new Date().toDateString());
+        console.log(this.stack);
+    }
 };
 
 util.inherits(ServerError, Error);

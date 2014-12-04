@@ -11,6 +11,6 @@
 @interface QSBrandListCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) IBOutlet UIImageView* brandImageView;
-
+@property (strong, nonatomic) IBOutlet UIImageView* infoImageView;
 - (void)bindWithBrandDict:(NSDictionary*)brandDict;
 @end

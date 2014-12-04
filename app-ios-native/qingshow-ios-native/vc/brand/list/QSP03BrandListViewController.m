@@ -51,7 +51,7 @@
     self.delegateObj.delegate = self;
     [self.delegateObj bindWithCollectionView:self.collectionView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryBrands:0 page:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.delegateObj fetchDataOfPage:1];
 }

@@ -2,14 +2,19 @@ var mongoose = require('mongoose');
 var ServerError = require('./server-error');
 
 function responseError(res, err) {
-    if (!err.errorCode) {
-        err.errorCode = 1000;
+    if (!err) {
+        err = new ServerError(1000, 'unknown error');
+    } else if (!( err instanceof ServerError)) {
+        err = new ServerError(1000, err);
+    } else if (!err.errorCode) {
+        err = new ServerError(1000, err.description);
     }
+
     res.json({
         //metadata.error
-        metadata: {
-            error: err.errorCode,
-            devInfo: err
+        metadata : {
+            error : err.errorCode,
+            devInfo : err
         }
     });
 }
@@ -17,16 +22,17 @@ function responseError(res, err) {
 function limitQuery(query, pageNo, pageSize) {
     pageNo = pageNo || 1;
     pageSize = pageSize || 10;
-    return query.skip((pageNo - 1) * pageSize)
-        .limit(pageSize);
+    return query.skip((pageNo - 1) * pageSize).limit(pageSize);
 }
+
 function stringArrayToObjectIdArray(stringArray) {
     var retArray = [];
-    stringArray.forEach(function (idStr) {
+    stringArray.forEach(function(idStr) {
         try {
             var objId = mongoose.mongo.BSONPure.ObjectID(idStr);
             retArray.push(objId);
-        } catch(e) {}
+        } catch(e) {
+        }
     });
     return retArray;
 }
@@ -34,13 +40,13 @@ function stringArrayToObjectIdArray(stringArray) {
 function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc, pageNo, pageSize, modelFinalHandler, finishCallback) {
     var query;
     query = queryGenFunc();
-    query.count(function (err, count) {
+    query.count(function(err, count) {
         var numPages;
         if (err) {
             responseError(res, err);
             return;
         }
-        if ((pageNo - 1) * pageSize > count){
+        if ((pageNo - 1) * pageSize > count) {
             responseError(res, new ServerError(ServerError.PagingNotExist));
             return;
         }
@@ -50,18 +56,18 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
         if (additionFunc) {
             additionFunc(query);
         }
-        query.exec(function (err, shows) {
+        query.exec(function(err, shows) {
             if (!err) {
                 if (modelFinalHandler) {
-                    modelFinalHandler(shows, function (s) {
+                    modelFinalHandler(shows, function(s) {
                         var retData = {
-                            metadata: {
+                            metadata : {
                                 //TODO change invilidateTime
-                                "numTotal": count,
-                                "numPages": numPages,
-//                        "refreshTime": 3600000
+                                "numTotal" : count,
+                                "numPages" : numPages,
+                                //                        "refreshTime": 3600000
                             },
-                            data: dataGenFunc(s)
+                            data : dataGenFunc(s)
                         };
                         res.json(retData);
                         if (finishCallback) {
@@ -70,13 +76,13 @@ function sendSingleQueryToResponse(res, queryGenFunc, additionFunc, dataGenFunc,
                     });
                 } else {
                     var retData = {
-                        metadata: {
+                        metadata : {
                             //TODO change invilidateTime
-                            "numTotal": count,
-                            "numPages": numPages,
-//                        "refreshTime": 3600000
+                            "numTotal" : count,
+                            "numPages" : numPages,
+                            //                        "refreshTime": 3600000
                         },
-                        data: dataGenFunc(shows)
+                        data : dataGenFunc(shows)
                     };
                     res.json(retData);
                     if (finishCallback) {
