@@ -398,7 +398,8 @@
 }
 
 - (IBAction)shareWechatPressed:(id)sender {
-    [self hideSharePanel];
+
+
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = @"qingshow";
     message.description = @"qingshow";
@@ -414,7 +415,7 @@
     req.scene = WXSceneTimeline;
     
     [WXApi sendReq:req];
-    
+    [self hideSharePanel];
 }
 - (IBAction)shareCancelPressed:(id)sender {
     [self hideSharePanel];
