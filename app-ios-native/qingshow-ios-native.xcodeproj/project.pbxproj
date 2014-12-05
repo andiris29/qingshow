@@ -105,6 +105,10 @@
 		EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7F61A1A587800BCDFBA /* QSS06CompareViewController.xib */; };
 		EFD0B7FC1A1A5C0500BCDFBA /* QSCompareTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */; };
 		EFD0B7FD1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */; };
+		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
+		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
+		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
+		EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */; };
 		EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */; };
 		EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114931A0D2EEC009B7361 /* NSData+MKBase64.m */; };
 		EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114951A0D2EEC009B7361 /* NSDate+RFC1123.m */; };
@@ -314,6 +318,12 @@
 		EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCompareTableViewCell.m; sourceTree = "<group>"; };
 		EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCompareTableViewCell.xib; sourceTree = "<group>"; };
 		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
+		EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		EFEF03291A30BBC000EC9B48 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		EFEF032A1A30BBC000EC9B48 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EFEF032E1A30BBF100EC9B48 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		EFF114901A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MKNetworkKitAdditions.h"; sourceTree = "<group>"; };
 		EFF114911A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MKNetworkKitAdditions.m"; sourceTree = "<group>"; };
 		EFF114921A0D2EEC009B7361 /* NSData+MKBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MKBase64.h"; sourceTree = "<group>"; };
@@ -360,8 +370,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */,
+				EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */,
+				EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */,
 				EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */,
 				EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */,
+				EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */,
 				EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */,
 				EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */,
 				EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */,
@@ -563,6 +577,9 @@
 		EF9A74101A02A82600095F07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */,
+				EFEF032E1A30BBF100EC9B48 /* libz.dylib */,
+				EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */,
 				EF46462A1A2B5DBC00172618 /* Social.framework */,
 				EF46461E1A2AEB5C00172618 /* CoreText.framework */,
 				EFBA0B611A2387090014A05B /* MediaPlayer.framework */,
@@ -851,6 +868,16 @@
 			path = compare;
 			sourceTree = "<group>";
 		};
+		EFEF03271A30BBC000EC9B48 /* libWeChatSDK */ = {
+			isa = PBXGroup;
+			children = (
+				EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */,
+				EFEF03291A30BBC000EC9B48 /* WXApi.h */,
+				EFEF032A1A30BBC000EC9B48 /* WXApiObject.h */,
+			);
+			path = libWeChatSDK;
+			sourceTree = "<group>";
+		};
 		EFF114851A0D2EDD009B7361 /* user */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +910,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EFEF03271A30BBC000EC9B48 /* libWeChatSDK */,
 				EF2E0F221A2F790400F3A25C /* libWeiboSDK */,
 				EF9C95241A0FB7B3006A0AE3 /* MBProgressHUD */,
 				EFF1148D1A0D2EEC009B7361 /* MKNetworkKit */,
@@ -1323,6 +1351,7 @@
 		EF9A74411A02A82700095F07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
@@ -1333,11 +1362,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeChatSDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
+				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1345,6 +1376,7 @@
 		EF9A74421A02A82700095F07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
@@ -1355,11 +1387,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeChatSDK",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
+				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
