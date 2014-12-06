@@ -65,7 +65,7 @@
 //    NSArray* roles = modelDict[@"roles"];
     self.nameLabel.text = modelDict[@"name"];
     
-    self.statusLabel.text = [QSPeopleUtil buildModelStatusString:modelDict];
+    self.statusLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     

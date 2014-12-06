@@ -11,9 +11,11 @@
 @interface QSPeopleUtil : NSObject
 
 + (NSString*)buildModelStatusString:(NSDictionary*)peopleDict;
++ (NSString*)getGenderDesc:(NSDictionary*)modelDict;
 + (NSString*)buildNumLikeString:(NSDictionary*)peopleDict;
 + (NSString*)getName:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
++ (NSString*)getDetailDesc:(NSDictionary*)peopleDict;
 + (NSString*)getStatus:(NSDictionary*)modelDict;
 + (NSString*)getRolesDescription:(NSDictionary*)modelDict;
 

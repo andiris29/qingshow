@@ -69,7 +69,7 @@
     self.iconImageView.layer.masksToBounds = YES;
     self.nameLabel.text = peopleDict[@"name"];
     self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
-    self.statusLabel.text = [QSPeopleUtil buildModelStatusString:peopleDict];
+    self.statusLabel.text = [QSPeopleUtil getDetailDesc:peopleDict];
 
     NSString* headPhotoPath = peopleDict[@"portrait"];
     [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];

@@ -131,7 +131,7 @@
     [self.headIconImageView setImageFromURL:iconUrl];
     
     self.nameLabel.text = peopleInfo[@"name"];
-    self.detailLabel.text = [QSPeopleUtil buildModelStatusString:peopleInfo];
+    self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
     NSDictionary* modelInfo = peopleInfo[@"modelInfo"];
     NSString* status = nil;
     if (modelInfo) {

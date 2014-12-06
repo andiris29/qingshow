@@ -42,7 +42,7 @@
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
     self.nameLabel.text = modelDict[@"name"];
-    self.detailLabel.text = [QSPeopleUtil buildModelStatusString:modelDict];
+    self.detailLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
     NSString* headPhotoPath = modelDict[@"portrait"];
     [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
     if ([QSPeopleUtil getPeopleIsFollowed:modelDict]) {

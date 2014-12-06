@@ -16,13 +16,29 @@
     NSNumber* weight = modelDict[@"weight"];
     NSMutableString* statusString = [@"" mutableCopy];
     if (height) {
-        [statusString appendFormat:@"%@cm ", height];
+        [statusString appendFormat:@"%@cm", height];
     }
     if (weight) {
-        [statusString appendFormat:@"%@kg ", weight];
+        if (statusString.length) {
+            [statusString appendFormat:@"/"];
+        }
+        [statusString appendFormat:@"%@kg", weight];
     }
     return statusString;
 }
++ (NSString*)getGenderDesc:(NSDictionary*)modelDict
+{
+    NSNumber* gender = modelDict[@"gender"];
+    if (gender) {
+        if (gender.intValue == 0) {
+            return @"男性";
+        } else if (gender.intValue == 1) {
+            return @"女性";
+        }
+    }
+    return @"";
+}
+
 + (NSString*)buildNumLikeString:(NSDictionary*)peopleDict
 {
     NSDictionary* modelInfo = peopleDict[@"modelInfo"];
@@ -51,7 +67,20 @@
     
     return nil;
 }
-
++ (NSString*)getDetailDesc:(NSDictionary*)peopleDict
+{
+    NSString* statusStr = [QSPeopleUtil buildModelStatusString:peopleDict];
+    NSString* genderStr = [QSPeopleUtil getGenderDesc:peopleDict];
+    NSMutableString* m = [[NSMutableString alloc] initWithString:genderStr];
+    if (genderStr.length) {
+        [m appendString:genderStr];
+    }
+    if (m.length && statusStr.length) {
+        [m appendString:@","];
+    }
+    [m appendString:statusStr];
+    return m;
+}
 + (NSString*)getStatus:(NSDictionary*)modelDict
 {
     if (modelDict && modelDict[@"modelInfo"] && modelDict[@"modelInfo"][@"status"]) {
