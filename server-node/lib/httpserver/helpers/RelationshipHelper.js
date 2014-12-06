@@ -52,35 +52,3 @@ module.exports.remove = function(Model, initiatorRef, targetRef, callback) {
     }], callback);
 };
 
-module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, peopleField, currentUserId, callback) {
-    async.waterfall([
-    function(callback) {
-        // Query relationship
-        var query = Model.find(criteria);
-        query.skip((pageNo - 1) * pageSize).limit(pageSize).exec(callback);
-    },
-    function(relationships, callback) {
-        // Query peoples
-        var _ids = [];
-        relationships.forEach(function(r) {
-            _ids.push(r[peopleField]);
-        });
-        People.find({
-            '_id' : {
-                '$in' : _ids
-            }
-        }, callback);
-    },
-    function(peoples, callback) {
-        // Append followed by current user
-        peoples = ContextHelper.prepare(peoples);
-        ContextHelper.peopleFollowedByCurrentUser(currentUserId, peoples, callback);
-    },
-    function(peoples, callback) {
-        // Buid response data
-        callback(null, {
-            'peoples' : peoples
-        });
-    }], callback);
-};
-

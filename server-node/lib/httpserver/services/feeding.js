@@ -28,39 +28,6 @@ var _populate = function(shows, callback) {
  * @param {Object} shows
  * @param {Object} callback
  */
-var _appendContext = function(currentUserId, shows, callback) {
-    shows = ContextHelper.prepare(shows);
-    // __context.numComments
-    var numComments = function(callback) {
-        ContextHelper.numShowComments(shows, callback);
-    };
-    // __context.numLike
-    var numLike = function(callback) {
-        ContextHelper.numLikeShow(shows, callback);
-    };
-    // __context.likedByCurrentUser
-    var likedByCurrentUser = function(callback) {
-        ContextHelper.showLikedByCurrentUser(currentUserId, shows, callback);
-    };
-    // modedRef.__context.followedByCurrentUser
-    var followedByCurrentUser = function(callback) {
-        var models = shows.map(function(show) {
-            return show.modelRef;
-        });
-        models = ContextHelper.prepare(models);
-        ContextHelper.peopleFollowedByCurrentUser(currentUserId, models, callback);
-    };
-    async.parallel([numComments, numLike, likedByCurrentUser, followedByCurrentUser], function(err) {
-        callback(null, shows);
-    });
-};
-
-/**
- * Ignore error
- *
- * @param {Object} shows
- * @param {Object} callback
- */
 var _parseCover = function(shows, callback) {
     var tasks = [];
     shows.forEach(function(show) {
@@ -101,7 +68,7 @@ module.exports.recommendation = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -134,7 +101,7 @@ module.exports.hot = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -178,7 +145,7 @@ module.exports.like = {
             callback(null, shows);
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -235,7 +202,7 @@ module.exports.chosen = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -276,7 +243,7 @@ module.exports.byModel = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -314,7 +281,7 @@ module.exports.byBrand = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -358,7 +325,7 @@ module.exports.byBrandDiscount = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -396,7 +363,7 @@ module.exports.studio = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
@@ -439,7 +406,7 @@ module.exports.byStyles = {
             });
         }, _populate, _parseCover,
         function(shows, callback) {
-            _appendContext(req.qsCurrentUserId, shows, callback);
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {

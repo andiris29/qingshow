@@ -4,6 +4,7 @@ var async = require('async');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 //util
+var ServiceHelper = require('../helpers/ServiceHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
@@ -36,9 +37,7 @@ var _queryModels = function(req, res) {
         });
     },
     function(peoples, callback) {
-        // Append context
-        peoples = ContextHelper.prepare(peoples);
-        ContextHelper.peopleFollowedByCurrentUser(req.qsCurrentUserId, peoples, callback);
+        ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
     }], function(err, peoples) {
         // Response
         ResponseHelper.responseAsPaging(res, err, {
@@ -48,33 +47,11 @@ var _queryModels = function(req, res) {
 };
 
 var _queryFollowers = function(req, res) {
-    var param = req.queryString;
-    if (!param._id) {
-        ResponseHelper.response(res, ServerError.RequestValidationFail);
-        return;
-    }
-    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
-
-    RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
-        'targetRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, function(err) {
-        ResponseHelper.response(res, err);
-    });
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, 'targetRef', 'initiatorRef');
 };
 
 var _queryFollowed = function(req, res) {
-    var param = req.queryString;
-    if (!param._id) {
-        ResponseHelper.response(res, ServerError.RequestValidationFail);
-        return;
-    }
-    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
-
-    RelationshipHelper.queryPeoples(RPeopleFollowPeople, {
-        'initiatorRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'targetRef', req.qsCurrentUserId, function(err) {
-        ResponseHelper.response(res, err);
-    });
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, 'initiatorRef', 'targetRef');
 };
 
 var _follow = function(req, res) {

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var ShowComments = require('../../model/showComments');
+var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
@@ -23,32 +24,71 @@ ContextHelper.prepare = function(models) {
     });
 };
 
-ContextHelper.peopleFollowedByCurrentUser = function(currentUserId, peoples, callback) {
-    _rInitiator(RPeopleFollowPeople, currentUserId, peoples, 'followedByCurrentUser', callback);
+ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback) {
+    peoples = ContextHelper.prepare(peoples);
+    // __context.followedByCurrentUser
+    var followedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
+    };
+    // __context.numShows
+    var numShows = function(callback) {
+        _numAssociated(peoples, Show, 'modelRef', 'numShows', callback);
+    };
+    // __context.numFollowers
+    var numFollowers = function(callback) {
+        _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
+    };
+
+    async.parallel([followedByCurrentUser, numShows, numFollowers], function(err) {
+        callback(null, peoples);
+    });
 };
 
-ContextHelper.brandFollowedByCurrentUser = function(currentUserId, peoples, callback) {
-    _rInitiator(RPeopleFollowBrand, currentUserId, peoples, 'followedByCurrentUser', callback);
+ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
+    shows = ContextHelper.prepare(shows);
+    // __context.numComments
+    var numComments = function(callback) {
+        _numAssociated(shows, ShowComments, 'targetRef', 'numComments', callback);
+    };
+    // __context.numLike
+    var numLike = function(callback) {
+        _numAssociated(shows, RPeopleLikeShow, 'targetRef', 'numLike', callback);
+    };
+    // __context.likedByCurrentUser
+    var likedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
+    };
+    // modedRef.__context.followedByCurrentUser
+    var followedByCurrentUser = function(callback) {
+        var peoples = shows.map(function(show) {
+            return show.modelRef;
+        });
+        peoples = ContextHelper.prepare(peoples);
+        _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
+    };
+    async.parallel([numComments, numLike, likedByCurrentUser, followedByCurrentUser], function(err) {
+        callback(null, shows);
+    });
 };
 
-ContextHelper.showLikedByCurrentUser = function(currentUserId, shows, callback) {
-    _rInitiator(RPeopleLikeShow, currentUserId, shows, 'likedByCurrentUser', callback);
+ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
+    brands = ContextHelper.prepare(brands);
+    // __context.followedByCurrentUser
+    var followedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleFollowBrand, qsCurrentUserId, brands, 'followedByCurrentUser', callback);
+    };
+
+    async.parallel([followedByCurrentUser], function(err) {
+        callback(null, peoples);
+    });
 };
 
-ContextHelper.numShowComments = function(shows, callback) {
-    _numTargeted(shows, ShowComments, 'numComments', callback);
-};
-
-ContextHelper.numLikeShow = function(shows, callback) {
-    _numTargeted(shows, RPeopleLikeShow, 'numLike', callback);
-};
-
-var _numTargeted = function(models, RModel, contextField, callback) {
+var _numAssociated = function(models, RModel, associateField, contextField, callback) {
     var tasks = models.map(function(model) {
         return function(callback) {
-            RModel.count({
-                'targetRef' : model._id
-            }, function(err, count) {
+            var criteria = {};
+            criteria[associateField] = model._id;
+            RModel.count(criteria, function(err, count) {
                 model.__context[contextField] = count || 0;
                 callback(null);
             });

@@ -5,6 +5,7 @@ var People = require('../../model/peoples');
 var Brand = require('../../model/brands');
 var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 //util
+var ServiceHelper = require('../helpers/ServiceHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
@@ -36,9 +37,7 @@ var _queryBrands = function(req, res) {
         });
     },
     function(brands, callback) {
-        // Append context
-        brands = ContextHelper.prepare(brands);
-        ContextHelper.brandFollowedByCurrentUser(req.qsCurrentUserId, brands, callback);
+        ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
     }], function(err, brands) {
         // Response
         ResponseHelper.responseAsPaging(res, err, {
@@ -48,18 +47,7 @@ var _queryBrands = function(req, res) {
 };
 
 var _queryFollowers = function(req, res) {
-    var param = req.queryString;
-    if (!param._id) {
-        ResponseHelper.response(res, ServerError.RequestValidationFail);
-        return;
-    }
-    var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
-
-    RelationshipHelper.queryPeoples(RPeopleFollowBrand, {
-        'targetRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, function(err) {
-        ResponseHelper.response(res, err);
-    });
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, 'targetRef', 'initiatorRef');
 };
 
 var _follow = function(req, res) {

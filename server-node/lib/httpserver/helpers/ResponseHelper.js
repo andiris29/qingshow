@@ -10,12 +10,14 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponse) {
         'metadata' : metadata || {}
     };
     if (err) {
-        if (_.isNumber(err)) {
-            err = ServerError.fromCode(err);
-        } else if ( err instanceof Error) {
-            err = ServerError.fromError(err);
-        } else if (!( err instanceof ServerError)) {
-            err = ServerError.fromDescription(err);
+        if (!( err instanceof ServerError)) {
+            if (_.isNumber(err)) {
+                err = ServerError.fromCode(err);
+            } else if ( err instanceof Error) {
+                err = ServerError.fromError(err);
+            } else {
+                err = ServerError.fromDescription(err);
+            }
         }
         json.metadata.error = err.errorCode;
         json.metadata.devInfo = err;
@@ -25,7 +27,7 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponse) {
     }
 
     var performance = Date.now() - res.qsPerformance.start;
-    if (performance > 1000) {
+    if (performance > 100) {
         console.log(res.qsPerformance.fullpath + ': ' + performance);
     }
     res.json(json);
