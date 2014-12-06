@@ -17,7 +17,16 @@
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
 
+typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
+    QSU02UserSettingViewControllerSelectTypeNone,
+    QSU02UserSettingViewControllerSelectTypeGender,
+    QSU02UserSettingViewControllerSelectTypeCamera
+};
+
 @interface QSU02UserSettingViewController ()
+
+@property (assign, nonatomic) QSU02UserSettingViewControllerSelectType currentSelectType;
+@property (strong, nonatomic) UIActionSheet* currentActionSheet;
 @end
 
 @implementation QSU02UserSettingViewController {
@@ -38,9 +47,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initNavigation];
+    self.currentActionSheet = QSU02UserSettingViewControllerSelectTypeNone;
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     [self loadUserSetting];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -63,6 +76,8 @@
                                                           otherButtonTitles:@"从相册选择", @"使用相机拍照", nil];
                 sheet.tag = 255;
                 [sheet showInView:self.view];
+                self.currentActionSheet = sheet;
+                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeCamera;
                 
             } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
                 UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
@@ -72,6 +87,8 @@
                                                           otherButtonTitles:@"从相册选择", nil];
                 sheet.tag = 255;
                 [sheet showInView:self.view];
+                self.currentActionSheet = sheet;
+                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeCamera;
             } else {
                 [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
             }
@@ -80,19 +97,22 @@
             // 基本section
             if (indexPath.row == 1) {
                 // GOTO Gender
-                NSLog(@"GOTO Gender");
-                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
-                                                          initWithNibName:@"QSU05HairGenderTableViewController"
-                                                                   bundle:nil];
-                
-                if (people[@"gender"] != nil) {
-                    NSArray *codes = [NSArray arrayWithObject:people[@"gender"]];
-                    vc.selectCodes = codes;
-                }
-                vc.codeTable = GENDER_LIST;
-                vc.delegate = self;
-                vc.codeType = CODE_TYPE_GENDER;
-                [self.navigationController pushViewController:vc animated:YES];
+                self.currentActionSheet = [[UIActionSheet alloc] initWithTitle:@"性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男",@"女", nil];
+                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeGender;
+                [self.currentActionSheet showInView:self.view];
+//                NSLog(@"GOTO Gender");
+//                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
+//                                                          initWithNibName:@"QSU05HairGenderTableViewController"
+//                                                                   bundle:nil];
+//                
+//                if (people[@"gender"] != nil) {
+//                    NSArray *codes = [NSArray arrayWithObject:people[@"gender"]];
+//                    vc.selectCodes = codes;
+//                }
+//                vc.codeTable = GENDER_LIST;
+//                vc.delegate = self;
+//                vc.codeType = CODE_TYPE_GENDER;
+//                [self.navigationController pushViewController:vc animated:YES];
             } else if (indexPath.row == 2) {
                 // 选择生日
             } else if (indexPath.row == 5) {
@@ -162,24 +182,32 @@
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (actionSheet.tag != 255) {
-        return;
+    
+    if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeCamera) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            //没有Camera时,cancelButtonIndex为1
+            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+            imagePickerController.delegate = self;
+            if (buttonIndex == 0) {
+                imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            } else if (buttonIndex == 1) {
+                
+                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            }
+            imagePickerController.allowsEditing = YES;
+            [self presentViewController:imagePickerController animated:YES completion:^{}];
+        }
+    } else if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeGender) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"gender" : @(buttonIndex)} pop:NO];
+        }
     }
     
-    if (buttonIndex == actionSheet.cancelButtonIndex) {
-        //没有Camera时,cancelButtonIndex为1
-        return;
-    }
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.delegate = self;
-    if (buttonIndex == 0) {
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    } else if (buttonIndex == 1) {
+    
+    self.currentSelectType = QSU02UserSettingViewControllerSelectTypeNone;
+    self.currentActionSheet = nil;
+    
 
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    imagePickerController.allowsEditing = NO;
-    [self presentViewController:imagePickerController animated:YES completion:^{}];
 }
 
 #pragma mark -  UIImagePickerControllerDelegate
@@ -188,7 +216,10 @@
     [picker dismissViewControllerAnimated:YES completion:^{}];
     
     // Get Original Image from PhotoLibrary
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image) {
+        image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
+    }
     
     // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
@@ -272,12 +303,16 @@
 }
 
 // Update Peoples
-- (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity {
+- (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity pop:(BOOL)fPop
+{
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [vc showSuccessHudWithText:@"更新成功"];
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-            [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
+            if (fPop) {
+                [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
+            }
+
         } else {
             [vc showErrorHudWithText:@"更新失败"];
         }
@@ -293,8 +328,12 @@
             [vc showErrorHudWithText:@"网络连接失败"];
         }
     };
-
+    
     [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+}
+
+- (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity {
+    [self updatePeopleEntityViewController:vc byEntity:entity pop:YES];
 }
 
 - (void)refreshImage {

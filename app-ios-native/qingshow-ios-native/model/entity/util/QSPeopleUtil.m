@@ -71,7 +71,7 @@
 {
     NSString* statusStr = [QSPeopleUtil buildModelStatusString:peopleDict];
     NSString* genderStr = [QSPeopleUtil getGenderDesc:peopleDict];
-    NSMutableString* m = [[NSMutableString alloc] initWithString:genderStr];
+    NSMutableString* m = [[NSMutableString alloc] initWithString:@""];
     if (genderStr.length) {
         [m appendString:genderStr];
     }
