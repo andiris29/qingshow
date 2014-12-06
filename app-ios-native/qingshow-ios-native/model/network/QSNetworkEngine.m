@@ -14,6 +14,8 @@
 #import "NSArray+QSExtension.h"
 #import "QSBrandUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSShowUtil.h"
+
 
 //User
 #define PATH_USER_LOGIN @"user/login"
@@ -624,10 +626,7 @@
                         onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_SHOW_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-            NSMutableDictionary* d = (NSMutableDictionary*)showDict;
-            d[@"isLiked"] = @YES;
-        }
+        [QSShowUtil setIsLike:YES show:showDict];
         if (succeedBlock) {
             succeedBlock();
         }
@@ -642,10 +641,7 @@
                         onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-            NSMutableDictionary* d = (NSMutableDictionary*)showDict;
-            d[@"isLiked"] = @NO;
-        }
+        [QSShowUtil setIsLike:NO show:showDict];
         if (succeedBlock) {
             succeedBlock();
         }

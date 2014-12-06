@@ -40,7 +40,6 @@
             imgView.image = nil;
         }
 
-
     }
 }
 

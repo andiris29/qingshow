@@ -147,7 +147,7 @@
     NSArray* itemUrlArray = [QSShowUtil getItemsImageUrlArrayFromShow:dict];
     self.itemImageScrollView.imageUrlArray = itemUrlArray;
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
-    self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:dict];
+    self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:dict];
     
     //ItemDes
     NSArray* items = [QSShowUtil getItems:dict];

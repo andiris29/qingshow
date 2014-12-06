@@ -26,7 +26,7 @@
 
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
 {
-    int index = indexPath.row;
+    NSInteger index = indexPath.row;
     if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
         index -= 1;
     }
@@ -35,6 +35,22 @@
     } else {
         return self.resultArray[index];
     }
+}
+- (NSIndexPath*)getIndexPathOfShow:(NSDictionary*)showDict
+{
+    NSInteger index = [self.resultArray indexOfObject:showDict];
+    if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
+        index += 1;
+    }
+    
+    return [NSIndexPath indexPathForRow:index inSection:0];
+}
+
+
+- (void)updateShow:(NSDictionary*)showDict
+{
+    NSIndexPath* i = [self getIndexPathOfShow:showDict];
+    [self.collectionView reloadItemsAtIndexPaths:@[i]];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

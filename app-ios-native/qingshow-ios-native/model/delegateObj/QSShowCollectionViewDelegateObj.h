@@ -33,4 +33,6 @@ typedef NS_ENUM(NSInteger, QSShowDelegateObjType) {
 @property (assign, nonatomic) QSShowDelegateObjType type;
 @property (weak, nonatomic) NSObject<QSShowDelegateObjDelegate>* delegate;
 
+- (void)updateShow:(NSDictionary*)showDict;
+
 @end

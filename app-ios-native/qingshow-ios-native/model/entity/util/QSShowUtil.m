@@ -56,23 +56,43 @@
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {
-    NSNumber* n = showDict[@"$numComments"];
-    if (!n) {
-        return @"0";
+    NSDictionary* context = showDict[@"__context"];
+    if (context) {
+        return ((NSNumber*)context[@"numComments"]).kmbtStringValue;
     }
-    return n.kmbtStringValue;
+    return @"0";
 }
-+ (NSString*)getNumberFavorDescription:(NSDictionary*)showDict
++ (NSString*)getNumberLikeDescription:(NSDictionary*)showDict
 {
-    NSNumber* n = showDict[@"$numFavors"];
-    if (!n) {
-        return @"0";
+    NSDictionary* context = showDict[@"__context"];
+    if (context) {
+        return ((NSNumber*)context[@"numLike"]).kmbtStringValue;
     }
-    return n.kmbtStringValue;
+    return @"0";
 }
 + (BOOL)getIsLike:(NSDictionary*)showDict
 {
-    NSNumber* n = showDict[@"isLiked"];
-    return n.kmbtStringValue;
+    NSDictionary* context = showDict[@"__context"];
+    if (context) {
+        return ((NSNumber*)context[@"likedByCurrentUser"]).boolValue;
+    }
+    return NO;
+}
+
++ (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict
+{
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        NSDictionary* context = showDict[@"__context"];
+        NSMutableDictionary* m = nil;
+        if ([context isKindOfClass:[NSDictionary class]]) {
+            m = [context mutableCopy];
+        } else
+        {
+            m = [@{} mutableCopy];
+        }
+        m[@"likedByCurrentUser"] = @(isLike);
+        s[@"__context"] = m;
+    }
 }
 @end

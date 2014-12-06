@@ -73,7 +73,7 @@
 
     NSString* coverPath = showData[@"cover"];
     [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    self.favorNumberLabel.text = [QSShowUtil getNumberFavorDescription:showData];
+    self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:showData];
     self.favorButton.selected = [QSShowUtil getIsLike:showData];
 }
 

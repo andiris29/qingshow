@@ -17,7 +17,8 @@
 + (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict;
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
-+ (NSString*)getNumberFavorDescription:(NSDictionary*)showDict;
++ (NSString*)getNumberLikeDescription:(NSDictionary*)showDict;
 + (BOOL)getIsLike:(NSDictionary*)showDict;
++ (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict;
 
 @end
