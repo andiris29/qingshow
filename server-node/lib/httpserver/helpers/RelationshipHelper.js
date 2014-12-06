@@ -73,7 +73,8 @@ module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, people
     },
     function(peoples, callback) {
         // Append followed by current user
-        ContextHelper.followedByCurrentUser(RPeopleFollowPeople, currentUserId, peoples, callback);
+        peoples = ContextHelper.prepare(peoples);
+        ContextHelper.peopleFollowedByCurrentUser(currentUserId, peoples, callback);
     },
     function(peoples, callback) {
         // Buid response data

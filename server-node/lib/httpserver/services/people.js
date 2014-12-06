@@ -37,7 +37,8 @@ var _queryModels = function(req, res) {
     },
     function(peoples, callback) {
         // Append context
-        ContextHelper.followedByCurrentUser(RPeopleFollowPeople, req.qsCurrentUserId, peoples, callback);
+        peoples = ContextHelper.prepare(peoples);
+        ContextHelper.peopleFollowedByCurrentUser(req.qsCurrentUserId, peoples, callback);
     }], function(err, peoples) {
         // Response
         ResponseHelper.responseAsPaging(res, err, {

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 // Models
+var ShowComments = require('../../model/showComments');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
@@ -10,43 +11,69 @@ var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
  *
  * Input models then output models with context
  */
+var ContextHelper = module.exports;
 
-module.exports.followedByCurrentUser = function(Model, currentUserId, peoples, callback) {
-    _rTargetedByCurrentUser(Model, currentUserId, peoples, 'followedByCurrentUser', callback);
+ContextHelper.prepare = function(models) {
+    return models.map(function(model) {
+        if (model.toJSON) {
+            model = model.toJSON();
+        }
+        model.__context = {};
+        return model;
+    });
 };
 
-module.exports.likedByCurrentUser = function(currentUserId, shows, callback) {
-    _rTargetedByCurrentUser(RPeopleLikeShow, currentUserId, shows, 'likedByCurrentUser', callback);
+ContextHelper.peopleFollowedByCurrentUser = function(currentUserId, peoples, callback) {
+    _rInitiator(RPeopleFollowPeople, currentUserId, peoples, 'followedByCurrentUser', callback);
 };
 
-var _rTargetedByCurrentUser = function(RModel, initiatorRef, models, contextField, callback) {
+ContextHelper.brandFollowedByCurrentUser = function(currentUserId, peoples, callback) {
+    _rInitiator(RPeopleFollowBrand, currentUserId, peoples, 'followedByCurrentUser', callback);
+};
+
+ContextHelper.showLikedByCurrentUser = function(currentUserId, shows, callback) {
+    _rInitiator(RPeopleLikeShow, currentUserId, shows, 'likedByCurrentUser', callback);
+};
+
+ContextHelper.numShowComments = function(shows, callback) {
+    _numTargeted(shows, ShowComments, 'numComments', callback);
+};
+
+ContextHelper.numLikeShow = function(shows, callback) {
+    _numTargeted(shows, RPeopleLikeShow, 'numLike', callback);
+};
+
+var _numTargeted = function(models, RModel, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            RModel.count({
+                'targetRef' : model._id
+            }, function(err, count) {
+                model.__context[contextField] = count || 0;
+                callback(null);
+            });
+        };
+    });
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    });
+};
+
+var _rInitiator = function(RModel, initiatorRef, models, contextField, callback) {
     if (initiatorRef) {
-        var targetRefs = [], _idToIndex = {};
-        models.forEach(function(model, index) {
-            _idToIndex[model._id] = index;
-            targetRefs.push(model._id);
-        });
-
-        RModel.find({
-            'initiatorRef' : initiatorRef,
-            'targetRef' : {
-                '$in' : targetRefs
-            }
-        }, function(err, relationships) {
-            if (err) {
-                callback(err);
-            } else {
-                relationships.forEach(function(r) {
-                    var index = _idToIndex[r.targetRef];
-                    if (index !== undefined) {
-                        var peopleJSON = models[index].toJSON();
-                        peopleJSON.__context = {};
-                        peopleJSON.__context[contextField] = true;
-                        models[index] = peopleJSON;
-                    }
+        var tasks = models.map(function(model) {
+            return function(callback) {
+                RModel.findOne({
+                    'initiatorRef' : initiatorRef,
+                    'targetRef' : model._id
+                }, function(err, relationship) {
+                    model.__context[contextField] = Boolean(!err && relationship);
+                    callback(null);
                 });
-                callback(null, models);
-            }
+            };
+        });
+        async.parallel(tasks, function(err) {
+            callback(null, models);
         });
     } else {
         callback(null, models);

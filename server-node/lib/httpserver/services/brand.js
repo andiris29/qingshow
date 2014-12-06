@@ -37,7 +37,8 @@ var _queryBrands = function(req, res) {
     },
     function(brands, callback) {
         // Append context
-        ContextHelper.followedByCurrentUser(RPeopleFollowBrand, req.qsCurrentUserId, brands, callback);
+        brands = ContextHelper.prepare(brands);
+        ContextHelper.brandFollowedByCurrentUser(req.qsCurrentUserId, brands, callback);
     }], function(err, brands) {
         // Response
         ResponseHelper.responseAsPaging(res, err, {

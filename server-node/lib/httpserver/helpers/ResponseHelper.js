@@ -23,6 +23,11 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponse) {
     if (beforeResponse) {
         json = beforeResponse(json);
     }
+
+    var performance = Date.now() - res.qsPerformance.start;
+    if (performance > 1000) {
+        console.log(res.qsPerformance.fullpath + ': ' + performance);
+    }
     res.json(json);
 };
 

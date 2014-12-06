@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var Show = require('../../model/shows');
+var ShowComments = require('../../model/showComments');
 var Brand = require('../../model/brands');
 var Studio = require('../../model/studios');
 var Item = require('../../model/items');
@@ -13,6 +14,7 @@ var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
+var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 
@@ -20,22 +22,50 @@ var _populate = function(shows, callback) {
     Show.populate(shows, 'modelRef', callback);
 };
 
-var _appendContext = function(shows, callback) {
-    // TODO Append context
-    callback(null, shows);
+/**
+ * Ignore error
+ *
+ * @param {Object} shows
+ * @param {Object} callback
+ */
+var _appendContext = function(currentUserId, shows, callback) {
+    shows = ContextHelper.prepare(shows);
+    // __context.numComments
+    var numComments = function(callback) {
+        ContextHelper.numShowComments(shows, callback);
+    };
+    // __context.numLike
+    var numLike = function(callback) {
+        ContextHelper.numLikeShow(shows, callback);
+    };
+    // __context.likedByCurrentUser
+    var likedByCurrentUser = function(callback) {
+        ContextHelper.showLikedByCurrentUser(currentUserId, shows, callback);
+    };
+    // modedRef.__context.followedByCurrentUser
+    var followedByCurrentUser = function(callback) {
+        var models = shows.map(function(show) {
+            return show.modelRef;
+        });
+        models = ContextHelper.prepare(models);
+        ContextHelper.peopleFollowedByCurrentUser(currentUserId, models, callback);
+    };
+    async.parallel([numComments, numLike, likedByCurrentUser, followedByCurrentUser], function(err) {
+        callback(null, shows);
+    });
 };
+
+/**
+ * Ignore error
+ *
+ * @param {Object} shows
+ * @param {Object} callback
+ */
 var _parseCover = function(shows, callback) {
     var tasks = [];
     shows.forEach(function(show) {
         tasks.push(function(callback) {
             show.updateCoverMetaData(function(err) {
-                // Ignore the err
-                if (err) {
-                    console.log(new Date().toString() + ' - updateCoverMetaData failed');
-                    console.log('\tshow: ' + show._id);
-                    console.log('\tcover: ' + show.cover);
-                    console.log('\terr: ' + err);
-                }
                 callback(null, show);
             });
         });
@@ -69,7 +99,10 @@ module.exports.recommendation = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -99,7 +132,10 @@ module.exports.hot = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -140,7 +176,10 @@ module.exports.like = {
                 shows.push(relationship.targetRef);
             });
             callback(null, shows);
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -194,7 +233,10 @@ module.exports.chosen = {
             }, function(err, chosen) {
                 callback(err, chosen.showRefs);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -232,7 +274,10 @@ module.exports.byModel = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -267,7 +312,10 @@ module.exports.byBrand = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -308,7 +356,10 @@ module.exports.byBrandDiscount = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -343,7 +394,10 @@ module.exports.studio = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows
@@ -383,7 +437,10 @@ module.exports.byStyles = {
                 numTotal = count;
                 callback(err, shows);
             });
-        }, _populate, _appendContext, _parseCover], function(err, shows) {
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            _appendContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
                 'shows' : shows

@@ -35,15 +35,16 @@ var _query = function(req, res) {
         }).populate('modelRef').populate('itemRefs').exec(callback);
     },
     function(shows, callback) {
-        // Append followed by current user
-        ContextHelper.likedByCurrentUser(req.qsCurrentUserId, shows, callback);
-    },
-    function(shows, callback) {
         // Populate nested references
         Show.populate(shows, {
             'path' : 'itemRefs.brandRef',
             'model' : 'brands'
         }, callback);
+    },
+    function(shows, callback) {
+        // Append followed by current user
+        shows = ContextHelper.prepare(shows);
+        ContextHelper.showLikedByCurrentUser(req.qsCurrentUserId, shows, callback);
     }], function(err, shows) {
         ResponseHelper.response(res, err, {
             'shows' : shows

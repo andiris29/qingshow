@@ -38,7 +38,6 @@ global.__qingshow_uploads = {
     'folder' : folderUploads,
     'path' : pathUploads,
 };
-app.use(pathUploads, express.static(folderUploads));
 //cross domain
 app.use(function(req, res, next) {
     // Set header for cross domain
@@ -78,14 +77,24 @@ app.use(require('./middleware/permissionValidator')(services));
 app.use(require('./middleware/errorHandler'));
 
 // Regist http services
+var wrapCallback = function(fullpath, callback) {
+    return function(req, res) {
+        res.qsPerformance = {
+            'fullpath' : fullpath,
+            'start' : Date.now()
+        };
+        callback.func(req, res);
+    };
+};
 services.forEach(function(service) {
     var module = service.module, path = service.path;
     for (var id in module) {
-        var method = module[id].method, callback = module[id].func;
+        var fullpath = '/services/' + path + '/' + id;
+        var method = module[id].method, callback = module[id];
         if (method === 'get') {
-            app.get('/services/' + path + '/' + id, callback);
+            app.get(fullpath, wrapCallback(fullpath, callback));
         } else if (method === 'post') {
-            app.post('/services/' + path + '/' + id, callback);
+            app.post(fullpath, wrapCallback(fullpath, callback));
         }
     }
 });
