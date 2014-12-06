@@ -13,6 +13,10 @@ itemSchema = Schema({
             ref : 'pItems'
         }]
     },
+    create : {
+        type : Date,
+        'default' : Date.now
+    }
 }, {
     collection : 'pShows'
 });

@@ -11,8 +11,8 @@ var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
  * Input models then output models with context
  */
 
-module.exports.followedByCurrentUser = function(currentUserId, peoples, callback) {
-    _rTargetedByCurrentUser(RPeopleFollowPeople, currentUserId, peoples, 'followedByCurrentUser', callback);
+module.exports.followedByCurrentUser = function(Model, currentUserId, peoples, callback) {
+    _rTargetedByCurrentUser(Model, currentUserId, peoples, 'followedByCurrentUser', callback);
 };
 
 module.exports.likedByCurrentUser = function(currentUserId, shows, callback) {

@@ -1,14 +1,25 @@
 var util = require('util');
 
-var ServerError = function(errorCode, description) {
+var ServerError = function(errorCode, description, err) {
     Error.call(this, 'server error');
     this.errorCode = errorCode;
     this.description = description || _codeToString(errorCode);
-    if (errorCode === 1000) {
-        this.stack = new Error().stack;
-        console.log('Error: ' + new Date().toDateString());
-        console.log(this.stack);
+    if (errorCode === ServerError.ServerError) {
+        err = err || new Error();
+        this.stack = err.stack;
+        console.log(new Date().toString() + ': ServerError');
+        console.log('\t' + this.stack);
     }
+};
+
+ServerError.fromCode = function(code) {
+    return new ServerError(code);
+};
+ServerError.fromDescription = function(description) {
+    return new ServerError(ServerError.ServerError, description, new Error());
+};
+ServerError.fromError = function(err) {
+    return new ServerError(ServerError.ServerError, 'Server Error: ' + err.toString(), err);
 };
 
 util.inherits(ServerError, Error);
@@ -77,4 +88,4 @@ var _codeToString = function(code) {
     }
 };
 
-module.exports = ServerError; 
+module.exports = ServerError;

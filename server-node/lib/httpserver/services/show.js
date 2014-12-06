@@ -5,12 +5,50 @@ var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var ShowComment = require('../../model/showComments');
 //util
+var MongoHelper = require('../helpers/MongoHelper');
+var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
+var _query = function(req, res) {
+    var _ids;
+    async.waterfall([
+    function(callback) {
+        // Parser req
+        try {
+            _ids = ServicesUtil.stringArrayToObjectIdArray(req.queryString._ids.split(','));
+            callback(null);
+        } catch (e) {
+            callback(ServerError.fromError(err));
+        }
+    },
+    function(callback) {
+        // Query & populate
+        Show.find({
+            '_id' : {
+                '$in' : _ids
+            }
+        }).populate('modelRef').populate('itemRefs').exec(callback);
+    },
+    function(shows, callback) {
+        // Append followed by current user
+        ContextHelper.likedByCurrentUser(req.qsCurrentUserId, shows, callback);
+    },
+    function(shows, callback) {
+        // Populate nested references
+        Show.populate(shows, {
+            'path' : 'itemRefs.brandRef',
+            'model' : 'brands'
+        }, callback);
+    }], ResponseHelper.generateAsyncCallback(res, function(err, shows) {
+        return {
+            'shows' : shows
+        };
+    }));
+};
 var _like = function(req, res) {
     try {
         var param = req.body;
@@ -21,7 +59,7 @@ var _like = function(req, res) {
         return;
     }
 
-    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
 };
 
 var _unlike = function(req, res) {
@@ -34,36 +72,42 @@ var _unlike = function(req, res) {
         return;
     }
 
-    RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
 };
 
 var _queryComments = function(req, res) {
-    try {
-        var param = req.queryString;
-        var _id = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
-        return;
-    }
-
-    var buildQuery = function() {
-        return ShowComment.find({
+    var pageNo, pageSize, numTotal;
+    var _id;
+    async.waterfall([
+    function(callback) {
+        // Parse request
+        try {
+            var param = req.queryString;
+            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 20);
+            _id = mongoose.mongo.BSONPure.ObjectID(param._id);
+            callback(null);
+        } catch(err) {
+            callback(ServerError.fromError(err));
+        }
+    },
+    function(callback) {
+        // Query
+        var criteria = {
             'targetRef' : _id,
             'delete' : null
-        });
-    };
-    var additionFunc = function(query) {
-        query.sort({
-            'create' : 1
-        }).populate('authorRef').populate('atRef');
-    };
-    var commentDataGenFunc = function(data) {
-        return {
-            'showComments' : data
         };
-    };
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, commentDataGenFunc, pageNo, pageSize);
+        MongoHelper.queryPaging(ShowComment.find(criteria).sort({
+            'create' : 1
+        }).populate('authorRef').populate('atRef'), ShowComment.find(criteria), pageNo, pageSize, function(err, count, showComments) {
+            numTotal = count;
+            callback(err, showComments);
+        });
+    }], function(err, showComments) {
+        // Response
+        ResponseHelper.responseAsPaging(res, err, {
+            'showComments' : showComments
+        }, pageSize, numTotal);
+    });
 };
 
 var _comment = function(req, res) {
@@ -87,7 +131,7 @@ var _comment = function(req, res) {
         comment.save(function(err) {
             callback();
         });
-    }], ResponseHelper.generateGeneralCallback(res));
+    }], ResponseHelper.generateAsyncCallback(res));
 
 };
 
@@ -116,10 +160,14 @@ var _deleteComment = function(req, res) {
         } else {
             callback();
         }
-    }], ResponseHelper.generateGeneralCallback(res));
+    }], ResponseHelper.generateAsyncCallback(res));
 };
 
 module.exports = {
+    'query' : {
+        'method' : 'get',
+        'func' : _query
+    },
     'like' : {
         method : 'post',
         func : _like,
@@ -132,8 +180,7 @@ module.exports = {
     },
     'queryComments' : {
         method : 'get',
-        func : _queryComments,
-        needLogin : false
+        func : _queryComments
     },
     'comment' : {
         method : 'post',

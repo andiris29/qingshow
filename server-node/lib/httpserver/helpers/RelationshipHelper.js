@@ -6,6 +6,8 @@ var ServerError = require('../server-error');
 var ContextHelper = require('../helpers/ContextHelper');
 var ServicesUtil = require('../servicesUtil');
 
+var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+
 module.exports.create = function(Model, initiatorRef, targetRef, callback) {
     async.waterfall([
     function(callbck) {
@@ -55,7 +57,8 @@ module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, people
     async.waterfall([
     function(callback) {
         // Query relationship
-        ServicesUtil.limitQuery(Model.find(criteria), pageNo, pageSize).exec(callback);
+        var query = Model.find(criteria);
+        query.skip((pageNo - 1) * pageSize).limit(pageSize).exec(callback);
     },
     function(relationships, callback) {
         // Query peoples
@@ -71,7 +74,7 @@ module.exports.queryPeoples = function(Model, criteria, pageNo, pageSize, people
     },
     function(peoples, callback) {
         // Append followed by current user
-        ContextHelper.followedByCurrentUser(currentUserId, peoples, callback);
+        ContextHelper.followedByCurrentUser(RPeopleFollowPeople, currentUserId, peoples, callback);
     },
     function(peoples, callback) {
         // Buid response data

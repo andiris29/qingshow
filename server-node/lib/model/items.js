@@ -5,12 +5,18 @@ var Show = require('./shows');
 var Schema = mongoose.Schema;
 var itemSchema;
 itemSchema = Schema({
-    category: Number,   // <code>
-    name: String,
-    cover: String,
-    brandRef: { type: Schema.Types.ObjectId, ref: 'brands'},
-    source: String,
-    showRefs: { type: Schema.Types.ObjectId, ref: 'shows'}
+    category : Number, // <code>
+    name : String,
+    cover : String,
+    brandRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'brands'
+    },
+    source : String,
+    create : {
+        type : Date,
+        'default' : Date.now
+    }
 });
 var Item = mongoose.model('items', itemSchema);
-module.exports = Item;
+module.exports = Item; 

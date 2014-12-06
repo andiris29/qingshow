@@ -12,8 +12,12 @@ itemSchema = Schema({
     },
     remarkInfo : {
         sales : String
+    },
+    create : {
+        type : Date,
+        'default' : Date.now
     }
 }, {
     collection : 'pItems'
 });
-module.exports = mongoose.model('PItem', itemSchema); 
+module.exports = mongoose.model('PItem', itemSchema);

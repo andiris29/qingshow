@@ -8,6 +8,10 @@ var PShow = require('../../model/pShows');
 var mongoose = require('mongoose');
 
 //Utils
+var MongoHelper = require('../helpers/MongoHelper');
+var ContextHelper = require('../helpers/ContextHelper');
+var RelationshipHelper = require('../helpers/RelationshipHelper');
+var ResponseHelper = require('../helpers/ResponseHelper');
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 
@@ -17,43 +21,41 @@ var ServerError = require('../server-error');
 //  categories array of code
 // Response
 //  data.items array, entity in db.pItems
-
 var _queryAvailablePItems = function(req, res) {
-    try {
-        var param = req.queryString;
-        var pageNo = parseInt(param.pageNo || 1);
-        var pageSize = parseInt(param.pageSize || 20);
-        var categories = (param.categories || '').split(',');
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
-        return;
-    }
-    function buildQuery() {
-        var query = PItem.find();
-        query.where({
+    var pageNo, pageSize, numTotal;
+    var categories;
+    async.waterfall([
+    function(callback) {
+        // Parse request
+        try {
+            var param = req.queryString;
+            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 20);
+            categories = (param.categories || '').split(',');
+            callback(null);
+        } catch(err) {
+            callback(ServerError.fromError(err));
+        }
+    },
+    function(callback) {
+        // Query
+        var criteria = {
             'category' : {
                 '$in' : categories
             },
             'collocated' : {
                 '$ne' : true
             }
-        });
-        return query;
-    }
-
-    function additionFunc(query) {
-        //TODO: add sort?
-        return query;
-    }
-
-    function dateGenFunc(datas) {
-        return {
-            pItems : datas
         };
-    }
-
-
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, dateGenFunc, pageNo, pageSize);
+        MongoHelper.queryPaging(PItem.find(criteria), PItem.find(criteria), pageNo, pageSize, function(err, count, pItems) {
+            numTotal = count;
+            callback(err, pItems);
+        });
+    }], function(err, pItems) {
+        // Response
+        ResponseHelper.responseAsPaging(res, err, {
+            'pItems' : pItems
+        }, pageSize, numTotal);
+    });
 };
 
 // query/getUnshotPShows [get]
@@ -189,13 +191,11 @@ var _collocate = function(req, res) {
 module.exports = {
     'queryAvailablePItems' : {
         method : 'get',
-        func : _queryAvailablePItems,
-        needLogin : false
+        func : _queryAvailablePItems
     },
     'getUnshotPShows' : {
         method : 'get',
-        func : _getUnshotPShows,
-        needLogin : false
+        func : _getUnshotPShows
     },
     'collocate' : {
         method : 'post',

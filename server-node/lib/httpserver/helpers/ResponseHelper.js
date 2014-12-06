@@ -2,17 +2,56 @@ var _ = require('underscore');
 
 var ServerError = require('../server-error');
 
-module.exports.generateGeneralCallback = function(res, dataBuilder) {
+var ResponseHelper = module.exports;
+
+ResponseHelper.generateAsyncCallback = function(res, dataBuilder, metadataBuilder) {
     return function(err, result) {
-        var data = (!err && dataBuilder) ? dataBuilder(result) : result;
-        _general(res, err, data);
+        var data, metadata;
+        if (!err) {
+            data = dataBuilder ? dataBuilder.apply(null, arguments) : null;
+            metadata = metadataBuilder ? metadataBuilder.apply(null, arguments) : null;
+        }
+        _general(res, err, data, metadata);
     };
 };
 
-var _general = module.exports.general = function(res, err, data) {
+ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, beforeResponse) {
+    var json = {
+        'data' : data,
+        'metadata' : {}
+    };
     if (err) {
-        if (!(err instanceof ServerError)) {
-            err = new ServerError(ServerError.ServerError, err);
+        json = _appendError(json, err);
+    } else {
+        json.metadata.numTotal = numTotal;
+        json.metadata.numPages = parseInt((numTotal + pageSize - 1) / pageSize);
+    }
+    if (beforeResponse) {
+        json = beforeResponse(json);
+    }
+    res.json(json);
+};
+
+var _appendError = function(json, err) {
+    if (err) {
+        if (_.isNumber(err)) {
+            err = ServerError.fromCode(err);
+        } else if (!( err instanceof ServerError)) {
+            err = ServerError.fromDescription(err);
+        }
+        json.metadata = json.metadata || {};
+        json.metadata.error = err.errorCode;
+        json.metadata.errorInfo = err;
+    }
+    return json;
+};
+
+var _general = ResponseHelper.general = function(res, err, data, metadata) {
+    if (err) {
+        if (_.isNumber(err)) {
+            err = ServerError.fromCode(err);
+        } else if (!( err instanceof ServerError)) {
+            err = ServerError.fromDescription(err);
         }
         res.json({
             'metadata' : {
@@ -21,10 +60,15 @@ var _general = module.exports.general = function(res, err, data) {
             }
         });
     } else {
-        if (data) {
-            res.json({
-                'data' : data
-            });
+        if (data || metadata) {
+            var json = {};
+            if (metadata) {
+                json.metadata = metadata;
+            }
+            if (data) {
+                json.data = data;
+            }
+            res.json(json);
         } else {
             res.end();
         }

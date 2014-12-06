@@ -6,33 +6,42 @@ var Brand = require('../../model/brands');
 var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 //util
 var ContextHelper = require('../helpers/ContextHelper');
+var MongoHelper = require('../helpers/MongoHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var ServerError = require('../server-error');
 var ServicesUtil = require('../servicesUtil');
 
 var _queryBrands = function(req, res) {
-    var param = req.queryString;
-    var pageNo = param.pageNo || 1, pageSize = param.pageSize || Number.POSITIVE_INFINITY;
-
-    var buildQuery = function() {
-        return Brand.find({
-            'type' : 0
+    var pageNo, pageSize, numTotal;
+    async.waterfall([
+    function(callback) {
+        // Parse request
+        try {
+            var param = req.queryString;
+            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize) || Number.POSITIVE_INFINITY;
+            callback(null);
+        } catch(err) {
+            callback(ServerError.fromError(err));
+        }
+    },
+    function(callback) {
+        // Query
+        MongoHelper.queryPaging(Brand.find().sort({
+            'create' : -1
+        }), Brand.find(), pageNo, pageSize, function(err, count, brands) {
+            numTotal = count;
+            callback(err, brands);
         });
-    };
-    var modelDataGenFunc = function(data) {
-        return {
-            'brands' : data
-        };
-    };
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, null, modelDataGenFunc, pageNo, pageSize, function(peoples, callback) {
-        ContextHelper.followedByCurrentUser(req.qsCurrentUserId, peoples, function(err, peoples) {
-            if (err) {
-                ServicesUtil.responseError(res, new ServerError(err));
-            } else {
-                callback(peoples);
-            }
-        });
+    },
+    function(brands, callback) {
+        // Append context
+        ContextHelper.followedByCurrentUser(RPeopleFollowBrand, req.qsCurrentUserId, brands, callback);
+    }], function(err, brands) {
+        // Response
+        ResponseHelper.responseAsPaging(res, err, {
+            'brands' : brands
+        }, pageSize, numTotal);
     });
 };
 
@@ -46,7 +55,7 @@ var _queryFollowers = function(req, res) {
 
     RelationshipHelper.queryPeoples(RPeopleFollowBrand, {
         'targetRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, ResponseHelper.generateGeneralCallback(res));
+    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, ResponseHelper.generateAsyncCallback(res));
 };
 
 var _follow = function(req, res) {
@@ -59,7 +68,7 @@ var _follow = function(req, res) {
         return;
     }
 
-    RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
 };
 
 var _unfollow = function(req, res) {
@@ -72,7 +81,7 @@ var _unfollow = function(req, res) {
         return;
     }
 
-    RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, targetRef, ResponseHelper.generateGeneralCallback(res));
+    RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
 };
 
 module.exports = {

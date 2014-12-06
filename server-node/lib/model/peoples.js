@@ -5,43 +5,40 @@ var Brand = require('./brands');
 var Schema = mongoose.Schema;
 var peopleSchema;
 peopleSchema = Schema({
-    roles: [Number],  //user 0 model 1
-    name: String,
-    portrait: String,
-    background: String,
-    height: Number,
-    weight: Number,
-    birthtime: Date,
-    gender: Number, //male 0 female 1
-    hairTypes: [Number], //0 all 1 long 2 super long 3 mid long
-    userInfo: {
-        type: {
-            id: String,
-            password: String,
-            encryptedPassword: String,
-            passwordUpdatedDate: { type: Date, default: Date.now }
+    roles : [Number], //user 0 model 1
+    name : String,
+    portrait : String,
+    background : String,
+    height : Number,
+    weight : Number,
+    birthtime : Date,
+    gender : Number, //male 0 female 1
+    hairTypes : [Number], //0 all 1 long 2 super long 3 mid long
+    userInfo : {
+        type : {
+            id : String,
+            password : String,
+            encryptedPassword : String,
+            passwordUpdatedDate : {
+                type : Date,
+                'default' : Date.now
+            }
         },
-        select: false
+        select : false
     },
-    modelInfo: {
-        status: String,
-        numberLike: Number
+    modelInfo : {
+        status : String,
+        numberLike : Number
     },
-    likingShowRefs: {
-        type: [
-            { type: Schema.Types.ObjectId, ref: 'shows'}
-        ],
-        select: false
+    create : {
+        type : Date,
+        'default' : Date.now
     },
-    followBrandRefs : {
-        type : [
-            { type: Schema.Types.ObjectId, ref: 'brands'}
-        ],
-        select: false
-    },
-    create: { type: Date, default: Date.now },
-    update: { type: Date, default: Date.now }
+    update : {
+        type : Date,
+        'default' : Date.now
+    }
 });
 var People = mongoose.model('peoples', peopleSchema);
 
-module.exports = People;
+module.exports = People; 

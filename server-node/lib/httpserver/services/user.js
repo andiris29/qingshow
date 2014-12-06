@@ -32,19 +32,19 @@ _get = function(req, res) {
                 '_id' : req.qsCurrentUserId
             }, function(err, people) {
                 if (err) {
-                    callback(err);
+                    callback(ServerError.fromError(err));
                 } else if (people) {
                     callback(null, people);
                 } else {
-                    callback(ServerError.NeedLogin);
+                    callback(ServerError.fromCode(ServerError.NeedLogin));
                 }
             });
         } else {
             callback(ServerError.NeedLogin);
         }
-    }], ResponseHelper.generateGeneralCallback(res, function(result) {
+    }], ResponseHelper.generateAsyncCallback(res, function(err, people) {
         return {
-            'people' : result
+            'people' : people
         };
     }));
 };

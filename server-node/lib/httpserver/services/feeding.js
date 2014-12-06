@@ -1,496 +1,393 @@
+var mongoose = require('mongoose');
+var async = require('async');
 //model
 var Show = require('../../model/shows');
 var Brand = require('../../model/brands');
+var Studio = require('../../model/studios');
 var Item = require('../../model/items');
 var People = require('../../model/peoples');
 var Chosen = require('../../model/chosens');
+var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 //util
+var RelationshipHelper = require('../helpers/RelationshipHelper');
+var ResponseHelper = require('../helpers/ResponseHelper');
+var MongoHelper = require('../helpers/MongoHelper');
+
 var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
-var mongoose = require('mongoose');
-var nimble = require('nimble');
 
-var _recommendation, _hot, _like, _chosen;
-var _byModel, _byTag, _byBrand, _byBrandDiscount, _byStudio, _byFollow;
-
-//Utility for feeding service
-function _showPopulate(query) {
-    query.populate({path: "modelRef"})
-        .populate("itemRefs");
-    return query;
+var _populate = function(shows, callback) {
+    Show.populate(shows, 'modelRef', callback);
 };
-function _showDataGenFunc(data) {
+
+var _appendContext = function(shows, callback) {
+    // TODO Append context
+    callback(null, shows);
+};
+var _parseCover = function(shows, callback) {
+    var tasks = [];
+    shows.forEach(function(show) {
+        tasks.push(function(callback) {
+            show.updateCoverMetaData(function(err) {
+                // Ignore the err
+                if (err) {
+                    console.log(new Date().toString() + ' - updateCoverMetaData failed');
+                    console.log('\tshow: ' + show._id);
+                    console.log('\tcover: ' + show.cover);
+                    console.log('\terr: ' + err);
+                }
+                callback(null, show);
+            });
+        });
+    });
+    async.parallel(tasks, callback);
+};
+var _dataBuilder = function(err, shows) {
     return {
-        shows: data
+        'shows' : shows
     };
-}
-
-function showsFinalHandler(shows, callBackFunc) {
-    nimble.series([
-        function (callback) {
-            var funcArray = [];
-            shows.forEach(function (show) {
-                var updateFunc = function (callback) {
-                    show.updateCoverMetaData(callback);
-                };
-                funcArray.push(updateFunc);
-            });
-            nimble.parallel(funcArray, callback);
-        },
-        function (callback) {
-            callBackFunc(shows);
-            callback();
-        }
-    ]);
-}
-
-
-//feeding/xxx
+};
 //feeding/recommendation
-_recommendation = function (req, res) {
-    var param, tags, pageNo, pageSize;
-    param = req.queryString;
-    tags = param.tags || [];
-    pageNo = parseInt(param.pageNo || 1);
-    pageSize = parseInt(param.pageSize || 10);
-
-    function buildQuery() {
-        var query = Show.find();
-        if (tags.length) {
-            query.where({tags: {$in: tags}});
-        }
-        return query;
-    }
-    function additionFunc(query) {
-        query.sort({numLike: 1});
-        _showPopulate(query);
-        return query;
-    }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-};
-
-//feeding/hot  sortedByNumView
-_hot = function (req, res) {
-    var param, pageNo, pageSize;
-    param = req.queryString;
-    pageNo = parseInt(param.pageNo || 1);
-    pageSize = parseInt(param.pageSize || 10);
-    function buildQuery() {
-        return Show.find();
-    }
-    function additionFunc(query) {
-        query.sort({numView: 1});
-        _showPopulate(query);
-        return query;
-    }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-};
-
-//feeding/like sortedByNumLike
-_like = function (req, res){
-    var param, pageNo, pageSize;
-    param = req.queryString;
-    pageNo = parseInt(param.pageNo || 1);
-    pageSize = parseInt(param.pageSize || 10);
-    People.findOne({_id : req.qsCurrentUserId})
-        .select('likingShowRefs')
-        .exec(function (err, p) {
-            if (err) {
-                ServicesUtil.responseError(res, err);
-                return;
-            } else if (!p) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                return;
-            } else {
-                var count = p.likingShowRefs.length;
-                if ((pageNo - 1) * pageSize > count) {
-                    ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
-                    return;
-                }
-//                Show.populate(chosen.showRefs, {path :'modelRef itemRefs'})
-                People.populate(p,
-                    {
-                        path : 'likingShowRefs',
-                        option : {
-                            skip: (pageNo - 1) * pageSize,
-                            limit: pageSize
-                        }
-                    },
-                    function (err, populatedPeople) {
-                        if (err) {
-                            ServicesUtil.responseError(res, err);
-                            return;
-                        } else if (!populatedPeople) {
-                            ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                            return;
-                        } else {
-
-                            Show.populate(populatedPeople.likingShowRefs, {
-                                path : 'modelRef itemRefs'
-                            },
-                                function (err, shows) {
-                                    if (err) {
-                                        ServicesUtil.responseError(res, err);
-                                        return;
-                                    } else if (!shows) {
-                                        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                                        return;
-                                    } else {
-                                        showsFinalHandler(populatedPeople.likingShowRefs, function (s) {
-                                            var retData = {
-                                                metadata: {
-                                                    "numTotal": count,
-                                                    "numPages": parseInt((count + pageSize - 1) / pageSize),
-                                                },
-                                                data: {
-                                                    shows: s
-                                                }
-                                            };
-                                            res.json(retData);
-                                        });
-                                    }
-                                });
-                        }
-                });
+module.exports.recommendation = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
             }
+        },
+        function(callback) {
+            MongoHelper.queryPaging(Show.find().sort({
+                'numLike' : -1
+            }), Show.find(), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
         });
+    }
 };
 
-//feeding/chosen
-_chosen = function (req, res){
-    var param, pageNo, pageSize;
-    param = req.queryString;
-    pageNo = parseInt(param.pageNo || 1);
-    pageSize = parseInt(param.pageSize || 10);
-
-    Chosen.find()
-        .where('activateTime').lte(Date.now())
-        .sort({activateTime : 1})
-        .limit(1)
-        .exec(function (err, chosens) {
-            if (err) {
-                ServicesUtil.responseError(res, err);
-                return;
-            } else if (!chosens || !chosens.length) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
-                return;
-            } else {
-                var chosen = chosens[0];
-                var count = chosen.showRefs.length;
-                if ((pageNo - 1) * pageSize > count){
-                    ServicesUtil.responseError(res, new ServerError(ServerError.PagingNotExist));
-                    return;
-                }
-                Chosen.populate(chosen, {
-                    path: 'showRefs',
-                    options: {
-                        skip: (pageNo - 1) * pageSize,
-                        limit: pageSize
-                    }
-                }, function (err, chosen){
-                    if (err) {
-                        ServicesUtil.responseError(res, err);
-                        return;
-                    } else if (!chosen) {
-                        ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
-                        return;
-                    } else {
-                        Show.populate(chosen.showRefs, 'modelRef itemRefs', function(err, shows){
-                            if (err) {
-                                ServicesUtil.responseError(res, err);
-                                return;
-                            } else {
-                                showsFinalHandler(shows, function (s) {
-                                    var retData = {
-                                        metadata: {
-                                            "numTotal": count,
-                                            "numPages": parseInt((count + pageSize - 1) / pageSize),
-                                            "refreshTime": chosen.activateTime
-                                        },
-                                        data: {
-                                            shows: s
-                                        }
-                                    };
-                                    res.json(retData);
-                                });
-                            }
-                        });
-                    }
-                });
+module.exports.hot = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
             }
+        },
+        function(callback) {
+            MongoHelper.queryPaging(Show.find().sort({
+                'numView' : -1
+            }), Show.find(), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
         });
+    }
 };
 
-//feeding/byXXX
-//byModel
-_byModel = function (req, res) {
-    var param, producerIDs, pageNo, pageSize;
-    param = req.queryString;
-    producerIDs = param.producerIDs || '';
-    producerIDs = producerIDs.split(',');
-    producerIDs = ServicesUtil.stringArrayToObjectIdArray(producerIDs);
-    pageNo = parseInt(param.pageNo || 1);
-    pageSize = parseInt(param.pageSize || 10);
-    function buildQuery() {
-        var query = Show.find();
-        if (producerIDs.length) {
-            query.where({modelRef: {$in: producerIDs}});
-        }
-        return query;
-    }
-    function additionFunc(query) {
-        query.sort({numLike: 1});
-        _showPopulate(query);
-        return query;
-    }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-};
-
-//byTag
-_byTag = function (req, res){
-    var param, tags, pageNo, pageSize;
-    param = req.queryString;
-    tags = param.tags || [];
-
-    if (tags.length === 0){
-        ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
-        return;
-    }
-
-    pageNo = parseInt(param.pageNo || 1);
-    pageSize = parseInt(param.pageSize || 10);
-
-    function buildQuery() {
-        var query = Show.find();
-        if (tags.length) {
-            query.where({tags: {$in: tags}});
-        }
-        return query;
-    }
-    function additionFunc(query) {
-        query.sort({numLike: 1});
-        _showPopulate(query);
-        return query;
-    }
-    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-};
-
-//byBrand|_id string
-_byBrand = function (req, res){
-    var param, brandIdStr, brandIdObj, pageNo, pageSize;
-    try {
-        param = req.queryString;
-        brandIdStr = param._id || "";
-        brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
-        pageNo = parseInt(param.pageNo || 1);
-        pageSize = parseInt(param.pageSize || 10);
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
-        return;
-    }
-    Brand.findOne({_id: brandIdObj}, function (err, brand){
-        if (err) {
-            ServicesUtil.responseError(res, err);
-            return;
-        } else if (!brand) {
-            ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
-            return;
-        } else {
-            //find items
-            Item.find({brandRef: brandIdObj}, function (err, items){
-                if (err) {
-                    ServicesUtil.responseError(res, err);
-                    return;
-                } else if (!items || !items.length) {
-                    ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
-                    return;
-                } else {
-                    var itemsIdArray = [];
-                    items.forEach(function (item){
-                        itemsIdArray.push(item._id);
-                    });
-                    function buildQuery(){
-                        var query = Show.find({itemRefs : {$in : itemsIdArray}});
-                        return query;
-                    }
-                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-                }
-            });
-        }
-    });
-};
-
-_byBrandDiscount = function (req, res) {
-    var param, brandIdStr, brandIdObj, pageNo, pageSize;
-    try {
-        param = req.queryString;
-        brandIdStr = param._id || "";
-        brandIdObj = mongoose.mongo.BSONPure.ObjectID(brandIdStr);
-        pageNo = parseInt(param.pageNo || 1);
-        pageSize = parseInt(param.pageSize || 10);
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
-    }
-    var brand = null;
-    var error = null;
-    var brandItems = null;
-    nimble.series([
-        function (callback) {
-            Brand.findOne({_id: brandIdObj}, function (err, b) {
-                error = err;
-                if (!b) {
-                    error = new ServerError(ServerError.BrandNotExist);
-                } else {
-                    brand = b;
-                }
-                callback();
-            });
-        },function (callback) {
-            if (error) {
-                callback();
-                return;
-            } else {
-                Item.find({brandRef: brandIdObj}, function (err, items) {
-                    if (err) {
-                        error = err;
-                    } else if (!items || !items.length) {
-                        error = new ServerError(ServerError.ItemNotExist);
-                    } else {
-                        brandItems = items;
-                    }
-                    callback();
-                });
+module.exports.like = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
             }
-        }, function (callback) {
-            if (error) {
-                ServicesUtil.responseError(res, error);
-                callback();
-                return;
-            } else {
-                var itemsIdArray = [];
-                brandItems.forEach(function (item){
-                    itemsIdArray.push(item._id);
-                });
-                function buildQuery(){
-                    var query = Show.find({itemRefs : {$in : itemsIdArray}});
-                    query.where('discountInfo').exists(true);
-                    return query;
-                }
-                function additionFunc(query) {
-                    query.sort({"discountInfo.start": -1});
-                    _showPopulate(query);
-                    return query;
-                }
-                ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler, callback);
-            }
-        }]);
-};
-
-_byStudio = function (req, res) {
-    var param, pageNo, pageSize;
-    try {
-        param = req.queryString;
-        pageNo = parseInt(param.pageNo || 1);
-        pageSize = parseInt(param.pageSize || 10);
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
-    }
-    Brand.find({type: 1}, function (err, brands){
-        if (err) {
-            ServicesUtil.responseError(res, err);
-            return;
-        } else if (!brands) {
-            ServicesUtil.responseError(res, new ServerError(ServerError.BrandNotExist));
-            return;
-        } else {
-
-            var brandIdArray = [];
-            brands.forEach(function (brand) {
-                brandIdArray.push(brand._id);
-            });
-
-            //find items
-            Item.find({brandRef: {$in : brandIdArray}}, function (err, items){
-                if (err) {
-                    ServicesUtil.responseError(res, err);
-                    return;
-                } else if (!items || !items.length) {
-                    ServicesUtil.responseError(res, new ServerError(ServerError.ShowNotExist));
-                    return;
-                } else {
-                    var itemsIdArray = [];
-                    items.forEach(function (item){
-                        itemsIdArray.push(item._id);
-                    });
-                    function buildQuery(){
-                        var query = Show.find({itemRefs : {$in : itemsIdArray}});
-                        return query;
-                    }
-                    ServicesUtil.sendSingleQueryToResponse(res, buildQuery, _showPopulate, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-                }
-            });
-        }
-    });
-};
-
-
-
-//byFollow|_id string of ObjectId
-_byFollow = function (req, res){
-    var param, peopleIdStr, peopleIdObj, pageNo, pageSize;
-    try {
-        param = req.queryString;
-        peopleIdStr = param._id || [];
-        peopleIdObj = mongoose.mongo.BSONPure.ObjectID(peopleIdStr);
-        pageNo = parseInt(param.pageNo || 1);
-        pageSize = parseInt(param.pageSize || 10);
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-        return;
-    }
-
-    People.findOne({_id : peopleIdObj})
-        .select('followRefs')
-        .exec(function (err, people) {
-            function buildQuery(){
-                var query = Show.find();
-                var followsIdArray;
-                if (!people.followRefs || !people.followRefs.length) {
-                    followsIdArray = [];
-                } else {
-                    followsIdArray = people.followRefs;
-                }
-                query.where({modelRef: {$in: followsIdArray}});
-                return query;
+        },
+        function(callback) {
+            var criteria = {
+                'initiatorRef' : req.qsCurrentUserId
             };
-            function additionFunc(query) {
-//                    query.sort({numLike: 1});
-                _showPopulate(query);
-                return query;
-            }
-            if (err) {
-                ServicesUtil.responseError(res, err);
-                return;
-            } else if (!people) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
-                return;
-            } else {
-                ServicesUtil.sendSingleQueryToResponse(res, buildQuery, additionFunc, _showDataGenFunc, pageNo, pageSize, showsFinalHandler);
-            }
-    });
-//    return _byTag(req, res);
+            MongoHelper.queryPaging(RPeopleLikeShow.find(criteria).sort({
+                'create' : -1
+            }).populate('targetRef'), RPeopleLikeShow.find(criteria), pageNo, pageSize, function(err, count, relationships) {
+                numTotal = count;
+                callback(err, relationships);
+            });
+        },
+        function(relationships, callback) {
+            var shows = [];
+            relationships.forEach(function(relationship) {
+                shows.push(relationship.targetRef);
+            });
+            callback(null, shows);
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
 };
 
-module.exports = {
-    'recommendation' : {method: 'get', func: _recommendation},
-    'hot' : {method: 'get', func: _hot},
-    'like' : {method: 'get', func: _like, needLogin: true},
-    "chosen" : {method: 'get', func: _chosen},
+module.exports.chosen = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        var type, chosen;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                type = parseInt(param.type || 0);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            // Query chosen
+            Chosen.find({
+                'type' : type
+            }).where('activateTime').lte(Date.now()).sort({
+                'activateTime' : 1
+            }).limit(1).exec(function(err, chosens) {
+                if (err) {
+                    callback(ServerError.fromDescription(err));
+                } else if (!chosens || !chosens.length) {
+                    callback(ServerError.fromCode(ServerError.ShowNotExist));
+                } else {
+                    chosen = chosens[0];
+                    numTotal = chosen.showRefs.length;
+                    callback(null);
+                }
+            });
+        },
+        function(callback) {
+            // Query shows
+            Chosen.populate(chosen, {
+                'path' : 'showRefs',
+                'options' : {
+                    'skip' : (pageNo - 1) * pageSize,
+                    'limit' : pageSize
+                }
+            }, function(err, chosen) {
+                callback(err, chosen.showRefs);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal, function(json) {
+                json.metadata.refreshTime = chosen.activateTime;
+                return json;
+            });
+        });
+    }
+};
 
-    'byModel' : {method: 'get',func: _byModel},
-    'byTag' : {method: 'get', func: _byTag},
-    'byBrand' : {method: 'get', func: _byBrand},
-    'byBrandDiscount': {method: 'get', func: _byBrandDiscount},
-    'byStudio' : {method:'get', func: _byStudio},
-    'byFollow' : {method: 'get', func: _byFollow}
+module.exports.byModel = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        var modelRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                modelRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            var criteria = {
+                'modelRef' : modelRef
+            };
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                'create' : -1
+            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
+};
+
+module.exports.byBrand = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        var brandRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                brandRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            var criteria = {
+                'brandRef' : brandRef
+            };
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                'create' : -1
+            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
+};
+
+module.exports.byBrandDiscount = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        var brandRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                brandRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            var criteria = {
+                'brandRef' : brandRef,
+                'brandDiscountInfo.start' : {
+                    '$lte' : new Date()
+                },
+                'brandDiscountInfo.end' : {
+                    '$gte' : new Date()
+                }
+            };
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                'brandDiscountInfo.end' : 1
+            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
+};
+
+module.exports.studio = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            var criteria = {
+                'studioRef' : {
+                    '$ne' : null
+                }
+            };
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                'create' : -1
+            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
+};
+
+module.exports.byStyles = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var pageNo, pageSize, numTotal;
+        var styles;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                styles = req.queryString.styles.split(',');
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            var criteria = {
+                '$or' : []
+            };
+            styles.forEach(function(style) {
+                criteria['$or'].push({
+                    'styles' : style
+                });
+            });
+            MongoHelper.queryPaging(Show.find(criteria).sort({
+                'create' : -1
+            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _appendContext, _parseCover], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
 };
