@@ -11,9 +11,9 @@ var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 //util
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 
-var ServicesUtil = require('../servicesUtil');
 var ServerError = require('../server-error');
 
 var _populate = function(shows, callback) {

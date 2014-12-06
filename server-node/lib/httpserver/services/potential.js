@@ -12,7 +12,8 @@ var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
-var ServicesUtil = require('../servicesUtil');
+var RequestHelper = require('../helpers/RequestHelper');
+
 var ServerError = require('../server-error');
 
 // query/queryAvailablePItems [paging][get]
@@ -68,8 +69,8 @@ var _getUnshotPShows = function(req, res) {
     try {
         var param = req.queryString;
         var _id = param._id;
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
+    } catch (err) {
+        ResponseHelper.response(res, err);
         return;
     }
 
@@ -77,7 +78,7 @@ var _getUnshotPShows = function(req, res) {
         'modelRef' : _id
     }, function(err, pShows) {
         if (err) {
-            ServicesUtil.responseError(res, err);
+            ResponseHelper.response(res, err);
             return;
         } else {
             var retObj = {
@@ -92,14 +93,14 @@ var _getUnshotPShows = function(req, res) {
 };
 
 var _collocate = function(req, res) {
+    var pItemRefs;
     try {
         var param = req.body;
-        var _ids = param._ids.split(',');
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
+        pItemRefs = RequestHelper.parseIds(param._ids);
+    } catch (err) {
+        ResponseHelper.response(res, err);
         return;
     }
-    var pItemRefs = ServicesUtil.stringArrayToObjectIdArray(_ids);
     var modelRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     // Find data
     var fincPItems = function(callback) {
@@ -135,7 +136,7 @@ var _collocate = function(req, res) {
     };
     async.parallel([fincPItems, findModel], function(err, results) {
         if (err) {
-            ServicesUtil.responseError(res, err);
+            ResponseHelper.response(res, err);
             return;
         }
         var pItems = results[0], model = results[1];

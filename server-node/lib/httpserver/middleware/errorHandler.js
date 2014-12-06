@@ -1,11 +1,11 @@
-var ServicesUtil = require('../servicesUtil');
+var ResponseHelper = require('../helpers/ResponseHelper');
 
 function error_handler(err, req, res, next) {
     if (!err) {
         return next();
+    } else {
+        ResponseHelper.response(res, err);
     }
-    ServicesUtil.responseError(res, err);
-    //    next(err);
 }
 
-module.exports = error_handler; 
+module.exports = error_handler;

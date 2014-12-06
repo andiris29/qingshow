@@ -9,8 +9,9 @@ var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../helpers/RequestHelper');
+
 var ServerError = require('../server-error');
-var ServicesUtil = require('../servicesUtil');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
 var _query = function(req, res) {
@@ -19,9 +20,9 @@ var _query = function(req, res) {
     function(callback) {
         // Parser req
         try {
-            _ids = ServicesUtil.stringArrayToObjectIdArray(req.queryString._ids.split(','));
+            _ids = RequestHelper.parseIds(req.queryString._ids);
             callback(null);
-        } catch (e) {
+        } catch (err) {
             callback(ServerError.fromError(err));
         }
     },
@@ -43,23 +44,26 @@ var _query = function(req, res) {
             'path' : 'itemRefs.brandRef',
             'model' : 'brands'
         }, callback);
-    }], ResponseHelper.generateAsyncCallback(res, function(err, shows) {
-        return {
+    }], function(err, shows) {
+        ResponseHelper.response(res, err, {
             'shows' : shows
-        };
-    }));
+        });
+    });
+
 };
 var _like = function(req, res) {
     try {
         var param = req.body;
         var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
-    } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+    } catch (err) {
+        ResponseHelper.response(res, ServerError.RequestValidationFail);
         return;
     }
 
-    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
+    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, function(err) {
+        ResponseHelper.response(res, err);
+    });
 };
 
 var _unlike = function(req, res) {
@@ -68,11 +72,13 @@ var _unlike = function(req, res) {
         var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        ResponseHelper.response(res, ServerError.RequestValidationFail);
         return;
     }
 
-    RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
+    RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, function(err) {
+        ResponseHelper.response(res, err);
+    });
 };
 
 var _queryComments = function(req, res) {
@@ -116,8 +122,8 @@ var _comment = function(req, res) {
         var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var atRef = mongoose.mongo.BSONPure.ObjectID(param._atId);
         var comment = param.comment;
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
+    } catch (err) {
+        ResponseHelper.response(res, err);
         return;
     }
     async.waterfall([
@@ -131,7 +137,9 @@ var _comment = function(req, res) {
         comment.save(function(err) {
             callback();
         });
-    }], ResponseHelper.generateAsyncCallback(res));
+    }], function(err) {
+        ResponseHelper.response(res, err);
+    });
 
 };
 
@@ -139,8 +147,8 @@ var _deleteComment = function(req, res) {
     try {
         var param = req.body;
         var _id = mongoose.mongo.BSONPure.ObjectID(param._id);
-    } catch (e) {
-        ServicesUtil.responseError(res, e);
+    } catch (err) {
+        ResponseHelper.response(res, err);
         return;
     }
     async.waterfall([
@@ -160,7 +168,9 @@ var _deleteComment = function(req, res) {
         } else {
             callback();
         }
-    }], ResponseHelper.generateAsyncCallback(res));
+    }], function(err) {
+        ResponseHelper.response(res, err);
+    });
 };
 
 module.exports = {

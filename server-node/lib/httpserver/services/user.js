@@ -4,7 +4,8 @@ var async = require('async');
 var People = require('../../model/peoples');
 
 var ResponseHelper = require('../helpers/ResponseHelper');
-var ServicesUtil = require('../servicesUtil');
+var RequestHelper = require('../helpers/RequestHelper');
+
 var ServerError = require('../server-error');
 
 var crypto = require('crypto'), _secret = 'qingshow@secret';
@@ -42,11 +43,11 @@ _get = function(req, res) {
         } else {
             callback(ServerError.NeedLogin);
         }
-    }], ResponseHelper.generateAsyncCallback(res, function(err, people) {
-        return {
+    }], function(err, people) {
+        ResponseHelper.response(res, err, {
             'people' : people
-        };
-    }));
+        });
+    });
 };
 
 _login = function(req, res) {
@@ -63,7 +64,7 @@ _login = function(req, res) {
         }]
     }).select("+userInfo").exec(function(err, people) {
         if (err) {
-            ServicesUtil.responseError(res, err);
+            ResponseHelper.response(res, err);
         } else if (people) {
             //login succeed
             req.session.userId = people._id;
@@ -83,8 +84,7 @@ _login = function(req, res) {
             //login fail
             delete req.session.userId;
             delete req.session.loginDate;
-            err = new ServerError(ServerError.IncorrectMailOrPassword);
-            ServicesUtil.responseError(res, err);
+            ResponseHelper.response(res, ServerError.IncorrectMailOrPassword);
         }
     });
 };
@@ -108,17 +108,17 @@ _register = function(req, res) {
     password = param.password;
     //TODO validate id and password
     if (!id || !password || !id.length || !password.length) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.NotEnoughParam));
+        ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
     People.findOne({
         'userInfo.id' : id
     }, function(err, people) {
         if (err) {
-            ServicesUtil.responseError(res, err);
+            ResponseHelper.response(res, err);
             return;
         } else if (people) {
-            ServicesUtil.responseError(res, new ServerError(ServerError.EmailAlreadyExist));
+            ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
 
@@ -130,10 +130,10 @@ _register = function(req, res) {
         });
         people.save(function(err, people) {
             if (err) {
-                ServicesUtil.responseError(res, err);
+                ResponseHelper.response(res, err);
                 return;
             } else if (!people) {
-                ServicesUtil.responseError(res, new ServerError(ServerError.ServerError));
+                ResponseHelper.response(res, ServerError.ServerError);
                 return;
             } else {
                 req.session.userId = people._id;
@@ -210,8 +210,8 @@ _update = function(req, res) {
                     }
                 };
                 res.json(retData);
-            } catch (e) {
-                ServicesUtil.responseError(res, e);
+            } catch (err) {
+                ResponseHelper.response(res, err);
                 return;
             }
         });
@@ -235,7 +235,7 @@ var _upload = function(req, res, keyword) {
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
         if (err) {
-            ServicesUtil.responseError(res, err);
+            ResponseHelper.response(res, err);
             return;
         }
         var file;
@@ -248,7 +248,7 @@ var _upload = function(req, res, keyword) {
             people.set(keyword, global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
             people.save(function(err) {
                 if (err) {
-                    ServicesUtil.responseError(res, e);
+                    ResponseHelper.response(res, err);
                     return;
                 }
                 res.json({

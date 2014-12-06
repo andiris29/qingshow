@@ -9,8 +9,9 @@ var ContextHelper = require('../helpers/ContextHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
+var RequestHelper = require('../helpers/RequestHelper');
+
 var ServerError = require('../server-error');
-var ServicesUtil = require('../servicesUtil');
 
 var _queryBrands = function(req, res) {
     var pageNo, pageSize, numTotal;
@@ -48,14 +49,16 @@ var _queryBrands = function(req, res) {
 var _queryFollowers = function(req, res) {
     var param = req.queryString;
     if (!param._id) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.RequestValidationFail));
+        ResponseHelper.response(res, ServerError.RequestValidationFail);
         return;
     }
     var pageNo = param.pageNo || 1, pageSize = param.pageSize || 10;
 
     RelationshipHelper.queryPeoples(RPeopleFollowBrand, {
         'targetRef' : mongoose.mongo.BSONPure.ObjectID(param._id)
-    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, ResponseHelper.generateAsyncCallback(res));
+    }, pageNo, pageSize, 'initiatorRef', req.qsCurrentUserId, function(err) {
+        ResponseHelper.response(res, err);
+    });
 };
 
 var _follow = function(req, res) {
@@ -64,11 +67,13 @@ var _follow = function(req, res) {
         var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+        ResponseHelper.response(res, ServerError.PeopleNotExist);
         return;
     }
 
-    RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
+    RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, targetRef, function(err) {
+        ResponseHelper.response(res, err);
+    });
 };
 
 var _unfollow = function(req, res) {
@@ -77,11 +82,13 @@ var _unfollow = function(req, res) {
         var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
         var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
     } catch (e) {
-        ServicesUtil.responseError(res, new ServerError(ServerError.PeopleNotExist));
+        ResponseHelper.response(res, ServerError.PeopleNotExist);
         return;
     }
 
-    RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, targetRef, ResponseHelper.generateAsyncCallback(res));
+    RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, targetRef, function(err) {
+        ResponseHelper.response(res, err);
+    });
 };
 
 module.exports = {

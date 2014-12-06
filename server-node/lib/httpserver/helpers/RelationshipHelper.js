@@ -4,7 +4,6 @@ var async = require('async');
 var People = require('../../model/peoples');
 var ServerError = require('../server-error');
 var ContextHelper = require('../helpers/ContextHelper');
-var ServicesUtil = require('../servicesUtil');
 
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 
