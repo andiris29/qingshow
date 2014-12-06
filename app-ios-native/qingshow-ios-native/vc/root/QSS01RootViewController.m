@@ -23,6 +23,7 @@
 #import "QSUserManager.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSShowUtil.h"
+#import "QSError.h"
 
 @interface QSS01RootViewController ()
 
@@ -78,8 +79,17 @@
     self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
     self.delegateObj.delegate = self;
     [self.delegateObj bindWithCollectionView:self.collectionView];
+    __weak QSS01RootViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:^(NSError *error) {
+            if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1009) {
+                UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"未连接网络或信号不好" message:nil delegate:weakSelf cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                [a show];
+            } else {
+                errorBlock(error);
+            }
+
+        }];
     };
     self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
     [self.delegateObj fetchDataOfPage:1];
@@ -237,5 +247,10 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self hideMenu];
+}
+#pragma mark - AlertView
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self.delegateObj reloadData];
 }
 @end
