@@ -49,6 +49,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     switch (indexPath.section) {
         case 0:
@@ -165,7 +166,8 @@
         return;
     }
     
-    if (buttonIndex > 1) {
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        //没有Camera时,cancelButtonIndex为1
         return;
     }
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
@@ -173,6 +175,7 @@
     if (buttonIndex == 0) {
         imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     } else if (buttonIndex == 1) {
+
         imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     }
     imagePickerController.allowsEditing = NO;
