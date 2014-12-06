@@ -33,7 +33,7 @@
 
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"
-#define PATH_QUERY_SHOW @"query/shows"
+#define PATH_QUERY_SHOW @"show/query"
 //Show
 #define PATH_SHOW_QUERY_COMMENTS @"show/queryComments"
 #define PATH_SHOW_COMMENT @"show/comment"

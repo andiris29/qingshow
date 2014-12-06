@@ -30,6 +30,10 @@
 }
 + (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray
 {
+    if (!itemsArray.count || ![itemsArray[0] isKindOfClass:[NSDictionary class]]) {
+        return [[NSAttributedString alloc] init];
+    }
+    
     NSMutableAttributedString* str = [[NSMutableAttributedString alloc] init];
     for (NSDictionary* itemDict in itemsArray) {
         NSString* typeStr = [QSItemUtil getItemTypeName:itemDict];
@@ -69,6 +73,10 @@
 }
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 {
+    if (!itemArray.count || ![itemArray[0] isKindOfClass:[NSDictionary class]]) {
+        return @[];
+    }
+    
     NSMutableArray* array = [@[] mutableCopy];
     for (NSDictionary* itemDict in itemArray) {
         NSString* path = itemDict[@"cover"];
