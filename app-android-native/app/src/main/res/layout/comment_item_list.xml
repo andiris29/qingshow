@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_margin="20dp">
+    android:layout_height="150dp">
 
-    <ImageView
+    <com.focosee.qingshow.widget.MCircularImageView
         android:id="@+id/item_comment_user_image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
+        android:layout_centerVertical="true"
         android:src="@drawable/root_user_background"/>
 
     <LinearLayout
+        android:layout_toLeftOf="@+id/item_comment_time"
+        android:layout_toRightOf="@+id/item_comment_user_image"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="2"
+        android:layout_centerVertical="true"
         android:orientation="vertical">
 
         <TextView
@@ -26,19 +27,20 @@
             android:gravity="center_vertical"
             android:textStyle="bold"
             android:textSize="15dp"
-            android:text="爱哭的鱼"/>
+            android:text="未设置名称"/>
         <TextView
             android:id="@+id/item_comment_content"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="4"
-            android:text="明天见"/>
+            android:text="评论内容为空"/>
         </LinearLayout>
 
     <TextView
         android:id="@+id/item_comment_time"
-        android:layout_width="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_width="80dp"
         android:layout_height="fill_parent"
-        android:layout_weight="4"
-        android:text="14/09/25"/>
-</LinearLayout>
+        android:layout_centerVertical="true"
+        android:text=""/>
+</RelativeLayout>

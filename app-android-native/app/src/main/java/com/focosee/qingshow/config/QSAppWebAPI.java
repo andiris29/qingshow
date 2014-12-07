@@ -25,6 +25,6 @@ public class QSAppWebAPI {
     }
 
     public static String getShowCommentsListApi(String showId, int pageIndex, int pageSize) {
-        return SHOW_COMMENTS_LIST_API + "?showId=" + showId + "&pageNo" + String.valueOf(pageIndex) + "pageSize" + String.valueOf(pageSize);
+        return SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo" + String.valueOf(pageIndex) + "pageSize" + String.valueOf(pageSize);
     }
 }

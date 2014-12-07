@@ -15,12 +15,13 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:fillViewport="true"
         android:layout_below="@+id/S04_navigation_bar"
         android:layout_above="@+id/S04_bottom">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <com.focosee.qingshow.widget.MPullRefreshListView
