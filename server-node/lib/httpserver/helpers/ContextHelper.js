@@ -5,6 +5,7 @@ var ShowComments = require('../../model/showComments');
 var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
 /**
