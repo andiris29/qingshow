@@ -50,7 +50,9 @@
 - (void)updateShow:(NSDictionary*)showDict
 {
     NSIndexPath* i = [self getIndexPathOfShow:showDict];
-    [self.collectionView reloadItemsAtIndexPaths:@[i]];
+    QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:i];
+    [cell bindData:showDict];
+
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

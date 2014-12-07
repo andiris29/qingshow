@@ -26,6 +26,18 @@
     }
     return imageView;
 }
+- (void)updateView:(UIView*)view forPage:(int)imageIndex
+{
+    UIImageView* imageView = (UIImageView*)view;
+    if (self.imageArray) {
+        UIImage* image = self.imageArray[imageIndex];
+        imageView.image = image;
+    } else if (self.imageUrlArray) {
+        NSURL* imageUrl = self.imageUrlArray[imageIndex];
+        [imageView setImageFromURL:imageUrl];
+    }
+}
+
 #pragma mark - Getter And Setter Method
 - (void)setImageArray:(NSArray *)imageArray
 {

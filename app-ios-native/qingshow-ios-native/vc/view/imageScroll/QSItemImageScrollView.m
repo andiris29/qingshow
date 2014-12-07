@@ -31,6 +31,16 @@
     }
     return imageView;
 }
+- (void)updateView:(UIView*)view forPage:(int)imageIndex
+{
+    QSItemContainerView* imageView = (QSItemContainerView*)view;
+    imageView.delegate = self;
+    if (self.imageUrlArray) {
+        int location = imageIndex * 3;
+        NSInteger length = self.imageUrlArray.count - location < 3 ? self.imageUrlArray.count - location : 3;
+        [imageView bindWithImageUrl:[self.imageUrlArray subarrayWithRange:NSMakeRange(location, length)]];
+    }
+}
 #pragma mark - Getter And Setter Method
 - (void)setImageUrlArray:(NSArray *)imageUrlArray
 {

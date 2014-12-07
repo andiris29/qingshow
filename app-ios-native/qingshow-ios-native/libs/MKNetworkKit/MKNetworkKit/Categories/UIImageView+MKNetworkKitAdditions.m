@@ -41,7 +41,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 @property (strong, nonatomic) MKNetworkOperation *imageFetchOperation;
 @property (assign, nonatomic) UIViewContentMode preContentMode;
-@property (strong, nonatomic) NSURL* currentImageUrl;
+@property (strong, nonatomic) NSString* currentImageUrlString;
 
 @end
 
@@ -57,8 +57,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 
 -(MKNetworkOperation*) imageFetchOperation {
-  
-  return (MKNetworkOperation*) objc_getAssociatedObject(self, &imageFetchOperationKey);
+    return (MKNetworkOperation*) objc_getAssociatedObject(self, &imageFetchOperationKey);
+}
+-(void) setImageFetchOperation:(MKNetworkOperation *)imageFetchOperation {
+    objc_setAssociatedObject(self, &imageFetchOperationKey, imageFetchOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (UIViewContentMode)preContentMode
@@ -70,17 +72,14 @@ const float kFreshLoadAnimationDuration = 0.35f;
   objc_setAssociatedObject(self, &preContentModeKey, @(preContentMode), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
--(void) setImageFetchOperation:(MKNetworkOperation *)imageFetchOperation {
-  
-  objc_setAssociatedObject(self, &imageFetchOperationKey, imageFetchOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-- (NSURL*)currentImageUrl
+
+- (NSString*)currentImageUrl
 {
-  return (NSURL*) objc_getAssociatedObject(self, &currentImageUrlKey);
+  return (NSString*) objc_getAssociatedObject(self, &currentImageUrlKey);
 }
-- (void)setCurrentImageUrl:(NSURL*)url
+- (void)setCurrentImageUrl:(NSString*)url
 {
-  objc_setAssociatedObject(self, &currentImageUrlKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+  objc_setAssociatedObject(self, &currentImageUrlKey, url, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 
@@ -109,10 +108,8 @@ const float kFreshLoadAnimationDuration = 0.35f;
         self.preContentMode = self.contentMode;
     }
 
-    if (![url isEqual:[self currentImageUrl]] && image) {
-
+    if (![[url absoluteString] isEqualToString:[self currentImageUrl]] && image) {
         self.image = image;
-
         self.contentMode = UIViewContentModeCenter;
     }
   [self.imageFetchOperation cancel];
@@ -122,7 +119,9 @@ const float kFreshLoadAnimationDuration = 0.35f;
     self.imageFetchOperation = [imageCacheEngine imageAtURL:url
                                                        size:self.frame.size
                                           completionHandler:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
-                                            
+                                              if ([[url absoluteString] isEqualToString:[self currentImageUrl]]) {
+                                                  return;
+                                              }
                                             if(animation) {
                                             [UIView transitionWithView:self.superview
                                                               duration:isInCache?kFromCacheAnimationDuration:kFreshLoadAnimationDuration
@@ -130,14 +129,13 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                             animations:^{
                                                                  self.image = fetchedImage;
                                                                 self.contentMode = self.preContentMode;
-                                                                [self setCurrentImageUrl:url];
+                                                                [self setCurrentImageUrl:[url absoluteString]];
                                                                } completion:nil];
                                             } else {
                                                 self.image = fetchedImage;
                                                 self.contentMode = self.preContentMode;
-                                                [self setCurrentImageUrl:url];
+                                                [self setCurrentImageUrl:[url absoluteString]];
                                             }
-                                            
                                           } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
 //                                              self.image = image;
 //                                              self.contentMode = self.preContentMode;

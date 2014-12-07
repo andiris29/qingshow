@@ -26,6 +26,9 @@
 {
     return nil;
 }
+- (void)updateView:(UIView*)view forPage:(int)page
+{
+}
 #pragma mark - Static Method
 + (QSImageScrollViewBase*)generateView
 {
@@ -61,11 +64,6 @@
     int imageCount = [self getViewCount];
 
     int imageViewCount = [self resetPageAndScrollViewContentSize:imageCount];
-
-    for (UIImageView* imageView in self.imageViewArray) {
-        [imageView removeFromSuperview];
-    }
-    [self.imageViewArray removeAllObjects];
     
     CGSize size = self.scrollView.bounds.size;
     for (int i = 0 ; i < imageViewCount; i++) {
@@ -77,10 +75,22 @@
         } else {
             imageIndex = i - 1;
         }
-        UIView* imageView = [self getViewForPage:imageIndex];
+        
+        UIView* imageView = nil;
+        
+        if (self.imageViewArray.count > i) {
+            imageView = self.imageViewArray[i];
+        } else {
+            imageView = [self getViewForPage:imageIndex];
+            [self.scrollView addSubview:imageView];
+            [self.imageViewArray addObject:imageView];
+        }
         imageView.frame = CGRectMake(i * size.width, 0, size.width, size.height);
-        [self.scrollView addSubview:imageView];
-        [self.imageViewArray addObject:imageView];
+    }
+    while (self.imageViewArray.count > imageViewCount) {
+        UIView* v = [self.imageViewArray lastObject];
+        [v removeFromSuperview];
+        [self.imageViewArray removeLastObject];
     }
 }
 
@@ -89,7 +99,7 @@
     int retCount = 0;
     CGSize size = self.scrollView.bounds.size;
     self.pageControl.numberOfPages = count;
-    self.pageControl.currentPage = 0;
+
     if (count <= 1) {
         self.pageControl.hidden = YES;
         self.scrollView.contentSize = size;
@@ -101,9 +111,14 @@
         self.pageControl.hidden = NO;
         self.scrollView.contentSize=  CGSizeMake(size.width * (count + 2), size.height);
         self.scrollView.scrollEnabled = YES;
-        self.scrollView.contentOffset = CGPointMake(size.width, 0);
+        if (self.scrollView.contentOffset.x < size.width || self.scrollView.contentOffset.x > size.width * (count + 1))
+        {
+            self.scrollView.contentOffset = CGPointMake(size.width, 0);
+        }
+
         retCount = count + 2;
     }
+    [self updateOffsetAndPage];
     return retCount;
 }
 

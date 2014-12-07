@@ -86,7 +86,7 @@
             [self showTextHud:@"unfollow succeed"];
         }
         NSUInteger index = [self.delegateObj.resultArray indexOfObject:model];
-        [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
     }];
