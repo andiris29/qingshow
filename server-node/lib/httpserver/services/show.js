@@ -43,7 +43,6 @@ var _query = function(req, res) {
     },
     function(shows, callback) {
         // Append followed by current user
-        shows = ContextHelper.prepare(shows);
         ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
     }], function(err, shows) {
         ResponseHelper.response(res, err, {
