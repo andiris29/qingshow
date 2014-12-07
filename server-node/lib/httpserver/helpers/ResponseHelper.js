@@ -4,7 +4,7 @@ var ServerError = require('../server-error');
 
 var ResponseHelper = module.exports;
 
-ResponseHelper.response = function(res, err, data, metadata, beforeResponse) {
+ResponseHelper.response = function(res, err, data, metadata, beforeResponseEnd) {
     var json = {
         'data' : data,
         'metadata' : metadata || {}
@@ -22,8 +22,8 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponse) {
         json.metadata.error = err.errorCode;
         json.metadata.devInfo = err;
     }
-    if (beforeResponse) {
-        json = beforeResponse(json);
+    if (beforeResponseEnd) {
+        json = beforeResponseEnd(json);
     }
 
     var performance = Date.now() - res.qsPerformance.start;
@@ -33,7 +33,7 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponse) {
     res.json(json);
 };
 
-ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, beforeResponse) {
+ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, beforeResponseEnd) {
     var metadata;
     if (!err) {
         metadata = {
@@ -41,5 +41,5 @@ ResponseHelper.responseAsPaging = function(res, err, data, pageSize, numTotal, b
             'numPages' : parseInt((numTotal + pageSize - 1) / pageSize)
         };
     }
-    ResponseHelper.response(res, err, data, metadata, beforeResponse);
+    ResponseHelper.response(res, err, data, metadata, beforeResponseEnd);
 };
