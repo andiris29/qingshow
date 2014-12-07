@@ -7,7 +7,7 @@
 //
 
 #import "QSP02ModelDetailViewController.h"
-#import "QSNetworkEngine.h"
+#import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"

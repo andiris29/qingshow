@@ -7,7 +7,7 @@
 //
 
 #import "QSU01UserDetailViewController.h"
-#import "QSNetworkEngine.h"
+#import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 #import "QSU02UserSettingViewController.h"

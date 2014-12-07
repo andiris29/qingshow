@@ -26,15 +26,6 @@
 #define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 
-//Feeding
-#define PATH_FEEDING_CHOSEN @"feeding/chosen"
-#define PATH_FEEDING_BY_MODEL @"feeding/byModel"
-#define PATH_FEEDING_HOT @"feeding/hot"
-#define PATH_FEEDING_BY_TAGS @"feeding/byTags"
-#define PATH_FEEDING_STUDIO @"feeding/studio"
-#define PATH_FEEDING_LIKE @"feeding/like"
-#define PATH_FEEDING_RECOMMENDATION @"feeding/recommendation"
-
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"
 #define PATH_QUERY_SHOW @"show/query"
@@ -54,6 +45,21 @@
 #define PATH_PEOPLE_UNFOLLOW_BRAND @"interaction/unfollowBrand"
 #define PATH_SHOW_LIKE @"show/like"
 #define PATH_SHOW_UNLIKE @"show/unlike"
+
+@interface QSNetworkEngine (Protect)
+- (MKNetworkOperation*)startOperationWithPath:(NSString*)path
+                                       method:(NSString*)method
+                                     paramers:(NSDictionary*)paramDict
+                                  onSucceeded:(OperationSucceedBlock)succeedBlock
+                                      onError:(OperationErrorBlock)errorBlock;
+- (MKNetworkOperation *)startOperationWithPath:(NSString *)path
+                                        method:(NSString *)method
+                                      paramers:(NSDictionary *)paramDict
+                                       fileKey:(NSString *)fileKey
+                                         image:(NSData *)image
+                                   onSucceeded:(OperationSucceedBlock)succeedBlock
+                                       onError:(OperationErrorBlock)errorBlock;
+@end
 
 
 @implementation QSNetworkEngine
@@ -210,109 +216,6 @@
                 }
             }];
 }
-
-#pragma mark - Feeding
-- (MKNetworkOperation*)getChosenFeedingPage:(int)page
-                                  onSucceed:(ArraySuccessBlock)succeedBlock
-                                    onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_FEEDING_CHOSEN
-                                 method:@"GET"
-                               paramers:@{@"pageNo" : @(page),
-                                          @"pageSize" : @10}
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                NSDictionary* retDict = completedOperation.responseJSON;
-                if (succeedBlock) {
-                    NSArray* shows = retDict[@"data"][@"shows"];
-                    succeedBlock(shows.deepDictMutableCopy, retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
-- (MKNetworkOperation*)getCategoryFeeding:(int)type
-                                     page:(int)page
-                                  onSucceed:(ArraySuccessBlock)succeedBlock
-                                    onError:(ErrorBlock)errorBlock
-{
-    NSString* path = nil;
-    switch (type) {
-        case 1:
-            path = @"feeding/chosen";
-            break;
-        case 2:
-            path = @"feeding/hot";
-            break;
-        case 8:
-            path = @"feeding/studio";
-            break;
-        default:
-            break;
-    }
-    
-    return [self startOperationWithPath:path
-                                 method:@"GET"
-                               paramers:@{@"pageNo" : @(page),
-                                          @"pageSize" : @10}
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                NSDictionary* retDict = completedOperation.responseJSON;
-                if (succeedBlock) {
-                    NSArray* shows = retDict[@"data"][@"shows"];
-                    NSMutableArray* a = [@[] mutableCopy];
-                    for (NSDictionary* dict in shows) {
-                        [a addObject:[dict mutableCopy]];
-                    }
-                    succeedBlock(a, retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
-
-
-- (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
-                                 page:(int)page
-                            onSucceed:(ArraySuccessBlock)succeedBlock
-                              onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:PATH_FEEDING_BY_MODEL
-                                 method:@"GET"
-                               paramers:@{@"_id" : modelId,
-                                          @"pageNo" : @(page),
-                                          @"pageSize" : @10}
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                NSDictionary* retDict = completedOperation.responseJSON;
-                if (succeedBlock) {
-                    succeedBlock(retDict[@"data"][@"shows"], retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
-
-- (MKNetworkOperation*)getFeedByCategory:(QSFeedingCategory)category
-                                    page:(int)page
-                               onSucceed:(ArraySuccessBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock
-{
-    return nil;
-}
-
 
 
 #pragma mark - Model
@@ -681,42 +584,6 @@
     return [self startOperationWithPath:@"brand/queryBrands" method:@"GET" paramers:@{@"_id" : brandDict[@"_id"], @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* retDict = completedOperation.responseJSON;
         NSArray* retArray = retDict[@"data"][@"peoples"];
-        if (succeedBlock) {
-            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
-
-- (MKNetworkOperation*)feedingByBrand:(NSDictionary*)brandDict
-                                 page:(int)page
-                            onSucceed:(ArraySuccessBlock)succeedBlock
-                              onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:@"feeding/byBrand" method:@"GET" paramers:@{@"_id": brandDict[@"_id"], @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary* retDict = completedOperation.responseJSON;
-        NSArray* retArray = retDict[@"data"][@"shows"];
-        if (succeedBlock) {
-            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
-        }
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
-}
-
-- (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
-                                         page:(int)page
-                                    onSucceed:(ArraySuccessBlock)succeedBlock
-                                      onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:@"feeding/byBrandDiscount" method:@"GET" paramers:@{@"_id": brandDict[@"_id"], @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
-        NSDictionary* retDict = completedOperation.responseJSON;
-        NSArray* retArray = retDict[@"data"][@"shows"];
         if (succeedBlock) {
             succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
         }

@@ -10,7 +10,7 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
-#import "QSNetworkEngine.h"
+#import "QSNetworkKit.h"
 
 @interface QSS02CategoryViewController ()
 @property (assign, nonatomic) QSFeedingCategory type;

@@ -235,6 +235,7 @@
 		EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMetadataUtil.m; sourceTree = "<group>"; };
 		EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingService.h"; sourceTree = "<group>"; };
 		EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+FeedingService.m"; sourceTree = "<group>"; };
+		EF7FA3761A3472B900090EE4 /* QSNetworkKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSNetworkKit.h; sourceTree = "<group>"; };
 		EF8AB6611A07D21D00372538 /* QSP01ModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP01ModelListViewController.h; sourceTree = "<group>"; };
 		EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP01ModelListViewController.m; sourceTree = "<group>"; };
 		EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewCell.h; sourceTree = "<group>"; };
@@ -673,6 +674,7 @@
 				EF9C952F1A0FC3A9006A0AE3 /* QSError.m */,
 				EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */,
 				EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */,
+				EF7FA3761A3472B900090EE4 /* QSNetworkKit.h */,
 			);
 			path = network;
 			sourceTree = "<group>";

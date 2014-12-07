@@ -41,14 +41,7 @@
                              onSuccess:(EntitySuccessBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
-#pragma mark - Feeding
-- (MKNetworkOperation*)getChosenFeedingPage:(int)page
-                                  onSucceed:(ArraySuccessBlock)succeedBlock
-                                    onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
-                                 page:(int)page
-                            onSucceed:(ArraySuccessBlock)succeedBlock
-                              onError:(ErrorBlock)errorBlock;
+
 #pragma mark - Model
 - (MKNetworkOperation*)getModelListPage:(int)page
                               onSucceed:(ArraySuccessBlock)succeedBlock
@@ -84,12 +77,6 @@
                            onSucceed:(VoidBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)getCategoryFeeding:(int)type
-                                     page:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock;
-
-
 - (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock;
@@ -119,12 +106,5 @@
                                      page:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)feedingByBrand:(NSDictionary*)brandDict
-                                 page:(int)page
-                            onSucceed:(ArraySuccessBlock)succeedBlock
-                              onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
-                                         page:(int)page
-                                    onSucceed:(ArraySuccessBlock)succeedBlock
-                                      onError:(ErrorBlock)errorBlock;
+
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "QSP03BrandDetailViewController.h"
-#import "QSNetworkEngine.h"
+#import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 
 
