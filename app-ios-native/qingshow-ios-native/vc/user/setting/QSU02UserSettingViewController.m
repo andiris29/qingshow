@@ -48,8 +48,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewDidLoad];
     [self initNavigation];
     self.currentActionSheet = QSU02UserSettingViewControllerSelectTypeNone;
-    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTableView:)];
-    [self.tableView addGestureRecognizer:ges];
+//    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTableView:)];
+//    [self.tableView addGestureRecognizer:ges];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -62,8 +62,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 
 #pragma mark - UITableViewDelegate
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self hideKeyboardAndDatePicker];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     switch (indexPath.section) {
