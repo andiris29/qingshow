@@ -8,6 +8,9 @@
 
 #import "QSNetworkEngine+FeedingService.h"
 
-@implementation QSNetworkEngine_FeedingService
-
+@implementation QSNetworkEngine(FeedingService)
+- (void)test
+{
+    NSString;
+}
 @end

@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QSNetworkEngine.h"
 
-@interface QSNetworkEngine_FeedingService : NSObject
+
+@interface QSNetworkEngine(FeedingService)
 
 @end
