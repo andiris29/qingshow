@@ -128,13 +128,13 @@ var _comment = function(req, res) {
     }
     async.waterfall([
     function(callback) {
-        var comment = new ShowComment({
+        var showComment = new ShowComment({
             'targetRef' : targetRef,
             'atRef' : atRef,
             'authorRef' : req.qsCurrentUserId,
             'comment' : comment
         });
-        comment.save(function(err) {
+        showComment.save(function(err) {
             callback();
         });
     }], function(err) {
