@@ -70,7 +70,7 @@ ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
     };
 
     async.parallel([followedByCurrentUser], function(err) {
-        callback(null, peoples);
+        callback(null, brands);
     });
 };
 
