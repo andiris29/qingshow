@@ -100,6 +100,17 @@
 }
 
 
++ (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict
+{
+    NSArray* roles = peopleDict[@"roles"];
+    for (NSNumber* r in roles) {
+        if (r.intValue == 1) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
 {
     NSDictionary* context = modelDict[@"__context"];

@@ -21,9 +21,12 @@
                         <color key="textColor" red="0.19607843137254902" green="0.19607843137254902" blue="0.19607843137254902" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lzc-0o-Sbf">
+                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="lzc-0o-Sbf">
                         <rect key="frame" x="8" y="6" width="50" height="50"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="v7U-OY-dT8" appends="YES" id="vnT-cc-47Z"/>
+                        </connections>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我在地铁站等你" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Krb-2c-R8g">
                         <rect key="frame" x="75" y="36" width="237" height="17"/>
@@ -54,6 +57,11 @@
             </connections>
             <point key="canvasLocation" x="245" y="270"/>
         </tableViewCell>
+        <tapGestureRecognizer id="v7U-OY-dT8">
+            <connections>
+                <action selector="didTapIconImage:" destination="KGk-i7-Jjw" id="KIS-bd-gXl"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

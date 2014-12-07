@@ -48,6 +48,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewDidLoad];
     [self initNavigation];
     self.currentActionSheet = QSU02UserSettingViewControllerSelectTypeNone;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTableView:)];
+    [self.tableView addGestureRecognizer:ges];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -75,6 +77,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                                                      destructiveButtonTitle:nil
                                                           otherButtonTitles:@"从相册选择", @"使用相机拍照", nil];
                 sheet.tag = 255;
+                [self hideKeyboardAndDatePicker];
                 [sheet showInView:self.view];
                 self.currentActionSheet = sheet;
                 self.currentSelectType = QSU02UserSettingViewControllerSelectTypeCamera;
@@ -86,6 +89,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                                                      destructiveButtonTitle:nil
                                                           otherButtonTitles:@"从相册选择", nil];
                 sheet.tag = 255;
+                [self hideKeyboardAndDatePicker];
                 [sheet showInView:self.view];
                 self.currentActionSheet = sheet;
                 self.currentSelectType = QSU02UserSettingViewControllerSelectTypeCamera;
@@ -99,6 +103,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 // GOTO Gender
                 self.currentActionSheet = [[UIActionSheet alloc] initWithTitle:@"性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男",@"女", nil];
                 self.currentSelectType = QSU02UserSettingViewControllerSelectTypeGender;
+                [self hideKeyboardAndDatePicker];
                 [self.currentActionSheet showInView:self.view];
 //                NSLog(@"GOTO Gender");
 //                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
@@ -462,5 +467,17 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         [self updateBirthDayLabel:datePicker.date];
     }
     
+}
+
+- (void)hideKeyboardAndDatePicker
+{
+    NSArray* a = @[self.birthdayText, self.nameText, self.lengthText, self.weightText];
+    for (UIView* view in a) {
+        [view resignFirstResponder];
+    }
+}
+- (void)didTapTableView:(UITapGestureRecognizer*)ges
+{
+    [self hideKeyboardAndDatePicker];
 }
 @end

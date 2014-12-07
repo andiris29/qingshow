@@ -7,7 +7,7 @@
 //
 
 #import "QSCommentListTableViewDelegateObj.h"
-#import "QSCommentTableViewCell.h"
+#import "QSCommentUtil.h"
 
 @implementation QSCommentListTableViewDelegateObj
 
@@ -22,6 +22,7 @@
     QSCommentTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"QSCommentTableViewCell" forIndexPath:indexPath];
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithComment:dict];
+    cell.delegate = self;
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -35,6 +36,15 @@
     if ([self.delegate respondsToSelector:@selector(didClickComment:atIndex:)]) {
             NSDictionary* dict = self.resultArray[indexPath.row];
         [self.delegate didClickComment:dict atIndex:(int)indexPath.row];
+    }
+}
+
+- (void)didTapIcon:(QSCommentTableViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
+        NSDictionary* dict = self.resultArray[indexPath.row];
+        [self.delegate didClickPeople:[QSCommentUtil getPeople:dict]];
     }
 }
 

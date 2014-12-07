@@ -7,14 +7,16 @@
 //
 
 #import "QSTableViewBasicDelegateObj.h"
+#import "QSCommentTableViewCell.h"
 
 @protocol QSCommentListTableViewDelegateObj <QSTableViewBasicDelegateObjDelegate>
 
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index;
+- (void)didClickPeople:(NSDictionary*)peopleDict;
 
 @end
 
-@interface QSCommentListTableViewDelegateObj : QSTableViewBasicDelegateObj
+@interface QSCommentListTableViewDelegateObj : QSTableViewBasicDelegateObj <QSCommentTableViewCellDelegate>
 
 @property (weak, nonatomic) NSObject<QSCommentListTableViewDelegateObj>* delegate;
 

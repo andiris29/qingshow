@@ -8,13 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@class QSCommentTableViewCell;
+
+@protocol QSCommentTableViewCellDelegate <NSObject>
+
+- (void)didTapIcon:(QSCommentTableViewCell*)cell;
+
+@end
+
 @interface QSCommentTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UIImageView* iconImageView;
 @property (strong, nonatomic) IBOutlet UILabel* nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel* dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel* contentLabel;
-
+@property (weak, nonatomic) NSObject<QSCommentTableViewCellDelegate>* delegate;
 - (void)bindWithComment:(NSDictionary*)commentDict;
-
+- (IBAction)didTapIconImage:(UIGestureRecognizer*)ges;
 @end

@@ -123,6 +123,7 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    self.favorBtn.highlighted = [QSShowUtil getIsLike:dict];
     //Model
     NSDictionary* peopleInfo = dict[@"modelRef"];
     
@@ -188,17 +189,18 @@
 
 
 - (IBAction)favorBtnPressed:(id)sender {
+    
     if ([QSShowUtil getIsLike:self.showDict]) {
         [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
             [self showSuccessHudWithText:@"unlike succeed"];
-            //            [self.delegateObj reloadData];
+            [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
             [self showSuccessHudWithText:@"like succeed"];
-            //            [self.delegateObj reloadData];
+            [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];

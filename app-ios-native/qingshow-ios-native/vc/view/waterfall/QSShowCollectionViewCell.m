@@ -49,14 +49,6 @@
     [self.tapView addGestureRecognizer:ges];
 }
 
-#pragma mark - IBAction
-- (IBAction)favorBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(favorBtnPressed:)]) {
-        [self.delegate favorBtnPressed:self];
-    }
-}
-
 #pragma mark - Data
 - (void)bindData:(NSDictionary*)showData
 {
@@ -140,13 +132,14 @@
     return height;
 }
 
-#pragma mark - 
+#pragma mark - IBAction
 - (void)peopleTap:(id)sender {
     if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
         [self.delegate peoplePressed:self];
     }
 }
-- (IBAction)favorPressed:(id)sender
+
+- (IBAction)favorBtnPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(favorBtnPressed:)]) {
         [self.delegate favorBtnPressed:self];

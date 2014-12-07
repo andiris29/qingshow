@@ -88,6 +88,13 @@
 }
 
 #pragma mark - QSCommentListTableViewDelegateObj
+- (void)didClickPeople:(NSDictionary *)peopleDict
+{
+    if ([QSPeopleUtil checkPeopleIsModel:peopleDict]) {
+        UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
     NSString* destructiveTitle = nil;
