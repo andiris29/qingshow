@@ -32,6 +32,8 @@
 #define PATH_FEEDING_HOT @"feeding/hot"
 #define PATH_FEEDING_BY_TAGS @"feeding/byTags"
 #define PATH_FEEDING_STUDIO @"feeding/studio"
+#define PATH_FEEDING_LIKE @"feeding/like"
+#define PATH_FEEDING_RECOMMENDATION @"feeding/recommendation"
 
 //Query
 #define PATH_QUERY_COMMENT @"query/comments"

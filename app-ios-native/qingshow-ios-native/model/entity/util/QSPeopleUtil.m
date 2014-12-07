@@ -7,7 +7,7 @@
 //
 
 #import "QSPeopleUtil.h"
-
+#import "NSNumber+QSExtension.h"
 @implementation QSPeopleUtil
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
@@ -69,8 +69,8 @@
 }
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict
 {
-    NSString* statusStr = [QSPeopleUtil buildModelStatusString:peopleDict];
-    NSString* genderStr = [QSPeopleUtil getGenderDesc:peopleDict];
+    NSString* statusStr = [self buildModelStatusString:peopleDict];
+    NSString* genderStr = [self getGenderDesc:peopleDict];
     NSMutableString* m = [[NSMutableString alloc] initWithString:@""];
     if (genderStr.length) {
         [m appendString:genderStr];
@@ -99,32 +99,30 @@
     return @"";
 }
 
-+ (NSString*)getNumberFollowingsDescription:(NSDictionary*)modelDict
-{
-    NSNumber* n = modelDict[@"$numFollowed"];
-    return n.stringValue;
-}
+
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
 {
-    NSNumber* n = modelDict[@"$numFollowers"];
-    return n.stringValue;
+    NSDictionary* context = modelDict[@"__context"];
+    if (context) {
+        NSNumber* f = context[@"numFollowers"];
+        if (f) {
+            return f.kmbtStringValue;
+        }
+    }
+    return @"0";
 }
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
 {
-    NSNumber* n = modelDict[@"$numShows"];
-    return n.stringValue;
-}
-+ (NSString*)getNumberFavorsDescription:(NSDictionary*)modelDict
-{
-    NSNumber* n = modelDict[@"$numFavors"];
-    return n.stringValue;
+    NSDictionary* context = modelDict[@"__context"];
+    if (context) {
+        NSNumber* f = context[@"numShows"];
+        if (f) {
+            return f.kmbtStringValue;
+        }
+    }
+    return @"0";
 }
 
-+ (NSString*)getNumberRecommendationsDescription:(NSDictionary*)modelDict
-{
-    NSNumber* n = modelDict[@"$numRecommendation"];
-    return n.stringValue;
-}
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict
 {

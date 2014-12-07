@@ -50,7 +50,8 @@
     } else {
         [self.followBtn setTitle:@"关注" forState:UIControlStateNormal];
     }
-#warning 缺ShowNumber, FavorNumber
+    self.showNumLabel.text = [QSPeopleUtil getNumberShowsDescription:modelDict];
+    self.followerNumLabel.text = [QSPeopleUtil getNumberFollowersDescription:modelDict];
 }
 
 @end

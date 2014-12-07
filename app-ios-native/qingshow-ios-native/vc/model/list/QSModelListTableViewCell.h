@@ -23,7 +23,7 @@
 @property (strong, nonatomic) IBOutlet UILabel* nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel* detailLabel;
 @property (strong, nonatomic) IBOutlet UILabel* showNumLabel;
-@property (strong, nonatomic) IBOutlet UILabel* favorNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel* followerNumLabel;
 @property (strong, nonatomic) IBOutlet UIButton* followBtn;
 @property (strong, nonatomic) IBOutlet UIImageView* headPhotoImageView;
 @property (weak, nonatomic) NSObject<QSModelListTableViewCellDelegate>* delegate;

@@ -10,6 +10,7 @@
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
+#import "QSMetadataUtil.h"
 
 
 @interface QSP02ModelDetailViewController ()
@@ -81,7 +82,10 @@
     [self.followingDelegate bindWithTableView:self.followingTableView];
     __weak QSP02ModelDetailViewController* weakSelf = self;
     self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.peopleDict page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.peopleDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
     };
     self.followingDelegate.delegate = self;
     [self.followingDelegate fetchDataOfPage:1];
@@ -89,16 +93,21 @@
     //follower table view
     [self.followerDelegate bindWithTableView:self.followerTableView];
     self.followerDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE peopleQueryFollower:weakSelf.peopleDict page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE peopleQueryFollower:weakSelf.peopleDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
     };
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
     
-#warning 需要换成正确的api
     //Show collectioin view
     [self.showsDelegate bindWithCollectionView:self.showCollectionView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
     };
     self.showsDelegate.delegate = self;
     [self.showsDelegate fetchDataOfPage:1];
@@ -145,9 +154,6 @@
 - (void)updateView
 {
     [self.badgeView bindWithPeopleDict:self.peopleDict];
-    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberShowsDescription:self.peopleDict] atIndex:0];
-    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowingsDescription:self.peopleDict] atIndex:1];
-    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowersDescription:self.peopleDict] atIndex:2];
 }
 
 @end

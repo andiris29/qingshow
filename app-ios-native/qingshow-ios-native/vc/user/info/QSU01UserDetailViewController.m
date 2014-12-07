@@ -70,6 +70,11 @@
 #pragma mark - View
 - (void)bindDelegateObj
 {
+#warning 需改用metadata
+    //    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFavorsDescription:self.userInfo] atIndex:0];
+    //    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberRecommendationsDescription:self.userInfo] atIndex:1];
+    //    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowingsDescription:self.userInfo] atIndex:2];
+    
     __weak QSU01UserDetailViewController* weakSelf = self;
     
     //favor collectioin view
@@ -146,8 +151,6 @@
 - (void)updateView
 {
     [self.badgeView bindWithPeopleDict:self.userInfo];
-    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFavorsDescription:self.userInfo] atIndex:0];
-    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberRecommendationsDescription:self.userInfo] atIndex:1];
-    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowingsDescription:self.userInfo] atIndex:2];
+
 }
 @end

@@ -20,11 +20,8 @@
 + (NSString*)getRolesDescription:(NSDictionary*)modelDict;
 
 
-+ (NSString*)getNumberFollowingsDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
-+ (NSString*)getNumberFavorsDescription:(NSDictionary*)modelDict;
-+ (NSString*)getNumberRecommendationsDescription:(NSDictionary*)modelDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;
 + (void)setPeople:(NSDictionary*)peopleDict isFollowed:(BOOL)isFollowed;
