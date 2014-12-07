@@ -113,11 +113,8 @@
     NSDictionary* people = [QSCommentUtil getPeople:comment];
     //0 回复
     //1 查看个人主页
-    if (buttonIndex == 0) {
-        //回复
-        self.textField.placeholder = [NSString stringWithFormat:@"回复 %@ :", [QSPeopleUtil getName:people]];
-        [self.textField becomeFirstResponder];
-    } if (buttonIndex == actionSheet.destructiveButtonIndex) {
+    
+    if (buttonIndex == actionSheet.destructiveButtonIndex) {
         int index = self.clickIndex;
         self.clickIndex = -1;
         [SHARE_NW_ENGINE deleteComment:comment onSucceed:^{
@@ -127,10 +124,23 @@
             [self showErrorHudWithError:error];
         }];
     }
+    else if (buttonIndex == actionSheet.cancelButtonIndex)
+    {
+        self.clickIndex = -1;
+    }
+    else if (buttonIndex == 0) {
+        //回复
+        self.textField.placeholder = [NSString stringWithFormat:@"回复 %@ :", [QSPeopleUtil getName:people]];
+        [self.textField becomeFirstResponder];
+    }
     else
     {
-        UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:people];
-        [self.navigationController pushViewController:vc animated:YES];
+        if (!people) {
+            [self showErrorHudWithText:@"系统错误"];
+        } else {
+            UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:people];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

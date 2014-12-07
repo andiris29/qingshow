@@ -507,7 +507,7 @@
     return [self startOperationWithPath:PATH_SHOW_QUERY_COMMENTS
                                  method:@"GET"
                                paramers:@{
-                                          @"showId": showDict[@"_id"],
+                                          @"_id": showDict[@"_id"],
                                           @"pageNo" : @(page),
                                           @"pageSize" : @10
                                           }

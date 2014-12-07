@@ -20,6 +20,8 @@
 - (void)awakeFromNib {
     self.iconImageView.layer.cornerRadius = self.iconImageView.bounds.size.width / 2;
     self.iconImageView.layer.masksToBounds = YES;
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapIconImage:)];
+    [self.iconImageView addGestureRecognizer:ges];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
