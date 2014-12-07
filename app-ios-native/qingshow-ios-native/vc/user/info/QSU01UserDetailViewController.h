@@ -10,7 +10,7 @@
 #import "QSDetailBaseViewController.h"
 @interface QSU01UserDetailViewController : QSDetailBaseViewController
 
-@property (strong, nonatomic) IBOutlet UICollectionView* favorCollectionView;
+@property (strong, nonatomic) IBOutlet UICollectionView* likedCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;
 @property (strong, nonatomic) IBOutlet UITableView* followingTableView;
 

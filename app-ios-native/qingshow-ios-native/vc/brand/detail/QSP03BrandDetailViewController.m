@@ -9,7 +9,7 @@
 #import "QSP03BrandDetailViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-
+#import "QSMetadataUtil.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -79,12 +79,27 @@
 }
 - (void)bindDelegateObj
 {
-    //following table view
-    [self.discountDelegate bindWithCollectionView:self.discountCollectionView];
     __weak QSP03BrandDetailViewController* weakSelf = self;
     
+    //Show collectioin view
+    [self.showsDelegate bindWithCollectionView:self.showCollectionView];
+    self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE feedingByBrand:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
+    };
+    self.showsDelegate.delegate = self;
+    [self.showsDelegate fetchDataOfPage:1];
+    
+
+    //following table view
+    [self.discountDelegate bindWithCollectionView:self.discountCollectionView];
     self.discountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE feedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE feedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
     };
     self.discountDelegate.delegate = self;
     [self.discountDelegate fetchDataOfPage:1];
@@ -92,19 +107,13 @@
     //follower table view
     [self.followerDelegate bindWithTableView:self.followerTableView];
     self.followerDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE queryBrandFollower:weakSelf.brandDict page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryBrandFollower:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
     };
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
-    
-    //Show collectioin view
-    [self.showsDelegate bindWithCollectionView:self.showCollectionView];
-    self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE feedingByBrand:weakSelf.brandDict page:page onSucceed:succeedBlock onError:errorBlock];
-    };
-    self.showsDelegate.delegate = self;
-    [self.showsDelegate fetchDataOfPage:1];
-
 }
 
 #pragma mark - 

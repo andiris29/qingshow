@@ -7,16 +7,20 @@
 //
 
 #import "QSU01UserDetailViewController.h"
-#import "QSNetworkKit.h"
-#import "UIViewController+ShowHud.h"
-#import "QSUserManager.h"
 #import "QSU02UserSettingViewController.h"
+
 #import "QSPeopleUtil.h"
+#import "QSMetadataUtil.h"
+
+#import "QSNetworkKit.h"
+#import "QSUserManager.h"
+
+#import "UIViewController+ShowHud.h"
 
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
 #pragma mark Delegate Obj
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* favorDelegate;
+@property (strong, nonatomic) QSShowCollectionViewDelegateObj* likedDelegate;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* recommendationDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
 
@@ -37,8 +41,8 @@
 
 - (void)delegateObjInit
 {
-    self.favorDelegate  = [[QSShowCollectionViewDelegateObj alloc] init];
-    self.favorDelegate.delegate = self;
+    self.likedDelegate  = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.likedDelegate.delegate = self;
     self.recommendationDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
     self.recommendationDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
@@ -70,42 +74,42 @@
 #pragma mark - View
 - (void)bindDelegateObj
 {
-#warning 需改用metadata
-    //    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFavorsDescription:self.userInfo] atIndex:0];
-    //    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberRecommendationsDescription:self.userInfo] atIndex:1];
-    //    [self.badgeView.btnGroup setNumber:[QSPeopleUtil getNumberFollowingsDescription:self.userInfo] atIndex:2];
-    
     __weak QSU01UserDetailViewController* weakSelf = self;
     
     //favor collectioin view
-    [self.favorDelegate bindWithCollectionView:self.favorCollectionView];
-#warning 需要换成正确的api
-    self.favorDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+    [self.likedDelegate bindWithCollectionView:self.likedCollectionView];
+    self.likedDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getLikeFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
+
     };
-    self.favorDelegate.delegate = self;
-    [self.favorDelegate fetchDataOfPage:1];
-    
+    self.likedDelegate.delegate = self;
+    [self.likedDelegate reloadData];
 
     //recommendation collectioin view
     [self.recommendationDelegate bindWithCollectionView:self.recommendationCollectionView];
-#warning 需要换成正确的api
     self.recommendationDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
         return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.recommendationDelegate.delegate = self;
-    [self.recommendationDelegate fetchDataOfPage:1];
-
+    [self.recommendationDelegate reloadData];
     
     //following table view
     [self.followingDelegate bindWithTableView:self.followingTableView];
-#warning 需要换成正确的api
     self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-
-        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
     };
     self.followingDelegate.delegate = self;
-    [self.followingDelegate fetchDataOfPage:1];
+    [self.followingDelegate reloadData];
 }
 
 - (void)configView
@@ -115,9 +119,9 @@
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.favorCollectionView, self.recommendationCollectionView,self.followingTableView];
+    self.viewArray = @[self.likedCollectionView, self.recommendationCollectionView,self.followingTableView];
     
-    self.favorCollectionView.hidden = NO;
+    self.likedCollectionView.hidden = NO;
     self.recommendationCollectionView.hidden = YES;
     self.followingTableView.hidden = YES;
     
