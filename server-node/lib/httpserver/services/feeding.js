@@ -18,6 +18,8 @@ var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 
+feeding = module.exports;
+
 var _populate = function(shows, callback) {
     Show.populate(shows, 'modelRef', callback);
 };
@@ -45,40 +47,7 @@ var _dataBuilder = function(err, shows) {
     };
 };
 //feeding/recommendation
-module.exports.recommendation = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
-            MongoHelper.queryPaging(Show.find().sort({
-                'numLike' : -1
-            }), Show.find(), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
-        });
-    }
-};
-
-module.exports.hot = {
+feeding.recommendation = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -111,7 +80,41 @@ module.exports.hot = {
     }
 };
 
-module.exports.like = {
+feeding.hot = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        // TODO sort by numLike
+        var pageNo, pageSize, numTotal;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.queryString;
+                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
+                callback(null);
+            } catch(err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            MongoHelper.queryPaging(Show.find().sort({
+                'numView' : -1
+            }), Show.find(), pageNo, pageSize, function(err, count, shows) {
+                numTotal = count;
+                callback(err, shows);
+            });
+        }, _populate, _parseCover,
+        function(shows, callback) {
+            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
+        }], function(err, shows) {
+            // Response
+            ResponseHelper.responseAsPaging(res, err, {
+                'shows' : shows
+            }, pageSize, numTotal);
+        });
+    }
+};
+
+feeding.like = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -155,7 +158,7 @@ module.exports.like = {
     }
 };
 
-module.exports.chosen = {
+feeding.chosen = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -215,7 +218,7 @@ module.exports.chosen = {
     }
 };
 
-module.exports.byModel = {
+feeding.byModel = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -253,7 +256,7 @@ module.exports.byModel = {
     }
 };
 
-module.exports.byBrand = {
+feeding.byBrand = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -291,7 +294,7 @@ module.exports.byBrand = {
     }
 };
 
-module.exports.byBrandDiscount = {
+feeding.byBrandDiscount = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -335,7 +338,7 @@ module.exports.byBrandDiscount = {
     }
 };
 
-module.exports.studio = {
+feeding.studio = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -373,7 +376,7 @@ module.exports.studio = {
     }
 };
 
-module.exports.byStyles = {
+feeding.byStyles = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
