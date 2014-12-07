@@ -14,18 +14,8 @@ var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
  */
 var ContextHelper = module.exports;
 
-ContextHelper.prepare = function(models) {
-    return models.map(function(model) {
-        if (model.toJSON) {
-            model = model.toJSON();
-        }
-        model.__context = {};
-        return model;
-    });
-};
-
 ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback) {
-    peoples = ContextHelper.prepare(peoples);
+    peoples = _prepare(peoples);
     // __context.followedByCurrentUser
     var followedByCurrentUser = function(callback) {
         _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
@@ -45,7 +35,7 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
 };
 
 ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
-    shows = ContextHelper.prepare(shows);
+    shows = _prepare(shows);
     // __context.numComments
     var numComments = function(callback) {
         _numAssociated(shows, ShowComments, 'targetRef', 'numComments', callback);
@@ -63,7 +53,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         var peoples = shows.map(function(show) {
             return show.modelRef;
         });
-        peoples = ContextHelper.prepare(peoples);
+        peoples = _prepare(peoples);
         _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
     };
     async.parallel([numComments, numLike, likedByCurrentUser, followedByCurrentUser], function(err) {
@@ -72,7 +62,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
 };
 
 ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
-    brands = ContextHelper.prepare(brands);
+    brands = _prepare(brands);
     // __context.followedByCurrentUser
     var followedByCurrentUser = function(callback) {
         _rInitiator(RPeopleFollowBrand, qsCurrentUserId, brands, 'followedByCurrentUser', callback);
@@ -80,6 +70,16 @@ ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
 
     async.parallel([followedByCurrentUser], function(err) {
         callback(null, peoples);
+    });
+};
+
+var _prepare = function(models) {
+    return models.map(function(model) {
+        if (model.toJSON) {
+            model = model.toJSON();
+        }
+        model.__context = {};
+        return model;
     });
 };
 
