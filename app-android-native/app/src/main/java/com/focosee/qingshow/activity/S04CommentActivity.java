@@ -68,7 +68,7 @@ public class S04CommentActivity extends Activity {
         sendButton = (Button) findViewById(R.id.S04_send_button);
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.S04_container_list);
 
-        pullRefreshListView.setPullRefreshEnabled(false);
+        pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setScrollLoadEnabled(true);
         listView = pullRefreshListView.getRefreshableView();
         adapter = new S04CommentListAdapter(this, null, ImageLoader.getInstance());
