@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -55,7 +55,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ClassifyViewHolder holder;
-        ShowEntity showInfo = (ShowEntity) _data.get(position);
+        ShowListEntity showInfo = (ShowListEntity) _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -90,18 +90,18 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
 
-    public void addItemLast(LinkedList<ShowEntity> datas) {
+    public void addItemLast(LinkedList<ShowListEntity> datas) {
         _data.addAll(datas);
     }
 
-    public void addItemTop(LinkedList<ShowEntity> datas) {
+    public void addItemTop(LinkedList<ShowListEntity> datas) {
         _data.clear();
         _data.addAll(datas);
     }
 
-    public ShowEntity getItemDataAtIndex(int index) {
+    public ShowListEntity getItemDataAtIndex(int index) {
         if (index >= _data.size()) return null;
-        return (ShowEntity)_data.get(index);
+        return (ShowListEntity)_data.get(index);
     }
 
     // Animation

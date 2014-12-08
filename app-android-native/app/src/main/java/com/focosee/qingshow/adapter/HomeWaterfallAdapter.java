@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -24,6 +24,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 class HomeViewHolder extends AbsViewHolder {
+
+
+    // Public interface
+    public void setData(ShowListEntity entity, ImageLoader imageLoader) {
+//        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)_myHeight));
+        showIV.setLayoutParams(new LinearLayout.LayoutParams(entity.getCoverWidth(), entity.getCoverHeight()));
+        imageLoader.displayImage(entity.getShowCover(), showIV, coverOptions, animateFirstListener);
+        imageLoader.displayImage(entity.getModelPhoto(), modelIV, animateFirstListener);
+        modelNameTV.setText(entity.getModelName());
+        modelJobTV.setText(entity.getModelJob());
+        modelHeightTV.setText(entity.getModelHeight());
+        modelWeightTV.setText(entity.getModelWeight());
+        loveTV.setText(entity.getShowNumLike());
+        modelStatusTV.setText(entity.getModelTag());
+    }
+
     ImageView showIV;
     ImageView modelIV;
     TextView modelNameTV;
@@ -32,26 +48,47 @@ class HomeViewHolder extends AbsViewHolder {
     TextView modelWeightTV;
     TextView loveTV;
     TextView modelStatusTV;
+
+
+    // Helper property
+    private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
+    private DisplayImageOptions coverOptions = new DisplayImageOptions.Builder()
+            .showImageOnLoading(R.drawable.ic_launcher) //设置图片在下载期间显示的图片
+            .showImageForEmptyUri(R.drawable.ic_launcher)//设置图片Uri为空或是错误的时候显示的图片
+            .showImageOnFail(R.drawable.ic_launcher)  //设置图片加载/解码过程中错误时候显示的图片
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .considerExifParams(true)
+            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
+            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
+            .build();//构建完成
+
+
+    // Helper class Animation
+    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+
+        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            if (loadedImage != null) {
+                Log.i("test", "load complete not null");
+                ImageView imageView = (ImageView) view;
+                boolean firstDisplay = !displayedImages.contains(imageUri);
+                if (firstDisplay) {
+                    FadeInBitmapDisplayer.animate(imageView, 500);
+                    displayedImages.add(imageUri);
+                }
+            }
+        }
+    }
+
 }
 
 public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
-    private DisplayImageOptions coverOptions;
-    private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
-
     public HomeWaterfallAdapter(Context context, int resourceId, ImageLoader mImageFetcher) {
         super(context, resourceId, mImageFetcher);
-
-        coverOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_launcher) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.ic_launcher)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.ic_launcher)  //设置图片加载/解码过程中错误时候显示的图片
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
-                .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
-                .build();//构建完成
     }
 
     @Override
@@ -67,7 +104,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         position--;
 
         HomeViewHolder holder;
-        ShowEntity showInfo = (ShowEntity) _data.get(position);
+        ShowListEntity showInfo = (ShowListEntity) _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -85,19 +122,9 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         }
         holder = (HomeViewHolder) convertView.getTag();
 
-//        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)_myHeight));
 
-        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(showInfo.getCoverWidth(), showInfo.getCoverHeight()));
 
-        _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, coverOptions, animateFirstListener);
-        _mImageFetcher.displayImage(showInfo.getModelImgSrc(), holder.modelIV, animateFirstListener);
-        holder.modelNameTV.setText(showInfo.getModelName());
-        holder.modelJobTV.setText(showInfo.getModelJob());
-        holder.modelHeightTV.setText(showInfo.getModelHeight());
-        holder.modelWeightTV.setText(showInfo.getModelWeight());
-        holder.loveTV.setText(showInfo.getShowNumLike());
-        holder.modelStatusTV.setText(showInfo.getModelStatus());
-
+        holder.setData(showInfo, _mImageFetcher);
         return convertView;
     }
 
@@ -119,36 +146,18 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         return 2;
     }
 
-    public void addItemLast(LinkedList<ShowEntity> datas) {
+    public void addItemLast(LinkedList<ShowListEntity> datas) {
         _data.addAll(datas);
     }
 
-    public void addItemTop(LinkedList<ShowEntity> datas) {
+    public void addItemTop(LinkedList<ShowListEntity> datas) {
         _data.clear();
         _data.addAll(datas);
     }
 
-    public ShowEntity getItemDataAtIndex(int index) {
+    public ShowListEntity getItemDataAtIndex(int index) {
         if (index >= _data.size()) return null;
-        return (ShowEntity)_data.get(index);
+        return (ShowListEntity)_data.get(index);
     }
 
-    // Animation
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
-
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                Log.i("test", "load complete not null");
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
-        }
-    }
 }

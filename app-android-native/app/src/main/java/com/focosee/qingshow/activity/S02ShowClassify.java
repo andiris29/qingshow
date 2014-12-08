@@ -15,7 +15,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -145,7 +145,7 @@ public class S02ShowClassify extends Activity {
             public void onResponse(JSONObject response) {
                 try{
                     String resultStr = ((JSONObject) response.get("data")).get("shows").toString();
-                    LinkedList<ShowEntity> results = ShowEntity.getLinkedListFromString(resultStr);
+                    LinkedList<ShowListEntity> results = ShowListEntity.getLinkedListFromString(resultStr);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;

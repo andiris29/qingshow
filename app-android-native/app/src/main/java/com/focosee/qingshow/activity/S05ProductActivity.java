@@ -12,7 +12,7 @@ import android.view.View;
 import com.allthelucky.common.view.ProductImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkProductImageIndicatorView;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class S05ProductActivity extends Activity {
 
     private NetworkProductImageIndicatorView _productView;
 
-    private ArrayList<ShowEntity.RefItem> _itemsData;
+    private ArrayList<ShowListEntity.RefItem> _itemsData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class S05ProductActivity extends Activity {
         setContentView(R.layout.activity_s05_product);
 
         Intent intent = getIntent();
-        _itemsData = (ArrayList< ShowEntity.RefItem>)intent.getSerializableExtra(S05ProductActivity.INPUT_ITEM_LIST);
+        _itemsData = (ArrayList< ShowListEntity.RefItem>)intent.getSerializableExtra(S05ProductActivity.INPUT_ITEM_LIST);
 
         _productView = (NetworkProductImageIndicatorView) findViewById(R.id.S05_product_view);
         _productView.setupData(getCoverUrlList(), getDescriptionList(), getBrandNameList(), ImageLoader.getInstance());
@@ -100,7 +100,7 @@ public class S05ProductActivity extends Activity {
     // get cover url list from items data
     public ArrayList<String> getCoverUrlList() {
         ArrayList<String> _coverUrlList = new ArrayList<String>();
-        for (ShowEntity.RefItem item : _itemsData){
+        for (ShowListEntity.RefItem item : _itemsData){
             _coverUrlList.add(item.cover);
         }
         return _coverUrlList;
@@ -109,7 +109,7 @@ public class S05ProductActivity extends Activity {
     // get brand list from items data
     public ArrayList<String> getBrandNameList() {
         ArrayList<String> _brandList = new ArrayList<String>();
-        for (ShowEntity.RefItem item : _itemsData){
+        for (ShowListEntity.RefItem item : _itemsData){
             _brandList.add(item.brandRef);
         }
         return _brandList;
@@ -118,7 +118,7 @@ public class S05ProductActivity extends Activity {
     // get description list from items data
     public ArrayList<String> getDescriptionList() {
         ArrayList<String> _descriptionList = new ArrayList<String>();
-        for (ShowEntity.RefItem item : _itemsData){
+        for (ShowListEntity.RefItem item : _itemsData){
             _descriptionList.add(item.name);
         }
         return _descriptionList;
@@ -127,7 +127,7 @@ public class S05ProductActivity extends Activity {
     // get source url list from item data
     public ArrayList<String> getSourceUrlList() {
         ArrayList<String> _sourceUrlList = new ArrayList<String>();
-        for (ShowEntity.RefItem item : _itemsData)
+        for (ShowListEntity.RefItem item : _itemsData)
             _sourceUrlList.add(item.source);
         return _sourceUrlList;
     }

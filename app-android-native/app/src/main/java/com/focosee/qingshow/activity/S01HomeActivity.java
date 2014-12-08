@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -190,8 +191,7 @@ public class S01HomeActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    String resultStr = ((JSONObject) response.get("data")).get("shows").toString();
-                    LinkedList<ShowEntity> results = ShowEntity.getLinkedListFromString(resultStr);
+                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;
@@ -206,6 +206,7 @@ public class S01HomeActivity extends Activity {
                     setLastUpdateTime();
 
                 }catch (Exception error){
+                    Log.i("test", "error" + error.toString());
                     Toast.makeText(S01HomeActivity.this, "Error:"+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();

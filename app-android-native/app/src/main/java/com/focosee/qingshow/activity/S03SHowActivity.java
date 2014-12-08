@@ -18,12 +18,19 @@ import android.widget.VideoView;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkImageIndicatorView;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.ShowDetailEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MHorizontalScrollView;
 import com.focosee.qingshow.widget.MRelativeLayout_3_4;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,9 +38,10 @@ import java.util.Arrays;
 public class S03SHowActivity extends Activity {
 
     // Input data
-    public static final String INPUT_SHOW_ENTITY = "asfadf";
+    public static final String INPUT_SHOW_ENTITY_ID = "asfadf";
 
-    private ShowEntity showEntity;
+    private String showId;
+    private ShowDetailEntity showDetailEntity;
     private String videoUri;
 
     // Component declaration
@@ -53,7 +61,6 @@ public class S03SHowActivity extends Activity {
 
     private TextView description;
 
-    private ArrayList<ShowEntity.RefItem> itemsData;
 
 
     @Override
@@ -79,11 +86,11 @@ public class S03SHowActivity extends Activity {
         });
 
         Intent intent = getIntent();
-        showEntity = (ShowEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
-        itemsData = showEntity.getItemsList();
+        showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
+        getShowDetailFromNet();
 
         matchUI();
-        configData();
+        showData();
 
         this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
             @Override
@@ -121,6 +128,20 @@ public class S03SHowActivity extends Activity {
         }
     };
 
+    private void getShowDetailFromNet() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                showDetailEntity = ShowDetailEntity.getShowDetailFromResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("S03ShowActivity", error.toString());
+            }
+        });
+    }
+
     private void matchUI() {
         this.mRelativeLayout_3_4 = (MRelativeLayout_3_4) findViewById(R.id.S03_relative_layout);
         this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
@@ -138,15 +159,17 @@ public class S03SHowActivity extends Activity {
         description = (TextView) findViewById(R.id.S03_item_show_description);
     }
 
-    private void configData() {
+    private void showData() {
 
-        videoUri = showEntity.getShowVideo();
+        itemsData = showDetailEntity.getItemsList();
 
-        ImageLoader.getInstance().displayImage(showEntity.getModelImgSrc(), modelImage);
+        videoUri = showDetailEntity.getShowVideo();
 
-        modelName.setText(showEntity.getModelName());
+        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage);
 
-        modelAge.setText(showEntity.getAge());
+        modelName.setText(showDetailEntity.getModelName());
+
+        modelAge.setText(ShowDetailEntity.getAge());
 
         modelStatus.setText(showEntity.getModelStatus());
 
@@ -195,35 +218,13 @@ public class S03SHowActivity extends Activity {
         videoView.start();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_s03_show, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private int getWinWidth(){
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
     }
+
     private int getWinHeight(){
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
