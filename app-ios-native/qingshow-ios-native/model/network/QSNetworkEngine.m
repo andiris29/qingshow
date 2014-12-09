@@ -250,6 +250,10 @@
                                    onError:(ErrorBlock)errorBlock
 
 {
+    if (!peopleDict) {
+        errorBlock(nil);
+        return nil;
+    }
     return [self startOperationWithPath:PATH_PEOPLE_QUERY_FOLLOWED
                                  method:@"GET"
                                paramers:@{@"_id" : peopleDict[@"_id"], @"pageNo" : @(page),@"paegSize" : @10}

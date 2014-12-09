@@ -59,11 +59,16 @@
     [self bindDelegateObj];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.userInfo = [QSUserManager shareUserManager].userInfo;
     [self.badgeView bindWithPeopleDict:self.userInfo];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {

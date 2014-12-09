@@ -11,6 +11,7 @@
 #import "QSS01RootViewController.h"
 #import "QSNetworkEngine.h"
 #import "UIViewController+ShowHud.h"
+#import "QSU01UserDetailViewController.h"
 
 @interface QSU06LoginViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -40,7 +41,6 @@
     
     [[self navigationItem] setRightBarButtonItem:btnSave];
 
-
     // 登陆
 //    self.loginButton.backgroundColor = [UIColor colorWithRed:252.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
@@ -51,6 +51,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    NSMutableArray* a = [self.navigationController.viewControllers mutableCopy];
+    if (![[a lastObject] isKindOfClass:[QSU07RegisterViewController class]]) {
+        [a removeObject:self];
+        self.navigationController.viewControllers = a;
+    }
 }
 
 #pragma mark - Action
@@ -74,7 +85,7 @@
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [self showSuccessHudWithText:@"登陆成功"];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] init] animated:YES];
         } else {
             [self showErrorHudWithText:@"登陆失败"];
         }
