@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -33,6 +34,7 @@ public class U06LoginActivity extends Activity {
     private EditText passwordEditText;
     private Context context;
     private RequestQueue requestQueue;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class U06LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         context = getApplicationContext();
+        sharedPreferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
 
         TextView registerTextView;
         Button submitButton;
@@ -81,6 +84,10 @@ public class U06LoginActivity extends Activity {
                                             Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("id", accountEditText.getText().toString());
+                                        editor.putString("password", passwordEditText.getText().toString());
+                                        editor.commit();
                                         Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
                                         startActivity(intent);
                                     }
@@ -108,8 +115,6 @@ public class U06LoginActivity extends Activity {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> map = new HashMap<String, String>();
-                        Log.v("TAG", accountEditText.getText().toString());
-                        Log.v("TAG", passwordEditText.getText().toString());
                         map.put("id", accountEditText.getText().toString());
                         map.put("password", passwordEditText.getText().toString());
                         return map;

@@ -41,11 +41,39 @@
                 android:text="@string/save_activity_settings" />
         </RelativeLayout>
 
-        <TextView
+        <RelativeLayout
+            android:id="@+id/femaleRelativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="blablabla..."
-            />
+            android:layout_height="wrap_content">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="女性" />
+
+            <Button
+                android:id="@+id/femaleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="female" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/maleRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男性" />
+
+            <Button
+                android:id="@+id/maleButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="male" />
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>
