@@ -48,7 +48,7 @@ public class P03BrandListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         P03BrandHolderView holderView;
-        if (null != convertView) {
+        if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
             holderView = new P03BrandHolderView();
@@ -57,8 +57,16 @@ public class P03BrandListAdapter extends BaseAdapter {
             convertView.setTag(holderView);
         }
         holderView = (P03BrandHolderView) convertView.getTag();
-        this.imageLoader.displayImage(this.data.get(position).brandImage, holderView.brandImageView);
-        this.imageLoader.displayImage(this.data.get(position).previewImage, holderView.previewImageView);
+        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandImageView);
+        this.imageLoader.displayImage(this.data.get(position).getBrandSlogan(), holderView.previewImageView);
         return convertView;
+    }
+
+    public void resetData(ArrayList<BrandEntity> newData) {
+        this.data = newData;
+    }
+
+    public void addData(ArrayList<BrandEntity> moreData) {
+        this.data.addAll(this.data.size(), moreData);
     }
 }
