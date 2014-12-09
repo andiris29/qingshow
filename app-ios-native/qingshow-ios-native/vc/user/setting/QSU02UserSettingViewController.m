@@ -14,6 +14,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
+
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
 
@@ -218,15 +219,16 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:^{}];
-    
+
     // Get Original Image from PhotoLibrary
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
         image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
     }
-    
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
     // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
+        [hud hide:YES];
         if (metadata[@"error"] == nil && people != nil) {
             [self showSuccessHudWithText:@"上传成功"];
             // refresh local login user's data
@@ -240,6 +242,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     
     // Error Handle
     ErrorBlock error = ^(NSError *error) {
+        [hud hide:YES];
         [self showErrorHudWithError:error];
     };
     

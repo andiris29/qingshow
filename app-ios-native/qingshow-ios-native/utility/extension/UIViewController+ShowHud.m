@@ -54,5 +54,14 @@
     [HUD show:YES];
     [HUD hide:YES afterDelay:1.f];
 }
-
+- (MBProgressHUD*)showNetworkWaitingHud
+{
+    MBProgressHUD *HUD;
+    HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    HUD.mode = MBProgressHUDModeIndeterminate;
+    HUD.removeFromSuperViewOnHide = YES;
+    [HUD show:YES];
+    return HUD;
+}
 @end

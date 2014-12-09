@@ -2,6 +2,8 @@ package com.focosee.qingshow.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +21,13 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.config.QSAppWebAPI;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +35,7 @@ import java.util.Map;
 public class U02SettingsFragment extends Fragment {
     private Context context;
     private RequestQueue requestQueue;
+    private SharedPreferences sharedPreferences;
 
     private TextView saveTextView;
     private RelativeLayout sexRelativeLayout;
@@ -39,6 +46,11 @@ public class U02SettingsFragment extends Fragment {
     private RelativeLayout rulesRelativeLayout;
     private RelativeLayout helpRelativeLayout;
     private RelativeLayout aboutVIPRelativeLayout;
+
+    private EditText nameEditText;
+    private EditText ageEditText;
+    private EditText heightEditText;
+    private EditText weightEditText;
 
     public U02SettingsFragment() {
         // Required empty public constructor
@@ -56,6 +68,7 @@ public class U02SettingsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
+        sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
 
         sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
         sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -122,43 +135,76 @@ public class U02SettingsFragment extends Fragment {
             }
         });
 
+        nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
+        ageEditText = (EditText) getActivity().findViewById(R.id.ageEditText);
+        heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
+        weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
+
         saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
         saveTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        QSAppWebAPI.UPDATE_SERVICE_URL,
-                        new Response.Listener<String>() {
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("id", sharedPreferences.getString("id", ""));
+                params.put("name", nameEditText.getText().toString());
+                params.put("age", ageEditText.getText().toString());
+                params.put("height", heightEditText.getText().toString());
+                params.put("weight", weightEditText.getText().toString());
+                JSONObject jsonObject = new JSONObject(params);
+
+                JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
+                        QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
-                                Log.d("TAG", response);
-                                Toast.makeText(context, "success", Toast.LENGTH_LONG).show();
+                            public void onResponse(JSONObject response) {
+                                Log.v("TAG", response.toString());
+                                try {
+                                    if (response.getJSONObject("data") == null) {
+                                        Log.v("TAG", "error");
+                                        String errorCode = response.getJSONObject("metadata").getString("error");
+                                        Log.v("TAG", "error" + errorCode);
+                                        if (errorCode.equals("1001")) {
+                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        }
+                                    } else {
+
+                                    }
+                                } catch (Exception e) {
+                                    Log.v("TAG", "exception");
+                                    try {
+                                        Log.v("TAG", "error");
+                                        String errorCode = response.getJSONObject("metadata").getString("error");
+                                        Log.v("TAG", "error" + errorCode);
+                                        if (errorCode.equals("1001")) {
+                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (Exception e1) {
+                                        Log.v("TAG", "e1");
+                                    }
+                                }
+
                             }
                         }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "wrong", Toast.LENGTH_LONG).show();
                         Log.e("TAG", error.getMessage(), error);
                     }
                 }) {
                     @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
+                    protected Map<String, String> getParams() {
                         Map<String, String> map = new HashMap<String, String>();
-
-                        map.put("id", "");
-                        map.put("currentPassword", "");
-                        map.put("password", "");
-                        map.put("name", "");
-                        map.put("portrait", "");
-                        map.put("gender", "");
-                        map.put("height", "");
-                        map.put("weight", "");
-                        map.put("roles", "");
-                        map.put("hairTypes", "");
+                        map.put("id", sharedPreferences.getString("id", ""));
                         return map;
                     }
-                };
 
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("Accept", "application/json");
+                        headers.put("Content-Type", "application/json; charset=UTF-8");
+                        return headers;
+                    }
+                };
                 requestQueue.add(stringRequest);
             }
         });
