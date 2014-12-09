@@ -103,7 +103,7 @@ var _queryComments = function(req, res) {
             'delete' : null
         };
         MongoHelper.queryPaging(ShowComment.find(criteria).sort({
-            'create' : 1
+            'create' : -1
         }).populate('authorRef').populate('atRef'), ShowComment.find(criteria), pageNo, pageSize, function(err, count, showComments) {
             numTotal = count;
             callback(err, showComments);
