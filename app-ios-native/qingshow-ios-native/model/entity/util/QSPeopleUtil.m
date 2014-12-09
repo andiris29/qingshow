@@ -31,9 +31,9 @@
     NSNumber* gender = modelDict[@"gender"];
     if (gender) {
         if (gender.intValue == 0) {
-            return @"男性";
+            return @"男";
         } else if (gender.intValue == 1) {
-            return @"女性";
+            return @"女";
         }
     }
     return @"";

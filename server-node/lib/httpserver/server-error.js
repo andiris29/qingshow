@@ -46,6 +46,7 @@ ServerError.PItemNotExist = 1017;
 ServerError.RequestValidationFail = 1018;
 ServerError.AlreadyRelated = 1019;
 ServerError.AlreadyUnrelated = 1020;
+ServerError.InvalidCurrentPassword = 1020;
 
 var _codeToString = function(code) {
     switch (code) {

@@ -15,7 +15,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -107,7 +107,7 @@ public class S02ShowClassify extends Activity {
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(S02ShowClassify.this, S03SHowActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY, _adapter.getItemDataAtIndex(position));
+                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -144,8 +144,7 @@ public class S02ShowClassify extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    String resultStr = ((JSONObject) response.get("data")).get("shows").toString();
-                    LinkedList<ShowEntity> results = ShowEntity.getLinkedListFromString(resultStr);
+                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;

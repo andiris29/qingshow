@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,12 +16,19 @@ import android.widget.VideoView;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkImageIndicatorView;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ShowEntity;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MHorizontalScrollView;
 import com.focosee.qingshow.widget.MRelativeLayout_3_4;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,9 +36,11 @@ import java.util.Arrays;
 public class S03SHowActivity extends Activity {
 
     // Input data
-    public static final String INPUT_SHOW_ENTITY = "asfadf";
+    public static final String INPUT_SHOW_ENTITY_ID = "asfadf";
 
-    private ShowEntity showEntity;
+    private String showId;
+    private ShowDetailEntity showDetailEntity;
+    private ArrayList<ShowDetailEntity.RefItem> itemsData;
     private String videoUri;
 
     // Component declaration
@@ -42,7 +49,8 @@ public class S03SHowActivity extends Activity {
     private VideoView videoView;
     private MCircularImageView modelImage;
     private TextView modelName;
-    private TextView modelAge;
+    private TextView modelJob;
+    private TextView modelWeightHeight;
     private TextView modelStatus;
     private TextView modelLoveNumber;
     private ImageView nav_menu_back;
@@ -53,7 +61,6 @@ public class S03SHowActivity extends Activity {
 
     private TextView description;
 
-    private ArrayList<ShowEntity.RefItem> itemsData;
 
 
     @Override
@@ -79,11 +86,10 @@ public class S03SHowActivity extends Activity {
         });
 
         Intent intent = getIntent();
-        showEntity = (ShowEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
-        itemsData = showEntity.getItemsList();
+        showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
+        getShowDetailFromNet();
 
         matchUI();
-        configData();
 
         this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
             @Override
@@ -102,12 +108,10 @@ public class S03SHowActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
-                intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showEntity._id);
+                intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                 startActivity(intent);
             }
         });
-
-        this.initView(showEntity.getPosters());
     }
 
     private ImageView.OnClickListener mImageClickListener = new ImageView.OnClickListener() {
@@ -121,6 +125,23 @@ public class S03SHowActivity extends Activity {
         }
     };
 
+    private void getShowDetailFromNet() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("S03ShowActivity", response.toString());
+                showDetailEntity = ShowDetailEntity.getShowDetailFromResponse(response);
+                showData();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("S03ShowActivity", error.toString());
+            }
+        });
+        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+    }
+
     private void matchUI() {
         this.mRelativeLayout_3_4 = (MRelativeLayout_3_4) findViewById(R.id.S03_relative_layout);
         this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
@@ -128,7 +149,8 @@ public class S03SHowActivity extends Activity {
 
         modelImage = (MCircularImageView) findViewById(R.id.S03_item_show_model_image);
         modelName = (TextView) findViewById(R.id.S03_item_show_model_name);
-        modelAge = (TextView) findViewById(R.id.S03_item_show_model_age);
+        modelJob = (TextView) findViewById(R.id.S03_item_show_model_job);
+        modelWeightHeight = (TextView) findViewById(R.id.S03_item_show_model_weight_height);
         modelStatus = (TextView) findViewById(R.id.S03_item_show_model_status);
         modelLoveNumber = (TextView) findViewById(R.id.S03_item_show_love);
 
@@ -138,31 +160,39 @@ public class S03SHowActivity extends Activity {
         description = (TextView) findViewById(R.id.S03_item_show_description);
     }
 
-    private void configData() {
+    private void showData() {
+        if (null == showDetailEntity)
+            return;
 
-        videoUri = showEntity.getShowVideo();
+        itemsData = showDetailEntity.getItemsList();
 
-        ImageLoader.getInstance().displayImage(showEntity.getModelImgSrc(), modelImage);
+        videoUri = showDetailEntity.getShowVideo();
 
-        modelName.setText(showEntity.getModelName());
+        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage);
 
-        modelAge.setText(showEntity.getAge());
+        modelName.setText(showDetailEntity.getModelName());
 
-        modelStatus.setText(showEntity.getModelStatus());
+        modelJob.setText(showDetailEntity.getModelJob());
 
-        modelLoveNumber.setText(showEntity.getShowNumLike());
+        modelWeightHeight.setText(showDetailEntity.getModelWeightHeight());
+
+        modelStatus.setText(showDetailEntity.getModelStatus());
+
+        modelLoveNumber.setText(showDetailEntity.getShowNumLike());
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(getWinWidth()/3, LinearLayout.LayoutParams.WRAP_CONTENT);
-        for (int i = 0; i < showEntity.getItemsList().size(); i++) {
+        for (int i = 0; i < showDetailEntity.getItemsList().size(); i++) {
             ImageView imageView = new ImageView(this);
             imageView.setLayoutParams(params);
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            ImageLoader.getInstance().displayImage(showEntity.getItem(i).cover, imageView);
+            ImageLoader.getInstance().displayImage(showDetailEntity.getItem(i).cover, imageView);
             imageView.setOnClickListener(mImageClickListener);
             itemContainer.addView(imageView);
         }
 
-        description.setText(showEntity.getAllItemDescription());
+        description.setText(showDetailEntity.getAllItemDescription());
+
+        this.initPosterView(showDetailEntity.getPosters());
     }
 
     private String arrayToString(String[] input) {
@@ -172,7 +202,7 @@ public class S03SHowActivity extends Activity {
         return result;
     }
 
-    private void initView(String[] urlList) {
+    private void initPosterView(String[] urlList) {
         Log.i("app", urlList.toString());
         this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
         this.imageIndicatorView.getStartButton().setOnClickListener(new View.OnClickListener() {
@@ -195,35 +225,13 @@ public class S03SHowActivity extends Activity {
         videoView.start();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_s03_show, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private int getWinWidth(){
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
     }
+
     private int getWinHeight(){
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息

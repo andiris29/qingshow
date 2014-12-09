@@ -112,13 +112,22 @@
                             android:id="@+id/S03_item_show_model_name"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:text="SandGirl"/>
 
                         <TextView
-                            android:id="@+id/S03_item_show_model_age"
+                            android:id="@+id/S03_item_show_model_job"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:text="服装设计师"/>
+
+                        <TextView
+                            android:id="@+id/S03_item_show_model_weight_height"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            android:text="163cm/54kg"/>
                     </LinearLayout>
 
                     <LinearLayout

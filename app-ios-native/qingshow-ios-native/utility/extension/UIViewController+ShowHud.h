@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+
 
 @interface UIViewController (ShowHud)
 
@@ -15,4 +17,5 @@
 - (void)showErrorHudWithText:(NSString*)text;
 - (void)showErrorHudWithError:(NSError*)error;
 - (void)showSuccessHudWithText:(NSString*)text;
+- (MBProgressHUD*)showNetworkWaitingHud;
 @end

@@ -3,6 +3,7 @@ var async = require('async');
 
 var People = require('../../model/peoples');
 
+var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 
@@ -153,67 +154,77 @@ _register = function(req, res) {
 };
 
 _update = function(req, res) {
-    var param;
-    param = req.body;
-    People.findOne({
-        _id : req.qsCurrentUserId
-    }).select('+userInfo').exec(function(err, people) {
-        var updateField = ['name', 'portrait', 'gender'];
-        var numberField = ['height', 'weight'];
-        var arrayField = ['roles', 'hairTypes'];
-        updateField.forEach(function(field) {
-            if (param[field]) {
-                people[field] = param[field];
-            }
-        });
-        numberField.forEach(function(field) {
-            if (param[field]) {
-                people[field] = parseFloat(param[field]);
-            }
-        });
-        arrayField.forEach(function(field) {
-            if (param[field]) {
-                var fieldArray = param[field].split(',');
-                fieldArray = fieldArray.filter(function(f) {
-                    return f && f.length !== 0;
-                });
-                people[field] = fieldArray;
-            }
-        });
-
-        if (people.roles === 1) {
-            if (param.status) {
-                people.status = param.status;
-            }
-        }
-        if (param.id) {
-            people.userInfo.id = param.id;
-        }
-        //TODO: check param.currentPassword
-        if (param.password) {
-            people.userInfo.encryptedPassword = _encrypt(param.password);
-        }
-        people.save(function(err, p) {
-            try {
-                if (err) {
-                    throw err;
+    var qsParam;
+    async.waterfall([
+    function(callback) {
+        try {
+            qsParam = {};
+            ['name', 'portrait', 'gender', 'password', 'currentPassword'].forEach(function(field) {
+                if (req.body[field]) {
+                    qsParam[field] = req.body[field];
                 }
-                delete p.userInfo.encryptedPassword;
-                var retData = {
-                    metadata : {
-                        //TODO change invilidateTime
-                        "invalidateTime" : 3600000
-                        //                            "result" : 0
-                    },
-                    data : {
-                        people : p
-                    }
-                };
-                res.json(retData);
-            } catch (err) {
-                ResponseHelper.response(res, err);
-                return;
+            });
+            ['height', 'weight'].forEach(function(field) {
+                if (req.body[field]) {
+                    qsParam[field] = parseFloat(req.body[field]);
+                }
+            });
+            ['roles', 'hairTypes'].forEach(function(field) {
+                if (req.body[field]) {
+                    qsParam[field] = RequestHelper.parseArray(req.body[field]);
+                }
+            });
+        } catch(err) {
+            callback(err);
+            return;
+        }
+        callback();
+    },
+    function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }, function(err, people) {
+            if (!err && !people) {
+                callback(ServerError.PeopleNotExist);
+            } else {
+                callback(err, people);
             }
+        });
+    },
+    function(people, callback) {
+        if (qsParam.password) {
+            People.findOne({
+                '_id' : req.qsCurrentUserId,
+                "$or" : [{
+                    'userInfo.password' : qsParam.currentPassword
+                }, {
+                    'userInfo.encryptedPassword' : _encrypt(qsParam.currentPassword)
+                }]
+            }, function(err, people) {
+                if (!err && !people) {
+                    callback(ServerError.InvalidCurrentPassword);
+                } else {
+                    callback(err, people);
+                }
+            });
+        } else {
+            callback(null, people);
+        }
+    },
+    function(people, callback) {
+        if (qsParam.password) {
+            people.set('userInfo.password', undefined);
+            people.set('userInfo.encryptedPassword', _encrypt(qsParam.password));
+        }
+        delete qsParam.password;
+        delete qsParam.currentPassword;
+        for (var field in qsParam) {
+            people.set(field, qsParam[field]);
+        }
+        people.save(callback);
+    }], function(err, people) {
+        ResponseHelper.response(res, err, {
+            'people' : people
         });
     });
 };
