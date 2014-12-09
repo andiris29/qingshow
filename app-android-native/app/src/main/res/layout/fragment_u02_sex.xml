@@ -42,7 +42,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/allRelativeLayout"
+            android:id="@+id/femaleRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -50,62 +50,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="所有" />
+                android:text="女性" />
 
-            <CheckBox
-                android:id="@+id/allCheckBox"
+            <Button
+                android:id="@+id/femaleButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="female" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/middleRelativeLayout"
+            android:id="@+id/maleRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="中长发" />
+                android:text="男性" />
 
-            <CheckBox
-                android:id="@+id/middleCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/longRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
+            <Button
+                android:id="@+id/maleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="长发" />
-
-            <CheckBox
-                android:id="@+id/longCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/extremeRelativeLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="超长发" />
-
-            <CheckBox
-                android:id="@+id/extremeCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="male" />
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

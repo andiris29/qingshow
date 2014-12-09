@@ -2,7 +2,6 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.RelativeLayout;
 
 /**
@@ -25,13 +24,6 @@ public class MRelativeLayout_3_4 extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * 4 / 3) + MeasureSpec.EXACTLY;
-
-        Log.i("app", "width-all" + String.valueOf(widthMeasureSpec));
-        Log.i("app", "height-all" + String.valueOf(heightMeasureSpec));
-        Log.i("app", "width-mode" + MeasureSpec.getMode(widthMeasureSpec));
-        Log.i("app", "height-mode" + MeasureSpec.getMode(heightMeasureSpec));
-        Log.i("app", "width" + String.valueOf(MeasureSpec.getSize(widthMeasureSpec)));
-        Log.i("app", "height" + String.valueOf(MeasureSpec.getSize(heightMeasureSpec)));
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
