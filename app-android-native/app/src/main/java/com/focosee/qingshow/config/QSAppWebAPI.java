@@ -25,7 +25,7 @@ public class QSAppWebAPI {
     }
 
     public static String getShowDetailApi(String showId) {
-        return SHOW_LIST_API + "?_ids=" + showId;
+        return SHOW_DETAIL_API + "?_ids=" + showId;
     }
 
     public static String getShowCategoryListApi(int category, int pageIndex, int pageSize) {

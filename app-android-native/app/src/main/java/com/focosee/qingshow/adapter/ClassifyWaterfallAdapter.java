@@ -78,7 +78,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(showInfo.getCoverWidth(), showInfo.getCoverHeight()));
 
         _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, coverOptions, animateFirstListener);
-        _mImageFetcher.displayImage(showInfo.getModelImgSrc(), holder.modelIV, animateFirstListener);
+        _mImageFetcher.displayImage(showInfo.getModelPhoto(), holder.modelIV, animateFirstListener);
         holder.modelNameTV.setText(showInfo.getModelName());
         holder.modelJobTV.setText(showInfo.getModelJob());
         holder.modelHeightTV.setText(showInfo.getModelHeight());

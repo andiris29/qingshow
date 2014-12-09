@@ -1,5 +1,13 @@
 package com.focosee.qingshow.entity;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ShowDetailEntity extends AbsEntity {
 
 
@@ -8,6 +16,17 @@ public class ShowDetailEntity extends AbsEntity {
 
 
     // Public interface (used in S03ShowActivity.java)
+    public static ShowDetailEntity getShowDetailFromResponse(JSONObject response) {
+        try {
+            String tempString = response.getJSONObject("data").getJSONArray("shows").get(0).toString();
+            Gson gson = new Gson();
+            return gson.fromJson(tempString, ShowDetailEntity.class);
+        } catch (JSONException e) {
+            log(e.toString());
+            return null;
+        }
+    }
+
     public String getShowVideo() {
         return (null != video) ? video : null;
     }
@@ -19,6 +38,47 @@ public class ShowDetailEntity extends AbsEntity {
     }
     public String getModelName() {
         return modelRef.name;
+    }
+    public String getModelJob() {
+        return modelRef.roles.toString();
+    }
+    public String getModelWeightHeight() {
+        return modelRef.height + "cm/" + modelRef.weight + "kg";
+    }
+    public String getShowNumLike() {
+        return String.valueOf(modelRef.modelInfo.numLikes);
+    }
+    public String getModelStatus() {
+        return modelRef.modelInfo.status;
+    }
+
+    public ArrayList<RefItem> getItemsList() {
+        ArrayList<RefItem> result = new ArrayList<RefItem>();
+        for (RefItem item : itemRefs) {
+            result.add(item);
+        }
+        return result;
+    }
+    public RefItem getItem(int index) {
+        if (index >= itemRefs.length || index < 0) return null;
+        return itemRefs[index];
+    }
+    public String getAllItemDescription() {
+        String description = "";
+        for (RefItem item : itemRefs)
+            description += item.name;
+        return description;
+    }
+    public List<String> getItemDescriptionList() {
+        ArrayList<String> itemDescriptionList = new ArrayList<String>();
+        for (RefItem item : itemRefs) {
+            itemDescriptionList.add(item.name);
+        }
+        return itemDescriptionList;
+    }
+
+    public String[] getPosters() {
+        return posters;
     }
 
 //    public String getItem(int index) {
@@ -32,20 +92,12 @@ public class ShowDetailEntity extends AbsEntity {
 //        return _itemsData;
 //    }
 //
-//    public String getAllItemDescription() {
-//        String description = "";
-//        for (RefItem item : itemRefs)
-//            description += item.name;
-//        return description;
-//    }
+
 //
 //    public String getAge() {
 //        return create;
 //    }
-//
-//    public String[] getPosters() {
-//        return posters;
-//    }
+
 //
 //    public List<String> getItemUrlList() {
 //        ArrayList<String> itemUrlList = new ArrayList<String>();
@@ -54,14 +106,7 @@ public class ShowDetailEntity extends AbsEntity {
 //        }
 //        return itemUrlList;
 //    }
-//
-//    public List<String> getItemDescriptionList() {
-//        ArrayList<String> itemDescriptionList = new ArrayList<String>();
-//        for (RefItem item : itemRefs) {
-//            itemDescriptionList.add(item.name);
-//        }
-//        return itemDescriptionList;
-//    }
+
 
 
     // Inner data
@@ -84,8 +129,8 @@ public class ShowDetailEntity extends AbsEntity {
         public String name;
         public String portrait;
         public String birthtime;
-        public int height;
-        public int weight;
+        public float height;
+        public float weight;
         public String[] followerRefs;
         public int __v;
         public String update;

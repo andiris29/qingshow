@@ -107,7 +107,7 @@ public class S02ShowClassify extends Activity {
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(S02ShowClassify.this, S03SHowActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY, _adapter.getItemDataAtIndex(position));
+                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -144,8 +144,7 @@ public class S02ShowClassify extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    String resultStr = ((JSONObject) response.get("data")).get("shows").toString();
-                    LinkedList<ShowListEntity> results = ShowListEntity.getLinkedListFromString(resultStr);
+                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;

@@ -82,53 +82,10 @@ public class ShowListEntity extends AbsEntity {
         return modelRef.modelInfo.status;
     }
 
+    public String getModelStatus() {
+        return modelRef.modelInfo.status;
+    }
 
-
-
-//    public String getShowVideo() {
-//        return (null != video) ? video : null;
-//    }
-//    public String getItem(int index) {
-//        return (index < itemRefs.length) ? itemRefs[index] : null;
-//    }
-//
-//    public ArrayList<String> getItemsList() {
-//        ArrayList<String> _itemsData = new ArrayList<String>();
-//        for (String item : itemRefs)
-//            _itemsData.add(item);
-//        return _itemsData;
-//    }
-//
-//    public String getAllItemDescription() {
-//        String description = "";
-//        for (RefItem item : itemRefs)
-//            description += item.name;
-//        return description;
-//    }
-//
-//    public String getAge() {
-//        return create;
-//    }
-//
-//    public String[] getPosters() {
-//        return posters;
-//    }
-//
-//    public List<String> getItemUrlList() {
-//        ArrayList<String> itemUrlList = new ArrayList<String>();
-//        for (RefItem item : itemRefs) {
-//            itemUrlList.add(item.cover);
-//        }
-//        return itemUrlList;
-//    }
-//
-//    public List<String> getItemDescriptionList() {
-//        ArrayList<String> itemDescriptionList = new ArrayList<String>();
-//        for (RefItem item : itemRefs) {
-//            itemDescriptionList.add(item.name);
-//        }
-//        return itemDescriptionList;
-//    }
 
 
     // Inner data
@@ -152,8 +109,8 @@ public class ShowListEntity extends AbsEntity {
         public String name;
         public String portrait;
         public String birthtime;
-        public int height;
-        public int weight;
+        public float height;
+        public float weight;
         public String[] followerRefs;
         public String __v;
         public String update;

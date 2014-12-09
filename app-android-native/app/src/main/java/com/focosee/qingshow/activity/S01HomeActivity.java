@@ -152,7 +152,7 @@ public class S01HomeActivity extends Activity {
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY, _adapter.getItemDataAtIndex(position));
+                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
