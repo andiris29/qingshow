@@ -16,7 +16,11 @@
 }
 + (NSDictionary*)getPeople:(NSDictionary*)commentDict
 {
-    return commentDict[@"peopleRef"];
+    id a = commentDict[@"authorRef"];
+    if ([a isKindOfClass:[NSDictionary class]]) {
+        return a;
+    }
+    return nil;
 }
 + (NSDictionary*)getShow:(NSDictionary*)commentDict
 {

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var _ = require('underscore');
 //model
 var Show = require('../../model/shows');
 var ShowComments = require('../../model/showComments');
@@ -21,7 +22,13 @@ var ServerError = require('../server-error');
 feeding = module.exports;
 
 var _populate = function(shows, callback) {
-    Show.populate(shows, 'modelRef', callback);
+    var array = [];
+    shows.forEach(function(show) {
+        if (show) {
+            array.push(show);
+        }
+    });
+    Show.populate(array, 'modelRef', callback);
 };
 
 /**
@@ -46,36 +53,55 @@ var _dataBuilder = function(err, shows) {
         'shows' : shows
     };
 };
+
+/**
+ *
+ * @param {Object} req
+ * @param {Object} res
+ * @param {Object} showFinder function(qsParam, callback){callback(null, count, shows);}
+ * @param {Object} queryStringParser function(queryString){return {};}
+ * @param {Object} beforeResponseEnd function(json){return {};}
+ */
+
+var _feed = function(req, res, showFinder, queryStringParser, beforeResponseEnd) {
+    var pageNo, pageSize, numTotal;
+    async.waterfall([
+    function(callback) {
+        try {
+            pageNo = parseInt(req.queryString.pageNo || 1);
+            pageSize = parseInt(req.queryString.pageSize || 10);
+            var qsParam = queryStringParser ? queryStringParser(req.queryString) : null;
+            callback(null, qsParam);
+        } catch(err) {
+            callback(ServerError.fromError(err));
+        }
+    },
+    function(qsParam, callback) {
+        showFinder(pageNo, pageSize, qsParam, function(err, count, shows) {
+            numTotal = count;
+            if (!err && shows.length === 0) {
+                err = ServerError.PagingNotExist;
+            }
+            callback(err, shows);
+        });
+    }, _populate, _parseCover,
+    function(shows, callback) {
+        ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
+    }], function(err, shows) {
+        // Response
+        ResponseHelper.responseAsPaging(res, err, {
+            'shows' : shows
+        }, pageSize, numTotal, beforeResponseEnd);
+    });
+};
 //feeding/recommendation
 feeding.recommendation = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
                 'numView' : -1
-            }), Show.find(), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(), pageNo, pageSize, callback);
         });
     }
 };
@@ -83,33 +109,10 @@ feeding.recommendation = {
 feeding.hot = {
     'method' : 'get',
     'func' : function(req, res) {
-        // TODO sort by numLike
-        var pageNo, pageSize, numTotal;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
                 'numView' : -1
-            }), Show.find(), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(), pageNo, pageSize, callback);
         });
     }
 };
@@ -118,42 +121,25 @@ feeding.like = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
-            var criteria = {
-                'initiatorRef' : req.qsCurrentUserId
-            };
-            MongoHelper.queryPaging(RPeopleLikeShow.find(criteria).sort({
-                'create' : -1
-            }).populate('targetRef'), RPeopleLikeShow.find(criteria), pageNo, pageSize, function(err, count, relationships) {
-                numTotal = count;
-                callback(err, relationships);
-            });
-        },
-        function(relationships, callback) {
-            var shows = [];
-            relationships.forEach(function(relationship) {
-                shows.push(relationship.targetRef);
-            });
-            callback(null, shows);
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
+            async.waterfall([
+            function(callback) {
+                var criteria = {
+                    'initiatorRef' : req.qsCurrentUserId
+                };
+                MongoHelper.queryPaging(RPeopleLikeShow.find(criteria).sort({
+                    'create' : -1
+                }).populate('targetRef'), RPeopleLikeShow.find(criteria), pageNo, pageSize, function(err, count, relationships) {
+                    callback(err, count, relationships);
+                });
+            },
+            function(count, relationships, callback) {
+                var shows = [];
+                relationships.forEach(function(relationship) {
+                    shows.push(relationship.targetRef);
+                });
+                callback(null, count, shows);
+            }], callback);
         });
     }
 };
@@ -161,59 +147,47 @@ feeding.like = {
 feeding.chosen = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var type, chosen;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                type = parseInt(param.type || 0);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
-            // Query chosen
-            Chosen.find({
-                'type' : type
-            }).where('activateTime').lte(Date.now()).sort({
-                'activateTime' : 1
-            }).limit(1).exec(function(err, chosens) {
-                if (err) {
-                    callback(ServerError.fromDescription(err));
-                } else if (!chosens || !chosens.length) {
-                    callback(ServerError.fromCode(ServerError.ShowNotExist));
-                } else {
-                    chosen = chosens[0];
-                    numTotal = chosen.showRefs.length;
-                    callback(null);
-                }
-            });
-        },
-        function(callback) {
-            // Query shows
-            Chosen.populate(chosen, {
-                'path' : 'showRefs',
-                'options' : {
-                    'skip' : (pageNo - 1) * pageSize,
-                    'limit' : pageSize
-                }
-            }, function(err, chosen) {
-                callback(err, chosen.showRefs);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal, function(json) {
+        var chosen;
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
+            async.waterfall([
+            function(callback) {
+                // Query chosen
+                Chosen.find({
+                    'type' : qsParam.type
+                }).where('activateTime').lte(Date.now()).sort({
+                    'activateTime' : 1
+                }).limit(1).exec(function(err, chosens) {
+                    if (err) {
+                        callback(ServerError.fromDescription(err));
+                    } else if (!chosens || !chosens.length) {
+                        callback(ServerError.fromCode(ServerError.ShowNotExist));
+                    } else {
+                        chosen = chosens[0];
+                        callback(null, chosen.showRefs.length);
+                    }
+                });
+            },
+            function(count, callback) {
+                // Query shows
+                Chosen.populate(chosen, {
+                    'path' : 'showRefs',
+                    'options' : {
+                        'skip' : (pageNo - 1) * pageSize,
+                        'limit' : pageSize
+                    }
+                }, function(err, chosen) {
+                    callback(err, count, chosen.showRefs);
+                });
+            }], callback);
+        }, function(queryString) {
+            return {
+                'type' : parseInt(queryString.type || 0)
+            };
+        }, function(json) {
+            if (chosen) {
                 json.metadata.refreshTime = chosen.activateTime;
-                return json;
-            });
+            }
+            return json;
         });
     }
 };
@@ -221,37 +195,19 @@ feeding.chosen = {
 feeding.byModel = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var modelRef;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                modelRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
-                'modelRef' : modelRef
+                'modelRef' : qsParam.modelRef
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
                 'create' : -1
-            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(criteria), pageNo, pageSize, callback);
+        }, function(queryString) {
+            return {
+                'modelRef' : RequestHelper.parseId(queryString._id)
+            };
+        }, function(json) {
+            return json;
         });
     }
 };
@@ -259,37 +215,19 @@ feeding.byModel = {
 feeding.byBrand = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var brandRef;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                brandRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
-                'brandRef' : brandRef
+                'brandRef' : qsParam.brandRef
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
                 'create' : -1
-            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(criteria), pageNo, pageSize, callback);
+        }, function(queryString) {
+            return {
+                'brandRef' : RequestHelper.parseId(queryString._id)
+            };
+        }, function(json) {
+            return json;
         });
     }
 };
@@ -297,22 +235,9 @@ feeding.byBrand = {
 feeding.byBrandDiscount = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var brandRef;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                brandRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
-                'brandRef' : brandRef,
+                'brandRef' : qsParam.brandRef,
                 'brandDiscountInfo.start' : {
                     '$lte' : new Date()
                 },
@@ -322,18 +247,11 @@ feeding.byBrandDiscount = {
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
                 'brandDiscountInfo.end' : 1
-            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(criteria), pageNo, pageSize, callback);
+        }, function(queryString) {
+            return {
+                'brandRef' : RequestHelper.parseId(queryString._id)
+            };
         });
     }
 };
@@ -341,18 +259,7 @@ feeding.byBrandDiscount = {
 feeding.studio = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
                 'studioRef' : {
                     '$ne' : null
@@ -360,18 +267,7 @@ feeding.studio = {
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
                 'create' : -1
-            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(criteria), pageNo, pageSize, callback);
         });
     }
 };
@@ -379,42 +275,22 @@ feeding.studio = {
 feeding.byStyles = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var styles;
-        async.waterfall([
-        function(callback) {
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-                styles = req.queryString.styles.split(',');
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
                 '$or' : []
             };
-            styles.forEach(function(style) {
+            qsParam.styles.forEach(function(style) {
                 criteria['$or'].push({
                     'styles' : style
                 });
             });
             MongoHelper.queryPaging(Show.find(criteria).sort({
                 'create' : -1
-            }), Show.find(criteria), pageNo, pageSize, function(err, count, shows) {
-                numTotal = count;
-                callback(err, shows);
-            });
-        }, _populate, _parseCover,
-        function(shows, callback) {
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'shows' : shows
-            }, pageSize, numTotal);
+            }), Show.find(criteria), pageNo, pageSize, callback);
+        }, function(queryString) {
+            return {
+                'styles' : RequestHelper.parseArray(queryString.styles)
+            };
         });
     }
 };

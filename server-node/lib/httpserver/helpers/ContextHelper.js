@@ -5,6 +5,7 @@ var ShowComments = require('../../model/showComments');
 var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 
 /**
@@ -69,7 +70,7 @@ ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
     };
 
     async.parallel([followedByCurrentUser], function(err) {
-        callback(null, peoples);
+        callback(null, brands);
     });
 };
 

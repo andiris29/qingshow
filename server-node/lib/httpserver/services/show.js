@@ -103,7 +103,7 @@ var _queryComments = function(req, res) {
             'delete' : null
         };
         MongoHelper.queryPaging(ShowComment.find(criteria).sort({
-            'create' : 1
+            'create' : -1
         }).populate('authorRef').populate('atRef'), ShowComment.find(criteria), pageNo, pageSize, function(err, count, showComments) {
             numTotal = count;
             callback(err, showComments);
@@ -128,13 +128,13 @@ var _comment = function(req, res) {
     }
     async.waterfall([
     function(callback) {
-        var comment = new ShowComment({
+        var showComment = new ShowComment({
             'targetRef' : targetRef,
             'atRef' : atRef,
             'authorRef' : req.qsCurrentUserId,
             'comment' : comment
         });
-        comment.save(function(err) {
+        showComment.save(function(err) {
             callback();
         });
     }], function(err) {

@@ -31,6 +31,7 @@ public class U02SettingsFragment extends Fragment {
     private RequestQueue requestQueue;
 
     private TextView saveTextView;
+    private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
     private RelativeLayout changePasswordRelativeLayout;
     private RelativeLayout changeEmailRelativeLayout;
@@ -56,6 +57,14 @@ public class U02SettingsFragment extends Fragment {
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
 
+        sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
+        sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02SexFragment sexFragment = new U02SexFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, sexFragment).commit();
+            }
+        });
         hairRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.hairRelativeLayout);
         hairRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override

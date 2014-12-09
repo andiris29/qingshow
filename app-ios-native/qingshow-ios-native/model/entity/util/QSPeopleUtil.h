@@ -18,7 +18,7 @@
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict;
 + (NSString*)getStatus:(NSDictionary*)modelDict;
 + (NSString*)getRolesDescription:(NSDictionary*)modelDict;
-
++ (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;

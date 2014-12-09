@@ -56,7 +56,7 @@
     
     return [self startOperationWithPath:path
                                  method:@"GET"
-                               paramers:paramDict
+                               paramers:param
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
