@@ -100,3 +100,8 @@ services.forEach(function(service) {
 });
 
 console.log('Http server startup complete!');
+// Handle uncaught exceptions
+process.on('uncaughtException', function(err) {
+    console.log('uncaughtException: ' + err);
+    console.log('\t' + this.stack);
+});

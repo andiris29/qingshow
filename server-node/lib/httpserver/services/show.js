@@ -54,8 +54,8 @@ var _query = function(req, res) {
 var _like = function(req, res) {
     try {
         var param = req.body;
-        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
+        var targetRef = RequestHelper.parseId(param._id);
+        var initiatorRef = req.qsCurrentUserId;
     } catch (err) {
         ResponseHelper.response(res, ServerError.RequestValidationFail);
         return;

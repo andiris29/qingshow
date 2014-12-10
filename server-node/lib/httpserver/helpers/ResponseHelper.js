@@ -26,9 +26,11 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponseEnd) 
         json = beforeResponseEnd(json);
     }
 
-    var performance = Date.now() - res.qsPerformance.start;
-    if (performance > 100) {
-        console.log(res.qsPerformance.fullpath + ': ' + performance);
+    if (res.qsPerformance) {
+        var performance = Date.now() - res.qsPerformance.start;
+        if (performance > 100) {
+            console.log(res.qsPerformance.fullpath + ': ' + performance);
+        }
     }
     res.json(json);
 };

@@ -5,6 +5,7 @@ var Brand = require('./brands');
 var Schema = mongoose.Schema;
 var peopleSchema;
 peopleSchema = Schema({
+    __context : Object,
     roles : [Number], //user 0 model 1
     name : String,
     portrait : String,

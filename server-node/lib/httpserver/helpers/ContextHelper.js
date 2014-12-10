@@ -75,11 +75,10 @@ ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
 };
 
 var _prepare = function(models) {
-    return models.filter(function (m) { return m; }).map(function(model) {
-        if (model.toJSON) {
-            model = model.toJSON();
-        }
-        model.__context = {};
+    return models.filter(function(model) {
+        return model;
+    }).map(function(model) {
+        model.__context = model.__context || {};
         return model;
     });
 };
