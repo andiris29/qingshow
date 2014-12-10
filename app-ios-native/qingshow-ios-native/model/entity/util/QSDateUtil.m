@@ -7,11 +7,14 @@
 //
 
 #import "QSDateUtil.h"
-
+#import "QSCommonUtil.h"
 @implementation QSDateUtil
 
 + (NSDate*)buildDateFromResponseString:(NSString*)str
 {
+    if ([QSCommonUtil checkIsNil:str]) {
+        return nil;
+    }
     NSMutableString* dateStr = [str mutableCopy];
     //2014-10-16T13:42:54.021Z
     NSDate* date = nil;

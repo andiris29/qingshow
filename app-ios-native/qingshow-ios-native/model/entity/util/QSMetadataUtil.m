@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
+#import "QSCommonUtil.h"
 #import "QSMetadataUtil.h"
 #import "NSNumber+QSExtension.h"
 
@@ -13,6 +14,9 @@
 @implementation QSMetadataUtil
 + (NSString*)getNumberPageDesc:(NSDictionary*)metadataDict
 {
+    if ([QSCommonUtil checkIsNil:metadataDict]) {
+        return @"0";
+    }
     NSNumber* n = metadataDict[@"numPages"];
     if (n) {
         return n.kmbtStringValue;
@@ -21,6 +25,9 @@
 }
 + (NSString*)getNumberTotalDesc:(NSDictionary*)metadataDict
 {
+    if ([QSCommonUtil checkIsNil:metadataDict]) {
+        return @"0";
+    }
     NSNumber* n = metadataDict[@"numTotal"];
     if (n) {
         return n.kmbtStringValue;

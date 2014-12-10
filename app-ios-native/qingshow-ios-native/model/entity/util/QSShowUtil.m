@@ -9,10 +9,15 @@
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 #import "NSNumber+QSExtension.h"
+#import "QSCommonUtil.h"
+
 @implementation QSShowUtil
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
 {
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
     NSArray* posters = dict[@"posters"];
     NSMutableArray* urlArray = [@[] mutableCopy];
     if (posters && posters.count) {
@@ -28,17 +33,25 @@
 
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict
 {
-    
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
     NSArray* itemArray = dict[@"itemRefs"];
     return [QSItemUtil getItemsImageUrlArray:itemArray];
 }
 + (NSArray*)getItems:(NSDictionary *)showDict
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
     return showDict[@"itemRefs"];
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
     NSArray* items = showDict[@"itemRefs"];
     if (items) {
         return items[index];
@@ -48,6 +61,9 @@
 }
 + (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
     if (showDict) {
         return showDict[@"modelRef"];
     }
@@ -56,6 +72,9 @@
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
     NSDictionary* context = showDict[@"__context"];
     if (context) {
         return ((NSNumber*)context[@"numComments"]).kmbtStringValue;
@@ -64,6 +83,9 @@
 }
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
     NSDictionary* context = showDict[@"__context"];
     if (context) {
         return ((NSNumber*)context[@"numLike"]).kmbtStringValue;
@@ -72,6 +94,9 @@
 }
 + (BOOL)getIsLike:(NSDictionary*)showDict
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return NO;
+    }
     NSDictionary* context = showDict[@"__context"];
     if (context) {
         return ((NSNumber*)context[@"likedByCurrentUser"]).boolValue;
@@ -81,6 +106,9 @@
 
 + (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict
 {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return;
+    }
     if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
         NSMutableDictionary* s = (NSMutableDictionary*)showDict;
         NSDictionary* context = showDict[@"__context"];

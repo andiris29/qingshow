@@ -10,7 +10,7 @@
 
 #import "QSDetailBaseViewController.h"
 #import "QSBadgeView.h"
-#import "QSNetworkEngine.h"
+#import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSS03ShowDetailViewController.h"

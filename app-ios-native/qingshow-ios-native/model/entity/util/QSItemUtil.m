@@ -7,11 +7,15 @@
 //
 
 #import "QSItemUtil.h"
+#import "QSCommonUtil.h"
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
 @implementation QSItemUtil
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict
 {
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
     NSString* path = itemDict[@"cover"];
     if (path) {
         NSURL* url = [NSURL URLWithString:path];
@@ -21,6 +25,9 @@
 }
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
     NSString* path = itemDict[@"source"];
     if (path) {
         NSURL* url = [NSURL URLWithString:path];
@@ -30,6 +37,9 @@
 }
 + (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray
 {
+    if ([QSCommonUtil checkIsNil:itemsArray]) {
+        return nil;
+    }
     if (!itemsArray.count || ![itemsArray[0] isKindOfClass:[NSDictionary class]]) {
         return [[NSAttributedString alloc] init];
     }
@@ -51,15 +61,20 @@
     }
     return str;
 }
-+ (NSString*)getItemDescription:(NSDictionary*)item
++ (NSString*)getItemDescription:(NSDictionary*)itemDict
 {
-    return item[@"name"];
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return itemDict[@"name"];
 }
-+ (NSString*)getItemTypeName:(NSDictionary*)item
++ (NSString*)getItemTypeName:(NSDictionary*)itemDict
 {
-    
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
     NSArray* array = @[@"上装", @"下装", @"鞋子", @"配饰"];
-    NSNumber* category = item[@"category"];
+    NSNumber* category = itemDict[@"category"];
     if (category.intValue < array.count) {
         return array[category.intValue];
     } else {
@@ -67,12 +82,18 @@
     }
 }
 
-+ (NSDictionary*)getBrand:(NSDictionary*)item
++ (NSDictionary*)getBrand:(NSDictionary*)itemDict
 {
-    return item[@"brandRef"];
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return itemDict[@"brandRef"];
 }
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 {
+    if ([QSCommonUtil checkIsNil:itemArray]) {
+        return nil;
+    }
     if (!itemArray.count || ![itemArray[0] isKindOfClass:[NSDictionary class]]) {
         return @[];
     }

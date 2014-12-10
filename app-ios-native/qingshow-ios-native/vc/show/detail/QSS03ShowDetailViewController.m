@@ -126,21 +126,15 @@
 {
     self.favorBtn.highlighted = [QSShowUtil getIsLike:dict];
     //Model
-    NSDictionary* peopleInfo = dict[@"modelRef"];
     
-    NSString* iconPath = peopleInfo[@"portrait"];
-    NSURL* iconUrl = [NSURL URLWithString:iconPath];
+    NSDictionary* peopleInfo = [QSShowUtil getPeopleFromShow:dict];
+    
+    NSURL* iconUrl = [QSPeopleUtil getHeadIconUrl:peopleInfo];
     [self.headIconImageView setImageFromURL:iconUrl];
     
-    self.nameLabel.text = peopleInfo[@"name"];
+    self.nameLabel.text = [QSPeopleUtil getName:peopleInfo];
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
-    NSDictionary* modelInfo = peopleInfo[@"modelInfo"];
-    NSString* status = nil;
-    if (modelInfo) {
-        status = modelInfo[@"status"];
-        status = status ? status : @"";
-    }
-    self.contentLabel.text = status;
+    self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
     self.favorNumberLabel.text = [QSPeopleUtil buildNumLikeString:peopleInfo];
     
     //Image

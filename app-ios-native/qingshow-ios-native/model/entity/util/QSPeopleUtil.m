@@ -6,12 +6,17 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
+#import "QSCommonUtil.h"
 #import "QSPeopleUtil.h"
 #import "NSNumber+QSExtension.h"
 @implementation QSPeopleUtil
 
 + (NSString*)buildModelStatusString:(NSDictionary*)modelDict
 {
+    if ([QSCommonUtil checkIsNil:modelDict]) {
+        return nil;
+    }
+    
     NSNumber* height = modelDict[@"height"];
     NSNumber* weight = modelDict[@"weight"];
     NSMutableString* statusString = [@"" mutableCopy];
@@ -28,6 +33,10 @@
 }
 + (NSString*)getGenderDesc:(NSDictionary*)modelDict
 {
+    if ([QSCommonUtil checkIsNil:modelDict]) {
+        return nil;
+    }
+    
     NSNumber* gender = modelDict[@"gender"];
     if (gender) {
         if (gender.intValue == 0) {
@@ -41,6 +50,10 @@
 
 + (NSString*)buildNumLikeString:(NSDictionary*)peopleDict
 {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
     NSDictionary* modelInfo = peopleDict[@"modelInfo"];
     if (modelInfo) {
         NSNumber* numLike = modelInfo[@"numLikes"];
@@ -52,6 +65,10 @@
 }
 + (NSString*)getName:(NSDictionary*)peopleDict
 {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
     NSString* name = peopleDict[@"name"];
     if (!name || !name.length) {
         name = @"未命名";
@@ -60,6 +77,10 @@
 }
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict
 {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
     NSString* path = peopleDict[@"portrait"];
     if (path) {
         return [NSURL URLWithString:path];
@@ -69,6 +90,10 @@
 }
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict
 {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
     NSString* statusStr = [self buildModelStatusString:peopleDict];
     NSString* genderStr = [self getGenderDesc:peopleDict];
     NSMutableString* m = [[NSMutableString alloc] initWithString:@""];
@@ -83,6 +108,10 @@
 }
 + (NSString*)getStatus:(NSDictionary*)modelDict
 {
+    if ([QSCommonUtil checkIsNil:modelDict]) {
+        return nil;
+    }
+    
     if (modelDict && modelDict[@"modelInfo"] && modelDict[@"modelInfo"][@"status"]) {
         return modelDict[@"modelInfo"][@"status"];
     }
@@ -90,6 +119,10 @@
 }
 + (NSString*)getRolesDescription:(NSDictionary*)modelDict
 {
+    if ([QSCommonUtil checkIsNil:modelDict]) {
+        return nil;
+    }
+    
     NSArray* roles = modelDict[@"roles"];
     for (NSNumber* r in roles) {
         if (r.intValue == 1) {
@@ -102,6 +135,10 @@
 
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict
 {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return NO;
+    }
+    
     NSArray* roles = peopleDict[@"roles"];
     for (NSNumber* r in roles) {
         if (r.intValue == 1) {
@@ -113,6 +150,10 @@
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
 {
+    if ([QSCommonUtil checkIsNil:modelDict]) {
+        return nil;
+    }
+    
     NSDictionary* context = modelDict[@"__context"];
     if (context) {
         NSNumber* f = context[@"numFollowers"];
@@ -124,6 +165,10 @@
 }
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
 {
+    if ([QSCommonUtil checkIsNil:modelDict]) {
+        return nil;
+    }
+    
     NSDictionary* context = modelDict[@"__context"];
     if (context) {
         NSNumber* f = context[@"numShows"];
@@ -137,6 +182,10 @@
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict
 {
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return NO;
+    }
+    
     NSDictionary* context = dict[@"__context"];
     if (context) {
         NSNumber* f = context[@"followedByCurrentUser"];
@@ -148,6 +197,10 @@
 }
 + (void)setPeople:(NSDictionary*)dict isFollowed:(BOOL)isFollowed
 {
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return;
+    }
+    
     if (![dict isKindOfClass:[NSMutableDictionary class]]) {
         return;
     }
@@ -163,6 +216,13 @@
 }
 + (BOOL)isPeople:(NSDictionary*)l equalToPeople:(NSDictionary*)r
 {
+    if ([QSCommonUtil checkIsNil:l] && [QSCommonUtil checkIsNil:r]) {
+        return YES;
+    }
+    if ([QSCommonUtil checkIsNil:l] || [QSCommonUtil checkIsNil:r]) {
+        return NO;
+    }
+    
     if (l == r) {
         return YES;
     }
