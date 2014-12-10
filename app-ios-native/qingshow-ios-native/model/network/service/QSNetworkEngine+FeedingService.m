@@ -8,6 +8,7 @@
 
 #import "QSNetworkEngine+FeedingService.h"
 #import "NSArray+QSExtension.h"
+#import "QSNetworkEngine+Protect.h"
 
 //Path
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
@@ -20,13 +21,6 @@
 #define PATH_FEEDING_BY_BRAND @"feeding/byBrand"
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
 
-@interface QSNetworkEngine (Protect)
-- (MKNetworkOperation*)startOperationWithPath:(NSString*)path
-                                       method:(NSString*)method
-                                     paramers:(NSDictionary*)paramDict
-                                  onSucceeded:(OperationSucceedBlock)succeedBlock
-                                      onError:(OperationErrorBlock)errorBlock;
-@end
 
 @interface QSNetworkEngine (Private)
 

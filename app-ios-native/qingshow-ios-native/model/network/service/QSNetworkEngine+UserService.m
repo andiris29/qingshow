@@ -8,6 +8,7 @@
 
 #import "QSNetworkEngine+UserService.h"
 #import "QSUserManager.h"
+#import "QSNetworkEngine+Protect.h"
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
@@ -18,21 +19,6 @@
 #define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 
-
-@interface QSNetworkEngine (Protect)
-- (MKNetworkOperation*)startOperationWithPath:(NSString*)path
-                                       method:(NSString*)method
-                                     paramers:(NSDictionary*)paramDict
-                                  onSucceeded:(OperationSucceedBlock)succeedBlock
-                                      onError:(OperationErrorBlock)errorBlock;
-- (MKNetworkOperation *)startOperationWithPath:(NSString *)path
-                                        method:(NSString *)method
-                                      paramers:(NSDictionary *)paramDict
-                                       fileKey:(NSString *)fileKey
-                                         image:(NSData *)image
-                                   onSucceeded:(OperationSucceedBlock)succeedBlock
-                                       onError:(OperationErrorBlock)errorBlock;
-@end
 
 @implementation QSNetworkEngine(UserService)
 

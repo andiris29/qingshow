@@ -12,5 +12,6 @@
 #import "QSNetworkEngine.h"
 #import "QSNetworkEngine+FeedingService.h"
 #import "QSNetworkEngine+UserService.h"
+#import "QSNetworkEngine+BrandService.h"
 
 #endif

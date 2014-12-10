@@ -67,18 +67,5 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 
-#pragma mark - Brand
-- (MKNetworkOperation*)queryBrands:(int)type
-                              page:(int)page
-                         onSucceed:(ArraySuccessBlock)succeedBlock
-                           onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)handleFollowBrand:(NSDictionary*)brandDict
-                               onSucceed:(BoolBlock)succeedBlock
-                                 onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation*)queryBrandFollower:(NSDictionary*)brandDict
-                                     page:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock;
 
 @end
