@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
 
-
 @interface QSNetworkEngine(FeedingService)
 
 - (MKNetworkOperation*)getChosenFeedingPage:(int)page

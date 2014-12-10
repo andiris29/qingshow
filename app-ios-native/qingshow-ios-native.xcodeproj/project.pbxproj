@@ -81,6 +81,7 @@
 		EFA618AD1A125FCB00560699 /* QSCommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618AB1A125FCB00560699 /* QSCommentListViewController.xib */; };
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
+		EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */; };
 		EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */; };
 		EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
@@ -281,6 +282,8 @@
 		EFA618AE1A125FE900560699 /* QSCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentTableViewCell.h; sourceTree = "<group>"; };
 		EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentTableViewCell.m; sourceTree = "<group>"; };
 		EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCommentTableViewCell.xib; sourceTree = "<group>"; };
+		EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+UserService.h"; sourceTree = "<group>"; };
+		EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+UserService.m"; sourceTree = "<group>"; };
 		EFAB90891A2073C800C69E42 /* QSFeedingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFeedingCategory.h; sourceTree = "<group>"; };
 		EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFeedingCategory.m; sourceTree = "<group>"; };
 		EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleUtil.h; sourceTree = "<group>"; };
@@ -545,6 +548,8 @@
 			children = (
 				EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */,
 				EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */,
+				EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */,
+				EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -1233,6 +1238,7 @@
 				EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */,
 				EF17292F1A1CE4F7001819E3 /* QSSectionTextButton.m in Sources */,
 				EFC5436D1A17512E001B2C49 /* QSP02ModelDetailViewController.m in Sources */,
+				EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */,
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
 				EFF89E041A13A4AD004E6C55 /* QSP03BrandListViewController.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,

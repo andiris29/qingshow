@@ -75,7 +75,7 @@ ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
 };
 
 var _prepare = function(models) {
-    return models.map(function(model) {
+    return models.filter(function (m) { return m; }).map(function(model) {
         if (model.toJSON) {
             model = model.toJSON();
         }

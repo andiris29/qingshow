@@ -16,31 +16,6 @@
 #pragma mark - Static Method
 + (QSNetworkEngine*)shareNetworkEngine;
 
-#pragma mark - User
-- (MKNetworkOperation*)loginWithName:(NSString*)userName
-                            password:(NSString*)password
-                           onSucceed:(EntitySuccessBlock)succeedBlock
-                             onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
-                               onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation *)registerById:(NSString *)pid
-                              Password:(NSString *)passwd
-                             onSuccess:(EntitySuccessBlock)succeedBlock
-                               onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation *)updatePeople:(NSDictionary *)people
-                           onSuccess:(EntitySuccessBlock)succeedBlock
-                             onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation *)updatePortrait:(NSData *)image
-                             onSuccess:(EntitySuccessBlock)succeedBlock
-                               onError:(ErrorBlock)errorBlock;
-
-- (MKNetworkOperation *)updateBackground:(NSData *)image
-                             onSuccess:(EntitySuccessBlock)succeedBlock
-                               onError:(ErrorBlock)errorBlock;
-
 
 #pragma mark - Model
 - (MKNetworkOperation*)getModelListPage:(int)page
@@ -62,8 +37,7 @@
 - (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
                              onSucceed:(DicBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock
-                                     onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)getCommentsOfShow:(NSDictionary*)showDict
                                     page:(int)page
                                onSucceed:(ArraySuccessBlock)succeedBlock

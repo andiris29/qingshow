@@ -54,14 +54,13 @@
 {
     [self updateLayoutWithData:showData];
     NSDictionary* modelDict = showData[@"modelRef"];
-//    NSArray* roles = modelDict[@"roles"];
-    self.nameLabel.text = modelDict[@"name"];
-    
-    self.statusLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
-    NSString* headPhotoPath = modelDict[@"portrait"];
-    [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
-    
-    self.contentLabel.text = [QSPeopleUtil getStatus:modelDict];
+    if (modelDict && [modelDict isKindOfClass:[NSDictionary class]]) {
+        self.nameLabel.text = modelDict[@"name"];
+        self.statusLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
+        NSString* headPhotoPath = modelDict[@"portrait"];
+        [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
+        self.contentLabel.text = [QSPeopleUtil getStatus:modelDict];
+    }
 
     NSString* coverPath = showData[@"cover"];
     [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
