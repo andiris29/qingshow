@@ -84,6 +84,8 @@
 		EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */; };
 		EFA98A761A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A751A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m */; };
 		EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */; };
+		EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */; };
+		EFA98A7F1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */; };
 		EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */; };
 		EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
@@ -290,6 +292,10 @@
 		EFA98A751A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+BrandService.m"; sourceTree = "<group>"; };
 		EFA98A771A38862800A8BFC7 /* QSNetworkEngine+Protect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+Protect.h"; sourceTree = "<group>"; };
 		EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+Protect.m"; sourceTree = "<group>"; };
+		EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ShowService.h"; sourceTree = "<group>"; };
+		EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ShowService.m"; sourceTree = "<group>"; };
+		EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+PeopleService.h"; sourceTree = "<group>"; };
+		EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+PeopleService.m"; sourceTree = "<group>"; };
 		EFAB90891A2073C800C69E42 /* QSFeedingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFeedingCategory.h; sourceTree = "<group>"; };
 		EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFeedingCategory.m; sourceTree = "<group>"; };
 		EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleUtil.h; sourceTree = "<group>"; };
@@ -560,6 +566,10 @@
 				EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */,
 				EFA98A741A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.h */,
 				EFA98A751A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m */,
+				EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */,
+				EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */,
+				EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */,
+				EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -1258,6 +1268,7 @@
 				EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */,
 				EF5573151A22064200C3BC23 /* QSTableViewBasicDelegateObj.m in Sources */,
 				EFF114B01A0D2EEC009B7361 /* NSString+MKNetworkKitAdditions.m in Sources */,
+				EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */,
 				82B955171A21052D0022C6EC /* QSU05HairGenderTableViewController.m in Sources */,
 				EF17292A1A1CDCF1001819E3 /* QSU01UserDetailViewController.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
@@ -1275,6 +1286,7 @@
 				826423361A11281A00D3F6BF /* QSU06LoginViewController.m in Sources */,
 				EFA618AC1A125FCB00560699 /* QSCommentListViewController.m in Sources */,
 				EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */,
+				EFA98A7F1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m in Sources */,
 				EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */,
 				EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */,
 			);

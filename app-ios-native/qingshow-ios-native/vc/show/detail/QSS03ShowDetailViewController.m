@@ -15,7 +15,7 @@
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <MediaPlayer/MediaPlayer.h>
-#import "QSNetworkEngine.h"
+#import "QSNetworkKit.h"
 #import "QSItemUtil.h"
 #import <Social/Social.h>
 #import "UIViewController+ShowHud.h"
