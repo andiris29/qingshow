@@ -91,8 +91,8 @@ define([
         // Model
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', this._dom$).text(show.modelRef.name);
-        $('.qsAge', this._dom$).text(RenderUtils.timeToAge(show.modelRef.birthtime) + '岁');
-        $('.qsStatus', this._dom$).text(show.modelRef.modelInfo.status);
+        var age = RenderUtils.timeToAge(show.modelRef.birthtime);
+        $('.qsAge', this._dom$).text( age ? (age + '岁') : '');
         $('.qsNumFollowers', this._dom$).text(show.numLike);
 
         // Items
