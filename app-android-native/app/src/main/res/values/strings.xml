@@ -66,4 +66,11 @@
     <string name="title_activity_p03_brand_list">P03BrandListActivity</string>
     <string name="title_activity_p01_model_list">P01ModelListActivity</string>
 
+    <string name="prompt">提示</string>
+    <string name="exit_app">你确定要退出应用吗?</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="dismiss">隐藏</string>
+
+
 </resources>

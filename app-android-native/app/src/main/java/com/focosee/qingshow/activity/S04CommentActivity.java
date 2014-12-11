@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.CommentEntity;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.focosee.qingshow.widget.CustomDialog;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -179,6 +181,16 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
 
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+
+        CustomDialog.Builder customDialog = new CustomDialog.Builder(S04CommentActivity.this);
+        customDialog.setMessage(R.string.exit_app);
+        customDialog.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        customDialog.create().show();
 
     }
 }
