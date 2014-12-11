@@ -37,19 +37,21 @@ public class ShowDetailEntity extends AbsEntity {
         return null;
     }
     public String getModelName() {
-        return modelRef.name;
+        return (null != modelRef && null != modelRef.name) ? modelRef.name : "";
     }
     public String getModelJob() {
-        return modelRef.roles.toString();
+        return (null != modelRef && null != modelRef.roles) ? modelRef.roles.toString() : "";
     }
     public String getModelWeightHeight() {
-        return modelRef.height + "cm/" + modelRef.weight + "kg";
+        return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
     }
     public String getShowNumLike() {
-        return String.valueOf(modelRef.modelInfo.numLikes);
+        return String.valueOf((null != modelRef && null != modelRef.modelInfo) ? modelRef.modelInfo.numLikes : 0);
     }
     public String getModelStatus() {
-        return modelRef.modelInfo.status;
+        if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
+            return modelRef.modelInfo.status;
+        return "";
     }
 
     public ArrayList<RefItem> getItemsList() {
@@ -60,7 +62,7 @@ public class ShowDetailEntity extends AbsEntity {
         return result;
     }
     public RefItem getItem(int index) {
-        if (index >= itemRefs.length || index < 0) return null;
+        if (null == itemRefs || index >= itemRefs.length || index < 0) return null;
         return itemRefs[index];
     }
     public String getAllItemDescription() {
@@ -78,36 +80,8 @@ public class ShowDetailEntity extends AbsEntity {
     }
 
     public String[] getPosters() {
-        return posters;
+        return (null != posters) ? posters : new String[0];
     }
-
-//    public String getItem(int index) {
-//        return (index < itemRefs.length) ? itemRefs[index] : null;
-//    }
-//
-//    public ArrayList<String> getItemsList() {
-//        ArrayList<String> _itemsData = new ArrayList<String>();
-//        for (String item : itemRefs)
-//            _itemsData.add(item);
-//        return _itemsData;
-//    }
-//
-
-//
-//    public String getAge() {
-//        return create;
-//    }
-
-//
-//    public List<String> getItemUrlList() {
-//        ArrayList<String> itemUrlList = new ArrayList<String>();
-//        for (RefItem item : itemRefs) {
-//            itemUrlList.add(item.cover);
-//        }
-//        return itemUrlList;
-//    }
-
-
 
     // Inner data
     public String _id;                      // "5439f64013bf528b45f00f9a"

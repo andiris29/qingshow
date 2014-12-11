@@ -48,15 +48,15 @@ public class ShowListEntity extends AbsEntity {
     }
 
     public String getShowNumLike() {
-        return numLike;
+        return (null != numLike) ? numLike : "";
     }
 
     public String getModelPhoto() {
-        return modelRef.portrait;
+        return (null != modelRef) ? modelRef.portrait : "";
     }
 
     public String getModelName() {
-        return modelRef.name;
+        return (null != modelRef) ? modelRef.name : "";
     }
 
     public String getModelHeight() {
@@ -79,7 +79,9 @@ public class ShowListEntity extends AbsEntity {
     }
 
     public String getModelTag() {
-        return modelRef.modelInfo.status;
+        if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
+            return modelRef.modelInfo.status;
+        return "";
     }
 
     public String getModelStatus() {
