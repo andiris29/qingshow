@@ -41,10 +41,10 @@
 #pragma mark - Binding
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
-    self.nameLabel.text = modelDict[@"name"];
+    
+    self.nameLabel.text = [QSPeopleUtil getName:modelDict];
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
-    NSString* headPhotoPath = modelDict[@"portrait"];
-    [self.headPhotoImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
+    [self.headPhotoImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
     if ([QSPeopleUtil getPeopleIsFollowed:modelDict]) {
         [self.followBtn setTitle:@"取消" forState:UIControlStateNormal];
     } else {
