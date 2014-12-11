@@ -89,6 +89,14 @@ public class S04CommentActivity extends Activity {
         pullRefreshListView.doPullRefreshing(true, 0);
     }
 
+    class OnCommentClickListener implements ListView.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
     private void doLoadMoreTask() {
         JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
