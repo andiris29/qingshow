@@ -25,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *weightText;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
+@property (weak, nonatomic) IBOutlet UITextField *brandText;
+
+
 - (IBAction)lengthEditingDidBegin:(id)sender;
 - (IBAction)lengthEditingDidEnd:(id)sender;
 - (IBAction)weightEditingDidBegin:(id)sender;

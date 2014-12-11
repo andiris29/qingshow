@@ -301,6 +301,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     
     // Get Portrait & Backgrund's Image
     [self refreshImage];
+    
+    self.brandText.text = (NSString *)people[@"brand"];
 }
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
@@ -367,6 +369,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     NSString *birthDay = self.birthdayText.text;
     NSString *length = self.lengthText.text;
     NSString *weight = self.weightText.text;
+    NSString *brand = self.brandText.text;
     
     if (length.length != 0) {
         length = [length stringByReplacingOccurrencesOfString:@" cm" withString:@""];
@@ -376,7 +379,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         weight = [weight stringByReplacingOccurrencesOfString:@" kg" withString:@""];
     }
     
-    [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight}];
+    [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight, @"brand": brand}];
 }
 
 - (void)changeDate:(id)sender {

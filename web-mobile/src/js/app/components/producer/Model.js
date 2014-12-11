@@ -39,7 +39,6 @@ define([
 
         $('.qsPortrait', this._dom$).css('background-image', RenderUtils.imagePathToBackground(this._model.portrait));
         $('.qsName', this._dom$).text(this._model.name);
-        $('.qsRole', this._dom$).text(this._model.modelInfo.title);
         $('.qsDetail', this._dom$).text([RenderUtils.heightToDisplay(this._model.height), RenderUtils.weightToDisplay(this._model.weight)].join('／'));
         // TODO
         $('.qsNumFollowers', this._dom$).text('321');
