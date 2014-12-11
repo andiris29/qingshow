@@ -117,10 +117,8 @@ define([
         $('.qsShowCover', li$).attr('data-original', RenderUtils.imagePathToURL(show.cover));
         $('.qsPortrait', li$).css('background-image', RenderUtils.imagePathToBackground(show.modelRef.portrait));
         $('.qsName', li$).text(show.modelRef.name);
-        $('.qsRole', li$).text(show.modelRef.modelInfo.title);
         $('.qsHeight', li$).text(RenderUtils.heightToDisplay(show.modelRef.height));
         $('.qsWeight', li$).text(RenderUtils.weightToDisplay(show.modelRef.weight));
-        $('.qsStatus', li$).text(show.modelRef.modelInfo.status);
         $('.qsNumFollowers', li$).text(show.modelRef.$numFollowerRefs);
 
         // User click here to avoid conflict with gesture
