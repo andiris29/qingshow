@@ -29,6 +29,7 @@
     if (!metaData) {
         return;
     }
+    
     NSString* timeStr = metaData[@"refreshTime"];
     if (!timeStr || ![timeStr isKindOfClass:[NSString class]] || !timeStr.length) {
         return;

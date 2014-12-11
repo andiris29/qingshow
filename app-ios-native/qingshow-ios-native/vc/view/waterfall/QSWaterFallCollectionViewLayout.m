@@ -13,8 +13,8 @@
 
 {
     [super prepareLayout];
-    self.itemWidth=145;
-    self.sectionInset=UIEdgeInsetsMake(10, 10, 5, 10);
+    self.itemWidth=158;
+    self.sectionInset=UIEdgeInsetsMake(3, 0, 5, 4);
     self.delegate = (id<QSWaterFallLayoutDelegate>)self.collectionView.delegate;
     CGSize size = self.collectionView.frame.size;
     _cellCount = [[self collectionView] numberOfItemsInSection:0];
@@ -32,21 +32,36 @@
     CGSize itemSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
     CGFloat itemHeight = floorf(itemSize.height * self.itemWidth / itemSize.width);
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    index += 1;
-    if (index % 2 == 0)
-    {
-        x += (self.itemWidth + self.sectionInset.left);
+
+    if (leftY <= rightY) {
+        //Left
+        x = 0;
+        leftY += self.sectionInset.top;
+        attributes.frame = CGRectMake(x, leftY, self.itemWidth, itemHeight);
+        leftY += itemHeight;
+    } else {
+        //Right
+        x = (self.itemWidth + 4);
         rightY += self.sectionInset.top;
         attributes.frame = CGRectMake(x, rightY, self.itemWidth, itemHeight);
         rightY += itemHeight;
     }
-    else
-    {
-        x = self.sectionInset.left;
-        leftY += self.sectionInset.top;
-        attributes.frame = CGRectMake(x, leftY, self.itemWidth, itemHeight);
-        leftY += itemHeight;
-    }
+    
+//    index += 1;
+//    if (index % 2 == 0)
+//    {
+//        x += (self.itemWidth + 4);
+//        rightY += self.sectionInset.top;
+//        attributes.frame = CGRectMake(x, rightY, self.itemWidth, itemHeight);
+//        rightY += itemHeight;
+//    }
+//    else
+//    {
+//        x = 0;
+//        leftY += self.sectionInset.top;
+//        attributes.frame = CGRectMake(x, leftY, self.itemWidth, itemHeight);
+//        leftY += itemHeight;
+//    }
     return attributes;
 }
 

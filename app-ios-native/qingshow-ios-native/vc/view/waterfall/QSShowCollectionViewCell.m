@@ -27,10 +27,9 @@
 @property (assign, nonatomic) float headIconImageViewBaseY;
 @property (assign, nonatomic) float nameLabelBaseY;
 @property (assign, nonatomic) float statusLabelBaseY;
-@property (assign, nonatomic) float contentLabelBaseY;
 @property (assign, nonatomic) float favorNumberLabelBaseY;
 @property (assign, nonatomic) float favorButtonBaseY;
-@property (assign, nonatomic) float tapViewBaseY;
+@property (assign, nonatomic) float shadowBaseY;
 @end
 
 
@@ -40,13 +39,13 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.layer.cornerRadius = 4;
-    self.layer.masksToBounds = YES;
+//    self.layer.cornerRadius = 4;
+//    self.layer.masksToBounds = YES;
     [self baseHeightSetup];
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.height / 2;
     self.headIconImageView.layer.masksToBounds = YES;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
-    [self.tapView addGestureRecognizer:ges];
+    [self.headIconImageView addGestureRecognizer:ges];
 }
 
 #pragma mark - Data
@@ -59,7 +58,6 @@
         self.statusLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
         NSString* headPhotoPath = modelDict[@"portrait"];
         [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
-        self.contentLabel.text = [QSPeopleUtil getStatus:modelDict];
     }
 
     NSString* coverPath = showData[@"cover"];
@@ -76,10 +74,9 @@
     self.headIconImageViewBaseY = self.headIconImageView.frame.origin.y - baseHeight;
     self.nameLabelBaseY = self.nameLabel.frame.origin.y - baseHeight;
     self.statusLabelBaseY = self.statusLabel.frame.origin.y - baseHeight;
-    self.contentLabelBaseY = self.contentLabel.frame.origin.y - baseHeight;
     self.favorNumberLabelBaseY = self.favorNumberLabel.frame.origin.y - baseHeight;
     self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
-    self.tapViewBaseY = self.tapView.frame.origin.y - baseHeight;
+    self.shadowBaseY = self.shadowImageView.frame.origin.y - baseHeight;
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
 {
@@ -92,11 +89,9 @@
     [self updateViewFrame:self.headIconImageView withBase:self.headIconImageViewBaseY imageHeight:height];
     [self updateViewFrame:self.nameLabel withBase:self.nameLabelBaseY imageHeight:height];
     [self updateViewFrame:self.statusLabel withBase:self.statusLabelBaseY imageHeight:height];
-    [self updateViewFrame:self.contentLabel withBase:self.contentLabelBaseY imageHeight:height];
-    [self updateViewFrame:self.headIconImageView withBase:self.headIconImageViewBaseY imageHeight:height];
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
     [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
-    [self updateViewFrame:self.tapView withBase:self.tapViewBaseY imageHeight:height];
+    [self updateViewFrame:self.shadowImageView withBase:self.shadowBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight
@@ -110,10 +105,10 @@
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
     NSDictionary* coverMetadata = showData[@"coverMetadata"];
-    float iniWidth = 145;
+    float iniWidth = 158;
     float height = 212;
     float width = iniWidth;
-    //212 145
+    //212 158
     if (coverMetadata && coverMetadata[@"height"]) {
         height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
     }
@@ -126,9 +121,7 @@
 
 + (float)getHeightWithData:(NSDictionary*)showData
 {
-    float height = [QSShowCollectionViewCell getImageHeightWithData:showData];
-    height += 270 - 212;
-    return height;
+    return [self getImageHeightWithData:showData];
 }
 
 #pragma mark - IBAction
