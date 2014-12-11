@@ -4,7 +4,7 @@ var send = function(subject, text, callback) {
     _send({
         'from' : 'top@focosee.com',
         'to' : 'top@focosee.com',
-        'bcc' : '896815706@qq.com',
+        'bcc' : 'andiris29@gmail.com',
         'subject' : '[qingshow] ' + subject,
         'text' : text
     }, callback);
@@ -13,7 +13,7 @@ var send = function(subject, text, callback) {
 var debug = function(subject, text, callback) {
     _send({
         'from' : 'top@focosee.com',
-        'to' : '896815706@qq.com',
+        'to' : 'andiris29@gmail.com',
         'subject' : '[qingshow debug] ' + subject,
         'text' : text
     }, callback);

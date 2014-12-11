@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.CommentEntity;
+import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -32,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class S04CommentActivity extends Activity {
+public class S04CommentActivity extends Activity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
 
@@ -73,6 +75,13 @@ public class S04CommentActivity extends Activity {
         listView = pullRefreshListView.getRefreshableView();
         adapter = new S04CommentListAdapter(this, null, ImageLoader.getInstance());
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet();
+            }
+        });
 
         pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -87,14 +96,6 @@ public class S04CommentActivity extends Activity {
         });
 
         pullRefreshListView.doPullRefreshing(true, 0);
-    }
-
-    class OnCommentClickListener implements ListView.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-
-        }
     }
 
     private void doLoadMoreTask() {
@@ -162,5 +163,22 @@ public class S04CommentActivity extends Activity {
             Log.i("json", e.toString());
         }
         return new Gson().fromJson(jsonString, new TypeToken<ArrayList<CommentEntity>>(){}.getType());
+    }
+
+    public void showActionSheet() {
+        ActionSheet.createBuilder(this, getFragmentManager())
+                .setCancelButtonTitle("取消")
+                .setOtherButtonTitles("回复", "查看个人主页", "删除")
+                .setCancelableOnTouchOutside(true).setListener(this).show();
+    }
+
+    @Override
+    public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
+
+    }
+
+    @Override
+    public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+
     }
 }
