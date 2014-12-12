@@ -24,15 +24,13 @@
 @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *statusLabel;
-@property (strong, nonatomic) IBOutlet UILabel *contentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
 @property (strong, nonatomic) IBOutlet UIButton* favorButton;
-
+@property (strong, nonatomic) IBOutlet UIImageView *shadowImageView;
 - (IBAction)favorBtnPressed:(id)sender;
 
 @property (weak, nonatomic) NSObject<QSShowCollectionViewCellDelegate>* delegate;
 
-@property (weak, nonatomic) IBOutlet UIView *tapView;
 //Show
 - (void)bindData:(NSDictionary*)showData;
 
@@ -41,5 +39,4 @@
 
 //IBAction
 - (void)peopleTap:(id)sender;
-- (IBAction)favorPressed:(id)sender;
 @end

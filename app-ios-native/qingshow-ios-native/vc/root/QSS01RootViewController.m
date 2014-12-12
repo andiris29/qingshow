@@ -78,6 +78,7 @@
 {
     self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
     self.delegateObj.delegate = self;
+
     [self.delegateObj bindWithCollectionView:self.collectionView];
     __weak QSS01RootViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -91,7 +92,6 @@
 
         }];
     };
-    self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
     [self.delegateObj fetchDataOfPage:1];
 }
 

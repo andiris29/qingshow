@@ -62,7 +62,7 @@
     } else {
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
         float height = [QSShowCollectionViewCell getHeightWithData:dict];
-        return CGSizeMake(145, height);
+        return CGSizeMake(158, height);
     }
     
 }

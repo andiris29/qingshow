@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.allthelucky.common.view.ImageIndicatorView;
@@ -107,9 +108,13 @@ public class S03SHowActivity extends Activity {
         ((ImageButton)findViewById(R.id.S03_message_button)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
-                intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
-                startActivity(intent);
+                if (null != showDetailEntity && null != showDetailEntity._id) {
+                    Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
+                    intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -4,4 +4,7 @@
     <item name="line_activity_settings" type="color">#ffc5c5c5</item>
     <item name="bg_activity_settings" type="color">#01ffffff</item>
     <item name="title_activity" type="color">#ffffffff</item>
+
+
+    <color name="btntextcolor">#ff1E90FF</color><!--dialog中按钮字体颜色 -->
 </resources>

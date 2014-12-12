@@ -62,7 +62,7 @@
     self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.collectionView.scrollEnabled=YES;
-    self.collectionView.backgroundColor=[UIColor colorWithRed:240.f/255.f green:240.f/255.f blue:240.f/255.f alpha:1.f];
+    self.collectionView.backgroundColor=[UIColor colorWithRed:242.f/255.f green:242.f/255.f blue:242.f/255.f alpha:1.f];
 
     [self registerCell];
     
