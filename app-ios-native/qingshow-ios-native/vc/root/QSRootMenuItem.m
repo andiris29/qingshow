@@ -25,22 +25,22 @@
                            @"时尚包包",
                            @"百搭配饰",
                            @"个性潮鞋",
-                           @"设计风尚",
-                           @"品牌专区",
+                           @"潮流时尚",
+                           @"品牌商户",
                            ];
-    NSArray* colorArray =
-    @
-    [
-     [UIColor colorWithRed:244.f/255.f green:75.f/255.f blue:15.f/255.f alpha:1.f],
-     [UIColor colorWithRed:255.f/255.f green:54.f/255.f blue:121.f/255.f alpha:1.f],
-     [UIColor colorWithRed:254.f/255.f green:170.f/255.f blue:56.f/255.f alpha:1.f],
-     [UIColor colorWithRed:255.f/255.f green:59.f/255.f blue:68.f/255.f alpha:1.f],
-     [UIColor colorWithRed:61.f/255.f green:188.f/255.f blue:235.f/255.f alpha:1.f],
-     [UIColor colorWithRed:110.f/255.f green:109.f/255.f blue:211.f/255.f alpha:1.f],
-     [UIColor colorWithRed:72.f/255.f green:207.f/255.f blue:174.f/255.f alpha:1.f],
-     [UIColor colorWithRed:244.f/255.f green:104.f/255.f blue:153.f/255.f alpha:1.f],
-     [UIColor colorWithRed:124.f/255.f green:204.f/255.f blue:20.f/255.f alpha:1.f],
-    ];
+//    NSArray* colorArray =
+//    @
+//    [
+//     [UIColor colorWithRed:244.f/255.f green:75.f/255.f blue:15.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:255.f/255.f green:54.f/255.f blue:121.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:254.f/255.f green:170.f/255.f blue:56.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:255.f/255.f green:59.f/255.f blue:68.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:61.f/255.f green:188.f/255.f blue:235.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:110.f/255.f green:109.f/255.f blue:211.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:72.f/255.f green:207.f/255.f blue:174.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:244.f/255.f green:104.f/255.f blue:153.f/255.f alpha:1.f],
+//     [UIColor colorWithRed:124.f/255.f green:204.f/255.f blue:20.f/255.f alpha:1.f],
+//    ];
     UINib* nib = [UINib nibWithNibName:@"QSRootMenuItem" bundle:nil];
     NSArray* array = [nib instantiateWithOwner:self options:nil];
     QSRootMenuItem* item = array[0];
@@ -48,7 +48,8 @@
     item.label.text = textArray[type - 1];
     
     [item.button setImage:[UIImage imageNamed:[NSString stringWithFormat:@"root_menu_icon0%d",type]] forState:UIControlStateNormal];
-    item.button.backgroundColor = colorArray[type - 1];
+//    item.button.backgroundColor = colorArray[type - 1];
+    item.button.backgroundColor = [UIColor clearColor];
     return item;
 }
 #pragma mark - Life Cycle
