@@ -16,7 +16,7 @@ var sessionMongoose = require("session-mongoose");
 qsdb.connect();
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'potential', 'people', 'brand', 'show'];
+var servicesNames = ['feeding', 'user', 'potential', 'people', 'brand', 'show', 'admin'];
 var services = servicesNames.map(function(path) {
     return {
         'path' : path,
