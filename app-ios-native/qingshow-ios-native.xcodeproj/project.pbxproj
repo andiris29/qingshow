@@ -58,6 +58,9 @@
 		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
 		EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
+		EF92B7261A3C9F6A00A08F08 /* QSShowTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSShowTableViewCell.m */; };
+		EF92B7271A3C9F6A00A08F08 /* QSShowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF92B7251A3C9F6A00A08F08 /* QSShowTableViewCell.xib */; };
+		EF92B72A1A3CB51D00A08F08 /* QSShowTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7291A3CB51D00A08F08 /* QSShowTableViewDelegateObj.m */; };
 		EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
 		EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74131A02A82600095F07 /* CoreGraphics.framework */; };
 		EF9A74161A02A82600095F07 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74151A02A82600095F07 /* UIKit.framework */; };
@@ -251,6 +254,11 @@
 		EF8FD0541A063AA60081F8EB /* DatabaseConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DatabaseConstant.h; sourceTree = "<group>"; };
 		EF8FD0551A064D470081F8EB /* ServerPath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerPath.h; sourceTree = "<group>"; };
 		EF8FD0561A064DC30081F8EB /* PupblicResource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PupblicResource.h; sourceTree = "<group>"; };
+		EF92B7231A3C9F6A00A08F08 /* QSShowTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowTableViewCell.h; sourceTree = "<group>"; };
+		EF92B7241A3C9F6A00A08F08 /* QSShowTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowTableViewCell.m; sourceTree = "<group>"; };
+		EF92B7251A3C9F6A00A08F08 /* QSShowTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSShowTableViewCell.xib; sourceTree = "<group>"; };
+		EF92B7281A3CB51D00A08F08 /* QSShowTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowTableViewDelegateObj.h; sourceTree = "<group>"; };
+		EF92B7291A3CB51D00A08F08 /* QSShowTableViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowTableViewDelegateObj.m; sourceTree = "<group>"; };
 		EF9A740E1A02A82600095F07 /* qingshow-ios-native.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "qingshow-ios-native.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9A74111A02A82600095F07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EF9A74131A02A82600095F07 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -480,6 +488,7 @@
 		EF1A591B1A06761800001AE0 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				EF92B7211A3C9F4F00A08F08 /* show */,
 				EFC7ADAC1A10FB800078D1F9 /* imageScroll */,
 				EF1A591C1A06761800001AE0 /* waterfall */,
 			);
@@ -534,6 +543,8 @@
 				EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */,
 				EF5573161A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.h */,
 				EF5573171A220A1C00C3BC23 /* QSCommentListTableViewDelegateObj.m */,
+				EF92B7281A3CB51D00A08F08 /* QSShowTableViewDelegateObj.h */,
+				EF92B7291A3CB51D00A08F08 /* QSShowTableViewDelegateObj.m */,
 			);
 			path = delegateObj;
 			sourceTree = "<group>";
@@ -597,6 +608,16 @@
 				EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */,
 			);
 			path = list;
+			sourceTree = "<group>";
+		};
+		EF92B7211A3C9F4F00A08F08 /* show */ = {
+			isa = PBXGroup;
+			children = (
+				EF92B7231A3C9F6A00A08F08 /* QSShowTableViewCell.h */,
+				EF92B7241A3C9F6A00A08F08 /* QSShowTableViewCell.m */,
+				EF92B7251A3C9F6A00A08F08 /* QSShowTableViewCell.xib */,
+			);
+			path = show;
 			sourceTree = "<group>";
 		};
 		EF9A74051A02A82600095F07 = {
@@ -1182,6 +1203,7 @@
 				EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */,
 				EF140A6F1A092B6400E3C4D4 /* QSP01ModelListViewController.xib in Resources */,
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
+				EF92B7271A3C9F6A00A08F08 /* QSShowTableViewCell.xib in Resources */,
 				8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */,
 				826423371A11281A00D3F6BF /* QSU06LoginViewController.xib in Resources */,
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
@@ -1240,10 +1262,12 @@
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
+				EF92B7261A3C9F6A00A08F08 /* QSShowTableViewCell.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,
 				EFF89E101A13ADCC004E6C55 /* QSBrandCollectionViewDelegateObj.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
+				EF92B72A1A3CB51D00A08F08 /* QSShowTableViewDelegateObj.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
@@ -1412,7 +1436,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
@@ -1425,7 +1449,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1437,7 +1461,7 @@
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
@@ -1450,7 +1474,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4e34d310-83f9-4bd4-917c-0e91b12b2866";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};

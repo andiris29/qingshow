@@ -54,16 +54,15 @@
 - (void)bindData:(NSDictionary*)showData
 {
     [self updateLayoutWithData:showData];
-    NSDictionary* modelDict = showData[@"modelRef"];
+    
+    NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showData];
     if (modelDict && [modelDict isKindOfClass:[NSDictionary class]]) {
-        self.nameLabel.text = modelDict[@"name"];
+        self.nameLabel.text = [QSPeopleUtil getName:modelDict];
         self.statusLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
-        NSString* headPhotoPath = modelDict[@"portrait"];
-        [self.headIconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath]];
+        [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
     }
 
-    NSString* coverPath = showData[@"cover"];
-    [self.photoImageView setImageFromURL:[NSURL URLWithString:coverPath] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+    [self.photoImageView setImageFromURL:[QSShowUtil getCoverUrl:showData] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:showData];
     self.favorButton.selected = [QSShowUtil getIsLike:showData];
 }
@@ -106,7 +105,7 @@
 #pragma mark - Static Method
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
-    NSDictionary* coverMetadata = showData[@"coverMetadata"];
+    NSDictionary* coverMetadata = [QSShowUtil getCoverMetadata:showData];
     float iniWidth = 158;
     float height = 212;
     float width = iniWidth;

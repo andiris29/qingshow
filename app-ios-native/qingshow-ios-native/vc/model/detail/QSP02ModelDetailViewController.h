@@ -11,9 +11,10 @@
 
 @interface QSP02ModelDetailViewController : QSDetailBaseViewController
 
-@property (strong, nonatomic) IBOutlet UICollectionView* showCollectionView;
 @property (strong, nonatomic) IBOutlet UITableView* followingTableView;
 @property (strong, nonatomic) IBOutlet UITableView* followerTableView;
+@property (weak, nonatomic) IBOutlet UITableView *showTableView;
+//@property (weak, nonatomic) IBOutlet UICollectionView *showCollectionView;
 
 - (id)initWithModel:(NSDictionary*)peopleDict;
 @end
