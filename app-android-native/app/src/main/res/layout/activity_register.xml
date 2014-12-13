@@ -2,26 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="qingshow.com.qingshow.activity.U07RegisterActivity">
 
     <RelativeLayout
         android:id="@+id/titleBarRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/bg_titlebar">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="@string/left_ref_activity_settings" />
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_back_default" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,37 +26,44 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/register_activity_register"
-            android:textColor="#fb915f"
-            android:textSize="20sp"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size"
             android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="personal" />
     </RelativeLayout>
 
 
     <RelativeLayout
         android:id="@+id/accountRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:background="#ffffff"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
+            android:id="@+id/accountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/account_activity_register" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/account_activity_register"
+            android:textColor="#1E1E1E"
+            android:textSize="@dimen/text_size" />
 
         <EditText
             android:id="@+id/accountEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:hint="@string/account_hint_activity_register" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/accountTextView"
+            android:background="@null"
+            android:hint="@string/account_hint_activity_register"
+            android:singleLine="true"
+            android:textColorHint="#C7C7CD" />
     </RelativeLayout>
 
     <View
@@ -69,22 +73,35 @@
 
     <RelativeLayout
         android:id="@+id/passwordRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#ffffff">
 
         <TextView
+            android:id="@+id/passwordTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/password_activity_register" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/password_activity_register"
+            android:textColor="#1E1E1E"
+            android:textSize="@dimen/text_size" />
 
         <EditText
             android:id="@+id/passwordEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:hint="@string/password_hint_activity_register" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/passwordTextView"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:hint="@string/password_hint_activity_register"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColorHint="#C7C7CD" />
     </RelativeLayout>
 
     <View
@@ -94,37 +111,52 @@
 
     <RelativeLayout
         android:id="@+id/confirmRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#ffffff">
 
         <TextView
+            android:id="@+id/confirmTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/confirm_activity_register" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/confirm_activity_register"
+            android:textColor="#1E1E1E"
+            android:textSize="@dimen/text_size" />
 
         <EditText
             android:id="@+id/confirmEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:hint="@string/password_hint_activity_login" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/confirmTextView"
+            android:background="@null"
+            android:focusableInTouchMode="true"
+            android:hint="@string/password_hint_activity_login"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textColorHint="#C7C7CD" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/submitRelativeLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/bg_activity_settings"
-        android:padding="15dp"
-        android:paddingBottom="15dp">
+        android:layout_marginTop="10dp"
+        android:background="@color/bg_activity_settings">
 
         <Button
             android:id="@+id/submitButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#ffe18e5b"
-            android:text="@string/submit_activity_register" />
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/btn_login"
+            android:text="@string/submit_activity_register"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 </LinearLayout>

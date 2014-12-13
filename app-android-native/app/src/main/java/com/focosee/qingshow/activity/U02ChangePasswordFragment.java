@@ -36,6 +36,7 @@ public class U02ChangePasswordFragment extends Fragment {
     private EditText newPasswordEditText;
     private EditText confirmPasswordEditText;
     private TextView saveTextView;
+    private TextView backTextView;
 
     public U02ChangePasswordFragment() {
         // Required empty public constructor
@@ -59,6 +60,15 @@ public class U02ChangePasswordFragment extends Fragment {
         currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentIdEditText);
         newPasswordEditText = (EditText) getActivity().findViewById(R.id.newIdEditText);
         confirmPasswordEditText = (EditText) getActivity().findViewById(R.id.confirmIdEditText);
+
+        backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02SettingsFragment settingsFragment = new U02SettingsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+            }
+        });
 
         saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
         saveTextView.setOnClickListener(new View.OnClickListener() {
