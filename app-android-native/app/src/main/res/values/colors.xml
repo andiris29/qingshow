@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Settings Activity -->
-    <item name="line_activity_settings" type="color">#ffc5c5c5</item>
+    <item name="line_activity_settings" type="color">#DFE3E6</item>
     <item name="bg_activity_settings" type="color">#01ffffff</item>
     <item name="title_activity" type="color">#ffffffff</item>
 
