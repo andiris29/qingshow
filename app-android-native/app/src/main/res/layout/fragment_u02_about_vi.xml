@@ -10,17 +10,17 @@
         <RelativeLayout
             android:id="@+id/titleBarRelativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:layout_height="@dimen/title_bar_height"
+            android:background="@drawable/bg_titlebar">
 
             <TextView
                 android:id="@+id/backTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:text="@string/left_ref_activity_settings" />
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_back_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -28,8 +28,8 @@
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:text="@string/settings_activity_settings"
-                android:textColor="#fb915f"
-                android:textSize="20sp"
+                android:textColor="#454545"
+                android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,7 +38,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="@string/save_activity_settings" />
+                android:layout_marginRight="10dp"
+                android:text="@string/save_activity_settings"
+                android:textColor="#454545"
+                android:textSize="@dimen/text_size" />
         </RelativeLayout>
 
         <TextView

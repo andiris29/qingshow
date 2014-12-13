@@ -108,7 +108,6 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@id/passwordTextView"
             android:background="@null"
-            android:focusableInTouchMode="true"
             android:hint="@string/password_hint_activity_login"
             android:inputType="textPassword"
             android:singleLine="true"
