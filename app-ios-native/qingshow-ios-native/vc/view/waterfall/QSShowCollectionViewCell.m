@@ -44,6 +44,8 @@
     [self baseHeightSetup];
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.height / 2;
     self.headIconImageView.layer.masksToBounds = YES;
+    self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.headIconImageView.layer.borderWidth = 1.f;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
     [self.headIconImageView addGestureRecognizer:ges];
 }
