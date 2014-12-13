@@ -2,22 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.U06LoginActivity">
 
     <RelativeLayout
         android:id="@+id/titleBarRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_titlebar"
-        android:paddingBottom="10dp">
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/bg_titlebar">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_back_default"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_back_default" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -25,39 +26,59 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_bar_activity_login"
-            android:textColor="#fb915f"
-            android:textSize="20sp"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/registerTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:textColor="#454545"
             android:layout_centerVertical="true"
-            android:text="@string/register_activity_login" />
+            android:text="@string/register_activity_login"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:focusable="true" />
 
     <RelativeLayout
         android:id="@+id/accountRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_width="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_height="55dp"
+        android:layout_marginTop="15dp"
+        android:background="#ffffff">
 
         <TextView
+            android:id="@+id/accountTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/account_activity_register" />
+            android:layout_marginLeft="10dp"
+            android:textColor="#1E1E1E"
+            android:layout_centerVertical="true"
+            android:text="@string/account_activity_register"
+            android:textSize="@dimen/text_size" />
 
         <EditText
             android:id="@+id/accountEditText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/accountTextView"
             android:layout_height="wrap_content"
+            android:textColorHint="#C7C7CD"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:hint="@string/account_hint_activity_login" />
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:hint="@string/account_hint_activity_login"
+            android:singleLine="true" />
 
     </RelativeLayout>
 
@@ -68,39 +89,53 @@
 
     <RelativeLayout
         android:id="@+id/passwordRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#ffffff">
 
         <TextView
+            android:id="@+id/passwordTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/password_activity_register" />
+            android:textColor="#1E1E1E"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:text="@string/password_activity_register"
+            android:textSize="@dimen/text_size" />
 
         <EditText
             android:id="@+id/passwordEditText"
             android:layout_width="wrap_content"
-            android:inputType="textPassword"
+            android:focusableInTouchMode="true"
+            android:layout_toRightOf="@id/passwordTextView"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:hint="@string/password_hint_activity_login" />
-
+            android:textColorHint="#C7C7CD"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:hint="@string/password_hint_activity_login"
+            android:inputType="textPassword"
+            android:singleLine="true" />
     </RelativeLayout>
-
 
     <RelativeLayout
         android:id="@+id/submitRelativeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@color/bg_activity_settings">
 
         <Button
             android:id="@+id/submitButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
             android:background="@drawable/btn_login"
-            android:text="@string/login_activity_login" />
+            android:text="@string/login_activity_login"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
 </LinearLayout>
