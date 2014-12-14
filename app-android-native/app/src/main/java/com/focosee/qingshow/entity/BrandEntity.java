@@ -30,6 +30,9 @@ public class BrandEntity extends AbsEntity {
     public String getBrandSlogan() {
         return slogan;
     }
+    public String getBrandDescription() {
+        return name;
+    }
 
     // Inner data
     public String name;

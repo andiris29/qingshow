@@ -73,7 +73,7 @@ public class S01HomeActivity extends Activity {
         ((ImageView)findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
                 startActivity(intent);
                 _popView.setVisibility(View.GONE);

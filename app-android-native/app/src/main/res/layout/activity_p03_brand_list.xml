@@ -12,10 +12,10 @@
         navi:tv_title="品牌"
         ></com.focosee.qingshow.widget.MNavigationView>
 
-    <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
+    <com.focosee.qingshow.widget.MPullRefreshListView
         android:id="@+id/P03_brand_list_list_view"
         android:layout_below="@+id/P03_brand_list_navigation"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
+        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshListView>
 
 </RelativeLayout>
