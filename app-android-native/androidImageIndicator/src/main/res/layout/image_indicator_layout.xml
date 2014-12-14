@@ -10,6 +10,23 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:id="@+id/message_button"
+        android:layout_above="@+id/share_button"
+        android:layout_alignRight="@+id/share_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/message">
+    </Button>
+
+    <Button
+        android:id="@+id/share_button"
+        android:layout_above="@+id/start_button"
+        android:layout_alignRight="@+id/start_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/share"/>
+
+    <Button
         android:id="@+id/start_button"
         android:layout_width="80dp"
         android:layout_height="80dp"
