@@ -1,6 +1,8 @@
 package com.focosee.qingshow.app;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -20,6 +22,7 @@ public class QSApplication extends Application {
 
     private static ImageLoader _imageLoader;
     private static RequestQueue _requestQueue;
+    private static String _userId;
 
     @Override
     public void onCreate() {
@@ -57,6 +60,12 @@ public class QSApplication extends Application {
 
     public static RequestQueue QSRequestQueue() {
         return _requestQueue;
+    }
+
+    public static String QSUserId(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("personal", Context.MODE_PRIVATE);
+        _userId = sharedPreferences.getString("id", null);
+        return _userId;
     }
 
 }

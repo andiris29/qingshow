@@ -119,4 +119,10 @@ public class S04CommentListAdapter extends BaseAdapter {
             }
         }
     }
+
+    public CommentEntity getCommentAtIndex(int index) {
+        if (index >= data.size() || index < 0)
+            return null;
+        return data.get(index);
+    }
 }
