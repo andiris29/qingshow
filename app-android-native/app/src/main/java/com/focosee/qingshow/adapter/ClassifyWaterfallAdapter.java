@@ -25,11 +25,9 @@ class ClassifyViewHolder extends AbsViewHolder {
     ImageView showIV;
     ImageView modelIV;
     TextView modelNameTV;
-    TextView modelJobTV;
     TextView modelHeightTV;
     TextView modelWeightTV;
     TextView loveTV;
-    TextView modelStatusTV;
 }
 
 public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
@@ -64,11 +62,9 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
             holder.showIV = (ImageView) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
-            holder.modelJobTV = (TextView) convertView.findViewById(R.id.item_show_model_job);
             holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
             holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
-            holder.modelStatusTV = (TextView) convertView.findViewById(R.id.item_show_model_status);
             convertView.setTag(holder);
         }
         holder = (ClassifyViewHolder) convertView.getTag();
@@ -80,11 +76,9 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, coverOptions, animateFirstListener);
         _mImageFetcher.displayImage(showInfo.getModelPhoto(), holder.modelIV, animateFirstListener);
         holder.modelNameTV.setText(showInfo.getModelName());
-        holder.modelJobTV.setText(showInfo.getModelJob());
         holder.modelHeightTV.setText(showInfo.getModelHeight());
         holder.modelWeightTV.setText(showInfo.getModelWeight());
         holder.loveTV.setText(showInfo.getShowNumLike());
-        holder.modelStatusTV.setText(showInfo.getModelStatus());
 
         return convertView;
     }

@@ -33,21 +33,17 @@ class HomeViewHolder extends AbsViewHolder {
         imageLoader.displayImage(entity.getShowCover(), showIV, coverOptions, animateFirstListener);
         imageLoader.displayImage(entity.getModelPhoto(), modelIV, animateFirstListener);
         modelNameTV.setText(entity.getModelName());
-        modelJobTV.setText(entity.getModelJob());
         modelHeightTV.setText(entity.getModelHeight());
         modelWeightTV.setText(entity.getModelWeight());
         loveTV.setText(entity.getShowNumLike());
-        modelStatusTV.setText(entity.getModelTag());
     }
 
     ImageView showIV;
     ImageView modelIV;
     TextView modelNameTV;
-    TextView modelJobTV;
     TextView modelHeightTV;
     TextView modelWeightTV;
     TextView loveTV;
-    TextView modelStatusTV;
 
 
     // Helper property
@@ -93,16 +89,6 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        if (position == 0) {
-            LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
-            convertView = layoutInflator.inflate(R.layout.item_refresh_independent, null);
-            convertView.setLayoutParams(new PLA_AbsListView.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, 100));
-            convertView.setTag(position);
-            return convertView;
-        }
-        position--;
-
         HomeViewHolder holder;
         ShowListEntity showInfo = (ShowListEntity) _data.get(position);
 
@@ -113,11 +99,9 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             holder.showIV = (ImageView) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
-            holder.modelJobTV = (TextView) convertView.findViewById(R.id.item_show_model_job);
             holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
             holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
-            holder.modelStatusTV = (TextView) convertView.findViewById(R.id.item_show_model_status);
             convertView.setTag(holder);
         }
         holder = (HomeViewHolder) convertView.getTag();
@@ -130,20 +114,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
     @Override
     public int getCount() {
-//        return (super.getCount() == 0) ? super.getCount() : super.getCount()+ 1; // one more to show refresh status;
-        return (_data.size() == 0) ? 0 : _data.size() + 1;
-//        return _data.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) return 0;
-        else return 1;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        return 2;
+        return (null == _data) ? 0 : _data.size();
     }
 
     public void addItemLast(LinkedList<ShowListEntity> datas) {
@@ -151,12 +122,10 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
     public void addItemTop(LinkedList<ShowListEntity> datas) {
-        _data.clear();
         _data.addAll(datas);
     }
 
     public ShowListEntity getItemDataAtIndex(int index) {
-        index--;
         if (index >= _data.size()) return null;
         return (ShowListEntity)_data.get(index);
     }
