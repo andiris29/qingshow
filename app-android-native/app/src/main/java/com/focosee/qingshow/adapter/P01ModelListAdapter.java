@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.ModelEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -62,7 +63,6 @@ public class P01ModelListAdapter extends BaseAdapter {
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.item_model_name);
             holderView.heightTextView = (TextView) convertView.findViewById(R.id.item_model_height);
             holderView.weightTextView = (TextView) convertView.findViewById(R.id.item_model_weight);
-            holderView.jobTextView = (TextView) convertView.findViewById(R.id.item_model_job);
             holderView.clothNumberTextView = (TextView) convertView.findViewById(R.id.item_model_cloth_number);
             holderView.likeNumberTextView = (TextView) convertView.findViewById(R.id.item_model_like_number);
 
@@ -70,13 +70,20 @@ public class P01ModelListAdapter extends BaseAdapter {
         }
         holderView = (P01ModelHolderView)convertView.getTag();
 
-        this.imageLoader.displayImage(this.data.get(position).temp,holderView.modelImageView);
-        holderView.nameTextView.setText(this.data.get(position).temp);
-        holderView.heightTextView.setText(this.data.get(position).temp);
-        holderView.weightTextView.setText(this.data.get(position).temp);
-        holderView.jobTextView.setText(this.data.get(position).temp);
-        holderView.clothNumberTextView.setText(this.data.get(position).temp);
-        holderView.likeNumberTextView.setText(this.data.get(position).temp);
-        return null;
+        this.imageLoader.displayImage(this.data.get(position).getPortrait(),holderView.modelImageView);
+        holderView.nameTextView.setText(this.data.get(position).getName());
+        holderView.heightTextView.setText(this.data.get(position).getHeight());
+        holderView.weightTextView.setText(this.data.get(position).getWeight());
+        holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
+        holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
+        return convertView;
+    }
+
+    public void resetData(ArrayList<ModelEntity> newData) {
+        this.data = newData;
+    }
+
+    public void addData(ArrayList<ModelEntity> moreData) {
+        this.data.addAll(this.data.size(), moreData);
     }
 }
