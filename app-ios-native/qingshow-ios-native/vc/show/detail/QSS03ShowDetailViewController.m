@@ -19,7 +19,7 @@
 #import "QSItemUtil.h"
 #import <Social/Social.h>
 #import "UIViewController+ShowHud.h"
-
+#import <QuartzCore/QuartzCore.h>
 #import "QSUserManager.h"
 #import "WeiboSDK.h"
 #import "WXApi.h"
@@ -56,28 +56,22 @@
 
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.containerScrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.containerScrollView.contentSize = self.contentView.frame.size;
-    [self.containerScrollView addSubview:self.contentView];
-    self.contentView.layer.cornerRadius = 4;
-    self.contentView.layer.masksToBounds = YES;
-    self.modelContainer.layer.cornerRadius = 4;
-    self.modelContainer.layer.masksToBounds = YES;
-    self.itemContainer.layer.cornerRadius = 4;
-    self.itemContainer.layer.masksToBounds = YES;
-    self.showContainer.layer.cornerRadius = 4;
-    self.showContainer.layer.masksToBounds = YES;
-    self.itemDesContainer.layer.cornerRadius = 4;
-    self.itemDesContainer.layer.masksToBounds = YES;
+//    self.modelContainer.layer.cornerRadius = 4;
+//    self.modelContainer.layer.masksToBounds = YES;
+//    self.itemContainer.layer.cornerRadius = 4;
+//    self.itemContainer.layer.masksToBounds = YES;
+//    self.showContainer.layer.cornerRadius = 4;
+//    self.showContainer.layer.masksToBounds = YES;
+
     
-    self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 400)];
+    self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.bounds];
+    self.showImageScrollView.pageControl.hidden = YES;
     [self.showContainer addSubview:self.showImageScrollView];
     
-    self.itemImageScrollView = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
-    [self.itemContainer addSubview:self.itemImageScrollView];
-    self.itemContainer.layer.cornerRadius = 4;
-    self.itemContainer.layer.masksToBounds = YES;
+//    self.itemImageScrollView = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
+//    [self.itemContainer addSubview:self.itemImageScrollView];
+//    self.itemContainer.layer.cornerRadius = 4;
+//    self.itemContainer.layer.masksToBounds = YES;
     self.itemImageScrollView.delegate = self;
 
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -86,6 +80,8 @@
     
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.width / 2;
     self.headIconImageView.layer.masksToBounds = YES;
+    self.headIconImageView.layer.borderWidth = 1;
+    self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     
     [self bindWithDict:self.showDict];
     
@@ -110,6 +106,11 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+}
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self hideSharePanel];
@@ -145,10 +146,6 @@
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:dict];
     
-    //ItemDes
-    NSArray* items = [QSShowUtil getItems:dict];
-    NSAttributedString* itemDes = [QSItemUtil getItemsAttributedDescription:items];
-    self.itemDesLabel.attributedText = itemDes;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -202,6 +199,16 @@
     }
 }
 
+- (IBAction)backBtnPressed:(id)sender {
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromLeft;
+    tran.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+    [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_root"];
+    [self.navigationController popViewControllerAnimated:NO];
+
+}
+
 - (IBAction)didTapModel:(id)sender {
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
@@ -251,9 +258,6 @@
 //                                                 name:MPMoviePlayerDidEnterFullscreenNotification
 //                                               object:nil];
     [self.movieController play];
-
-    [self scrollViewDidScroll:self.containerScrollView];
-
 
     
     [self setCommentSharePlayButtonHidden:YES];

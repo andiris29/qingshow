@@ -12,7 +12,17 @@
 #import "QSCommonUtil.h"
 
 @implementation QSShowUtil
-
++ (NSURL*)getCoverUrl:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = dict[@"cover"];
+    if ([QSCommonUtil checkIsNil:cover]) {
+        return nil;
+    }
+    return [NSURL URLWithString:cover];
+}
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
@@ -66,6 +76,16 @@
     }
     if (showDict) {
         return showDict[@"modelRef"];
+    }
+    return nil;
+}
++ (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
+    if (showDict) {
+        return showDict[@"coverMetadata"];
     }
     return nil;
 }

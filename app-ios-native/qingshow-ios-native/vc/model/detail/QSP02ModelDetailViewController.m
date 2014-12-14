@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
-
+#import "QSShowTableViewDelegateObj.h"
 
 @interface QSP02ModelDetailViewController ()
 
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary* peopleDict;
 
 #pragma mark - Delegate Obj
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* showsDelegate;
+@property (strong, nonatomic) QSShowTableViewDelegateObj* showsDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
 
@@ -31,7 +31,7 @@
 #pragma mark - Init
 - (id)initWithModel:(NSDictionary*)peopleDict
 {
-    self = [self initWithNibName:@"QSDetailBaseViewController" bundle:nil];
+    self = [self initWithNibName:@"QSP02ModelDetailViewController" bundle:nil];
     if (self)
     {
         self.peopleDict = [peopleDict mutableCopy];
@@ -43,7 +43,7 @@
 
 - (void)delegateObjInit
 {
-    self.showsDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.showsDelegate = [[QSShowTableViewDelegateObj alloc] init];
     self.showsDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     self.followingDelegate.delegate = self;
@@ -101,8 +101,9 @@
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
     
-    //Show collectioin view
-    [self.showsDelegate bindWithCollectionView:self.showCollectionView];
+    //Show table view
+    self.showsDelegate.type = QSShowTableViewCellTypeModelEmpty;
+    [self.showsDelegate bindWithTableView:self.showTableView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
@@ -122,9 +123,9 @@
 
 
     //Show and Hide
-    self.viewArray = @[self.showCollectionView, self.followingTableView, self.followerTableView];
+    self.viewArray = @[self.showTableView, self.followingTableView, self.followerTableView];
     
-    self.showCollectionView.hidden = NO;
+    self.showTableView.hidden = NO;
     self.followerTableView.hidden = YES;
     self.followingTableView.hidden = YES;
 

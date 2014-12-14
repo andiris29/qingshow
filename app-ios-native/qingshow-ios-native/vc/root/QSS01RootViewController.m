@@ -7,6 +7,8 @@
 //
 #import "UIViewController+ShowHud.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "QSS01RootViewController.h"
 #import "QSNetworkKit.h"
 #import "QSP01ModelListViewController.h"
@@ -62,6 +64,11 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -230,14 +237,24 @@
 {
     [self hideMenu];
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:NO];
+
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromRight;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_show_detail"];
 }
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
     [self hideMenu];
     UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:NO];
+    
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromRight;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_people_detail"];
 }
 
 - (void)handleNetworkError:(NSError*)error

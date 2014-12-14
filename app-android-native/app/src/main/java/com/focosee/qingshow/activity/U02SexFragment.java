@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -160,11 +159,11 @@ public class U02SexFragment extends Fragment {
 
     private void setGender(int gender) {
         if (gender == 1) {
-            femaleButton.setText("on");
-            maleButton.setText("off");
+            femaleButton.setBackgroundResource(R.drawable.btn_choose_focused);
+            maleButton.setBackgroundResource(R.drawable.btn_choose_default);
         } else if (gender == 0) {
-            femaleButton.setText("off");
-            maleButton.setText("on");
+            femaleButton.setBackgroundResource(R.drawable.btn_choose_default);
+            maleButton.setBackgroundResource(R.drawable.btn_choose_focused);
         }
     }
 }
