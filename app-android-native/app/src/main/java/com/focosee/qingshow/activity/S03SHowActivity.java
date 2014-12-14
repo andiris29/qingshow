@@ -124,7 +124,7 @@ public class S03SHowActivity extends Activity {
                 Intent intent=new Intent(Intent.ACTION_SEND);
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
-                intent.putExtra(Intent.EXTRA_TEXT, "终于可以了!!!");
+                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(Intent.createChooser(intent, getTitle()));
             }
