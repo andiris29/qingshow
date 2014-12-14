@@ -7,7 +7,11 @@
 //
 
 #import "QSTableViewBasicDelegateObj.h"
+#import "QSShowTableViewCell.h"
+
 
 @interface QSShowTableViewDelegateObj : QSTableViewBasicDelegateObj
+
+@property (assign, nonatomic) QSShowTableViewCellType type;
 
 @end

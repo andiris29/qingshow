@@ -7,7 +7,7 @@
 //
 
 #import "QSShowTableViewDelegateObj.h"
-#import "QSShowTableViewCell.h"
+
 @implementation QSShowTableViewDelegateObj
 
 #pragma mark - Override
@@ -20,6 +20,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSShowTableViewCell* cell = (QSShowTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSShowTableViewCell" forIndexPath:indexPath];
+    cell.type = self.type;
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithShow:dict];
     return cell;

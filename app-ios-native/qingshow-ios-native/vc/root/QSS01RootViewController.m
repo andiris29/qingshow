@@ -249,7 +249,12 @@
 {
     [self hideMenu];
     UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:NO];
+    
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromRight;
+    [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_people_detail"];
 }
 
 - (void)handleNetworkError:(NSError*)error

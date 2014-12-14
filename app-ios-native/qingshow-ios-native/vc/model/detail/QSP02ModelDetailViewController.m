@@ -101,7 +101,8 @@
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
     
-    //Show collectioin view
+    //Show table view
+    self.showsDelegate.type = QSShowTableViewCellTypeModelEmpty;
     [self.showsDelegate bindWithTableView:self.showTableView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {

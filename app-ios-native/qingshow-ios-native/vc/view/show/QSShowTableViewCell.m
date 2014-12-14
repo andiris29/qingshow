@@ -13,6 +13,27 @@
 #import "QSPeopleUtil.h"
 
 @implementation QSShowTableViewCell
+- (void)setType:(QSShowTableViewCellType)type
+{
+    _type = type;
+    switch (_type) {
+        case QSShowTableViewCellTypeModel: {
+            self.label1.hidden = NO;
+            self.label2.hidden = NO;
+            self.iconImgView.hidden = NO;
+            break;
+        }
+        case QSShowTableViewCellTypeModelEmpty: {
+            self.label1.hidden = YES;
+            self.label2.hidden = YES;
+            self.iconImgView.hidden = YES;
+            break;
+        }
+        default: {
+            break;
+        }
+    }
+}
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
     // Initialization code
