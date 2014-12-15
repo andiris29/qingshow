@@ -35,7 +35,7 @@ public class P03BrandListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return (null != data) ? data.size() : 0;
     }
 
     @Override

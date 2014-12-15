@@ -19,6 +19,7 @@ public class QSAppWebAPI {
     private static final String[] SHOW_LIST_CATEGORY_API = {"/feeding/chosen?pageNo=", "/feeding/hot?pageNo=", "/feeding/chosen?pageNo="};
     private static final String SHOW_COMMENTS_LIST_API = HOST_NAME + "/show/queryComments";
     private static final String PEOPLE_QUERY_MODELS_API = HOST_NAME + "/people/queryModels";
+    private static final String BRAND_LIST_API = HOST_NAME + "/brand/queryBrands";
 
 
     public static String getShowListApi(int pageIndex, int pageSize) {
@@ -41,5 +42,9 @@ public class QSAppWebAPI {
 
     public static String getModelListApi(String pageNo, String pageSize) {
         return PEOPLE_QUERY_MODELS_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
+    public static String getBrandListApi(String type, String page) {
+        return BRAND_LIST_API + "?type=" + type + "&page=" + page;
     }
 }

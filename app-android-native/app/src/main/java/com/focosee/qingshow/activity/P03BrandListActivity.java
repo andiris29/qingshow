@@ -30,6 +30,7 @@ public class P03BrandListActivity extends Activity {
     private MNavigationView navigationView;
     private MPullRefreshListView pullRefreshListView;
     private ListView listView;
+    private int pageIndex = 1;
 
     private P03BrandListAdapter adapter;
 
@@ -41,8 +42,11 @@ public class P03BrandListActivity extends Activity {
         navigationView = (MNavigationView) findViewById(R.id.P03_brand_list_navigation);
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P03_brand_list_list_view);
         listView = pullRefreshListView.getRefreshableView();
+
         pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setPullLoadEnabled(true);
+        pullRefreshListView.setScrollLoadEnabled(true);
+
         adapter = new P03BrandListAdapter(this, new ArrayList<BrandEntity>(), ImageLoader.getInstance());
 
         listView.setAdapter(adapter);
@@ -62,10 +66,11 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void loadMoreData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowListApi(0,0),null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi("0",String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ArrayList<BrandEntity> moreData = __createFakeData();
+                pageIndex++;
+                ArrayList<BrandEntity> moreData = BrandEntity.getBrandListFromResponse(response);
                 adapter.addData(moreData);
                 adapter.notifyDataSetChanged();
 
@@ -81,10 +86,11 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void refreshData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowListApi(0,0),null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi("0","1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ArrayList<BrandEntity> newData = __createFakeData();
+                pageIndex = 1;
+                ArrayList<BrandEntity> newData = BrandEntity.getBrandListFromResponse(response);
                 adapter.resetData(newData);
                 adapter.notifyDataSetChanged();
 

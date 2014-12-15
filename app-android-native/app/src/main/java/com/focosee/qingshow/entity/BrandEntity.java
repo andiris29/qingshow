@@ -11,7 +11,7 @@ public class BrandEntity extends AbsEntity {
     public static final String DEBUG_TAG = "BrandEntity";
 
     // Public interface
-    public ArrayList<BrandEntity> getBrandListFromResponse(JSONObject response) {
+    public static ArrayList<BrandEntity> getBrandListFromResponse(JSONObject response) {
         try {
             String responseString = response.getJSONObject("data").getJSONArray("brands").toString();
             return new Gson().fromJson(responseString, new TypeToken<ArrayList<BrandEntity>>(){}.getType());
