@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/news_item_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/item_show_image"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher"></ImageView>
+    </LinearLayout>
 
     <ImageView
-        android:id="@+id/item_show_image"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher" />
+        android:adjustViewBounds="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/show_bottom_shadow"/>
 
     <RelativeLayout
-        android:layout_marginTop="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
         <com.focosee.qingshow.widget.MCircularImageView
             android:id="@+id/item_show_model_image"
@@ -30,11 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/item_show_love_ll"
             android:layout_toRightOf="@+id/item_show_model_image"
+            android:layout_marginLeft="5dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="17dp"
+                android:layout_height="30dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -42,21 +57,13 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="SandyGirl" />
-
-                <TextView
-                    android:id="@+id/item_show_model_job"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="设计师" />
+                    android:gravity="left|bottom"
+                    android:textColor="#ffffff" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="17dp"
+                android:layout_height="30dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -64,30 +71,31 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="171 CM" />
+                    android:gravity="left|top"
+                    android:textColor="#ffffff" />
 
                 <TextView
                     android:id="@+id/item_show_model_weight"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="45.6 KG" />
+                    android:gravity="left|top"
+                    android:textColor="#ffffff" />
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/item_show_love_ll"
-            android:layout_width="30dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:gravity="center_horizontal"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_weight="1"
                 android:src="@drawable/model_cell_icon02_noticeno" />
 
@@ -97,18 +105,11 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="2"
                 android:gravity="center"
+                android:textColor="#ffffff"
                 android:text="105" />
         </LinearLayout>
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/item_show_model_status"
-        android:layout_marginLeft="35dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:text="每天都需要充足的睡眠"/>
 
-</LinearLayout>
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -14,6 +15,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.widget.MNavigationView;
+import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -26,8 +28,9 @@ import java.util.ArrayList;
 public class P03BrandListActivity extends Activity {
 
     private MNavigationView navigationView;
-    private MPullRefreshMultiColumnListView pullRefreshListView;
-    private MultiColumnListView listView;
+    private MPullRefreshListView pullRefreshListView;
+    private ListView listView;
+    private int pageIndex = 1;
 
     private P03BrandListAdapter adapter;
 
@@ -37,22 +40,25 @@ public class P03BrandListActivity extends Activity {
         setContentView(R.layout.activity_p03_brand_list);
 
         navigationView = (MNavigationView) findViewById(R.id.P03_brand_list_navigation);
-        pullRefreshListView = (MPullRefreshMultiColumnListView) findViewById(R.id.P03_brand_list_list_view);
+        pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P03_brand_list_list_view);
         listView = pullRefreshListView.getRefreshableView();
+
         pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setPullLoadEnabled(true);
+        pullRefreshListView.setScrollLoadEnabled(true);
+
         adapter = new P03BrandListAdapter(this, new ArrayList<BrandEntity>(), ImageLoader.getInstance());
 
         listView.setAdapter(adapter);
 
-        pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
+        pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 refreshData();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 loadMoreData();
             }
         });
@@ -60,10 +66,11 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void loadMoreData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowListApi(0,0),null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi("0",String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ArrayList<BrandEntity> moreData = __createFakeData();
+                pageIndex++;
+                ArrayList<BrandEntity> moreData = BrandEntity.getBrandListFromResponse(response);
                 adapter.addData(moreData);
                 adapter.notifyDataSetChanged();
 
@@ -79,10 +86,11 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void refreshData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowListApi(0,0),null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi("0","1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ArrayList<BrandEntity> newData = __createFakeData();
+                pageIndex = 1;
+                ArrayList<BrandEntity> newData = BrandEntity.getBrandListFromResponse(response);
                 adapter.resetData(newData);
                 adapter.notifyDataSetChanged();
 
@@ -105,7 +113,7 @@ public class P03BrandListActivity extends Activity {
 
     private ArrayList<BrandEntity> __createFakeData() {
         ArrayList<BrandEntity> tempData = new ArrayList<BrandEntity>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             BrandEntity brandEntity = new BrandEntity();
             brandEntity.name = "品牌" + String.valueOf(i);
             brandEntity.logo = "http://img2.imgtn.bdimg.com/it/u=2439868726,3891592022&fm=21&gp=0.jpg";

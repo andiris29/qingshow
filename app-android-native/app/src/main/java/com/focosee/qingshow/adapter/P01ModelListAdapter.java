@@ -5,10 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.ModelEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -19,9 +22,9 @@ class P01ModelHolderView {
     public TextView nameTextView;
     public TextView heightTextView;
     public TextView weightTextView;
-    public TextView jobTextView;
     public TextView clothNumberTextView;
     public TextView likeNumberTextView;
+    public Button followButton;
 }
 
 public class P01ModelListAdapter extends BaseAdapter {
@@ -29,11 +32,13 @@ public class P01ModelListAdapter extends BaseAdapter {
     private ArrayList<ModelEntity> data;
     private ImageLoader imageLoader;
     private Context context;
+    private FollowButtonOnClickListener followButtonOnClickListener;
 
     public P01ModelListAdapter(Context context, ArrayList<ModelEntity> data, ImageLoader imageLoader) {
         this.context = context;
         this.data = data;
         this.imageLoader = imageLoader;
+        followButtonOnClickListener = new FollowButtonOnClickListener();
     }
 
     @Override
@@ -62,21 +67,39 @@ public class P01ModelListAdapter extends BaseAdapter {
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.item_model_name);
             holderView.heightTextView = (TextView) convertView.findViewById(R.id.item_model_height);
             holderView.weightTextView = (TextView) convertView.findViewById(R.id.item_model_weight);
-            holderView.jobTextView = (TextView) convertView.findViewById(R.id.item_model_job);
             holderView.clothNumberTextView = (TextView) convertView.findViewById(R.id.item_model_cloth_number);
             holderView.likeNumberTextView = (TextView) convertView.findViewById(R.id.item_model_like_number);
+            holderView.followButton = (Button) convertView.findViewById(R.id.item_model_follow);
 
             convertView.setTag(holderView);
         }
         holderView = (P01ModelHolderView)convertView.getTag();
 
-        this.imageLoader.displayImage(this.data.get(position).temp,holderView.modelImageView);
-        holderView.nameTextView.setText(this.data.get(position).temp);
-        holderView.heightTextView.setText(this.data.get(position).temp);
-        holderView.weightTextView.setText(this.data.get(position).temp);
-        holderView.jobTextView.setText(this.data.get(position).temp);
-        holderView.clothNumberTextView.setText(this.data.get(position).temp);
-        holderView.likeNumberTextView.setText(this.data.get(position).temp);
-        return null;
+        this.imageLoader.displayImage(this.data.get(position).getPortrait(),holderView.modelImageView);
+        holderView.nameTextView.setText(this.data.get(position).getName());
+        holderView.heightTextView.setText(this.data.get(position).getHeight());
+        holderView.weightTextView.setText(this.data.get(position).getWeight());
+        holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
+        holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
+        holderView.followButton.setTag(String.valueOf(position));
+        holderView.followButton.setOnClickListener(followButtonOnClickListener);
+        return convertView;
+    }
+
+    public void resetData(ArrayList<ModelEntity> newData) {
+        this.data = newData;
+    }
+
+    public void addData(ArrayList<ModelEntity> moreData) {
+        this.data.addAll(this.data.size(), moreData);
+    }
+
+    public class FollowButtonOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            int index = Integer.valueOf(v.getTag().toString());
+            Toast.makeText(context, "click :" + String.valueOf(index), Toast.LENGTH_SHORT).show();
+        }
     }
 }

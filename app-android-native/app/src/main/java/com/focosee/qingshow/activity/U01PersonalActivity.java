@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,11 @@ public class U01PersonalActivity extends Activity {
 
     private ArrayList<View> pagerViewList;
 
+    private RelativeLayout matchRelativeLayout;
+    private RelativeLayout watchRelativeLayout;
+    private RelativeLayout fansRelativeLayout;
+    private RelativeLayout followRelativeLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +70,12 @@ public class U01PersonalActivity extends Activity {
             }
         });
 
+        matchRelativeLayout = (RelativeLayout)findViewById(R.id.matchRelativeLayout);
+        watchRelativeLayout = (RelativeLayout)findViewById(R.id.watchRelativeLayout);
+        fansRelativeLayout = (RelativeLayout)findViewById(R.id.fansRelativeLayout);
+        followRelativeLayout = (RelativeLayout)findViewById(R.id.followRelativeLayout);
+
+
         personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
 
         pagerViewList = new ArrayList<View>();
@@ -77,6 +89,7 @@ public class U01PersonalActivity extends Activity {
         personalViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                setIndicatorBackground(position);
                 if (position == 0) {
 
                 } else if (position == 1) {
@@ -96,6 +109,9 @@ public class U01PersonalActivity extends Activity {
             public void onPageScrollStateChanged(int arg0) {
             }
         });
+
+        setIndicatorListener();
+
 
         pullRefreshListView = (MPullRefreshMultiColumnListView)
                 pagerViewList.get(0).findViewById(R.id.P03_brand_list_list_view);
@@ -118,6 +134,49 @@ public class U01PersonalActivity extends Activity {
             }
         });
         pullRefreshListView.doPullRefreshing(true, 0);
+    }
+
+    private void setIndicatorBackground(int pos) {
+        matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        if (pos == 0) {
+            matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        } else if (pos == 1) {
+            watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        } else if (pos == 2) {
+            fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        } else if (pos == 3) {
+            followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        }
+    }
+
+    private void setIndicatorListener() {
+        matchRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personalViewPager.setCurrentItem(0);
+            }
+        });
+        watchRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personalViewPager.setCurrentItem(1);
+            }
+        });
+        fansRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personalViewPager.setCurrentItem(2);
+            }
+        });
+        followRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                personalViewPager.setCurrentItem(3);
+            }
+        });
     }
 
     private void loadMoreData() {

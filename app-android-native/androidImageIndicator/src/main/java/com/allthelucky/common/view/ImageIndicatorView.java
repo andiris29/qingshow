@@ -40,6 +40,14 @@ public class ImageIndicatorView extends RelativeLayout {
      * 播放视频按钮
      */
     private Button startButton;
+    /**
+     * 评论按钮
+     */
+    private Button messageButton;
+    /**
+     * 分享按钮
+     */
+    private Button shareButton;
 	/**
 	 * 页面列表
 	 */
@@ -117,6 +125,8 @@ public class ImageIndicatorView extends RelativeLayout {
 		this.viewPager = (ViewPager) findViewById(R.id.view_pager);
 		this.indicateLayout = (LinearLayout) findViewById(R.id.indicater_layout);
         this.startButton = (Button) findViewById(R.id.start_button);
+        this.messageButton = (Button) findViewById(R.id.message_button);
+        this.shareButton = (Button) findViewById(R.id.share_button);
 
 		this.viewPager.setOnPageChangeListener(new PageChangeListener());
 
@@ -349,6 +359,20 @@ public class ImageIndicatorView extends RelativeLayout {
      */
     public Button getStartButton() {
         return this.startButton;
+    }
+
+    /**
+     * 获取评论的按钮
+     */
+    public Button getMessageButton() {
+        return this.messageButton;
+    }
+
+    /**
+     * 获取分享的按钮
+     */
+    public Button getShareButton() {
+        return this.shareButton;
     }
 
     @Override

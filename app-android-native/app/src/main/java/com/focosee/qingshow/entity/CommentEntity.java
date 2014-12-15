@@ -2,6 +2,16 @@ package com.focosee.qingshow.entity;
 
 public class CommentEntity extends AbsEntity {
 
+    public String getId() {
+        return _id;
+    }
+
+    public String getUserId() {
+        if (null == authorRef || null == authorRef._id)
+            return null;
+        return authorRef._id;
+    }
+
     public String getAuthorImage() {
         if (null != this.authorRef && null != this.authorRef.portrait)
             return this.authorRef.portrait;

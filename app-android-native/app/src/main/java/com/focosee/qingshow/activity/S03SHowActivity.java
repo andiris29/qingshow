@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -105,7 +106,7 @@ public class S03SHowActivity extends Activity {
             }
         });
 
-        ((ImageButton)findViewById(R.id.S03_message_button)).setOnClickListener(new View.OnClickListener() {
+        ((Button)this.imageIndicatorView.getMessageButton()).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != showDetailEntity && null != showDetailEntity._id) {
@@ -115,6 +116,17 @@ public class S03SHowActivity extends Activity {
                 }else{
                     Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        ((Button)this.imageIndicatorView.getShareButton()).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent, getTitle()));
             }
         });
     }

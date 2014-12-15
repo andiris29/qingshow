@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.BrandEntity;
@@ -14,8 +15,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 
 class P03BrandHolderView {
-    public ImageView brandImageView;
-    public ImageView previewImageView;
+    public ImageView brandSlogan;
+    public ImageView brandPortrait;
+    public TextView brandName;
+    public TextView brandDescription;
 }
 
 public class P03BrandListAdapter extends BaseAdapter {
@@ -32,7 +35,7 @@ public class P03BrandListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return (null != data) ? data.size() : 0;
     }
 
     @Override
@@ -52,13 +55,18 @@ public class P03BrandListAdapter extends BaseAdapter {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
             holderView = new P03BrandHolderView();
-            holderView.brandImageView = (ImageView) convertView.findViewById(R.id.item_brand_list_brand);
-            holderView.previewImageView = (ImageView) convertView.findViewById(R.id.item_brand_list_preview);
+            holderView.brandSlogan = (ImageView) convertView.findViewById(R.id.item_brand_slogan);
+            holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
+            holderView.brandName = (TextView) convertView.findViewById(R.id.item_brand_name);
+            holderView.brandDescription = (TextView) convertView.findViewById(R.id.item_brand_description);
             convertView.setTag(holderView);
         }
         holderView = (P03BrandHolderView) convertView.getTag();
-        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandImageView);
-        this.imageLoader.displayImage(this.data.get(position).getBrandSlogan(), holderView.previewImageView);
+
+        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait);
+        this.imageLoader.displayImage(this.data.get(position).getBrandSlogan(), holderView.brandSlogan);
+        holderView.brandName.setText(this.data.get(position).getBrandName());
+        holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;
     }
 
