@@ -63,14 +63,14 @@
 }
 + (NSString*)getItemDescription:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
     return itemDict[@"name"];
 }
 + (NSString*)getItemTypeName:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSArray* array = @[@"上装", @"下装", @"鞋子", @"配饰"];

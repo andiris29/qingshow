@@ -173,6 +173,9 @@
                             <state key="normal" title="0" backgroundImage="s03_item_btn">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="itemButtonPressed:" destination="-1" eventType="touchUpInside" id="M8t-cq-OQ8"/>
+                            </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iFb-nD-1im">
                             <rect key="frame" x="12" y="132" width="40" height="36"/>
@@ -181,6 +184,9 @@
                             <state key="normal" title="0" backgroundImage="s03_like_btn">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="favorBtnPressed:" destination="-1" eventType="touchUpInside" id="AlN-nf-rJw"/>
+                            </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_line" id="IHe-bJ-k6Q">
                             <rect key="frame" x="14" y="58" width="36" height="6"/>

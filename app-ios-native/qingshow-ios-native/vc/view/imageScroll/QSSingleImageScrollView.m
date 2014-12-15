@@ -17,6 +17,8 @@
 - (UIView*)getViewForPage:(int)imageIndex
 {
     UIImageView* imageView = [[UIImageView alloc] init];
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
     if (self.imageArray) {
         UIImage* image = self.imageArray[imageIndex];
         imageView.image = image;

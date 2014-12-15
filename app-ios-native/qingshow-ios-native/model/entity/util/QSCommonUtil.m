@@ -13,4 +13,8 @@
 {
     return !obj || [obj isKindOfClass:[NSNull class]];
 }
++ (BOOL)checkIsDict:(id)obj
+{
+    return [obj isKindOfClass:[NSDictionary class]];
+}
 @end

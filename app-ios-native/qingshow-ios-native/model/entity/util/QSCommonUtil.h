@@ -11,5 +11,6 @@
 @interface QSCommonUtil : NSObject
 
 + (BOOL)checkIsNil:(id)obj;
++ (BOOL)checkIsDict:(id)obj;
 
 @end

@@ -24,6 +24,7 @@
 #import "WeiboSDK.h"
 #import "WXApi.h"
 #import "QSSharePlatformConst.h"
+#import "QSS03ItemListViewController.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -214,6 +215,11 @@
     QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
     [self.navigationController pushViewController:vc animated:YES];
     
+}
+
+- (IBAction)itemButtonPressed:(id)sender {
+    UIViewController* vc = [[QSS03ItemListViewController alloc] initWithShow:self.showDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
