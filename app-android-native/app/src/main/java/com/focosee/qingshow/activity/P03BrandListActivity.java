@@ -82,7 +82,7 @@ public class P03BrandListActivity extends Activity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void refreshData() {
@@ -103,7 +103,7 @@ public class P03BrandListActivity extends Activity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

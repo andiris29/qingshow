@@ -25,6 +25,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowDetailEntity;
+import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MHorizontalScrollView;
 import com.focosee.qingshow.widget.MRelativeLayout_3_4;
@@ -143,7 +144,7 @@ public class S03SHowActivity extends Activity {
     };
 
     private void getShowDetailFromNet() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
+        final MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("S03ShowActivity", response.toString());
@@ -156,7 +157,7 @@ public class S03SHowActivity extends Activity {
                 Log.i("S03ShowActivity", error.toString());
             }
         });
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void matchUI() {

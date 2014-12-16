@@ -12,19 +12,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.config.QSAppWebAPI;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +39,8 @@ public class U06LoginActivity extends Activity {
     private Context context;
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
+
+    String rawCookie = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,34 @@ public class U06LoginActivity extends Activity {
         registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //test cookie
+                StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                        "http://chingshow.com:30001/services/feeding/like",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.v("TAG", response.toString());
+                                Log.v("TAG", rawCookie);
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("TAG", error.getMessage(), error);
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        if (rawCookie != null && rawCookie.length() > 0) {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Cookie", rawCookie);
+                            return headers;
+                        }
+                        return super.getHeaders();
+                    }
+
+                };
+                requestQueue.add(stringRequest);
                 Intent intent = new Intent(U06LoginActivity.this, U07RegisterActivity.class);
                 startActivity(intent);
             }
@@ -69,41 +103,51 @@ public class U06LoginActivity extends Activity {
                 params.put("id", accountEditText.getText().toString());
                 params.put("password", passwordEditText.getText().toString());
                 JSONObject jsonObject = new JSONObject(params);
-                JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                        QSAppWebAPI.LOGIN_SERVICE_URL, jsonObject,
-                        new Response.Listener<JSONObject>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                        QSAppWebAPI.LOGIN_SERVICE_URL,
+                        new Response.Listener<String>() {
                             @Override
-                            public void onResponse(JSONObject response) {
+                            public void onResponse(String response) {
                                 Log.v("TAG", response.toString());
-                                try {
-                                    if (response.getJSONObject("data") == null) {
-                                        Log.v("TAG", "error");
-                                        String errorCode = response.getJSONObject("metadata").getString("error");
-                                        Log.v("TAG", "error" + errorCode);
-                                        if (errorCode.equals("1001")) {
-                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                        }
-                                    } else {
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("id", accountEditText.getText().toString());
-                                        editor.putString("password", passwordEditText.getText().toString());
-                                        editor.commit();
-                                        Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
-                                        startActivity(intent);
-                                    }
-                                } catch (Exception e) {
-                                    Log.v("TAG", "exception");
-                                    try {
-                                        Log.v("TAG", "error");
-                                        String errorCode = response.getJSONObject("metadata").getString("error");
-                                        Log.v("TAG", "error" + errorCode);
-                                        if (errorCode.equals("1001")) {
-                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (Exception e1) {
-                                        Log.v("TAG", "e1");
-                                    }
-                                }
+                                Log.v("TAG", rawCookie);
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("id", accountEditText.getText().toString());
+                                editor.putString("password", passwordEditText.getText().toString());
+                                editor.putString("Cookie", passwordEditText.getText().toString());
+                                editor.commit();
+
+                                Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
+                                startActivity(intent);
+//                                try {
+//                                    if (response.getJSONObject("data") == null) {
+//                                        Log.v("TAG", "error");
+//                                        String errorCode = response.getJSONObject("metadata").getString("error");
+//                                        Log.v("TAG", "error" + errorCode);
+//                                        if (errorCode.equals("1001")) {
+//                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+//                                        }
+//                                    } else {
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.putString("id", accountEditText.getText().toString());
+//                                        editor.putString("password", passwordEditText.getText().toString());
+//                                        editor.commit();
+//                                        Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
+//                                        startActivity(intent);
+//                                    }
+//                                } catch (Exception e) {
+//                                    Log.v("TAG", "exception");
+//                                    try {
+//                                        Log.v("TAG", "error");
+//                                        String errorCode = response.getJSONObject("metadata").getString("error");
+//                                        Log.v("TAG", "error" + errorCode);
+//                                        if (errorCode.equals("1001")) {
+//                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+//                                        }
+//                                    } catch (Exception e1) {
+//                                        Log.v("TAG", "e1");
+//                                    }
+//                                }
 
                             }
                         }, new Response.ErrorListener() {
@@ -113,6 +157,18 @@ public class U06LoginActivity extends Activity {
                     }
                 }) {
                     @Override
+                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                        try {
+                            Map<String, String> responseHeaders = response.headers;
+                            rawCookie = responseHeaders.get("Set-Cookie").split(";")[0].split("=")[1];
+                            String dataString = new String(response.data, "UTF-8");
+                            return Response.success(dataString, HttpHeaderParser.parseCacheHeaders(response));
+                        } catch (UnsupportedEncodingException e) {
+                            return Response.error(new ParseError(e));
+                        }
+                    }
+
+                    @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("id", accountEditText.getText().toString());
@@ -120,13 +176,6 @@ public class U06LoginActivity extends Activity {
                         return map;
                     }
 
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("Accept", "application/json");
-                        headers.put("Content-Type", "application/json; charset=UTF-8");
-                        return headers;
-                    }
                 };
                 requestQueue.add(stringRequest);
             }
