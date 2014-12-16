@@ -12,7 +12,7 @@
 @interface QSImageScrollViewBase ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-
+@property (assign, nonatomic) IBOutlet QSImageScrollViewDirection direction;
 @end
 
 @implementation QSImageScrollViewBase
@@ -37,10 +37,11 @@
 }
 
 #pragma mark - Life cycle
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d {
     self = [super initWithFrame:frame];
     if (self) {
+        self.direction = d;
+        
         self.imageViewArray = [@[] mutableCopy];
         self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
         self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -52,8 +53,14 @@
         self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
         [self addSubview:self.pageControl];
         self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 20);
+
     }
     return self;
+}
+- (id)initWithFrame:(CGRect)frame
+{
+    return [self initWithFrame:frame direction:QSImageScrollViewDirectionHor];
+    
 }
 
 
@@ -85,7 +92,12 @@
             [self.scrollView addSubview:imageView];
             [self.imageViewArray addObject:imageView];
         }
-        imageView.frame = CGRectMake(i * size.width, 0, size.width, size.height);
+        if (self.direction == QSImageScrollViewDirectionHor) {
+            imageView.frame = CGRectMake(i * size.width, 0, size.width, size.height);
+        } else {
+            imageView.frame = CGRectMake(0, i * size.height, size.width, size.height);
+        }
+
     }
     while (self.imageViewArray.count > imageViewCount) {
         UIView* v = [self.imageViewArray lastObject];
@@ -109,13 +121,20 @@
     }
     else {
         self.pageControl.hidden = NO;
-        self.scrollView.contentSize=  CGSizeMake(size.width * (count + 2), size.height);
         self.scrollView.scrollEnabled = YES;
-        if (self.scrollView.contentOffset.x < size.width || self.scrollView.contentOffset.x > size.width * (count + 1))
-        {
-            self.scrollView.contentOffset = CGPointMake(size.width, 0);
+        if (self.direction == QSImageScrollViewDirectionHor) {
+            self.scrollView.contentSize=  CGSizeMake(size.width * (count + 2), size.height);
+            if (self.scrollView.contentOffset.x < size.width || self.scrollView.contentOffset.x > size.width * (count + 1))
+            {
+                self.scrollView.contentOffset = CGPointMake(size.width, 0);
+            }
+        } else {
+            self.scrollView.contentSize=  CGSizeMake(size.width, size.height * (count + 2));
+            if (self.scrollView.contentOffset.y < size.height || self.scrollView.contentOffset.y > size.height * (count + 1))
+            {
+                self.scrollView.contentOffset = CGPointMake(0, size.height);
+            }
         }
-
         retCount = count + 2;
     }
     [self updateOffsetAndPage];
@@ -139,8 +158,13 @@
     
     CGPoint offset = self.scrollView.contentOffset;
     CGSize size = self.scrollView.bounds.size;
+    int currentIndex = 0;
+    if (self.direction == QSImageScrollViewDirectionHor) {
+        currentIndex = offset.x / size.width;
+    } else {
+        currentIndex = offset.y / size.height;
+    }
 
-    int currentIndex = offset.x / size.width;
     int currentPage = currentIndex;
     if (currentIndex == 0) {
         currentPage = (int)(self.imageViewArray.count - 2);
@@ -151,7 +175,11 @@
     if ([self.delegate respondsToSelector:@selector(imageScrollView:didChangeToPage:)]) {
         [self.delegate imageScrollView:self didChangeToPage:(int)self.pageControl.currentPage];
     }
-    self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
+    if (self.direction == QSImageScrollViewDirectionHor) {
+        self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
+    } else {
+        self.scrollView.contentOffset = CGPointMake(0, currentPage * size.height);
+    }
 }
 
 

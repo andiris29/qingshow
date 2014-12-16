@@ -116,6 +116,9 @@
 		EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7F61A1A587800BCDFBA /* QSS06CompareViewController.xib */; };
 		EFD0B7FC1A1A5C0500BCDFBA /* QSCompareTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */; };
 		EFD0B7FD1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */; };
+		EFE419F41A407AEE005175BB /* QSS03ItemShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */; };
+		EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */; };
+		EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */; };
 		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
@@ -356,6 +359,11 @@
 		EFD0B7F91A1A5C0500BCDFBA /* QSCompareTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCompareTableViewCell.h; sourceTree = "<group>"; };
 		EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCompareTableViewCell.m; sourceTree = "<group>"; };
 		EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCompareTableViewCell.xib; sourceTree = "<group>"; };
+		EFE419F11A407AEE005175BB /* QSS03ItemShopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ItemShopDetailViewController.h; sourceTree = "<group>"; };
+		EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ItemShopDetailViewController.m; sourceTree = "<group>"; };
+		EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemShopDetailViewController.xib; sourceTree = "<group>"; };
+		EFE419F71A409A9F005175BB /* QSAllItemImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAllItemImageScrollView.h; sourceTree = "<group>"; };
+		EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAllItemImageScrollView.m; sourceTree = "<group>"; };
 		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
 		EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		EFEF03291A30BBC000EC9B48 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -929,6 +937,8 @@
 				EFC7ADB81A11207E0078D1F9 /* QSItemContainerView.h */,
 				EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */,
 				EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */,
+				EFE419F71A409A9F005175BB /* QSAllItemImageScrollView.h */,
+				EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */,
 			);
 			path = imageScroll;
 			sourceTree = "<group>";
@@ -1090,6 +1100,9 @@
 				EFF5B9081A3F2F640048E634 /* QSS03ItemListViewController.m */,
 				EFF5B9091A3F2F640048E634 /* QSS03ItemListViewController.xib */,
 				EFF5B90A1A3F2F640048E634 /* view */,
+				EFE419F11A407AEE005175BB /* QSS03ItemShopDetailViewController.h */,
+				EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */,
+				EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -1232,6 +1245,7 @@
 				EFC543691A1750AD001B2C49 /* QSSectionNumberTextButton.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS03ItemListViewController.xib in Resources */,
 				82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */,
+				EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */,
 				EF1729311A1CE50F001819E3 /* QSSectionTextButton.xib in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
 				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
@@ -1295,6 +1309,8 @@
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
 				8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */,
+				EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */,
+				EFE419F41A407AEE005175BB /* QSS03ItemShopDetailViewController.m in Sources */,
 				EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */,
 				EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */,
 				EF55731E1A22179F00C3BC23 /* QSDateUtil.m in Sources */,

@@ -12,6 +12,7 @@
 #import "QSShowUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSS03ItemShopDetailViewController.h"
 
 @interface QSS03ItemListViewController ()
 
@@ -70,7 +71,14 @@
     [cell bindWithItem:[QSShowUtil getItemFromShow:self.showDict AtIndex:indexPath.row]];
     return cell;
 }
-
+#pragma mark - UITableView Delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIViewController* vc = [[QSS03ItemShopDetailViewController alloc] initWithShow:self currentItemIndex:0];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 46.f;
