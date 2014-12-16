@@ -62,6 +62,9 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
+    if (![showDict isKindOfClass:[NSDictionary class]]) {
+        return nil;
+    }
     NSArray* items = showDict[@"itemRefs"];
     if (items) {
         return items[index];

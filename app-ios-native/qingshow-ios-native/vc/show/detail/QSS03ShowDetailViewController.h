@@ -36,6 +36,11 @@
 - (IBAction)favorBtnPressed:(id)sender;
 - (IBAction)backBtnPressed:(id)sender;
 - (IBAction)didTapModel:(id)sender;
+- (IBAction)itemButtonPressed:(id)sender;
+
+
+
+
 @property (weak, nonatomic) IBOutlet UIView *videoContainerView;
 @property (weak, nonatomic) IBOutlet UIView *modelContainer;
 

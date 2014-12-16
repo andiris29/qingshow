@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_toLeftOf="@+id/item_model_attention"
+        android:layout_toLeftOf="@+id/item_model_follow"
         android:layout_toRightOf="@+id/item_model_image"
         android:orientation="vertical">
 
@@ -79,11 +79,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/item_model_attention"
+        android:id="@+id/item_model_follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:textColor="#ffffff"
+        android:background="@drawable/root_icon_red_round_background"
+        android:layout_marginRight="10dp"
         android:text="+关注" />
 
 </RelativeLayout>
