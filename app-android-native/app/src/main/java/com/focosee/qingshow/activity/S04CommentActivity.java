@@ -125,7 +125,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
                 Log.i("test", error.toString());
             }
         });
-        QSApplication.QSRequestQueue().add(jsonArrayRequest);
+        QSApplication.get().QSRequestQueue().add(jsonArrayRequest);
     }
 
     private void doRefreshTask() {
@@ -147,7 +147,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
                 Log.i("test", error.toString());
             }
         });
-        QSApplication.QSRequestQueue().add(jsonArrayRequest);
+        QSApplication.get().QSRequestQueue().add(jsonArrayRequest);
     }
 
     private void postComment() {
@@ -197,7 +197,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     }
 
     public void showActionSheet(int commentIndex) {
-        String userId = QSApplication.QSUserId(this);
+        String userId = QSApplication.get().QSUserId(this);
         String commentUserId = adapter.getCommentAtIndex(commentIndex).getUserId();
         if (PeopleUtil.checkUserIdEqual(userId, commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())

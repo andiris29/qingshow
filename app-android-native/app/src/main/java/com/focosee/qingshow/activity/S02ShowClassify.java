@@ -175,7 +175,7 @@ public class S02ShowClassify extends Activity {
                 _pullRefreshListView.setHasMoreData(true);
             }
         });
-        QSApplication.QSRequestQueue().add(jor);
+        QSApplication.get().QSRequestQueue().add(jor);
     }
 
 

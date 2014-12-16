@@ -100,6 +100,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         public void onClick(View v) {
             int index = Integer.valueOf(v.getTag().toString());
             Toast.makeText(context, "click :" + String.valueOf(index), Toast.LENGTH_SHORT).show();
+
         }
     }
 }
