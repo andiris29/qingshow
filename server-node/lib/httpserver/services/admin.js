@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var async = require('async');
 
 var People = require('../../model/peoples');
+var Show = require('../../model/shows');
+var Item = require('../../model/items');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -64,7 +66,7 @@ _savePeople = function(req, res) {
     });
     ['roles', 'hairTypes'].forEach(function(field) {
       if (req.body[field]) {
-        people.set(field, RequestHelper,parseArray(param[field]));
+        people.set(field, RequestHelper.parseArray(param[field]));
       }
     });
 
@@ -76,11 +78,167 @@ _savePeople = function(req, res) {
   });
 };
 
+_removePeopleById = function(req, res) {
+  var id = req.body['id'];
+
+  if (!id || !id.length) {
+    ResponseHelper.response(res, ServerError.NotEnoughParam);
+    return;
+  }
+
+  People.findOne({'userInfo.id': id}, function(err, people) {
+    if (err) {
+      ResponseHelper.response(res, err);
+      return;
+    } else if (!people) {
+      ResponseHelper.response(res, ServerError.PeopleNotExist);
+      return;
+    }
+
+    people.delete(function(err, people) {
+      ResponseHelper.response(res, err, {
+        'people': people
+      });
+    });
+  });
+};
+
+_saveItem = function(req, res) {
+  var param = req.body;
+  if (!param) {
+    ResponseHelper.response(res, ServerError.NotEnoughParam);
+    return;
+  }
+
+  var item = new Item();
+  item.brandRef = mongoose.mongo.BSONPure.ObjectID(param.brandRef);
+  item.category = parseInt(param['category']);
+  item.name = param['name'];
+  item.cover = param['cover'];
+  item.source = param['source'];
+  item.save(function(err, item) {
+    ResponseHelper.response(res, err, {
+      'item': item
+    });
+  });
+};
+
+_removeItemById = function(req, res) {
+  var id = req.body["id"];
+  if (!id || !id.length) {
+    ResponseHelper.response(res, ServerError.NotEnoughParam);
+    return;
+  }
+  Item.findOne({'_id': mongoose.mongo.BSONPure.ObjectID(id)}, function(err, item) {
+    if (err) {
+      ResponseHelper.response(res, err);
+      return;
+    } else if (!item) {
+      ResponseHelper.response(res, ServerError.NotEnoughParam);
+      return;
+    }
+
+    item.delete(function(res, item) {
+      ResponseHelper.response(res, err, {
+        'item': item
+      });
+    });
+  });
+};
+
+_saveShow = function(req, res) {
+  var param = req.body;
+  var cover = param.cover;
+  var height = param.heigth;
+  var width = param.width;
+
+  var show = new Show({
+    cover: cover,
+    coverMetadata: {
+      cover: cover,
+      heigth: heigth,
+      width: width 
+    }
+  });
+
+  show.video = param.video;
+
+  ['numLike', 'numView'].forEach(function(field) {
+    if (param[field]) {
+      show.set(field, parseInt(param[field]));
+    }
+  });
+  ['poster', 'styles'].forEach(function(field) {
+    if (param[field]) {
+      show.set(field, ResponseHelper.parseArray(param[field]));
+    }
+  });
+
+  ['modelRef', 'itemRefs', 'studioRef', 'brandRef'].forEach(function(field) {
+    if (param[field]) {
+      show.set(field, mongoose.mongo.BSONPure.ObjectID(param[field]));
+    }
+  });
+
+  show.save(function(err, show) {
+    ResponseHelper.response(res, err, {
+      'show': show
+    });
+  });
+};
+
+_removeShowById = function(req, res) {
+  var id = req.body['id'];
+  if (!id || !id.length) {
+    ResponseHelper.response(res, ServerError.NotEnoughParam);
+    return;
+  }
+  Show.findOne({'_id': id}, function(err, show) {
+    if (err) {
+      ResponseHelper.response(res, err);
+      return;
+    } else if (show) {
+      ResponseHelper.response(res, ServerError.NotEnoughParam);
+      return;
+    }
+    
+    show.delete(function(res, show) {
+      ResponseHelper.response(res, err, {
+        'show': show
+      });
+    });
+  });
+};
 
 module.exports = {
   'savePeople' : {
     method: 'post',
     func: _savePeople,
+    permissionValidators: ['loginValidator']
+  },
+  'removePeople': {
+    method: 'post',
+    func: _removePeopleById,
+    permissionValidators: ['loginValidator']
+  },
+  'saveItem': {
+    method: 'post',
+    func: _saveItem,
+    permissionValidators: ['loginValidator']
+  },
+  'removeItemById': {
+    method: 'post',
+    func: _removeItemById,
+    permissionValidators: ['loginValidator']
+  },
+  'saveShow': {
+    method: 'post',
+    func: _saveShow,
+    permissionValidators: ['loginValidator']
+  },
+  'removeShowById': {
+    method: 'post',
+    func: _removeShowById,
     permissionValidators: ['loginValidator']
   }
 };
