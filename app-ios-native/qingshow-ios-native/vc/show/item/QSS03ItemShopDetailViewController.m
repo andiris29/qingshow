@@ -7,12 +7,14 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "QSS03ItemShopDetailViewController.h"
+#import "QSAllItemImageScrollView.h"
+#import "QSShowUtil.h"
 
 @interface QSS03ItemShopDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (assign, nonatomic) int currentItemIndex;
-
+@property (strong, nonatomic) QSAllItemImageScrollView* imgScrollView;
 @end
 
 @implementation QSS03ItemShopDetailViewController
@@ -28,6 +30,10 @@
     return self;
 }
 
+- (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,61 +42,19 @@
     self.iconImageView.layer.masksToBounds = YES;
     self.showBtn.layer.cornerRadius = 8;
     self.showBtn.layer.masksToBounds = YES;
-//    [self configScrollView];
-//    [self config];
-//    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.imgScrollView = [[QSAllItemImageScrollView alloc] initWithFrame:self.contentView.bounds direction:QSImageScrollViewDirectionVer];
+//    self.imgScrollView.backgroundColor = [UIColor blackColor];
+    self.imgScrollView.pageControl.hidden = YES;
+    [self.contentView addSubview:self.imgScrollView];
+    
+    
+    self.imgScrollView.itemsArray = [QSShowUtil getItems:self.showDict];
 }
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.scrollView.contentInset = UIEdgeInsetsZero;
+    [self.imgScrollView scrollViewDidEndDecelerating:nil];
 }
-- (void)config
-{
-    UIView* view0 = [[UIView alloc] init];
-    view0.backgroundColor = [UIColor redColor];
-    view0.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view1 = [[UIView alloc] init];
-    view1.backgroundColor = [UIColor grayColor];
-    view1.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view2 = [[UIView alloc] init];
-    view2.backgroundColor = [UIColor blueColor];
-    view2.translatesAutoresizingMaskIntoConstraints = NO;
-    view0.frame = CGRectMake(0, 0, 300, 300);
-    view1.frame = CGRectMake(0, 300, 300, 300);
-    view2.frame = CGRectMake(0, 600, 300, 300);
-    [self.scrollView addSubview:view0];
-    [self.scrollView addSubview:view1];
-    [self.scrollView addSubview:view2];
-    self.scrollView.contentSize = CGSizeMake(300, 900);
-}
-- (void)configScrollView
-{
-//    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view0 = [[UIView alloc] init];
-    view0.backgroundColor = [UIColor redColor];
-    view0.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view1 = [[UIView alloc] init];
-    view1.backgroundColor = [UIColor grayColor];
-    view1.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view2 = [[UIView alloc] init];
-    view2.backgroundColor = [UIColor blueColor];
-    view2.translatesAutoresizingMaskIntoConstraints = NO;
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    
-    [self.scrollView addSubview:view0];
-    [self.scrollView addSubview:view1];
-    [self.scrollView addSubview:view2];
-    NSDictionary* viewDict = NSDictionaryOfVariableBindings(view0, view1, view2);
-    NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view0(winHeight)][view1(winHeight)][view2(winHeight)]|" options:0 metrics:@{@"winHeight" : @(screenSize.height)} views:viewDict];
-    [self.scrollView addConstraints:constraints];
-    
-    for (UIView* v in @[view0, view1, view2]) {
-        NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[view(winWidth)]-0-|" options:0 metrics:@{@"winWidth" : @(screenSize.width)} views:@{@"view" : v}];
-        [self.scrollView addConstraints:constraints];
-    }
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -110,8 +74,4 @@
     
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSLog(@"%f",scrollView.contentOffset.y);
-}
 @end

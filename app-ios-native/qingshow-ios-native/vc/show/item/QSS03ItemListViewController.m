@@ -75,7 +75,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIViewController* vc = [[QSS03ItemShopDetailViewController alloc] initWithShow:self currentItemIndex:0];
+    UIViewController* vc = [[QSS03ItemShopDetailViewController alloc] initWithShow:self.showDict currentItemIndex:0];
     [self.navigationController pushViewController:vc animated:YES];
     
 }

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
 @property (assign, nonatomic) IBOutlet QSImageScrollViewDirection direction;
+
 @end
 
 @implementation QSImageScrollViewBase
@@ -60,7 +61,6 @@
 - (id)initWithFrame:(CGRect)frame
 {
     return [self initWithFrame:frame direction:QSImageScrollViewDirectionHor];
-    
 }
 
 
@@ -104,6 +104,7 @@
         [v removeFromSuperview];
         [self.imageViewArray removeLastObject];
     }
+    self.scrollView.contentInset = UIEdgeInsetsZero;
 }
 
 - (int)resetPageAndScrollViewContentSize:(int)count
@@ -111,7 +112,7 @@
     int retCount = 0;
     CGSize size = self.scrollView.bounds.size;
     self.pageControl.numberOfPages = count;
-
+    self.scrollView.contentInset = UIEdgeInsetsZero;
     if (count <= 1) {
         self.pageControl.hidden = YES;
         self.scrollView.contentSize = size;
@@ -124,6 +125,7 @@
         self.scrollView.scrollEnabled = YES;
         if (self.direction == QSImageScrollViewDirectionHor) {
             self.scrollView.contentSize=  CGSizeMake(size.width * (count + 2), size.height);
+            self.scrollView.contentInset = UIEdgeInsetsZero;
             if (self.scrollView.contentOffset.x < size.width || self.scrollView.contentOffset.x > size.width * (count + 1))
             {
                 self.scrollView.contentOffset = CGPointMake(size.width, 0);
@@ -138,6 +140,7 @@
         retCount = count + 2;
     }
     [self updateOffsetAndPage];
+    self.scrollView.contentInset = UIEdgeInsetsZero;
     return retCount;
 }
 
@@ -147,6 +150,7 @@
     [super layoutSubviews];
     self.scrollView.frame = self.bounds;
     self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 20);
+    self.scrollView.contentInset = UIEdgeInsetsZero;
 }
 
 #pragma mark - UIScrollView Delegate
@@ -175,6 +179,7 @@
     if ([self.delegate respondsToSelector:@selector(imageScrollView:didChangeToPage:)]) {
         [self.delegate imageScrollView:self didChangeToPage:(int)self.pageControl.currentPage];
     }
+    self.scrollView.contentInset = UIEdgeInsetsZero;
     if (self.direction == QSImageScrollViewDirectionHor) {
         self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
     } else {

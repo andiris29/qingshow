@@ -15,8 +15,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 - (IBAction)shopButtonPressed:(id)sender;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 - (id)initWithShow:(NSDictionary*)showDict currentItemIndex:(int)index;
+- (IBAction)backBtnPressed:(id)sender;
 
 @end
