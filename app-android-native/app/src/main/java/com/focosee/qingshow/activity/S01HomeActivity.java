@@ -20,6 +20,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -126,7 +127,11 @@ public class S01HomeActivity extends Activity {
         ((ImageView)findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
+                Intent intent = new Intent(S01HomeActivity.this,
+                        (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
+                                ? U06LoginActivity.class : U01PersonalActivity.class);
+
+//                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
                 startActivity(intent);
             }
         });

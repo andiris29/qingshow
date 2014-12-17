@@ -78,6 +78,7 @@ public class U06LoginActivity extends Activity {
                             public void onResponse(String response) {
                                 Log.v("TAG", response.toString());
                                 Log.v("TAG", rawCookie);
+
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -118,6 +119,7 @@ public class U06LoginActivity extends Activity {
                                 editor.putString("id", accountEditText.getText().toString());
                                 editor.putString("password", passwordEditText.getText().toString());
                                 editor.putString("Cookie", rawCookie);
+                                editor.putString("connect.sid", rawCookie);
                                 editor.commit();
 
                                 LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
