@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -69,6 +71,12 @@ public class U01PersonalActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
+        String portraitUrl = QSApplication.get().getPeople().portrait;
+        if (portraitUrl != null && !portraitUrl.equals("")) {
+            Picasso.with(context).load(portraitUrl).into(portraitImageView);
+        }
 
         matchRelativeLayout = (RelativeLayout)findViewById(R.id.matchRelativeLayout);
         watchRelativeLayout = (RelativeLayout)findViewById(R.id.watchRelativeLayout);
