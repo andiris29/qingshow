@@ -81,6 +81,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         holderView.weightTextView.setText(this.data.get(position).getWeight());
         holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
+        holderView.followButton.setText((this.data.get(position).getModelIsFollowedByCurrentUser()) ? "-取消" : "+关注");
         holderView.followButton.setTag(String.valueOf(position));
         holderView.followButton.setOnClickListener(followButtonOnClickListener);
         return convertView;
