@@ -73,9 +73,11 @@ public class U01PersonalActivity extends Activity {
         });
 
         ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
-        String portraitUrl = QSApplication.get().getPeople().portrait;
-        if (portraitUrl != null && !portraitUrl.equals("")) {
-            Picasso.with(context).load(portraitUrl).into(portraitImageView);
+        if (QSApplication.get().getPeople() != null) {
+            String portraitUrl = QSApplication.get().getPeople().portrait;
+            if (portraitUrl != null && !portraitUrl.equals("")) {
+                Picasso.with(context).load(portraitUrl).into(portraitImageView);
+            }
         }
 
         matchRelativeLayout = (RelativeLayout)findViewById(R.id.matchRelativeLayout);
