@@ -195,7 +195,7 @@ public class U01PersonalActivity extends Activity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void refreshData() {
@@ -215,7 +215,7 @@ public class U01PersonalActivity extends Activity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

@@ -14,6 +14,10 @@
 
 @end
 
+typedef NS_ENUM(NSInteger, QSImageScrollViewDirection) {
+QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
+};
+
 @interface QSImageScrollViewBase : UIView<UIScrollViewDelegate>
 
 + (QSImageScrollViewBase*)generateView;
@@ -25,5 +29,8 @@
 
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 @property (strong, nonatomic) NSMutableArray* imageViewArray;
+
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d;
 
 @end

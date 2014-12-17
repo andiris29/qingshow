@@ -83,7 +83,7 @@ public class P01ModelListActivity extends Activity {
             }
         });
 
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void doLoadMoreData() {
@@ -103,7 +103,7 @@ public class P01ModelListActivity extends Activity {
             }
         });
 
-        QSApplication.QSRequestQueue().add(jsonObjectRequest);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

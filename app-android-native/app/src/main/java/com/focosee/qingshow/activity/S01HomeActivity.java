@@ -9,14 +9,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowListEntity;
+import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -25,9 +28,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class S01HomeActivity extends Activity {
 
@@ -159,6 +166,7 @@ public class S01HomeActivity extends Activity {
         setLastUpdateTime();
 
         _wfPullRefreshView.doPullRefreshing(true, 500);
+        test();
 
     }
 
@@ -185,7 +193,7 @@ public class S01HomeActivity extends Activity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        JsonObjectRequest jor = new JsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -221,7 +229,45 @@ public class S01HomeActivity extends Activity {
                 _wfPullRefreshView.setHasMoreData(true);
             }
         });
-        QSApplication.QSRequestQueue().add(jor);
+        QSApplication.get().QSRequestQueue().add(jor);
+    }
+
+    private void test() {
+        Map<String, String> data = new HashMap<String, String>();
+        data.put("id", "18817599043");
+        data.put("password", "yujiajia");
+        JSONObject jsonData = new JSONObject(data);
+
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, "http://chingshow.com:30001/services/user/login", jsonData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                CookieManager cookieManage = new CookieManager();
+                CookieHandler.setDefault(cookieManage);
+                Log.i("cookie", "test" + response.toString());
+                test2();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("cookie", "test" + error.toString());
+            }
+        });
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+    }
+
+    private void test2() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, "http://chingshow.com:30001/services/user/logout", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("cookie", "test2" + response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("cookie", "test2" + error.toString());
+            }
+        });
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
 }
