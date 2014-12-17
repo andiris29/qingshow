@@ -86,6 +86,12 @@ public class ModelEntity extends AbsEntity {
         return 0;
     }
 
+    public boolean getModelIsFollowedByCurrentUser() {
+        if (null != __context)
+            return __context.followedByCurrentUser;
+        return false;
+    }
+
     private ModelContext __context;
     private String _id;
     private String _hughUpdate;
@@ -102,5 +108,6 @@ public class ModelEntity extends AbsEntity {
     public class ModelContext {
         private int numFollowers;
         private int numShows;
+        private boolean followedByCurrentUser = false;
     }
 }

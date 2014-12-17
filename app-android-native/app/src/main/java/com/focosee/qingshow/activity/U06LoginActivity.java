@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -24,11 +25,17 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.CommentEntity;
+import com.focosee.qingshow.entity.LoginResponse;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,47 +115,29 @@ public class U06LoginActivity extends Activity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.v("TAG", response.toString());
-                                Log.v("TAG", rawCookie);
-
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("id", accountEditText.getText().toString());
                                 editor.putString("password", passwordEditText.getText().toString());
-                                editor.putString("Cookie", passwordEditText.getText().toString());
+                                editor.putString("Cookie", rawCookie);
+                                editor.putString("connect.sid", rawCookie);
                                 editor.commit();
 
-                                Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
-                                startActivity(intent);
-//                                try {
-//                                    if (response.getJSONObject("data") == null) {
-//                                        Log.v("TAG", "error");
-//                                        String errorCode = response.getJSONObject("metadata").getString("error");
-//                                        Log.v("TAG", "error" + errorCode);
-//                                        if (errorCode.equals("1001")) {
-//                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-//                                        }
-//                                    } else {
-//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                        editor.putString("id", accountEditText.getText().toString());
-//                                        editor.putString("password", passwordEditText.getText().toString());
-//                                        editor.commit();
-//                                        Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
-//                                        startActivity(intent);
-//                                    }
-//                                } catch (Exception e) {
-//                                    Log.v("TAG", "exception");
-//                                    try {
-//                                        Log.v("TAG", "error");
-//                                        String errorCode = response.getJSONObject("metadata").getString("error");
-//                                        Log.v("TAG", "error" + errorCode);
-//                                        if (errorCode.equals("1001")) {
-//                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-//                                        }
-//                                    } catch (Exception e1) {
-//                                        Log.v("TAG", "e1");
-//                                    }
-//                                }
+                                LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
+                                }.getType());
 
+                                if (loginResponse == null || loginResponse.data == null) {
+                                    if (loginResponse == null) {
+                                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        if (loginResponse.metadata.error == 1001) {
+                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                } else {
+                                    QSApplication.get().setPeople(loginResponse.data.people);
+                                    Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
+                                    startActivity(intent);
+                                }
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -180,6 +169,7 @@ public class U06LoginActivity extends Activity {
                 requestQueue.add(stringRequest);
             }
         });
+
     }
 
     @Override
