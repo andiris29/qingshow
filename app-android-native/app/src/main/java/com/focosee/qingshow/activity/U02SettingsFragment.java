@@ -1,9 +1,12 @@
 package com.focosee.qingshow.activity;
 
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -38,6 +41,8 @@ public class U02SettingsFragment extends Fragment {
     private SharedPreferences sharedPreferences;
 
     private TextView saveTextView;
+    private RelativeLayout personalRelativeLayout;
+    private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
     private RelativeLayout changePasswordRelativeLayout;
@@ -69,6 +74,27 @@ public class U02SettingsFragment extends Fragment {
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
         sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
+
+        personalRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.personalRelativeLayout);
+        personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image:/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
+        backgroundRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.backgroundRelativeLayout);
+        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image:/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
 
         sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
         sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -208,5 +234,46 @@ public class U02SettingsFragment extends Fragment {
                 requestQueue.add(stringRequest);
             }
         });
+        Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                        "http://chingshow.com:30001/services/user/logout",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("TAG", error.getMessage(), error);
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String rawCookie = sharedPreferences.getString("Cookie", "");
+                        if (rawCookie != null && rawCookie.length() > 0) {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Cookie", rawCookie);
+                            return headers;
+                        }
+                        return super.getHeaders();
+                    }
+                };
+                requestQueue.add(stringRequest);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            ContentResolver contentResolver = getActivity().getContentResolver();
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

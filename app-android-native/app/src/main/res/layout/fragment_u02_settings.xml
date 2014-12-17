@@ -68,12 +68,20 @@
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
+            <ImageView
+                android:id="@+id/portraitImageView"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:src="@drawable/bg_photpchoose_eg01" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:layout_toRightOf="@id/portraitImageView"
                 android:text="@string/personal_picture_activity_settings"
                 android:textSize="@dimen/text_size" />
 
@@ -90,12 +98,21 @@
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
+            <ImageView
+                android:id="@+id/backgroundImageView"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:src="@drawable/bg_photpchoose_eg02" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:layout_toRightOf="@id/backgroundImageView"
                 android:text="@string/background_picture_activity_settings"
                 android:textSize="@dimen/text_size" />
 
