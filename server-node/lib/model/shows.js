@@ -41,10 +41,8 @@ showSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'brands'
     },
-    brandDiscountInfo : {
-        start : Date,
-        end : Date
-    },
+    brandNewOrder : Number,
+    brandDiscountOrder : Number,
     create : {
         type : Date,
         'default' : Date.now

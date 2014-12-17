@@ -169,12 +169,14 @@ feeding.chosen = {
             },
             function(count, callback) {
                 // Query shows
+                var skip = (pageNo - 1) * pageSize;
+                chosen = new Chosen({
+                    'showRefs' : chosen.showRefs.filter(function(show, index) {
+                        return index >= skip && index < skip + pageSize;
+                    })
+                });
                 Chosen.populate(chosen, {
-                    'path' : 'showRefs',
-                    'options' : {
-                        'skip' : (pageNo - 1) * pageSize,
-                        'limit' : pageSize
-                    }
+                    'path' : 'showRefs'
                 }, function(err, chosen) {
                     callback(err, count, chosen.showRefs);
                 });
@@ -217,10 +219,13 @@ feeding.byBrandNew = {
     'func' : function(req, res) {
         _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
-                'brandRef' : qsParam.brandRef
+                'brandRef' : qsParam.brandRef,
+                'brandNewOrder' : {
+                    '$ne' : null
+                }
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
-                'create' : -1
+                'brandNewOrder' : 1
             }), Show.find(criteria), pageNo, pageSize, callback);
         }, function(queryString) {
             return {
@@ -238,15 +243,12 @@ feeding.byBrandDiscount = {
         _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             var criteria = {
                 'brandRef' : qsParam.brandRef,
-                'brandDiscountInfo.start' : {
-                    '$lte' : new Date()
-                },
-                'brandDiscountInfo.end' : {
-                    '$gte' : new Date()
+                'brandDiscountOrder' : {
+                    '$ne' : null
                 }
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
-                'brandDiscountInfo.end' : 1
+                'brandDiscountOrder' : 1
             }), Show.find(criteria), pageNo, pageSize, callback);
         }, function(queryString) {
             return {
