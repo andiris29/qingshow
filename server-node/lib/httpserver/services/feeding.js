@@ -212,7 +212,7 @@ feeding.byModel = {
     }
 };
 
-feeding.byBrand = {
+feeding.byBrandNew = {
     'method' : 'get',
     'func' : function(req, res) {
         _feed(req, res, function(pageNo, pageSize, qsParam, callback) {

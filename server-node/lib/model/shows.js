@@ -22,7 +22,6 @@ showSchema = Schema({
     posters : [String],
     numLike : Number,
     numView : Number,
-    styles : [Number],
     modelRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'

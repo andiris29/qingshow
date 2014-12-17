@@ -7,7 +7,10 @@ brandSchema = Schema({
     __context : Object,
     name: String,
     logo: String,
-    slogan : String,
+    shopInfo : {
+        address : String,
+        phone : Number
+    },
     create: { type: Date, 'default': Date.now }
 });
 var Brand = mongoose.model('brands', brandSchema);
