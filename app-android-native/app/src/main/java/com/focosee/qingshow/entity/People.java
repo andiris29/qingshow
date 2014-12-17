@@ -13,6 +13,11 @@ public class People {
     public String[] roles;
     public int __v;
     public int gender;
+    public String portrait;
+    public String height;
+    public String name;
+    public String weight;
+    public String background;
 
     public class UserInfo {
         public String id;
