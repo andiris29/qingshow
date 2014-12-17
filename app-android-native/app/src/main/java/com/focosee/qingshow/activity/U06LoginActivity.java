@@ -114,7 +114,7 @@ public class U06LoginActivity extends Activity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("id", accountEditText.getText().toString());
                                 editor.putString("password", passwordEditText.getText().toString());
-                                editor.putString("Cookie", passwordEditText.getText().toString());
+                                editor.putString("Cookie", rawCookie);
                                 editor.commit();
 
                                 Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
