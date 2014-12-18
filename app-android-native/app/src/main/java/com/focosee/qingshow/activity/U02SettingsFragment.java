@@ -238,6 +238,8 @@ public class U02SettingsFragment extends Fragment {
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sharedPreferences.edit().clear().commit();
+                Toast.makeText(context, "与退出登录", Toast.LENGTH_LONG).show();
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
                         "http://chingshow.com:30001/services/user/logout",
                         new Response.Listener<String>() {
