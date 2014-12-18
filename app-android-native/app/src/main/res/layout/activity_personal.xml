@@ -54,8 +54,8 @@
 
             <ImageView
                 android:id="@+id/avatorImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true" />
 
@@ -65,14 +65,22 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/nameTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jenny" />
+                    android:textSize="@dimen/text_size_small"
+                    android:textColor="#ffffff"
+                    android:layout_alignParentTop="true"
+                    android:text="" />
 
                 <TextView
+                    android:id="@+id/heightAndWeightTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="161cm/45kg" />
+                    android:textColor="#ffffff"
+                    android:layout_below="@id/nameTextView"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="" />
             </RelativeLayout>
         </RelativeLayout>
 

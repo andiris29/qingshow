@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -145,11 +146,16 @@ public class U02SexFragment extends Fragment {
                     }
 
                     @Override
-                    public Map<String, String> getHeaders() {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("Accept", "application/json");
-                        headers.put("Content-Type", "application/json; charset=UTF-8");
-                        return headers;
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String rawCookie = sharedPreferences.getString("Cookie", "");
+                        if (rawCookie != null && rawCookie.length() > 0) {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Cookie", rawCookie);
+                            headers.put("Accept", "application/json");
+                            headers.put("Content-Type", "application/json; charset=UTF-8");
+                            return headers;
+                        }
+                        return super.getHeaders();
                     }
                 };
                 requestQueue.add(stringRequest);
