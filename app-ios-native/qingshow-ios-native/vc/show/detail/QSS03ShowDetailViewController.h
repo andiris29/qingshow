@@ -25,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *favorBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+@property (weak, nonatomic) IBOutlet UIView *buttnPanel;
+@property (weak, nonatomic) IBOutlet UIView *shareContainer;
 
 #pragma mark - Init
 - (id)initWithShow:(NSDictionary*)showDict;
@@ -33,11 +36,12 @@
 - (IBAction)playBtnPressed:(id)sender;
 - (IBAction)commentBtnPressed:(id)sender;
 - (IBAction)shareBtnPressed:(id)sender;
-- (IBAction)favorBtnPressed:(id)sender;
+- (IBAction)likeBtnPressed:(id)sender;
 - (IBAction)backBtnPressed:(id)sender;
 - (IBAction)didTapModel:(id)sender;
 - (IBAction)itemButtonPressed:(id)sender;
 
+- (IBAction)shareContainerPressed:(id)sender;
 
 
 
