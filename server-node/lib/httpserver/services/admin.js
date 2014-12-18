@@ -11,22 +11,6 @@ var RequestHelper = require('../helpers/RequestHelper');
 
 var ServerError = require('../server-error');
 
-var crypto = require('crypto'), _secret = 'qingshow@secret';
-
-var _encrypt = function(string) {
-    var cipher = crypto.createCipher('aes192', _secret);
-    var enc = cipher.update(string, 'utf8', 'hex');
-    enc += cipher.final('hex');
-    return enc;
-};
-
-var _decrypt = function(string) {
-    var decipher = crypto.createDecipher('aes192', _secret);
-    var dec = decipher.update(string, 'hex', 'utf8');
-    dec += decipher.final('utf8');
-    return dec;
-};
-
 var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById;
 
 _savePeople = function(req, res) {

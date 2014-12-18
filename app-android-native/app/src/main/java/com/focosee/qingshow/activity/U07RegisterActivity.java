@@ -81,8 +81,10 @@ public class U07RegisterActivity extends Activity {
                                                 Toast.makeText(context, "账号已存在", Toast.LENGTH_LONG).show();
                                             }
                                         } else {
+                                            Toast.makeText(context, "注册成功，请登录", Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(U07RegisterActivity.this, U06LoginActivity.class);
                                             startActivity(intent);
+                                            finish();
                                         }
                                     } catch (Exception e) {
                                         Log.v("TAG", "exception");

@@ -129,7 +129,7 @@ public class S01HomeActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(S01HomeActivity.this,
                         (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
-                                ? U06LoginActivity.class : U01PersonalActivity.class);
+                                ? U01PersonalActivity.class : U06LoginActivity.class);
 
 //                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
                 startActivity(intent);
@@ -171,7 +171,6 @@ public class S01HomeActivity extends Activity {
         setLastUpdateTime();
 
         _wfPullRefreshView.doPullRefreshing(true, 500);
-        test();
 
     }
 
@@ -235,44 +234,6 @@ public class S01HomeActivity extends Activity {
             }
         });
         QSApplication.get().QSRequestQueue().add(jor);
-    }
-
-    private void test() {
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("id", "18817599043");
-        data.put("password", "yujiajia");
-        JSONObject jsonData = new JSONObject(data);
-
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, "http://chingshow.com:30001/services/user/login", jsonData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                CookieManager cookieManage = new CookieManager();
-                CookieHandler.setDefault(cookieManage);
-                Log.i("cookie", "test" + response.toString());
-                test2();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("cookie", "test" + error.toString());
-            }
-        });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
-    }
-
-    private void test2() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, "http://chingshow.com:30001/services/user/logout", null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("cookie", "test2" + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("cookie", "test2" + error.toString());
-            }
-        });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
 }

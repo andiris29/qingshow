@@ -28,7 +28,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.People;
 
 import org.json.JSONObject;
 
@@ -166,6 +168,15 @@ public class U02SettingsFragment extends Fragment {
         heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
         weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
 
+        TextView nameTextView = (TextView) getActivity().findViewById(R.id.nameTextView);
+        TextView heightAndWeightTextView = (TextView) getActivity().findViewById(R.id.heightAndWeightTextView);
+        People people = QSApplication.get().getPeople();
+        if (people != null) {
+            if (people.name!=null) nameTextView.setText(people.name);
+            if (people.height!=null && people.weight!=null)
+                heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+        }
+
         saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
         saveTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +204,7 @@ public class U02SettingsFragment extends Fragment {
                                             Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
-
+                                        Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
                                     }
                                 } catch (Exception e) {
                                     Log.v("TAG", "exception");
@@ -217,18 +228,16 @@ public class U02SettingsFragment extends Fragment {
                     }
                 }) {
                     @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("id", sharedPreferences.getString("id", ""));
-                        return map;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("Accept", "application/json");
-                        headers.put("Content-Type", "application/json; charset=UTF-8");
-                        return headers;
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String rawCookie = sharedPreferences.getString("Cookie", "");
+                        if (rawCookie != null && rawCookie.length() > 0) {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Cookie", rawCookie);
+                            headers.put("Accept", "application/json");
+                            headers.put("Content-Type", "application/json; charset=UTF-8");
+                            return headers;
+                        }
+                        return super.getHeaders();
                     }
                 };
                 requestQueue.add(stringRequest);
@@ -238,6 +247,11 @@ public class U02SettingsFragment extends Fragment {
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sharedPreferences.edit().clear().commit();
+                Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), U06LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
                         "http://chingshow.com:30001/services/user/logout",
                         new Response.Listener<String>() {

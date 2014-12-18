@@ -131,12 +131,15 @@ public class U06LoginActivity extends Activity {
                                     } else {
                                         if (loginResponse.metadata.error == 1001) {
                                             Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 } else {
                                     QSApplication.get().setPeople(loginResponse.data.people);
                                     Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                             }
                         }, new Response.ErrorListener() {

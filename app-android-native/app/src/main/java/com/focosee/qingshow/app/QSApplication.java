@@ -51,6 +51,8 @@ public class QSApplication extends Application {
         _requestQueue = Volley.newRequestQueue(this);
         _instance = this;
         _preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        _preferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
     }
 
     public void configImageLoader() {
