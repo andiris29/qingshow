@@ -7,14 +7,19 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "QSS03ItemShopDetailViewController.h"
-#import "QSAllItemImageScrollView.h"
+
 #import "QSShowUtil.h"
+#import "QSItemUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSS03ItemShopDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (assign, nonatomic) int currentItemIndex;
 @property (strong, nonatomic) QSAllItemImageScrollView* imgScrollView;
+
+@property (assign, nonatomic) BOOL fIsFirstLoad;
 @end
 
 @implementation QSS03ItemShopDetailViewController
@@ -26,6 +31,7 @@
     if (self) {
         self.showDict = showDict;
         self.currentItemIndex = index;
+        self.fIsFirstLoad = YES;
     }
     return self;
 }
@@ -43,35 +49,55 @@
     self.showBtn.layer.cornerRadius = 8;
     self.showBtn.layer.masksToBounds = YES;
     self.imgScrollView = [[QSAllItemImageScrollView alloc] initWithFrame:self.contentView.bounds direction:QSImageScrollViewDirectionVer];
+    self.imgScrollView.delegate = self;
 //    self.imgScrollView.backgroundColor = [UIColor blackColor];
-    self.imgScrollView.pageControl.hidden = YES;
     [self.contentView addSubview:self.imgScrollView];
     
     
     self.imgScrollView.itemsArray = [QSShowUtil getItems:self.showDict];
+
+
 }
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self.imgScrollView scrollViewDidEndDecelerating:nil];
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+        [self.imgScrollView scrollToPage:self.currentItemIndex];
+        NSDictionary* item = [QSShowUtil getItemFromShow:self.showDict AtIndex:self.currentItemIndex];
+        [self bindWithItem:item];
+    }
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 #pragma mark - IBAction
 - (IBAction)shopButtonPressed:(id)sender {
-    
+    NSURL* url = [QSItemUtil getShopUrl:[QSShowUtil getItemFromShow:self.showDict AtIndex:self.currentItemIndex]];
+    if (url) {
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
+        [self showErrorHudWithText:@"暂无地址"];
+    }
 }
 
+
+- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
+{
+    if (!self.fIsFirstLoad) {
+        self.currentItemIndex = page;
+        NSDictionary* item = [QSShowUtil getItemFromShow:self.showDict AtIndex:page];
+        [self bindWithItem:item];
+    }
+}
+
+- (void)bindWithItem:(NSDictionary*)item
+{
+    self.label1.text = [QSItemUtil getItemDescription:item];
+    self.label2.text = [QSItemUtil getPrice:item];
+    [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+}
 @end

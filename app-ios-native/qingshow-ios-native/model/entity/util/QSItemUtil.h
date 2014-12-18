@@ -15,7 +15,9 @@
 + (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
 + (NSString*)getItemDescription:(NSDictionary*)item;
 + (NSString*)getItemTypeName:(NSDictionary*)item;
++ (NSString*)getPrice:(NSDictionary*)item;
 
 + (NSDictionary*)getBrand:(NSDictionary*)item;
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
++ (NSURL*)getIconUrl:(NSDictionary*)itemDict;
 @end

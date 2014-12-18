@@ -200,4 +200,15 @@
     }
 
 }
+- (void)scrollToPage:(int)page
+{
+    int currentPage = page + 1;
+    CGSize size = self.scrollView.bounds.size;
+    if (self.direction == QSImageScrollViewDirectionHor) {
+        self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
+    } else {
+        self.scrollView.contentOffset = CGPointMake(0, currentPage * size.height);
+    }
+    
+}
 @end

@@ -106,4 +106,14 @@
     }
     return array;
 }
++ (NSString*)getPrice:(NSDictionary*)item
+{
+#warning 没字段
+    return @"";
+}
++ (NSURL*)getIconUrl:(NSDictionary*)itemDict
+{
+#warning 没字段
+    return nil;
+}
 @end

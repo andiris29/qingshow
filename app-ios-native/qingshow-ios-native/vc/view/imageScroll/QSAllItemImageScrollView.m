@@ -16,7 +16,7 @@
 {
     self = [super initWithFrame:frame direction:d];
     if (self) {
-        self.pageControl.hidden = YES;
+        [self.pageControl removeFromSuperview];
     }
     return self;
 }
@@ -24,7 +24,7 @@
 {
     self = [self initWithFrame:frame direction:QSImageScrollViewDirectionVer];
     if (self) {
-        self.pageControl.hidden = YES;
+        [self.pageControl removeFromSuperview];
     }
     return self;
 }
@@ -45,7 +45,7 @@
         imageView.imageUrlArray = @[[QSItemUtil getCoverUrl:self.itemsArray[imageIndex]], [QSItemUtil getCoverUrl:self.itemsArray[imageIndex]]];
     }
     imageView.translatesAutoresizingMaskIntoConstraints = YES;
-    imageView.pageControl.hidden = YES;
+    [imageView.pageControl removeFromSuperview];
     return imageView;
 }
 - (void)updateView:(UIView*)view forPage:(int)imageIndex

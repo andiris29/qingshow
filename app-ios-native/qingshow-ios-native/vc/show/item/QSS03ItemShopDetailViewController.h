@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSAllItemImageScrollView.h"
 
-@interface QSS03ItemShopDetailViewController : UIViewController <UIScrollViewDelegate>
+@interface QSS03ItemShopDetailViewController : UIViewController <UIScrollViewDelegate, QSImageScrollViewBaseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UIButton *showBtn;
