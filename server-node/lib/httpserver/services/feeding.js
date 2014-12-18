@@ -171,6 +171,7 @@ feeding.chosen = {
                 // Query shows
                 var skip = (pageNo - 1) * pageSize;
                 chosen = new Chosen({
+                    'activateTime' : chosen.activateTime,
                     'showRefs' : chosen.showRefs.filter(function(show, index) {
                         return index >= skip && index < skip + pageSize;
                     })
