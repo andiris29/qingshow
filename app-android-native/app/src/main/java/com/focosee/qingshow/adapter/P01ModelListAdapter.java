@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.ModelEntity;
+import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 class P01ModelHolderView {
     public ImageView modelImageView;
@@ -81,9 +93,15 @@ public class P01ModelListAdapter extends BaseAdapter {
         holderView.weightTextView.setText(this.data.get(position).getWeight());
         holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
-        holderView.followButton.setText((this.data.get(position).getModelIsFollowedByCurrentUser()) ? "-取消" : "+关注");
         holderView.followButton.setTag(String.valueOf(position));
-        holderView.followButton.setOnClickListener(followButtonOnClickListener);
+        if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
+            holderView.followButton.setText("-取消");
+            holderView.followButton.setOnClickListener(followButtonOnClickListener);
+        }else{
+            holderView.followButton.setText("+关注");
+            holderView.followButton.setOnClickListener(followButtonOnClickListener);
+        }
+
         return convertView;
     }
 
@@ -98,10 +116,77 @@ public class P01ModelListAdapter extends BaseAdapter {
     public class FollowButtonOnClickListener implements View.OnClickListener {
 
         @Override
-        public void onClick(View v) {
-            int index = Integer.valueOf(v.getTag().toString());
-            Toast.makeText(context, "click :" + String.valueOf(index), Toast.LENGTH_SHORT).show();
-
+        public void onClick(final View v) {
+            if (data.get(Integer.valueOf(v.getTag().toString()).intValue()).getModelIsFollowedByCurrentUser()) {
+                unFollowModel((Button) v);
+            }else {
+                followModel((Button) v);
+            }
         }
+    }
+
+    private void followModel(final Button v) {
+        Map<String, String> followData = new HashMap<String, String>();
+        followData.put("_id", data.get(Integer.valueOf(v.getTag().toString()).intValue()).get_id());
+        JSONObject jsonObject = new JSONObject(followData);
+
+        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.get("metadata").toString().equals("{}")) {
+                        showMessage(context, "关注成功");
+                        data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
+                        v.setText("-取消");
+                    }else{
+                        showMessage(context, "关注失败" + response.toString() + response.get("metadata").toString().length());
+                    }
+                }catch (Exception e) {
+                    showMessage(context, e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showMessage(context, error.toString());
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+    }
+
+    private void unFollowModel(final Button v) {
+        Map<String, String> followData = new HashMap<String, String>();
+        followData.put("_id", data.get(Integer.valueOf(v.getTag().toString()).intValue()).get_id());
+        JSONObject jsonObject = new JSONObject(followData);
+
+        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.get("metadata").toString().equals("{}")) {
+                        showMessage(context, "取消关注成功");
+                        data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(false);
+                        ((Button)v).setText("+关注");
+                    }else{
+                        showMessage(context, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
+                    }
+                }catch (Exception e) {
+                    showMessage(context, e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showMessage(context, error.toString());
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+    }
+
+    private void showMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Log.i(context.getPackageName(), message);
     }
 }

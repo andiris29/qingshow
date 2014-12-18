@@ -16,6 +16,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.ModelEntity;
+import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -67,7 +68,7 @@ public class P01ModelListActivity extends Activity {
     }
 
     private void doRefreshData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);
@@ -87,7 +88,7 @@ public class P01ModelListActivity extends Activity {
     }
 
     private void doLoadMoreData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);

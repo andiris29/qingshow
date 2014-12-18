@@ -92,6 +92,10 @@ public class ModelEntity extends AbsEntity {
         return false;
     }
 
+    public void setModelIsFollowedByCurrentUser(boolean followedByCurrentUser) {
+        __context.followedByCurrentUser = followedByCurrentUser;
+    }
+
     private ModelContext __context;
     private String _id;
     private String _hughUpdate;
