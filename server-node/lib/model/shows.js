@@ -22,7 +22,6 @@ showSchema = Schema({
     posters : [String],
     numLike : Number,
     numView : Number,
-    styles : [Number],
     modelRef : {
         type : Schema.Types.ObjectId,
         ref : 'peoples'
@@ -42,10 +41,8 @@ showSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'brands'
     },
-    brandDiscountInfo : {
-        start : Date,
-        end : Date
-    },
+    brandNewOrder : Number,
+    brandDiscountOrder : Number,
     create : {
         type : Date,
         'default' : Date.now
