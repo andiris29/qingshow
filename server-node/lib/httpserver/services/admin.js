@@ -95,7 +95,7 @@ _removePeopleById = function(req, res) {
       return;
     }
 
-    people.delete(function(err, people) {
+    people.remove(function(err, people) {
       ResponseHelper.response(res, err, {
         'people': people
       });
@@ -111,7 +111,7 @@ _saveItem = function(req, res) {
   }
 
   var item = new Item();
-  item.brandRef = mongoose.mongo.BSONPure.ObjectID(param.brandRef);
+  item.brandRef = RequestHelper.parseId(param['brand']);
   item.category = parseInt(param['category']);
   item.name = param['name'];
   item.cover = param['cover'];
@@ -129,16 +129,16 @@ _removeItemById = function(req, res) {
     ResponseHelper.response(res, ServerError.NotEnoughParam);
     return;
   }
-  Item.findOne({'_id': mongoose.mongo.BSONPure.ObjectID(id)}, function(err, item) {
+  Item.findOne({'_id': RequestHelper.parseId(id)}, function(err, item) {
     if (err) {
       ResponseHelper.response(res, err);
       return;
     } else if (!item) {
-      ResponseHelper.response(res, ServerError.NotEnoughParam);
+      ResponseHelper.response(res, ServerError.ItemNotExist);
       return;
     }
 
-    item.delete(function(res, item) {
+    item.remove(function(res, item) {
       ResponseHelper.response(res, err, {
         'item': item
       });
@@ -176,7 +176,7 @@ _saveShow = function(req, res) {
 
   ['modelRef', 'itemRefs', 'studioRef', 'brandRef'].forEach(function(field) {
     if (param[field]) {
-      show.set(field, mongoose.mongo.BSONPure.ObjectID(param[field]));
+      show.set(field, RequestHelper.parseId(param[field]));
     }
   });
 
@@ -198,11 +198,11 @@ _removeShowById = function(req, res) {
       ResponseHelper.response(res, err);
       return;
     } else if (show) {
-      ResponseHelper.response(res, ServerError.NotEnoughParam);
+      ResponseHelper.response(res, ServerError.ShowNotExist);
       return;
     }
     
-    show.delete(function(res, show) {
+    show.remove(function(res, show) {
       ResponseHelper.response(res, err, {
         'show': show
       });
@@ -216,7 +216,7 @@ module.exports = {
     func: _savePeople,
     permissionValidators: ['loginValidator']
   },
-  'removePeople': {
+  'removePeopleById': {
     method: 'post',
     func: _removePeopleById,
     permissionValidators: ['loginValidator']
