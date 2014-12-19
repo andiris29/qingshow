@@ -1,12 +1,6 @@
 var mongoose = require('mongoose');
-var People = require('./peoples');
-var Item = require('./items');
-
-var path = require('path');
-var gm = require('gm').subClass({
-    imageMagick : true
-});
-var http = require('http');
+var async = require('async');
+var ImageUtils = require('./utils/ImageUtils');
 
 var Schema = mongoose.Schema;
 var showSchema;
@@ -14,7 +8,13 @@ showSchema = Schema({
     __context : Object,
     cover : String,
     coverMetadata : {
-        cover : String,
+        url : String,
+        width : Number,
+        height : Number
+    },
+    horizontalCover : String,
+    horizontalCoverMetadata : {
+        url : String,
         width : Number,
         height : Number
     },
@@ -50,34 +50,14 @@ showSchema = Schema({
 });
 
 showSchema.methods.updateCoverMetaData = function(callback) {
-    if (!this.cover.length || (this.coverMetadata && (this.cover === this.coverMetadata.cover))) {
-        callback(null);
-        return;
-    }
-    var defaultMetadata = {
-        cover : "",
-        width : 145,
-        height : 270
-    };
-
-    gm(this.cover).size( function(err, size) {
-        if (size) {
-            this.coverMetadata = {
-                cover : this.cover,
-                width : size.width,
-                height : size.height
-            };
-        } else {
-            this.coverMetadata = defaultMetadata;
-        }
-        if (err) {
-            callback(err);
-        } else {
-            this.save(function(err, image) {
-                callback(err);
-            });
-        }
-    }.bind(this));
+    async.parallel([ function(callback) {
+        ImageUtils.createOrUpdateMetadata(this, 'cover', callback);
+    }.bind(this), function(callback) {
+        ImageUtils.createOrUpdateMetadata(this, 'horizontalCover', callback);
+    }.bind(this)], function(err, results) {
+        callback();
+    });
 };
+
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;
