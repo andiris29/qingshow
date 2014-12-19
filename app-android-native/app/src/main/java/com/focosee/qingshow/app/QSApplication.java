@@ -45,11 +45,13 @@ public class QSApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // TODO Remove _imageLoader?
         if (null == _imageLoader){
             configImageLoader();
         }
         _requestQueue = Volley.newRequestQueue(this);
         _instance = this;
+        // TODO _preferences set * 2?
         _preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         _preferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
@@ -79,6 +81,7 @@ public class QSApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
+    // TODO QSRequestQueue name convension
     public RequestQueue QSRequestQueue() {
         if (_requestQueue == null) {
             _requestQueue = Volley.newRequestQueue(this);
@@ -86,6 +89,7 @@ public class QSApplication extends Application {
         return _requestQueue;
     }
 
+    // TODO QSUserId public?
     public String QSUserId(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("personal", Context.MODE_PRIVATE);
         _userId = sharedPreferences.getString("id", null);

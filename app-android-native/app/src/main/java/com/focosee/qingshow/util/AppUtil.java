@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 public class AppUtil {
 
+    // TODO
     public static String getAppUserName(Context context) {
         SharedPreferences prefs;// = PreferenceManager.getDefaultSharedPreferences(context) ;
         prefs = context.getSharedPreferences("personal", Context.MODE_PRIVATE);

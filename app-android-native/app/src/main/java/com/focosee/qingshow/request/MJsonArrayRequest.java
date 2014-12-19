@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO Do we have array response?
 public class MJsonArrayRequest extends JsonArrayRequest {
 
     private Map<String, String> _params;
