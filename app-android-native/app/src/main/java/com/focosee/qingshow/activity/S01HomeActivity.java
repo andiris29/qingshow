@@ -20,6 +20,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -126,7 +127,11 @@ public class S01HomeActivity extends Activity {
         ((ImageView)findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
+                Intent intent = new Intent(S01HomeActivity.this,
+                        (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
+                                ? U01PersonalActivity.class : U06LoginActivity.class);
+
+//                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -166,7 +171,6 @@ public class S01HomeActivity extends Activity {
         setLastUpdateTime();
 
         _wfPullRefreshView.doPullRefreshing(true, 500);
-        test();
 
     }
 
@@ -230,44 +234,6 @@ public class S01HomeActivity extends Activity {
             }
         });
         QSApplication.get().QSRequestQueue().add(jor);
-    }
-
-    private void test() {
-        Map<String, String> data = new HashMap<String, String>();
-        data.put("id", "18817599043");
-        data.put("password", "yujiajia");
-        JSONObject jsonData = new JSONObject(data);
-
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, "http://chingshow.com:30001/services/user/login", jsonData, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                CookieManager cookieManage = new CookieManager();
-                CookieHandler.setDefault(cookieManage);
-                Log.i("cookie", "test" + response.toString());
-                test2();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("cookie", "test" + error.toString());
-            }
-        });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
-    }
-
-    private void test2() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, "http://chingshow.com:30001/services/user/logout", null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i("cookie", "test2" + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("cookie", "test2" + error.toString());
-            }
-        });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
 }

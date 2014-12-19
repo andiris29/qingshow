@@ -8,7 +8,12 @@ function parser(req, res, next) {
         });
         req.queryString = JSON.parse(JSON.stringify(query));
     }
-    next();
+    if (!global.__user) {
+        global.__user = (req.queryString && req.queryString.__user === 'user');
+    }
+    if (!global.__user) {
+        next();
+    }
 }
 
-module.exports = parser; 
+module.exports = parser;

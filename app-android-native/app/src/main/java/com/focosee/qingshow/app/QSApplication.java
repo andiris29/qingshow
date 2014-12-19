@@ -9,6 +9,7 @@ import android.util.Log;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.Volley;
+import com.focosee.qingshow.entity.People;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -34,6 +35,7 @@ public class QSApplication extends Application {
     private static RequestQueue _requestQueue;
     private static String _userId;
     private SharedPreferences _preferences;
+    private static People people = null;
 
     public static QSApplication get() {
         return _instance;
@@ -49,6 +51,8 @@ public class QSApplication extends Application {
         _requestQueue = Volley.newRequestQueue(this);
         _instance = this;
         _preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        _preferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
     }
 
     public void configImageLoader() {
@@ -128,5 +132,12 @@ public class QSApplication extends Application {
         }
     }
 
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People p) {
+        people = p;
+    }
 
 }

@@ -13,7 +13,7 @@
 @implementation QSItemUtil
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSString* path = itemDict[@"cover"];
@@ -25,7 +25,7 @@
 }
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
     NSString* path = itemDict[@"source"];
@@ -84,7 +84,7 @@
 
 + (NSDictionary*)getBrand:(NSDictionary*)itemDict
 {
-    if ([QSCommonUtil checkIsNil:itemDict]) {
+    if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
     return itemDict[@"brandRef"];
@@ -105,5 +105,15 @@
         [array addObject:url];
     }
     return array;
+}
++ (NSString*)getPrice:(NSDictionary*)item
+{
+#warning 没字段
+    return @"";
+}
++ (NSURL*)getIconUrl:(NSDictionary*)itemDict
+{
+#warning 没字段
+    return nil;
 }
 @end

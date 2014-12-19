@@ -9,13 +9,29 @@
 #import "QSAllItemImageScrollView.h"
 #import "QSSingleImageScrollView.h"
 #import "QSItemUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 
 @implementation QSAllItemImageScrollView
+- (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d
+{
+    self = [super initWithFrame:frame direction:d];
+    if (self) {
+        [self.pageControl removeFromSuperview];
+    }
+    return self;
+}
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [self initWithFrame:frame direction:QSImageScrollViewDirectionVer];
+    if (self) {
+        [self.pageControl removeFromSuperview];
+    }
+    return self;
+}
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.pageControl.hidden = YES;
 }
 - (int)getViewCount
 {
@@ -26,8 +42,10 @@
     QSSingleImageScrollView* imageView = [[QSSingleImageScrollView alloc] initWithFrame:self.bounds];
     if (self.itemsArray) {
 #warning 需要改成多个url
-        imageView.imageUrlArray = @[[QSItemUtil getCoverUrl:self.itemsArray[imageIndex]]];
+        imageView.imageUrlArray = @[[QSItemUtil getCoverUrl:self.itemsArray[imageIndex]], [QSItemUtil getCoverUrl:self.itemsArray[imageIndex]]];
     }
+    imageView.translatesAutoresizingMaskIntoConstraints = YES;
+    [imageView.pageControl removeFromSuperview];
     return imageView;
 }
 - (void)updateView:(UIView*)view forPage:(int)imageIndex

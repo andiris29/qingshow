@@ -156,6 +156,7 @@
 
 #pragma mark - IBAction
 - (IBAction)playBtnPressed:(id)sender {
+    [self hideSharePanel];
     NSString* video = self.showDict[@"video"];
     if (video) {
         [self playMovie:video];
@@ -163,6 +164,7 @@
 }
 
 - (IBAction)commentBtnPressed:(id)sender {
+    [self hideSharePanel];
     UIViewController* vc =[[QSCommentListViewController alloc] initWithShow:self.showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -181,8 +183,8 @@
 }
 
 
-- (IBAction)favorBtnPressed:(id)sender {
-    
+- (IBAction)likeBtnPressed:(id)sender {
+    [self hideSharePanel];
     if ([QSShowUtil getIsLike:self.showDict]) {
         [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
             [self showSuccessHudWithText:@"unlike succeed"];
@@ -222,25 +224,26 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (IBAction)shareContainerPressed:(id)sender {
+    [self hideSharePanel];
+}
+
 
 #pragma mark - Movie
 -(void)playMovie:(NSString *)path{
     NSURL *url = [NSURL URLWithString:path];
     if (!self.movieController) {
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
-        [self.view addSubview:self.movieController.view];
+        [self.videoContainerView addSubview:self.movieController.view];
         self.movieController.view.userInteractionEnabled = NO;
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
         [self.videoContainerView addGestureRecognizer:tap];
-        UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
-        [self.videoContainerView addGestureRecognizer:pinch];
-        [self.view bringSubviewToFront:self.commentBtn];
-        [self.view bringSubviewToFront:self.shareBtn];
-        [self.view bringSubviewToFront:self.playBtn];
+//        UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
+//        [self.videoContainerView addGestureRecognizer:pinch];
         
-        UIPinchGestureRecognizer*  ges = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
-        [self.movieController.view addGestureRecognizer:ges];
+//        UIPinchGestureRecognizer*  ges = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
+//        [self.movieController.view addGestureRecognizer:ges];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didExitFullScreen)
                                                      name:MPMoviePlayerDidExitFullscreenNotification
@@ -250,8 +253,6 @@
                                                    object:nil];
     }
     self.movieController.view.frame = self.videoContainerView.frame;
-//    self.movieController.view.userInteractionEnabled = NO;
-    self.movieController.view.hidden = NO;
     self.movieController.scalingMode = MPMovieScalingModeAspectFill;
 
     self.movieController.controlStyle = MPMovieControlStyleNone;
@@ -267,6 +268,7 @@
 
     
     [self setCommentSharePlayButtonHidden:YES];
+    self.videoContainerView.userInteractionEnabled = YES;
 }
 - (void)didEnd
 {
@@ -281,9 +283,11 @@
 }
 - (void)setCommentSharePlayButtonHidden:(BOOL)hidden
 {
-    self.commentBtn.hidden = hidden;
+    self.buttnPanel.hidden = hidden;
+    self.backBtn.hidden = hidden;
+    self.modelContainer.hidden = hidden;
     self.playBtn.hidden = hidden;
-    self.shareBtn.hidden = hidden;
+
 }
 - (void)didExitFullScreen
 {
@@ -300,6 +304,7 @@
     if (self.movieController) {
         [self.movieController stop];
         self.movieController.view.hidden = YES;
+        self.videoContainerView.userInteractionEnabled = NO;
     }
 }
 
@@ -322,6 +327,7 @@
 
 - (void)didTapVideo
 {
+    [self hideSharePanel];
     if (self.movieController.playbackState == MPMoviePlaybackStatePaused) {
         [self.movieController play];
         [self setCommentSharePlayButtonHidden:YES];
@@ -346,10 +352,11 @@
 #pragma mark - Share
 - (void)showSharePanel
 {
-    if (self.sharePanel.hidden == NO){
+    if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
         return;
     }
     [self.view bringSubviewToFront:self.sharePanel];
+    self.shareContainer.hidden = NO;
     self.sharePanel.hidden = NO;
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
@@ -360,9 +367,10 @@
 }
 - (void)hideSharePanel
 {
-    if (self.sharePanel.hidden == YES) {
+    if (self.shareContainer.hidden == YES && self.sharePanel.hidden == YES) {
         return;
     }
+    self.shareContainer.hidden = YES;
     self.sharePanel.hidden = YES;
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
@@ -379,8 +387,6 @@
     request.redirectURI = kWeiboRedirectURI;
     request.scope = @"all";
     request.userInfo = nil;
-
-    
     
     WBMessageObject *message = [WBMessageObject message];
     WBWebpageObject* webPage = [WBWebpageObject object];
@@ -454,4 +460,8 @@
     [self hideSharePanel];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self hideSharePanel];
+}
 @end

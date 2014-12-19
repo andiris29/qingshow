@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         navi:left_drawable="@drawable/root_icon_back"
-        navi:tv_title="品牌"
+        navi:tv_title="模特列表"
         ></com.focosee.qingshow.widget.MNavigationView>
 
     <com.focosee.qingshow.widget.MPullRefreshListView

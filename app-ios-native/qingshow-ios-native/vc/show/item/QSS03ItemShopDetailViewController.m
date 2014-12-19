@@ -8,11 +8,18 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSS03ItemShopDetailViewController.h"
 
+#import "QSShowUtil.h"
+#import "QSItemUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+#import "UIViewController+ShowHud.h"
+
 @interface QSS03ItemShopDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (assign, nonatomic) int currentItemIndex;
+@property (strong, nonatomic) QSAllItemImageScrollView* imgScrollView;
 
+@property (assign, nonatomic) BOOL fIsFirstLoad;
 @end
 
 @implementation QSS03ItemShopDetailViewController
@@ -24,8 +31,13 @@
     if (self) {
         self.showDict = showDict;
         self.currentItemIndex = index;
+        self.fIsFirstLoad = YES;
     }
     return self;
+}
+
+- (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Life Cycle
@@ -36,82 +48,56 @@
     self.iconImageView.layer.masksToBounds = YES;
     self.showBtn.layer.cornerRadius = 8;
     self.showBtn.layer.masksToBounds = YES;
-//    [self configScrollView];
-//    [self config];
-//    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.imgScrollView = [[QSAllItemImageScrollView alloc] initWithFrame:self.contentView.bounds direction:QSImageScrollViewDirectionVer];
+    self.imgScrollView.delegate = self;
+//    self.imgScrollView.backgroundColor = [UIColor blackColor];
+    [self.contentView addSubview:self.imgScrollView];
+    
+    
+    self.imgScrollView.itemsArray = [QSShowUtil getItems:self.showDict];
+
+
 }
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.scrollView.contentInset = UIEdgeInsetsZero;
-}
-- (void)config
-{
-    UIView* view0 = [[UIView alloc] init];
-    view0.backgroundColor = [UIColor redColor];
-    view0.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view1 = [[UIView alloc] init];
-    view1.backgroundColor = [UIColor grayColor];
-    view1.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view2 = [[UIView alloc] init];
-    view2.backgroundColor = [UIColor blueColor];
-    view2.translatesAutoresizingMaskIntoConstraints = NO;
-    view0.frame = CGRectMake(0, 0, 300, 300);
-    view1.frame = CGRectMake(0, 300, 300, 300);
-    view2.frame = CGRectMake(0, 600, 300, 300);
-    [self.scrollView addSubview:view0];
-    [self.scrollView addSubview:view1];
-    [self.scrollView addSubview:view2];
-    self.scrollView.contentSize = CGSizeMake(300, 900);
-}
-- (void)configScrollView
-{
-//    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view0 = [[UIView alloc] init];
-    view0.backgroundColor = [UIColor redColor];
-    view0.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view1 = [[UIView alloc] init];
-    view1.backgroundColor = [UIColor grayColor];
-    view1.translatesAutoresizingMaskIntoConstraints = NO;
-    UIView* view2 = [[UIView alloc] init];
-    view2.backgroundColor = [UIColor blueColor];
-    view2.translatesAutoresizingMaskIntoConstraints = NO;
-    CGSize screenSize = [UIScreen mainScreen].bounds.size;
-    
-    [self.scrollView addSubview:view0];
-    [self.scrollView addSubview:view1];
-    [self.scrollView addSubview:view2];
-    NSDictionary* viewDict = NSDictionaryOfVariableBindings(view0, view1, view2);
-    NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view0(winHeight)][view1(winHeight)][view2(winHeight)]|" options:0 metrics:@{@"winHeight" : @(screenSize.height)} views:viewDict];
-    [self.scrollView addConstraints:constraints];
-    
-    for (UIView* v in @[view0, view1, view2]) {
-        NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[view(winWidth)]-0-|" options:0 metrics:@{@"winWidth" : @(screenSize.width)} views:@{@"view" : v}];
-        [self.scrollView addConstraints:constraints];
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+        [self.imgScrollView scrollToPage:self.currentItemIndex];
+        NSDictionary* item = [QSShowUtil getItemFromShow:self.showDict AtIndex:self.currentItemIndex];
+        [self bindWithItem:item];
     }
-}
 
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 #pragma mark - IBAction
 - (IBAction)shopButtonPressed:(id)sender {
-    
+    NSURL* url = [QSItemUtil getShopUrl:[QSShowUtil getItemFromShow:self.showDict AtIndex:self.currentItemIndex]];
+    if (url) {
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
+        [self showErrorHudWithText:@"暂无地址"];
+    }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+
+- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
 {
-    NSLog(@"%f",scrollView.contentOffset.y);
+    if (!self.fIsFirstLoad) {
+        self.currentItemIndex = page;
+        NSDictionary* item = [QSShowUtil getItemFromShow:self.showDict AtIndex:page];
+        [self bindWithItem:item];
+    }
+}
+
+- (void)bindWithItem:(NSDictionary*)item
+{
+    self.label1.text = [QSItemUtil getItemDescription:item];
+    self.label2.text = [QSItemUtil getPrice:item];
+    [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
 }
 @end

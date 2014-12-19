@@ -27,10 +27,6 @@ peopleSchema = Schema({
         },
         select : false
     },
-    modelInfo : {
-        status : String,
-        numberLike : Number
-    },
     create : {
         type : Date,
         'default' : Date.now

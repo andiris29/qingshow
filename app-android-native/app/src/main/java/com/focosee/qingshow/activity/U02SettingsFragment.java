@@ -1,9 +1,12 @@
 package com.focosee.qingshow.activity;
 
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -25,7 +28,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.People;
 
 import org.json.JSONObject;
 
@@ -38,6 +43,8 @@ public class U02SettingsFragment extends Fragment {
     private SharedPreferences sharedPreferences;
 
     private TextView saveTextView;
+    private RelativeLayout personalRelativeLayout;
+    private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
     private RelativeLayout changePasswordRelativeLayout;
@@ -69,6 +76,27 @@ public class U02SettingsFragment extends Fragment {
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
         sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
+
+        personalRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.personalRelativeLayout);
+        personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image:/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
+        backgroundRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.backgroundRelativeLayout);
+        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image:/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
 
         sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
         sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +168,15 @@ public class U02SettingsFragment extends Fragment {
         heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
         weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
 
+        TextView nameTextView = (TextView) getActivity().findViewById(R.id.nameTextView);
+        TextView heightAndWeightTextView = (TextView) getActivity().findViewById(R.id.heightAndWeightTextView);
+        People people = QSApplication.get().getPeople();
+        if (people != null) {
+            if (people.name!=null) nameTextView.setText(people.name);
+            if (people.height!=null && people.weight!=null)
+                heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+        }
+
         saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
         saveTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +204,7 @@ public class U02SettingsFragment extends Fragment {
                                             Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
                                         }
                                     } else {
-
+                                        Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
                                     }
                                 } catch (Exception e) {
                                     Log.v("TAG", "exception");
@@ -191,22 +228,66 @@ public class U02SettingsFragment extends Fragment {
                     }
                 }) {
                     @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("id", sharedPreferences.getString("id", ""));
-                        return map;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() {
-                        HashMap<String, String> headers = new HashMap<String, String>();
-                        headers.put("Accept", "application/json");
-                        headers.put("Content-Type", "application/json; charset=UTF-8");
-                        return headers;
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String rawCookie = sharedPreferences.getString("Cookie", "");
+                        if (rawCookie != null && rawCookie.length() > 0) {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Cookie", rawCookie);
+                            headers.put("Accept", "application/json");
+                            headers.put("Content-Type", "application/json; charset=UTF-8");
+                            return headers;
+                        }
+                        return super.getHeaders();
                     }
                 };
                 requestQueue.add(stringRequest);
             }
         });
+        Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sharedPreferences.edit().clear().commit();
+                Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), U06LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                        "http://chingshow.com:30001/services/user/logout",
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("TAG", error.getMessage(), error);
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        String rawCookie = sharedPreferences.getString("Cookie", "");
+                        if (rawCookie != null && rawCookie.length() > 0) {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Cookie", rawCookie);
+                            return headers;
+                        }
+                        return super.getHeaders();
+                    }
+                };
+                requestQueue.add(stringRequest);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            ContentResolver contentResolver = getActivity().getContentResolver();
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
