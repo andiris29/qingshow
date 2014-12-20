@@ -26,7 +26,6 @@ _savePeople = function(req, res) {
       ResponseHelper.response(res, err);
       return;
     } else if (people) {
-      console.log(people);
       ResponseHelper.response(res, ServerError.EmailAlreadyExist);
       return;
     }
@@ -53,7 +52,6 @@ _savePeople = function(req, res) {
         people.set(field, RequestHelper.parseArray(param[field]));
       }
     });
-    console.log("save");
     people.save(function(err, people) {
       ResponseHelper.response(res, err, {
         'people': people
