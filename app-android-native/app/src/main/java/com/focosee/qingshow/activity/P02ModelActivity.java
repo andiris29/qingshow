@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -46,6 +47,13 @@ public class P02ModelActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p02_model);
+
+        ((ImageButton) findViewById(R.id.P02_back_image_button)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                P02ModelActivity.this.finish();
+            }
+        });
 
         viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
 
