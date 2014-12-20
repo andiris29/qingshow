@@ -47,6 +47,7 @@ ServerError.RequestValidationFail = 1018;
 ServerError.AlreadyRelated = 1019;
 ServerError.AlreadyUnrelated = 1020;
 ServerError.InvalidCurrentPassword = 1021;
+ServerError.IsNotAdmin = 1022;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -86,6 +87,8 @@ var _codeToString = function(code) {
             return "DidNotFollowBrand";
         case 1017 :
             return "PItemNotExist";
+        case 1022 :
+            return "IsNotAdmin";
     }
 };
 

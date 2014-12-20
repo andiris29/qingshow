@@ -2,7 +2,7 @@ var async = require('async');
 var _ = require('underscore');
 
 var ServerError = require('../server-error');
-
+var People = require('../../model/peoples');
 var _validatorsMap = {};
 
 var _init = function(services) {
@@ -49,6 +49,38 @@ var _builtInValidators = {
         } else {
             callback(ServerError.NeedLogin);
         }
+    },
+    'adminValidator': function(req, res, callback) {
+      if (!req.qsCurrentUserId) {
+        callback(ServerError.NeedLogin);
+        return;
+      } else {
+        People.findOne({
+          '_id' : req.qsCurrentUserId
+        }, function(err, people) {
+          if (err) {
+            callback(ServerError.fromError(err));
+          } else if (people) {
+            if (!people.roles) {
+              callback(ServerError.IsNotAdmin);
+            } else {
+              var isAdmin = false
+              people.roles.forEach(function(role) {
+                if (role == 2) {
+                  isAdmin = true;
+                }
+              });
+              if (isAdmin) {
+                callback(null);
+              } else {
+                callback(ServerError.IsNotAdmin);
+              }
+            }
+          } else {
+            callback(ServerError.NeedLogin);
+          }
+        });
+      }
     }
 };
 

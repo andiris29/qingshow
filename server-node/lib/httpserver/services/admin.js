@@ -17,7 +17,7 @@ _savePeople = function(req, res) {
   var param, id, password;
   param = req.body;
   id = param.id;
-  if (!id || !id.length ) {
+  if (!id || !id.length) {
     ResponseHelper.response(res, ServerError.NotEnoughParam);
     return;
   }
@@ -26,6 +26,7 @@ _savePeople = function(req, res) {
       ResponseHelper.response(res, err);
       return;
     } else if (people) {
+      console.log(people);
       ResponseHelper.response(res, ServerError.EmailAlreadyExist);
       return;
     }
@@ -37,10 +38,9 @@ _savePeople = function(req, res) {
       }
     });
 
-    // set people attribute
-    ['name', 'portrait', 'gender', 'password', 'currentPassword'].forEach(function(field) {
+    ['name', 'portrait', 'gender'].forEach(function(field) {
       if (param[field]) {
-        pepole.set(field, param[field]);
+        people.set(field, param[field]);
       }
     });
     ['height', 'weight'].forEach(function(field) {
@@ -53,7 +53,7 @@ _savePeople = function(req, res) {
         people.set(field, RequestHelper.parseArray(param[field]));
       }
     });
-
+    console.log("save");
     people.save(function(err, people) {
       ResponseHelper.response(res, err, {
         'people': people
@@ -203,31 +203,31 @@ module.exports = {
   'savePeople' : {
     method: 'post',
     func: _savePeople,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'removePeopleById': {
     method: 'post',
     func: _removePeopleById,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'saveItem': {
     method: 'post',
     func: _saveItem,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'removeItemById': {
     method: 'post',
     func: _removeItemById,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'saveShow': {
     method: 'post',
     func: _saveShow,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'removeShowById': {
     method: 'post',
     func: _removeShowById,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   }
 };
