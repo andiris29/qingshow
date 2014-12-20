@@ -39,6 +39,13 @@ public class P01ModelListActivity extends Activity {
         setContentView(R.layout.activity_p01_model_list);
 
         navigationView = (MNavigationView) findViewById(R.id.P01_model_list_navigation);
+        navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                P01ModelListActivity.this.finish();
+            }
+        });
+
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P01_model_list_view);
 
         pullRefreshListView.setPullLoadEnabled(true);

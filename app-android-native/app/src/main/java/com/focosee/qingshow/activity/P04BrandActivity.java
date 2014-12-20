@@ -31,6 +31,13 @@ public class P04BrandActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p04_brand);
 
+        findViewById(R.id.P04_back_image_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                P04BrandActivity.this.finish();
+            }
+        });
+
         viewPager = (ViewPager) findViewById(R.id.P04_personalViewPager);
 
         ArrayList<View> pagerViewList = new ArrayList<View>();

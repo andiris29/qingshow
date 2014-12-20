@@ -18,6 +18,7 @@
             android:src="@drawable/bg_pic"/>
 
         <ImageButton
+            android:id="@+id/P04_back_image_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"

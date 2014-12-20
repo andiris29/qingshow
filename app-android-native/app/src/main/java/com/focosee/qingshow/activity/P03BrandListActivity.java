@@ -41,6 +41,13 @@ public class P03BrandListActivity extends Activity {
         setContentView(R.layout.activity_p03_brand_list);
 
         navigationView = (MNavigationView) findViewById(R.id.P03_brand_list_navigation);
+        navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                P03BrandListActivity.this.finish();
+            }
+        });
+
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P03_brand_list_list_view);
         listView = pullRefreshListView.getRefreshableView();
 
@@ -55,7 +62,7 @@ public class P03BrandListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(P03BrandListActivity.this, P04BrandActivity.class);
-                intent.putExtra("BRANDID", ((BrandEntity)adapter.getItem(position)).getBrandName());
+                intent.putExtra("BRANDID", ((BrandEntity) adapter.getItem(position)).getBrandName());
                 startActivity(intent);
             }
         });
