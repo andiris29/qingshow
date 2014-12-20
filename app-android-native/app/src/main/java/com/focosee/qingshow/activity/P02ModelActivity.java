@@ -2,11 +2,13 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -93,6 +95,16 @@ public class P02ModelActivity extends Activity {
                 doLoadMoreTask();
             }
         });
+
+        latestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(P02ModelActivity.this, S03SHowActivity.class);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ModelShowEntity)itemListAdapter.getItem(position)).get_id());
+                startActivity(intent);
+            }
+        });
+
         latestPullRefreshListView.doPullRefreshing(true, 0);
     }
 
