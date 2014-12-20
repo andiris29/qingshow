@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.ShowListEntity;
-import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -96,7 +95,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(_resourceId, null);
             holder = new HomeViewHolder();
-            holder.showIV = (ImageView) convertView.findViewById(R.id.item_show_image);
+            holder.showIV  = (ImageView) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
             holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
@@ -104,9 +103,8 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
             convertView.setTag(holder);
         }
+
         holder = (HomeViewHolder) convertView.getTag();
-
-
 
         holder.setData(showInfo, _mImageFetcher);
         return convertView;

@@ -30,19 +30,19 @@ public class ShowListEntity extends AbsEntity {
     }
 
     public String getShowCover() {
-        if (null != coverMetadata && null != coverMetadata.cover)
-            return coverMetadata.cover;
+        if (null != coverMetadata && null != coverMetadata.url)
+            return coverMetadata.url;
         return null;
     }
 
     public int getCoverHeight() {
-        if (null != coverMetadata && null != coverMetadata.cover)
+        if (null != coverMetadata && null != coverMetadata.url)
             return coverMetadata.height;
         return 0;
     }
 
     public int getCoverWidth() {
-        if (null != coverMetadata && null != coverMetadata.cover)
+        if (null != coverMetadata && null != coverMetadata.url)
             return coverMetadata.width;
         return 0;
     }
@@ -133,7 +133,7 @@ public class ShowListEntity extends AbsEntity {
     }
 
     public static class MetaDataCover extends AbsEntity {
-        public String cover;
+        public String url;
         public int width;
         public int height;
     }
