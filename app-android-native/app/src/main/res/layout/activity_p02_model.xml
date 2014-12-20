@@ -35,7 +35,7 @@
         android:background="#000000">
 
         <RelativeLayout
-            android:id="@+id/P02_matchRelativeLayout"
+            android:id="@+id/P02_newRelativeLayout"
             android:layout_width="0dp"
             android:layout_height="@dimen/indicator_height_activity_personal"
             android:layout_weight="1"
@@ -67,7 +67,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/P02_watchRelativeLayout"
+            android:id="@+id/P02_discountRelativeLayout"
             android:layout_width="0dp"
             android:layout_height="@dimen/indicator_height_activity_personal"
             android:layout_weight="1"

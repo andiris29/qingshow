@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -36,6 +37,10 @@ public class P02ModelActivity extends Activity {
     private ViewPager viewPager;
     private MPullRefreshListView latestPullRefreshListView;
     private ListView latestListView;
+    private RelativeLayout newRelativeLayout;
+    private RelativeLayout discountRelativeLayout;
+    private RelativeLayout fansRelativeLayout;
+    private RelativeLayout followRelativeLayout;
 
     private P02ModelViewPagerAdapter viewPagerAdapter;
     private P02ModelItemListAdapter itemListAdapter;
@@ -55,6 +60,11 @@ public class P02ModelActivity extends Activity {
             }
         });
 
+        newRelativeLayout = (RelativeLayout) findViewById(R.id.P02_newRelativeLayout);
+        discountRelativeLayout = (RelativeLayout) findViewById(R.id.P02_discountRelativeLayout);
+        fansRelativeLayout = (RelativeLayout) findViewById(R.id.P02_fansRelativeLayout);
+        followRelativeLayout = (RelativeLayout) findViewById(R.id.P02_followRelativeLayout);
+
         viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
 
         modelId = getIntent().getStringExtra("_id");
@@ -62,13 +72,16 @@ public class P02ModelActivity extends Activity {
         ArrayList<View> pagerViewList = new ArrayList<View>();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         pagerViewList.add(inflater.inflate(R.layout.pager_p02_model_item, null));
+        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_watch, null));
+        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_following, null));
+        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_follow, null));
         viewPagerAdapter = new P02ModelViewPagerAdapter(pagerViewList);
 
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                setIndicatorBackground(position);
             }
 
             @Override
@@ -81,6 +94,8 @@ public class P02ModelActivity extends Activity {
 
             }
         });
+
+        setIndicatorListener();
 
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P02_item_list);
         latestListView = latestPullRefreshListView.getRefreshableView();
@@ -114,6 +129,49 @@ public class P02ModelActivity extends Activity {
         });
 
         latestPullRefreshListView.doPullRefreshing(true, 0);
+    }
+
+    private void setIndicatorBackground(int pos) {
+        newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        if (pos == 0) {
+            newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        } else if (pos == 1) {
+            discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        } else if (pos == 2) {
+            fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        } else if (pos == 3) {
+            followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+        }
+    }
+
+    private void setIndicatorListener() {
+        newRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPager.setCurrentItem(0);
+            }
+        });
+        discountRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPager.setCurrentItem(1);
+            }
+        });
+        fansRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPager.setCurrentItem(2);
+            }
+        });
+        followRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewPager.setCurrentItem(3);
+            }
+        });
     }
 
     private void doRefreshDataTask() {
