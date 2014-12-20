@@ -122,7 +122,7 @@ _removeItemById = function(req, res) {
       return;
     }
 
-    item.remove(function(res, item) {
+    item.remove(function(err, item) {
       ResponseHelper.response(res, err, {
         'item': item
       });
@@ -133,32 +133,37 @@ _removeItemById = function(req, res) {
 _saveShow = function(req, res) {
   var param = req.body;
   var cover = param.cover;
-  var height = param.heigth;
+  var height = param.height;
   var width = param.width;
 
   var show = new Show({
     cover: cover,
     coverMetadata: {
       cover: cover,
-      heigth: heigth,
+      height: height,
       width: width 
     }
   });
 
   show.video = param.video;
 
-  ['numLike', 'numView'].forEach(function(field) {
+  ['numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
     if (param[field]) {
       show.set(field, parseInt(param[field]));
     }
   });
-  ['poster', 'styles'].forEach(function(field) {
+  ['posters'].forEach(function(field) {
     if (param[field]) {
-      show.set(field, ResponseHelper.parseArray(param[field]));
+      show.set(field, RequestHelper.parseArray(param[field]));
+    }
+  });
+  ['itemRefs'].forEach(function(field) {
+    if (param[field]) {
+      show.set(field, RequestHelper.parseIds(param[field]));
     }
   });
 
-  ['modelRef', 'itemRefs', 'studioRef', 'brandRef'].forEach(function(field) {
+  ['modelRef', 'studioRef', 'brandRef'].forEach(function(field) {
     if (param[field]) {
       show.set(field, RequestHelper.parseId(param[field]));
     }
@@ -177,16 +182,16 @@ _removeShowById = function(req, res) {
     ResponseHelper.response(res, ServerError.NotEnoughParam);
     return;
   }
-  Show.findOne({'_id': id}, function(err, show) {
+  Show.findOne({'_id': RequestHelper.parseId(id)}, function(err, show) {
     if (err) {
       ResponseHelper.response(res, err);
       return;
-    } else if (show) {
+    } else if (!show) {
       ResponseHelper.response(res, ServerError.ShowNotExist);
       return;
     }
     
-    show.remove(function(res, show) {
+    show.remove(function(err, show) {
       ResponseHelper.response(res, err, {
         'show': show
       });
