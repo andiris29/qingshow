@@ -1,8 +1,11 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,9 +19,7 @@ import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
-import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.huewu.pla.lib.MultiColumnListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -50,6 +51,14 @@ public class P03BrandListActivity extends Activity {
         adapter = new P03BrandListAdapter(this, new ArrayList<BrandEntity>(), ImageLoader.getInstance());
 
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(P03BrandListActivity.this, P04BrandActivity.class);
+                intent.putExtra("BRANDID", ((BrandEntity)adapter.getItem(position)).getBrandName());
+                startActivity(intent);
+            }
+        });
 
         pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -63,6 +72,7 @@ public class P03BrandListActivity extends Activity {
             }
         });
         pullRefreshListView.doPullRefreshing(true, 0);
+
     }
 
     private void loadMoreData() {

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@drawable/news_item_bg"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:descendantFocusability="blocksDescendants">
 
     <com.focosee.qingshow.widget.MCircularImageView
         android:id="@+id/item_model_image"

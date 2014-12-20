@@ -1,0 +1,168 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.focosee.qingshow.activity.P04BrandActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bg_pic"/>
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#00000000"
+            android:src="@drawable/root_icon_back"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#000000">
+
+        <RelativeLayout
+            android:id="@+id/P04_matchRelativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_chosen_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="17"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="最新"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/P04_watchRelativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_default_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="20"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="优惠"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/P04_fansRelativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_default_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="398"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="粉丝"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/P04_followRelativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_default_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/icon_follow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Follow"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/P04_personalViewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"></android.support.v4.view.ViewPager>
+
+</LinearLayout>

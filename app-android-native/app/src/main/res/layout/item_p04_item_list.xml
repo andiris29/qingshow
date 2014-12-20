@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/item_p04_item_image"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_pic"/>
+
+    <TextView
+        android:id="@+id/item_p04_item_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30%"/>
+
+    <ImageButton
+        android:id="@+id/item_p04_item_detail_button"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/root_icon_right_arrow"
+        android:background="#00000000"/>
+
+</RelativeLayout>
