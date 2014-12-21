@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QSBigImageTableViewDelegateObj.h"
 
-@interface QSP03BrandListViewController : UIViewController 
+@interface QSP03BrandListViewController : UIViewController  <QSBigImageTableViewDelegateObjDelegate>
 
 //@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

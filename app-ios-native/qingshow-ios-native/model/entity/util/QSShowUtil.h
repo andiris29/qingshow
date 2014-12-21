@@ -21,6 +21,7 @@
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict;
++ (NSString*)getNumberItemDescription:(NSDictionary*)showDict;
 + (BOOL)getIsLike:(NSDictionary*)showDict;
 + (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict;
 

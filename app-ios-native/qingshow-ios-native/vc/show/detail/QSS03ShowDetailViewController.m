@@ -137,7 +137,6 @@
     self.nameLabel.text = [QSPeopleUtil getName:peopleInfo];
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
     self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
-    self.favorNumberLabel.text = [QSPeopleUtil buildNumLikeString:peopleInfo];
     
     //Image
     NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:dict];
@@ -145,7 +144,8 @@
     NSArray* itemUrlArray = [QSShowUtil getItemsImageUrlArrayFromShow:dict];
     self.itemImageScrollView.imageUrlArray = itemUrlArray;
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
-    self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:dict];
+    [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
+    [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
     
 }
 

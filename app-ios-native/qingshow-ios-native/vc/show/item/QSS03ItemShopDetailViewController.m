@@ -10,6 +10,7 @@
 
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "QSBrandUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+ShowHud.h"
 
@@ -98,6 +99,14 @@
 {
     self.label1.text = [QSItemUtil getItemDescription:item];
     self.label2.text = [QSItemUtil getPrice:item];
-    [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+    NSDictionary* brand = [QSItemUtil getBrand:item];
+    NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
+    if (iconUrl) {
+        self.iconImageView.hidden = NO;
+        [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+    } else {
+        self.iconImageView.hidden = YES;
+    }
+
 }
 @end

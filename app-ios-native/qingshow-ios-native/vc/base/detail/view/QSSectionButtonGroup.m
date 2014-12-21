@@ -62,7 +62,7 @@
         [self addSubview:self.singleButton];
     }
     self.splitterArray = [@[] mutableCopy];
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         UIView* splitter = [[UIView alloc] init];
         splitter.backgroundColor = [UIColor whiteColor];
         [self addSubview:splitter];
@@ -82,10 +82,10 @@
     
     float width = 0;
     UIView* lastSplitter  = [self.splitterArray lastObject];
-    lastSplitter.hidden = self.singleButton == nil;
+    [lastSplitter removeFromSuperview];
     if (self.singleButton) {
         width = size.width / (self.buttonGroup.count + 1);
-
+        [self addSubview:lastSplitter];
     } else {
         width = size.width / self.buttonGroup.count;
     }

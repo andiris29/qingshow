@@ -43,6 +43,11 @@
     self.navigationItem.titleView = [QSBrandTitleView generateView];
     
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -58,12 +63,17 @@
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryBrands:0 page:page onSucceed:succeedBlock onError:errorBlock];
     };
+    self.delegateObj.delegate = self;
     [self.delegateObj fetchDataOfPage:1];
 }
 #pragma mark - QSBrandCollectionViewDelegateObjDelegate
 - (void)didClickBrand:(NSDictionary*)brandDict {
     UIViewController* vc = [[QSP03BrandDetailViewController alloc] initWithBrand:brandDict];
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict
+{
+    [self didClickBrand:dict];
 }
 @end
 

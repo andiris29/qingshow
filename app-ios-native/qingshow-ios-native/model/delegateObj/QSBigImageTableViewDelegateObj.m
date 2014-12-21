@@ -23,6 +23,7 @@
     cell.type = self.type;
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithDict:dict];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

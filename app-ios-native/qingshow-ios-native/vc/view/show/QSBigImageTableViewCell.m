@@ -11,18 +11,13 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSBrandUtil.h"
 
 @implementation QSBigImageTableViewCell
 - (void)setType:(QSBigImageTableViewCellType)type
 {
     _type = type;
     switch (_type) {
-        case QSBigImageTableViewCellTypeModel: {
-            self.label1.hidden = NO;
-            self.label2.hidden = NO;
-            self.iconImgView.hidden = NO;
-            break;
-        }
         case QSBigImageTableViewCellTypeModelEmpty: {
             self.label1.hidden = YES;
             self.label2.hidden = YES;
@@ -30,6 +25,9 @@
             break;
         }
         default: {
+            self.label1.hidden = NO;
+            self.label2.hidden = NO;
+            self.iconImgView.hidden = NO;
             break;
         }
     }
@@ -68,7 +66,16 @@
     return height;
 }
 #pragma mark - Bind
-- (void)bindWithDict:(NSDictionary*)showDict
+- (void)bindWithDict:(NSDictionary*)dict
+{
+    if (self.type == QSBigImageTableViewCellTypeBrand) {
+        [self bindWithBrand:dict];
+    } else {
+        [self bindWithShow:dict];
+    }
+}
+
+- (void)bindWithShow:(NSDictionary*)showDict
 {
     //Resize
     float height = [QSBigImageTableViewCell getHeighWithShow:showDict];
@@ -87,14 +94,13 @@
     self.label1.text = [QSPeopleUtil getName:modelDict];
     self.label2.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.iconImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
-}
-
-- (void)bindWithShow:(NSDictionary*)showDict
-{
 
 }
 - (void)bindWithBrand:(NSDictionary*)brandDict
 {
-    
+#warning 公司数据不足
+    self.label1.text = [QSBrandUtil getBrandName:brandDict];
+    self.label2.text = @"";
+    [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
 }
 @end

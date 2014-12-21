@@ -12,7 +12,9 @@
                 <outlet property="commentBtn" destination="DNE-pM-rCt" id="h59-dV-lrp"/>
                 <outlet property="contentLabel" destination="ZEr-7p-gCN" id="Sly-Xw-TLy"/>
                 <outlet property="detailLabel" destination="mhc-YA-WRx" id="RBD-GL-2bc"/>
+                <outlet property="favorBtn" destination="iFb-nD-1im" id="Qr1-Eb-uSI"/>
                 <outlet property="headIconImageView" destination="XHO-if-252" id="mun-HV-iva"/>
+                <outlet property="itemBtn" destination="Kom-JN-rRb" id="Pf0-eD-xFv"/>
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
                 <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
                 <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
@@ -122,6 +124,7 @@
                             <rect key="frame" x="14" y="8" width="36" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
                             <state key="normal" title="0" backgroundImage="s03_item_btn">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>

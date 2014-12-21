@@ -40,7 +40,7 @@ NSString* categoryToString(QSFeedingCategory type)
         }
         case FeedingCategoryFengshan:
         {
-            retStr =@"设计风尚";
+            retStr =@"潮流时尚";
             break;
         }
     }

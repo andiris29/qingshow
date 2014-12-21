@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
-#import "QSBigImageTableViewDelegateObj.h"
+
 
 @interface QSP02ModelDetailViewController ()
 
@@ -156,5 +156,8 @@
 {
     [self.badgeView bindWithPeopleDict:self.peopleDict];
 }
-
+- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
+{
+    [self didClickShow:dict];
+}
 @end

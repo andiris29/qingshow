@@ -121,6 +121,14 @@
     }
     return @"0";
 }
++ (NSString*)getNumberItemDescription:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
+    return @([self getItems:showDict].count).kmbtStringValue;
+}
+
 + (BOOL)getIsLike:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
