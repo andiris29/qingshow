@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -50,26 +49,12 @@ public class S03SHowActivity extends Activity {
     private TextView modelSignature;
     private TextView commentTextView;
     private TextView likeTextView;
-//    private TextView modelName;
-//    private TextView modelJob;
-//    private TextView modelWeightHeight;
-//    private TextView modelStatus;
-//    private TextView modelLoveNumber;
-//    private ImageView nav_menu_account;
-//
-//    private MHorizontalScrollView itemScrollView;
-//    private LinearLayout itemContainer;
-//
-//    private TextView description;
-
-
+    private TextView itemTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
-
-//        nav_menu_account = (ImageView) findViewById(R.id.S03_title_account);
 
         findViewById(R.id.S03_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,13 +62,6 @@ public class S03SHowActivity extends Activity {
                 S03SHowActivity.this.finish();
             }
         });
-//        nav_menu_account.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(S03SHowActivity.this, U06LoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
 
         Intent intent = getIntent();
         showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
@@ -105,17 +83,6 @@ public class S03SHowActivity extends Activity {
         });
 
     }
-
-    private ImageView.OnClickListener mImageClickListener = new ImageView.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(S03SHowActivity.this, S05ProductActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(S05ProductActivity.INPUT_ITEM_LIST, itemsData);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    };
 
     private void getShowDetailFromNet() {
         final MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
@@ -145,6 +112,7 @@ public class S03SHowActivity extends Activity {
 
         commentTextView = (TextView) findViewById(R.id.S03_comment_text_view);
         likeTextView = (TextView) findViewById(R.id.S03_like_text_view);
+        itemTextView = (TextView) findViewById(R.id.S03_item_text_view);
     }
 
     private void showData() {
@@ -165,12 +133,19 @@ public class S03SHowActivity extends Activity {
 
         likeTextView.setText(showDetailEntity.getShowLikeNumber());
 
+        itemTextView.setText(showDetailEntity.getItemsCount());
+
         this.initPosterView(showDetailEntity.getPosters());
 
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
+                intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, showDetailEntity.getCover());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

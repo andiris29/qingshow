@@ -144,6 +144,15 @@
                     android:layout_above="@+id/S03_line_comment_item"
                     android:layout_alignRight="@+id/S03_line_comment_item"/>
 
+                <TextView
+                    android:id="@+id/S03_item_text_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    android:layout_alignLeft="@+id/S03_item_btn"
+                    android:layout_alignTop="@+id/S03_item_btn"/>
+
             </RelativeLayout>
 
         </RelativeLayout>

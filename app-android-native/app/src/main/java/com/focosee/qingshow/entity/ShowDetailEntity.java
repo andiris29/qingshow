@@ -88,6 +88,14 @@ public class ShowDetailEntity extends AbsEntity {
         return (null != __context) ? String.valueOf(__context.numLike) : "0";
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public String getItemsCount() {
+        return String.valueOf((null != itemRefs) ? itemRefs.length : 0);
+    }
+
     // Inner data
     public String _id;                      // "5439f64013bf528b45f00f9a"
     public String cover;                    // "url for image source"
@@ -130,6 +138,33 @@ public class ShowDetailEntity extends AbsEntity {
     }
 
     public static class RefItem extends AbsEntity {
+
+        public String getItemName() {
+            return name;
+        }
+
+        public String getItemCategory() {
+            String categoryName;
+            switch (category) {
+                case 0:
+                    categoryName = "上装";
+                    break;
+                case 1:
+                    categoryName = "下装";
+                    break;
+                case 2:
+                    categoryName = "鞋子";
+                    break;
+                case 3:
+                    categoryName = "配饰";
+                    break;
+                default:
+                    categoryName = "未定义";
+                    break;
+            }
+            return categoryName;
+        }
+
         public String _id;
         public int category;
         public String name;

@@ -72,5 +72,8 @@
     <string name="dismiss">隐藏</string>
     <string name="title_activity_p04_brand">P04BrandActivity</string>
     <string name="title_activity_p02_model">P02ModelActivity</string>
+    <string name="title_activity_item">ItemActivity</string>
+    <string name="title_activity_s07_collect">S07CollectActivity</string>
+    <string name="title_activity_s05_item">S05ItemActivity</string>
 
 </resources>

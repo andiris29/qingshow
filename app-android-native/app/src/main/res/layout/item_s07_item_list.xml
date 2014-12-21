@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center_vertical">
+    
+    <TextView
+        android:id="@+id/item_S07_category"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        android:text="上装"/>
+
+    <TextView
+        android:id="@+id/item_S07_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        android:text="紫色呢绒大衣"/>
+
+    <ImageButton
+        android:id="@+id/item_S07_detail_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:background="@drawable/root_icon_right_arrow"/>
+
+</LinearLayout>
