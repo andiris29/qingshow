@@ -236,6 +236,9 @@
     NSURL *url = [NSURL URLWithString:path];
     if (!self.movieController) {
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
+    }
+    if (self.movieController.view.superclass) {
+
         [self.videoContainerView addSubview:self.movieController.view];
 
         self.movieController.view.userInteractionEnabled = NO;
@@ -247,36 +250,34 @@
         
 //        UIPinchGestureRecognizer*  ges = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
 //        [self.movieController.view addGestureRecognizer:ges];
+        self.movieController.view.frame = self.videoContainerView.frame;
+        self.movieController.scalingMode = MPMovieScalingModeAspectFill;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didExitFullScreen)
-                                                     name:MPMoviePlayerDidExitFullscreenNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didEnd)
+        self.movieController.controlStyle = MPMovieControlStyleNone;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(myMovieFinishedCallback:)
                                                      name:MPMoviePlayerPlaybackDidFinishNotification
                                                    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleShowHideVideo)
+                                                     name:MPMoviePlayerPlaybackStateDidChangeNotification
+                                                   object:nil];
+        self.videoContainerView.userInteractionEnabled = NO;
+        [self.movieController play];
+    } else {
+        [self didTapVideo];
     }
-    self.movieController.view.frame = self.videoContainerView.frame;
-    self.movieController.scalingMode = MPMovieScalingModeAspectFill;
 
-    self.movieController.controlStyle = MPMovieControlStyleNone;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(myMovieFinishedCallback:)
-                                                 name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleShowHideVideo)
-                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification
-                                               object:nil];
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //                                             selector:@selector(didEnterFullScreen)
 //                                                 name:MPMoviePlayerDidEnterFullscreenNotification
 //                                               object:nil];
-    [self.movieController play];
+
 
     
 //    [self setCommentSharePlayButtonHidden:YES];
-    self.videoContainerView.userInteractionEnabled = NO;
+
 }
 - (void)didEnd
 {
@@ -311,15 +312,16 @@
 - (void)stopMovie{
     if (self.movieController) {
         [self.movieController stop];
-        self.movieController.view.hidden = YES;
+        [self.movieController.view removeFromSuperview];
         self.videoContainerView.userInteractionEnabled = NO;
     }
 }
 
 -(void)myMovieFinishedCallback:(NSNotification*)notify
 {
-    [self stopMovie];
     [self handleShowHideVideo];
+    [self stopMovie];
+
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -336,6 +338,9 @@
 
 - (void)handleShowHideVideo
 {
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+    
     self.videoContainerView.userInteractionEnabled = YES;
     NSLog(@"%ld",self.movieController.playbackState);
     if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
