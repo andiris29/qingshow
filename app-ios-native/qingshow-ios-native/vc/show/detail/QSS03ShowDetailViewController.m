@@ -237,6 +237,7 @@
     if (!self.movieController) {
         self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
         [self.videoContainerView addSubview:self.movieController.view];
+
         self.movieController.view.userInteractionEnabled = NO;
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
@@ -262,6 +263,11 @@
                                              selector:@selector(myMovieFinishedCallback:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleShowHideVideo)
+                                                 name:MPMoviePlayerPlaybackStateDidChangeNotification
+                                               object:nil];
+    
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //                                             selector:@selector(didEnterFullScreen)
 //                                                 name:MPMoviePlayerDidEnterFullscreenNotification
@@ -269,8 +275,8 @@
     [self.movieController play];
 
     
-    [self setCommentSharePlayButtonHidden:YES];
-    self.videoContainerView.userInteractionEnabled = YES;
+//    [self setCommentSharePlayButtonHidden:YES];
+    self.videoContainerView.userInteractionEnabled = NO;
 }
 - (void)didEnd
 {
@@ -313,6 +319,7 @@
 -(void)myMovieFinishedCallback:(NSNotification*)notify
 {
     [self stopMovie];
+    [self handleShowHideVideo];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -327,10 +334,21 @@
     self.shareBtn.frame = CGRectMake(self.shareBtnRect.origin.x, self.shareBtnRect.origin.y - scrollView.contentOffset.y, self.shareBtnRect.size.width, self.shareBtnRect.size.height);
 }
 
+- (void)handleShowHideVideo
+{
+    self.videoContainerView.userInteractionEnabled = YES;
+    NSLog(@"%ld",self.movieController.playbackState);
+    if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
+        [self setCommentSharePlayButtonHidden:NO];
+    } else {
+        [self setCommentSharePlayButtonHidden:YES];
+    }
+
+}
 - (void)didTapVideo
 {
     [self hideSharePanel];
-    if (self.movieController.playbackState == MPMoviePlaybackStatePaused) {
+    if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
         [self.movieController play];
         [self setCommentSharePlayButtonHidden:YES];
     } else {

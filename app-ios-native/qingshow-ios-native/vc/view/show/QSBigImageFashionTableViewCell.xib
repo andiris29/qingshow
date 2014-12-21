@@ -15,11 +15,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="pix-Pb-mKm">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="606"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
                     <view contentMode="scaleToFill" id="zqO-qE-QHm">
-                        <rect key="frame" x="0.0" y="232" width="320" height="92"/>
+                        <rect key="frame" x="0.0" y="513" width="320" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_model_shadow" id="gJb-TY-a3h">
@@ -51,7 +51,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <view contentMode="scaleToFill" id="Qxi-iR-2UB">
-                        <rect key="frame" x="249" y="42" width="63" height="176"/>
+                        <rect key="frame" x="249" y="323" width="63" height="176"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RKZ-Yy-ayo">
