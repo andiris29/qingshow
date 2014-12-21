@@ -121,6 +121,7 @@
     }
     return @"0";
 }
+
 + (NSString*)getNumberItemDescription:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
@@ -157,6 +158,28 @@
             m = [@{} mutableCopy];
         }
         m[@"likedByCurrentUser"] = @(isLike);
+        s[@"__context"] = m;
+    }
+}
+
++ (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return;
+    }
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        NSDictionary* context = showDict[@"__context"];
+        NSMutableDictionary* m = nil;
+        if ([context isKindOfClass:[NSDictionary class]]) {
+            m = [context mutableCopy];
+        } else
+        {
+            m = [@{} mutableCopy];
+        }
+        long long preNumlike = ((NSNumber*)m[@"numLike"]).longLongValue;
+        
+        m[@"numLike"] = @(preNumlike + num);
         s[@"__context"] = m;
     }
 }

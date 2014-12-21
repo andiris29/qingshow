@@ -89,13 +89,7 @@
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
     self.navigationItem.titleView = titleImageView;
     
-    __weak QSS03ShowDetailViewController* weakSelf = self;
-    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-        weakSelf.showDict = dict;
-        [weakSelf bindWithDict:dict];
-    } onError:^(NSError *error) {
-        
-    }];
+
     
     self.commentBtnRect = self.commentBtn.frame;
     self.shareBtnRect = self.shareBtn.frame;
@@ -111,6 +105,14 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+        weakSelf.showDict = dict;
+        [weakSelf bindWithDict:dict];
+    } onError:^(NSError *error) {
+        
+    }];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

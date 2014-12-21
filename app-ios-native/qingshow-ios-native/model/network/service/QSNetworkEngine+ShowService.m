@@ -127,6 +127,7 @@
 {
     return [self startOperationWithPath:PATH_SHOW_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [QSShowUtil setIsLike:YES show:showDict];
+        [QSShowUtil addNumberLike:1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }
@@ -142,6 +143,7 @@
 {
     return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [QSShowUtil setIsLike:NO show:showDict];
+        [QSShowUtil addNumberLike:-1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }
