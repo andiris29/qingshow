@@ -45,9 +45,6 @@ public class ShowDetailEntity extends AbsEntity {
     public String getModelWeightHeight() {
         return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
     }
-    public String getShowNumLike() {
-        return String.valueOf((null != modelRef && null != modelRef.modelInfo) ? modelRef.modelInfo.numLikes : 0);
-    }
     public String getModelStatus() {
         if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
             return modelRef.modelInfo.status;
@@ -81,6 +78,14 @@ public class ShowDetailEntity extends AbsEntity {
 
     public String[] getPosters() {
         return (null != posters) ? posters : new String[0];
+    }
+
+    public String getShowCommentNumber() {
+        return (null != __context) ? String.valueOf(__context.numComments) : "0";
+    }
+
+    public String getShowLikeNumber() {
+        return (null != __context) ? String.valueOf(__context.numLike) : "0";
     }
 
     // Inner data

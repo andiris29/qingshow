@@ -5,218 +5,289 @@
     android:background="#ffe1e1e1"
     tools:context="com.focosee.qingshow.activity.S03SHowActivity">
 
-    <LinearLayout
-        android:id="@+id/S03_navigation"
+    <RelativeLayout
+        android:id="@+id/S03_relative_layout"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="#ffffff"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="fill_parent">
 
-        <ImageView
-            android:id="@+id/S03_title_back"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/root_icon_back" />
-
-        <ImageView
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/nav_btn_image_logo" />
+            android:layout_height="fill_parent">
 
-        <ImageView
-            android:id="@+id/S03_title_account"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/nav_btn_account" />
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/S03_navigation">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="#ffffff"
-            android:orientation="vertical">
-
-            <View
+            <com.allthelucky.common.view.network.NetworkImageIndicatorView
+                android:id="@+id/S03_image_indicator"
                 android:layout_width="fill_parent"
-                android:layout_height="10dp"
-                android:background="#ffe1e1e1" />
-
-            <com.focosee.qingshow.widget.MRelativeLayout_3_4
-                android:id="@+id/S03_relative_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.allthelucky.common.view.network.NetworkImageIndicatorView
-                    android:id="@+id/S03_image_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <VideoView
-                    android:id="@+id/S03_video_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone" />
-
-                <!--<ImageButton-->
-                    <!--android:id="@+id/S03_message_button"-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:background="@drawable/root_icon_message"-->
-                    <!--android:layout_alignParentBottom="true"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_marginBottom="150dp"-->
-                    <!--android:layout_marginRight="15dp">-->
-                    <!--</ImageButton>-->
-
-                <!--<ImageButton-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_below="@+id/S03_message_button"-->
-                    <!--android:src="@drawable/root_icon_share"/>-->
-
-            </com.focosee.qingshow.widget.MRelativeLayout_3_4>
+                android:layout_height="fill_parent" />
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_vertical">
+                android:layout_height="fill_parent">
 
                 <com.focosee.qingshow.widget.MCircularImageView
-                    android:id="@+id/S03_item_show_model_image"
+                    android:id="@+id/S03_model_portrait"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="35dp"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/ic_launcher" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/S03_item_show_love_ll"
-                    android:layout_toRightOf="@+id/S03_item_show_model_image"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="17dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/S03_item_show_model_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:gravity="center"
-                            android:text="SandGirl"/>
-
-                        <TextView
-                            android:id="@+id/S03_item_show_model_job"
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:gravity="center"
-                            android:text="服装设计师"/>
-
-                        <TextView
-                            android:id="@+id/S03_item_show_model_weight_height"
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:gravity="center"
-                            android:text="163cm/54kg"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="17dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/S03_item_show_model_status"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:gravity="center" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/S03_item_show_love_ll"
-                    android:layout_width="30dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="1"
-                        android:src="@drawable/model_cell_icon02_noticeno" />
+                    android:layout_toRightOf="@+id/S03_model_portrait"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:layout_alignBottom="@+id/S03_model_portrait">
 
                     <TextView
-                        android:id="@+id/S03_item_show_love"
+                        android:id="@+id/S03_model_name_information"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="2"
-                        android:gravity="center" />
+                        android:layout_height="wrap_content"
+                        android:text="刀刀 20岁 170cm" />
+
+                    <TextView
+                        android:id="@+id/S03_model_signature"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="就爱文艺小清新" />
+
                 </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/S03_video_start_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/s03_play_btn"
+                    android:layout_alignBottom="@+id/S03_model_portrait"
+                    android:layout_marginRight="25dp"/>
+
+                <ImageButton
+                    android:id="@+id/S03_share_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/s03_share_btn"
+                    android:layout_above="@+id/S03_video_start_btn"
+                    android:layout_alignRight="@+id/S03_video_start_btn"
+                    android:layout_marginBottom="30dp"/>
+
+                <ImageView
+                    android:id="@+id/S03_line_share_like"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/s03_line"
+                    android:layout_above="@+id/S03_share_btn"
+                    android:layout_alignRight="@+id/S03_share_btn"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"/>
+
+                <ImageButton
+                    android:id="@+id/S03_like_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/s03_like_btn"
+                    android:layout_above="@+id/S03_line_share_like"
+                    android:layout_alignRight="@+id/S03_line_share_like"/>
+
+                <TextView
+                    android:id="@+id/S03_like_text_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    android:layout_alignLeft="@+id/S03_like_btn"
+                    android:layout_alignTop="@+id/S03_like_btn"/>
+
+                <ImageView
+                    android:id="@+id/S03_line_like_message"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/s03_line"
+                    android:layout_above="@+id/S03_like_btn"
+                    android:layout_alignRight="@+id/S03_like_btn"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"/>
+
+                <ImageButton
+                    android:id="@+id/S03_comment_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/s03_comment_btn"
+                    android:layout_above="@+id/S03_line_like_message"
+                    android:layout_alignRight="@+id/S03_line_like_message"/>
+
+                <TextView
+                    android:id="@+id/S03_comment_text_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    android:layout_alignLeft="@+id/S03_comment_btn"
+                    android:layout_alignTop="@+id/S03_comment_btn"/>
+
+                <ImageView
+                    android:id="@+id/S03_line_comment_item"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/s03_line"
+                    android:layout_above="@+id/S03_comment_btn"
+                    android:layout_alignRight="@+id/S03_comment_btn"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"/>
+
+                <ImageButton
+                    android:id="@+id/S03_item_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/s03_item_btn"
+                    android:layout_above="@+id/S03_line_comment_item"
+                    android:layout_alignRight="@+id/S03_line_comment_item"/>
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="#ffe1e1e1" />
+        </RelativeLayout>
 
-            <com.focosee.qingshow.widget.MHorizontalScrollView
-                android:id="@+id/S03_item_scroll_view"
-                android:layout_width="fill_parent"
-                android:layout_height="60dp">
+        <VideoView
+            android:id="@+id/S03_video_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:visibility="gone" />
 
-                <LinearLayout
-                    android:id="@+id/S03_item_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                </LinearLayout>
-            </com.focosee.qingshow.widget.MHorizontalScrollView>
+        <ImageButton
+            android:id="@+id/S03_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/s03_back_btn"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"/>
 
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="#ffe1e1e1" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/S03_item_show_description"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:text="鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子"/>
+    <!--<RelativeLayout-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:gravity="center_vertical">-->
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="10dp"
-                android:layout_marginTop="20dp"
-                android:background="#ffe1e1e1" />
+    <!--<com.focosee.qingshow.widget.MCircularImageView-->
+    <!--android:id="@+id/S03_item_show_model_image"-->
+    <!--android:layout_width="50dp"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_centerVertical="true" />-->
 
-        </LinearLayout>
+    <!--<LinearLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_toLeftOf="@+id/S03_item_show_love_ll"-->
+    <!--android:layout_toRightOf="@+id/S03_item_show_model_image"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="17dp"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/S03_item_show_model_name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="SandGirl" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/S03_item_show_model_job"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="服装设计师" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/S03_item_show_model_weight_height"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:gravity="center"-->
+    <!--android:text="163cm/54kg" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="17dp"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/S03_item_show_model_status"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:gravity="center" />-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/S03_item_show_love_ll"-->
+    <!--android:layout_width="30dp"-->
+    <!--android:layout_height="35dp"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="20dp"-->
+    <!--android:layout_height="20dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:src="@drawable/model_cell_icon02_noticeno" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/S03_item_show_love"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:layout_weight="2"-->
+    <!--android:gravity="center" />-->
+    <!--</LinearLayout>-->
+
+    <!--</RelativeLayout>-->
+
+    <!--<View-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:background="#ffe1e1e1" />-->
+
+    <!--<com.focosee.qingshow.widget.MHorizontalScrollView-->
+    <!--android:id="@+id/S03_item_scroll_view"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="60dp">-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/S03_item_container"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"></LinearLayout>-->
+    <!--</com.focosee.qingshow.widget.MHorizontalScrollView>-->
 
 
-    </ScrollView>
+    <!--<View-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:background="#ffe1e1e1" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/S03_item_show_description"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="20dp"-->
+    <!--android:text="鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子 鞋子" />-->
+
+    <!--<View-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="10dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:background="#ffe1e1e1" />-->
+
 
 </RelativeLayout>
