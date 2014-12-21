@@ -104,29 +104,6 @@ public class S03SHowActivity extends Activity {
             }
         });
 
-//        ((Button)this.imageIndicatorView.getMessageButton()).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != showDetailEntity && null != showDetailEntity._id) {
-//                    Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
-//                    intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
-//                    startActivity(intent);
-//                }else{
-//                    Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-//        ((Button)this.imageIndicatorView.getShareButton()).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(Intent.ACTION_SEND);
-//                intent.setType("image/*");
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
-//                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(Intent.createChooser(intent, getTitle()));
-//            }
-//        });
     }
 
     private ImageView.OnClickListener mImageClickListener = new ImageView.OnClickListener() {
@@ -168,16 +145,6 @@ public class S03SHowActivity extends Activity {
 
         commentTextView = (TextView) findViewById(R.id.S03_comment_text_view);
         likeTextView = (TextView) findViewById(R.id.S03_like_text_view);
-//        modelName = (TextView) findViewById(R.id.S03_item_show_model_name);
-//        modelJob = (TextView) findViewById(R.id.S03_item_show_model_job);
-//        modelWeightHeight = (TextView) findViewById(R.id.S03_item_show_model_weight_height);
-//        modelStatus = (TextView) findViewById(R.id.S03_item_show_model_status);
-//        modelLoveNumber = (TextView) findViewById(R.id.S03_item_show_love);
-//
-//        itemScrollView = (MHorizontalScrollView) findViewById(R.id.S03_item_scroll_view);
-//        itemContainer = (LinearLayout) findViewById(R.id.S03_item_container);
-//
-//        description = (TextView) findViewById(R.id.S03_item_show_description);
     }
 
     private void showData() {
