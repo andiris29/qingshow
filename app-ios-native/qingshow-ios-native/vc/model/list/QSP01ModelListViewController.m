@@ -47,10 +47,13 @@
     [self configView];
     
     [self configDelegateObj];
+
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
     [self.delegateObj reloadData];
 }
 

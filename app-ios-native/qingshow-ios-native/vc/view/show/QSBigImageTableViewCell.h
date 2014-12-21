@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, QSShowTableViewCellType) {
-    QSShowTableViewCellTypeModel,
-    QSShowTableViewCellTypeModelEmpty,
-    QSShowTableViewCellTypeBrand
+typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
+    QSBigImageTableViewCellTypeModel,
+    QSBigImageTableViewCellTypeModelEmpty,
+    QSBigImageTableViewCellTypeBrand
 };
 
-@interface QSShowTableViewCell : UITableViewCell
+@interface QSBigImageTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
 @property (weak, nonatomic) IBOutlet UIView* modelContainer;
@@ -23,9 +23,9 @@ typedef NS_ENUM(NSInteger, QSShowTableViewCellType) {
 @property (weak, nonatomic) IBOutlet UILabel* label2;
 @property (weak, nonatomic) IBOutlet UIButton* detailBtn;
 
-@property (assign, nonatomic) QSShowTableViewCellType type;
+@property (assign, nonatomic) QSBigImageTableViewCellType type;
 
 + (CGFloat)getHeighWithShow:(NSDictionary*)showDict;
-- (void)bindWithShow:(NSDictionary*)showDict;
+- (void)bindWithDict:(NSDictionary*)showDict;
 
 @end

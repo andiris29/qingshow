@@ -116,8 +116,8 @@
             self.topConstrain.constant = 0;
             f = NO;
         }
-        if (self.topConstrain.constant < -115) {
-            self.topConstrain.constant = -115;
+        if (self.topConstrain.constant < -182) {
+            self.topConstrain.constant = -182;
             f = NO;
         }
         if (f) {

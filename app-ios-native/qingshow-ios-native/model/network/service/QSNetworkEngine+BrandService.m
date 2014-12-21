@@ -25,7 +25,7 @@
                          onSucceed:(ArraySuccessBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_BRAND method:@"GET" paramers:@{@"type" : @(type), @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_QUERY_BRAND method:@"GET" paramers:@{@"type" : @(type), @"pageNo": @(page), @"pageSize": @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* retDict = completedOperation.responseJSON;
         NSArray* retArray = retDict[@"data"][@"brands"];
         if (succeedBlock) {

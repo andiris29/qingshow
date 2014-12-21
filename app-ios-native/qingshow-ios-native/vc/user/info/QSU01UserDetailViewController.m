@@ -150,7 +150,7 @@
 }
 
 #pragma mark - IBAction
-- (void)accountButtonPressed
+- (IBAction)accountButtonPressed
 {
     UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
     QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];

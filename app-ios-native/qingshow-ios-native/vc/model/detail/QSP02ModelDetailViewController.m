@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
-#import "QSShowTableViewDelegateObj.h"
+#import "QSBigImageTableViewDelegateObj.h"
 
 @interface QSP02ModelDetailViewController ()
 
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary* peopleDict;
 
 #pragma mark - Delegate Obj
-@property (strong, nonatomic) QSShowTableViewDelegateObj* showsDelegate;
+@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
 
@@ -43,7 +43,7 @@
 
 - (void)delegateObjInit
 {
-    self.showsDelegate = [[QSShowTableViewDelegateObj alloc] init];
+    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
     self.showsDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     self.followingDelegate.delegate = self;
@@ -102,7 +102,7 @@
     [self.followerDelegate fetchDataOfPage:1];
     
     //Show table view
-    self.showsDelegate.type = QSShowTableViewCellTypeModelEmpty;
+    self.showsDelegate.type = QSBigImageTableViewCellTypeModelEmpty;
     [self.showsDelegate bindWithTableView:self.showTableView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {

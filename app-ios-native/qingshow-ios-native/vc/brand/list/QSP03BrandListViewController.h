@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSBrandCollectionViewDelegateObj.h"
-@interface QSP03BrandListViewController : UIViewController <QSBrandCollectionViewDelegateObjDelegate>
+#import "QSBigImageTableViewDelegateObj.h"
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@interface QSP03BrandListViewController : UIViewController 
 
+//@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (id)init;
 

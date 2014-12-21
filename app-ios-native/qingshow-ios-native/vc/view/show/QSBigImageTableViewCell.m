@@ -6,24 +6,24 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSShowTableViewCell.h"
+#import "QSBigImageTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 
-@implementation QSShowTableViewCell
-- (void)setType:(QSShowTableViewCellType)type
+@implementation QSBigImageTableViewCell
+- (void)setType:(QSBigImageTableViewCellType)type
 {
     _type = type;
     switch (_type) {
-        case QSShowTableViewCellTypeModel: {
+        case QSBigImageTableViewCellTypeModel: {
             self.label1.hidden = NO;
             self.label2.hidden = NO;
             self.iconImgView.hidden = NO;
             break;
         }
-        case QSShowTableViewCellTypeModelEmpty: {
+        case QSBigImageTableViewCellTypeModelEmpty: {
             self.label1.hidden = YES;
             self.label2.hidden = YES;
             self.iconImgView.hidden = YES;
@@ -68,10 +68,10 @@
     return height;
 }
 #pragma mark - Bind
-- (void)bindWithShow:(NSDictionary*)showDict
+- (void)bindWithDict:(NSDictionary*)showDict
 {
     //Resize
-    float height = [QSShowTableViewCell getHeighWithShow:showDict];
+    float height = [QSBigImageTableViewCell getHeighWithShow:showDict];
     CGRect rect = self.imgView.frame;
     rect.size.height = height;
     self.imgView.frame = rect;
@@ -87,5 +87,14 @@
     self.label1.text = [QSPeopleUtil getName:modelDict];
     self.label2.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.iconImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
+}
+
+- (void)bindWithShow:(NSDictionary*)showDict
+{
+
+}
+- (void)bindWithBrand:(NSDictionary*)brandDict
+{
+    
 }
 @end

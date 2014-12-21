@@ -9,11 +9,12 @@
 #import "QSP03BrandListViewController.h"
 #import "QSP03BrandDetailViewController.h"
 #import "QSNetworkKit.h"
-
-
+#import "QSBrandTableViewHeaderView.h"
+#import "QSBrandTitleView.h"
 @interface QSP03BrandListViewController ()
 
-@property (strong, nonatomic) QSBrandCollectionViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSBrandTableViewHeaderView* headerView;
 
 @end
 
@@ -37,6 +38,10 @@
     [self configDelegateObj];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
+    self.headerView = [QSBrandTableViewHeaderView generateView];
+    self.tableView.tableHeaderView = self.headerView;
+    self.navigationItem.titleView = [QSBrandTitleView generateView];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,9 +52,9 @@
 #pragma mark - 
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSBrandCollectionViewDelegateObj alloc] init];
-    self.delegateObj.delegate = self;
-    [self.delegateObj bindWithCollectionView:self.collectionView];
+    self.delegateObj = [[QSBigImageTableViewDelegateObj alloc] init];
+//    self.delegateObj.delegate = self;
+    [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryBrands:0 page:page onSucceed:succeedBlock onError:errorBlock];
     };

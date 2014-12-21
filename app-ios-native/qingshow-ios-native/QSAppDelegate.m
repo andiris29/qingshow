@@ -67,7 +67,7 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url absoluteString] hasPrefix:@"wb271944535"]) {
+    if ([[url absoluteString] hasPrefix:@"wb1213293589"]) {
         return [WeiboSDK handleOpenURL:url delegate:self];
     } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
         return [WXApi handleOpenURL:url delegate:self];
@@ -78,7 +78,7 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url absoluteString] hasPrefix:@"wb271944535"]) {
+    if ([[url absoluteString] hasPrefix:@"wb1213293589"]) {
         return [WeiboSDK handleOpenURL:url delegate:self ];
     } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
         return [WXApi handleOpenURL:url delegate:self];
