@@ -10,6 +10,7 @@
 
 @interface QSShowUtil : NSObject
 + (NSURL*)getCoverUrl:(NSDictionary*)dict;
++ (NSURL*)getHoriCoverUrl:(NSDictionary*)dict;
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;

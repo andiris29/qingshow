@@ -49,7 +49,14 @@
 #pragma mark - Static
 + (CGFloat)getHeighWithShow:(NSDictionary*)showDict
 {
-    NSDictionary* coverMetadata = showDict[@"coverMetadata"];
+    
+    
+    NSDictionary* coverMetadata = nil;
+    coverMetadata = showDict[@"horizontalCoverMetadata"];
+    if (!coverMetadata || [coverMetadata isKindOfClass:[NSNull class]]) {
+        coverMetadata = showDict[@"coverMetadata"];
+    }
+
     float iniWidth = [UIScreen mainScreen].bounds.size.width;
 //    [UIDevice currentDevice].
     
@@ -87,6 +94,12 @@
     rect.origin.y = height - rect.size.height;
     self.modelContainer.frame = rect;
     
+    if (self.btnsContainer) {
+        CGRect btnsRect = self.btnsContainer.frame;
+        btnsRect.origin.y = height - rect.size.height - btnsRect.size.height - 20;
+        self.btnsContainer.frame = btnsRect;
+    }
+
     //Data Binding
     NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showDict];
     [self.imgView setImageFromURL:[QSShowUtil getCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];

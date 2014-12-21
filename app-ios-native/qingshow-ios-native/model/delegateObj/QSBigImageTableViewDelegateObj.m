@@ -15,11 +15,19 @@
 - (void)registerCell
 {
     [self.tableView registerNib:[UINib nibWithNibName:@"QSBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSBigImageTableViewCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"QSBigImageFashionTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSBigImageFashionTableViewCell"];
 }
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
+
+    QSBigImageTableViewCell* cell = nil;
+    if (self.type == QSBigImageTableViewCellTypeFashion) {
+        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
+    } else {
+        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
+    }
+
     cell.type = self.type;
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithDict:dict];

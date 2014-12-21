@@ -12,7 +12,7 @@
 @interface QSImageScrollViewBase ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property (assign, nonatomic) IBOutlet QSImageScrollViewDirection direction;
+@property (assign, nonatomic) QSImageScrollViewDirection direction;
 
 @end
 

@@ -5,9 +5,9 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS02CategoryViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS02FashionViewController">
             <connections>
-                <outlet property="collectionView" destination="mCc-cc-L4v" id="DBY-DU-Fnf"/>
+                <outlet property="tableView" destination="rRd-8I-ET9" id="Db7-A6-I61"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,25 +16,20 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="mCc-cc-L4v">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rRd-8I-ET9">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EhZ-8J-W5W">
-                        <size key="itemSize" width="50" height="50"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="mCc-cc-L4v" secondAttribute="bottom" id="9k2-Xs-6Xu"/>
-                <constraint firstAttribute="trailing" secondItem="mCc-cc-L4v" secondAttribute="trailing" id="EgQ-Hg-0WH"/>
-                <constraint firstItem="mCc-cc-L4v" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="g9X-AO-XV9"/>
-                <constraint firstItem="mCc-cc-L4v" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="yw6-V3-wAe"/>
+                <constraint firstAttribute="bottom" secondItem="rRd-8I-ET9" secondAttribute="bottom" id="hFS-zh-uQN"/>
+                <constraint firstItem="rRd-8I-ET9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="m1W-qz-naG"/>
+                <constraint firstAttribute="trailing" secondItem="rRd-8I-ET9" secondAttribute="trailing" id="q7e-GW-SpE"/>
+                <constraint firstItem="rRd-8I-ET9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rFY-PK-hg1"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-            <point key="canvasLocation" x="212" y="343"/>
+            <point key="canvasLocation" x="524" y="356"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

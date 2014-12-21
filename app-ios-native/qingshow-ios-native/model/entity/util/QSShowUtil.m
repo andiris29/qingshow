@@ -12,6 +12,18 @@
 #import "QSCommonUtil.h"
 
 @implementation QSShowUtil
++ (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = dict[@"horizontalCover"];
+    if ([QSCommonUtil checkIsNil:cover]) {
+        return [self getCoverUrl:dict];
+    } else {
+        return [NSURL URLWithString:cover];
+    }
+}
 + (NSURL*)getCoverUrl:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
