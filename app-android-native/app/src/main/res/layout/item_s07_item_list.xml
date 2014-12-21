@@ -3,7 +3,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:descendantFocusability="blocksDescendants">
     
     <TextView
         android:id="@+id/item_S07_category"

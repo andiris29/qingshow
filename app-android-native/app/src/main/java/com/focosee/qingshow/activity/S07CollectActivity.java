@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -44,6 +45,17 @@ public class S07CollectActivity extends Activity {
 
         adapter = new S07ListAdapter(this, items);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent1 = new Intent(S07CollectActivity.this, S05ItemActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable(S05ItemActivity.INPUT_ITEMS, items);
+                intent1.putExtras(bundle1);
+                startActivity(intent1);
+            }
+        });
 
         ImageLoader.getInstance().displayImage(getIntent().getStringExtra(INPUT_BACK_IMAGE),(ImageView)findViewById(R.id.S07_background_image));
     }
