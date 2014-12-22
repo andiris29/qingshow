@@ -61,28 +61,7 @@ _savePeople = function(req, res) {
 };
 
 _removePeopleById = function(req, res) {
-  var id = req.body['id'];
-
-  if (!id || !id.length) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-
-  People.findOne({'userInfo.id': id}, function(err, people) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (!people) {
-      ResponseHelper.response(res, ServerError.PeopleNotExist);
-      return;
-    }
-
-    people.remove(function(err, people) {
-      ResponseHelper.response(res, err, {
-        'people': people
-      });
-    });
-  });
+  _removeModelById(People, "people", req, res);
 };
 
 _saveItem = function(req, res) {
@@ -106,26 +85,7 @@ _saveItem = function(req, res) {
 };
 
 _removeItemById = function(req, res) {
-  var id = req.body["id"];
-  if (!id || !id.length) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-  Item.findOne({'_id': RequestHelper.parseId(id)}, function(err, item) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (!item) {
-      ResponseHelper.response(res, ServerError.ItemNotExist);
-      return;
-    }
-
-    item.remove(function(err, item) {
-      ResponseHelper.response(res, err, {
-        'item': item
-      });
-    });
-  });
+  _removeModelById(Item,'item', req, res);
 };
 
 _saveShow = function(req, res) {
@@ -175,27 +135,55 @@ _saveShow = function(req, res) {
 };
 
 _removeShowById = function(req, res) {
-  var id = req.body['id'];
-  if (!id || !id.length) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-  Show.findOne({'_id': RequestHelper.parseId(id)}, function(err, show) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (!show) {
-      ResponseHelper.response(res, ServerError.ShowNotExist);
-      return;
-    }
-    
-    show.remove(function(err, show) {
-      ResponseHelper.response(res, err, {
-        'show': show
-      });
-    });
-  });
+  _removeModelById(Show,'show', req, res);
 };
+
+_removeModelById = function(Model,name, req, res) {
+  async.waterfall([
+    function(callback) {
+      var id = req.body['id'];
+      if (!id || !id.length) {
+        callback(ServerError.NotEnoughParam);
+      } else {
+        callback(null, id);
+      }
+    },
+    function(id, callback) {
+      Model.findOne({'_id': RequestHelper.parseId(id)}, function(err, model) {
+        if (err) {
+          callback(err);
+        } else if (!model) {
+          callback(_getNotExistError(name));
+        } else {
+          callback(null, model);
+        }
+      });
+    },
+    function(model, callback) {
+      model.remove(function(err, model) {
+        var entity = {};
+        entity[name] = model;
+        ResponseHelper.response(res, err, entity);
+      });
+    }],
+    function(err) {
+      ResponseHelper.response(res, err);
+    }
+  );
+}
+
+_getNotExistError = function(key) {
+  switch(key) {
+    case 'people':
+      return ServerError.PeopleNotExist;
+    case 'item':
+      return ServerError.ItemNotExist;
+    case 'show':
+      return ServerError.ShowNotExist;
+    default:
+      return ServerError.RequestValidationFail;
+  }
+}
 
 module.exports = {
   'savePeople' : {
