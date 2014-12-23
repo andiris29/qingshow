@@ -52,18 +52,39 @@ var _query = function(req, res) {
 
 };
 var _like = function(req, res) {
-    try {
-        var param = req.body;
-        var targetRef = RequestHelper.parseId(param._id);
-        var initiatorRef = req.qsCurrentUserId;
-    } catch (err) {
-        ResponseHelper.response(res, ServerError.RequestValidationFail);
-        return;
-    }
-
-    RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, function(err) {
+    var targetRef, initiatorRef;
+    async.waterfall([
+    function(callback) {
+        try {
+            var param = req.body;
+            targetRef = RequestHelper.parseId(param._id);
+            initiatorRef = req.qsCurrentUserId;
+        } catch (err) {
+            callback(err);
+        }
+        callback();
+    },
+    function(callback) {
+        // Like
+        RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, function(err, relationship) {
+            callback(err);
+        });
+    },
+    function(callback) {
+        // Count
+        Show.update({
+            '_id' : targetRef
+        }, {
+            '$inc' : {
+                'numLike' : 1
+            }
+        }, function(err, numUpdated) {
+            callback(err);
+        });
+    }], function(err) {
         ResponseHelper.response(res, err);
     });
+
 };
 
 var _unlike = function(req, res) {

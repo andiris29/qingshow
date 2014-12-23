@@ -20,7 +20,10 @@ showSchema = Schema({
     },
     video : String,
     posters : [String],
-    numLike : Number,
+    numLike : {
+        type : Number,
+        'default' : 0
+    },
     numView : Number,
     modelRef : {
         type : Schema.Types.ObjectId,

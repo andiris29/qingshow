@@ -41,10 +41,6 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     var numComments = function(callback) {
         _numAssociated(shows, ShowComments, 'targetRef', 'numComments', callback);
     };
-    // __context.numLike
-    var numLike = function(callback) {
-        _numAssociated(shows, RPeopleLikeShow, 'targetRef', 'numLike', callback);
-    };
     // __context.likedByCurrentUser
     var likedByCurrentUser = function(callback) {
         _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
@@ -57,7 +53,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         peoples = _prepare(peoples);
         _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
     };
-    async.parallel([numComments, numLike, likedByCurrentUser, followedByCurrentUser], function(err) {
+    async.parallel([numComments, likedByCurrentUser, followedByCurrentUser], function(err) {
         callback(null, shows);
     });
 };
