@@ -25,7 +25,8 @@
 
 - (id)initWithType:(QSSectionButtonGroupType)type
 {
-    self = [self initWithFrame:CGRectMake(0, 0, 320, 45)];
+    
+    self = [self initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 45)];
     if (self) {
         self.type = type;
         [self configView];

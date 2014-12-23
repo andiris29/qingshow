@@ -49,6 +49,7 @@
     self.iconImageView.layer.masksToBounds = YES;
     self.showBtn.layer.cornerRadius = 8;
     self.showBtn.layer.masksToBounds = YES;
+    self.contentView.frame = [UIScreen mainScreen].bounds;
     self.imgScrollView = [[QSAllItemImageScrollView alloc] initWithFrame:self.contentView.bounds direction:QSImageScrollViewDirectionVer];
     self.imgScrollView.delegate = self;
 //    self.imgScrollView.backgroundColor = [UIColor blackColor];

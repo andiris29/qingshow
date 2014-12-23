@@ -62,17 +62,6 @@
         NSNumber* typeNum = typeArray[i];
         QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:typeNum.intValue];
         item.delegate = self;
-        
-        float deltaY = (size.height - 2 * item.frame.size.height) / 3;
-        float deltaX = (size.width - 3 * item.frame.size.width) / 4;
-        int index = i;
-        int column = index % 3 + 1;
-        int row = i / 3 + 1;
-        
-        CGRect frame = item.frame;
-        frame.origin.x = column * deltaX + (column - 1) * item.frame.size.width;
-        frame.origin.y = row * deltaY + (row - 1) * item.frame.size.height;
-        item.frame = frame;
         [self.itemArray addObject:item];
         [self addSubview:item];
     }
@@ -88,6 +77,29 @@
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGSize size = self.frame.size;
+    
+    for (int i = 0; i < 5; i++) {
+        QSRootMenuItem* item = self.itemArray[i];
+        item.delegate = self;
+        
+        float deltaY = (size.height - 2 * QSRootMenuItemHeight) / 3;
+        float deltaX = (size.width - 3 * QSRootMenuItemWidth) / 4;
+        int index = i;
+        int column = index % 3 + 1;
+        int row = i / 3 + 1;
+        
+        CGRect frame = item.frame;
+        frame.origin.x = column * deltaX + (column - 1) * QSRootMenuItemWidth;
+        frame.origin.y = row * deltaY + (row - 1) * QSRootMenuItemHeight;
+        item.frame = frame;
+    }
+    
+}
+
 #pragma mark - QSRootMenuItemDelegate
 - (void)menuItemPressed:(QSRootMenuItem*)item
 {
@@ -95,5 +107,6 @@
         [self.delegate rootMenuItemPressedType:item.type];
     }
 }
+
 
 @end

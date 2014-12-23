@@ -15,9 +15,12 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bs2-ec-rwA">
+                    <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bs2-ec-rwA">
                         <rect key="frame" x="18" y="46" width="285" height="1"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Euf-AT-FRH"/>
+                        </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GKZ-wh-JUh">
                         <rect key="frame" x="96" y="15" width="192" height="15"/>
@@ -60,6 +63,9 @@
                     <constraint firstAttribute="centerY" secondItem="W1N-Z4-O31" secondAttribute="centerY" id="Dsv-zG-c7l"/>
                     <constraint firstItem="GKZ-wh-JUh" firstAttribute="leading" secondItem="W1N-Z4-O31" secondAttribute="trailing" constant="28" id="EJp-Rb-e6A"/>
                     <constraint firstAttribute="centerY" secondItem="GKZ-wh-JUh" secondAttribute="centerY" id="V0U-f1-cak"/>
+                    <constraint firstItem="bs2-ec-rwA" firstAttribute="top" secondItem="W1N-Z4-O31" secondAttribute="bottom" constant="16" id="Zsj-9m-Rih"/>
+                    <constraint firstItem="bs2-ec-rwA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="tTY-Ia-spc"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="bs2-ec-rwA" secondAttribute="trailing" constant="9" id="ufU-dy-bbh"/>
                     <constraint firstItem="iNi-Yx-cTn" firstAttribute="centerY" secondItem="GKZ-wh-JUh" secondAttribute="centerY" constant="-0.5" id="wV7-Ic-dHG"/>
                 </constraints>
             </tableViewCellContentView>

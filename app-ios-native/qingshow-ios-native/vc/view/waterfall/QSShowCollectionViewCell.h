@@ -36,7 +36,7 @@
 
 //static
 + (float)getHeightWithData:(NSDictionary*)showData;
-
++ (CGSize)getSizeWithData:(NSDictionary*)showData;
 //IBAction
 - (void)peopleTap:(id)sender;
 @end

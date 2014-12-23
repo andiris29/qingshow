@@ -56,6 +56,9 @@
 }
 - (void)updateView
 {
+    CGRect rect = self.frame;
+    rect.size.width = [UIScreen mainScreen].bounds.size.width;
+    self.frame = rect;
     self.btnGroup = [[QSSectionButtonGroup alloc] initWithType:self.type];
     [self.sectionGroupContainer addSubview:self.btnGroup];
     [self.btnGroup setSelect:0];

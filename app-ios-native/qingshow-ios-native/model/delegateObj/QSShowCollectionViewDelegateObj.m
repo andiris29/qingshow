@@ -58,11 +58,11 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
-        return CGSizeMake(145, 35);
+        
+        return CGSizeMake([UIScreen mainScreen].bounds.size.width - 4 / 2, 35);
     } else {
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
-        float height = [QSShowCollectionViewCell getHeightWithData:dict];
-        return CGSizeMake(158, height);
+        return [QSShowCollectionViewCell getSizeWithData:dict];
     }
     
 }

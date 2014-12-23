@@ -106,7 +106,7 @@
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
     NSDictionary* coverMetadata = [QSShowUtil getCoverMetadata:showData];
-    float iniWidth = 158;
+    float iniWidth = ([UIScreen mainScreen].bounds.size.width - 4) / 2;
     float height = 212;
     float width = iniWidth;
     //212 158
@@ -123,6 +123,12 @@
 + (float)getHeightWithData:(NSDictionary*)showData
 {
     return [self getImageHeightWithData:showData];
+}
++ (CGSize)getSizeWithData:(NSDictionary*)showData
+{
+    float height = [self getHeightWithData:showData];
+    float widht = ([UIScreen mainScreen].bounds.size.width - 4) / 2;
+    return CGSizeMake(widht, height);
 }
 
 #pragma mark - IBAction

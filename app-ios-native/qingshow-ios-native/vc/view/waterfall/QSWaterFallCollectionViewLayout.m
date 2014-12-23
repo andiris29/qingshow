@@ -12,8 +12,9 @@
 -(void)prepareLayout
 
 {
+    
     [super prepareLayout];
-    self.itemWidth=158;
+    self.itemWidth= ([UIScreen mainScreen].bounds.size.width - 4) / 2;
     self.sectionInset=UIEdgeInsetsMake(3, 0, 5, 4);
     self.delegate = (id<QSWaterFallLayoutDelegate>)self.collectionView.delegate;
     CGSize size = self.collectionView.frame.size;
@@ -24,7 +25,7 @@
 
 -(CGSize)collectionViewContentSize
 {
-    return CGSizeMake(320, (leftY>rightY?leftY:rightY));
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width, (leftY>rightY?leftY:rightY));
 }
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath  withIndex:(int)index

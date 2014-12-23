@@ -65,8 +65,8 @@
 //    self.showContainer.layer.cornerRadius = 4;
 //    self.showContainer.layer.masksToBounds = YES;
 
-    
-    self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.bounds];
+    self.showContainer.frame = [UIScreen mainScreen].bounds;
+    self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.frame];
     self.showImageScrollView.pageControl.hidden = YES;
     [self.showContainer addSubview:self.showImageScrollView];
     
@@ -108,18 +108,21 @@
     self.navigationController.navigationBarHidden = YES;
     
     __weak QSS03ShowDetailViewController* weakSelf = self;
+    [self bindWithDict:self.showDict];
     [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
         weakSelf.showDict = dict;
         [weakSelf bindWithDict:dict];
     } onError:^(NSError *error) {
         
     }];
+
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self hideSharePanel];
     [super viewWillDisappear:animated];
 }
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -372,7 +375,6 @@
         [self.movieController setFullscreen:NO animated:YES];
     }
 }
-
 
 
 #pragma mark - Share
