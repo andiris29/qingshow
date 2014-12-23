@@ -50,6 +50,14 @@ public class ModelEntity extends AbsEntity {
         return name;
     }
 
+    public String getJob() {
+        return "模特";
+    }
+
+    public String getHeightWeight() {
+        return String.valueOf(height) + String.valueOf(weight);
+    }
+
     public String getBackground() {
         return background;
     }
@@ -109,7 +117,7 @@ public class ModelEntity extends AbsEntity {
     private String[] hairTypes;
     private int[] roles;
 
-    public class ModelContext {
+    public class ModelContext extends AbsEntity {
         private int numFollowers;
         private int numShows;
         private boolean followedByCurrentUser = false;

@@ -62,7 +62,9 @@ public class P01ModelListActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(P01ModelListActivity.this, "test click", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(P01ModelListActivity.this, P02ModelActivity.class);
-                intent.putExtra("_id", ((ModelEntity) adapter.getItem(position)).get_id());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((ModelEntity) adapter.getItem(position)));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

@@ -24,6 +24,9 @@ public class QSAppWebAPI {
     private static final String PEOPLE_FOLLOW_API = HOST_NAME + "/people/follow";
     private static final String PEOPLE_UNFOLLOW_API = HOST_NAME + "/people/unfollow";
 
+    private static final String QUERY_PEOPLE_FOLLOWER_API = HOST_NAME + "/people/queryFollowers";
+    private static final String QUERY_PEOPLE_FOLLOWED_API = HOST_NAME + "/people/queryFollowed";
+
 
     public static String getShowListApi(int pageIndex, int pageSize) {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
@@ -62,4 +65,15 @@ public class QSAppWebAPI {
     public static String getModelShowsApi(String modelId, String pageNo) {
         return MODEL_DETAIL_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&pageSize=10";
     }
+
+    public static String getQueryPeopleFollowerApi(String modelId, String pageNo) {
+        return QUERY_PEOPLE_FOLLOWER_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&paegSize=10";
+
+    }
+
+    public static String getQueryPeopleFollowedApi(String modelId, String pageNo) {
+        return QUERY_PEOPLE_FOLLOWED_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&paegSize=10";
+    }
+
+
 }
