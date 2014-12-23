@@ -419,7 +419,7 @@
     webPage.title = @"倾秀";
     webPage.description = @"qingshow desc";
     webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"gray_clock"]);
+    webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
     
 //    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"gray_clock"], 0.5);
 

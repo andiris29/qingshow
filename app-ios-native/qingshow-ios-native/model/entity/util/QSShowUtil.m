@@ -127,11 +127,7 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-    NSDictionary* context = showDict[@"__context"];
-    if (context) {
-        return ((NSNumber*)context[@"numLike"]).kmbtStringValue;
-    }
-    return @"0";
+    return ((NSNumber*)showDict[@"numLike"]).kmbtStringValue;
 }
 
 + (NSString*)getNumberItemDescription:(NSDictionary*)showDict
@@ -181,18 +177,8 @@
     }
     if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
         NSMutableDictionary* s = (NSMutableDictionary*)showDict;
-        NSDictionary* context = showDict[@"__context"];
-        NSMutableDictionary* m = nil;
-        if ([context isKindOfClass:[NSDictionary class]]) {
-            m = [context mutableCopy];
-        } else
-        {
-            m = [@{} mutableCopy];
-        }
-        long long preNumlike = ((NSNumber*)m[@"numLike"]).longLongValue;
-        
-        m[@"numLike"] = @(preNumlike + num);
-        s[@"__context"] = m;
+        long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
+        s[@"numLike"] = @(preNumlike + num);
     }
 }
 @end

@@ -14,6 +14,8 @@
 #import "QSUserManager.h"
 
 
+
+
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
 @property (strong, nonatomic) NSString *wbCurrentUserID;
@@ -25,9 +27,9 @@
 {
     
     [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kWeiboAppKey];
+    [WeiboSDK registerApp:kWeiboAppKeyNum];
     
-    [WXApi registerApp:@"wxef1d308f82e30c66"];
+    [WXApi registerApp:kWechatAppID];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];
@@ -67,9 +69,9 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url absoluteString] hasPrefix:@"wb1213293589"]) {
+    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
         return [WeiboSDK handleOpenURL:url delegate:self];
-    } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
+    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return YES;
@@ -78,9 +80,9 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url absoluteString] hasPrefix:@"wb1213293589"]) {
+    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
         return [WeiboSDK handleOpenURL:url delegate:self ];
-    } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
+    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return YES;
