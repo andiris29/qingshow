@@ -15,6 +15,7 @@
 #import "QSCommentUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
+#import "UIViewController+Network.h"
 
 @interface QSCommentListViewController ()
 
@@ -122,7 +123,7 @@
             [self.delegateObj.resultArray removeObjectAtIndex:index];
             [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     }
     else if (buttonIndex == actionSheet.cancelButtonIndex)
@@ -183,7 +184,7 @@
             [self showSuccessHudWithText:@"发送成功"];
             self.textField.text = @"";
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
         self.clickIndex = -1;
 

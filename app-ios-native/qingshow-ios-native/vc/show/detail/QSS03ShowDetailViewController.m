@@ -25,6 +25,7 @@
 #import "WXApi.h"
 #import "QSSharePlatformConst.h"
 #import "QSS03ItemListViewController.h"
+#import "UIViewController+Network.h"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -192,14 +193,14 @@
             [self showSuccessHudWithText:@"unlike succeed"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
             [self showSuccessHudWithText:@"like succeed"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     }
 }

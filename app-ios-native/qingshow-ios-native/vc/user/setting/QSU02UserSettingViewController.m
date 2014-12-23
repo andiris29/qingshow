@@ -13,7 +13,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
-
+#import "UIViewController+Network.h"
 
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
@@ -244,7 +244,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Error Handle
     ErrorBlock error = ^(NSError *error) {
         [hud hide:YES];
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     };
     
     // Convert UIImage to NSData

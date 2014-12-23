@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
-
+#import "UIViewController+Network.h"
 
 @interface QSP02ModelDetailViewController ()
 
@@ -148,7 +148,7 @@
             [self showTextHud:@"unfollow successfully"];
         }
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 

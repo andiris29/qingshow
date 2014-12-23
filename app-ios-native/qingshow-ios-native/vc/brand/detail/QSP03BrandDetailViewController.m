@@ -10,6 +10,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSMetadataUtil.h"
+#import "UIViewController+Network.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -126,7 +127,7 @@
             [self showSuccessHudWithText:@"unfollow successfully"];
         }
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 - (void)clickModel:(NSDictionary*)model

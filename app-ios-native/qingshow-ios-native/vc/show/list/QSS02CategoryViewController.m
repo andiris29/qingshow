@@ -11,6 +11,7 @@
 #import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "QSNetworkKit.h"
+#import "UIViewController+Network.h"
 
 @interface QSS02CategoryViewController ()
 @property (assign, nonatomic) QSFeedingCategory type;
@@ -78,6 +79,6 @@
 
 - (void)handleNetworkError:(NSError*)error
 {
-    [self showErrorHudWithError:error];
+    [self handleError:error];
 }
 @end

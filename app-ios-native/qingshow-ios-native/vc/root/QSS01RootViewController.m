@@ -27,6 +27,7 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSShowUtil.h"
 #import "QSError.h"
+#import "UIViewController+Network.h"
 
 @interface QSS01RootViewController ()
 
@@ -148,7 +149,7 @@
 //    } else
     if (!userManager.userInfo) {
         //未登陆
-        UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
+        UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         //已登陆
@@ -167,14 +168,14 @@
             [self showSuccessHudWithText:@"unlike succeed"];
             [self.delegateObj updateShow:showDict];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
             [self showSuccessHudWithText:@"like succeed"];
             [self.delegateObj updateShow:showDict];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     }
 }
@@ -266,7 +267,7 @@
 
 - (void)handleNetworkError:(NSError*)error
 {
-    [self showErrorHudWithError:error];
+    [self handleError:error];
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

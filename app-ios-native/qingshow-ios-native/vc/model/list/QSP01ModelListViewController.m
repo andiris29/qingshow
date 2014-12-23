@@ -9,7 +9,7 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
-
+#import "UIViewController+Network.h"
 #import "QSNetworkKit.h"
 
 @interface QSP01ModelListViewController ()
@@ -91,11 +91,11 @@
         NSUInteger index = [self.delegateObj.resultArray indexOfObject:model];
         [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 - (void)handleNetworkError:(NSError *)error
 {
-    [self showErrorHudWithError:error];
+    [self handleError:error];
 }
 @end
