@@ -24,6 +24,9 @@ public class QSAppWebAPI {
     private static final String PEOPLE_FOLLOW_API = HOST_NAME + "/people/follow";
     private static final String PEOPLE_UNFOLLOW_API = HOST_NAME + "/people/unfollow";
 
+    private static final String BRAND_NEWEST_API = HOST_NAME + "/feeding/byBrandNew";
+    private static final String BRAND_DISCOUNT_API = HOST_NAME + "/feeding/byBrandDiscount";
+
     private static final String QUERY_PEOPLE_FOLLOWER_API = HOST_NAME + "/people/queryFollowers";
     private static final String QUERY_PEOPLE_FOLLOWED_API = HOST_NAME + "/people/queryFollowed";
 
@@ -75,5 +78,12 @@ public class QSAppWebAPI {
         return QUERY_PEOPLE_FOLLOWED_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&paegSize=10";
     }
 
+    public static String getBrandNewestApi(String brandId, String pageNo) {
+        return BRAND_NEWEST_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+    }
+
+    public static String getBrandDiscountApi(String brandId, String pageNo) {
+        return BRAND_DISCOUNT_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+    }
 
 }

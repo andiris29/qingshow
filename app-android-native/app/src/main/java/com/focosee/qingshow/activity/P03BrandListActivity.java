@@ -62,7 +62,9 @@ public class P03BrandListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(P03BrandListActivity.this, P04BrandActivity.class);
-                intent.putExtra("BRANDID", ((BrandEntity) adapter.getItem(position)).getBrandName());
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, ((BrandEntity) adapter.getItem(position)));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

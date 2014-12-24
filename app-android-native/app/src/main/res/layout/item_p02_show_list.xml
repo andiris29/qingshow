@@ -8,6 +8,7 @@
         android:id="@+id/item_p02_item_image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:scaleType="fitXY"
         android:src="@drawable/bg_pic"/>
 
 
