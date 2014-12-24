@@ -18,6 +18,7 @@
 {
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
+    // Move to global const
     p[@"version"] = @"1.0.0";
     op = [self operationWithPath:path params:p httpMethod:method ];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
