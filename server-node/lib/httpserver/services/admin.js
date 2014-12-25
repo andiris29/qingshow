@@ -4,6 +4,7 @@ var async = require('async');
 var People = require('../../model/peoples');
 var Show = require('../../model/shows');
 var Item = require('../../model/items');
+var Chosen = require('../../model/chosens');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -19,7 +20,7 @@ var _encrypt = function(string) {
     return enc;
 };
 
-var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById, _removeModelById, _saveModel;
+var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById, _saveChosen, _removeChosenById, _removeModelById, _saveModel;
 
 _savePeople = function(req, res) {
 
@@ -65,11 +66,25 @@ _saveItem = function(req, res) {
   _saveModel(Item, 'item', req, res, function(req, res){
     var param = req.body;
     var item = new Item();
-    item.brandRef = RequestHelper.parseId(param['brand']);
-    item.category = parseInt(param['category']);
-    item.name = param['name'];
-    item.cover = param['cover'];
-    item.source = param['source'];
+
+    ['name', 'cover', 'source'].forEach(function(field){
+      if (param[field]) {
+        item.set(field, param[field]);
+      }
+    });
+
+    ['brandRef'].forEach(function(field) {
+      if (param[field]) {
+        item.set(field, RequestHelper.parseId(param[field]));
+      }
+    });
+
+    ['category'].forEach(function(field) {
+      if (param[field]) {
+        item.set(field, parseInt(param[field]));
+      }
+    });
+
 
     return item;
   });
@@ -127,6 +142,36 @@ _removeShowById = function(req, res) {
   _removeModelById(Show,'show', req, res);
 };
 
+_saveChosen = function(req, res) {
+  _saveModel(Chosen, 'chosen', req, res, function(req, res) {
+    var param = req.body;
+    var chosen = new Chosen();
+    ['showRefs'].forEach(function(field) {
+      if (param[field]) {
+        chosen.set(field, RequestHelper.parseIds(param[field]));
+      }
+    });
+
+    ['type'].forEach(function(field) {
+      if (param[field]) {
+        chosen.set(field, parseFloat(param[field]));
+      }
+    });
+
+    ['activateTime'].forEach(function(field) {
+      if (param[field]) {
+        chosen.set(field, Date.parse(param[field]));
+      }
+    });
+
+    return chosen;
+  });
+}
+
+_removeChosenById = function(req, res) {
+  _removeModelById(Chosen, 'chosen', req, res);
+}
+
 _removeModelById = function(Model,name, req, res) {
   async.waterfall([
     function(callback) {
@@ -179,6 +224,7 @@ _saveModel = function(Model, key, req, res, parser) {
   });
 }
 
+
 var _getNotExistError = function(key) {
   switch(key) {
     case 'people':
@@ -221,6 +267,16 @@ module.exports = {
   'removeShowById': {
     method: 'post',
     func: _removeShowById,
+    permissionValidators: ['loginValidator', 'adminValidator']
+  },
+  'saveChosen': {
+    method: 'post',
+    func: _saveChosen,
+    permissionValidators: ['loginValidator', 'adminValidator']
+  },
+  'removeChosenById': {
+    method: 'post',
+    func: _removeChosenById,
     permissionValidators: ['loginValidator', 'adminValidator']
   }
 };
