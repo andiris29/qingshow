@@ -35,6 +35,9 @@
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
 //@property (assign, nonatomic) BOOL fISLogined;
+
+@property (assign, nonatomic) BOOL fIsFirstLoad;
+
 @end
 
 @implementation QSS01RootViewController
@@ -51,6 +54,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view, typically from a nib.MyLayout *layout=[[MyLayout alloc]init];
     [self configDelegateObj];
     [self configNavBar];
@@ -66,17 +70,28 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
+    
+    self.fIsFirstLoad = YES;
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.menuContainer.hidden = !self.fIsShowMenu;
+    
+
+
+    
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self hideMenu];
+    
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+    }
 }
 - (void)didReceiveMemoryWarning
 {
