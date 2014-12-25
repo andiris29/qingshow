@@ -71,6 +71,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    self.menuContainer.hidden = !self.fIsShowMenu;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
