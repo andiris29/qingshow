@@ -9,6 +9,7 @@
 #import "QSNetworkEngine+ShowService.h"
 #import "QSNetworkEngine+Protect.h"
 #import "QSShowUtil.h"
+#import "NSMutableDictionary+QSExtension.h"
 
 //Query
 #define PATH_QUERY_SHOW @"show/query"
@@ -36,7 +37,11 @@
                 if (dataArray.count) {
                     d = dataArray[0];
                 }
-                succeedBlock([d mutableCopy]);
+                if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+                    NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
+                    [mD updateWithDict:showDict];
+                }
+                succeedBlock(showDict);
                 return;
             } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
                 NSArray* retArray = completedOperation.responseJSON;

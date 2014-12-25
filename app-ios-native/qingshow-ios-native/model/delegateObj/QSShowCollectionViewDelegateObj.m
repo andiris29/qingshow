@@ -23,6 +23,16 @@
 }
 
 #pragma mark - UICollecitonView Datasource And Delegate
+- (void)refreshClickedData
+{
+    if (self.clickedData) {
+        NSIndexPath* indexPath = [self getIndexPathOfShow:self.clickedData];
+        QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        [cell bindData:self.clickedData];
+        self.clickedData = nil;
+    }
+}
+
 
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
 {
@@ -71,6 +81,7 @@
 {
     
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
     if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:)]) {
         [self.delegate didClickShow:showDict];
     }
@@ -123,6 +134,7 @@
 {
     NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(addFavorShow:)]) {
         [self.delegate addFavorShow:showDict];
     }
@@ -132,6 +144,7 @@
 {
     NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
         [self.delegate didClickPeople:[QSShowUtil getPeopleFromShow:showDict]];
     }

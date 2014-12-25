@@ -55,7 +55,7 @@
 
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self.delegateObj reloadData];
+    [self.delegateObj refreshClickedData];
 }
 
 - (void)didReceiveMemoryWarning

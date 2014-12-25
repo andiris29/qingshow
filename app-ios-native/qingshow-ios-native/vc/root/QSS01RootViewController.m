@@ -80,9 +80,7 @@
     self.navigationController.navigationBarHidden = NO;
     self.menuContainer.hidden = !self.fIsShowMenu;
     
-
-
-    
+    [self.delegateObj refreshClickedData];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

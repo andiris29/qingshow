@@ -75,6 +75,10 @@
     [super viewWillAppear:animated];
     self.userInfo = [QSUserManager shareUserManager].userInfo;
     [self.badgeView bindWithPeopleDict:self.userInfo];
+    
+    [self.likedDelegate refreshClickedData];
+    [self.recommendationDelegate refreshClickedData];
+    [self.followingDelegate refreshClickedData];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

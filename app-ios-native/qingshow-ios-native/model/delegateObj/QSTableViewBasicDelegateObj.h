@@ -36,6 +36,9 @@
 #pragma mark - Bind
 - (void)bindWithTableView:(UITableView*)tableView;
 
+@property (strong, nonatomic) NSDictionary* clickedData;
+- (void)refreshClickedData;
+
 #pragma mark - Network
 - (void)reloadData;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;
@@ -45,4 +48,5 @@
 @property (strong, nonatomic) UITableView* tableView;
 #pragma mark - Method to be Override
 - (void)registerCell;
+
 @end

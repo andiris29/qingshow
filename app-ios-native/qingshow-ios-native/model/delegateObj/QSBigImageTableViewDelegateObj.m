@@ -48,8 +48,18 @@
     if ([self.delegate respondsToSelector:@selector(didClickCell:ofData:)]) {
         UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
         NSDictionary* data = self.resultArray[indexPath.row];
+        self.clickedData = data;
         [self.delegate didClickCell:cell ofData:data];
     }
 }
-
+- (void)refreshClickedData
+{
+    if (self.clickedData) {
+        NSUInteger row = [self.resultArray indexOfObject:self.clickedData];
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+        QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell bindWithDict:self.clickedData];
+        self.clickedData = nil;
+    }
+}
 @end

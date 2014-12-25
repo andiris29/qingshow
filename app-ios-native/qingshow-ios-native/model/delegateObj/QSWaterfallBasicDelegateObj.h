@@ -25,8 +25,14 @@
 @property (strong, nonatomic) NSDictionary* metaDataDict;
 
 
+
+
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
 - (void)reloadData;
+
+@property (strong, nonatomic) NSDictionary* clickedData;
+- (void)refreshClickedData;
+
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;
 
 #pragma mark - Private

@@ -50,6 +50,9 @@
 
 
 #pragma mark - Config
+- (void)refreshClickedData
+{}
+
 - (void)bindWithCollectionView:(UICollectionView *)collectionView
 {
     _collectionView = collectionView;
@@ -177,4 +180,5 @@
         [refreshControl endRefreshing];
     }];
 }
+
 @end

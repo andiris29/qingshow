@@ -50,6 +50,13 @@
     [self bindDelegateObj];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.showsDelegate refreshClickedData];
+    [self.discountDelegate refreshClickedData];
+    [self.followerDelegate refreshClickedData];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

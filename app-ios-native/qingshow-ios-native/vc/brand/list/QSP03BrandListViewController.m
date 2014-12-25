@@ -47,6 +47,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [self.delegateObj refreshClickedData];
 }
 
 - (void)didReceiveMemoryWarning {

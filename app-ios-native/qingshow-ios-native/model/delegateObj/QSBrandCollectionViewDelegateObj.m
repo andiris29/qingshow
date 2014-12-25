@@ -28,8 +28,10 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    NSDictionary* brandDict = self.resultArray[indexPath.row];
+    self.clickedData = brandDict;
     if ([self.delegate respondsToSelector:@selector(didClickBrand:)]) {
-        [self.delegate didClickBrand:self.resultArray[indexPath.row]];
+        [self.delegate didClickBrand:brandDict];
     }
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -37,4 +39,17 @@
     return CGSizeMake(150, 200);
 
 }
+
+- (void)refreshClickedData
+{
+    if (self.clickedData) {
+        NSUInteger row = [self.resultArray indexOfObject:self.clickedData];
+        
+        NSIndexPath* indexPath = [NSIndexPath indexPathForItem:row inSection:0];
+        QSBrandListCollectionViewCell* cell = (QSBrandListCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        [cell bindWithBrandDict:self.clickedData];
+        self.clickedData = nil;
+    }
+}
+
 @end
