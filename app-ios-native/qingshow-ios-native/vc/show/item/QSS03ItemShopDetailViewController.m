@@ -47,8 +47,8 @@
     // Do any additional setup after loading the view from its nib.
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-    self.showBtn.layer.cornerRadius = 8;
-    self.showBtn.layer.masksToBounds = YES;
+    self.shopBtn.layer.cornerRadius = 8;
+    self.shopBtn.layer.masksToBounds = YES;
     self.contentView.frame = [UIScreen mainScreen].bounds;
     self.imgScrollView = [[QSAllItemImageScrollView alloc] initWithFrame:self.contentView.bounds direction:QSImageScrollViewDirectionVer];
     self.imgScrollView.delegate = self;

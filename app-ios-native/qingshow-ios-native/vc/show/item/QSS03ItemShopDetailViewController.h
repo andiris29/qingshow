@@ -12,7 +12,7 @@
 @interface QSS03ItemShopDetailViewController : UIViewController <UIScrollViewDelegate, QSImageScrollViewBaseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIButton *showBtn;
+@property (weak, nonatomic) IBOutlet UIButton *shopBtn;
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
 - (IBAction)shopButtonPressed:(id)sender;
