@@ -108,12 +108,11 @@
     self.navigationController.navigationBarHidden = YES;
     
     __weak QSS03ShowDetailViewController* weakSelf = self;
-    [self bindWithDict:self.showDict];
     [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
         weakSelf.showDict = dict;
         [weakSelf bindWithDict:dict];
     } onError:^(NSError *error) {
-        
+
     }];
 
 }
