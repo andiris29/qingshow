@@ -96,7 +96,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hMW-Uu-LLo">
-                    <rect key="frame" x="10" y="30" width="36" height="36"/>
+                    <rect key="frame" x="20" y="30" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="s03_back_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -106,7 +106,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="AUY-C1-rFf">
-                    <rect key="frame" x="255" y="250" width="63" height="228"/>
+                    <rect key="frame" x="258" y="250" width="63" height="228"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
@@ -121,7 +121,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kom-JN-rRb">
-                            <rect key="frame" x="14" y="8" width="36" height="42"/>
+                            <rect key="frame" x="12" y="8" width="36" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
