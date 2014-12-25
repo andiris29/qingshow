@@ -106,11 +106,31 @@
     }
     return array;
 }
-+ (NSString*)getPrice:(NSDictionary*)item
++ (NSString*)getPrice:(NSDictionary*)itemDict
 {
-#warning 没字段
-    return @"";
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    NSNumber* price = itemDict[@"price"];
+    if ([QSCommonUtil checkIsNil:price]) {
+        return @"";
+    } else {
+        return [NSString stringWithFormat:@"￥%@", price];
+    }
 }
++ (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    NSNumber* price = itemDict[@"priceAfterDiscount"];
+    if ([QSCommonUtil checkIsNil:price]) {
+        return @"";
+    } else {
+        return [NSString stringWithFormat:@"￥%@", price];
+    }
+}
+
 + (NSURL*)getIconUrl:(NSDictionary*)itemDict
 {
 #warning 没字段

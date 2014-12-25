@@ -36,6 +36,7 @@
 		EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF2E0F2B1A2F790400F3A25C /* WeiboSDK.bundle */; };
 		EF3D056B1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056A1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m */; };
 		EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */; };
+		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
 		EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46461E1A2AEB5C00172618 /* CoreText.framework */; };
 		EF4646231A2B00CA00172618 /* QSBrandUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646221A2B00CA00172618 /* QSBrandUtil.m */; };
 		EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646251A2B229300172618 /* NSNumber+QSExtension.m */; };
@@ -231,6 +232,8 @@
 		EF3D056A1A0BC63C00175E1D /* QSShowCollectionViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowCollectionViewDelegateObj.m; sourceTree = "<group>"; };
 		EF3D056D1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewDelegateObj.h; sourceTree = "<group>"; };
 		EF3D056E1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSModelListTableViewDelegateObj.m; sourceTree = "<group>"; };
+		EF42BBD11A4C5B1C00218693 /* UILabelStrikeThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabelStrikeThrough.h; sourceTree = "<group>"; };
+		EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelStrikeThrough.m; sourceTree = "<group>"; };
 		EF46461E1A2AEB5C00172618 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		EF4646211A2B00CA00172618 /* QSBrandUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBrandUtil.h; sourceTree = "<group>"; };
 		EF4646221A2B00CA00172618 /* QSBrandUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBrandUtil.m; sourceTree = "<group>"; };
@@ -534,6 +537,7 @@
 		EF1A591B1A06761800001AE0 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				EF42BBCF1A4C5B0200218693 /* label */,
 				EF92B7211A3C9F4F00A08F08 /* show */,
 				EFC7ADAC1A10FB800078D1F9 /* imageScroll */,
 				EF1A591C1A06761800001AE0 /* waterfall */,
@@ -593,6 +597,15 @@
 				EF92B7291A3CB51D00A08F08 /* QSBigImageTableViewDelegateObj.m */,
 			);
 			path = delegateObj;
+			sourceTree = "<group>";
+		};
+		EF42BBCF1A4C5B0200218693 /* label */ = {
+			isa = PBXGroup;
+			children = (
+				EF42BBD11A4C5B1C00218693 /* UILabelStrikeThrough.h */,
+				EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */,
+			);
+			path = label;
 			sourceTree = "<group>";
 		};
 		EF4D50A01A1770F7001E179B /* detail */ = {
@@ -1378,6 +1391,7 @@
 				EFA98A761A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
 				EFC543681A1750AD001B2C49 /* QSSectionNumberTextButton.m in Sources */,
+				EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */,
 				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */,
