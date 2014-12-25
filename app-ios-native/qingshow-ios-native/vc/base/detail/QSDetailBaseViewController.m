@@ -17,6 +17,7 @@
 
 @interface QSDetailBaseViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *backBtnTopConstrain;
 @property (weak, nonatomic) IBOutlet UIView *badgeContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentContainer;
 
@@ -27,6 +28,7 @@
 @property (assign, nonatomic) CGPoint touchLocation;
 @property (strong, nonatomic) UIView* currentTouchView;
 
+@property (assign, nonatomic) float backPreTopCon;
 
 @end
 
@@ -54,6 +56,7 @@
     self.currentSection = 0;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
+    self.backPreTopCon = self.backBtnTopConstrain.constant;
 }
 
 - (void)didReceiveMemoryWarning
@@ -123,7 +126,8 @@
         if (f) {
             scrollView.contentOffset = CGPointZero;
         }
-
+        
+        self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
         [self.view layoutIfNeeded];
         
     }

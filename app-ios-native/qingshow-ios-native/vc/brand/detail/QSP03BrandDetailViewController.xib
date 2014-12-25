@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSP03BrandDetailViewController">
             <connections>
+                <outlet property="backBtnTopConstrain" destination="Fdu-38-R8A" id="3SS-cb-1it"/>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
                 <outlet property="discountCollectionView" destination="5PU-GX-PXr" id="QMd-dI-bDc"/>
