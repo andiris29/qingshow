@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/S08_background_image_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:id="@+id/S08_item_anchor_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/S08_item_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="刀刀 20岁 170cm" />
+
+            <TextView
+                android:id="@+id/S08_item_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="就爱文艺小清新" />
+
+            <TextView
+                android:id="@+id/S08_item_price"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="价格： 1920元" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/S08_item_video_start_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/S08_item_anchor_point"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:background="#00"/>
+
+        <ImageButton
+            android:id="@+id/S08_item_share_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/S08_item_video_start_btn"
+            android:layout_alignRight="@+id/S08_item_video_start_btn"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/s03_share_btn" />
+
+        <ImageView
+            android:id="@+id/S08_item_line_share_like"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/S08_item_share_btn"
+            android:layout_alignRight="@+id/S08_item_share_btn"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/s03_line" />
+
+        <ImageButton
+            android:id="@+id/S08_item_like_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/S08_item_line_share_like"
+            android:layout_alignRight="@+id/S08_item_line_share_like"
+            android:background="@drawable/s03_like_btn" />
+
+        <TextView
+            android:id="@+id/S08_item_like_text_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/S08_item_like_btn"
+            android:layout_alignTop="@+id/S08_item_like_btn"
+            android:gravity="center"
+            android:textColor="#ffffff" />
+
+        <ImageView
+            android:id="@+id/S08_item_line_like_message"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/S08_item_like_btn"
+            android:layout_alignRight="@+id/S08_item_like_btn"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/s03_line" />
+
+        <ImageButton
+            android:id="@+id/S08_item_comment_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@+id/S08_item_line_like_message"
+            android:layout_alignRight="@+id/S08_item_line_like_message"
+            android:background="@drawable/s03_comment_btn" />
+
+        <TextView
+            android:id="@+id/S08_item_comment_text_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/S08_item_comment_btn"
+            android:layout_alignTop="@+id/S08_item_comment_btn"
+            android:gravity="center"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

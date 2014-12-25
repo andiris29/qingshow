@@ -84,6 +84,10 @@
             android:name="com.focosee.qingshow.activity.S05ItemActivity"
             android:label="@string/title_activity_s05_item" >
         </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.S08TrendActivity"
+            android:label="@string/title_activity_s08_trend" >
+        </activity>
     </application>
 
 </manifest>

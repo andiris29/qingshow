@@ -75,5 +75,6 @@
     <string name="title_activity_item">ItemActivity</string>
     <string name="title_activity_s07_collect">S07CollectActivity</string>
     <string name="title_activity_s05_item">S05ItemActivity</string>
+    <string name="title_activity_s08_trend">S08TrendActivity</string>
 
 </resources>
