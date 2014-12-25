@@ -27,7 +27,7 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSShowUtil.h"
 #import "QSError.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSS01RootViewController ()
 
@@ -153,7 +153,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         //已登陆
-        UIViewController* vc = [[QSU01UserDetailViewController alloc] init];
+        UIViewController* vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
         [self.navigationController pushViewController:vc animated:YES];
         
 
@@ -257,7 +257,7 @@
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
     [self hideMenu];
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+    UIViewController* vc = [self generateDetailViewControlOfPeople:peopleDict];
     [self.navigationController pushViewController:vc animated:NO];
     
     CATransition* tran = [[CATransition alloc] init];

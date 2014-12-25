@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSP02ModelDetailViewController ()
 

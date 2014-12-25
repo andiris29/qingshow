@@ -6,13 +6,18 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
 #import "QSUserLoginAlertDelegateObj.h"
+#import "QSU01UserDetailViewController.h"
+#import "QSP02ModelDetailViewController.h"
+#import "QSPeopleUtil.h"
 
 #import <objc/runtime.h>
+
+
 
 static char alertDelegateObjKey;
 
@@ -48,6 +53,25 @@ static char alertDelegateObjKey;
             [self showErrorHudWithError:error];
         }
     }
+}
+
+- (UIViewController*)generateDetailViewControlOfPeople:(NSDictionary*)peopleDict
+{
+    UIViewController* vc = nil;
+    if ([QSPeopleUtil checkPeopleIsModel:peopleDict]) {
+        vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+    } else {
+        vc = [[QSU01UserDetailViewController alloc] initWithPeople:peopleDict];
+    }
+    return vc;
+}
+- (void)showPeopleDetailViewControl:(NSDictionary*)peopleDict
+{
+    if (!peopleDict || ![peopleDict isKindOfClass:[NSDictionary class]]) {
+        return;
+    }
+    
+    [self.navigationController pushViewController:[self generateDetailViewControlOfPeople:peopleDict] animated:YES];
 }
 
 @end

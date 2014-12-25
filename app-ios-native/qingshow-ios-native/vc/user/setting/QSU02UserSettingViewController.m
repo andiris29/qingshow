@@ -13,7 +13,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1

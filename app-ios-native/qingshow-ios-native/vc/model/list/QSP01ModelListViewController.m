@@ -9,8 +9,9 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
+
 
 @interface QSP01ModelListViewController ()
 
@@ -75,8 +76,7 @@
 #pragma mark - QSModelListTableViewDelegateObjDelegate
 - (void)clickModel:(NSDictionary*)model
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:model];
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {

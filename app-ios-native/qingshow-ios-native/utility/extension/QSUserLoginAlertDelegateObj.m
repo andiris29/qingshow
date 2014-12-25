@@ -7,7 +7,7 @@
 //
 
 #import "QSUserLoginAlertDelegateObj.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 #import "QSU06LoginViewController.h"
 
 @interface UIViewController(NetworkPrivate)

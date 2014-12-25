@@ -10,7 +10,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSMetadataUtil.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -132,7 +132,7 @@
 }
 - (void)clickModel:(NSDictionary*)model
 {
-    
+    [self showPeopleDetailViewControl:model];
 }
 
 @end

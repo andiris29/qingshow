@@ -14,6 +14,8 @@
 #import "UIViewController+ShowHud.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSS03ShowDetailViewController.h"
+#import "UIViewController+QSExtension.h"
+
 
 @interface QSDetailBaseViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
@@ -149,14 +151,12 @@
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:peopleDict];
 }
 #pragma mark - QSModelListTableViewDelegateObjDelegate
 - (void)clickModel:(NSDictionary*)model
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:model];
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {

@@ -11,7 +11,7 @@
 #import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "QSNetworkKit.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSS02CategoryViewController ()
 @property (assign, nonatomic) QSFeedingCategory type;
@@ -73,8 +73,7 @@
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:peopleDict];
 }
 
 - (void)handleNetworkError:(NSError*)error

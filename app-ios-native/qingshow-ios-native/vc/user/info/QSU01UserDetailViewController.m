@@ -23,18 +23,27 @@
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* likedDelegate;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* recommendationDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
-
+@property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
 
 @implementation QSU01UserDetailViewController
 #pragma mark - Init
-- (id)init
+- (id)initWithCurrentUser
+{
+    self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
+    if (self) {
+        self.fShowAccountBtn = YES;
+    }
+    return self;
+}
+- (id)initWithPeople:(NSDictionary*)peopleDict;
 {
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
         [self delegateObjInit];
-        self.userInfo = [QSUserManager shareUserManager].userInfo;
+        self.userInfo = peopleDict;
         self.type = QSSectionButtonGroupTypeThree;
+        self.fShowAccountBtn = NO;
     }
     return self;
 }
@@ -57,6 +66,7 @@
     [self configNavBar];
     [self configView];
     [self bindDelegateObj];
+    self.accountBtn.hidden = !self.fShowAccountBtn;
 }
 
 

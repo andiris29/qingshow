@@ -15,7 +15,7 @@
 #import "QSCommentUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSCommentListViewController ()
 
@@ -92,10 +92,7 @@
 #pragma mark - QSCommentListTableViewDelegateObj
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    if ([QSPeopleUtil checkPeopleIsModel:peopleDict]) {
-        UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    [self showPeopleDetailViewControl:peopleDict];
 }
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {

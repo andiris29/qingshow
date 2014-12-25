@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU01UserDetailViewController">
             <connections>
+                <outlet property="accountBtn" destination="N3M-vC-kKm" id="sUv-1u-Kr4"/>
                 <outlet property="backBtnTopConstrain" destination="DTe-9u-7lB" id="4Fn-1Z-TKD"/>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
@@ -89,9 +90,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-vC-kKm">
                     <rect key="frame" x="276" y="30" width="24" height="22"/>
                     <constraints>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="2yo-TX-raZ"/>
                         <constraint firstAttribute="width" constant="24" id="Pdx-Kd-91L"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="Wne-1D-GVm"/>
                         <constraint firstAttribute="height" constant="22" id="qlE-K7-bRu"/>
                     </constraints>
                     <state key="normal" image="nav_btn_account">
@@ -106,7 +105,7 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="DTe-9u-7lB"/>
-                <constraint firstItem="N3M-vC-kKm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="FbH-1B-YG6"/>
+                <constraint firstItem="N3M-vC-kKm" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" constant="10" id="Goa-w5-cDO"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QPE-wC-rfU"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="fec-uB-6s0" secondAttribute="bottom" id="cC0-fM-P8f"/>

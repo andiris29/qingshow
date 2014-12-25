@@ -68,7 +68,7 @@
 		EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */; };
 		EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */; };
 		EF92B72A1A3CB51D00A08F08 /* QSBigImageTableViewDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7291A3CB51D00A08F08 /* QSBigImageTableViewDelegateObj.m */; };
-		EF9740F81A49BBA3001300B5 /* UIViewController+Network.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740F71A49BBA3001300B5 /* UIViewController+Network.m */; };
+		EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */; };
 		EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */; };
 		EF9A74121A02A82600095F07 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74111A02A82600095F07 /* Foundation.framework */; };
 		EF9A74141A02A82600095F07 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9A74131A02A82600095F07 /* CoreGraphics.framework */; };
@@ -287,8 +287,8 @@
 		EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageTableViewCell.xib; sourceTree = "<group>"; };
 		EF92B7281A3CB51D00A08F08 /* QSBigImageTableViewDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBigImageTableViewDelegateObj.h; sourceTree = "<group>"; };
 		EF92B7291A3CB51D00A08F08 /* QSBigImageTableViewDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBigImageTableViewDelegateObj.m; sourceTree = "<group>"; };
-		EF9740F61A49BBA3001300B5 /* UIViewController+Network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Network.h"; sourceTree = "<group>"; };
-		EF9740F71A49BBA3001300B5 /* UIViewController+Network.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Network.m"; sourceTree = "<group>"; };
+		EF9740F61A49BBA3001300B5 /* UIViewController+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+QSExtension.h"; sourceTree = "<group>"; };
+		EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+QSExtension.m"; sourceTree = "<group>"; };
 		EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserLoginAlertDelegateObj.h; sourceTree = "<group>"; };
 		EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserLoginAlertDelegateObj.m; sourceTree = "<group>"; };
 		EF9A740E1A02A82600095F07 /* qingshow-ios-native.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "qingshow-ios-native.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -819,8 +819,8 @@
 				EF4646251A2B229300172618 /* NSNumber+QSExtension.m */,
 				EF4646271A2B2FA500172618 /* NSArray+QSExtension.h */,
 				EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */,
-				EF9740F61A49BBA3001300B5 /* UIViewController+Network.h */,
-				EF9740F71A49BBA3001300B5 /* UIViewController+Network.m */,
+				EF9740F61A49BBA3001300B5 /* UIViewController+QSExtension.h */,
+				EF9740F71A49BBA3001300B5 /* UIViewController+QSExtension.m */,
 				EF9740FA1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.h */,
 				EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */,
 			);
@@ -1420,7 +1420,7 @@
 				EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				826423361A11281A00D3F6BF /* QSU06LoginViewController.m in Sources */,
-				EF9740F81A49BBA3001300B5 /* UIViewController+Network.m in Sources */,
+				EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */,
 				EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */,
 				EFA618AC1A125FCB00560699 /* QSCommentListViewController.m in Sources */,
 				EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */,

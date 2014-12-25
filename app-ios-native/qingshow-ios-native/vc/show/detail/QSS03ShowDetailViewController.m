@@ -25,7 +25,7 @@
 #import "WXApi.h"
 #import "QSSharePlatformConst.h"
 #import "QSS03ItemListViewController.h"
-#import "UIViewController+Network.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSS03ShowDetailViewController ()
 
