@@ -131,9 +131,7 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
-    self.favorBtn.highlighted = [QSShowUtil getIsLike:dict];
     //Model
-    
     NSDictionary* peopleInfo = [QSShowUtil getPeopleFromShow:dict];
     
     NSURL* iconUrl = [QSPeopleUtil getHeadIconUrl:peopleInfo];
@@ -151,13 +149,26 @@
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
-    
+
+    //Like Btn
+    [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - UI
+- (void)setLikeBtnHover:(BOOL)fHover
+{
+    if (fHover) {
+        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+    } else {
+        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
+    }
+
+}
+
 
 #pragma mark - IBAction
 - (IBAction)playBtnPressed:(id)sender {
