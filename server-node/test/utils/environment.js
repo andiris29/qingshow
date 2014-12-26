@@ -1,4 +1,5 @@
-var SERVER_PATH = 'http://chingshow.com:30001/services/';
+//var SERVER_PATH = 'http://chingshow.com:30001/services/';
+var SERVER_PATH = 'http://localhost:30001/services/';
 QUnit.config.reorder = false;
 
 var testEnviroment = {};
