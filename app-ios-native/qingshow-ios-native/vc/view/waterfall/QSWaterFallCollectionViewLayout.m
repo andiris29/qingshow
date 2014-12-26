@@ -14,8 +14,8 @@
 {
     
     [super prepareLayout];
-    self.itemWidth= ([UIScreen mainScreen].bounds.size.width - 4) / 2;
-    self.sectionInset=UIEdgeInsetsMake(3, 0, 5, 4);
+    self.itemWidth= ([UIScreen mainScreen].bounds.size.width - 2) / 2;
+    self.sectionInset=UIEdgeInsetsMake(2, 0, 5, 2);
     self.delegate = (id<QSWaterFallLayoutDelegate>)self.collectionView.delegate;
     CGSize size = self.collectionView.frame.size;
     _cellCount = [[self collectionView] numberOfItemsInSection:0];
@@ -42,7 +42,7 @@
         leftY += itemHeight;
     } else {
         //Right
-        x = (self.itemWidth + 4);
+        x = (self.itemWidth + 2);
         rightY += self.sectionInset.top;
         attributes.frame = CGRectMake(x, rightY, self.itemWidth, itemHeight);
         rightY += itemHeight;
