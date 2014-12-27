@@ -158,21 +158,12 @@ _update = function(req, res) {
     async.waterfall([
     function(callback) {
         try {
-            qsParam = {};
-            ['name', 'portrait', 'gender', 'password', 'currentPassword'].forEach(function(field) {
-                if (req.body[field]) {
-                    qsParam[field] = req.body[field];
-                }
-            });
-            ['height', 'weight'].forEach(function(field) {
-                if (req.body[field]) {
-                    qsParam[field] = parseFloat(req.body[field]);
-                }
-            });
-            ['roles', 'hairTypes'].forEach(function(field) {
-                if (req.body[field]) {
-                    qsParam[field] = RequestHelper.parseArray(req.body[field]);
-                }
+            qsParam = RequestHelper.parse(req.body, {
+                'height' : RequestHelper.parseFloat,
+                'weight' : RequestHelper.parseFloat,
+                'roles' : RequestHelper.parseArray,
+                'hairTypes' : RequestHelper.parseArray,
+                'birthtime' : RequestHelper.parseDate
             });
         } catch(err) {
             callback(err);
