@@ -1,20 +1,20 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.ModelEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
@@ -22,7 +22,6 @@ import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -40,6 +39,13 @@ public class P01ModelListActivity extends Activity {
         setContentView(R.layout.activity_p01_model_list);
 
         navigationView = (MNavigationView) findViewById(R.id.P01_model_list_navigation);
+        navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                P01ModelListActivity.this.finish();
+            }
+        });
+
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P01_model_list_view);
 
         pullRefreshListView.setPullLoadEnabled(true);
@@ -50,6 +56,18 @@ public class P01ModelListActivity extends Activity {
 
         adapter = new P01ModelListAdapter(this, new ArrayList<ModelEntity>(), ImageLoader.getInstance());
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(P01ModelListActivity.this, "test click", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(P01ModelListActivity.this, P02ModelActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((ModelEntity) adapter.getItem(position)));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
         pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override

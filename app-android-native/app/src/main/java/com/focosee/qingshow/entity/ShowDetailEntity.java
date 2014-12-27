@@ -45,9 +45,6 @@ public class ShowDetailEntity extends AbsEntity {
     public String getModelWeightHeight() {
         return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
     }
-    public String getShowNumLike() {
-        return String.valueOf((null != modelRef && null != modelRef.modelInfo) ? modelRef.modelInfo.numLikes : 0);
-    }
     public String getModelStatus() {
         if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
             return modelRef.modelInfo.status;
@@ -81,6 +78,22 @@ public class ShowDetailEntity extends AbsEntity {
 
     public String[] getPosters() {
         return (null != posters) ? posters : new String[0];
+    }
+
+    public String getShowCommentNumber() {
+        return (null != __context) ? String.valueOf(__context.numComments) : "0";
+    }
+
+    public String getShowLikeNumber() {
+        return (null != __context) ? String.valueOf(__context.numLike) : "0";
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public String getItemsCount() {
+        return String.valueOf((null != itemRefs) ? itemRefs.length : 0);
     }
 
     // Inner data
@@ -125,6 +138,37 @@ public class ShowDetailEntity extends AbsEntity {
     }
 
     public static class RefItem extends AbsEntity {
+
+        public String getItemName() {
+            return name;
+        }
+
+        public String getItemCategory() {
+            String categoryName;
+            switch (category) {
+                case 0:
+                    categoryName = "上装";
+                    break;
+                case 1:
+                    categoryName = "下装";
+                    break;
+                case 2:
+                    categoryName = "鞋子";
+                    break;
+                case 3:
+                    categoryName = "配饰";
+                    break;
+                default:
+                    categoryName = "未定义";
+                    break;
+            }
+            return categoryName;
+        }
+
+        public String getCover() {
+            return cover;
+        }
+
         public String _id;
         public int category;
         public String name;

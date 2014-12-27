@@ -29,20 +29,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-
-class ShowClassifyConfig {
-    private static final String[] titleList = {"闪点推荐","美搭榜单", "人气用户", "设计风尚", "品牌专区"};
-
-    public static String getTitle(int mod) {
-        return (titleList.length > mod) ? titleList[mod] : "参数错误";
-    }
-
-    public static String getApi(int mod, int pageNo, int pageSize) {
-        return QSAppWebAPI.getShowCategoryListApi(mod, pageNo, pageSize);
-    }
-}
-
 public class S02ShowClassify extends Activity {
+
+    static class ShowClassifyConfig {
+        private static final String[] titleList = {"闪点推荐", "美搭榜单", "人气用户", "潮流时尚", "品牌专区"};
+
+        public static String getTitle(int mod) {
+            return (titleList.length > mod) ? titleList[mod] : "参数错误";
+        }
+
+        public static String getApi(int mod, int pageNo, int pageSize) {
+            return QSAppWebAPI.getShowCategoryListApi(mod, pageNo, pageSize);
+        }
+    }
 
     public static final String INPUT_CATEGORY = "sfdsjflkasd";
 
@@ -117,6 +116,7 @@ public class S02ShowClassify extends Activity {
 
         _pullRefreshListView.doPullRefreshing(true, 500);
     }
+
     private void setLastUpdateTime() {
         String text = formatDateTime(System.currentTimeMillis());
         _pullRefreshListView.setLastUpdatedLabel(text);
@@ -135,15 +135,15 @@ public class S02ShowClassify extends Activity {
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        JsonObjectRequest jor = new JsonObjectRequest(ShowClassifyConfig.getApi(classifyMod, Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        JsonObjectRequest jor = new JsonObjectRequest(ShowClassifyConfig.getApi(classifyMod, Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
+                try {
                     LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
@@ -158,7 +158,7 @@ public class S02ShowClassify extends Activity {
                     _pullRefreshListView.setHasMoreData(true);
                     setLastUpdateTime();
 
-                }catch (Exception error){
+                } catch (Exception error) {
                     Toast.makeText(S02ShowClassify.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     _pullRefreshListView.onPullDownRefreshComplete();
                     _pullRefreshListView.onPullUpRefreshComplete();
@@ -169,7 +169,7 @@ public class S02ShowClassify extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S02ShowClassify.this, "Error:"+error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(S02ShowClassify.this, "Error:" + error.toString(), Toast.LENGTH_SHORT).show();
                 _pullRefreshListView.onPullDownRefreshComplete();
                 _pullRefreshListView.onPullUpRefreshComplete();
                 _pullRefreshListView.setHasMoreData(true);
@@ -177,7 +177,6 @@ public class S02ShowClassify extends Activity {
         });
         QSApplication.get().QSRequestQueue().add(jor);
     }
-
 
 
     @Override

@@ -1,7 +1,9 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,15 +18,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.CommentEntity;
-import com.focosee.qingshow.util.PeopleUtil;
+import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.focosee.qingshow.widget.CustomDialog;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -57,6 +58,10 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     private int numbersPerPage = 10;
     private String showId;
     private String showUserId;
+    private String replyUserId = null;
+
+    private Intent viewMainPageIntent= null;
+    private int clickCommentIndex= -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,15 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setScrollLoadEnabled(true);
         listView = pullRefreshListView.getRefreshableView();
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(S04CommentActivity.this, "test", Toast.LENGTH_SHORT).show();
+                postComment();
+            }
+        });
+
         adapter = new S04CommentListAdapter(this, null, ImageLoader.getInstance());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -151,26 +165,54 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     }
 
     private void postComment() {
+
+        if (! AppUtil.getAppUserLoginStatus(S04CommentActivity.this)) {
+            Toast.makeText(S04CommentActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String comment = inputText.getText().toString().trim();
         if (comment.length() <= 0 ) {
             Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
         }
         Map<String, String> map = new HashMap<String, String>();
         map.put("_id", showId);
-        map.put("_atId", showId);
+        map.put("_atId", replyUserId);
         map.put("comment", comment);
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, "",jsonObject, new Response.Listener<JSONObject>() {
+        JSONObject jsonObject = new JSONObject(map);
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(),jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                doRefreshTask();
+                Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Toast.makeText(S04CommentActivity.this, "发布失败，" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+    }
+
+    private void deleteComment() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("_id", adapter.getCommentAtIndex(clickCommentIndex).getId());
+        JSONObject jsonObject = new JSONObject(map);
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                doRefreshTask();
+                Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(S04CommentActivity.this, "删除失败，" + error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void setLastUpdateTime() {
@@ -197,9 +239,14 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     }
 
     public void showActionSheet(int commentIndex) {
-        String userId = QSApplication.get().QSUserId(this);
+        String userId = AppUtil.getAppUserId(S04CommentActivity.this);
         String commentUserId = adapter.getCommentAtIndex(commentIndex).getUserId();
-        if (PeopleUtil.checkUserIdEqual(userId, commentUserId)) {
+
+        clickCommentIndex = commentIndex;
+        viewMainPageIntent = new Intent(S04CommentActivity.this, P02ModelActivity.class);
+        viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getUserId());
+
+        if (null != userId && userId.equals(commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles("回复", "查看个人主页", "删除")
@@ -220,16 +267,38 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
 
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+        switch (index) {
+            case 0:
+                replyUserId = adapter.getCommentAtIndex(clickCommentIndex).getUserId();
+                break;
+            case 1:
+                startActivity(viewMainPageIntent);
+                break;
+            case 2:
+                createDeleteDialog();
+                break;
+            default:
+                break;
+        }
+    }
 
-        CustomDialog.Builder customDialog = new CustomDialog.Builder(S04CommentActivity.this);
-        customDialog.setMessage(R.string.exit_app);
-        customDialog.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+    private void createDeleteDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(S04CommentActivity.this);
+        builder.setMessage("确定要删除？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                deleteComment();
+                dialog.dismiss();
             }
         });
-        customDialog.create().show();
-
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

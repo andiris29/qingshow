@@ -1,0 +1,205 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.focosee.qingshow.activity.P04BrandActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/P04_back_image_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:src="@drawable/bg_pic"/>
+
+        <ImageButton
+            android:id="@+id/P04_back_image_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#00000000"
+            android:src="@drawable/root_icon_back"/>
+
+        <ImageView
+            android:id="@+id/P04_brand_portrait"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_launcher"
+            android:layout_below="@+id/P04_back_image_button"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/P04_brand_portrait"
+            android:layout_alignTop="@+id/P04_brand_portrait">
+            <TextView
+                android:id="@+id/P04_brand_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="40px"
+                android:text="MANGO 旗舰店"/>
+            <TextView
+                android:id="@+id/P04_brand_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffffff"
+                android:textSize="35px"
+                android:text="网址"/>
+            </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:background="#000000">
+
+        <RelativeLayout
+            android:id="@+id/P04_new_relativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_chosen_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/P04_brand_newest_number_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="0"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="最新"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/P04_discount_relativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_default_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/P04_brand_discount_number_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="0"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="优惠"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/P04_fans_relativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_default_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/P04_brand_fans_number_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="0"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="粉丝"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/P04_follow_relativeLayout"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/indicator_height_activity_personal"
+            android:layout_weight="1"
+            android:background="@color/indicator_bg_default_activity_personal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/icon_follow" />
+
+                <TextView
+                    android:id="@+id/P04_follow_sign_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Follow"
+                    android:textColor="@color/indicator_text_color_default_activity_personal"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/P04_content_viewPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"></android.support.v4.view.ViewPager>
+
+</LinearLayout>
