@@ -47,7 +47,7 @@
     self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.headIconImageView.layer.borderWidth = 1.f;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
-    [self.headIconImageView addGestureRecognizer:ges];
+    [self.modelTapView addGestureRecognizer:ges];
 }
 
 #pragma mark - Data
@@ -132,7 +132,7 @@
 }
 
 #pragma mark - IBAction
-- (void)peopleTap:(id)sender {
+- (IBAction)peopleTap:(id)sender {
     if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
         [self.delegate peoplePressed:self];
     }

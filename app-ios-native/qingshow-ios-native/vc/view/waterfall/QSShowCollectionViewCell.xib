@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="118" width="158" height="94"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     </imageView>
-                    <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5QP-d3-Fgd">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5QP-d3-Fgd">
                         <rect key="frame" x="20" y="174" width="26" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
@@ -59,6 +59,11 @@
                             <action selector="favorBtnPressed:" destination="UiH-51-z6X" eventType="touchUpInside" id="1DY-tq-8aN"/>
                         </connections>
                     </button>
+                    <view contentMode="scaleToFill" id="WIj-yg-cS9">
+                        <rect key="frame" x="0.0" y="168" width="158" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -69,6 +74,7 @@
                 <outlet property="favorButton" destination="jNo-Yf-xl7" id="C8L-iy-spc"/>
                 <outlet property="favorNumberLabel" destination="Xqq-sE-cmQ" id="CiR-bf-6gp"/>
                 <outlet property="headIconImageView" destination="5QP-d3-Fgd" id="OvA-w7-wqx"/>
+                <outlet property="modelTapView" destination="WIj-yg-cS9" id="PY3-Ff-BTF"/>
                 <outlet property="nameLabel" destination="buo-TK-mWn" id="eoa-Ua-dLp"/>
                 <outlet property="photoImageView" destination="0gK-JO-VWd" id="tHJ-LT-U11"/>
                 <outlet property="shadowImageView" destination="GqN-UH-Itk" id="ruY-ZE-0XP"/>
