@@ -3,48 +3,55 @@ var items = [];
 var shows = [];
 
 ///// 5 Models ////////
-// roles : [Number], //user 0 model 1
-//    name : String,
-//    portrait : String,
-//    background : String,
-//    height : Number,
-//    weight : Number,
-//    birthtime : Date,
-//    gender : Number, //male 0 female 1
-//    hairTypes : [Number], //0 all 1 long 2 super long 3 mid long
-//    userInfo : {
-//        type : {
-//            id : String,
-//            password : String,
-//            encryptedPassword : String,
-//            passwordUpdatedDate : {
-//                type : Date,
-//                'default' : Date.now
-//            }
-//        },
-//        select : false
-//    },
-//    create : {
-//        type : Date,
-//        'default' : Date.now
-//    },
-//    update : {
-//        type : Date,
-//        'default' : Date.now
-//    }
-//
-models = [{
-  'roles': 0,
-  'name': 'Model 1',
-  'portrait': 'http://localhost/1.jpg',
-  'background': 'http://localhost/2.jpg',
-  'height': 162,
-  'weight': 40,
-  'gender': 1,
-  'hairTypes': '1,2,3',
-  'id': 'model1',
-  'paswword': '1q2w3e4r',
-}];
+for(var i = 0; i < 5; i++) {
+  models[i] = {
+    'roles': 0,
+    'name': 'Model_' + testEnviroment.randomString(5),
+    'portrait': 'http://localhost/portrait.jpg',
+    'background': 'http://localhost/background.jpg',
+    'height': 162,
+    'weight': 40,
+    'gender': 1,
+    'hairTypes': '1,2,3',
+    'id': testEnviroment.randomNewUser(),
+    'paswword': '1q2w3e4r'
+  };
+}
 ///// 60 Items ////////
+for(var i = 0; i < 60; i++) {
+  items[i] = {
+    'category' : 0,
+    'name' : 'Item_' + testEnviroment.randomString(5),
+    'cover' : 'http://localhost/cover.jpg',
+    'brandRef': '544280eef8c9a8acb5b19e00',
+    'source' : 'http://localhost/source.jpg'
+  };
+}
 ///// 15 Shows ////////
+for(var i = 0; i < 15; i++) {
+  shows[i] = {
+    'cover' : 'cover.jpg',
+    'coverMetadata' : {
+      'url' : 'http://localhost/cover.jpg',
+      'width' : 300,
+      'height' : 400 
+    },
+    'horizontalCover' : 'horizontalCover.jpg',
+    'horizontalCoverMetadata' : {
+      'url' : 'http://localhost/horizontalCoverMetadata.jpg',
+      'width' : 640,
+      'height' : 480 
+    },
+    'video' : 'http://localhost/video.mp4',
+    'posters' : testEnviroment.randomNewUser() + ',' + testEnviroment.randomNewUser(),
+    'numLike' : 8,
+    'numView' : 9,
+    // 'modelRef' : '',
+    // 'itemRefs' : ''
+    'studioRef' : '',
+    'brandRef': '544280eef8c9a8acb5b19e00',
+    'brandNewOrder' : 11,
+    'brandDiscountOrder' : 12
+  };
+}
 

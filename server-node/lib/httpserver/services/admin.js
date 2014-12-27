@@ -97,22 +97,28 @@ _removeItemById = function(req, res) {
 _saveShow = function(req, res) {
   _saveModel(Show, 'show', req, res, function(req, res) {
     var param = req.body;
-    var cover = param.cover;
-    var height = param.height;
-    var width = param.width;
+    var coverUrl = param.coverUrl;
+    var coverHeight = param.coverHeight;
+    var coverWidth = param.coverWidth;
+    var horizontalCoverUrl = param.horizontalCoverUrl;
+    var horizontalCoverHeight = param.horizontalCoverHeight;
+    var horizontalCoverWidth = param.horizontalCoverWidth;
 
     var show = new Show({
-      cover: cover,
       coverMetadata: {
-        cover: cover,
-        height: height,
-        width: width 
+        url : (coverUrl ? coverUrl: ''),
+        height : (coverHeight ? coverHeight : 0),
+        width : (coverWidth ? coverWidth : 0)
+      },
+      horizontalCover: {
+        url : (horizontalCoverUrl ? horizontalCoverUrl : ''),
+        height : (horizontalCoverHeight ? horizontalCoverHeight, 0),
+        width : (horizontalCoverWidth ? horizontalCoverWidth, 0)
       }
     });
 
-    show.video = param.video;
 
-    ['numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
+    ['video', 'cover', 'horizontalCover', 'numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
       if (param[field]) {
         show.set(field, parseInt(param[field]));
       }
