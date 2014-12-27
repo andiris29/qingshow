@@ -18,6 +18,10 @@
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict;
 + (NSString*)getStatus:(NSDictionary*)modelDict;
 + (NSString*)getRolesDescription:(NSDictionary*)modelDict;
++ (NSString*)getJobDesc:(NSDictionary*)peopleDict;
++ (NSString*)getClothingSizeDesc:(NSDictionary*)peopleDict;
++ (NSString*)getProvinceDesc:(NSDictionary*)peopleDict;
+
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;

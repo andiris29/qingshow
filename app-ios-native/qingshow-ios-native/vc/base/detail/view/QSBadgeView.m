@@ -54,6 +54,14 @@
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
 }
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGRect rect = self.statusLabel.frame;
+    rect.origin.x = self.nameLabel.frame.origin.x + self.nameLabel.frame.size.width + 20;
+    self.statusLabel.frame = rect;
+}
+
 - (void)updateView
 {
     CGRect rect = self.frame;
@@ -70,8 +78,9 @@
 {
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-    self.nameLabel.text = peopleDict[@"name"];
-    self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
+    
+    self.nameLabel.text = [QSPeopleUtil getName:peopleDict];
+    self.roleLabel.text = [QSPeopleUtil getJobDesc:peopleDict];
     self.statusLabel.text = [QSPeopleUtil getDetailDesc:peopleDict];
 
     NSString* headPhotoPath = peopleDict[@"portrait"];
