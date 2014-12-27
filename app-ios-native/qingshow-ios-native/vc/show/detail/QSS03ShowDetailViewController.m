@@ -251,6 +251,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveThunbnailImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
     [self.movieController requestThumbnailImagesAtTimes:@[@(self.movieController.currentPlaybackTime)] timeOption:MPMovieTimeOptionExact];
     [self setPlayModeBtnsHidden:NO];
+    [self.playBtn setImage:[UIImage imageNamed:@"s03_pause_btn"] forState:UIControlStateNormal];
 }
 
 - (void)stopMovie{
@@ -262,7 +263,9 @@
         self.videoContainerView.userInteractionEnabled = NO;
         self.movieController.initialPlaybackTime = 0;
         [self updateShowImgScrollView];
+
     }
+    [self.playBtn setImage:[UIImage imageNamed:@"s03_play_btn"] forState:UIControlStateNormal];
 }
 
 #pragma mark Init MovieController
