@@ -63,7 +63,7 @@ _login = function(req, res) {
         }, {
             "userInfo.encryptedPassword" : _encrypt(password)
         }]
-    }).select("+userInfo").exec(function(err, people) {
+    }).exec(function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
         } else if (people) {
