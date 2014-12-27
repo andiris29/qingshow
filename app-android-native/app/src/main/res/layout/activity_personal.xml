@@ -115,7 +115,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="搭配"
+                        android:text="收藏"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
@@ -147,7 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="关注"
+                        android:text="推荐"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
@@ -178,7 +178,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="粉丝"
+                        android:text="关注"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
@@ -207,7 +207,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Follow"
+                        android:text="选择"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
