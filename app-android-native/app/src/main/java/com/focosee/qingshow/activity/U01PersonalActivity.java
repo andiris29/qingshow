@@ -25,6 +25,7 @@ import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -71,6 +72,15 @@ public class U01PersonalActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
+        TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);
+        People people = QSApplication.get().getPeople();
+        if (people != null) {
+            if (people.name!=null) nameTextView.setText(people.name);
+            if (people.height!=null && people.weight!=null)
+                heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+        }
 
         ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
         if (QSApplication.get().getPeople() != null) {
