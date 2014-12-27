@@ -101,7 +101,7 @@ feeding.recommendation = {
         _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
                 'numView' : -1
-            }), Show.find(), pageNo, pageSize, callback);
+            }), Show.find().limit(20), pageNo, pageSize, callback);
         });
     }
 };
