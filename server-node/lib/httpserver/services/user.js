@@ -158,7 +158,7 @@ _update = function(req, res) {
     async.waterfall([
     function(callback) {
         try {
-            qsParam = RequestHelper.parse(req.body, {
+            qsParam = RequestHelper.parse({}, req.body, {
                 'height' : RequestHelper.parseFloat,
                 'weight' : RequestHelper.parseFloat,
                 'roles' : RequestHelper.parseArray,

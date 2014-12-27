@@ -2,11 +2,12 @@ var mongoose = require('mongoose');
 
 var RequestHelper = module.exports;
 
-RequestHelper.parse = function(raw, parsers) {
-    var qsParam = {};
+RequestHelper.parse = function(qsParam, raw, specifiedParsers) {
+    qsParam = qsParam || {};
     for (var key in raw) {
-        if (parsers[key]) {
-            qsParam[key] = parsers[key](raw[key]);
+        var parser = specifiedParsers[key];
+        if (parser) {
+            qsParam[key] = parser(raw[key]);
         } else {
             qsParam[key] = raw[key];
         }
