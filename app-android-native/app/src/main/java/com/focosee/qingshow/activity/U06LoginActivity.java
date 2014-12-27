@@ -27,7 +27,6 @@ import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.CommentEntity;
 import com.focosee.qingshow.entity.LoginResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,7 +34,6 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,15 +113,16 @@ public class U06LoginActivity extends Activity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
+                                }.getType());
+
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("id", accountEditText.getText().toString());
                                 editor.putString("password", passwordEditText.getText().toString());
                                 editor.putString("Cookie", rawCookie);
+                                editor.putString("_id", loginResponse.data.people._id);
                                 editor.putString("connect.sid", rawCookie);
                                 editor.commit();
-
-                                LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
-                                }.getType());
 
                                 if (loginResponse == null || loginResponse.data == null) {
                                     if (loginResponse == null) {

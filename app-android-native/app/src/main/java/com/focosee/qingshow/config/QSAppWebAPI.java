@@ -17,7 +17,11 @@ public class QSAppWebAPI {
     private static final String SHOW_LIST_API = HOST_NAME + "/feeding/chosen";
     private static final String SHOW_DETAIL_API = HOST_NAME + "/show/query";
     private static final String[] SHOW_LIST_CATEGORY_API = {"/feeding/chosen?pageNo=", "/feeding/hot?pageNo=", "/feeding/studio?pageNo="};
+
     private static final String SHOW_COMMENTS_LIST_API = HOST_NAME + "/show/queryComments";
+    private static final String COMMENT_POST_API = HOST_NAME + "/show/comment";
+    private static final String COMMENT_DELETE_API = HOST_NAME + "/show/deleteComment";
+
     private static final String PEOPLE_QUERY_MODELS_API = HOST_NAME + "/people/queryModels";
     private static final String MODEL_DETAIL_API = HOST_NAME + "/feeding/byModel";
     private static final String BRAND_LIST_API = HOST_NAME + "/brand/queryBrands";
@@ -47,6 +51,14 @@ public class QSAppWebAPI {
 
     public static String getShowCommentsListApi(String showId, int pageIndex, int pageSize) {
         return SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo" + String.valueOf(pageIndex) + "pageSize" + String.valueOf(pageSize);
+    }
+
+    public static String getCommentPostApi() {
+        return COMMENT_POST_API;
+    }
+
+    public static String getCommentDeleteApi() {
+        return COMMENT_DELETE_API;
     }
 
     public static String getModelListApi(String pageNo, String pageSize) {
