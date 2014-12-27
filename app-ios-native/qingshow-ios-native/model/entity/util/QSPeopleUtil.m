@@ -82,12 +82,31 @@
     }
     
     NSString* path = peopleDict[@"portrait"];
-    if (path) {
+    if (![QSCommonUtil checkIsNil:path]) {
         return [NSURL URLWithString:path];
+    } else {
+        return [[NSBundle mainBundle] URLForResource:@"user_head_default" withExtension:@"png"];
     }
     
     return nil;
 }
+
++ (NSURL*)getBackgroundUrl:(NSDictionary*)peopleDict
+{
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
+    NSString* path = peopleDict[@"background"];
+    if (![QSCommonUtil checkIsNil:path]) {
+        return [NSURL URLWithString:path];
+    } else {
+        return [[NSBundle mainBundle] URLForResource:@"user_bg_default" withExtension:@"png"];
+    }
+    
+    return nil;
+}
+
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict
 {
     if ([QSCommonUtil checkIsNil:peopleDict]) {

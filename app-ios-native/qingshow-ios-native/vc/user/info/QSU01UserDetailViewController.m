@@ -73,7 +73,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.userInfo = [QSUserManager shareUserManager].userInfo;
+    if (self.fShowAccountBtn) {
+        self.userInfo = [QSUserManager shareUserManager].userInfo;
+    }
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
     [self.likedDelegate refreshClickedData];

@@ -57,6 +57,8 @@
 		EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567741A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib */; };
 		EF65677A1A47129D00B66E21 /* QSS02FashionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6567781A47129D00B66E21 /* QSS02FashionViewController.m */; };
 		EF65677B1A47129D00B66E21 /* QSS02FashionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567791A47129D00B66E21 /* QSS02FashionViewController.xib */; };
+		EF7826A71A4EB4F200C69460 /* user_bg_default.png in Resources */ = {isa = PBXBuildFile; fileRef = EF7826A51A4EB4F200C69460 /* user_bg_default.png */; };
+		EF7826A81A4EB4F200C69460 /* user_head_default.png in Resources */ = {isa = PBXBuildFile; fileRef = EF7826A61A4EB4F200C69460 /* user_head_default.png */; };
 		EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */; };
 		EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */; };
 		EF87FDD21A45A797003A6050 /* QSBrandTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF87FDD11A45A797003A6050 /* QSBrandTableViewHeaderView.m */; };
@@ -268,6 +270,8 @@
 		EF6567771A47129D00B66E21 /* QSS02FashionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS02FashionViewController.h; sourceTree = "<group>"; };
 		EF6567781A47129D00B66E21 /* QSS02FashionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS02FashionViewController.m; sourceTree = "<group>"; };
 		EF6567791A47129D00B66E21 /* QSS02FashionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS02FashionViewController.xib; sourceTree = "<group>"; };
+		EF7826A51A4EB4F200C69460 /* user_bg_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_bg_default.png; sourceTree = "<group>"; };
+		EF7826A61A4EB4F200C69460 /* user_head_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_head_default.png; sourceTree = "<group>"; };
 		EF7FA36E1A3440AC00090EE4 /* QSMetadataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMetadataUtil.h; sourceTree = "<group>"; };
 		EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMetadataUtil.m; sourceTree = "<group>"; };
 		EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingService.h"; sourceTree = "<group>"; };
@@ -634,6 +638,15 @@
 			path = list;
 			sourceTree = "<group>";
 		};
+		EF7826A41A4EB4F200C69460 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				EF7826A51A4EB4F200C69460 /* user_bg_default.png */,
+				EF7826A61A4EB4F200C69460 /* user_head_default.png */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 		EF7FA3721A3447E300090EE4 /* service */ = {
 			isa = PBXGroup;
 			children = (
@@ -726,6 +739,7 @@
 		EF9A74171A02A82600095F07 /* qingshow-ios-native */ = {
 			isa = PBXGroup;
 			children = (
+				EF7826A41A4EB4F200C69460 /* resource */,
 				EFF1148C1A0D2EEC009B7361 /* libs */,
 				EF1A59191A06761800001AE0 /* vc */,
 				EF9A74461A02A87900095F07 /* model */,
@@ -1298,6 +1312,7 @@
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSCommentListViewController.xib in Resources */,
 				EFC543691A1750AD001B2C49 /* QSSectionNumberTextButton.xib in Resources */,
+				EF7826A81A4EB4F200C69460 /* user_head_default.png in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS03ItemListViewController.xib in Resources */,
 				82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */,
 				EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */,
@@ -1322,6 +1337,7 @@
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
 				EFF89E051A13A4AD004E6C55 /* QSP03BrandListViewController.xib in Resources */,
 				EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */,
+				EF7826A71A4EB4F200C69460 /* user_bg_default.png in Resources */,
 				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
 				EF4D50A51A177174001E179B /* QSP03BrandDetailViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,

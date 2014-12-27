@@ -83,10 +83,9 @@
     self.roleLabel.text = [QSPeopleUtil getJobDesc:peopleDict];
     self.statusLabel.text = [QSPeopleUtil getDetailDesc:peopleDict];
 
-    NSString* headPhotoPath = peopleDict[@"portrait"];
-    [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
-    NSString* backgroundPath = peopleDict[@"background"];
-    [self.backgroundImageView setImageFromURL:[NSURL URLWithString:backgroundPath] placeHolderImage:nil animation:YES];
+    
+    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
+    [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];
     
     if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
         QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
