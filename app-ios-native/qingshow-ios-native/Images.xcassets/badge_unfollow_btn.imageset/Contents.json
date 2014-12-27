@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "model_cell_btn_notice_focused.png"
+      "filename" : "badge_unfollow_btn.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "model_cell_btn_notice_focused@2x.png"
+      "filename" : "badge_unfollow_btn@2x.png"
     },
     {
       "idiom" : "universal",

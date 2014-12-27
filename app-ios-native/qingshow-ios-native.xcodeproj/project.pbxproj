@@ -110,8 +110,8 @@
 		EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC543551A1750AD001B2C49 /* QSBadgeView.xib */; };
 		EFC543641A1750AD001B2C49 /* QSSectionButtonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543571A1750AD001B2C49 /* QSSectionButtonBase.m */; };
 		EFC543651A1750AD001B2C49 /* QSSectionButtonGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543591A1750AD001B2C49 /* QSSectionButtonGroup.m */; };
-		EFC543661A1750AD001B2C49 /* QSSectionImageTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC5435B1A1750AD001B2C49 /* QSSectionImageTextButton.m */; };
-		EFC543671A1750AD001B2C49 /* QSSectionImageTextButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC5435C1A1750AD001B2C49 /* QSSectionImageTextButton.xib */; };
+		EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC5435B1A1750AD001B2C49 /* QSSectionFollowButton.m */; };
+		EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC5435C1A1750AD001B2C49 /* QSSectionFollowButton.xib */; };
 		EFC543681A1750AD001B2C49 /* QSSectionNumberTextButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC5435E1A1750AD001B2C49 /* QSSectionNumberTextButton.m */; };
 		EFC543691A1750AD001B2C49 /* QSSectionNumberTextButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC5435F1A1750AD001B2C49 /* QSSectionNumberTextButton.xib */; };
 		EFC5436D1A17512E001B2C49 /* QSP02ModelDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC5436C1A17512E001B2C49 /* QSP02ModelDetailViewController.m */; };
@@ -360,9 +360,9 @@
 		EFC543571A1750AD001B2C49 /* QSSectionButtonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionButtonBase.m; sourceTree = "<group>"; };
 		EFC543581A1750AD001B2C49 /* QSSectionButtonGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionButtonGroup.h; sourceTree = "<group>"; };
 		EFC543591A1750AD001B2C49 /* QSSectionButtonGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionButtonGroup.m; sourceTree = "<group>"; };
-		EFC5435A1A1750AD001B2C49 /* QSSectionImageTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionImageTextButton.h; sourceTree = "<group>"; };
-		EFC5435B1A1750AD001B2C49 /* QSSectionImageTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionImageTextButton.m; sourceTree = "<group>"; };
-		EFC5435C1A1750AD001B2C49 /* QSSectionImageTextButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSectionImageTextButton.xib; sourceTree = "<group>"; };
+		EFC5435A1A1750AD001B2C49 /* QSSectionFollowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionFollowButton.h; sourceTree = "<group>"; };
+		EFC5435B1A1750AD001B2C49 /* QSSectionFollowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionFollowButton.m; sourceTree = "<group>"; };
+		EFC5435C1A1750AD001B2C49 /* QSSectionFollowButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSectionFollowButton.xib; sourceTree = "<group>"; };
 		EFC5435D1A1750AD001B2C49 /* QSSectionNumberTextButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSectionNumberTextButton.h; sourceTree = "<group>"; };
 		EFC5435E1A1750AD001B2C49 /* QSSectionNumberTextButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSectionNumberTextButton.m; sourceTree = "<group>"; };
 		EFC5435F1A1750AD001B2C49 /* QSSectionNumberTextButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSSectionNumberTextButton.xib; sourceTree = "<group>"; };
@@ -927,9 +927,9 @@
 				EFC543571A1750AD001B2C49 /* QSSectionButtonBase.m */,
 				EFC543581A1750AD001B2C49 /* QSSectionButtonGroup.h */,
 				EFC543591A1750AD001B2C49 /* QSSectionButtonGroup.m */,
-				EFC5435A1A1750AD001B2C49 /* QSSectionImageTextButton.h */,
-				EFC5435B1A1750AD001B2C49 /* QSSectionImageTextButton.m */,
-				EFC5435C1A1750AD001B2C49 /* QSSectionImageTextButton.xib */,
+				EFC5435A1A1750AD001B2C49 /* QSSectionFollowButton.h */,
+				EFC5435B1A1750AD001B2C49 /* QSSectionFollowButton.m */,
+				EFC5435C1A1750AD001B2C49 /* QSSectionFollowButton.xib */,
 				EF17292D1A1CE4F7001819E3 /* QSSectionTextButton.h */,
 				EF17292E1A1CE4F7001819E3 /* QSSectionTextButton.m */,
 				EF1729301A1CE50F001819E3 /* QSSectionTextButton.xib */,
@@ -1322,7 +1322,7 @@
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
 				EFF89E051A13A4AD004E6C55 /* QSP03BrandListViewController.xib in Resources */,
 				EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */,
-				EFC543671A1750AD001B2C49 /* QSSectionImageTextButton.xib in Resources */,
+				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
 				EF4D50A51A177174001E179B /* QSP03BrandDetailViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */,
@@ -1419,7 +1419,7 @@
 				EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */,
 				EFF89E041A13A4AD004E6C55 /* QSP03BrandListViewController.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
-				EFC543661A1750AD001B2C49 /* QSSectionImageTextButton.m in Sources */,
+				EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */,
 				EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */,
 				EF5573151A22064200C3BC23 /* QSTableViewBasicDelegateObj.m in Sources */,
 				EFF114B01A0D2EEC009B7361 /* NSString+MKNetworkKitAdditions.m in Sources */,

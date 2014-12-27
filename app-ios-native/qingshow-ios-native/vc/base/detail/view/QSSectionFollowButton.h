@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "QSSectionButtonBase.h"
 
-@interface QSSectionImageTextButton : QSSectionButtonBase
+@interface QSSectionFollowButton : QSSectionButtonBase
 
 @property (strong, nonatomic) IBOutlet UIImageView* iconImageView;
 
-+ (QSSectionImageTextButton*)generateView;
++ (QSSectionFollowButton*)generateView;
+
+- (void)setFollowed:(BOOL)fIsFollowed;
+
 @end

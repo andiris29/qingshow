@@ -16,4 +16,9 @@
     NSArray* array = [nib instantiateWithOwner:self options:nil];
     return array[0];
 }
+
+- (void)setFollowed:(BOOL)fIsFollowed
+{
+    
+}
 @end

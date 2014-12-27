@@ -69,13 +69,13 @@
 + (NSString*)getWeek:(NSDate*)date
 {
     NSArray* a = @[
-                   @"星期二",
-                   @"星期三",
-                   @"星期四",
-                   @"星期五",
-                   @"星期六",
-                   @"星期日",
-                   @"星期一"];
+                   @"星期二TUE",
+                   @"星期三WED",
+                   @"星期四THU",
+                   @"星期五FRI",
+                   @"星期六SAT",
+                   @"星期日SUN",
+                   @"星期一MON"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSInteger week = [calendar components:NSWeekdayCalendarUnit fromDate:date].weekday;
 

@@ -69,7 +69,7 @@
 {
     if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
         
-        return CGSizeMake([UIScreen mainScreen].bounds.size.width - 4 / 2, 35);
+        return CGSizeMake(([UIScreen mainScreen].bounds.size.width - 2) / 2, 35);
     } else {
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
         return [QSShowCollectionViewCell getSizeWithData:dict];

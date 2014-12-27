@@ -47,7 +47,7 @@
 
     
     if (self.type == QSSectionButtonGroupTypeImage) {
-        self.singleButton = [QSSectionImageTextButton generateView];
+        self.singleButton = [QSSectionFollowButton generateView];
     } else  if (self.type == QSSectionButtonGroupTypeText){
         self.singleButton = [QSSectionTextButton generateView];
     }

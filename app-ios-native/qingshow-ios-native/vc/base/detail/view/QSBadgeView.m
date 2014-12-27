@@ -78,11 +78,12 @@
     [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
     NSString* backgroundPath = peopleDict[@"background"];
     [self.backgroundImageView setImageFromURL:[NSURL URLWithString:backgroundPath] placeHolderImage:nil animation:YES];
-    if ([QSPeopleUtil getPeopleIsFollowed:peopleDict]) {
-        self.btnGroup.singleButton.textLabel.text = @"取消关注";
-    } else {
-        self.btnGroup.singleButton.textLabel.text = @"关注";
+    
+    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
+        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
+        [f setFollowed:[QSPeopleUtil getPeopleIsFollowed:peopleDict]];
     }
+
     self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
 }
 - (void)bindWithBrandDict:(NSDictionary*)brandDict

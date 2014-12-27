@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QSSectionNumberTextButton.h"
-#import "QSSectionImageTextButton.h"
+#import "QSSectionFollowButton.h"
 #import "QSSectionTextButton.h"
 
 @protocol QSSectionButtonGroupDelegate <NSObject>

@@ -34,7 +34,7 @@
     self = [self initWithNibName:@"QSP02ModelDetailViewController" bundle:nil];
     if (self)
     {
-        self.peopleDict = [peopleDict mutableCopy];
+        self.peopleDict = peopleDict;
         
         [self delegateObjInit];
     }
@@ -141,6 +141,8 @@
         [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
         [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
     }
+    QSSectionFollowButton* followBtn = (QSSectionFollowButton*)self.badgeView.btnGroup.singleButton;
+    [followBtn setFollowed:[QSPeopleUtil getPeopleIsFollowed:self.peopleDict]];
 }
 
 

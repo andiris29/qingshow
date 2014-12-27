@@ -47,14 +47,12 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RZD-Fg-yWI">
-                        <rect key="frame" x="255" y="18" width="50" height="25"/>
+                        <rect key="frame" x="265" y="15" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="+关注" backgroundImage="model_cell_btn_notice_default">
+                        <state key="normal" image="people_list_follow">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <state key="selected" backgroundImage="model_cell_btn_notice_focused"/>
-                        <state key="highlighted" backgroundImage="model_cell_btn_notice_focused"/>
                         <connections>
                             <action selector="followButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="R7D-dm-rQp"/>
                         </connections>
@@ -85,10 +83,9 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="model_cell_btn_notice_default" width="50" height="25"/>
-        <image name="model_cell_btn_notice_focused" width="50" height="25"/>
         <image name="model_cell_icon01_cloth" width="12" height="11"/>
         <image name="model_cell_icon02_noticeno" width="12" height="11"/>
+        <image name="people_list_follow" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
