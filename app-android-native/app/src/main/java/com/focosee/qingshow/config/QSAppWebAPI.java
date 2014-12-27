@@ -16,7 +16,7 @@ public class QSAppWebAPI {
 
     private static final String SHOW_LIST_API = HOST_NAME + "/feeding/chosen";
     private static final String SHOW_DETAIL_API = HOST_NAME + "/show/query";
-    private static final String[] SHOW_LIST_CATEGORY_API = {"/feeding/chosen?pageNo=", "/feeding/hot?pageNo=", "/feeding/chosen?pageNo="};
+    private static final String[] SHOW_LIST_CATEGORY_API = {"/feeding/chosen?pageNo=", "/feeding/hot?pageNo=", "/feeding/studio?pageNo="};
     private static final String SHOW_COMMENTS_LIST_API = HOST_NAME + "/show/queryComments";
     private static final String PEOPLE_QUERY_MODELS_API = HOST_NAME + "/people/queryModels";
     private static final String MODEL_DETAIL_API = HOST_NAME + "/feeding/byModel";

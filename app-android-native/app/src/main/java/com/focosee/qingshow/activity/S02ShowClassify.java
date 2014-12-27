@@ -32,7 +32,7 @@ import java.util.LinkedList;
 public class S02ShowClassify extends Activity {
 
     static class ShowClassifyConfig {
-        private static final String[] titleList = {"闪点推荐", "美搭榜单", "人气用户", "设计风尚", "品牌专区"};
+        private static final String[] titleList = {"闪点推荐", "美搭榜单", "人气用户", "潮流时尚", "品牌专区"};
 
         public static String getTitle(int mod) {
             return (titleList.length > mod) ? titleList[mod] : "参数错误";

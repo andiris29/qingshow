@@ -51,7 +51,7 @@
             android:layout_alignBottom="@+id/S08_item_anchor_point"
             android:layout_alignParentRight="true"
             android:layout_marginRight="25dp"
-            android:background="#00"/>
+            android:background="#00000000"/>
 
         <ImageButton
             android:id="@+id/S08_item_share_btn"
