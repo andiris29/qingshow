@@ -9,6 +9,7 @@
 #import "QSRootMenuView.h"
 #import "QSAppDelegate.h"
 #import "UIImage+BlurryImage.h"
+#import "UIView+ScreenShot.h"
 
 @interface QSRootMenuView ()
 @property (strong, nonatomic) NSMutableArray* itemArray;
@@ -31,13 +32,7 @@
 - (void)showMenuAnimationComple:(VoidBlock)block
 {
     self.bgImageView.hidden = YES;
-    UIView* view = ((QSAppDelegate*)[UIApplication sharedApplication].delegate).window;
-    CGRect rect =view.frame;
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [view.layer renderInContext:context];
-    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShow];
     self.bgImageView.image = [img blurryImageWithBlurLevel:5.f];
     
     self.bgImageView.alpha = 0.f;

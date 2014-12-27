@@ -61,7 +61,7 @@
                     </button>
                     <view contentMode="scaleToFill" id="WIj-yg-cS9">
                         <rect key="frame" x="0.0" y="168" width="158" height="44"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>

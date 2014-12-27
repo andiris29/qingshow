@@ -85,6 +85,7 @@
         
         if (self.imageViewArray.count > i) {
             imageView = self.imageViewArray[i];
+            [self updateView:imageView forPage:imageIndex];
         } else {
             imageView = [self getViewForPage:imageIndex];
             [self.scrollView addSubview:imageView];

@@ -169,7 +169,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" id="bS6-9e-XBS">
+                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="bS6-9e-XBS">
                     <rect key="frame" x="0.0" y="0.0" width="360" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

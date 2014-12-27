@@ -30,6 +30,7 @@
 @property (assign, nonatomic) float favorNumberLabelBaseY;
 @property (assign, nonatomic) float favorButtonBaseY;
 @property (assign, nonatomic) float shadowBaseY;
+@property (assign, nonatomic) float modelTapViewBaseY;
 @end
 
 
@@ -78,6 +79,7 @@
     self.favorNumberLabelBaseY = self.favorNumberLabel.frame.origin.y - baseHeight;
     self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
     self.shadowBaseY = self.shadowImageView.frame.origin.y - baseHeight;
+    self.modelTapViewBaseY = self.modelTapView.frame.origin.y - baseHeight;
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
 {
@@ -93,6 +95,7 @@
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
     [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
     [self updateViewFrame:self.shadowImageView withBase:self.shadowBaseY imageHeight:height];
+    [self updateViewFrame:self.modelTapView withBase:self.modelTapViewBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight

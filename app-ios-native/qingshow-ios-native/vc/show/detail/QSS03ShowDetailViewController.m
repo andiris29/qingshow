@@ -26,11 +26,12 @@
 #import "QSSharePlatformConst.h"
 #import "QSS03ItemListViewController.h"
 #import "UIViewController+QSExtension.h"
+#import "UIView+ScreenShot.h"
 
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) QSSingleImageScrollView* showImageScrollView;
-@property (strong, nonatomic) QSItemImageScrollView* itemImageScrollView;
+//@property (strong, nonatomic) QSItemImageScrollView* itemImageScrollView;
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) MPMoviePlayerController* movieController;
@@ -39,6 +40,8 @@
 @property (assign, nonatomic) CGRect commentBtnRect;
 @property (assign, nonatomic) CGRect shareBtnRect;
 @property (assign, nonatomic) CGRect playBtnRect;
+
+@property (strong, nonatomic) UIImage* videoScreenShotImage;
 
 @end
 
@@ -68,13 +71,8 @@
     self.showContainer.frame = [UIScreen mainScreen].bounds;
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.frame];
     self.showImageScrollView.pageControl.hidden = YES;
+    self.showImageScrollView.delegate = self;
     [self.showContainer addSubview:self.showImageScrollView];
-    
-//    self.itemImageScrollView = [[QSItemImageScrollView alloc] initWithFrame:CGRectMake(0, 0, 300, 120)];
-//    [self.itemContainer addSubview:self.itemImageScrollView];
-//    self.itemContainer.layer.cornerRadius = 4;
-//    self.itemContainer.layer.masksToBounds = YES;
-    self.itemImageScrollView.delegate = self;
 
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
@@ -142,10 +140,8 @@
     self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
     
     //Image
-    NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:dict];
-    self.showImageScrollView.imageUrlArray = previewArray;
-    NSArray* itemUrlArray = [QSShowUtil getItemsImageUrlArrayFromShow:dict];
-    self.itemImageScrollView.imageUrlArray = itemUrlArray;
+//    self.showImageScrollView.imageUrlArray = previewArray;
+    [self updateShowImgScrollView];
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
@@ -191,14 +187,6 @@
 
 
 #pragma mark - QSItemImageScrollViewDelegate
-- (void)didTapItemAtIndex:(int)index
-{
-    NSArray* items = [QSShowUtil getItems:self.showDict];
-    UIViewController* vc = [[QSS03ItemDetailViewController alloc] initWithItems:items];
-    [self presentViewController:vc animated:YES completion:nil];
-}
-
-
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
     if ([QSShowUtil getIsLike:self.showDict]) {
@@ -246,97 +234,111 @@
 
 
 #pragma mark - Movie
--(void)playMovie:(NSString *)path{
-    NSURL *url = [NSURL URLWithString:path];
-    if (!self.movieController) {
-        self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
+#pragma mark Basic Control Method
+- (void)startVideo
+{
+    self.movieController.view.hidden = NO;
+    [self.movieController play];
+    [self setPlayModeBtnsHidden:YES];
+    self.videoContainerView.userInteractionEnabled = YES;
+}
+- (void)pauseVideo
+{
+    //self.movieController.view will be hidden after get thumbnail
+    self.videoContainerView.userInteractionEnabled = NO;
+    self.videoScreenShotImage = nil;
+    [self.movieController pause];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveThunbnailImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+    [self.movieController requestThumbnailImagesAtTimes:@[@(self.movieController.currentPlaybackTime)] timeOption:MPMovieTimeOptionExact];
+    [self setPlayModeBtnsHidden:NO];
+}
+
+- (void)stopMovie{
+    if (self.movieController) {
+        self.videoScreenShotImage = nil;
+        self.movieController.view.hidden = YES;
+        [self.movieController stop];
+        [self setPlayModeBtnsHidden:NO];
+        self.videoContainerView.userInteractionEnabled = NO;
+        self.movieController.initialPlaybackTime = 0;
+        [self updateShowImgScrollView];
     }
-    if (self.movieController.view.superclass) {
+}
 
-        [self.videoContainerView addSubview:self.movieController.view];
+#pragma mark Init MovieController
+-(void)playMovie:(NSString *)path{
+    [self hideSharePanel];
+    
 
-        self.movieController.view.userInteractionEnabled = NO;
-        
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
-        [self.videoContainerView addGestureRecognizer:tap];
-//        UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
-//        [self.videoContainerView addGestureRecognizer:pinch];
-        
-//        UIPinchGestureRecognizer*  ges = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
-//        [self.movieController.view addGestureRecognizer:ges];
+    if (!self.movieController) {
+        NSURL *url = [NSURL URLWithString:path];
+        self.movieController = [[MPMoviePlayerController alloc] initWithContentURL:url];
         self.movieController.view.frame = self.videoContainerView.frame;
         self.movieController.scalingMode = MPMovieScalingModeAspectFill;
-        
         self.movieController.controlStyle = MPMovieControlStyleNone;
+        [self.videoContainerView addSubview:self.movieController.view];
+        self.movieController.view.userInteractionEnabled = NO;
+
+        //Gesture
+        //Tap
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
+        [self.videoContainerView addGestureRecognizer:tap];
+
+        //Notification
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(myMovieFinishedCallback:)
                                                      name:MPMoviePlayerPlaybackDidFinishNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(handleShowHideVideo)
+                                                 selector:@selector(handleFirstShowHideVideo)
                                                      name:MPMoviePlayerPlaybackStateDidChangeNotification
                                                    object:nil];
-        self.videoContainerView.userInteractionEnabled = NO;
         [self.movieController play];
     } else {
-        [self didTapVideo];
+        [self startVideo];
     }
-
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(didEnterFullScreen)
-//                                                 name:MPMoviePlayerDidEnterFullscreenNotification
-//                                               object:nil];
-
-
-    
-//    [self setCommentSharePlayButtonHidden:YES];
-
 }
-- (void)didEnd
+
+#pragma mark Gesture
+- (void)didTapVideo
 {
-    [self.movieController setFullscreen:NO animated:YES];
-    self.movieController.initialPlaybackTime = 0;
+    [self hideSharePanel];
+    if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
+    } else {
+        [self pauseVideo];
+    }
 }
-- (void)didEnterFullScreen
+#pragma mark - Notification
+- (void)handleFirstShowHideVideo
 {
-    self.movieController.view.userInteractionEnabled = YES;
-    self.movieController.scalingMode = MPMovieScalingModeAspectFill;
-    [self.movieController setControlStyle:MPMovieControlStyleFullscreen];
-}
-- (void)setCommentSharePlayButtonHidden:(BOOL)hidden
-{
-    self.buttnPanel.hidden = hidden;
-    self.backBtn.hidden = hidden;
-    self.modelContainer.hidden = hidden;
-    self.playBtn.hidden = hidden;
-
-}
-- (void)didExitFullScreen
-{
-    self.movieController.view.userInteractionEnabled = NO;
-    [self.movieController setControlStyle:MPMovieControlStyleNone];
-}
-//- (void) hidecontrol {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerNowPlayingMovieDidChangeNotification object:nil];
-//    [self.movieController setControlStyle:MPMovieControlStyleEmbedded];
-    
-//}
-
-- (void)stopMovie{
-    if (self.movieController) {
-        [self.movieController stop];
-        [self.movieController.view removeFromSuperview];
-        self.videoContainerView.userInteractionEnabled = NO;
+    if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
+        [self setPlayModeBtnsHidden:NO];
+    } else {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
+        [self setPlayModeBtnsHidden:YES];
+        self.videoContainerView.userInteractionEnabled = YES;
     }
 }
 
 -(void)myMovieFinishedCallback:(NSNotification*)notify
 {
-    [self handleShowHideVideo];
     [self stopMovie];
+}
+
+#pragma mark Helper
+- (void)setPlayModeBtnsHidden:(BOOL)hidden
+{
+    self.backBtn.hidden = hidden;
+    [self setBtnsHiddenExceptBack:hidden];
 
 }
+- (void)setBtnsHiddenExceptBack:(BOOL)hidden
+{
+    self.buttnPanel.hidden = hidden;
+    self.modelContainer.hidden = hidden;
+    self.playBtn.hidden = hidden;
+}
+
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -350,39 +352,36 @@
     self.shareBtn.frame = CGRectMake(self.shareBtnRect.origin.x, self.shareBtnRect.origin.y - scrollView.contentOffset.y, self.shareBtnRect.size.width, self.shareBtnRect.size.height);
 }
 
-- (void)handleShowHideVideo
+#pragma mark Thunbnail
+- (void)didReceiveThunbnailImage:(NSNotification*)note
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+    NSDictionary * userInfo = [note userInfo];
+    self.videoScreenShotImage = (UIImage *)[userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    [self updateShowImgScrollView];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackStateDidChangeNotification object:nil];
-    
-    self.videoContainerView.userInteractionEnabled = YES;
-    NSLog(@"%ld",self.movieController.playbackState);
-    if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
-        [self setCommentSharePlayButtonHidden:NO];
-    } else {
-        [self setCommentSharePlayButtonHidden:YES];
+    self.movieController.view.hidden = YES;
+}
+- (void)updateShowImgScrollView
+{
+    NSMutableArray* array = [@[] mutableCopy];
+    if (self.videoScreenShotImage) {
+        [array addObject:self.videoScreenShotImage];
     }
+    NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:self.showDict];
+    [array addObjectsFromArray:previewArray];
+    self.showImageScrollView.imageUrlArray = array;
+    [self.showImageScrollView scrollToPage:0];
+}
 
-}
-- (void)didTapVideo
+
+#pragma mark - QSImageScrollViewBaseDelegate
+- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
 {
-    [self hideSharePanel];
-    if (self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
-        [self.movieController play];
-        [self setCommentSharePlayButtonHidden:YES];
+    if (self.videoScreenShotImage && page != 0) {
+        [self setBtnsHiddenExceptBack:YES];
     } else {
-        [self.movieController pause];
-        [self setCommentSharePlayButtonHidden:NO];
-    }
-}
-- (void)didPinch:(UIPinchGestureRecognizer*)g
-{
-    if (!self.movieController.isFullscreen && g.scale >= 1.5) {
-        [self.movieController setFullscreen:YES animated:YES];
-        self.movieController.scalingMode = MPMovieScalingModeAspectFill;
-    } else if (self.movieController.isFullscreen && g.scale <= .5)
-    {
-        [self.movieController setFullscreen:NO animated:YES];
+        [self setBtnsHiddenExceptBack:NO];
     }
 }
 

@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSItemImageScrollView.h"
+#import "QSImageScrollViewBase.h"
 
-@interface QSS03ShowDetailViewController : UIViewController <QSItemImageScrollViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface QSS03ShowDetailViewController : UIViewController <QSImageScrollViewBaseDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 #pragma mark - IBOutlet
 
