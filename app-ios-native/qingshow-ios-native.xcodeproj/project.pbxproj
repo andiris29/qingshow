@@ -59,6 +59,8 @@
 		EF65677B1A47129D00B66E21 /* QSS02FashionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567791A47129D00B66E21 /* QSS02FashionViewController.xib */; };
 		EF7826A71A4EB4F200C69460 /* user_bg_default.png in Resources */ = {isa = PBXBuildFile; fileRef = EF7826A51A4EB4F200C69460 /* user_bg_default.png */; };
 		EF7826A81A4EB4F200C69460 /* user_head_default.png in Resources */ = {isa = PBXBuildFile; fileRef = EF7826A61A4EB4F200C69460 /* user_head_default.png */; };
+		EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */; };
+		EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */; };
 		EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */; };
 		EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */; };
 		EF87FDD21A45A797003A6050 /* QSBrandTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF87FDD11A45A797003A6050 /* QSBrandTableViewHeaderView.m */; };
@@ -272,6 +274,9 @@
 		EF6567791A47129D00B66E21 /* QSS02FashionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS02FashionViewController.xib; sourceTree = "<group>"; };
 		EF7826A51A4EB4F200C69460 /* user_bg_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_bg_default.png; sourceTree = "<group>"; };
 		EF7826A61A4EB4F200C69460 /* user_head_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_head_default.png; sourceTree = "<group>"; };
+		EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		EF7826AC1A4EBA2200C69460 /* UIImage+BlurryImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BlurryImage.h"; sourceTree = "<group>"; };
+		EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BlurryImage.m"; sourceTree = "<group>"; };
 		EF7FA36E1A3440AC00090EE4 /* QSMetadataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMetadataUtil.h; sourceTree = "<group>"; };
 		EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMetadataUtil.m; sourceTree = "<group>"; };
 		EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingService.h"; sourceTree = "<group>"; };
@@ -459,6 +464,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */,
 				EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */,
 				EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */,
 				EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */,
@@ -721,6 +727,7 @@
 		EF9A74101A02A82600095F07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */,
 				EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */,
 				EFEF032E1A30BBF100EC9B48 /* libz.dylib */,
 				EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */,
@@ -855,6 +862,8 @@
 				EF9740FB1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m */,
 				EF42BBD41A4C677100218693 /* NSMutableDictionary+QSExtension.h */,
 				EF42BBD51A4C677100218693 /* NSMutableDictionary+QSExtension.m */,
+				EF7826AC1A4EBA2200C69460 /* UIImage+BlurryImage.h */,
+				EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -1459,6 +1468,7 @@
 				EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */,
 				EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */,
 				EFA618AC1A125FCB00560699 /* QSCommentListViewController.m in Sources */,
+				EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */,
 				EF3D056F1A0BD4CE00175E1D /* QSModelListTableViewDelegateObj.m in Sources */,
 				EFA98A7F1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m in Sources */,
 				EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */,

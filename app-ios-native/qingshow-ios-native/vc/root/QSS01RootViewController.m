@@ -28,6 +28,8 @@
 #import "QSShowUtil.h"
 #import "QSError.h"
 #import "UIViewController+QSExtension.h"
+#import "UIImage+BlurryImage.h"
+#import "QSAppDelegate.h"
 
 @interface QSS01RootViewController ()
 
@@ -59,7 +61,9 @@
     [self configDelegateObj];
     [self configNavBar];
     QSRootMenuView* menuView = [QSRootMenuView generateView];
-    [self.menuContainer addSubview:menuView];
+    
+//    [self.navigationController.view addSubview:menuView];
+    [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:menuView];
     self.menuView = menuView;
     self.fIsShowMenu = NO;
     menuView.delegate = self;
@@ -78,7 +82,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    self.menuContainer.hidden = !self.fIsShowMenu;
+    self.menuView.hidden = !self.fIsShowMenu;
     
     [self.delegateObj refreshClickedData];
 }
@@ -139,12 +143,12 @@
     if (self.fIsShowMenu)
     {
         [self.menuView hideMenuAnimationComple:^{
-            weakSelf.menuContainer.hidden = YES;
+            weakSelf.menuView.hidden = YES;
         }];
     }
     else
     {
-        weakSelf.menuContainer.hidden = NO;
+        weakSelf.menuView.hidden = NO;
         [self.menuView showMenuAnimationComple:^{
         }];
     }
@@ -195,6 +199,10 @@
     }
 }
 #pragma mark - QSRootMenuViewDelegate
+- (void)rootMenuViewDidTapBlankView
+{
+    [self hideMenu];
+}
 - (void)rootMenuItemPressedType:(int)type
 {
     [self hideMenu];
@@ -241,7 +249,7 @@
     {
         __weak QSS01RootViewController* weakSelf = self;
         [self.menuView hideMenuAnimationComple:^{
-            weakSelf.menuContainer.hidden = YES;
+            weakSelf.menuView.hidden = YES;
         }];
         self.fIsShowMenu = NO;
     }
@@ -265,6 +273,7 @@
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
     tran.subtype = kCATransitionFromRight;
+    
     [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_show_detail"];
 }
 

@@ -8,7 +8,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS01RootViewController">
             <connections>
                 <outlet property="collectionView" destination="HaZ-Ah-s3L" id="6pn-dT-abH"/>
-                <outlet property="menuContainer" destination="MLt-jc-0Hd" id="96S-TF-qFg"/>
                 <outlet property="view" destination="iN0-l3-epB" id="OFe-T7-5B1"/>
             </connections>
         </placeholder>
@@ -27,22 +26,12 @@
                     </collectionViewFlowLayout>
                     <cells/>
                 </collectionView>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MLt-jc-0Hd">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="290"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="290" id="0M4-aS-OCp"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="MLt-jc-0Hd" secondAttribute="trailing" id="3yl-nb-tPu"/>
                 <constraint firstAttribute="trailing" secondItem="HaZ-Ah-s3L" secondAttribute="trailing" id="B5J-yg-fex"/>
                 <constraint firstItem="HaZ-Ah-s3L" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="BOo-gB-D0J"/>
                 <constraint firstAttribute="bottom" secondItem="HaZ-Ah-s3L" secondAttribute="bottom" id="DdV-WA-WYV"/>
-                <constraint firstItem="MLt-jc-0Hd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Gi3-lk-4Fw"/>
-                <constraint firstItem="MLt-jc-0Hd" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="hFt-eI-WQ0"/>
                 <constraint firstItem="HaZ-Ah-s3L" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="p07-XR-vNk"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>

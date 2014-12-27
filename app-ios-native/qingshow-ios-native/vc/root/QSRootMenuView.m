@@ -7,6 +7,8 @@
 //
 
 #import "QSRootMenuView.h"
+#import "QSAppDelegate.h"
+#import "UIImage+BlurryImage.h"
 
 @interface QSRootMenuView ()
 @property (strong, nonatomic) NSMutableArray* itemArray;
@@ -17,17 +19,33 @@
 {
     UINib* nib = [UINib nibWithNibName:@"QSRootMenuView" bundle:nil];
     NSArray* array = [nib instantiateWithOwner:self options:nil];
-    return array[0];
+    QSRootMenuView* v = array[0];
+    CGRect rect = [UIScreen mainScreen].bounds;
+    v.frame = rect;
+    v.bgImageView.backgroundColor = [UIColor lightGrayColor];
+//    v.bgImageView.layer.transform = CATransform3DMakeScale(1.03, 1.02, 0);
+    return v;
 }
 
 #pragma mark - Animation
 - (void)showMenuAnimationComple:(VoidBlock)block
 {
-    self.transform = CGAffineTransformMakeScale(0.f, 0.f);
-    self.alpha = 0.f;
+    self.bgImageView.hidden = YES;
+    UIView* view = ((QSAppDelegate*)[UIApplication sharedApplication].delegate).window;
+    CGRect rect =view.frame;
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [view.layer renderInContext:context];
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    self.bgImageView.image = [img blurryImageWithBlurLevel:5.f];
+    
+    self.bgImageView.alpha = 0.f;
+    self.bgImageView.hidden = NO;
+    self.containerView.layer.transform = CATransform3DMakeTranslation(-self.containerView.frame.size.width, 0, 0);
     [UIView animateWithDuration:0.2 animations:^{
-        self.transform = CGAffineTransformMakeScale(1.f, 1.f);
-        self.alpha = 1.f;
+        self.bgImageView.alpha = 1.f;
+        self.containerView.layer.transform = CATransform3DMakeTranslation(0, 0, 0);
     } completion:^(BOOL finished) {
         if (block) {
             block();
@@ -36,13 +54,13 @@
 }
 - (void)hideMenuAnimationComple:(VoidBlock)block
 {
-    self.transform = CGAffineTransformMakeScale(1.f, 1.f);
-    self.alpha = 1.f;
+    self.bgImageView.alpha = 1.f;
+    self.containerView.layer.transform = CATransform3DMakeTranslation(0, 0, 0);
+
     [UIView animateWithDuration:0.2 animations:^{
-        self.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
-        self.alpha = 0.f;
+        self.containerView.layer.transform = CATransform3DMakeTranslation(-self.containerView.frame.size.width, 0, 0);
+        self.bgImageView.alpha = 0.f;
     } completion:^(BOOL finished) {
-        self.transform = CGAffineTransformMakeScale(0.f, 0.f);
         if (block && finished) {
             block();
         }
@@ -56,14 +74,12 @@
     NSArray* typeArray = @[@1, @2, @3, @8, @9];   //1,2,3,8,9
     self.itemArray = [@[] mutableCopy];
 
-    CGSize size = self.frame.size;
-
     for (int i = 0; i < 5; i++) {
         NSNumber* typeNum = typeArray[i];
         QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:typeNum.intValue];
         item.delegate = self;
         [self.itemArray addObject:item];
-        [self addSubview:item];
+        [self.containerView addSubview:item];
     }
 }
 
@@ -81,32 +97,36 @@
 {
     [super layoutSubviews];
     CGSize size = self.frame.size;
+    float deltaY = (size.height - (QSRootMenuItemHeight * self.itemArray.count)) / 2;
+    float originX = (self.containerView.frame.size.width - QSRootMenuItemWidth) / 2;
     
     for (int i = 0; i < 5; i++) {
         QSRootMenuItem* item = self.itemArray[i];
-        item.delegate = self;
-        
-        float deltaY = (size.height - 2 * QSRootMenuItemHeight) / 3;
-        float deltaX = (size.width - 3 * QSRootMenuItemWidth) / 4;
-        int index = i;
-        int column = index % 3 + 1;
-        int row = i / 3 + 1;
         
         CGRect frame = item.frame;
-        frame.origin.x = column * deltaX + (column - 1) * QSRootMenuItemWidth;
-        frame.origin.y = row * deltaY + (row - 1) * QSRootMenuItemHeight;
+        frame.origin.x = originX;
+        frame.origin.y = i * QSRootMenuItemHeight + deltaY;
         item.frame = frame;
     }
     
 }
 
 #pragma mark - QSRootMenuItemDelegate
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self didTapView:nil];
+}
 - (void)menuItemPressed:(QSRootMenuItem*)item
 {
     if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:)]) {
         [self.delegate rootMenuItemPressedType:item.type];
     }
 }
-
+- (IBAction)didTapView:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(rootMenuViewDidTapBlankView)]) {
+        [self.delegate rootMenuViewDidTapBlankView];
+    }
+}
 
 @end
