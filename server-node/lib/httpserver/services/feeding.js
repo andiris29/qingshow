@@ -19,7 +19,7 @@ var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 
-feeding = module.exports;
+var feeding = module.exports;
 
 var _populate = function(shows, callback) {
     var array = [];

@@ -2,11 +2,13 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var ShowComments = require('../../model/showComments');
+var PreviewComments = require('../../model/previewComments');
 var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 
 /**
  * ContextHelper
@@ -67,6 +69,21 @@ ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
 
     async.parallel([followedByCurrentUser], function(err) {
         callback(null, brands);
+    });
+};
+
+ContextHelper.appendPreviewContext = function(qsCurrentUserId, previews, callback) {
+    previews = _prepare(previews);
+    // __context.numComments
+    var numComments = function(callback) {
+        _numAssociated(previews, PreviewComments, 'targetRef', 'numComments', callback);
+    };
+    // __context.likedByCurrentUser
+    var likedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleLikePreview, qsCurrentUserId, previews, 'likedByCurrentUser', callback);
+    };
+    async.parallel([numComments, likedByCurrentUser], function(err) {
+        callback(null, previews);
     });
 };
 
