@@ -204,6 +204,7 @@
 {
     int currentPage = page + 1;
     CGSize size = self.scrollView.bounds.size;
+    self.pageControl.currentPage = page;
     if (self.direction == QSImageScrollViewDirectionHor) {
         self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
     } else {

@@ -375,6 +375,7 @@
     [array addObjectsFromArray:previewArray];
     self.showImageScrollView.imageUrlArray = array;
     [self.showImageScrollView scrollToPage:0];
+    [self setBtnsHiddenExceptBack:NO];
 }
 
 
