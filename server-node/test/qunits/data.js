@@ -1,25 +1,26 @@
-var models = [];
-var items = [];
-var shows = [];
+var testCase = {}
+testCase.models= [];
+testCase.items = [];
+testCase.shows = [];
 
 ///// 5 Models ////////
 for(var i = 0; i < 5; i++) {
-  models[i] = {
+  testCase.models[i] = {
     'roles': 0,
-    'name': 'Model_' + testEnviroment.randomString(5),
+    'name': 'Model ' + testEnviroment.randomString(5),
     'portrait': 'http://localhost/portrait.jpg',
     'background': 'http://localhost/background.jpg',
     'height': 162,
     'weight': 40,
     'gender': 1,
     'hairTypes': '1,2,3',
-    'id': testEnviroment.randomNewUser(),
-    'paswword': '1q2w3e4r'
+    'id': 'model_' + testEnviroment.randomString(4),
+    'password': '1q2w3e4r'
   };
 }
 ///// 60 Items ////////
 for(var i = 0; i < 60; i++) {
-  items[i] = {
+  testCase.items[i] = {
     'category' : 0,
     'name' : 'Item_' + testEnviroment.randomString(5),
     'cover' : 'http://localhost/cover.jpg',
@@ -29,7 +30,7 @@ for(var i = 0; i < 60; i++) {
 }
 ///// 15 Shows ////////
 for(var i = 0; i < 15; i++) {
-  shows[i] = {
+  testCase.shows[i] = {
     'cover' : 'cover.jpg',
     'coverMetadata' : {
       'url' : 'http://localhost/cover.jpg',
