@@ -40,7 +40,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
-    return [QSBigImageTableViewCell getHeighWithShow:dict];
+    if (self.type == QSBigImageTableViewCellTypeFashion) {
+        return [QSBigImageTableViewCell getHeightWithPreview:dict];
+    } else {
+        return [QSBigImageTableViewCell getHeighWithShow:dict];
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

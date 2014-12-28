@@ -15,11 +15,11 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="pix-Pb-mKm">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1168"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="325"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
                     <view contentMode="scaleToFill" id="zqO-qE-QHm">
-                        <rect key="frame" x="0.0" y="1075" width="320" height="92"/>
+                        <rect key="frame" x="0.0" y="232" width="320" height="92"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s03_model_shadow" id="gJb-TY-a3h">
@@ -51,7 +51,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <view contentMode="scaleToFill" id="Qxi-iR-2UB">
-                        <rect key="frame" x="249" y="885" width="63" height="176"/>
+                        <rect key="frame" x="249" y="0.0" width="63" height="176"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RKZ-Yy-ayo">
@@ -69,6 +69,7 @@
                                 <state key="normal" title="0" backgroundImage="s03_like_btn">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="highlighted" backgroundImage="s03_like_btn_hover"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="D6o-Wb-vnz">
                                 <rect key="frame" x="13" y="134" width="38" height="28"/>
@@ -85,11 +86,14 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="btnsContainer" destination="Qxi-iR-2UB" id="K0H-aI-AaN"/>
+                <outlet property="commentBtn" destination="RKZ-Yy-ayo" id="gNi-fX-KN6"/>
                 <outlet property="imgView" destination="pix-Pb-mKm" id="q3F-ah-be8"/>
                 <outlet property="label1" destination="7Jo-cd-KJU" id="utH-74-J5c"/>
                 <outlet property="label2" destination="N9U-BU-IVe" id="fVF-71-gAQ"/>
                 <outlet property="label3" destination="DQT-lQ-lfv" id="A3c-2G-DT4"/>
+                <outlet property="likeBtn" destination="pE9-bA-WZO" id="327-re-6DG"/>
                 <outlet property="modelContainer" destination="zqO-qE-QHm" id="sJ7-ZG-XbQ"/>
+                <outlet property="shareBtn" destination="D6o-Wb-vnz" id="1gR-xJ-4zK"/>
             </connections>
             <point key="canvasLocation" x="534" y="369.5"/>
         </tableViewCell>
@@ -97,6 +101,7 @@
     <resources>
         <image name="s03_comment_btn" width="40" height="38"/>
         <image name="s03_like_btn" width="40" height="36"/>
+        <image name="s03_like_btn_hover" width="40" height="36"/>
         <image name="s03_model_shadow" width="320" height="92"/>
         <image name="s03_share_btn" width="38" height="28"/>
     </resources>

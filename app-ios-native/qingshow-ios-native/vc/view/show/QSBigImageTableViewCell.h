@@ -26,9 +26,16 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 @property (weak, nonatomic) IBOutlet UILabel* label3;
 @property (weak, nonatomic) IBOutlet UIButton* detailBtn;
 
+@property (weak, nonatomic) IBOutlet UIButton* commentBtn;
+@property (weak, nonatomic) IBOutlet UIButton* shareBtn;
+@property (weak, nonatomic) IBOutlet UIButton* likeBtn;
+
+
 @property (assign, nonatomic) QSBigImageTableViewCellType type;
 
 + (CGFloat)getHeighWithShow:(NSDictionary*)showDict;
++ (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict;
+
 - (void)bindWithDict:(NSDictionary*)showDict;
 
 @end

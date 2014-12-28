@@ -37,5 +37,4 @@
                                          page:(int)page
                                     onSucceed:(ArraySuccessBlock)succeedBlock
                                       onError:(ErrorBlock)errorBlock;
-
 @end
