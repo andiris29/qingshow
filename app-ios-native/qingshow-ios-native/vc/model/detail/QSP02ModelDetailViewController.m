@@ -67,6 +67,7 @@
     [self.followingDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -134,7 +135,7 @@
     self.showTableView.hidden = NO;
     self.followerTableView.hidden = YES;
     self.followingTableView.hidden = YES;
-
+    
     //Section title
     NSArray* titleArray = @[@"搭配",@"关注",@"粉丝"];
     for (int i = 0; i < 3; i++) {
