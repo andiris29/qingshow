@@ -134,7 +134,9 @@ public class U01PersonalActivity extends FragmentActivity {
                 default:
                     fragment = U01CollectionFragment.newInstance();
             }
-            if (fragment == null) fragment = U01CollectionFragment.newInstance();
+            if (fragment == null) {
+                fragment = U01CollectionFragment.newInstance();
+            }
             return fragment;
         }
 
