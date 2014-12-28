@@ -108,7 +108,7 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_PREVIEW_QUERY_COMMENTS method:@"POST" paramers:@{@"_id" : previewDict[@"_id"], @"pageNo": @(page), @"pageSize" : @10 } onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_PREVIEW_QUERY_COMMENTS method:@"GET" paramers:@{@"_id" : previewDict[@"_id"], @"pageNo": @(page), @"pageSize" : @10 } onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* retDict = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock(retDict[@"data"][@"previewComments"], retDict[@"metadata"]);
