@@ -16,14 +16,18 @@
 #import "QSPeopleUtil.h"
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 
 @interface QSCommentListViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 
 @property (strong, nonatomic) NSDictionary* showDict;
+@property (strong, nonatomic) NSDictionary* previewDict;
 @property (strong, nonatomic) QSCommentListTableViewDelegateObj* delegateObj;
 @property (assign, nonatomic) int clickIndex;
+
+@property (assign, nonatomic) QSCommentListViewControllerType type;
 
 @end
 
@@ -36,11 +40,27 @@
 {
     self = [self initWithNibName:@"QSCommentListViewController" bundle:nil];
     if (self) {
+        self.type = QSCommentListViewControllerTypeShow;
         __weak QSCommentListViewController* weakSelf = self;
         self.showDict = showDict;
         self.delegateObj = [[QSCommentListTableViewDelegateObj alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE getCommentsOfShow:weakSelf.showDict page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+        [self.delegateObj fetchDataOfPage:1];
+    }
+    return self;
+}
+- (id)initWithPreview:(NSDictionary*)previewDict
+{
+    self = [self initWithNibName:@"QSCommentListViewController" bundle:nil];
+    if (self) {
+        self.type = QSCommentListViewControllerTypePreview;
+        __weak QSCommentListViewController* weakSelf = self;
+        self.previewDict = previewDict;
+        self.delegateObj = [[QSCommentListTableViewDelegateObj alloc] init];
+        self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+            return [SHARE_NW_ENGINE queryCommentPreview:weakSelf.previewDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
         [self.delegateObj fetchDataOfPage:1];
     }
@@ -63,6 +83,10 @@
     self.sendBtn.layer.masksToBounds = YES;
     
     self.clickIndex = -1;
+    
+    [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo]];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -116,12 +140,22 @@
     if (buttonIndex == actionSheet.destructiveButtonIndex) {
         int index = self.clickIndex;
         self.clickIndex = -1;
-        [SHARE_NW_ENGINE deleteComment:comment onSucceed:^{
-            [self.delegateObj.resultArray removeObjectAtIndex:index];
-            [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } onError:^(NSError *error) {
-            [self handleError:error];
-        }];
+        if (self.type == QSCommentListViewControllerTypeShow) {
+            [SHARE_NW_ENGINE deleteComment:comment onSucceed:^{
+                [self.delegateObj.resultArray removeObjectAtIndex:index];
+                [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        } else if (self.type == QSCommentListViewControllerTypePreview) {
+            [SHARE_NW_ENGINE deletePreviewComment:comment onSucceed:^{
+                [self.delegateObj.resultArray removeObjectAtIndex:index];
+                [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        }
+
     }
     else if (buttonIndex == actionSheet.cancelButtonIndex)
     {
@@ -137,8 +171,7 @@
         if (!people) {
             [self showErrorHudWithText:@"系统错误"];
         } else {
-            UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:people];
-            [self.navigationController pushViewController:vc animated:YES];
+            [self showPeopleDetailViewControl:people];
         }
     }
 }
@@ -176,13 +209,24 @@
             people = [QSCommentUtil getPeople:comment];
         }
         __weak QSCommentListViewController* weakSelf = self;
-        [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
-            [weakSelf.delegateObj reloadData];
-            [self showSuccessHudWithText:@"发送成功"];
-            self.textField.text = @"";
-        } onError:^(NSError *error) {
-            [self handleError:error];
-        }];
+        if (self.type == QSCommentListViewControllerTypeShow) {
+            [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
+                [weakSelf.delegateObj reloadData];
+                [self showSuccessHudWithText:@"发送成功"];
+                self.textField.text = @"";
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        } else if (self.type == QSCommentListViewControllerTypePreview) {
+            [SHARE_NW_ENGINE addComment:self.textField.text onPreview:self.previewDict reply:people onSucceed:^{
+                [weakSelf.delegateObj reloadData];
+                [self showSuccessHudWithText:@"发送成功"];
+                self.textField.text = @"";
+            } onError:^(NSError *error) {
+                [self handleError:error];
+            }];
+        }
+
         self.clickIndex = -1;
 
     }

@@ -15,6 +15,17 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
     QSBigImageTableViewCellTypeFashion
 };
 
+@class QSBigImageTableViewCell;
+
+@protocol QSBigImageTableViewCellDelegate <NSObject>
+
+@optional
+- (void)clickCommentBtn:(QSBigImageTableViewCell*)cell;
+- (void)clickLikeBtn:(QSBigImageTableViewCell*)cell;
+- (void)clickShareBtn:(QSBigImageTableViewCell*)cell;
+
+@end
+
 @interface QSBigImageTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
@@ -29,7 +40,7 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 @property (weak, nonatomic) IBOutlet UIButton* commentBtn;
 @property (weak, nonatomic) IBOutlet UIButton* shareBtn;
 @property (weak, nonatomic) IBOutlet UIButton* likeBtn;
-
+@property (weak, nonatomic) NSObject<QSBigImageTableViewCellDelegate>* delegate;
 
 @property (assign, nonatomic) QSBigImageTableViewCellType type;
 
@@ -37,5 +48,9 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 + (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict;
 
 - (void)bindWithDict:(NSDictionary*)showDict;
+
+- (IBAction)commentBtnPressed:(id)sender;
+- (IBAction)likeBtnPressed:(id)sender;
+- (IBAction)shareBtnPressed:(id)sender;
 
 @end

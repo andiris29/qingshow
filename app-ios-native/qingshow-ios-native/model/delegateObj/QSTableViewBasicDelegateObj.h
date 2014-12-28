@@ -48,5 +48,4 @@
 @property (strong, nonatomic) UITableView* tableView;
 #pragma mark - Method to be Override
 - (void)registerCell;
-
 @end

@@ -61,6 +61,9 @@
                                 <state key="normal" title="0" backgroundImage="s03_comment_btn">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="commentBtnPressed:" destination="A3p-62-xd7" eventType="touchUpInside" id="aXI-dR-6dl"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pE9-bA-WZO">
                                 <rect key="frame" x="12" y="80" width="40" height="36"/>
@@ -70,6 +73,9 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="highlighted" backgroundImage="s03_like_btn_hover"/>
+                                <connections>
+                                    <action selector="likeBtnPressed:" destination="A3p-62-xd7" eventType="touchUpInside" id="bRZ-uM-ml1"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="D6o-Wb-vnz">
                                 <rect key="frame" x="13" y="134" width="38" height="28"/>
@@ -78,6 +84,9 @@
                                 <state key="normal" backgroundImage="s03_share_btn">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="shareBtnPressed:" destination="A3p-62-xd7" eventType="touchUpInside" id="TZ9-V5-Liw"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

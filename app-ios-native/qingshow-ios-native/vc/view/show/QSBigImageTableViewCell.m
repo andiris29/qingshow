@@ -159,4 +159,24 @@
     [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     [self.likeBtn setHighlighted:[QSPreviewUtil getIsLike:previewDict]];
 }
+#pragma mark - IBAction
+- (IBAction)commentBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(clickCommentBtn:)]) {
+        [self.delegate clickCommentBtn:self];
+    }
+}
+- (IBAction)likeBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(clickLikeBtn:)]) {
+        [self.delegate clickLikeBtn:self];
+    }
+}
+- (IBAction)shareBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(clickShareBtn:)]) {
+        [self.delegate clickShareBtn:self];
+    }
+}
+
 @end

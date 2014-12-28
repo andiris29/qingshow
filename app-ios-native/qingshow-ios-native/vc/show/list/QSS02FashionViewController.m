@@ -7,8 +7,10 @@
 //
 
 #import "QSS02FashionViewController.h"
-#import "QSBigImageTableViewDelegateObj.h"
 #import "QSNetworkKit.h"
+#import "QSCommentListViewController.h"
+#import "UIViewController+QSExtension.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSS02FashionViewController ()
 
@@ -49,5 +51,32 @@
         return [SHARE_NW_ENGINE getPreviewFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.delegateObj fetchDataOfPage:1];
+    self.delegateObj.delegate = self;
+}
+
+#pragma mark - QSBigImageTableViewDelegateObjDelegate
+- (void)clickCommentOfDict:(NSDictionary*)dict
+{
+    UIViewController* vc = [[QSCommentListViewController alloc] initWithPreview:dict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)clickShareOfDict:(NSDictionary*)dict
+{
+    NSLog(@"share");
+}
+- (void)clickLikeOfDict:(NSDictionary*)dict
+{
+    [SHARE_NW_ENGINE handlePreviewLike:dict onSucceed:^(BOOL f) {
+        if (f) {
+            [self showTextHud:@"like successfully"];
+
+        } else {
+            [self showTextHud:@"unlike successfully"];
+        }
+        [self.delegateObj rebindData:dict];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
 }
 @end

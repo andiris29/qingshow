@@ -106,7 +106,7 @@
         if (metadata[@"error"] == nil && people != nil) {
             [self showSuccessHudWithText:@"登陆成功"];
             if (self.fSHowUserDetail) {
-                [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] init] animated:YES];
+                [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] initWithCurrentUser] animated:YES];
             } else {
                 [self.navigationController popViewControllerAnimated:YES];
             }

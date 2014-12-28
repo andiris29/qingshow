@@ -29,6 +29,7 @@
     }
 
     cell.type = self.type;
+    cell.delegate = self;
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithDict:dict];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -65,5 +66,37 @@
         [cell bindWithDict:self.clickedData];
         self.clickedData = nil;
     }
+}
+
+#pragma mark - QSBigImageTableViewCellDelegate
+- (void)clickCommentBtn:(QSBigImageTableViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickCommentOfDict:)]) {
+        [self.delegate clickCommentOfDict:dict];
+    }
+}
+- (void)clickLikeBtn:(QSBigImageTableViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickLikeOfDict:)]) {
+        [self.delegate clickLikeOfDict:dict];
+    }
+}
+- (void)clickShareBtn:(QSBigImageTableViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickShareOfDict:)]) {
+        [self.delegate clickShareOfDict:dict];
+    }
+}
+- (void)rebindData:(NSDictionary*)dict
+{
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:dict] inSection:0];
+    QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    [cell bindWithDict:dict];
 }
 @end

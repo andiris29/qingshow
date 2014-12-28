@@ -11,12 +11,20 @@
 
 @protocol QSBigImageTableViewDelegateObjDelegate <QSTableViewBasicDelegateObjDelegate>
 
+@optional
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict;
+
+- (void)clickCommentOfDict:(NSDictionary*)dict;
+- (void)clickShareOfDict:(NSDictionary*)dict;
+- (void)clickLikeOfDict:(NSDictionary*)dict;
 
 @end
 
-@interface QSBigImageTableViewDelegateObj : QSTableViewBasicDelegateObj
+@interface QSBigImageTableViewDelegateObj : QSTableViewBasicDelegateObj <QSBigImageTableViewCellDelegate>
 
 @property (assign, nonatomic) QSBigImageTableViewCellType type;
 @property (weak, nonatomic) NSObject<QSBigImageTableViewDelegateObjDelegate>* delegate;
+
+- (void)rebindData:(NSDictionary*)dict;
+
 @end
