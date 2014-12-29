@@ -22,7 +22,7 @@ Setup.exec = function() {
       }
     });
   }, function(callback) {
-    // Insert models
+    // Save Models
     for(var i = 0; i < testCase.models.length; i++) {
       testEnviroment.request("post", "admin/savePeople", testCase.models[i], function(responseData) {
         var data = responseData.data;
@@ -31,16 +31,42 @@ Setup.exec = function() {
         } else {
           Setup.modelIds.push(data.people._id);
           if (Setup.modelIds.length == testCase.models.length) {
-            Setup.state = Setup.STATE_DONE;
             callback(null);
           }
         }
       });
     }
   }, function(callback) {
-    callback(null);
+    // Save Items
+    for(var i = 0; i < testCase.items.length; i++) {
+      testEnviroment.request("post", "admin/saveItem", testCase.items[i], function(responseData) {
+        var data = responseData.data;
+        if (!data.item) {
+          callback(responseData.metadata.error);
+        } else {
+          Setup.itemIds.push(data.item._id);
+          if (Setup.itemIds.length == testCase.items.length) {
+            callback(null);
+          }
+        }
+      });
+    }
   }, function(callback) {
-    callback(null);
+    // Save shows
+    for(var i = 0; i < testCase.shows.length; i++) {
+      testEnviroment.request("post", "admin/saveShow", testCase.shows[i], function(responseData) {
+        var data = responseData.data;
+        if (!data.show) {
+          callback(responseData.metadata.error);
+        } else {
+          Setup.showIds.push(data.show._id);
+          if (Setup.showIds.length == testCase.shows.length) {
+            Setup.state = Setup.STATE_DONE);
+            callback(null);
+          }
+        }
+      });
+    }
   }, function(callback) {
     while(Setup.state == Setup.STATE_WAITING);
     if (Setup.state == Setup.STATE_DONE) {
