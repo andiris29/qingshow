@@ -97,10 +97,11 @@
     
     for (int i = 0; i < 5; i++) {
         QSRootMenuItem* item = self.itemArray[i];
-        
         CGRect frame = item.frame;
         frame.origin.x = originX;
         frame.origin.y = i * QSRootMenuItemHeight + deltaY;
+        frame.size.width = QSRootMenuItemWidth;
+        frame.size.height = QSRootMenuItemHeight;
         item.frame = frame;
     }
     
