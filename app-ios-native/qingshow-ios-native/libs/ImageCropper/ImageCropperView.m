@@ -27,7 +27,7 @@
 
 - (void)setup
 {
-    self.clipsToBounds = YES;
+    self.clipsToBounds = NO;
     self.backgroundColor = [UIColor clearColor];
     
     self.imageView = [[[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.height)] autorelease];
