@@ -90,7 +90,7 @@
     WBWebpageObject* webPage = [WBWebpageObject object];
     webPage.objectID = @"qingshow_webpage_id";
     webPage.title = @"倾秀";
-    webPage.description = @"qingshow desc";
+    webPage.description = @"qingshow";
     webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
     

@@ -93,7 +93,7 @@
                         <constraint firstAttribute="width" constant="36" id="Pdx-Kd-91L"/>
                         <constraint firstAttribute="height" constant="36" id="qlE-K7-bRu"/>
                     </constraints>
-                    <state key="normal" image="nav_account_btn">
+                    <state key="normal" image="u01_account_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -119,8 +119,8 @@
         </view>
     </objects>
     <resources>
-        <image name="nav_account_btn" width="30" height="30"/>
         <image name="s03_back_btn" width="36" height="36"/>
+        <image name="u01_account_btn" width="26" height="26"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
