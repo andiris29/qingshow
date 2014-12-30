@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow" >
+    package="com.focosee.qingshow"
+    android:versionCode="1"
+    android:versionName="0.9" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -48,10 +50,10 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity
-            android:name="com.focosee.qingshow.activity.S05ProductActivity"
-            android:label="@string/title_activity_s05_product" >
-        </activity>
+        <!--<activity-->
+            <!--android:name="com.focosee.qingshow.activity.S05ProductActivity"-->
+            <!--android:label="@string/title_activity_s05_product" >-->
+        <!--</activity>-->
         <activity
             android:name="com.focosee.qingshow.activity.S02ShowClassify"
             android:label="@string/title_activity_s02_show_classify" >

@@ -1,5 +1,7 @@
 package com.focosee.qingshow.entity;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -10,6 +12,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ModelShowEntity extends AbsEntity {
+    private final static String DEBUG_TAG = "ModelShowEntity";
 
     // Public interface (used in HomeWaterAdapter.java)
     public static ArrayList<ModelShowEntity> getModelShowEntities(JSONObject response) {
@@ -17,11 +20,18 @@ public class ModelShowEntity extends AbsEntity {
             String tempString = response.getJSONObject("data").getJSONArray("shows").toString();
             Type listType = new TypeToken<ArrayList<ModelShowEntity>>(){}.getType();
             Gson gson = new Gson();
-            return gson.fromJson(tempString, listType);
+//            return gson.fromJson(tempString, listType);
+            ArrayList<ModelShowEntity> result;
+            result = gson.fromJson(tempString, listType);
+            return result;
         } catch (JSONException e) {
             log(e.toString());
             return null;
         }
+    }
+
+    public static void log(String info) {
+        Log.i(DEBUG_TAG, info);
     }
 
     public String get_id() {
