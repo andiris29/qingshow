@@ -11,7 +11,7 @@
 
 @interface QSNetworkEngine(BrandService)
 
-- (MKNetworkOperation*)queryBrands:(int)type
+- (MKNetworkOperation*)queryBrands:(NSNumber*)type
                               page:(int)page
                          onSucceed:(ArraySuccessBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;

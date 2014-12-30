@@ -31,11 +31,14 @@
 #pragma mark - IBAction
 - (IBAction)onlineBtnPressed
 {
-    NSLog(@"online btn pressed");
+    if ([self.delegate respondsToSelector:@selector(didClickOnline)]) {
+        [self.delegate didClickOnline];
+    }
 }
 - (IBAction)offlineBtnPressed
 {
-    NSLog(@"offline btn pressed");
-
+    if ([self.delegate respondsToSelector:@selector(didClickOffline)]) {
+        [self.delegate didClickOffline];
+    }
 }
 @end

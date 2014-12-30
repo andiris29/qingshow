@@ -9,13 +9,13 @@
 #import "QSP03BrandListViewController.h"
 #import "QSP03BrandDetailViewController.h"
 #import "QSNetworkKit.h"
-#import "QSBrandTableViewHeaderView.h"
+
 #import "QSBrandTitleView.h"
 @interface QSP03BrandListViewController ()
 
 @property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
 @property (strong, nonatomic) QSBrandTableViewHeaderView* headerView;
-
+@property (strong, nonatomic) NSNumber* type;
 @end
 
 @implementation QSP03BrandListViewController
@@ -39,6 +39,7 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
     self.headerView = [QSBrandTableViewHeaderView generateView];
+    self.headerView.delegate = self;
     self.tableView.tableHeaderView = self.headerView;
     self.navigationItem.titleView = [QSBrandTitleView generateView];
     
@@ -59,10 +60,12 @@
 - (void)configDelegateObj
 {
     self.delegateObj = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.delegateObj.type = QSBigImageTableViewCellTypeBrand;
 //    self.delegateObj.delegate = self;
     [self.delegateObj bindWithTableView:self.tableView];
+    __weak QSP03BrandListViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE queryBrands:0 page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryBrands:weakSelf.type page:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.delegateObj.delegate = self;
     [self.delegateObj fetchDataOfPage:1];
@@ -75,6 +78,16 @@
 - (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict
 {
     [self didClickBrand:dict];
+}
+- (void)didClickOnline
+{
+    self.type = @0;
+    [self.delegateObj refreshWithAnimation];
+}
+- (void)didClickOffline
+{
+    self.type = @1;
+    [self.delegateObj refreshWithAnimation];
 }
 @end
 

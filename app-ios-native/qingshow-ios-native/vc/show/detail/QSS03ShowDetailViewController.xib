@@ -19,8 +19,6 @@
                 <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
                 <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
                 <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
-                <outlet property="shareContainer" destination="bS6-9e-XBS" id="7Ps-om-w6g"/>
-                <outlet property="sharePanel" destination="Kpv-28-WOt" id="bwN-xV-ZXM"/>
                 <outlet property="showContainer" destination="Rzs-4O-hfv" id="IFv-V1-6zA"/>
                 <outlet property="videoContainerView" destination="5Fn-9j-ahl" id="xg0-iQ-TbL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -169,75 +167,6 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="bS6-9e-XBS">
-                    <rect key="frame" x="0.0" y="0.0" width="360" height="568"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="Z0Y-WQ-9T6" appends="YES" id="Gxv-Xn-oAn"/>
-                    </connections>
-                </view>
-                <view hidden="YES" contentMode="scaleToFill" id="Kpv-28-WOt">
-                    <rect key="frame" x="0.0" y="477" width="320" height="91"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="9Om-Ur-wnE">
-                            <rect key="frame" x="33" y="15" width="38" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <state key="normal" image="weibo_icon">
-                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="shareWeiboPressed:" destination="-1" eventType="touchUpInside" id="1yq-PQ-hEZ"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Jex-od-AFk">
-                            <rect key="frame" x="250" y="15" width="38" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <state key="normal" image="weichart_quan_icon">
-                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="shareWechatPressed:" destination="-1" eventType="touchUpInside" id="1TU-Of-Mug"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新浪微博" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KPr-nI-bNr">
-                            <rect key="frame" x="34" y="61" width="36" height="11"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="9"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朋友圈" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ogc-im-FOF">
-                            <rect key="frame" x="256" y="61" width="27" height="11"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="9"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tcR-5Z-Yr4">
-                            <rect key="frame" x="142" y="15" width="38" height="38"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <state key="normal" image="weichart_friend_icon">
-                                <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="shareWechatFriendPressed:" destination="-1" eventType="touchUpInside" id="uYX-6l-lEo"/>
-                            </connections>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信好友" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VrY-gM-93I">
-                            <rect key="frame" x="143" y="61" width="36" height="11"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="9"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
-                </view>
             </subviews>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -246,11 +175,6 @@
         <tapGestureRecognizer id="ijS-NJ-Ux7">
             <connections>
                 <action selector="didTapModel:" destination="-1" id="Avy-nV-9qJ"/>
-            </connections>
-        </tapGestureRecognizer>
-        <tapGestureRecognizer id="Z0Y-WQ-9T6">
-            <connections>
-                <action selector="shareContainerPressed:" destination="-1" id="fFg-Hd-0Cn"/>
             </connections>
         </tapGestureRecognizer>
     </objects>
@@ -263,9 +187,6 @@
         <image name="s03_model_shadow" width="320" height="92"/>
         <image name="s03_play_btn" width="38" height="38"/>
         <image name="s03_share_btn" width="38" height="28"/>
-        <image name="weibo_icon" width="38" height="38"/>
-        <image name="weichart_friend_icon" width="38" height="38"/>
-        <image name="weichart_quan_icon" width="38" height="38"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

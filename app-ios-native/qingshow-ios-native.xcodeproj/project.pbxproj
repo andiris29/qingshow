@@ -95,6 +95,8 @@
 		EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */; };
 		EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952F1A0FC3A9006A0AE3 /* QSError.m */; };
 		EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */; };
+		EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F5551A52E88A00010F79 /* QSShareViewController.m */; };
+		EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */; };
 		EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618A31A12588B00560699 /* QSS03ItemDetailViewController.m */; };
 		EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618A41A12588B00560699 /* QSS03ItemDetailViewController.xib */; };
 		EFA618AC1A125FCB00560699 /* QSCommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AA1A125FCB00560699 /* QSCommentListViewController.m */; };
@@ -340,6 +342,9 @@
 		EF9C952F1A0FC3A9006A0AE3 /* QSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSError.m; sourceTree = "<group>"; };
 		EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkOperation.h; sourceTree = "<group>"; };
 		EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkOperation.m; sourceTree = "<group>"; };
+		EFA1F5541A52E88A00010F79 /* QSShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareViewController.h; sourceTree = "<group>"; };
+		EFA1F5551A52E88A00010F79 /* QSShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareViewController.m; sourceTree = "<group>"; };
+		EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSShareViewController.xib; sourceTree = "<group>"; };
 		EFA618A21A12588B00560699 /* QSS03ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ItemDetailViewController.h; sourceTree = "<group>"; };
 		EFA618A31A12588B00560699 /* QSS03ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ItemDetailViewController.m; sourceTree = "<group>"; };
 		EFA618A41A12588B00560699 /* QSS03ItemDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemDetailViewController.xib; sourceTree = "<group>"; };
@@ -528,6 +533,7 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EFA1F5521A52E85A00010F79 /* share */,
 				EFD0B7F21A1A586700BCDFBA /* compare */,
 				EFC5434D1A1750AD001B2C49 /* base */,
 				EFF89DF91A13A3B5004E6C55 /* brand */,
@@ -879,6 +885,16 @@
 				EF7826B01A4F057900C69460 /* UIView+ScreenShot.m */,
 			);
 			path = extension;
+			sourceTree = "<group>";
+		};
+		EFA1F5521A52E85A00010F79 /* share */ = {
+			isa = PBXGroup;
+			children = (
+				EFA1F5541A52E88A00010F79 /* QSShareViewController.h */,
+				EFA1F5551A52E88A00010F79 /* QSShareViewController.m */,
+				EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */,
+			);
+			path = share;
 			sourceTree = "<group>";
 		};
 		EFA618A81A125EA200560699 /* comment */ = {
@@ -1333,6 +1349,7 @@
 			files = (
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
+				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSCommentListViewController.xib in Resources */,
 				EFC543691A1750AD001B2C49 /* QSSectionNumberTextButton.xib in Resources */,
@@ -1430,6 +1447,7 @@
 				EFF89E101A13ADCC004E6C55 /* QSBrandCollectionViewDelegateObj.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF92B72A1A3CB51D00A08F08 /* QSBigImageTableViewDelegateObj.m in Sources */,
+				EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,

@@ -17,16 +17,14 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "QSNetworkKit.h"
 #import "QSItemUtil.h"
-#import <Social/Social.h>
+
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSUserManager.h"
-#import "WeiboSDK.h"
-#import "WXApi.h"
-#import "QSSharePlatformConst.h"
 #import "QSS03ItemListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
+
 
 @interface QSS03ShowDetailViewController ()
 
@@ -43,6 +41,7 @@
 
 @property (strong, nonatomic) UIImage* videoScreenShotImage;
 
+@property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
 @implementation QSS03ShowDetailViewController
@@ -94,10 +93,10 @@
     self.shareBtnRect = self.shareBtn.frame;
     self.playBtnRect = self.playBtn.frame;
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
-    
+    self.shareVc = [[QSShareViewController alloc] init];
+    self.shareVc.delegate = self;
+    [self.view addSubview:self.shareVc.view];
+    self.shareVc.view.frame = self.view.bounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -119,6 +118,7 @@
     [self hideSharePanel];
     [super viewWillDisappear:animated];
 }
+
 
 - (void)dealloc
 {
@@ -389,120 +389,17 @@
     }
 }
 
-
 #pragma mark - Share
 - (void)showSharePanel
 {
-    if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
-        return;
-    }
-    [self.view bringSubviewToFront:self.sharePanel];
-    self.shareContainer.hidden = NO;
-    self.sharePanel.hidden = NO;
-    CATransition* tran = [[CATransition alloc] init];
-    tran.type = kCATransitionPush;
-    tran.subtype = kCATransitionFromTop;
-    tran.duration = 0.2f;
-    [self.sharePanel.layer addAnimation:tran forKey:@"ShowAnimation"];
-
+    [self.shareVc showSharePanel];
 }
 - (void)hideSharePanel
 {
-    if (self.shareContainer.hidden == YES && self.sharePanel.hidden == YES) {
-        return;
-    }
-    self.shareContainer.hidden = YES;
-    self.sharePanel.hidden = YES;
-    CATransition* tran = [[CATransition alloc] init];
-    tran.type = kCATransitionPush;
-    tran.subtype = kCATransitionFromBottom;
-    tran.duration = 0.2f;
-    [self.sharePanel.layer addAnimation:tran forKey:@"ShowAnimation"];
+    [self.shareVc hideSharePanel];
 }
-
-- (IBAction)shareWeiboPressed:(id)sender {
-    [self hideSharePanel];
-    
-    NSString* weiboAccessToken = [QSUserManager shareUserManager].weiboAccessToken;
-    WBAuthorizeRequest *request = [WBAuthorizeRequest request];
-    request.redirectURI = kWeiboRedirectURI;
-    request.scope = @"all";
-    request.userInfo = nil;
-    
-    WBMessageObject *message = [WBMessageObject message];
-    WBWebpageObject* webPage = [WBWebpageObject object];
-    webPage.objectID = @"qingshow_webpage_id";
-    webPage.title = @"倾秀";
-    webPage.description = @"qingshow desc";
-    webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
-    
-//    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"gray_clock"], 0.5);
-
-    message.mediaObject = webPage;
-    WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
-    message.text = @"倾秀";
-    [WeiboSDK sendRequest:msgRequest];
-}
-
-
-- (void)weiboSendMessageNotiHandler:(NSNotification*)notification
+- (void)didShareWeiboSuccess
 {
-    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
-        [self showSuccessHudWithText:@"分享成功"];
-    }
-}
-- (void)weiboAuthorizeNotiHander:(NSNotification*)notification
-{
-    if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
-        [self shareWeiboPressed:nil];
-    }
-}
-
-- (IBAction)shareWechatPressed:(id)sender {
-    WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"qingshow";
-    message.description = @"qingshow";
-    
-    WXWebpageObject *ext = [WXWebpageObject object];
-
-    ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    
-    message.mediaObject = ext;
-    
-    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-    req.bText = NO;
-    req.message = message;
-    req.scene = WXSceneTimeline;
-    
-    [WXApi sendReq:req];
-    [self hideSharePanel];
-}
-- (IBAction)shareWechatFriendPressed:(id)sender {
-    WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"qingshow";
-    message.description = @"qingshow";
-    
-    WXWebpageObject *ext = [WXWebpageObject object];
-    
-    ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    
-    message.mediaObject = ext;
-    
-    SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
-    req.bText = NO;
-    req.message = message;
-    req.scene = WXSceneSession;
-    
-    [WXApi sendReq:req];
-    [self hideSharePanel];
-}
-- (IBAction)shareCancelPressed:(id)sender {
-    [self hideSharePanel];
-}
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self hideSharePanel];
+    [self showSuccessHudWithText:@"分享成功"];
 }
 @end

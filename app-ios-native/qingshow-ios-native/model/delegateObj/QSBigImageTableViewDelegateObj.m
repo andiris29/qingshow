@@ -43,8 +43,10 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         return [QSBigImageTableViewCell getHeightWithPreview:dict];
+    } else if (self.type == QSBigImageTableViewCellTypeBrand) {
+        return [QSBigImageTableViewCell getHeightWithBrand:dict];
     } else {
-        return [QSBigImageTableViewCell getHeighWithShow:dict];
+        return [QSBigImageTableViewCell getHeightWithShow:dict];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

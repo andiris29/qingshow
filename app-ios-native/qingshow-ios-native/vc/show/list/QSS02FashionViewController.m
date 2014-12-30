@@ -12,10 +12,11 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
+
 @interface QSS02FashionViewController ()
 
 @property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
-
+@property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
 @implementation QSS02FashionViewController
@@ -34,11 +35,19 @@
     [self configDelegateObj];
     self.title = @"潮流时尚";
     self.navigationController.navigationBarHidden = NO;
+    self.shareVc = [[QSShareViewController alloc] init];
+    [self.view addSubview:self.shareVc.view];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.shareVc.view.frame = self.view.bounds;
 }
 
 #pragma mark - 
@@ -64,6 +73,7 @@
 - (void)clickShareOfDict:(NSDictionary*)dict
 {
     NSLog(@"share");
+    [self.shareVc showSharePanel];
 }
 - (void)clickLikeOfDict:(NSDictionary*)dict
 {
@@ -78,5 +88,9 @@
     } onError:^(NSError *error) {
         [self handleError:error];
     }];
+}
+- (void)didShareWeiboSuccess
+{
+    [self showSuccessHudWithText:@"分享成功"];
 }
 @end

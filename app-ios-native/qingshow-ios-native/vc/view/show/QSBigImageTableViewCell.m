@@ -68,7 +68,7 @@
     return height;
 }
 
-+ (CGFloat)getHeighWithShow:(NSDictionary*)showDict
++ (CGFloat)getHeightWithShow:(NSDictionary*)showDict
 {
     NSDictionary* coverMetadata = nil;
     coverMetadata = showDict[@"horizontalCoverMetadata"];
@@ -91,6 +91,10 @@
     height = height * iniWidth / width;
     return height;
 }
++ (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
+{
+    return [UIScreen mainScreen].bounds.size.width;
+}
 
 #pragma mark - Bind
 - (void)bindWithDict:(NSDictionary*)dict
@@ -99,8 +103,7 @@
         [self bindWithBrand:dict];
     } else if (self.type == QSBigImageTableViewCellTypeFashion) {
         [self bindWithPreview:dict];
-    }
-    else {
+    } else {
         [self bindWithShow:dict];
     }
 }
@@ -125,7 +128,7 @@
 
 - (void)bindWithShow:(NSDictionary*)showDict
 {
-    float height = [QSBigImageTableViewCell getHeighWithShow:showDict];
+    float height = [QSBigImageTableViewCell getHeightWithShow:showDict];
     [self resizeWithHeight:height];
 
     //Data Binding
@@ -139,10 +142,13 @@
 }
 - (void)bindWithBrand:(NSDictionary*)brandDict
 {
-#warning 公司数据不足
+    float height = [QSBigImageTableViewCell getHeightWithBrand:brandDict];
+    [self resizeWithHeight:height];
+    
     self.label1.text = [QSBrandUtil getBrandName:brandDict];
-    self.label2.text = @"";
+    self.label2.text = [QSBrandUtil getBrandShopAddress:brandDict];
     [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    [self.imageView setImageFromURL:[QSBrandUtil getBrandCoverUrl:brandDict]];
 }
 
 - (void)bindWithPreview:(NSDictionary*)previewDict

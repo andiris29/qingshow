@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "QSBigImageTableViewDelegateObj.h"
-@interface QSS02FashionViewController : UIViewController <QSBigImageTableViewDelegateObjDelegate>
+#import "QSShareViewController.h"
+
+@interface QSS02FashionViewController : UIViewController <QSBigImageTableViewDelegateObjDelegate, QSShareViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

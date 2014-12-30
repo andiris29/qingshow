@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "QSBigImageTableViewDelegateObj.h"
-
-@interface QSP03BrandListViewController : UIViewController  <QSBigImageTableViewDelegateObjDelegate>
+#import "QSBrandTableViewHeaderView.h"
+@interface QSP03BrandListViewController : UIViewController  <QSBigImageTableViewDelegateObjDelegate, QSBrandTableViewHeaderViewDelegate>
 
 //@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
