@@ -45,8 +45,8 @@ for(var i = 0; i < 15; i++) {
     },
     'video' : 'http://localhost/video.mp4',
     'posters' : testEnviroment.randomNewUser() + ',' + testEnviroment.randomNewUser(),
-    'numLike' : 8,
-    'numView' : 9,
+    'numLike' : i,
+    'numView' : i,
     // 'modelRef' : '',
     // 'itemRefs' : ''
     'studioRef' : '',
