@@ -71,7 +71,7 @@
 #pragma mark - Layout Update
 - (void)baseHeightSetup
 {
-    float baseHeight = self.photoImageView.frame.size.height;
+    float baseHeight = self.photoImageView.frame.size.height - 1;
     
     self.headIconImageViewBaseY = self.headIconImageView.frame.origin.y - baseHeight;
     self.nameLabelBaseY = self.nameLabel.frame.origin.y - baseHeight;

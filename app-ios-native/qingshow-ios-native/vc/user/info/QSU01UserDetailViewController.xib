@@ -23,18 +23,11 @@
             <rect key="frame" x="0.0" y="64" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="228" id="uMu-M4-U1U"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVA-uB-yhC">
-                    <rect key="frame" x="0.0" y="228" width="320" height="340"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DrY-X6-QFu">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="340"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYR-wN-aHn">
                                 <size key="itemSize" width="50" height="50"/>
@@ -44,7 +37,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-E8-rc6">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="340"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rQv-OK-BHc">
                                 <size key="itemSize" width="50" height="50"/>
@@ -54,7 +47,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="286-iQ-Nv4">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="340"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </tableView>
                     </subviews>
@@ -72,6 +65,13 @@
                         <constraint firstAttribute="bottom" secondItem="3Ou-E8-rc6" secondAttribute="bottom" id="raw-GU-h2y"/>
                         <constraint firstAttribute="bottom" secondItem="286-iQ-Nv4" secondAttribute="bottom" id="yrk-Jf-hD4"/>
                         <constraint firstAttribute="trailing" secondItem="DrY-X6-QFu" secondAttribute="trailing" id="z1p-nF-Kpg"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="228" id="uMu-M4-U1U"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
@@ -108,11 +108,11 @@
                 <constraint firstItem="N3M-vC-kKm" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" id="Goa-w5-cDO"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QPE-wC-rfU"/>
-                <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="fec-uB-6s0" secondAttribute="bottom" id="cC0-fM-P8f"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
+                <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>
                 <constraint firstAttribute="trailing" secondItem="N3M-vC-kKm" secondAttribute="trailing" constant="14" id="wuu-Rk-a0d"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
