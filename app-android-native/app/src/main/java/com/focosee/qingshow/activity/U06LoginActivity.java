@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -108,11 +109,17 @@ public class U06LoginActivity extends Activity {
                 params.put("id", accountEditText.getText().toString());
                 params.put("password", passwordEditText.getText().toString());
                 JSONObject jsonObject = new JSONObject(params);
+
+                final ProgressDialog pDialog = new ProgressDialog(U06LoginActivity.this);
+                pDialog.setMessage("加载中...");
+                pDialog.show();
+
                 StringRequest stringRequest = new StringRequest(Request.Method.POST,
                         QSAppWebAPI.LOGIN_SERVICE_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                pDialog.hide();
                                 LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
                                 }.getType());
 

@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -14,12 +16,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
+import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.entity.ModelEntity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.widget.MNavigationView;
+import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -37,12 +43,10 @@ import java.util.LinkedList;
  * Created by zenan on 12/27/14.
  */
 public class U01WatchFragment extends Fragment {
-    private MPullRefreshMultiColumnListView mPullRefreshMultiColumnListView;
-    private MultiColumnListView multiColumnListView;
-    private HomeWaterfallAdapter homeWaterfallAdapter;
-    private int currentPageIndex = 1;
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+    private MPullRefreshListView pullRefreshListView;
+    private ListView listView;
+    private P01ModelListAdapter adapter;
 
     public static U01WatchFragment newInstance() {
         U01WatchFragment fragment = new U01WatchFragment();
@@ -67,40 +71,41 @@ public class U01WatchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_personal_pager_watch, container, false);
 
-        mPullRefreshMultiColumnListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.P03_brand_list_list_view);
-        multiColumnListView = mPullRefreshMultiColumnListView.getRefreshableView();
+        pullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.modelMPullRefreshListView);
 
-        homeWaterfallAdapter = new HomeWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
-        multiColumnListView.setAdapter(homeWaterfallAdapter);
+        pullRefreshListView.setPullLoadEnabled(true);
+        pullRefreshListView.setPullRefreshEnabled(true);
+        pullRefreshListView.setScrollLoadEnabled(true);
 
-        mPullRefreshMultiColumnListView.setPullLoadEnabled(true);
-        mPullRefreshMultiColumnListView.setScrollLoadEnabled(true);
+        listView = pullRefreshListView.getRefreshableView();
 
-        mPullRefreshMultiColumnListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
+        adapter = new P01ModelListAdapter(getActivity(), new ArrayList<ModelEntity>(), ImageLoader.getInstance());
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doRefreshTask();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doGetMoreTask();
-            }
-        });
-
-        multiColumnListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), S03SHowActivity.class);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), P02ModelActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, homeWaterfallAdapter.getItemDataAtIndex(position)._id);
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((ModelEntity) adapter.getItem(position)));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
 
-        setLastUpdateTime();
-        mPullRefreshMultiColumnListView.doPullRefreshing(true, 500);
+        pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                doRefreshData();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                doLoadMoreData();
+            }
+        });
+
+        pullRefreshListView.doPullRefreshing(true, 0);
 
         return view;
     }
@@ -110,68 +115,49 @@ public class U01WatchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-
-    private void doRefreshTask() {
-        getDataFromNet(true, "1", "10");
-    }
-
-    private void doGetMoreTask() {
-        getDataFromNet(false, String.valueOf(currentPageIndex + 1), "10");
-    }
-
-    //TODO 可以抽出来，四个fragment合成一个，然后在onCreateView判断
-    private void getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
-        final boolean tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+    private void doRefreshData() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
-                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
-                    if (tRefreshSign) {
-                        homeWaterfallAdapter.addItemTop(results);
-                        currentPageIndex = 1;
-                    } else {
-                        homeWaterfallAdapter.addItemLast(results);
-                        currentPageIndex++;
-                    }
-                    homeWaterfallAdapter.notifyDataSetChanged();
-                    mPullRefreshMultiColumnListView.onPullDownRefreshComplete();
-                    mPullRefreshMultiColumnListView.onPullUpRefreshComplete();
-                    mPullRefreshMultiColumnListView.setHasMoreData(true);
-                    setLastUpdateTime();
+                ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);
+                adapter.resetData(moreData);
+                adapter.notifyDataSetChanged();
 
-                }catch (Exception error){
-                    Log.i("test", "error" + error.toString());
-                    Toast.makeText(getActivity(), "Error:"+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    mPullRefreshMultiColumnListView.onPullDownRefreshComplete();
-                    mPullRefreshMultiColumnListView.onPullUpRefreshComplete();
-                    mPullRefreshMultiColumnListView.setHasMoreData(true);
-                }
-
+                pullRefreshListView.onPullDownRefreshComplete();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Error:"+error.toString(), Toast.LENGTH_SHORT).show();
-                mPullRefreshMultiColumnListView.onPullDownRefreshComplete();
-                mPullRefreshMultiColumnListView.onPullUpRefreshComplete();
-                mPullRefreshMultiColumnListView.setHasMoreData(true);
+                handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jor);
+
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
-    private void setLastUpdateTime() {
-        String text = formatDateTime(System.currentTimeMillis());
-        mPullRefreshMultiColumnListView.setLastUpdatedLabel(text);
+    private void doLoadMoreData() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);
+                adapter.addData(moreData);
+                adapter.notifyDataSetChanged();
+
+                pullRefreshListView.onPullUpRefreshComplete();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                handleErrorMsg(error);
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
-    private String formatDateTime(long time) {
-        if (0 == time) {
-            return "";
-        }
-
-        return simpleDateFormat.format(new Date(time));
+    private void handleErrorMsg(VolleyError error) {
+        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("U01WatchFragment", error.toString());
     }
 
 }

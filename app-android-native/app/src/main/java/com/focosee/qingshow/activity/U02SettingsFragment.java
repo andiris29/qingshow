@@ -174,10 +174,14 @@ public class U02SettingsFragment extends Fragment {
             public void onClick(View v) {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("id", sharedPreferences.getString("id", ""));
-                params.put("name", nameEditText.getText().toString());
-                params.put("age", ageEditText.getText().toString());
-                params.put("height", heightEditText.getText().toString());
-                params.put("weight", weightEditText.getText().toString());
+                if (!nameEditText.getText().toString().equals(""))
+                    params.put("name", nameEditText.getText().toString());
+                if (!ageEditText.getText().toString().equals(""))
+                    params.put("age", ageEditText.getText().toString());
+                if (!heightEditText.getText().toString().equals(""))
+                    params.put("height", heightEditText.getText().toString());
+                if (!weightEditText.getText().toString().equals(""))
+                    params.put("weight", weightEditText.getText().toString());
                 JSONObject jsonObject = new JSONObject(params);
                 JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
                         QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject,
