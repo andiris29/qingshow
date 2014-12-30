@@ -151,7 +151,7 @@ public class U06LoginActivity extends Activity {
                     protected Response<String> parseNetworkResponse(NetworkResponse response) {
                         try {
                             Map<String, String> responseHeaders = response.headers;
-                            rawCookie = responseHeaders.get("Set-Cookie").split(";")[0].split("=")[1];
+                            rawCookie = responseHeaders.get("Set-Cookie").split(";")[0];//.split("=")[1];
                             String dataString = new String(response.data, "UTF-8");
                             return Response.success(dataString, HttpHeaderParser.parseCacheHeaders(response));
                         } catch (UnsupportedEncodingException e) {

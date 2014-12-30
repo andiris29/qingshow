@@ -168,15 +168,6 @@ public class U02SettingsFragment extends Fragment {
         heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
         weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
 
-        TextView nameTextView = (TextView) getActivity().findViewById(R.id.nameTextView);
-        TextView heightAndWeightTextView = (TextView) getActivity().findViewById(R.id.heightAndWeightTextView);
-        People people = QSApplication.get().getPeople();
-        if (people != null) {
-            if (people.name!=null) nameTextView.setText(people.name);
-            if (people.height!=null && people.weight!=null)
-                heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
-        }
-
         saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
         saveTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -188,7 +179,6 @@ public class U02SettingsFragment extends Fragment {
                 params.put("height", heightEditText.getText().toString());
                 params.put("weight", weightEditText.getText().toString());
                 JSONObject jsonObject = new JSONObject(params);
-
                 JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
                         QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject,
                         new Response.Listener<JSONObject>() {
@@ -233,8 +223,6 @@ public class U02SettingsFragment extends Fragment {
                         if (rawCookie != null && rawCookie.length() > 0) {
                             HashMap<String, String> headers = new HashMap<String, String>();
                             headers.put("Cookie", rawCookie);
-                            headers.put("Accept", "application/json");
-                            headers.put("Content-Type", "application/json; charset=UTF-8");
                             return headers;
                         }
                         return super.getHeaders();
