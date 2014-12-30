@@ -7,6 +7,7 @@
 //
 
 #import "QSNetworkEngine+Protect.h"
+#import "Version.h"
 
 @implementation QSNetworkEngine (Protect)
 
@@ -18,8 +19,7 @@
 {
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
-    // Move to global const
-    p[@"version"] = @"1.0.0";
+    p[@"version"] = VERSION;
     op = [self operationWithPath:path params:p httpMethod:method ];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
