@@ -12,8 +12,8 @@
         <ImageView
             android:id="@+id/P02_back_image_view"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
             android:src="@drawable/bg_pic"/>
 
         <ImageButton
@@ -25,7 +25,7 @@
             android:background="#00000000"
             android:src="@drawable/root_icon_back"/>
 
-        <ImageView
+        <com.focosee.qingshow.widget.MCircularImageView
             android:id="@+id/P02_model_image_view"
             android:layout_width="60dp"
             android:layout_height="60dp"

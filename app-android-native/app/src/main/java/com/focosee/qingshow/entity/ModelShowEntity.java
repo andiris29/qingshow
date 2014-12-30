@@ -53,6 +53,7 @@ public class ModelShowEntity extends AbsEntity {
 
     private ModelDetailContext __context;
     private String _id;
+    private String _hughUpdate;
     private String name;
     private String cover;
     private String video;
