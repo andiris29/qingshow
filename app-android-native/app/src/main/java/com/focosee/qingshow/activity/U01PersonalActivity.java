@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
@@ -24,7 +25,8 @@ import java.util.ArrayList;
 
 
 public class U01PersonalActivity extends FragmentActivity {
-    private static final int PAGER_NUM = 4;
+    private static final int PAGER_NUM = 3;
+
     private static final int PAGER_COLLECTION = 0;
     private static final int PAGER_RECOMMEND = 1;
     private static final int PAGER_WATCH = 2;
@@ -63,6 +65,11 @@ public class U01PersonalActivity extends FragmentActivity {
             if (people.name != null) nameTextView.setText(people.name);
             if (people.height != null && people.weight != null)
                 heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+        } else {
+            Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
+            startActivity(intent);
+            Toast.makeText(context, "请登录账号", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
@@ -93,6 +100,8 @@ public class U01PersonalActivity extends FragmentActivity {
                 } else if (position == 2) {
 
                 } else if (position == 3) {
+
+                } else {
 
                 }
             }

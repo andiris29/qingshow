@@ -58,9 +58,9 @@ public class U02ChangePasswordFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(context);
         sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
 
-        currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentIdEditText);
-        newPasswordEditText = (EditText) getActivity().findViewById(R.id.newIdEditText);
-        confirmPasswordEditText = (EditText) getActivity().findViewById(R.id.confirmIdEditText);
+        currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentPasswordEditText);
+        newPasswordEditText = (EditText) getActivity().findViewById(R.id.newPasswordEditText);
+        confirmPasswordEditText = (EditText) getActivity().findViewById(R.id.confirmPasswordEditText);
 
         backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {

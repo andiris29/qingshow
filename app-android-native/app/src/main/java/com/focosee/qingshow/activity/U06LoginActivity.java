@@ -120,8 +120,8 @@ public class U06LoginActivity extends Activity {
                                 editor.putString("id", accountEditText.getText().toString());
                                 editor.putString("password", passwordEditText.getText().toString());
                                 editor.putString("Cookie", rawCookie);
-                                editor.putString("_id", loginResponse.data.people._id);
-                                editor.putString("connect.sid", rawCookie);
+                                //editor.putString("_id", loginResponse.data.people._id);
+                                //editor.putString("connect.sid", rawCookie);
                                 editor.commit();
 
                                 if (loginResponse == null || loginResponse.data == null) {
