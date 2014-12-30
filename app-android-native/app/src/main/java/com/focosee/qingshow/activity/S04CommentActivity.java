@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.app.QSApplication;
@@ -121,7 +120,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     }
 
     private void doLoadMoreTask() {
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonArrayRequest = new MJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 currentPage++;
@@ -143,7 +142,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     }
 
     private void doRefreshTask() {
-        JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonArrayRequest = new MJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 currentPage = 0;
