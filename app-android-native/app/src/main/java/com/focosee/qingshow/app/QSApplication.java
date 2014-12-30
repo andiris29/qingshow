@@ -125,8 +125,8 @@ public class QSApplication extends Application {
         String sessionId = _preferences.getString(SESSION_COOKIE, "");
         if (sessionId.length() > 0) {
             StringBuilder builder = new StringBuilder();
-            builder.append(SESSION_COOKIE);
-            builder.append("=");
+//            builder.append(SESSION_COOKIE);
+//            builder.append("=");
             builder.append(sessionId);
             if (headers.containsKey(COOKIE_KEY)) {
                 builder.append("; ");
