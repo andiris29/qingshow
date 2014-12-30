@@ -31,7 +31,8 @@ public class MImageView_OriginSize extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * originHeight / originWidth) + MeasureSpec.EXACTLY;
+        if (originWidth != 0 && originHeight != 0)
+            heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec) * originHeight / originWidth + MeasureSpec.EXACTLY;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 }

@@ -9,11 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
@@ -29,13 +26,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
-import java.net.CookieHandler;
-import java.net.CookieManager;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 public class S01HomeActivity extends Activity {
 
@@ -135,6 +128,8 @@ public class S01HomeActivity extends Activity {
                 startActivity(intent);
             }
         });
+
+        _popView.setVisibility(View.GONE);
 
         _wfPullRefreshView = (MPullRefreshMultiColumnListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();

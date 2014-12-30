@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow" >
+    package="com.focosee.qingshow"
+    android:versionCode="3"
+    android:versionName="0.9.2" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -33,15 +35,25 @@
         <activity
             android:name="com.focosee.qingshow.activity.S01HomeActivity"
             android:label="@string/title_activity_s01_home" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name="com.focosee.qingshow.activity.S03SHowActivity"
             android:label="@string/title_activity_s03_show" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
+        <!--<activity-->
+            <!--android:name="com.focosee.qingshow.activity.S05ProductActivity"-->
+            <!--android:label="@string/title_activity_s05_product" >-->
+        <!--</activity>-->
         <activity
             android:name="com.focosee.qingshow.activity.S02ShowClassify"
             android:label="@string/title_activity_s02_show_classify" >
@@ -77,6 +89,15 @@
         <activity
             android:name="com.focosee.qingshow.activity.S08TrendActivity"
             android:label="@string/title_activity_s08_trend" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.LaunchActivity"
+            android:label="@string/title_activity_launch" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -169,6 +169,10 @@ public class ShowDetailEntity extends AbsEntity {
             return cover;
         }
 
+        public String getSource() {
+            return source;
+        }
+
         public String _id;
         public int category;
         public String name;

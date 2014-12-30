@@ -1,11 +1,14 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,11 +41,6 @@ public class S05ItemActivity extends Activity {
             }
         });
 
-        ImageLoader.getInstance().displayImage("", (MCircularImageView)findViewById(R.id.S05_portrait));
-        ((TextView)findViewById(R.id.S05_item_name)).setText("测试的物品");
-        ((TextView)findViewById(R.id.S05_origin_price)).setText("￥360.00");
-        ((TextView)findViewById(R.id.S05_now_price)).setText("￥169.00");
-
         mVerticalViewPager = (MVerticalViewPager) findViewById(R.id.S05_view_pager);
         View[] views = new View[items.size()];
         for (int i = 0; i < views.length; i++) {
@@ -53,10 +51,25 @@ public class S05ItemActivity extends Activity {
         mVerticalViewPager.setOnPageChangeListener(new MVerticalViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-
+                showItemAtIndex(position);
             }
         });
 
+        showItemAtIndex(0);
+    }
+
+    public void showItemAtIndex(final int index) {
+        ImageLoader.getInstance().displayImage(items.get(index).getCover(), (MCircularImageView)findViewById(R.id.S05_portrait));
+        ((TextView)findViewById(R.id.S05_item_name)).setText(items.get(index).getItemName());
+        ((TextView)findViewById(R.id.S05_origin_price)).setText(items.get(index).getItemCategory());
+        ((TextView)findViewById(R.id.S05_now_price)).setText(items.get(index).getItemCategory());
+        ((Button)findViewById(R.id.S05_buy_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(index).getSource()));
+                startActivity(intent);
+            }
+        });
     }
 
 

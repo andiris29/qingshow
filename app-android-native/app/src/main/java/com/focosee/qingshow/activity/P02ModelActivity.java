@@ -219,8 +219,6 @@ public class P02ModelActivity extends Activity {
         });
         followerPullRefreshListView.doPullRefreshing(true, 0);
 
-
-
     }
 
     private void setIndicatorBackground(int pos) {
@@ -273,7 +271,7 @@ public class P02ModelActivity extends Activity {
                 if (checkErrorExist(response)) {
                     try {
                         Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
+                    }catch (Exception e) {
                         Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     latestPullRefreshListView.onPullDownRefreshComplete();
@@ -308,7 +306,7 @@ public class P02ModelActivity extends Activity {
                     try {
                         Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
                     }catch (JSONException e) {
-                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(P02ModelActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
