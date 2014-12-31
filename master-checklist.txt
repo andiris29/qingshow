@@ -1,0 +1,7 @@
+Upgrade version number
+	app-android-native
+		versionName in app-android-native/app/src/main/AndroidManifest.xml
+	app-ios-native
+		version in project
+	web-mobile
+	server-node
