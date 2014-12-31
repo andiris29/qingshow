@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.ShowListEntity;
+import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -28,7 +28,11 @@ class HomeViewHolder extends AbsViewHolder {
     // Public interface
     public void setData(ShowListEntity entity, ImageLoader imageLoader) {
 //        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)_myHeight));
-        showIV.setLayoutParams(new LinearLayout.LayoutParams(entity.getCoverWidth(), entity.getCoverHeight()));
+//        showIV.setLayoutParams(new LinearLayout.LayoutParams(entity.getCoverWidth(), entity.getCoverHeight()));
+
+        showIV.setOriginWidth(entity.getCoverWidth());
+        showIV.setOriginHeight(entity.getCoverHeight());
+
         imageLoader.displayImage(entity.getShowCover(), showIV, coverOptions, animateFirstListener);
         imageLoader.displayImage(entity.getModelPhoto(), modelIV, animateFirstListener);
         modelNameTV.setText(entity.getModelName());
@@ -37,7 +41,7 @@ class HomeViewHolder extends AbsViewHolder {
         loveTV.setText(entity.getShowNumLike());
     }
 
-    ImageView showIV;
+    MImageView_OriginSize showIV;
     ImageView modelIV;
     TextView modelNameTV;
     TextView modelHeightTV;
@@ -95,7 +99,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(_resourceId, null);
             holder = new HomeViewHolder();
-            holder.showIV  = (ImageView) convertView.findViewById(R.id.item_show_image);
+            holder.showIV  = (MImageView_OriginSize) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
             holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);

@@ -9,12 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.focosee.qingshow.widget.MImageView_OriginSize
             android:id="@+id/item_show_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher"></ImageView>
+            android:src="@drawable/ic_launcher"></com.focosee.qingshow.widget.MImageView_OriginSize>
     </LinearLayout>
 
     <ImageView
