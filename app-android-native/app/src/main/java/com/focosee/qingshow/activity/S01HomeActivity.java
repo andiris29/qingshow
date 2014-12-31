@@ -98,6 +98,16 @@ public class S01HomeActivity extends Activity {
                 _popView.setVisibility(View.GONE);
             }
         });
+        //author:Chenhr
+        ((ImageView)findViewById(R.id.S01_nav_icon_Trend)).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S08TrendActivity.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
+                startActivity(intent);
+                _popView.setVisibility(View.GONE);
+            }
+        });
 
         _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
 

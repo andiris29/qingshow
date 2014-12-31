@@ -54,7 +54,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#eeffffff" >
+            android:background="@android:drawable/screen_background_dark_transparent"
+            android:alpha="50">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -79,14 +80,15 @@
                         android:layout_marginRight="20dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_flash" />
+                        android:src="@drawable/root_menu_flash" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="闪点推荐" />
+                        android:text="闪点推荐"
+                        android:textColor="#ffffffff" />
 
                 </LinearLayout>
 
@@ -105,14 +107,15 @@
                         android:layout_marginRight="20dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_match" />
+                        android:src="@drawable/root_menu_match" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="美搭榜单" />
+                        android:text="美搭榜单"
+                        android:textColor="#ffffffff" />
 
                 </LinearLayout>
 
@@ -131,14 +134,15 @@
                         android:layout_marginRight="20dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_people" />
+                        android:src="@drawable/root_menu_people" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="人气用户" />
+                        android:text="人气用户"
+                        android:textColor="#ffffffff" />
 
                 </LinearLayout>
 
@@ -167,14 +171,15 @@
                         android:layout_marginRight="20dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_design" />
+                        android:src="@drawable/root_menu_design" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="设计风尚" />
+                        android:text="设计风尚"
+                        android:textColor="#ffffffff" />
 
                 </LinearLayout>
 
@@ -193,14 +198,15 @@
                         android:layout_marginRight="20dp"
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_brand" />
+                        android:src="@drawable/root_menu_brand" />
 
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="品牌专区" />
+                        android:text="品牌专区"
+                        android:textColor="#ffffffff" />
 
                 </LinearLayout>
 
@@ -209,13 +215,36 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/S01_nav_icon_Trend"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/root_menu_people" />
 
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:text="潮流时尚"
+                        android:textColor="#ffffffff" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textView" />
     </LinearLayout>
 
 </RelativeLayout>
