@@ -22,6 +22,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -123,7 +124,7 @@ public class S03SHowActivity extends Activity {
 
         videoUri = showDetailEntity.getShowVideo();
 
-        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage);
+        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
 
         modelInformation.setText(showDetailEntity.getModelName() + " ");
 
@@ -197,8 +198,7 @@ public class S03SHowActivity extends Activity {
     }
 
     private void initPosterView(String[] urlList) {
-        Log.i("app", urlList.toString());
-        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
+        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
     }
 

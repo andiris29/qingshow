@@ -29,7 +29,6 @@
             android:id="@+id/S05_portrait"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:background="@drawable/ic_launcher"
             android:layout_marginLeft="20dp"/>
 
         <LinearLayout

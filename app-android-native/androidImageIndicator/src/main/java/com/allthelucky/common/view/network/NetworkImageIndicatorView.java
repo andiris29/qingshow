@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.app.library.common.view.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 	 * @param urlList
 	 *            URL列表
 	 */
-	public void setupLayoutByImageUrl(final List<String> urlList, ImageLoader mImageLoader) {
+	public void setupLayoutByImageUrl(final List<String> urlList, ImageLoader mImageLoader, DisplayImageOptions options) {
 		if (urlList == null)
 			throw new NullPointerException();
 
@@ -50,7 +51,7 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 //                pageItem.setAdjustViewBounds(true);
                 pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				pageItem.setImageResource(R.drawable.ic_launcher);
-                mImageLoader.displayImage(urlList.get(index), pageItem);
+                mImageLoader.displayImage(urlList.get(index), pageItem, options);
 				addViewItem(pageItem);
 			}
 		}
