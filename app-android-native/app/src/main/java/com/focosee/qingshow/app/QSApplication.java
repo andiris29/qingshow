@@ -4,12 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.entity.People;
+import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -19,8 +18,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-
-import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.File;
 import java.util.Map;
@@ -36,6 +33,8 @@ public class QSApplication extends Application {
     private static String _userId;
     private SharedPreferences _preferences;
     private static People people = null;
+
+    private String versionName;
 
     public static QSApplication get() {
         return _instance;
@@ -55,6 +54,9 @@ public class QSApplication extends Application {
         _preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         _preferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
+
+        // config app version name
+        versionName = AppUtil.getAppVersionName(this);
     }
 
     public void configImageLoader() {
@@ -142,6 +144,10 @@ public class QSApplication extends Application {
 
     public void setPeople(People p) {
         people = p;
+    }
+
+    public String getVersionName() {
+        return versionName;
     }
 
 }
