@@ -17,10 +17,9 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.ModelEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.google.gson.JsonObject;
+import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -87,7 +86,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         }
         holderView = (P01ModelHolderView)convertView.getTag();
 
-        this.imageLoader.displayImage(this.data.get(position).getPortrait(),holderView.modelImageView);
+        this.imageLoader.displayImage(this.data.get(position).getPortrait(),holderView.modelImageView, AppUtil.getPortraitDisplayOptions());
         holderView.nameTextView.setText(this.data.get(position).getName());
         holderView.heightTextView.setText(this.data.get(position).getHeight());
         holderView.weightTextView.setText(this.data.get(position).getWeight());

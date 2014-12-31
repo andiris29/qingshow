@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.FollowPeopleEntity;
+import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
             holderView = (HolderView)convertView.getTag();
         }
 
-        ImageLoader.getInstance().displayImage(data.get(position).getPeoplePortrait(), holderView.imageView);
+        ImageLoader.getInstance().displayImage(data.get(position).getPeoplePortrait(), holderView.imageView, AppUtil.getPortraitDisplayOptions());
         holderView.nameTextView.setText(data.get(position).getPeopleName());
         holderView.showNumberTextView.setText(data.get(position).getShowNumberString());
         holderView.likedNumberTextView.setText(data.get(position).getLikeNumberString());

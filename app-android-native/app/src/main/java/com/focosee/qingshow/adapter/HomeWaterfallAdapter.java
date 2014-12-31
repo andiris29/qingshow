@@ -11,11 +11,10 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.ShowListEntity;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.Collections;
@@ -33,8 +32,8 @@ class HomeViewHolder extends AbsViewHolder {
         showIV.setOriginWidth(entity.getCoverWidth());
         showIV.setOriginHeight(entity.getCoverHeight());
 
-        imageLoader.displayImage(entity.getShowCover(), showIV, coverOptions, animateFirstListener);
-        imageLoader.displayImage(entity.getModelPhoto(), modelIV, animateFirstListener);
+        imageLoader.displayImage(entity.getShowCover(), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
+        imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         modelNameTV.setText(entity.getModelName());
         modelHeightTV.setText(entity.getModelHeight());
         modelWeightTV.setText(entity.getModelWeight());
@@ -49,18 +48,27 @@ class HomeViewHolder extends AbsViewHolder {
     TextView loveTV;
 
 
-    // Helper property
+//    // Helper property
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
-    private DisplayImageOptions coverOptions = new DisplayImageOptions.Builder()
-            .showImageOnLoading(R.drawable.ic_launcher) //设置图片在下载期间显示的图片
-            .showImageForEmptyUri(R.drawable.ic_launcher)//设置图片Uri为空或是错误的时候显示的图片
-            .showImageOnFail(R.drawable.ic_launcher)  //设置图片加载/解码过程中错误时候显示的图片
-            .cacheInMemory(true)
-            .cacheOnDisk(true)
-            .considerExifParams(true)
-            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
-            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
-            .build();//构建完成
+//    private DisplayImageOptions coverOptions = new DisplayImageOptions.Builder()
+//            .showImageOnLoading(R.drawable.root_cell_placehold_image1) //设置图片在下载期间显示的图片
+//            .showImageForEmptyUri(R.drawable.root_cell_placehold_image2)//设置图片Uri为空或是错误的时候显示的图片
+//            .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
+//            .cacheInMemory(true)
+//            .cacheOnDisk(true)
+////            .considerExifParams(true)
+////            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
+////            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
+//            .build();//构建完成
+//
+//    private DisplayImageOptions portraitOptions = new DisplayImageOptions.Builder()
+//            .showImageOnLoading(R.drawable.root_cell_placehold_head)
+//            .showImageForEmptyUri(R.drawable.root_cell_placehold_head)
+//            .showImageOnFail(R.drawable.root_cell_placehold_head)
+//            .cacheInMemory(true)
+//            .cacheOnDisk(true)
+//            .build();
+
 
 
     // Helper class Animation
