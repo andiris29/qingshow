@@ -30,14 +30,7 @@
     NSString* s = dict[@"logo"];
     return [NSURL URLWithString:s];
 }
-+ (NSURL*)getBrandSloganUrl:(NSDictionary*)dict
-{
-    if ([QSCommonUtil checkIsNil:dict]) {
-        return nil;
-    }
-    NSString* s = dict[@"slogan"];
-    return [NSURL URLWithString:s];
-}
+
 + (NSString*)getBrandTypeDesc:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
@@ -47,12 +40,63 @@
     return @[@"brand", @"studio"][type.intValue];
 }
 
++ (NSURL*)getBrandBgUrl:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* path = dict[@"background"];
+    return [NSURL URLWithString:path];
+}
+
+
++ (NSURL*)getBrandCoverUrl:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* path = dict[@"cover"];
+    return [NSURL URLWithString:path];
+}
+
++ (NSString*)getBrandShopPhone:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return @"";
+    }
+    
+    NSDictionary* shopDict = dict[@"shopInfo"];
+    if ([QSCommonUtil checkIsNil:shopDict]) {
+        return @"";
+    }
+    return shopDict[@"phone"];
+}
++ (NSString*)getBrandShopAddress:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return @"";
+    }
+    
+    NSDictionary* shopDict = dict[@"shopInfo"];
+    if ([QSCommonUtil checkIsNil:shopDict]) {
+        return @"";
+    }
+    return shopDict[@"address"];
+}
+
 + (BOOL)getHasFollowBrand:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
         return NO;
     }
-#warning TODO
+    
+    NSDictionary* context = dict[@"__context"];
+    if (context) {
+        NSNumber* f = context[@"followedByCurrentUser"];
+        if (f) {
+            return f.boolValue;
+        }
+    }
     return NO;
 }
 + (void)setHasFollow:(BOOL)f brand:(NSDictionary*)dict
@@ -60,7 +104,18 @@
     if ([QSCommonUtil checkIsNil:dict]) {
         return;
     }
-#warning TODO
+    
+    if (![dict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* mutableDict = (NSMutableDictionary*)dict;
+    NSMutableDictionary* context = [mutableDict[@"__context"] mutableCopy];
+    if (!context) {
+        context = [@{} mutableCopy];
+    }
+    
+    context[@"followedByCurrentUser"] = @(f);
+    mutableDict[@"__context"] = context;
     
 }
 @end

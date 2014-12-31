@@ -13,7 +13,8 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
-
+#import "UIViewController+QSExtension.h"
+#import "QSImageEditingViewController.h"
 
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
@@ -53,6 +54,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
     [self loadUserSetting];
 }
 - (void)didReceiveMemoryWarning {
@@ -199,7 +201,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 
                 imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             }
-            imagePickerController.allowsEditing = YES;
+            imagePickerController.allowsEditing = NO;
             [self presentViewController:imagePickerController animated:YES completion:^{}];
         }
     } else if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeGender) {
@@ -218,13 +220,29 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 #pragma mark -  UIImagePickerControllerDelegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [picker dismissViewControllerAnimated:YES completion:^{}];
+//    [picker dismissViewControllerAnimated:YES completion:^{}];
 
     // Get Original Image from PhotoLibrary
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
         image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
     }
+    
+    QSImageEditingViewController* vc = nil;
+    if (_uploadImageType == UPLOAD_PORTRAIT) {
+        vc = [[QSImageEditingViewController alloc] initWithType:QSImageEditingViewControllerTypeHead image:image];
+    } else {
+        vc = [[QSImageEditingViewController alloc] initWithType:QSImageEditingViewControllerTypeBg image:image];
+    }
+    vc.delegate = self;
+    [picker presentViewController:vc animated:YES completion:nil];
+    
+}
+
+#pragma mark - ImageEditing
+- (void)imageEditingUseImage:(UIImage *)image vc:(QSImageEditingViewController *)vc
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
     MBProgressHUD* hud = [self showNetworkWaitingHud];
     // Success Handle
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
@@ -243,19 +261,23 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Error Handle
     ErrorBlock error = ^(NSError *error) {
         [hud hide:YES];
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     };
     
     // Convert UIImage to NSData
     NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     // write NSData to sandbox
-//    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
-//    [imageData writeToFile:fullPath atomically:NO];
+    //    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
+    //    [imageData writeToFile:fullPath atomically:NO];
     if (_uploadImageType == UPLOAD_PORTRAIT) {
         [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
     } else {
         [SHARE_NW_ENGINE updateBackground:imageData onSuccess:success onError:error];
     }
+}
+- (void)cancelImageEditing:(QSImageEditingViewController *)vc
+{
+    [vc dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Private Method

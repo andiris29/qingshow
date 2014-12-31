@@ -19,7 +19,7 @@
 @property (strong, nonatomic) MKNetworkOperation* refreshOperation;
 @property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
 @property (assign, nonatomic) BOOL fIsAll;
-
+@property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
 
 @implementation QSTableViewBasicDelegateObj
@@ -74,6 +74,7 @@
     UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
     [tableView addSubview:refreshControl];
     [refreshControl addTarget:self action:@selector(tableViewDidPullToRefresh:) forControlEvents:UIControlEventValueChanged];
+    self.refreshControl = refreshControl;
     
     [self registerCell];
 }
@@ -112,6 +113,11 @@
         }
         if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
             [self.delegate handleNetworkError:error];
+        }
+        if (page == 1) {
+            [self.resultArray removeAllObjects];
+            self.refreshOperation = nil;
+            [self.tableView reloadData];
         }
         if (block) {
             block();
@@ -158,5 +164,10 @@
 {
     return self.resultArray.count;
 }
-
+- (void)refreshWithAnimation
+{
+    [self.refreshControl beginRefreshing];
+    [self.tableView scrollRectToVisible:CGRectMake(0, -self.refreshControl.frame.size.height, 1, 1) animated:YES];
+    [self tableViewDidPullToRefresh:self.refreshControl];
+}
 @end

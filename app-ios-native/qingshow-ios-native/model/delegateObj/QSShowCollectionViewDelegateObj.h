@@ -35,4 +35,5 @@ typedef NS_ENUM(NSInteger, QSShowDelegateObjType) {
 
 - (void)updateShow:(NSDictionary*)showDict;
 
+
 @end

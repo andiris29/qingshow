@@ -67,15 +67,16 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
-    [cell bindWithItem:[QSShowUtil getItemFromShow:self.showDict AtIndex:indexPath.row]];
+    [cell bindWithItem:[QSShowUtil getItemFromShow:self.showDict AtIndex:(int)indexPath.row]];
     return cell;
 }
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIViewController* vc = [[QSS03ItemShopDetailViewController alloc] initWithShow:self.showDict currentItemIndex:indexPath.row];
+    UIViewController* vc = [[QSS03ItemShopDetailViewController alloc] initWithShow:self.showDict currentItemIndex:(int)indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
     
 }

@@ -23,6 +23,16 @@
 }
 
 #pragma mark - UICollecitonView Datasource And Delegate
+- (void)refreshClickedData
+{
+    if (self.clickedData) {
+        NSIndexPath* indexPath = [self getIndexPathOfShow:self.clickedData];
+        QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        [cell bindData:self.clickedData];
+        self.clickedData = nil;
+    }
+}
+
 
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
 {
@@ -58,11 +68,11 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
-        return CGSizeMake(145, 35);
+        
+        return CGSizeMake(([UIScreen mainScreen].bounds.size.width - 2) / 2, 35);
     } else {
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
-        float height = [QSShowCollectionViewCell getHeightWithData:dict];
-        return CGSizeMake(158, height);
+        return [QSShowCollectionViewCell getSizeWithData:dict];
     }
     
 }
@@ -71,6 +81,7 @@
 {
     
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
     if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:)]) {
         [self.delegate didClickShow:showDict];
     }
@@ -123,6 +134,7 @@
 {
     NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(addFavorShow:)]) {
         [self.delegate addFavorShow:showDict];
     }
@@ -132,6 +144,7 @@
 {
     NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
         [self.delegate didClickPeople:[QSShowUtil getPeopleFromShow:showDict]];
     }

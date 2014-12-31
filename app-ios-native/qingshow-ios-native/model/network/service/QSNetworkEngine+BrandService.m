@@ -20,12 +20,16 @@
 
 @implementation QSNetworkEngine(BrandService)
 #pragma mark - Query
-- (MKNetworkOperation*)queryBrands:(int)type
+- (MKNetworkOperation*)queryBrands:(NSNumber*)type
                               page:(int)page
                          onSucceed:(ArraySuccessBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_BRAND method:@"GET" paramers:@{@"type" : @(type), @"page": @(page)} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    NSMutableDictionary* paramDict = [@{@"pageNo": @(page), @"pageSize" : @10} mutableCopy];
+    if (type) {
+        paramDict[@"type"] = type;
+    }
+    return [self startOperationWithPath:PATH_QUERY_BRAND method:@"GET" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* retDict = completedOperation.responseJSON;
         NSArray* retArray = retDict[@"data"][@"brands"];
         if (succeedBlock) {

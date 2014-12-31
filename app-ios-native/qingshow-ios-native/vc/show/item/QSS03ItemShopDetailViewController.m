@@ -10,6 +10,7 @@
 
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "QSBrandUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+ShowHud.h"
 
@@ -46,8 +47,9 @@
     // Do any additional setup after loading the view from its nib.
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-    self.showBtn.layer.cornerRadius = 8;
-    self.showBtn.layer.masksToBounds = YES;
+    self.shopBtn.layer.cornerRadius = 8;
+    self.shopBtn.layer.masksToBounds = YES;
+    self.contentView.frame = [UIScreen mainScreen].bounds;
     self.imgScrollView = [[QSAllItemImageScrollView alloc] initWithFrame:self.contentView.bounds direction:QSImageScrollViewDirectionVer];
     self.imgScrollView.delegate = self;
 //    self.imgScrollView.backgroundColor = [UIColor blackColor];
@@ -55,7 +57,7 @@
     
     
     self.imgScrollView.itemsArray = [QSShowUtil getItems:self.showDict];
-
+    self.label2.isWithStrikeThrough = YES;
 
 }
 - (void)viewDidLayoutSubviews
@@ -98,6 +100,22 @@
 {
     self.label1.text = [QSItemUtil getItemDescription:item];
     self.label2.text = [QSItemUtil getPrice:item];
-    [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+    self.label3.text = [QSItemUtil getPriceAfterDiscount:item];
+    [self.label2 sizeToFit];
+    [self.label3 sizeToFit];
+    CGRect rect3 = self.label3.frame;
+    rect3.origin.x = self.label2.frame.origin.x + self.label2.frame.size.width + 20.f;
+    self.label3.frame = rect3;
+    [self.label2 setNeedsDisplay];
+    
+    NSDictionary* brand = [QSItemUtil getBrand:item];
+    NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
+    if (iconUrl) {
+        self.iconImageView.hidden = NO;
+        [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+    } else {
+        self.iconImageView.hidden = YES;
+    }
+
 }
 @end

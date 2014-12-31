@@ -19,4 +19,6 @@
 
 @property (weak, nonatomic) NSObject<QSBrandCollectionViewDelegateObjDelegate>* delegate;
 
+
+
 @end

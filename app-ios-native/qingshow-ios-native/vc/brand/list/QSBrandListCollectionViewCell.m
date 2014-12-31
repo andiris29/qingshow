@@ -17,8 +17,8 @@
 
 - (void)bindWithBrandDict:(NSDictionary*)brandDict
 {
-    [self.brandImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.infoImageView setImageFromURL:[QSBrandUtil getBrandSloganUrl:brandDict]];
+//    [self.brandImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+//    [self.infoImageView setImageFromURL:[QSBrandUtil getBrandSloganUrl:brandDict]];
 }
 
 @end

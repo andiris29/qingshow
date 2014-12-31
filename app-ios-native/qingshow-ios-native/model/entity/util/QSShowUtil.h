@@ -10,6 +10,7 @@
 
 @interface QSShowUtil : NSObject
 + (NSURL*)getCoverUrl:(NSDictionary*)dict;
++ (NSURL*)getHoriCoverUrl:(NSDictionary*)dict;
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
@@ -21,7 +22,9 @@
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict;
++ (NSString*)getNumberItemDescription:(NSDictionary*)showDict;
 + (BOOL)getIsLike:(NSDictionary*)showDict;
 + (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict;
++ (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict;
 
 @end

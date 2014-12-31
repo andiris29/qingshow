@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "QSRootMenuItem.h"
 #import "QSBlock.h"
+
+
 @protocol QSRootMenuViewDelegate <NSObject>
 
 - (void)rootMenuItemPressedType:(int)type;
+- (void)rootMenuViewDidTapBlankView;
 
 @end
 
@@ -24,4 +27,7 @@
 
 @property (weak, nonatomic) NSObject<QSRootMenuViewDelegate>* delegate;
 
+@property (weak, nonatomic) IBOutlet UIImageView* bgImageView;
+@property (weak, nonatomic) IBOutlet UIView* containerView;
+- (IBAction)didTapView:(id)sender;
 @end

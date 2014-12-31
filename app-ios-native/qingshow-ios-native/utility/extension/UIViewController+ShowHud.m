@@ -34,6 +34,8 @@
     [HUD show:YES];
     [HUD hide:YES afterDelay:1.f];
 }
+
+
 - (void)showErrorHudWithError:(NSError*)error
 {
     if ([error isKindOfClass:[QSError class]]) {

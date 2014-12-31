@@ -10,4 +10,5 @@
 
 @interface QSU06LoginViewController : UIViewController
 
+- (id)initWithShowUserDetailAfterLogin:(BOOL)fShowUserDetail;
 @end
