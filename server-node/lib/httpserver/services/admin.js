@@ -112,8 +112,8 @@ _saveShow = function(req, res) {
       },
       horizontalCover: {
         url : (horizontalCoverUrl ? horizontalCoverUrl : ''),
-        height : (horizontalCoverHeight ? horizontalCoverHeight, 0),
-        width : (horizontalCoverWidth ? horizontalCoverWidth, 0)
+        height : (horizontalCoverHeight ? horizontalCoverHeight : 0),
+        width : (horizontalCoverWidth ? horizontalCoverWidth : 0)
       }
     });
 
