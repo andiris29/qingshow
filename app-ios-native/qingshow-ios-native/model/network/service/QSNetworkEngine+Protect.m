@@ -34,7 +34,7 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
-    p[@"version"] = @"1.0.0";
+    p[@"version"] = @"1.0.1";
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];

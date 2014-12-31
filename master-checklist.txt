@@ -4,10 +4,11 @@ Current version
 Upgrade version number
 	app-ios-native
 		1.0.1
-		version in project
+		Project file
+		QSNetworkEngine+Protect.m
 	app-android-native
 		unreleased
-		versionName in app-android-native/app/src/main/AndroidManifest.xml
+		AndroidManifest.xml
 	web-mobile
 		unreleased
 	server-node
