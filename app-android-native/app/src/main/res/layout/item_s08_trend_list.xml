@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/S08_background_image_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"/>
 
 
     <RelativeLayout
@@ -15,7 +17,7 @@
 
         <LinearLayout
             android:id="@+id/S08_item_anchor_point"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
@@ -48,10 +50,11 @@
             android:id="@+id/S08_item_video_start_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_alignBottom="@+id/S08_item_anchor_point"
             android:layout_alignParentRight="true"
             android:layout_marginRight="25dp"
-            android:background="#00000000"/>
+            android:alpha="100"
+            android:layout_alignBottom="@+id/S08_item_anchor_point"
+            android:visibility="invisible" />
 
         <ImageButton
             android:id="@+id/S08_item_share_btn"

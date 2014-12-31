@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="设计风尚"
+                        android:text="潮流时尚"
                         android:textColor="#ffffffff" />
 
                 </LinearLayout>
@@ -215,24 +215,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_Trend"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/root_menu_people" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="潮流时尚"
-                        android:textColor="#ffffffff" />
-
                 </LinearLayout>
 
             </LinearLayout>

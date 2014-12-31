@@ -1,5 +1,7 @@
 package com.focosee.qingshow.config;
 
+import java.util.HashSet;
+
 /**
  * Created by jackyu on 11/22/14.
  */
@@ -34,6 +36,12 @@ public class QSAppWebAPI {
     private static final String QUERY_PEOPLE_FOLLOWER_API = HOST_NAME + "/people/queryFollowers";
     private static final String QUERY_PEOPLE_FOLLOWED_API = HOST_NAME + "/people/queryFollowed";
 
+    private static final String PREVIEW_TREND_LIST_API = HOST_NAME + "/preview/feed";
+
+    //author:Chenhr
+    public static String getPreviewTrendListApi(int pageIndex, int pageSize){
+        return PREVIEW_TREND_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    }
 
     public static String getShowListApi(int pageIndex, int pageSize) {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
