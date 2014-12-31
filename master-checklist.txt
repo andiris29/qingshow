@@ -1,7 +1,14 @@
+Current version
+	1.0.1
+
 Upgrade version number
-	app-android-native
-		versionName in app-android-native/app/src/main/AndroidManifest.xml
 	app-ios-native
+		1.0.1
 		version in project
+	app-android-native
+		unreleased
+		versionName in app-android-native/app/src/main/AndroidManifest.xml
 	web-mobile
+		unreleased
 	server-node
+		unreleased
