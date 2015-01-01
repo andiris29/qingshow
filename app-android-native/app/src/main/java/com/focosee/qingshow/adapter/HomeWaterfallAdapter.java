@@ -35,16 +35,18 @@ class HomeViewHolder extends AbsViewHolder {
         imageLoader.displayImage(entity.getShowCover(), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
         imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         modelNameTV.setText(entity.getModelName());
-        modelHeightTV.setText(entity.getModelHeight());
-        modelWeightTV.setText(entity.getModelWeight());
+        modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
+//        modelHeightTV.setText(entity.getModelHeight());
+//        modelWeightTV.setText(entity.getModelWeight());
         loveTV.setText(entity.getShowNumLike());
     }
 
     MImageView_OriginSize showIV;
     ImageView modelIV;
     TextView modelNameTV;
-    TextView modelHeightTV;
-    TextView modelWeightTV;
+    TextView modelHeightWeightTV;
+//    TextView modelHeightTV;
+//    TextView modelWeightTV;
     TextView loveTV;
 
 
@@ -110,8 +112,9 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             holder.showIV  = (MImageView_OriginSize) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
-            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
-            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
+            holder.modelHeightWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height_weight);
+//            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
+//            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
             convertView.setTag(holder);
         }
