@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -51,7 +51,7 @@ public class S07ListAdapter extends BaseAdapter {
             holderView = new HolderView();
             holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
             holderView.name = (TextView) convertView.findViewById(R.id.item_S07_name);
-            holderView.detailButton = (ImageButton) convertView.findViewById(R.id.item_S07_detail_btn);
+            holderView.detailButton = (Button) convertView.findViewById(R.id.item_S07_detail_btn);
 
             convertView.setTag(holderView);
         }
@@ -75,6 +75,6 @@ public class S07ListAdapter extends BaseAdapter {
     class HolderView {
         public TextView category;
         public TextView name;
-        public ImageButton detailButton;
+        public Button detailButton;
     }
 }
