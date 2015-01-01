@@ -45,6 +45,11 @@ public class ShowDetailEntity extends AbsEntity {
     public String getModelWeightHeight() {
         return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
     }
+
+    public String getModelAgeHeight() {
+        return (null != modelRef) ? modelRef.birthtime + "岁 " + modelRef.height + "cm" : "岁 cm";
+    }
+
     public String getModelStatus() {
         if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
             return modelRef.modelInfo.status;
