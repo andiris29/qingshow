@@ -29,6 +29,7 @@ ResponseHelper.response = function(res, err, data, metadata, beforeResponseEnd) 
     if (res.qsPerformance) {
         var performance = Date.now() - res.qsPerformance.start;
         if (performance > 100) {
+            console.log(new Date().toString() + ': qsPerformance');
             console.log(res.qsPerformance.fullpath + ': ' + performance);
         }
     }

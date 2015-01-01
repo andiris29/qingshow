@@ -16,7 +16,7 @@ var sessionMongoose = require("session-mongoose");
 qsdb.connect();
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'potential', 'people', 'brand', 'show', 'admin'];
+var servicesNames = ['feeding', 'user', 'potential', 'people', 'brand', 'show', 'preview', 'admin'];
 var services = servicesNames.map(function(path) {
     return {
         'path' : path,
@@ -102,6 +102,7 @@ services.forEach(function(service) {
 console.log('Http server startup complete!');
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
-    console.log('uncaughtException: ' + err);
-    console.log('\t' + this.stack);
+    console.log(new Date().toString() + ': uncaughtException');
+    console.log(err);
+    console.log('\t' + err.stack);
 });

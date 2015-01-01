@@ -16,16 +16,20 @@ peopleSchema = Schema({
     gender : Number, //male 0 female 1
     hairTypes : [Number], //0 all 1 long 2 super long 3 mid long
     userInfo : {
-        type : {
-            id : String,
-            password : String,
-            encryptedPassword : String,
-            passwordUpdatedDate : {
-                type : Date,
-                'default' : Date.now
-            }
+        id : String,
+        password : {
+            type : String,
+            select : false
         },
-        select : false
+        encryptedPassword : {
+            type : String,
+            select : false
+        },
+        passwordUpdatedDate : {
+            type : Date,
+            select : false,
+            'default' : Date.now
+        }
     },
     create : {
         type : Date,
@@ -38,4 +42,4 @@ peopleSchema = Schema({
 });
 var People = mongoose.model('peoples', peopleSchema);
 
-module.exports = People; 
+module.exports = People;
