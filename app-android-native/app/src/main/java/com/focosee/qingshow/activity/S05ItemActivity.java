@@ -61,7 +61,7 @@ public class S05ItemActivity extends Activity {
     }
 
     public void showItemAtIndex(final int index) {
-        ImageLoader.getInstance().displayImage(items.get(index).getCover(), (MCircularImageView)findViewById(R.id.S05_portrait), AppUtil.getPortraitDisplayOptions());
+        ImageLoader.getInstance().displayImage(items.get(index).getBrandPortrait(), (MCircularImageView)findViewById(R.id.S05_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.S05_item_name)).setText(items.get(index).getItemName());
         ((TextView)findViewById(R.id.S05_origin_price)).setText(items.get(index).getOriginPrice());
         ((TextView)findViewById(R.id.S05_origin_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);

@@ -174,6 +174,10 @@ public class ShowDetailEntity extends AbsEntity {
             return cover;
         }
 
+        public String getBrandPortrait() {
+            return (null != brandRef) ? brandRef.logo : null;
+        }
+
         public String getSource() {
             return source;
         }
