@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,8 +63,9 @@ public class S05ItemActivity extends Activity {
     public void showItemAtIndex(final int index) {
         ImageLoader.getInstance().displayImage(items.get(index).getCover(), (MCircularImageView)findViewById(R.id.S05_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.S05_item_name)).setText(items.get(index).getItemName());
-        ((TextView)findViewById(R.id.S05_origin_price)).setText(items.get(index).getItemCategory());
-        ((TextView)findViewById(R.id.S05_now_price)).setText(items.get(index).getItemCategory());
+        ((TextView)findViewById(R.id.S05_origin_price)).setText(items.get(index).getOriginPrice());
+        ((TextView)findViewById(R.id.S05_origin_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        ((TextView)findViewById(R.id.S05_now_price)).setText(items.get(index).getPrice());
         ((Button)findViewById(R.id.S05_buy_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
