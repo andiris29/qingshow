@@ -8,8 +8,7 @@
         android:id="@+id/S07_background_image"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/bg_pic"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
