@@ -96,12 +96,17 @@ public class ShowDetailEntity extends AbsEntity {
         return String.valueOf((null != itemRefs) ? itemRefs.length : 0);
     }
 
+    public String getBrandNameText() {
+        return (null != brandRef) ? brandRef.name : null;
+    }
+
     // Inner data
     public String _id;                      // "5439f64013bf528b45f00f9a"
     public String cover;                    // "url for image source"
     public String video;                    // "/10.mp4.mp4"
     public int numLike;                  // "7777"
     public RefModel modelRef;               // "Model Object"
+    public RefBrand brandRef;
     public String create;                   // "2014-11-21T15:52:27.740Z"
     public RefItem[] itemRefs;          // "Item Object List"
     public String[] styles;
@@ -173,6 +178,14 @@ public class ShowDetailEntity extends AbsEntity {
             return source;
         }
 
+        public String getOriginPrice() {
+            return price;
+        }
+
+        public String getPrice() {
+            return priceAfterDiscount;
+        }
+
         public String _id;
         public int category;
         public String name;
@@ -180,14 +193,8 @@ public class ShowDetailEntity extends AbsEntity {
         public String source;
         public RefBrand brandRef;
         public String create;
-
-        public static class RefBrand extends AbsEntity {
-            public String _id;
-            public String type;
-            public String name;
-            public String create;
-
-        }
+        public String price;
+        public String priceAfterDiscount;
     }
 
     public static class MetaDataCover extends AbsEntity {
@@ -200,6 +207,19 @@ public class ShowDetailEntity extends AbsEntity {
         public int numComments;
         public int numLike;
         public Boolean likedByCurrentUser;
+    }
+
+    public static class RefBrand extends AbsEntity {
+        public String _id;
+        public String type;
+        public String name;
+        public String logo;
+        public String background;
+        public String shopInfo;
+        public String address;
+        public String phone;
+        public String create;
+
     }
 
 }

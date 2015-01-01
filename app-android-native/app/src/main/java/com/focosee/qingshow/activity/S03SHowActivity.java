@@ -143,6 +143,7 @@ public class S03SHowActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
                 intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, showDetailEntity.getCover());
+//                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
                 intent.putExtras(bundle);

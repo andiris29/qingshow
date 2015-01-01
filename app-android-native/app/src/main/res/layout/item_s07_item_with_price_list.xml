@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:gravity="center_vertical"
+    android:background="#000000"
+    android:descendantFocusability="blocksDescendants">
+    
+    <TextView
+        android:id="@+id/item_S07_with_price_category"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        android:text="上装"/>
+
+    <TextView
+        android:id="@+id/item_S07_with_price_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4"
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        android:singleLine="true"
+        android:text="紫色呢绒大衣asfasdfasdf"/>
+
+    <TextView
+        android:id="@+id/item_S07_with_price_origin_price"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        android:text="589.00"/>
+
+    <TextView
+        android:id="@+id/item_S07_with_price_price"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:textSize="40px"
+        android:textColor="#ffffff"
+        android:text="289.00"/>
+
+    <Button
+        android:id="@+id/item_S07_with_price_detail_btn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        android:background="#00000000"
+        android:text=">"
+        android:textSize="30dp"
+        android:textColor="#ffffff"/>
+
+</LinearLayout>

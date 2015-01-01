@@ -37,9 +37,21 @@
             android:textSize="50px"
             android:layout_marginTop="80dp"/>
 
+        <TextView
+            android:id="@+id/S07_brand_tv"
+            android:layout_below="@+id/S07_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="MANGO 旗舰店"
+            android:paddingTop="20dp"
+            android:textColor="#ffffff"
+            android:textSize="50px"
+            android:visibility="gone"/>
+
         <View
             android:id="@+id/S07_top_line"
-            android:layout_below="@+id/S07_tv"
+            android:layout_below="@+id/S07_brand_tv"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:layout_marginTop="40dp"
