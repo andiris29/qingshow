@@ -97,7 +97,8 @@
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/S03_like_btn"
-                    android:layout_alignTop="@+id/S03_like_btn"/>
+                    android:layout_alignTop="@+id/S03_like_btn"
+                    android:paddingBottom="3dp"/>
 
                 <ImageView
                     android:id="@+id/S03_line_like_message"
@@ -124,7 +125,8 @@
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/S03_comment_btn"
-                    android:layout_alignTop="@+id/S03_comment_btn"/>
+                    android:layout_alignTop="@+id/S03_comment_btn"
+                    android:paddingBottom="7dp"/>
 
                 <ImageView
                     android:id="@+id/S03_line_comment_item"
@@ -151,7 +153,8 @@
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/S03_item_btn"
-                    android:layout_alignTop="@+id/S03_item_btn"/>
+                    android:layout_alignTop="@+id/S03_item_btn"
+                    android:paddingTop="15dp"/>
 
             </RelativeLayout>
 
