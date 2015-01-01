@@ -2,6 +2,38 @@ var mongoose = require('mongoose');
 
 var RequestHelper = module.exports;
 
+RequestHelper.parse = function(qsParam, raw, specifiedParsers) {
+    qsParam = qsParam || {};
+    specifiedParsers = specifiedParsers || {};
+    for (var key in raw) {
+        var parser = specifiedParsers[key];
+        if (parser) {
+            qsParam[key] = parser(raw[key]);
+        } else {
+            qsParam[key] = raw[key];
+        }
+    }
+    return qsParam;
+};
+
+RequestHelper.parsePaging = function(qsParam, raw) {
+    qsParam = RequestHelper.parse(qsParam, raw, {
+        'pageNo' : RequestHelper.parseNumber,
+        'pageSize' : RequestHelper.parseNumber
+    });
+    qsParam.pageNo = qsParam.pageNo || 1;
+    qsParam.pageSize = qsParam.pageSize || 10;
+    return qsParam;
+};
+
+RequestHelper.parseNumber = function(string) {
+    return parseFloat(string);
+};
+
+RequestHelper.parseDate = function(string) {
+    return new Date(string);
+};
+
 RequestHelper.parseId = function(string) {
     return mongoose.mongo.BSONPure.ObjectID(string);
 };

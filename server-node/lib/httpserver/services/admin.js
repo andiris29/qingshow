@@ -4,43 +4,43 @@ var async = require('async');
 var People = require('../../model/peoples');
 var Show = require('../../model/shows');
 var Item = require('../../model/items');
+var ShowChosen = require('../../model/showChosens');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 
 var ServerError = require('../server-error');
+var crypto = require('crypto'), _secret = 'qingshow@secret';
 
-var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById;
+var _encrypt = function(string) {
+    var cipher = crypto.createCipher('aes192', _secret);
+    var enc = cipher.update(string, 'utf8', 'hex');
+    enc += cipher.final('hex');
+    return enc;
+};
+
+var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById, _saveShowChosen, _removeShowChosenById, _removeModelById, _saveModel;
 
 _savePeople = function(req, res) {
-  var param, id, password;
-  param = req.body;
-  id = param.id;
-  if (!id || !id.length ) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-  People.findOne({'userInfo.id': id}, function(err, people) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (people) {
-      ResponseHelper.response(res, ServerError.EmailAlreadyExist);
-      return;
+
+  _saveModel(People, 'people', req, res, function(req, res) {
+    var param = req.body;
+    var id = param.id;
+    var password = param.password;
+    var people = new People({
+      userInfo: {}
+    });
+    if (id && id.length) {
+      people.userInfo['id'] = id;
+    }
+    if (password && password.length) {
+      people.userInfo['password'] = _encrypt(password);
     }
 
-    // set people login info
-    var people = new People({
-      userInfo : {
-        id: id 
-      }
-    });
-
-    // set people attribute
-    ['name', 'portrait', 'gender', 'password', 'currentPassword'].forEach(function(field) {
+    ['name', 'portrait', 'gender'].forEach(function(field) {
       if (param[field]) {
-        pepole.set(field, param[field]);
+        people.set(field, param[field]);
       }
     });
     ['height', 'weight'].forEach(function(field) {
@@ -54,180 +54,235 @@ _savePeople = function(req, res) {
       }
     });
 
-    people.save(function(err, people) {
-      ResponseHelper.response(res, err, {
-        'people': people
-      });
-    });
+    return people
   });
 };
 
 _removePeopleById = function(req, res) {
-  var id = req.body['id'];
-
-  if (!id || !id.length) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-
-  People.findOne({'userInfo.id': id}, function(err, people) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (!people) {
-      ResponseHelper.response(res, ServerError.PeopleNotExist);
-      return;
-    }
-
-    people.remove(function(err, people) {
-      ResponseHelper.response(res, err, {
-        'people': people
-      });
-    });
-  });
+  _removeModelById(People, "people", req, res);
 };
 
 _saveItem = function(req, res) {
-  var param = req.body;
-  if (!param) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
+  _saveModel(Item, 'item', req, res, function(req, res){
+    var param = req.body;
+    var item = new Item();
 
-  var item = new Item();
-  item.brandRef = RequestHelper.parseId(param['brand']);
-  item.category = parseInt(param['category']);
-  item.name = param['name'];
-  item.cover = param['cover'];
-  item.source = param['source'];
-  item.save(function(err, item) {
-    ResponseHelper.response(res, err, {
-      'item': item
+    ['name', 'cover', 'source'].forEach(function(field){
+      if (param[field]) {
+        item.set(field, param[field]);
+      }
     });
+
+    ['brandRef'].forEach(function(field) {
+      if (param[field]) {
+        item.set(field, RequestHelper.parseId(param[field]));
+      }
+    });
+
+    ['category'].forEach(function(field) {
+      if (param[field]) {
+        item.set(field, parseInt(param[field]));
+      }
+    });
+
+
+    return item;
   });
 };
 
 _removeItemById = function(req, res) {
-  var id = req.body["id"];
-  if (!id || !id.length) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-  Item.findOne({'_id': RequestHelper.parseId(id)}, function(err, item) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (!item) {
-      ResponseHelper.response(res, ServerError.ItemNotExist);
-      return;
-    }
-
-    item.remove(function(err, item) {
-      ResponseHelper.response(res, err, {
-        'item': item
-      });
-    });
-  });
+  _removeModelById(Item,'item', req, res);
 };
 
 _saveShow = function(req, res) {
-  var param = req.body;
-  var cover = param.cover;
-  var height = param.height;
-  var width = param.width;
+  _saveModel(Show, 'show', req, res, function(req, res) {
+    var param = req.body;
+    var coverUrl = param.coverUrl;
+    var coverHeight = param.coverHeight;
+    var coverWidth = param.coverWidth;
+    var horizontalCoverUrl = param.horizontalCoverUrl;
+    var horizontalCoverHeight = param.horizontalCoverHeight;
+    var horizontalCoverWidth = param.horizontalCoverWidth;
 
-  var show = new Show({
-    cover: cover,
-    coverMetadata: {
-      cover: cover,
-      height: height,
-      width: width 
-    }
-  });
-
-  show.video = param.video;
-
-  ['numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
-    if (param[field]) {
-      show.set(field, parseInt(param[field]));
-    }
-  });
-  ['posters'].forEach(function(field) {
-    if (param[field]) {
-      show.set(field, RequestHelper.parseArray(param[field]));
-    }
-  });
-  ['itemRefs'].forEach(function(field) {
-    if (param[field]) {
-      show.set(field, RequestHelper.parseIds(param[field]));
-    }
-  });
-
-  ['modelRef', 'studioRef', 'brandRef'].forEach(function(field) {
-    if (param[field]) {
-      show.set(field, RequestHelper.parseId(param[field]));
-    }
-  });
-
-  show.save(function(err, show) {
-    ResponseHelper.response(res, err, {
-      'show': show
+    var show = new Show({
+      coverMetadata: {
+        url : (coverUrl ? coverUrl: ''),
+        height : (coverHeight ? coverHeight : 0),
+        width : (coverWidth ? coverWidth : 0)
+      },
+      horizontalCover: {
+        url : (horizontalCoverUrl ? horizontalCoverUrl : ''),
+        height : (horizontalCoverHeight ? horizontalCoverHeight : 0),
+        width : (horizontalCoverWidth ? horizontalCoverWidth : 0)
+      }
     });
+
+
+    ['video', 'cover', 'horizontalCover', 'numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
+      if (param[field]) {
+        show.set(field, parseInt(param[field]));
+      }
+    });
+    ['posters'].forEach(function(field) {
+      if (param[field]) {
+        show.set(field, RequestHelper.parseArray(param[field]));
+      }
+    });
+    ['itemRefs'].forEach(function(field) {
+      if (param[field]) {
+        show.set(field, RequestHelper.parseIds(param[field]));
+      }
+    });
+
+    ['modelRef', 'studioRef', 'brandRef'].forEach(function(field) {
+      if (param[field]) {
+        show.set(field, RequestHelper.parseId(param[field]));
+      }
+    });
+
+    return show;
   });
 };
 
 _removeShowById = function(req, res) {
-  var id = req.body['id'];
-  if (!id || !id.length) {
-    ResponseHelper.response(res, ServerError.NotEnoughParam);
-    return;
-  }
-  Show.findOne({'_id': RequestHelper.parseId(id)}, function(err, show) {
-    if (err) {
-      ResponseHelper.response(res, err);
-      return;
-    } else if (!show) {
-      ResponseHelper.response(res, ServerError.ShowNotExist);
-      return;
-    }
-    
-    show.remove(function(err, show) {
-      ResponseHelper.response(res, err, {
-        'show': show
-      });
-    });
-  });
+  _removeModelById(Show,'show', req, res);
 };
+
+_saveShowChosen = function(req, res) {
+  _saveModel(ShowChosen, 'chosen', req, res, function(req, res) {
+    var param = req.body;
+    var chosen = new ShowChosen();
+    ['showRefs'].forEach(function(field) {
+      if (param[field]) {
+        chosen.set(field, RequestHelper.parseIds(param[field]));
+      }
+    });
+
+    ['type'].forEach(function(field) {
+      if (param[field]) {
+        chosen.set(field, parseFloat(param[field]));
+      }
+    });
+
+    ['activateTime'].forEach(function(field) {
+      if (param[field]) {
+        chosen.set(field, Date.parse(param[field]));
+      }
+    });
+
+    return chosen;
+  });
+}
+
+_removeShowChosenById = function(req, res) {
+  _removeModelById(ShowChosen, 'chosen', req, res);
+}
+
+_removeModelById = function(Model,name, req, res) {
+  async.waterfall([
+    function(callback) {
+      var id = req.body['id'];
+      if (!id || !id.length) {
+        callback(ServerError.NotEnoughParam);
+      } else {
+        callback(null, id);
+      }
+    },
+    function(id, callback) {
+      Model.findOne({'_id': RequestHelper.parseId(id)}, function(err, model) {
+        if (err) {
+          callback(err);
+        } else if (!model) {
+          callback(_getNotExistError(name));
+        } else {
+          callback(null, model);
+        }
+      });
+    },
+    function(model, callback) {
+      model.remove(function(err, model) {
+        var entity = {};
+        entity[name] = model;
+        ResponseHelper.response(res, err, entity);
+      });
+    }],
+    function(err) {
+      ResponseHelper.response(res, err);
+    }
+  );
+}
+
+_saveModel = function(Model, key, req, res, parser) {
+  async.waterfall([
+  function(callback) {
+    var model = parser(req, res);
+    callback(null, model);
+  },
+  function(model, callback) {
+    model.save(function(err, savedObject) {
+      var entity = {};
+      entity[key] = savedObject;
+      ResponseHelper.response(res, err, entity);
+    });
+  }],
+  function(err) {
+    ResponseHelper.response(res, err);
+  });
+}
+
+
+var _getNotExistError = function(key) {
+  switch(key) {
+    case 'people':
+      return ServerError.PeopleNotExist;
+    case 'item':
+      return ServerError.ItemNotExist;
+    case 'show':
+      return ServerError.ShowNotExist;
+    default:
+      return ServerError.RequestValidationFail;
+  }
+}
 
 module.exports = {
   'savePeople' : {
     method: 'post',
     func: _savePeople,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'removePeopleById': {
     method: 'post',
     func: _removePeopleById,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'saveItem': {
     method: 'post',
     func: _saveItem,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'removeItemById': {
     method: 'post',
     func: _removeItemById,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'saveShow': {
     method: 'post',
     func: _saveShow,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
   },
   'removeShowById': {
     method: 'post',
     func: _removeShowById,
-    permissionValidators: ['loginValidator']
+    permissionValidators: ['loginValidator', 'adminValidator']
+  },
+  'saveShowChosen': {
+    method: 'post',
+    func: _saveShowChosen,
+    permissionValidators: ['loginValidator', 'adminValidator']
+  },
+  'removeShowChosenById': {
+    method: 'post',
+    func: _removeShowChosenById,
+    permissionValidators: ['loginValidator', 'adminValidator']
   }
 };

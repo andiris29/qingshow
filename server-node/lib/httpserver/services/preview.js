@@ -1,9 +1,11 @@
 var mongoose = require('mongoose');
 var async = require('async');
 //model
-var Show = require('../../model/shows');
-var ShowComment = require('../../model/showComments');
-var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var Preview = require('../../model/previews');
+var People = require('../../model/peoples');
+var PreviewComment = require('../../model/previewComments');
+var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
+var PreviewChosen = require('../../model/previewChosens');
 //util
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
@@ -13,49 +15,99 @@ var RequestHelper = require('../helpers/RequestHelper');
 
 var ServerError = require('../server-error');
 
-var show = module.exports;
+var preview = module.exports;
 
-show.query = {
+/**
+ * Ignore error
+ *
+ * @param {Object} previews
+ * @param {Object} callback
+ */
+var _parseCover = function(previews, callback) {
+    var tasks = [];
+    previews.forEach(function(preview) {
+        tasks.push(function(callback) {
+            preview.updateCoverMetaData(function(err) {
+                callback(null, preview);
+            });
+        });
+    });
+    async.parallel(tasks, callback);
+};
+
+var _feed = function(req, res, previewFinder, queryStringParser, beforeResponseEnd) {
+    var pageNo, pageSize, numTotal;
+    async.waterfall([
+    function(callback) {
+        try {
+            pageNo = parseInt(req.queryString.pageNo || 1);
+            pageSize = parseInt(req.queryString.pageSize || 10);
+            var qsParam = queryStringParser ? queryStringParser(req.queryString) : null;
+            callback(null, qsParam);
+        } catch(err) {
+            callback(ServerError.fromError(err));
+        }
+    },
+    function(qsParam, callback) {
+        previewFinder(pageNo, pageSize, qsParam, function(err, count, previews) {
+            numTotal = count;
+            if (!err && previews.length === 0) {
+                err = ServerError.PagingNotExist;
+            }
+            callback(err, previews);
+        });
+    }, _parseCover,
+    function(previews, callback) {
+        ContextHelper.appendPreviewContext(req.qsCurrentUserId, previews, callback);
+    }], function(err, previews) {
+        // Response
+        ResponseHelper.responseAsPaging(res, err, {
+            'previews' : previews
+        }, pageSize, numTotal, beforeResponseEnd);
+    });
+};
+
+preview.feed = {
     'method' : 'get',
     'func' : function(req, res) {
-        var _ids;
-        async.waterfall([
-        function(callback) {
-            // Parser req
-            try {
-                _ids = RequestHelper.parseIds(req.queryString._ids);
-                callback(null);
-            } catch (err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
-            // Query & populate
-            Show.find({
-                '_id' : {
-                    '$in' : _ids
-                }
-            }).populate('modelRef').populate('itemRefs').exec(callback);
-        },
-        function(shows, callback) {
-            // Populate nested references
-            Show.populate(shows, {
-                'path' : 'itemRefs.brandRef',
-                'model' : 'brands'
-            }, callback);
-        },
-        function(shows, callback) {
-            // Append followed by current user
-            ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-        }], function(err, shows) {
-            ResponseHelper.response(res, err, {
-                'shows' : shows
-            });
+        var chosen;
+        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
+            async.waterfall([
+            function(callback) {
+                // Query chosen
+                PreviewChosen.find().where('activateTime').lte(Date.now()).sort({
+                    'activateTime' : 1
+                }).limit(1).exec(function(err, chosens) {
+                    if (err) {
+                        callback(ServerError.fromDescription(err));
+                    } else if (!chosens || !chosens.length) {
+                        callback(ServerError.fromCode(ServerError.PreviewNotExist));
+                    } else {
+                        chosen = chosens[0];
+                        callback(null, chosen.previewRefs.length);
+                    }
+                });
+            },
+            function(count, callback) {
+                // Query previews
+                var skip = (pageNo - 1) * pageSize;
+                chosen = new PreviewChosen({
+                    'activateTime' : chosen.activateTime,
+                    'previewRefs' : chosen.previewRefs.filter(function(preview, index) {
+                        return index >= skip && index < skip + pageSize;
+                    })
+                });
+                PreviewChosen.populate(chosen, {
+                    'path' : 'previewRefs'
+                }, function(err, chosen) {
+                    callback(err, count, chosen.previewRefs);
+                });
+            }], callback);
         });
     }
 };
 
-show.like = {
+preview.like = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -73,13 +125,13 @@ show.like = {
         },
         function(callback) {
             // Like
-            RelationshipHelper.create(RPeopleLikeShow, initiatorRef, targetRef, function(err, relationship) {
+            RelationshipHelper.create(RPeopleLikePreview, initiatorRef, targetRef, function(err, relationship) {
                 callback(err);
             });
         },
         function(callback) {
             // Count
-            Show.update({
+            Preview.update({
                 '_id' : targetRef
             }, {
                 '$inc' : {
@@ -95,7 +147,7 @@ show.like = {
     }
 };
 
-show.unlike = {
+preview.unlike = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -108,13 +160,13 @@ show.unlike = {
             return;
         }
 
-        RelationshipHelper.remove(RPeopleLikeShow, initiatorRef, targetRef, function(err) {
+        RelationshipHelper.remove(RPeopleLikePreview, initiatorRef, targetRef, function(err) {
             ResponseHelper.response(res, err);
         });
     }
 };
 
-show.queryComments = {
+preview.queryComments = {
     'method' : 'get',
     'func' : function(req, res) {
         var pageNo, pageSize, numTotal;
@@ -137,22 +189,22 @@ show.queryComments = {
                 'targetRef' : _id,
                 'delete' : null
             };
-            MongoHelper.queryPaging(ShowComment.find(criteria).sort({
+            MongoHelper.queryPaging(PreviewComment.find(criteria).sort({
                 'create' : -1
-            }).populate('authorRef').populate('atRef'), ShowComment.find(criteria), pageNo, pageSize, function(err, count, showComments) {
+            }).populate('authorRef').populate('atRef'), PreviewComment.find(criteria), pageNo, pageSize, function(err, count, previewComments) {
                 numTotal = count;
-                callback(err, showComments);
+                callback(err, previewComments);
             });
-        }], function(err, showComments) {
+        }], function(err, previewComments) {
             // Response
             ResponseHelper.responseAsPaging(res, err, {
-                'showComments' : showComments
+                'previewComments' : previewComments
             }, pageSize, numTotal);
         });
     }
 };
 
-show.comment = {
+preview.comment = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -167,13 +219,13 @@ show.comment = {
         }
         async.waterfall([
         function(callback) {
-            var showComment = new ShowComment({
+            var previewComment = new PreviewComment({
                 'targetRef' : targetRef,
                 'atRef' : atRef,
                 'authorRef' : req.qsCurrentUserId,
                 'comment' : comment
             });
-            showComment.save(function(err) {
+            previewComment.save(function(err) {
                 callback();
             });
         }], function(err) {
@@ -182,7 +234,7 @@ show.comment = {
     }
 };
 
-show.deleteComment = {
+preview.deleteComment = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -195,7 +247,7 @@ show.deleteComment = {
         }
         async.waterfall([
         function(callback) {
-            ShowComment.findOne({
+            PreviewComment.findOne({
                 '_id' : _id,
                 'authorRef' : req.qsCurrentUserId,
                 'delete' : null

@@ -63,7 +63,7 @@ _login = function(req, res) {
         }, {
             "userInfo.encryptedPassword" : _encrypt(password)
         }]
-    }).select("+userInfo").exec(function(err, people) {
+    }).exec(function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
         } else if (people) {
@@ -158,21 +158,12 @@ _update = function(req, res) {
     async.waterfall([
     function(callback) {
         try {
-            qsParam = {};
-            ['name', 'portrait', 'gender', 'password', 'currentPassword'].forEach(function(field) {
-                if (req.body[field]) {
-                    qsParam[field] = req.body[field];
-                }
-            });
-            ['height', 'weight'].forEach(function(field) {
-                if (req.body[field]) {
-                    qsParam[field] = parseFloat(req.body[field]);
-                }
-            });
-            ['roles', 'hairTypes'].forEach(function(field) {
-                if (req.body[field]) {
-                    qsParam[field] = RequestHelper.parseArray(req.body[field]);
-                }
+            qsParam = RequestHelper.parse({}, req.body, {
+                'height' : RequestHelper.parseNumber,
+                'weight' : RequestHelper.parseNumber,
+                'roles' : RequestHelper.parseArray,
+                'hairTypes' : RequestHelper.parseArray,
+                'birthtime' : RequestHelper.parseDate
             });
         } catch(err) {
             callback(err);

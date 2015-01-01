@@ -15,23 +15,27 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServerError = require('../server-error');
 
 var _queryBrands = function(req, res) {
-    var pageNo, pageSize, numTotal;
+    var qsParam = {}, numTotal;
     async.waterfall([
     function(callback) {
         // Parse request
         try {
-            var param = req.queryString;
-            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize) || Number.POSITIVE_INFINITY;
+            RequestHelper.parsePaging(qsParam, req.queryString);
+            RequestHelper.parse(qsParam, req.queryString);
             callback(null);
         } catch(err) {
             callback(ServerError.fromError(err));
         }
     },
     function(callback) {
+        var criteria = {};
+        if (qsParam.type !== undefined) {
+            criteria.type = qsParam.type;
+        }
         // Query
-        MongoHelper.queryPaging(Brand.find().sort({
+        MongoHelper.queryPaging(Brand.find(criteria).sort({
             'create' : -1
-        }), Brand.find(), pageNo, pageSize, function(err, count, brands) {
+        }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, count, brands) {
             numTotal = count;
             callback(err, brands);
         });
@@ -42,7 +46,7 @@ var _queryBrands = function(req, res) {
         // Response
         ResponseHelper.responseAsPaging(res, err, {
             'brands' : brands
-        }, pageSize, numTotal);
+        }, qsParam.pageSize, numTotal);
     });
 };
 
