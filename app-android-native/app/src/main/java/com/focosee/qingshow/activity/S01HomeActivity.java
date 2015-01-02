@@ -83,8 +83,13 @@ public class S01HomeActivity extends Activity {
         ((ImageView)findViewById(R.id.S01_nav_icon_design)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                /*Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 3);
+                startActivity(intent);
+                _popView.setVisibility(View.GONE);*/
+                //author:Chenhr
+                Intent intent = new Intent(S01HomeActivity.this, S08TrendActivity.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
                 startActivity(intent);
                 _popView.setVisibility(View.GONE);
             }
@@ -96,6 +101,7 @@ public class S01HomeActivity extends Activity {
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
                 startActivity(intent);
                 _popView.setVisibility(View.GONE);
+
             }
         });
 

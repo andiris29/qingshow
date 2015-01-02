@@ -7,7 +7,6 @@
         android:id="@+id/pager_s05_background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/bg_pic"
         android:scaleType="fitXY" />
 
 </RelativeLayout>

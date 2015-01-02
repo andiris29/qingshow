@@ -25,8 +25,7 @@ class ClassifyViewHolder extends AbsViewHolder {
     ImageView showIV;
     ImageView modelIV;
     TextView modelNameTV;
-    TextView modelHeightTV;
-    TextView modelWeightTV;
+    TextView modelHeightWeightTV;
     TextView loveTV;
 }
 
@@ -62,8 +61,9 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
             holder.showIV = (ImageView) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
-            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
-            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
+            holder.modelHeightWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height_weight);
+//            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
+//            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
             convertView.setTag(holder);
         }
@@ -76,8 +76,9 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, coverOptions, animateFirstListener);
         _mImageFetcher.displayImage(showInfo.getModelPhoto(), holder.modelIV, animateFirstListener);
         holder.modelNameTV.setText(showInfo.getModelName());
-        holder.modelHeightTV.setText(showInfo.getModelHeight());
-        holder.modelWeightTV.setText(showInfo.getModelWeight());
+        holder.modelHeightWeightTV.setText(showInfo.getModelHeightAndHeightWithFormat());
+//        holder.modelHeightTV.setText(showInfo.getModelHeight());
+//        holder.modelWeightTV.setText(showInfo.getModelWeight());
         holder.loveTV.setText(showInfo.getShowNumLike());
 
         return convertView;

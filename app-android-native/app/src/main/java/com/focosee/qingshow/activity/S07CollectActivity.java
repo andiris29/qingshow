@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
@@ -19,9 +20,12 @@ public class S07CollectActivity extends Activity {
 
     public static final String INPUT_ITEMS = "S07CollectActivity_input_items";
     public static final String INPUT_BACK_IMAGE = "S07CollectActivity_input_back_image";
+    public static final String INPUT_BRAND_TEXT = "S07CollectActivity_input_brand_text";
 
     private ListView listView;
     private S07ListAdapter adapter;
+
+    private String brandText = null;
 
     private ArrayList<ShowDetailEntity.RefItem> items;
 
@@ -40,10 +44,11 @@ public class S07CollectActivity extends Activity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         items = (ArrayList<ShowDetailEntity.RefItem>)bundle.getSerializable(INPUT_ITEMS);
+        brandText = intent.getStringExtra(INPUT_BRAND_TEXT);
 
         listView = (ListView) findViewById(R.id.S07_item_list);
 
-        adapter = new S07ListAdapter(this, items);
+        adapter = new S07ListAdapter(this, (null != brandText), items);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,6 +63,12 @@ public class S07CollectActivity extends Activity {
         });
 
         ImageLoader.getInstance().displayImage(getIntent().getStringExtra(INPUT_BACK_IMAGE),(ImageView)findViewById(R.id.S07_background_image));
+        if (null != brandText) {
+            ((TextView)findViewById(R.id.S07_brand_tv)).setVisibility(View.VISIBLE);
+            ((TextView)findViewById(R.id.S07_brand_tv)).setText(brandText);
+        } else {
+            ((TextView)findViewById(R.id.S07_brand_tv)).setVisibility(View.GONE);
+        }
     }
 
 

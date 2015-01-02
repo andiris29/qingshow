@@ -18,19 +18,22 @@ import com.focosee.qingshow.entity.TrendEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.concurrent.LinkedBlockingDeque;
 
 public class S08TrendListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<TrendEntity> data;
+    private LinkedList<TrendEntity> data;
 
-    public S08TrendListAdapter(Context context, ArrayList<TrendEntity> trendEntities) {
+    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities) {
         this.context = context;
         this.data = trendEntities;
     }
 
     @Override
     public int getCount() {
+
         return (null != this.data) ? this.data.size() : 0;
     }
 
@@ -43,6 +46,9 @@ public class S08TrendListAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return 0;
     }
+
+    public void addItemTop(LinkedList<TrendEntity> datas){this.data.addAll(datas);}
+    public void addItemLast(LinkedList<TrendEntity> datas){this.data.addAll(datas);}
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -68,24 +74,25 @@ public class S08TrendListAdapter extends BaseAdapter {
         } else {
             holderView = (HolderView)convertView.getTag();
         }
-
-        ImageLoader.getInstance().displayImage("", holderView.backImageView);
-        holderView.nameTextView.setText("");
-        holderView.descriptionTextView.setText("");
-        holderView.priceTextView.setText("");
+        holderView.backImageView.setMinimumHeight(data.get(position).getHeight());
+        ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView);
+        //Toast.makeText(convertView.getContext(),data.get(position).getCover()+"%%%",Toast.LENGTH_LONG).show();
+        holderView.nameTextView.setText(data.get(position).getNameDescription());
+        holderView.descriptionTextView.setText(data.get(position).getBrandDescription());
+        holderView.priceTextView.setText(data.get(position).getPriceDescription());
 
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.setType("image/*");
+                intent.setType("image*//*");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
                 intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(Intent.createChooser(intent, context.getPackageName()));
             }
         });
-        holderView.messageTextView.setText("");
+        holderView.messageTextView.setText("444444444444");
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +107,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                 }
             }
         });
-        holderView.likeTextView.setText("");
+        holderView.likeTextView.setText("55555555555555");
         holderView.likeImageButton.setTag(position);
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

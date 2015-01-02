@@ -2,11 +2,12 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -18,10 +19,12 @@ import java.util.ArrayList;
 public class S07ListAdapter extends BaseAdapter {
 
     private Context context;
+    private boolean withPrice;
     private ArrayList<ShowDetailEntity.RefItem> data;
 
-    public S07ListAdapter(Context context, ArrayList<ShowDetailEntity.RefItem> items) {
+    public S07ListAdapter(Context context, boolean withPrice, ArrayList<ShowDetailEntity.RefItem> items) {
         this.context = context;
+        this.withPrice = withPrice;
         this.data = items;
     }
 
@@ -46,12 +49,21 @@ public class S07ListAdapter extends BaseAdapter {
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.item_s07_item_list, null);
+            if (this.withPrice) {
+                convertView = layoutInflater.inflate(R.layout.item_s07_item_with_price_list, null);
+            } else {
+                convertView = layoutInflater.inflate(R.layout.item_s07_item_list, null);
+            }
 
             holderView = new HolderView();
             holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
             holderView.name = (TextView) convertView.findViewById(R.id.item_S07_name);
-            holderView.detailButton = (ImageButton) convertView.findViewById(R.id.item_S07_detail_btn);
+            holderView.detailButton = (Button) convertView.findViewById(R.id.item_S07_detail_btn);
+
+            if (this.withPrice) {
+                holderView.originPriceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_origin_price);
+                holderView.priceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_price);
+            }
 
             convertView.setTag(holderView);
         }
@@ -69,12 +81,21 @@ public class S07ListAdapter extends BaseAdapter {
             }
         });
 
+        if (this.withPrice) {
+            holderView.originPriceTV.setText(data.get(position).getOriginPrice());
+            holderView.originPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holderView.priceTV.setText(data.get(position).getPrice());
+        }
+
         return convertView;
     }
 
     class HolderView {
         public TextView category;
         public TextView name;
-        public ImageButton detailButton;
+        public Button detailButton;
+
+        public TextView originPriceTV;
+        public TextView priceTV;
     }
 }

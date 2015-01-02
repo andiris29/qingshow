@@ -8,7 +8,6 @@
         android:id="@+id/item_p02_follow_people_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@drawable/ic_launcher"
         android:layout_marginLeft="30dp"/>
 
     <LinearLayout
@@ -30,7 +29,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_launcher"/>
+                android:background="@drawable/root_icon_cloth"/>
 
             <TextView
                 android:id="@+id/item_p02_follow_people_show"
@@ -41,7 +40,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/ic_launcher"/>
+                android:background="@drawable/root_icon_noticeno"/>
 
             <TextView
                 android:id="@+id/item_p02_follow_people_like"

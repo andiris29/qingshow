@@ -8,19 +8,21 @@
         android:id="@+id/S07_background_image"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/bg_pic"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#77000000">
+        android:background="#99000000">
 
         <ImageButton
             android:id="@+id/S07_back_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/icon_close"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/collect_icon_close"
+            android:background="#00000000"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"/>
@@ -35,17 +37,44 @@
             android:textSize="50px"
             android:layout_marginTop="80dp"/>
 
+        <TextView
+            android:id="@+id/S07_brand_tv"
+            android:layout_below="@+id/S07_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="MANGO 旗舰店"
+            android:paddingTop="20dp"
+            android:textColor="#ffffff"
+            android:textSize="50px"
+            android:visibility="gone"/>
+
+        <View
+            android:id="@+id/S07_top_line"
+            android:layout_below="@+id/S07_brand_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#ffffff" />
+
         <ListView
             android:id="@+id/S07_item_list"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/S07_tv"
-            android:layout_marginTop="40dp"
+            android:layout_below="@+id/S07_top_line"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" >
+            android:layout_marginRight="20dp" ></ListView>
 
-
-            </ListView>
+        <View
+            android:layout_below="@+id/S07_item_list"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#ffffff" />
 
 
 

@@ -22,7 +22,8 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.focosee.qingshow.widget.MCircularImageView;
+import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -44,8 +45,9 @@ public class S03SHowActivity extends Activity {
     private RelativeLayout mRelativeLayout;
     private NetworkImageIndicatorView imageIndicatorView;
     private VideoView videoView;
-    private MCircularImageView modelImage;
+    private MRoundImageView modelImage;
     private TextView modelInformation;
+    private TextView modelAgeHeight;
     private TextView modelSignature;
     private TextView commentTextView;
     private TextView likeTextView;
@@ -106,8 +108,9 @@ public class S03SHowActivity extends Activity {
         this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
         this.videoView = (VideoView) findViewById(R.id.S03_video_view);
 
-        modelImage = (MCircularImageView) findViewById(R.id.S03_model_portrait);
-        modelInformation = (TextView) findViewById(R.id.S03_model_name_information);
+        modelImage = (MRoundImageView) findViewById(R.id.S03_model_portrait);
+        modelInformation = (TextView) findViewById(R.id.S03_model_name);
+        modelAgeHeight = (TextView) findViewById(R.id.S03_model_age_height);
         modelSignature = (TextView) findViewById(R.id.S03_model_signature);
 
         commentTextView = (TextView) findViewById(R.id.S03_comment_text_view);
@@ -123,9 +126,11 @@ public class S03SHowActivity extends Activity {
 
         videoUri = showDetailEntity.getShowVideo();
 
-        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage);
+        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
 
-        modelInformation.setText(showDetailEntity.getModelName() + " ");
+        modelInformation.setText(showDetailEntity.getModelName());
+
+        modelAgeHeight.setText(showDetailEntity.getModelAgeHeight());
 
         modelSignature.setText(showDetailEntity.getModelStatus());
 
@@ -142,6 +147,7 @@ public class S03SHowActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
                 intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, showDetailEntity.getCover());
+//                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
                 intent.putExtras(bundle);
@@ -197,8 +203,7 @@ public class S03SHowActivity extends Activity {
     }
 
     private void initPosterView(String[] urlList) {
-        Log.i("app", urlList.toString());
-        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
+        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
     }
 

@@ -44,7 +44,7 @@ public class MJsonObjectRequest extends JsonObjectRequest {
 
         QSApplication.get().addSessionCookie(headers);
 
-        headers.put("version", "1.0.0");
+        headers.put("version", QSApplication.get().getVersionName());
 
         Log.i("cookie", "json request: " + headers.toString());
 

@@ -23,14 +23,16 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
 
-                <com.focosee.qingshow.widget.MCircularImageView
+                <com.focosee.qingshow.widget.MRoundImageView
+                    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/S03_model_portrait"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="35dp"
-                    android:layout_marginLeft="25dp"
-                    android:background="@drawable/ic_launcher" />
+                    android:layout_marginLeft="10dp"
+                    imagecontrol:border_outside_color="#fffffe"
+                    imagecontrol:border_thickness="2dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -38,18 +40,43 @@
                     android:layout_toRightOf="@+id/S03_model_portrait"
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
-                    android:layout_alignBottom="@+id/S03_model_portrait">
+                    android:layout_alignBottom="@+id/S03_model_portrait"
+                    android:layout_alignTop="@+id/S03_model_portrait">
 
-                    <TextView
-                        android:id="@+id/S03_model_name_information"
+                    <LinearLayout
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:text="刀刀 20岁 170cm" />
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:id="@+id/S03_model_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="#ffffff"
+                            android:textSize="30px"
+                            android:text="刀刀" />
+                        <TextView
+                            android:id="@+id/S03_model_age_height"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="#ffffff"
+                            android:textSize="25px"
+                            android:text="20岁 170cm" />
+
+                        </LinearLayout>
 
                     <TextView
                         android:id="@+id/S03_model_signature"
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="left|bottom"
+                        android:textColor="#ffffff"
+                        android:textSize="25px"
                         android:text="就爱文艺小清新" />
 
                 </LinearLayout>
@@ -97,7 +124,8 @@
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/S03_like_btn"
-                    android:layout_alignTop="@+id/S03_like_btn"/>
+                    android:layout_alignTop="@+id/S03_like_btn"
+                    android:paddingBottom="3dp"/>
 
                 <ImageView
                     android:id="@+id/S03_line_like_message"
@@ -124,7 +152,8 @@
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/S03_comment_btn"
-                    android:layout_alignTop="@+id/S03_comment_btn"/>
+                    android:layout_alignTop="@+id/S03_comment_btn"
+                    android:paddingBottom="7dp"/>
 
                 <ImageView
                     android:id="@+id/S03_line_comment_item"
@@ -151,7 +180,8 @@
                     android:textColor="#ffffff"
                     android:gravity="center"
                     android:layout_alignLeft="@+id/S03_item_btn"
-                    android:layout_alignTop="@+id/S03_item_btn"/>
+                    android:layout_alignTop="@+id/S03_item_btn"
+                    android:paddingTop="15dp"/>
 
             </RelativeLayout>
 
