@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,16 @@ public class U02SettingsActivity extends Activity {
         getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK) {
+            U02SettingsFragment settingsFragment = new U02SettingsFragment();
+            getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+            return false;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

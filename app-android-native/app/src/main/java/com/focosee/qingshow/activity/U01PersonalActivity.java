@@ -64,6 +64,7 @@ public class U01PersonalActivity extends FragmentActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(U01PersonalActivity.this, U02SettingsActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
