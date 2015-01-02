@@ -69,34 +69,6 @@ public class U06LoginActivity extends Activity {
         registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //test cookie
-                StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                        "http://chingshow.com:30001/services/feeding/like",
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.v("TAG", response.toString());
-                                Log.v("TAG", rawCookie);
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        if (rawCookie != null && rawCookie.length() > 0) {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Cookie", rawCookie);
-                            return headers;
-                        }
-                        return super.getHeaders();
-                    }
-
-                };
-                requestQueue.add(stringRequest);
                 Intent intent = new Intent(U06LoginActivity.this, U07RegisterActivity.class);
                 startActivity(intent);
             }
