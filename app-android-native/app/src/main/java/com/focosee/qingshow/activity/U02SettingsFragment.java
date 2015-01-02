@@ -42,6 +42,7 @@ public class U02SettingsFragment extends Fragment {
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
 
+    private TextView backTextView;
     private TextView saveTextView;
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
@@ -76,6 +77,14 @@ public class U02SettingsFragment extends Fragment {
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
         sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
+
+        backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
 
         personalRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.personalRelativeLayout);
         personalRelativeLayout.setOnClickListener(new View.OnClickListener() {

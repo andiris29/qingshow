@@ -32,6 +32,7 @@ public class U01PersonalActivity extends FragmentActivity {
     private static final int PAGER_WATCH = 2;
     private static final int PAGER_CHOOSE = 3;
 
+    private TextView backTextView;
     private TextView settingsTextView;
     private Context context;
 
@@ -48,6 +49,14 @@ public class U01PersonalActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
         context = getApplicationContext();
+
+        backTextView = (TextView) findViewById(R.id.backTextView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         settingsTextView = (TextView) findViewById(R.id.settingsTextView);
         settingsTextView.setOnClickListener(new View.OnClickListener() {
