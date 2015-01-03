@@ -1,7 +1,5 @@
 package com.focosee.qingshow.config;
 
-import java.util.HashSet;
-
 /**
  * Created by jackyu on 11/22/14.
  */
@@ -27,8 +25,12 @@ public class QSAppWebAPI {
     private static final String PEOPLE_QUERY_MODELS_API = HOST_NAME + "/people/queryModels";
     private static final String MODEL_DETAIL_API = HOST_NAME + "/feeding/byModel";
     private static final String BRAND_LIST_API = HOST_NAME + "/brand/queryBrands";
+
     private static final String PEOPLE_FOLLOW_API = HOST_NAME + "/people/follow";
     private static final String PEOPLE_UNFOLLOW_API = HOST_NAME + "/people/unfollow";
+
+    private static final String SHOW_LIKE_API = HOST_NAME + "/show/like";
+    private static final String SHOW_UNLIKE_API = HOST_NAME + "/show/unlike";
 
     private static final String BRAND_NEWEST_API = HOST_NAME + "/feeding/byBrandNew";
     private static final String BRAND_DISCOUNT_API = HOST_NAME + "/feeding/byBrandDiscount";
@@ -83,6 +85,14 @@ public class QSAppWebAPI {
 
     public static String getPeopleUnfollowApi() {
         return PEOPLE_UNFOLLOW_API;
+    }
+
+    public static String getShowLikeApi() {
+        return SHOW_LIKE_API;
+    }
+
+    public static String getShowUnlikeApi() {
+        return SHOW_UNLIKE_API;
     }
 
     public static String getModelShowsApi(String modelId, String pageNo) {
