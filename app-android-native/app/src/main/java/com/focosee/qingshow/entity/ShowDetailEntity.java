@@ -27,6 +27,10 @@ public class ShowDetailEntity extends AbsEntity {
         }
     }
 
+    public String get_id() {
+        return _id;
+    }
+
     public String getShowVideo() {
         return (null != video) ? video : null;
     }
@@ -92,6 +96,14 @@ public class ShowDetailEntity extends AbsEntity {
 
     public String getShowLikeNumber() {
         return (null != __context) ? String.valueOf(__context.numLike) : "0";
+    }
+
+    public Boolean likedByCurrentUser() {
+        return __context.likedByCurrentUser;
+    }
+
+    public void setLikedByCurrentUser(Boolean likedByCurrentUser) {
+        __context.likedByCurrentUser = likedByCurrentUser;
     }
 
     public String getCover() {
@@ -216,7 +228,7 @@ public class ShowDetailEntity extends AbsEntity {
     public static class ShowContext {
         public int numComments;
         public int numLike;
-        public Boolean likedByCurrentUser;
+        public Boolean likedByCurrentUser = false;
     }
 
     public static class RefBrand extends AbsEntity {
