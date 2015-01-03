@@ -53,6 +53,10 @@ Setup.setup= function(nextStep) {
   }, function(callback) {
     // Save shows
     for(var i = 0; i < testCase.shows.length; i++) {
+      testCase.shows[i].modelRef = Setup.modelIds[i % Setup.modelIds.length];
+      for(var j = i * 3; j < (i * 3 + 3); j++) {
+        testCase.shows[i].itemRefs.push(Setup.itemIds[j]);
+      }
       testEnviroment.request("post", "admin/saveShow", testCase.shows[i], function(responseData) {
         var data = responseData.data;
         if (!data.show) {
@@ -118,16 +122,24 @@ Setup.teardown= function() {
 
 Setup.exec = function() {
   async.waterfall([function(callback) {
-    //Setup.setup(callback);
-    callback(null);
+    Setup.setup(callback);
+    //callback(null);
   },
   function(callback) {
     //callback();
-    testFeeding(callback);
+    testFeedingHot(callback);
   },
   function(callback) {
-    //Setup.teardown();
-    callback(null);
+    //callback();
+    testFeedingByModel(callback);
+  },
+  function(callback) {
+    //callback();
+    testFeedingRecommendation(callback);
+  },
+  function(callback) {
+    Setup.teardown();
+    //callback(null);
   }],function(err) {
   });
 }

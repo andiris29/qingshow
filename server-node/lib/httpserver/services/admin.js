@@ -85,7 +85,6 @@ _saveItem = function(req, res) {
       }
     });
 
-
     return item;
   });
 };
@@ -103,22 +102,26 @@ _saveShow = function(req, res) {
     var horizontalCoverUrl = param.horizontalCoverUrl;
     var horizontalCoverHeight = param.horizontalCoverHeight;
     var horizontalCoverWidth = param.horizontalCoverWidth;
-
     var show = new Show({
       coverMetadata: {
         url : (coverUrl ? coverUrl: ''),
-        height : (coverHeight ? coverHeight : 0),
-        width : (coverWidth ? coverWidth : 0)
+        width : (coverWidth ? RequestHelper.parseNumber(coverWidth) : 0),
+        height : (coverHeight ? RequestHelper.parseNumber(coverHeight) : 0)
       },
-      horizontalCover: {
+      horizontalCoverMetadata: {
         url : (horizontalCoverUrl ? horizontalCoverUrl : ''),
-        height : (horizontalCoverHeight ? horizontalCoverHeight : 0),
-        width : (horizontalCoverWidth ? horizontalCoverWidth : 0)
+        width : (horizontalCoverWidth ? RequestHelper.parseNumber(horizontalCoverWidth) : 0),
+        height : (horizontalCoverHeight ? RequestHelper.parseNumber(horizontalCoverHeight) : 0)
       }
     });
 
+    ['cover', 'horizontalCover', 'video'].forEach(function(field) {
+      if (param[field]) {
+        show.set(field, param[field]);
+      }
+    });
 
-    ['video', 'cover', 'horizontalCover', 'numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
+    ['numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
       if (param[field]) {
         show.set(field, parseInt(param[field]));
       }
