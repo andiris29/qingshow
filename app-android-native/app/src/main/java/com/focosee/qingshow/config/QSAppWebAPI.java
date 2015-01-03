@@ -4,12 +4,14 @@ package com.focosee.qingshow.config;
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
-    public static final String LOGIN_SERVICE_URL = "http://121.41.162.102:30001/services/user/login";
-    public static final String REGISTER_SERVICE_URL = "http://121.41.162.102:30001/services/user/register";
-    public static final String UPDATE_SERVICE_URL = "http://121.41.162.102:30001/services/user/update";
-
     private static final String HOST_ADDRESS = "http://chingshow.com:30001";
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
+
+    public static final String LOGIN_SERVICE_URL = HOST_NAME+ "/user/login";
+    public static final String REGISTER_SERVICE_URL = HOST_NAME+ "/user/register";
+    public static final String UPDATE_SERVICE_URL = HOST_NAME+ "/user/update";
+    public static final String LOGOUT_SERVICE_URL = HOST_NAME + "/user/logout";
+
     private static final String kImageUrlBase = HOST_ADDRESS + "/images";
     private static final String kVideoUrlBase = HOST_ADDRESS + "/videos";
 

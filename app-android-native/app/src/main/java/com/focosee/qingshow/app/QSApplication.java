@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -127,7 +126,6 @@ public class QSApplication extends Application {
             StringBuilder builder = new StringBuilder();
             builder.append(sessionId);
             headers.put(COOKIE_KEY, builder.toString());
-            Log.i("cookie", headers.toString());
         }
     }
 

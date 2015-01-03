@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -27,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.error.ErrorCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.LoginResponse;
 import com.google.gson.Gson;
@@ -107,7 +107,7 @@ public class U06LoginActivity extends Activity {
                                     if (loginResponse == null) {
                                         Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
                                     } else {
-                                        if (loginResponse.metadata.error == 1001) {
+                                        if (loginResponse.metadata.error == ErrorCode.IncorrectMailOrPassword) {
                                             Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
                                         } else {
                                             Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();

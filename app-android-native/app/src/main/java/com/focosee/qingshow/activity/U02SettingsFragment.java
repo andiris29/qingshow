@@ -30,7 +30,13 @@ import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.LoginResponse;
 import com.focosee.qingshow.entity.People;
+import com.focosee.qingshow.entity.UpdateResponse;
+import com.focosee.qingshow.error.ErrorHandler;
+import com.focosee.qingshow.request.QXStringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -181,8 +187,7 @@ public class U02SettingsFragment extends Fragment {
         saveTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("id", sharedPreferences.getString("id", ""));
+                Map<String, String> params = new HashMap<String, String>();
                 if (!nameEditText.getText().toString().equals(""))
                     params.put("name", nameEditText.getText().toString());
                 if (!ageEditText.getText().toString().equals(""))
@@ -191,59 +196,34 @@ public class U02SettingsFragment extends Fragment {
                     params.put("height", heightEditText.getText().toString());
                 if (!weightEditText.getText().toString().equals(""))
                     params.put("weight", weightEditText.getText().toString());
-                JSONObject jsonObject = new JSONObject(params);
-                JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                        QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.v("TAG", response.toString());
-                                try {
-                                    if (response.getJSONObject("data") == null) {
-                                        Log.v("TAG", "error");
-                                        String errorCode = response.getJSONObject("metadata").getString("error");
-                                        Log.v("TAG", "error" + errorCode);
-                                        if (errorCode.equals("1001")) {
-                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                        }
-                                    } else {
-                                        Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
-                                    }
-                                } catch (Exception e) {
-                                    Log.v("TAG", "exception");
-                                    try {
-                                        Log.v("TAG", "error");
-                                        String errorCode = response.getJSONObject("metadata").getString("error");
-                                        Log.v("TAG", "error" + errorCode);
-                                        if (errorCode.equals("1001")) {
-                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (Exception e1) {
-                                        Log.v("TAG", "e1");
-                                    }
-                                }
 
+                QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
+                        }.getType());
+
+                        if (updateResponse == null || updateResponse.data == null) {
+                            if (updateResponse == null) {
+                                Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                            } else {
+                                ErrorHandler.handle(context, updateResponse.metadata.error);
                             }
-                        }, new Response.ErrorListener() {
+                        } else {
+                            QSApplication.get().setPeople(updateResponse.data.people);
+                            Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
+                        Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
                     }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        String rawCookie = sharedPreferences.getString("Cookie", "");
-                        if (rawCookie != null && rawCookie.length() > 0) {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Cookie", rawCookie);
-                            return headers;
-                        }
-                        return super.getHeaders();
-                    }
-                };
-                requestQueue.add(stringRequest);
+                });
+                requestQueue.add(qxStringRequest);
             }
         });
+
         Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,8 +233,7 @@ public class U02SettingsFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                        "http://chingshow.com:30001/services/user/logout",
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
