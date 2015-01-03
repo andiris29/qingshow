@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.VideoView;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkImageIndicatorView;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
@@ -30,6 +32,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class S03SHowActivity extends Activity {
 
@@ -103,6 +107,65 @@ public class S03SHowActivity extends Activity {
         QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
+    private void clickLikeShowButton() {
+
+        Map<String, String> likeData = new HashMap<String, String>();
+        likeData.put("_id", showDetailEntity.get_id());
+        JSONObject jsonObject = new JSONObject(likeData);
+
+        String requestApi = (showDetailEntity.likedByCurrentUser()) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
+
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.get("metadata").toString().equals("{}")) {
+                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
+                        showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
+                    }else{
+                        handleResponseError(response);
+//                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败" + response.toString() + response.get("metadata").toString().length());
+                    }
+                }catch (Exception e) {
+                    showMessage(S03SHowActivity.this, e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showMessage(S03SHowActivity.this, error.toString());
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+    }
+
+    private void handleResponseError(JSONObject response) {
+        try {
+            int errorCode = response.getJSONObject("metadata").getInt("error");
+            String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
+            switch (errorCode) {
+                case 1012:
+                    errorMessage = "请先登录！";
+                    break;
+                case 1000:
+                    errorMessage = "服务器错误，请稍微重试！";
+                    break;
+                default:
+                    errorMessage = String.valueOf(errorCode) + response.toString();
+                    break;
+            }
+            showMessage(S03SHowActivity.this, errorMessage);
+        }catch (Exception e) {
+            showMessage(S03SHowActivity.this, e.toString() + response.toString());
+        }
+    }
+
+    private void showMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Log.i(context.getPackageName(), message);
+    }
+
     private void matchUI() {
         this.mRelativeLayout = (RelativeLayout) findViewById(R.id.S03_relative_layout);
         this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
@@ -171,7 +234,7 @@ public class S03SHowActivity extends Activity {
         findViewById(R.id.S03_like_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                clickLikeShowButton();
             }
         });
 

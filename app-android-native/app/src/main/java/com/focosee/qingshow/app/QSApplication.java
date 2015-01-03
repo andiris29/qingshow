@@ -107,11 +107,8 @@ public class QSApplication extends Application {
     public final void checkSessionCookie(Map<String, String> headers) {
         if (headers.containsKey(SET_COOKIE_KEY)
                 && headers.get(SET_COOKIE_KEY).startsWith(SESSION_COOKIE)) {
-            String cookie = headers.get(SET_COOKIE_KEY);
+            String cookie = headers.get("Set-Cookie").split(";")[0];
             if (cookie.length() > 0) {
-                String[] splitCookie = cookie.split(";");
-                String[] splitSessionId = splitCookie[0].split("=");
-                cookie = splitSessionId[1];
                 SharedPreferences.Editor prefEditor = _preferences.edit();
                 prefEditor.putString(SESSION_COOKIE, cookie);
                 prefEditor.commit();
@@ -124,16 +121,10 @@ public class QSApplication extends Application {
      * @param headers
      */
     public final void addSessionCookie(Map<String, String> headers) {
-        String sessionId = _preferences.getString(COOKIE_KEY, "");
+        String sessionId = _preferences.getString("Cookie", "");
         if (sessionId.length() > 0) {
             StringBuilder builder = new StringBuilder();
-//            builder.append(SESSION_COOKIE);
-//            builder.append("=");
             builder.append(sessionId);
-            if (headers.containsKey(COOKIE_KEY)) {
-                builder.append("; ");
-                builder.append(headers.get(COOKIE_KEY));
-            }
             headers.put(COOKIE_KEY, builder.toString());
         }
     }
