@@ -178,13 +178,13 @@ public class S01HomeActivity extends Activity {
     private void setLastUpdateTime() {
         String text = formatDateTime(System.currentTimeMillis());
         _wfPullRefreshView.setLastUpdatedLabel(text);
+        _adapter.resetUpdateString();
     }
 
     private String formatDateTime(long time) {
         if (0 == time) {
             return "";
         }
-
         return _mDateFormat.format(new Date(time));
     }
 
