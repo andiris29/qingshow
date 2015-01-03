@@ -130,7 +130,7 @@ public class S03SHowActivity extends Activity {
 
         modelInformation.setText(showDetailEntity.getModelName());
 
-        modelAgeHeight.setText(showDetailEntity.getModelAgeHeight());
+        modelAgeHeight.setText(showDetailEntity.getModelWeightHeight());
 
         modelSignature.setText(showDetailEntity.getModelStatus());
 

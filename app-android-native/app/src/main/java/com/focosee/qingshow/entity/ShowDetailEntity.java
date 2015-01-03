@@ -46,6 +46,7 @@ public class ShowDetailEntity extends AbsEntity {
         return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
     }
 
+    // TODO change age calculate method
     public String getModelAgeHeight() {
         return (null != modelRef) ? modelRef.birthtime + "岁 " + modelRef.height + "cm" : "岁 cm";
     }
