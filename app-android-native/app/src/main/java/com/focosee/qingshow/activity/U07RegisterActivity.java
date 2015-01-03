@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,8 +23,13 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.LoginResponse;
+import com.focosee.qingshow.entity.RegisterResponse;
+import com.focosee.qingshow.error.ErrorHandler;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -33,11 +39,17 @@ import java.util.Map;
 
 public class U07RegisterActivity extends Activity {
     private RequestQueue requestQueue;
+
     private Button submitButton;
     private EditText accountEditText;
     private EditText passwordEditText;
     private EditText confirmEditText;
+    private RadioGroup sexRadioGroup;
+    private RadioGroup clothesSizeRadioGroup;
+    private RadioGroup shoesSizeRadioGroup;
+
     private Context context;
+
     private Gson gson;
 
     @Override
@@ -51,9 +63,11 @@ public class U07RegisterActivity extends Activity {
         accountEditText = (EditText) findViewById(R.id.accountEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         confirmEditText = (EditText) findViewById(R.id.confirmEditText);
+        sexRadioGroup = (RadioGroup) findViewById(R.id.sexRadioGroup);
+        clothesSizeRadioGroup = (RadioGroup) findViewById(R.id.clothesSizeRadioGroup);
+        shoesSizeRadioGroup = (RadioGroup) findViewById(R.id.shoesSizeRadioGroup);
 
         requestQueue = Volley.newRequestQueue(context);
-
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,49 +75,26 @@ public class U07RegisterActivity extends Activity {
                 if (!passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
                     Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
                 } else {
-                    HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("id", accountEditText.getText().toString());
-                    params.put("password", passwordEditText.getText().toString());
-                    JSONObject jsonObject = new JSONObject(params);
-
-                    JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                            QSAppWebAPI.REGISTER_SERVICE_URL, jsonObject,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.d("TAG", response.toString());
-                                    try {
-                                        if (response.getJSONObject("data") == null) {
-                                            Log.v("TAG", "error");
-                                            String errorCode = response.getJSONObject("metadata").getString("error");
-                                            Log.v("TAG", "error" + errorCode);
-                                            if (errorCode.equals("1010")) {
-                                                Toast.makeText(context, "账号已存在", Toast.LENGTH_LONG).show();
-                                            }
-                                        } else {
-                                            Toast.makeText(context, "注册成功，请登录", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(U07RegisterActivity.this, U06LoginActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                    } catch (Exception e) {
-                                        Log.v("TAG", "exception");
-                                        try {
-                                            Log.v("TAG", "error");
-                                            String errorCode = response.getJSONObject("metadata").getString("error");
-                                            Log.v("TAG", "error" + errorCode);
-                                            if (errorCode.equals("1010")) {
-                                                Toast.makeText(context, "账号已存在", Toast.LENGTH_LONG).show();
-                                            }
-                                        } catch (Exception e1) {
-                                            Log.v("TAG", "e1");
-                                        }
-                                    }
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            RegisterResponse registerResponse = new Gson().fromJson(response, new TypeToken<RegisterResponse>() {
+                            }.getType());
+                            if (registerResponse == null || registerResponse.data == null) {
+                                if (registerResponse == null) {
+                                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                                } else {
+                                    ErrorHandler.handle(context, registerResponse.metadata.error);
                                 }
-                            }, new Response.ErrorListener() {
+                            } else {
+                                //QSApplication.get().setPeople(registerResponse.data.people);
+                                Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("TAG", error.getMessage(), error);
+                            Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
                         }
                     }) {
                         @Override
@@ -111,43 +102,106 @@ public class U07RegisterActivity extends Activity {
                             Map<String, String> map = new HashMap<String, String>();
                             map.put("id", accountEditText.getText().toString());
                             map.put("password", passwordEditText.getText().toString());
+
+
                             return map;
                         }
-
-                        @Override
-                        public Map<String, String> getHeaders() {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Accept", "application/json");
-                            headers.put("Content-Type", "application/json; charset=UTF-8");
-                            return headers;
-                        }
                     };
-
                     requestQueue.add(stringRequest);
                 }
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_register, menu);
-        return true;
-    }
+    private int getSexRadioButtonVal() {
+        int whichChecked = sexRadioGroup.getCheckedRadioButtonId();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (whichChecked) {
+            case R.id.femaleRadioButton:
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+                break;
+            case R.id.maleButton:
+
+                break;
+            default:
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return whichChecked;
     }
+
+    private int getClothesSizeRadioButtonVal() {
+        int whichChecked = clothesSizeRadioGroup.getCheckedRadioButtonId();
+        switch (whichChecked) {
+            case R.id.xxsSizeRadioButton:
+
+                break;
+            case R.id.xsSizeRadioButton:
+
+                break;
+            case R.id.sSizeRadioButton:
+
+                break;
+            case R.id.mSizeRadioButton:
+
+                break;
+            case R.id.lSizeRadioButton:
+
+                break;
+            case R.id.xlSizeRadioButton:
+
+                break;
+            case R.id.xxlSizeRadioButton:
+
+                break;
+            case R.id.xxxlSizeRadioButton:
+
+                break;
+            default:
+                break;
+        }
+        return whichChecked;
+    }
+
+    private int getShoesSizeRadioButtonVal() {
+        int whichChecked = shoesSizeRadioGroup.getCheckedRadioButtonId();
+        switch (whichChecked) {
+            case R.id.size34RadioButton:
+
+                break;
+            case R.id.size35RadioButton:
+
+                break;
+            case R.id.size36RadioButton:
+
+                break;
+            case R.id.size37RadioButton:
+
+                break;
+            case R.id.size38RadioButton:
+
+                break;
+            case R.id.size39RadioButton:
+
+                break;
+            case R.id.size40RadioButton:
+
+                break;
+            case R.id.size41RadioButton:
+
+                break;
+            case R.id.size42RadioButton:
+
+                break;
+            case R.id.size43RadioButton:
+
+                break;
+            case R.id.size44RadioButton:
+
+                break;
+            default:
+                break;
+        }
+        return whichChecked;
+    }
+
 }
