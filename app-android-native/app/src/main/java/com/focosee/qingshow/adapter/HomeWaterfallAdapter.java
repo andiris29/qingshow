@@ -160,7 +160,8 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
     public ShowListEntity getItemDataAtIndex(int index) {
-        if (index >= _data.size()) return null;
+        index--;
+        if (index >= _data.size() || index < 0) return null;
         return (ShowListEntity)_data.get(index);
     }
 
