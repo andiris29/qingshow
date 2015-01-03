@@ -124,7 +124,7 @@ public class QSApplication extends Application {
      * @param headers
      */
     public final void addSessionCookie(Map<String, String> headers) {
-        String sessionId = _preferences.getString(SESSION_COOKIE, "");
+        String sessionId = _preferences.getString(COOKIE_KEY, "");
         if (sessionId.length() > 0) {
             StringBuilder builder = new StringBuilder();
 //            builder.append(SESSION_COOKIE);

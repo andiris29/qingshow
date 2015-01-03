@@ -21,7 +21,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.UpdateResponse;
+import com.focosee.qingshow.error.ErrorHandler;
+import com.focosee.qingshow.request.QXStringRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -42,7 +48,6 @@ public class U02ChangePasswordFragment extends Fragment {
     public U02ChangePasswordFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,70 +84,33 @@ public class U02ChangePasswordFragment extends Fragment {
                     Toast.makeText(context, "请确认两次输入密码是否一致", Toast.LENGTH_LONG).show();
                 } else {
                     HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("id", sharedPreferences.getString("id", ""));
-                    params.put("password", sharedPreferences.getString("password", ""));
                     params.put("currentPassword", newPasswordEditText.getText().toString());
-                    JSONObject jsonObject = new JSONObject(params);
+                    params.put("password", sharedPreferences.getString("password", ""));
 
-                    JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST,
-                            QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.v("TAG", response.toString());
-                                    try {
-                                        if (response.getJSONObject("data") == null) {
-                                            Log.v("TAG", "error");
-                                            String errorCode = response.getJSONObject("metadata").getString("error");
-                                            Log.v("TAG", "error" + errorCode);
-                                            if (errorCode.equals("1001")) {
-                                                Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                            }
-                                        } else {
-                                            Toast.makeText(context, "更改成功", Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (Exception e) {
-                                        Log.v("TAG", "exception");
-                                        try {
-                                            Log.v("TAG", "error");
-                                            String errorCode = response.getJSONObject("metadata").getString("error");
-                                            Log.v("TAG", "error" + errorCode);
-                                            if (errorCode.equals("1001")) {
-                                                Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                            }
-                                        } catch (Exception e1) {
-                                            Log.v("TAG", "e1");
-                                        }
-                                    }
+                    QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
+                            }.getType());
 
+                            if (updateResponse == null || updateResponse.data == null) {
+                                if (updateResponse == null) {
+                                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                                } else {
+                                    ErrorHandler.handle(context, updateResponse.metadata.error);
                                 }
-                            }, new Response.ErrorListener() {
+                            } else {
+                                QSApplication.get().setPeople(updateResponse.data.people);
+                                Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("TAG", error.getMessage(), error);
+                            Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
                         }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> map = new HashMap<String, String>();
-                            map.put("id", sharedPreferences.getString("id", ""));
-                            return map;
-                        }
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            String rawCookie = sharedPreferences.getString("Cookie", "");
-                            if (rawCookie != null && rawCookie.length() > 0) {
-                                HashMap<String, String> headers = new HashMap<String, String>();
-                                headers.put("Cookie", rawCookie);
-                                headers.put("Accept", "application/json");
-                                headers.put("Content-Type", "application/json; charset=UTF-8");
-                                return headers;
-                            }
-                            return super.getHeaders();
-                        }
-                    };
-                    requestQueue.add(stringRequest);
+                    });
+                    requestQueue.add(qxStringRequest);
                 }
             }
         });
