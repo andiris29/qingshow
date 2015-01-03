@@ -17,9 +17,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TimeZone;
 
 class HomeViewHolder extends AbsViewHolder {
 
@@ -52,26 +56,6 @@ class HomeViewHolder extends AbsViewHolder {
 
 //    // Helper property
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
-//    private DisplayImageOptions coverOptions = new DisplayImageOptions.Builder()
-//            .showImageOnLoading(R.drawable.root_cell_placehold_image1) //设置图片在下载期间显示的图片
-//            .showImageForEmptyUri(R.drawable.root_cell_placehold_image2)//设置图片Uri为空或是错误的时候显示的图片
-//            .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
-//            .cacheInMemory(true)
-//            .cacheOnDisk(true)
-////            .considerExifParams(true)
-////            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
-////            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
-//            .build();//构建完成
-//
-//    private DisplayImageOptions portraitOptions = new DisplayImageOptions.Builder()
-//            .showImageOnLoading(R.drawable.root_cell_placehold_head)
-//            .showImageForEmptyUri(R.drawable.root_cell_placehold_head)
-//            .showImageOnFail(R.drawable.root_cell_placehold_head)
-//            .cacheInMemory(true)
-//            .cacheOnDisk(true)
-//            .build();
-
-
 
     // Helper class Animation
     private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
@@ -96,12 +80,41 @@ class HomeViewHolder extends AbsViewHolder {
 
 public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
+    private String updateTimeString = "15:00更新";
+    private String updateDateString = "2015/01/01";
+    private String updateWeekString = "星期四 THURS";
+
     public HomeWaterfallAdapter(Context context, int resourceId, ImageLoader mImageFetcher) {
         super(context, resourceId, mImageFetcher);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        if (position == 0) {
+            UpdateCellHolderView updateCellHolderView;
+
+            if (null == convertView) {
+                LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
+                convertView = layoutInflator.inflate(R.layout.item_refresh_independent, null);
+                updateCellHolderView = new UpdateCellHolderView();
+                updateCellHolderView.updateTimeTV = (TextView) convertView.findViewById(R.id.item_refresh_independent_update_time);
+                updateCellHolderView.updateDateTV = (TextView) convertView.findViewById(R.id.item_refresh_independent_update_date);
+                updateCellHolderView.updateWeekTV = (TextView) convertView.findViewById(R.id.item_refresh_independent_update_week);
+
+                convertView.setTag(updateCellHolderView);
+            }
+
+            updateCellHolderView = (UpdateCellHolderView) convertView.getTag();
+
+            updateCellHolderView.updateTimeTV.setText(updateTimeString);
+            updateCellHolderView.updateDateTV.setText(updateDateString);
+            updateCellHolderView.updateWeekTV.setText(updateWeekString);
+
+            return convertView;
+        }
+
+        position--;
         HomeViewHolder holder;
         ShowListEntity showInfo = (ShowListEntity) _data.get(position);
 
@@ -113,8 +126,6 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
             holder.modelHeightWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height_weight);
-//            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
-//            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
             convertView.setTag(holder);
         }
@@ -126,8 +137,18 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? 0 : 1;
+    }
+
+    @Override
     public int getCount() {
-        return (null == _data) ? 0 : _data.size();
+        return (null == _data) ? 0 : _data.size()+1;
     }
 
     public void addItemLast(LinkedList<ShowListEntity> datas) {
@@ -141,6 +162,51 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
     public ShowListEntity getItemDataAtIndex(int index) {
         if (index >= _data.size()) return null;
         return (ShowListEntity)_data.get(index);
+    }
+
+    public void resetUpdateString() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
+        String originDateString = simpleDateFormat.format(new Date());
+
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        updateTimeString = originDateString.split("_")[1] + " 更新";
+        updateDateString = originDateString.split("_")[0];
+        updateWeekString = formatWeekInfo(calendar.get(Calendar.DAY_OF_WEEK));
+    }
+
+    public String formatWeekInfo(int dayOfWeek) {
+        String result;
+        switch (dayOfWeek) {
+            case 1:
+                result = "星期日 SUN";
+                break;
+            case 2:
+                result = "星期一 MON";
+                break;
+            case 3:
+                result = "星期二 TUE";
+                break;
+            case 4:
+                result = "星期三 WED";
+                break;
+            case 5:
+                result = "星期四 THURS";
+                break;
+            case 6:
+                result = "星期五 FRI";
+                break;
+            default:
+                result = "星期六 SAT";
+                break;
+        }
+        return result;
+    }
+
+    class UpdateCellHolderView {
+        public TextView updateTimeTV;
+        public TextView updateDateTV;
+        public TextView updateWeekTV;
     }
 
 }

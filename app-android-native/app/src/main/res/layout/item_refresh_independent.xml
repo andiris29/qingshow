@@ -1,39 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" 
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="@drawable/news_item_bg">
-    
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/root_cell_icon_time"/>
-    
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:textColor="#ffff791d"
-        android:textSize="20px"
-        android:text="15:00 更新"/>
+    android:background="#00000000">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#00000000"></View>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginLeft="5dp"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="#ffffff">
+
+        <ImageView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="20px"
-            android:text="2014/09/26"/>
+            android:layout_weight="3"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/root_cell_icon_time"/>
+
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/item_refresh_independent_update_time"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="20px"
-            android:text="星期三"/>
+            android:layout_weight="2"
+            android:layout_marginLeft="10dp"
+            android:textColor="#a91a4e"
+            android:textSize="24px"
+            android:text="15:00 更新"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_marginLeft="5dp"
+            android:gravity="left|center_vertical">
+            <TextView
+                android:id="@+id/item_refresh_independent_update_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#4e4e4e"
+                android:textSize="19px"
+                android:text="2014/09/26"/>
+            <TextView
+                android:id="@+id/item_refresh_independent_update_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="19px"
+                android:text="星期三 MON"/>
+        </LinearLayout>
+
         </LinearLayout>
 </LinearLayout>
