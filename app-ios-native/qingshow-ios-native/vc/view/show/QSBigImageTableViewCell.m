@@ -133,7 +133,7 @@
 
     //Data Binding
     NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showDict];
-    [self.imgView setImageFromURL:[QSShowUtil getCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+    [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     
     self.label1.text = [QSPeopleUtil getName:modelDict];
     self.label2.text = [QSPeopleUtil getDetailDesc:modelDict];

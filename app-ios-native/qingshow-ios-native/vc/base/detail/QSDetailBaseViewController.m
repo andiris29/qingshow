@@ -225,7 +225,6 @@
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {
-#warning 需要更新modelList内数据
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
             [self showTextHud:@"follow succeed"];
