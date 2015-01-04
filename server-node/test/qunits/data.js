@@ -2,6 +2,7 @@ var testCase = {}
 testCase.models= [];
 testCase.items = [];
 testCase.shows = [];
+testCase.showChosens = [];
 
 ///// 5 Models ////////
 for(var i = 0; i < 5; i++) {
@@ -52,3 +53,11 @@ for(var i = 0; i < 15; i++) {
   };
 }
 
+/// 3 ShowChosen ///
+for(var i = 0; i < 3; i++) {
+  testCase.showChosens[i] = {
+    'showRefs' : [],
+    'type': 1,
+    'activateTime': ''
+  };
+}

@@ -152,7 +152,7 @@ _removeShowById = function(req, res) {
 };
 
 _saveShowChosen = function(req, res) {
-  _saveModel(ShowChosen, 'chosen', req, res, function(req, res) {
+  _saveModel(ShowChosen, 'showChosen', req, res, function(req, res) {
     var param = req.body;
     var chosen = new ShowChosen();
     ['showRefs'].forEach(function(field) {
