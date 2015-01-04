@@ -37,6 +37,14 @@ public class BrandEntity extends AbsEntity {
         return name;
     }
 
+    public int getSloganWidth() {
+        return 320;
+    }
+
+    public int getSloganHeight() {
+        return 320;
+    }
+
     public String getNewestNumber() {
         return String.valueOf((null != __context) ? __context.numShows : 0);
     }

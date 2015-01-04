@@ -31,6 +31,7 @@ public class P03BrandListActivity extends Activity {
     private MNavigationView navigationView;
     private MPullRefreshListView pullRefreshListView;
     private ListView listView;
+    private int brandType = 0;
     private int pageIndex = 1;
 
     private P03BrandListAdapter adapter;
@@ -45,6 +46,19 @@ public class P03BrandListActivity extends Activity {
             @Override
             public void onClick(View v) {
                 P03BrandListActivity.this.finish();
+            }
+        });
+
+        findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                brandType = 0;
+            }
+        });
+        findViewById(R.id.P03_brand_list_offline_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                brandType = 1;
             }
         });
 
@@ -85,7 +99,7 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void loadMoreData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi("0",String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 pageIndex++;
@@ -105,7 +119,7 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void refreshData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi("0","1"),null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 pageIndex = 1;
