@@ -30,9 +30,8 @@ public class TrendEntity extends AbsEntity {
     public int getNumComments(){
         if(null != __context){
             return __context.numComments;
-        }else{
-            return 0;
         }
+        return 0;
     }
 
     public String getCover(){   if(null == cover){return "";}   return cover;}
@@ -87,7 +86,7 @@ public class TrendEntity extends AbsEntity {
 
     }
 
-    public static class TrendContext{
+    public class TrendContext{
         public int numComments;
     }
 

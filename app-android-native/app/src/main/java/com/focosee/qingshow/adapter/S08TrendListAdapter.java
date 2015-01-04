@@ -7,19 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.entity.TrendEntity;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class S08TrendListAdapter extends BaseAdapter {
 
@@ -47,18 +45,24 @@ public class S08TrendListAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void addItemTop(LinkedList<TrendEntity> datas){this.data.addAll(datas);}
-    public void addItemLast(LinkedList<TrendEntity> datas){this.data.addAll(datas);}
+    public void addItemTop(LinkedList<TrendEntity> datas) {
+        this.data.addAll(datas);
+    }
+
+    public void addItemLast(LinkedList<TrendEntity> datas) {
+        this.data.addAll(datas);
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        HolderView holderView;
+        final HolderView holderView;
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, null);
+            convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, parent,false);
 
             holderView = new HolderView();
+            holderView.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.s08_relative_layout);
             holderView.backImageView = (ImageView) convertView.findViewById(R.id.S08_background_image_view);
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.S08_item_name);
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
@@ -72,9 +76,15 @@ public class S08TrendListAdapter extends BaseAdapter {
 
             convertView.setTag(holderView);
         } else {
-            holderView = (HolderView)convertView.getTag();
+            holderView = (HolderView) convertView.getTag();
         }
         holderView.backImageView.setMinimumHeight(data.get(position).getHeight());
+        //Toast.makeText(convertView.getContext(),data.get(position).getHeight()+"&&&",Toast.LENGTH_LONG).show();
+        //设置relativeLayout高度
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
+                ,data.get(position).getHeight());
+        holderView.relativeLayout.setLayoutParams(params);
+
         ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView);
         //Toast.makeText(convertView.getContext(),data.get(position).getCover()+"%%%",Toast.LENGTH_LONG).show();
         holderView.nameTextView.setText(data.get(position).getNameDescription());
@@ -84,7 +94,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_SEND);
+                Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("image*//*");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
                 intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
@@ -92,12 +102,12 @@ public class S08TrendListAdapter extends BaseAdapter {
                 context.startActivity(Intent.createChooser(intent, context.getPackageName()));
             }
         });
-        holderView.messageTextView.setText("444444444444");
+        holderView.messageTextView.setText(data.get(position).getNumComments()+"");
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mPosition = Integer.valueOf(((Button) v).getTag().toString());
+                int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
                 if (null != data.get(mPosition) && null != data.get(mPosition).get_id()) {
                     Intent intent = new Intent(context, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
@@ -107,12 +117,16 @@ public class S08TrendListAdapter extends BaseAdapter {
                 }
             }
         });
-        holderView.likeTextView.setText("55555555555555");
+        holderView.likeTextView.setText(data.get(position).numLike+"");
         holderView.likeImageButton.setTag(position);
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
+                if (null != data.get(mPosition) && null != data.get(mPosition).get_id()) {
+                    holderView.likeTextView.setText(
+                            Integer.parseInt(holderView.likeTextView.getText().toString())+1+"");
+                }
             }
         });
 
@@ -120,6 +134,7 @@ public class S08TrendListAdapter extends BaseAdapter {
     }
 
     class HolderView {
+        public RelativeLayout relativeLayout;
         public ImageView backImageView;
         public TextView nameTextView;
         public TextView descriptionTextView;
