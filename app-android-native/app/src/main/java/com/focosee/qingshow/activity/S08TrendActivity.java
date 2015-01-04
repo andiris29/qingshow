@@ -43,9 +43,9 @@ public class S08TrendActivity extends Activity {
 
         //test
 
-
         adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>());
         listView.setAdapter(adapter);
+        mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);
         mPullRefreshListView.setScrollLoadEnabled(true);
         mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
