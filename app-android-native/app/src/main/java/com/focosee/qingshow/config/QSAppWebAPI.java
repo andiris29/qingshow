@@ -41,6 +41,7 @@ public class QSAppWebAPI {
     private static final String QUERY_PEOPLE_FOLLOWED_API = HOST_NAME + "/people/queryFollowed";
 
     private static final String PREVIEW_TREND_LIST_API = HOST_NAME + "/preview/feed";
+    private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
 
     //author:Chenhr
     public static String getPreviewTrendListApi(int pageIndex, int pageSize){
