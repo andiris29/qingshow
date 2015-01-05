@@ -274,26 +274,3 @@ feeding.studio = {
         });
     }
 };
-
-feeding.byStyles = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
-            var criteria = {
-                '$or' : []
-            };
-            qsParam.styles.forEach(function(style) {
-                criteria['$or'].push({
-                    'styles' : style
-                });
-            });
-            MongoHelper.queryPaging(Show.find(criteria).sort({
-                'create' : -1
-            }), Show.find(criteria), pageNo, pageSize, callback);
-        }, function(queryString) {
-            return {
-                'styles' : RequestHelper.parseArray(queryString.styles)
-            };
-        });
-    }
-};
