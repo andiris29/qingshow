@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var async = require('async');
+var async = require('async'), _ = require('underscore');
 //model
 var People = require('../../model/peoples');
 var Brand = require('../../model/brands');
@@ -15,13 +15,13 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServerError = require('../server-error');
 
 var _queryBrands = function(req, res) {
-    var qsParam = {}, numTotal;
+    var qsParam, numTotal;
     async.waterfall([
     function(callback) {
         // Parse request
         try {
-            RequestHelper.parsePaging(qsParam, req.queryString);
-            RequestHelper.parse(qsParam, req.queryString);
+            qsParam = RequestHelper.parsePageInfo(req.queryString);
+            qsParam = _.extend(qsParam, RequestHelper.parse(req.queryString));
             callback(null);
         } catch(err) {
             callback(ServerError.fromError(err));

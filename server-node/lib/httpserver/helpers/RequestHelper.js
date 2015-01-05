@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var RequestHelper = module.exports;
 
-RequestHelper.parse = function(qsParam, raw, specifiedParsers) {
-    qsParam = qsParam || {};
+RequestHelper.parse = function(raw, specifiedParsers) {
+    var qsParam = {};
     specifiedParsers = specifiedParsers || {};
     for (var key in raw) {
         var parser = specifiedParsers[key];
@@ -16,8 +16,8 @@ RequestHelper.parse = function(qsParam, raw, specifiedParsers) {
     return qsParam;
 };
 
-RequestHelper.parsePaging = function(qsParam, raw) {
-    qsParam = RequestHelper.parse(qsParam, raw, {
+RequestHelper.parsePageInfo = function(raw) {
+    var qsParam = RequestHelper.parse(raw, {
         'pageNo' : RequestHelper.parseNumber,
         'pageSize' : RequestHelper.parseNumber
     });

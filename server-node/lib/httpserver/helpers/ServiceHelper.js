@@ -8,15 +8,13 @@ var RequestHelper = require('../helpers/RequestHelper');
 ServiceHelper = module.exports;
 
 ServiceHelper.queryRelatedPeoples = function(req, res, RModel, queryField, resultField) {
-    var pageNo, pageSize, numTotal;
-    var _id;
+    var qsParam, numTotal;
 
     async.waterfall([
     function(callback) {
         try {
-            var param = req.queryString;
-            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-            _id = RequestHelper.parseId(param._id);
+            qsParam = RequestHelper.parsePageInfo(req.queryString);
+            qsParam._id = RequestHelper.parseId(req.queryString._id);
             callback(null);
         } catch(err) {
             callback(ServerError.fromError(err));
@@ -24,10 +22,10 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, queryField, resul
     },
     function(callback) {
         var criteria = {};
-        criteria[queryField] = _id;
+        criteria[queryField] = qsParam._id;
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
-        }).populate(resultField), RModel.find(criteria), pageNo, pageSize, function(err, count, relationships) {
+        }).populate(resultField), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, count, relationships) {
             numTotal = count;
             var peoples = [];
             if (!err) {
@@ -46,6 +44,6 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, queryField, resul
         // Response
         ResponseHelper.responseAsPaging(res, err, {
             'peoples' : peoples
-        }, pageSize, numTotal);
+        }, qsParam.pageSize, numTotal);
     });
 };
