@@ -2,19 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/news_item_bg" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.focosee.qingshow.widget.MImageView_OriginSize
             android:id="@+id/item_brand_slogan"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher"></ImageView>
+            android:scaleType="centerCrop" ></com.focosee.qingshow.widget.MImageView_OriginSize>
     </LinearLayout>
 
     <ImageView
