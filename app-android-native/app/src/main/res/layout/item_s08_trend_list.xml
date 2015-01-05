@@ -12,7 +12,6 @@
             android:id="@+id/S08_background_image_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/splash_image"
             android:scaleType="centerCrop" />
     </LinearLayout>
 
@@ -30,10 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginLeft="20dp"
-        android:orientation="vertical"
-        android:paddingLeft="10dp">
+        android:paddingBottom="10dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/S08_item_name"
@@ -62,6 +61,7 @@
         android:id="@+id/s08_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="10dp"
         android:gravity="bottom">
 
         <ImageButton
@@ -78,7 +78,7 @@
         <ImageButton
             android:id="@+id/S08_item_share_btn"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_above="@+id/S08_item_video_start_btn"
             android:layout_alignRight="@+id/S08_item_video_start_btn"
             android:layout_marginBottom="30dp"

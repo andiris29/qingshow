@@ -44,6 +44,10 @@ public class QSAppWebAPI {
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
 
     //author:Chenhr
+    public static String getPreviewTrendLikeApi(){
+        return PREVIEW_TREND_LIKE_API;
+    }
+
     public static String getPreviewTrendListApi(int pageIndex, int pageSize){
         return PREVIEW_TREND_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
