@@ -3,7 +3,6 @@ package com.focosee.qingshow.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;

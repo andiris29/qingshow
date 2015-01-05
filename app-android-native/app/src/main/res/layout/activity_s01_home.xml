@@ -4,231 +4,186 @@
     android:layout_height="match_parent"
     tools:context="com.focosee.focosee.activity.S01HomeActivity">
 
-    <LinearLayout
-        android:id="@+id/S01_navigation"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="#ffffff"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <android.support.v4.widget.SlidingPaneLayout
+        android:id="@+id/s01_sliding_layout"
+        android:animateLayoutChanges="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/S01_title_menu"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/nav_btn_menu" />
+        <FrameLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:gravity="left">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/nav_btn_image_logo" />
+            <LinearLayout
+                android:id="@+id/S01_pop_menu"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:background="@android:drawable/alert_dark_frame"
+                android:alpha="50"
+                android:gravity="center_horizontal"
+                android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/S01_title_account"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/nav_btn_account" />
 
-    </LinearLayout>
+                <ImageView
+                    android:id="@+id/S01_nav_icon_flash"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/root_menu_flash" />
 
-    <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
-        android:id="@+id/S01_waterfall_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:minHeight="20dp"
-        android:background="#f2f2f2"
-        android:layout_below="@+id/S01_navigation"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="闪点推荐"
+                    android:textColor="#ffffffff" />
 
-    <LinearLayout
-        android:id="@+id/S01_pop_menu"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/S01_navigation"
-        android:orientation="vertical"
-        android:background="#01ffffff"
-        android:visibility="visible">
 
+            <ImageView
+                android:id="@+id/S01_nav_icon_match"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/root_menu_match" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="美搭榜单"
+                android:textColor="#ffffffff" />
+
+
+            <ImageView
+                android:id="@+id/S01_nav_icon_people"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/root_menu_people" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="人气用户"
+                android:textColor="#ffffffff" />
+
+
+            <ImageView
+                android:id="@+id/S01_nav_icon_design"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/root_menu_design" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="潮流时尚"
+                android:textColor="#ffffffff" />
+
+
+            <ImageView
+                android:id="@+id/S01_nav_icon_brand"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/root_menu_brand" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="品牌专区"
+                android:textColor="#ffffffff" />
+
+
+            <!--<TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall" />-->
+        </LinearLayout>
+            </RelativeLayout>
+
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right">
+        <RelativeLayout
+            android:id="@+id/s01_show_relative"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
+            android:id="@+id/S01_navigation"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@android:drawable/screen_background_dark_transparent"
-            android:alpha="50">
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="#ffffff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/S01_title_menu"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/nav_btn_menu" />
+
+            <ImageView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:src="@drawable/nav_btn_image_logo" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_flash"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/root_menu_flash" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="闪点推荐"
-                        android:textColor="#ffffffff" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_match"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/root_menu_match" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="美搭榜单"
-                        android:textColor="#ffffffff" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_people"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/root_menu_people" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="人气用户"
-                        android:textColor="#ffffffff" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_design"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/root_menu_design" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="潮流时尚"
-                        android:textColor="#ffffffff" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_brand"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/root_menu_brand" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="品牌专区"
-                        android:textColor="#ffffffff" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                </LinearLayout>
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/S01_title_account"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/nav_btn_account" />
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/textView" />
-    </LinearLayout>
+        <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
+            android:id="@+id/S01_waterfall_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/S01_navigation"
+            android:background="#f2f2f2"
+            android:layout_weight="1"
+            android:minHeight="20dp"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
+        </RelativeLayout>
+    </FrameLayout>
 
-</RelativeLayout>
+
+</android.support.v4.widget.SlidingPaneLayout>
+
+
+    </RelativeLayout>

@@ -2,11 +2,25 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -18,6 +32,7 @@ import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.BlurBehindUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -34,7 +49,7 @@ public class S01HomeActivity extends Activity {
 
 //    private MNavigationView _navigationView;
     private LinearLayout _popView;
-
+    private SlidingPaneLayout spl;
     private MPullRefreshMultiColumnListView _wfPullRefreshView;
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
@@ -46,6 +61,10 @@ public class S01HomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s01_home);
+
+        spl = (SlidingPaneLayout) S01HomeActivity.this
+                .findViewById(R.id.s01_sliding_layout);
+        spl.setPanelSlideListener(new PanelSlideListener());
 
 //        _navigationView = (MNavigationView) findViewById(R.id.S01_navigation);
 //        _navigationView.setLeft_drawable(R.drawable.nav_btn_menu);
@@ -59,7 +78,8 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
                 startActivity(intent);
-                _popView.setVisibility(View.GONE);
+                spl.closePane();
+                //_popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_match)).setOnClickListener(new View.OnClickListener() {
@@ -68,7 +88,8 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
                 startActivity(intent);
-                _popView.setVisibility(View.GONE);
+                spl.closePane();
+                //_popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
@@ -77,7 +98,8 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
                 startActivity(intent);
-                _popView.setVisibility(View.GONE);
+                spl.closePane();
+                //_popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_design)).setOnClickListener(new View.OnClickListener() {
@@ -91,7 +113,8 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, S08TrendActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
                 startActivity(intent);
-                _popView.setVisibility(View.GONE);
+                spl.closePane();
+                //_popView.setVisibility(View.GONE);
             }
         });
         ((ImageView)findViewById(R.id.S01_nav_icon_brand)).setOnClickListener(new View.OnClickListener() {
@@ -100,27 +123,26 @@ public class S01HomeActivity extends Activity {
                 Intent intent = new Intent(S01HomeActivity.this, P03BrandListActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
                 startActivity(intent);
-                _popView.setVisibility(View.GONE);
+                spl.closePane();
+                //_popView.setVisibility(View.GONE);
 
             }
         });
 
         _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
 
-        _popView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _popView.setVisibility(View.INVISIBLE);
-            }
-        });
 
         ((ImageView)findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (_popView.getVisibility() != View.VISIBLE)
-                    _popView.setVisibility(View.VISIBLE);
-                else
-                    _popView.setVisibility(View.GONE);
+                if (spl.isOpen()) {
+                    spl.closePane();
+                } else {
+                    spl.openPane();
+                    //BlurBehindUtil.getInstance().withAlpha(80)
+                            //.withFilterColor(Color.parseColor("#0075c0"))
+                            //.setBackground(S01HomeActivity.this);
+                }
             }
         });
         ((ImageView)findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
@@ -134,8 +156,6 @@ public class S01HomeActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-        _popView.setVisibility(View.GONE);
 
         _wfPullRefreshView = (MPullRefreshMultiColumnListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
@@ -173,6 +193,14 @@ public class S01HomeActivity extends Activity {
 
         _wfPullRefreshView.doPullRefreshing(true, 500);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(spl.isSlideable() && spl.isOpen())
+            spl.closePane();
+        else
+            super.onBackPressed();
     }
 
     private void setLastUpdateTime() {
@@ -235,6 +263,26 @@ public class S01HomeActivity extends Activity {
             }
         });
         QSApplication.get().QSRequestQueue().add(jor);
+    }
+
+    class PanelSlideListener implements android.support.v4.widget.SlidingPaneLayout.PanelSlideListener {
+        @Override
+        public void onPanelClosed(View view) {
+            S01HomeActivity.this.closeOptionsMenu();
+        }
+
+        @Override
+        public void onPanelOpened(View viw) {
+            S01HomeActivity.this.openOptionsMenu();
+            //getWindow().setFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND,WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
+            //RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.s01_show_relative);
+
+        }
+
+        @Override
+        public void onPanelSlide(View arg0, float arg1) {
+
+        }
     }
 
 }
