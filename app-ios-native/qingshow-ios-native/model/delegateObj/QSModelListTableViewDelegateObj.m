@@ -56,6 +56,7 @@
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     if ([self.delegate respondsToSelector:@selector(followBtnPressed:)]) {
         [self.delegate followBtnPressed:self.resultArray[indexPath.row]];
+        [self reloadData];
     }
 }
 
