@@ -8,13 +8,16 @@
 
 #import <UIKit/UIKit.h>
 #import "QSAllItemImageScrollView.h"
+#import "UILabelStrikeThrough.h"
 
 @interface QSS03ItemShopDetailViewController : UIViewController <UIScrollViewDelegate, QSImageScrollViewBaseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UIButton *showBtn;
+@property (weak, nonatomic) IBOutlet UIButton *shopBtn;
 @property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
+@property (weak, nonatomic) IBOutlet UILabelStrikeThrough *label2;
+@property (weak, nonatomic) IBOutlet UILabel *label3;
+
 - (IBAction)shopButtonPressed:(id)sender;
 //@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 

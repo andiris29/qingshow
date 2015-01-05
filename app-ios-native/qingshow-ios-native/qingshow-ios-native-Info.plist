@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -29,7 +29,7 @@
 			<string>com.focosee.chingshow.weibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wb271944535</string>
+				<string>wb1213293589</string>
 			</array>
 		</dict>
 		<dict>
@@ -39,12 +39,12 @@
 			<string>com.focosee.chingshow.weichart</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxef1d308f82e30c66</string>
+				<string>wx75cf44d922f47721</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

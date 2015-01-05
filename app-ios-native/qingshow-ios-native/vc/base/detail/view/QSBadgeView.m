@@ -54,8 +54,19 @@
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
 }
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGRect rect = self.statusLabel.frame;
+    rect.origin.x = self.nameLabel.frame.origin.x + self.nameLabel.frame.size.width + 20;
+    self.statusLabel.frame = rect;
+}
+
 - (void)updateView
 {
+    CGRect rect = self.frame;
+    rect.size.width = [UIScreen mainScreen].bounds.size.width;
+    self.frame = rect;
     self.btnGroup = [[QSSectionButtonGroup alloc] initWithType:self.type];
     [self.sectionGroupContainer addSubview:self.btnGroup];
     [self.btnGroup setSelect:0];
@@ -67,19 +78,20 @@
 {
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-    self.nameLabel.text = peopleDict[@"name"];
-    self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
+    
+    self.nameLabel.text = [QSPeopleUtil getName:peopleDict];
+    self.roleLabel.text = [QSPeopleUtil getJobDesc:peopleDict];
     self.statusLabel.text = [QSPeopleUtil getDetailDesc:peopleDict];
 
-    NSString* headPhotoPath = peopleDict[@"portrait"];
-    [self.iconImageView setImageFromURL:[NSURL URLWithString:headPhotoPath] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
-    NSString* backgroundPath = peopleDict[@"background"];
-    [self.backgroundImageView setImageFromURL:[NSURL URLWithString:backgroundPath] placeHolderImage:nil animation:YES];
-    if ([QSPeopleUtil getPeopleIsFollowed:peopleDict]) {
-        self.btnGroup.singleButton.textLabel.text = @"取消关注";
-    } else {
-        self.btnGroup.singleButton.textLabel.text = @"关注";
+    
+    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
+    [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];
+    
+    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
+        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
+        [f setFollowed:[QSPeopleUtil getPeopleIsFollowed:peopleDict]];
     }
+
     self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
 }
 - (void)bindWithBrandDict:(NSDictionary*)brandDict

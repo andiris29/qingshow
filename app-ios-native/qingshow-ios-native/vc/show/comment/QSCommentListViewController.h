@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "QSCommentListTableViewDelegateObj.h"
 
+typedef NS_ENUM(int, QSCommentListViewControllerType) {
+    QSCommentListViewControllerTypeShow,
+    QSCommentListViewControllerTypePreview
+};
+
 @interface QSCommentListViewController : UIViewController<QSCommentListTableViewDelegateObj, UITextFieldDelegate, UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *commentContainer;
@@ -20,5 +25,6 @@
 - (IBAction)sendBtnPressed:(id)sender;
 
 - (id)initWithShow:(NSDictionary*)showDict;
+- (id)initWithPreview:(NSDictionary*)previewDict;
 
 @end

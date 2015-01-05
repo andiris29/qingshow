@@ -23,8 +23,14 @@
         UIImage* image = self.imageArray[imageIndex];
         imageView.image = image;
     } else if (self.imageUrlArray) {
-        NSURL* imageUrl = self.imageUrlArray[imageIndex];
-        [imageView setImageFromURL:imageUrl];
+        id imageInfo = self.imageUrlArray[imageIndex];
+        if ([imageInfo isKindOfClass:[NSURL class]]) {
+            NSURL* imageUrl = (NSURL*)imageInfo;
+            [imageView setImageFromURL:imageUrl];
+        } else if ([imageInfo isKindOfClass:[UIImage class]]){
+            imageView.image = (UIImage*)imageInfo;
+        }
+
     }
     return imageView;
 }
@@ -35,8 +41,13 @@
         UIImage* image = self.imageArray[imageIndex];
         imageView.image = image;
     } else if (self.imageUrlArray) {
-        NSURL* imageUrl = self.imageUrlArray[imageIndex];
-        [imageView setImageFromURL:imageUrl];
+        id imageInfo = self.imageUrlArray[imageIndex];
+        if ([imageInfo isKindOfClass:[NSURL class]]) {
+            NSURL* imageUrl = (NSURL*)imageInfo;
+            [imageView setImageFromURL:imageUrl];
+        } else if ([imageInfo isKindOfClass:[UIImage class]]){
+            imageView.image = (UIImage*)imageInfo;
+        }
     }
 }
 

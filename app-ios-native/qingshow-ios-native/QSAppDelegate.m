@@ -14,6 +14,8 @@
 #import "QSUserManager.h"
 
 
+
+
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
 @property (strong, nonatomic) NSString *wbCurrentUserID;
@@ -25,9 +27,9 @@
 {
     
     [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kWeiboAppKey];
+    [WeiboSDK registerApp:kWeiboAppKeyNum];
     
-    [WXApi registerApp:@"wxef1d308f82e30c66"];
+    [WXApi registerApp:kWechatAppID];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];
@@ -35,7 +37,26 @@
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    
+    [self showLaunchImageAnimationWithDuration:0.5f];
+    
     return YES;
+}
+
+- (void)showLaunchImageAnimationWithDuration:(float)duration
+{
+    UIScreen* mainScreen = [UIScreen mainScreen];
+    NSString* launchImgName = [NSString stringWithFormat:@"launch_%d-%d", (int)mainScreen.bounds.size.width, (int)mainScreen.bounds.size.height];
+    UIImage* launchImg = [UIImage imageNamed:launchImgName];
+    UIImageView* lauchImgView = [[UIImageView alloc] initWithImage:launchImg];
+    lauchImgView.frame = mainScreen.bounds;
+    [self.window addSubview:lauchImgView];
+    [UIView animateWithDuration:duration animations:^{
+        lauchImgView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [lauchImgView removeFromSuperview];
+    }];
+    
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -67,9 +88,9 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url absoluteString] hasPrefix:@"wb271944535"]) {
+    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
         return [WeiboSDK handleOpenURL:url delegate:self];
-    } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
+    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return YES;
@@ -78,9 +99,9 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    if ([[url absoluteString] hasPrefix:@"wb271944535"]) {
+    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
         return [WeiboSDK handleOpenURL:url delegate:self ];
-    } else if ([[url absoluteString] hasPrefix:@"wxef1d308f82e30c66"]) {
+    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
     }
     return YES;

@@ -14,9 +14,12 @@
 #import "UIViewController+ShowHud.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSS03ShowDetailViewController.h"
+#import "UIViewController+QSExtension.h"
+
 
 @interface QSDetailBaseViewController ()
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstrain;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *backBtnTopConstrain;
 @property (weak, nonatomic) IBOutlet UIView *badgeContainer;
 @property (weak, nonatomic) IBOutlet UIView *contentContainer;
 
@@ -27,6 +30,8 @@
 @property (assign, nonatomic) CGPoint touchLocation;
 @property (strong, nonatomic) UIView* currentTouchView;
 
+@property (assign, nonatomic) float backPreTopCon;
+@property (assign, nonatomic) BOOL canScrollBadgeViewUp;
 
 @end
 
@@ -37,6 +42,7 @@
     //badge view
     self.badgeView = [QSBadgeView generateViewWithType:self.type];
     [self.badgeContainer addSubview:self.badgeView];
+    self.badgeView.frame = self.badgeContainer.bounds;
     self.badgeView.delegate = self;
 
 }
@@ -54,6 +60,14 @@
     self.currentSection = 0;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
+    self.backPreTopCon = self.backBtnTopConstrain.constant;
+    self.canScrollBadgeViewUp = YES;
+}
+
+- (void)viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    [self configContentInset];
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,7 +85,6 @@
     }
     UIScrollView* currentView = self.viewArray[self.currentSection];
     [currentView.superview bringSubviewToFront:currentView];
-    CGPoint p = currentView.contentOffset;
     
     CATransition* transition = [[CATransition alloc] init];
     CATransition* transition2 = [[CATransition alloc] init];
@@ -86,22 +99,39 @@
     }
 
     [currentView.layer addAnimation:transition forKey:@"transition"];
-    
     for (int i = 0; i < self.viewArray.count; i++) {
         UIScrollView* view = self.viewArray[i];
         view.hidden = i != section;
-        if (p.y < 0.1) {
-            view.contentOffset = p;
-        }
     }
     
     self.currentSection = section;
     currentView = self.viewArray[self.currentSection];
     [currentView.layer addAnimation:transition2 forKey:@"transition"];
 
+
+    float time = ABS(self.topConstrain.constant) / 800;
+    self.topConstrain.constant = 0;
+    self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+    self.canScrollBadgeViewUp = NO;
+    [UIView animateWithDuration:time animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        self.currentTouchView = nil;
+        self.canScrollBadgeViewUp = YES;
+    }];
+    
 }
 
 #pragma mark - Scroll View
+
+- (void)configContentInset
+{
+    float height = self.badgeView.frame.size.height;
+    for (UIScrollView* view in self.viewArray) {
+        view.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
+    }
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.currentTouchView != scrollView) {
@@ -110,21 +140,62 @@
     }
     else
     {
-        self.topConstrain.constant -= scrollView.contentOffset.y;
-        BOOL f = YES;
-        if (self.topConstrain.constant > 0) {
+        if (scrollView.contentOffset.y < - self.badgeView.frame.size.height)
+        {
+            self.touchLocation = CGPointMake(0, - self.badgeView.frame.size.height);
+            float time = ABS(self.topConstrain.constant) / 400;
             self.topConstrain.constant = 0;
-            f = NO;
-        }
-        if (self.topConstrain.constant < -115) {
-            self.topConstrain.constant = -115;
-            f = NO;
-        }
-        if (f) {
-            scrollView.contentOffset = CGPointZero;
-        }
+            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+            self.canScrollBadgeViewUp = NO;
+            [UIView animateWithDuration:time animations:^{
+                [self.view layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                self.touchLocation = scrollView.contentOffset;
+                self.canScrollBadgeViewUp = YES;
+            }];
 
-        [self.view layoutIfNeeded];
+            
+            return;
+        }
+        float deltaY = scrollView.contentOffset.y - self.touchLocation.y;
+        float h = -self.badgeView.frame.size.height + 20 + self.badgeView.btnGroup.frame.size.height;
+        
+        
+        if ((deltaY >= 0 && self.canScrollBadgeViewUp)){
+            //move badgeView up
+            self.topConstrain.constant -= deltaY;
+            if (self.topConstrain.constant > 0) {
+                self.topConstrain.constant = 0;
+            }
+            if (self.topConstrain.constant < -self.badgeView.frame.size.height) {
+                self.topConstrain.constant = -self.badgeView.frame.size.height;
+            }
+            self.touchLocation = scrollView.contentOffset;
+            //Back Btn
+            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+            [self.view layoutIfNeeded];
+        } else if ((self.topConstrain.constant >= h && self.canScrollBadgeViewUp && scrollView.contentOffset.y <= -(self.badgeView.frame.size.height + h)))
+        {
+            self.topConstrain.constant = -scrollView.contentOffset.y - self.badgeView.frame.size.height;
+            self.touchLocation = scrollView.contentOffset;
+            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+            [self.view layoutIfNeeded];
+            
+            
+        }else if (deltaY < -5){
+            float time = ABS(self.topConstrain.constant - h) / 400;
+            self.topConstrain.constant = h;
+            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+            self.canScrollBadgeViewUp = NO;
+            [UIView animateWithDuration:time animations:^{
+                [self.view layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                self.touchLocation = scrollView.contentOffset;
+                self.canScrollBadgeViewUp = YES;
+            }];
+        }
+        
+        
         
     }
 }
@@ -145,14 +216,12 @@
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:peopleDict];
 }
 #pragma mark - QSModelListTableViewDelegateObjDelegate
 - (void)clickModel:(NSDictionary*)model
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:model];
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {

@@ -11,7 +11,8 @@
                 <outlet property="iconImageView" destination="KRy-8r-dZC" id="dFB-VK-LSv"/>
                 <outlet property="label1" destination="uwi-Cy-Nzg" id="ZMh-B8-JjZ"/>
                 <outlet property="label2" destination="kpT-93-nGl" id="TWj-lA-svh"/>
-                <outlet property="showBtn" destination="uyH-PJ-2zS" id="FCb-fC-PMc"/>
+                <outlet property="label3" destination="bqs-Bw-B7h" id="fVg-uw-7GG"/>
+                <outlet property="shopBtn" destination="uyH-PJ-2zS" id="KMC-I0-kkf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -45,21 +46,21 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uwi-Cy-Nzg">
                             <rect key="frame" x="73" y="29" width="149" height="12"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kpT-93-nGl">
-                            <rect key="frame" x="73" y="49" width="149" height="12"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="kpT-93-nGl" customClass="UILabelStrikeThrough">
+                            <rect key="frame" x="73" y="49" width="66" height="12"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uyH-PJ-2zS">
                             <rect key="frame" x="242" y="31" width="64" height="34"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="0.33725490196078434" blue="0.14117647058823529" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10.699999809265137"/>
                             <state key="normal" title="在线商店">
@@ -69,6 +70,13 @@
                                 <action selector="shopButtonPressed:" destination="-1" eventType="touchUpInside" id="Q0U-lh-4p6"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bqs-Bw-B7h">
+                            <rect key="frame" x="147" y="49" width="75" height="12"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                 </view>

@@ -44,8 +44,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary* modelDict = self.resultArray[indexPath.row];
+    self.clickedData = modelDict;
     if ([self.delegate respondsToSelector:@selector(clickModel:)]) {
-        [self.delegate clickModel:self.resultArray[indexPath.row]];
+        [self.delegate clickModel:modelDict];
     }
 }
 #pragma mark - QSModelListTableViewCellDelegate
@@ -54,6 +56,16 @@
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     if ([self.delegate respondsToSelector:@selector(followBtnPressed:)]) {
         [self.delegate followBtnPressed:self.resultArray[indexPath.row]];
+    }
+}
+
+- (void)refreshClickedData
+{
+    if (self.clickedData) {
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:self.clickedData] inSection:0];
+        QSModelListTableViewCell* cell = (QSModelListTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        [cell bindWithPeople:self.clickedData];
+        self.clickedData = nil;
     }
 }
 

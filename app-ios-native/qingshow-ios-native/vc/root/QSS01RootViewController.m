@@ -14,6 +14,7 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSP03BrandListViewController.h"
+#import "QSS02FashionViewController.h"
 
 #import "QSS02CategoryViewController.h"
 
@@ -26,6 +27,9 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSShowUtil.h"
 #import "QSError.h"
+#import "UIViewController+QSExtension.h"
+#import "UIImage+BlurryImage.h"
+#import "QSAppDelegate.h"
 
 @interface QSS01RootViewController ()
 
@@ -33,6 +37,9 @@
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
 //@property (assign, nonatomic) BOOL fISLogined;
+
+@property (assign, nonatomic) BOOL fIsFirstLoad;
+
 @end
 
 @implementation QSS01RootViewController
@@ -49,11 +56,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 	// Do any additional setup after loading the view, typically from a nib.MyLayout *layout=[[MyLayout alloc]init];
     [self configDelegateObj];
     [self configNavBar];
     QSRootMenuView* menuView = [QSRootMenuView generateView];
-    [self.menuContainer addSubview:menuView];
+    
+//    [self.navigationController.view addSubview:menuView];
+    [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window addSubview:menuView];
     self.menuView = menuView;
     self.fIsShowMenu = NO;
     menuView.delegate = self;
@@ -64,16 +74,26 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
+    
+    self.fIsFirstLoad = YES;
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    self.menuView.hidden = !self.fIsShowMenu;
+    
+    [self.delegateObj refreshClickedData];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self hideMenu];
+    
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -85,7 +105,7 @@
 {
     self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
     self.delegateObj.delegate = self;
-
+    self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
     [self.delegateObj bindWithCollectionView:self.collectionView];
     __weak QSS01RootViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -112,7 +132,7 @@
     UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
     self.navigationItem.leftBarButtonItem = menuItem;
     
-    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
+    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_account_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
 }
 
@@ -123,12 +143,12 @@
     if (self.fIsShowMenu)
     {
         [self.menuView hideMenuAnimationComple:^{
-            weakSelf.menuContainer.hidden = YES;
+            weakSelf.menuView.hidden = YES;
         }];
     }
     else
     {
-        weakSelf.menuContainer.hidden = NO;
+        weakSelf.menuView.hidden = NO;
         [self.menuView showMenuAnimationComple:^{
         }];
     }
@@ -147,17 +167,18 @@
 //    } else
     if (!userManager.userInfo) {
         //未登陆
-        UIViewController *vc = [[QSU06LoginViewController alloc]initWithNibName:@"QSU06LoginViewController" bundle:nil];
+        UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         //已登陆
-        UIViewController* vc = [[QSU01UserDetailViewController alloc] init];
+        UIViewController* vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
         [self.navigationController pushViewController:vc animated:YES];
         
 
     }
 }
 
+// TODO Remove code block
 #pragma mark - QSWaterFallCollectionViewCellDelegate
 - (void)addFavorShow:(NSDictionary*)showDict
 {
@@ -166,18 +187,22 @@
             [self showSuccessHudWithText:@"unlike succeed"];
             [self.delegateObj updateShow:showDict];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
             [self showSuccessHudWithText:@"like succeed"];
             [self.delegateObj updateShow:showDict];
         } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
+            [self handleError:error];
         }];
     }
 }
 #pragma mark - QSRootMenuViewDelegate
+- (void)rootMenuViewDidTapBlankView
+{
+    [self hideMenu];
+}
 - (void)rootMenuItemPressedType:(int)type
 {
     [self hideMenu];
@@ -200,6 +225,12 @@
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
+        case 8:
+        {
+            UIViewController* vc = [[QSS02FashionViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
         default:
         {
             UIViewController* vc = [[QSS02CategoryViewController alloc] initWithCategory:type];
@@ -218,7 +249,7 @@
     {
         __weak QSS01RootViewController* weakSelf = self;
         [self.menuView hideMenuAnimationComple:^{
-            weakSelf.menuContainer.hidden = YES;
+            weakSelf.menuView.hidden = YES;
         }];
         self.fIsShowMenu = NO;
     }
@@ -242,13 +273,14 @@
     CATransition* tran = [[CATransition alloc] init];
     tran.type = kCATransitionPush;
     tran.subtype = kCATransitionFromRight;
+    
     [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_show_detail"];
 }
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
     [self hideMenu];
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
+    UIViewController* vc = [self generateDetailViewControlOfPeople:peopleDict];
     [self.navigationController pushViewController:vc animated:NO];
     
     CATransition* tran = [[CATransition alloc] init];
@@ -259,7 +291,7 @@
 
 - (void)handleNetworkError:(NSError*)error
 {
-    [self showErrorHudWithError:error];
+    [self handleError:error];
 }
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {

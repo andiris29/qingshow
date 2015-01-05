@@ -14,7 +14,10 @@
 
 @interface QSDetailBaseViewController : UIViewController <QSBadgeViewDelegate, QSShowDelegateObjDelegate, QSModelListTableViewDelegateObjDelegate>
 
+//@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (strong, nonatomic) NSArray* viewArray;
 @property (strong, nonatomic) QSBadgeView* badgeView;
 @property (assign, nonatomic) QSSectionButtonGroupType type;
+
+- (void)configContentInset;
 @end

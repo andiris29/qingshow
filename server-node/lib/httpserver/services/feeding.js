@@ -8,7 +8,7 @@ var Brand = require('../../model/brands');
 var Studio = require('../../model/studios');
 var Item = require('../../model/items');
 var People = require('../../model/peoples');
-var Chosen = require('../../model/chosens');
+var ShowChosen = require('../../model/showChosens');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 //util
 var RelationshipHelper = require('../helpers/RelationshipHelper');
@@ -19,7 +19,7 @@ var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 
-feeding = module.exports;
+var feeding = module.exports;
 
 var _populate = function(shows, callback) {
     var array = [];
@@ -101,7 +101,7 @@ feeding.recommendation = {
         _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
                 'numView' : -1
-            }), Show.find(), pageNo, pageSize, callback);
+            }), Show.find().limit(20), pageNo, pageSize, callback);
         });
     }
 };
@@ -152,7 +152,7 @@ feeding.chosen = {
             async.waterfall([
             function(callback) {
                 // Query chosen
-                Chosen.find({
+                ShowChosen.find({
                     'type' : qsParam.type
                 }).where('activateTime').lte(Date.now()).sort({
                     'activateTime' : 1
@@ -170,13 +170,13 @@ feeding.chosen = {
             function(count, callback) {
                 // Query shows
                 var skip = (pageNo - 1) * pageSize;
-                chosen = new Chosen({
+                chosen = new ShowChosen({
                     'activateTime' : chosen.activateTime,
                     'showRefs' : chosen.showRefs.filter(function(show, index) {
                         return index >= skip && index < skip + pageSize;
                     })
                 });
-                Chosen.populate(chosen, {
+                ShowChosen.populate(chosen, {
                     'path' : 'showRefs'
                 }, function(err, chosen) {
                     callback(err, count, chosen.showRefs);
