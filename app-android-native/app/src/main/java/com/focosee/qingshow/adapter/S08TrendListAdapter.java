@@ -32,6 +32,8 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 
 public class S08TrendListAdapter extends BaseAdapter {
+    //每一行的最小高度
+    private final static int MINHIGHT = 700;
 
     private Context context;
     private LinkedList<TrendEntity> data;
@@ -68,6 +70,9 @@ public class S08TrendListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final HolderView holderView;
+        RelativeLayout.LayoutParams params;
+
+        int height = data.get(position).getHeight();
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -90,12 +95,21 @@ public class S08TrendListAdapter extends BaseAdapter {
         } else {
             holderView = (HolderView) convertView.getTag();
         }
-        holderView.backImageView.setMinimumHeight(data.get(position).getHeight());
+        //如何图片高度小于最小高度，则设为最小高度
+        if(height<MINHIGHT) {
+            params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
+                    , MINHIGHT);
+            holderView.relativeLayout.setLayoutParams(params);
+            holderView.backImageView.setMinimumWidth(MINHIGHT);
+        }else {
+            holderView.backImageView.setMinimumHeight(height);
+            params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
+                    , data.get(position).getHeight());
+            holderView.relativeLayout.setLayoutParams(params);
+        }
         //Toast.makeText(convertView.getContext(),data.get(position).getHeight()+"&&&",Toast.LENGTH_LONG).show();
         //设置relativeLayout高度
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
-                ,data.get(position).getHeight());
-        holderView.relativeLayout.setLayoutParams(params);
+
 
         ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView);
         //Toast.makeText(convertView.getContext(),data.get(position).getCover()+"%%%",Toast.LENGTH_LONG).show();
