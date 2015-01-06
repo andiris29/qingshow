@@ -37,6 +37,7 @@
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
     };
+    [self.delegateObj fetchDataOfPage:1];
 }
 
 #pragma mark - Life Cycle
