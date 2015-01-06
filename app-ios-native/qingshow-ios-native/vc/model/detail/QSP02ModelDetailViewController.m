@@ -152,9 +152,9 @@
     [SHARE_NW_ENGINE handleFollowModel:self.peopleDict onSucceed:^(BOOL f) {
         [self updateView];
         if (f) {
-            [self showTextHud:@"follow successfully"];
+            [self showTextHud:@"关注成功"];
         } else {
-            [self showTextHud:@"unfollow successfully"];
+            [self showTextHud:@"取消关注成功"];
         }
     } onError:^(NSError *error) {
         [self handleError:error];

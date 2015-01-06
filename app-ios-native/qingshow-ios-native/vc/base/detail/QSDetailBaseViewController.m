@@ -227,11 +227,11 @@
 {
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
-            [self showTextHud:@"follow succeed"];
+            [self showTextHud:@"关注成功"];
         }
         else
         {
-            [self showTextHud:@"unfollow succeed"];
+            [self showTextHud:@"取消关注成功"];
         }
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"error"];

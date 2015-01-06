@@ -82,11 +82,11 @@
 {
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
-            [self showTextHud:@"follow succeed"];
+            [self showTextHud:@"关注成功"];
         }
         else
         {
-            [self showTextHud:@"unfollow succeed"];
+            [self showTextHud:@"取消关注成功"];
         }
         NSUInteger index = [self.delegateObj.resultArray indexOfObject:model];
         [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];

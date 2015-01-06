@@ -129,9 +129,9 @@
 {
     [SHARE_NW_ENGINE handleFollowBrand:self.brandDict onSucceed:^(BOOL f) {
         if (f) {
-            [self showSuccessHudWithText:@"follow successfully"];
+            [self showSuccessHudWithText:@"关注成功"];
         } else {
-            [self showSuccessHudWithText:@"unfollow successfully"];
+            [self showSuccessHudWithText:@"取消关注成功"];
         }
     } onError:^(NSError *error) {
         [self handleError:error];
