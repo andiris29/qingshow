@@ -8,7 +8,7 @@
 
 #import "QSS02FashionViewController.h"
 #import "QSNetworkKit.h"
-#import "QSCommentListViewController.h"
+#import "QSS04CommentListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
@@ -66,7 +66,7 @@
 #pragma mark - QSBigImageTableViewDelegateObjDelegate
 - (void)clickCommentOfDict:(NSDictionary*)dict
 {
-    UIViewController* vc = [[QSCommentListViewController alloc] initWithPreview:dict];
+    UIViewController* vc = [[QSS04CommentListViewController alloc] initWithPreview:dict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

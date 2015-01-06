@@ -10,7 +10,7 @@
 #import "QSSingleImageScrollView.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSS03ItemDetailViewController.h"
-#import "QSCommentListViewController.h"
+#import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
@@ -177,7 +177,7 @@
 
 - (IBAction)commentBtnPressed:(id)sender {
     [self hideSharePanel];
-    UIViewController* vc =[[QSCommentListViewController alloc] initWithShow:self.showDict];
+    UIViewController* vc =[[QSS04CommentListViewController alloc] initWithShow:self.showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
