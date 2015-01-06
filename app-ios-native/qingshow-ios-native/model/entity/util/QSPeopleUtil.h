@@ -26,6 +26,7 @@
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
++ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;

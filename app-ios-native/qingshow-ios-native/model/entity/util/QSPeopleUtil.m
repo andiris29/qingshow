@@ -222,6 +222,22 @@
     }
     return @"0";
 }
+
++ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict
+{
+    if ([QSCommonUtil checkIsNil:peopleDict] && ![peopleDict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* p = (NSMutableDictionary*)peopleDict;
+    NSMutableDictionary* context = [peopleDict[@"__context"] mutableCopy];
+    if (context) {
+        NSNumber* f = context[@"numFollowers"];
+        context[@"numFollowers"] = @(f.longLongValue + num);
+        p[@"__context"] = context;
+    }
+    
+}
+
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
 {
     if ([QSCommonUtil checkIsNil:modelDict]) {
