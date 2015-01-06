@@ -23,39 +23,28 @@ var ServerError = require('../server-error');
 // Response
 //  data.items array, entity in db.pItems
 var _queryAvailablePItems = function(req, res) {
-    var pageNo, pageSize, numTotal;
-    var categories;
-    async.waterfall([
-    function(callback) {
-        // Parse request
-        try {
-            var param = req.queryString;
-            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 20);
-            categories = (param.categories || '').split(',');
-            callback(null);
-        } catch(err) {
-            callback(ServerError.fromError(err));
-        }
-    },
-    function(callback) {
-        // Query
+    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+        // querier
         var criteria = {
             'category' : {
-                '$in' : categories
+                '$in' : qsParam.categories
             },
             'collocated' : {
                 '$ne' : true
             }
         };
-        MongoHelper.queryPaging(PItem.find(criteria), PItem.find(criteria), pageNo, pageSize, function(err, count, pItems) {
-            numTotal = count;
-            callback(err, pItems);
-        });
-    }], function(err, pItems) {
-        // Response
-        ResponseHelper.responseAsPaging(res, err, {
-            'pItems' : pItems
-        }, pageSize, numTotal);
+        MongoHelper.queryPaging(PItem.find(criteria), PItem.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+    }, function(models) {
+        // responseDataBuilder
+        return {
+            'pItems' : models
+        };
+    }, {
+        'postParseRequest' : function(raw) {
+            return {
+                'categories' : (raw.categories || '').split(',')
+            };
+        }
     });
 };
 

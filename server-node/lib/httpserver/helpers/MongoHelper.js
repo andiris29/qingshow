@@ -24,7 +24,7 @@ module.exports.queryPaging = function(query, queryCount, pageNo, pageSize, callb
             if (err) {
                 callback(ServerError.fromDescription(err));
             } else {
-                callback(err, count, models);
+                callback(err, models, count);
             }
         });
     }], callback);

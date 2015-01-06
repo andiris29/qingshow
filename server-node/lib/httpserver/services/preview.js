@@ -35,43 +35,11 @@ var _parseCover = function(previews, callback) {
     async.parallel(tasks, callback);
 };
 
-var _feed = function(req, res, previewFinder, queryStringParser, beforeResponseEnd) {
-    var pageNo, pageSize, numTotal;
-    async.waterfall([
-    function(callback) {
-        try {
-            pageNo = parseInt(req.queryString.pageNo || 1);
-            pageSize = parseInt(req.queryString.pageSize || 10);
-            var qsParam = queryStringParser ? queryStringParser(req.queryString) : null;
-            callback(null, qsParam);
-        } catch(err) {
-            callback(ServerError.fromError(err));
-        }
-    },
-    function(qsParam, callback) {
-        previewFinder(pageNo, pageSize, qsParam, function(err, count, previews) {
-            numTotal = count;
-            if (!err && previews.length === 0) {
-                err = ServerError.PagingNotExist;
-            }
-            callback(err, previews);
-        });
-    }, _parseCover,
-    function(previews, callback) {
-        ContextHelper.appendPreviewContext(req.qsCurrentUserId, previews, callback);
-    }], function(err, previews) {
-        // Response
-        ResponseHelper.responseAsPaging(res, err, {
-            'previews' : previews
-        }, pageSize, numTotal, beforeResponseEnd);
-    });
-};
-
 preview.feed = {
     'method' : 'get',
     'func' : function(req, res) {
-        var chosen;
-        _feed(req, res, function(pageNo, pageSize, qsParam, callback) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            // querier
             async.waterfall([
             function(callback) {
                 // Query chosen
@@ -90,19 +58,34 @@ preview.feed = {
             },
             function(count, callback) {
                 // Query previews
-                var skip = (pageNo - 1) * pageSize;
+                var skip = (qsParam.pageNo - 1) * qsParam.pageSize;
                 chosen = new PreviewChosen({
                     'activateTime' : chosen.activateTime,
                     'previewRefs' : chosen.previewRefs.filter(function(preview, index) {
-                        return index >= skip && index < skip + pageSize;
+                        return index >= skip && index < skip + qsParam.pageSize;
                     })
                 });
                 PreviewChosen.populate(chosen, {
                     'path' : 'previewRefs'
                 }, function(err, chosen) {
-                    callback(err, count, chosen.previewRefs);
+                    callback(err, chosen.previewRefs, count);
                 });
             }], callback);
+        }, function(models) {
+            // responseDataBuilder
+            return {
+                'previews' : models
+            };
+        }, {
+            'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                    _parseCover(currentPageModels, callback);
+                },
+                function(callback) {
+                    ContextHelper.appendPreviewContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
         });
     }
 };
@@ -169,37 +152,26 @@ preview.unlike = {
 preview.queryComments = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var _id;
-        async.waterfall([
-        function(callback) {
-            // Parse request
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 20);
-                _id = mongoose.mongo.BSONPure.ObjectID(param._id);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
-            // Query
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            // querier
             var criteria = {
-                'targetRef' : _id,
+                'targetRef' : qsParam._id,
                 'delete' : null
             };
             MongoHelper.queryPaging(PreviewComment.find(criteria).sort({
                 'create' : -1
-            }).populate('authorRef').populate('atRef'), PreviewComment.find(criteria), pageNo, pageSize, function(err, count, previewComments) {
-                numTotal = count;
-                callback(err, previewComments);
-            });
-        }], function(err, previewComments) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'previewComments' : previewComments
-            }, pageSize, numTotal);
+            }).populate('authorRef').populate('atRef'), PreviewComment.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(models) {
+            // responseDataBuilder
+            return {
+                'previewComments' : models
+            };
+        }, {
+            'postParseRequest' : function(raw) {
+                return {
+                    '_id' : mongoose.mongo.BSONPure.ObjectID(raw._id)
+                };
+            }
         });
     }
 };

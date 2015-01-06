@@ -14,35 +14,21 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServerError = require('../server-error');
 
 var _queryModels = function(req, res) {
-    var pageNo, pageSize, numTotal;
-    async.waterfall([
-    function(callback) {
-        // Parse request
-        try {
-            var param = req.queryString;
-            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-            callback(null);
-        } catch(err) {
-            callback(ServerError.fromError(err));
-        }
-    },
-    function(callback) {
-        // Query
+    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+        // querier
         var criteria = {
             'roles' : 1
         };
-        MongoHelper.queryPaging(People.find(criteria), People.find(criteria), pageNo, pageSize, function(err, count, peoples) {
-            numTotal = count;
-            callback(err, peoples);
-        });
-    },
-    function(peoples, callback) {
-        ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
-    }], function(err, peoples) {
-        // Response
-        ResponseHelper.responseAsPaging(res, err, {
-            'peoples' : peoples
-        }, pageSize, numTotal);
+        MongoHelper.queryPaging(People.find(criteria), People.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+    }, function(models) {
+        // responseDataBuilder
+        return {
+            'peoples' : models
+        };
+    }, {
+        'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+            ContextHelper.appendPeopleContext(req.qsCurrentUserId, currentPageModels, callback);
+        }
     });
 };
 

@@ -117,38 +117,28 @@ show.unlike = {
 show.queryComments = {
     'method' : 'get',
     'func' : function(req, res) {
-        var pageNo, pageSize, numTotal;
-        var _id;
-        async.waterfall([
-        function(callback) {
-            // Parse request
-            try {
-                var param = req.queryString;
-                pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 20);
-                _id = mongoose.mongo.BSONPure.ObjectID(param._id);
-                callback(null);
-            } catch(err) {
-                callback(ServerError.fromError(err));
-            }
-        },
-        function(callback) {
-            // Query
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            // querier
             var criteria = {
-                'targetRef' : _id,
+                'targetRef' : qsParam._id,
                 'delete' : null
             };
             MongoHelper.queryPaging(ShowComment.find(criteria).sort({
                 'create' : -1
-            }).populate('authorRef').populate('atRef'), ShowComment.find(criteria), pageNo, pageSize, function(err, count, showComments) {
-                numTotal = count;
-                callback(err, showComments);
-            });
-        }], function(err, showComments) {
-            // Response
-            ResponseHelper.responseAsPaging(res, err, {
-                'showComments' : showComments
-            }, pageSize, numTotal);
+            }).populate('authorRef').populate('atRef'), ShowComment.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(models) {
+            // responseDataBuilder
+            return {
+                'showComments' : models
+            };
+        }, {
+            'postParseRequest' : function(raw) {
+                return {
+                    '_id' : mongoose.mongo.BSONPure.ObjectID(raw._id)
+                };
+            }
         });
+
     }
 };
 

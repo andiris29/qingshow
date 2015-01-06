@@ -15,19 +15,8 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServerError = require('../server-error');
 
 var _queryBrands = function(req, res) {
-    var qsParam, numTotal;
-    async.waterfall([
-    function(callback) {
-        // Parse request
-        try {
-            qsParam = RequestHelper.parsePageInfo(req.queryString);
-            qsParam = _.extend(qsParam, RequestHelper.parse(req.queryString));
-            callback(null);
-        } catch(err) {
-            callback(ServerError.fromError(err));
-        }
-    },
-    function(callback) {
+    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+        // querier
         var criteria = {};
         if (qsParam.type !== undefined) {
             criteria.type = qsParam.type;
@@ -35,18 +24,21 @@ var _queryBrands = function(req, res) {
         // Query
         MongoHelper.queryPaging(Brand.find(criteria).sort({
             'create' : -1
-        }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, count, brands) {
-            numTotal = count;
-            callback(err, brands);
-        });
-    },
-    function(brands, callback) {
-        ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
-    }], function(err, brands) {
-        // Response
-        ResponseHelper.responseAsPaging(res, err, {
-            'brands' : brands
-        }, qsParam.pageSize, numTotal);
+        }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+    }, function(models) {
+        // responseDataBuilder
+        return {
+            'brands' : models
+        };
+    }, {
+        'postParseRequest' : function(raw) {
+            return {
+                'type' : raw.type
+            };
+        },
+        'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+            ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
+        }
     });
 };
 
