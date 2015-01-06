@@ -191,14 +191,14 @@
     [self hideSharePanel];
     if ([QSShowUtil getIsLike:self.showDict]) {
         [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"unlike succeed"];
+            [self showSuccessHudWithText:@"取消喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"like succeed"];
+            [self showSuccessHudWithText:@"喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
             [self handleError:error];

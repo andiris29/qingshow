@@ -39,7 +39,7 @@
                 }
                 if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
                     NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
-                    [mD updateWithDict:showDict];
+                    [mD updateWithDict:d];
                 }
                 succeedBlock(showDict);
                 return;

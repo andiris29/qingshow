@@ -79,10 +79,10 @@
 {
     [SHARE_NW_ENGINE handlePreviewLike:dict onSucceed:^(BOOL f) {
         if (f) {
-            [self showTextHud:@"like successfully"];
+            [self showTextHud:@"喜欢成功"];
 
         } else {
-            [self showTextHud:@"unlike successfully"];
+            [self showTextHud:@"取消喜欢成功"];
         }
         [self.delegateObj rebindData:dict];
     } onError:^(NSError *error) {
