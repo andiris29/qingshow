@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
@@ -17,9 +18,11 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,9 @@ import org.json.JSONObject;
 import java.util.LinkedList;
 
 public class S08TrendListAdapter extends BaseAdapter {
+
+
+    private final static String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
     //每一行的最小高度
     private final static int MINHIGHT = 700;
 
@@ -74,6 +80,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         int height = data.get(position).getHeight();
 
+
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, parent,false);
@@ -95,6 +102,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         } else {
             holderView = (HolderView) convertView.getTag();
         }
+        //Log.d(_TAG,convertView.toString());
         //如何图片高度小于最小高度，则设为最小高度
         if(height<MINHIGHT) {
             params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
@@ -107,12 +115,8 @@ public class S08TrendListAdapter extends BaseAdapter {
                     , data.get(position).getHeight());
             holderView.relativeLayout.setLayoutParams(params);
         }
-        //Toast.makeText(convertView.getContext(),data.get(position).getHeight()+"&&&",Toast.LENGTH_LONG).show();
-        //设置relativeLayout高度
 
-
-        ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView);
-        //Toast.makeText(convertView.getContext(),data.get(position).getCover()+"%%%",Toast.LENGTH_LONG).show();
+        ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView, AppUtil.getShowDisplayOptions());
         holderView.nameTextView.setText(data.get(position).getNameDescription());
         holderView.descriptionTextView.setText(data.get(position).getBrandDescription());
         holderView.priceTextView.setText(data.get(position).getPriceDescription());

@@ -53,8 +53,6 @@ public class TrendEntity extends AbsEntity {
         return 0;
     }
 
-
-
     //Inner data
     public TrendContext __context;
     public String _id;
@@ -65,18 +63,6 @@ public class TrendEntity extends AbsEntity {
     public String create;
     public int numLike;
     public MetaDataCover coverMetadata;
-
-
-
-
-
-
-
-
-
-
-
-
 
     public static class MetaDataCover extends AbsEntity{
 
