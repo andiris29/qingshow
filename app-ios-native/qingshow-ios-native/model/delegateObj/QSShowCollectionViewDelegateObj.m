@@ -28,6 +28,16 @@
     if (self.clickedData) {
         NSIndexPath* indexPath = [self getIndexPathOfShow:self.clickedData];
         QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        if (self.filterBlock) {
+            if (!self.filterBlock(self.clickedData)) {
+                //remove
+                [self.resultArray removeObject:self.clickedData];
+                [self.collectionView reloadData];
+//                [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+                return;
+            }
+        }
+
         [cell bindData:self.clickedData];
         self.clickedData = nil;
     }

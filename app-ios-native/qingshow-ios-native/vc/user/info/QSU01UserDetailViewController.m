@@ -11,6 +11,7 @@
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
+#import "QSShowUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -106,6 +107,9 @@
         } onError:errorBlock];
 
     };
+    self.likedDelegate.filterBlock = ^BOOL(id obj){
+        return [QSShowUtil getIsLike:obj];
+    };
     self.likedDelegate.delegate = self;
     [self.likedDelegate reloadData];
 
@@ -128,6 +132,9 @@
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
             succeedBlock(array, metadata);
         } onError:errorBlock];
+    };
+    self.followingDelegate.filterBlock = ^BOOL(id obj){
+        return [QSPeopleUtil  getPeopleIsFollowed:obj];
     };
     self.followingDelegate.delegate = self;
     [self.followingDelegate reloadData];
@@ -177,5 +184,21 @@
 {
     [self.badgeView bindWithPeopleDict:self.userInfo];
 
+}
+
+- (void)followBtnPressed:(NSDictionary*)model
+{
+    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
+        if (fFollow) {
+            [self showTextHud:@"关注成功"];
+        }
+        else
+        {
+            [self.followingDelegate removeData:model withAnimation:YES];
+            [self showTextHud:@"取消关注成功"];
+        }
+    } onError:^(NSError *error) {
+        [self showErrorHudWithText:@"error"];
+    }];
 }
 @end

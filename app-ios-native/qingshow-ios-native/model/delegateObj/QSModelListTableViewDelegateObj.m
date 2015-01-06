@@ -63,6 +63,13 @@
 {
     if (self.clickedData) {
         NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:self.clickedData] inSection:0];
+        if (self.filterBlock) {
+            if (!self.filterBlock(self.clickedData)) {
+                [self.resultArray removeObject:self.clickedData];
+                [self.tableView reloadData];
+                return;
+            }
+        }
         QSModelListTableViewCell* cell = (QSModelListTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
         [cell bindWithPeople:self.clickedData];
         self.clickedData = nil;

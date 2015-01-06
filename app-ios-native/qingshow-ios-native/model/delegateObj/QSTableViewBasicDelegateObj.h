@@ -23,6 +23,7 @@
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
+@property (strong, nonatomic) FilterBlock filterBlock;
 @property (readonly, nonatomic) int currentPage;
 
 #pragma mark  -
@@ -43,10 +44,14 @@
 - (void)reloadData;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;
 
+#pragma mark - 
+- (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate;
 
 #pragma mark - Private 
 @property (strong, nonatomic) UITableView* tableView;
 #pragma mark - Method to be Override
 - (void)registerCell;
 - (void)refreshWithAnimation;
+
+
 @end

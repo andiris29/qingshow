@@ -170,4 +170,12 @@
     [self.tableView scrollRectToVisible:CGRectMake(0, -self.refreshControl.frame.size.height, 1, 1) animated:YES];
     [self tableViewDidPullToRefresh:self.refreshControl];
 }
+- (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate
+{
+    NSUInteger i = [self.resultArray indexOfObject:data];
+    [self.resultArray removeObject:data];
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+    UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
+}
 @end
