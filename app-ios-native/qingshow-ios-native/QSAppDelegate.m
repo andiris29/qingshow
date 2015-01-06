@@ -19,6 +19,7 @@
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
 @property (strong, nonatomic) NSString *wbCurrentUserID;
+@property (strong, nonatomic) UIImageView* launchImageView;
 @end
 
 @implementation QSAppDelegate
@@ -38,27 +39,12 @@
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
     
-    [self showLaunchImageAnimationWithDuration:0.5f];
-    
+    [self showLaunchImage];
+    [self hideLaunchImageAfterDelay:3.f];
     return YES;
 }
 
-- (void)showLaunchImageAnimationWithDuration:(float)duration
-{
-    UIScreen* mainScreen = [UIScreen mainScreen];
-    NSString* launchImgName = [NSString stringWithFormat:@"launch_%d-%d", (int)mainScreen.bounds.size.width, (int)mainScreen.bounds.size.height];
-    UIImage* launchImg = [UIImage imageNamed:launchImgName];
-    UIImageView* lauchImgView = [[UIImageView alloc] initWithImage:launchImg];
-    lauchImgView.frame = mainScreen.bounds;
-    [self.window addSubview:lauchImgView];
-    [UIView animateWithDuration:duration animations:^{
-        lauchImgView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [lauchImgView removeFromSuperview];
-    }];
-    
-}
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -154,4 +140,34 @@
 
 #pragma mark - WeChat
 
+#pragma mark - Launch Image
+- (void)showLaunchImage
+{
+    UIScreen* mainScreen = [UIScreen mainScreen];
+    NSString* launchImgName = [NSString stringWithFormat:@"launch_%d-%d", (int)mainScreen.bounds.size.width, (int)mainScreen.bounds.size.height];
+    UIImage* launchImg = [UIImage imageNamed:launchImgName];
+    UIImageView* lauchImgView = [[UIImageView alloc] initWithImage:launchImg];
+    lauchImgView.frame = mainScreen.bounds;
+    [self.window addSubview:lauchImgView];
+    
+    self.launchImageView = lauchImgView;
+}
+- (void)hideLaunchImageAfterDelay:(float)delay
+{
+    [self performSelector:@selector(hideLaunchImage) withObject:nil afterDelay:delay];
+}
+- (void)hideLaunchImage
+{
+    [self hideLaunchImageAnimationWithDuration:0.5f];
+}
+- (void)hideLaunchImageAnimationWithDuration:(float)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        self.launchImageView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.launchImageView removeFromSuperview];
+        self.launchImageView = nil;
+    }];
+    
+}
 @end
