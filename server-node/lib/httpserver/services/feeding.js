@@ -3,16 +3,9 @@ var async = require('async');
 var _ = require('underscore');
 //model
 var Show = require('../../model/shows');
-var ShowComments = require('../../model/showComments');
-var Brand = require('../../model/brands');
-var Studio = require('../../model/studios');
-var Item = require('../../model/items');
-var People = require('../../model/peoples');
 var ShowChosen = require('../../model/showChosens');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 //util
-var RelationshipHelper = require('../helpers/RelationshipHelper');
-var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
@@ -21,13 +14,7 @@ var ServerError = require('../server-error');
 
 var feeding = module.exports;
 
-// var _dataBuilder = function(err, shows) {
-// return {
-// 'shows' : shows
-// };
-// };
-
-var _feeding = function(req, res, querier, aspectInceptions) {
+var _feed = function(req, res, querier, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
     ServiceHelper.queryPaging(req, res, querier, function(models) {
         // responseDataBuilder
@@ -64,52 +51,11 @@ var _feeding = function(req, res, querier, aspectInceptions) {
         'preEndResponse' : aspectInceptions.preEndResponse
     });
 };
-/**
- *
- * @param {Object} req
- * @param {Object} res
- * @param {Object} showFinder function(qsParam, callback){callback(null, count, shows);}
- * @param {Object} queryStringParser function(queryString){return {};}
- * @param {Object} beforeResponseEnd function(json){return {};}
- */
 
-//
-// var _feed = function(req, res, showFinder, queryStringParser, beforeResponseEnd) {
-// var qsParam.pageNo, qsParam.pageSize, numTotal;
-// async.waterfall([
-// function(callback) {
-// try {
-// qsParam.pageNo = parseInt(req.queryString.qsParam.pageNo || 1);
-// qsParam.pageSize = parseInt(req.queryString.qsParam.pageSize || 10);
-// var qsParam = queryStringParser ? queryStringParser(req.queryString) : null;
-// callback(null, qsParam);
-// } catch(err) {
-// callback(ServerError.fromError(err));
-// }
-// },
-// function(qsParam, callback) {
-// showFinder(qsParam.pageNo, qsParam.pageSize, qsParam, function(err, count, shows) {
-// numTotal = count;
-// if (!err && shows.length === 0) {
-// err = ServerError.PagingNotExist;
-// }
-// callback(err, shows);
-// });
-// }, _populate, _parseCover,
-// function(shows, callback) {
-// ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
-// }], function(err, shows) {
-// // Response
-// ResponseHelper.responseAsPaging(res, err, {
-// 'shows' : shows
-// }, qsParam.pageSize, numTotal, beforeResponseEnd);
-// });
-// };
-//feeding/recommendation
 feeding.recommendation = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
                 'numView' : -1
             }), Show.find().limit(20), qsParam.pageNo, qsParam.pageSize, callback);
@@ -120,7 +66,7 @@ feeding.recommendation = {
 feeding.hot = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
                 'numView' : -1
             }), Show.find(), qsParam.pageNo, qsParam.pageSize, callback);
@@ -132,7 +78,7 @@ feeding.like = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             async.waterfall([
             function(callback) {
                 var criteria = {
@@ -157,7 +103,7 @@ feeding.chosen = {
     'method' : 'get',
     'func' : function(req, res) {
         var chosen;
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             async.waterfall([
             function(callback) {
                 // Query chosen
@@ -210,7 +156,7 @@ feeding.chosen = {
 feeding.byModel = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             var criteria = {
                 'modelRef' : qsParam._id
             };
@@ -230,7 +176,7 @@ feeding.byModel = {
 feeding.byBrandNew = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             var criteria = {
                 'brandRef' : qsParam._id,
                 'brandNewOrder' : {
@@ -253,7 +199,7 @@ feeding.byBrandNew = {
 feeding.byBrandDiscount = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             var criteria = {
                 'brandRef' : qsParam._id,
                 'brandDiscountOrder' : {
@@ -276,7 +222,7 @@ feeding.byBrandDiscount = {
 feeding.studio = {
     'method' : 'get',
     'func' : function(req, res) {
-        _feeding(req, res, function(qsParam, callback) {
+        _feed(req, res, function(qsParam, callback) {
             var criteria = {
                 'studioRef' : {
                     '$ne' : null
