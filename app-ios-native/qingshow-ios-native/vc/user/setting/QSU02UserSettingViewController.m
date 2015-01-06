@@ -15,6 +15,7 @@
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
 #import "QSImageEditingViewController.h"
+#import "QSPeopleUtil.h"
 
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
@@ -370,6 +371,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)refreshImage {
     
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+    [self.portraitImage setImageFromURL:[QSPeopleUtil getHeadIconUrl:people]];
+    [self.backgroundImage setImageFromURL:[QSPeopleUtil getBackgroundUrl:people]];
+    /*
     if (people[@"portrait"] != nil) {
         NSString *portaits = people[@"portrait"];
         [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
@@ -383,6 +387,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     } else {
         [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
     }
+     */
 }
 
 #pragma mark - Action
