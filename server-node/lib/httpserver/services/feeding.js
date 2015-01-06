@@ -12,8 +12,6 @@ var ContextHelper = require('../helpers/ContextHelper');
 
 var ServerError = require('../server-error');
 
-var feeding = module.exports;
-
 var _feed = function(req, res, querier, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
     ServiceHelper.queryPaging(req, res, querier, function(models) {
@@ -51,6 +49,8 @@ var _feed = function(req, res, querier, aspectInceptions) {
         'preEndResponse' : aspectInceptions.preEndResponse
     });
 };
+
+var feeding = module.exports;
 
 feeding.recommendation = {
     'method' : 'get',
@@ -173,41 +173,15 @@ feeding.byModel = {
     }
 };
 
-feeding.byBrandNew = {
+feeding.byBrand = {
     'method' : 'get',
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             var criteria = {
-                'brandRef' : qsParam._id,
-                'brandNewOrder' : {
-                    '$ne' : null
-                }
+                'brandRef' : qsParam._id
             };
             MongoHelper.queryPaging(Show.find(criteria).sort({
-                'brandNewOrder' : 1
-            }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-        }, {
-            'postParseRequest' : function(raw) {
-                return {
-                    '_id' : RequestHelper.parseId(raw._id)
-                };
-            }
-        });
-    }
-};
-
-feeding.byBrandDiscount = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        _feed(req, res, function(qsParam, callback) {
-            var criteria = {
-                'brandRef' : qsParam._id,
-                'brandDiscountOrder' : {
-                    '$ne' : null
-                }
-            };
-            MongoHelper.queryPaging(Show.find(criteria).sort({
-                'brandDiscountOrder' : 1
+                'create' : -1
             }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, {
             'postParseRequest' : function(raw) {

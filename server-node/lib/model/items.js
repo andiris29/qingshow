@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var Brand = require('./brands');
-var Show = require('./shows');
+var async = require('async');
+var ImageUtils = require('./utils/ImageUtils');
 
 var Schema = mongoose.Schema;
 var itemSchema;
@@ -18,5 +18,15 @@ itemSchema = Schema({
         'default' : Date.now
     }
 });
+
+itemSchema.methods.updateCoverMetaData = function(callback) {
+    async.parallel([ function(callback) {
+        ImageUtils.createOrUpdateMetadata(this, 'cover', callback);
+    }.bind(this)], function(err, results) {
+        callback();
+    });
+};
+
 var Item = mongoose.model('items', itemSchema);
-module.exports = Item; 
+
+module.exports = Item;
