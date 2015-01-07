@@ -180,7 +180,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请填写品牌" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fHN-re-uUr">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="喜欢的品牌" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fHN-re-uUr">
                                                     <rect key="frame" x="60" y="8" width="220" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
