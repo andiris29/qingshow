@@ -1,8 +1,10 @@
 var async = require('async');
+var ImageUtils = require('../../model/utils/ImageUtils');
 
 var ServerError = require('../server-error');
 
-module.exports.queryPaging = function(query, queryCount, pageNo, pageSize, callback) {
+var MongoHelper = module.exports;
+MongoHelper.queryPaging = function(query, queryCount, pageNo, pageSize, callback) {
     async.waterfall([
     function(callback) {
         // Count
@@ -29,3 +31,25 @@ module.exports.queryPaging = function(query, queryCount, pageNo, pageSize, callb
         });
     }], callback);
 };
+
+MongoHelper.updateCoverMetaData = function(models, callback) {
+    // Parse cover
+    var tasks = [];
+    models.forEach(function(model) {
+        tasks.push(function(callback) {
+            // Update each model
+            async.parallel([
+            function(callback) {
+                ImageUtils.createOrUpdateMetadata(model, 'cover', callback);
+            },
+            function(callback) {
+                ImageUtils.createOrUpdateMetadata(model, 'horizontalCover', callback);
+            }], function(err, results) {
+                // Ignore error
+                callback();
+            });
+        });
+    });
+    async.parallel(tasks, callback);
+};
+

@@ -1,10 +1,7 @@
 var mongoose = require('mongoose');
-var async = require('async');
-var ImageUtils = require('./utils/ImageUtils');
 
-var Schema = mongoose.Schema;
 var previewSchema;
-previewSchema = Schema({
+previewSchema = mongoose.Schema({
     __context : Object,
     cover : String,
     coverMetadata : {
@@ -24,14 +21,6 @@ previewSchema = Schema({
         'default' : Date.now
     }
 });
-
-previewSchema.methods.updateCoverMetaData = function(callback) {
-    async.parallel([ function(callback) {
-        ImageUtils.createOrUpdateMetadata(this, 'cover', callback);
-    }.bind(this)], function(err, results) {
-        callback();
-    });
-};
 
 var Preview = mongoose.model('previews', previewSchema);
 module.exports = Preview;

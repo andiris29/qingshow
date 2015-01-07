@@ -21,16 +21,7 @@ var _feed = function(req, res, querier, aspectInceptions) {
         'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             async.series([
             function(callback) {
-                // Parse cover
-                var tasks = [];
-                currentPageModels.forEach(function(item) {
-                    tasks.push(function(callback) {
-                        item.updateCoverMetaData(function(err) {
-                            callback(null, item);
-                        });
-                    });
-                });
-                async.parallel(tasks, callback);
+                MongoHelper.updateCoverMetaData(currentPageModels, callback);
             }], callback);
         },
         'beforeEndResponse' : aspectInceptions.beforeEndResponse

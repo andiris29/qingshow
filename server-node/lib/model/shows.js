@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-var async = require('async');
-var ImageUtils = require('./utils/ImageUtils');
 
 var Schema = mongoose.Schema;
 var showSchema;
@@ -44,16 +42,6 @@ showSchema = Schema({
         'default' : Date.now
     }
 });
-
-showSchema.methods.updateCoverMetaData = function(callback) {
-    async.parallel([ function(callback) {
-        ImageUtils.createOrUpdateMetadata(this, 'cover', callback);
-    }.bind(this), function(callback) {
-        ImageUtils.createOrUpdateMetadata(this, 'horizontalCover', callback);
-    }.bind(this)], function(err, results) {
-        callback();
-    });
-};
 
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;

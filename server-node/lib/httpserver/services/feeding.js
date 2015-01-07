@@ -30,16 +30,7 @@ var _feed = function(req, res, querier, aspectInceptions) {
                 }), 'modelRef', callback);
             },
             function(callback) {
-                // Parse cover
-                var tasks = [];
-                currentPageModels.forEach(function(show) {
-                    tasks.push(function(callback) {
-                        show.updateCoverMetaData(function(err) {
-                            callback(null, show);
-                        });
-                    });
-                });
-                async.parallel(tasks, callback);
+                MongoHelper.updateCoverMetaData(currentPageModels, callback);
             },
             function(callback) {
                 // Append context

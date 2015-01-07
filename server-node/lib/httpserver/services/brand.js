@@ -37,7 +37,13 @@ var _queryBrands = function(req, res) {
             };
         },
         'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
-            ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
+            async.series([
+            function(callback) {
+                MongoHelper.updateCoverMetaData(currentPageModels, callback);
+            },
+            function(callback) {
+                ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
+            }], callback);
         }
     });
 };

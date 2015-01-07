@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var People = require('./peoples');
 
 var Schema = mongoose.Schema;
 var brandSchema;
@@ -24,14 +23,6 @@ brandSchema = Schema({
         'default' : Date.now
     }
 });
-
-brandSchema.methods.updateCoverMetaData = function(callback) {
-    async.parallel([ function(callback) {
-        ImageUtils.createOrUpdateMetadata(this, 'cover', callback);
-    }.bind(this)], function(err, results) {
-        callback();
-    });
-};
 
 var Brand = mongoose.model('brands', brandSchema);
 

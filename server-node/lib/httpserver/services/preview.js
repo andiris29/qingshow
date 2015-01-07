@@ -17,24 +17,6 @@ var ServerError = require('../server-error');
 
 var preview = module.exports;
 
-/**
- * Ignore error
- *
- * @param {Object} previews
- * @param {Object} callback
- */
-var _parseCover = function(previews, callback) {
-    var tasks = [];
-    previews.forEach(function(preview) {
-        tasks.push(function(callback) {
-            preview.updateCoverMetaData(function(err) {
-                callback(null, preview);
-            });
-        });
-    });
-    async.parallel(tasks, callback);
-};
-
 preview.feed = {
     'method' : 'get',
     'func' : function(req, res) {
@@ -80,7 +62,7 @@ preview.feed = {
             'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
-                    _parseCover(currentPageModels, callback);
+                    MongoHelper.updateCoverMetaData(currentPageModels, callback);
                 },
                 function(callback) {
                     ContextHelper.appendPreviewContext(req.qsCurrentUserId, currentPageModels, callback);

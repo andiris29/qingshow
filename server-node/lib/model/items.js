@@ -29,14 +29,6 @@ itemSchema = Schema({
     }
 });
 
-itemSchema.methods.updateCoverMetaData = function(callback) {
-    async.parallel([ function(callback) {
-        ImageUtils.createOrUpdateMetadata(this, 'cover', callback);
-    }.bind(this)], function(err, results) {
-        callback();
-    });
-};
-
 var Item = mongoose.model('items', itemSchema);
 
 module.exports = Item;
