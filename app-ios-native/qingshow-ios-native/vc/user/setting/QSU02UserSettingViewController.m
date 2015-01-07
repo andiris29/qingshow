@@ -503,7 +503,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 
 - (void)hideKeyboardAndDatePicker
 {
-    NSArray* a = @[self.birthdayText, self.nameText, self.lengthText, self.weightText];
+    NSArray* a = @[self.birthdayText, self.nameText, self.lengthText, self.weightText, self.brandText];
     for (UIView* view in a) {
         [view resignFirstResponder];
     }
