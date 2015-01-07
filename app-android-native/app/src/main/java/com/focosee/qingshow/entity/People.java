@@ -2,12 +2,9 @@ package com.focosee.qingshow.entity;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class People {
 
