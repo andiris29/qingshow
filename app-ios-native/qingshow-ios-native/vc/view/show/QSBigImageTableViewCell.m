@@ -77,7 +77,6 @@
     }
 
     float iniWidth = [UIScreen mainScreen].bounds.size.width;
-//    [UIDevice currentDevice].
     
     float height = 92;
     float width = iniWidth;
@@ -93,7 +92,22 @@
 }
 + (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
 {
-    return [UIScreen mainScreen].bounds.size.width;
+    NSDictionary* coverMetadata = brandDict[@"coverMetadata"];
+    float iniWidth = [UIScreen mainScreen].bounds.size.width;
+    
+    float height = iniWidth;
+    float width = iniWidth;
+    //1:1
+    if (coverMetadata && coverMetadata[@"height"]) {
+        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
+    }
+    if (coverMetadata && coverMetadata[@"width"]) {
+        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
+    }
+    height = height * iniWidth / width;
+    return height;
+    
+//    return [UIScreen mainScreen].bounds.size.width;
 }
 
 #pragma mark - Bind
@@ -148,7 +162,7 @@
     self.label1.text = [QSBrandUtil getBrandName:brandDict];
     self.label2.text = [QSBrandUtil getBrandShopAddress:brandDict];
     [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.imageView setImageFromURL:[QSBrandUtil getBrandCoverUrl:brandDict]];
+    [self.imgView setImageFromURL:[QSBrandUtil getBrandCoverUrl:brandDict]];
 }
 
 - (void)bindWithPreview:(NSDictionary*)previewDict

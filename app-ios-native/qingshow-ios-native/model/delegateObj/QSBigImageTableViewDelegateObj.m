@@ -24,6 +24,8 @@
     QSBigImageTableViewCell* cell = nil;
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
+    } else if (self.type == QSBigImageTableViewCellTypeBrand) {
+        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     } else {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     }
