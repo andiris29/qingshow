@@ -33,7 +33,7 @@ var _queryBrands = function(req, res) {
     }, {
         'afterParseRequest' : function(raw) {
             return {
-                'type' : raw.type
+                'type' : RequestHelper.parseNumber(raw.type)
             };
         },
         'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
