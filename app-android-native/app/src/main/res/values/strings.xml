@@ -78,4 +78,7 @@
     <string name="title_activity_s08_trend">S08TrendActivity</string>
     <string name="title_activity_launch">倾秀</string>
 
+    <!-- S01Home Activity -->
+    <string name="menu_open">open</string>
+    <string name="menu_close">close</string>
 </resources>
