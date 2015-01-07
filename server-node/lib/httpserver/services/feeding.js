@@ -48,7 +48,7 @@ feeding.recommendation = {
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
-                'numView' : -1
+                // TODO
             }), Show.find().limit(20), qsParam.pageNo, qsParam.pageSize, callback);
         });
     }
@@ -59,7 +59,7 @@ feeding.hot = {
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             MongoHelper.queryPaging(Show.find().sort({
-                'numView' : -1
+                'numLike' : -1
             }), Show.find(), qsParam.pageNo, qsParam.pageSize, callback);
         });
     }
