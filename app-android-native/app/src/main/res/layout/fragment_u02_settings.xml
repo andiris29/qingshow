@@ -34,16 +34,6 @@
                 android:textSize="@dimen/text_size"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/saveTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:text="@string/save_activity_settings"
-                android:textColor="#454545"
-                android:textSize="@dimen/text_size" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -177,23 +167,28 @@
             android:id="@+id/sexRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
+            android:background="#ffffff">
 
             <TextView
+                android:id="@+id/sexLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
                 android:text="@string/sex_activity_settings"
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/sexTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
+                android:layout_toRightOf="@id/sexLabel"
+                android:textSize="20dp"
+                android:background="@null"/>
         </RelativeLayout>
 
         <View
@@ -313,23 +308,27 @@
             android:id="@+id/hairRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_activity_settings"
-            android:background="#ffffff"
-            android:gravity="center_vertical">
+            android:background="#ffffff">
 
             <TextView
+                android:id="@+id/hairLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
                 android:text="@string/hair_activity_settings"
                 android:textSize="@dimen/text_size" />
 
             <TextView
+                android:id="@+id/hairTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:background="@drawable/icon_arrow" />
+                android:layout_toRightOf="@id/hairLabel"
+                android:textSize="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_right_activity_settings"/>
         </RelativeLayout>
 
         <View

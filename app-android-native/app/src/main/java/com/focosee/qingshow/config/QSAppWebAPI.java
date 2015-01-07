@@ -11,6 +11,7 @@ public class QSAppWebAPI {
     public static final String REGISTER_SERVICE_URL = HOST_NAME+ "/user/register";
     public static final String UPDATE_SERVICE_URL = HOST_NAME+ "/user/update";
     public static final String LOGOUT_SERVICE_URL = HOST_NAME + "/user/logout";
+    public static final String GET_SERVICE_URL = HOST_NAME + "/user/get";
 
     private static final String kImageUrlBase = HOST_ADDRESS + "/images";
     private static final String kVideoUrlBase = HOST_ADDRESS + "/videos";
@@ -43,7 +44,8 @@ public class QSAppWebAPI {
     private static final String PREVIEW_TREND_LIST_API = HOST_NAME + "/preview/feed";
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
 
-    //author:Chenhr
+    public static String getUerApi(String _id){ return GET_SERVICE_URL + "?id=" + _id; }
+
     public static String getPreviewTrendLikeApi(){
         return PREVIEW_TREND_LIKE_API;
     }

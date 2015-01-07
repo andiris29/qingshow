@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,24 +33,33 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.LoginResponse;
 import com.focosee.qingshow.entity.People;
+import com.focosee.qingshow.entity.TrendEntity;
 import com.focosee.qingshow.entity.UpdateResponse;
 import com.focosee.qingshow.error.ErrorHandler;
+import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.request.QXStringRequest;
+import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.ActionSheet;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
-public class U02SettingsFragment extends Fragment {
+public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener{
+
+    private String[] sexArgs = {"男", "女"};
+    private String[] hairArgs = {"长发", "超长发", "中长发", "短发", "光头", "其他"};
+
     private Context context;
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
 
     private TextView backTextView;
-    private TextView saveTextView;
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout sexRelativeLayout;
@@ -62,9 +72,13 @@ public class U02SettingsFragment extends Fragment {
     private RelativeLayout aboutVIPRelativeLayout;
 
     private EditText nameEditText;
+    private TextView sexTextView;
     private EditText ageEditText;
     private EditText heightEditText;
     private EditText weightEditText;
+    private TextView hairTextView;
+
+    private People people;
 
     public U02SettingsFragment() {
         // Required empty public constructor
@@ -83,6 +97,8 @@ public class U02SettingsFragment extends Fragment {
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
         sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
+
+        getUser();
 
         backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {
@@ -117,16 +133,16 @@ public class U02SettingsFragment extends Fragment {
         sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                U02SexFragment sexFragment = new U02SexFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, sexFragment).commit();
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet("sex");
             }
         });
         hairRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.hairRelativeLayout);
         hairRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                U02HairFragment hairFragment = new U02HairFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, hairFragment).commit();
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet("hair");
             }
         });
         changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
@@ -179,50 +195,20 @@ public class U02SettingsFragment extends Fragment {
         });
 
         nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
+        nameEditText.setOnFocusChangeListener(this);
+
+        sexTextView = (TextView) getActivity().findViewById(R.id.sexTextView);
+
         ageEditText = (EditText) getActivity().findViewById(R.id.ageEditText);
+        ageEditText.setOnFocusChangeListener(this);
+
         heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
+        heightEditText.setOnFocusChangeListener(this);
+
         weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
+        weightEditText.setOnFocusChangeListener(this);
 
-        saveTextView = (TextView) getActivity().findViewById(R.id.saveTextView);
-        saveTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String, String> params = new HashMap<String, String>();
-                if (!nameEditText.getText().toString().equals(""))
-                    params.put("name", nameEditText.getText().toString());
-                if (!ageEditText.getText().toString().equals(""))
-                    params.put("age", ageEditText.getText().toString());
-                if (!heightEditText.getText().toString().equals(""))
-                    params.put("height", heightEditText.getText().toString());
-                if (!weightEditText.getText().toString().equals(""))
-                    params.put("weight", weightEditText.getText().toString());
-
-                QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
-                        }.getType());
-
-                        if (updateResponse == null || updateResponse.data == null) {
-                            if (updateResponse == null) {
-                                Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                            } else {
-                                ErrorHandler.handle(context, updateResponse.metadata.error);
-                            }
-                        } else {
-                            QSApplication.get().setPeople(updateResponse.data.people);
-                            Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
-                    }
-                });
-                requestQueue.add(qxStringRequest);
-            }
-        });
+        hairTextView = (TextView) getActivity().findViewById(R.id.hairTextView);
 
         Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
         quitButton.setOnClickListener(new View.OnClickListener() {
@@ -269,5 +255,131 @@ public class U02SettingsFragment extends Fragment {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+    //进入页面时，给字段赋值
+    private void setData(){
+        if(null != people){
+            nameEditText.setText(people.name);
+            ageEditText.setText("");
+            heightEditText.setText(people.height);
+            weightEditText.setText(people.weight);
+            sexTextView.setText(sexArgs[people.gender]);
+            sexTextView.setTag(people.gender);
+            hairTextView.setText(people.hairTypes[0]);
+            hairTextView.setTag(people.hairTypes[0]);
+        }
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        commitForm();
+    }
+
+    //获得用户信息
+    private void getUser(){
+
+        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getUerApi(sharedPreferences.getString("id", "")), null, new Response.Listener<JSONObject>(){
+            @Override
+            public void onResponse(JSONObject response) {
+                try{
+
+                    people = People.getPeopleEntitis(response);
+                    setData();
+                }catch (Exception error){
+                    Log.i("test", "error" + error.toString());
+                    Toast.makeText(U02SettingsFragment.this.getActivity(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(U02SettingsFragment.this.getActivity(), "Error:"+error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+        QSApplication.get().QSRequestQueue().add(jor);
+
+    }
+
+    public void showActionSheet(String type) {
+
+        if("sex".equals(type)) {
+
+            ActionSheet.createBuilder(getActivity(), getFragmentManager())
+                    .setTag("sex")
+                    .setCancelButtonTitle("取消")
+                    .setOtherButtonTitles(sexArgs)
+                    .setCancelableOnTouchOutside(true).setListener(this).show();
+        }
+
+        if("hair".equals(type)){
+            ActionSheet.createBuilder(getActivity(), getFragmentManager())
+                    .setTag("hair")
+                    .setCancelButtonTitle("取消")
+                    .setOtherButtonTitles(hairArgs)
+                    .setCancelableOnTouchOutside(true).setListener(this).show();
+        }
+    }
+
+    @Override
+    public void onDismiss(ActionSheet actionSheet, boolean isCancel) {
+
+    }
+
+    @Override
+    public void onOtherButtonClick(ActionSheet actionSheet, int index) {
+
+        if("sex".equals(String.valueOf(actionSheet.getTag()))){
+            sexTextView.setText(sexArgs[index]);
+            sexTextView.setTag(index);
+        }
+
+        if("hair".equals(String.valueOf(actionSheet.getTag()))){
+            hairTextView.setText(hairArgs[index]);
+            hairTextView.setTag(index);
+        }
+        commitForm();
+    }
+
+    private void commitForm(){
+        Map<String, String> params = new HashMap<String, String>();
+        if (!nameEditText.getText().toString().equals(""))
+            params.put("name", nameEditText.getText().toString());
+        if (!ageEditText.getText().toString().equals(""))
+            params.put("age", ageEditText.getText().toString());
+        if (!heightEditText.getText().toString().equals(""))
+            params.put("height", heightEditText.getText().toString());
+        if (!weightEditText.getText().toString().equals(""))
+            params.put("weight", weightEditText.getText().toString());
+        if(null != sexTextView.getTag()){
+            params.put("gender", sexTextView.getTag()+"");
+        }
+        if(null != hairTextView.getTag()){
+            params.put("hairType", hairTextView.getTag()+"");
+        }
+
+        QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
+                }.getType());
+
+                if (updateResponse == null || updateResponse.data == null) {
+                    if (updateResponse == null) {
+                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                    } else {
+                        ErrorHandler.handle(context, updateResponse.metadata.error);
+                    }
+                } else {
+                    QSApplication.get().setPeople(updateResponse.data.people);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(qxStringRequest);
     }
 }
