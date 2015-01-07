@@ -77,7 +77,7 @@ preview.feed = {
                 'previews' : models
             };
         }, {
-            'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+            'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
                 async.series([
                 function(callback) {
                     _parseCover(currentPageModels, callback);
@@ -167,7 +167,7 @@ preview.queryComments = {
                 'previewComments' : models
             };
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : mongoose.mongo.BSONPure.ObjectID(raw._id)
                 };

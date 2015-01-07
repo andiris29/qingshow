@@ -17,8 +17,8 @@ var _feed = function(req, res, querier, aspectInceptions) {
             'items' : models
         };
     }, {
-        'postParseRequest' : aspectInceptions.postParseRequest,
-        'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+        'afterParseRequest' : aspectInceptions.afterParseRequest,
+        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             async.series([
             function(callback) {
                 // Parse cover
@@ -33,7 +33,7 @@ var _feed = function(req, res, querier, aspectInceptions) {
                 async.parallel(tasks, callback);
             }], callback);
         },
-        'preEndResponse' : aspectInceptions.preEndResponse
+        'beforeEndResponse' : aspectInceptions.beforeEndResponse
     });
 };
 
@@ -53,7 +53,7 @@ itemFeeding.byBrandNew = {
                 'brandNewInfo.order' : 1
             }), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
                 };
@@ -76,7 +76,7 @@ itemFeeding.byBrandDiscount = {
                 'brandDiscountInfo.order' : 1
             }), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
                 };

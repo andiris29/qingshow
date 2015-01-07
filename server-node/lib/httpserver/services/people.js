@@ -26,7 +26,7 @@ var _queryModels = function(req, res) {
             'peoples' : models
         };
     }, {
-        'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             ContextHelper.appendPeopleContext(req.qsCurrentUserId, currentPageModels, callback);
         }
     });

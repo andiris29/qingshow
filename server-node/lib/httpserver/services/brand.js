@@ -31,12 +31,12 @@ var _queryBrands = function(req, res) {
             'brands' : models
         };
     }, {
-        'postParseRequest' : function(raw) {
+        'afterParseRequest' : function(raw) {
             return {
                 'type' : raw.type
             };
         },
-        'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
         }
     });

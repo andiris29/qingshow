@@ -40,7 +40,7 @@ var _queryAvailablePItems = function(req, res) {
             'pItems' : models
         };
     }, {
-        'postParseRequest' : function(raw) {
+        'afterParseRequest' : function(raw) {
             return {
                 'categories' : (raw.categories || '').split(',')
             };

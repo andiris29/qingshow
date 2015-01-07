@@ -17,17 +17,17 @@ ServiceHelper = module.exports;
  return {
  };
  }, {
- 'postParseRequest' : function(raw) {
+ 'afterParseRequest' : function(raw) {
  },
- 'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+ 'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
  },
- 'preEndResponse' : function(json) {
+ 'beforeEndResponse' : function(json) {
  return json;
  }
  });
  */
 ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, aspectInceptions) {
-    // postQuery, postParseRequest, preSendResponse
+    // afterQuery, afterParseRequest, preSendResponse
     aspectInceptions = aspectInceptions || {};
     var qsParam;
     async.waterfall([
@@ -35,8 +35,8 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
         // Parse request
         try {
             qsParam = RequestHelper.parsePageInfo(req.queryString);
-            if (aspectInceptions.postParseRequest) {
-                _.extend(qsParam, aspectInceptions.postParseRequest(req.queryString));
+            if (aspectInceptions.afterParseRequest) {
+                _.extend(qsParam, aspectInceptions.afterParseRequest(req.queryString));
             }
             callback();
         } catch(err) {
@@ -52,8 +52,8 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
                 if (currentPageModels.length === 0) {
                     callback(ServerError.PagingNotExist);
                 } else {
-                    if (aspectInceptions.postQuery) {
-                        aspectInceptions.postQuery(qsParam, currentPageModels, numTotal, function(err) {
+                    if (aspectInceptions.afterQuery) {
+                        aspectInceptions.afterQuery(qsParam, currentPageModels, numTotal, function(err) {
                             callback(err, currentPageModels, numTotal);
                         });
                     } else {
@@ -72,7 +72,7 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
                 'numPages' : parseInt((numTotal + qsParam.pageSize - 1) / qsParam.pageSize)
             };
         }
-        ResponseHelper.response(res, err, data, metadata, aspectInceptions.preEndResponse);
+        ResponseHelper.response(res, err, data, metadata, aspectInceptions.beforeEndResponse);
     });
 };
 
@@ -98,12 +98,12 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, queryField, resul
             'peoples' : peoples
         };
     }, {
-        'postParseRequest' : function(raw) {
+        'afterParseRequest' : function(raw) {
             return {
                 '_id' : RequestHelper.parseId(req.queryString._id)
             };
         },
-        'postQuery' : function(qsParam, peoples, numTotal, callback) {
+        'afterQuery' : function(qsParam, peoples, numTotal, callback) {
             ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
         }
     });

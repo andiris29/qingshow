@@ -20,8 +20,8 @@ var _feed = function(req, res, querier, aspectInceptions) {
             'shows' : models
         };
     }, {
-        'postParseRequest' : aspectInceptions.postParseRequest,
-        'postQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+        'afterParseRequest' : aspectInceptions.afterParseRequest,
+        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             async.series([
             function(callback) {
                 // Populate
@@ -46,7 +46,7 @@ var _feed = function(req, res, querier, aspectInceptions) {
                 ContextHelper.appendShowContext(req.qsCurrentUserId, currentPageModels, callback);
             }], callback);
         },
-        'preEndResponse' : aspectInceptions.preEndResponse
+        'beforeEndResponse' : aspectInceptions.beforeEndResponse
     });
 };
 
@@ -138,12 +138,12 @@ feeding.chosen = {
                 });
             }], callback);
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     'type' : RequestHelper.parseNumber(raw.type) || 0
                 };
             },
-            'preEndResponse' : function(json) {
+            'beforeEndResponse' : function(json) {
                 if (chosen) {
                     json.metadata.refreshTime = chosen.activateTime;
                 }
@@ -164,7 +164,7 @@ feeding.byModel = {
                 'create' : -1
             }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
                 };
@@ -184,7 +184,7 @@ feeding.byBrand = {
                 'create' : -1
             }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
                 };

@@ -132,7 +132,7 @@ show.queryComments = {
                 'showComments' : models
             };
         }, {
-            'postParseRequest' : function(raw) {
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : mongoose.mongo.BSONPure.ObjectID(raw._id)
                 };
