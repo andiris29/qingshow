@@ -1,6 +1,4 @@
 var mongoose = require('mongoose');
-var async = require('async');
-var ImageUtils = require('./utils/ImageUtils');
 
 var Schema = mongoose.Schema;
 var itemSchema;
@@ -8,11 +6,23 @@ itemSchema = Schema({
     category : Number, // <code>
     name : String,
     cover : String,
+    coverMetadata : {
+        url : String,
+        width : Number,
+        height : Number
+    },
+    source : String,
     brandRef : {
         type : Schema.Types.ObjectId,
         ref : 'brands'
     },
-    source : String,
+    brandNewInfo : {
+        order : Number
+    },
+    brandDiscountInfo : {
+        price : Number,
+        order : Number
+    },
     create : {
         type : Date,
         'default' : Date.now
