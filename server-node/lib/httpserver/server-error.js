@@ -7,7 +7,7 @@ var ServerError = function(errorCode, description, err) {
     if (errorCode === ServerError.ServerError) {
         err = err || new Error();
         this.stack = err.stack;
-        console.log(new Date().toString() + ': ServerError');
+        console.log(new Date().toString() + '- ServerError: ' + this.errorCode);
         console.log('\t' + this.stack);
     }
 };
