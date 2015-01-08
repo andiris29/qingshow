@@ -102,7 +102,7 @@
     [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
     [self.backgroundImageView setImageFromURL:[QSBrandUtil getBrandBgUrl:brandDict] placeHolderImage:nil animation:YES];
     self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
-    self.roleLabel.text = [QSBrandUtil getBrandTypeDesc:brandDict];
+    self.roleLabel.text = @"";
     self.statusLabel.text = @"";
 }
 
