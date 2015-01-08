@@ -47,8 +47,7 @@
                         android:id="@+id/S01_title_account"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/nav_btn_account" />
+                        android:layout_marginRight="10dp"/>
 
                 </LinearLayout>
 

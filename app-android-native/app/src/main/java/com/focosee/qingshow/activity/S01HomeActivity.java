@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,19 +16,18 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
@@ -39,15 +36,14 @@ import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
 public class S01HomeActivity extends Activity {
     //    private MNavigationView _navigationView;
+    private final static String S01_TAG = "S01HomeActivity";
     private LinearLayout _popView;
     //抽屉对象
     private RelativeLayout _mFrmRight;
@@ -60,7 +56,9 @@ public class S01HomeActivity extends Activity {
     private HomeWaterfallAdapter _adapter;
     private int _currentPageIndex = 1;
     private RelativeLayout relativeLayout_right_fragment;
+
     private ImageView _blurImage;
+    private ImageView _accountImage;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
@@ -130,6 +128,12 @@ public class S01HomeActivity extends Activity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        _accountImage.setBackgroundResource(getAccountImgId());
+    }
+
     private void closeMenu() {
         spl.closeDrawer(_mFrmLeft);
         _blurImage.setVisibility(View.INVISIBLE);
@@ -167,15 +171,9 @@ public class S01HomeActivity extends Activity {
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                //Log.d("S01",slideOffset+"dp");
                 if (_tag == 0) {
-                    //if (_blurImage.getVisibility() == View.INVISIBLE) {
-                        //背景模糊
-                        applyBlur();
-                        _blurImage.setVisibility(View.VISIBLE);
-                    //} else {
-                     //   _blurImage.setVisibility(View.INVISIBLE);
-                    //}
+                    applyBlur();
+                    _blurImage.setVisibility(View.VISIBLE);
                 }
                 if (_tag == 0) _tag = 1;
                 if(slideOffset == 0.0) _blurImage.setVisibility(View.INVISIBLE);
@@ -361,9 +359,15 @@ public class S01HomeActivity extends Activity {
                 }
             }
         });
-        ((ImageView) findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
+
+        _accountImage = (ImageView) findViewById(R.id.S01_title_account);
+
+        _accountImage.setBackgroundResource(getAccountImgId());
+        _accountImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(S01HomeActivity.this,
                         (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
                                 ? U01PersonalActivity.class : U06LoginActivity.class);
@@ -372,6 +376,15 @@ public class S01HomeActivity extends Activity {
             }
         });
     }
+    //获得用户图标ID（根据用户性格进行选择）
+    private int getAccountImgId(){
+        People people = QSApplication.get().getPeople();
+        Log.d(S01_TAG, people+"sex");
+        if(null != people && 1 == people.gender)
+            return R.drawable.nav_account_btn_woman;
+        return R.drawable.nav_btn_account_man;
+    }
+
 
 
 }
