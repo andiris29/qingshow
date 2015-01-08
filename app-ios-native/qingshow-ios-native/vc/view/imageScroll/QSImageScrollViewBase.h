@@ -20,7 +20,7 @@ QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
 
 @interface QSImageScrollViewBase : UIView<UIScrollViewDelegate>
 
-+ (QSImageScrollViewBase*)generateView;
+//+ (QSImageScrollViewBase*)generateView;
 
 - (int)getViewCount;
 - (UIView*)getViewForPage:(int)page;

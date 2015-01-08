@@ -148,6 +148,7 @@
 {
     [super layoutSubviews];
     self.scrollView.frame = self.bounds;
+    [self updateImages];
 
     self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 60);
     self.scrollView.contentInset = UIEdgeInsetsZero;

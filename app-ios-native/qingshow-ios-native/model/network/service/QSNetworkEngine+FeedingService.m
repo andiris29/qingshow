@@ -9,6 +9,7 @@
 #import "QSNetworkEngine+FeedingService.h"
 #import "NSArray+QSExtension.h"
 #import "QSNetworkEngine+Protect.h"
+#import "QSCommonUtil.h"
 
 //Path
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
@@ -125,7 +126,8 @@
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_BY_BRAND otherParam:@{@"_id" : brandDict[@"_id"]} page:page onSucceed:succeedBlock onError:errorBlock];
+    
+    return [self getFeedingPath:PATH_FEEDING_BY_BRAND otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
@@ -133,7 +135,7 @@
                                     onSucceed:(ArraySuccessBlock)succeedBlock
                                       onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : brandDict[@"_id"]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 @end

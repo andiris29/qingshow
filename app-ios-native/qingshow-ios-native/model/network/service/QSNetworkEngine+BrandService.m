@@ -10,6 +10,7 @@
 #import "QSNetworkEngine+Protect.h"
 #import "QSBrandUtil.h"
 #import "NSArray+QSExtension.h"
+#import "QSCommonUtil.h"
 
 //Path
 #define PATH_PEOPLE_FOLLOW_BRAND @"brand/follow"
@@ -47,7 +48,7 @@
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_BRAND_FOLLOWER method:@"GET" paramers:@{@"_id" : brandDict[@"_id"], @"pageNo": @(page), @"pageSize" : @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_QUERY_BRAND_FOLLOWER method:@"GET" paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict], @"pageNo": @(page), @"pageSize" : @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* retDict = completedOperation.responseJSON;
         NSArray* retArray = retDict[@"data"][@"peoples"];
         if (succeedBlock) {

@@ -11,7 +11,12 @@
 @interface QSItemUtil : NSObject
 
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict;
++ (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
++ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict;
+
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
+
+
 + (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
 + (NSString*)getItemDescription:(NSDictionary*)item;
 + (NSString*)getItemTypeName:(NSDictionary*)item;
@@ -20,5 +25,4 @@
 
 + (NSDictionary*)getBrand:(NSDictionary*)item;
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
-+ (NSURL*)getIconUrl:(NSDictionary*)itemDict;
 @end
