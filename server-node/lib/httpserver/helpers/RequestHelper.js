@@ -27,19 +27,19 @@ RequestHelper.parsePageInfo = function(raw) {
 };
 
 RequestHelper.parseNumber = function(string) {
-    return parseFloat(string);
+    return string === undefined ? undefined : parseFloat(string);
 };
 
 RequestHelper.parseDate = function(string) {
-    return new Date(string);
+    return string === undefined ? undefined : new Date(string);
 };
 
 RequestHelper.parseId = function(string) {
-    return mongoose.mongo.BSONPure.ObjectID(string);
+    return string === undefined ? undefined : mongoose.mongo.BSONPure.ObjectID(string);
 };
 
 RequestHelper.parseArray = function(string) {
-    return (string || '').split(',');
+    return string === undefined ? undefined : string.split(',');
 };
 
 RequestHelper.parseIds = function(string) {
