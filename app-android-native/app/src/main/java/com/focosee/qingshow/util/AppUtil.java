@@ -57,9 +57,9 @@ public class AppUtil {
     public static DisplayImageOptions getPortraitDisplayOptions() {
         if (null == portraitDisplayOptions) {
             portraitDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.root_cell_placehold_head)
-                    .showImageForEmptyUri(R.drawable.root_cell_placehold_head)
-                    .showImageOnFail(R.drawable.root_cell_placehold_head)
+                    .showImageOnLoading(R.drawable.bg_photpchoose_eg02)
+                    .showImageForEmptyUri(R.drawable.bg_photpchoose_eg02)
+                    .showImageOnFail(R.drawable.bg_photpchoose_eg02)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .build();
@@ -70,9 +70,9 @@ public class AppUtil {
     public static DisplayImageOptions getModelBackgroundDisplayOptions() {
         if (null == modelBackgroundDisplayOptions) {
             modelBackgroundDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.root_cell_placehold_head)
-                    .showImageForEmptyUri(R.drawable.root_cell_placehold_head)
-                    .showImageOnFail(R.drawable.root_cell_placehold_head)
+                    .showImageOnLoading(R.drawable.bg_pic)
+                    .showImageForEmptyUri(R.drawable.bg_pic)
+                    .showImageOnFail(R.drawable.bg_pic)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
                     .build();
