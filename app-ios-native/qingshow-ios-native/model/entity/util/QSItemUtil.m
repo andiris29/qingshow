@@ -43,8 +43,6 @@
     NSMutableArray* m = [@[] mutableCopy];
     if (cover) {
         [m addObject:cover];
-#warning demo用，需要删除一次cover
-        [m addObject:cover];
     }
     [m addObjectsFromArray:imagesUrl];
     return m;
