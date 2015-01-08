@@ -5,6 +5,8 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -30,6 +32,7 @@ public class S08TrendActivity extends Activity {
 
     private S08TrendListAdapter adapter;
     private int _currentPageIndex = 1;
+    private ImageButton _backImageBtn;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
@@ -42,6 +45,14 @@ public class S08TrendActivity extends Activity {
 
         mPullRefreshListView = (MPullRefreshListView) findViewById(R.id.S08_content_list_view);
         listView = mPullRefreshListView.getRefreshableView();
+
+        _backImageBtn = (ImageButton) findViewById(R.id.S08_back_image_button);
+        _backImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         //test
 

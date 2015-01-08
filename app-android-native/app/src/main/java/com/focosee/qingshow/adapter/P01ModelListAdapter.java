@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,9 +20,7 @@ import com.focosee.qingshow.entity.ModelEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -137,7 +134,6 @@ public class P01ModelListAdapter extends BaseAdapter {
                         showMessage(context, "关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
                         v.setBackgroundResource(R.drawable.badge_unfollow_btn);
-                        //v.setText("-取消");
                     }else{
                         showMessage(context, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -167,7 +163,6 @@ public class P01ModelListAdapter extends BaseAdapter {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(context, "取消关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(false);
-                        //((Button)v).setText("+关注");
                         v.setBackgroundResource(R.drawable.badge_follow_btn);
                     }else{
                         showMessage(context, "取消关注失败" + response.toString() + response.get("metadata").toString().length());

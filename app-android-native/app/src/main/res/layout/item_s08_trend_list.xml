@@ -11,8 +11,8 @@
 
         <ImageView
             android:id="@+id/S08_background_image_view"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             android:scaleType="centerCrop" />
     </LinearLayout>
 
@@ -30,9 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
-        android:paddingBottom="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -85,7 +84,7 @@
             android:layout_marginBottom="30dp"
             android:background="@drawable/s03_share_btn" />
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/S08_item_line_share_like"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
@@ -93,14 +92,15 @@
             android:layout_alignRight="@+id/S08_item_share_btn"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/s03_line" />
+            android:background="@drawable/s03_line" />-->
 
         <ImageButton
             android:id="@+id/S08_item_like_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_above="@+id/S08_item_line_share_like"
-            android:layout_alignRight="@+id/S08_item_line_share_like"
+            android:layout_above="@+id/S08_item_share_btn"
+            android:layout_alignRight="@+id/S08_item_share_btn"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/s03_like_btn" />
 
         <TextView
@@ -111,9 +111,9 @@
             android:layout_alignTop="@+id/S08_item_like_btn"
             android:gravity="center"
             android:text="11"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/S08_item_line_like_message"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
@@ -121,14 +121,15 @@
             android:layout_alignRight="@+id/S08_item_like_btn"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/s03_line" />
+            android:background="@drawable/s03_line" />-->
 
         <ImageButton
             android:id="@+id/S08_item_comment_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_above="@+id/S08_item_line_like_message"
-            android:layout_alignRight="@+id/S08_item_line_like_message"
+            android:layout_above="@+id/S08_item_like_btn"
+            android:layout_alignRight="@+id/S08_item_like_btn"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/s03_comment_btn" />
 
         <TextView
@@ -138,7 +139,7 @@
             android:layout_alignLeft="@+id/S08_item_comment_btn"
             android:layout_alignTop="@+id/S08_item_comment_btn"
             android:gravity="center"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
 
     </RelativeLayout>
 
