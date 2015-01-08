@@ -1672,7 +1672,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "7915e06f-b427-4654-89b4-4cddac9e0dca";
+				PROVISIONING_PROFILE = "cb30c997-a4dc-400b-9d89-91c7fd4da2b6";
 				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1698,7 +1698,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "7915e06f-b427-4654-89b4-4cddac9e0dca";
+				PROVISIONING_PROFILE = "cb30c997-a4dc-400b-9d89-91c7fd4da2b6";
 				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};

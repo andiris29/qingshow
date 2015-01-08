@@ -100,6 +100,7 @@
     self.iconImageView.layer.masksToBounds = YES;
     
     [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    [self.backgroundImageView setImageFromURL:[QSBrandUtil getBrandBgUrl:brandDict] placeHolderImage:nil animation:YES];
     self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
     self.roleLabel.text = [QSBrandUtil getBrandTypeDesc:brandDict];
     self.statusLabel.text = @"";
