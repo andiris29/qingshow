@@ -159,11 +159,7 @@ _update = function(req, res) {
     function(callback) {
         try {
             qsParam = RequestHelper.parse(req.body, {
-                'height' : RequestHelper.parseNumber,
-                'weight' : RequestHelper.parseNumber,
-                'roles' : RequestHelper.parseArray,
-                'hairTypes' : RequestHelper.parseArray,
-                'birthtime' : RequestHelper.parseDate
+                'birthday' : RequestHelper.parseDate
             });
         } catch(err) {
             callback(err);

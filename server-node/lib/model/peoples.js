@@ -12,9 +12,12 @@ peopleSchema = Schema({
     background : String,
     height : Number,
     weight : Number,
-    birthtime : Date,
-    gender : Number, //male 0 female 1
-    hairTypes : [Number], //0 all 1 long 2 super long 3 mid long
+    birthday : Date,
+    gender : Number,
+    hairType : Number,
+    shoeSize : Number,
+    clothingSize : Number,
+    favoriteBrand : String,
     userInfo : {
         id : String,
         password : {
