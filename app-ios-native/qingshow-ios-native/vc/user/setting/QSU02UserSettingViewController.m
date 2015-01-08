@@ -82,7 +82,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             [self updatePeopleEntityViewController:self byEntity:@{@"name": value} pop:NO];
         }
     } else if (textField == self.birthdayText) {
-        if ([value compare:currentProfile[@"birthtime"]] != NSOrderedSame) {
+        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"birthday"]];
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        NSString* birth= [dateFormatter stringFromDate:date];
+        if ([value compare:birth] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
         }
     } else if (textField == self.lengthText) {
