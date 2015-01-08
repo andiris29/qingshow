@@ -331,13 +331,19 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     self.nameText.text = (NSString *)people[@"name"];
-    self.lengthText.text = [(NSNumber *)people[@"height"] stringValue];
-    self.weightText.text = [(NSNumber *)people[@"weight"] stringValue];
-    if (self.lengthText.text.length != 0) {
-        self.lengthText.text = [NSString stringWithFormat:@"%@ cm", self.lengthText.text];
+    
+    // TODO Unify these npe check to QSPeopleUtil?
+    if (people[@"height"] != [NSNull null]) {
+        self.lengthText.text = [(NSNumber *)people[@"height"] stringValue];
+        if (self.lengthText.text.length != 0) {
+            self.lengthText.text = [NSString stringWithFormat:@"%@ cm", self.lengthText.text];
+        }
     }
-    if (self.weightText.text.length != 0) {
-        self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
+    if (people[@"weight"] != [NSNull null]) {
+        self.weightText.text = [(NSNumber *)people[@"weight"] stringValue];
+        if (self.weightText.text.length != 0) {
+            self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
+        }
     }
     if (people[@"birthday"] == nil) {
         self.birthdayText.text = @"";
