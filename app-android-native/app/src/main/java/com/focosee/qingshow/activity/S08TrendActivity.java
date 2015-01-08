@@ -1,8 +1,10 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -43,8 +45,9 @@ public class S08TrendActivity extends Activity {
 
         //test
 
-        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>());
+        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
         listView.setAdapter(adapter);
+
         mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);
         mPullRefreshListView.setScrollLoadEnabled(true);
@@ -125,6 +128,15 @@ public class S08TrendActivity extends Activity {
         QSApplication.get().QSRequestQueue().add(jor);
     }
 
+    private Point getScreenSize(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
 
+    private int getScreenHeight(){
+        return getScreenSize().y;
+    }
 
 }

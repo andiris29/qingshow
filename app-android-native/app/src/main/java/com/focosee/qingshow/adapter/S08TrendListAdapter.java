@@ -4,34 +4,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.admin.DeviceAdminInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.activity.S08TrendActivity;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.entity.TrendEntity;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 
 public class S08TrendListAdapter extends BaseAdapter {
@@ -39,14 +41,17 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private final static String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
     //每一行的最小高度
-    private final static int MINHIGHT = 700;
+    private int minHeight = 600;
+
 
     private Context context;
     private LinkedList<TrendEntity> data;
 
-    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities) {
+    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int minHeight) {
         this.context = context;
         this.data = trendEntities;
+        this.minHeight = minHeight * 4 / 7;
+
     }
 
     @Override
@@ -76,17 +81,17 @@ public class S08TrendListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final HolderView holderView;
-        RelativeLayout.LayoutParams params;
-
-        int height = data.get(position).getHeight();
-
+        RelativeLayout.LayoutParams params_rLayout;
+        MPullRefreshListView.LayoutParams params_listView;
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, parent,false);
+            convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, null);
 
             holderView = new HolderView();
             holderView.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.s08_relative_layout);
+            //holderView.listView = (MPullRefreshListView) convertView.findViewById(R.id.S08_content_list_view);
+
             holderView.backImageView = (ImageView) convertView.findViewById(R.id.S08_background_image_view);
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.S08_item_name);
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
@@ -102,19 +107,24 @@ public class S08TrendListAdapter extends BaseAdapter {
         } else {
             holderView = (HolderView) convertView.getTag();
         }
+        int item_height = data.get(position).getHeight()<minHeight ? minHeight : data.get(position).getHeight();
+        int item_width = holderView.backImageView.getLayoutParams().width;
         //Log.d(_TAG,convertView.toString());
         //如何图片高度小于最小高度，则设为最小高度
-        if(height<MINHIGHT) {
-            params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
-                    , MINHIGHT);
-            holderView.relativeLayout.setLayoutParams(params);
-            holderView.backImageView.setMinimumWidth(MINHIGHT);
-        }else {
-            holderView.backImageView.setMinimumHeight(height);
-            params = new RelativeLayout.LayoutParams(holderView.backImageView.getLayoutParams().width
-                    , data.get(position).getHeight());
-            holderView.relativeLayout.setLayoutParams(params);
-        }
+        params_rLayout = new RelativeLayout.LayoutParams(item_width
+                , item_height);
+        holderView.relativeLayout.setLayoutParams(params_rLayout);
+        //父容器重新设定高度.listView的高度必须匹配父容器
+        /*params_listView = new MPullRefreshListView.LayoutParams(item_width
+                , item_height);
+        holderView.listView.setLayoutParams(params_listView);*/
+
+        convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
+                item_height));
+
+        holderView.backImageView.setMinimumWidth(item_height);
+        /*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        B.setLayoutParams(params);*/
 
         ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView, AppUtil.getShowDisplayOptions());
         holderView.nameTextView.setText(data.get(position).getNameDescription());
@@ -227,6 +237,8 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     class HolderView {
         public RelativeLayout relativeLayout;
+        public MPullRefreshListView listView;
+
         public ImageView backImageView;
         public TextView nameTextView;
         public TextView descriptionTextView;
