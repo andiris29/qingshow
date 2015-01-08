@@ -72,37 +72,36 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 #pragma mark - UITextFieldDelegate
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboardAndDatePicker];
+    NSString *value = textField.text;
+    if (value.length == 0) {
+        return;
+    }
     NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
     if (textField == self.nameText) {
-        NSString *name = self.nameText.text;
-        if ([name compare:currentProfile[@"name"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"name": name} pop:NO];
+        if ([value compare:currentProfile[@"name"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"name": value} pop:NO];
         }
     } else if (textField == self.birthdayText) {
-        NSString *birthday = self.birthdayText.text;
-        if ([birthday compare:currentProfile[@"birthtime"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"birthtime": birthday} pop:NO];
+        if ([value compare:currentProfile[@"birthtime"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
         }
     } else if (textField == self.lengthText) {
-        NSString *length = self.lengthText.text;
-        if (length.length != 0) {
-            length = [length stringByReplacingOccurrencesOfString:@" cm" withString:@""];
+        if (value .length != 0) {
+            value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
         }
-        if ([length compare:currentProfile[@"length"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"height":length} pop:NO];
+        if ([value compare:currentProfile[@"length"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"height": value} pop:NO];
         }
     } else if (textField == self.weightText) {
-        NSString *weight = self.weightText.text;
-        if (weight.length != 0) {
-            weight = [weight stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+        if (value.length != 0) {
+            value = [value stringByReplacingOccurrencesOfString:@" kg" withString:@""];
         }
-        if ([weight compare:currentProfile[@"weight"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"weight":weight} pop:NO];
+        if ([value compare:currentProfile[@"weight"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
         }
     } else if (textField == self.brandText) {
-        NSString *brand = self.brandText.text;
-        if ([brand compare:currentProfile[@"brand"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"brand":brand} pop:NO];
+        if ([value compare:currentProfile[@"brand"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"brand": value} pop:NO];
         }
     }
 }
@@ -233,7 +232,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         }
     } else if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeHairType) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"hairTypes": @(buttonIndex)} pop:NO];
+            [self updatePeopleEntityViewController:self byEntity:@{@"hairType": @(buttonIndex)} pop:NO];
         }
     }
     
@@ -336,10 +335,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     if (self.weightText.text.length != 0) {
         self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
     }
-    if (people[@"birthtime"] == nil) {
+    if (people[@"birthday"] == nil) {
         self.birthdayText.text = @"";
     } else {
-        [self updateBirthDayLabel:[QSDateUtil buildDateFromResponseString:(NSString *)people[@"birthtime"]]];
+        [self updateBirthDayLabel:[QSDateUtil buildDateFromResponseString:(NSString *)people[@"birthday"]]];
     }
     
     self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height / 2;
