@@ -38,6 +38,19 @@ show.query = {
             }).populate('modelRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
+            var tasks = [];
+            shows.forEach(function(show) {
+                tasks.push(function(callback) {
+                    MongoHelper.updateCoverMetaData(show.itemRefs, function(err) {
+                        callback();
+                    });
+                });
+            });
+            async.parallel(tasks, function(err) {
+                callback(null, shows);
+            });
+        },
+        function(shows, callback) {
             // Populate nested references
             Show.populate(shows, {
                 'path' : 'itemRefs.brandRef',
