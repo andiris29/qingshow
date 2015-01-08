@@ -98,6 +98,7 @@
     MKNetworkOperation* op = self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
         if (page == 1) {
             [self.resultArray removeAllObjects];
+            [self.resultArray addObjectsFromArray:self.additionalResult];
             self.refreshOperation = nil;
             _currentPage = 1;
         }
@@ -116,6 +117,7 @@
         }
         if (page == 1) {
             [self.resultArray removeAllObjects];
+            [self.resultArray addObjectsFromArray:self.additionalResult];
             self.refreshOperation = nil;
             [self.tableView reloadData];
         }
@@ -177,5 +179,9 @@
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
     UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
+}
+
+- (void)refreshClickedData
+{
 }
 @end

@@ -10,15 +10,19 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSMetadataUtil.h"
+#import "QSBrandUtil.h"
 #import "UIViewController+QSExtension.h"
+#import "QSItemImageListTableViewDelegateObj.h"
 
 @interface QSP03BrandDetailViewController ()
 
-@property (strong, nonatomic) NSMutableDictionary* brandDict;
+@property (strong, nonatomic) NSDictionary* brandDict;
+@property (strong, nonatomic) NSDictionary* itemDict;
 
 #pragma mark Delegate Obj
+@property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemNewDelegate;
+@property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemDiscountDelegate;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* showsDelegate;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* discountDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
 
 @end
@@ -27,9 +31,20 @@
 #pragma mark - Init Method
 - (id)initWithBrand:(NSDictionary*)brandDict
 {
+    self = [self initWithBrand:brandDict item:nil];
+    if (self) {
+        
+    }
+    return self;
+}
+- (id)initWithBrand:(NSDictionary *)brandDict item:(NSDictionary*)itemDict
+{
     self = [super init];
     if (self) {
-        self. brandDict = [brandDict mutableCopy];
+        self.brandDict = brandDict;
+        self.itemDict = itemDict;
+        
+        self.type = QSSectionButtonGroupTypeBrand;
         
         [self delegateObjInit];
     }
@@ -38,8 +53,9 @@
 
 - (void)delegateObjInit
 {
+    self.itemNewDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
+    self.itemDiscountDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
     self.showsDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
-    self.discountDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
     self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
 }
 #pragma mark - Life Cycle
@@ -53,8 +69,9 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.itemNewDelegate refreshClickedData];
+    [self.itemDiscountDelegate refreshClickedData];
     [self.showsDelegate refreshClickedData];
-    [self.discountDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
 }
 - (void)didReceiveMemoryWarning {
@@ -66,21 +83,23 @@
 - (void)configView
 {
     //title
-    self.title = self.brandDict[@"name"];
+    self.title = [QSBrandUtil getBrandName:self.brandDict];
     [self.badgeView bindWithBrandDict:self.brandDict];
     
     //Show and Hide
-    self.viewArray = @[self.showCollectionView,
-                       self.discountCollectionView,
+    self.viewArray = @[self.itemNewTableView,
+                       self.itemDiscountTableView,
+                       self.showCollectionView,
                        self.followerTableView];
-    
-    self.showCollectionView.hidden = NO;
-    self.discountCollectionView.hidden = YES;
+
+    self.itemNewTableView.hidden = NO;
+    self.itemDiscountTableView.hidden = YES;
+    self.showCollectionView.hidden = YES;
     self.followerTableView.hidden = YES;
     
     //Section title
-    NSArray* titleArray = @[@"搭配",@"优惠",@"粉丝"];
-    for (int i = 0; i < 3; i++) {
+    NSArray* titleArray = @[@"最新", @"优惠", @"秀", @"粉丝"];
+    for (int i = 0; i < titleArray.count; i++) {
         [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
         [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
     }
@@ -88,35 +107,48 @@
 - (void)bindDelegateObj
 {
     __weak QSP03BrandDetailViewController* weakSelf = self;
+    //Item New
+    [self.itemNewDelegate bindWithTableView:self.itemNewTableView];
+    if (self.itemDict) {
+        self.itemNewDelegate.additionalResult = @[self.itemDict];
+    }
+    self.itemNewDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getItemFeedingByBrandNew:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+#warning 数字要不要加一
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
+    };
+    self.itemNewDelegate.delegate = self;
+    [self.itemNewDelegate fetchDataOfPage:1];
+    
+    //Item Discount
+    [self.itemDiscountDelegate bindWithTableView:self.itemDiscountTableView];
+    self.itemDiscountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getItemFeedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
+    };
+    self.itemDiscountDelegate.delegate = self;
+    [self.itemDiscountDelegate fetchDataOfPage:1];
     
     //Show collectioin view
     [self.showsDelegate bindWithCollectionView:self.showCollectionView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE feedingByBrand:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
             succeedBlock(array, metadata);
         } onError:errorBlock];
     };
     self.showsDelegate.delegate = self;
     [self.showsDelegate fetchDataOfPage:1];
     
-
-    //following table view
-    [self.discountDelegate bindWithCollectionView:self.discountCollectionView];
-    self.discountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE feedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
-            succeedBlock(array, metadata);
-        } onError:errorBlock];
-    };
-    self.discountDelegate.delegate = self;
-    [self.discountDelegate fetchDataOfPage:1];
-    
     //follower table view
     [self.followerDelegate bindWithTableView:self.followerTableView];
     self.followerDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE queryBrandFollower:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:3];
             succeedBlock(array, metadata);
         } onError:errorBlock];
     };

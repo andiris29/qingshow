@@ -17,12 +17,37 @@
         return nil;
     }
     NSString* path = itemDict[@"cover"];
-    if (path) {
+    if (![QSCommonUtil checkIsNil:path]) {
         NSURL* url = [NSURL URLWithString:path];
         return url;
     }
     return nil;
 }
++ (NSArray*)getImagesUrl:(NSDictionary*)itemDict
+{
+    NSArray* array = itemDict[@"images"];
+    if ([QSCommonUtil checkIsNil:array]) {
+        return nil;
+    }
+    NSMutableArray* m = [@[] mutableCopy];
+    for (NSString* s in array) {
+        [m addObject:[NSURL URLWithString:s]];
+    }
+    
+    return m;
+}
++ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
+{
+    NSURL* cover = [self getCoverUrl:itemDict];
+    NSArray* imagesUrl = [self getImagesUrl:itemDict];
+    NSMutableArray* m = [@[] mutableCopy];
+    if (cover) {
+        [m addObject:cover];
+    }
+    [m addObjectsFromArray:imagesUrl];
+    return m;
+}
+
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
     if (![QSCommonUtil checkIsDict:itemDict]) {
@@ -131,10 +156,4 @@
     }
 }
 
-+ (NSURL*)getIconUrl:(NSDictionary*)itemDict
-{
-#warning 没字段
-    
-    return nil;
-}
 @end

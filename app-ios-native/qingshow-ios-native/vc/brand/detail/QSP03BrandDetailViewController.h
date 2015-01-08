@@ -10,10 +10,12 @@
 
 @interface QSP03BrandDetailViewController : QSDetailBaseViewController
 
+@property (strong, nonatomic) IBOutlet UITableView* itemNewTableView;
+@property (strong, nonatomic) IBOutlet UITableView* itemDiscountTableView;
 @property (strong, nonatomic) IBOutlet UICollectionView* showCollectionView;
-@property (strong, nonatomic) IBOutlet UICollectionView* discountCollectionView;
 @property (strong, nonatomic) IBOutlet UITableView* followerTableView;
 
 - (id)initWithBrand:(NSDictionary*)brandDict;
+- (id)initWithBrand:(NSDictionary *)brandDict item:(NSDictionary*)itemDict;
 
 @end

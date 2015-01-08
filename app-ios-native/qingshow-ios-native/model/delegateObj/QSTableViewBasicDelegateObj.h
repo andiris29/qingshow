@@ -54,4 +54,5 @@
 - (void)refreshWithAnimation;
 
 
+@property (strong, nonatomic) NSArray* additionalResult;
 @end

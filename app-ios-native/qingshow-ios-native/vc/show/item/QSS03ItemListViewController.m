@@ -10,9 +10,12 @@
 #import "QSItemListHeaderView.h"
 #import "QSItemListTableViewCell.h"
 #import "QSShowUtil.h"
+#import "QSItemUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-#import "QSS03ItemShopDetailViewController.h"
+#import "QSP03BrandDetailViewController.h"
+
+//#import "QSS03ItemShopDetailViewController.h"
 
 @interface QSS03ItemListViewController ()
 
@@ -76,8 +79,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIViewController* vc = [[QSS03ItemShopDetailViewController alloc] initWithShow:self.showDict currentItemIndex:(int)indexPath.row];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:(int)indexPath.row];
+    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
+    if (itemDict && brandDict) {
+        UIViewController* vc = [[QSP03BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

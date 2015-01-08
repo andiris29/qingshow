@@ -112,7 +112,7 @@
     NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
     if (iconUrl) {
         self.iconImageView.hidden = NO;
-        [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+//        [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
     } else {
         self.iconImageView.hidden = YES;
     }
