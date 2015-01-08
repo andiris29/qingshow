@@ -73,7 +73,7 @@
 
     <RelativeLayout
         android:id="@+id/s01_FrameLa_left"
-        android:layout_width="250dp"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:gravity="center_vertical">

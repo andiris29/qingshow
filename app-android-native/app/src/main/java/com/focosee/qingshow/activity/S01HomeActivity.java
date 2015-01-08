@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -129,6 +132,8 @@ public class S01HomeActivity extends Activity {
 
     private void closeMenu() {
         spl.closeDrawer(_mFrmLeft);
+        _blurImage.setVisibility(View.INVISIBLE);
+        _blurImage.setBackground(null);
     }
 
     private boolean isMenuOpened() {
@@ -155,8 +160,7 @@ public class S01HomeActivity extends Activity {
             public void onDrawerClosed(View drawerView) {
 
                 closeMenu();
-                _blurImage.setVisibility(View.INVISIBLE);
-                _blurImage.setBackground(null);
+
                 _tag = 0;
             }
 
@@ -364,4 +368,6 @@ public class S01HomeActivity extends Activity {
             }
         });
     }
+
+
 }
