@@ -141,6 +141,7 @@ public class S01HomeActivity extends Activity {
     }
 
     private void openMenu() {
+        _blurImage.setVisibility(View.VISIBLE);
         spl.openDrawer(_mFrmLeft);
     }
 
@@ -166,16 +167,19 @@ public class S01HomeActivity extends Activity {
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
+                //Log.d("S01",slideOffset+"dp");
                 if (_tag == 0) {
-                    if (_blurImage.getVisibility() == View.INVISIBLE) {
+                    //if (_blurImage.getVisibility() == View.INVISIBLE) {
                         //背景模糊
                         applyBlur();
                         _blurImage.setVisibility(View.VISIBLE);
-                    } else {
-                        _blurImage.setVisibility(View.INVISIBLE);
-                    }
+                    //} else {
+                     //   _blurImage.setVisibility(View.INVISIBLE);
+                    //}
                 }
                 if (_tag == 0) _tag = 1;
+                if(slideOffset == 0.0) _blurImage.setVisibility(View.INVISIBLE);
+                if(slideOffset == 1.0) _blurImage.setVisibility(View.VISIBLE);
             }
         };
         spl.setDrawerListener(drawerbar);
