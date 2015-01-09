@@ -19,6 +19,7 @@
     <string name="height_activity_settings">身高</string>
     <string name="weight_activity_settings">体重</string>
     <string name="hair_activity_settings">发型</string>
+    <string name="brand_activity_settings">品牌</string>
     <string name="ref_activity_settings">></string>
     <string name="others_activity_settings">其他</string>
     <string name="change_password_activity_settings">更改密码</string>
