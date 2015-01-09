@@ -34,6 +34,7 @@ import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
@@ -43,6 +44,7 @@ import java.util.LinkedList;
 
 public class S01HomeActivity extends Activity {
     //    private MNavigationView _navigationView;
+    private boolean isFirstFocus_activity = true;
     private final static String S01_TAG = "S01HomeActivity";
     private LinearLayout _popView;
     //抽屉对象
@@ -91,6 +93,19 @@ public class S01HomeActivity extends Activity {
 
         _wfListView.setAdapter(_adapter);
 
+        _wfListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+                if(scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+                    applyBlur();
+            }
+
+            @Override
+            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
         _wfPullRefreshView.setPullLoadEnabled(true);
         _wfPullRefreshView.setScrollLoadEnabled(true);
 
@@ -106,6 +121,8 @@ public class S01HomeActivity extends Activity {
             public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
                 doGetMoreTask();
             }
+
+
         });
 
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
@@ -128,16 +145,10 @@ public class S01HomeActivity extends Activity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        _accountImage.setBackgroundResource(getAccountImgId());
-    }
-
     private void closeMenu() {
-        spl.closeDrawer(_mFrmLeft);
         _blurImage.setVisibility(View.INVISIBLE);
-        _blurImage.setBackground(null);
+        spl.closeDrawer(_mFrmLeft);
+        //_blurImage.setBackground(null);
     }
 
     private boolean isMenuOpened() {
@@ -145,6 +156,10 @@ public class S01HomeActivity extends Activity {
     }
 
     private void openMenu() {
+        if(isFirstFocus_activity){
+            applyBlur();
+            isFirstFocus_activity = false;
+        }
         _blurImage.setVisibility(View.VISIBLE);
         spl.openDrawer(_mFrmLeft);
     }
@@ -171,13 +186,7 @@ public class S01HomeActivity extends Activity {
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if (_tag == 0) {
-                    applyBlur();
-                    _blurImage.setVisibility(View.VISIBLE);
-                }
-                if (_tag == 0) _tag = 1;
                 if(slideOffset == 0.0) _blurImage.setVisibility(View.INVISIBLE);
-                if(slideOffset == 1.0) _blurImage.setVisibility(View.VISIBLE);
             }
         };
         spl.setDrawerListener(drawerbar);
@@ -362,7 +371,6 @@ public class S01HomeActivity extends Activity {
 
         _accountImage = (ImageView) findViewById(R.id.S01_title_account);
 
-        _accountImage.setBackgroundResource(getAccountImgId());
         _accountImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
