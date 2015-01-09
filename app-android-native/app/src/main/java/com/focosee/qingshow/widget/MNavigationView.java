@@ -137,11 +137,7 @@ public class MNavigationView extends LinearLayout {
 
         if (right_drawable != 0) {
 //            btn_right.setBackgroundResource(right_drawable);
-            People people = QSApplication.get().getPeople();
-            if(null != people && 1 == people.gender)
-                btn_right.setBackgroundResource(R.drawable.nav_account_btn_woman);
-            else
-                btn_right.setBackgroundResource(R.drawable.nav_btn_account_man);
+              btn_right.setBackgroundResource(R.drawable.nav_account_btn_woman);
         } else {
             btn_right.setBackgroundColor(Color.TRANSPARENT);
         }

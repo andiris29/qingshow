@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
+    android:scrollbarStyle="outsideOverlay"
     tools:context="com.focosee.focosee.activity.S01HomeActivity">
 
     <RelativeLayout
@@ -47,7 +48,8 @@
                         android:id="@+id/S01_title_account"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/nav_account_btn_woman"/>
 
                 </LinearLayout>
 
