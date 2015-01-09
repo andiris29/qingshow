@@ -203,7 +203,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         //[addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
         [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
-        addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
+        CGRect screenBound = [[UIScreen mainScreen] bounds];
+        CGSize screenSize = screenBound.size;
+        CGFloat screenWidth = screenSize.width;
+        addcharity.frame=CGRectMake(10, 25, screenWidth - 20 , 50); //set some large width to ur title
         addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
         addcharity.layer.masksToBounds = YES;
         [footerView addSubview:addcharity];
