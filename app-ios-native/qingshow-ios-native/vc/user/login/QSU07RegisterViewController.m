@@ -21,13 +21,21 @@
 @end
 
 @implementation QSU07RegisterViewController
-
+{
+    NSMutableArray *clothesArray;
+    NSMutableArray *shoesArray;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
     
+    // Array alloc;
+    clothesArray = [[NSMutableArray alloc]initWithCapacity:20];
+    shoesArray = [[NSMutableArray alloc]initWithCapacity:20];
+    
     // View全体
-    self.view.backgroundColor=[UIColor colorWithRed:240.f/255.f green:240.f/255.f blue:240.f/255.f alpha:1.f];
+    //self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
     
     // Navibar
     self.navigationItem.title = @"注册";
@@ -35,19 +43,51 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
     
-//    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"注册"
-//                                                               style:UIBarButtonItemStylePlain
-//                                                              target:self
-//                                                              action:@selector(gotoRegister)];
-//    
-//    [[self navigationItem] setRightBarButtonItem:btnSave];
-//    
-//    
-    // 登陆
-//    self.registerButton.backgroundColor = [UIColor colorWithRed:251.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
-//    self.registerButton.backgroundColor = [UIColor redColor];
+    
+//    for (UIView *subView in self.view.subviews) {
+//        if ([subView isKindOfClass:[UILabel class]]) {
+//            UILabel *label = (UILabel *)subView;
+//            [label.layer setBorderColor:[[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] CGColor]];
+//            label.layer.borderWidth=1.0f;
+//        }
+//    }
+    
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
+    self.registerButton.backgroundColor = [UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f];
+    
+    self.gender = 1;
+    self.clothingSize = 0;
+    self.shoeSize = 34;
+    
+    [self setSelectedStyleToPropButton:self.femaleButton];
+    [self setDefaultStyleToPropButon:self.maleButton];
+    [self setDefaultStyleToPropButon:self.femaleButton];
+    [self setUnSelectedStyleToPropButton:self.maleButton];
+    
+    [clothesArray addObject:self.xxsButton];
+    [clothesArray addObject:self.xsButton];
+    [clothesArray addObject:self.sButton];
+    [clothesArray addObject:self.mButton];
+    [clothesArray addObject:self.lButton];
+    [clothesArray addObject:self.xlButton];
+    [clothesArray addObject:self.xxlButton];
+    [clothesArray addObject:self.xxxlButton];
+    
+    [shoesArray addObject:self.three4Button];
+    [shoesArray addObject:self.three5Button];
+    [shoesArray addObject:self.three6Button];
+    [shoesArray addObject:self.three7Button];
+    [shoesArray addObject:self.three8Button];
+    [shoesArray addObject:self.three9Button];
+    [shoesArray addObject:self.four0Button];
+    [shoesArray addObject:self.four1Button];
+    [shoesArray addObject:self.four2Button];
+    [shoesArray addObject:self.four3Button];
+    [shoesArray addObject:self.four4Button];
+    
+    [self setSizeStyleBySelectedSize:self.clothingSize buttonArray: clothesArray];
+    [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,7 +138,11 @@
         [self dismissViewControllerAnimated:YES completion:nil];
 //        UIViewController *vc = [[QSS01RootViewController alloc]initWithNibName:@"QSS01RootViewController" bundle:nil];
 //        [self.navigationController pushViewController:vc animated:YES];
-        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+//        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+        NSNumber *gender = [[NSNumber alloc] initWithLong:self.gender];
+        NSNumber *clothingSize = [[NSNumber alloc] initWithLong:self.clothingSize];
+        NSNumber *shoeSize = [[NSNumber alloc] initWithLong:self.shoeSize];
+        [self updatePeopleEntityByEntity:@{@"gender": gender, @"clothingSize": clothingSize, @"shoeSize": shoeSize}];
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {
@@ -119,7 +163,84 @@
 }
 
 # pragma mark - private
+- (void)setDefaultStyleToPropButon:(UIButton *) button {
+    button.layer.cornerRadius = button.frame.size.height / 8;
+    button.layer.masksToBounds = YES;
+    button.layer.borderWidth = 1.f;
+    [button.layer setBorderColor:[[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] CGColor]];
+}
 
+- (void)setSelectedStyleToPropButton:(UIButton *) button {
+    [button setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+- (void)setUnSelectedStyleToPropButton:(UIButton *) button {
+    [button setBackgroundColor:[UIColor whiteColor]];
+    [button setTitleColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] forState:UIControlStateNormal];
+    [button.layer setBorderColor:[[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] CGColor]];
+}
+
+- (void) setSizeStyleBySelectedSize:(NSInteger) selectSize buttonArray:(NSMutableArray *) array {
+    for (UIButton *button in array) {
+        NSInteger buttonTag = button.tag;
+        if (buttonTag == selectSize) {
+            [self setSelectedStyleToPropButton:button];
+        } else {
+            [self setUnSelectedStyleToPropButton:button];
+        }
+        [self setDefaultStyleToPropButon:button];
+    }
+}
+
+// Update Peoples
+- (void) updatePeopleEntityByEntity:(NSDictionary *)entity
+{
+    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
+        if (metadata[@"error"] == nil && people != nil) {
+            //[vc showSuccessHudWithText:@"更新成功"];
+            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+        } else {
+            [self showErrorHudWithText:@"更新失败"];
+        }
+    };
+    
+    ErrorBlock error = ^(NSError *error) {
+        if (error.userInfo[@"error"] != nil) {
+            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
+            if (errorCode != nil) {
+            //    [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
+            }
+        } else {
+            [self showErrorHudWithText:@"网络连接失败"];
+        }
+    };
+    
+    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+}
+
+- (IBAction)selectGender:(id)sender {
+    self.gender = ((UIButton *)sender).tag;
+    if (self.gender == 0) {
+        [self setSelectedStyleToPropButton:self.maleButton];
+        [self setUnSelectedStyleToPropButton:self.femaleButton];
+    } else {
+        [self setSelectedStyleToPropButton:self.femaleButton];
+        [self setUnSelectedStyleToPropButton:self.maleButton];
+    }
+}
+
+- (IBAction)selectClothingSize:(id)sender {
+    self.clothingSize = ((UIButton *)sender).tag;
+    [self setSizeStyleBySelectedSize:self.clothingSize buttonArray:clothesArray];
+}
+
+
+- (IBAction)selectShoeSize:(id)sender {
+    self.shoeSize = ((UIButton *)sender).tag;
+    [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
+}
 
 
 @end

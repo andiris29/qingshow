@@ -104,8 +104,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
         }
     } else if (textField == self.brandText) {
-        if ([value compare:currentProfile[@"brand"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"brand": value} pop:NO];
+        if ([value compare:currentProfile[@"favoriteBrand"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"favoriteBrand": value} pop:NO];
         }
     }
 }
@@ -359,7 +359,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Get Portrait & Backgrund's Image
     [self refreshImage];
     
-    self.brandText.text = (NSString *)people[@"brand"];
+    self.brandText.text = (NSString *)people[@"favoriteBrand"];
 }
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
