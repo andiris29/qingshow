@@ -37,7 +37,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" red="0.87058823529999996" green="0.87058823529999996" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Krb-2c-R8g">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Krb-2c-R8g">
                         <rect key="frame" x="75" y="35" width="237" height="17"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -51,6 +51,7 @@
                 <outlet property="dateLabel" destination="qVb-OD-45p" id="BQY-XQ-7DV"/>
                 <outlet property="iconImageView" destination="lzc-0o-Sbf" id="qLf-He-xFk"/>
                 <outlet property="nameLabel" destination="WJf-g6-mBv" id="lH6-mc-L0S"/>
+                <outlet property="splitter" destination="58M-FN-l6P" id="WV4-1w-JOC"/>
             </connections>
             <point key="canvasLocation" x="245" y="270"/>
         </tableViewCell>

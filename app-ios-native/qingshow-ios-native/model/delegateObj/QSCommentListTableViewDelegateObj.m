@@ -27,6 +27,8 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSDictionary* commentDict = self.resultArray[indexPath.row];
+    return [QSCommentTableViewCell getCellSize:commentDict].height;
     return 62.f;
 }
 
