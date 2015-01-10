@@ -75,7 +75,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
-                    <rect key="frame" x="20" y="20" width="36" height="36"/>
+                    <rect key="frame" x="20" y="15" width="36" height="36"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="96r-aa-5BR"/>
                         <constraint firstAttribute="width" constant="36" id="qD7-AF-iCw"/>
@@ -88,7 +88,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-vC-kKm">
-                    <rect key="frame" x="270" y="20" width="36" height="36"/>
+                    <rect key="frame" x="269" y="15" width="36" height="36"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="36" id="Pdx-Kd-91L"/>
                         <constraint firstAttribute="height" constant="36" id="qlE-K7-bRu"/>
@@ -104,7 +104,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="DTe-9u-7lB"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="DTe-9u-7lB"/>
                 <constraint firstItem="N3M-vC-kKm" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" id="Goa-w5-cDO"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QPE-wC-rfU"/>
@@ -113,14 +113,14 @@
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>
-                <constraint firstAttribute="trailing" secondItem="N3M-vC-kKm" secondAttribute="trailing" constant="14" id="wuu-Rk-a0d"/>
+                <constraint firstAttribute="trailing" secondItem="N3M-vC-kKm" secondAttribute="trailing" constant="15" id="wuu-Rk-a0d"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
         </view>
     </objects>
     <resources>
         <image name="s03_back_btn" width="36" height="36"/>
-        <image name="u01_account_btn" width="26" height="26"/>
+        <image name="u01_account_btn" width="36" height="36"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
