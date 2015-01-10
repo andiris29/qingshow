@@ -22,6 +22,8 @@
 + (NSString*)getJobDesc:(NSDictionary*)peopleDict;
 + (NSString*)getClothingSizeDesc:(NSDictionary*)peopleDict;
 + (NSString*)getProvinceDesc:(NSDictionary*)peopleDict;
++ (NSString*)getHeight:(NSDictionary*)peopleDict;
++ (NSString*)getWeight:(NSDictionary*)peopleDict;
 
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 

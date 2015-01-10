@@ -18,7 +18,13 @@
     }
     
     NSNumber* height = modelDict[@"height"];
+    if (modelDict[@"height"] == [NSNull null]) {
+        height = nil;
+    }
     NSNumber* weight = modelDict[@"weight"];
+    if (modelDict[@"weight"] == [NSNull null]) {
+        weight = nil;
+    }
     NSMutableString* statusString = [@"" mutableCopy];
     if (height) {
         [statusString appendFormat:@"%@cm", height];
@@ -304,5 +310,20 @@
     NSString* lId = l[@"_id"];
     NSString* rId = r[@"_id"];
     return [lId isEqualToString:rId];
+}
+
++ (NSString *)getHeight:(NSDictionary *)peopleDict
+{
+    if (peopleDict[@"height"] != [NSNull null]) {
+        return [(NSNumber *)peopleDict[@"height"] stringValue];
+    }
+    return @"";
+}
+
++ (NSString *)getWeight:(NSDictionary *)peopleDict {
+    if (peopleDict[@"weight"] != [NSNull null]) {
+        return [(NSNumber *)peopleDict[@"weight"] stringValue];
+    }
+    return @"";
 }
 @end
