@@ -104,6 +104,11 @@
     self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
     self.roleLabel.text = @"";
     self.statusLabel.text = @"";
+    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
+        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
+        
+        [f setFollowed:[QSBrandUtil getHasFollowBrand:brandDict]];
+    }
 }
 
 #pragma mark - QSSectionButtonGroupDelegate

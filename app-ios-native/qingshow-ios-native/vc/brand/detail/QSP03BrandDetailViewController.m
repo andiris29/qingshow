@@ -165,6 +165,7 @@
         } else {
             [self showSuccessHudWithText:@"取消关注成功"];
         }
+        [self.badgeView bindWithBrandDict:self.brandDict];
     } onError:^(NSError *error) {
         [self handleError:error];
     }];
