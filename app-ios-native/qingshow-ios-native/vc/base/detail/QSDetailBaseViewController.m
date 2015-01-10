@@ -140,10 +140,12 @@
     }
     else
     {
-        if (scrollView.contentOffset.y < - self.badgeView.frame.size.height)
+        float deltaY = scrollView.contentOffset.y - self.touchLocation.y;
+        if (scrollView.contentOffset.y <= 0 && deltaY < 0)
         {
+            //Scroll To Top
             self.touchLocation = CGPointMake(0, - self.badgeView.frame.size.height);
-            float time = ABS(self.topConstrain.constant) / 400;
+            float time = ABS(self.topConstrain.constant) / 600;
             self.topConstrain.constant = 0;
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
             self.canScrollBadgeViewUp = NO;
@@ -154,37 +156,38 @@
                 self.canScrollBadgeViewUp = YES;
             }];
 
-            
             return;
         }
-        float deltaY = scrollView.contentOffset.y - self.touchLocation.y;
-        float h = -self.badgeView.frame.size.height + 20 + self.badgeView.btnGroup.frame.size.height;
-        
+
+//        float h = -self.badgeView.frame.size.height + 20 + self.badgeView.btnGroup.frame.size.height;
         
         if ((deltaY >= 0 && self.canScrollBadgeViewUp)){
-            //move badgeView up
-            self.topConstrain.constant -= deltaY;
-            if (self.topConstrain.constant > 0) {
-                self.topConstrain.constant = 0;
-            }
-            if (self.topConstrain.constant < -self.badgeView.frame.size.height) {
-                self.topConstrain.constant = -self.badgeView.frame.size.height;
+            if (scrollView.contentOffset.y > - self.badgeView.frame.size.height) {
+                //move badgeView up
+                self.topConstrain.constant -= deltaY;
+                if (self.topConstrain.constant > 0) {
+                    self.topConstrain.constant = 0;
+                }
+                if (self.topConstrain.constant < -self.badgeView.frame.size.height) {
+                    self.topConstrain.constant = -self.badgeView.frame.size.height;
+                }
+                self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
             }
             self.touchLocation = scrollView.contentOffset;
             //Back Btn
-            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+
             [self.view layoutIfNeeded];
-        } else if ((self.topConstrain.constant >= h && self.canScrollBadgeViewUp && scrollView.contentOffset.y <= -(self.badgeView.frame.size.height + h)))
-        {
-            self.topConstrain.constant = -scrollView.contentOffset.y - self.badgeView.frame.size.height;
-            self.touchLocation = scrollView.contentOffset;
-            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
-            [self.view layoutIfNeeded];
-            
-            
-        }else if (deltaY < -5){
-            float time = ABS(self.topConstrain.constant - h) / 400;
-            self.topConstrain.constant = h;
+        }
+//        else if ((self.topConstrain.constant >= h && self.canScrollBadgeViewUp && scrollView.contentOffset.y <= -(self.badgeView.frame.size.height + h)))
+//        {
+//            self.topConstrain.constant = -scrollView.contentOffset.y - self.badgeView.frame.size.height;
+//            self.touchLocation = scrollView.contentOffset;
+//            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+//            [self.view layoutIfNeeded];
+//        }
+        else if (deltaY < -[UIScreen mainScreen].bounds.size.height * 2){
+            float time = ABS(self.topConstrain.constant - 0) / 600;
+            self.topConstrain.constant = 0;
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
             self.canScrollBadgeViewUp = NO;
             [UIView animateWithDuration:time animations:^{
@@ -194,9 +197,6 @@
                 self.canScrollBadgeViewUp = YES;
             }];
         }
-        
-        
-        
     }
 }
 
