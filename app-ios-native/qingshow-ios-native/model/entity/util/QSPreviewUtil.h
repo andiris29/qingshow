@@ -22,5 +22,6 @@
 + (BOOL)getIsLike:(NSDictionary*)previewDict;
 + (void)setIsLike:(BOOL)isLike preview:(NSDictionary*)previewDict;
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)previewDict;
++ (void)addNumberComment:(long long)num forPreview:(NSDictionary*)previewDict;
 
 @end

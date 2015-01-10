@@ -119,4 +119,19 @@
     }
     return @"0";
 }
++ (void)addNumberComment:(long long)num forPreview:(NSDictionary*)previewDict
+{
+    if ([QSCommonUtil checkIsNil:previewDict] || ![previewDict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)previewDict;
+    NSMutableDictionary* context = [previewDict[@"__context"] mutableCopy];
+    if (context) {
+        if ([QSCommonUtil checkIsNil:context[@"numComments"]]) {
+            return;
+        }
+        context[@"numComments"] = @(((NSNumber*)context[@"numComments"]).longLongValue + num);
+        m[@"__context"] = context;
+    }
+}
 @end

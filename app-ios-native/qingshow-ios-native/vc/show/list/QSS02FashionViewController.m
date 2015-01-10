@@ -39,6 +39,11 @@
     [self.view addSubview:self.shareVc.view];
 
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.delegateObj refreshClickedData];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -133,6 +133,22 @@
     }
     return @"0";
 }
++ (void)addNumberComment:(long long)num forShow:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict] || ![showDict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)showDict;
+    NSMutableDictionary* context = [showDict[@"__context"] mutableCopy];
+    if (context) {
+        if ([QSCommonUtil checkIsNil:context[@"numComments"]]) {
+            return;
+        }
+        context[@"numComments"] = @(((NSNumber*)context[@"numComments"]).longLongValue + num);
+        m[@"__context"] = context;
+    }
+}
+
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {

@@ -111,7 +111,14 @@
     } onError:^(NSError *error) {
 
     }];
-
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    if (self.showDict) {
+        [weakSelf bindWithDict:self.showDict];
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

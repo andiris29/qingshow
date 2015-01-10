@@ -77,6 +77,7 @@
 {
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     NSDictionary* dict = self.resultArray[indexPath.row];
+    self.clickedData = dict;
     if ([self.delegate respondsToSelector:@selector(clickCommentOfDict:)]) {
         [self.delegate clickCommentOfDict:dict];
     }

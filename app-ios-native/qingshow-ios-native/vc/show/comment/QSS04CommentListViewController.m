@@ -142,14 +142,14 @@
         int index = self.clickIndex;
         self.clickIndex = -1;
         if (self.type == QSCommentListViewControllerTypeShow) {
-            [SHARE_NW_ENGINE deleteComment:comment onSucceed:^{
+            [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
                 [self.delegateObj.resultArray removeObjectAtIndex:index];
                 [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             } onError:^(NSError *error) {
                 [self handleError:error];
             }];
         } else if (self.type == QSCommentListViewControllerTypePreview) {
-            [SHARE_NW_ENGINE deletePreviewComment:comment onSucceed:^{
+            [SHARE_NW_ENGINE deletePreviewComment:comment ofPreview:self.previewDict onSucceed:^{
                 [self.delegateObj.resultArray removeObjectAtIndex:index];
                 [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             } onError:^(NSError *error) {

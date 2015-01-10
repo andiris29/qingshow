@@ -40,6 +40,7 @@
                           onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)deletePreviewComment:(NSDictionary*)commentDict
+                                  ofPreview:(NSDictionary*)previewDict
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
 

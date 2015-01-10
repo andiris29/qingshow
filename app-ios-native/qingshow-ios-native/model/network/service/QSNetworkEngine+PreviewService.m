@@ -133,6 +133,7 @@
     }
     
     return [self startOperationWithPath:PATH_PREVIEW_COMMENT method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [QSPreviewUtil addNumberComment:1ll forPreview:previewDict];
         if (succeedBlock) {
             succeedBlock();
         }
@@ -144,10 +145,12 @@
 }
 
 - (MKNetworkOperation*)deletePreviewComment:(NSDictionary*)commentDict
+                                  ofPreview:(NSDictionary*)previewDict
                                   onSucceed:(VoidBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_PREVIEW_DELETE_COMMENT method:@"POST" paramers:@{@"_id" : commentDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [QSPreviewUtil addNumberComment:-1ll forPreview:previewDict];
         if (succeedBlock) {
             succeedBlock();
         }
