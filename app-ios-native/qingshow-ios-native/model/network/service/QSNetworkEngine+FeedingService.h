@@ -11,9 +11,11 @@
 
 @interface QSNetworkEngine(FeedingService)
 
-- (MKNetworkOperation*)getChosenFeedingPage:(int)page
+- (MKNetworkOperation*)getChosenFeedingType:(int)type
+                                       page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)getLikeFeedingPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;

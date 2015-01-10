@@ -120,7 +120,6 @@
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
             succeedBlock(array, metadata);
         } onError:errorBlock];
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.recommendationDelegate.delegate = self;
     [self.recommendationDelegate reloadData];

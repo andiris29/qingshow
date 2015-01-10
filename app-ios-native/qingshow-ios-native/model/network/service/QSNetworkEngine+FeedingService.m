@@ -71,11 +71,12 @@
 }
 
 #pragma mark - Feeding
-- (MKNetworkOperation*)getChosenFeedingPage:(int)page
+- (MKNetworkOperation*)getChosenFeedingType:(int)type
+                                       page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_CHOSEN otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_CHOSEN otherParam:@{@"type" : @(type)} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 - (MKNetworkOperation*)getLikeFeedingPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
@@ -99,7 +100,7 @@
     NSString* path = nil;
     switch (type) {
         case 1:
-            path = PATH_FEEDING_CHOSEN;
+            return [self getChosenFeedingType:1 page:page onSucceed:succeedBlock onError:errorBlock];
             break;
         case 2:
             path = PATH_FEEDING_HOT;

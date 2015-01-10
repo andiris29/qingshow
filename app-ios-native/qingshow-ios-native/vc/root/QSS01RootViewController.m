@@ -109,7 +109,7 @@
     [self.delegateObj bindWithCollectionView:self.collectionView];
     __weak QSS01RootViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:^(NSError *error) {
+        return [SHARE_NW_ENGINE getChosenFeedingType:0 page:page onSucceed:succeedBlock onError:^(NSError *error) {
             if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1009) {
                 UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"未连接网络或信号不好" message:nil delegate:weakSelf cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [a show];
