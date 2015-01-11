@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="pix-Pb-mKm">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="1168"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1449"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
                     <view contentMode="scaleToFill" id="zqO-qE-QHm">
@@ -51,7 +51,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <view contentMode="scaleToFill" id="Qxi-iR-2UB">
-                        <rect key="frame" x="249" y="843" width="63" height="176"/>
+                        <rect key="frame" x="249" y="1124" width="63" height="176"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RKZ-Yy-ayo">

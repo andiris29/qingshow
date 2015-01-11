@@ -13,6 +13,13 @@
 #import "QSPeopleUtil.h"
 #import "QSPreviewUtil.h"
 #import "QSBrandUtil.h"
+#import "QSSingleImageScrollView.h"
+
+@interface QSBigImageTableViewCell ()
+
+@property (strong, nonatomic) QSSingleImageScrollView* singleImageScrollView;
+
+@end
 
 @implementation QSBigImageTableViewCell
 - (void)setType:(QSBigImageTableViewCellType)type
@@ -128,6 +135,9 @@
     CGRect rect = self.imgView.frame;
     rect.size.height = height;
     self.imgView.frame = rect;
+    if (self.singleImageScrollView) {
+        self.singleImageScrollView.frame = rect;
+    }
     
     rect = self.modelContainer.frame;
     rect.origin.y = height - rect.size.height;
@@ -167,6 +177,11 @@
 
 - (void)bindWithPreview:(NSDictionary*)previewDict
 {
+    if (!self.singleImageScrollView) {
+        self.singleImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imgView.frame];
+        self.imgView.hidden = YES;
+        [self.contentView insertSubview:self.singleImageScrollView belowSubview:self.modelContainer];
+    }
     float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
     [self resizeWithHeight:height];
     
@@ -176,7 +191,9 @@
     
     [self.likeBtn setTitle:[QSPreviewUtil getNumLikeDesc:previewDict] forState:UIControlStateNormal];
     [self.commentBtn setTitle:[QSPreviewUtil getNumCommentDesc:previewDict] forState:UIControlStateNormal];
-    [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+//    [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+    self.singleImageScrollView.imageUrlArray = [QSPreviewUtil getCoverAndImagesUrl:previewDict];
+    
     [self.likeBtn setHighlighted:[QSPreviewUtil getIsLike:previewDict]];
 }
 #pragma mark - IBAction
