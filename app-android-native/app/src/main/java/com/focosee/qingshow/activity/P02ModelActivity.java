@@ -35,7 +35,6 @@ import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -270,11 +269,11 @@ public class P02ModelActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (Exception e) {
-                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (Exception e) {
+//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                     latestPullRefreshListView.onPullDownRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
@@ -304,11 +303,11 @@ public class P02ModelActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P02ModelActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (JSONException e) {
+//                        Toast.makeText(P02ModelActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
@@ -338,11 +337,11 @@ public class P02ModelActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (JSONException e) {
+//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                     followedPullRefreshListView.onPullDownRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
                     return;
@@ -372,11 +371,11 @@ public class P02ModelActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (JSONException e) {
+//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                     followedPullRefreshListView.onPullUpRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
                     return;
@@ -406,11 +405,11 @@ public class P02ModelActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (JSONException e) {
+//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                     followerPullRefreshListView.onPullDownRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
@@ -440,11 +439,11 @@ public class P02ModelActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (JSONException e) {
+//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
