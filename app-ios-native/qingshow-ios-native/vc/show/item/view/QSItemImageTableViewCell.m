@@ -11,8 +11,11 @@
 #import "QSItemUtil.h"
 
 @interface QSItemImageTableViewCell ()
+
 @property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
+@property (strong, nonatomic) NSDictionary* itemDict;
 @end
+
 @implementation QSItemImageTableViewCell
 
 #pragma mark - Life Cycle
@@ -31,11 +34,14 @@
 #pragma mark - Bind
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
+    self.itemDict = itemDict;
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
     self.imageScrollView.imageUrlArray = [QSItemUtil getCoverAndImagesUrl:itemDict];
 //    self.imageScrollView.imageUrlArray = @[[QSItemUtil getCoverUrl:itemDict],[QSItemUtil getCoverUrl:itemDict]];
-    
+    self.nameLabel.text = [QSItemUtil getItemDescription:itemDict];
+    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+    self.shopBtn.hidden = [QSItemUtil getShopUrl:itemDict] == nil;
 }
 - (void)baseYsetup
 {
@@ -73,5 +79,14 @@
     }
     height = height * iniWidth / width;
     return height;
+}
+
+- (IBAction)shopBtnPressed:(id)sender
+{
+    NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
+    if (url) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
+
 }
 @end

@@ -14,7 +14,12 @@
 
 @property (strong, nonatomic) IBOutlet UIView* infoContainerView;
 @property (strong, nonatomic) IBOutlet UIView* imageContainerView;
-@property (strong, nonatomic) IBOutlet UILabel* discountLabel;
+
+@property (strong, nonatomic) IBOutlet UILabel* saleLabel;
+@property (strong, nonatomic) IBOutlet UILabel* nameLabel;
+@property (strong, nonatomic) IBOutlet UILabel* priceLabel;
+@property (strong, nonatomic) IBOutlet UIButton* shopBtn;
+- (IBAction)shopBtnPressed:(id)sender;
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict;
 @end

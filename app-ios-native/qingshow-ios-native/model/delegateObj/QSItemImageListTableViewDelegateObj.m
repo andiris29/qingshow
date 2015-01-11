@@ -21,6 +21,11 @@
     [cell bindWithItem:dict];
 //    [cell bindWithComment:dict];
 //    cell.delegate = self;
+    if (self.type == QSItemImageListTableViewDelegateObjTypeDiscount) {
+        cell.saleLabel.hidden = NO;
+    } else {
+        cell.saleLabel.hidden = YES;
+    }
     return cell;
 }
 

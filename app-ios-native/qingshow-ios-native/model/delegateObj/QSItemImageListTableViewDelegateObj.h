@@ -7,7 +7,13 @@
 //
 
 #import "QSTableViewBasicDelegateObj.h"
+typedef NS_ENUM(NSInteger, QSItemImageListTableViewDelegateObjType) {
+    QSItemImageListTableViewDelegateObjTypeNew,
+    QSItemImageListTableViewDelegateObjTypeDiscount
+};
 
 @interface QSItemImageListTableViewDelegateObj : QSTableViewBasicDelegateObj
+
+@property (assign, nonatomic) QSItemImageListTableViewDelegateObjType type;
 
 @end

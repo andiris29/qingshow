@@ -109,6 +109,7 @@
     __weak QSP03BrandDetailViewController* weakSelf = self;
     //Item New
     [self.itemNewDelegate bindWithTableView:self.itemNewTableView];
+    self.itemNewDelegate.type = QSItemImageListTableViewDelegateObjTypeNew;
     if (self.itemDict) {
         self.itemNewDelegate.additionalResult = @[self.itemDict];
     }
@@ -124,6 +125,7 @@
     
     //Item Discount
     [self.itemDiscountDelegate bindWithTableView:self.itemDiscountTableView];
+    self.itemDiscountDelegate.type = QSItemImageListTableViewDelegateObjTypeDiscount;
     self.itemDiscountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
