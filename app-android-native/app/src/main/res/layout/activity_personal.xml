@@ -105,6 +105,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/likeCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -137,6 +138,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/recommandCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -168,6 +170,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/followedCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

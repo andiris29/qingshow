@@ -68,6 +68,7 @@ public class U07RegisterActivity extends Activity {
         setContentView(R.layout.activity_register);
 
         context = getApplicationContext();
+        sharedPreferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
 
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
