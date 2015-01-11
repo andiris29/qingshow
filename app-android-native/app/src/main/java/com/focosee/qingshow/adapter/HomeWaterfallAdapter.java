@@ -1,7 +1,9 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
@@ -52,6 +55,7 @@ class HomeViewHolder extends AbsViewHolder {
 //    TextView modelHeightTV;
 //    TextView modelWeightTV;
     TextView loveTV;
+    public ImageView shadowView;
 
 
 //    // Helper property
@@ -127,12 +131,25 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
             holder.modelHeightWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
+            holder.shadowView = (ImageView) convertView.findViewById(R.id.item_show_shadow);
             convertView.setTag(holder);
         }
 
         holder = (HomeViewHolder) convertView.getTag();
 
         holder.setData(showInfo, _mImageFetcher);
+        final int final_position = position;
+        holder.shadowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(_context, P02ModelActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((ShowListEntity) _data.get(final_position)).getModelRef());
+                intent.putExtras(bundle);
+                _context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
