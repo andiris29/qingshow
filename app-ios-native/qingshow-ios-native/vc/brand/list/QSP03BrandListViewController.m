@@ -44,6 +44,13 @@
     self.navigationItem.titleView = [QSBrandTitleView generateView];
     
 }
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    CGRect rect = self.headerView.frame;
+    rect.size.height = 44.f;
+    self.headerView.frame = rect;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
