@@ -104,6 +104,10 @@ public class ShowDetailEntity extends AbsEntity {
 
     public void setLikedByCurrentUser(Boolean likedByCurrentUser) {
         __context.likedByCurrentUser = likedByCurrentUser;
+        if (likedByCurrentUser)
+            __context.numLike++;
+        else if (__context.numLike>0)
+            __context.numLike--;
     }
 
     public String getCover() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -57,10 +58,15 @@ public class S03SHowActivity extends Activity {
     private TextView likeTextView;
     private TextView itemTextView;
 
+    // like image button
+    private ImageButton likedImageButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
+
+        likedImageButton = (ImageButton) findViewById(R.id.S03_like_btn);
 
         findViewById(R.id.S03_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +128,7 @@ public class S03SHowActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
+                        setLikedImageButtonBackgroundImage();
                     }else{
                         handleResponseError(response);
 //                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败" + response.toString() + response.get("metadata").toString().length());
@@ -138,6 +145,18 @@ public class S03SHowActivity extends Activity {
         });
 
         QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+    }
+
+    private void setLikedImageButtonBackgroundImage() {
+        if (null == showDetailEntity) {
+            return;
+        }
+        if (showDetailEntity.likedByCurrentUser()) {
+            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+        } else {
+            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+        }
+        likeTextView.setText(showDetailEntity.getShowLikeNumber());
     }
 
     private void handleResponseError(JSONObject response) {
@@ -256,6 +275,8 @@ public class S03SHowActivity extends Activity {
                 startVideo();
             }
         });
+
+        setLikedImageButtonBackgroundImage();
     }
 
     private String arrayToString(String[] input) {
