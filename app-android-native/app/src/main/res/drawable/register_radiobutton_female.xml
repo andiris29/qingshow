@@ -7,11 +7,11 @@
         android:state_enabled="true" />
 
     <item
-        android:drawable="@drawable/radiobutton_unchecked_register"
+        android:drawable="@drawable/radiobutton_female_unchecked"
         android:state_checked="false"
         android:state_enabled="false" />
 
     <item
-        android:drawable="@drawable/radiobutton_unchecked_register" />
+        android:drawable="@drawable/radiobutton_female_unchecked" />
 
 </selector>
