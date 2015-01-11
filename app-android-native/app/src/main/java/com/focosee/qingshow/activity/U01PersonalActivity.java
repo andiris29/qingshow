@@ -208,4 +208,8 @@ public class U01PersonalActivity extends FragmentActivity {
         });
     }
 
+    private void setTabCount() {
+
+    }
+
 }

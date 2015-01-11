@@ -42,8 +42,9 @@ import java.util.Map;
 
 public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener{
 
-    private String[] sexArgs = {"男", "女"};
-    private String[] hairArgs = {"长发", "超长发", "中长发", "短发", "光头", "其他"};
+    private static final String[] sexArgs = {"男", "女"};
+    private static final String[] hairArgs = {"长发", "超长发", "中长发", "短发", "光头", "其他"};
+    private static final String[] clothesSize = {"XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL"};
 
     private Context context;
     private RequestQueue requestQueue;
@@ -67,6 +68,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private EditText heightEditText;
     private EditText weightEditText;
     private TextView hairTextView;
+    private EditText shoesSizeEditText;
+    private EditText clothesSizeEditText;
 
     private People people;
 
@@ -90,99 +93,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
         getUser();
 
-        backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
-        backTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().finish();
-            }
-        });
-
-        personalRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.personalRelativeLayout);
-        personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image:/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
-            }
-        });
-        backgroundRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.backgroundRelativeLayout);
-        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setType("image:/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, 1);
-            }
-        });
-
-        sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
-        sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet("sex");
-            }
-        });
-        hairRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.hairRelativeLayout);
-        hairRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet("hair");
-            }
-        });
-        changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
-        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        changeEmailRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changeEmailRelativeLayout);
-        changeEmailRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02ChangeIdFragment fragment = new U02ChangeIdFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        informRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.informRelativeLayout);
-        informRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02NoticeFragment fragment = new U02NoticeFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        rulesRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.rulesRelativeLayout);
-        rulesRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02TermsFragment hairFragment = new U02TermsFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, hairFragment).commit();
-            }
-        });
-        helpRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.helpRelativeLayout);
-        helpRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02HelpFragment fragment = new U02HelpFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
-        aboutVIPRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.aboutVIPRelativeLayout);
-        aboutVIPRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                U02AboutVIPFragment fragment = new U02AboutVIPFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
-            }
-        });
+        setJumpListener();
+        shoesSizeEditText = (EditText) getActivity().findViewById(R.id.shoesSizeEditText);
+        clothesSizeEditText = (EditText) getActivity().findViewById(R.id.clothesSizeEditText);
 
         nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
         nameEditText.setOnFocusChangeListener(this);
@@ -242,7 +155,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         if (resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
             ContentResolver contentResolver = getActivity().getContentResolver();
-
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -257,6 +169,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             sexTextView.setTag(people.gender);
             hairTextView.setText(people.hairTypes[0]);
             hairTextView.setTag(people.hairTypes[0]);
+            shoesSizeEditText.setText(people.shoeSize);
+            clothesSizeEditText.setText(clothesSize[Integer.valueOf(people.clothingSize)]);
         }
     }
 
@@ -272,7 +186,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onResponse(JSONObject response) {
                 try{
-
                     people = People.getPeopleEntitis(response);
                     setData();
                 }catch (Exception error){
@@ -371,5 +284,101 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
         requestQueue.add(qxStringRequest);
+    }
+
+    private void setJumpListener() {
+        backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
+
+        personalRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.personalRelativeLayout);
+        personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image:/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
+        backgroundRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.backgroundRelativeLayout);
+        backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image:/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent, 1);
+            }
+        });
+
+        sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
+        sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet("sex");
+            }
+        });
+        hairRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.hairRelativeLayout);
+        hairRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet("hair");
+            }
+        });
+        changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
+        changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+            }
+        });
+        changeEmailRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changeEmailRelativeLayout);
+        changeEmailRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02ChangeIdFragment fragment = new U02ChangeIdFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+            }
+        });
+        informRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.informRelativeLayout);
+        informRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02NoticeFragment fragment = new U02NoticeFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+            }
+        });
+        rulesRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.rulesRelativeLayout);
+        rulesRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02TermsFragment hairFragment = new U02TermsFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, hairFragment).commit();
+            }
+        });
+        helpRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.helpRelativeLayout);
+        helpRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02HelpFragment fragment = new U02HelpFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+            }
+        });
+        aboutVIPRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.aboutVIPRelativeLayout);
+        aboutVIPRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                U02AboutVIPFragment fragment = new U02AboutVIPFragment();
+                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+            }
+        });
     }
 }

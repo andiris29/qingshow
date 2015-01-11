@@ -41,19 +41,20 @@ public class U02SettingsActivity extends Activity {
         requestQueue = Volley.newRequestQueue(context);
 
         U02SettingsFragment settingsFragment = new U02SettingsFragment();
-        getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK) {
-            U02SettingsFragment settingsFragment = new U02SettingsFragment();
-            getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
-            return false;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if(keyCode == KeyEvent.KEYCODE_BACK) {
+//            U02SettingsFragment settingsFragment = new U02SettingsFragment();
+//            getFragmentManager().findFragmentByTag("settingsFragment");
+//            getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+//            return false;
+//        } else {
+//            return super.onKeyDown(keyCode, event);
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

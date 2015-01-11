@@ -13,7 +13,7 @@
     <string name="personal_picture_activity_settings">个人头像</string>
     <string name="background_picture_activity_settings">背景图像</string>
     <string name="information_activity_settings">基本信息</string>
-    <string name="name_activity_settings">姓名</string>
+    <string name="name_activity_settings">昵称</string>
     <string name="sex_activity_settings">性别</string>
     <string name="age_activity_settings">年龄</string>
     <string name="height_activity_settings">身高</string>
@@ -31,6 +31,8 @@
     <string name="quit_activity_settings">退出登录</string>
     <string name="left_ref_activity_settings">back</string>
     <string name="save_activity_settings">保存</string>
+    <string name="shoes_size_activity_settings">鞋码</string>
+    <string name="clothes_size_activity_settings">服装尺寸</string>
 
     <!-- Register Activity -->
     <string name="title_activity_register">RegisterActivity</string>
