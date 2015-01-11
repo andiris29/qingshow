@@ -202,7 +202,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         [addcharity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         //[addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
-        [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
+        [addcharity setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
         CGRect screenBound = [[UIScreen mainScreen] bounds];
         CGSize screenSize = screenBound.size;
         CGFloat screenWidth = screenSize.width;
@@ -359,6 +359,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Get Portrait & Backgrund's Image
     [self refreshImage];
     
+    self.shoeSizeLabel.text = [QSPeopleUtil getShoeSizeDesc:people];
+    self.clothingSizeLabel.text = [QSPeopleUtil getClothingSizeDesc:people];
     self.brandText.text = (NSString *)people[@"favoriteBrand"];
 }
 
