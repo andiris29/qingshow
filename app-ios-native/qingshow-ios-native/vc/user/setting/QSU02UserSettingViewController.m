@@ -258,7 +258,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Get Original Image from PhotoLibrary
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
-        image = [info objectForKeyedSubscript:UIImagePickerControllerEditedImage];
+        image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
     }
     
     QSImageEditingViewController* vc = nil;
