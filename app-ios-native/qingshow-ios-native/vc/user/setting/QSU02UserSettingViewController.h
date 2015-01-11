@@ -26,6 +26,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (weak, nonatomic) IBOutlet UITextField *brandText;
+@property (weak, nonatomic) IBOutlet UILabel *shoeSizeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *clothingSizeLabel;
 
 
 - (IBAction)lengthEditingDidBegin:(id)sender;

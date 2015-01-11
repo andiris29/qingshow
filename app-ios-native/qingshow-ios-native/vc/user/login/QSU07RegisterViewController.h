@@ -40,6 +40,8 @@
 @property (assign, nonatomic) NSInteger gender;
 @property (assign, nonatomic) NSInteger clothingSize;
 @property (assign, nonatomic) NSInteger shoeSize;
+@property (weak, nonatomic) IBOutlet UILabel *femalLabel;
+@property (weak, nonatomic) IBOutlet UILabel *maleLabel;
 
 - (IBAction)selectGender:(id)sender;
 

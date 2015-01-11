@@ -35,7 +35,7 @@
     shoesArray = [[NSMutableArray alloc]initWithCapacity:20];
     
     // View全体
-    //self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
+    self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
     
     // Navibar
     self.navigationItem.title = @"注册";
@@ -44,13 +44,29 @@
     [[self navigationItem] setBackBarButtonItem:backButton];
     
     
-//    for (UIView *subView in self.view.subviews) {
-//        if ([subView isKindOfClass:[UILabel class]]) {
-//            UILabel *label = (UILabel *)subView;
-//            [label.layer setBorderColor:[[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] CGColor]];
-//            label.layer.borderWidth=1.0f;
-//        }
-//    }
+    for (UIView *subView in self.view.subviews) {
+        if ([subView isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subView;
+            if (label.tag == 99) {
+                continue;
+            }
+            
+            CALayer *layer = [label layer];
+            CALayer *upperBorder = [CALayer layer];
+            upperBorder.borderWidth=1.0f;
+            upperBorder.frame = CGRectMake(0, 0, layer.frame.size.width, 1);
+            [upperBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
+            [layer addSublayer:upperBorder];
+        }
+    }
+    
+    CALayer *layer = [self.shoeSizeLabel layer];
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.borderWidth = 1.0f;
+    bottomBorder.frame = CGRectMake(0, layer.frame.size.height - 1, layer.frame.size.width, 1);
+    [bottomBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
+    [layer addSublayer:bottomBorder];
+    
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
@@ -64,6 +80,8 @@
     [self setDefaultStyleToPropButon:self.maleButton];
     [self setDefaultStyleToPropButon:self.femaleButton];
     [self setUnSelectedStyleToPropButton:self.maleButton];
+    [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
+    [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
     
     [clothesArray addObject:self.xxsButton];
     [clothesArray addObject:self.xsButton];
@@ -225,9 +243,13 @@
     if (self.gender == 0) {
         [self setSelectedStyleToPropButton:self.maleButton];
         [self setUnSelectedStyleToPropButton:self.femaleButton];
+        [self.maleLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
+        [self.femalLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
     } else {
         [self setSelectedStyleToPropButton:self.femaleButton];
         [self setUnSelectedStyleToPropButton:self.maleButton];
+        [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
+        [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
     }
 }
 

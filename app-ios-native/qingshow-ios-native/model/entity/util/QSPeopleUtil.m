@@ -326,4 +326,15 @@
     }
     return @"";
 }
+
++ (NSString *)getShoeSizeDesc:(NSDictionary *)peopleDict {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return @"";
+    }
+    NSNumber* shoeSize= peopleDict[@"shoeSize"];
+    if ([QSCommonUtil checkIsNil:shoeSize]) {
+        return @"";
+    }
+    return [shoeSize stringValue];
+}
 @end

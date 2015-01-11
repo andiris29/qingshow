@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QSU06LoginViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
 
 - (id)initWithShowUserDetailAfterLogin:(BOOL)fShowUserDetail;
 @end

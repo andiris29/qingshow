@@ -24,6 +24,7 @@
 + (NSString*)getProvinceDesc:(NSDictionary*)peopleDict;
 + (NSString*)getHeight:(NSDictionary*)peopleDict;
 + (NSString*)getWeight:(NSDictionary*)peopleDict;
++ (NSString*)getShoeSizeDesc:(NSDictionary*)peopleDict;
 
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 
