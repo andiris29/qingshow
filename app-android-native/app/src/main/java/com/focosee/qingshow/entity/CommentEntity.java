@@ -21,7 +21,7 @@ public class CommentEntity extends AbsEntity {
     public String getAuthorName() {
         if (null != this.authorRef && null != this.authorRef.name)
             return this.authorRef.name;
-        return "未设置名称";
+        return "未命名";
     }
 
     public String getCommentContent() {

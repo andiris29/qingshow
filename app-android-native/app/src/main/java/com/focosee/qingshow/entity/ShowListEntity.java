@@ -52,44 +52,48 @@ public class ShowListEntity extends AbsEntity {
     }
 
     public String getModelPhoto() {
-        return (null != modelRef) ? modelRef.portrait : "";
+        return (null != modelRef) ? modelRef.getPortrait() : "";
     }
 
     public String getModelName() {
-        return (null != modelRef) ? modelRef.name : "";
+        return (null != modelRef) ? modelRef.getName() : "";
     }
 
     public String getModelHeight() {
         if (null != modelRef)
-            return String.valueOf(modelRef.height);
+            return String.valueOf(modelRef.getHeight());
         return "0";
     }
 
     public String getModelHeightAndHeightWithFormat() {
-        return (null != modelRef) ? (String.valueOf(modelRef.height) + "cm/" + String.valueOf(modelRef.weight) + "kg" ) : "0cm/0kg";
+        return (null != modelRef) ? (String.valueOf(modelRef.getHeight()) + "cm/" + String.valueOf(modelRef.getWeight()) + "kg" ) : "0cm/0kg";
     }
 
     public String getModelWeight() {
         if (null != modelRef)
-            return String.valueOf(modelRef.weight);
+            return String.valueOf(modelRef.getWeight());
         return "0";
     }
 
     // TODO check job field
     public String getModelJob() {
         if (null != modelRef)
-            return String.valueOf(modelRef.roles);
+            return String.valueOf(modelRef.getRoles());
         return "";
     }
 
-    public String getModelTag() {
-        if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
-            return modelRef.modelInfo.status;
-        return "";
-    }
+//    public String getModelTag() {
+//        if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
+//            return modelRef.modelInfo.status;
+//        return "";
+//    }
 
-    public String getModelStatus() {
-        return modelRef.modelInfo.status;
+//    public String getModelStatus() {
+//        return modelRef.modelInfo.status;
+//    }
+
+    public ModelEntity getModelRef() {
+        return modelRef;
     }
 
 
@@ -100,7 +104,7 @@ public class ShowListEntity extends AbsEntity {
     public String cover;                    // "url for image source"
     public String video;                    // "/10.mp4.mp4"
     public String numLike;                  // "7777"
-    public RefModel modelRef;               // "Model Object"
+    public ModelEntity modelRef;               // "Model Object"
     public String create;                   // "2014-11-21T15:52:27.740Z"
     public String[] itemRefs;          // "Item Object List"
     public String[] styles;
@@ -131,7 +135,7 @@ public class ShowListEntity extends AbsEntity {
             public int numLikes;
         }
 
-        public static class ModelContext {
+        public static class ModelContext extends AbsEntity {
             public Boolean followedByCurrentUser;
         }
     }
@@ -142,7 +146,7 @@ public class ShowListEntity extends AbsEntity {
         public int height;
     }
 
-    public static class ShowContext {
+    public static class ShowContext extends AbsEntity {
         public int numComments;
         public int numLike;
         public Boolean likedByCurrentUser;
