@@ -1,34 +1,57 @@
 package com.focosee.qingshow.adapter;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.app.admin.DeviceAdminInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.focosee.qingshow.activity.S08TrendActivity;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.entity.TrendEntity;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.ArrayList;
+import org.json.JSONObject;
 import java.util.LinkedList;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class S08TrendListAdapter extends BaseAdapter {
+
+
+    private final static String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
+    //每一行的最小高度
+    private int minHeight = 600;
+
 
     private Context context;
     private LinkedList<TrendEntity> data;
 
-    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities) {
+    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int minHeight) {
         this.context = context;
         this.data = trendEntities;
+        this.minHeight = minHeight * 4 / 7;
+
     }
 
     @Override
@@ -47,18 +70,28 @@ public class S08TrendListAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void addItemTop(LinkedList<TrendEntity> datas){this.data.addAll(datas);}
-    public void addItemLast(LinkedList<TrendEntity> datas){this.data.addAll(datas);}
+    public void addItemTop(LinkedList<TrendEntity> datas) {
+        this.data.addAll(datas);
+    }
+
+    public void addItemLast(LinkedList<TrendEntity> datas) {
+        this.data.addAll(datas);
+    }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        HolderView holderView;
+        final HolderView holderView;
+        RelativeLayout.LayoutParams params_rLayout;
+        MPullRefreshListView.LayoutParams params_listView;
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, null);
 
             holderView = new HolderView();
+            holderView.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.s08_relative_layout);
+            //holderView.listView = (MPullRefreshListView) convertView.findViewById(R.id.S08_content_list_view);
+
             holderView.backImageView = (ImageView) convertView.findViewById(R.id.S08_background_image_view);
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.S08_item_name);
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
@@ -72,32 +105,51 @@ public class S08TrendListAdapter extends BaseAdapter {
 
             convertView.setTag(holderView);
         } else {
-            holderView = (HolderView)convertView.getTag();
+            holderView = (HolderView) convertView.getTag();
         }
-        holderView.backImageView.setMinimumHeight(data.get(position).getHeight());
-        ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView);
-        //Toast.makeText(convertView.getContext(),data.get(position).getCover()+"%%%",Toast.LENGTH_LONG).show();
+        int item_height = data.get(position).getHeight()<minHeight ? minHeight : data.get(position).getHeight();
+        int item_width = holderView.backImageView.getLayoutParams().width;
+        //Log.d(_TAG,convertView.toString());
+        //如何图片高度小于最小高度，则设为最小高度
+        params_rLayout = new RelativeLayout.LayoutParams(item_width
+                , item_height);
+        holderView.relativeLayout.setLayoutParams(params_rLayout);
+        //父容器重新设定高度.listView的高度必须匹配父容器
+        /*params_listView = new MPullRefreshListView.LayoutParams(item_width
+                , item_height);
+        holderView.listView.setLayoutParams(params_listView);*/
+
+        convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
+                item_height));
+
+        holderView.backImageView.setMinimumWidth(item_height);
+        /*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        B.setLayoutParams(params);*/
+
+        ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView, AppUtil.getShowDisplayOptions());
         holderView.nameTextView.setText(data.get(position).getNameDescription());
         holderView.descriptionTextView.setText(data.get(position).getBrandDescription());
         holderView.priceTextView.setText(data.get(position).getPriceDescription());
-
+        //分享
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.setType("image*//*");
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                //intent.setType("image*//*");
+                intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
                 intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(Intent.createChooser(intent, context.getPackageName()));
             }
         });
-        holderView.messageTextView.setText("444444444444");
+        //评论
+        holderView.messageTextView.setText(data.get(position).getNumComments()+"");
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mPosition = Integer.valueOf(((Button) v).getTag().toString());
+                int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
                 if (null != data.get(mPosition) && null != data.get(mPosition).get_id()) {
                     Intent intent = new Intent(context, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
@@ -107,19 +159,87 @@ public class S08TrendListAdapter extends BaseAdapter {
                 }
             }
         });
-        holderView.likeTextView.setText("55555555555555");
+        //点赞
+        holderView.likeTextView.setText(data.get(position).numLike+"");
         holderView.likeImageButton.setTag(position);
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
+                if (null != data.get(mPosition) && null != data.get(mPosition).get_id()) {
 
+                    Map<String, String> likeData = new HashMap<String, String>();
+                    likeData.put("_id", data.get(position).get_id());
+                    JSONObject jsonObject = new JSONObject(likeData);
+
+                    MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST,QSAppWebAPI.getPreviewTrendLikeApi()
+                            , jsonObject, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if (response.get("metadata").toString().equals("{}")) {
+                                    holderView.likeTextView.setText(
+                                            Integer.parseInt(holderView.likeTextView.getText().toString()) + 1 + "");
+                                    holderView.likeImageButton.setClickable(false);
+                                    holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+                                    showMessage(context, "点赞成功");
+                                    //showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
+                                }else{
+                                    handleResponseError(response);
+                                    showMessage(context, "点赞失败" + response.toString() + response.get("metadata").toString().length());
+
+                                }
+                            }catch (Exception e) {
+                                showMessage(context, e.toString());
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            showMessage(context, error.toString());
+                        }
+                    });
+
+                    QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+
+                }
             }
         });
 
         return convertView;
     }
 
+    private void showMessage(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        Log.i(context.getPackageName(), message);
+    }
+
+    private void handleResponseError(JSONObject response) {
+        try {
+            int errorCode = response.getJSONObject("metadata").getInt("error");
+            //String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
+            String errorMessage = "";
+            switch (errorCode) {
+                case 1012:
+                    errorMessage = "请先登录！";
+                    break;
+                case 1000:
+                    errorMessage = "服务器错误，请稍微重试！";
+                    break;
+                default:
+                    errorMessage = String.valueOf(errorCode) + response.toString();
+                    break;
+            }
+            showMessage(context, errorMessage);
+        }catch (Exception e) {
+            showMessage(context, e.toString() + response.toString());
+        }
+    }
+
     class HolderView {
+        public RelativeLayout relativeLayout;
+        public MPullRefreshListView listView;
+
         public ImageView backImageView;
         public TextView nameTextView;
         public TextView descriptionTextView;

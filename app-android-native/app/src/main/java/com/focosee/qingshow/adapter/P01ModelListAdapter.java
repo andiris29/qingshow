@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,9 +20,7 @@ import com.focosee.qingshow.entity.ModelEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,10 +91,10 @@ public class P01ModelListAdapter extends BaseAdapter {
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
         holderView.followButton.setTag(String.valueOf(position));
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
-            holderView.followButton.setText("-取消");
+            holderView.followButton.setBackgroundResource(R.drawable.badge_unfollow_btn);
             holderView.followButton.setOnClickListener(followButtonOnClickListener);
         }else{
-            holderView.followButton.setText("+关注");
+            holderView.followButton.setBackgroundResource(R.drawable.badge_follow_btn);
             holderView.followButton.setOnClickListener(followButtonOnClickListener);
         }
 
@@ -136,7 +133,7 @@ public class P01ModelListAdapter extends BaseAdapter {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(context, "关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
-                        v.setText("-取消");
+                        v.setBackgroundResource(R.drawable.badge_unfollow_btn);
                     }else{
                         showMessage(context, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -166,7 +163,7 @@ public class P01ModelListAdapter extends BaseAdapter {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(context, "取消关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(false);
-                        ((Button)v).setText("+关注");
+                        v.setBackgroundResource(R.drawable.badge_follow_btn);
                     }else{
                         showMessage(context, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }

@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
 class P03BrandHolderView {
-    public ImageView brandSlogan;
+    public MImageView_OriginSize brandSlogan;
     public ImageView brandPortrait;
     public TextView brandName;
     public TextView brandDescription;
@@ -55,7 +57,7 @@ public class P03BrandListAdapter extends BaseAdapter {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
             holderView = new P03BrandHolderView();
-            holderView.brandSlogan = (ImageView) convertView.findViewById(R.id.item_brand_slogan);
+            holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
             holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
             holderView.brandName = (TextView) convertView.findViewById(R.id.item_brand_name);
             holderView.brandDescription = (TextView) convertView.findViewById(R.id.item_brand_description);
@@ -63,8 +65,11 @@ public class P03BrandListAdapter extends BaseAdapter {
         }
         holderView = (P03BrandHolderView) convertView.getTag();
 
-        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait);
-        this.imageLoader.displayImage(this.data.get(position).getBrandSlogan(), holderView.brandSlogan);
+        holderView.brandSlogan.setOriginWidth(this.data.get(position).getSloganWidth());
+        holderView.brandSlogan.setOriginHeight(this.data.get(position).getSloganHeight());
+
+        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait, AppUtil.getPortraitDisplayOptions());
+        this.imageLoader.displayImage(this.data.get(position).getBrandSlogan(), holderView.brandSlogan, AppUtil.getShowDisplayOptions());
         holderView.brandName.setText(this.data.get(position).getBrandName());
         holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;

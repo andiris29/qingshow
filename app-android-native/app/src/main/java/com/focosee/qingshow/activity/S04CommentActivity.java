@@ -248,13 +248,13 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         if (null != userId && userId.equals(commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles("回复", "查看个人主页", "删除")
+                    .setOtherButtonTitles("查看个人主页", "删除")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
         else {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles("回复", "查看个人主页")
+                    .setOtherButtonTitles("查看个人主页")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
     }

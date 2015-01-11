@@ -30,9 +30,8 @@ public class TrendEntity extends AbsEntity {
     public int getNumComments(){
         if(null != __context){
             return __context.numComments;
-        }else{
-            return 0;
         }
+        return 0;
     }
 
     public String getCover(){   if(null == cover){return "";}   return cover;}
@@ -54,8 +53,6 @@ public class TrendEntity extends AbsEntity {
         return 0;
     }
 
-
-
     //Inner data
     public TrendContext __context;
     public String _id;
@@ -67,18 +64,6 @@ public class TrendEntity extends AbsEntity {
     public int numLike;
     public MetaDataCover coverMetadata;
 
-
-
-
-
-
-
-
-
-
-
-
-
     public static class MetaDataCover extends AbsEntity{
 
         public String url;
@@ -87,7 +72,7 @@ public class TrendEntity extends AbsEntity {
 
     }
 
-    public static class TrendContext{
+    public class TrendContext{
         public int numComments;
     }
 

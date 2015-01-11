@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.entity.People;
 
 
 public class MNavigationView extends LinearLayout {
@@ -135,7 +137,7 @@ public class MNavigationView extends LinearLayout {
 
         if (right_drawable != 0) {
 //            btn_right.setBackgroundResource(right_drawable);
-            btn_right.setBackgroundResource(R.drawable.nav_btn_account);
+              btn_right.setBackgroundResource(R.drawable.nav_account_btn_woman);
         } else {
             btn_right.setBackgroundColor(Color.TRANSPARENT);
         }

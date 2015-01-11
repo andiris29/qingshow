@@ -1,6 +1,33 @@
 package com.focosee.qingshow.entity;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.lang.reflect.Type;
+
 public class People {
+
+
+    public static People getPeopleEntitis(JSONObject response){
+
+        try {
+            String tempString = response.getJSONObject("data").getJSONObject("people").toString();
+
+            Type type = new TypeToken<People>(){}.getType();
+
+            Gson gson = new Gson();
+            return gson.fromJson(tempString, type);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+
     public String _id;
     public UserInfo userinfo;
     public String update;

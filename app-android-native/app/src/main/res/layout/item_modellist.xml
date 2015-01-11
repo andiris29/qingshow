@@ -85,8 +85,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:textColor="#ffffff"
-        android:background="@drawable/root_icon_red_round_background"
-        android:layout_marginRight="10dp"
-        android:text="+关注" />
+        android:background="@drawable/badge_follow_btn"
+        android:layout_marginRight="10dp"/>
 
 </RelativeLayout>

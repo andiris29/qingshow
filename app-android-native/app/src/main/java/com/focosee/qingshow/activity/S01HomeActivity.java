@@ -1,152 +1,117 @@
 package com.focosee.qingshow.activity;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
 public class S01HomeActivity extends Activity {
-
-//    private MNavigationView _navigationView;
+    //    private MNavigationView _navigationView;
+    private boolean isFirstFocus_activity = true;
+    private final static String S01_TAG = "S01HomeActivity";
     private LinearLayout _popView;
+    //抽屉对象
+    private RelativeLayout _mFrmRight;
+    private RelativeLayout _mFrmLeft;
+    private ActionBarDrawerToggle drawerbar;
+    private DrawerLayout spl;
 
     private MPullRefreshMultiColumnListView _wfPullRefreshView;
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
     private int _currentPageIndex = 1;
+    private RelativeLayout relativeLayout_right_fragment;
+
+    private ImageView _blurImage;
+    private ImageView _accountImage;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+
+    private Handler mHandler = new Handler() {
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+        @Override
+        public void handleMessage(Message msg) {
+            _blurImage.setBackground(new BitmapDrawable(S01HomeActivity.this.getResources(), (Bitmap) msg.obj));
+            relativeLayout_right_fragment.destroyDrawingCache();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s01_home);
 
-//        _navigationView = (MNavigationView) findViewById(R.id.S01_navigation);
-//        _navigationView.setLeft_drawable(R.drawable.nav_btn_menu);
-//        _navigationView.setRight_drawable(R.drawable.nav_btn_account);
-//        _navigationView.setLogo_drawable(R.drawable.nav_btn_image_logo);
+        spl = (DrawerLayout) S01HomeActivity.this
+                .findViewById(R.id.s01_sliding_layout);
 
-        // TODO: Improve code to add menu here
-        ((ImageView)findViewById(R.id.S01_nav_icon_flash)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
-                startActivity(intent);
-                _popView.setVisibility(View.GONE);
-            }
-        });
-        ((ImageView)findViewById(R.id.S01_nav_icon_match)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
-                startActivity(intent);
-                _popView.setVisibility(View.GONE);
-            }
-        });
-        ((ImageView)findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
-                startActivity(intent);
-                _popView.setVisibility(View.GONE);
-            }
-        });
-        ((ImageView)findViewById(R.id.S01_nav_icon_design)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 3);
-                startActivity(intent);
-                _popView.setVisibility(View.GONE);*/
-                //author:Chenhr
-                Intent intent = new Intent(S01HomeActivity.this, S08TrendActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
-                startActivity(intent);
-                _popView.setVisibility(View.GONE);
-            }
-        });
-        ((ImageView)findViewById(R.id.S01_nav_icon_brand)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, P03BrandListActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
-                startActivity(intent);
-                _popView.setVisibility(View.GONE);
+        initMenu();
 
-            }
-        });
-
-        _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
-
-        _popView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _popView.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        ((ImageView)findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (_popView.getVisibility() != View.VISIBLE)
-                    _popView.setVisibility(View.VISIBLE);
-                else
-                    _popView.setVisibility(View.GONE);
-            }
-        });
-        ((ImageView)findViewById(R.id.S01_title_account)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this,
-                        (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
-                                ? U01PersonalActivity.class : U06LoginActivity.class);
-
-//                Intent intent = new Intent(S01HomeActivity.this, U06LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        _popView.setVisibility(View.GONE);
-
+        relativeLayout_right_fragment = (RelativeLayout) findViewById(R.id.s01_show_relative);
+        _blurImage = (ImageView) findViewById(R.id.s01_switch_right_background);
+        _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);
+        _mFrmLeft = (RelativeLayout) findViewById(R.id.s01_FrameLa_left);
         _wfPullRefreshView = (MPullRefreshMultiColumnListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
         _adapter = new HomeWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
 
         _wfListView.setAdapter(_adapter);
 
+        _wfListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+                if(scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+                    applyBlur();
+            }
+
+            @Override
+            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+            }
+        });
+
         _wfPullRefreshView.setPullLoadEnabled(true);
         _wfPullRefreshView.setScrollLoadEnabled(true);
 
         _wfPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
+
+
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
                 doRefreshTask();
@@ -156,11 +121,14 @@ public class S01HomeActivity extends Activity {
             public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
                 doGetMoreTask();
             }
+
+
         });
 
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) return;
                 Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
@@ -173,6 +141,64 @@ public class S01HomeActivity extends Activity {
 
         _wfPullRefreshView.doPullRefreshing(true, 500);
 
+        initEvent();
+
+    }
+
+    private void closeMenu() {
+        _blurImage.setVisibility(View.INVISIBLE);
+        spl.closeDrawer(_mFrmLeft);
+        //_blurImage.setBackground(null);
+    }
+
+    private boolean isMenuOpened() {
+        return spl.isDrawerOpen(_mFrmLeft);
+    }
+
+    private void openMenu() {
+        if(isFirstFocus_activity){
+            applyBlur();
+            isFirstFocus_activity = false;
+        }
+        _blurImage.setVisibility(View.VISIBLE);
+        spl.openDrawer(_mFrmLeft);
+    }
+
+    private void initEvent() {
+        drawerbar = new ActionBarDrawerToggle(this, spl, R.drawable.ic_launcher, R.string.menu_open, R.string.menu_close) {
+            private int _tag = 0;
+
+            //菜单打开
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+                openMenu();
+            }
+
+            // 菜单关闭
+            @Override
+            public void onDrawerClosed(View drawerView) {
+
+                closeMenu();
+
+                _tag = 0;
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if(slideOffset == 0.0) _blurImage.setVisibility(View.INVISIBLE);
+            }
+        };
+        spl.setDrawerListener(drawerbar);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (spl.isScrollbarFadingEnabled() && isMenuOpened())
+            closeMenu();
+        else
+            super.onBackPressed();
     }
 
     private void setLastUpdateTime() {
@@ -193,15 +219,15 @@ public class S01HomeActivity extends Activity {
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
+                try {
                     LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
@@ -216,9 +242,9 @@ public class S01HomeActivity extends Activity {
                     _wfPullRefreshView.setHasMoreData(true);
                     setLastUpdateTime();
 
-                }catch (Exception error){
+                } catch (Exception error) {
                     Log.i("test", "error" + error.toString());
-                    Toast.makeText(S01HomeActivity.this, "Error:"+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(S01HomeActivity.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
                     _wfPullRefreshView.setHasMoreData(true);
@@ -228,7 +254,7 @@ public class S01HomeActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S01HomeActivity.this, "Error:"+error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(S01HomeActivity.this, "Error:" + error.toString(), Toast.LENGTH_SHORT).show();
                 _wfPullRefreshView.onPullDownRefreshComplete();
                 _wfPullRefreshView.onPullUpRefreshComplete();
                 _wfPullRefreshView.setHasMoreData(true);
@@ -236,5 +262,137 @@ public class S01HomeActivity extends Activity {
         });
         QSApplication.get().QSRequestQueue().add(jor);
     }
+
+    //模糊算法
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    private void blur(Bitmap bkg, View view) {
+
+        float radius = 20;
+        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth()),
+                (int) (view.getMeasuredHeight()), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(overlay);
+        canvas.translate(-view.getLeft(), -view.getTop());
+        canvas.drawBitmap(bkg, 0, 0, null);
+        RenderScript rs = RenderScript.create(this);
+        Allocation overlayAlloc = Allocation.createFromBitmap(rs, overlay);
+        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());
+        blur.setInput(overlayAlloc);
+        blur.setRadius(radius);
+        blur.forEach(overlayAlloc);
+        overlayAlloc.copyTo(overlay);
+        //向主线程发消息
+        Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
+        mHandler.sendMessage(msg);
+        rs.destroy();
+    }
+
+    //进行模糊处理
+    private void applyBlur() {
+        //截屏
+        relativeLayout_right_fragment.setDrawingCacheEnabled(true);
+        relativeLayout_right_fragment.buildDrawingCache();
+        final Bitmap bitmap = relativeLayout_right_fragment.getDrawingCache();
+        //用子线程执行雅高斯模糊
+        if (null != bitmap) {
+            Thread thread = new Thread() {
+
+                @Override
+                public void run() {
+                    blur(bitmap, _blurImage);
+                }
+            };
+
+            thread.start();
+        }
+    }
+
+    // init menu
+    private void initMenu() {
+        // TODO: Improve code to add menu here
+        ((ImageView) findViewById(R.id.S01_nav_icon_flash)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
+                startActivity(intent);
+                closeMenu();
+            }
+        });
+        ((ImageView) findViewById(R.id.S01_nav_icon_match)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
+                startActivity(intent);
+                closeMenu();
+            }
+        });
+        ((ImageView) findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+                startActivity(intent);
+                closeMenu();
+            }
+        });
+        ((ImageView) findViewById(R.id.S01_nav_icon_design)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, S08TrendActivity.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
+                startActivity(intent);
+                closeMenu();
+            }
+        });
+        ((ImageView) findViewById(R.id.S01_nav_icon_brand)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S01HomeActivity.this, P03BrandListActivity.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
+                startActivity(intent);
+                closeMenu();
+
+            }
+        });
+
+        _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
+
+        ((ImageView) findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isMenuOpened()) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            }
+        });
+
+        _accountImage = (ImageView) findViewById(R.id.S01_title_account);
+
+        _accountImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Intent intent = new Intent(S01HomeActivity.this,
+                        (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
+                                ? U01PersonalActivity.class : U06LoginActivity.class);
+
+                startActivity(intent);
+            }
+        });
+    }
+    //获得用户图标ID（根据用户性格进行选择）
+    private int getAccountImgId(){
+        People people = QSApplication.get().getPeople();
+        Log.d(S01_TAG, people+"sex");
+        if(null != people && 1 == people.gender)
+            return R.drawable.nav_account_btn_woman;
+        return R.drawable.nav_btn_account_man;
+    }
+
+
 
 }
