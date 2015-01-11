@@ -12,8 +12,13 @@
 
 + (NSString*)getBrandName:(NSDictionary*)dict;
 + (NSURL*)getBrandLogoUrl:(NSDictionary*)dict;
-+ (NSURL*)getBrandSloganUrl:(NSDictionary*)dict;
 + (NSString*)getBrandTypeDesc:(NSDictionary*)dict;
+
++ (NSURL*)getBrandBgUrl:(NSDictionary*)dict;
++ (NSURL*)getBrandCoverUrl:(NSDictionary*)dict;
++ (NSString*)getBrandShopPhone:(NSDictionary*)dict;
++ (NSString*)getBrandShopAddress:(NSDictionary*)dict;
+
 + (BOOL)getHasFollowBrand:(NSDictionary*)dict;
 + (void)setHasFollow:(BOOL)f brand:(NSDictionary*)dict;
 @end

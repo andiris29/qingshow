@@ -12,7 +12,7 @@
 @interface QSImageScrollViewBase ()
 
 @property (strong, nonatomic) IBOutlet UIScrollView* scrollView;
-@property (assign, nonatomic) IBOutlet QSImageScrollViewDirection direction;
+@property (assign, nonatomic) QSImageScrollViewDirection direction;
 
 @end
 
@@ -53,8 +53,6 @@
         
         self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
         [self addSubview:self.pageControl];
-        self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 20);
-
     }
     return self;
 }
@@ -87,6 +85,7 @@
         
         if (self.imageViewArray.count > i) {
             imageView = self.imageViewArray[i];
+            [self updateView:imageView forPage:imageIndex];
         } else {
             imageView = [self getViewForPage:imageIndex];
             [self.scrollView addSubview:imageView];
@@ -149,7 +148,8 @@
 {
     [super layoutSubviews];
     self.scrollView.frame = self.bounds;
-    self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 20);
+
+    self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 60);
     self.scrollView.contentInset = UIEdgeInsetsZero;
 }
 
@@ -204,6 +204,7 @@
 {
     int currentPage = page + 1;
     CGSize size = self.scrollView.bounds.size;
+    self.pageControl.currentPage = page;
     if (self.direction == QSImageScrollViewDirectionHor) {
         self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
     } else {

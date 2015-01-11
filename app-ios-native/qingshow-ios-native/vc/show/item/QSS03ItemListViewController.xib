@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS03ItemListViewController">
             <connections>
                 <outlet property="bgImageView" destination="EJ1-qK-2sE" id="AIq-iA-V4i"/>
-                <outlet property="tableView" destination="Dc0-x3-Xme" id="qxC-KD-O5o"/>
+                <outlet property="tableView" destination="gIE-lF-fFE" id="vSb-Oo-CFP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -23,16 +23,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLC-N6-f3S">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Dc0-x3-Xme">
-                            <rect key="frame" x="0.0" y="52" width="320" height="516"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="sectionIndexTrackingBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <outlet property="dataSource" destination="-1" id="n01-EK-2LO"/>
-                                <outlet property="delegate" destination="-1" id="U0g-Rn-8Rq"/>
-                            </connections>
-                        </tableView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPe-vy-IT6">
                             <rect key="frame" x="285" y="30" width="20" height="22"/>
                             <constraints>
@@ -46,15 +36,23 @@
                                 <action selector="closeBtnPressed:" destination="-1" eventType="touchUpInside" id="f43-dj-NgZ"/>
                             </connections>
                         </button>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gIE-lF-fFE">
+                            <rect key="frame" x="0.0" y="60" width="320" height="508"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="ATg-xw-dzf"/>
+                                <outlet property="delegate" destination="-1" id="RMs-ug-byv"/>
+                            </connections>
+                        </tableView>
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="Dc0-x3-Xme" firstAttribute="top" secondItem="LPe-vy-IT6" secondAttribute="bottom" id="1ne-ew-vgp"/>
-                        <constraint firstAttribute="trailing" secondItem="Dc0-x3-Xme" secondAttribute="trailing" id="UmU-Mg-Whm"/>
-                        <constraint firstItem="Dc0-x3-Xme" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" id="f8f-ex-Tsa"/>
-                        <constraint firstAttribute="bottom" secondItem="Dc0-x3-Xme" secondAttribute="bottom" id="gjh-gU-alh"/>
+                        <constraint firstItem="gIE-lF-fFE" firstAttribute="leading" secondItem="VLC-N6-f3S" secondAttribute="leading" id="2mD-kb-SKD"/>
+                        <constraint firstItem="gIE-lF-fFE" firstAttribute="top" secondItem="LPe-vy-IT6" secondAttribute="bottom" constant="8" id="YDt-18-2Yl"/>
+                        <constraint firstAttribute="trailing" secondItem="gIE-lF-fFE" secondAttribute="trailing" id="dPL-uq-4r9"/>
                         <constraint firstAttribute="trailing" secondItem="LPe-vy-IT6" secondAttribute="trailing" constant="15" id="hU5-5H-H5o"/>
                         <constraint firstItem="LPe-vy-IT6" firstAttribute="top" secondItem="VLC-N6-f3S" secondAttribute="top" constant="30" id="i12-1m-THl"/>
+                        <constraint firstAttribute="bottom" secondItem="gIE-lF-fFE" secondAttribute="bottom" id="oXe-QP-gwX"/>
                     </constraints>
                 </view>
             </subviews>

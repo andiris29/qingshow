@@ -10,6 +10,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSMetadataUtil.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -49,6 +50,13 @@
     [self bindDelegateObj];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.showsDelegate refreshClickedData];
+    [self.discountDelegate refreshClickedData];
+    [self.followerDelegate refreshClickedData];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -126,12 +134,12 @@
             [self showSuccessHudWithText:@"unfollow successfully"];
         }
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 - (void)clickModel:(NSDictionary*)model
 {
-    
+    [self showPeopleDetailViewControl:model];
 }
 
 @end

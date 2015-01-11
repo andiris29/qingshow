@@ -9,6 +9,7 @@
 #import "QSNetworkEngine+ShowService.h"
 #import "QSNetworkEngine+Protect.h"
 #import "QSShowUtil.h"
+#import "NSMutableDictionary+QSExtension.h"
 
 //Query
 #define PATH_QUERY_SHOW @"show/query"
@@ -36,7 +37,11 @@
                 if (dataArray.count) {
                     d = dataArray[0];
                 }
-                succeedBlock([d mutableCopy]);
+                if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+                    NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
+                    [mD updateWithDict:showDict];
+                }
+                succeedBlock(showDict);
                 return;
             } else if ([completedOperation.responseJSON isKindOfClass:[NSArray class]]) {
                 NSArray* retArray = completedOperation.responseJSON;
@@ -127,6 +132,7 @@
 {
     return [self startOperationWithPath:PATH_SHOW_LIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [QSShowUtil setIsLike:YES show:showDict];
+        [QSShowUtil addNumberLike:1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }
@@ -142,6 +148,7 @@
 {
     return [self startOperationWithPath:PATH_SHOW_UNLIKE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
         [QSShowUtil setIsLike:NO show:showDict];
+        [QSShowUtil addNumberLike:-1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }

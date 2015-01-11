@@ -14,6 +14,9 @@
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;
 @property (strong, nonatomic) IBOutlet UITableView* followingTableView;
 
-- (id)init;
+- (id)initWithPeople:(NSDictionary*)peopleDict;
+- (id)initWithCurrentUser;
+
+@property (weak, nonatomic) IBOutlet UIButton *accountBtn;
 
 @end

@@ -50,12 +50,16 @@
 
 
 #pragma mark - Config
+- (void)refreshClickedData
+{}
+
 - (void)bindWithCollectionView:(UICollectionView *)collectionView
 {
     _collectionView = collectionView;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     collectionView.alwaysBounceVertical = YES;
+    collectionView.showsVerticalScrollIndicator = NO;
     
     QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
     self.collectionView.collectionViewLayout = layout;
@@ -176,4 +180,5 @@
         [refreshControl endRefreshing];
     }];
 }
+
 @end

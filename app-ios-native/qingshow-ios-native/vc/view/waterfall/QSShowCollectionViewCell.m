@@ -30,6 +30,7 @@
 @property (assign, nonatomic) float favorNumberLabelBaseY;
 @property (assign, nonatomic) float favorButtonBaseY;
 @property (assign, nonatomic) float shadowBaseY;
+@property (assign, nonatomic) float modelTapViewBaseY;
 @end
 
 
@@ -47,7 +48,7 @@
     self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.headIconImageView.layer.borderWidth = 1.f;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
-    [self.headIconImageView addGestureRecognizer:ges];
+    [self.modelTapView addGestureRecognizer:ges];
 }
 
 #pragma mark - Data
@@ -70,7 +71,7 @@
 #pragma mark - Layout Update
 - (void)baseHeightSetup
 {
-    float baseHeight = self.photoImageView.frame.size.height;
+    float baseHeight = self.photoImageView.frame.size.height - 1;
     
     self.headIconImageViewBaseY = self.headIconImageView.frame.origin.y - baseHeight;
     self.nameLabelBaseY = self.nameLabel.frame.origin.y - baseHeight;
@@ -78,6 +79,7 @@
     self.favorNumberLabelBaseY = self.favorNumberLabel.frame.origin.y - baseHeight;
     self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
     self.shadowBaseY = self.shadowImageView.frame.origin.y - baseHeight;
+    self.modelTapViewBaseY = self.modelTapView.frame.origin.y - baseHeight;
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
 {
@@ -93,6 +95,7 @@
     [self updateViewFrame:self.favorNumberLabel withBase:self.favorNumberLabelBaseY imageHeight:height];
     [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
     [self updateViewFrame:self.shadowImageView withBase:self.shadowBaseY imageHeight:height];
+    [self updateViewFrame:self.modelTapView withBase:self.modelTapViewBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight
@@ -106,7 +109,7 @@
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
     NSDictionary* coverMetadata = [QSShowUtil getCoverMetadata:showData];
-    float iniWidth = 158;
+    float iniWidth = ([UIScreen mainScreen].bounds.size.width - 4) / 2;
     float height = 212;
     float width = iniWidth;
     //212 158
@@ -124,9 +127,15 @@
 {
     return [self getImageHeightWithData:showData];
 }
++ (CGSize)getSizeWithData:(NSDictionary*)showData
+{
+    float height = [self getHeightWithData:showData];
+    float widht = ([UIScreen mainScreen].bounds.size.width - 4) / 2;
+    return CGSizeMake(widht, height);
+}
 
 #pragma mark - IBAction
-- (void)peopleTap:(id)sender {
+- (IBAction)peopleTap:(id)sender {
     if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
         [self.delegate peoplePressed:self];
     }

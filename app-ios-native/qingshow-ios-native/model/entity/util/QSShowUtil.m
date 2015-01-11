@@ -12,6 +12,18 @@
 #import "QSCommonUtil.h"
 
 @implementation QSShowUtil
++ (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = dict[@"horizontalCover"];
+    if ([QSCommonUtil checkIsNil:cover]) {
+        return [self getCoverUrl:dict];
+    } else {
+        return [NSURL URLWithString:cover];
+    }
+}
 + (NSURL*)getCoverUrl:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
@@ -78,16 +90,27 @@
     
     return nil;
 }
+
 + (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
     if (showDict) {
-        return showDict[@"modelRef"];
+        NSDictionary* peopleDict = showDict[@"modelRef"];
+        if ([QSCommonUtil checkIsNil:peopleDict]) {
+            return peopleDict;
+        } else {
+#warning 需要优化
+            NSMutableDictionary* mP = [peopleDict mutableCopy];
+            [self setPeople:mP show:showDict];
+            return mP;
+        }
     }
     return nil;
 }
+
+
 + (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
@@ -115,12 +138,17 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-    NSDictionary* context = showDict[@"__context"];
-    if (context) {
-        return ((NSNumber*)context[@"numLike"]).kmbtStringValue;
-    }
-    return @"0";
+    return ((NSNumber*)showDict[@"numLike"]).kmbtStringValue;
 }
+
++ (NSString*)getNumberItemDescription:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
+    return @([self getItems:showDict].count).kmbtStringValue;
+}
+
 + (BOOL)getIsLike:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
@@ -150,6 +178,29 @@
         }
         m[@"likedByCurrentUser"] = @(isLike);
         s[@"__context"] = m;
+    }
+}
+
++ (void)setPeople:(NSDictionary*)peopleDict show:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return;
+    }
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        s[@"modelRef"] = peopleDict;
+    }
+}
+
++ (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return;
+    }
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
+        s[@"numLike"] = @(preNumlike + num);
     }
 }
 @end

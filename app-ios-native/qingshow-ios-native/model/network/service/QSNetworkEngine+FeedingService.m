@@ -22,6 +22,7 @@
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
 
 
+
 @interface QSNetworkEngine (Private)
 
 - (MKNetworkOperation*)getFeedingPath:(NSString*)path
@@ -134,6 +135,5 @@
 {
     return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : brandDict[@"_id"]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
-
 
 @end

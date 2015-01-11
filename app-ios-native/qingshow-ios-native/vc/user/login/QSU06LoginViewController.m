@@ -12,15 +12,29 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSU01UserDetailViewController.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU06LoginViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UITextField *userText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
+
+@property (assign, nonatomic) BOOL fSHowUserDetail;
 @end
 
 @implementation QSU06LoginViewController
 
+#pragma mark - Init
+- (id)initWithShowUserDetailAfterLogin:(BOOL)fShowUserDetail
+{
+    self = [super initWithNibName:@"QSU06LoginViewController" bundle:nil];
+    if (self) {
+        self.fSHowUserDetail = fShowUserDetail;
+    }
+    return self;
+}
+
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -45,6 +59,12 @@
 //    self.loginButton.backgroundColor = [UIColor colorWithRed:252.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
     self.loginButton.layer.masksToBounds = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -85,7 +105,12 @@
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [self showSuccessHudWithText:@"登陆成功"];
-            [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] init] animated:YES];
+            if (self.fSHowUserDetail) {
+                [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] initWithCurrentUser] animated:YES];
+            } else {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+
         } else {
             [self showErrorHudWithText:@"登陆失败"];
         }

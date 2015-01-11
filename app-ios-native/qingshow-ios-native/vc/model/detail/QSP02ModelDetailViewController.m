@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
-#import "QSShowTableViewDelegateObj.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSP02ModelDetailViewController ()
 
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSMutableDictionary* peopleDict;
 
 #pragma mark - Delegate Obj
-@property (strong, nonatomic) QSShowTableViewDelegateObj* showsDelegate;
+@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
 
@@ -34,7 +34,7 @@
     self = [self initWithNibName:@"QSP02ModelDetailViewController" bundle:nil];
     if (self)
     {
-        self.peopleDict = [peopleDict mutableCopy];
+        self.peopleDict = peopleDict;
         
         [self delegateObjInit];
     }
@@ -43,7 +43,7 @@
 
 - (void)delegateObjInit
 {
-    self.showsDelegate = [[QSShowTableViewDelegateObj alloc] init];
+    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
     self.showsDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     self.followingDelegate.delegate = self;
@@ -59,6 +59,13 @@
     [self configView];
     [self bindDelegateObj];
     
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.showsDelegate refreshClickedData];
+    [self.followingDelegate refreshClickedData];
+    [self.followerDelegate refreshClickedData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,7 +109,7 @@
     [self.followerDelegate fetchDataOfPage:1];
     
     //Show table view
-    self.showsDelegate.type = QSShowTableViewCellTypeModelEmpty;
+    self.showsDelegate.type = QSBigImageTableViewCellTypeModelEmpty;
     [self.showsDelegate bindWithTableView:self.showTableView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
@@ -128,13 +135,15 @@
     self.showTableView.hidden = NO;
     self.followerTableView.hidden = YES;
     self.followingTableView.hidden = YES;
-
+    
     //Section title
     NSArray* titleArray = @[@"搭配",@"关注",@"粉丝"];
     for (int i = 0; i < 3; i++) {
         [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
         [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
     }
+    QSSectionFollowButton* followBtn = (QSSectionFollowButton*)self.badgeView.btnGroup.singleButton;
+    [followBtn setFollowed:[QSPeopleUtil getPeopleIsFollowed:self.peopleDict]];
 }
 
 
@@ -148,7 +157,7 @@
             [self showTextHud:@"unfollow successfully"];
         }
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 
@@ -156,5 +165,8 @@
 {
     [self.badgeView bindWithPeopleDict:self.peopleDict];
 }
-
+- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
+{
+    [self didClickShow:dict];
+}
 @end

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSItemImageScrollView.h"
+#import "QSImageScrollViewBase.h"
+#import "QSShareViewController.h"
 
-@interface QSS03ShowDetailViewController : UIViewController <QSItemImageScrollViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface QSS03ShowDetailViewController : UIViewController <QSImageScrollViewBaseDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate>
 
 #pragma mark - IBOutlet
 
@@ -24,10 +25,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *commentBtn;
 @property (weak, nonatomic) IBOutlet UIButton *favorBtn;
 
-@property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIView *buttnPanel;
 @property (weak, nonatomic) IBOutlet UIView *shareContainer;
+@property (weak, nonatomic) IBOutlet UIButton *itemBtn;
 
 #pragma mark - Init
 - (id)initWithShow:(NSDictionary*)showDict;

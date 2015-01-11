@@ -27,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
 @property (strong, nonatomic) IBOutlet UIButton* favorButton;
 @property (strong, nonatomic) IBOutlet UIImageView *shadowImageView;
+@property (strong, nonatomic) IBOutlet UIView* modelTapView;
 - (IBAction)favorBtnPressed:(id)sender;
 
 @property (weak, nonatomic) NSObject<QSShowCollectionViewCellDelegate>* delegate;
@@ -36,7 +37,7 @@
 
 //static
 + (float)getHeightWithData:(NSDictionary*)showData;
-
++ (CGSize)getSizeWithData:(NSDictionary*)showData;
 //IBAction
 - (void)peopleTap:(id)sender;
 @end

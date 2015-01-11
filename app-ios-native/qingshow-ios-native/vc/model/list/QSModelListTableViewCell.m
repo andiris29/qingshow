@@ -46,9 +46,9 @@
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.headPhotoImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
     if ([QSPeopleUtil getPeopleIsFollowed:modelDict]) {
-        [self.followBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [self.followBtn setImage:[UIImage imageNamed:@"people_list_unfollow"] forState:UIControlStateNormal];
     } else {
-        [self.followBtn setTitle:@"关注" forState:UIControlStateNormal];
+        [self.followBtn setImage:[UIImage imageNamed:@"people_list_follow"] forState:UIControlStateNormal];
     }
     self.showNumLabel.text = [QSPeopleUtil getNumberShowsDescription:modelDict];
     self.followerNumLabel.text = [QSPeopleUtil getNumberFollowersDescription:modelDict];

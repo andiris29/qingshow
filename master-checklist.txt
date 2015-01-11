@@ -1,0 +1,15 @@
+Current version
+	1.0.1
+
+Upgrade version number
+	app-ios-native
+		1.0.1
+		Project file
+		QSNetworkEngine+Protect.m
+	app-android-native
+		unreleased
+		AndroidManifest.xml
+	web-mobile
+		unreleased
+	server-node
+		unreleased

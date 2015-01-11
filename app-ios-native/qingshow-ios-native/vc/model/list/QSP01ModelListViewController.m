@@ -9,8 +9,9 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
-
+#import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
+
 
 @interface QSP01ModelListViewController ()
 
@@ -47,11 +48,14 @@
     [self configView];
     
     [self configDelegateObj];
+
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+
     [super viewWillAppear:animated];
-    [self.delegateObj reloadData];
+    self.navigationController.navigationBarHidden = NO;
+    [self.delegateObj refreshClickedData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,8 +76,7 @@
 #pragma mark - QSModelListTableViewDelegateObjDelegate
 - (void)clickModel:(NSDictionary*)model
 {
-    UIViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:model];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPeopleDetailViewControl:model];
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {
@@ -88,11 +91,11 @@
         NSUInteger index = [self.delegateObj.resultArray indexOfObject:model];
         [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
+        [self handleError:error];
     }];
 }
 - (void)handleNetworkError:(NSError *)error
 {
-    [self showErrorHudWithError:error];
+    [self handleError:error];
 }
 @end
