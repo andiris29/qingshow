@@ -13,6 +13,7 @@
         android:background="@drawable/bg_titlebar">
 
         <TextView
+            android:id="@+id/backTextView"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_alignParentLeft="true"

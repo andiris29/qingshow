@@ -66,6 +66,14 @@ public class U06LoginActivity extends Activity {
 
         requestQueue = Volley.newRequestQueue(context);
 
+        TextView backTextView = (TextView) findViewById(R.id.backTextView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         registerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

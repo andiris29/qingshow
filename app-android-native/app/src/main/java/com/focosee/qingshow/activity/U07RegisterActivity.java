@@ -67,6 +67,14 @@ public class U07RegisterActivity extends Activity {
         clothesSizeRadioGroup = (RadioGroup) findViewById(R.id.clothesSizeRadioGroup);
         shoesSizeRadioGroup = (RadioGroup) findViewById(R.id.shoesSizeRadioGroup);
 
+        TextView backTextView = (TextView) findViewById(R.id.backTextView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         requestQueue = Volley.newRequestQueue(context);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
