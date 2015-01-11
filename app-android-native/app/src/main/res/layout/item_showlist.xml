@@ -13,7 +13,8 @@
             android:id="@+id/item_show_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"></com.focosee.qingshow.widget.MImageView_OriginSize>
+            android:src="@drawable/ic_launcher"
+            android:scaleType="fitCenter"></com.focosee.qingshow.widget.MImageView_OriginSize>
     </LinearLayout>
 
     <ImageView
