@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.FollowPeopleEntity;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MCircularImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.item_p02_follow_people_list, null);
             holderView = new HolderView();
 
-            holderView.imageView = (ImageView) convertView.findViewById(R.id.item_p02_follow_people_image);
+            holderView.imageView = (MCircularImageView) convertView.findViewById(R.id.item_p02_follow_people_image);
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.item_p02_follow_people_name);
             holderView.showNumberTextView = (TextView) convertView.findViewById(R.id.item_p02_follow_people_show);
             holderView.likedNumberTextView = (TextView) convertView.findViewById(R.id.item_p02_follow_people_like);
@@ -76,7 +76,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
     }
 
     class HolderView {
-        public ImageView imageView;
+        public MCircularImageView imageView;
         public TextView nameTextView;
         public TextView showNumberTextView;
         public TextView likedNumberTextView;
