@@ -25,31 +25,51 @@ public class FollowPeopleEntity extends AbsEntity {
     }
 
     public String getPeopleName() {
-        return _id;
+        return name;
     }
 
     public String getPeoplePortrait() {
-        return "";
+        return portrait;
     }
 
     public String getShowNumberString() {
-        return (null != __context) ? __context.numShows : "0";
+        return String.valueOf(__context.numShows);
     }
 
     public String getLikeNumberString() {
-        return (null != __context) ? __context.numFollowers : "0";
+        return String.valueOf(__context.numFollowers);
     }
 
     private FollowPeopleContext __context;
+//    private String _id;
+//    private int __v;
+//    private String update;
+//    private String create;
+//    private String[] hairTypes;
+//    private String[] roles;
+//
+//    private String _hughUpdate;
+//    private String height;
+//    private String weight;
+//    private String name;
+//    private String background;
+//    private String portrait;
+
     private String _id;
-    private int __v;
+    private String _hughUpdate;
+    private String height;
+    private String weight;
+    private String name;
+    private String background;
     private String update;
+    private String portrait;
     private String create;
     private String[] hairTypes;
-    private String[] roles;
+    private int[] roles;
 
     class FollowPeopleContext {
-        public String numFollowers;
-        private String numShows;
+        private int numFollowers;
+        private int numShows;
+        private boolean followedByCurrentUser = false;
     }
 }

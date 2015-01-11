@@ -4,11 +4,14 @@
     android:layout_height="150dp"
     android:gravity="center_vertical">
 
-    <ImageView
+    <com.focosee.qingshow.widget.MCircularImageView
         android:id="@+id/item_p02_follow_people_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginLeft="30dp"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,8 +30,8 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/root_icon_cloth"/>
 
             <TextView
@@ -38,8 +41,8 @@
                 android:text="0"/>
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/root_icon_noticeno"/>
 
             <TextView

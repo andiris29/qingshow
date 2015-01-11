@@ -336,6 +336,7 @@ public class P02ModelActivity extends Activity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
 //                    try {
 //                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
@@ -370,6 +371,7 @@ public class P02ModelActivity extends Activity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
 //                    try {
 //                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
@@ -404,6 +406,7 @@ public class P02ModelActivity extends Activity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
 //                    try {
 //                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
@@ -416,6 +419,7 @@ public class P02ModelActivity extends Activity {
                 }
 
                 pageIndex = 1;
+
 
                 ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
 
@@ -438,6 +442,7 @@ public class P02ModelActivity extends Activity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
 //                    try {
 //                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
@@ -450,6 +455,7 @@ public class P02ModelActivity extends Activity {
                 }
 
                 pageIndex++;
+
 
                 ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
 
@@ -552,6 +558,14 @@ public class P02ModelActivity extends Activity {
     private void showMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Log.i(context.getPackageName(), message);
+    }
+
+    private String getTotalDataFromResponse(JSONObject response) {
+        try {
+            return ((JSONObject)response.get("metadata")).get("numTotal").toString();
+        } catch (Exception e) {
+            return "0";
+        }
     }
 
 }
