@@ -113,11 +113,12 @@
     self.topConstrain.constant = 0;
     self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
     self.canScrollBadgeViewUp = NO;
+    __weak QSDetailBaseViewController* weakSelf = self;
     [UIView animateWithDuration:time animations:^{
-        [self.view layoutIfNeeded];
+        [weakSelf.view layoutIfNeeded];
     } completion:^(BOOL finished) {
-        self.currentTouchView = nil;
-        self.canScrollBadgeViewUp = YES;
+        weakSelf.currentTouchView = nil;
+        weakSelf.canScrollBadgeViewUp = YES;
     }];
     
 }
@@ -134,6 +135,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    __weak QSDetailBaseViewController* weakSelf = self;
     if (self.currentTouchView != scrollView) {
         self.currentTouchView = scrollView;
         self.touchLocation = scrollView.contentOffset;
@@ -150,10 +152,10 @@
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
             self.canScrollBadgeViewUp = NO;
             [UIView animateWithDuration:time animations:^{
-                [self.view layoutIfNeeded];
+                [weakSelf.view layoutIfNeeded];
             } completion:^(BOOL finished) {
-                self.touchLocation = scrollView.contentOffset;
-                self.canScrollBadgeViewUp = YES;
+                weakSelf.touchLocation = scrollView.contentOffset;
+                weakSelf.canScrollBadgeViewUp = YES;
             }];
 
             return;
@@ -191,10 +193,10 @@
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
             self.canScrollBadgeViewUp = NO;
             [UIView animateWithDuration:time animations:^{
-                [self.view layoutIfNeeded];
+                [weakSelf.view layoutIfNeeded];
             } completion:^(BOOL finished) {
-                self.touchLocation = scrollView.contentOffset;
-                self.canScrollBadgeViewUp = YES;
+                weakSelf.touchLocation = scrollView.contentOffset;
+                weakSelf.canScrollBadgeViewUp = YES;
             }];
         }
     }

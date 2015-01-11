@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol QSItemImageTableViewCellDelegate <NSObject>
+
+- (void)didClickShopBtn:(UITableViewCell*)cell;
+
+@end
+
 @interface QSItemImageTableViewCell : UITableViewCell
 
 - (void)bindWithItem:(NSDictionary*)itemDict;
@@ -20,6 +26,7 @@
 @property (strong, nonatomic) IBOutlet UILabel* priceLabel;
 @property (strong, nonatomic) IBOutlet UIButton* shopBtn;
 - (IBAction)shopBtnPressed:(id)sender;
+@property (weak, nonatomic) NSObject<QSItemImageTableViewCellDelegate>* delegate;
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict;
 @end

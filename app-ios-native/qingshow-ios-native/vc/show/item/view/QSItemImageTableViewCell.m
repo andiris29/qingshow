@@ -13,7 +13,6 @@
 @interface QSItemImageTableViewCell ()
 
 @property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
-@property (strong, nonatomic) NSDictionary* itemDict;
 @end
 
 @implementation QSItemImageTableViewCell
@@ -34,7 +33,6 @@
 #pragma mark - Bind
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
-    self.itemDict = itemDict;
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
     self.imageScrollView.imageUrlArray = [QSItemUtil getCoverAndImagesUrl:itemDict];
@@ -83,10 +81,8 @@
 
 - (IBAction)shopBtnPressed:(id)sender
 {
-    NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
-    if (url) {
-        [[UIApplication sharedApplication] openURL:url];
+    if ([self.delegate respondsToSelector:@selector(didClickShopBtn:)]) {
+        [self.delegate didClickShopBtn:self];
     }
-
 }
 @end

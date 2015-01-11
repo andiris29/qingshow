@@ -7,13 +7,19 @@
 //
 
 #import "QSTableViewBasicDelegateObj.h"
+#import "QSItemImageTableViewCell.h"
 typedef NS_ENUM(NSInteger, QSItemImageListTableViewDelegateObjType) {
     QSItemImageListTableViewDelegateObjTypeNew,
     QSItemImageListTableViewDelegateObjTypeDiscount
 };
+@protocol  QSItemImageListTableViewDelegateObjDelegate <QSTableViewBasicDelegateObjDelegate>
 
-@interface QSItemImageListTableViewDelegateObj : QSTableViewBasicDelegateObj
+- (void)didClickShopBtnOfItem:(NSDictionary*)itemDict;
+
+@end
+@interface QSItemImageListTableViewDelegateObj : QSTableViewBasicDelegateObj<QSItemImageTableViewCellDelegate>
 
 @property (assign, nonatomic) QSItemImageListTableViewDelegateObjType type;
+@property (weak, nonatomic) NSObject<QSItemImageListTableViewDelegateObjDelegate>* delegate;
 
 @end

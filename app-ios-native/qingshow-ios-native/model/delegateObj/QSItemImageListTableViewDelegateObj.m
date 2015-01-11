@@ -26,6 +26,7 @@
     } else {
         cell.saleLabel.hidden = YES;
     }
+    cell.delegate = self;
     return cell;
 }
 
@@ -33,5 +34,13 @@
 {
     return [QSItemImageTableViewCell getHeightWithItem:self.resultArray[indexPath.row]];
 }
+- (void)didClickShopBtn:(UITableViewCell *)cell
+{
+    NSIndexPath* i = [self.tableView indexPathForCell:cell];
+    NSDictionary* itemDict = self.resultArray[i.row];
+    if ([self.delegate respondsToSelector:@selector(didClickShopBtnOfItem:)]) {
+        [self.delegate didClickShopBtnOfItem:itemDict];
+    }
 
+}
 @end

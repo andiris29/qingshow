@@ -8,15 +8,15 @@
 
 #import "QSDetailBaseViewController.h"
 #import "QSBigImageTableViewDelegateObj.h"
+#import "QSItemImageListTableViewDelegateObj.h"
+@interface QSP03BrandDetailViewController : QSDetailBaseViewController <QSBigImageTableViewDelegateObjDelegate, QSItemImageListTableViewDelegateObjDelegate>
 
-@interface QSP03BrandDetailViewController : QSDetailBaseViewController <QSBigImageTableViewDelegateObjDelegate>
-
-@property (strong, nonatomic) IBOutlet UITableView* itemNewTableView;
-@property (strong, nonatomic) IBOutlet UITableView* itemDiscountTableView;
-@property (strong, nonatomic) IBOutlet UITableView* showTableView;
+@property (weak, nonatomic) IBOutlet UITableView* itemNewTableView;
+@property (weak, nonatomic) IBOutlet UITableView* itemDiscountTableView;
+@property (weak, nonatomic) IBOutlet UITableView* showTableView;
 //@property (strong, nonatomic) IBOutlet UICollectionView* showCollectionView;
 
-@property (strong, nonatomic) IBOutlet UITableView* followerTableView;
+@property (weak, nonatomic) IBOutlet UITableView* followerTableView;
 
 - (id)initWithBrand:(NSDictionary*)brandDict;
 - (id)initWithBrand:(NSDictionary *)brandDict item:(NSDictionary*)itemDict;

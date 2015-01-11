@@ -48,7 +48,7 @@
 - (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate;
 
 #pragma mark - Private 
-@property (strong, nonatomic) UITableView* tableView;
+@property (weak, nonatomic) UITableView* tableView;
 #pragma mark - Method to be Override
 - (void)registerCell;
 - (void)refreshWithAnimation;

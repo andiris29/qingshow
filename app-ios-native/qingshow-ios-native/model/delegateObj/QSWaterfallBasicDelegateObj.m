@@ -48,6 +48,11 @@
     return CGSizeZero;
 }
 
+- (void)dealloc
+{
+    self.collectionView.dataSource = nil;
+    self.collectionView.delegate = nil;
+}
 
 #pragma mark - Config
 - (void)refreshClickedData

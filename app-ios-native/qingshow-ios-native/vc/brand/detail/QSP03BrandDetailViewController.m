@@ -14,6 +14,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSItemImageListTableViewDelegateObj.h"
 #import "QSS03ShowDetailViewController.h"
+#import "QSItemUtil.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -110,6 +111,7 @@
     __weak QSP03BrandDetailViewController* weakSelf = self;
     //Item New
     [self.itemNewDelegate bindWithTableView:self.itemNewTableView];
+    self.itemNewDelegate.delegate = self;
     self.itemNewDelegate.type = QSItemImageListTableViewDelegateObjTypeNew;
     if (self.itemDict) {
         self.itemNewDelegate.additionalResult = @[self.itemDict];
@@ -126,6 +128,7 @@
     
     //Item Discount
     [self.itemDiscountDelegate bindWithTableView:self.itemDiscountTableView];
+    self.itemDiscountDelegate.delegate = self;
     self.itemDiscountDelegate.type = QSItemImageListTableViewDelegateObjTypeDiscount;
     self.itemDiscountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
@@ -181,5 +184,12 @@
 {
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:dict];
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)didClickShopBtnOfItem:(NSDictionary *)itemDict
+{
+    NSURL* url = [QSItemUtil getShopUrl:itemDict];
+    if (url) {
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
 @end
