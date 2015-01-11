@@ -91,6 +91,7 @@
         <activity
             android:name="com.focosee.qingshow.activity.S07CollectActivity"
             android:label="@string/title_activity_s07_collect"
+            android:theme="@style/Transparent"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
