@@ -13,6 +13,7 @@
 #import "QSBrandUtil.h"
 #import "UIViewController+QSExtension.h"
 #import "QSItemImageListTableViewDelegateObj.h"
+#import "QSS03ShowDetailViewController.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -22,7 +23,7 @@
 #pragma mark Delegate Obj
 @property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemNewDelegate;
 @property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemDiscountDelegate;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* showsDelegate;
+@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
 
 @end
@@ -55,7 +56,7 @@
 {
     self.itemNewDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
     self.itemDiscountDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
-    self.showsDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
     self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
 }
 #pragma mark - Life Cycle
@@ -89,12 +90,12 @@
     //Show and Hide
     self.viewArray = @[self.itemNewTableView,
                        self.itemDiscountTableView,
-                       self.showCollectionView,
+                       self.showTableView,
                        self.followerTableView];
 
     self.itemNewTableView.hidden = NO;
     self.itemDiscountTableView.hidden = YES;
-    self.showCollectionView.hidden = YES;
+    self.showTableView.hidden = YES;
     self.followerTableView.hidden = YES;
     
     //Section title
@@ -136,7 +137,7 @@
     [self.itemDiscountDelegate fetchDataOfPage:1];
     
     //Show collectioin view
-    [self.showsDelegate bindWithCollectionView:self.showCollectionView];
+    [self.showsDelegate bindWithTableView:self.showTableView];
     self.showsDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE feedingByBrand:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
@@ -176,5 +177,9 @@
 {
     [self showPeopleDetailViewControl:model];
 }
-
+- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
+{
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:dict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end
