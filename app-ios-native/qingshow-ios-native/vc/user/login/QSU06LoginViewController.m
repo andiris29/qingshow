@@ -40,7 +40,7 @@
     // Do any additional setup after loading the view from its nib.
     
     // View全体
-    self.view.backgroundColor=[UIColor colorWithRed:240.f/255.f green:240.f/255.f blue:240.f/255.f alpha:1.f];
+    self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
 
     // Navibar
     self.navigationItem.title = @"登陆";
@@ -54,6 +54,29 @@
                                                               action:@selector(gotoRegister)];
     
     [[self navigationItem] setRightBarButtonItem:btnSave];
+    
+    for (UIView *subView in self.view.subviews) {
+        if ([subView isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)subView;
+            if (label.tag == 99) {
+                continue;
+            }
+            
+            CALayer *layer = [label layer];
+            CALayer *upperBorder = [CALayer layer];
+            upperBorder.borderWidth=1.0f;
+            upperBorder.frame = CGRectMake(0, 0, layer.frame.size.width, 1);
+            [upperBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
+            [layer addSublayer:upperBorder];
+        }
+    }
+    
+    CALayer *layer = [self.passwordLabel layer];
+    CALayer *bottomBorder = [CALayer layer];
+    bottomBorder.borderWidth = 1.0f;
+    bottomBorder.frame = CGRectMake(0, layer.frame.size.height - 1, layer.frame.size.width, 1);
+    [bottomBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
+    [layer addSublayer:bottomBorder];
 
     // 登陆
 //    self.loginButton.backgroundColor = [UIColor colorWithRed:252.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
