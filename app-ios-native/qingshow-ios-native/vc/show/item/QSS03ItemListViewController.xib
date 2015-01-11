@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS03ItemListViewController">
             <connections>
-                <outlet property="bgImageView" destination="EJ1-qK-2sE" id="AIq-iA-V4i"/>
                 <outlet property="tableView" destination="gIE-lF-fFE" id="vSb-Oo-CFP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -17,9 +16,6 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EJ1-qK-2sE">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLC-N6-f3S">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
@@ -56,14 +52,10 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="EJ1-qK-2sE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="AIH-zt-B5f"/>
-                <constraint firstItem="EJ1-qK-2sE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BxQ-x5-4bA"/>
-                <constraint firstAttribute="trailing" secondItem="EJ1-qK-2sE" secondAttribute="trailing" id="Cv9-wH-hYo"/>
                 <constraint firstAttribute="trailing" secondItem="VLC-N6-f3S" secondAttribute="trailing" id="J5n-XV-9TV"/>
                 <constraint firstItem="VLC-N6-f3S" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JEN-7Q-Wzp"/>
-                <constraint firstAttribute="bottom" secondItem="EJ1-qK-2sE" secondAttribute="bottom" id="lhV-3Z-yzq"/>
                 <constraint firstItem="VLC-N6-f3S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lkK-F0-srJ"/>
                 <constraint firstAttribute="bottom" secondItem="VLC-N6-f3S" secondAttribute="bottom" id="vKV-NQ-jhI"/>
             </constraints>

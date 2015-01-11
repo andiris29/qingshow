@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "QSImageScrollViewBase.h"
 #import "QSShareViewController.h"
+#import "QSS03ItemListViewController.h"
 
-@interface QSS03ShowDetailViewController : UIViewController <QSImageScrollViewBaseDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate>
+@interface QSS03ShowDetailViewController : UIViewController <QSImageScrollViewBaseDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate>
 
 #pragma mark - IBOutlet
 
@@ -57,6 +58,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 
-
+@property (strong, nonatomic) QSS03ItemListViewController* itemListVc;
 
 @end

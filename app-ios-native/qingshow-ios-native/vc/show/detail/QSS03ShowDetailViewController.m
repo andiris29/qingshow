@@ -21,7 +21,6 @@
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSUserManager.h"
-#import "QSS03ItemListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
 
@@ -103,22 +102,23 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    
-    __weak QSS03ShowDetailViewController* weakSelf = self;
-    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-        weakSelf.showDict = dict;
-        [weakSelf bindWithDict:dict];
-    } onError:^(NSError *error) {
-
-    }];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    __weak QSS03ShowDetailViewController* weakSelf = self;
-    if (self.showDict) {
-        [weakSelf bindWithDict:self.showDict];
+    if (!self.itemListVc) {
+        __weak QSS03ShowDetailViewController* weakSelf = self;
+        if (self.showDict) {
+            [weakSelf bindWithDict:self.showDict];
+        }
+        [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+            weakSelf.showDict = dict;
+            [weakSelf bindWithDict:dict];
+        } onError:^(NSError *error) {
+            
+        }];
     }
+
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -231,8 +231,30 @@
 }
 
 - (IBAction)itemButtonPressed:(id)sender {
-    UIViewController* vc = [[QSS03ItemListViewController alloc] initWithShow:self.showDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    QSS03ItemListViewController* vc = [[QSS03ItemListViewController alloc] initWithShow:self.showDict];
+    vc.delegate = self;
+    self.itemListVc = vc;
+    [self.view addSubview:vc.view];
+    [self setPlayModeBtnsHidden:YES];
+    [self addChildViewController:vc];
+    vc.view.alpha = 0.f;
+    [UIView animateWithDuration:.3f animations:^{
+        vc.view.alpha = 1.f;
+    }];
+    
+}
+
+- (void)didClickCloseBtn
+{
+    [UIView animateWithDuration:.3f animations:^{
+        self.itemListVc.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [self setPlayModeBtnsHidden:NO];
+        [self.itemListVc.view removeFromSuperview];
+        [self.itemListVc removeFromParentViewController];
+        self.itemListVc = nil;
+    }];
+
 }
 
 - (IBAction)shareContainerPressed:(id)sender {
