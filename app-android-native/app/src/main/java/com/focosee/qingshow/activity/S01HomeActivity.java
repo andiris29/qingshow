@@ -4,13 +4,16 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.renderscript.Allocation;
+import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -31,6 +34,7 @@ import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -83,7 +87,9 @@ public class S01HomeActivity extends Activity {
 
         initMenu();
 
+
         relativeLayout_right_fragment = (RelativeLayout) findViewById(R.id.s01_show_relative);
+
         _blurImage = (ImageView) findViewById(R.id.s01_switch_right_background);
         _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);
         _mFrmLeft = (RelativeLayout) findViewById(R.id.s01_FrameLa_left);
@@ -161,6 +167,7 @@ public class S01HomeActivity extends Activity {
             isFirstFocus_activity = false;
         }
         _blurImage.setVisibility(View.VISIBLE);
+
         spl.openDrawer(_mFrmLeft);
     }
 
@@ -263,47 +270,37 @@ public class S01HomeActivity extends Activity {
         QSApplication.get().QSRequestQueue().add(jor);
     }
 
-    //模糊算法
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void blur(Bitmap bkg, View view) {
 
-        float radius = 20;
-        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth()),
-                (int) (view.getMeasuredHeight()), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft(), -view.getTop());
-        canvas.drawBitmap(bkg, 0, 0, null);
-        RenderScript rs = RenderScript.create(this);
-        Allocation overlayAlloc = Allocation.createFromBitmap(rs, overlay);
-        ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rs, overlayAlloc.getElement());
-        blur.setInput(overlayAlloc);
-        blur.setRadius(radius);
-        blur.forEach(overlayAlloc);
-        overlayAlloc.copyTo(overlay);
+    //模糊处理
+    private void blur(Bitmap bkg) {
+
+        Bitmap overlay = BitMapUtil.convertToBlur(bkg, this);
         //向主线程发消息
         Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
         mHandler.sendMessage(msg);
-        rs.destroy();
+        //rs.destroy();
     }
+
+    Thread thread = new Thread() {
+
+        @Override
+        public void run() {
+            //截屏
+            relativeLayout_right_fragment.setDrawingCacheEnabled(true);
+            relativeLayout_right_fragment.buildDrawingCache();
+            Bitmap bitmap = relativeLayout_right_fragment.getDrawingCache();
+
+            blur(bitmap);
+        }
+    };
 
     //进行模糊处理
     private void applyBlur() {
-        //截屏
-        relativeLayout_right_fragment.setDrawingCacheEnabled(true);
-        relativeLayout_right_fragment.buildDrawingCache();
-        final Bitmap bitmap = relativeLayout_right_fragment.getDrawingCache();
+
+        //_blurBackground.copy(bitmap.getConfig(), true);
+
         //用子线程执行雅高斯模糊
-        if (null != bitmap) {
-            Thread thread = new Thread() {
-
-                @Override
-                public void run() {
-                    blur(bitmap, _blurImage);
-                }
-            };
-
-            thread.start();
-        }
+        thread.run();
     }
 
     // init menu
