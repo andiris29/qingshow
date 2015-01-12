@@ -243,18 +243,18 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
 
         clickCommentIndex = commentIndex;
         viewMainPageIntent = new Intent(S04CommentActivity.this, P02ModelActivity.class);
-        viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getUserId());
+        viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
 
         if (null != userId && userId.equals(commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles("查看个人主页", "删除")
+                    .setOtherButtonTitles("回复", "查看个人主页", "删除")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
         else {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles("查看个人主页")
+                    .setOtherButtonTitles("回复", "查看个人主页")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
     }

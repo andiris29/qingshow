@@ -105,21 +105,21 @@ public class ModelEntity extends AbsEntity {
     }
 
     private ModelContext __context;
-    private String _id;
-    private String _hughUpdate;
-    private String height;
-    private String weight;
-    private String name;
-    private String background;
-    private String update;
-    private String portrait;
-    private String create;
-    private String[] hairTypes;
-    private int[] roles;
+    public String _id;
+    public String _hughUpdate;
+    public String height;
+    public String weight;
+    public String name;
+    public String background;
+    public String update;
+    public String portrait;
+    public String create;
+    public String[] hairTypes;
+    public int[] roles;
 
     public class ModelContext extends AbsEntity {
-        private int numFollowers;
-        private int numShows;
-        private boolean followedByCurrentUser = false;
+        public int numFollowers;
+        public int numShows;
+        public boolean followedByCurrentUser = false;
     }
 }

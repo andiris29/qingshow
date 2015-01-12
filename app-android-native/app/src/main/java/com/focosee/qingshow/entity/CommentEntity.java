@@ -18,6 +18,10 @@ public class CommentEntity extends AbsEntity {
         return "";
     }
 
+    public ModelEntity getAuthorRef() {
+        return this.authorRef;
+    }
+
     public String getAuthorName() {
         if (null != this.authorRef && null != this.authorRef.name)
             return this.authorRef.name;
@@ -39,7 +43,7 @@ public class CommentEntity extends AbsEntity {
     public String _id;
     public String targetRef;
     public String atRef;
-    public RefAuthor authorRef;
+    public ModelEntity authorRef;
     public String comment;
     public String __v;
     public String create;
