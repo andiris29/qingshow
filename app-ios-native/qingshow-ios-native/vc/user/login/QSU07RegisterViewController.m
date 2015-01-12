@@ -76,12 +76,14 @@
     self.clothingSize = 0;
     self.shoeSize = 34;
     
-    [self setSelectedStyleToPropButton:self.femaleButton];
-    [self setDefaultStyleToPropButon:self.maleButton];
-    [self setDefaultStyleToPropButon:self.femaleButton];
-    [self setUnSelectedStyleToPropButton:self.maleButton];
-    [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
-    [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+    //[self setSelectedStyleToPropButton:self.femaleButton];
+//    [self setDefaultStyleToPropButon:self.maleButton];
+//    [self setDefaultStyleToPropButon:self.femaleButton];
+    //[self setUnSelectedStyleToPropButton:self.maleButton];
+    [self.femaleButton setImage:[UIImage imageNamed:@"female_btn_hover"] forState:UIControlStateNormal];
+    [self.maleButton setImage:[UIImage imageNamed:@"male_btn"] forState:UIControlStateNormal];
+//    [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
+//    [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
     
     [clothesArray addObject:self.xxsButton];
     [clothesArray addObject:self.xsButton];
@@ -241,15 +243,19 @@
 - (IBAction)selectGender:(id)sender {
     self.gender = ((UIButton *)sender).tag;
     if (self.gender == 0) {
-        [self setSelectedStyleToPropButton:self.maleButton];
-        [self setUnSelectedStyleToPropButton:self.femaleButton];
-        [self.maleLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
-        [self.femalLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+//        [self setSelectedStyleToPropButton:self.maleButton];
+//        [self setUnSelectedStyleToPropButton:self.femaleButton];
+//        [self.maleLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
+//        [self.femalLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+        [self.femaleButton setImage:[UIImage imageNamed:@"female_btn"] forState:UIControlStateNormal];
+        [self.maleButton setImage:[UIImage imageNamed:@"male_btn_hover"] forState:UIControlStateNormal];
     } else {
-        [self setSelectedStyleToPropButton:self.femaleButton];
-        [self setUnSelectedStyleToPropButton:self.maleButton];
-        [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
-        [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+//        [self setSelectedStyleToPropButton:self.femaleButton];
+//        [self setUnSelectedStyleToPropButton:self.maleButton];
+//        [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
+//        [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+        [self.femaleButton setImage:[UIImage imageNamed:@"female_btn_hover"] forState:UIControlStateNormal];
+        [self.maleButton setImage:[UIImage imageNamed:@"male_btn"] forState:UIControlStateNormal];
     }
 }
 

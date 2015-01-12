@@ -9,7 +9,6 @@
             <connections>
                 <outlet property="accountText" destination="j2r-mB-SVv" id="clW-QP-PXu"/>
                 <outlet property="clothingSizeLabel" destination="bwU-ar-ln8" id="vOm-ln-PRK"/>
-                <outlet property="femalLabel" destination="GqR-hO-ulg" id="U9D-m8-VwC"/>
                 <outlet property="femaleButton" destination="UNQ-Ch-5qW" id="jPk-pw-cnM"/>
                 <outlet property="four0Button" destination="B6N-XW-1Xw" id="1Rz-66-fV7"/>
                 <outlet property="four1Button" destination="yMK-9Q-swM" id="98n-vO-EGk"/>
@@ -20,7 +19,6 @@
                 <outlet property="lButton" destination="85R-qC-W6w" id="Nwc-S8-NtS"/>
                 <outlet property="mButton" destination="Vd7-aF-PEU" id="nb0-hY-Jk9"/>
                 <outlet property="maleButton" destination="hFg-1i-yIK" id="wLH-0c-dFU"/>
-                <outlet property="maleLabel" destination="06B-zr-8uc" id="uPw-rB-CL9"/>
                 <outlet property="passwdCfmText" destination="Ck3-gi-jKz" id="SMg-K4-6b0"/>
                 <outlet property="passwdText" destination="TbC-OL-1lY" id="g4a-5A-2Xn"/>
                 <outlet property="registerButton" destination="RGB-hF-Hch" id="IrK-vP-63Y"/>
@@ -386,9 +384,8 @@
                     </connections>
                 </button>
                 <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNQ-Ch-5qW">
-                    <rect key="frame" x="94" y="183" width="80" height="30"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" title="女  ">
+                    <rect key="frame" x="94" y="183" width="55" height="28"/>
+                    <state key="normal" image="female_btn">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -396,9 +393,8 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hFg-1i-yIK">
-                    <rect key="frame" x="198" y="183" width="80" height="30"/>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <state key="normal" title="男  ">
+                    <rect key="frame" x="174" y="183" width="56" height="28"/>
+                    <state key="normal" image="male_btn">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -417,18 +413,6 @@
                         <action selector="selectShoeSize:" destination="-1" eventType="touchUpInside" id="WbK-G4-24C"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" tag="99" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="♀" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GqR-hO-ulg">
-                    <rect key="frame" x="135" y="185" width="26" height="24"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" tag="99" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="♂" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06B-zr-8uc">
-                    <rect key="frame" x="245" y="185" width="26" height="26"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" tag="99" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0mM-vd-hZu">
                     <rect key="frame" x="0.0" y="303" width="320" height="45"/>
                     <constraints>
@@ -473,6 +457,10 @@
             <point key="canvasLocation" x="378" y="378"/>
         </view>
     </objects>
+    <resources>
+        <image name="female_btn" width="55" height="28"/>
+        <image name="male_btn" width="56" height="28"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
