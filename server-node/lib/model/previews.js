@@ -3,8 +3,11 @@ var mongoose = require('mongoose');
 var previewSchema;
 previewSchema = mongoose.Schema({
     __context : Object,
-    cover : String,
-    coverMetadata : {
+    images : [{
+        url : String,
+        description : String
+    }],
+    imageMetadata : {
         url : String,
         width : Number,
         height : Number
