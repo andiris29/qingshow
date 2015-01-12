@@ -1,17 +1,26 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.ShowDetailEntity;
@@ -23,11 +32,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 
 public class S05ItemActivity extends Activity {
+    //是否第一次加载webView
+    private boolean isFirstLoad = true;
     public static final String INPUT_ITEMS = "S05ItemActivity_input_items";
 
     private MVerticalViewPager mVerticalViewPager;
 
     private ArrayList<ShowDetailEntity.RefItem> items;
+
+    private RelativeLayout mWebViewRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +70,15 @@ public class S05ItemActivity extends Activity {
             }
         });
 
+        mWebViewRelativeLayout = (RelativeLayout) findViewById(R.id.s05_webview_relative);
+
+
+        ((ImageButton)findViewById(R.id.s05_webview_back)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWebViewRelativeLayout.setVisibility(View.GONE);
+            }
+        });
         showItemAtIndex(0);
     }
 
@@ -69,8 +91,44 @@ public class S05ItemActivity extends Activity {
         ((Button)findViewById(R.id.S05_buy_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(index).getSource()));
-                startActivity(intent);
+                /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(index).getSource()));
+                startActivity(intent);*/
+                mWebViewRelativeLayout.setVisibility(View.VISIBLE);
+
+                if(!isFirstLoad){
+                    return;
+                }
+
+                WebView mWebView = (WebView) findViewById(R.id.s05_webview);
+                mWebView.setVisibility(View.VISIBLE);
+                Log.d("S05ItemActivity", items.get(index).getSource().toString());
+                WebSettings webSettings = mWebView.getSettings();
+                webSettings.setJavaScriptEnabled(true);
+                mWebView.setWebViewClient(new WebViewClient() {
+
+                    final ProgressDialog progressDialog = new ProgressDialog(S05ItemActivity.this);
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url);
+                        return true;
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        progressDialog.hide();
+
+                    }
+
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        super.onPageStarted(view, url, favicon);
+                        progressDialog.setMessage("加载中...");
+                        progressDialog.show();
+                    }
+                });
+                mWebView.loadUrl(items.get(index).getSource().toString());
+
+                isFirstLoad = false;
             }
         });
     }
