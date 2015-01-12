@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.CommentEntity;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -90,7 +91,7 @@ public class S04CommentListAdapter extends BaseAdapter {
         this.imageLoader.displayImage(data.get(position).getAuthorImage(), holder.commentImage, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         holder.commentName.setText(data.get(position).getAuthorName());
         holder.commentContent.setText(data.get(position).getCommentContent());
-        holder.commentTime.setText(data.get(position).getCommentTime());
+        holder.commentTime.setText(TimeUtil.getS04CommentTimeFormatString(data.get(position).getCommentTime()));
         return convertView;
     }
 
