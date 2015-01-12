@@ -4,38 +4,36 @@ var gm = require('gm').subClass({
 
 var ImageUtils = module.exports;
 
-ImageUtils.createOrUpdateMetadata = function(model, field, callback) {
-    var fieldMetadata = field + 'Metadata';
-
-    if (model[field]) {
-        if (model[fieldMetadata] && model[fieldMetadata].url === model[field]) {
+ImageUtils.createOrUpdateMetadata = function(model, url, metadataField, callback) {
+    if (url) {
+        if (model[metadataField] && model[metadataField].url === url) {
             // Do nothing, already created
             callback(null);
         } else {
-            delete model[fieldMetadata];
-            gm(model[field]).size( function(err, size) {
+            delete model[metadataField];
+            gm(url).size( function(err, size) {
                 if (!err && size) {
                     // Update metadata
-                    model[fieldMetadata] = {
-                        'url' : model[field],
+                    model[metadataField] = {
+                        'url' : url,
                         'width' : size.width,
                         'height' : size.height
                     };
                 } else {
                     // Update default metadata
-                    model[fieldMetadata] = _defaultMetadata;
+                    model[metadataField] = _defaultMetadata;
                 }
                 model.save(callback);
             }.bind(this));
         }
     } else {
-        if (model[fieldMetadata]) {
+        if (model[metadataField]) {
             // Remove outdated
-            delete model[fieldMetadata];
+            delete model[metadataField];
             model.save(callback);
         } else {
             // Do nothing
-            callback(null);
+            callback();
         }
     }
 };

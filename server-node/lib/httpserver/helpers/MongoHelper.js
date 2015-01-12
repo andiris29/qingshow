@@ -40,10 +40,13 @@ MongoHelper.updateCoverMetaData = function(models, callback) {
             // Update each model
             async.parallel([
             function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, 'cover', callback);
+                ImageUtils.createOrUpdateMetadata(model, model.cover, 'coverMetadata', callback);
             },
             function(callback) {
-                ImageUtils.createOrUpdateMetadata(model, 'horizontalCover', callback);
+                ImageUtils.createOrUpdateMetadata(model, model.images ? model.images[0] : undefined, 'imageMetadata', callback);
+            },
+            function(callback) {
+                ImageUtils.createOrUpdateMetadata(model, model.horizontalCover, 'horizontalCoverMetadata', callback);
             }], function(err, results) {
                 // Ignore error
                 callback();
