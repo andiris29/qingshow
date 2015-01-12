@@ -15,6 +15,7 @@
 #import "QSItemImageListTableViewDelegateObj.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSItemUtil.h"
+#import "QSG01ItemWebViewController.h"
 
 @interface QSP03BrandDetailViewController ()
 
@@ -187,9 +188,7 @@
 }
 - (void)didClickShopBtnOfItem:(NSDictionary *)itemDict
 {
-    NSURL* url = [QSItemUtil getShopUrl:itemDict];
-    if (url) {
-        [[UIApplication sharedApplication] openURL:url];
-    }
+    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
