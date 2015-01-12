@@ -5,6 +5,8 @@ previewSchema = mongoose.Schema({
     __context : Object,
     images : [{
         url : String,
+        brandDescription : String,
+        priceDescription : String,
         description : String
     }],
     imageMetadata : {
@@ -12,9 +14,6 @@ previewSchema = mongoose.Schema({
         width : Number,
         height : Number
     },
-    brandDescription : String,
-    nameDescription : String,
-    priceDescription : String,
     numLike : {
         type : Number,
         'default' : 0
