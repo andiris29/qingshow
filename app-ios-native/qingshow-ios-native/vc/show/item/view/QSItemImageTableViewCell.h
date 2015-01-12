@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#import "QSSingleImageScrollView.h"
+
 @protocol QSItemImageTableViewCellDelegate <NSObject>
 
 - (void)didClickShopBtn:(UITableViewCell*)cell;
 
 @end
 
-@interface QSItemImageTableViewCell : UITableViewCell
+@interface QSItemImageTableViewCell : UITableViewCell<QSImageScrollViewBaseDelegate>
 
 - (void)bindWithItem:(NSDictionary*)itemDict;
 

@@ -13,17 +13,17 @@
 
 @implementation QSPreviewUtil
 
-+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)previewDict
-{
-    NSMutableArray* m = [@[] mutableCopy];
-    NSURL* u = [self getCoverUrl:previewDict];
-    if (u) {
-        [m addObject:u];
-    }
-    NSArray* a = [self getImagesUrl:previewDict];
-    [m addObjectsFromArray:a];
-    return m;
-}
+//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)previewDict
+//{
+//    NSMutableArray* m = [@[] mutableCopy];
+//    NSURL* u = [self getCoverUrl:previewDict];
+//    if (u) {
+//        [m addObject:u];
+//    }
+//    NSArray* a = [self getImagesUrl:previewDict];
+//    [m addObjectsFromArray:a];
+//    return m;
+//}
 + (NSURL*)getCoverUrl:(NSDictionary*)previewDict
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
@@ -32,6 +32,19 @@
     NSString* path = previewDict[@"cover"];
     return [NSURL URLWithString:path];
 }
+
+- (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index
+{
+    if ([QSCommonUtil checkIsNil:previewDict]) {
+        return nil;
+    }
+    NSArray* paths = previewDict[@"images"];
+    if (index < paths.count) {
+        NSDictionary* d = paths[index];
+        return d[@"description"];
+    }
+    return @"";
+}
 + (NSArray*)getImagesUrl:(NSDictionary*)previewDict
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
@@ -39,7 +52,8 @@
     }
     NSArray* paths = previewDict[@"images"];
     NSMutableArray* m = [@[] mutableCopy];
-    for (NSString* path in paths) {
+    for (NSDictionary* d in paths) {
+        NSString* path = d[@"url"];
         [m addObject:[NSURL URLWithString:path]];
     }
     return m;
@@ -49,7 +63,15 @@
     if ([QSCommonUtil checkIsNil:previewDict]) {
         return nil;
     }
-    return previewDict[@"coverMetadata"];
+    NSDictionary* dict = previewDict[@"imageMetadata"];
+    if ([QSCommonUtil checkIsNil:dict]) {
+        dict = previewDict[@"coverMetadata"];
+    }
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    } else {
+        return dict;
+    }
 }
 + (NSString*)getNumLikeDesc:(NSDictionary*)previewDict
 {

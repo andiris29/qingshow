@@ -30,23 +30,33 @@
         return nil;
     }
     NSMutableArray* m = [@[] mutableCopy];
-    for (NSString* s in array) {
+    for (NSDictionary* d in array) {
+        NSString* s = d[@"url"];
         [m addObject:[NSURL URLWithString:s]];
     }
     
     return m;
 }
-+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
++ (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
 {
-    NSURL* cover = [self getCoverUrl:itemDict];
-    NSArray* imagesUrl = [self getImagesUrl:itemDict];
-    NSMutableArray* m = [@[] mutableCopy];
-    if (cover) {
-        [m addObject:cover];
+    NSArray* array = itemDict[@"images"];
+    if (index < array.count) {
+        NSDictionary* d = array[index];
+        return d[@"description"];
     }
-    [m addObjectsFromArray:imagesUrl];
-    return m;
+    return @"";
 }
+//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
+//{
+//    NSURL* cover = [self getCoverUrl:itemDict];
+//    NSArray* imagesUrl = [self getImagesUrl:itemDict];
+//    NSMutableArray* m = [@[] mutableCopy];
+//    if (cover) {
+//        [m addObject:cover];
+//    }
+//    [m addObjectsFromArray:imagesUrl];
+//    return m;
+//}
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
@@ -73,7 +83,7 @@
     for (NSDictionary* itemDict in itemsArray) {
         NSString* typeStr = [QSItemUtil getItemTypeName:itemDict];
 //        NSAttributedString* typeAttributedStr = [NSAttributedString alloc] initWithString:typeStr attributes:@{}
-        NSString* des = [QSItemUtil getItemDescription:itemDict];
+        NSString* des = [QSItemUtil getItemName:itemDict];
         NSMutableAttributedString * a = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@ ", typeStr, des] attributes:nil];
 
         [a addAttribute:NSFontAttributeName value:CFBridgingRelease(CTFontCreateWithName((CFStringRef)[UIFont fontWithName:@"Arial" size:14].fontName, 14, nil)) range:NSMakeRange(0, a.length)];
@@ -86,7 +96,8 @@
     }
     return str;
 }
-+ (NSString*)getItemDescription:(NSDictionary*)itemDict
+
++ (NSString*)getItemName:(NSDictionary*)itemDict
 {
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;

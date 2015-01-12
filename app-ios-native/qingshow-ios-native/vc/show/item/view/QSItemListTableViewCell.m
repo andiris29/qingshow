@@ -25,7 +25,7 @@
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
     self.typeLabel.text = [QSItemUtil getItemTypeName:itemDict];
-    self.nameLabel.text = [QSItemUtil getItemDescription:itemDict];
+    self.nameLabel.text = [QSItemUtil getItemName:itemDict];
 }
 
 @end

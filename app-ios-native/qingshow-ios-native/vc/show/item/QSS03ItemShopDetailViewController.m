@@ -98,7 +98,7 @@
 
 - (void)bindWithItem:(NSDictionary*)item
 {
-    self.label1.text = [QSItemUtil getItemDescription:item];
+    self.label1.text = [QSItemUtil getItemName:item];
     self.label2.text = [QSItemUtil getPrice:item];
     self.label3.text = [QSItemUtil getPriceAfterDiscount:item];
     [self.label2 sizeToFit];

@@ -192,7 +192,7 @@
     [self.likeBtn setTitle:[QSPreviewUtil getNumLikeDesc:previewDict] forState:UIControlStateNormal];
     [self.commentBtn setTitle:[QSPreviewUtil getNumCommentDesc:previewDict] forState:UIControlStateNormal];
 //    [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    self.singleImageScrollView.imageUrlArray = [QSPreviewUtil getCoverAndImagesUrl:previewDict];
+    self.singleImageScrollView.imageUrlArray = [QSPreviewUtil getImagesUrl:previewDict];
     
     [self.likeBtn setHighlighted:[QSPreviewUtil getIsLike:previewDict]];
 }

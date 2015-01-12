@@ -12,17 +12,18 @@
 
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict;
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
-+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict;
+//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict;
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 
 
 + (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
-+ (NSString*)getItemDescription:(NSDictionary*)item;
++ (NSString*)getItemName:(NSDictionary*)item;
 + (NSString*)getItemTypeName:(NSDictionary*)item;
 + (NSString*)getPrice:(NSDictionary*)item;
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict;
 
 + (NSDictionary*)getBrand:(NSDictionary*)item;
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
++ (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
 @end

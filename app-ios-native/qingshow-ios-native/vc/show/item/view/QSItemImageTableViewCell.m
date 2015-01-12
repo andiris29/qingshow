@@ -7,12 +7,13 @@
 //
 
 #import "QSItemImageTableViewCell.h"
-#import "QSSingleImageScrollView.h"
+
 #import "QSItemUtil.h"
 
 @interface QSItemImageTableViewCell ()
 
 @property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
+@property (weak, nonatomic) NSDictionary* itemDict;
 @end
 
 @implementation QSItemImageTableViewCell
@@ -22,6 +23,7 @@
     // Initialization code
     [self baseYsetup];
     self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imageContainerView.bounds direction:QSImageScrollViewDirectionHor];
+    self.imageScrollView.delegate = self;
     [self.imageContainerView addSubview:self.imageScrollView];
 }
 
@@ -33,13 +35,17 @@
 #pragma mark - Bind
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
+    self.itemDict = itemDict;
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
-    self.imageScrollView.imageUrlArray = [QSItemUtil getCoverAndImagesUrl:itemDict];
+    self.imageScrollView.imageUrlArray = [QSItemUtil getImagesUrl:itemDict];
+    
 //    self.imageScrollView.imageUrlArray = @[[QSItemUtil getCoverUrl:itemDict],[QSItemUtil getCoverUrl:itemDict]];
-    self.nameLabel.text = [QSItemUtil getItemDescription:itemDict];
+//    self.nameLabel.text = [QSItemUtil getItemDescription:itemDict];
+    self.nameLabel.text = [QSItemUtil getImageDesc:itemDict atIndex:(int)self.imageScrollView.pageControl.currentPage];
     self.priceLabel.text = [QSItemUtil getPrice:itemDict];
     self.shopBtn.hidden = [QSItemUtil getShopUrl:itemDict] == nil;
+    
 }
 - (void)baseYsetup
 {
@@ -62,7 +68,7 @@
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
     NSDictionary* coverMetadata = nil;
-    coverMetadata = itemDict[@"coverMetadata"];
+    coverMetadata = itemDict[@"imageMetadata"];
     
     float iniWidth = [UIScreen mainScreen].bounds.size.width;
     
@@ -84,5 +90,9 @@
     if ([self.delegate respondsToSelector:@selector(didClickShopBtn:)]) {
         [self.delegate didClickShopBtn:self];
     }
+}
+- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
+{
+    self.nameLabel.text = [QSItemUtil getImageDesc:self.itemDict atIndex:page];
 }
 @end
