@@ -55,6 +55,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
+    private RelativeLayout clothSizeLayout;
     private RelativeLayout changePasswordRelativeLayout;
     private RelativeLayout changeEmailRelativeLayout;
     private RelativeLayout informRelativeLayout;
@@ -96,6 +97,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         setJumpListener();
         shoesSizeEditText = (EditText) getActivity().findViewById(R.id.shoesSizeEditText);
         clothesSizeEditText = (EditText) getActivity().findViewById(R.id.clothesSizeEditText);
+        clothesSizeEditText.setOnFocusChangeListener(this);
 
         nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
         nameEditText.setOnFocusChangeListener(this);
@@ -167,9 +169,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             weightEditText.setText(people.weight);
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
-            hairTextView.setText(people.hairTypes[0]);
-            hairTextView.setTag(people.hairTypes[0]);
+            //hairTextView.setText(people.hairTypes[0]);
+            //hairTextView.setTag(people.hairTypes);
             shoesSizeEditText.setText(people.shoeSize);
+            //Toast.makeText(getActivity(), clothesSize[Integer.valueOf(people.clothingSize)], Toast.LENGTH_LONG).show();
             clothesSizeEditText.setText(clothesSize[Integer.valueOf(people.clothingSize)]);
         }
     }
@@ -222,6 +225,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     .setOtherButtonTitles(hairArgs)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
+
+        if("clothSize".equals(type)){
+            ActionSheet.createBuilder(getActivity(), getFragmentManager())
+                    .setTag("clothSize")
+                    .setCancelButtonTitle("取消")
+                    .setOtherButtonTitles(clothesSize)
+                    .setCancelableOnTouchOutside(true).setListener(this).show();
+        }
     }
 
     @Override
@@ -241,6 +252,11 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             hairTextView.setText(hairArgs[index]);
             hairTextView.setTag(index);
         }
+
+        if("clothSize".equals(String.valueOf(actionSheet.getTag()))){
+            clothesSizeEditText.setText(clothesSize[index]);
+            clothesSizeEditText.setTag(index);
+        }
         commitForm();
     }
 
@@ -255,10 +271,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         if (!weightEditText.getText().toString().equals(""))
             params.put("weight", weightEditText.getText().toString());
         if(null != sexTextView.getTag()){
-            params.put("gender", sexTextView.getTag()+"");
+            params.put("gender", sexTextView.getTag().toString());
         }
         if(null != hairTextView.getTag()){
-            params.put("hairType", hairTextView.getTag()+"");
+            params.put("hairType", hairTextView.getTag().toString());
+        }
+        if(null != clothesSizeEditText.getTag()){
+            params.put("clothingSize", clothesSizeEditText.getTag().toString());
+            Toast.makeText(getActivity(),clothesSizeEditText.getTag().toString(),Toast.LENGTH_LONG).show();
         }
 
         QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
@@ -332,6 +352,15 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 showActionSheet("hair");
             }
         });
+        clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
+        clothSizeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet("clothSize");
+            }
+        });
+
         changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
