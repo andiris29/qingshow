@@ -24,5 +24,7 @@
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)previewDict;
 + (void)addNumberComment:(long long)num forPreview:(NSDictionary*)previewDict;
 //+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)previewDict;
-- (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index;
++ (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index;
++ (NSString*)getImagesPriceDesc:(NSDictionary*)previewDict atIndex:(int)index;
++ (NSString*)getImagesBrandDesc:(NSDictionary*)previewDict atIndex:(int)index;
 @end

@@ -33,7 +33,7 @@
     return [NSURL URLWithString:path];
 }
 
-- (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index
++ (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
         return nil;
@@ -42,6 +42,30 @@
     if (index < paths.count) {
         NSDictionary* d = paths[index];
         return d[@"description"];
+    }
+    return @"";
+}
++ (NSString*)getImagesPriceDesc:(NSDictionary*)previewDict atIndex:(int)index
+{
+    if ([QSCommonUtil checkIsNil:previewDict]) {
+        return nil;
+    }
+    NSArray* paths = previewDict[@"images"];
+    if (index < paths.count) {
+        NSDictionary* d = paths[index];
+        return d[@"priceDescription"];
+    }
+    return @"";
+}
++ (NSString*)getImagesBrandDesc:(NSDictionary*)previewDict atIndex:(int)index
+{
+    if ([QSCommonUtil checkIsNil:previewDict]) {
+        return nil;
+    }
+    NSArray* paths = previewDict[@"images"];
+    if (index < paths.count) {
+        NSDictionary* d = paths[index];
+        return d[@"brandDescription"];
     }
     return @"";
 }

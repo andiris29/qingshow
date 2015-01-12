@@ -13,12 +13,12 @@
 #import "QSPeopleUtil.h"
 #import "QSPreviewUtil.h"
 #import "QSBrandUtil.h"
-#import "QSSingleImageScrollView.h"
+
 
 @interface QSBigImageTableViewCell ()
 
 @property (strong, nonatomic) QSSingleImageScrollView* singleImageScrollView;
-
+@property (weak, nonatomic) NSDictionary* dataDict;
 @end
 
 @implementation QSBigImageTableViewCell
@@ -120,6 +120,7 @@
 #pragma mark - Bind
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    self.dataDict = dict;
     if (self.type == QSBigImageTableViewCellTypeBrand) {
         [self bindWithBrand:dict];
     } else if (self.type == QSBigImageTableViewCellTypeFashion) {
@@ -179,15 +180,18 @@
 {
     if (!self.singleImageScrollView) {
         self.singleImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imgView.frame];
+        self.singleImageScrollView.delegate = self;
         self.imgView.hidden = YES;
         [self.contentView insertSubview:self.singleImageScrollView belowSubview:self.modelContainer];
     }
     float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
     [self resizeWithHeight:height];
     
-    self.label1.text = [QSPreviewUtil getBrandDesc:previewDict];
-    self.label2.text = [QSPreviewUtil getNameDesc:previewDict];
-    self.label3.text = [QSPreviewUtil getPriceDesc:previewDict];
+    self.label1.text = [QSPreviewUtil getImagesBrandDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
+    self.label2.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
+    self.label3.text = [QSPreviewUtil getImagesPriceDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
+//    self.label2.text = [QSPreviewUtil getNameDesc:previewDict];
+//    self.label3.text = [QSPreviewUtil getPriceDesc:previewDict];
     
     [self.likeBtn setTitle:[QSPreviewUtil getNumLikeDesc:previewDict] forState:UIControlStateNormal];
     [self.commentBtn setTitle:[QSPreviewUtil getNumCommentDesc:previewDict] forState:UIControlStateNormal];
@@ -215,5 +219,12 @@
         [self.delegate clickShareBtn:self];
     }
 }
-
+- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
+{
+    if (self.type == QSBigImageTableViewCellTypeFashion) {
+        self.label1.text = [QSPreviewUtil getImagesBrandDesc:self.dataDict atIndex:page];
+        self.label2.text = [QSPreviewUtil getImagesDesc:self.dataDict atIndex:page];
+        self.label3.text = [QSPreviewUtil getImagesPriceDesc:self.dataDict atIndex:page];
+    }
+}
 @end

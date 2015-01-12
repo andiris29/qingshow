@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSSingleImageScrollView.h"
 
 typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
     QSBigImageTableViewCellTypeModel,
@@ -26,7 +27,7 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 
 @end
 
-@interface QSBigImageTableViewCell : UITableViewCell
+@interface QSBigImageTableViewCell : UITableViewCell <QSImageScrollViewBaseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
 @property (weak, nonatomic) IBOutlet UIView* modelContainer;
