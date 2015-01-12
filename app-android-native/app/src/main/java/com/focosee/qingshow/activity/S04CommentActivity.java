@@ -89,7 +89,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(S04CommentActivity.this, "test", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(S04CommentActivity.this, "test", Toast.LENGTH_SHORT).show();
                 postComment();
             }
         });
