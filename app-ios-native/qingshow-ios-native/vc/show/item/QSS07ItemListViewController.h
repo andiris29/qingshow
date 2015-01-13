@@ -14,7 +14,7 @@
 
 @end
 
-@interface QSS03ItemListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface QSS07ItemListViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 //@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "QSImageScrollViewBase.h"
 #import "QSShareViewController.h"
-#import "QSS03ItemListViewController.h"
+#import "QSS07ItemListViewController.h"
 
 @interface QSS03ShowDetailViewController : UIViewController <QSImageScrollViewBaseDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate>
 
@@ -58,6 +58,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 
-@property (strong, nonatomic) QSS03ItemListViewController* itemListVc;
+@property (strong, nonatomic) QSS07ItemListViewController* itemListVc;
 
 @end

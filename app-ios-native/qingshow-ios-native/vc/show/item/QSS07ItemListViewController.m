@@ -6,29 +6,29 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSS03ItemListViewController.h"
+#import "QSS07ItemListViewController.h"
 #import "QSItemListHeaderView.h"
 #import "QSItemListTableViewCell.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-#import "QSP03BrandDetailViewController.h"
+#import "QSP04BrandDetailViewController.h"
 
 //#import "QSS03ItemShopDetailViewController.h"
 
-@interface QSS03ItemListViewController ()
+@interface QSS07ItemListViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
 
 @end
 
-@implementation QSS03ItemListViewController
+@implementation QSS07ItemListViewController
 
 #pragma mark - Init Method
 - (id)initWithShow:(NSDictionary*)showDict
 {
-    self = [super initWithNibName:@"QSS03ItemListViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS07ItemListViewController" bundle:nil];
     if (self) {
         self.showDict = showDict;
     }
@@ -86,7 +86,7 @@
     NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:(int)indexPath.row];
     NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
     if (itemDict && brandDict) {
-        UIViewController* vc = [[QSP03BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
+        UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
         [self.navigationController pushViewController:vc animated:YES];
     }
     

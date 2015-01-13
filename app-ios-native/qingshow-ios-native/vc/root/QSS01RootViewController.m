@@ -14,7 +14,7 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSP03BrandListViewController.h"
-#import "QSS02FashionViewController.h"
+#import "QSS08PreviewViewController.h"
 
 #import "QSS02CategoryViewController.h"
 
@@ -227,7 +227,7 @@
         }
         case 8:
         {
-            UIViewController* vc = [[QSS02FashionViewController alloc] init];
+            UIViewController* vc = [[QSS08PreviewViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

@@ -6,23 +6,23 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSS02FashionViewController.h"
+#import "QSS08PreviewViewController.h"
 #import "QSNetworkKit.h"
 #import "QSS04CommentListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
 
-@interface QSS02FashionViewController ()
+@interface QSS08PreviewViewController ()
 
 @property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
-@implementation QSS02FashionViewController
+@implementation QSS08PreviewViewController
 - (id)init
 {
-    self = [super initWithNibName:@"QSS02FashionViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS08PreviewViewController" bundle:nil];
     if (self) {
         
     }

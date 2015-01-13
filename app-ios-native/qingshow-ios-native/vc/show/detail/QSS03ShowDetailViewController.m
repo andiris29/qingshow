@@ -231,7 +231,7 @@
 }
 
 - (IBAction)itemButtonPressed:(id)sender {
-    QSS03ItemListViewController* vc = [[QSS03ItemListViewController alloc] initWithShow:self.showDict];
+    QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
     vc.delegate = self;
     self.itemListVc = vc;
     [self.view addSubview:vc.view];

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSP03BrandDetailViewController.h"
+#import "QSP04BrandDetailViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSMetadataUtil.h"
@@ -17,7 +17,7 @@
 #import "QSItemUtil.h"
 #import "QSG01ItemWebViewController.h"
 
-@interface QSP03BrandDetailViewController ()
+@interface QSP04BrandDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* brandDict;
 @property (strong, nonatomic) NSDictionary* itemDict;
@@ -30,7 +30,7 @@
 
 @end
 
-@implementation QSP03BrandDetailViewController
+@implementation QSP04BrandDetailViewController
 #pragma mark - Init Method
 - (id)initWithBrand:(NSDictionary*)brandDict
 {
@@ -109,7 +109,7 @@
 }
 - (void)bindDelegateObj
 {
-    __weak QSP03BrandDetailViewController* weakSelf = self;
+    __weak QSP04BrandDetailViewController* weakSelf = self;
     //Item New
     [self.itemNewDelegate bindWithTableView:self.itemNewTableView];
     self.itemNewDelegate.delegate = self;
