@@ -50,6 +50,9 @@
                                 <state key="normal" image="show_cell_detail">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="detailBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="l2k-Ph-dxf"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -104,4 +104,12 @@
     QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     [cell bindWithDict:dict];
 }
+- (void)clickDetailBtn:(QSBigImageTableViewCell *)cell
+{
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickDetailOfDict:)]) {
+        [self.delegate clickDetailOfDict:dict];
+    }
+}
 @end

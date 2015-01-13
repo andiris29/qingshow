@@ -228,4 +228,11 @@
         self.label3.text = [QSPreviewUtil getImagesPriceDesc:self.dataDict atIndex:page];
     }
 }
+
+- (IBAction)detailBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(clickDetailBtn:)]) {
+        [self.delegate clickDetailBtn:self];
+    }
+}
 @end

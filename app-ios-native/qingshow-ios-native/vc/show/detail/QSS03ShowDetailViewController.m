@@ -68,6 +68,7 @@
 
     self.showContainer.frame = [UIScreen mainScreen].bounds;
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.frame];
+    self.showImageScrollView.pageControlOffsetY = 10.f;
     self.showImageScrollView.pageControl.hidden = YES;
     self.showImageScrollView.delegate = self;
     [self.showContainer addSubview:self.showImageScrollView];

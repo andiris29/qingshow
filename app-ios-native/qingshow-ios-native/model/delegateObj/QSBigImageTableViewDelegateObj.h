@@ -17,6 +17,7 @@
 - (void)clickCommentOfDict:(NSDictionary*)dict;
 - (void)clickShareOfDict:(NSDictionary*)dict;
 - (void)clickLikeOfDict:(NSDictionary*)dict;
+- (void)clickDetailOfDict:(NSDictionary*)dict;
 
 @end
 
