@@ -4,18 +4,11 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -102,8 +95,10 @@ public class S01HomeActivity extends Activity {
         _wfListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-                if(scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
-                    applyBlur();
+                if(Build.VERSION.SDK_INT > 16) {
+                    if (scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+                        applyBlur();
+                }
             }
 
             @Override
@@ -116,8 +111,6 @@ public class S01HomeActivity extends Activity {
         _wfPullRefreshView.setScrollLoadEnabled(true);
 
         _wfPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
-
-
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
                 doRefreshTask();
@@ -154,7 +147,6 @@ public class S01HomeActivity extends Activity {
     private void closeMenu() {
         _blurImage.setVisibility(View.INVISIBLE);
         spl.closeDrawer(_mFrmLeft);
-        //_blurImage.setBackground(null);
     }
 
     private boolean isMenuOpened() {
@@ -164,7 +156,8 @@ public class S01HomeActivity extends Activity {
     private void openMenu() {
         if(isFirstFocus_activity){
             applyBlur();
-            isFirstFocus_activity = false;
+            if(Build.VERSION.SDK_INT > 16)
+                isFirstFocus_activity = false;
         }
         _blurImage.setVisibility(View.VISIBLE);
 
@@ -258,6 +251,7 @@ public class S01HomeActivity extends Activity {
                 }
 
             }
+
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -278,7 +272,6 @@ public class S01HomeActivity extends Activity {
         //向主线程发消息
         Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
         mHandler.sendMessage(msg);
-        //rs.destroy();
     }
 
     Thread thread = new Thread() {
@@ -295,13 +288,7 @@ public class S01HomeActivity extends Activity {
     };
 
     //进行模糊处理
-    private void applyBlur() {
-
-        //_blurBackground.copy(bitmap.getConfig(), true);
-
-        //用子线程执行雅高斯模糊
-        thread.run();
-    }
+    private void applyBlur() { thread.run(); }
 
     // init menu
     private void initMenu() {
@@ -389,6 +376,7 @@ public class S01HomeActivity extends Activity {
             return R.drawable.nav_account_btn_woman;
         return R.drawable.nav_btn_account_man;
     }
+
 
 
 
