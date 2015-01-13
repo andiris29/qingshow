@@ -84,6 +84,10 @@
 }
 - (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict
 {
+//    [self didClickBrand:dict];
+}
+- (void)clickDetailOfDict:(NSDictionary *)dict
+{
     [self didClickBrand:dict];
 }
 - (void)didClickOnline
