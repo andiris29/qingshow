@@ -16,7 +16,7 @@
 #import "QSImageEditingViewController.h"
 #import "QSPeopleUtil.h"
 #import "QSDateUtil.h"
-
+#import "UIImage+fixOrientation.h"
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
 
@@ -261,6 +261,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
     }
     
+    image = [image fixOrientation];
+    
     QSImageEditingViewController* vc = nil;
     if (_uploadImageType == UPLOAD_PORTRAIT) {
         vc = [[QSImageEditingViewController alloc] initWithType:QSImageEditingViewControllerTypeHead image:image];
@@ -310,7 +312,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 - (void)cancelImageEditing:(QSImageEditingViewController *)vc
 {
-    [vc dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Private Method
