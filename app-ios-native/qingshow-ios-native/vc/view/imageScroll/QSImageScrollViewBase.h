@@ -25,6 +25,7 @@ QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
 - (int)getViewCount;
 - (UIView*)getViewForPage:(int)page;
 - (void)updateImages;
+@property (assign, nonatomic) float pageControlOffsetY;
 @property (weak, nonatomic) NSObject<QSImageScrollViewBaseDelegate>* delegate;
 
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;

@@ -23,6 +23,7 @@
     // Initialization code
     [self baseYsetup];
     self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imageContainerView.bounds direction:QSImageScrollViewDirectionHor];
+    self.imageScrollView.pageControlOffsetY = 60.f;
     self.imageScrollView.delegate = self;
     [self.imageContainerView addSubview:self.imageScrollView];
 }
