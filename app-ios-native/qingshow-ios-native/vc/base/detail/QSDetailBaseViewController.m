@@ -143,7 +143,8 @@
     else
     {
         float deltaY = scrollView.contentOffset.y - self.touchLocation.y;
-        if (scrollView.contentOffset.y <= 0 && deltaY < 0)
+        
+        if (scrollView.contentOffset.y <= (- self.topConstrain.constant - self.badgeView.frame.size.height) && deltaY < 0)
         {
             //Scroll To Top
             self.touchLocation = CGPointMake(0, - self.badgeView.frame.size.height);
