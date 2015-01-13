@@ -183,6 +183,10 @@
 }
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
 {
+
+}
+- (void)clickDetailOfDict:(NSDictionary *)dict
+{
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:dict];
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -191,4 +195,5 @@
     QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 @end

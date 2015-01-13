@@ -112,4 +112,5 @@
         [self.delegate clickDetailOfDict:dict];
     }
 }
+
 @end

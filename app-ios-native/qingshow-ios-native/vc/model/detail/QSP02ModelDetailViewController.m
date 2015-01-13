@@ -167,6 +167,11 @@
 }
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
 {
+//    [self didClickShow:dict];
+}
+- (void)clickDetailOfDict:(NSDictionary *)dict
+{
     [self didClickShow:dict];
 }
+
 @end
