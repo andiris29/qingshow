@@ -149,15 +149,18 @@
             //Scroll To Top
             self.touchLocation = CGPointMake(0, - self.badgeView.frame.size.height);
             float time = ABS(self.topConstrain.constant) / 600;
-            self.topConstrain.constant = 0;
+            self.topConstrain.constant = -scrollView.contentOffset.y - self.badgeView.frame.size.height;
+            self.topConstrain.constant = self.topConstrain.constant >= 0 ? 0 : self.topConstrain.constant;
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
-            self.canScrollBadgeViewUp = NO;
-            [UIView animateWithDuration:time animations:^{
-                [weakSelf.view layoutIfNeeded];
-            } completion:^(BOOL finished) {
-                weakSelf.touchLocation = scrollView.contentOffset;
-                weakSelf.canScrollBadgeViewUp = YES;
-            }];
+//            self.canScrollBadgeViewUp = NO;
+            [self.view layoutIfNeeded];
+            self.touchLocation = scrollView.contentOffset;
+//            [UIView animateWithDuration:time animations:^{
+//                [weakSelf.view layoutIfNeeded];
+//            } completion:^(BOOL finished) {
+//                weakSelf.touchLocation = scrollView.contentOffset;
+//                weakSelf.canScrollBadgeViewUp = YES;
+//            }];
 
             return;
         }
