@@ -19,6 +19,8 @@ import com.focosee.qingshow.entity.TrendEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +28,7 @@ import java.util.LinkedList;
 
 public class S08TrendActivity extends Activity {
 
+    private final String TAG = "S08TrendActivity";
 
     private MPullRefreshListView mPullRefreshListView;
     private ListView listView;
@@ -33,6 +36,7 @@ public class S08TrendActivity extends Activity {
     private S08TrendListAdapter adapter;
     private int _currentPageIndex = 1;
     private ImageButton _backImageBtn;
+
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
@@ -56,8 +60,19 @@ public class S08TrendActivity extends Activity {
 
         //test
 
-        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
+        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(),getScreenWidth(), getScreenHeight());
         listView.setAdapter(adapter);
+        listView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Log.d(TAG, v.getTag()+"----tag");
+                if(hasFocus){
+                    Log.d(TAG, v.getNextFocusDownId()+"----id");
+                    listView.setSelection(v.getNextFocusUpId());
+
+                }
+            }
+        });
 
         mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);
@@ -65,11 +80,15 @@ public class S08TrendActivity extends Activity {
         mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                ImageLoader.getInstance().clearMemoryCache();
+                ImageLoader.getInstance().clearDiskCache();
                 doRefreshTask();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                ImageLoader.getInstance().clearMemoryCache();
+                ImageLoader.getInstance().clearDiskCache();
                 doGetMoreTask();
             }
         });
@@ -90,11 +109,11 @@ public class S08TrendActivity extends Activity {
     }
 
     private void doRefreshTask() {
-        _getDataFromNet(true, "1", "10");
+        _getDataFromNet(true, "1", "1");
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "1");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
@@ -148,6 +167,10 @@ public class S08TrendActivity extends Activity {
 
     private int getScreenHeight(){
         return getScreenSize().y;
+    }
+
+    private int getScreenWidth(){
+        return getScreenSize().x;
     }
 
 }
