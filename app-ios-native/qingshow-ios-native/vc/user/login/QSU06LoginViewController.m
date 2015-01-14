@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.userText.delegate = self;
+    self.passwordText.delegate = self;
     
     // View全体
     self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
@@ -82,6 +84,12 @@
 //    self.loginButton.backgroundColor = [UIColor colorWithRed:252.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
     self.loginButton.layer.masksToBounds = YES;
+    
+    // tap Setting
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
+    [singleTap setNumberOfTapsRequired:1];
+    [singleTap setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:singleTap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -107,7 +115,19 @@
     }
 }
 
+#pragma mark - UITextFieldDelegate
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.currentResponder = textField;
+}
+
 #pragma mark - Action
+- (void)resignOnTap:(id)sender {
+    [self.currentResponder resignFirstResponder];
+}
 
 - (IBAction)login:(id)sender {
     NSLog(@"login to qingshow");
@@ -156,7 +176,6 @@
                            onError:error];
 
 }
-
 
 #pragma mark - Callback
 

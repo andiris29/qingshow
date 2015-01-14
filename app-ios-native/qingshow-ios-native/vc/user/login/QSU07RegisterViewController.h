@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU07RegisterViewController : UIViewController
+@interface QSU07RegisterViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *genderLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shoeSizeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *clothingSizeLabel;
@@ -40,6 +40,8 @@
 @property (assign, nonatomic) NSInteger gender;
 @property (assign, nonatomic) NSInteger clothingSize;
 @property (assign, nonatomic) NSInteger shoeSize;
+
+@property (nonatomic, assign) id currentResponder;
 
 - (IBAction)selectGender:(id)sender;
 

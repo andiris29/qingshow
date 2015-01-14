@@ -30,6 +30,11 @@
     
     // Do any additional setup after loading the view from its nib.
     
+    // assign delegate
+    self.accountText.delegate = self;
+    self.passwdCfmText.delegate = self;
+    self.passwdText.delegate = self;
+    
     // Array alloc;
     clothesArray = [[NSMutableArray alloc]initWithCapacity:20];
     shoesArray = [[NSMutableArray alloc]initWithCapacity:20];
@@ -42,7 +47,6 @@
     self.navigationItem.backBarButtonItem.title = @"";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
-    
     
     for (UIView *subView in self.view.subviews) {
         if ([subView isKindOfClass:[UILabel class]]) {
@@ -108,6 +112,12 @@
     
     [self setSizeStyleBySelectedSize:self.clothingSize buttonArray: clothesArray];
     [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
+    
+    // tap Setting
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
+    [singleTap setNumberOfTapsRequired:1];
+    [singleTap setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:singleTap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,7 +125,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+# pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.currentResponder = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+}
+
+
 # pragma mark - Action
+- (void)resignOnTap:(id)iSender {
+    [self.currentResponder resignFirstResponder];
+}
 
 - (IBAction)register:(id)sender {
 
