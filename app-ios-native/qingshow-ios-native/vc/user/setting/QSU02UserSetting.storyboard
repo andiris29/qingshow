@@ -84,6 +84,12 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqt-PV-0Rb">
+                                                    <rect key="frame" x="95" y="13" width="92" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -164,6 +170,12 @@
                                                     <rect key="frame" x="15" y="12" width="32" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kS1-mw-gtR">
+                                                    <rect key="frame" x="95" y="13" width="127" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -260,6 +272,8 @@
                         <outlet property="birthdayText" destination="n7p-ef-h7u" id="x5h-oq-grd"/>
                         <outlet property="brandText" destination="hej-PW-KpH" id="E4Z-kW-whD"/>
                         <outlet property="clothingSizeLabel" destination="Xfz-Yp-WaO" id="9Ip-6p-7py"/>
+                        <outlet property="genderLabel" destination="cqt-PV-0Rb" id="dRl-Co-Xdx"/>
+                        <outlet property="hairTypeLabel" destination="kS1-mw-gtR" id="ZlA-s8-0Sq"/>
                         <outlet property="lengthText" destination="698-cL-GPO" id="Nbr-Ce-Jdc"/>
                         <outlet property="nameText" destination="llD-2e-xUH" id="cJj-Ib-FcP"/>
                         <outlet property="portraitImage" destination="fvV-WH-nCx" id="JNU-hg-96K"/>
@@ -270,7 +284,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="53y-Ly-6Y4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="232" y="408.5"/>
+            <point key="canvasLocation" x="232" y="406.5"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

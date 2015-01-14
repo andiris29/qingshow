@@ -6,8 +6,9 @@
 //  Copyright (c) 2014年 QS. All rights reserved.
 //
 
-#import "QSU07RegisterViewController.h"
 #import "QSS01RootViewController.h"
+#import "QSU06LoginViewController.h"
+#import "QSU07RegisterViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+Utility.h"
 #import "QSNetworkKit.h"
@@ -30,6 +31,11 @@
     
     // Do any additional setup after loading the view from its nib.
     
+    // assign delegate
+    self.accountText.delegate = self;
+    self.passwdCfmText.delegate = self;
+    self.passwdText.delegate = self;
+    
     // Array alloc;
     clothesArray = [[NSMutableArray alloc]initWithCapacity:20];
     shoesArray = [[NSMutableArray alloc]initWithCapacity:20];
@@ -42,7 +48,9 @@
     self.navigationItem.backBarButtonItem.title = @"";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
-    
+    // Goto Login
+    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStyleDone target:self action:@selector(login)];
+    self.navigationItem.rightBarButtonItem = loginButton;
     
     for (UIView *subView in self.view.subviews) {
         if ([subView isKindOfClass:[UILabel class]]) {
@@ -108,6 +116,12 @@
     
     [self setSizeStyleBySelectedSize:self.clothingSize buttonArray: clothesArray];
     [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
+    
+    // tap Setting
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
+    [singleTap setNumberOfTapsRequired:1];
+    [singleTap setNumberOfTouchesRequired:1];
+    [self.view addGestureRecognizer:singleTap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,7 +129,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+# pragma mark - UITextFieldDelegate
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.currentResponder = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [textField resignFirstResponder];
+}
+
+
 # pragma mark - Action
+- (void)resignOnTap:(id)iSender {
+    [self.currentResponder resignFirstResponder];
+}
 
 - (IBAction)register:(id)sender {
 
@@ -220,7 +247,8 @@
         if (metadata[@"error"] == nil && people != nil) {
             //[vc showSuccessHudWithText:@"更新成功"];
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+//            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             [self showErrorHudWithText:@"更新失败"];
         }
@@ -270,5 +298,9 @@
     [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
 }
 
+- (void)login{
+    UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

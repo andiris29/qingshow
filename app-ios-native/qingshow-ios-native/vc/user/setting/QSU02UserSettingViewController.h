@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *brandText;
 @property (weak, nonatomic) IBOutlet UILabel *shoeSizeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *clothingSizeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *hairTypeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *genderLabel;
 
 
 - (IBAction)lengthEditingDidBegin:(id)sender;

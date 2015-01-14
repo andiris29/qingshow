@@ -83,6 +83,7 @@
                     <textInputTraits key="textInputTraits" keyboardType="alphabet" secureTextEntry="YES"/>
                 </textField>
             </subviews>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="JjI-Sk-syy" secondAttribute="trailing" constant="10" id="5UW-JC-a4T"/>
                 <constraint firstItem="JjI-Sk-syy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="6mr-hE-udV"/>
@@ -101,8 +102,12 @@
                 <constraint firstItem="SId-r4-JAW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="37" id="zOn-9S-NPi"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="5hV-7x-2x7" appends="YES" id="fHv-F2-Vqy"/>
+            </connections>
             <point key="canvasLocation" x="378" y="272"/>
         </view>
+        <tapGestureRecognizer id="5hV-7x-2x7"/>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -431,6 +431,7 @@
                 </label>
             </subviews>
             <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="l7P-HM-xb4" secondAttribute="trailing" id="3Yz-N2-CnY"/>
                 <constraint firstAttribute="trailing" secondItem="Ck3-gi-jKz" secondAttribute="trailing" constant="10" id="F22-VK-NDM"/>
@@ -454,8 +455,12 @@
                 <constraint firstItem="RGB-hF-Hch" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="u6e-do-e1T"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="FpA-nE-Xvu" appends="YES" id="yLp-jm-ON8"/>
+            </connections>
             <point key="canvasLocation" x="378" y="378"/>
         </view>
+        <tapGestureRecognizer id="FpA-nE-Xvu"/>
     </objects>
     <resources>
         <image name="female_btn" width="55" height="28"/>
