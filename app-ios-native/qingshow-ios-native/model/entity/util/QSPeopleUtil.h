@@ -25,6 +25,7 @@
 + (NSString*)getHeight:(NSDictionary*)peopleDict;
 + (NSString*)getWeight:(NSDictionary*)peopleDict;
 + (NSString*)getShoeSizeDesc:(NSDictionary*)peopleDict;
++ (NSString*)getHairTypeDesc:(NSDictionary*)peopleDict;
 
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 

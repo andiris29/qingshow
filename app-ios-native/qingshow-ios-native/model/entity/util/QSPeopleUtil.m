@@ -337,4 +337,16 @@
     }
     return [shoeSize stringValue];
 }
+
++ (NSString *)getHairTypeDesc:(NSDictionary *)peopleDict {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return @"";
+    }
+    NSArray* hairTypeArray = @[@"所有", @"长发", @"超长发", @"中长发", @"短发"];
+    NSNumber* hairType = peopleDict[@"hairType"];
+    if ([QSCommonUtil checkIsNil:hairType] || hairType.intValue >= hairTypeArray.count) {
+        return @"";
+    }
+    return hairTypeArray[hairType.intValue];
+}
 @end

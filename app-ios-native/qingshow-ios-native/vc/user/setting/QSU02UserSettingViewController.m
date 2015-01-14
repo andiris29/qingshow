@@ -325,8 +325,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 //    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:nil];
     
     [[self navigationItem] setBackBarButtonItem:backButton];
-    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
-    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
+//    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
+//    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
     
 //    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
 //                                                               style:UIBarButtonItemStylePlain
@@ -368,6 +368,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     self.shoeSizeLabel.text = [QSPeopleUtil getShoeSizeDesc:people];
     self.clothingSizeLabel.text = [QSPeopleUtil getClothingSizeDesc:people];
     self.brandText.text = (NSString *)people[@"favoriteBrand"];
+    
+    self.genderLabel.text = [QSPeopleUtil getGenderDesc:people];
+    self.hairTypeLabel.text = [QSPeopleUtil getHairTypeDesc:people];
 }
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
@@ -382,7 +385,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [vc showSuccessHudWithText:@"更新成功"];
-            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+            EntitySuccessBlock successLoad = ^(NSDictionary *people, NSDictionary *metadata) {
+                [self loadUserSetting];
+            };
+            [SHARE_NW_ENGINE getLoginUserOnSucced:successLoad onError:nil];
             if (fPop) {
                 [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
             }
