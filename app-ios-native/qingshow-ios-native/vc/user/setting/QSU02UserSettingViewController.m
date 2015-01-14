@@ -321,8 +321,12 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     NSLog(@"initNavigation");
     self.navigationItem.title = @"设置";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:nil];
+    
     [[self navigationItem] setBackBarButtonItem:backButton];
+    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
+    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
     
 //    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
 //                                                               style:UIBarButtonItemStylePlain
