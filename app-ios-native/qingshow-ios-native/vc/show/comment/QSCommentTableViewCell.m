@@ -33,16 +33,20 @@
     float labelWidth = [UIScreen mainScreen].bounds.size.width - borderWitdh;
     CGSize conSize = CGSizeMake(labelWidth, INFINITY);
     UIFont* font = [UIFont systemFontOfSize:14.f];
-    
+    CGSize size;
     if ([str respondsToSelector:@selector(sizeWithAttributes:)]) {
         //Above IOS 7
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
         paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        return [str boundingRectWithSize:conSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:nil].size;
+        size = [str boundingRectWithSize:conSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:nil].size;
     } else {
         //Below IOS 7
-        return [str sizeWithFont:font constrainedToSize:conSize lineBreakMode:NSLineBreakByWordWrapping];
+        size = [str sizeWithFont:font constrainedToSize:conSize lineBreakMode:NSLineBreakByWordWrapping];
     }
+    if (size.height < 17) {
+        size.height = 17;
+    }
+    return size;
 }
 #pragma mark - Life Cycle
 

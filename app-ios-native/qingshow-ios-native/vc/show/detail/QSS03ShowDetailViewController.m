@@ -103,6 +103,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [self bindExceptImageWithDict:self.showDict];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -137,6 +138,14 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    [self bindExceptImageWithDict:dict];
+    //Image
+    //    self.showImageScrollView.imageUrlArray = previewArray;
+    [self updateShowImgScrollView];
+}
+
+- (void)bindExceptImageWithDict:(NSDictionary*)dict
+{
     //Model
     NSDictionary* peopleInfo = [QSShowUtil getPeopleFromShow:dict];
     
@@ -147,15 +156,13 @@
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
     self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
     
-    //Image
-//    self.showImageScrollView.imageUrlArray = previewArray;
-    [self updateShowImgScrollView];
+    //Like Btn
+    [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
+    
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
 
-    //Like Btn
-    [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
 }
 
 - (void)didReceiveMemoryWarning {
