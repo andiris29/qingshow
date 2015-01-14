@@ -235,6 +235,7 @@
     QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
     vc.delegate = self;
     self.itemListVc = vc;
+    vc.view.frame = self.view.bounds;
     [self.view addSubview:vc.view];
     [self setPlayModeBtnsHidden:YES];
     [self addChildViewController:vc];
