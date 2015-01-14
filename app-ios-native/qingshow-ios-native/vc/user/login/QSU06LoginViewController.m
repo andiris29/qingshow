@@ -80,7 +80,7 @@
     [layer addSublayer:bottomBorder];
 
     // 登陆
-//    self.loginButton.backgroundColor = [UIColor colorWithRed:252.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
+    self.loginButton.backgroundColor = [UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f];
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
     self.loginButton.layer.masksToBounds = YES;
     

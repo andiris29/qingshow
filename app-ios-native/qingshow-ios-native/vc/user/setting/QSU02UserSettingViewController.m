@@ -321,10 +321,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     NSLog(@"initNavigation");
     self.navigationItem.title = @"设置";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
-//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:nil];
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(actionBack)];
     
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [[self navigationItem] setLeftBarButtonItem:backButton];
 //    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
 //    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
     
@@ -439,6 +439,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 
 #pragma mark - Action
+- (void)actionBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)actionSave {
     NSString *name = self.nameText.text;
     NSString *birthDay = self.birthdayText.text;
