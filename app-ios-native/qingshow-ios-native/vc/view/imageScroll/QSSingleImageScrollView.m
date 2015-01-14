@@ -19,19 +19,6 @@
     UIImageView* imageView = [[UIImageView alloc] init];
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.clipsToBounds = YES;
-    if (self.imageArray) {
-        UIImage* image = self.imageArray[imageIndex];
-        imageView.image = image;
-    } else if (self.imageUrlArray) {
-        id imageInfo = self.imageUrlArray[imageIndex];
-        if ([imageInfo isKindOfClass:[NSURL class]]) {
-            NSURL* imageUrl = (NSURL*)imageInfo;
-            [imageView setImageFromURL:imageUrl];
-        } else if ([imageInfo isKindOfClass:[UIImage class]]){
-            imageView.image = (UIImage*)imageInfo;
-        }
-
-    }
     return imageView;
 }
 - (void)updateView:(UIView*)view forPage:(int)imageIndex
@@ -49,6 +36,11 @@
             imageView.image = (UIImage*)imageInfo;
         }
     }
+}
+- (void)emptyView:(UIView*)view forPage:(int)page
+{
+    UIImageView* imageView = (UIImageView*)view;
+    imageView.image = nil;
 }
 
 #pragma mark - Getter And Setter Method

@@ -182,6 +182,7 @@
         self.singleImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imgView.frame];
         self.singleImageScrollView.pageControlOffsetY = 20.f;
         self.singleImageScrollView.delegate = self;
+        self.singleImageScrollView.enableLazyLoad = YES;
         self.imgView.hidden = YES;
         [self.contentView insertSubview:self.singleImageScrollView belowSubview:self.modelContainer];
     }

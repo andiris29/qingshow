@@ -30,6 +30,7 @@ QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
 
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 @property (strong, nonatomic) NSMutableArray* imageViewArray;
+@property (assign, nonatomic) BOOL enableLazyLoad;
 
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d;
