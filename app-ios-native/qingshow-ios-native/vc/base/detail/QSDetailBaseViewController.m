@@ -28,6 +28,7 @@
 @property (assign, nonatomic) int currentSection;
 
 @property (assign, nonatomic) CGPoint touchLocation;
+@property (assign, nonatomic) CGPoint preTouchLocation;
 @property (strong, nonatomic) UIView* currentTouchView;
 
 @property (assign, nonatomic) float backPreTopCon;
@@ -139,15 +140,18 @@
     if (self.currentTouchView != scrollView) {
         self.currentTouchView = scrollView;
         self.touchLocation = scrollView.contentOffset;
+        self.preTouchLocation = scrollView.contentOffset;
     }
     else
     {
         float deltaY = scrollView.contentOffset.y - self.touchLocation.y;
+        float preDeltaY = scrollView.contentOffset.y - self.preTouchLocation.y;
         
         if (scrollView.contentOffset.y <= (- self.topConstrain.constant - self.badgeView.frame.size.height) && deltaY < 0)
         {
             //Scroll To Top
             self.touchLocation = CGPointMake(0, - self.badgeView.frame.size.height);
+            self.preTouchLocation = self.touchLocation;
             float time = ABS(self.topConstrain.constant) / 600;
             self.topConstrain.constant = -scrollView.contentOffset.y - self.badgeView.frame.size.height;
             self.topConstrain.constant = self.topConstrain.constant >= 0 ? 0 : self.topConstrain.constant;
@@ -180,6 +184,7 @@
                 self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
             }
             self.touchLocation = scrollView.contentOffset;
+            self.preTouchLocation = self.touchLocation;
             //Back Btn
 
             [self.view layoutIfNeeded];
@@ -191,7 +196,7 @@
 //            self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
 //            [self.view layoutIfNeeded];
 //        }
-        else if (deltaY < -[UIScreen mainScreen].bounds.size.height * 2){
+        else if (preDeltaY < -[UIScreen mainScreen].bounds.size.height * 2){
             float time = ABS(self.topConstrain.constant - 0) / 600;
             self.topConstrain.constant = 0;
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
@@ -200,8 +205,11 @@
                 [weakSelf.view layoutIfNeeded];
             } completion:^(BOOL finished) {
                 weakSelf.touchLocation = scrollView.contentOffset;
+                weakSelf.preTouchLocation = weakSelf.touchLocation;
                 weakSelf.canScrollBadgeViewUp = YES;
             }];
+        } else {
+            self.touchLocation = scrollView.contentOffset;
         }
     }
 }
