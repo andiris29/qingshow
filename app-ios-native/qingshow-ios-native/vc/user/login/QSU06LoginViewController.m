@@ -50,12 +50,11 @@
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
     
-    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"注册"
-                                                               style:UIBarButtonItemStylePlain
-                                                              target:self
-                                                              action:@selector(gotoRegister)];
-    
-    [[self navigationItem] setRightBarButtonItem:btnSave];
+//    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"注册"
+//                                                               style:UIBarButtonItemStylePlain
+//                                                              target:self
+//                                                              action:@selector(gotoRegister)];
+//    [[self navigationItem] setRightBarButtonItem:btnSave];
     
     for (UIView *subView in self.view.subviews) {
         if ([subView isKindOfClass:[UILabel class]]) {

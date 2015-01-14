@@ -21,6 +21,7 @@
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
+#import "QSU07RegisterViewController.h"
 #import "QSS06CompareViewController.h"
 
 #import "QSUserManager.h"
@@ -167,7 +168,7 @@
 //    } else
     if (!userManager.userInfo) {
         //未登陆
-        UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
+        UIViewController *vc = [[QSU07RegisterViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         //已登陆
