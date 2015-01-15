@@ -3,22 +3,19 @@ package com.focosee.qingshow.adapter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import android.app.admin.DeviceAdminInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.util.DisplayMetrics;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.focosee.qingshow.activity.S08TrendActivity;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.request.MJsonObjectRequest;
@@ -27,6 +24,7 @@ import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,20 +37,22 @@ import java.util.LinkedList;
 public class S08TrendListAdapter extends BaseAdapter {
 
 
-    private final static String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
+    private final String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
     //每一行的最小高度
     private int minHeight = 600;
 
 
     private Context context;
-    private LinkedList<TrendEntity> data;
+    private List<TrendEntity> data;
 
-    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int minHeight) {
+    private HolderView holderView;
+
+    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities,int screenWidth, int screenHeight) {
         this.context = context;
         this.data = trendEntities;
-        this.minHeight = minHeight * 4 / 7;
-
+        this.minHeight = screenHeight * 9 / 10;
     }
+
 
     @Override
     public int getCount() {
@@ -80,9 +80,8 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final HolderView holderView;
+
         RelativeLayout.LayoutParams params_rLayout;
-        MPullRefreshListView.LayoutParams params_listView;
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -90,9 +89,9 @@ public class S08TrendListAdapter extends BaseAdapter {
 
             holderView = new HolderView();
             holderView.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.s08_relative_layout);
-            //holderView.listView = (MPullRefreshListView) convertView.findViewById(R.id.S08_content_list_view);
 
-            holderView.backImageView = (ImageView) convertView.findViewById(R.id.S08_background_image_view);
+            holderView.viewPager = (ViewPager) convertView.findViewById(R.id.s08_viewPager);
+            holderView.viewGroup = (LinearLayout) convertView.findViewById(R.id.s08_viewGroup);
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.S08_item_name);
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
             holderView.priceTextView = (TextView) convertView.findViewById(R.id.S08_item_price);
@@ -107,29 +106,34 @@ public class S08TrendListAdapter extends BaseAdapter {
         } else {
             holderView = (HolderView) convertView.getTag();
         }
-        int item_height = data.get(position).getHeight()<minHeight ? minHeight : data.get(position).getHeight();
-        int item_width = holderView.backImageView.getLayoutParams().width;
-        //Log.d(_TAG,convertView.toString());
+        int item_height = data.get(position).getHeight() < minHeight ? minHeight : data.get(position).getHeight();
+        int item_width = holderView.viewPager.getLayoutParams().width;
+
+        LinearLayout mViewGroup = (LinearLayout) convertView.findViewById(R.id.s08_viewGroup);
         //如何图片高度小于最小高度，则设为最小高度
+
         params_rLayout = new RelativeLayout.LayoutParams(item_width
                 , item_height);
+
         holderView.relativeLayout.setLayoutParams(params_rLayout);
-        //父容器重新设定高度.listView的高度必须匹配父容器
-        /*params_listView = new MPullRefreshListView.LayoutParams(item_width
-                , item_height);
-        holderView.listView.setLayoutParams(params_listView);*/
 
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
                 item_height));
 
-        holderView.backImageView.setMinimumWidth(item_height);
-        /*RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-        B.setLayoutParams(params);*/
+        holderView.viewPager.setMinimumWidth(item_height);
+        holderView.viewPager.setLayoutParams(params_rLayout);
+        //设置Adapter
+        MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, mViewGroup);
+        holderView.viewPager.setAdapter(mViewPagerAdapter);
+        //设置监听，主要是设置点点的背景
+        holderView.viewPager.setOnPageChangeListener(mViewPagerAdapter);
+        //设置ViewPager的默认项, 设置为长度的100倍，这样子开始就能往左滑动
+        holderView.viewPager.setCurrentItem(data.get(position).images.size());
 
-        ImageLoader.getInstance().displayImage(data.get(position).getCover(), holderView.backImageView, AppUtil.getShowDisplayOptions());
-        holderView.nameTextView.setText(data.get(position).getNameDescription());
-        holderView.descriptionTextView.setText(data.get(position).getBrandDescription());
-        holderView.priceTextView.setText(data.get(position).getPriceDescription());
+
+//        holderView.nameTextView.setText(data.get(position).getNameDescription(position));
+//        holderView.descriptionTextView.setText(data.get(position).getBrandDescription(position));
+//        holderView.priceTextView.setText(data.get(position).getPriceDescription(position));
         //分享
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,13 +148,13 @@ public class S08TrendListAdapter extends BaseAdapter {
             }
         });
         //评论
-        holderView.messageTextView.setText(data.get(position).getNumComments()+"");
+        holderView.messageTextView.setText(data.get(position).getNumComments() + "");
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
-                if (null != data.get(mPosition) && null != data.get(mPosition).get_id()) {
+                if (null != data.get(position).images.get(mPosition) && null != data.get(position).get_id()) {
                     Intent intent = new Intent(context, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
                     context.startActivity(intent);
@@ -160,19 +164,19 @@ public class S08TrendListAdapter extends BaseAdapter {
             }
         });
         //点赞
-        holderView.likeTextView.setText(data.get(position).numLike+"");
+        holderView.likeTextView.setText(data.get(position).numLike + "");
         holderView.likeImageButton.setTag(position);
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
-                if (null != data.get(mPosition) && null != data.get(mPosition).get_id()) {
+                if (null != data && null != data.get(position).get_id()) {
 
                     Map<String, String> likeData = new HashMap<String, String>();
                     likeData.put("_id", data.get(position).get_id());
                     JSONObject jsonObject = new JSONObject(likeData);
 
-                    MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST,QSAppWebAPI.getPreviewTrendLikeApi()
+                    MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPreviewTrendLikeApi()
                             , jsonObject, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -184,12 +188,12 @@ public class S08TrendListAdapter extends BaseAdapter {
                                     holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
                                     showMessage(context, "点赞成功");
                                     //showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
-                                }else{
+                                } else {
                                     handleResponseError(response);
                                     showMessage(context, "点赞失败" + response.toString() + response.get("metadata").toString().length());
 
                                 }
-                            }catch (Exception e) {
+                            } catch (Exception e) {
                                 showMessage(context, e.toString());
                             }
                         }
@@ -231,7 +235,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                     break;
             }
             showMessage(context, errorMessage);
-        }catch (Exception e) {
+        } catch (Exception e) {
             showMessage(context, e.toString() + response.toString());
         }
     }
@@ -240,7 +244,8 @@ public class S08TrendListAdapter extends BaseAdapter {
         public RelativeLayout relativeLayout;
         public MPullRefreshListView listView;
 
-        public ImageView backImageView;
+        public ViewPager viewPager;
+        public LinearLayout viewGroup;
         public TextView nameTextView;
         public TextView descriptionTextView;
         public TextView priceTextView;
@@ -251,5 +256,149 @@ public class S08TrendListAdapter extends BaseAdapter {
         public ImageButton messageImageButton;
         public TextView messageTextView;
     }
+
+    public class MViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
+
+        private final String TAG = "MViewPagerAdapter";
+
+        private int imgSize;
+
+        private int mPosition;
+
+        private ImageView[] _mImgViewS;
+
+        private List<TrendEntity.ImageInfo> imageInfos;
+
+        private LinearLayout _mViewGroup;
+        /**
+         * 装点点的ImageView数组
+         */
+        private ImageView[] tips;
+
+        public MViewPagerAdapter(int position, LinearLayout mViewGroup) {
+            this._mViewGroup = mViewGroup;
+            this.mPosition = position;
+            this.imageInfos = data.get(mPosition).images;
+            this.imgSize = imageInfos.size();
+            Log.d(TAG, "图片数：" + this.imgSize);
+            this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
+            _mImgViewS = new ImageView[this.imgSize];
+
+//            ImageLoader.getInstance().clearMemoryCache();
+//            ImageLoader.getInstance().clearDiskCache();
+
+            initTips();
+            initMImageViews(this.imgSize);
+
+
+        }
+
+        @Override
+        public int getCount() {
+            return Integer.MAX_VALUE;
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == arg1;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView(_mImgViewS[position % _mImgViewS.length]);
+        }
+
+        /**
+         * 载入图片进去，用当前的position 除以 图片数组长度取余数是关键
+         */
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+
+            ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
+            TrendEntity.ImageInfo imgInfo = (TrendEntity.ImageInfo)imageView.getTag();
+
+            ImageLoader.getInstance().displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
+            container.addView(imageView, 0);
+
+            return imageView;
+        }
+
+        private void initMImageViews(int size){
+
+
+            for (int i = 0;i<size;i++){
+                ImageView imageView = new ImageView(context);
+                TrendEntity.ImageInfo imgInfo = this.imageInfos.get(i);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                        , ViewGroup.LayoutParams.WRAP_CONTENT);
+                imageView.setLayoutParams(params);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setTag(imgInfo);
+                _mImgViewS[i] = imageView;
+
+            }
+
+        }
+
+
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {}
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {}
+
+        @Override
+        public void onPageSelected(int arg0) {
+
+            setImageBackground(arg0);
+
+            TrendEntity.ImageInfo imageInfo = this.imageInfos.get(arg0 % this.imgSize);
+            holderView.nameTextView.setText(imageInfo.brandDescription);
+            holderView.descriptionTextView.setText(imageInfo.description);
+            holderView.priceTextView.setText(imageInfo.priceDescription);
+        }
+
+        private void initTips(){
+            tips = new ImageView[this.imgSize];
+            _mViewGroup.removeAllViews();
+            for (int i = 0; i < tips.length; i++) {
+                ImageView imageView_tips = new ImageView(context);
+                imageView_tips.setLayoutParams(new LinearLayout.LayoutParams(10, 10));
+                tips[i] = imageView_tips;
+                if (i == 0) {
+                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
+                } else {
+                    tips[i].setBackgroundResource(R.drawable.image_indicator);
+                }
+
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT));
+                layoutParams.leftMargin = 5;
+                layoutParams.rightMargin = 5;
+                _mViewGroup.addView(imageView_tips, layoutParams);
+            }
+        }
+
+        /**
+         * 设置选中的tip的背景
+         *
+         * @param selectItems
+         */
+        private void setImageBackground(int selectItems) {
+
+
+            for (int i = 0; i < tips.length; i++) {
+                if (i == (selectItems % this.imgSize)) {
+                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
+                } else {
+                    tips[i].setBackgroundResource(R.drawable.image_indicator);
+                }
+            }
+        }
+
+
+    }
+
 
 }

@@ -14,6 +14,10 @@ import android.util.Log;
  */
 public class BitMapUtil {
 
+    private static int[] r, g, b;
+
+    private static boolean isFirstBlur=true;
+
     public static Bitmap convertToBlur(Bitmap bmp, Context context){
         final int radius = 20;
         if (Build.VERSION.SDK_INT > 16) {
@@ -49,10 +53,13 @@ public class BitMapUtil {
         int hm = h - 1;
         int wh = w * h;
         int div = radius + radius + 1;
-
-        int r[] = new int[wh];
-        int g[] = new int[wh];
-        int b[] = new int[wh];
+        if(isFirstBlur) {//defind outOfmenmry
+            Log.d("BitMapUtil*******************", wh + "");
+            r = new int[wh];
+            g = new int[wh];
+            b = new int[wh];
+            isFirstBlur = false;
+        }
         int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;
         int vmin[] = new int[Math.max(w, h)];
 

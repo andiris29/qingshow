@@ -35,7 +35,7 @@
             android:text="搭配清单"
             android:textColor="#ffffff"
             android:textSize="50px"
-            android:layout_marginTop="80dp"/>
+            android:layout_marginTop="30dp"/>
 
         <TextView
             android:id="@+id/S07_brand_tv"

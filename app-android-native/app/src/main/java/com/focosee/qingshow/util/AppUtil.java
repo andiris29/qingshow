@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+
 import com.focosee.qingshow.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
@@ -45,6 +47,7 @@ public class AppUtil {
                     .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
+                    .bitmapConfig(Bitmap.Config.RGB_565)
 //            .considerExifParams(true)
 //            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
 //            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间

@@ -7,11 +7,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.entity.ShowDetailEntity;
-
 import java.util.ArrayList;
 
 public class S07CollectActivity extends Activity {
