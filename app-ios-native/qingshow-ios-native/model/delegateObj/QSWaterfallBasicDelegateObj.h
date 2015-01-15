@@ -23,7 +23,7 @@
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
 @property (strong, nonatomic) FilterBlock filterBlock;
 @property (weak, nonatomic) NSObject<QSWaterfallBasicDelegateObjDelegate>* delegate;
-@property (strong, nonatomic) NSDictionary* metaDataDict;
+@property (strong, nonatomic) NSDictionary* metadataDict;
 
 
 
@@ -42,5 +42,5 @@
 
 #pragma mark - Virtual Method
 - (void)registerCell;
-
+- (NSString*)getTotalCountDesc;
 @end

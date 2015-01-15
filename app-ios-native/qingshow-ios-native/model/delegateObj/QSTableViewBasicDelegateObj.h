@@ -22,6 +22,7 @@
 
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
+@property (strong, nonatomic) NSDictionary* metadataDict;
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
 @property (strong, nonatomic) FilterBlock filterBlock;
 @property (readonly, nonatomic) int currentPage;
@@ -53,6 +54,7 @@
 - (void)registerCell;
 - (void)refreshWithAnimation;
 
+- (NSString*)getTotalCountDesc;
 
 @property (strong, nonatomic) NSArray* additionalResult;
 @end

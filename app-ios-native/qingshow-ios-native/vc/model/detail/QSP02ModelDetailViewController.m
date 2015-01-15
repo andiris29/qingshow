@@ -92,7 +92,12 @@
         return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.peopleDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:1];
+            }
+            errorBlock(e);
+        }];
     };
     self.followingDelegate.delegate = self;
     [self.followingDelegate fetchDataOfPage:1];
@@ -103,7 +108,12 @@
         return [SHARE_NW_ENGINE peopleQueryFollower:weakSelf.peopleDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:2];
+            }
+            errorBlock(e);
+        }];
     };
     self.followerDelegate.delegate = self;
     [self.followerDelegate fetchDataOfPage:1];
@@ -115,7 +125,12 @@
         return [SHARE_NW_ENGINE getFeedByModel:weakSelf.peopleDict[@"_id"] page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:0];
+            }
+            errorBlock(e);
+        }];
     };
     self.showsDelegate.delegate = self;
     [self.showsDelegate fetchDataOfPage:1];
@@ -156,6 +171,7 @@
         } else {
             [self showTextHud:@"取消关注成功"];
         }
+        [self.followerDelegate fetchDataOfPage:1];
     } onError:^(NSError *error) {
         [self handleError:error];
     }];

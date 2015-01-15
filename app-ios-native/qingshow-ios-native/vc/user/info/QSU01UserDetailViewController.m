@@ -86,6 +86,7 @@
     [self.likedDelegate refreshClickedData];
     [self.recommendationDelegate refreshClickedData];
     [self.followingDelegate refreshClickedData];
+    [self.likedBrandDelegate refreshClickedData];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -152,9 +153,6 @@
     self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
         return [QSBrandUtil getHasFollowBrand:obj];
     };
-
-
-
 }
 
 - (void)configView
@@ -213,6 +211,7 @@
         {
             [self.followingDelegate removeData:model withAnimation:YES];
             [self showTextHud:@"取消关注成功"];
+            [self.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:self.followingDelegate.metadataDict] atIndex:2];
         }
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"error"];

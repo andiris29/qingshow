@@ -8,6 +8,8 @@
 
 #import "QSTableViewBasicDelegateObj.h"
 #import "MKNetworkOperation.h"
+#import "NSNumber+QSExtension.h"
+#import "QSMetadataUtil.h"
 
 @interface QSTableViewBasicDelegateObj ()
 
@@ -101,6 +103,7 @@
 - (MKNetworkOperation*)fetchDataOfPage:(int)page onComplete:(VoidBlock)block
 {
     MKNetworkOperation* op = self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
+        self.metadataDict = metadata;
         if (page == 1) {
             [self.resultArray removeAllObjects];
             [self.resultArray addObjectsFromArray:self.additionalResult];
@@ -184,9 +187,31 @@
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
     UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
+    
+    NSDictionary* metaData = [self.metadataDict mutableCopy];
+    [QSMetadataUtil addTotalNum:-1ll forDict:metaData];
+    self.metadataDict = metaData;
+    
 }
 
 - (void)refreshClickedData
 {
+}
+- (NSString*)getTotalCountDesc
+{
+    if (!self.metadataDict) {
+        return @"0";
+    }
+    long long filterCount = 0;
+    for (NSDictionary* dict in self.resultArray) {
+        if (self.filterBlock) {
+            if (self.filterBlock(dict)){
+                filterCount++;
+            }
+        }
+    }
+    long long t = [QSMetadataUtil getNumberTotal:self.metadataDict] - filterCount;
+    t = t >= 0ll? t : 0ll;
+    return @(t).kmbtStringValue;
 }
 @end
