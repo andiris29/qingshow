@@ -138,7 +138,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/recommandCountTextView"
+                        android:id="@+id/recommendCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -170,7 +170,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/followedCount"
+                        android:id="@+id/followedCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
