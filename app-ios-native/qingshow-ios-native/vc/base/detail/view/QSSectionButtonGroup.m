@@ -26,7 +26,7 @@
 
 - (id)initWithType:(QSSectionButtonGroupType)type
 {
-    if (type == QSSectionButtonGroupTypeBrand) {
+    if (type == QSSectionButtonGroupTypeBrand || type == QSSectionButtonGroupTypeU01) {
         self = [self initWithType:type btnCount:4];
     } else {
         self = [self initWithType:type btnCount:3];

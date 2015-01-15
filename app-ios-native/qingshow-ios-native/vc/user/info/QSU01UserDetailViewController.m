@@ -8,7 +8,7 @@
 
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
-
+#import "QSBigImageTableViewDelegateObj.h"
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
@@ -17,6 +17,7 @@
 #import "QSUserManager.h"
 
 #import "UIViewController+ShowHud.h"
+#import "QSBrandUtil.h"
 
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* likedDelegate;
 @property (strong, nonatomic) QSShowCollectionViewDelegateObj* recommendationDelegate;
 @property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
+@property (strong, nonatomic) QSBigImageTableViewDelegateObj* likedBrandDelegate;
 @property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
 
@@ -43,7 +45,7 @@
     if (self) {
         [self delegateObjInit];
         self.userInfo = peopleDict;
-        self.type = QSSectionButtonGroupTypeThree;
+        self.type = QSSectionButtonGroupTypeU01;
         self.fShowAccountBtn = NO;
     }
     return self;
@@ -57,6 +59,8 @@
     self.recommendationDelegate.delegate = self;
     self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
     self.followingDelegate.delegate = self;
+    self.likedBrandDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
 }
 
 #pragma mark - Life Cycle
@@ -137,6 +141,20 @@
     };
     self.followingDelegate.delegate = self;
     [self.followingDelegate reloadData];
+    //Like brand tableVIew
+    [self.likedBrandDelegate bindWithTableView:self.likeBrandTableView];
+    self.likedBrandDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE peopleQueryFollowedBrand:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:3];
+            succeedBlock(array, metadata);
+        } onError:errorBlock];
+    };
+    self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
+        return [QSBrandUtil getHasFollowBrand:obj];
+    };
+
+
+
 }
 
 - (void)configView
@@ -146,15 +164,15 @@
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.likedCollectionView, self.recommendationCollectionView,self.followingTableView];
+    self.viewArray = @[self.likedCollectionView, self.recommendationCollectionView,self.followingTableView, self.likeBrandTableView];
     
     self.likedCollectionView.hidden = NO;
     self.recommendationCollectionView.hidden = YES;
     self.followingTableView.hidden = YES;
     
     //Section title
-    NSArray* titleArray = @[@"收藏",@"推荐",@"关注"];
-    for (int i = 0; i < 3; i++) {
+    NSArray* titleArray = @[@"收藏",@"推荐",@"关注", @"收藏店铺"];
+    for (int i = 0; i < titleArray.count; i++) {
         [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
         [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
     }
