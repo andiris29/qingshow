@@ -20,7 +20,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="50dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal" >
             </LinearLayout>
@@ -44,12 +44,6 @@
         android:layout_marginLeft="20dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/S08_item_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="刀刀 20岁 170cm"
-            android:textColor="#ffffffff" />
 
         <TextView
             android:id="@+id/S08_item_description"
@@ -58,6 +52,12 @@
             android:text="就爱文艺小清新"
             android:textColor="#ffffffff" />
 
+        <TextView
+            android:id="@+id/S08_item_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="刀刀 20岁 170cm"
+            android:textColor="#ffffffff" />
         <TextView
             android:id="@+id/S08_item_price"
             android:layout_width="fill_parent"
