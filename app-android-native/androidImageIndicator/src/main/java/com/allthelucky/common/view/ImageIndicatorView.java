@@ -173,6 +173,31 @@ public class ImageIndicatorView extends RelativeLayout {
 		this.viewList.add(view);
 	}
 
+    /**
+     * 添加单个View
+     *
+     * @param view
+     */
+    public void addViewItemAtIndex(View view, int index) {
+        final int position = viewList.size();
+        view.setOnClickListener(new ItemClickListener(index));
+        for (int i=0; i<this.viewList.size(); i++) {
+            if (i >= index) {
+                this.viewList.get(i).setOnClickListener(new ItemClickListener(i+1));
+            }
+        }
+        this.viewList.add(index, view);
+    }
+
+    public void removeViewItemAtIndex(int index) {
+        for (int i=0; i<this.viewList.size(); i++) {
+            if (i>index) {
+                this.viewList.get(i).setOnClickListener(new ItemClickListener(i-1));
+            }
+        }
+        this.viewList.remove(index);
+    }
+
 	/**
 	 * 条目点击事件监听类
 	 */
@@ -277,6 +302,7 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 		this.indicateLayout.setLayoutParams(params);
 		// 初始化指示器
+        this.indicateLayout.removeAllViews();
 		for (int index = 0; index < this.totelCount; index++) {
 			final View indicater = new ImageView(getContext());
 			this.indicateLayout.addView(indicater, index);

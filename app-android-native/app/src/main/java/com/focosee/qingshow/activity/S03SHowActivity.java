@@ -3,10 +3,12 @@ package com.focosee.qingshow.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.MediaController;
@@ -31,6 +33,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,12 +50,18 @@ public class S03SHowActivity extends Activity {
     private String showId;
     private ShowDetailEntity showDetailEntity;
     private ArrayList<ShowDetailEntity.RefItem> itemsData;
-    private String videoUri;
+    private String videoUriString;
+    private Uri videoUri = null;
 
     // Component declaration
     private RelativeLayout mRelativeLayout;
     private NetworkImageIndicatorView imageIndicatorView;
     private VideoView videoView;
+//    private SurfaceView surfaceView;
+//    private MediaPlayer mediaPlayer;
+
+    private MediaController mediaController;
+
     private MRoundImageView modelImage;
     private TextView modelInformation;
     private TextView modelAgeHeight;
@@ -93,7 +105,6 @@ public class S03SHowActivity extends Activity {
 
             }
         });
-
     }
 
     private void getShowDetailFromNet() {
@@ -206,7 +217,7 @@ public class S03SHowActivity extends Activity {
 
         itemsData = showDetailEntity.getItemsList();
 
-        videoUri = showDetailEntity.getShowVideo();
+        videoUriString = showDetailEntity.getShowVideo();
 
         ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
 
@@ -291,15 +302,96 @@ public class S03SHowActivity extends Activity {
         this.imageIndicatorView.show();
     }
 
-    private void startVideo() {
-        imageIndicatorView.setVisibility(View.GONE);
-        videoView.setVisibility(View.VISIBLE);
-        Uri uri = Uri.parse(videoUri);
-        videoView.setVideoURI(uri);
+    private void configVideo() {
+        videoView.setDrawingCacheEnabled(true);
+        videoView.setVideoPath(videoUriString);
         videoView.requestFocus();
-        MediaController mediaController = new MediaController(this);
-        videoView.setMediaController(mediaController);
+        videoView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                pauseVideo();
+                return false;
+            }
+        });
+    }
+
+    private boolean isFirstStart = true;
+
+    private void startVideo() {
+        if (isFirstStart) {
+            configVideo();
+            isFirstStart = false;
+        }
+        findViewById(R.id.S03_before_video_view).setVisibility(View.GONE);
+//        imageIndicatorView.setVisibility(View.GONE);
+//        videoView.setVisibility(View.VISIBLE);
         videoView.start();
+    }
+
+    private void pauseVideo() {
+
+//        MediaMetadataRetriever rev = new MediaMetadataRetriever();
+//        rev.setDataSource(this, Uri.parse(videoUriString));
+//        Bitmap bitmap = rev.getFrameAtTime(videoView.getCurrentPosition() * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+
+        videoView.pause();
+
+//        View view = findViewById(R.id.S03_relative_layout).getRootView();
+//        view.setDrawingCacheEnabled(true);
+//        view.buildDrawingCache();
+//        Bitmap bitmap = view.getDrawingCache();
+
+//        videoView.buildDrawingCache();
+        Bitmap bitmapInput=videoView.getDrawingCache();
+//        Bitmap bitmapInput = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap bitmap = Bitmap.createBitmap(bitmapInput);
+//        Bitmap bitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
+//
+//        Canvas canvas = new Canvas(bitmapInput);
+//        canvas.drawBitmap(bitmap, 0, 0, null);
+
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+//        savePic(bitmapInput, "test.png");
+
+
+
+        this.imageIndicatorView.addBitmapAtFirst(bitmap, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
+        this.imageIndicatorView.show();
+
+
+        findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
+    }
+
+    // 保存到sdcard
+    private void savePic(Bitmap b, String strFileName) {
+        File f = new File( "/sdcard/Note/"+strFileName + ".jpg");
+        FileOutputStream fOut = null;
+        try {
+            fOut = new FileOutputStream(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("test", e.toString());
+        }
+        b.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+        try {
+            fOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("test", e.toString());
+        }
+        try {
+            fOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            Log.i("test", e.toString());
+        }
+    }
+
+    private void showIcon(boolean display) {
+
     }
 
     private int getWinWidth(){
