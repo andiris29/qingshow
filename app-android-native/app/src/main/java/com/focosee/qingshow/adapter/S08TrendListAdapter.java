@@ -284,8 +284,12 @@ public class S08TrendListAdapter extends BaseAdapter {
             this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
             _mImgViewS = new ImageView[this.imgSize];
 
+//            ImageLoader.getInstance().clearMemoryCache();
+//            ImageLoader.getInstance().clearDiskCache();
+
             initTips();
             initMImageViews(this.imgSize);
+
 
         }
 

@@ -6,17 +6,24 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S05ItemActivity;
 import com.focosee.qingshow.entity.ShowDetailEntity;
-
+import com.focosee.qingshow.util.AppUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 
 public class S07ListAdapter extends BaseAdapter {
+
+    private final String TAG = "S07ListAdapter";
+
+    private final int ITEMHEIGHT = 200;
 
     private Context context;
     private boolean withPrice;
@@ -56,7 +63,12 @@ public class S07ListAdapter extends BaseAdapter {
             }
 
             holderView = new HolderView();
+            holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_collection);
+            AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
+                    ITEMHEIGHT);
+            holderView.item_collection.setLayoutParams(params);
             holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
+            holderView.brandLogo = (ImageView) convertView.findViewById(R.id.item_S07_brandlogo);
             holderView.name = (TextView) convertView.findViewById(R.id.item_S07_name);
             holderView.detailButton = (Button) convertView.findViewById(R.id.item_S07_detail_btn);
 
@@ -72,6 +84,8 @@ public class S07ListAdapter extends BaseAdapter {
 
         holderView.name.setText(data.get(position).getItemName());
         holderView.category.setText(data.get(position).getItemCategory());
+        ImageLoader.getInstance().displayImage(data.get(position).getBrandPortrait(), holderView.brandLogo, AppUtil.getPortraitDisplayOptions());
+
         holderView.detailButton.setTag(position);
         holderView.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +105,9 @@ public class S07ListAdapter extends BaseAdapter {
     }
 
     class HolderView {
+        public LinearLayout item_collection;
         public TextView category;
+        public ImageView brandLogo;
         public TextView name;
         public Button detailButton;
 

@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_s07_with_price_collection"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="200dp"
     android:gravity="center_vertical"
     android:background="#000000"
     android:descendantFocusability="blocksDescendants">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/item_S07_with_price_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40px"
+            android:textColor="#ffffff"
+            android:text="上装"/>
+        <ImageView
+            android:id="@+id/item_S07_with_price_brandlogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/user_head_default"/>
+
+    </LinearLayout>
     
-    <TextView
-        android:id="@+id/item_S07_with_price_category"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:textSize="40px"
-        android:textColor="#ffffff"
-        android:text="上装"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+
+
 
     <TextView
         android:id="@+id/item_S07_with_price_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
         android:textSize="40px"
         android:textColor="#ffffff"
         android:singleLine="true"
@@ -30,7 +54,6 @@
         android:id="@+id/item_S07_with_price_origin_price"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
         android:textSize="40px"
         android:textColor="#ffffff"
         android:text="589.00"/>
@@ -39,10 +62,10 @@
         android:id="@+id/item_S07_with_price_price"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
         android:textSize="40px"
         android:textColor="#ffffff"
         android:text="289.00"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/item_S07_with_price_detail_btn"
