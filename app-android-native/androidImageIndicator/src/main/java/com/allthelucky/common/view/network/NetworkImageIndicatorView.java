@@ -1,6 +1,7 @@
 package com.allthelucky.common.view.network;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -24,6 +25,8 @@ import java.util.List;
  * 
  */
 public class NetworkImageIndicatorView extends ImageIndicatorView {
+
+    private boolean hasFirstBitmapSign = false;
 
 	public NetworkImageIndicatorView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -56,5 +59,23 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 			}
 		}
 	}
+
+//    public void removeAllViews() {
+//        removeAllViews();
+//    }
+
+    public void addBitmapAtFirst(Bitmap firstImage, ImageLoader mImageLoader, DisplayImageOptions options) {
+        if (hasFirstBitmapSign) {
+            removeViewItemAtIndex(0);
+        }
+        final ImageView pageItem = new ImageView(getContext());
+        pageItem.setScaleType(ScaleType.CENTER_CROP);
+        pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        pageItem.setImageBitmap(firstImage);
+//        mImageLoader.displayImage("http://img.uutuu.com/data6/a/ph/large/080412/c593300067964cbbb6b3ce45eed9c58f.jpg", pageItem);
+
+        addViewItemAtIndex(pageItem, 0);
+        hasFirstBitmapSign=true;
+    }
 
 }
