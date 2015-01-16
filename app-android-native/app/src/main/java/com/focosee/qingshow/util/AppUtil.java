@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 
 import com.focosee.qingshow.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class AppUtil {
 
@@ -45,7 +46,8 @@ public class AppUtil {
                     .showImageOnLoading(R.drawable.root_cell_placehold_image1) //设置图片在下载期间显示的图片
                     .showImageForEmptyUri(R.drawable.root_cell_placehold_image2)//设置图片Uri为空或是错误的时候显示的图片
                     .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
-                    .cacheInMemory(true)
+                    .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+                    .cacheInMemory(false)
                     .cacheOnDisk(true)
                     .bitmapConfig(Bitmap.Config.RGB_565)
 //            .considerExifParams(true)

@@ -47,7 +47,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private HolderView holderView;
 
-    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities,int screenWidth, int screenHeight) {
+    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int screenHeight) {
         this.context = context;
         this.data = trendEntities;
         this.minHeight = screenHeight * 9 / 10;
@@ -70,9 +70,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void addItemTop(LinkedList<TrendEntity> datas) {
-        this.data.addAll(datas);
-    }
+    public void resetData(LinkedList<TrendEntity> datas) { this.data = datas; }
 
     public void addItemLast(LinkedList<TrendEntity> datas) {
         this.data.addAll(datas);
@@ -109,31 +107,22 @@ public class S08TrendListAdapter extends BaseAdapter {
         int item_height = data.get(position).getHeight() < minHeight ? minHeight : data.get(position).getHeight();
         int item_width = holderView.viewPager.getLayoutParams().width;
 
-        LinearLayout mViewGroup = (LinearLayout) convertView.findViewById(R.id.s08_viewGroup);
         //如何图片高度小于最小高度，则设为最小高度
-
         params_rLayout = new RelativeLayout.LayoutParams(item_width
                 , item_height);
-
         holderView.relativeLayout.setLayoutParams(params_rLayout);
-
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
                 item_height));
 
         holderView.viewPager.setMinimumWidth(item_height);
         holderView.viewPager.setLayoutParams(params_rLayout);
         //设置Adapter
-        MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, mViewGroup);
+        MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView.viewGroup);
         holderView.viewPager.setAdapter(mViewPagerAdapter);
         //设置监听，主要是设置点点的背景
         holderView.viewPager.setOnPageChangeListener(mViewPagerAdapter);
         //设置ViewPager的默认项, 设置为长度的100倍，这样子开始就能往左滑动
         holderView.viewPager.setCurrentItem(data.get(position).images.size());
-
-
-//        holderView.nameTextView.setText(data.get(position).getNameDescription(position));
-//        holderView.descriptionTextView.setText(data.get(position).getBrandDescription(position));
-//        holderView.priceTextView.setText(data.get(position).getPriceDescription(position));
         //分享
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
