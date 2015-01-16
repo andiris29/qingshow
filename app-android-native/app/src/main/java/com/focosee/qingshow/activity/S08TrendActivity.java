@@ -7,7 +7,10 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -60,21 +63,8 @@ public class S08TrendActivity extends Activity {
             }
         });
 
-        //test
-
         adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
         listView.setAdapter(adapter);
-        listView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d(TAG, v.getTag()+"----tag");
-                if(hasFocus){
-                    Log.d(TAG, v.getNextFocusDownId()+"----id");
-                    listView.setSelection(v.getNextFocusUpId());
-
-                }
-            }
-        });
 
         mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);
@@ -82,15 +72,11 @@ public class S08TrendActivity extends Activity {
         mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                ImageLoader.getInstance().clearMemoryCache();
-//                ImageLoader.getInstance().clearDiskCache();
                 doRefreshTask();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                ImageLoader.getInstance().clearMemoryCache();
-//                ImageLoader.getInstance().clearDiskCache();
                 doGetMoreTask();
             }
         });

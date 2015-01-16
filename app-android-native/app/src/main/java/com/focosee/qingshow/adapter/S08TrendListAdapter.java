@@ -39,7 +39,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private final String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
     //每一行的最小高度
-    private int minHeight = 600;
+    private int minHeight;
 
 
     private Context context;
@@ -50,7 +50,7 @@ public class S08TrendListAdapter extends BaseAdapter {
     public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int screenHeight) {
         this.context = context;
         this.data = trendEntities;
-        this.minHeight = screenHeight * 9 / 10;
+        this.minHeight = screenHeight * 8 / 9;
     }
 
 
@@ -104,18 +104,15 @@ public class S08TrendListAdapter extends BaseAdapter {
         } else {
             holderView = (HolderView) convertView.getTag();
         }
-        int item_height = data.get(position).getHeight() < minHeight ? minHeight : data.get(position).getHeight();
+        int item_height = this.minHeight;
         int item_width = holderView.viewPager.getLayoutParams().width;
 
         //如何图片高度小于最小高度，则设为最小高度
         params_rLayout = new RelativeLayout.LayoutParams(item_width
                 , item_height);
-        holderView.relativeLayout.setLayoutParams(params_rLayout);
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
                 item_height));
 
-        holderView.viewPager.setMinimumWidth(item_height);
-        holderView.viewPager.setLayoutParams(params_rLayout);
         //设置Adapter
         MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView.viewGroup);
         holderView.viewPager.setAdapter(mViewPagerAdapter);
@@ -273,9 +270,6 @@ public class S08TrendListAdapter extends BaseAdapter {
             this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
             _mImgViewS = new ImageView[this.imgSize];
 
-//            ImageLoader.getInstance().clearMemoryCache();
-//            ImageLoader.getInstance().clearDiskCache();
-
             initTips();
             initMImageViews(this.imgSize);
 
@@ -318,8 +312,8 @@ public class S08TrendListAdapter extends BaseAdapter {
             for (int i = 0;i<size;i++){
                 ImageView imageView = new ImageView(context);
                 TrendEntity.ImageInfo imgInfo = this.imageInfos.get(i);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                        , ViewGroup.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                        , ViewGroup.LayoutParams.MATCH_PARENT);
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setTag(imgInfo);
