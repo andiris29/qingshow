@@ -5,8 +5,6 @@ previewSchema = mongoose.Schema({
     __context : Object,
     images : [{
         url : String,
-        brandDescription : String,
-        priceDescription : String,
         description : String
     }],
     imageMetadata : {
