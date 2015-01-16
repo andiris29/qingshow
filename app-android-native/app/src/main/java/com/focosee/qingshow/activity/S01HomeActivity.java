@@ -2,6 +2,8 @@ package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,7 +25,6 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
@@ -79,7 +80,6 @@ public class S01HomeActivity extends Activity {
                 .findViewById(R.id.s01_sliding_layout);
 
         initMenu();
-
 
         relativeLayout_right_fragment = (RelativeLayout) findViewById(R.id.s01_show_relative);
 
@@ -255,10 +255,19 @@ public class S01HomeActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S01HomeActivity.this, "Error:" + error.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(S01HomeActivity.this, "Error:" + error.toString(), Toast.LENGTH_SHORT).show();
                 _wfPullRefreshView.onPullDownRefreshComplete();
                 _wfPullRefreshView.onPullUpRefreshComplete();
                 _wfPullRefreshView.setHasMoreData(true);
+                new AlertDialog.Builder(S01HomeActivity.this)
+                        .setTitle("连接失败")
+                        .setMessage("未连接网络或者信号不好。")
+                        .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                doRefreshTask();
+                            }
+                        }).show();
             }
         });
         QSApplication.get().QSRequestQueue().add(jor);
@@ -368,16 +377,5 @@ public class S01HomeActivity extends Activity {
             }
         });
     }
-    //获得用户图标ID（根据用户性格进行选择）
-    private int getAccountImgId(){
-        People people = QSApplication.get().getPeople();
-        Log.d(S01_TAG, people+"sex");
-        if(null != people && 1 == people.gender)
-            return R.drawable.nav_account_btn_woman;
-        return R.drawable.nav_btn_account_man;
-    }
-
-
-
 
 }
