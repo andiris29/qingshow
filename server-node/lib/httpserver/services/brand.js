@@ -49,7 +49,10 @@ var _queryBrands = function(req, res) {
 };
 
 var _queryFollowers = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, 'targetRef', 'initiatorRef');
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, {
+        'query' : 'targetRef',
+        'result' : 'initiatorRef'
+    });
 };
 
 var _follow = function(req, res) {
@@ -100,5 +103,14 @@ module.exports = {
         method : 'post',
         func : _unfollow,
         permissionValidators : ['loginValidator']
+    },
+    'queryFollowed' : {
+        'method' : 'get',
+        'func' : function(req, res) {
+            ServiceHelper.queryRelatedBrands(req, res, RPeopleFollowBrand, {
+                'query' : 'initiatorRef',
+                'result' : 'targetRef'
+            });
+        }
     }
 };

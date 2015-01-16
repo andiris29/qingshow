@@ -78,35 +78,48 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
     });
 };
 
-ServiceHelper.queryRelatedPeoples = function(req, res, RModel, queryField, resultField) {
+ServiceHelper.queryRelatedBrands = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(peoples) {
+        return {
+            'brands' : peoples
+        };
+    });
+};
+
+ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(peoples) {
+        return {
+            'brands' : peoples
+        };
+    }, {
+        'afterQuery' : function(qsParam, peoples, numTotal, callback) {
+            ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+        }
+    });
+};
+
+var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
-        criteria[queryField] = qsParam._id;
+        criteria[fields.query] = qsParam._id;
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
-        }).populate(resultField), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
+        }).populate(fields.result), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
             var peoples = [];
             if (!err) {
                 relationships.forEach(function(relationship) {
-                    if (relationship[resultField]) {
-                        peoples.push(relationship[resultField]);
+                    if (relationship[fields.result]) {
+                        peoples.push(relationship[fields.result]);
                     }
                 });
             }
             callback(err, peoples, count);
         });
-    }, function(peoples) {
-        return {
-            'peoples' : peoples
-        };
-    }, {
+    }, responseDataBuilder, _.extend(aspectInceptions || {}, {
         'afterParseRequest' : function(raw) {
             return {
                 '_id' : RequestHelper.parseId(req.queryString._id)
             };
-        },
-        'afterQuery' : function(qsParam, peoples, numTotal, callback) {
-            ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
         }
-    });
+    }));
 };
