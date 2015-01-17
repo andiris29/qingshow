@@ -7,19 +7,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
+import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.entity.ModelShowEntity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -37,12 +44,11 @@ import java.util.LinkedList;
  * Created by zenan on 12/27/14.
  */
 public class U01RecommendFragment extends Fragment {
-    private MPullRefreshMultiColumnListView mPullRefreshMultiColumnListView;
-    private MultiColumnListView multiColumnListView;
-    private HomeWaterfallAdapter homeWaterfallAdapter;
     private int currentPageIndex = 1;
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+    private MPullRefreshListView latestPullRefreshListView;
+    private ListView latestListView;
+    private P02ModelItemListAdapter itemListAdapter;
 
     public static U01RecommendFragment newInstance() {
         U01RecommendFragment fragment = new U01RecommendFragment();
@@ -67,40 +73,37 @@ public class U01RecommendFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_personal_pager_recommend, container, false);
 
-        mPullRefreshMultiColumnListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.P03_brand_list_list_view);
-        multiColumnListView = mPullRefreshMultiColumnListView.getRefreshableView();
+        latestPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
+        latestListView = latestPullRefreshListView.getRefreshableView();
 
-        homeWaterfallAdapter = new HomeWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
-        multiColumnListView.setAdapter(homeWaterfallAdapter);
-
-        mPullRefreshMultiColumnListView.setPullLoadEnabled(true);
-        mPullRefreshMultiColumnListView.setScrollLoadEnabled(true);
-
-        mPullRefreshMultiColumnListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
+        ArrayList<ModelShowEntity> itemEntities = new ArrayList<ModelShowEntity>();
+        itemListAdapter = new P02ModelItemListAdapter(getActivity(), itemEntities);
+        latestListView.setAdapter(itemListAdapter);
+        latestPullRefreshListView.setScrollLoadEnabled(true);
+        latestPullRefreshListView.setPullRefreshEnabled(true);
+        latestPullRefreshListView.setPullLoadEnabled(true);
+        latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doRefreshTask();
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                doShowsRefreshDataTask();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doGetMoreTask();
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                doShowsLoadMoreTask(currentPageIndex+"", 10+"");
             }
         });
 
-        multiColumnListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
+        latestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), S03SHowActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, homeWaterfallAdapter.getItemDataAtIndex(position)._id);
-                intent.putExtras(bundle);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ModelShowEntity)itemListAdapter.getItem(position)).get_id());
                 startActivity(intent);
             }
         });
 
-        setLastUpdateTime();
-        mPullRefreshMultiColumnListView.doPullRefreshing(true, 500);
+        latestPullRefreshListView.doPullRefreshing(true, 0);
 
 
         return view;
@@ -112,67 +115,97 @@ public class U01RecommendFragment extends Fragment {
     }
 
 
-    private void doRefreshTask() {
-        getDataFromNet(true, "1", "10");
-    }
-
-    private void doGetMoreTask() {
-        getDataFromNet(false, String.valueOf(currentPageIndex + 1), "10");
-    }
-
-    //TODO 可以抽出来，四个fragment合成一个，然后在onCreateView判断
-    private void getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
-        final boolean tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+    private void doShowsRefreshDataTask() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                QSAppWebAPI.getFeedingRecommendationApi(1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
-                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
-                    if (tRefreshSign) {
-                        homeWaterfallAdapter.addItemTop(results);
-                        currentPageIndex = 1;
-                    } else {
-                        homeWaterfallAdapter.addItemLast(results);
-                        currentPageIndex++;
-                    }
-                    homeWaterfallAdapter.notifyDataSetChanged();
-                    mPullRefreshMultiColumnListView.onPullDownRefreshComplete();
-                    mPullRefreshMultiColumnListView.onPullUpRefreshComplete();
-                    mPullRefreshMultiColumnListView.setHasMoreData(true);
-                    setLastUpdateTime();
-
-                }catch (Exception error){
-                    Log.i("test", "error" + error.toString());
-                    Toast.makeText(getActivity(), "Error:"+error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    mPullRefreshMultiColumnListView.onPullDownRefreshComplete();
-                    mPullRefreshMultiColumnListView.onPullUpRefreshComplete();
-                    mPullRefreshMultiColumnListView.setHasMoreData(true);
+                ((TextView)getActivity().findViewById(R.id.recommendCountTextView)).setText(getTotalDataFromResponse(response));
+                if (checkErrorExist(response)) {
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (Exception e) {
+//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+                    latestPullRefreshListView.onPullDownRefreshComplete();
+                    latestPullRefreshListView.setHasMoreData(false);
+                    return;
                 }
 
+                currentPageIndex = 1;
+
+                ArrayList<ModelShowEntity> modelShowEntities = ModelShowEntity.getModelShowEntities(response);
+
+                itemListAdapter.resetData(modelShowEntities);
+                itemListAdapter.notifyDataSetChanged();
+                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "Error:"+error.toString(), Toast.LENGTH_SHORT).show();
-                mPullRefreshMultiColumnListView.onPullDownRefreshComplete();
-                mPullRefreshMultiColumnListView.onPullUpRefreshComplete();
-                mPullRefreshMultiColumnListView.setHasMoreData(true);
+                latestPullRefreshListView.onPullDownRefreshComplete();
+                handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jor);
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
-    private void setLastUpdateTime() {
-        String text = formatDateTime(System.currentTimeMillis());
-        mPullRefreshMultiColumnListView.setLastUpdatedLabel(text);
+    private void doShowsLoadMoreTask(String pageNo, String pageSize) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                QSAppWebAPI.getFeedingRecommendationApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (checkErrorExist(response)) {
+//                    try {
+//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (JSONException e) {
+//                        Toast.makeText(P02ModelActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+                    latestPullRefreshListView.onPullUpRefreshComplete();
+                    latestPullRefreshListView.setHasMoreData(false);
+                    return;
+                }
+
+                currentPageIndex++;
+
+                ArrayList<ModelShowEntity> modelShowEntities = ModelShowEntity.getModelShowEntities(response);
+
+                itemListAdapter.addData(modelShowEntities);
+                itemListAdapter.notifyDataSetChanged();
+                latestPullRefreshListView.onPullUpRefreshComplete();
+                latestPullRefreshListView.setHasMoreData(true);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                latestPullRefreshListView.onPullUpRefreshComplete();
+                handleErrorMsg(error);
+            }
+        });
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
-    private String formatDateTime(long time) {
-        if (0 == time) {
-            return "";
+
+    private boolean checkErrorExist(JSONObject response) {
+        try {
+            return ((JSONObject)response.get("metadata")).has("error");
+        }catch (Exception e) {
+            return true;
         }
+    }
 
-        return simpleDateFormat.format(new Date(time));
+    private void handleErrorMsg(VolleyError error) {
+        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+        Log.i("P02ModelActivity", error.toString());
+    }
+
+    private String getTotalDataFromResponse(JSONObject response) {
+        try {
+            return ((JSONObject)response.get("metadata")).get("numTotal").toString();
+        } catch (Exception e) {
+            return "0";
+        }
     }
 
 }

@@ -13,9 +13,13 @@ public class QSAppWebAPI {
     public static final String LOGOUT_SERVICE_URL = HOST_NAME + "/user/logout";
     public static final String GET_SERVICE_URL = HOST_NAME + "/user/get";
 
+    public static final String People_Query_Followed = HOST_NAME + "/people/queryFollowed";
+
     private static final String kImageUrlBase = HOST_ADDRESS + "/images";
     private static final String kVideoUrlBase = HOST_ADDRESS + "/videos";
 
+    private static final String FEEDING_LIKE = HOST_NAME + "/feeding/like";
+    private static final String FEEDING_RECOMMENDATION = HOST_NAME + "/feeding/recommendation";
 
     private static final String SHOW_LIST_API = HOST_NAME + "/feeding/chosen";
     private static final String SHOW_DETAIL_API = HOST_NAME + "/show/query";
@@ -60,6 +64,18 @@ public class QSAppWebAPI {
 
     public static String getShowListApi(int pageIndex, int pageSize) {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    }
+
+    public static String getFeedingLikeApi(int pageIndex, int pageSize) {
+        return FEEDING_LIKE + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    }
+
+    public static String getFeedingRecommendationApi(int pageIndex, int pageSize) {
+        return FEEDING_RECOMMENDATION + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    }
+
+    public static String getPeopleQueryFollowedApi(int pageIndex, int pageSize) {
+        return People_Query_Followed + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
     public static String getShowDetailApi(String showId) {

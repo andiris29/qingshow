@@ -173,6 +173,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
     public void addItemTop(LinkedList<ShowListEntity> datas) {
+        _data.clear();
         _data.addAll(datas);
     }
 

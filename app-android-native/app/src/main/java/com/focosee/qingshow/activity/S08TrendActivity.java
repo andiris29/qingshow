@@ -1,11 +1,16 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -58,21 +63,8 @@ public class S08TrendActivity extends Activity {
             }
         });
 
-        //test
-
-        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(),getScreenWidth(), getScreenHeight());
+        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
         listView.setAdapter(adapter);
-        listView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Log.d(TAG, v.getTag()+"----tag");
-                if(hasFocus){
-                    Log.d(TAG, v.getNextFocusDownId()+"----id");
-                    listView.setSelection(v.getNextFocusUpId());
-
-                }
-            }
-        });
 
         mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);
@@ -80,15 +72,11 @@ public class S08TrendActivity extends Activity {
         mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                ImageLoader.getInstance().clearMemoryCache();
-                ImageLoader.getInstance().clearDiskCache();
                 doRefreshTask();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                ImageLoader.getInstance().clearMemoryCache();
-                ImageLoader.getInstance().clearDiskCache();
                 doGetMoreTask();
             }
         });
@@ -109,11 +97,11 @@ public class S08TrendActivity extends Activity {
     }
 
     private void doRefreshTask() {
-        _getDataFromNet(true, "1", "2");
+        _getDataFromNet(true, "1", "10");
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "2");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
@@ -124,7 +112,7 @@ public class S08TrendActivity extends Activity {
                 try{
                     LinkedList<TrendEntity> results = TrendEntity.getTrendListFromResponse(response);
                     if (_tRefreshSign) {
-                       adapter.addItemTop(results);
+                       adapter.resetData(results);
                         _currentPageIndex = 1;
                     } else {
                         adapter.addItemLast(results);
@@ -138,7 +126,8 @@ public class S08TrendActivity extends Activity {
 
                 }catch (Exception error){
                     Log.i("test", "error" + error.toString());
-                    Toast.makeText(S08TrendActivity.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplication(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "最后一页", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
                     mPullRefreshListView.setHasMoreData(true);
@@ -148,10 +137,19 @@ public class S08TrendActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S08TrendActivity.this, "Error:"+error.toString(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(S08TrendActivity.this, "Error:"+error.toString(), Toast.LENGTH_LONG).show();
                 mPullRefreshListView.onPullDownRefreshComplete();
                 mPullRefreshListView.onPullUpRefreshComplete();
                 mPullRefreshListView.setHasMoreData(true);
+                new AlertDialog.Builder(S08TrendActivity.this)
+                        .setTitle("连接失败")
+                        .setMessage("未连接网络或者信号不好。")
+                        .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                doRefreshTask();
+                            }
+                        }).show();
             }
         });
         //Toast.makeText(this,jor.get,Toast.LENGTH_LONG).show();

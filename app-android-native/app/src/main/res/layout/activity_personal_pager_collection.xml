@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
-        android:id="@+id/P03_brand_list_list_view"
+    <com.focosee.qingshow.widget.MPullRefreshListView
+        android:id="@+id/pager_P02_item_list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
+        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshListView>
 
 </LinearLayout>
