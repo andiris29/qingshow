@@ -35,8 +35,12 @@ public class QSAppWebAPI {
     private static final String SHOW_LIKE_API = HOST_NAME + "/show/like";
     private static final String SHOW_UNLIKE_API = HOST_NAME + "/show/unlike";
 
-    private static final String BRAND_NEWEST_API = HOST_NAME + "/feeding/byBrandNew";
-    private static final String BRAND_DISCOUNT_API = HOST_NAME + "/feeding/byBrandDiscount";
+//    private static final String BRAND_NEWEST_API = HOST_NAME + "/feeding/byBrandNew";
+//    private static final String BRAND_DISCOUNT_API = HOST_NAME + "/feeding/byBrandDiscount";
+
+    private static final String BRAND_MATCH_API = HOST_NAME + "/itemFeeding/byBrandNew";
+    private static final String BRAND_DISCOUNT_API = HOST_NAME + "/itemFeeding/byBrandDiscount";
+    private static final String BRAND_SHOW_API = HOST_NAME + "/feeding/byBrand";
 
     private static final String QUERY_PEOPLE_FOLLOWER_API = HOST_NAME + "/people/queryFollowers";
     private static final String QUERY_PEOPLE_FOLLOWED_API = HOST_NAME + "/people/queryFollowed";
@@ -117,12 +121,23 @@ public class QSAppWebAPI {
         return QUERY_PEOPLE_FOLLOWED_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&paegSize=10";
     }
 
-    public static String getBrandNewestApi(String brandId, String pageNo) {
-        return BRAND_NEWEST_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+//    public static String getBrandNewestApi(String brandId, String pageNo) {
+//        return BRAND_NEWEST_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+//    }
+//
+//    public static String getBrandDiscountApi(String brandId, String pageNo) {
+//        return BRAND_DISCOUNT_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+//    }
+
+    public static String getBrandMatchApi(String brandId, String pageNo) {
+        return BRAND_MATCH_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
     }
 
     public static String getBrandDiscountApi(String brandId, String pageNo) {
         return BRAND_DISCOUNT_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
     }
 
+    public static String getBrandShowApi(String brandId, String pageNo) {
+        return BRAND_SHOW_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+    }
 }

@@ -2,6 +2,7 @@ package com.allthelucky.common.view.network;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -54,6 +55,7 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 //                pageItem.setAdjustViewBounds(true);
                 pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				pageItem.setImageResource(R.drawable.ic_launcher);
+                pageItem.setBackgroundColor(Color.WHITE);
                 mImageLoader.displayImage(urlList.get(index), pageItem, options);
 				addViewItem(pageItem);
 			}
