@@ -51,6 +51,7 @@
     } onError:^(NSError *error) {
         
     }];
+    self.view.alpha = 0.9f;
 }
 
 - (void)didReceiveMemoryWarning {
