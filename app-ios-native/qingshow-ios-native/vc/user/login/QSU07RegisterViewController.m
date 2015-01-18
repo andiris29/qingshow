@@ -269,6 +269,7 @@
 }
 
 - (IBAction)selectGender:(id)sender {
+    [self resignOnTap:nil];
     self.gender = ((UIButton *)sender).tag;
     if (self.gender == 0) {
 //        [self setSelectedStyleToPropButton:self.maleButton];
@@ -288,17 +289,20 @@
 }
 
 - (IBAction)selectClothingSize:(id)sender {
+    [self resignOnTap:nil];
     self.clothingSize = ((UIButton *)sender).tag;
     [self setSizeStyleBySelectedSize:self.clothingSize buttonArray:clothesArray];
 }
 
 
 - (IBAction)selectShoeSize:(id)sender {
+    [self resignOnTap:nil];
     self.shoeSize = ((UIButton *)sender).tag;
     [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
 }
 
 - (void)login{
+    [self resignOnTap:nil];
     UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
     [self.navigationController pushViewController:vc animated:YES];
 }
