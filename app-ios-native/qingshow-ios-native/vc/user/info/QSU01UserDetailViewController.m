@@ -8,6 +8,7 @@
 
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
+#import "QSP04BrandDetailViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
@@ -226,5 +227,12 @@
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"error"];
     }];
+}
+- (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
+{
+    if (type == QSBigImageTableViewCellTypeBrand) {
+        UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:dict];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 @end
