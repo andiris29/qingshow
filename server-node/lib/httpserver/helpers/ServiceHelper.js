@@ -83,6 +83,10 @@ ServiceHelper.queryRelatedBrands = function(req, res, RModel, fields) {
         return {
             'brands' : peoples
         };
+    }, {
+        'afterQuery' : function(qsParam, brands, numTotal, callback) {
+            ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
+        }
     });
 };
 
