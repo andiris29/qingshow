@@ -89,7 +89,7 @@ ServiceHelper.queryRelatedBrands = function(req, res, RModel, fields) {
 ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     _queryRelated(req, res, RModel, fields, function(peoples) {
         return {
-            'brands' : peoples
+            'peoples' : peoples
         };
     }, {
         'afterQuery' : function(qsParam, peoples, numTotal, callback) {
