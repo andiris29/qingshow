@@ -99,7 +99,9 @@ var _prepare = function(models) {
 var _numAssociated = function(models, RModel, associateField, contextField, callback) {
     var tasks = models.map(function(model) {
         return function(callback) {
-            var criteria = {};
+            var criteria = {
+                'delete' : null
+            };
             criteria[associateField] = model._id;
             RModel.count(criteria, function(err, count) {
                 model.__context[contextField] = count || 0;
