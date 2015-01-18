@@ -19,7 +19,7 @@
 //@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) NSObject<QSS03ItemListViewControllerDelegate>* delegate;
-
+@property (strong, nonatomic) NSDictionary* showDict;
 
 - (id)initWithShow:(NSDictionary*)showDict;
 

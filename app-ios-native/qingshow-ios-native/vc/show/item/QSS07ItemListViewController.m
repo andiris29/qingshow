@@ -18,8 +18,7 @@
 //#import "QSS03ItemShopDetailViewController.h"
 
 @interface QSS07ItemListViewController ()
-
-@property (strong, nonatomic) NSDictionary* showDict;
+@property (strong, nonatomic) NSArray* itemArray;
 
 @end
 
@@ -31,6 +30,7 @@
     self = [super initWithNibName:@"QSS07ItemListViewController" bundle:nil];
     if (self) {
         self.showDict = showDict;
+        self.itemArray = [QSShowUtil getItems:showDict];
     }
     return self;
 }
@@ -70,13 +70,13 @@
 #pragma mark - UITableView Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [QSShowUtil getItems:self.showDict].count;
+    return self.itemArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
-    [cell bindWithItem:[QSShowUtil getItemFromShow:self.showDict AtIndex:(int)indexPath.row]];
+    [cell bindWithItem:self.itemArray[indexPath.row]];
     return cell;
 }
 #pragma mark - UITableView Delegate
@@ -84,15 +84,12 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSDictionary* itemDict = [QSShowUtil getItemFromShow:self.showDict AtIndex:(int)indexPath.row];
+    NSDictionary* itemDict = self.itemArray[indexPath.row];
     NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
     if (itemDict && brandDict) {
         UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
         [self.navigationController pushViewController:vc animated:YES];
-    }
-    
-
-    
+    }   
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

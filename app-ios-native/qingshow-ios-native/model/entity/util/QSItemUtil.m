@@ -123,8 +123,25 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    return itemDict[@"brandRef"];
+    NSDictionary* b = itemDict[@"brandRef"];
+    if ([QSCommonUtil checkIsNil:b]) {
+        return b;
+    } else {
+        NSMutableDictionary* mb = [b mutableCopy];
+        [self setBrand:mb forItem:itemDict];
+        return mb;
+    }
 }
+
++ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
+{
+    if (![item isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)item;
+    m[@"brandRef"] = brandDict;
+}
+
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 {
     if ([QSCommonUtil checkIsNil:itemArray]) {

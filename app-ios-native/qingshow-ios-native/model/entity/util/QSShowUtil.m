@@ -10,7 +10,9 @@
 #import "QSItemUtil.h"
 #import "NSNumber+QSExtension.h"
 #import "QSCommonUtil.h"
-
+#import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
 @implementation QSShowUtil
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
 {
@@ -72,7 +74,16 @@
             return @[];
         }
     }
-    return itemArray;
+#warning 需要优化
+//    if ([itemArray isKindOfClass:[NSMutableArray class]]) {
+//        return itemArray;
+//    }
+    NSArray* items = [itemArray deepMutableCopy];
+
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        ((NSMutableDictionary*)showDict)[@"itemRefs"] = items;
+    }
+    return items;
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
@@ -83,7 +94,7 @@
     if (![showDict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    NSArray* items = showDict[@"itemRefs"];
+    NSArray* items = [self getItems:showDict];
     if (items) {
         return items[index];
     }
@@ -102,7 +113,7 @@
             return peopleDict;
         } else {
 #warning 需要优化
-            NSMutableDictionary* mP = [peopleDict mutableCopy];
+            NSMutableDictionary* mP = [peopleDict deepMutableCopy];
             [self setPeople:mP show:showDict];
             return mP;
         }

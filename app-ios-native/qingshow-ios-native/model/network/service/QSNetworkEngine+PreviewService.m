@@ -40,7 +40,7 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* shows = retDict[@"data"][@"previews"];
-                    succeedBlock(shows.deepDictMutableCopy, retDict[@"metadata"]);
+                    succeedBlock([shows deepMutableCopy], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

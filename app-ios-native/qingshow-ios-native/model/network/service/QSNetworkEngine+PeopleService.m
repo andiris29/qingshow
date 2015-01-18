@@ -37,7 +37,7 @@
                 if (succeedBlock) {
                     NSArray* peopleList = retDict[@"data"][@"peoples"];
                     
-                    succeedBlock([peopleList deepDictMutableCopy], retDict[@"metadata"]);
+                    succeedBlock([peopleList deepMutableCopy], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -66,7 +66,7 @@
                 NSDictionary* responseDict = completedOperation.responseJSON;
                 NSArray* a = responseDict[@"data"][@"peoples"];
                 if (succeedBlock) {
-                    succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+                    succeedBlock([a deepMutableCopy], responseDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -94,7 +94,7 @@
                 NSDictionary* responseDict = completedOperation.responseJSON;
                 NSArray* a = responseDict[@"data"][@"brands"];
                 if (succeedBlock) {
-                    succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+                    succeedBlock([a deepMutableCopy], responseDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -113,7 +113,7 @@
         NSDictionary* responseDict = completedOperation.responseJSON;
         NSArray* a = responseDict[@"data"][@"peoples"];
         if (succeedBlock) {
-            succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+            succeedBlock([a deepMutableCopy], responseDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

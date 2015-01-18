@@ -34,7 +34,7 @@
         NSDictionary* retDict = completedOperation.responseJSON;
         NSArray* retArray = retDict[@"data"][@"brands"];
         if (succeedBlock) {
-            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
+            succeedBlock([retArray deepMutableCopy], retDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -52,7 +52,7 @@
         NSDictionary* retDict = completedOperation.responseJSON;
         NSArray* retArray = retDict[@"data"][@"peoples"];
         if (succeedBlock) {
-            succeedBlock(retArray.deepDictMutableCopy, retDict[@"metadata"]);
+            succeedBlock([retArray deepMutableCopy], retDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

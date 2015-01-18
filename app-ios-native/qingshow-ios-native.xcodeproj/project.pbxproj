@@ -122,6 +122,7 @@
 		EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */; };
 		EFB31A531A4FB95C00257BC9 /* QSPreviewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB31A521A4FB95C00257BC9 /* QSPreviewUtil.m */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
+		EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC3D6F01A6C1EF8002C95CD /* NSDictionary+QSExtension.m */; };
 		EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543501A1750AD001B2C49 /* QSDetailBaseViewController.m */; };
 		EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC543511A1750AD001B2C49 /* QSDetailBaseViewController.xib */; };
 		EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC543541A1750AD001B2C49 /* QSBadgeView.m */; };
@@ -401,6 +402,8 @@
 		EFB31A511A4FB95C00257BC9 /* QSPreviewUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPreviewUtil.h; sourceTree = "<group>"; };
 		EFB31A521A4FB95C00257BC9 /* QSPreviewUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPreviewUtil.m; sourceTree = "<group>"; };
 		EFBA0B611A2387090014A05B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		EFC3D6EF1A6C1EF8002C95CD /* NSDictionary+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+QSExtension.h"; sourceTree = "<group>"; };
+		EFC3D6F01A6C1EF8002C95CD /* NSDictionary+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+QSExtension.m"; sourceTree = "<group>"; };
 		EFC5434F1A1750AD001B2C49 /* QSDetailBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDetailBaseViewController.h; sourceTree = "<group>"; };
 		EFC543501A1750AD001B2C49 /* QSDetailBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDetailBaseViewController.m; sourceTree = "<group>"; };
 		EFC543511A1750AD001B2C49 /* QSDetailBaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSDetailBaseViewController.xib; sourceTree = "<group>"; };
@@ -918,6 +921,8 @@
 				EF7826B01A4F057900C69460 /* UIView+ScreenShot.m */,
 				EF8F0EF21A657DA900D1DADE /* UIImage+fixOrientation.h */,
 				EF8F0EF31A657DA900D1DADE /* UIImage+fixOrientation.m */,
+				EFC3D6EF1A6C1EF8002C95CD /* NSDictionary+QSExtension.h */,
+				EFC3D6F01A6C1EF8002C95CD /* NSDictionary+QSExtension.m */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -1497,6 +1502,7 @@
 				EFC543641A1750AD001B2C49 /* QSSectionButtonBase.m in Sources */,
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
+				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
 				EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */,
