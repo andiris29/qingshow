@@ -84,7 +84,7 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
-                    <rect key="frame" x="20" y="15" width="36" height="36"/>
+                    <rect key="frame" x="20" y="25" width="36" height="36"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="36" id="96r-aa-5BR"/>
                         <constraint firstAttribute="width" constant="36" id="qD7-AF-iCw"/>
@@ -97,7 +97,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-vC-kKm">
-                    <rect key="frame" x="269" y="15" width="36" height="36"/>
+                    <rect key="frame" x="269" y="25" width="36" height="36"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="36" id="Pdx-Kd-91L"/>
                         <constraint firstAttribute="height" constant="36" id="qlE-K7-bRu"/>
@@ -113,7 +113,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
-                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="DTe-9u-7lB"/>
+                <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="DTe-9u-7lB"/>
                 <constraint firstItem="N3M-vC-kKm" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" id="Goa-w5-cDO"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QPE-wC-rfU"/>
