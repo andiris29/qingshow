@@ -19,7 +19,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *userText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
 
-@property (assign, nonatomic) BOOL fSHowUserDetail;
+@property (assign, nonatomic) BOOL fShowUserDetail;
+@property (assign, nonatomic) BOOL fRemoveLoginAndRegisterVc;
 @end
 
 @implementation QSU06LoginViewController
@@ -29,7 +30,7 @@
 {
     self = [super initWithNibName:@"QSU06LoginViewController" bundle:nil];
     if (self) {
-        self.fSHowUserDetail = fShowUserDetail;
+        self.fShowUserDetail = fShowUserDetail;
     }
     return self;
 }
@@ -37,6 +38,7 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.fRemoveLoginAndRegisterVc = NO;
     // Do any additional setup after loading the view from its nib.
     self.userText.delegate = self;
     self.passwordText.delegate = self;
@@ -106,10 +108,14 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-
-    NSMutableArray* a = [self.navigationController.viewControllers mutableCopy];
-    if (![[a lastObject] isKindOfClass:[QSU07RegisterViewController class]]) {
-        [a removeObject:self];
+    if (self.fRemoveLoginAndRegisterVc) {
+        NSMutableArray* a = [self.navigationController.viewControllers mutableCopy];
+        for (int i = 0; i < a.count; i++) {
+            if ([a[i] isKindOfClass:[QSU07RegisterViewController class]] || [a[i] isKindOfClass:[QSU06LoginViewController class]]) {
+                [a removeObjectAtIndex:i];
+                i--;
+            }
+        }
         self.navigationController.viewControllers = a;
     }
 }
@@ -146,8 +152,9 @@
     
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
+            self.fRemoveLoginAndRegisterVc = YES;
             [self showSuccessHudWithText:@"登陆成功"];
-            if (self.fSHowUserDetail) {
+            if (self.fShowUserDetail) {
                 [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] initWithCurrentUser] animated:YES];
             } else {
                 [self.navigationController popViewControllerAnimated:YES];
