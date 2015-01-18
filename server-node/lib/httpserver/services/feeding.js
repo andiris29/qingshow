@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
-var async = require('async');
-var _ = require('underscore');
+var async = require('async'), _ = require('underscore');
 //model
 var Show = require('../../model/shows');
 var ShowChosen = require('../../model/showChosens');
@@ -25,9 +24,12 @@ var _feed = function(req, res, querier, aspectInceptions) {
             async.series([
             function(callback) {
                 // Populate
-                Show.populate(currentPageModels.filter(function(show) {
-                    return !!show;
-                }), 'modelRef', callback);
+                _.delay(function() {
+                    Show.populate(currentPageModels.filter(function(show) {
+                        show.cover += req.queryString.suffix || '';
+                        return !!show;
+                    }), 'modelRef', callback);
+                }, (res.qsPerformance && res.qsPerformance.d) ? res.qsPerformance.d : 1);
             },
             function(callback) {
                 MongoHelper.updateCoverMetaData(currentPageModels, callback);

@@ -8,10 +8,10 @@ function parser(req, res, next) {
         });
         req.queryString = JSON.parse(JSON.stringify(query));
     }
-    if (!global.__user) {
-        global.__user = (req.queryString && req.queryString.__user === 'user');
+    if (!global.qsUser) {
+        global.qsUser = (req.queryString && req.queryString.qsUser === 'qsUser');
     }
-    if (!global.__user) {
+    if (!global.qsUser) {
         next();
     }
 }

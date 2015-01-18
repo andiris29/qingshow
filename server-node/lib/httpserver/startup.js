@@ -4,6 +4,7 @@ var qsdb = require('../runtime/qsdb');
 var connect = require('connect');
 var path = require('path');
 var fs = require('fs');
+var async = require('async'), _ = require('underscore');
 
 //param parser
 var bodyParser = require('body-parser');
@@ -83,6 +84,17 @@ var wrapCallback = function(fullpath, callback) {
             'fullpath' : fullpath,
             'start' : Date.now()
         };
+        var f = require('path').join(__dirname, 'performance.js');
+        if (req.queryString.qsPerformance) {
+            fs.appendFileSync(f, '// ' + new Date());
+        }
+        if (fs.existsSync(f)) {
+            if (req.queryString.qsPerformance === 'unlink') {
+                fs.unlinkSync(f);
+            } else {
+                res.qsPerformance.d = _.random(3000, 10000);
+            }
+        }
         callback.func(req, res);
     };
 };
