@@ -181,11 +181,11 @@
 {
     [self.badgeView bindWithPeopleDict:self.peopleDict];
 }
-- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
+- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
 {
 //    [self didClickShow:dict];
 }
-- (void)clickDetailOfDict:(NSDictionary *)dict
+- (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
 {
     [self didClickShow:dict];
 }

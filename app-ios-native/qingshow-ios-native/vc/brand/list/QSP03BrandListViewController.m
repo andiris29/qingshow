@@ -82,11 +82,11 @@
     UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict
+- (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
 {
 //    [self didClickBrand:dict];
 }
-- (void)clickDetailOfDict:(NSDictionary *)dict
+- (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
 {
     [self didClickBrand:dict];
 }

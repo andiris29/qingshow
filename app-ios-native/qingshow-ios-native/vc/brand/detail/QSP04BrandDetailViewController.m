@@ -201,11 +201,11 @@
 {
     [self showPeopleDetailViewControl:model];
 }
-- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict
+- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
 {
 
 }
-- (void)clickDetailOfDict:(NSDictionary *)dict
+- (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
 {
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:dict];
     [self.navigationController pushViewController:vc animated:YES];

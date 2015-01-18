@@ -54,11 +54,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ([self.delegate respondsToSelector:@selector(didClickCell:ofData:)]) {
+    if ([self.delegate respondsToSelector:@selector(didClickCell:ofData:type:)]) {
         UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
         NSDictionary* data = self.resultArray[indexPath.row];
         self.clickedData = data;
-        [self.delegate didClickCell:cell ofData:data];
+        [self.delegate didClickCell:cell ofData:data type:self.type];
     }
 }
 - (void)refreshClickedData
@@ -108,8 +108,8 @@
 {
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     NSDictionary* dict = self.resultArray[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(clickDetailOfDict:)]) {
-        [self.delegate clickDetailOfDict:dict];
+    if ([self.delegate respondsToSelector:@selector(clickDetailOfDict:type:)]) {
+        [self.delegate clickDetailOfDict:dict type:self.type];
     }
 }
 

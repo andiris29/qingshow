@@ -89,6 +89,14 @@
     [self.followingDelegate refreshClickedData];
     [self.likedBrandDelegate refreshClickedData];
 }
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.likedBrandDelegate fetchDataOfPage:1];
+    [self.recommendationDelegate fetchDataOfPage:1];
+    [self.followingDelegate fetchDataOfPage:1];
+    [self.likedBrandDelegate fetchDataOfPage:1];
+}
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
