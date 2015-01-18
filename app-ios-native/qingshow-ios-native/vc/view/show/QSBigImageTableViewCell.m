@@ -231,9 +231,9 @@
 - (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
 {
     if (self.type == QSBigImageTableViewCellTypeFashion) {
-        self.label1.text = [QSPreviewUtil getImagesBrandDesc:self.dataDict atIndex:page];
-        self.label2.text = [QSPreviewUtil getImagesDesc:self.dataDict atIndex:page];
-        self.label3.text = [QSPreviewUtil getImagesPriceDesc:self.dataDict atIndex:page];
+//        self.label1.text = [QSPreviewUtil getImagesBrandDesc:self.dataDict atIndex:page];
+        self.label1.text = [QSPreviewUtil getImagesDesc:self.dataDict atIndex:page];
+//        self.label3.text = [QSPreviewUtil getImagesPriceDesc:self.dataDict atIndex:page];
     }
 }
 

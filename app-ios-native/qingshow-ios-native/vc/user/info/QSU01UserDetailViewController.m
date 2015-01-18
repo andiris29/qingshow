@@ -8,7 +8,7 @@
 
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSBigImageTableViewDelegateObj.h"
+
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
@@ -61,6 +61,7 @@
     self.followingDelegate.delegate = self;
     self.likedBrandDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
     self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
+    self.likedBrandDelegate.delegate = self;
 }
 
 #pragma mark - Life Cycle
@@ -68,7 +69,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self configNavBar];
+    //[self configNavBar];
     [self configView];
     [self bindDelegateObj];
     self.accountBtn.hidden = !self.fShowAccountBtn;
