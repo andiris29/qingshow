@@ -167,7 +167,7 @@
 #pragma mark - Scroll View
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation) {
+    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || ! self.resultArray.count) {
         return;
     }
     

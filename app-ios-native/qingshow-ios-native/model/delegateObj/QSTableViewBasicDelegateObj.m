@@ -150,7 +150,7 @@
         [self.delegate scrollViewDidScroll:scrollView];
     }
     
-    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation) {
+    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || !self.resultArray.count) {
         return;
     }
     

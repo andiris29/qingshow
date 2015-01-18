@@ -153,6 +153,7 @@
     self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
         return [QSBrandUtil getHasFollowBrand:obj];
     };
+    [self.likedBrandDelegate reloadData];
 }
 
 - (void)configView
@@ -169,7 +170,7 @@
     self.followingTableView.hidden = YES;
     
     //Section title
-    NSArray* titleArray = @[@"收藏",@"推荐",@"关注", @"收藏店铺"];
+    NSArray* titleArray = @[@"收藏",@"推荐",@"关注", @"店铺"];
     for (int i = 0; i < titleArray.count; i++) {
         [self.badgeView.btnGroup setNumber:@(0).stringValue atIndex:i];
         [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
