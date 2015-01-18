@@ -26,7 +26,6 @@ var _feed = function(req, res, querier, aspectInceptions) {
                 // Populate
                 _.delay(function() {
                     Show.populate(currentPageModels.filter(function(show) {
-                        show.cover += req.queryString.suffix || '';
                         return !!show;
                     }), 'modelRef', callback);
                 }, (res.qsPerformance && res.qsPerformance.d) ? res.qsPerformance.d : 1);
