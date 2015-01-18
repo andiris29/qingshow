@@ -44,7 +44,7 @@
 //    self.imageScrollView.imageUrlArray = @[[QSItemUtil getCoverUrl:itemDict],[QSItemUtil getCoverUrl:itemDict]];
 //    self.nameLabel.text = [QSItemUtil getItemDescription:itemDict];
     self.nameLabel.text = [QSItemUtil getImageDesc:itemDict atIndex:(int)self.imageScrollView.pageControl.currentPage];
-    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+//    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
     self.shopBtn.hidden = [QSItemUtil getShopUrl:itemDict] == nil;
     
 }

@@ -189,9 +189,9 @@
     float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
     [self resizeWithHeight:height];
     
-    self.label1.text = [QSPreviewUtil getImagesBrandDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-    self.label2.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-    self.label3.text = [QSPreviewUtil getImagesPriceDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
+//    self.label1.text = [QSPreviewUtil getImagesBrandDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
+    self.label1.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
+//    self.label3.text = [QSPreviewUtil getImagesPriceDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
 //    self.label2.text = [QSPreviewUtil getNameDesc:previewDict];
 //    self.label3.text = [QSPreviewUtil getPriceDesc:previewDict];
     

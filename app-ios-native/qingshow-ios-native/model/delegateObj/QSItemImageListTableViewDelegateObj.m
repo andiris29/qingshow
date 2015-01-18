@@ -21,11 +21,11 @@
     [cell bindWithItem:dict];
 //    [cell bindWithComment:dict];
 //    cell.delegate = self;
-    if (self.type == QSItemImageListTableViewDelegateObjTypeDiscount) {
-        cell.saleLabel.hidden = NO;
-    } else {
-        cell.saleLabel.hidden = YES;
-    }
+//    if (self.type == QSItemImageListTableViewDelegateObjTypeDiscount) {
+//        cell.saleLabel.hidden = NO;
+//    } else {
+//        cell.saleLabel.hidden = YES;
+//    }
     cell.delegate = self;
     return cell;
 }
