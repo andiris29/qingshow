@@ -119,7 +119,12 @@
         return [SHARE_NW_ENGINE getLikeFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:0];
+            }
+            errorBlock(e);
+        }];
 
     };
     self.likedDelegate.filterBlock = ^BOOL(id obj){
@@ -134,7 +139,12 @@
         return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:1];
+            }
+            errorBlock(e);
+        }];
     };
     self.recommendationDelegate.delegate = self;
     [self.recommendationDelegate reloadData];
@@ -145,7 +155,12 @@
         return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:2];
+            }
+            errorBlock(e);
+        }];
     };
     self.followingDelegate.filterBlock = ^BOOL(id obj){
         return [QSPeopleUtil  getPeopleIsFollowed:obj];
@@ -158,7 +173,12 @@
         return [SHARE_NW_ENGINE peopleQueryFollowedBrand:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:3];
             succeedBlock(array, metadata);
-        } onError:errorBlock];
+        } onError:^(NSError* e){
+            if (page == 1) {
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:3];
+            }
+            errorBlock(e);
+        }];
     };
     self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
         return [QSBrandUtil getHasFollowBrand:obj];
