@@ -39,14 +39,21 @@
             break;
         }
     }
+    if (_type == QSBigImageTableViewCellTypeBrand) {
+        self.iconImgView.layer.cornerRadius = 0.f;
+        self.iconImgView.layer.masksToBounds = YES;
+        self.iconImgView.layer.borderColor = [UIColor clearColor].CGColor;
+        self.iconImgView.layer.borderWidth = 0.f;
+    } else {
+        self.iconImgView.layer.cornerRadius = self.iconImgView.bounds.size.height / 2;
+        self.iconImgView.layer.masksToBounds = YES;
+        self.iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.iconImgView.layer.borderWidth = 1.f;
+    }
 }
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
-    // Initialization code
-    self.iconImgView.layer.cornerRadius = self.iconImgView.bounds.size.height / 2;
-    self.iconImgView.layer.masksToBounds = YES;
-    self.iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.iconImgView.layer.borderWidth = 1.f;
+
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
