@@ -47,7 +47,7 @@
     self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imageContainerView.bounds direction:QSImageScrollViewDirectionHor];
     self.imageScrollView.pageControlOffsetY = 60.f;
     self.imageScrollView.delegate = self;
-    self.imageScrollView.enableLazyLoad = YES;
+    self.imageScrollView.enableLazyLoad = NO;
     [self.imageContainerView addSubview:self.imageScrollView];
     self.discountLabel.isWithStrikeThrough = YES;
 }
