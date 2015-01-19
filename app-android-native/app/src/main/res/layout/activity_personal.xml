@@ -45,12 +45,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:background="@drawable/bg_pic">
 
         <RelativeLayout
             android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -58,11 +62,13 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:src="@drawable/nav_icon_people"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_toRightOf="@id/avatorImageView"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -72,7 +78,7 @@
                     android:textSize="@dimen/text_size_small"
                     android:textColor="#ffffff"
                     android:layout_alignParentTop="true"
-                    android:text="" />
+                    android:text="21212123" />
 
                 <TextView
                     android:id="@+id/heightAndWeightTextView"
@@ -81,7 +87,7 @@
                     android:textColor="#ffffff"
                     android:layout_below="@id/nameTextView"
                     android:textSize="@dimen/text_size_small"
-                    android:text="" />
+                    android:text="33333333" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -89,14 +95,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/indicator_bg_default_activity_personal"
             android:orientation="horizontal">
 
             <RelativeLayout
                 android:id="@+id/matchRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_chosen_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -124,12 +130,14 @@
 
             </RelativeLayout>
 
+
+
+
             <RelativeLayout
                 android:id="@+id/watchRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_default_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -154,14 +162,26 @@
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="25dp"
+                        android:background="#99ffffff"
+                        android:layout_gravity="center_vertical"/>
+
+
+                </LinearLayout>
             </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/fansRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_default_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -186,14 +206,26 @@
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="25dp"
+                        android:background="#99ffffff"
+                        android:layout_gravity="center_vertical"/>
+
+
+                </LinearLayout>
             </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/followRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_default_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -201,19 +233,28 @@
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/icon_follow" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center_horizontal"-->
+                        <!--android:background="@drawable/icon_follow" />-->
 
-                    <TextView
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="选择"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size_small" />
+                        android:background="@drawable/badge_follow_btn2"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="25dp"
+                        android:background="#99ffffff"
+                        android:layout_gravity="center_vertical"/>
+
+
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

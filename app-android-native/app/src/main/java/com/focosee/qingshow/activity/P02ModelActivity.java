@@ -44,7 +44,6 @@ import java.util.Map;
 public class P02ModelActivity extends Activity {
 
     public static final String INPUT_MODEL = "P02ModelActivity_input_model";
-
     private ViewPager viewPager;
     private MPullRefreshListView latestPullRefreshListView;
     private ListView latestListView;
@@ -56,13 +55,11 @@ public class P02ModelActivity extends Activity {
     private RelativeLayout discountRelativeLayout;
     private RelativeLayout fansRelativeLayout;
     private RelativeLayout followRelativeLayout;
-    private TextView followSignText;
-
+    private ImageView followSignText;
     private P02ModelViewPagerAdapter viewPagerAdapter;
     private P02ModelItemListAdapter itemListAdapter;
     private P02ModelFollowPeopleListAdapter followedPeopleListAdapter;
     private P02ModelFollowPeopleListAdapter followerPeopleListAdapter;
-
     private ModelEntity modelEntity;
     private int pageIndex = 1;
 
@@ -95,7 +92,7 @@ public class P02ModelActivity extends Activity {
         ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(String.valueOf(modelEntity.getNumberShows()));
         ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(String.valueOf(modelEntity.getNumberFollowers()));
         ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(String.valueOf(modelEntity.getNumberFollowers()));
-        followSignText = (TextView) findViewById(R.id.P02_follow_sign_text);
+        followSignText = (ImageView) findViewById(R.id.P02_follow_sign_text);
 
         ArrayList<View> pagerViewList = new ArrayList<View>();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -494,7 +491,7 @@ public class P02ModelActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setText("取消关注");
+                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn2);
                     }else{
                         showMessage(P02ModelActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -524,7 +521,7 @@ public class P02ModelActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(P02ModelActivity.this, "取消关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(false);
-                        followSignText.setText("添加关注");
+                        followSignText.setBackgroundResource(R.drawable.badge_follow_btn2);
                     }else{
                         showMessage(P02ModelActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
