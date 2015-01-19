@@ -17,11 +17,13 @@ public class S07CollectActivity extends Activity {
     public static final String INPUT_ITEMS = "S07CollectActivity_input_items";
     public static final String INPUT_BACK_IMAGE = "S07CollectActivity_input_back_image";
     public static final String INPUT_BRAND_TEXT = "S07CollectActivity_input_brand_text";
+    public static final String INPUT_BRAND_ENTITY = "S07CollectActivity_INPUT_BRAND_ENTITY";
 
     private ListView listView;
     private S07ListAdapter adapter;
 
     private String brandText = null;
+    private ShowDetailEntity.RefBrand brandEntity = null;
 
     private ArrayList<ShowDetailEntity.RefItem> items;
 
@@ -38,9 +40,10 @@ public class S07CollectActivity extends Activity {
         });
 
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        items = (ArrayList<ShowDetailEntity.RefItem>)bundle.getSerializable(INPUT_ITEMS);
+        final Bundle bundle = intent.getExtras();
+        items = (ArrayList<ShowDetailEntity.RefItem>) bundle.getSerializable(INPUT_ITEMS);
         brandText = intent.getStringExtra(INPUT_BRAND_TEXT);
+        brandEntity = (ShowDetailEntity.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
 
         listView = (ListView) findViewById(R.id.S07_item_list);
 
@@ -50,9 +53,15 @@ public class S07CollectActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent1 = new Intent(S07CollectActivity.this, S05ItemActivity.class);
+//                Intent intent1 = new Intent(S07CollectActivity.this, S05ItemActivity.class);
+//                Bundle bundle1 = new Bundle();
+//                bundle1.putSerializable(S05ItemActivity.INPUT_ITEMS, items);
+//                intent1.putExtras(bundle1);
+//                startActivity(intent1);
+                Intent intent1 = new Intent(S07CollectActivity.this, P04BrandActivity.class);
                 Bundle bundle1 = new Bundle();
-                bundle1.putSerializable(S05ItemActivity.INPUT_ITEMS, items);
+                bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, items.get(position).getBrandEntity());
+                bundle1.putSerializable(P04BrandActivity.INPUT_ITEM, items.get(position));
                 intent1.putExtras(bundle1);
                 startActivity(intent1);
             }

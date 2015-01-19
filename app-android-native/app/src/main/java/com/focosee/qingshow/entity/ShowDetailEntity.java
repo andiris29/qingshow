@@ -1,10 +1,12 @@
 package com.focosee.qingshow.entity;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +124,10 @@ public class ShowDetailEntity extends AbsEntity {
         return (null != brandRef) ? brandRef.name : null;
     }
 
+    public RefBrand getBrandEntity() {
+        return brandRef;
+    }
+
     // Inner data
     public String _id;                      // "5439f64013bf528b45f00f9a"
     public String cover;                    // "url for image source"
@@ -165,6 +171,19 @@ public class ShowDetailEntity extends AbsEntity {
     }
 
     public static class RefItem extends AbsEntity {
+
+        // Public interface
+        public static ArrayList<RefItem> getItemEntities(JSONObject response) {
+            try {
+                String tempString = response.getJSONObject("data").getJSONArray("shows").toString();
+                Type listType = new TypeToken<ArrayList<RefItem>>(){}.getType();
+                Gson gson = new Gson();
+                return gson.fromJson(tempString, listType);
+            } catch (JSONException e) {
+                log(e.toString());
+                return null;
+            }
+        }
 
         public String getItemName() {
             return name;
@@ -210,6 +229,10 @@ public class ShowDetailEntity extends AbsEntity {
 
         public String getPrice() {
             return priceAfterDiscount;
+        }
+
+        public RefBrand getBrandEntity() {
+            return brandRef;
         }
 
         public String _id;

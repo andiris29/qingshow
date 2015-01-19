@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.BrandItemEntity;
+import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 public class P04BrandItemListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<BrandItemEntity> itemList;
+    private ArrayList<ShowDetailEntity.RefItem> itemList;
 
-    public P04BrandItemListAdapter(Context concreteContext, ArrayList<BrandItemEntity> concreteItemList) {
+    public P04BrandItemListAdapter(Context concreteContext, ArrayList<ShowDetailEntity.RefItem> concreteItemList) {
         context = concreteContext;
         itemList = concreteItemList;
     }
@@ -59,8 +59,8 @@ public class P04BrandItemListAdapter extends BaseAdapter {
             viewHolder = (ItemViewHolder)convertView.getTag();
         }
 
-        ImageLoader.getInstance().displayImage(itemList.get(position).getImage(), viewHolder.image);
-        viewHolder.discount.setText(itemList.get(position).getDiscount());
+        ImageLoader.getInstance().displayImage(itemList.get(position).getCover(), viewHolder.image);
+        viewHolder.discount.setText(itemList.get(position).getPrice());
         viewHolder.detailButton.setTag(position);
         viewHolder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,11 +74,11 @@ public class P04BrandItemListAdapter extends BaseAdapter {
     }
 
 
-    public void resetData(ArrayList<BrandItemEntity> newData) {
+    public void resetData(ArrayList<ShowDetailEntity.RefItem> newData) {
         this.itemList = newData;
     }
 
-    public void addData(ArrayList<BrandItemEntity> moreData) {
+    public void addData(ArrayList<ShowDetailEntity.RefItem> moreData) {
         this.itemList.addAll(this.itemList.size(), moreData);
     }
 
