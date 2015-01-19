@@ -71,7 +71,7 @@
     <string name="prompt">提示</string>
     <string name="exit_app">你确定要退出应用吗?</string>
     <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
+    <string name="cancels">取消</string>
     <string name="dismiss">隐藏</string>
     <string name="title_activity_p04_brand">P04BrandActivity</string>
     <string name="title_activity_p02_model">P02ModelActivity</string>

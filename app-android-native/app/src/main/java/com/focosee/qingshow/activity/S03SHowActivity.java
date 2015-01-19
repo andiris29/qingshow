@@ -42,6 +42,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 public class S03SHowActivity extends Activity {
 
     // Input data
@@ -140,11 +143,11 @@ public class S03SHowActivity extends Activity {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
                         setLikedImageButtonBackgroundImage();
-                    }else{
+                    } else {
                         handleResponseError(response);
 //                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败" + response.toString() + response.get("metadata").toString().length());
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     showMessage(S03SHowActivity.this, e.toString());
                 }
             }
@@ -186,7 +189,7 @@ public class S03SHowActivity extends Activity {
                     break;
             }
             showMessage(S03SHowActivity.this, errorMessage);
-        }catch (Exception e) {
+        } catch (Exception e) {
             showMessage(S03SHowActivity.this, e.toString() + response.toString());
         }
     }
@@ -272,12 +275,38 @@ public class S03SHowActivity extends Activity {
         findViewById(R.id.S03_share_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(Intent.ACTION_SEND);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
-                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(Intent.createChooser(intent, getTitle()));
+//                Intent intent=new Intent(Intent.ACTION_SEND);
+//                intent.setType("image/*");
+//                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
+//                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(Intent.createChooser(intent, getTitle()));
+
+                ShareSDK.initSDK(S03SHowActivity.this);
+                OnekeyShare oks = new OnekeyShare();
+                //关闭sso授权
+                oks.disableSSOWhenAuthorize();
+
+// 分享时Notification的图标和文字
+                oks.setNotification(R.drawable.app_icon, getString(R.string.app_name));
+                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+                oks.setTitle(getString(R.string.share));
+                // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+                oks.setTitleUrl("http://sharesdk.cn");
+                // text是分享文本，所有平台都需要这个字段
+                oks.setText("欢迎大家过来使用~");
+                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+//                oks.setImagePath(getResources().getResourceName(R.drawable.app_icon));//确保SDcard下面存在此张图片
+                // url仅在微信（包括好友和朋友圈）中使用
+                oks.setUrl("http://sharesdk.cn");
+                // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+                oks.setComment("快来试用吧~");
+                // site是分享此内容的网站名称，仅在QQ空间使用
+                oks.setSite(getString(R.string.app_name));
+                // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+                oks.setSiteUrl("http://sharesdk.cn");
+// 启动分享GUI
+                oks.show(S03SHowActivity.this);
             }
         });
 
@@ -343,7 +372,7 @@ public class S03SHowActivity extends Activity {
 //        Bitmap bitmap = view.getDrawingCache();
 
 //        videoView.buildDrawingCache();
-        Bitmap bitmapInput=videoView.getDrawingCache();
+        Bitmap bitmapInput = videoView.getDrawingCache();
 //        Bitmap bitmapInput = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
         Bitmap bitmap = Bitmap.createBitmap(bitmapInput);
 //        Bitmap bitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
@@ -355,7 +384,6 @@ public class S03SHowActivity extends Activity {
 //        savePic(bitmapInput, "test.png");
 
 
-
         this.imageIndicatorView.addBitmapAtFirst(bitmap, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
 
@@ -365,7 +393,7 @@ public class S03SHowActivity extends Activity {
 
     // 保存到sdcard
     private void savePic(Bitmap b, String strFileName) {
-        File f = new File( "/sdcard/Note/"+strFileName + ".jpg");
+        File f = new File("/sdcard/Note/" + strFileName + ".jpg");
         FileOutputStream fOut = null;
         try {
             fOut = new FileOutputStream(f);
@@ -395,14 +423,14 @@ public class S03SHowActivity extends Activity {
 
     }
 
-    private int getWinWidth(){
+    private int getWinWidth() {
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
     }
 
-    private int getWinHeight(){
+    private int getWinHeight() {
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
         getWindowManager().getDefaultDisplay().getMetrics(dm);
