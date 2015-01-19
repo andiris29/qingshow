@@ -93,7 +93,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.likedBrandDelegate fetchDataOfPage:1];
+    [self.likedDelegate fetchDataOfPage:1];
     [self.recommendationDelegate fetchDataOfPage:1];
     [self.followingDelegate fetchDataOfPage:1];
     [self.likedBrandDelegate fetchDataOfPage:1];
