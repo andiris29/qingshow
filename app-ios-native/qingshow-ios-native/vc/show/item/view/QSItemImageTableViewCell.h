@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "QSSingleImageScrollView.h"
-
+#import "UILabelStrikeThrough.h"
 @protocol QSItemImageTableViewCellDelegate <NSObject>
 
 - (void)didClickShopBtn:(UITableViewCell*)cell;
@@ -23,9 +23,10 @@
 @property (strong, nonatomic) IBOutlet UIView* infoContainerView;
 @property (strong, nonatomic) IBOutlet UIView* imageContainerView;
 
-//@property (strong, nonatomic) IBOutlet UILabel* saleLabel;
+@property (strong, nonatomic) IBOutlet UILabel* saleLabel;
 @property (strong, nonatomic) IBOutlet UILabel* nameLabel;
-//@property (strong, nonatomic) IBOutlet UILabel* priceLabel;
+@property (strong, nonatomic) IBOutlet UILabel* priceLabel;
+@property (strong, nonatomic) IBOutlet UILabelStrikeThrough* discountLabel;
 @property (strong, nonatomic) IBOutlet UIButton* shopBtn;
 - (IBAction)shopBtnPressed:(id)sender;
 @property (weak, nonatomic) NSObject<QSItemImageTableViewCellDelegate>* delegate;

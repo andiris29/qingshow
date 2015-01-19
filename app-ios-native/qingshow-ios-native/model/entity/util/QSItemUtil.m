@@ -176,7 +176,12 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    NSNumber* price = itemDict[@"priceAfterDiscount"];
+    //brandDiscountInfo.price
+    NSDictionary* brandDiscountInfo = itemDict[@"brandDiscountInfo"];
+    if (![QSCommonUtil checkIsDict:brandDiscountInfo]) {
+        return nil;
+    }
+    NSNumber* price = brandDiscountInfo[@"price"];
     if ([QSCommonUtil checkIsNil:price]) {
         return @"";
     } else {
