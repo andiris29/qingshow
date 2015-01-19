@@ -48,5 +48,7 @@
 - (IBAction)selectClothingSize:(id)sender;
 
 - (IBAction)selectShoeSize:(id)sender;
+@property (strong, nonatomic) IBOutlet UIView *contentView;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 @end

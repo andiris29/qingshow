@@ -26,9 +26,18 @@
     NSMutableArray *clothesArray;
     NSMutableArray *shoesArray;
 }
+- (void)configScrollView
+{
+    CGSize scrollViewSize = self.containerScrollView.bounds.size;
+    CGSize contentSize = self.contentView.bounds.size;
+    float height = scrollViewSize.height > contentSize.height ? scrollViewSize.height : contentSize.height;
+    self.containerScrollView.contentSize = CGSizeMake(scrollViewSize.width, height + 20);
+    [self.containerScrollView addSubview:self.contentView];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self registerForKeyboardNotifications];
+    [self configScrollView];
     // Do any additional setup after loading the view from its nib.
     
     // assign delegate
@@ -121,7 +130,11 @@
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
     [singleTap setNumberOfTapsRequired:1];
     [singleTap setNumberOfTouchesRequired:1];
-    [self.view addGestureRecognizer:singleTap];
+    [self.contentView addGestureRecognizer:singleTap];
+}
+- (void)dealloc
+{
+    [self unregisterKeyboardNotifications];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -311,4 +324,30 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - Keyboard
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasShown:) name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter]  addObserver:self selector:@selector(keyboardWasHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+- (void)unregisterKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)keyboardWasShown:(NSNotification *) notif
+{
+    NSDictionary *info = [notif userInfo];
+    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGSize keyboardSize = [value CGRectValue].size;
+    
+    self.containerScrollView.contentInset = UIEdgeInsetsMake(0, 0, keyboardSize.height, 0);
+}
+- (void)keyboardWasHidden:(NSNotification *) notif
+{
+    [UIView animateWithDuration:0.3f animations:^{
+        self.containerScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+    }];
+}
 @end
