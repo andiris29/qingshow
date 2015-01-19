@@ -66,11 +66,13 @@
     self.imageScrollView.imageUrlArray = [QSItemUtil getImagesUrl:itemDict];
     if ([QSItemUtil getPriceAfterDiscount:itemDict].length) {
         self.saleLabel.hidden = NO;
+        self.discountLabel.hidden = NO;
         self.priceLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
         self.discountLabel.text = [QSItemUtil getPrice:itemDict];
         [self.discountLabel sizeToFit];
     } else {
         self.saleLabel.hidden = YES;
+        self.discountLabel.hidden = YES;
         self.priceLabel.text = [QSItemUtil getPrice:itemDict];
         self.discountLabel.text = @"";
     }
