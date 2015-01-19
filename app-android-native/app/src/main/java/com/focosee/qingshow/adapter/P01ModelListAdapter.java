@@ -85,8 +85,8 @@ public class P01ModelListAdapter extends BaseAdapter {
 
         this.imageLoader.displayImage(this.data.get(position).getPortrait(),holderView.modelImageView, AppUtil.getPortraitDisplayOptions());
         holderView.nameTextView.setText(this.data.get(position).getName());
-        holderView.heightTextView.setText(this.data.get(position).getHeight());
-        holderView.weightTextView.setText(this.data.get(position).getWeight());
+        holderView.heightTextView.setText(this.data.get(position).getHeight()+this.data.get(position).getWeight());
+        //holderView.weightTextView.setText(this.data.get(position).getWeight());
         holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
         holderView.followButton.setTag(String.valueOf(position));
