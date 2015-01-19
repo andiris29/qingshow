@@ -1,5 +1,6 @@
 package com.focosee.qingshow.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -23,16 +24,17 @@ public class S07ListAdapter extends BaseAdapter {
 
     private final String TAG = "S07ListAdapter";
 
-    private final int ITEMHEIGHT = 200;
+    private int ITEMHEIGHT = 100;
 
     private Context context;
     private boolean withPrice;
     private ArrayList<ShowDetailEntity.RefItem> data;
 
-    public S07ListAdapter(Context context, boolean withPrice, ArrayList<ShowDetailEntity.RefItem> items) {
+    public S07ListAdapter(Context context, boolean withPrice, ArrayList<ShowDetailEntity.RefItem> items, int itemHeiht) {
         this.context = context;
         this.withPrice = withPrice;
         this.data = items;
+        ITEMHEIGHT = itemHeiht/5;
     }
 
     @Override

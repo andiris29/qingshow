@@ -3,7 +3,7 @@
     android:id="@+id/item_s07_collection"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="100dp"
     android:gravity="center_vertical"
     android:descendantFocusability="blocksDescendants">
     
@@ -18,7 +18,7 @@
             android:id="@+id/item_S07_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40px"
+            android:textSize="35px"
             android:textColor="#ffffff"
             android:text="上装"/>
         <ImageView
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:layout_marginLeft="20dp"
-        android:textSize="40px"
+        android:textSize="30px"
         android:textColor="#ffffff"
         android:text="紫色呢绒大衣"/>
 

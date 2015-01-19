@@ -39,11 +39,17 @@ public class ModelEntity extends AbsEntity {
     }
 
     public String getHeight() {
-        return height;
+        if(null == height){
+            return "";
+        }
+        return height + "cm/";
     }
 
     public String getWeight() {
-        return weight;
+        if(null == weight){
+            return "";
+        }
+        return weight + "kg";
     }
 
     public String getName() {

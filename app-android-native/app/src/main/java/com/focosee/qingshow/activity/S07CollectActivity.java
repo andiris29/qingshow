@@ -2,7 +2,9 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -47,7 +49,7 @@ public class S07CollectActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.S07_item_list);
 
-        adapter = new S07ListAdapter(this, (null != brandText), items);
+        adapter = new S07ListAdapter(this, (null != brandText), items, getScreenSize().y);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,5 +78,11 @@ public class S07CollectActivity extends Activity {
         }
     }
 
+    private Point getScreenSize(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
 
 }
