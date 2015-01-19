@@ -15,33 +15,16 @@ define([
                 'withCredentials' : true
             }
         };
-        var key;
-        if (andrea.env.uriQuery.appServer === 'fake') {
-            var suffix = [];
-            for (key in requestData) {
-                if (path === '/feeding/chosen' && key === 'type') {
-                    suffix.push(key + '' + requestData[key]);
-                } else if (path === '/feeding/byTag' && key === 'tags') {
-                    suffix.push('tag' + requestData[key][0]);
-                }
+        for (var key in requestData) {
+            if (requestData[key] instanceof Array) {
+                requestData[key] = requestData[key].join(',');
             }
-
-            suffix = suffix.length ? ('_' + suffix.join('_')) : '';
-            $.extend(request, {
-                'url' : appConfig.appServer + path + suffix + '.json'
-            });
-        } else {
-            for (key in requestData) {
-                if (requestData[key] instanceof Array) {
-                    requestData[key] = requestData[key].join(',');
-                }
-            }
-            $.extend(request, {
-                'url' : appConfig.appServer + path,
-                'type' : type,
-                'data' : requestData
-            });
         }
+        $.extend(request, {
+            'url' : appConfig.appServer + path,
+            'type' : type,
+            'data' : requestData
+        });
 
         $.ajax(request).done(function(responseData) {
             console.log('api: ' + path, requestData, responseData);

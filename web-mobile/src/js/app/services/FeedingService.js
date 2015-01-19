@@ -12,15 +12,7 @@ define([
         DataService.request('GET', path, $.extend(data || {}, {
             'pageNo' : pageNo,
             'pageSize' : FeedingService.PAGE_SIZE
-        }), function(metadata, data) {
-            if (!metadata.error) {
-                var model = require('app/model');
-                data.shows.forEach(function(show, index) {
-                    model.cacheShow(show._id, show);
-                });
-            }
-            callback.apply(null, arguments);
-        });
+        }), callback);
     };
     FeedingService.PAGE_SIZE = 10;
 
