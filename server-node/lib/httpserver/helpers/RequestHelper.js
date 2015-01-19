@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var RequestHelper = module.exports;
 
-RequestHelper.parse = function(qsParam, raw, specifiedParsers) {
-    qsParam = qsParam || {};
+RequestHelper.parse = function(raw, specifiedParsers) {
+    var qsParam = {};
     specifiedParsers = specifiedParsers || {};
     for (var key in raw) {
         var parser = specifiedParsers[key];
@@ -16,8 +16,8 @@ RequestHelper.parse = function(qsParam, raw, specifiedParsers) {
     return qsParam;
 };
 
-RequestHelper.parsePaging = function(qsParam, raw) {
-    qsParam = RequestHelper.parse(qsParam, raw, {
+RequestHelper.parsePageInfo = function(raw) {
+    var qsParam = RequestHelper.parse(raw, {
         'pageNo' : RequestHelper.parseNumber,
         'pageSize' : RequestHelper.parseNumber
     });
@@ -27,19 +27,23 @@ RequestHelper.parsePaging = function(qsParam, raw) {
 };
 
 RequestHelper.parseNumber = function(string) {
-    return parseFloat(string);
+    return string === undefined ? undefined : parseFloat(string);
 };
 
 RequestHelper.parseDate = function(string) {
-    return new Date(string);
+    if (string !== undefined) {
+        var date = new Date(string);
+        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+        return date;
+    }
 };
 
 RequestHelper.parseId = function(string) {
-    return mongoose.mongo.BSONPure.ObjectID(string);
+    return string === undefined ? undefined : mongoose.mongo.BSONPure.ObjectID(string);
 };
 
 RequestHelper.parseArray = function(string) {
-    return (string || '').split(',');
+    return string === undefined ? undefined : string.split(',');
 };
 
 RequestHelper.parseIds = function(string) {

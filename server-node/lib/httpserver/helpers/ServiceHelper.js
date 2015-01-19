@@ -1,51 +1,129 @@
-var async = require('async');
+var async = require('async'), _ = require('underscore');
 
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 
+var ServerError = require('../server-error');
+
 ServiceHelper = module.exports;
 
-ServiceHelper.queryRelatedPeoples = function(req, res, RModel, queryField, resultField) {
-    var pageNo, pageSize, numTotal;
-    var _id;
-
+// Invoke template
+/*
+ ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+ // querier
+ callback(err, models, numTotal);
+ }, function(models) {
+ // responseDataBuilder
+ return {
+ };
+ }, {
+ 'afterParseRequest' : function(raw) {
+ },
+ 'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+ },
+ 'beforeEndResponse' : function(json) {
+ return json;
+ }
+ });
+ */
+ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, aspectInceptions) {
+    // afterQuery, afterParseRequest, preSendResponse
+    aspectInceptions = aspectInceptions || {};
+    var qsParam;
     async.waterfall([
     function(callback) {
+        // Parse request
         try {
-            var param = req.queryString;
-            pageNo = parseInt(param.pageNo || 1), pageSize = parseInt(param.pageSize || 10);
-            _id = RequestHelper.parseId(param._id);
-            callback(null);
+            qsParam = RequestHelper.parsePageInfo(req.queryString);
+            if (aspectInceptions.afterParseRequest) {
+                _.extend(qsParam, aspectInceptions.afterParseRequest(req.queryString));
+            }
+            callback();
         } catch(err) {
             callback(ServerError.fromError(err));
         }
     },
     function(callback) {
+        // Query
+        querier(qsParam, function(err, currentPageModels, numTotal) {
+            if (err) {
+                callback(err);
+            } else {
+                if (currentPageModels.length === 0) {
+                    callback(ServerError.PagingNotExist);
+                } else {
+                    if (aspectInceptions.afterQuery) {
+                        aspectInceptions.afterQuery(qsParam, currentPageModels, numTotal, function(err) {
+                            callback(err, currentPageModels, numTotal);
+                        });
+                    } else {
+                        callback(err, currentPageModels, numTotal);
+                    }
+                }
+            }
+        });
+    }], function(err, currentPageModels, numTotal) {
+        // Send response
+        var data, metadata;
+        if (!err) {
+            data = responseDataBuilder(currentPageModels);
+            metadata = {
+                'numTotal' : numTotal,
+                'numPages' : parseInt((numTotal + qsParam.pageSize - 1) / qsParam.pageSize)
+            };
+        }
+        ResponseHelper.response(res, err, data, metadata, aspectInceptions.beforeEndResponse);
+    });
+};
+
+ServiceHelper.queryRelatedBrands = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(peoples) {
+        return {
+            'brands' : peoples
+        };
+    }, {
+        'afterQuery' : function(qsParam, brands, numTotal, callback) {
+            ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
+        }
+    });
+};
+
+ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(peoples) {
+        return {
+            'peoples' : peoples
+        };
+    }, {
+        'afterQuery' : function(qsParam, peoples, numTotal, callback) {
+            ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+        }
+    });
+};
+
+var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
+    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
-        criteria[queryField] = _id;
+        criteria[fields.query] = qsParam._id;
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
-        }).populate(resultField), RModel.find(criteria), pageNo, pageSize, function(err, count, relationships) {
-            numTotal = count;
+        }).populate(fields.result), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
             var peoples = [];
             if (!err) {
                 relationships.forEach(function(relationship) {
-                    if (relationship[resultField]) {
-                        peoples.push(relationship[resultField]);
+                    if (relationship[fields.result]) {
+                        peoples.push(relationship[fields.result]);
                     }
                 });
             }
-            callback(err, peoples);
+            callback(err, peoples, count);
         });
-    },
-    function(peoples, callback) {
-        ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
-    }], function(err, peoples) {
-        // Response
-        ResponseHelper.responseAsPaging(res, err, {
-            'peoples' : peoples
-        }, pageSize, numTotal);
-    });
+    }, responseDataBuilder, _.extend(aspectInceptions || {}, {
+        'afterParseRequest' : function(raw) {
+            return {
+                '_id' : RequestHelper.parseId(req.queryString._id)
+            };
+        }
+    }));
 };

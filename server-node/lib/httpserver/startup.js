@@ -4,6 +4,7 @@ var qsdb = require('../runtime/qsdb');
 var connect = require('connect');
 var path = require('path');
 var fs = require('fs');
+var async = require('async'), _ = require('underscore');
 
 //param parser
 var bodyParser = require('body-parser');
@@ -16,7 +17,7 @@ var sessionMongoose = require("session-mongoose");
 qsdb.connect();
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'potential', 'people', 'brand', 'show', 'preview', 'admin'];
+var servicesNames = ['feeding', 'itemFeeding', 'user', 'potential', 'people', 'brand', 'show', 'preview', 'admin'];
 var services = servicesNames.map(function(path) {
     return {
         'path' : path,
@@ -34,6 +35,13 @@ var folderUploads = uploadsCfg[0], pathUploads = uploadsCfg[1];
 if (!fs.existsSync(folderUploads)) {
     fs.mkdirSync(folderUploads);
 }
+var files = fs.readdirSync(folderUploads);
+files.forEach(function(file) {
+    if (file.indexOf('.lock') !== -1) {
+        process.exit();
+    }
+});
+
 global.__qingshow_uploads = {
     'folder' : folderUploads,
     'path' : pathUploads,
@@ -83,6 +91,17 @@ var wrapCallback = function(fullpath, callback) {
             'fullpath' : fullpath,
             'start' : Date.now()
         };
+        var f = require('path').join(__dirname, 'performance.js');
+        if (req.queryString && req.queryString.qsPerformance) {
+            fs.appendFileSync(f, '// ' + new Date());
+        }
+        if (fs.existsSync(f)) {
+            if (req.queryString && req.queryString.qsPerformance === 'unlink') {
+                fs.unlinkSync(f);
+            } else {
+                res.qsPerformance.d = _.random(3000, 10000);
+            }
+        }
         callback.func(req, res);
     };
 };

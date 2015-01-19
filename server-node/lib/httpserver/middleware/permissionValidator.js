@@ -64,7 +64,7 @@ var _builtInValidators = {
             if (!people.roles) {
               callback(ServerError.IsNotAdmin);
             } else {
-              var isAdmin = false
+              var isAdmin = false;
               people.roles.forEach(function(role) {
                 if (role == 2) {
                   isAdmin = true;

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var async = require('async');
+var async = require('async'), _ = require('underscore');
 //model
 var People = require('../../model/peoples');
 var Brand = require('../../model/brands');
@@ -15,19 +15,8 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServerError = require('../server-error');
 
 var _queryBrands = function(req, res) {
-    var qsParam = {}, numTotal;
-    async.waterfall([
-    function(callback) {
-        // Parse request
-        try {
-            RequestHelper.parsePaging(qsParam, req.queryString);
-            RequestHelper.parse(qsParam, req.queryString);
-            callback(null);
-        } catch(err) {
-            callback(ServerError.fromError(err));
-        }
-    },
-    function(callback) {
+    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+        // querier
         var criteria = {};
         if (qsParam.type !== undefined) {
             criteria.type = qsParam.type;
@@ -35,23 +24,35 @@ var _queryBrands = function(req, res) {
         // Query
         MongoHelper.queryPaging(Brand.find(criteria).sort({
             'create' : -1
-        }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, count, brands) {
-            numTotal = count;
-            callback(err, brands);
-        });
-    },
-    function(brands, callback) {
-        ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
-    }], function(err, brands) {
-        // Response
-        ResponseHelper.responseAsPaging(res, err, {
-            'brands' : brands
-        }, qsParam.pageSize, numTotal);
+        }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+    }, function(models) {
+        // responseDataBuilder
+        return {
+            'brands' : models
+        };
+    }, {
+        'afterParseRequest' : function(raw) {
+            return {
+                'type' : RequestHelper.parseNumber(raw.type)
+            };
+        },
+        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+            async.series([
+            function(callback) {
+                MongoHelper.updateCoverMetaData(currentPageModels, callback);
+            },
+            function(callback) {
+                ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
+            }], callback);
+        }
     });
 };
 
 var _queryFollowers = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, 'targetRef', 'initiatorRef');
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, {
+        'query' : 'targetRef',
+        'result' : 'initiatorRef'
+    });
 };
 
 var _follow = function(req, res) {
@@ -102,5 +103,14 @@ module.exports = {
         method : 'post',
         func : _unfollow,
         permissionValidators : ['loginValidator']
+    },
+    'queryFollowed' : {
+        'method' : 'get',
+        'func' : function(req, res) {
+            ServiceHelper.queryRelatedBrands(req, res, RPeopleFollowBrand, {
+                'query' : 'initiatorRef',
+                'result' : 'targetRef'
+            });
+        }
     }
 };

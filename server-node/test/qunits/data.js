@@ -2,6 +2,7 @@ var testCase = {}
 testCase.models= [];
 testCase.items = [];
 testCase.shows = [];
+testCase.showChosens = [];
 
 ///// 5 Models ////////
 for(var i = 0; i < 5; i++) {
@@ -31,24 +32,20 @@ for(var i = 0; i < 60; i++) {
 ///// 15 Shows ////////
 for(var i = 0; i < 15; i++) {
   testCase.shows[i] = {
-    'cover' : 'cover.jpg',
-    'coverMetadata' : {
-      'url' : 'http://localhost/cover.jpg',
-      'width' : 300,
-      'height' : 400 
-    },
-    'horizontalCover' : 'horizontalCover.jpg',
-    'horizontalCoverMetadata' : {
-      'url' : 'http://localhost/horizontalCoverMetadata.jpg',
-      'width' : 640,
-      'height' : 480 
-    },
+    'cover' : 'http://localhost/cover.jpg',
+    'coverUrl' : 'http://localhost/cover.jpg',
+    'coverWidth' : 300,
+    'coverHeight' : 400,
+    'horizontalCover' : 'http://localhost/horizontalCover.jpg',
+    'horizontalCoverUrl' : 'http://localhost/horizontalCover.jpg',
+    'horizontalCoverWidth' : 640,
+    'horizontalCoverHeight' : 480,
     'video' : 'http://localhost/video.mp4',
-    'posters' : testEnviroment.randomNewUser() + ',' + testEnviroment.randomNewUser(),
+    'posters' : testEnviroment.randomString(5) + ',' + testEnviroment.randomString(5),
     'numLike' : i,
     'numView' : i,
-    // 'modelRef' : '',
-    // 'itemRefs' : ''
+    'modelRef' : '',
+    'itemRefs' : [],
     'studioRef' : '',
     'brandRef': '544280eef8c9a8acb5b19e00',
     'brandNewOrder' : 11,
@@ -56,3 +53,11 @@ for(var i = 0; i < 15; i++) {
   };
 }
 
+/// 3 ShowChosen ///
+for(var i = 0; i < 3; i++) {
+  testCase.showChosens[i] = {
+    'showRefs' : [],
+    'type': 1,
+    'activateTime': ''
+  };
+}
