@@ -39,6 +39,8 @@ public class QSAppWebAPI {
     private static final String SHOW_LIKE_API = HOST_NAME + "/show/like";
     private static final String SHOW_UNLIKE_API = HOST_NAME + "/show/unlike";
 
+    private static final String BRAND_FOLLOWED_API = HOST_NAME + "/brand/queryFollowed";
+
 //    private static final String BRAND_NEWEST_API = HOST_NAME + "/feeding/byBrandNew";
 //    private static final String BRAND_DISCOUNT_API = HOST_NAME + "/feeding/byBrandDiscount";
 
@@ -51,6 +53,10 @@ public class QSAppWebAPI {
 
     private static final String PREVIEW_TREND_LIST_API = HOST_NAME + "/preview/feed";
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
+
+    public static String getBrandFollowedApi(String _id){
+        return BRAND_FOLLOWED_API + "?_id=" + _id;
+    }
 
     public static String getUerApi(String _id){ return GET_SERVICE_URL + "?id=" + _id; }
 

@@ -1,75 +1,70 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Display;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.S08TrendListAdapter;
+import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.TrendEntity;
+import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
-public class S08TrendActivity extends Activity {
-
-    private final String TAG = "S08TrendActivity";
+/**
+ * Created by rong5690001 on 2015/1/19.
+ */
+public class U01BrandFragment extends Fragment{
 
     private MPullRefreshListView mPullRefreshListView;
-    private ListView listView;
+    private P03BrandListAdapter mAdapter;
+    private ListView brandListView;
 
-    private S08TrendListAdapter adapter;
     private int _currentPageIndex = 1;
-    private ImageButton _backImageBtn;
 
+    public static U01BrandFragment newInstance(){
+        return new U01BrandFragment();
+    }
 
-    private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
-
-
+    public U01BrandFragment(){}
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_s08_trend);
+        if (getArguments() != null) {
 
-        mPullRefreshListView = (MPullRefreshListView) findViewById(R.id.S08_content_list_view);
-        listView = mPullRefreshListView.getRefreshableView();
+        }
+    }
 
-        _backImageBtn = (ImageButton) findViewById(R.id.S08_back_image_button);
-        _backImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
-        listView.setAdapter(adapter);
+        View view =  inflater.inflate(R.layout.activity_personal_pager_brand, container, false);
+
+        mPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P04_item_list);
+        mAdapter = new P03BrandListAdapter(getActivity(), new ArrayList<BrandEntity>(), ImageLoader.getInstance());
+
+        brandListView = mPullRefreshListView.getRefreshableView();
+        brandListView.setAdapter(mAdapter);
 
         mPullRefreshListView.setPullRefreshEnabled(true);
-        mPullRefreshListView.setPullLoadEnabled(true);
         mPullRefreshListView.setScrollLoadEnabled(true);
+        mPullRefreshListView.setScrollLoadEnabled(true);
+
         mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -81,54 +76,42 @@ public class S08TrendActivity extends Activity {
                 doGetMoreTask();
             }
         });
-        mPullRefreshListView.doPullRefreshing(true,500);
+
+        return view;
     }
 
-    private void setLastUpdateTime() {
-        String text = formatDateTime(System.currentTimeMillis());
-        mPullRefreshListView.setLastUpdatedLabel(text);
-    }
-
-    private String formatDateTime(long time) {
-        if (0 == time) {
-            return "";
-        }
-
-        return _mDateFormat.format(new Date(time));
-    }
 
     private void doRefreshTask() {
-        _getDataFromNet(true, "1", "10");
+        _getDataFromNet(true);
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
+        _getDataFromNet(false);
     }
 
-    private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
+    private void _getDataFromNet(boolean refreshSign) {
         final boolean _tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getPreviewTrendListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(QSApplication.get().QSUserId(getActivity())), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    LinkedList<TrendEntity> results = TrendEntity.getTrendListFromResponse(response);
+                    ArrayList<BrandEntity> results = BrandEntity.getBrandListFromResponse(response);
                     if (_tRefreshSign) {
-                       adapter.resetData(results);
+                        mAdapter.resetData(results);
                         _currentPageIndex = 1;
                     } else {
-                        adapter.addItemLast(results);
+                        mAdapter.addData(results);
                         _currentPageIndex++;
                     }
-                    adapter.notifyDataSetChanged();
+                    mAdapter.notifyDataSetChanged();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
                     mPullRefreshListView.setHasMoreData(true);
-                    setLastUpdateTime();
 
                 }catch (Exception error){
                     Log.i("test", "error" + error.toString());
                     //Toast.makeText(getApplication(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplication(), "最后一页", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "最后一页", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
                     mPullRefreshListView.setHasMoreData(true);
@@ -142,8 +125,8 @@ public class S08TrendActivity extends Activity {
                 mPullRefreshListView.onPullDownRefreshComplete();
                 mPullRefreshListView.onPullUpRefreshComplete();
                 mPullRefreshListView.setHasMoreData(true);
-                if(!AppUtil.checkNetWork(S08TrendActivity.this)){
-                    new AlertDialog.Builder(S08TrendActivity.this)
+                if(!AppUtil.checkNetWork(getActivity())) {
+                    new AlertDialog.Builder(getActivity())
                             .setTitle("连接失败")
                             .setMessage("未连接网络或者信号不好。")
                             .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
@@ -159,19 +142,7 @@ public class S08TrendActivity extends Activity {
         QSApplication.get().QSRequestQueue().add(jor);
     }
 
-    private Point getScreenSize(){
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
-    }
 
-    private int getScreenHeight(){
-        return getScreenSize().y;
-    }
 
-    private int getScreenWidth(){
-        return getScreenSize().x;
-    }
 
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
 
 import com.focosee.qingshow.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -82,5 +83,13 @@ public class AppUtil {
                     .build();
         }
         return modelBackgroundDisplayOptions;
+    }
+
+    public static boolean checkNetWork(Context context) {
+        boolean flag = false;
+        /*ConnectivityManager cwjManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cwjManager.getActiveNetworkInfo() != null)
+            flag = cwjManager.getActiveNetworkInfo().isAvailable();*/
+        return true;
     }
 }

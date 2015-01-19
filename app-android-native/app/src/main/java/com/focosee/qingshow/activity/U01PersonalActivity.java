@@ -26,12 +26,13 @@ import java.util.ArrayList;
 
 
 public class U01PersonalActivity extends FragmentActivity {
-    private static final int PAGER_NUM = 3;
+    private static final int PAGER_NUM = 4;
 
     private static final int PAGER_COLLECTION = 0;
     private static final int PAGER_RECOMMEND = 1;
     private static final int PAGER_WATCH = 2;
-    private static final int PAGER_CHOOSE = 3;
+    private static final int PAGE_BRAND = 3;
+    private static final int PAGER_CHOOSE = 4;
 
     private TextView backTextView;
     private TextView settingsTextView;
@@ -43,6 +44,7 @@ public class U01PersonalActivity extends FragmentActivity {
     private RelativeLayout matchRelativeLayout;
     private RelativeLayout watchRelativeLayout;
     private RelativeLayout fansRelativeLayout;
+    private RelativeLayout brandRelativeLayout;
     private RelativeLayout followRelativeLayout;
 
     private LinearLayout line1;
@@ -99,11 +101,13 @@ public class U01PersonalActivity extends FragmentActivity {
         matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
         watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
+        brandRelativeLayout = (RelativeLayout) findViewById(R.id.brandRelativeLayout);
         followRelativeLayout = (RelativeLayout) findViewById(R.id.followRelativeLayout);
 
         line1 = (LinearLayout) findViewById(R.id.u01_line_toleftRecommend);
         line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
         line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
+        line4 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
 
         personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
 
@@ -157,6 +161,9 @@ public class U01PersonalActivity extends FragmentActivity {
                 case PAGER_WATCH:
                     fragment = U01WatchFragment.newInstance();
                     break;
+                case PAGE_BRAND:
+                    fragment = U01BrandFragment.newInstance();
+                    break;
                 case PAGER_CHOOSE:
                     fragment = U01ChooseFragment.newInstance();
                     break;
@@ -179,22 +186,33 @@ public class U01PersonalActivity extends FragmentActivity {
         matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
 
         line1.setVisibility(View.GONE);
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
+        line4.setVisibility(View.GONE);
+
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
             line3.setVisibility(View.VISIBLE);
+            line4.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line3.setVisibility(View.VISIBLE);
+            line4.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line1.setVisibility(View.VISIBLE);
-        } else if (pos == 3) {
+            line3.setVisibility(View.VISIBLE);
+        }else if(pos == 3) {
+            brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line1.setVisibility(View.VISIBLE);
+            line2.setVisibility(View.VISIBLE);
+        }
+        else if (pos == 4) {
             followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
         }
     }
@@ -218,10 +236,16 @@ public class U01PersonalActivity extends FragmentActivity {
                 personalViewPager.setCurrentItem(2);
             }
         });
+        brandRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                personalViewPager.setCurrentItem(3);
+            }
+        });
         followRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                personalViewPager.setCurrentItem(3);
+                personalViewPager.setCurrentItem(4);
             }
         });
     }

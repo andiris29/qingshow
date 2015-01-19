@@ -259,15 +259,17 @@ public class S01HomeActivity extends Activity {
                 _wfPullRefreshView.onPullDownRefreshComplete();
                 _wfPullRefreshView.onPullUpRefreshComplete();
                 _wfPullRefreshView.setHasMoreData(true);
-                new AlertDialog.Builder(S01HomeActivity.this)
-                        .setTitle("连接失败")
-                        .setMessage("未连接网络或者信号不好。")
-                        .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                doRefreshTask();
-                            }
-                        }).show();
+                if(!AppUtil.checkNetWork(S01HomeActivity.this)) {
+                    new AlertDialog.Builder(S01HomeActivity.this)
+                            .setTitle("连接失败")
+                            .setMessage("未连接网络或者信号不好。")
+                            .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    doRefreshTask();
+                                }
+                            }).show();
+                }
             }
         });
         QSApplication.get().QSRequestQueue().add(jor);

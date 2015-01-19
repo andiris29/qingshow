@@ -52,7 +52,7 @@ public class U01WatchFragment extends Fragment {
     private MPullRefreshListView followerPullRefreshListView;
     private P02ModelFollowPeopleListAdapter followerPeopleListAdapter;
 
-    private int pageIndex;
+    private int pageIndex = 1;
 
     public static U01WatchFragment newInstance() {
         U01WatchFragment fragment = new U01WatchFragment();
