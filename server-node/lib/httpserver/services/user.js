@@ -29,21 +29,41 @@ var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackgroun
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
-        if (req.qsCurrentUserId) {
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }, function(err, people) {
-                if (err) {
-                    callback(ServerError.fromError(err));
-                } else if (people) {
+        callback(req.qsCurrentUserId ? null : ServerError.NeedLogin);
+    },
+    function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }, callback);
+    },
+    function(people, callback) {
+        if (people) {
+            if (req.queryString.assetsRoot) {
+                people.assetsRoot = req.queryString.assetsRoot;
+                people.save(function() {
                     callback(null, people);
-                } else {
-                    callback(ServerError.fromCode(ServerError.NeedLogin));
-                }
-            });
+                });
+            } else {
+                callback(null, people);
+            }
         } else {
-            callback(ServerError.NeedLogin);
+            callback(ServerError.fromCode(ServerError.NeedLogin));
         }
+    },
+    function(people, callback) {
+        People.findOne({
+            'assetsRoot' : {
+                '$ne' : null
+            }
+        }, function(err, tplt) {
+            callback(err, people, tplt);
+        });
+    },
+    function(people, tplt, callback) {
+        if (tplt) {
+            req.session.assetsRoot = tplt.assetsRoot;
+        }
+        callback(null, people);
     }], function(err, people) {
         ResponseHelper.response(res, err, {
             'people' : people

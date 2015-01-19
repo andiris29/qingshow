@@ -35,6 +35,13 @@ var folderUploads = uploadsCfg[0], pathUploads = uploadsCfg[1];
 if (!fs.existsSync(folderUploads)) {
     fs.mkdirSync(folderUploads);
 }
+var files = fs.readdirSync(folderUploads);
+files.forEach(function(file) {
+    if (file.indexOf('.lock') !== -1) {
+        process.exit();
+    }
+});
+
 global.__qingshow_uploads = {
     'folder' : folderUploads,
     'path' : pathUploads,

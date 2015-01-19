@@ -8,6 +8,7 @@ peopleSchema = Schema({
     __context : Object,
     roles : [Number], //user 0 model 1
     name : String,
+    assetsRoot : String,
     portrait : String,
     background : String,
     height : Number,
