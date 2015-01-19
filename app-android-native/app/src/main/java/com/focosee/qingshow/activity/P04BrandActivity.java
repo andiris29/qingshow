@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -58,7 +59,11 @@ public class P04BrandActivity extends Activity {
     private RelativeLayout discountRelativeLayout;
     private RelativeLayout fansRelativeLayout;
     private RelativeLayout followRelativeLayout;
-    private TextView followSignText;
+    private ImageView followSignText;
+
+    private LinearLayout line1;
+    private LinearLayout line2;
+    private LinearLayout line3;
 
     private P04BrandViewPagerAdapter viewPagerAdapter;
     private P04BrandItemListAdapter newestBrandItemListAdapter;
@@ -93,6 +98,10 @@ public class P04BrandActivity extends Activity {
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.P04_fans_relativeLayout);
         followRelativeLayout = (RelativeLayout) findViewById(R.id.P04_follow_relativeLayout);
 
+        line1 = (LinearLayout) findViewById(R.id.p04_line_toleftDiscount);
+        line2 = (LinearLayout) findViewById(R.id.p04_line_toleftFans);
+        line3 = (LinearLayout) findViewById(R.id.p04_line_toleftFollows);
+
         ((TextView) findViewById(R.id.P04_brand_newest_number_text_view)).setText((null != brandEntity) ? brandEntity.getNewestNumber() : "0");
         ((TextView) findViewById(R.id.P04_brand_discount_number_text_view)).setText((null != brandEntity) ? brandEntity.getDiscountNumber() : "0");
         ((TextView) findViewById(R.id.P04_brand_fans_number_text_view)).setText((null != brandEntity) ? brandEntity.getFansNumber() : "0");
@@ -102,7 +111,7 @@ public class P04BrandActivity extends Activity {
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.getBrandSlogan() : "", (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
         ((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
-        followSignText = (TextView) findViewById(R.id.P04_follow_sign_text);
+        followSignText = (ImageView) findViewById(R.id.P04_follow_sign_text);
 
         constructViewPager();
 
@@ -151,12 +160,21 @@ public class P04BrandActivity extends Activity {
         discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+
+        line1.setVisibility(View.GONE);
+        line2.setVisibility(View.GONE);
+        line3.setVisibility(View.GONE);
+
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line2.setVisibility(View.VISIBLE);
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line1.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
             followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
         }
@@ -571,7 +589,7 @@ public class P04BrandActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setText("取消关注");
+                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn2);
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -601,7 +619,7 @@ public class P04BrandActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(P04BrandActivity.this, "取消关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(false);
-                        followSignText.setText("添加关注");
+                        followSignText.setBackgroundResource(R.drawable.badge_follow_btn2);
                     }else{
                         showMessage(P04BrandActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }

@@ -75,7 +75,8 @@
                 android:id="@+id/P02_newRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/indicator_bg_chosen_activity_personal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -96,7 +97,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="最新"
+                        android:text="搭配"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
@@ -133,6 +134,7 @@
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/p02_line_toleftDiscount"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <View
@@ -175,6 +177,7 @@
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/p02_line_toleftFans"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <View
@@ -213,6 +216,7 @@
                         android:background="@drawable/badge_follow_btn2"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/p02_line_toleftFollows"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <View

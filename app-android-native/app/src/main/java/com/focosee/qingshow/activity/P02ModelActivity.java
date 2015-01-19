@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -63,6 +64,10 @@ public class P02ModelActivity extends Activity {
     private ModelEntity modelEntity;
     private int pageIndex = 1;
 
+    private LinearLayout line1;
+    private LinearLayout line2;
+    private LinearLayout line3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,10 @@ public class P02ModelActivity extends Activity {
         discountRelativeLayout = (RelativeLayout) findViewById(R.id.P02_discountRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.P02_fansRelativeLayout);
         followRelativeLayout = (RelativeLayout) findViewById(R.id.P02_followRelativeLayout);
+
+        line1 = (LinearLayout) findViewById(R.id.p02_line_toleftDiscount);
+        line2 = (LinearLayout) findViewById(R.id.p02_line_toleftFans);
+        line3 = (LinearLayout) findViewById(R.id.p02_line_toleftFollows);
 
         viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
 
@@ -223,12 +232,21 @@ public class P02ModelActivity extends Activity {
         discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+
+        line1.setVisibility(View.GONE);
+        line2.setVisibility(View.GONE);
+        line3.setVisibility(View.GONE);
+
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line2.setVisibility(View.VISIBLE);
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line1.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
             followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
         }

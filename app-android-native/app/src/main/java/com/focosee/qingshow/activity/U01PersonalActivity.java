@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,11 @@ public class U01PersonalActivity extends FragmentActivity {
     private RelativeLayout watchRelativeLayout;
     private RelativeLayout fansRelativeLayout;
     private RelativeLayout followRelativeLayout;
+
+    private LinearLayout line1;
+    private LinearLayout line2;
+    private LinearLayout line3;
+    private LinearLayout line4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,10 @@ public class U01PersonalActivity extends FragmentActivity {
         watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
         followRelativeLayout = (RelativeLayout) findViewById(R.id.followRelativeLayout);
+
+        line1 = (LinearLayout) findViewById(R.id.u01_line_toleftRecommend);
+        line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
+        line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
 
         personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
 
@@ -170,12 +180,20 @@ public class U01PersonalActivity extends FragmentActivity {
         watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+
+        line1.setVisibility(View.GONE);
+        line2.setVisibility(View.GONE);
+        line3.setVisibility(View.GONE);
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line2.setVisibility(View.VISIBLE);
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            line1.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
             followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
         }

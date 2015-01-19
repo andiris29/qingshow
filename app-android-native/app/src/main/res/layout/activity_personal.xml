@@ -102,7 +102,8 @@
                 android:id="@+id/matchRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/indicator_bg_chosen_activity_personal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -163,6 +164,7 @@
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/u01_line_toleftRecommend"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <View
@@ -207,6 +209,7 @@
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/u01_line_toleftAttention"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <View
@@ -246,6 +249,7 @@
                         android:background="@drawable/badge_follow_btn2"/>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/u01_line_toleftAddAttention"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <View

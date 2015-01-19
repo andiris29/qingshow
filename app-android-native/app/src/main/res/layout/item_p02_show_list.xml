@@ -10,6 +10,12 @@
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:src="@drawable/bg_pic"/>
+    
+    <LinearLayout
+        android:layout_alignBottom="@+id/item_p02_item_image"
+        android:layout_width="fill_parent"
+        android:gravity="right"
+        android:layout_height="wrap_content">
 
 
     <ImageButton
@@ -22,5 +28,6 @@
         android:layout_marginRight="20dp"
         android:src="@drawable/root_icon_right_arrow"
         android:background="#00000000"/>
+    </LinearLayout>
 
 </RelativeLayout>
