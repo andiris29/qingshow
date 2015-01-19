@@ -65,11 +65,11 @@ public class P03BrandListAdapter extends BaseAdapter {
         }
         holderView = (P03BrandHolderView) convertView.getTag();
 
-        holderView.brandSlogan.setOriginWidth(this.data.get(position).getSloganWidth());
-        holderView.brandSlogan.setOriginHeight(this.data.get(position).getSloganHeight());
+        holderView.brandSlogan.setOriginWidth(this.data.get(position).getCoverWidth());
+        holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());
 
         this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait, AppUtil.getPortraitDisplayOptions());
-        this.imageLoader.displayImage(this.data.get(position).getBrandSlogan(), holderView.brandSlogan, AppUtil.getShowDisplayOptions());
+        this.imageLoader.displayImage(this.data.get(position).getBrandCover(), holderView.brandSlogan, AppUtil.getShowDisplayOptions());
         holderView.brandName.setText(this.data.get(position).getBrandName());
         holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;

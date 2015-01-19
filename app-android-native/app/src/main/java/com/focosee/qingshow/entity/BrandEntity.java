@@ -30,18 +30,18 @@ public class BrandEntity extends AbsEntity {
     public String getBrandLogo() {
         return logo;
     }
-    public String getBrandSlogan() {
-        return slogan;
+    public String getBrandCover() {
+        return cover;
     }
     public String getBrandDescription() {
         return name;
     }
 
-    public int getSloganWidth() {
+    public int getCoverWidth() {
         return 320;
     }
 
-    public int getSloganHeight() {
+    public int getCoverHeight() {
         return 320;
     }
 
@@ -70,14 +70,23 @@ public class BrandEntity extends AbsEntity {
 
     // Inner data
     public String _id;
+    public String type;
     public BrandContext __context;
     public String name;
     public String logo;
-    public String slogan;
+    public String background;
+    public String cover;
+    public String create;
 
     public class BrandContext extends AbsEntity {
         private int numFollowers;
         private int numShows;
-        private boolean followedByCurrentUser = false;
+        public  boolean followedByCurrentUser = false;
+    }
+
+    public class MetaData{
+        public String url;
+        public int width;
+        public int height;
     }
 }

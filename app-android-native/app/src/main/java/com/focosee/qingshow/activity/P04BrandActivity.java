@@ -60,6 +60,7 @@ public class P04BrandActivity extends Activity {
     private RelativeLayout fansRelativeLayout;
     private RelativeLayout followRelativeLayout;
     private ImageView followSignText;
+    private ImageView bgImage;
 
     private LinearLayout line1;
     private LinearLayout line2;
@@ -108,10 +109,12 @@ public class P04BrandActivity extends Activity {
 
         viewPager = (ViewPager) findViewById(R.id.P04_content_viewPager);
 
-        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.getBrandSlogan() : "", (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
+        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.getBrandCover() : "", (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
         ((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
         followSignText = (ImageView) findViewById(R.id.P04_follow_sign_text);
+        bgImage = (ImageView) findViewById(R.id.P04_back_image_view);
+        ImageLoader.getInstance().displayImage(brandEntity.background, bgImage, AppUtil.getShowDisplayOptions());
 
         constructViewPager();
 

@@ -150,7 +150,7 @@ public class P03BrandListActivity extends Activity {
             BrandEntity brandEntity = new BrandEntity();
             brandEntity.name = "品牌" + String.valueOf(i);
             brandEntity.logo = "http://img2.imgtn.bdimg.com/it/u=2439868726,3891592022&fm=21&gp=0.jpg";
-            brandEntity.slogan = "http://img1.imgtn.bdimg.com/it/u=3411049717,3668206888&fm=21&gp=0.jpg";
+            brandEntity.cover = "http://img1.imgtn.bdimg.com/it/u=3411049717,3668206888&fm=21&gp=0.jpg";
             tempData.add(brandEntity);
         }
         return tempData;
