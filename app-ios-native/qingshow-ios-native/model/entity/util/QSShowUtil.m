@@ -70,20 +70,11 @@
     }
     NSArray* itemArray = showDict[@"itemRefs"];
     if (itemArray.count) {
-        if (![itemArray[0] isKindOfClass:[NSDictionary class]]   ) {
+        if (![itemArray[0] isKindOfClass:[NSDictionary class]]) {
             return @[];
         }
     }
-#warning 需要优化
-//    if ([itemArray isKindOfClass:[NSMutableArray class]]) {
-//        return itemArray;
-//    }
-    NSArray* items = [itemArray deepMutableCopy];
-
-    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-        ((NSMutableDictionary*)showDict)[@"itemRefs"] = items;
-    }
-    return items;
+    return itemArray;
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
@@ -109,14 +100,7 @@
     }
     if (showDict) {
         NSDictionary* peopleDict = showDict[@"modelRef"];
-        if ([QSCommonUtil checkIsNil:peopleDict]) {
-            return peopleDict;
-        } else {
-#warning 需要优化
-            NSMutableDictionary* mP = [peopleDict deepMutableCopy];
-            [self setPeople:mP show:showDict];
-            return mP;
-        }
+        return peopleDict;
     }
     return nil;
 }

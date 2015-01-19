@@ -58,6 +58,7 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* shows = retDict[@"data"][@"shows"];
+                    NSMutableArray* b = [shows deepMutableCopy];
                     succeedBlock([shows deepMutableCopy], retDict[@"metadata"]);
                 }
             }
