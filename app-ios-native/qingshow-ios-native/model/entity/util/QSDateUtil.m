@@ -32,6 +32,7 @@
         }
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
         date = [dateFormatter dateFromString:dateStr];
         return date;
     }
@@ -45,6 +46,7 @@
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSString* currentDateStr = [dateFormatter stringFromDate:date];
+        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
         return currentDateStr;
     }
     else
@@ -68,14 +70,14 @@
 }
 + (NSString*)getWeek:(NSDate*)date
 {
-    NSArray* a = @[
+    NSArray* a = @[@"",
+                   @"星期日SUN",
+                   @"星期一MON",
                    @"星期二TUE",
                    @"星期三WED",
                    @"星期四THU",
                    @"星期五FRI",
-                   @"星期六SAT",
-                   @"星期日SUN",
-                   @"星期一MON"];
+                   @"星期六SAT",];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSInteger week = [calendar components:NSWeekdayCalendarUnit fromDate:date].weekday;
 

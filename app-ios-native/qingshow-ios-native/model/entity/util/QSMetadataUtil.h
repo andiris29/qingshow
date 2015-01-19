@@ -12,5 +12,6 @@
 
 + (NSString*)getNumberPageDesc:(NSDictionary*)matedataDict;
 + (NSString*)getNumberTotalDesc:(NSDictionary*)matedataDict;
-
++ (void)addTotalNum:(long long )n forDict:(NSDictionary*)metadataDict;
++ (long long)getNumberTotal:(NSDictionary*)metadataDict;
 @end

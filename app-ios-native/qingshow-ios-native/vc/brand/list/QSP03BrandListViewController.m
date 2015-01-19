@@ -7,7 +7,7 @@
 //
 
 #import "QSP03BrandListViewController.h"
-#import "QSP03BrandDetailViewController.h"
+#import "QSP04BrandDetailViewController.h"
 #import "QSNetworkKit.h"
 
 #import "QSBrandTitleView.h"
@@ -44,6 +44,13 @@
     self.navigationItem.titleView = [QSBrandTitleView generateView];
     
 }
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    CGRect rect = self.headerView.frame;
+    rect.size.height = 44.f;
+    self.headerView.frame = rect;
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -72,10 +79,14 @@
 }
 #pragma mark - QSBrandCollectionViewDelegateObjDelegate
 - (void)didClickBrand:(NSDictionary*)brandDict {
-    UIViewController* vc = [[QSP03BrandDetailViewController alloc] initWithBrand:brandDict];
+    UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict
+- (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
+{
+//    [self didClickBrand:dict];
+}
+- (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
 {
     [self didClickBrand:dict];
 }

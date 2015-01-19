@@ -17,6 +17,7 @@
 #define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
 #define PATH_PEOPLE_QUERY_FOLLOWER @"people/queryFollowers"
 #define PATH_PEOPLE_QUERY_FOLLOWED @"people/queryFollowed"
+#define PATH_PEOPLE_QUERY_FOLLOWED_BRAND @"brand/queryFollowed"
 
 
 @implementation QSNetworkEngine(PeopleService)
@@ -36,7 +37,7 @@
                 if (succeedBlock) {
                     NSArray* peopleList = retDict[@"data"][@"peoples"];
                     
-                    succeedBlock([peopleList deepDictMutableCopy], retDict[@"metadata"]);
+                    succeedBlock([peopleList deepMutableCopy], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -65,7 +66,35 @@
                 NSDictionary* responseDict = completedOperation.responseJSON;
                 NSArray* a = responseDict[@"data"][@"peoples"];
                 if (succeedBlock) {
-                    succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+                    succeedBlock([a deepMutableCopy], responseDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+- (MKNetworkOperation*)peopleQueryFollowedBrand:(NSDictionary*)peopleDict
+                                           page:(int)page
+                                      onSucceed:(ArraySuccessBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock
+
+{
+    if (!peopleDict) {
+        errorBlock(nil);
+        return nil;
+    }
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_FOLLOWED_BRAND
+                                 method:@"GET"
+                               paramers:@{@"_id" : peopleDict[@"_id"], @"pageNo" : @(page),@"paegSize" : @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary* responseDict = completedOperation.responseJSON;
+                NSArray* a = responseDict[@"data"][@"brands"];
+                if (succeedBlock) {
+                    succeedBlock([a deepMutableCopy], responseDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -84,7 +113,7 @@
         NSDictionary* responseDict = completedOperation.responseJSON;
         NSArray* a = responseDict[@"data"][@"peoples"];
         if (succeedBlock) {
-            succeedBlock([a deepDictMutableCopy], responseDict[@"metadata"]);
+            succeedBlock([a deepMutableCopy], responseDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -102,7 +131,7 @@
     if ([QSPeopleUtil getPeopleIsFollowed:model]) {
         return [self unfollowPeople:modelId onSucceed:^{
             [QSPeopleUtil setPeople:model isFollowed:NO];
-            
+            [QSPeopleUtil addNumFollower:-1ll forPeople:model];
             if (succeedBlock) {
                 succeedBlock(NO);
             }
@@ -112,6 +141,7 @@
     {
         return [self followPeople:modelId onSucceed:^{
             [QSPeopleUtil setPeople:model isFollowed:YES];
+            [QSPeopleUtil addNumFollower:1ll forPeople:model];
             if (succeedBlock) {
                 succeedBlock(YES);
             }

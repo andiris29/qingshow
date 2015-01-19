@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSSingleImageScrollView.h"
 
 typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
     QSBigImageTableViewCellTypeModel,
@@ -23,10 +24,11 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 - (void)clickCommentBtn:(QSBigImageTableViewCell*)cell;
 - (void)clickLikeBtn:(QSBigImageTableViewCell*)cell;
 - (void)clickShareBtn:(QSBigImageTableViewCell*)cell;
+- (void)clickDetailBtn:(QSBigImageTableViewCell*)cell;
 
 @end
 
-@interface QSBigImageTableViewCell : UITableViewCell
+@interface QSBigImageTableViewCell : UITableViewCell <QSImageScrollViewBaseDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
 @property (weak, nonatomic) IBOutlet UIView* modelContainer;
@@ -53,5 +55,6 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 - (IBAction)commentBtnPressed:(id)sender;
 - (IBAction)likeBtnPressed:(id)sender;
 - (IBAction)shareBtnPressed:(id)sender;
+- (IBAction)detailBtnPressed:(id)sender;
 
 @end

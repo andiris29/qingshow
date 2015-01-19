@@ -17,4 +17,15 @@
 {
     return [obj isKindOfClass:[NSDictionary class]];
 }
++ (NSString*)getIdOrEmptyStr:(NSDictionary*)dict
+{
+    if (![self checkIsDict:dict]) {
+        return @"";
+    }
+    NSString* idString = dict[@"_id"];
+    if ([self checkIsNil:idString]) {
+        return @"";
+    }
+    return idString;
+}
 @end

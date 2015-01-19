@@ -18,7 +18,13 @@
     }
     
     NSNumber* height = modelDict[@"height"];
+    if (modelDict[@"height"] == [NSNull null]) {
+        height = nil;
+    }
     NSNumber* weight = modelDict[@"weight"];
+    if (modelDict[@"weight"] == [NSNull null]) {
+        weight = nil;
+    }
     NSMutableString* statusString = [@"" mutableCopy];
     if (height) {
         [statusString appendFormat:@"%@cm", height];
@@ -222,6 +228,22 @@
     }
     return @"0";
 }
+
++ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict
+{
+    if ([QSCommonUtil checkIsNil:peopleDict] && ![peopleDict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* p = (NSMutableDictionary*)peopleDict;
+    NSMutableDictionary* context = [peopleDict[@"__context"] mutableCopy];
+    if (context) {
+        NSNumber* f = context[@"numFollowers"];
+        context[@"numFollowers"] = @(f.longLongValue + num);
+        p[@"__context"] = context;
+    }
+    
+}
+
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict
 {
     if ([QSCommonUtil checkIsNil:modelDict]) {
@@ -288,5 +310,43 @@
     NSString* lId = l[@"_id"];
     NSString* rId = r[@"_id"];
     return [lId isEqualToString:rId];
+}
+
++ (NSString *)getHeight:(NSDictionary *)peopleDict
+{
+    if (peopleDict[@"height"] != [NSNull null]) {
+        return [(NSNumber *)peopleDict[@"height"] stringValue];
+    }
+    return @"";
+}
+
++ (NSString *)getWeight:(NSDictionary *)peopleDict {
+    if (peopleDict[@"weight"] != [NSNull null]) {
+        return [(NSNumber *)peopleDict[@"weight"] stringValue];
+    }
+    return @"";
+}
+
++ (NSString *)getShoeSizeDesc:(NSDictionary *)peopleDict {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return @"";
+    }
+    NSNumber* shoeSize= peopleDict[@"shoeSize"];
+    if ([QSCommonUtil checkIsNil:shoeSize]) {
+        return @"";
+    }
+    return [shoeSize stringValue];
+}
+
++ (NSString *)getHairTypeDesc:(NSDictionary *)peopleDict {
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return @"";
+    }
+    NSArray* hairTypeArray = @[@"所有", @"长发", @"超长发", @"中长发", @"短发"];
+    NSNumber* hairType = peopleDict[@"hairType"];
+    if ([QSCommonUtil checkIsNil:hairType] || hairType.intValue >= hairTypeArray.count) {
+        return @"";
+    }
+    return hairTypeArray[hairType.intValue];
 }
 @end

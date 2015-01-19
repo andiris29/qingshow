@@ -6,23 +6,23 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSS02FashionViewController.h"
+#import "QSS08PreviewViewController.h"
 #import "QSNetworkKit.h"
-#import "QSCommentListViewController.h"
+#import "QSS04CommentListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
 
-@interface QSS02FashionViewController ()
+@interface QSS08PreviewViewController ()
 
 @property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
-@implementation QSS02FashionViewController
+@implementation QSS08PreviewViewController
 - (id)init
 {
-    self = [super initWithNibName:@"QSS02FashionViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS08PreviewViewController" bundle:nil];
     if (self) {
         
     }
@@ -38,6 +38,11 @@
     self.shareVc = [[QSShareViewController alloc] init];
     [self.view addSubview:self.shareVc.view];
 
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.delegateObj refreshClickedData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +71,7 @@
 #pragma mark - QSBigImageTableViewDelegateObjDelegate
 - (void)clickCommentOfDict:(NSDictionary*)dict
 {
-    UIViewController* vc = [[QSCommentListViewController alloc] initWithPreview:dict];
+    UIViewController* vc = [[QSS04CommentListViewController alloc] initWithPreview:dict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -79,10 +84,10 @@
 {
     [SHARE_NW_ENGINE handlePreviewLike:dict onSucceed:^(BOOL f) {
         if (f) {
-            [self showTextHud:@"like successfully"];
+            [self showTextHud:@"喜欢成功"];
 
         } else {
-            [self showTextHud:@"unlike successfully"];
+            [self showTextHud:@"取消喜欢成功"];
         }
         [self.delegateObj rebindData:dict];
     } onError:^(NSError *error) {

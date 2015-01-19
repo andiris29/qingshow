@@ -10,6 +10,6 @@
 
 @interface NSArray(QSExtension)
 
-- (NSMutableArray*)deepDictMutableCopy;
+- (NSMutableArray*)deepMutableCopy;
 
 @end

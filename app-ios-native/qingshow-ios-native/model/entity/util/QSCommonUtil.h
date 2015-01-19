@@ -12,5 +12,5 @@
 
 + (BOOL)checkIsNil:(id)obj;
 + (BOOL)checkIsDict:(id)obj;
-
++ (NSString*)getIdOrEmptyStr:(NSDictionary*)dict;
 @end

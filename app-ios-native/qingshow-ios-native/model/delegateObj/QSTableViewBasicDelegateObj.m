@@ -8,6 +8,8 @@
 
 #import "QSTableViewBasicDelegateObj.h"
 #import "MKNetworkOperation.h"
+#import "NSNumber+QSExtension.h"
+#import "QSMetadataUtil.h"
 
 @interface QSTableViewBasicDelegateObj ()
 
@@ -63,6 +65,11 @@
     }
     return self;
 }
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+}
 #pragma mark - 
 - (void)bindWithTableView:(UITableView*)tableView
 {
@@ -96,8 +103,10 @@
 - (MKNetworkOperation*)fetchDataOfPage:(int)page onComplete:(VoidBlock)block
 {
     MKNetworkOperation* op = self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
+        self.metadataDict = metadata;
         if (page == 1) {
             [self.resultArray removeAllObjects];
+            [self.resultArray addObjectsFromArray:self.additionalResult];
             self.refreshOperation = nil;
             _currentPage = 1;
         }
@@ -116,6 +125,7 @@
         }
         if (page == 1) {
             [self.resultArray removeAllObjects];
+            [self.resultArray addObjectsFromArray:self.additionalResult];
             self.refreshOperation = nil;
             [self.tableView reloadData];
         }
@@ -140,7 +150,7 @@
         [self.delegate scrollViewDidScroll:scrollView];
     }
     
-    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation) {
+    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || !self.resultArray.count) {
         return;
     }
     
@@ -169,5 +179,39 @@
     [self.refreshControl beginRefreshing];
     [self.tableView scrollRectToVisible:CGRectMake(0, -self.refreshControl.frame.size.height, 1, 1) animated:YES];
     [self tableViewDidPullToRefresh:self.refreshControl];
+}
+- (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate
+{
+    NSUInteger i = [self.resultArray indexOfObject:data];
+    [self.resultArray removeObject:data];
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+    UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
+    
+    NSDictionary* metaData = [self.metadataDict mutableCopy];
+    [QSMetadataUtil addTotalNum:-1ll forDict:metaData];
+    self.metadataDict = metaData;
+    
+}
+
+- (void)refreshClickedData
+{
+}
+- (NSString*)getTotalCountDesc
+{
+    if (!self.metadataDict) {
+        return @"0";
+    }
+    long long filterCount = 0;
+    for (NSDictionary* dict in self.resultArray) {
+        if (self.filterBlock) {
+            if (self.filterBlock(dict)){
+                filterCount++;
+            }
+        }
+    }
+    long long t = [QSMetadataUtil getNumberTotal:self.metadataDict] - filterCount;
+    t = t >= 0ll? t : 0ll;
+    return @(t).kmbtStringValue;
 }
 @end

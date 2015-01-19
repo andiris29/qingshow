@@ -22,10 +22,15 @@
 + (NSString*)getJobDesc:(NSDictionary*)peopleDict;
 + (NSString*)getClothingSizeDesc:(NSDictionary*)peopleDict;
 + (NSString*)getProvinceDesc:(NSDictionary*)peopleDict;
++ (NSString*)getHeight:(NSDictionary*)peopleDict;
++ (NSString*)getWeight:(NSDictionary*)peopleDict;
++ (NSString*)getShoeSizeDesc:(NSDictionary*)peopleDict;
++ (NSString*)getHairTypeDesc:(NSDictionary*)peopleDict;
 
 + (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict;
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict;
++ (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;

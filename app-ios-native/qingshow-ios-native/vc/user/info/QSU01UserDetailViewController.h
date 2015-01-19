@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-@interface QSU01UserDetailViewController : QSDetailBaseViewController
+#import "QSBigImageTableViewDelegateObj.h"
+@interface QSU01UserDetailViewController : QSDetailBaseViewController<QSBigImageTableViewDelegateObjDelegate>
 
 @property (strong, nonatomic) IBOutlet UICollectionView* likedCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;
 @property (strong, nonatomic) IBOutlet UITableView* followingTableView;
+@property (weak, nonatomic) IBOutlet UITableView *likeBrandTableView;
 
 - (id)initWithPeople:(NSDictionary*)peopleDict;
 - (id)initWithCurrentUser;

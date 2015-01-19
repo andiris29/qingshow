@@ -30,6 +30,10 @@
 - (void)updateView:(UIView*)view forPage:(int)page
 {
 }
+- (void)emptyView:(UIView*)view forPage:(int)page
+{
+
+}
 #pragma mark - Static Method
 + (QSImageScrollViewBase*)generateView
 {
@@ -41,6 +45,7 @@
 - (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d {
     self = [super initWithFrame:frame];
     if (self) {
+        self.enableLazyLoad = NO;
         self.direction = d;
         
         self.imageViewArray = [@[] mutableCopy];
@@ -85,12 +90,18 @@
         
         if (self.imageViewArray.count > i) {
             imageView = self.imageViewArray[i];
-            [self updateView:imageView forPage:imageIndex];
+
         } else {
             imageView = [self getViewForPage:imageIndex];
             [self.scrollView addSubview:imageView];
             [self.imageViewArray addObject:imageView];
         }
+        if (!self.enableLazyLoad || imageIndex == self.pageControl.currentPage) {
+            [self updateView:imageView forPage:imageIndex];
+        } else {
+            [self emptyView:imageView forPage:imageIndex];
+        }
+        
         if (self.direction == QSImageScrollViewDirectionHor) {
             imageView.frame = CGRectMake(i * size.width, 0, size.width, size.height);
         } else {
@@ -148,8 +159,9 @@
 {
     [super layoutSubviews];
     self.scrollView.frame = self.bounds;
+    [self updateImages];
 
-    self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 60);
+    self.pageControl.center = CGPointMake(self.scrollView.frame.size.width / 2, self.scrollView.frame.size.height - 60 - self.pageControlOffsetY);
     self.scrollView.contentInset = UIEdgeInsetsZero;
 }
 
@@ -168,7 +180,7 @@
     } else {
         currentIndex = offset.y / size.height;
     }
-
+    
     int currentPage = currentIndex;
     if (currentIndex == 0) {
         currentPage = (int)(self.imageViewArray.count - 2);
@@ -176,6 +188,12 @@
         currentPage = 1;
     }
     self.pageControl.currentPage = currentPage - 1;
+    
+    if (self.enableLazyLoad && self.imageViewArray.count > currentPage) {
+        UIView* imgView = self.imageViewArray[currentIndex];
+        [self updateView:imgView forPage:(int)self.pageControl.currentPage];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(imageScrollView:didChangeToPage:)]) {
         [self.delegate imageScrollView:self didChangeToPage:(int)self.pageControl.currentPage];
     }
@@ -205,6 +223,7 @@
     int currentPage = page + 1;
     CGSize size = self.scrollView.bounds.size;
     self.pageControl.currentPage = page;
+    
     if (self.direction == QSImageScrollViewDirectionHor) {
         self.scrollView.contentOffset = CGPointMake(currentPage * size.width, 0);
     } else {

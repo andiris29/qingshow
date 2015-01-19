@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU06LoginViewController : UIViewController
+@interface QSU06LoginViewController : UIViewController<UITextFieldDelegate>
+@property (nonatomic, assign) id currentResponder;
+@property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
 
 - (id)initWithShowUserDetailAfterLogin:(BOOL)fShowUserDetail;
 @end

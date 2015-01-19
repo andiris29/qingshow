@@ -5,9 +5,8 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS03ItemListViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS07ItemListViewController">
             <connections>
-                <outlet property="bgImageView" destination="EJ1-qK-2sE" id="AIq-iA-V4i"/>
                 <outlet property="tableView" destination="gIE-lF-fFE" id="vSb-Oo-CFP"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -17,19 +16,16 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EJ1-qK-2sE">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VLC-N6-f3S">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPe-vy-IT6">
-                            <rect key="frame" x="285" y="30" width="20" height="22"/>
+                            <rect key="frame" x="280" y="30" width="25" height="25"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="22" id="ShB-5i-jV9"/>
-                                <constraint firstAttribute="width" constant="20" id="wIS-mg-0Pj"/>
+                                <constraint firstAttribute="height" constant="25" id="ShB-5i-jV9"/>
+                                <constraint firstAttribute="width" constant="25" id="wIS-mg-0Pj"/>
                             </constraints>
-                            <state key="normal" image="item_detail_close">
+                            <state key="normal" backgroundImage="item_detail_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -37,7 +33,7 @@
                             </connections>
                         </button>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gIE-lF-fFE">
-                            <rect key="frame" x="0.0" y="60" width="320" height="508"/>
+                            <rect key="frame" x="0.0" y="63" width="320" height="505"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <connections>
                                 <outlet property="dataSource" destination="-1" id="ATg-xw-dzf"/>
@@ -56,14 +52,10 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="EJ1-qK-2sE" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="AIH-zt-B5f"/>
-                <constraint firstItem="EJ1-qK-2sE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BxQ-x5-4bA"/>
-                <constraint firstAttribute="trailing" secondItem="EJ1-qK-2sE" secondAttribute="trailing" id="Cv9-wH-hYo"/>
                 <constraint firstAttribute="trailing" secondItem="VLC-N6-f3S" secondAttribute="trailing" id="J5n-XV-9TV"/>
                 <constraint firstItem="VLC-N6-f3S" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="JEN-7Q-Wzp"/>
-                <constraint firstAttribute="bottom" secondItem="EJ1-qK-2sE" secondAttribute="bottom" id="lhV-3Z-yzq"/>
                 <constraint firstItem="VLC-N6-f3S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lkK-F0-srJ"/>
                 <constraint firstAttribute="bottom" secondItem="VLC-N6-f3S" secondAttribute="bottom" id="vKV-NQ-jhI"/>
             </constraints>

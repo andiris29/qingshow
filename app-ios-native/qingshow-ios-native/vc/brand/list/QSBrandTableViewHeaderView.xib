@@ -14,7 +14,10 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGO-kz-ug0">
                     <rect key="frame" x="165" y="5" width="147" height="34"/>
                     <color key="backgroundColor" red="0.74901960779999999" green="0.74901960779999999" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="Lzc-3w-EgN"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="线下店铺">
                         <color key="titleColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -26,7 +29,10 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kcf-zT-HcX">
                     <rect key="frame" x="8" y="5" width="147" height="34"/>
                     <color key="backgroundColor" red="0.74901960784313726" green="0.74901960784313726" blue="0.74901960784313726" alpha="1" colorSpace="calibratedRGB"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="5GI-QI-wJW"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="线上商店">
                         <color key="titleColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,12 +44,10 @@
             </subviews>
             <color key="backgroundColor" red="0.89803921568627454" green="0.89803921568627454" blue="0.89803921568627454" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="Kcf-zT-HcX" secondAttribute="bottom" constant="5" id="4rg-x8-6ix"/>
                 <constraint firstItem="cGO-kz-ug0" firstAttribute="leading" secondItem="Kcf-zT-HcX" secondAttribute="trailing" constant="10" id="Lgd-xw-X3R"/>
                 <constraint firstItem="Kcf-zT-HcX" firstAttribute="width" secondItem="cGO-kz-ug0" secondAttribute="width" id="N40-5c-Weu"/>
                 <constraint firstItem="Kcf-zT-HcX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="Tjv-6t-ZDL"/>
                 <constraint firstItem="cGO-kz-ug0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="V3g-bF-590"/>
-                <constraint firstAttribute="bottom" secondItem="cGO-kz-ug0" secondAttribute="bottom" constant="5" id="dag-kQ-9hj"/>
                 <constraint firstItem="Kcf-zT-HcX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="skD-Dx-b3x"/>
                 <constraint firstAttribute="trailing" secondItem="cGO-kz-ug0" secondAttribute="trailing" constant="8" id="t4c-fh-mYO"/>
             </constraints>

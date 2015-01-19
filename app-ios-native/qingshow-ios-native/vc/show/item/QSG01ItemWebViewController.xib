@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS02FashionViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSG01ItemWebViewController">
             <connections>
-                <outlet property="tableView" destination="rRd-8I-ET9" id="Db7-A6-I61"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="webView" destination="Hhc-Be-55j" id="VO0-z6-zcf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -16,20 +16,20 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rRd-8I-ET9">
+                <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hhc-Be-55j">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </tableView>
+                </webView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="rRd-8I-ET9" secondAttribute="bottom" id="hFS-zh-uQN"/>
-                <constraint firstItem="rRd-8I-ET9" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="m1W-qz-naG"/>
-                <constraint firstAttribute="trailing" secondItem="rRd-8I-ET9" secondAttribute="trailing" id="q7e-GW-SpE"/>
-                <constraint firstItem="rRd-8I-ET9" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rFY-PK-hg1"/>
+                <constraint firstItem="Hhc-Be-55j" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="F5H-QC-Iy1"/>
+                <constraint firstItem="Hhc-Be-55j" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NYb-l9-7qe"/>
+                <constraint firstAttribute="trailing" secondItem="Hhc-Be-55j" secondAttribute="trailing" id="kpb-J1-xxJ"/>
+                <constraint firstAttribute="bottom" secondItem="Hhc-Be-55j" secondAttribute="bottom" id="u3c-hW-AHx"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
-            <point key="canvasLocation" x="524" y="356"/>
+            <point key="canvasLocation" x="515" y="357"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

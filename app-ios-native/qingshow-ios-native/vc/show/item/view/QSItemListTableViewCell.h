@@ -14,6 +14,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel* typeLabel;
 @property (weak, nonatomic) IBOutlet UILabel* nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel* priceLabel;
+@property (weak, nonatomic) IBOutlet UIImageView* iconImgView;
 
 - (void)bindWithItem:(NSDictionary*)itemDict;
 

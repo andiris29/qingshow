@@ -39,7 +39,7 @@
                 }
                 if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
                     NSMutableDictionary* mD = (NSMutableDictionary*)showDict;
-                    [mD updateWithDict:showDict];
+                    [mD updateWithDict:d];
                 }
                 succeedBlock(showDict);
                 return;
@@ -100,6 +100,7 @@
     }
     
     return [self startOperationWithPath:PATH_SHOW_COMMENT method:@"POST" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [QSShowUtil addNumberComment:1ll forShow:showDict];
         if (succeedBlock) {
             succeedBlock();
         }
@@ -111,10 +112,14 @@
 }
 
 - (MKNetworkOperation*)deleteComment:(NSDictionary*)commentDict
+                              ofShow:(NSDictionary*)showDict
                            onSucceed:(VoidBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_SHOW_DELETE_COMMENT method:@"POST" paramers:@{@"_id" : commentDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (showDict) {
+            [QSShowUtil addNumberComment:-1ll forShow:showDict];
+        }
         if (succeedBlock) {
             succeedBlock();
         }

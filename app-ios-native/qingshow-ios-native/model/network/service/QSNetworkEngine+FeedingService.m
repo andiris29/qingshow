@@ -9,6 +9,7 @@
 #import "QSNetworkEngine+FeedingService.h"
 #import "NSArray+QSExtension.h"
 #import "QSNetworkEngine+Protect.h"
+#import "QSCommonUtil.h"
 
 //Path
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
@@ -57,7 +58,8 @@
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* shows = retDict[@"data"][@"shows"];
-                    succeedBlock(shows.deepDictMutableCopy, retDict[@"metadata"]);
+                    NSMutableArray* b = [shows deepMutableCopy];
+                    succeedBlock([shows deepMutableCopy], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
@@ -70,11 +72,12 @@
 }
 
 #pragma mark - Feeding
-- (MKNetworkOperation*)getChosenFeedingPage:(int)page
+- (MKNetworkOperation*)getChosenFeedingType:(int)type
+                                       page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_CHOSEN otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_CHOSEN otherParam:@{@"type" : @(type)} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 - (MKNetworkOperation*)getLikeFeedingPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
@@ -98,7 +101,7 @@
     NSString* path = nil;
     switch (type) {
         case 1:
-            path = PATH_FEEDING_CHOSEN;
+            return [self getChosenFeedingType:1 page:page onSucceed:succeedBlock onError:errorBlock];
             break;
         case 2:
             path = PATH_FEEDING_HOT;
@@ -125,7 +128,8 @@
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_BY_BRAND otherParam:@{@"_id" : brandDict[@"_id"]} page:page onSucceed:succeedBlock onError:errorBlock];
+    
+    return [self getFeedingPath:PATH_FEEDING_BY_BRAND otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)feedingByBrandDiscount:(NSDictionary*)brandDict
@@ -133,7 +137,7 @@
                                     onSucceed:(ArraySuccessBlock)succeedBlock
                                       onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : brandDict[@"_id"]} page:page onSucceed:succeedBlock onError:errorBlock];
+    return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 @end
