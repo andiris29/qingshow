@@ -142,6 +142,8 @@ _register = function(req, res) {
             ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
+        require('../../runtime/qsmail').debug('New user: ' + id, [id, password].join(','), function(err, info) {
+        });
 
         var people = new People({
             userInfo : {
