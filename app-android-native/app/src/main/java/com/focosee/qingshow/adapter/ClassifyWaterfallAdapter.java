@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -27,16 +29,19 @@ class ClassifyViewHolder extends AbsViewHolder {
     TextView modelNameTV;
     TextView modelHeightWeightTV;
     TextView loveTV;
+    ImageView shadowIV;
 }
 
 public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
+
+    private Context context;
 
     private DisplayImageOptions coverOptions;
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
 
     public ClassifyWaterfallAdapter(Context context, int resourceId, ImageLoader mImageFetcher) {
         super(context, resourceId, mImageFetcher);
-
+        this.context = context;
         coverOptions = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.ic_launcher) //设置图片在下载期间显示的图片
                 .showImageForEmptyUri(R.drawable.ic_launcher)//设置图片Uri为空或是错误的时候显示的图片
@@ -52,7 +57,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ClassifyViewHolder holder;
-        ShowListEntity showInfo = (ShowListEntity) _data.get(position);
+        final ShowListEntity showInfo = (ShowListEntity) _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -65,6 +70,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
 //            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
 //            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
+            holder.shadowIV = (ImageView)  convertView.findViewById(R.id.item_show_shadow);
             convertView.setTag(holder);
         }
         holder = (ClassifyViewHolder) convertView.getTag();
@@ -80,6 +86,14 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
 //        holder.modelHeightTV.setText(showInfo.getModelHeight());
 //        holder.modelWeightTV.setText(showInfo.getModelWeight());
         holder.loveTV.setText(showInfo.getShowNumLike());
+        holder.shadowIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, P02ModelActivity.class);
+                intent.putExtra(P02ModelActivity.INPUT_MODEL, showInfo.getModelRef());
+                context.startActivity(intent);
+            }
+        });
 
         return convertView;
     }

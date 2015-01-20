@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -63,7 +62,6 @@ public class P02ModelActivity extends Activity {
     private P02ModelFollowPeopleListAdapter followerPeopleListAdapter;
     private ModelEntity modelEntity;
     private int pageIndex = 1;
-
     private LinearLayout line1;
     private LinearLayout line2;
     private LinearLayout line3;
