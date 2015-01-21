@@ -1,6 +1,7 @@
 package com.focosee.qingshow.entity;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
@@ -124,7 +125,10 @@ public class ShowDetailEntity extends AbsEntity {
         return (null != brandRef) ? brandRef.name : null;
     }
 
-    public RefBrand getBrandEntity() {
+//    public RefBrand getBrandEntity() {
+//        return brandRef;
+//    }
+    public BrandEntity getBrandEntity(){
         return brandRef;
     }
 
@@ -134,7 +138,8 @@ public class ShowDetailEntity extends AbsEntity {
     public String video;                    // "/10.mp4.mp4"
     public int numLike;                  // "7777"
     public RefModel modelRef;               // "Model Object"
-    public RefBrand brandRef;
+    //public RefBrand brandRef;
+    public BrandEntity brandRef;
     public String create;                   // "2014-11-21T15:52:27.740Z"
     public RefItem[] itemRefs;          // "Item Object List"
     public String[] styles;
@@ -175,10 +180,22 @@ public class ShowDetailEntity extends AbsEntity {
         // Public interface
         public static ArrayList<RefItem> getItemEntities(JSONObject response) {
             try {
-                String tempString = response.getJSONObject("data").getJSONArray("shows").toString();
+                String tempString = response.getJSONObject("data").getJSONArray("items").toString();
                 Type listType = new TypeToken<ArrayList<RefItem>>(){}.getType();
                 Gson gson = new Gson();
                 return gson.fromJson(tempString, listType);
+            } catch (JSONException e) {
+                log(e.toString());
+                return null;
+            }
+        }
+
+        public static MetaData getMetaData(JSONObject response){
+            try {
+                String metadataString = response.getJSONObject("metadata").toString();
+                Type metadataType = new TypeToken<MetaData>(){}.getType();
+                Gson gson = new Gson();
+                return gson.fromJson(metadataString, metadataType);
             } catch (JSONException e) {
                 log(e.toString());
                 return null;
@@ -212,11 +229,11 @@ public class ShowDetailEntity extends AbsEntity {
         }
 
         public String getCover() {
-            return cover;
+            return source;
         }
 
         public String getBrandPortrait() {
-            return (null != brandRef) ? brandRef.logo : null;
+            return (null != imageMetadata) ? imageMetadata.url : null;
         }
 
         public String getSource() {
@@ -228,34 +245,66 @@ public class ShowDetailEntity extends AbsEntity {
         }
 
         public String getPrice() {
-            return priceAfterDiscount;
+            return "￥ " + price;
         }
 
-        public RefBrand getBrandEntity() {
-            return brandRef;
+//        public RefItem getBrandEntity() {
+//            return this;
+//        }
+        public String getBrandRef(){
+            return null == brandRef ? "" : brandRef;
         }
+
+        public ArrayList<ImageInfo> getImages(){ return images; }
+
+        public int getOrder(){
+            return (brandNewInfo == null) ? 0:brandNewInfo.order;
+        }
+
+        public int getNumTotal(){ return (null == metadata) ? 0:metadata.numTotal; }
 
         public String _id;
+        public String _kellyupdate;
         public int category;
         public String name;
-        public String cover;
+        //public String cover;
         public String source;
-        public RefBrand brandRef;
+        public String brandRef;
         public String create;
         public String price;
-        public String priceAfterDiscount;
+        public BrandNewInfo brandNewInfo;
+        public ArrayList<ImageInfo> images;
+        public MetaDataCover imageMetadata;
+        public MetaData metadata;
+        //public String priceAfterDiscount;
+    }
+
+    public static class ImageInfo{
+        public String url;
+        public String description;
     }
 
     public static class MetaDataCover extends AbsEntity {
-        public String cover;
+        public String url;
         public int width;
         public int height;
+    }
+
+    public class MetaData {
+        public int numTotal;
+        public int numPages;
     }
 
     public static class ShowContext {
         public int numComments;
         public int numLike;
         public Boolean likedByCurrentUser = false;
+    }
+
+    public static class BrandNewInfo extends AbsEntity {
+
+        public int order;
+
     }
 
     public static class RefBrand extends AbsEntity {
@@ -268,7 +317,6 @@ public class ShowDetailEntity extends AbsEntity {
         public String address;
         public String phone;
         public String create;
-
     }
 
 }
