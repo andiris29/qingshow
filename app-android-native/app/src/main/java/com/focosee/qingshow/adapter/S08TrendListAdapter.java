@@ -309,11 +309,11 @@ public class S08TrendListAdapter extends BaseAdapter {
         private void initMImageViews(int size){
 
 
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                    , ViewGroup.LayoutParams.MATCH_PARENT);
             for (int i = 0;i<size;i++){
                 ImageView imageView = new ImageView(context);
                 TrendEntity.ImageInfo imgInfo = this.imageInfos.get(i);
-                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                        , ViewGroup.LayoutParams.MATCH_PARENT);
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setTag(imgInfo);
