@@ -66,6 +66,7 @@ public class S08TrendActivity extends Activity {
 
         adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
         listView.setAdapter(adapter);
+        listView.setSmoothScrollbarEnabled(false);
 
         mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);
@@ -157,6 +158,8 @@ public class S08TrendActivity extends Activity {
         });
         //Toast.makeText(this,jor.get,Toast.LENGTH_LONG).show();
         QSApplication.get().QSRequestQueue().add(jor);
+
+
     }
 
     private Point getScreenSize(){
