@@ -89,13 +89,13 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         });
 
         //if(null != itemList.get(position).images) {
-        P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images);
+        if(null != itemList.get(position).images && itemList.get(position).images.size() != 0) {
+            P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images);
 
-        viewHolder.viewPager.setAdapter(mViewPagerAdapter);
-        viewHolder.viewPager.setOnPageChangeListener(mViewPagerAdapter);
-        viewHolder.viewPager.setCurrentItem(itemList.get(position).images.size());
-        //}
-
+            viewHolder.viewPager.setAdapter(mViewPagerAdapter);
+            viewHolder.viewPager.setOnPageChangeListener(mViewPagerAdapter);
+            viewHolder.viewPager.setCurrentItem(itemList.get(position).images.size());
+        }
         return convertView;
     }
 

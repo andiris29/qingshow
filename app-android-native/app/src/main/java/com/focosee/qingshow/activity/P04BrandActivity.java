@@ -12,19 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
-import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.adapter.P04BrandItemListAdapter;
 import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
 import com.focosee.qingshow.adapter.P04FansListAdapter;
@@ -32,10 +28,8 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
 import com.focosee.qingshow.entity.FollowPeopleEntity;
-import com.focosee.qingshow.entity.ModelEntity;
 import com.focosee.qingshow.entity.ModelShowEntity;
 import com.focosee.qingshow.entity.ShowDetailEntity;
-import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
@@ -44,15 +38,11 @@ import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingDeque;
 
 public class P04BrandActivity extends Activity {
     public static final String INPUT_BRAND = "P04BrandActivity_input_brand";
@@ -104,10 +94,18 @@ public class P04BrandActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p04_brand);
 
-        brandEntity = (null != getIntent().getExtras().getSerializable(INPUT_BRAND)) ? ((BrandEntity)getIntent().getExtras().getSerializable(INPUT_BRAND))
-                                                                                        : null;
-        additionalItemEntity = (null != getIntent().getExtras().getSerializable(INPUT_ITEM)) ? (ShowDetailEntity.RefItem) getIntent().getExtras().getSerializable(INPUT_ITEM)
-                                                                                        : null;
+        brandEntity = (null != getIntent().getExtras().getSerializable(INPUT_BRAND)) ? ((BrandEntity)getIntent().getExtras().getSerializable(INPUT_BRAND)) : null;
+        additionalItemEntity = (null != getIntent().getExtras().getSerializable(INPUT_ITEM)) ? (ShowDetailEntity.RefItem) getIntent().getExtras().getSerializable(INPUT_ITEM): null;
+
+
+        if(null != additionalItemEntity && null == brandEntity) {
+
+            if (null == additionalItemEntity.getBrandRef()) {//传过来的是id
+                brandEntity = new BrandEntity();
+                brandEntity._id = additionalItemEntity.getBrandId();
+            }
+        }
+
         findViewById(R.id.P04_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

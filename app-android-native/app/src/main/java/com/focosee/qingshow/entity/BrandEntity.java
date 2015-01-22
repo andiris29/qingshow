@@ -70,13 +70,14 @@ public class BrandEntity extends AbsEntity {
 
     // Inner data
     public String _id;
-    public String type;
+    public Number type;
     public BrandContext __context;
     public String name;
     public String logo;
     public String background;
     public String cover;
     public String create;
+    public MetaData metadata;
 
     public class BrandContext extends AbsEntity {
         private int numFollowers;
@@ -84,9 +85,14 @@ public class BrandEntity extends AbsEntity {
         public  boolean followedByCurrentUser = false;
     }
 
-    public class MetaData{
+    public class CoverMetaData{
         public String url;
         public int width;
         public int height;
+    }
+
+    public class MetaData{
+        public int numTotal;
+        public int numPages;
     }
 }
