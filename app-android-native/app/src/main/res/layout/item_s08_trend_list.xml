@@ -35,6 +35,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:paddingRight="20dp"
             android:text="就爱文艺小清新"
             android:textColor="#ffffffff" />
 
@@ -43,6 +44,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:paddingRight="20dp"
             android:text="刀刀 20岁 170cm"
             android:textColor="#ffffffff" />
 

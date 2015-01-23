@@ -129,7 +129,7 @@ public class S08TrendActivity extends Activity {
                 }catch (Exception error){
                     Log.i("test", "error" + error.toString());
                     //Toast.makeText(getApplication(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplication(), "最后一页", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
                     mPullRefreshListView.setHasMoreData(true);
