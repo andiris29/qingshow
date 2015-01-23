@@ -41,7 +41,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class S08TrendListAdapter extends BaseAdapter {
 
 
-    private final String _TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
+    private final String TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
     //每一行的最小高度
     private int minHeight;
 
@@ -104,6 +104,8 @@ public class S08TrendListAdapter extends BaseAdapter {
             holderView.messageImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_comment_btn);
             holderView.messageTextView = (TextView) convertView.findViewById(R.id.S08_item_comment_text_view);
 
+            holderView.likeImageButton.setTag(1);
+
             convertView.setTag(holderView);
         } else {
             holderView = (HolderView) convertView.getTag();
@@ -157,12 +159,14 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //评论
         holderView.messageTextView.setText(String.valueOf(data.get(position).getNumComments()));
+        Log.d(TAG, "position:"+position);
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
                 if (null != data.get(position).images.get(mPosition) && null != data.get(position).get_id()) {
+                    Log.d(TAG, data.get(position).get_id());
                     Intent intent = new Intent(context, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
                     context.startActivity(intent);
@@ -173,11 +177,11 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
-        if(null == holderView.likeImageButton.getTag() && 0 != Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()))) {
+        if(0 != Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()))) {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         }else{
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-            holderView.likeImageButton.setClickable(false);
+            //holderView.likeImageButton.setClickable(false);
         }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,8 +193,8 @@ public class S08TrendListAdapter extends BaseAdapter {
                     Map<String, String> likeData = new HashMap<String, String>();
                     likeData.put("_id", data.get(position).get_id());
                     JSONObject jsonObject = new JSONObject(likeData);
-
-                    MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPreviewTrendLikeApi()
+                    final int type = Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()));
+                    MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPreviewTrendLikeApi(type)
                             , jsonObject, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -198,12 +202,22 @@ public class S08TrendListAdapter extends BaseAdapter {
 
                                 if (response.get("metadata").toString().equals("{}")) {
                                     //TextView _likeTextView = (TextView) likeImageButton.getTag();
+                                    int addOrdel = 0;
+                                    String showMsg = "点赞成功";
+                                    if(1 == type){
+                                        addOrdel = 1;
+                                        holderView.likeImageButton.setTag(0);//0表示已点赞，null表示未点赞
+                                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+                                    }else{
+                                        addOrdel = -1;
+                                        holderView.likeImageButton.setTag(1);
+                                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+                                    }
                                     holderView.likeTextView.setText(
-                                            Integer.parseInt(holderView.likeTextView.getText().toString()) + 1 + "");
-                                    holderView.likeImageButton.setClickable(false);
-                                    holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-                                    showMessage(context, "点赞成功");
-                                    holderView.likeImageButton.setTag(0);//0表示已点赞，null表示未点赞
+                                            String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + addOrdel));
+                                    //holderView.likeImageButton.setClickable(false);
+                                    showMessage(context, showMsg);
+
                                     //showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
                                 } else {
                                     handleResponseError(response);
