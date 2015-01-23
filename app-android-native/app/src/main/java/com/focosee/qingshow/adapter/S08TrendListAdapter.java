@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -48,8 +49,6 @@ public class S08TrendListAdapter extends BaseAdapter {
     private Context context;
     private List<TrendEntity> data;
 
-    private HolderView holderView;
-
     public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int screenHeight) {
         this.context = context;
         this.data = trendEntities;
@@ -84,6 +83,8 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         RelativeLayout.LayoutParams params_rLayout;
 
+        final HolderView holderView;
+
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, null);
@@ -117,7 +118,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                 item_height));
 
         //设置Adapter
-        MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView.viewGroup);
+        MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView);
         holderView.viewPager.setAdapter(mViewPagerAdapter);
         //设置监听，主要是设置点点的背景
         holderView.viewPager.setOnPageChangeListener(mViewPagerAdapter);
@@ -127,13 +128,6 @@ public class S08TrendListAdapter extends BaseAdapter {
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(Intent.ACTION_SEND);
-//                //intent.setType("image*//*");
-//                intent.setType("image/*");
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
-//                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(Intent.createChooser(intent, context.getPackageName()));
                 ShareSDK.initSDK(context);
                 OnekeyShare oks = new OnekeyShare();
                 //关闭sso授权
@@ -162,7 +156,7 @@ public class S08TrendListAdapter extends BaseAdapter {
             }
         });
         //评论
-        holderView.messageTextView.setText(data.get(position).getNumComments() + "");
+        holderView.messageTextView.setText(String.valueOf(data.get(position).getNumComments()));
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,12 +172,18 @@ public class S08TrendListAdapter extends BaseAdapter {
             }
         });
         //点赞
-        holderView.likeTextView.setText(data.get(position).numLike + "");
-        holderView.likeImageButton.setTag(position);
+        holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
+        if(null == holderView.likeImageButton.getTag() && 0 != Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()))) {
+            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+        }else{
+            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+            holderView.likeImageButton.setClickable(false);
+        }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
+
+                ImageButton likeImageButton = (ImageButton) v;
                 if (null != data && null != data.get(position).get_id()) {
 
                     Map<String, String> likeData = new HashMap<String, String>();
@@ -195,12 +195,15 @@ public class S08TrendListAdapter extends BaseAdapter {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
+
                                 if (response.get("metadata").toString().equals("{}")) {
+                                    //TextView _likeTextView = (TextView) likeImageButton.getTag();
                                     holderView.likeTextView.setText(
                                             Integer.parseInt(holderView.likeTextView.getText().toString()) + 1 + "");
                                     holderView.likeImageButton.setClickable(false);
                                     holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
                                     showMessage(context, "点赞成功");
+                                    holderView.likeImageButton.setTag(0);//0表示已点赞，null表示未点赞
                                     //showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
                                 } else {
                                     handleResponseError(response);
@@ -282,15 +285,16 @@ public class S08TrendListAdapter extends BaseAdapter {
         private ImageView[] _mImgViewS;
 
         private List<TrendEntity.ImageInfo> imageInfos;
-
+        private HolderView holderView;
         private LinearLayout _mViewGroup;
         /**
          * 装点点的ImageView数组
          */
         private ImageView[] tips;
 
-        public MViewPagerAdapter(int position, LinearLayout mViewGroup) {
-            this._mViewGroup = mViewGroup;
+        public MViewPagerAdapter(int position, HolderView holderView) {
+            this.holderView = holderView;
+            this._mViewGroup = holderView.viewGroup;
             this.mPosition = position;
             this.imageInfos = data.get(mPosition).images;
             this.imgSize = imageInfos.size();
