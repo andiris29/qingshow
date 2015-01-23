@@ -60,7 +60,7 @@ public class S05ItemActivity extends Activity {
         View[] views = new View[items.size()];
         for (int i = 0; i < views.length; i++) {
             views[i] = LayoutInflater.from(this).inflate(R.layout.pager_s05_item, null);
-            ImageLoader.getInstance().displayImage(items.get(i).getCover(), (ImageView)((View)views[i]).findViewById(R.id.pager_s05_background), AppUtil.getShowDisplayOptions());
+            ImageLoader.getInstance().displayImage(items.get(i).getSource(), (ImageView)((View)views[i]).findViewById(R.id.pager_s05_background), AppUtil.getShowDisplayOptions());
         }
         mVerticalViewPager.setViews(views);
         mVerticalViewPager.setOnPageChangeListener(new MVerticalViewPager.OnPageChangeListener() {

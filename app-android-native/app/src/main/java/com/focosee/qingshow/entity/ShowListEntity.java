@@ -66,7 +66,7 @@ public class ShowListEntity extends AbsEntity {
     }
 
     public String getModelHeightAndHeightWithFormat() {
-        return (null != modelRef) ? (String.valueOf(modelRef.getHeight()) + "cm/" + String.valueOf(modelRef.getWeight()) + "kg" ) : "0cm/0kg";
+        return (null != modelRef) ? (String.valueOf(modelRef.getHeight()) + String.valueOf(modelRef.getWeight())) : "0cm/0kg";
     }
 
     public String getModelWeight() {

@@ -246,7 +246,7 @@ public class S03SHowActivity extends Activity {
 //                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
-                bundle.putSerializable(S07CollectActivity.INPUT_BRAND_ENTITY, showDetailEntity.getBrandEntity());
+                //bundle.putSerializable(S07CollectActivity.INPUT_BRAND_ENTITY, showDetailEntity.get());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

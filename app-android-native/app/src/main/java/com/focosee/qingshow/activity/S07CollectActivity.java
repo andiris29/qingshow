@@ -9,9 +9,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.entity.FollowPeopleEntity;
 import com.focosee.qingshow.entity.ShowDetailEntity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class S07CollectActivity extends Activity {
@@ -25,8 +39,8 @@ public class S07CollectActivity extends Activity {
     private S07ListAdapter adapter;
 
     private String brandText = null;
-    private ShowDetailEntity.RefBrand brandEntity = null;
-
+    //private ShowDetailEntity.RefBrand brandEntity = null;
+    private BrandEntity brandEntity = null;
     private ArrayList<ShowDetailEntity.RefItem> items;
 
     @Override
@@ -45,8 +59,8 @@ public class S07CollectActivity extends Activity {
         final Bundle bundle = intent.getExtras();
         items = (ArrayList<ShowDetailEntity.RefItem>) bundle.getSerializable(INPUT_ITEMS);
         brandText = intent.getStringExtra(INPUT_BRAND_TEXT);
-        brandEntity = (ShowDetailEntity.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
-
+        //brandEntity = (ShowDetailEntity.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
+        //brandEntity = (BrandEntity) bundle.getSerializable(INPUT_BRAND_ENTITY);
         listView = (ListView) findViewById(R.id.S07_item_list);
 
         adapter = new S07ListAdapter(this, (null != brandText), items, getScreenSize().y);
@@ -55,17 +69,14 @@ public class S07CollectActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent1 = new Intent(S07CollectActivity.this, S05ItemActivity.class);
-//                Bundle bundle1 = new Bundle();
-//                bundle1.putSerializable(S05ItemActivity.INPUT_ITEMS, items);
-//                intent1.putExtras(bundle1);
-//                startActivity(intent1);
                 Intent intent1 = new Intent(S07CollectActivity.this, P04BrandActivity.class);
                 Bundle bundle1 = new Bundle();
-                bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, items.get(position).getBrandEntity());
+                bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, items.get(position).getBrandRef());
                 bundle1.putSerializable(P04BrandActivity.INPUT_ITEM, items.get(position));
+                //bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, brandEntity);
                 intent1.putExtras(bundle1);
                 startActivity(intent1);
+
             }
         });
 
@@ -84,5 +95,4 @@ public class S07CollectActivity extends Activity {
         display.getSize(size);
         return size;
     }
-
 }

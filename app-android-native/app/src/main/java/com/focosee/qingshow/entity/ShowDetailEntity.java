@@ -1,18 +1,15 @@
 package com.focosee.qingshow.entity;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ShowDetailEntity extends AbsEntity {
-
 
     // Cover super property
     public static final String DEBUG_TAG = "ShowDetailEntity";
@@ -122,24 +119,22 @@ public class ShowDetailEntity extends AbsEntity {
     }
 
     public String getBrandNameText() {
-        return (null != brandRef) ? brandRef.name : null;
+        return name == null ? "" : name;
     }
 
 //    public RefBrand getBrandEntity() {
 //        return brandRef;
 //    }
-    public BrandEntity getBrandEntity(){
-        return brandRef;
-    }
 
     // Inner data
     public String _id;                      // "5439f64013bf528b45f00f9a"
+    public String name;
     public String cover;                    // "url for image source"
     public String video;                    // "/10.mp4.mp4"
     public int numLike;                  // "7777"
     public RefModel modelRef;               // "Model Object"
     //public RefBrand brandRef;
-    public BrandEntity brandRef;
+    //public BrandEntity brandRef;
     public String create;                   // "2014-11-21T15:52:27.740Z"
     public RefItem[] itemRefs;          // "Item Object List"
     public String[] styles;
@@ -251,10 +246,33 @@ public class ShowDetailEntity extends AbsEntity {
 //        public RefItem getBrandEntity() {
 //            return this;
 //        }
-        public String getBrandRef(){
-            return null == brandRef ? "" : brandRef;
+        public BrandEntity getBrandRef(){
+
+            if(null == brandRef)return null;
+
+            LinkedHashMap brandMap = new LinkedHashMap((LinkedHashMap)brandRef);
+            LinkedHashMap context = (LinkedHashMap)brandMap.get("__context");
+            LinkedHashMap coverMetadata = (LinkedHashMap)brandMap.get("coverMetadata");
+            brandMap.remove("__context");
+            brandMap.remove("coverMetadata");
+            JSONObject jsonObject = new JSONObject(brandMap);
+
+            try {
+                jsonObject.put("__context", new JSONObject(context));
+                jsonObject.put("coverMetadata", new JSONObject(coverMetadata));
+                String temp = jsonObject.toString();
+
+                return new Gson().fromJson(temp, BrandEntity.class);
+            } catch (Exception e) {
+                log(e.toString());
+                return null;
+            }
         }
 
+        public String getBrandId(){
+            if(null == brandRef) return "";
+            return String.valueOf(brandRef);
+        }
         public ArrayList<ImageInfo> getImages(){ return images; }
 
         public int getOrder(){
@@ -269,7 +287,7 @@ public class ShowDetailEntity extends AbsEntity {
         public String name;
         //public String cover;
         public String source;
-        public String brandRef;
+        public Object brandRef;
         public String create;
         public String price;
         public BrandNewInfo brandNewInfo;
@@ -279,7 +297,7 @@ public class ShowDetailEntity extends AbsEntity {
         //public String priceAfterDiscount;
     }
 
-    public static class ImageInfo{
+    public static class ImageInfo extends AbsEntity {
         public String url;
         public String description;
     }
@@ -290,7 +308,7 @@ public class ShowDetailEntity extends AbsEntity {
         public int height;
     }
 
-    public class MetaData {
+    public class MetaData extends AbsEntity{
         public int numTotal;
         public int numPages;
     }
