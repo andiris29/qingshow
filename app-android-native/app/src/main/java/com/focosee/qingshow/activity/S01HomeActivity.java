@@ -91,14 +91,14 @@ public class S01HomeActivity extends Activity {
         _adapter = new HomeWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
 
         _wfListView.setAdapter(_adapter);
-
+        _wfListView.setSmoothScrollbarEnabled(false);
         _wfListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-                if(Build.VERSION.SDK_INT > 16) {
-                    if (scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
-                        applyBlur();
-                }
+//                if(Build.VERSION.SDK_INT > 16) {
+//                    if (scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
+//                        applyBlur();
+//                }
             }
 
             @Override
@@ -154,10 +154,11 @@ public class S01HomeActivity extends Activity {
     }
 
     private void openMenu() {
+
         if(isFirstFocus_activity){
             applyBlur();
             if(Build.VERSION.SDK_INT > 16)
-                isFirstFocus_activity = false;
+                isFirstFocus_activity = true;
         }
         _blurImage.setVisibility(View.VISIBLE);
 
