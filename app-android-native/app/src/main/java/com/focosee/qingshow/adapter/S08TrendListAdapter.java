@@ -48,10 +48,12 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private Context context;
     private List<TrendEntity> data;
+    private ImageLoader imageLoader;
 
-    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int screenHeight) {
+    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int screenHeight, ImageLoader imageLoader) {
         this.context = context;
         this.data = trendEntities;
+        this.imageLoader = imageLoader;
         this.minHeight = screenHeight * 8 / 9;
     }
 
@@ -346,7 +348,7 @@ public class S08TrendListAdapter extends BaseAdapter {
             ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
             TrendEntity.ImageInfo imgInfo = (TrendEntity.ImageInfo)imageView.getTag();
 
-            ImageLoader.getInstance().displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
+            imageLoader.displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
             container.addView(imageView, 0);
 
             return imageView;

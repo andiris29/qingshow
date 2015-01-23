@@ -64,7 +64,7 @@ public class S08TrendActivity extends Activity {
             }
         });
 
-        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight());
+        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight(), ImageLoader.getInstance());
         listView.setAdapter(adapter);
         listView.setSmoothScrollbarEnabled(false);
 
