@@ -25,6 +25,7 @@ import com.focosee.qingshow.entity.CommentEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -45,7 +46,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
 
-    private ImageView userImage;
+    private MCircularImageView userImage;
     private EditText inputText;
     private Button sendButton;
     private MPullRefreshListView pullRefreshListView;
@@ -77,11 +78,14 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         });
         ((MNavigationView)findViewById(R.id.S04_navigation_bar)).getBtn_right().setVisibility(View.INVISIBLE);
 
-        userImage = (ImageView)findViewById(R.id.S04_user_image);
+        userImage = (MCircularImageView)findViewById(R.id.S04_user_image);
         inputText = (EditText) findViewById(R.id.S04_input);
         sendButton = (Button) findViewById(R.id.S04_send_button);
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.S04_container_list);
 
+        if(AppUtil.getAppUserLoginStatus(this) && null != QSApplication.get().getPeople()){
+            ImageLoader.getInstance().displayImage(QSApplication.get().getPeople().portrait, userImage);
+        }
         pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setScrollLoadEnabled(true);
         listView = pullRefreshListView.getRefreshableView();
@@ -183,6 +187,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
             @Override
             public void onResponse(JSONObject response) {
                 doRefreshTask();
+                inputText.setText("");
                 Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
