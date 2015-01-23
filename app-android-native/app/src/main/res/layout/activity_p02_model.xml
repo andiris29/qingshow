@@ -37,28 +37,34 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/P02_model_image_view"
             android:layout_alignTop="@+id/P02_model_image_view">
-            <TextView
-                android:id="@+id/P02_model_name_text_view"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:textSize="40px"
-                android:text="姓名"/>
-            <TextView
-                android:id="@+id/P02_model_job_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#ffffff"
-                android:textSize="35px"
-                android:text="模特"/>
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/P02_model_name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="40px"
+                    android:text="姓名"/>
+                <TextView
+                    android:id="@+id/P02_model_job_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:textSize="35px"
+                    android:text="模特"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/P02_model_height_weight_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
                 android:textColor="#ffffff"
                 android:textSize="35px"
                 android:text="170cm/65kg"/>

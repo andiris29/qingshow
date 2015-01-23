@@ -43,6 +43,8 @@ import java.util.Map;
 
 public class P02ModelActivity extends Activity {
 
+    private static final String TAG = "P02ModelActivity";
+
     public static final String INPUT_MODEL = "P02ModelActivity_input_model";
     private ViewPager viewPager;
     private MPullRefreshListView latestPullRefreshListView;

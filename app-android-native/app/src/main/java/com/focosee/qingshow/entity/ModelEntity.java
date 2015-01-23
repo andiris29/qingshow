@@ -61,7 +61,10 @@ public class ModelEntity extends AbsEntity {
     }
 
     public String getHeightWeight() {
-        return String.valueOf(height) + String.valueOf(weight);
+        if(height != "" && weight != "" && null != height && null != weight) {
+            return String.valueOf(height) + "cm/" + String.valueOf(weight) + "kg";
+        }
+        return "";
     }
 
     public String getBackground() {
