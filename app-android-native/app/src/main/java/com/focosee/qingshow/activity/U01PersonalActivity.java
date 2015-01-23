@@ -109,6 +109,8 @@ public class U01PersonalActivity extends FragmentActivity {
         line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
         line4 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
 
+        line1.setVisibility(View.GONE);
+
         personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
 
         personalPagerAdapter = new PersonalPagerAdapter(getSupportFragmentManager());
@@ -140,6 +142,7 @@ public class U01PersonalActivity extends FragmentActivity {
         });
 
         setIndicatorListener();
+
     }
 
     public class PersonalPagerAdapter extends FragmentPagerAdapter {
