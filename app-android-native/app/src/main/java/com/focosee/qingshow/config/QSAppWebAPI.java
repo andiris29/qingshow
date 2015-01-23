@@ -53,6 +53,7 @@ public class QSAppWebAPI {
 
     private static final String PREVIEW_TREND_LIST_API = HOST_NAME + "/preview/feed";
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
+    private static final String PREVIEW_TREND_UNLIKE_API = HOST_NAME + "/preview/unlike";
 
     public static String getBrandFollowedApi(String _id){
         return BRAND_FOLLOWED_API + "?_id=" + _id;
@@ -60,7 +61,8 @@ public class QSAppWebAPI {
 
     public static String getUerApi(String _id){ return GET_SERVICE_URL + "?id=" + _id; }
 
-    public static String getPreviewTrendLikeApi(){
+    public static String getPreviewTrendLikeApi(int type){
+        if(0 == type) return PREVIEW_TREND_UNLIKE_API;
         return PREVIEW_TREND_LIKE_API;
     }
 
