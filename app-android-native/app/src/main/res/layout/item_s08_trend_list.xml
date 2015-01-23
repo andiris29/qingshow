@@ -12,6 +12,15 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
+        android:id="@+id/s08_viewGroup"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"></LinearLayout>
+
+    <LinearLayout
         android:id="@+id/S08_item_anchor_point"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -20,13 +29,6 @@
         android:background="@drawable/show_bottom_shadow"
         android:gravity="center"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/s08_viewGroup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"></LinearLayout>
 
         <TextView
             android:id="@+id/S08_item_description"
