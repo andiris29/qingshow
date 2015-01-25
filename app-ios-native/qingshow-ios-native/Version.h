@@ -9,6 +9,6 @@
 #ifndef qingshow_ios_native_Version_h
 #define qingshow_ios_native_Version_h
 
-#define VERSION @"1.2.0"
+#define VERSION @"1.3.0"
 
 #endif
