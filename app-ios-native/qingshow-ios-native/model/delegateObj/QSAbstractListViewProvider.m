@@ -36,7 +36,17 @@
     }
     return self;
 }
-
+- (void)dealloc
+{
+    if (self.refreshOperation) {
+        [self.refreshOperation cancel];
+        self.refreshOperation = nil;
+    }
+    if (self.loadMoreOperation) {
+        [self.loadMoreOperation cancel];
+        self.loadMoreOperation = nil;
+    }
+}
 #pragma mark - Network
 - (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block
 {

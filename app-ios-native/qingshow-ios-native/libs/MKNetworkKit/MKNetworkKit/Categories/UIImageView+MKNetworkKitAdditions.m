@@ -108,10 +108,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
         self.preContentMode = self.contentMode;
     }
 
-    if (![[url absoluteString] isEqualToString:[self currentImageUrl]] && image) {
-        self.image = image;
-        self.contentMode = UIViewContentModeCenter;
-    }
+//    if (![[url absoluteString] isEqualToString:[self currentImageUrl]] && image) {
+//        self.image = image;
+//        self.contentMode = UIViewContentModeCenter;
+//    }
   [self.imageFetchOperation cancel];
   if(!imageCacheEngine) imageCacheEngine = DefaultEngine;
   
