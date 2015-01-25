@@ -14,7 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITableView* itemNewTableView;
 @property (weak, nonatomic) IBOutlet UITableView* itemDiscountTableView;
 @property (weak, nonatomic) IBOutlet UITableView* showTableView;
-//@property (strong, nonatomic) IBOutlet UICollectionView* showCollectionView;
 
 @property (weak, nonatomic) IBOutlet UITableView* followerTableView;
 

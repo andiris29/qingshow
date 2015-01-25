@@ -9,12 +9,15 @@
 #import "QSAbstractListViewProvider.h"
 #import "QSAbstractListViewProvider+Protect.h"
 #import "MKNetworkOperation.h"
+#import "QSMetadataUtil.h"
+#import "NSNumber+QSExtension.h"
 
 @interface QSAbstractListViewProvider ()
 
 @property (strong, nonatomic) MKNetworkOperation* refreshOperation;
 @property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
 @property (assign, nonatomic) BOOL fIsAll;
+@property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
 
 @implementation QSAbstractListViewProvider
@@ -117,4 +120,49 @@
     }
 }
 
+#pragma mark -
+- (NSString*)getTotalCountDesc
+{
+    if (!self.metadataDict) {
+        return @"0";
+    }
+    long long filterCount = 0;
+    for (NSDictionary* dict in self.resultArray) {
+        if (self.filterBlock) {
+            if (self.filterBlock(dict)){
+                filterCount++;
+            }
+        }
+    }
+    long long t = [QSMetadataUtil getNumberTotal:self.metadataDict] - filterCount;
+    t = t >= 0ll? t : 0ll;
+    return @(t).kmbtStringValue;
+}
+
+#pragma mark - Refresh Control
+- (void)addRefreshControl
+{
+    if (self.refreshControl) {
+        [self.refreshControl removeFromSuperview];
+        self.refreshControl = nil;
+    }
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(didPullRefreshControl:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.refreshControl];
+
+}
+- (void)didPullRefreshControl:(UIRefreshControl*)refreshControl
+{
+    [self fetchDataOfPage:1 completion:^{
+        [refreshControl endRefreshing];
+    }];
+}
+- (void)refreshWithAnimation
+{
+    [self.refreshControl beginRefreshing];
+    [self.view scrollRectToVisible:CGRectMake(0, -self.refreshControl.frame.size.height, 1, 1) animated:YES];
+    [self fetchDataOfPage:1 completion:^{
+        [self.refreshControl endRefreshing];
+    }];
+}
 @end

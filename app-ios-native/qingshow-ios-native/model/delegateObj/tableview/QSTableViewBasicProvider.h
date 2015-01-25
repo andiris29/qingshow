@@ -18,8 +18,7 @@
 #pragma mark - Bind
 - (void)bindWithTableView:(UITableView*)tableView;
 
-@property (strong, nonatomic) NSDictionary* clickedData;
-- (void)refreshClickedData;
+
 
 
 #pragma mark - 
@@ -29,7 +28,7 @@
 @property (weak, nonatomic) UITableView* view;
 #pragma mark - Method to be Override
 - (void)registerCell;
-- (void)refreshWithAnimation;
+
 
 - (NSString*)getTotalCountDesc;
 

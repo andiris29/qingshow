@@ -24,6 +24,8 @@
 @property (strong, nonatomic) ArrayNetworkBlock networkBlock;
 @property (strong, nonatomic) FilterBlock filterBlock;
 @property (assign, nonatomic) int currentPage;
+@property (strong, nonatomic) NSDictionary* clickedData;
+@property (weak, nonatomic) UIScrollView* view;
 
 @property (weak, nonatomic) NSObject<QSAbstractScrollProviderDelegate>* delegate;
 
@@ -31,4 +33,13 @@
 - (void)reloadData;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block;
+
+- (NSString*)getTotalCountDesc;
+
+- (void)refreshClickedData;
+
+#pragma mark - Refresh Control
+- (void)addRefreshControl;
+- (void)didPullRefreshControl:(UIRefreshControl*)refreshControl;
+- (void)refreshWithAnimation;
 @end

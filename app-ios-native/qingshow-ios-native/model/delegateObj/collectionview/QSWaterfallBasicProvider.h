@@ -14,17 +14,10 @@
 @interface QSWaterfallBasicProvider : QSAbstractListViewProvider <UICollectionViewDataSource, UICollectionViewDelegate,QSWaterFallLayoutDelegate, UIScrollViewDelegate>
 
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
-- (void)reloadData;
-
-@property (strong, nonatomic) NSDictionary* clickedData;
-- (void)refreshClickedData;
-
-- (MKNetworkOperation*)fetchDataOfPage:(int)page;
 
 #pragma mark - Private
-@property (readonly, nonatomic) UICollectionView* view;
+@property (weak, nonatomic) UICollectionView* view;
 
 #pragma mark - Virtual Method
 - (void)registerCell;
-- (NSString*)getTotalCountDesc;
 @end

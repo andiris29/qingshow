@@ -49,7 +49,7 @@
 
 - (void)bindWithCollectionView:(UICollectionView *)collectionView
 {
-    _view = collectionView;
+    self.view = collectionView;
     self.view.dataSource = self;
     self.view.delegate = self;
     collectionView.alwaysBounceVertical = YES;
@@ -64,9 +64,8 @@
 
     [self registerCell];
     
-    UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(didPullRefreshControl:) forControlEvents:UIControlEventValueChanged];
-    [collectionView addSubview:refreshControl];
+    [self addRefreshControl];
+
 }
 
 
@@ -108,35 +107,6 @@
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.resultArray.count;
-}
-
-
-
-#pragma mark - Refresh Control
-- (void)didPullRefreshControl:(UIRefreshControl*)refreshControl
-{
-    [self fetchDataOfPage:1 completion:^{
-        [refreshControl endRefreshing];
-    }];
-}
-
-
-- (NSString*)getTotalCountDesc
-{
-    if (!self.metadataDict) {
-        return @"0";
-    }
-    long long filterCount = 0;
-    for (NSDictionary* dict in self.resultArray) {
-        if (self.filterBlock) {
-            if (self.filterBlock(dict)){
-                filterCount++;
-            }
-        }
-    }
-    long long t = [QSMetadataUtil getNumberTotal:self.metadataDict] - filterCount;
-    t = t >= 0ll? t : 0ll;
-    return @(t).kmbtStringValue;
 }
 
 @end
