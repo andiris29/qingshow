@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="cancel">Cancel</string>
     <string name="finish">Finish</string>
     <string name="sharing">Sharing operation is working in the background…</string>
