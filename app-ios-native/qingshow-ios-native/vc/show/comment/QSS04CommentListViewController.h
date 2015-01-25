@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSCommentListTableViewDelegateObj.h"
+#import "QSCommentListTableViewProvider.h"
 
 typedef NS_ENUM(int, QSCommentListViewControllerType) {
     QSCommentListViewControllerTypeShow,
     QSCommentListViewControllerTypePreview
 };
 
-@interface QSS04CommentListViewController : UIViewController<QSCommentListTableViewDelegateObj, UITextFieldDelegate, UIActionSheetDelegate>
+@interface QSS04CommentListViewController : UIViewController<QSCommentListTableViewProviderDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *commentContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentBottomConstrain;

@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSShowCollectionViewDelegateObj.h"
+#import "QSShowCollectionViewProvider.h"
 #import "QSTimeCollectionViewCell.h"
 #import "QSShowUtil.h"
 
-@interface QSShowCollectionViewDelegateObj ()
+@interface QSShowCollectionViewProvider ()
 
 @end
 
-@implementation QSShowCollectionViewDelegateObj
+@implementation QSShowCollectionViewProvider
 
 - (void)registerCell
 {

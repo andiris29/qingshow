@@ -232,7 +232,7 @@
 {
     [self showPeopleDetailViewControl:peopleDict];
 }
-#pragma mark - QSModelListTableViewDelegateObjDelegate
+#pragma mark - QSModelListTableViewProviderDelegate
 - (void)clickModel:(NSDictionary*)model
 {
     [self showPeopleDetailViewControl:model];

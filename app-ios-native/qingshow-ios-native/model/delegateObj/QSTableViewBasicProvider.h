@@ -7,9 +7,9 @@
 //
 
 
-#import "QSAbstractScrollDelegateObj.h"
+#import "QSAbstractListViewProvider.h"
 
-@interface QSTableViewBasicDelegateObj : QSAbstractScrollDelegateObj<UITableViewDataSource, UITableViewDelegate>
+@interface QSTableViewBasicProvider : QSAbstractListViewProvider<UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - Init Method
 - (id)initWithCellClass:(Class)cellClass identifier:(NSString*)identifier;

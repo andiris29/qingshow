@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSBigImageTableViewDelegateObj.h"
+#import "QSBigImageTableViewProvider.h"
 
-@implementation QSBigImageTableViewDelegateObj
+@implementation QSBigImageTableViewProvider
 
 #pragma mark - Override
 

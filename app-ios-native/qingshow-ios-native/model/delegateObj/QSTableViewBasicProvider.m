@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSTableViewBasicDelegateObj.h"
+#import "QSTableViewBasicProvider.h"
 #import "MKNetworkOperation.h"
 #import "NSNumber+QSExtension.h"
 #import "QSMetadataUtil.h"
-#import "QSAbstractScrollDelegateObj+Protect.h"
+#import "QSAbstractListViewProvider+Protect.h"
 
-@interface QSTableViewBasicDelegateObj ()
+@interface QSTableViewBasicProvider ()
 
 @property (assign, nonatomic) Class cellClass;
 @property (strong, nonatomic) UINib* cellNib;
@@ -22,7 +22,7 @@
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
 
-@implementation QSTableViewBasicDelegateObj
+@implementation QSTableViewBasicProvider
 
 #pragma mark - Init
 - (id)initWithCellClass:(Class)cellClass identifier:(NSString*)identifier

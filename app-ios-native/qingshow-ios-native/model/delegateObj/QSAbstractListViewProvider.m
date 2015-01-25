@@ -6,18 +6,18 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSAbstractScrollDelegateObj.h"
-#import "QSAbstractScrollDelegateObj+Protect.h"
+#import "QSAbstractListViewProvider.h"
+#import "QSAbstractListViewProvider+Protect.h"
 #import "MKNetworkOperation.h"
 
-@interface QSAbstractScrollDelegateObj ()
+@interface QSAbstractListViewProvider ()
 
 @property (strong, nonatomic) MKNetworkOperation* refreshOperation;
 @property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
 @property (assign, nonatomic) BOOL fIsAll;
 @end
 
-@implementation QSAbstractScrollDelegateObj
+@implementation QSAbstractListViewProvider
 
 - (id)init
 {

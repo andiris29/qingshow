@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSBrandCollectionViewDelegateObj.h"
+#import "QSBrandCollectionViewProvider.h"
 #import "QSBrandListCollectionViewCell.h"
-@implementation QSBrandCollectionViewDelegateObj
+@implementation QSBrandCollectionViewProvider
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSBrandListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSBrandListCollectionViewCell"];

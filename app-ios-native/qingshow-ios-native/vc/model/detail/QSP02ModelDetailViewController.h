@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-#import "QSBigImageTableViewDelegateObj.h"
+#import "QSBigImageTableViewProvider.h"
 
-@interface QSP02ModelDetailViewController : QSDetailBaseViewController<QSBigImageTableViewDelegateObjDelegate>
+@interface QSP02ModelDetailViewController : QSDetailBaseViewController<QSBigImageTableViewProviderDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView* followingTableView;
 @property (strong, nonatomic) IBOutlet UITableView* followerTableView;

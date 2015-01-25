@@ -23,10 +23,10 @@
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
 #pragma mark Delegate Obj
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* likedDelegate;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* recommendationDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* likedBrandDelegate;
+@property (strong, nonatomic) QSShowCollectionViewProvider* likedDelegate;
+@property (strong, nonatomic) QSShowCollectionViewProvider* recommendationDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followingDelegate;
+@property (strong, nonatomic) QSBigImageTableViewProvider* likedBrandDelegate;
 @property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
 
@@ -54,13 +54,13 @@
 
 - (void)delegateObjInit
 {
-    self.likedDelegate  = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.likedDelegate  = [[QSShowCollectionViewProvider alloc] init];
     self.likedDelegate.delegate = self;
-    self.recommendationDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.recommendationDelegate = [[QSShowCollectionViewProvider alloc] init];
     self.recommendationDelegate.delegate = self;
-    self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followingDelegate.delegate = self;
-    self.likedBrandDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.likedBrandDelegate = [[QSBigImageTableViewProvider alloc] init];
     self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
     self.likedBrandDelegate.delegate = self;
 }

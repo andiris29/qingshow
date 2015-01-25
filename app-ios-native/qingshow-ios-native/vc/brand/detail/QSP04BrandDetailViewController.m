@@ -12,7 +12,7 @@
 #import "QSMetadataUtil.h"
 #import "QSBrandUtil.h"
 #import "UIViewController+QSExtension.h"
-#import "QSItemImageListTableViewDelegateObj.h"
+#import "QSItemImageListTableViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSG01ItemWebViewController.h"
@@ -23,10 +23,10 @@
 @property (strong, nonatomic) NSDictionary* itemDict;
 
 #pragma mark Delegate Obj
-@property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemNewDelegate;
-@property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemDiscountDelegate;
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
+@property (strong, nonatomic) QSItemImageListTableViewProvider* itemNewDelegate;
+@property (strong, nonatomic) QSItemImageListTableViewProvider* itemDiscountDelegate;
+@property (strong, nonatomic) QSBigImageTableViewProvider* showsDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followerDelegate;
 
 @end
 
@@ -56,10 +56,10 @@
 
 - (void)delegateObjInit
 {
-    self.itemNewDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
-    self.itemDiscountDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
-    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
-    self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.itemNewDelegate = [[QSItemImageListTableViewProvider alloc] init];
+    self.itemDiscountDelegate = [[QSItemImageListTableViewProvider alloc] init];
+    self.showsDelegate = [[QSBigImageTableViewProvider alloc] init];
+    self.followerDelegate = [[QSModelListTableViewProvider alloc] init];
 }
 #pragma mark - Life Cycle
 - (void)viewDidLoad {

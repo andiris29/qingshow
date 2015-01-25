@@ -13,7 +13,7 @@
 #import "QSBrandTitleView.h"
 @interface QSP03BrandListViewController ()
 
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSBigImageTableViewProvider* delegateObj;
 @property (strong, nonatomic) QSBrandTableViewHeaderView* headerView;
 @property (strong, nonatomic) NSNumber* type;
 @end
@@ -66,7 +66,7 @@
 #pragma mark - 
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.delegateObj = [[QSBigImageTableViewProvider alloc] init];
     self.delegateObj.type = QSBigImageTableViewCellTypeBrand;
 //    self.delegateObj.delegate = self;
     [self.delegateObj bindWithTableView:self.tableView];
@@ -77,7 +77,7 @@
     self.delegateObj.delegate = self;
     [self.delegateObj fetchDataOfPage:1];
 }
-#pragma mark - QSBrandCollectionViewDelegateObjDelegate
+#pragma mark - QSBrandCollectionViewProviderDelegate
 - (void)didClickBrand:(NSDictionary*)brandDict {
     UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict];
     [self.navigationController pushViewController:vc animated:YES];

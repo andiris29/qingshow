@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "QSWaterFallCollectionViewLayout.h"
-#import "QSAbstractScrollDelegateObj.h"
+#import "QSAbstractListViewProvider.h"
 #import "QSBlock.h"
 
-@interface QSWaterfallBasicDelegateObj : QSAbstractScrollDelegateObj <UICollectionViewDataSource, UICollectionViewDelegate,QSWaterFallLayoutDelegate, UIScrollViewDelegate>
+@interface QSWaterfallBasicProvider : QSAbstractListViewProvider <UICollectionViewDataSource, UICollectionViewDelegate,QSWaterFallLayoutDelegate, UIScrollViewDelegate>
 
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
 - (void)reloadData;

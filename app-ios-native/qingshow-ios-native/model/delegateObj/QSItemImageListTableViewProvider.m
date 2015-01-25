@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSItemImageListTableViewDelegateObj.h"
+#import "QSItemImageListTableViewProvider.h"
 #import "QSItemImageTableViewCell.h"
-@implementation QSItemImageListTableViewDelegateObj
+@implementation QSItemImageListTableViewProvider
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSItemImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSItemImageTableViewCell"];

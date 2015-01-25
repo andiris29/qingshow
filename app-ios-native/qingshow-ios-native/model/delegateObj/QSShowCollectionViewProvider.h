@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSWaterfallBasicDelegateObj.h"
+#import "QSWaterfallBasicProvider.h"
 #import <Foundation/Foundation.h>
 #import "QSShowCollectionViewCell.h"
 
 
-@protocol QSShowDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
+@protocol QSShowProviderDelegate <QSAbstractScrollProviderDelegate>
 
 @optional
 
@@ -27,10 +27,10 @@ typedef NS_ENUM(NSInteger, QSShowDelegateObjType) {
 
 };
 
-@interface QSShowCollectionViewDelegateObj : QSWaterfallBasicDelegateObj< QSShowCollectionViewCellDelegate>
+@interface QSShowCollectionViewProvider : QSWaterfallBasicProvider< QSShowCollectionViewCellDelegate>
 
 @property (assign, nonatomic) QSShowDelegateObjType type;
-@property (weak, nonatomic) NSObject<QSShowDelegateObjDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSShowProviderDelegate>* delegate;
 
 - (void)updateShow:(NSDictionary*)showDict;
 

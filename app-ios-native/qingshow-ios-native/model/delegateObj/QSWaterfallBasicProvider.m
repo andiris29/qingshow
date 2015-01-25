@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSWaterfallBasicDelegateObj.h"
+#import "QSWaterfallBasicProvider.h"
 #import "MKNetworkOperation.h"
 #import "QSMetadataUtil.h"
 #import "NSNumber+QSExtension.h"
-#import "QSAbstractScrollDelegateObj+Protect.h"
+#import "QSAbstractListViewProvider+Protect.h"
 
-@interface QSWaterfallBasicDelegateObj ()
+@interface QSWaterfallBasicProvider ()
 
 @end
 
 
-@implementation QSWaterfallBasicDelegateObj
+@implementation QSWaterfallBasicProvider
 
 #pragma mark - Method To Be Override
 - (void)registerCell

@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSTableViewBasicDelegateObj.h"
+#import "QSTableViewBasicProvider.h"
 #import "QSCommentTableViewCell.h"
 
-@protocol QSCommentListTableViewDelegateObj <QSAbstractScrollDelegateObjDelegate>
+@protocol QSCommentListTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index;
 - (void)didClickPeople:(NSDictionary*)peopleDict;
 
 @end
 
-@interface QSCommentListTableViewDelegateObj : QSTableViewBasicDelegateObj <QSCommentTableViewCellDelegate>
+@interface QSCommentListTableViewProvider : QSTableViewBasicProvider <QSCommentTableViewCellDelegate>
 
-@property (weak, nonatomic) NSObject<QSCommentListTableViewDelegateObj>* delegate;
+@property (weak, nonatomic) NSObject<QSCommentListTableViewProviderDelegate>* delegate;
 
 @end

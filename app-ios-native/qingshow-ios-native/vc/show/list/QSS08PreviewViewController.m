@@ -15,7 +15,7 @@
 
 @interface QSS08PreviewViewController ()
 
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSBigImageTableViewProvider* delegateObj;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
@@ -58,7 +58,7 @@
 #pragma mark - 
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.delegateObj = [[QSBigImageTableViewProvider alloc] init];
     self.delegateObj.type = QSBigImageTableViewCellTypeFashion;
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -68,7 +68,7 @@
     self.delegateObj.delegate = self;
 }
 
-#pragma mark - QSBigImageTableViewDelegateObjDelegate
+#pragma mark - QSBigImageTableViewProviderDelegate
 - (void)clickCommentOfDict:(NSDictionary*)dict
 {
     UIViewController* vc = [[QSS04CommentListViewController alloc] initWithPreview:dict];

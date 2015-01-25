@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSCommentListTableViewDelegateObj.h"
+#import "QSCommentListTableViewProvider.h"
 #import "QSCommentUtil.h"
 
-@implementation QSCommentListTableViewDelegateObj
+@implementation QSCommentListTableViewProvider
 
 - (void)registerCell
 {

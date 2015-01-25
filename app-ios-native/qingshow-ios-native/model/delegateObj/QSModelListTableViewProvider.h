@@ -8,10 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#import "QSTableViewBasicDelegateObj.h"
+#import "QSTableViewBasicProvider.h"
 #import "QSModelListTableViewCell.h"
 
-@protocol QSModelListTableViewDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
+@protocol QSModelListTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 @optional
 - (void)clickModel:(NSDictionary*)model;
@@ -24,8 +24,8 @@ typedef NS_ENUM(NSInteger, QSModelListTableViewDelegateObjType) {
 };
 
 
-@interface QSModelListTableViewDelegateObj : QSTableViewBasicDelegateObj< QSModelListTableViewCellDelegate>
+@interface QSModelListTableViewProvider : QSTableViewBasicProvider< QSModelListTableViewCellDelegate>
 
-@property (weak, nonatomic) NSObject<QSModelListTableViewDelegateObjDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSModelListTableViewProviderDelegate>* delegate;
 @property (assign ,nonatomic) QSModelListTableViewDelegateObjType type;
 @end

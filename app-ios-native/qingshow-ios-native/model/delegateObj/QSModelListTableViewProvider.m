@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSModelListTableViewDelegateObj.h"
+#import "QSModelListTableViewProvider.h"
 #import "MKNetworkOperation.h"
 
-@interface QSModelListTableViewDelegateObj ()
+@interface QSModelListTableViewProvider ()
 
 
 @end
 
-@implementation QSModelListTableViewDelegateObj
+@implementation QSModelListTableViewProvider
 
 
 #pragma mark - Override

@@ -36,7 +36,7 @@
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
 @property (assign, nonatomic) BOOL fIsShowMenu;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSShowCollectionViewProvider* delegateObj;
 //@property (assign, nonatomic) BOOL fISLogined;
 
 @property (assign, nonatomic) BOOL fIsFirstLoad;
@@ -104,7 +104,7 @@
 #pragma mark - Network
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.delegateObj = [[QSShowCollectionViewProvider alloc] init];
     self.delegateObj.delegate = self;
     self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
     [self.delegateObj bindWithCollectionView:self.collectionView];

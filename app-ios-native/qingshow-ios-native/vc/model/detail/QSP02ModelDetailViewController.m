@@ -19,9 +19,9 @@
 @property (strong, nonatomic) NSMutableDictionary* peopleDict;
 
 #pragma mark - Delegate Obj
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
+@property (strong, nonatomic) QSBigImageTableViewProvider* showsDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followingDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followerDelegate;
 
 
 @end
@@ -43,11 +43,11 @@
 
 - (void)delegateObjInit
 {
-    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.showsDelegate = [[QSBigImageTableViewProvider alloc] init];
     self.showsDelegate.delegate = self;
-    self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followingDelegate.delegate = self;
-    self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followerDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followerDelegate.delegate = self;
     self.followerDelegate.type = QSModelListTableViewDelegateObjTypeHideFollow;
 }

@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
-#import "QSTableViewBasicDelegateObj.h"
+#import "QSTableViewBasicProvider.h"
 #import "QSBigImageTableViewCell.h"
 
-@protocol QSBigImageTableViewDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
+@protocol QSBigImageTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 @optional
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
@@ -21,10 +21,10 @@
 
 @end
 
-@interface QSBigImageTableViewDelegateObj : QSTableViewBasicDelegateObj <QSBigImageTableViewCellDelegate>
+@interface QSBigImageTableViewProvider : QSTableViewBasicProvider <QSBigImageTableViewCellDelegate>
 
 @property (assign, nonatomic) QSBigImageTableViewCellType type;
-@property (weak, nonatomic) NSObject<QSBigImageTableViewDelegateObjDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSBigImageTableViewProviderDelegate>* delegate;
 
 - (void)rebindData:(NSDictionary*)dict;
 

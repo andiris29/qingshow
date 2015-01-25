@@ -24,7 +24,7 @@
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) NSDictionary* previewDict;
-@property (strong, nonatomic) QSCommentListTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSCommentListTableViewProvider* delegateObj;
 @property (assign, nonatomic) int clickIndex;
 
 @property (assign, nonatomic) QSCommentListViewControllerType type;
@@ -43,7 +43,7 @@
         self.type = QSCommentListViewControllerTypeShow;
         __weak QSS04CommentListViewController* weakSelf = self;
         self.showDict = showDict;
-        self.delegateObj = [[QSCommentListTableViewDelegateObj alloc] init];
+        self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE getCommentsOfShow:weakSelf.showDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
@@ -58,7 +58,7 @@
         self.type = QSCommentListViewControllerTypePreview;
         __weak QSS04CommentListViewController* weakSelf = self;
         self.previewDict = previewDict;
-        self.delegateObj = [[QSCommentListTableViewDelegateObj alloc] init];
+        self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryCommentPreview:weakSelf.previewDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
@@ -113,7 +113,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - QSCommentListTableViewDelegateObj
+#pragma mark - QSCommentListTableViewProviderDelegate
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
     [self showPeopleDetailViewControl:peopleDict];

@@ -15,7 +15,7 @@
 
 @interface QSP01ModelListViewController ()
 
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSModelListTableViewProvider* delegateObj;
 - (void)configView;
 @end
 
@@ -31,7 +31,7 @@
 }
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSModelListTableViewDelegateObj alloc] init];
+    self.delegateObj = [[QSModelListTableViewProvider alloc] init];
     self.delegateObj.delegate = self;
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -74,7 +74,7 @@
     [[self navigationItem] setBackBarButtonItem:backButton];
 }
 
-#pragma mark - QSModelListTableViewDelegateObjDelegate
+#pragma mark - QSModelListTableViewProviderDelegate
 - (void)clickModel:(NSDictionary*)model
 {
     [self showPeopleDetailViewControl:model];

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSAbstractScrollDelegateObj.h"
+#import "QSAbstractListViewProvider.h"
 
-@interface QSAbstractScrollDelegateObj (Protect)
+@interface QSAbstractListViewProvider (Protect)
 
 - (MKNetworkOperation*)fetchDataOfPage:(int)page
                       viewRefreshBlock:(VoidBlock)refreshBlock

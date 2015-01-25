@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "QSBlock.h"
 
-@protocol QSAbstractScrollDelegateObjDelegate <NSObject>
+@protocol QSAbstractScrollProviderDelegate <NSObject>
 
 @optional
 - (void)handleNetworkError:(NSError*)error;
@@ -17,7 +17,7 @@
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
 @end
 
-@interface QSAbstractScrollDelegateObj : NSObject <UIScrollViewDelegate>
+@interface QSAbstractListViewProvider : NSObject <UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (strong, nonatomic) NSDictionary* metadataDict;
@@ -25,7 +25,7 @@
 @property (strong, nonatomic) FilterBlock filterBlock;
 @property (assign, nonatomic) int currentPage;
 
-@property (weak, nonatomic) NSObject<QSAbstractScrollDelegateObjDelegate>* delegate;
+@property (weak, nonatomic) NSObject<QSAbstractScrollProviderDelegate>* delegate;
 
 #pragma mark - Network
 - (void)reloadData;
