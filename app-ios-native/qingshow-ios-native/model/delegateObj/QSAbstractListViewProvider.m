@@ -167,4 +167,8 @@
         [self.refreshControl endRefreshing];
     }];
 }
+- (void)refreshClickedData
+{
+
+}
 @end
