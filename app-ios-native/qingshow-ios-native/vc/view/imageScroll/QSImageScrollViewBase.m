@@ -66,8 +66,6 @@
     return [self initWithFrame:frame direction:QSImageScrollViewDirectionHor];
 }
 
-
-
 #pragma mark - Layout
 - (void)updateImages
 {

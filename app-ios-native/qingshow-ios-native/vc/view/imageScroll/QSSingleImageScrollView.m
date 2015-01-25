@@ -31,7 +31,7 @@
         id imageInfo = self.imageUrlArray[imageIndex];
         if ([imageInfo isKindOfClass:[NSURL class]]) {
             NSURL* imageUrl = (NSURL*)imageInfo;
-            [imageView setImageFromURL:imageUrl];
+            [imageView setImageFromURL:imageUrl placeHolderImage:nil animation:NO];
         } else if ([imageInfo isKindOfClass:[UIImage class]]){
             imageView.image = (UIImage*)imageInfo;
         }
