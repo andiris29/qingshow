@@ -32,4 +32,6 @@
 @property (weak, nonatomic) NSObject<QSItemImageTableViewCellDelegate>* delegate;
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict;
+
+- (void)loadAllImages;
 @end

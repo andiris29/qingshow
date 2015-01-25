@@ -57,5 +57,4 @@
     _imageArray = nil;
     [self updateImages];
 }
-
 @end

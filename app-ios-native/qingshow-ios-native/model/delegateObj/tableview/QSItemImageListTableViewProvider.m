@@ -41,6 +41,26 @@
     if ([self.delegate respondsToSelector:@selector(didClickShopBtnOfItem:)]) {
         [self.delegate didClickShopBtnOfItem:itemDict];
     }
+}
 
+#pragma mark - ScrollView
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    if (!decelerate) {
+        [self loadVisibleImage];
+    }
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [super scrollViewDidEndDecelerating:scrollView];
+    [self loadVisibleImage];
+}
+- (void)loadVisibleImage
+{
+    NSArray* cells = [self.view visibleCells];
+    for (QSItemImageTableViewCell* cell in cells) {
+        [cell loadAllImages];
+    }
 }
 @end

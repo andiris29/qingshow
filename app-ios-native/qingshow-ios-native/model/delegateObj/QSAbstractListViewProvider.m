@@ -120,6 +120,14 @@
         [self.delegate scrollViewWillBeginDragging:scrollView];
     }
 }
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+
+}
 
 #pragma mark -
 - (NSString*)getTotalCountDesc

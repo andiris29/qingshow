@@ -243,4 +243,9 @@
         [self.delegate clickDetailBtn:self];
     }
 }
+
+- (void)loadAllImages
+{
+    [self.singleImageScrollView loadAllImages];
+}
 @end

@@ -57,4 +57,6 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)detailBtnPressed:(id)sender;
 
+- (void)loadAllImages;
+
 @end

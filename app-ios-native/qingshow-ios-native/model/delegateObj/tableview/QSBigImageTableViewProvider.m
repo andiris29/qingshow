@@ -113,4 +113,29 @@
     }
 }
 
+
+#pragma mark - ScrollView
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    if (self.type == QSBigImageTableViewCellTypeFashion) {
+        if (!decelerate) {
+            [self loadVisibleImage];
+        }
+    }
+}
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [super scrollViewDidEndDecelerating:scrollView];
+    if (self.type == QSBigImageTableViewCellTypeFashion) {
+        [self loadVisibleImage];
+    }
+}
+- (void)loadVisibleImage
+{
+    NSArray* cells = [self.view visibleCells];
+    for (QSBigImageTableViewCell* cell in cells) {
+        [cell loadAllImages];
+    }
+}
 @end

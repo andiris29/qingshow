@@ -47,7 +47,7 @@
     self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imageContainerView.bounds direction:QSImageScrollViewDirectionHor];
     self.imageScrollView.pageControlOffsetY = 60.f;
     self.imageScrollView.delegate = self;
-    self.imageScrollView.enableLazyLoad = NO;
+    self.imageScrollView.enableLazyLoad = YES;
     [self.imageContainerView addSubview:self.imageScrollView];
     self.discountLabel.isWithStrikeThrough = YES;
 }
@@ -142,5 +142,9 @@
     rect2 = self.discountLabel.frame;
     rect2.origin.y = self.priceLabel.frame.origin.y;
     self.discountLabel.frame =rect2;
+}
+- (void)loadAllImages
+{
+    [self.imageScrollView loadAllImages];
 }
 @end
