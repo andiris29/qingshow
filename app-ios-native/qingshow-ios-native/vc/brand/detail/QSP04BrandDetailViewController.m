@@ -57,9 +57,13 @@
 - (void)delegateObjInit
 {
     self.itemNewDelegate = [[QSItemImageListTableViewProvider alloc] init];
+    self.itemNewDelegate.hasRefreshControl = NO;
     self.itemDiscountDelegate = [[QSItemImageListTableViewProvider alloc] init];
+    self.itemDiscountDelegate.hasRefreshControl = NO;
     self.showsDelegate = [[QSBigImageTableViewProvider alloc] init];
+    self.showsDelegate.hasRefreshControl = NO;
     self.followerDelegate = [[QSModelListTableViewProvider alloc] init];
+    self.followerDelegate.hasRefreshControl = NO;
 }
 #pragma mark - Life Cycle
 - (void)viewDidLoad {

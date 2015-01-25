@@ -29,6 +29,8 @@
 
 @property (weak, nonatomic) NSObject<QSAbstractScrollProviderDelegate>* delegate;
 
+@property (assign, nonatomic) BOOL hasRefreshControl;
+
 #pragma mark - Network
 - (void)reloadData;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;

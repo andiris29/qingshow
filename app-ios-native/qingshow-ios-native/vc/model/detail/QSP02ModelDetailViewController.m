@@ -45,11 +45,14 @@
 {
     self.showsDelegate = [[QSBigImageTableViewProvider alloc] init];
     self.showsDelegate.delegate = self;
+    self.showsDelegate.hasRefreshControl = NO;
     self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followingDelegate.delegate = self;
+    self.followingDelegate.hasRefreshControl = NO;
     self.followerDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followerDelegate.delegate = self;
     self.followerDelegate.type = QSModelListTableViewDelegateObjTypeHideFollow;
+    self.followerDelegate.hasRefreshControl = NO;
 }
 
 #pragma mark - Life Cycle

@@ -18,9 +18,6 @@
 #pragma mark - Bind
 - (void)bindWithTableView:(UITableView*)tableView;
 
-
-
-
 #pragma mark - 
 - (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate;
 
@@ -28,9 +25,6 @@
 @property (weak, nonatomic) UITableView* view;
 #pragma mark - Method to be Override
 - (void)registerCell;
-
-
-- (NSString*)getTotalCountDesc;
 
 @property (strong, nonatomic) NSArray* additionalResult;
 @end

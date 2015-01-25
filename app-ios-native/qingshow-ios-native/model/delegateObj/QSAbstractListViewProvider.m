@@ -32,6 +32,7 @@
         self.loadMoreOperation = nil;
         self.refreshOperation = nil;
         self.currentPage = 1;
+        self.hasRefreshControl = YES;
     }
     return self;
 }
@@ -142,14 +143,15 @@
 #pragma mark - Refresh Control
 - (void)addRefreshControl
 {
-    if (self.refreshControl) {
-        [self.refreshControl removeFromSuperview];
-        self.refreshControl = nil;
+    if (self.hasRefreshControl) {
+        if (self.refreshControl) {
+            [self.refreshControl removeFromSuperview];
+            self.refreshControl = nil;
+        }
+        self.refreshControl = [[UIRefreshControl alloc] init];
+        [self.refreshControl addTarget:self action:@selector(didPullRefreshControl:) forControlEvents:UIControlEventValueChanged];
+        [self.view addSubview:self.refreshControl];
     }
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(didPullRefreshControl:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:self.refreshControl];
-
 }
 - (void)didPullRefreshControl:(UIRefreshControl*)refreshControl
 {

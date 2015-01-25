@@ -48,7 +48,7 @@
     return self;
 }
 
-
+#pragma mark -
 - (void)dealloc
 {
     self.view.delegate = nil;

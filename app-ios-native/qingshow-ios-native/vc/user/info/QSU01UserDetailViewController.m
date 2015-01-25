@@ -56,12 +56,16 @@
 {
     self.likedDelegate  = [[QSShowCollectionViewProvider alloc] init];
     self.likedDelegate.delegate = self;
+    self.likedDelegate.hasRefreshControl = NO;
     self.recommendationDelegate = [[QSShowCollectionViewProvider alloc] init];
     self.recommendationDelegate.delegate = self;
+    self.recommendationDelegate.hasRefreshControl = NO;
     self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followingDelegate.delegate = self;
+    self.followingDelegate.hasRefreshControl = NO;
     self.likedBrandDelegate = [[QSBigImageTableViewProvider alloc] init];
     self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
+    self.likedBrandDelegate.hasRefreshControl = NO;
     self.likedBrandDelegate.delegate = self;
 }
 
