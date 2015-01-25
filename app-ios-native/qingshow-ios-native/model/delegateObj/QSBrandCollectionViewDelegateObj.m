@@ -11,7 +11,7 @@
 @implementation QSBrandCollectionViewDelegateObj
 - (void)registerCell
 {
-    [self.collectionView registerNib:[UINib nibWithNibName:@"QSBrandListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSBrandListCollectionViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSBrandListCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSBrandListCollectionViewCell"];
 }
 
 
@@ -46,7 +46,7 @@
         NSUInteger row = [self.resultArray indexOfObject:self.clickedData];
         
         NSIndexPath* indexPath = [NSIndexPath indexPathForItem:row inSection:0];
-        QSBrandListCollectionViewCell* cell = (QSBrandListCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        QSBrandListCollectionViewCell* cell = (QSBrandListCollectionViewCell*)[self.view cellForItemAtIndexPath:indexPath];
         [cell bindWithBrandDict:self.clickedData];
         self.clickedData = nil;
     }

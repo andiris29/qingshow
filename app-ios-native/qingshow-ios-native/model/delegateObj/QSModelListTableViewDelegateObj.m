@@ -21,7 +21,7 @@
 
 - (void)registerCell
 {
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
 }
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -53,7 +53,7 @@
 #pragma mark - QSModelListTableViewCellDelegate
 - (void)favorBtnPressed:(QSModelListTableViewCell *)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     if ([self.delegate respondsToSelector:@selector(followBtnPressed:)]) {
         [self.delegate followBtnPressed:self.resultArray[indexPath.row]];
     }
@@ -66,11 +66,11 @@
         if (self.filterBlock) {
             if (!self.filterBlock(self.clickedData)) {
                 [self.resultArray removeObject:self.clickedData];
-                [self.tableView reloadData];
+                [self.view reloadData];
                 return;
             }
         }
-        QSModelListTableViewCell* cell = (QSModelListTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        QSModelListTableViewCell* cell = (QSModelListTableViewCell*)[self.view cellForRowAtIndexPath:indexPath];
         [cell bindWithPeople:self.clickedData];
         self.clickedData = nil;
     }

@@ -8,7 +8,7 @@
 
 #import "QSWaterfallBasicDelegateObj.h"
 
-@protocol QSBrandCollectionViewDelegateObjDelegate <NSObject>
+@protocol QSBrandCollectionViewDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
 
 - (void)didClickBrand:(NSDictionary*)brandDict;
 

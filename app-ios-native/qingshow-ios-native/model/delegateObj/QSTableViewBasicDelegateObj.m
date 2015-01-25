@@ -10,6 +10,7 @@
 #import "MKNetworkOperation.h"
 #import "NSNumber+QSExtension.h"
 #import "QSMetadataUtil.h"
+#import "QSAbstractScrollDelegateObj+Protect.h"
 
 @interface QSTableViewBasicDelegateObj ()
 
@@ -18,9 +19,6 @@
 @property (strong, nonatomic) NSString* identifier;
 
 
-@property (strong, nonatomic) MKNetworkOperation* refreshOperation;
-@property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
-@property (assign, nonatomic) BOOL fIsAll;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
 
@@ -52,30 +50,19 @@
     }
     return self;
 }
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        self.resultArray = [@[] mutableCopy];
-        
-        self.fIsAll = NO;
-        self.loadMoreOperation = nil;
-        self.refreshOperation = nil;
-        _currentPage = 1;
-    }
-    return self;
-}
+
+
 - (void)dealloc
 {
-    self.tableView.delegate = nil;
-    self.tableView.dataSource = nil;
+    self.view.delegate = nil;
+    self.view.dataSource = nil;
 }
 #pragma mark - 
 - (void)bindWithTableView:(UITableView*)tableView
 {
-    self.tableView = tableView;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    self.view = tableView;
+    self.view.dataSource = self;
+    self.view.delegate = self;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     UIRefreshControl* refreshControl = [[UIRefreshControl alloc] init];
@@ -91,80 +78,17 @@
 }
 
 #pragma mark - Network
-- (void)reloadData
+- (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block
 {
-    [self fetchDataOfPage:1];
-}
-- (MKNetworkOperation*)fetchDataOfPage:(int)page
-{
-    return [self fetchDataOfPage:page onComplete:nil];
+    return [self fetchDataOfPage:page viewRefreshBlock:^{
+        [self.view reloadData];
+    } completion:block];
 }
 
-- (MKNetworkOperation*)fetchDataOfPage:(int)page onComplete:(VoidBlock)block
-{
-    MKNetworkOperation* op = self.networkBlock(^(NSArray *array, NSDictionary *metadata) {
-        self.metadataDict = metadata;
-        if (page == 1) {
-            [self.resultArray removeAllObjects];
-            [self.resultArray addObjectsFromArray:self.additionalResult];
-            self.refreshOperation = nil;
-            _currentPage = 1;
-        }
-        
-        [self.resultArray addObjectsFromArray:array];
-        [self.tableView reloadData];
-        if (block) {
-            block();
-        }
-    },^(NSError *error) {
-        if (error.code == 1009) {
-            self.fIsAll = YES;
-        }
-        if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
-            [self.delegate handleNetworkError:error];
-        }
-        if (page == 1) {
-            [self.resultArray removeAllObjects];
-            [self.resultArray addObjectsFromArray:self.additionalResult];
-            self.refreshOperation = nil;
-            [self.tableView reloadData];
-        }
-        if (block) {
-            block();
-        }
-    },page);
-    
-    if (page == 1) {
-        [self.loadMoreOperation cancel];
-        self.loadMoreOperation = nil;
-        self.fIsAll = NO;
-        self.refreshOperation = op;
-    }
-    return op;
-}
-
-#pragma mark - scroll view
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if ([self.delegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
-        [self.delegate scrollViewDidScroll:scrollView];
-    }
-    
-    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || !self.resultArray.count) {
-        return;
-    }
-    
-    if (scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height) {
-        self.loadMoreOperation = [self fetchDataOfPage:self.currentPage + 1 onComplete:^{
-            _currentPage++;
-            self.loadMoreOperation = nil;
-        }];
-    }
-}
 #pragma mark -
 - (void)tableViewDidPullToRefresh:(UIRefreshControl*)refreshControl
 {
-    [self fetchDataOfPage:1 onComplete:^{
+    [self fetchDataOfPage:1 completion:^{
         [refreshControl endRefreshing];
     }];
 }
@@ -177,7 +101,7 @@
 - (void)refreshWithAnimation
 {
     [self.refreshControl beginRefreshing];
-    [self.tableView scrollRectToVisible:CGRectMake(0, -self.refreshControl.frame.size.height, 1, 1) animated:YES];
+    [self.view scrollRectToVisible:CGRectMake(0, -self.refreshControl.frame.size.height, 1, 1) animated:YES];
     [self tableViewDidPullToRefresh:self.refreshControl];
 }
 - (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate
@@ -186,7 +110,7 @@
     [self.resultArray removeObject:data];
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
     UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
+    [self.view deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
     
     NSDictionary* metaData = [self.metadataDict mutableCopy];
     [QSMetadataUtil addTotalNum:-1ll forDict:metaData];

@@ -8,25 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "QSWaterFallCollectionViewLayout.h"
+#import "QSAbstractScrollDelegateObj.h"
 #import "QSBlock.h"
 
-@protocol QSWaterfallBasicDelegateObjDelegate <NSObject>
-
-@optional
-- (void)handleNetworkError:(NSError*)error;
-
-@end
-
-@interface QSWaterfallBasicDelegateObj : NSObject <UICollectionViewDataSource, UICollectionViewDelegate,QSWaterFallLayoutDelegate, UIScrollViewDelegate>
-
-@property (readonly, nonatomic) NSMutableArray* resultArray;
-@property (strong, nonatomic) ArrayNetworkBlock networkBlock;
-@property (strong, nonatomic) FilterBlock filterBlock;
-@property (weak, nonatomic) NSObject<QSWaterfallBasicDelegateObjDelegate>* delegate;
-@property (strong, nonatomic) NSDictionary* metadataDict;
-
-
-
+@interface QSWaterfallBasicDelegateObj : QSAbstractScrollDelegateObj <UICollectionViewDataSource, UICollectionViewDelegate,QSWaterFallLayoutDelegate, UIScrollViewDelegate>
 
 - (void)bindWithCollectionView:(UICollectionView*)collectionView;
 - (void)reloadData;
@@ -37,8 +22,7 @@
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;
 
 #pragma mark - Private
-@property (readonly, nonatomic) UICollectionView* collectionView;
-@property (readonly, nonatomic) int currentPage;
+@property (readonly, nonatomic) UICollectionView* view;
 
 #pragma mark - Virtual Method
 - (void)registerCell;

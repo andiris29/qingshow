@@ -9,7 +9,7 @@
 #import "QSTableViewBasicDelegateObj.h"
 #import "QSCommentTableViewCell.h"
 
-@protocol QSCommentListTableViewDelegateObj <QSTableViewBasicDelegateObjDelegate>
+@protocol QSCommentListTableViewDelegateObj <QSAbstractScrollDelegateObjDelegate>
 
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index;
 - (void)didClickPeople:(NSDictionary*)peopleDict;

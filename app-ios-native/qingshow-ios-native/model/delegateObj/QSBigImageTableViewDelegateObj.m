@@ -14,8 +14,8 @@
 
 - (void)registerCell
 {
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSBigImageTableViewCell"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSBigImageFashionTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSBigImageFashionTableViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSBigImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSBigImageTableViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSBigImageFashionTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSBigImageFashionTableViewCell"];
 }
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -66,7 +66,7 @@
     if (self.clickedData) {
         NSUInteger row = [self.resultArray indexOfObject:self.clickedData];
         NSIndexPath* indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-        QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+        QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.view cellForRowAtIndexPath:indexPath];
         [cell bindWithDict:self.clickedData];
         self.clickedData = nil;
     }
@@ -75,7 +75,7 @@
 #pragma mark - QSBigImageTableViewCellDelegate
 - (void)clickCommentBtn:(QSBigImageTableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* dict = self.resultArray[indexPath.row];
     self.clickedData = dict;
     if ([self.delegate respondsToSelector:@selector(clickCommentOfDict:)]) {
@@ -84,7 +84,7 @@
 }
 - (void)clickLikeBtn:(QSBigImageTableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* dict = self.resultArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(clickLikeOfDict:)]) {
         [self.delegate clickLikeOfDict:dict];
@@ -92,7 +92,7 @@
 }
 - (void)clickShareBtn:(QSBigImageTableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* dict = self.resultArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(clickShareOfDict:)]) {
         [self.delegate clickShareOfDict:dict];
@@ -101,12 +101,12 @@
 - (void)rebindData:(NSDictionary*)dict
 {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:dict] inSection:0];
-    QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    QSBigImageTableViewCell* cell = (QSBigImageTableViewCell*)[self.view cellForRowAtIndexPath:indexPath];
     [cell bindWithDict:dict];
 }
 - (void)clickDetailBtn:(QSBigImageTableViewCell *)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* dict = self.resultArray[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(clickDetailOfDict:type:)]) {
         [self.delegate clickDetailOfDict:dict type:self.type];

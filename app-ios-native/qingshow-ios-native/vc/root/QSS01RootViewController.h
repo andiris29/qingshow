@@ -10,7 +10,7 @@
 #import "QSShowCollectionViewCell.h"
 #import "QSRootMenuView.h"
 #import "QSShowCollectionViewDelegateObj.h"
-@interface QSS01RootViewController : UIViewController< QSRootMenuViewDelegate, QSShowDelegateObjDelegate, QSWaterfallBasicDelegateObjDelegate, UIAlertViewDelegate>
+@interface QSS01RootViewController : UIViewController< QSRootMenuViewDelegate, QSShowDelegateObjDelegate, QSAbstractScrollDelegateObjDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 

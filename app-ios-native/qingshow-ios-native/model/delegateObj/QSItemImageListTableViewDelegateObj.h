@@ -12,7 +12,7 @@ typedef NS_ENUM(NSInteger, QSItemImageListTableViewDelegateObjType) {
     QSItemImageListTableViewDelegateObjTypeNew,
     QSItemImageListTableViewDelegateObjTypeDiscount
 };
-@protocol  QSItemImageListTableViewDelegateObjDelegate <QSTableViewBasicDelegateObjDelegate>
+@protocol  QSItemImageListTableViewDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
 
 - (void)didClickShopBtnOfItem:(NSDictionary*)itemDict;
 

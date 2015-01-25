@@ -11,7 +11,7 @@
 #import "QSTableViewBasicDelegateObj.h"
 #import "QSModelListTableViewCell.h"
 
-@protocol QSModelListTableViewDelegateObjDelegate <QSTableViewBasicDelegateObjDelegate>
+@protocol QSModelListTableViewDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
 
 @optional
 - (void)clickModel:(NSDictionary*)model;

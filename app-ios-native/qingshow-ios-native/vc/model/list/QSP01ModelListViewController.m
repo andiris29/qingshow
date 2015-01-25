@@ -90,7 +90,7 @@
             [self showTextHud:@"取消关注成功"];
         }
         NSUInteger index = [self.delegateObj.resultArray indexOfObject:model];
-        [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        [self.delegateObj.view reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     } onError:^(NSError *error) {
         [self handleError:error];
     }];

@@ -18,8 +18,8 @@
 
 - (void)registerCell
 {
-    [self.collectionView registerNib:[UINib nibWithNibName:@"QSShowCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSShowCollectionViewCell"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"QSTimeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSTimeCollectionViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSShowCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSShowCollectionViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSTimeCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSTimeCollectionViewCell"];
 }
 
 #pragma mark - UICollecitonView Datasource And Delegate
@@ -27,12 +27,12 @@
 {
     if (self.clickedData) {
         NSIndexPath* indexPath = [self getIndexPathOfShow:self.clickedData];
-        QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.view cellForItemAtIndexPath:indexPath];
         if (self.filterBlock) {
             if (!self.filterBlock(self.clickedData)) {
                 //remove
                 [self.resultArray removeObject:self.clickedData];
-                [self.collectionView reloadData];
+                [self.view reloadData];
 //                [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
                 return;
             }
@@ -70,7 +70,7 @@
 - (void)updateShow:(NSDictionary*)showDict
 {
     NSIndexPath* i = [self getIndexPathOfShow:showDict];
-    QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:i];
+    QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.view cellForItemAtIndexPath:i];
     [cell bindData:showDict];
 
 }
@@ -123,26 +123,13 @@
         return cell;
     }
 }
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if ([super respondsToSelector:@selector(scrollViewDidScroll:)]) {
-        [super scrollViewDidScroll:scrollView];
-    }
-    if ([self.delegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
-        [self.delegate scrollViewDidScroll:scrollView];
-    }
-}
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    if ([self.delegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
-        [self.delegate scrollViewWillBeginDragging:scrollView];
-    }
-}
+
+
 
 #pragma QSShowCollectionViewCellDelegate
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(addFavorShow:)]) {
@@ -152,7 +139,7 @@
 
 - (void)peoplePressed:(QSShowCollectionViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.collectionView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {

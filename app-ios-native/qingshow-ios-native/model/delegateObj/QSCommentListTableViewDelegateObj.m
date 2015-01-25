@@ -13,7 +13,7 @@
 
 - (void)registerCell
 {
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSCommentTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSCommentTableViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSCommentTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSCommentTableViewCell"];
 }
 
 #pragma mark - Table View
@@ -43,7 +43,7 @@
 
 - (void)didTapIcon:(QSCommentTableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
         NSDictionary* dict = self.resultArray[indexPath.row];
         [self.delegate didClickPeople:[QSCommentUtil getPeople:dict]];

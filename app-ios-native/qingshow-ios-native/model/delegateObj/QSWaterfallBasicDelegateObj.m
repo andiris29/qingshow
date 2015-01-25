@@ -10,10 +10,9 @@
 #import "MKNetworkOperation.h"
 #import "QSMetadataUtil.h"
 #import "NSNumber+QSExtension.h"
+#import "QSAbstractScrollDelegateObj+Protect.h"
+
 @interface QSWaterfallBasicDelegateObj ()
-@property (strong, nonatomic) MKNetworkOperation* refreshOperation;
-@property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
-@property (assign, nonatomic) BOOL fIsAll;
 
 @end
 
@@ -32,18 +31,6 @@
 }
 
 #pragma mark - Init
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _resultArray = [@[] mutableCopy];
-        _currentPage = 1;
-        self.fIsAll = NO;
-        self.loadMoreOperation = nil;
-        self.refreshOperation = nil;
-    }
-    return self;
-}
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -52,8 +39,8 @@
 
 - (void)dealloc
 {
-    self.collectionView.dataSource = nil;
-    self.collectionView.delegate = nil;
+    self.view.dataSource = nil;
+    self.view.delegate = nil;
 }
 
 #pragma mark - Config
@@ -62,18 +49,18 @@
 
 - (void)bindWithCollectionView:(UICollectionView *)collectionView
 {
-    _collectionView = collectionView;
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
+    _view = collectionView;
+    self.view.dataSource = self;
+    self.view.delegate = self;
     collectionView.alwaysBounceVertical = YES;
     collectionView.showsVerticalScrollIndicator = NO;
     
     QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
-    self.collectionView.collectionViewLayout = layout;
-    self.collectionView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.view.collectionViewLayout = layout;
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
-    self.collectionView.scrollEnabled=YES;
-    self.collectionView.backgroundColor=[UIColor colorWithRed:242.f/255.f green:242.f/255.f blue:242.f/255.f alpha:1.f];
+    self.view.scrollEnabled=YES;
+    self.view.backgroundColor=[UIColor colorWithRed:242.f/255.f green:242.f/255.f blue:242.f/255.f alpha:1.f];
 
     [self registerCell];
     
@@ -84,65 +71,24 @@
 
 
 #pragma mark - Network
-- (void)reloadData
-{
-    [self fetchDataOfPage:1];
-}
-
-- (MKNetworkOperation*)fetchDataOfPage:(int)page
-{
-    return [self fetchDataOfPage:page completion:nil];
-}
-
 - (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block
 {
-
-    MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
-        self.metadataDict = metadata;
-        int preCount = 0;
-        if (page == 1) {
-            [self.resultArray removeAllObjects];
-            self.refreshOperation = nil;
-            _currentPage = 1;
-        }
-        else {
-            preCount = self.resultArray.count;
-        }
-        
-        [self.resultArray addObjectsFromArray:showArray];
-        if (page == 1) {
-            [self.collectionView reloadData];
-        } else {
-            NSMutableArray* indexPaths = [@[] mutableCopy];
-            for (int i = preCount; i < self.resultArray.count; i++){
-                [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
-            }
-            [self.collectionView insertItemsAtIndexPaths:indexPaths];
-        }
-
-        if (block) {
-            block();
-        }
-    }, ^(NSError *error) {
-        if (error.code == 1009) {
-            self.fIsAll = YES;
-        }
-        if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
-            [self.delegate handleNetworkError:error];
-        }
-        if (block) {
-            block();
-        }
-    }, page);
-    
-    if (page == 1) {
-        [self.loadMoreOperation cancel];
-        self.loadMoreOperation = nil;
-        self.fIsAll = NO;
-        self.refreshOperation = op;
+    NSUInteger preCount = 0;
+    if (page != 1) {
+        preCount = self.resultArray.count;
     }
     
-    return op;
+    return [self fetchDataOfPage:page viewRefreshBlock:^{
+        if (page == 1) {
+            [self.view reloadData];
+        } else {
+            NSMutableArray* indexPaths = [@[] mutableCopy];
+            for (NSUInteger i = preCount; i < self.resultArray.count; i++){
+                [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+            }
+            [self.view insertItemsAtIndexPaths:indexPaths];
+        }
+    } completion:block];
 }
 
 #pragma mark - UICollecitonView Datasource And Delegate
@@ -164,20 +110,6 @@
     return self.resultArray.count;
 }
 
-#pragma mark - Scroll View
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || ! self.resultArray.count) {
-        return;
-    }
-    
-    if (scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height) {
-        self.loadMoreOperation = [self fetchDataOfPage:self.currentPage + 1 completion:^{
-            _currentPage++;
-            self.loadMoreOperation = nil;
-        }];
-    }
-}
 
 
 #pragma mark - Refresh Control
@@ -187,6 +119,7 @@
         [refreshControl endRefreshing];
     }];
 }
+
 
 - (NSString*)getTotalCountDesc
 {

@@ -11,7 +11,7 @@
 @implementation QSItemImageListTableViewDelegateObj
 - (void)registerCell
 {
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSItemImageTableViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSItemImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSItemImageTableViewCell"];
 }
 #pragma mark - Table View
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -36,7 +36,7 @@
 }
 - (void)didClickShopBtn:(UITableViewCell *)cell
 {
-    NSIndexPath* i = [self.tableView indexPathForCell:cell];
+    NSIndexPath* i = [self.view indexPathForCell:cell];
     NSDictionary* itemDict = self.resultArray[i.row];
     if ([self.delegate respondsToSelector:@selector(didClickShopBtnOfItem:)]) {
         [self.delegate didClickShopBtnOfItem:itemDict];

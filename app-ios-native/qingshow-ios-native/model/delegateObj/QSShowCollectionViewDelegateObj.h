@@ -11,11 +11,10 @@
 #import "QSShowCollectionViewCell.h"
 
 
-@protocol QSShowDelegateObjDelegate <NSObject, QSWaterfallBasicDelegateObjDelegate, QSShowCollectionViewCellDelegate>
+@protocol QSShowDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
 
 @optional
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+
 - (void)didClickShow:(NSDictionary*)showDict;
 - (void)addFavorShow:(NSDictionary*)showDict;
 - (void)didClickPeople:(NSDictionary*)peopleDict;

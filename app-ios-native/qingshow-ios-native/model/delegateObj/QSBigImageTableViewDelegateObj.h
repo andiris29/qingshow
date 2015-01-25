@@ -9,7 +9,7 @@
 #import "QSTableViewBasicDelegateObj.h"
 #import "QSBigImageTableViewCell.h"
 
-@protocol QSBigImageTableViewDelegateObjDelegate <QSTableViewBasicDelegateObjDelegate>
+@protocol QSBigImageTableViewDelegateObjDelegate <QSAbstractScrollDelegateObjDelegate>
 
 @optional
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
