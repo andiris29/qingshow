@@ -57,7 +57,8 @@
 {
     [self fetchDataOfPage:1];
 }
-
+- (void)refreshData:(NSDictionary*)dict
+{}
 - (MKNetworkOperation*)fetchDataOfPage:(int)page
 {
     return [self fetchDataOfPage:page completion:nil];

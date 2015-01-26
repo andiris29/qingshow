@@ -33,7 +33,12 @@
     cell.followBtn.hidden = self.type == QSModelListTableViewDelegateObjTypeHideFollow;
     return cell;
 }
-
+- (void)refreshData:(NSDictionary*)dict
+{
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:dict] inSection:0];
+    QSModelListTableViewCell* cell = (QSModelListTableViewCell*)[self.view cellForRowAtIndexPath:indexPath];
+    [cell bindWithPeople:dict];
+}
 
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

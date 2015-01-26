@@ -33,6 +33,7 @@
 
 #pragma mark - Network
 - (void)reloadData;
+- (void)refreshData:(NSDictionary*)dict;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page;
 - (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block;
 

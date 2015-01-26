@@ -131,9 +131,12 @@
         }];
 
     };
-    self.likedDelegate.filterBlock = ^BOOL(id obj){
-        return [QSShowUtil getIsLike:obj];
-    };
+    if (self.fShowAccountBtn) {
+        self.likedDelegate.filterBlock = ^BOOL(id obj){
+            return [QSShowUtil getIsLike:obj];
+        };
+    }
+
     self.likedDelegate.delegate = self;
     [self.likedDelegate reloadData];
 
@@ -166,9 +169,12 @@
             errorBlock(e);
         }];
     };
-    self.followingDelegate.filterBlock = ^BOOL(id obj){
-        return [QSPeopleUtil  getPeopleIsFollowed:obj];
-    };
+    if (self.fShowAccountBtn) {
+        self.followingDelegate.filterBlock = ^BOOL(id obj){
+            return [QSPeopleUtil  getPeopleIsFollowed:obj];
+        };
+    }
+
     self.followingDelegate.delegate = self;
     [self.followingDelegate reloadData];
     //Like brand tableVIew
@@ -184,9 +190,12 @@
             errorBlock(e);
         }];
     };
-    self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
-        return [QSBrandUtil getHasFollowBrand:obj];
-    };
+    if (self.fShowAccountBtn) {
+        self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
+            return [QSBrandUtil getHasFollowBrand:obj];
+        };
+    }
+
     [self.likedBrandDelegate reloadData];
 }
 
@@ -241,10 +250,14 @@
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
             [self showTextHud:@"关注成功"];
+            [self.followingDelegate refreshData:model];
         }
-        else
-        {
-            [self.followingDelegate removeData:model withAnimation:YES];
+        else {
+            if (self.fShowAccountBtn) {
+                [self.followingDelegate removeData:model withAnimation:YES];
+            } else {
+                [self.followingDelegate refreshData:model];
+            }
             [self showTextHud:@"取消关注成功"];
             [self.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:self.followingDelegate.metadataDict] atIndex:2];
         }
