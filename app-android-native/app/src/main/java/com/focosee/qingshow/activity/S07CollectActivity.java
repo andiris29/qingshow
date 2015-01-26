@@ -34,6 +34,7 @@ public class S07CollectActivity extends Activity {
     public static final String INPUT_BACK_IMAGE = "S07CollectActivity_input_back_image";
     public static final String INPUT_BRAND_TEXT = "S07CollectActivity_input_brand_text";
     public static final String INPUT_BRAND_ENTITY = "S07CollectActivity_INPUT_BRAND_ENTITY";
+    public static boolean isOpened = false;
 
     private ListView listView;
     private S07ListAdapter adapter;
@@ -47,6 +48,8 @@ public class S07CollectActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s07_collect);
+
+        isOpened = true;
 
         findViewById(R.id.S07_back_icon).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +90,12 @@ public class S07CollectActivity extends Activity {
         } else {
             ((TextView)findViewById(R.id.S07_brand_tv)).setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isOpened = false;
     }
 
     private Point getScreenSize(){

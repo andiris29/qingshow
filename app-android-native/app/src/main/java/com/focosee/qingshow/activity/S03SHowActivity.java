@@ -241,6 +241,7 @@ public class S03SHowActivity extends Activity {
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(S07CollectActivity.isOpened) return;
                 Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
                 intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, showDetailEntity.getCover());
 //                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
