@@ -43,5 +43,15 @@ showSchema = Schema({
     }
 });
 
+var Item = require('./items');
+showSchema.methods.downgrade = function(to) {
+    if (this.itemRefs) {
+        this.itemRefs.forEach(function(itemRef) {
+            if ( itemRef instanceof Item) {
+                itemRef.downgrade(to);
+            }
+        });
+    }
+};
 var Show = mongoose.model('shows', showSchema);
 module.exports = Show;

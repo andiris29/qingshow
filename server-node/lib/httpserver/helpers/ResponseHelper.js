@@ -5,6 +5,8 @@ var ServerError = require('../server-error');
 var ResponseHelper = module.exports;
 
 ResponseHelper.response = function(res, err, data, metadata, beforeEndResponse) {
+    // TODO call model.downgrade for models in data
+    
     var json = {
         'data' : data,
         'metadata' : metadata || {}

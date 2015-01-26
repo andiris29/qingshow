@@ -102,6 +102,7 @@ var wrapCallback = function(fullpath, callback) {
                 res.qsPerformance.d = _.random(3000, 10000);
             }
         }
+        // req.queryString.version: "1.2.0"
         callback.func(req, res);
     };
 };
