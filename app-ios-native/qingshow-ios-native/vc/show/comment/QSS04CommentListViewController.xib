@@ -24,7 +24,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZDd-53-VIZ">
                     <rect key="frame" x="0.0" y="462" width="320" height="42"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  输入新消息" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mIl-E1-kKQ">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  输入新评论" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mIl-E1-kKQ">
                             <rect key="frame" x="55" y="4" width="200" height="33"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
