@@ -14,7 +14,7 @@
             android:id="@+id/S03_video_view"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/S03_before_video_view"

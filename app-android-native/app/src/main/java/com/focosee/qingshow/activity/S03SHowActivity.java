@@ -338,6 +338,8 @@ public class S03SHowActivity extends Activity {
         this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
             @Override
             public void onPosition(int position, int totalCount) {
+                Log.d(TAG, "videoView.visible: " + videoView.getVisibility());
+                if(videoView.getVisibility() == View.GONE) return;
                 Log.d(TAG, "position: " + position % totalCount);
                 findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
                 if(position % totalCount == 0)
@@ -385,7 +387,7 @@ public class S03SHowActivity extends Activity {
         }
         findViewById(R.id.S03_before_video_view).setVisibility(View.GONE);
 //        imageIndicatorView.setVisibility(View.GONE);
-//        videoView.setVisibility(View.VISIBLE);
+        videoView.setVisibility(View.VISIBLE);
         videoView.start();
     }
 
