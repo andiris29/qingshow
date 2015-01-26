@@ -286,10 +286,11 @@
                         <!--android:background="@drawable/icon_follow" />-->
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="48dp"
+                        android:layout_height="22dp"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/badge_follow_btn2"/>
+                        android:background="#00000000"
+                        android:src="@drawable/badge_follow_btn"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/u01_line_toleftAddAttention"

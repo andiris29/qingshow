@@ -22,8 +22,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:background="#00000000"
-            android:src="@drawable/root_icon_back"/>
+            android:background="@drawable/s03_back_btn"/>
 
         <com.focosee.qingshow.widget.MCircularImageView
             android:id="@+id/P02_model_image_view"

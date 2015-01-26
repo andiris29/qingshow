@@ -49,8 +49,6 @@ public class S07CollectActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s07_collect);
 
-        isOpened = true;
-
         findViewById(R.id.S07_back_icon).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

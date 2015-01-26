@@ -48,9 +48,9 @@ public class AppUtil {
                     .showImageForEmptyUri(R.drawable.root_cell_placehold_image2)//设置图片Uri为空或是错误的时候显示的图片
                     .showImageOnFail(R.drawable.root_cell_placehold_image2)  //设置图片加载/解码过程中错误时候显示的图片
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-                    .cacheInMemory(false)
+                    .cacheInMemory(true)
                     .cacheOnDisk(true)
-                    .bitmapConfig(Bitmap.Config.RGB_565)
+                    //.bitmapConfig(Bitmap.Config.RGB_565)
 //            .considerExifParams(true)
 //            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
 //            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间

@@ -2,18 +2,18 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -32,10 +32,8 @@ import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -177,6 +175,7 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         String comment = inputText.getText().toString().trim();
         if (comment.length() <= 0 ) {
             Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
+            return;
         }
         Map<String, String> map = new HashMap<String, String>();
         map.put("_id", showId);
@@ -188,7 +187,9 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
             public void onResponse(JSONObject response) {
                 doRefreshTask();
                 inputText.setText("");
-                Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0); //强制隐藏键盘
+                //Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

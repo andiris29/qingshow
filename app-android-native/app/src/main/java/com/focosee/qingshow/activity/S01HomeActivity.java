@@ -245,7 +245,8 @@ public class S01HomeActivity extends Activity {
 
                 } catch (Exception error) {
                     Log.i("test", "error" + error.toString());
-                    Toast.makeText(S01HomeActivity.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(S01HomeActivity.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
                     _wfPullRefreshView.setHasMoreData(true);
