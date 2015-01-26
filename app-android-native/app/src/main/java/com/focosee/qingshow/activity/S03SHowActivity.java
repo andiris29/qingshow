@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,6 +50,7 @@ public class S03SHowActivity extends Activity {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "asfadf";
+    public final String TAG = "S03SHowActivity";
 
     private String showId;
     private ShowDetailEntity showDetailEntity;
@@ -75,6 +77,8 @@ public class S03SHowActivity extends Activity {
 
     // like image button
     private ImageButton likedImageButton;
+
+    private LinearLayout buttomLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,6 +217,8 @@ public class S03SHowActivity extends Activity {
         commentTextView = (TextView) findViewById(R.id.S03_comment_text_view);
         likeTextView = (TextView) findViewById(R.id.S03_like_text_view);
         itemTextView = (TextView) findViewById(R.id.S03_item_text_view);
+
+        buttomLayout = (LinearLayout) findViewById(R.id.S03_model_LinearLayout);
     }
 
     private void showData() {
@@ -242,7 +248,8 @@ public class S03SHowActivity extends Activity {
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(S07CollectActivity.isOpened) return;
+                if (S07CollectActivity.isOpened) return;
+                S07CollectActivity.isOpened = true;
                 Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
                 intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, showDetailEntity.getCover());
 //                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
@@ -319,6 +326,27 @@ public class S03SHowActivity extends Activity {
             }
         });
 
+        this.buttomLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
+//                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity);
+//                startActivity(intent);
+            }
+        });
+
+        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
+            @Override
+            public void onPosition(int position, int totalCount) {
+                Log.d(TAG, "position: " + position % totalCount);
+                findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
+                if(position % totalCount == 0)
+                    findViewById(R.id.S03_before_video_without_back).setVisibility(View.VISIBLE);
+                else
+                    findViewById(R.id.S03_before_video_without_back).setVisibility(View.GONE);
+            }
+        });
+
         setLikedImageButtonBackgroundImage();
     }
 
@@ -332,7 +360,7 @@ public class S03SHowActivity extends Activity {
     private void initPosterView(String[] urlList) {
         this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
-        this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100);
+        this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100, true);
     }
 
     private void configVideo() {
@@ -389,7 +417,6 @@ public class S03SHowActivity extends Activity {
 
         this.imageIndicatorView.addBitmapAtFirst(bitmap, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
-
 
         findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
     }

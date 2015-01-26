@@ -33,7 +33,8 @@
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="fill_parent"
+                    android:id="@+id/S03_before_video_without_back">
 
                     <com.focosee.qingshow.widget.MRoundImageView xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/S03_model_portrait"
@@ -46,6 +47,7 @@
                         imagecontrol:border_thickness="2dp" />
 
                     <LinearLayout
+                        android:id="@+id/S03_model_LinearLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/S03_model_portrait"
