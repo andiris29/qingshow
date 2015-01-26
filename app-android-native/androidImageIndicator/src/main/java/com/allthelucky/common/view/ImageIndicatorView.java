@@ -409,14 +409,19 @@ public class ImageIndicatorView extends RelativeLayout {
 
     public class MyPagerAdapter extends PagerAdapter {
 		private List<View> pageViews = new ArrayList<View>();
+        private int itemSize = 1;
 
 		public MyPagerAdapter(List<View> pageViews) {
-			this.pageViews = pageViews;
+
+            this.pageViews = pageViews;
+            if(null != pageViews && 0 != pageViews.size()){
+                this.itemSize = pageViews.size();
+            }
 		}
 
 		@Override
 		public int getCount() {
-			return pageViews.size();
+            return Integer.MAX_VALUE;
 		}
 
 		@Override
@@ -431,13 +436,13 @@ public class ImageIndicatorView extends RelativeLayout {
 
 		@Override
 		public void destroyItem(View arg0, int arg1, Object arg2) {
-			((ViewPager) arg0).removeView(pageViews.get(arg1));
+			((ViewPager) arg0).removeView(pageViews.get(arg1 % this.itemSize));
 		}
 
 		@Override
 		public Object instantiateItem(View arg0, int arg1) {
-			((ViewPager) arg0).addView(pageViews.get(arg1));
-			return pageViews.get(arg1);
+			((ViewPager) arg0).addView(pageViews.get(arg1 % this.itemSize));
+			return pageViews.get(arg1 % this.itemSize);
 		}
 
 		@Override

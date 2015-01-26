@@ -108,6 +108,7 @@ public class S03SHowActivity extends Activity {
 
             }
         });
+
     }
 
     private void getShowDetailFromNet() {
@@ -331,6 +332,7 @@ public class S03SHowActivity extends Activity {
     private void initPosterView(String[] urlList) {
         this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
+        this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100);
     }
 
     private void configVideo() {
