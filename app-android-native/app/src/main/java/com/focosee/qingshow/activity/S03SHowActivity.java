@@ -26,7 +26,9 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowDetailEntity;
+import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
@@ -49,10 +51,12 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class S03SHowActivity extends Activity {
 
     // Input data
-    public static final String INPUT_SHOW_ENTITY_ID = "asfadf";
+    public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
+    public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
     public final String TAG = "S03SHowActivity";
 
     private String showId;
+    private ShowListEntity showListEntity;
     private ShowDetailEntity showDetailEntity;
     private ArrayList<ShowDetailEntity.RefItem> itemsData;
     private String videoUriString;
@@ -95,8 +99,15 @@ public class S03SHowActivity extends Activity {
         });
 
         Intent intent = getIntent();
+        if(null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY)){
+            showListEntity = (ShowListEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
+        }
         showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
+        //if(null == intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY)){
         getShowDetailFromNet();
+        //}else {
+        //    showDetailEntity = (ShowDetailEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
+        //}
 
         matchUI();
 
@@ -133,7 +144,7 @@ public class S03SHowActivity extends Activity {
     }
 
     private void clickLikeShowButton() {
-
+        likedImageButton.setClickable(false);
         Map<String, String> likeData = new HashMap<String, String>();
         likeData.put("_id", showDetailEntity.get_id());
         JSONObject jsonObject = new JSONObject(likeData);
@@ -148,6 +159,9 @@ public class S03SHowActivity extends Activity {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
                         setLikedImageButtonBackgroundImage();
+                        likedImageButton.setClickable(true);
+                        showListEntity.numLike = showDetailEntity.getShowLikeNumber();
+                        //QSApplication.get().refreshPeople();
                     } else {
                         handleResponseError(response);
 //                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败" + response.toString() + response.get("metadata").toString().length());
@@ -265,6 +279,8 @@ public class S03SHowActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (null != showDetailEntity && null != showDetailEntity._id) {
+                    if(S04CommentActivity.isOpened) return;
+                    S04CommentActivity.isOpened = true;
                     Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
                     startActivity(intent);
@@ -274,7 +290,7 @@ public class S03SHowActivity extends Activity {
             }
         });
 
-        findViewById(R.id.S03_like_btn).setOnClickListener(new View.OnClickListener() {
+        likedImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickLikeShowButton();
