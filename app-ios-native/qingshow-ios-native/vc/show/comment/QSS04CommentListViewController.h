@@ -14,7 +14,7 @@ typedef NS_ENUM(int, QSCommentListViewControllerType) {
     QSCommentListViewControllerTypePreview
 };
 
-@interface QSS04CommentListViewController : UIViewController<QSCommentListTableViewProviderDelegate, UITextFieldDelegate, UIActionSheetDelegate>
+@interface QSS04CommentListViewController : UIViewController<QSCommentListTableViewProviderDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *commentContainer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *commentBottomConstrain;

@@ -85,10 +85,7 @@
     self.clickIndex = -1;
     
     [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo]];
-    
-    
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -125,7 +122,7 @@
     {
         destructiveTitle = @"删除";
     }
-    
+    [self.textField resignFirstResponder];
     self.clickIndex = index;
     UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复",*/ @"查看个人主页", nil];
     [sheet showInView:self.view];
@@ -176,12 +173,12 @@
         }
     }
 }
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    [self.textField resignFirstResponder];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.textField resignFirstResponder];
 //    self.textField.placeholder = @"回复评论";
 //    self.clickIndex = -1;
-//}
+}
 #pragma mark - Text Field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
