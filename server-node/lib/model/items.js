@@ -1,7 +1,8 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-var itemSchema = Schema({
+var itemSchema;
+itemSchema = Schema({
     category : Number, // <code>
     name : String,
     images : [{
@@ -13,11 +14,7 @@ var itemSchema = Schema({
         width : Number,
         height : Number
     },
-    sourceInfo : {
-        url : String,
-        price : Number,
-        description : String
-    },
+    source : String,
     brandRef : {
         type : Schema.Types.ObjectId,
         ref : 'brands'
@@ -26,6 +23,7 @@ var itemSchema = Schema({
         order : Number
     },
     brandDiscountInfo : {
+        price : Number,
         order : Number
     },
     create : {
@@ -33,19 +31,6 @@ var itemSchema = Schema({
         'default' : Date.now
     }
 });
-
-var VersionUtil = require('../utils/VersionUtil');
-itemSchema.methods.downgrade = function(to) {
-    if (VersionUtils.lowerOrEqual(to, '1.2.x')) {
-        if (this.sourceInfo) {
-            this.source = this.sourceInfo.url;
-        }
-        if (this.sourceInfo && this.brandDiscountInfo) {
-            this.brandDiscountInfo.price = this.price;
-            this.price = this.sourceInfo.price;
-        }
-    }
-};
 
 var Item = mongoose.model('items', itemSchema);
 
