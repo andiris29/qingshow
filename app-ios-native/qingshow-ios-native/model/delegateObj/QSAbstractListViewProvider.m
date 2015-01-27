@@ -89,6 +89,10 @@
         if (error.code == 1009) {
             self.fIsAll = YES;
         }
+        if (page == 1) {
+            [self.resultArray removeAllObjects];
+            refreshBlock();
+        }
         if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
             [self.delegate handleNetworkError:error];
         }
