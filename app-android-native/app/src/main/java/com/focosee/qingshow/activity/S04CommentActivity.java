@@ -43,6 +43,7 @@ import java.util.Map;
 public class S04CommentActivity extends Activity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
+    public static boolean isOpened = false;
 
     private MCircularImageView userImage;
     private EditText inputText;
@@ -119,6 +120,12 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         });
 
         pullRefreshListView.doPullRefreshing(true, 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isOpened = false;
     }
 
     private void doLoadMoreTask() {
