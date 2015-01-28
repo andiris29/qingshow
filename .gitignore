@@ -28,3 +28,4 @@ server-node/public
 .project
 mongodb/_dump
 folder-uploads
+winston.log.*
