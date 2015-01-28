@@ -20,6 +20,8 @@
 #import "UIViewController+ShowHud.h"
 #import "QSBrandUtil.h"
 
+#define PAGE_ID @"U01"
+
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
 #pragma mark Delegate Obj
@@ -93,6 +95,7 @@
     [self.recommendationDelegate refreshClickedData];
     [self.followingDelegate refreshClickedData];
     [self.likedBrandDelegate refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -101,6 +104,7 @@
     [self.recommendationDelegate fetchDataOfPage:1];
     [self.followingDelegate fetchDataOfPage:1];
     [self.likedBrandDelegate fetchDataOfPage:1];
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {

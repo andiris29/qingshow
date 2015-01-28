@@ -11,6 +11,9 @@
 #import "QSNetworkKit.h"
 
 #import "QSBrandTitleView.h"
+
+#define PAGE_ID @"P03"
+
 @interface QSP03BrandListViewController ()
 
 @property (strong, nonatomic) QSBigImageTableViewProvider* delegateObj;
@@ -56,6 +59,13 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.delegateObj refreshClickedData];
+
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

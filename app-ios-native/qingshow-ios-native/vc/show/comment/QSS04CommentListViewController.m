@@ -18,6 +18,9 @@
 #import "UIViewController+QSExtension.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
+#define PAGE_ID @"S04"
+
+
 @interface QSS04CommentListViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
@@ -103,6 +106,12 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {

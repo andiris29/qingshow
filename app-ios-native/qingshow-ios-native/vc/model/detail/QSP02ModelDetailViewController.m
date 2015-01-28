@@ -13,6 +13,8 @@
 #import "QSMetadataUtil.h"
 #import "UIViewController+QSExtension.h"
 
+#define PAGE_ID @"P02"
+
 @interface QSP02ModelDetailViewController ()
 
 #pragma mark - Data
@@ -69,6 +71,12 @@
     [self.showsDelegate refreshClickedData];
     [self.followingDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

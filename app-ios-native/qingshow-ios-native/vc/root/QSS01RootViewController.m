@@ -32,6 +32,9 @@
 #import "UIImage+BlurryImage.h"
 #import "QSAppDelegate.h"
 
+#define PAGE_ID @"S01"
+
+
 @interface QSS01RootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
@@ -86,6 +89,8 @@
     self.menuView.hidden = !self.fIsShowMenu;
     
     [self.delegateObj refreshClickedData];
+    
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -95,6 +100,8 @@
     if (self.fIsFirstLoad) {
         self.fIsFirstLoad = NO;
     }
+    
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)didReceiveMemoryWarning
 {

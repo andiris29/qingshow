@@ -17,6 +17,8 @@
 #import "QSItemUtil.h"
 #import "QSG01ItemWebViewController.h"
 
+#define PAGE_ID @"P04"
+
 @interface QSP04BrandDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* brandDict;
@@ -80,7 +82,16 @@
     [self.itemDiscountDelegate refreshClickedData];
     [self.showsDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
+    
+    [MobClick beginLogPageView:PAGE_ID];
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

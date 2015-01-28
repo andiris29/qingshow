@@ -12,6 +12,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
 
+#define PAGE_ID @"P01"
 
 @interface QSP01ModelListViewController ()
 
@@ -57,6 +58,12 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.delegateObj refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning

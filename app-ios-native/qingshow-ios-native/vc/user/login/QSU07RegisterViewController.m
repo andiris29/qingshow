@@ -13,6 +13,8 @@
 #import "UIViewController+Utility.h"
 #import "QSNetworkKit.h"
 
+#define PAGE_ID @"U07"
+
 @interface QSU07RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *accountText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdText;
@@ -140,12 +142,18 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
 # pragma mark - UITextFieldDelegate
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     self.currentResponder = textField;

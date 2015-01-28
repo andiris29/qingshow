@@ -24,6 +24,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
 
+#define PAGE_ID @"S03"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -104,6 +105,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     [self bindExceptImageWithDict:self.showDict];
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -124,8 +126,9 @@
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self hideSharePanel];
     [super viewWillDisappear:animated];
+    [self hideSharePanel];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 

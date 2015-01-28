@@ -12,6 +12,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
+#define PAGE_ID @"S08"
 
 @interface QSS08PreviewViewController ()
 
@@ -43,6 +44,12 @@
 {
     [super viewWillAppear:animated];
     [self.delegateObj refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

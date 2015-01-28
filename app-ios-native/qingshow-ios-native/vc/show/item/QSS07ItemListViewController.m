@@ -15,6 +15,9 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSP04BrandDetailViewController.h"
 
+#define PAGE_ID @"S07"
+
+
 //#import "QSS03ItemShopDetailViewController.h"
 
 @interface QSS07ItemListViewController ()
@@ -52,6 +55,17 @@
         
     }];
     self.view.alpha = 0.9f;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

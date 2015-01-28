@@ -13,6 +13,8 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 
+#define PAGE_ID @"S02"
+
 @interface QSS02CategoryViewController ()
 @property (assign, nonatomic) QSFeedingCategory type;
 @property (strong, nonatomic) QSShowCollectionViewProvider* delegateObj;
@@ -36,6 +38,12 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.delegateObj refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)viewDidLoad {
