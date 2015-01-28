@@ -82,8 +82,8 @@ public class QSAppWebAPI {
         return FEEDING_RECOMMENDATION + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getPeopleQueryFollowedApi(int pageIndex, int pageSize) {
-        return People_Query_Followed + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    public static String getPeopleQueryFollowedApi(String _id, int pageIndex, int pageSize) {
+        return People_Query_Followed + "?_id=" +_id + "&pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
     public static String getShowDetailApi(String showId) {

@@ -2,12 +2,30 @@ package com.focosee.qingshow.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.focosee.qingshow.activity.U01PersonalActivity;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.LoginResponse;
 import com.focosee.qingshow.entity.People;
+import com.focosee.qingshow.error.ErrorCode;
+import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -17,7 +35,12 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class QSApplication extends Application {
@@ -137,6 +160,33 @@ public class QSApplication extends Application {
 
     public String getVersionName() {
         return versionName;
+    }
+
+    public boolean refreshPeople(){
+        //final Context _context = context;
+//        JSONObject jsonObject = new JSONObject();
+//        Map map = new HashMap();
+//        map.put("_id", people._id);
+//        jsonObject.put("")
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(people._id), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    people = People.getPeopleEntitis(response);
+                    QSApplication.get().setPeople(people);
+                } catch (Exception e) {
+//                    showMessage(S03SHowActivity.this, e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("点赞失败", "点赞失败");
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        return false;
     }
 
 }

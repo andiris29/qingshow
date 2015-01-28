@@ -32,6 +32,7 @@ public class P01ModelListActivity extends Activity {
     private MPullRefreshListView pullRefreshListView;
     private ListView listView;
     private P01ModelListAdapter adapter;
+    private int _currentIndex = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class P01ModelListActivity extends Activity {
 
         listView = pullRefreshListView.getRefreshableView();
 
-        adapter = new P01ModelListAdapter(this, new ArrayList<ModelEntity>(), ImageLoader.getInstance());
+        adapter = new P01ModelListAdapter(this, new ArrayList<ModelEntity>(), ImageLoader.getInstance(), P01ModelListAdapter.TYPE_P01MODELLIST);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -93,6 +94,8 @@ public class P01ModelListActivity extends Activity {
                 adapter.resetData(moreData);
                 adapter.notifyDataSetChanged();
 
+                _currentIndex = 1;
+
                 pullRefreshListView.onPullDownRefreshComplete();
             }
         }, new Response.ErrorListener() {
@@ -106,14 +109,20 @@ public class P01ModelListActivity extends Activity {
     }
 
     private void doLoadMoreData() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi(String.valueOf(_currentIndex+1), "10"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+
+                if(checkErrorExist(response)){
+                    pullRefreshListView.onPullUpRefreshComplete();
+                    Toast.makeText(P01ModelListActivity.this, "没有更多了！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);
                 adapter.addData(moreData);
                 adapter.notifyDataSetChanged();
-
                 pullRefreshListView.onPullUpRefreshComplete();
+                _currentIndex++;
             }
         }, new Response.ErrorListener() {
             @Override
@@ -128,6 +137,14 @@ public class P01ModelListActivity extends Activity {
     private void handleErrorMsg(VolleyError error) {
         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P01ModelListActivity", error.toString());
+    }
+
+    private boolean checkErrorExist(JSONObject response) {
+        try {
+            return ((JSONObject)response.get("metadata")).has("error");
+        }catch (Exception e) {
+            return true;
+        }
     }
 
 }

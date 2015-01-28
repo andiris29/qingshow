@@ -95,7 +95,8 @@ public class ShowDetailEntity extends AbsEntity {
     }
 
     public String getShowLikeNumber() {
-        return (null != __context) ? String.valueOf(__context.numLike) : "0";
+        //return (null != __context) ? String.valueOf(__context.numLike) : "0";
+        return String.valueOf(numLike);
     }
 
     public Boolean likedByCurrentUser() {
@@ -105,9 +106,11 @@ public class ShowDetailEntity extends AbsEntity {
     public void setLikedByCurrentUser(Boolean likedByCurrentUser) {
         __context.likedByCurrentUser = likedByCurrentUser;
         if (likedByCurrentUser)
-            __context.numLike++;
-        else if (__context.numLike>0)
-            __context.numLike--;
+            //__context.numLike++;
+            numLike++;
+        else if (numLike>0)
+            numLike--;
+            //__context.numLike--;
     }
 
     public String getCover() {

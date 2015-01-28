@@ -99,7 +99,7 @@ public class U06LoginActivity extends Activity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                pDialog.hide();
+                                pDialog.dismiss();
                                 LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
                                 }.getType());
 

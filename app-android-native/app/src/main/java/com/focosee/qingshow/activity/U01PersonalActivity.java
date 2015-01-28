@@ -36,6 +36,10 @@ public class U01PersonalActivity extends FragmentActivity {
 
     private TextView backTextView;
     private TextView settingsTextView;
+//    private TextView likeCountTextView;
+//    private TextView recommendCountTextView;
+//    private TextView followedCountTextView;
+//    private TextView brandCountTextView;
     private Context context;
 
     private ViewPager personalViewPager;
@@ -58,7 +62,8 @@ public class U01PersonalActivity extends FragmentActivity {
         setContentView(R.layout.activity_personal);
         context = getApplicationContext();
 
-        backTextView = (TextView) findViewById(R.id.backTextView);
+        matchUI();
+
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +71,7 @@ public class U01PersonalActivity extends FragmentActivity {
             }
         });
 
-        settingsTextView = (TextView) findViewById(R.id.settingsTextView);
+
         settingsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,9 +88,13 @@ public class U01PersonalActivity extends FragmentActivity {
             if (people.name != null) nameTextView.setText(people.name);
             if (people.height != null && people.weight != null)
                 heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+
+//            .setText(String.valueOf(people.))
         } else {
             Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
             startActivity(intent);
+            //likeCountTextView.setText(String.valueOf(people.likingShowRefs.length));
+//            recommendCountTextView
             Toast.makeText(context, "请登录账号", Toast.LENGTH_LONG).show();
             finish();
         }
@@ -97,21 +106,6 @@ public class U01PersonalActivity extends FragmentActivity {
                 Picasso.with(context).load(portraitUrl).into(portraitImageView);
             }
         }
-
-        matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
-        watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
-        fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
-        brandRelativeLayout = (RelativeLayout) findViewById(R.id.brandRelativeLayout);
-        followRelativeLayout = (RelativeLayout) findViewById(R.id.followRelativeLayout);
-
-        line1 = (LinearLayout) findViewById(R.id.u01_line_toleftRecommend);
-        line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
-        line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
-        line4 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
-
-        line1.setVisibility(View.GONE);
-
-        personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
 
         personalPagerAdapter = new PersonalPagerAdapter(getSupportFragmentManager());
         personalViewPager.setAdapter(personalPagerAdapter);
@@ -140,9 +134,33 @@ public class U01PersonalActivity extends FragmentActivity {
             public void onPageScrollStateChanged(int arg0) {
             }
         });
-
         setIndicatorListener();
+        personalViewPager.setCurrentItem(1);
 
+    }
+
+    public void matchUI(){
+        backTextView = (TextView) findViewById(R.id.backTextView);
+        settingsTextView = (TextView) findViewById(R.id.settingsTextView);
+        matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
+        watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
+        fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
+        brandRelativeLayout = (RelativeLayout) findViewById(R.id.brandRelativeLayout);
+        followRelativeLayout = (RelativeLayout) findViewById(R.id.followRelativeLayout);
+
+//        likeCountTextView = (TextView) findViewById(R.id.likeCountTextView);
+//        recommendCountTextView = (TextView) findViewById(R.id.recommendCountTextView);
+//        followedCountTextView = (TextView) findViewById(R.id.followedCountTextView);
+//        brandCountTextView = (TextView) findViewById(R.id.brandCountTextView);
+
+        line1 = (LinearLayout) findViewById(R.id.u01_line_toleftRecommend);
+        line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
+        line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
+        line4 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
+
+        line1.setVisibility(View.GONE);
+
+        personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
     }
 
     public class PersonalPagerAdapter extends FragmentPagerAdapter {
@@ -163,6 +181,7 @@ public class U01PersonalActivity extends FragmentActivity {
                     break;
                 case PAGER_WATCH:
                     fragment = U01WatchFragment.newInstance();
+                    ((U01WatchFragment) fragment).setU01PersonalActivity(U01PersonalActivity.this);
                     break;
                 case PAGE_BRAND:
                     fragment = U01BrandFragment.newInstance();
@@ -251,6 +270,11 @@ public class U01PersonalActivity extends FragmentActivity {
                 personalViewPager.setCurrentItem(4);
             }
         });
+    }
+
+    public void refreshWatchNum(){
+        TextView tv = (TextView)findViewById(R.id.followedCountTextView);
+        tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString())-1));
     }
 
     private void setTabCount() {

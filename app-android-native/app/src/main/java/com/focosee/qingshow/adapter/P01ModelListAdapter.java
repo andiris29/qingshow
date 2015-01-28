@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U01PersonalActivity;
+import com.focosee.qingshow.activity.U01WatchFragment;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.ModelEntity;
@@ -36,17 +40,26 @@ class P01ModelHolderView {
 }
 
 public class P01ModelListAdapter extends BaseAdapter {
+    public final static String TYPE_U01WATCHFRAGMENT = "U01WatchFragment";
+    public final static String TYPE_P01MODELLIST = "P01ModelListAdapter";
+    private String type = "P01ModelListAdapter";
 
     private ArrayList<ModelEntity> data;
     private ImageLoader imageLoader;
     private Context context;
     private FollowButtonOnClickListener followButtonOnClickListener;
+    private U01PersonalActivity u01PersonalActivity;
 
-    public P01ModelListAdapter(Context context, ArrayList<ModelEntity> data, ImageLoader imageLoader) {
+    public P01ModelListAdapter(Context context, ArrayList<ModelEntity> data, ImageLoader imageLoader, String type) {
         this.context = context;
         this.data = data;
         this.imageLoader = imageLoader;
+        this.type = type;
         followButtonOnClickListener = new FollowButtonOnClickListener();
+    }
+
+    public void setU01PersonActivity(U01PersonalActivity u01PersonalActivity){
+        this.u01PersonalActivity = u01PersonalActivity;
     }
 
     @Override
@@ -92,11 +105,10 @@ public class P01ModelListAdapter extends BaseAdapter {
         holderView.followButton.setTag(String.valueOf(position));
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
             holderView.followButton.setBackgroundResource(R.drawable.badge_unfollow_btn);
-            holderView.followButton.setOnClickListener(followButtonOnClickListener);
         }else{
             holderView.followButton.setBackgroundResource(R.drawable.badge_follow_btn);
-            holderView.followButton.setOnClickListener(followButtonOnClickListener);
         }
+        holderView.followButton.setOnClickListener(followButtonOnClickListener);
 
         return convertView;
     }
@@ -114,7 +126,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         @Override
         public void onClick(final View v) {
             if (data.get(Integer.valueOf(v.getTag().toString()).intValue()).getModelIsFollowedByCurrentUser()) {
-                unFollowModel((Button) v);
+                unFollowModel((Button) v, type);
             }else {
                 followModel((Button) v);
             }
@@ -151,7 +163,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
     }
 
-    private void unFollowModel(final Button v) {
+    private void unFollowModel(final Button v, final String type) {
         Map<String, String> followData = new HashMap<String, String>();
         followData.put("_id", data.get(Integer.valueOf(v.getTag().toString()).intValue()).get_id());
         JSONObject jsonObject = new JSONObject(followData);
@@ -162,8 +174,14 @@ public class P01ModelListAdapter extends BaseAdapter {
                 try {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(context, "取消关注成功");
-                        data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(false);
-                        v.setBackgroundResource(R.drawable.badge_follow_btn);
+                        int position = Integer.valueOf(v.getTag().toString()).intValue();
+                        data.get(position).setModelIsFollowedByCurrentUser(false);
+                        if(type.equals(P01ModelListAdapter.TYPE_U01WATCHFRAGMENT) && null != u01PersonalActivity) {
+                            data.remove(position);
+                            notifyDataSetChanged();
+                            u01PersonalActivity.refreshWatchNum();
+                        }else
+                            v.setBackgroundResource(R.drawable.badge_follow_btn);
                     }else{
                         showMessage(context, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }

@@ -50,13 +50,14 @@ import java.util.LinkedList;
 public class U01WatchFragment extends Fragment {
     private ListView followerListView;
     private MPullRefreshListView followerPullRefreshListView;
-    private P02ModelFollowPeopleListAdapter followerPeopleListAdapter;
+    private P01ModelListAdapter followerPeopleListAdapter;
+    private U01PersonalActivity u01PersonalActivity;
 
     private int pageIndex = 1;
+    private String _id;
 
     public static U01WatchFragment newInstance() {
         U01WatchFragment fragment = new U01WatchFragment();
-
         return fragment;
     }
 
@@ -64,9 +65,14 @@ public class U01WatchFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public void setU01PersonalActivity(U01PersonalActivity u01PersonalActivity){
+        this.u01PersonalActivity = u01PersonalActivity;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        _id = QSApplication.get().getPeople()._id;
         if (getArguments() != null) {
 
         }
@@ -79,9 +85,9 @@ public class U01WatchFragment extends Fragment {
 
         followerPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
         followerListView = followerPullRefreshListView.getRefreshableView();
-        ArrayList<FollowPeopleEntity> followerPeopleList = new ArrayList<FollowPeopleEntity>();
-        followerPeopleListAdapter = new P02ModelFollowPeopleListAdapter(getActivity(), followerPeopleList);
-
+        ArrayList<ModelEntity> followerPeopleList = new ArrayList<ModelEntity>();
+        followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), P01ModelListAdapter.TYPE_U01WATCHFRAGMENT);
+        followerPeopleListAdapter.setU01PersonActivity(u01PersonalActivity);
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);
         followerPullRefreshListView.setPullRefreshEnabled(true);
@@ -115,8 +121,8 @@ public class U01WatchFragment extends Fragment {
     }
 
     private void doFollowersRefreshDataTask() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getPeopleQueryFollowedApi(1, 10), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
+                QSAppWebAPI.getPeopleQueryFollowedApi(_id,1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(getTotalDataFromResponse(response));
@@ -128,7 +134,7 @@ public class U01WatchFragment extends Fragment {
 
                 ++pageIndex;
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<ModelEntity> modelShowEntities = ModelEntity.getModelEntityListFromResponse(response);
                 followerPeopleListAdapter.resetData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
                 followerPullRefreshListView.onPullDownRefreshComplete();
@@ -145,11 +151,11 @@ public class U01WatchFragment extends Fragment {
     }
 
     private void doFollowersLoadMoreTask() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getPeopleQueryFollowedApi(pageIndex, 10), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
+                QSAppWebAPI.getPeopleQueryFollowedApi(_id, pageIndex, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(getTotalDataFromResponse(response));
+                //((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
 //                    try {
 //                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
@@ -165,7 +171,7 @@ public class U01WatchFragment extends Fragment {
                 pageIndex++;
 
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<ModelEntity> modelShowEntities = ModelEntity.getModelEntityListFromResponse(response);
 
                 followerPeopleListAdapter.addData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
@@ -202,6 +208,4 @@ public class U01WatchFragment extends Fragment {
             return "0";
         }
     }
-
-
 }

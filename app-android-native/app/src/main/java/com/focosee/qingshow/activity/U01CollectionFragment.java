@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.app.QSApplication;
@@ -44,9 +45,9 @@ import java.util.LinkedList;
 public class U01CollectionFragment extends Fragment {
     private int currentPageIndex = 1;
 
-    private MPullRefreshListView latestPullRefreshListView;
-    private ListView latestListView;
-    private P02ModelItemListAdapter itemListAdapter;
+    private MPullRefreshMultiColumnListView latestPullRefreshListView;
+    private MultiColumnListView latestListView;
+    private ClassifyWaterfallAdapter itemListAdapter;
 
     public static U01CollectionFragment newInstance() {
         U01CollectionFragment fragment = new U01CollectionFragment();
@@ -70,32 +71,32 @@ public class U01CollectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_personal_pager_collection, container, false);
 
-        latestPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
+        latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
         latestListView = latestPullRefreshListView.getRefreshableView();
 
         ArrayList<ModelShowEntity> itemEntities = new ArrayList<ModelShowEntity>();
-        itemListAdapter = new P02ModelItemListAdapter(getActivity(), itemEntities);
+        itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
         latestPullRefreshListView.setPullRefreshEnabled(true);
         latestPullRefreshListView.setPullLoadEnabled(true);
-        latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
                 doShowsRefreshDataTask();
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
                 doShowsLoadMoreTask(currentPageIndex+"", 10+"");
             }
         });
 
-        latestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        latestListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ModelShowEntity)itemListAdapter.getItem(position)).get_id());
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ShowListEntity)itemListAdapter.getItem(position))._id);
                 startActivity(intent);
             }
         });
@@ -111,7 +112,7 @@ public class U01CollectionFragment extends Fragment {
     }
 
     private void doShowsRefreshDataTask() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getFeedingLikeApi(1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -129,9 +130,9 @@ public class U01CollectionFragment extends Fragment {
 
                 currentPageIndex = 1;
 
-                ArrayList<ModelShowEntity> modelShowEntities = ModelShowEntity.getModelShowEntities(response);
+                LinkedList<ShowListEntity> modelShowEntities = ShowListEntity.getShowListFromResponse(response);
 
-                itemListAdapter.resetData(modelShowEntities);
+                itemListAdapter.addItemTop(modelShowEntities);
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullDownRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
@@ -147,7 +148,7 @@ public class U01CollectionFragment extends Fragment {
     }
 
     private void doShowsLoadMoreTask(String pageNo, String pageSize) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getFeedingLikeApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -164,9 +165,9 @@ public class U01CollectionFragment extends Fragment {
 
                 currentPageIndex++;
 
-                ArrayList<ModelShowEntity> modelShowEntities = ModelShowEntity.getModelShowEntities(response);
+                LinkedList<ShowListEntity> modelShowEntities = ShowListEntity.getShowListFromResponse(response);
 
-                itemListAdapter.addData(modelShowEntities);
+                itemListAdapter.addItemLast(modelShowEntities);
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
