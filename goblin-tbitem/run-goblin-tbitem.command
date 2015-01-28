@@ -7,5 +7,5 @@ source /Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow/environmen
 # node
 # node --debug
 # node --debug-brk
-node --debug $folder_qingshow/goblin-tbitem/lib/run.js
+node --debug $folder_qingshow/goblin-tbitem/lib/run.js --app-server-url $app_server_url
 read -n 1
