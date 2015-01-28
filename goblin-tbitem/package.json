@@ -1,0 +1,9 @@
+{
+  "name": "com.focosee.qingshow-goblin-tbitem",
+  "version": "0.1.0",
+  "dependencies": {
+    "async": "0.9.*",
+    "underscore": "1.7.*",
+    "request": "^2.51.*"
+  }
+}
