@@ -556,6 +556,12 @@ public class P04BrandActivity extends Activity {
                 pageIndex = 1;
 
                 ArrayList<ShowDetailEntity.RefItem> modelShowEntities = ShowDetailEntity.RefItem.getItemEntities(response);
+                ShowDetailEntity.MetaData metaData = ShowDetailEntity.RefItem.getMetaData(response);
+                if (null != additionalItemEntity) {
+                    modelShowEntities.add(0, additionalItemEntity);
+                }
+                Log.d(TAG, "discountNumTotal: " + String.valueOf(null == metaData ? 0:metaData.numTotal));
+                discountNumTotal.setText(String.valueOf(null == metaData ? 0:metaData.numTotal));
 
                 discountBrandItemListAdapter.resetData(modelShowEntities);
                 discountBrandItemListAdapter.notifyDataSetChanged();
