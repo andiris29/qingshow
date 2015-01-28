@@ -112,8 +112,8 @@ public class QSAppWebAPI {
         return PEOPLE_QUERY_MODELS_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getBrandListApi(String type, String page) {
-        return BRAND_LIST_API + "?type=" + type + "&page=" + page;
+    public static String getBrandListApi(String type, String pageNo) {
+        return BRAND_LIST_API + "?type=" + type + "&pageNo=" + pageNo + "&pageSize=10";
     }
 
     public static String getPeopleFollowApi() {

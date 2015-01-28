@@ -60,7 +60,7 @@ public class P03BrandListAdapter extends BaseAdapter {
             holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
             holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
             holderView.brandName = (TextView) convertView.findViewById(R.id.item_brand_name);
-            holderView.brandDescription = (TextView) convertView.findViewById(R.id.item_brand_description);
+            //holderView.brandDescription = (TextView) convertView.findViewById(R.id.item_brand_description);
             convertView.setTag(holderView);
         }
         holderView = (P03BrandHolderView) convertView.getTag();
@@ -71,7 +71,7 @@ public class P03BrandListAdapter extends BaseAdapter {
         this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait, AppUtil.getPortraitDisplayOptions());
         this.imageLoader.displayImage(this.data.get(position).getBrandCover(), holderView.brandSlogan, AppUtil.getShowDisplayOptions());
         holderView.brandName.setText(this.data.get(position).getBrandName());
-        holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
+        //holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;
     }
 
@@ -80,6 +80,6 @@ public class P03BrandListAdapter extends BaseAdapter {
     }
 
     public void addData(ArrayList<BrandEntity> moreData) {
-        this.data.addAll(this.data.size(), moreData);
+        this.data.addAll(moreData);
     }
 }

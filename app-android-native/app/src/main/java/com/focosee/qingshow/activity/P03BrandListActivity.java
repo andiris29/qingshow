@@ -2,8 +2,10 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -102,6 +104,11 @@ public class P03BrandListActivity extends Activity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(checkErrorExist(response)){
+                    pullRefreshListView.onPullUpRefreshComplete();
+                    Toast.makeText(P03BrandListActivity.this, "没有更多了！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 pageIndex++;
                 ArrayList<BrandEntity> moreData = BrandEntity.getBrandListFromResponse(response);
                 adapter.addData(moreData);
@@ -122,6 +129,10 @@ public class P03BrandListActivity extends Activity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(checkErrorExist(response)){
+                    pullRefreshListView.onPullUpRefreshComplete();
+                    return;
+                }
                 pageIndex = 1;
                 ArrayList<BrandEntity> newData = BrandEntity.getBrandListFromResponse(response);
                 adapter.resetData(newData);
@@ -154,5 +165,13 @@ public class P03BrandListActivity extends Activity {
             tempData.add(brandEntity);
         }
         return tempData;
+    }
+
+    private boolean checkErrorExist(JSONObject response) {
+        try {
+            return ((JSONObject) response.get("metadata")).has("error");
+        } catch (Exception e) {
+            return true;
+        }
     }
 }
