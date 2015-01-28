@@ -3,8 +3,11 @@ package com.focosee.qingshow.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -71,6 +74,18 @@ public class S01HomeActivity extends Activity {
         }
     };
 
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (S03SHowActivity.ACTION_MESSAGE.equals(intent.getAction())){
+                int position = intent.getIntExtra("position", 0);
+                int numLike = Integer.parseInt(_adapter.getItemDataAtIndex(position).numLike);
+                _adapter.getItemDataAtIndex(position).numLike = String.valueOf(numLike+1);
+                _adapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +145,7 @@ public class S01HomeActivity extends Activity {
                 if (position == 0) return;
                 Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY, _adapter.getItemDataAtIndex(position));
+                intent.putExtra("position", position);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
                 intent.putExtras(bundle);
@@ -142,6 +158,8 @@ public class S01HomeActivity extends Activity {
         _wfPullRefreshView.doPullRefreshing(true, 500);
 
         initEvent();
+
+        registerReceiver(broadcastReceiver, new IntentFilter(S03SHowActivity.ACTION_MESSAGE));
 
     }
 
@@ -382,5 +400,8 @@ public class S01HomeActivity extends Activity {
             }
         });
     }
+
+
+
 
 }

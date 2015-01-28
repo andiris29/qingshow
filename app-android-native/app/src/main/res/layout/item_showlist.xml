@@ -90,10 +90,11 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/item_show_love_img"
                     android:layout_width="fill_parent"
                     android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:src="@drawable/model_cell_icon02_noticeno" />
+                    android:background="@drawable/model_cell_icon02_noticeno"/>
 
                 <TextView
                     android:id="@+id/item_show_love"

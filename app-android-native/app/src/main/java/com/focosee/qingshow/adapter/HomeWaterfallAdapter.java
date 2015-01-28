@@ -46,6 +46,10 @@ class HomeViewHolder extends AbsViewHolder {
 //        modelHeightTV.setText(entity.getModelHeight());
 //        modelWeightTV.setText(entity.getModelWeight());
         loveTV.setText(entity.getShowNumLike());
+        //TODO 换图片
+        if(entity.getModelRef().getModelIsFollowedByCurrentUser()){
+            loveIV.setBackgroundResource(R.drawable.model_cell_icon02_noticeno);
+        }
     }
 
     MImageView_OriginSize showIV;
@@ -55,6 +59,7 @@ class HomeViewHolder extends AbsViewHolder {
 //    TextView modelHeightTV;
 //    TextView modelWeightTV;
     TextView loveTV;
+    ImageView loveIV;
     public ImageView shadowView;
 
 
@@ -131,6 +136,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
             holder.modelHeightWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
+            holder.loveIV = (ImageView) convertView.findViewById(R.id.item_show_love_img);
             holder.shadowView = (ImageView) convertView.findViewById(R.id.item_show_shadow);
             convertView.setTag(holder);
         }

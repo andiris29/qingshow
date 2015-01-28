@@ -53,7 +53,9 @@ public class S03SHowActivity extends Activity {
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
+    public static final String ACTION_MESSAGE = "S03SHowActivity_like";
     public final String TAG = "S03SHowActivity";
+    private int position;
 
     private String showId;
     private ShowListEntity showListEntity;
@@ -101,6 +103,7 @@ public class S03SHowActivity extends Activity {
         Intent intent = getIntent();
         if(null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY)){
             showListEntity = (ShowListEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
+            position = intent.getIntExtra("position", 0);
         }
         showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
         //if(null == intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY)){
@@ -158,6 +161,11 @@ public class S03SHowActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
+                        if(showDetailEntity.likedByCurrentUser()) {//发送广播，更新首页的numLike
+                            Intent intent = new Intent(ACTION_MESSAGE);
+                            intent.putExtra("position", position);
+                            sendBroadcast(intent);
+                        }
                         setLikedImageButtonBackgroundImage();
                         likedImageButton.setClickable(true);
                         showListEntity.numLike = showDetailEntity.getShowLikeNumber();
