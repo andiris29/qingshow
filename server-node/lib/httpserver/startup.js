@@ -27,7 +27,7 @@ var services = servicesNames.map(function(path) {
 
 // Startup http server
 var app = express();
-app.listen(argv['http-server-port']);
+app.listen(argv['app-server-port']);
 
 // Upload
 var uploadsCfg = argv['uploads'].split(',');
