@@ -103,6 +103,10 @@ public class P02ModelActivity extends Activity {
         ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(String.valueOf(modelEntity.getNumberFollowers()));
         followSignText = (ImageView) findViewById(R.id.P02_follow_sign_text);
 
+        if(null != modelEntity && modelEntity.getModelIsFollowedByCurrentUser()){
+            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn2);
+        }
+
         ArrayList<View> pagerViewList = new ArrayList<View>();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         pagerViewList.add(inflater.inflate(R.layout.pager_p02_model_item, null));
