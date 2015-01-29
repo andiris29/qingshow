@@ -30,6 +30,22 @@ var _feed = function(req, res, querier, aspectInceptions) {
 
 var itemFeeding = module.exports;
 
+itemFeeding.random = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, callback) {
+            MongoHelper.queryRandom(Item.find(), Item.find(), qsParam.pageSize, function(err, models) {
+                callback(err, models, 20);
+            });
+        }, {
+            'beforeEndResponse' : function(json) {
+                json.metadata.refreshTime = new Date();
+                return json;
+            }
+        });
+    }
+};
+
 itemFeeding.byBrandNew = {
     'method' : 'get',
     'func' : function(req, res) {

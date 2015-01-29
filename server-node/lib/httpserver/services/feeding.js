@@ -102,9 +102,7 @@ feeding.chosen = {
             async.waterfall([
             function(callback) {
                 // Query chosen
-                ShowChosen.find({
-                    'type' : qsParam.type
-                }).where('activateTime').lte(Date.now()).sort({
+                ShowChosen.find().where('activateTime').lte(Date.now()).sort({
                     'activateTime' : 1
                 }).limit(1).exec(function(err, chosens) {
                     if (err) {
@@ -133,11 +131,6 @@ feeding.chosen = {
                 });
             }], callback);
         }, {
-            'afterParseRequest' : function(raw) {
-                return {
-                    'type' : RequestHelper.parseNumber(raw.type) || 0
-                };
-            },
             'beforeEndResponse' : function(json) {
                 if (chosen) {
                     json.metadata.refreshTime = chosen.activateTime;
