@@ -51,9 +51,9 @@ feeding.recommendation = {
     'method' : 'get',
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
-            MongoHelper.queryPaging(Show.find().sort({
-                // TODO
-            }), Show.find().limit(20), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryRandom(Show.find(), Show.find(), qsParam.pageSize, function(err, models) {
+                callback(err, models, 20);
+            });
         });
     }
 };
