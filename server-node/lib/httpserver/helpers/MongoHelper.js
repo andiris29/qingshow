@@ -59,13 +59,13 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
     },
     function(count, callback) {
         var tasks = [], skipped = [], models = [];
-        var max = Math.min(size, count - 1);
-        for (var i = 0; i < max; i++) {
+        size = Math.min(size, count);
+        for (var i = 0; i < size; i++) {
             tasks.push(function(callback) {
                 // Generate skip
                 var skip;
                 while (skip === undefined || skipped.indexOf(skip) !== -1) {
-                    skip = _.random(0, max);
+                    skip = _.random(0, count - 1);
                 }
                 // Query
                 query.skip(skip).limit(1).exec(function(err, models) {
