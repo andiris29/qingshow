@@ -115,22 +115,23 @@ var _numAssociated = function(models, RModel, associateField, contextField, call
 };
 
 var _rInitiator = function(RModel, initiatorRef, models, contextField, callback) {
-    if (initiatorRef) {
-        var tasks = models.map(function(model) {
-            return function(callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            if (initiatorRef) {
                 RModel.findOne({
                     'initiatorRef' : initiatorRef,
                     'targetRef' : model._id
                 }, function(err, relationship) {
                     model.__context[contextField] = Boolean(!err && relationship);
-                    callback(null);
+                    callback();
                 });
-            };
-        });
-        async.parallel(tasks, function(err) {
-            callback(null, models);
-        });
-    } else {
+            } else {
+                model.__context[contextField] = false;
+                callback();
+            }
+        };
+    });
+    async.parallel(tasks, function(err) {
         callback(null, models);
-    }
+    });
 };
