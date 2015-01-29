@@ -4,9 +4,13 @@ var request = require('request');
 var Iconv = require('iconv').Iconv;
 
 // Log
-var winston = require('winston');
+var winston = require('winston'), fs = require('fs'), path = require('path');
+var folderLogs = path.join(__dirname, '../logs');
+if (!fs.existsSync(folderLogs)) {
+    fs.mkdirSync(folderLogs);
+}
 winston.add(winston.transports.DailyRotateFile, {
-    'filename' : require('path').join(__dirname, 'winston.log')
+    'filename' : path.join(folderLogs, '/winston.log')
 });
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
@@ -28,7 +32,7 @@ var _next = function(index) {
     },
     function(source, callback) {
         // TODO Parse source
-        if (true) {
+        if (false) {
             _taobao(source, callback);
         } else {
             // TODO Implement tmall
@@ -78,14 +82,15 @@ var _taobao = function(source, callback) {
         if (err) {
             callback(err);
         } else {
-            var g_config = {
-                'vdata' : {}
-            };
             try {
+                var g_config = {
+                    'vdata' : {}
+                };
                 eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+
+                var price, promoPrice;
                 // TODO Parse g_config.PromoData to find the item.brandDiscountInfo.price
                 // TODO Parse g_config.Price to find the price
-                winston.info(JSON.stringify(g_config, null, 4));
                 callback(null, price, promoPrice);
             } catch(err) {
                 callback(err);
@@ -95,5 +100,31 @@ var _taobao = function(source, callback) {
 };
 
 var _tmall = function(tbItemId, callback) {
-    // TODO Implement
+    // TODO Parse tbItemId from source
+    var tbItemId = '42550435119';
+    request.get({
+        'url' : 'http://mdskip.taobao.com/core/initItemDetail.htm?callback=setMdskip&itemId=' + tbItemId,
+        'headers' : {
+            'referer' : 'http://detail.tmall.com/item.htm?id=' + tbItemId,
+            'accept-language' : 'en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4'
+        },
+        'encoding' : 'binary'
+    }, function(err, response, body) {
+        if (err) {
+            callback(err);
+        } else {
+            try {
+                var setMdskip = function(object) {
+                    var price, promoPrice;
+                    // TODO Parse g_config.PromoData to find the item.brandDiscountInfo.price
+                    // TODO Parse g_config.Price to find the price
+                    console.log(object.defaultModel.deliveryDO.deliveryAddress);
+                    callback(null, price, promoPrice);
+                };
+                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+            } catch(err) {
+                callback(err);
+            }
+        }
+    });
 };
