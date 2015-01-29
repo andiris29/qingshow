@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.view.WindowManager;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.util.AppUtil;
 
 public class LaunchActivity extends Activity {
 
@@ -19,6 +21,10 @@ public class LaunchActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
 
         setContentView(R.layout.activity_launch);
+
+        if(AppUtil.getAppUserLoginStatus(this)){
+            QSApplication.get().refreshPeople(this);
+        }
 
         new Handler().postDelayed(new Runnable() {
             public void run() {

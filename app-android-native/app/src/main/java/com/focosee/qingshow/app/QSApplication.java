@@ -78,6 +78,8 @@ public class QSApplication extends Application {
 
         // config app version name
         versionName = AppUtil.getAppVersionName(this);
+
+
     }
 
     public void configImageLoader() {
@@ -162,13 +164,13 @@ public class QSApplication extends Application {
         return versionName;
     }
 
-    public boolean refreshPeople(){
+    public void refreshPeople(Context context){
         //final Context _context = context;
 //        JSONObject jsonObject = new JSONObject();
 //        Map map = new HashMap();
 //        map.put("_id", people._id);
 //        jsonObject.put("")
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(people._id), null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(QSUserId(context)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -186,7 +188,6 @@ public class QSApplication extends Application {
         });
 
         QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
-        return false;
     }
 
 }

@@ -169,7 +169,7 @@ public class S03SHowActivity extends Activity {
                         setLikedImageButtonBackgroundImage();
                         likedImageButton.setClickable(true);
                         showListEntity.numLike = showDetailEntity.getShowLikeNumber();
-                        //QSApplication.get().refreshPeople();
+                        QSApplication.get().refreshPeople(S03SHowActivity.this);
                     } else {
                         handleResponseError(response);
 //                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败" + response.toString() + response.get("metadata").toString().length());

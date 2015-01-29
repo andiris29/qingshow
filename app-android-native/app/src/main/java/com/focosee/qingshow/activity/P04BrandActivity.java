@@ -259,7 +259,13 @@ public class P04BrandActivity extends Activity {
         followRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                followOrUnfollowTask();
+                if(AppUtil.getAppUserLoginStatus(P04BrandActivity.this)) {
+                    followOrUnfollowTask();
+                }else{
+                    Toast.makeText(P04BrandActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(P04BrandActivity.this, U06LoginActivity.class);
+                    P04BrandActivity.this.startActivity(intent);
+                }
             }
         });
     }

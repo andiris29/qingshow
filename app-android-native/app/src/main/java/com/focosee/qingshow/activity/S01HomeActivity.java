@@ -121,7 +121,6 @@ public class S01HomeActivity extends Activity {
 
             }
         });
-
         _wfPullRefreshView.setPullLoadEnabled(true);
         _wfPullRefreshView.setScrollLoadEnabled(true);
 

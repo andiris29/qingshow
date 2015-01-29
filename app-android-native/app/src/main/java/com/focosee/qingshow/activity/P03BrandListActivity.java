@@ -19,6 +19,7 @@ import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -101,7 +102,7 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void loadMoreData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(checkErrorExist(response)){
@@ -126,7 +127,7 @@ public class P03BrandListActivity extends Activity {
     }
 
     private void refreshData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(checkErrorExist(response)){
