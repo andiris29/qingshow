@@ -1,4 +1,7 @@
-// http://nz.taobao.com/
+/**
+ * url: http://nz.taobao.com/
+ * Traversal the categories and open child page
+ */
 var api = new RuntimeAPI({
     'crawl' : function() {
         var subURLs = [];

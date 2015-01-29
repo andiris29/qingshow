@@ -1,5 +1,10 @@
-// http://s.taobao.com/list?spm=a219r.lm874&q=%CD%E2%CC%D7&style=grid&seller_type=taobao&cps=yes&s=0&cat=50000697%2C50906001%2C50098749&tab=all&app=list&bcoffset=28
+/**
+ * url: http://s.taobao.com/list?spm=a217f.1226604.a214d5w-static.5.Wr0btB&q=%B4%BF%C9%AB&cat=16&style=grid&seller_type=taobao&cps=yes&s=0&cat=50102538
+ * 
+ * Traversal item with paging, and open shop as child page
+ */
 var api = new RuntimeAPI({
     'crawl' : function() {
+        // TODO
     }
 });
