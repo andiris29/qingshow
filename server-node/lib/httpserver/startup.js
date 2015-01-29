@@ -6,6 +6,11 @@ var path = require('path');
 var fs = require('fs');
 var async = require('async'), _ = require('underscore');
 
+// Log
+var winston = require('winston');
+winston.add(winston.transports.DailyRotateFile, {
+    'filename' : require('path').join(__dirname, 'winston.log')
+});
 //param parser
 var bodyParser = require('body-parser');
 //Cookie and session
