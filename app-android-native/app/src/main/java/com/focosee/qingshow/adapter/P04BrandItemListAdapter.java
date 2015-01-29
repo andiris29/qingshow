@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -14,7 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.WebViewActivity;
 import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -25,7 +28,6 @@ public class P04BrandItemListAdapter extends BaseAdapter {
     private static String TAG = "P04BrandItemListAdapter";
     private Context context;
     private ArrayList<ShowDetailEntity.RefItem> itemList;
-    private ItemViewHolder viewHolder;
     private int itemHeight;
 
     public P04BrandItemListAdapter(Context concreteContext, int screenHeight,
@@ -52,7 +54,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+        ItemViewHolder viewHolder;
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -63,7 +65,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
             viewHolder.viewPager = (ViewPager) convertView.findViewById(R.id.item_p04_item_viewPager);
             viewHolder.viewGroup = (LinearLayout) convertView.findViewById(R.id.item_p04_item_viewGroup);
             viewHolder.discount = (TextView) convertView.findViewById(R.id.item_p04_item_discount);
-            viewHolder.descirption = (TextView) convertView.findViewById(R.id.item_p04_item_description);
+            viewHolder.description = (TextView) convertView.findViewById(R.id.item_p04_item_description);
             viewHolder.price = (TextView) convertView.findViewById(R.id.item_p04_item_price);
             viewHolder.detailButton = (ImageButton) convertView.findViewById(R.id.item_p04_item_detail_button);
 
@@ -83,18 +85,23 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         viewHolder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = Integer.getInteger(((ImageButton)v).getTag().toString()).intValue();
+                int position = Integer.parseInt(v.getTag().toString());
+                Log.d(TAG, "位置信息：" + position);
+                Log.d(TAG, "URL: " + itemList.get(position).getSource());
+                Intent intent  = new Intent(context, WebViewActivity.class);
+                intent.putExtra(WebViewActivity.URL, itemList.get(position).getSource());
+                context.startActivity(intent);
                 Toast.makeText(context, "click item " + String.valueOf(position) + " button", Toast.LENGTH_SHORT).show();
             }
         });
 
         //if(null != itemList.get(position).images) {
         if(null != itemList.get(position).images && itemList.get(position).images.size() != 0) {
-            P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images);
+            P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images, viewHolder);
 
             viewHolder.viewPager.setAdapter(mViewPagerAdapter);
             viewHolder.viewPager.setOnPageChangeListener(mViewPagerAdapter);
-            viewHolder.viewPager.setCurrentItem(itemList.get(position).images.size());
+            viewHolder.viewPager.setCurrentItem(itemList.get(position).images.size() * 100);
         }
         return convertView;
     }
@@ -111,7 +118,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
     class ItemViewHolder {
         public ViewPager viewPager;
         public TextView discount;
-        public TextView descirption;
+        public TextView description;
         public TextView price;
         public ImageButton detailButton;
         public LinearLayout viewGroup;
@@ -124,13 +131,14 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         private ImageView[] _mImgViewS;
         private int imgSize;
         private LinearLayout _mViewGroup;
+        private ItemViewHolder viewHolder;
         /**
          * 装点点的ImageView数组
          */
         private ImageView[] tips;
 
-        public P04ViewPagerAdapter(ArrayList<ShowDetailEntity.ImageInfo> images){
-
+        public P04ViewPagerAdapter(ArrayList<ShowDetailEntity.ImageInfo> images, ItemViewHolder viewHolder){
+            this.viewHolder = viewHolder;
             _mViewGroup = viewHolder.viewGroup;
             this.images = images;
             this.imgSize = images.size() == 0 ? 1 : images.size();
@@ -236,8 +244,8 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         @Override
         public void onPageSelected(int position) {
             setImageBackground(position);
-            viewHolder.detailButton.setTag(position % this.imgSize);
-            viewHolder.descirption.setText(((ShowDetailEntity.ImageInfo)_mImgViewS[position % this.imgSize].getTag()).description);
+            //this.viewHolder.detailButton.setTag(position % this.imgSize);
+            this.viewHolder.description.setText(((ShowDetailEntity.ImageInfo) _mImgViewS[position % this.imgSize].getTag()).description);
             Log.d(TAG, "description" + ((ShowDetailEntity.ImageInfo)_mImgViewS[position % this.imgSize].getTag()).description);
         }
 

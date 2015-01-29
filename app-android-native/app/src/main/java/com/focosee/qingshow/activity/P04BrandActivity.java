@@ -144,6 +144,11 @@ public class P04BrandActivity extends Activity {
         //((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
 
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage, AppUtil.getShowDisplayOptions());
+
+        if(brandEntity.getModelIsFollowedByCurrentUser()){
+            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn2);
+        }
+
         constructViewPager();
 
         setIndicatorListener();
@@ -222,7 +227,7 @@ public class P04BrandActivity extends Activity {
             line1.setVisibility(View.VISIBLE);
             line2.setVisibility(View.VISIBLE);
         } else if (pos == 4) {
-            followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            //followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
         }
     }
 
