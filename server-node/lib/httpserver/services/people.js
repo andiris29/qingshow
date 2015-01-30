@@ -17,9 +17,14 @@ var _queryModels = function(req, res) {
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         // querier
         var criteria = {
-            'roles' : 1
+            'roles' : 1,
+            'modelInfo.order' : {
+                '$ne' : null
+            }
         };
-        MongoHelper.queryPaging(People.find(criteria), People.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        MongoHelper.queryPaging(People.find(criteria).sort({
+            'modelInfo.order' : 1
+        }), People.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
     }, function(models) {
         // responseDataBuilder
         return {
