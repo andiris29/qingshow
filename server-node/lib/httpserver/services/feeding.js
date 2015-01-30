@@ -72,13 +72,12 @@ feeding.hot = {
 
 feeding.like = {
     'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             async.waterfall([
             function(callback) {
                 var criteria = {
-                    'initiatorRef' : req.qsCurrentUserId
+                    'initiatorRef' : qsParam._id || req.qsCurrentUserId
                 };
                 MongoHelper.queryPaging(RPeopleLikeShow.find(criteria).sort({
                     'create' : -1
@@ -91,6 +90,12 @@ feeding.like = {
                 });
                 callback(null, shows, count);
             }], callback);
+        }, {
+            'afterParseRequest' : function(raw) {
+                return {
+                    '_id' : RequestHelper.parseId(raw._id)
+                };
+            }
         });
     }
 };
