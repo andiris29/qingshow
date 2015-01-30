@@ -393,7 +393,7 @@ public class S01HomeActivity extends Activity {
 
                 Intent intent = new Intent(S01HomeActivity.this,
                         (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
-                                ? U01PersonalActivity.class : U06LoginActivity.class);
+                                ? U01PersonalActivity.class : U07RegisterActivity.class);
 
                 startActivity(intent);
             }

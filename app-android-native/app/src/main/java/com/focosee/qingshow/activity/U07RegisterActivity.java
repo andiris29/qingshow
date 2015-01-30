@@ -86,6 +86,13 @@ public class U07RegisterActivity extends Activity {
             }
         });
 
+        ((TextView) findViewById(R.id.register_login_btn)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
+            }
+        });
+
         requestQueue = Volley.newRequestQueue(context);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
