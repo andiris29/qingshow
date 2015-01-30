@@ -62,6 +62,10 @@ public class P01ModelListAdapter extends BaseAdapter {
         this.u01PersonalActivity = u01PersonalActivity;
     }
 
+    public ModelEntity getItemData(int position){
+        return data.get(position);
+    }
+
     @Override
     public int getCount() {
         return this.data.size();
@@ -104,9 +108,9 @@ public class P01ModelListAdapter extends BaseAdapter {
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
         holderView.followButton.setTag(String.valueOf(position));
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
-            holderView.followButton.setBackgroundResource(R.drawable.badge_unfollow_btn);
+            holderView.followButton.setBackgroundResource(R.drawable.people_list_unfollow);
         }else{
-            holderView.followButton.setBackgroundResource(R.drawable.badge_follow_btn);
+            holderView.followButton.setBackgroundResource(R.drawable.people_list_follow);
         }
         holderView.followButton.setOnClickListener(followButtonOnClickListener);
 
@@ -145,7 +149,7 @@ public class P01ModelListAdapter extends BaseAdapter {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(context, "关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
-                        v.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        v.setBackgroundResource(R.drawable.people_list_unfollow);
                     }else{
                         showMessage(context, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -181,7 +185,7 @@ public class P01ModelListAdapter extends BaseAdapter {
                             notifyDataSetChanged();
                             u01PersonalActivity.refreshWatchNum();
                         }else
-                            v.setBackgroundResource(R.drawable.badge_follow_btn);
+                            v.setBackgroundResource(R.drawable.people_list_follow);
                     }else{
                         showMessage(context, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }

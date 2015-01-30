@@ -20,12 +20,12 @@
 
         <ImageButton
             android:id="@+id/P04_back_image_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:background="#00000000"
-            android:src="@drawable/root_icon_back"/>
+            android:src="@drawable/s03_back_btn"/>
 
         <ImageView
             android:id="@+id/P04_brand_portrait"
@@ -242,7 +242,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/badge_follow_btn2"/>
+                    android:background="@drawable/badge_follow_btn"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"

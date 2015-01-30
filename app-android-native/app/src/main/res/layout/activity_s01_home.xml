@@ -34,22 +34,24 @@
                     <ImageView
                         android:id="@+id/S01_title_menu"
                         android:layout_width="40dp"
-                        android:layout_height="30dp"
+                        android:layout_height="25dp"
                         android:layout_marginLeft="10dp"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/nav_btn_menu" />
 
                     <ImageView
                         android:layout_width="fill_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="25dp"
                         android:layout_weight="1"
+                        android:scaleType="fitCenter"
                         android:src="@drawable/nav_btn_image_logo" />
 
                     <ImageView
                         android:id="@+id/S01_title_account"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:layout_marginRight="10dp"
-                        android:src="@drawable/nav_account_btn_woman"/>
+                        android:src="@drawable/nav_account_btn"/>
 
                 </LinearLayout>
 

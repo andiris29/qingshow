@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,15 +16,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.FollowPeopleEntity;
 import com.focosee.qingshow.entity.People;
+import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
 
 public class U01PersonalActivity extends FragmentActivity {
+    private static final String TAG = "U01PersonalActivity";
+    public static final String U01PERSONALACTIVITY_PEOPLE_ID = "U01PersonalActivity_people_id";
     private static final int PAGER_NUM = 4;
 
     private static final int PAGER_COLLECTION = 0;
@@ -56,13 +64,24 @@ public class U01PersonalActivity extends FragmentActivity {
     private LinearLayout line3;
     private LinearLayout line4;
 
+    private People people;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
         context = getApplicationContext();
-
+        Intent mIntent = getIntent();
         matchUI();
+        if(null == mIntent.getStringExtra(U01PERSONALACTIVITY_PEOPLE_ID)) {
+            people = QSApplication.get().getPeople();
+        }else {
+            String id = mIntent.getStringExtra(U01PERSONALACTIVITY_PEOPLE_ID);
+            Log.d(TAG, "id: " + id);
+            getPeople(id);
+
+        }
+
 
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,14 +100,15 @@ public class U01PersonalActivity extends FragmentActivity {
             }
         });
 
+
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);
-        People people = QSApplication.get().getPeople();
         if (people != null) {
             if (people.name != null) nameTextView.setText(people.name);
             if (people.height != null && people.weight != null)
                 heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
-
+//            if(!AppUtil.getAppUserId(this).equals(people._id))//不是本人
+//                settingsTextView.setVisibility(View.GONE);
 //            .setText(String.valueOf(people.))
         } else {
             Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
@@ -100,8 +120,8 @@ public class U01PersonalActivity extends FragmentActivity {
         }
 
         ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
-        if (QSApplication.get().getPeople() != null) {
-            String portraitUrl = QSApplication.get().getPeople().portrait;
+        if (people != null) {
+            String portraitUrl = people.portrait;
             if (portraitUrl != null && !portraitUrl.equals("")) {
                 Picasso.with(context).load(portraitUrl).into(portraitImageView);
             }
@@ -279,6 +299,28 @@ public class U01PersonalActivity extends FragmentActivity {
 
     private void setTabCount() {
 
+    }
+
+    private void getPeople(String _id){
+
+        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(_id), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    people = People.getPeopleEntitis(response);
+
+                } catch (Exception e) {
+//                    showMessage(S03SHowActivity.this, e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("点赞失败", "点赞失败");
+            }
+        });
+
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
 }

@@ -146,7 +146,7 @@ public class P04BrandActivity extends Activity {
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage, AppUtil.getShowDisplayOptions());
 
         if(brandEntity.getModelIsFollowedByCurrentUser()){
-            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn2);
+            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
         }
 
         constructViewPager();
@@ -760,7 +760,7 @@ public class P04BrandActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn2);
+                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -790,7 +790,7 @@ public class P04BrandActivity extends Activity {
                     if (response.get("metadata").toString().equals("{}")) {
                         showMessage(P04BrandActivity.this, "取消关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(false);
-                        followSignText.setBackgroundResource(R.drawable.badge_follow_btn2);
+                        followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                     }else{
                         showMessage(P04BrandActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }

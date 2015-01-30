@@ -6,9 +6,10 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 
-public class People {
+public class People implements Serializable{
     public String _id;
     public UserInfo userinfo;
     public String update;

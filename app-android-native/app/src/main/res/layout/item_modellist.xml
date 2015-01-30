@@ -91,7 +91,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:textColor="#ffffff"
-        android:background="@drawable/badge_follow_btn"
+        android:background="@drawable/people_list_follow"
         android:layout_marginRight="10dp"/>
 
 </RelativeLayout>

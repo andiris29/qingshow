@@ -91,10 +91,11 @@
 
                 <ImageView
                     android:id="@+id/item_show_love_img"
-                    android:layout_width="fill_parent"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/model_cell_icon02_noticeno"/>
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/root_cell_icon_notice"/>
 
                 <TextView
                     android:id="@+id/item_show_love"

@@ -69,6 +69,13 @@ public class ShowListEntity extends AbsEntity {
         return (null != modelRef) ? (String.valueOf(modelRef.getHeight()) + String.valueOf(modelRef.getWeight())) : "0cm/0kg";
     }
 
+    public boolean getShowIsFollowedByCurrentUser(){
+        if(null != __context){
+            return __context.likedByCurrentUser;
+        }
+        return false;
+    }
+
     public String getModelWeight() {
         if (null != modelRef)
             return String.valueOf(modelRef.getWeight());

@@ -30,6 +30,11 @@
                     android:id="@+id/S03_image_indicator"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"/>
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/show_bottom_shadow"/>
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
