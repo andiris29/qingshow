@@ -107,6 +107,15 @@ public class U01WatchFragment extends Fragment {
         followerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), P02ModelActivity.class);
+
+                ModelEntity itemEntity = followerPeopleListAdapter.getItemData(position);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, itemEntity);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
 
             }
         });
