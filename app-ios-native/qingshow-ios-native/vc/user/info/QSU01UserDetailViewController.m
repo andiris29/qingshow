@@ -124,7 +124,7 @@
     //favor collectioin view
     [self.likedDelegate bindWithCollectionView:self.likedCollectionView];
     self.likedDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getLikeFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
             succeedBlock(array, metadata);
         } onError:^(NSError* e){

@@ -78,11 +78,16 @@
 {
     return [self getFeedingPath:PATH_FEEDING_CHOSEN otherParam:@{@"type" : @(type)} page:page onSucceed:succeedBlock onError:errorBlock];
 }
-- (MKNetworkOperation*)getLikeFeedingPage:(int)page
+- (MKNetworkOperation*)getLikeFeedingUser:(NSDictionary*)userDict
+                                     page:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
-    return [self getFeedingPath:PATH_FEEDING_LIKE otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
+    NSMutableDictionary* paramDict = [@{} mutableCopy];
+    if (userDict) {
+        paramDict[@"_id"] = userDict[@"_id"];
+    }
+    return [self getFeedingPath:PATH_FEEDING_LIKE otherParam:paramDict page:page onSucceed:succeedBlock onError:errorBlock];
 }
 - (MKNetworkOperation*)getRecommendationFeedingPage:(int)page
                                           onSucceed:(ArraySuccessBlock)succeedBlock
