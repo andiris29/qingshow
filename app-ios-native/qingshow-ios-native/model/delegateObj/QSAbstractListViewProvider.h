@@ -31,6 +31,8 @@
 
 @property (assign, nonatomic) BOOL hasRefreshControl;
 
+@property (strong, nonatomic) NSArray* additionalResult;
+
 #pragma mark - Network
 - (void)reloadData;
 - (void)refreshData:(NSDictionary*)dict;

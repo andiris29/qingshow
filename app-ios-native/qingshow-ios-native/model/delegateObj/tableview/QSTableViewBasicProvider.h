@@ -26,5 +26,4 @@
 #pragma mark - Method to be Override
 - (void)registerCell;
 
-@property (strong, nonatomic) NSArray* additionalResult;
 @end

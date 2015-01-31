@@ -131,6 +131,7 @@
     self.itemNewDelegate.type = QSItemImageListTableViewDelegateObjTypeNew;
     if (self.itemDict) {
         self.itemNewDelegate.additionalResult = @[self.itemDict];
+//        [self.itemNewDelegate.view reloadData];
     }
     self.itemNewDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandNew:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
