@@ -231,6 +231,10 @@
     tran.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_root"];
     [self.navigationController popViewControllerAnimated:NO];
+    if (self.movieController) {
+        [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"time": @(self.movieController.currentPlaybackTime).stringValue} durations:(int)(self.movieController.currentPlaybackTime * 1000)];
+    }
+    
 
 }
 

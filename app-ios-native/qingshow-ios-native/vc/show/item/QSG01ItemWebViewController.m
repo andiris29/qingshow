@@ -48,6 +48,7 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [MobClick event:@"viewBuy" attributes:@{@"itemId": self.itemDict[@"_id"]} counter:1];	
 }
 
 - (void)didReceiveMemoryWarning {
