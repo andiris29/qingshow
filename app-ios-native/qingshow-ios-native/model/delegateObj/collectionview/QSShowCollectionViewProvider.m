@@ -16,6 +16,7 @@
 
 @implementation QSShowCollectionViewProvider
 
+#pragma mark - Cell
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSShowCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"QSShowCollectionViewCell"];

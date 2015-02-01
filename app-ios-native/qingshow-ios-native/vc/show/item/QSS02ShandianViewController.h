@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSItemImageListTableViewProvider.h"
+//#import "QSItemImageListTableViewProvider.h"
+#import "QSItemCollectionViewProvider.h"
+@interface QSS02ShandianViewController : UIViewController <QSItemProviderDelegate>
 
-@interface QSS02ShandianViewController : UIViewController <QSItemImageListTableViewProviderDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end

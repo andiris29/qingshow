@@ -14,7 +14,7 @@
 
 @interface QSS02ShandianViewController ()
 
-@property (strong, nonatomic) QSItemImageListTableViewProvider* itemProvider;
+@property (strong, nonatomic) QSItemCollectionViewProvider* itemProvider;
 
 @end
 
@@ -63,8 +63,9 @@
 }
 - (void)configProvider
 {
-    self.itemProvider = [[QSItemImageListTableViewProvider alloc] init];
-    [self.itemProvider bindWithTableView:self.tableView];
+    self.itemProvider = [[QSItemCollectionViewProvider alloc] init];
+    self.itemProvider.type = QSItemWaterfallDelegateObjTypeWithDate;
+    [self.itemProvider bindWithCollectionView:self.collectionView];
     self.itemProvider.delegate = self;
     self.itemProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingRandomPage:page onSucceed:succeedBlock onError:errorBlock];
@@ -72,7 +73,7 @@
     [self.itemProvider fetchDataOfPage:1];
 }
 #pragma mark -
-- (void)didClickShopBtnOfItem:(NSDictionary *)itemDict
+- (void)didClickItem:(NSDictionary*)itemDict
 {
     QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
     [self.navigationController pushViewController:vc animated:YES];

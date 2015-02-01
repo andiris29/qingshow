@@ -102,13 +102,14 @@
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
     NSDictionary* coverMetadata = nil;
-    coverMetadata = itemDict[@"imageMetadata"];
+
     
     float iniWidth = [UIScreen mainScreen].bounds.size.width;
     
     float height = iniWidth;
     float width = iniWidth;
 
+    coverMetadata = itemDict[@"imageMetadata"];
     if (coverMetadata && coverMetadata[@"height"]) {
         height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
     }

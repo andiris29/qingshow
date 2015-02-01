@@ -192,4 +192,19 @@
     }
 }
 
+//+ (NSDictionary*)getImageMetaData:(NSDictionary*)itemDict
+//{
+//    return itemDict[@"imageMetadata"];
+//}
+//
+//+ (CGFloat)getHeight:(NSDictionary*)itemDict
+//{
+//    NSDictionary* m = [self getImageMetaData:itemDict];
+//    return ((NSNumber*)m[@"height"]).floatValue;
+//}
+//+ (CGFloat)getWidth:(NSDictionary*)itemDict
+//{
+//    NSDictionary* m = [self getImageMetaData:itemDict];
+//    return ((NSNumber*)m[@"width"]).floatValue;
+//}
 @end

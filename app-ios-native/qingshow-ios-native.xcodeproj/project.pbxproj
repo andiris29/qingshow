@@ -45,6 +45,9 @@
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
 		EF4903661A7E52C100A848B4 /* QSS02ShandianViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4903641A7E52C100A848B4 /* QSS02ShandianViewController.m */; };
 		EF4903671A7E52C100A848B4 /* QSS02ShandianViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4903651A7E52C100A848B4 /* QSS02ShandianViewController.xib */; };
+		EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */; };
+		EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */; };
+		EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */; };
 		EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D509D1A176AEC001E179B /* QSP02ModelDetailViewController.xib */; };
 		EF4D50A31A177158001E179B /* QSP04BrandDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4D50A21A177158001E179B /* QSP04BrandDetailViewController.m */; };
 		EF4D50A51A177174001E179B /* QSP04BrandDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D50A41A177174001E179B /* QSP04BrandDetailViewController.xib */; };
@@ -272,6 +275,11 @@
 		EF4903631A7E52C100A848B4 /* QSS02ShandianViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS02ShandianViewController.h; sourceTree = "<group>"; };
 		EF4903641A7E52C100A848B4 /* QSS02ShandianViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS02ShandianViewController.m; sourceTree = "<group>"; };
 		EF4903651A7E52C100A848B4 /* QSS02ShandianViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS02ShandianViewController.xib; sourceTree = "<group>"; };
+		EF4903691A7E788200A848B4 /* QSItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemCollectionViewCell.h; sourceTree = "<group>"; };
+		EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewCell.m; sourceTree = "<group>"; };
+		EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemCollectionViewCell.xib; sourceTree = "<group>"; };
+		EF49036E1A7E842000A848B4 /* QSItemCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemCollectionViewProvider.h; sourceTree = "<group>"; };
+		EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewProvider.m; sourceTree = "<group>"; };
 		EF4D509D1A176AEC001E179B /* QSP02ModelDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSP02ModelDetailViewController.xib; sourceTree = "<group>"; };
 		EF4D50A11A177158001E179B /* QSP04BrandDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP04BrandDetailViewController.h; sourceTree = "<group>"; };
 		EF4D50A21A177158001E179B /* QSP04BrandDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP04BrandDetailViewController.m; sourceTree = "<group>"; };
@@ -639,6 +647,9 @@
 				EF1A59221A06761800001AE0 /* QSShowCollectionViewCell.xib */,
 				EF1A59231A06761800001AE0 /* QSWaterFallCollectionViewLayout.h */,
 				EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */,
+				EF4903691A7E788200A848B4 /* QSItemCollectionViewCell.h */,
+				EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */,
+				EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */,
 			);
 			path = waterfall;
 			sourceTree = "<group>";
@@ -715,6 +726,8 @@
 				EF59EDE81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m */,
 				EF59EDE91A74FAEE00D639FB /* QSShowCollectionViewProvider.h */,
 				EF59EDEA1A74FAEE00D639FB /* QSShowCollectionViewProvider.m */,
+				EF49036E1A7E842000A848B4 /* QSItemCollectionViewProvider.h */,
+				EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */,
 			);
 			path = collectionview;
 			sourceTree = "<group>";
@@ -1455,6 +1468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
+				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
@@ -1533,6 +1547,7 @@
 				EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */,
 				EF4D50AA1A177B7A001E179B /* QSS02CategoryViewController.m in Sources */,
 				EF8AB6631A07D21D00372538 /* QSP01ModelListViewController.m in Sources */,
+				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,
 				EFD0B7FC1A1A5C0500BCDFBA /* QSCompareTableViewCell.m in Sources */,
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
@@ -1596,6 +1611,7 @@
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
 				EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */,
 				EFF89E041A13A4AD004E6C55 /* QSP03BrandListViewController.m in Sources */,
+				EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */,
 				EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */,

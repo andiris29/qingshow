@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS02ShandianViewController">
             <connections>
-                <outlet property="tableView" destination="ePu-PF-2rG" id="fOq-ZR-jlP"/>
+                <outlet property="collectionView" destination="e3d-P8-h3a" id="3F6-WJ-gOr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -16,17 +16,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ePu-PF-2rG">
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="e3d-P8-h3a">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </tableView>
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wc3-r5-zrj">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                </collectionView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ePu-PF-2rG" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="D1p-J3-237"/>
-                <constraint firstItem="ePu-PF-2rG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Jkn-o7-uuI"/>
-                <constraint firstAttribute="trailing" secondItem="ePu-PF-2rG" secondAttribute="trailing" id="P1e-8K-eal"/>
-                <constraint firstAttribute="bottom" secondItem="ePu-PF-2rG" secondAttribute="bottom" id="WFg-wT-l8w"/>
+                <constraint firstAttribute="trailing" secondItem="e3d-P8-h3a" secondAttribute="trailing" id="d5d-Vv-onz"/>
+                <constraint firstItem="e3d-P8-h3a" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="oGW-6v-oH6"/>
+                <constraint firstItem="e3d-P8-h3a" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="r7u-FM-AYc"/>
+                <constraint firstAttribute="bottom" secondItem="e3d-P8-h3a" secondAttribute="bottom" id="rtJ-1j-X7R"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="476" y="377"/>
