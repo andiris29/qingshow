@@ -421,5 +421,5 @@
  *	The default value is YES. MKNetworkKit will generate an Accept-Language header using [NSLocale preferredLanguages] + "en-US".
  */
 @property (nonatomic, assign) BOOL shouldSendAcceptLanguageHeader;
-
+-(NSData*) cachedDataForOperation:(MKNetworkOperation*) operation;
 @end
