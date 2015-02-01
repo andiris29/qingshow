@@ -102,6 +102,11 @@
         }
         if (page == 1) {
             [self.resultArray removeAllObjects];
+            if (self.additionalResult) {
+                [self.resultArray addObjectsFromArray:self.additionalResult];
+            }
+            self.refreshOperation = nil;
+            self.currentPage = 1;
             refreshBlock();
         }
         if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
