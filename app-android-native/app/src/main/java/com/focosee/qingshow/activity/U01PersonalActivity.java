@@ -57,12 +57,12 @@ public class U01PersonalActivity extends FragmentActivity {
     private RelativeLayout watchRelativeLayout;
     private RelativeLayout fansRelativeLayout;
     private RelativeLayout brandRelativeLayout;
-    private RelativeLayout followRelativeLayout;
+    //private RelativeLayout followRelativeLayout;
 
     private LinearLayout line1;
     private LinearLayout line2;
     private LinearLayout line3;
-    private LinearLayout line4;
+    //private LinearLayout line4;
 
     private People people;
 
@@ -166,7 +166,7 @@ public class U01PersonalActivity extends FragmentActivity {
         watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
         brandRelativeLayout = (RelativeLayout) findViewById(R.id.brandRelativeLayout);
-        followRelativeLayout = (RelativeLayout) findViewById(R.id.followRelativeLayout);
+        //followRelativeLayout = (RelativeLayout) findViewById(R.id.followRelativeLayout);
 
 //        likeCountTextView = (TextView) findViewById(R.id.likeCountTextView);
 //        recommendCountTextView = (TextView) findViewById(R.id.recommendCountTextView);
@@ -175,8 +175,8 @@ public class U01PersonalActivity extends FragmentActivity {
 
         line1 = (LinearLayout) findViewById(R.id.u01_line_toleftRecommend);
         line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
-        line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
-        line4 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
+        //line3 = (LinearLayout) findViewById(R.id.u01_line_toleftAddAttention);
+        line3 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
 
         line1.setVisibility(View.GONE);
 
@@ -229,34 +229,34 @@ public class U01PersonalActivity extends FragmentActivity {
         watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
-        followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        //followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
 
         line1.setVisibility(View.GONE);
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
-        line4.setVisibility(View.GONE);
+        //line4.setVisibility(View.GONE);
 
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
             line3.setVisibility(View.VISIBLE);
-            line4.setVisibility(View.VISIBLE);
+            //line4.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line3.setVisibility(View.VISIBLE);
-            line4.setVisibility(View.VISIBLE);
+            //line4.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line1.setVisibility(View.VISIBLE);
-            line3.setVisibility(View.VISIBLE);
+            //line3.setVisibility(View.VISIBLE);
         }else if(pos == 3) {
             brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line1.setVisibility(View.VISIBLE);
             line2.setVisibility(View.VISIBLE);
         }
-        else if (pos == 4) {
-            followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
-        }
+//        else if (pos == 4) {
+//            followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+//        }
     }
 
     private void setIndicatorListener() {
@@ -284,12 +284,12 @@ public class U01PersonalActivity extends FragmentActivity {
                 personalViewPager.setCurrentItem(3);
             }
         });
-        followRelativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                personalViewPager.setCurrentItem(4);
-            }
-        });
+//        followRelativeLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                personalViewPager.setCurrentItem(4);
+//            }
+//        });
     }
 
     public void refreshWatchNum(){
