@@ -19,6 +19,7 @@
 #import "QSS02CategoryViewController.h"
 
 #import "QSU02UserSettingViewController.h"
+#import "QSS02ShandianViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
@@ -215,6 +216,12 @@
 {
     [self hideMenu];
     switch (type) {
+        case 1:
+        {
+            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
         case 3:
         {
             UIViewController* vc = [[QSP01ModelListViewController alloc] init];

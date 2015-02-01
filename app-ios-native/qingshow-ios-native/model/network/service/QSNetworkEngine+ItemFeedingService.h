@@ -19,5 +19,8 @@
                                                 page:(int)page
                                            onSucceed:(ArraySuccessBlock)succeedBlock
                                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)getItemFeedingRandomPage:(int)page
+                                      onSucceed:(ArraySuccessBlock)successBlock
+                                        onError:(ErrorBlock)errorBlock;
 
 @end

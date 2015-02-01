@@ -32,7 +32,10 @@
     NSMutableArray* m = [@[] mutableCopy];
     for (NSDictionary* d in array) {
         NSString* s = d[@"url"];
-        [m addObject:[NSURL URLWithString:s]];
+        NSURL* url = [NSURL URLWithString:s];
+        if (url && ![[NSNull null] isEqual:url]) {
+            [m addObject:url];
+        }
     }
     
     return m;

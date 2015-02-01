@@ -11,8 +11,9 @@
 #import "NSArray+QSExtension.h"
 #import "QSCommonUtil.h"
 
-#define ITEM_FEEDING_BY_BRAND_NEW @"itemFeeding/byBrandNew"
+#define ITEM_FEEDING_BY_BRAND_NEW @"i6temFeeding/byBrandNew"
 #define ITEM_FEEDING_BY_BRAND_DISCOUNT @"itemFeeding/byBrandDiscount"
+#define ITEM_FEEDING_RANDOM @"itemFeeding/random"
 
 @implementation QSNetworkEngine(ItemFeedingService)
 - (MKNetworkOperation*)getItemFeedingByBrandNew:(NSDictionary*)brand
@@ -53,6 +54,29 @@
                 if (succeedBlock) {
                     NSArray* items = retDict[@"data"][@"items"];
                     succeedBlock([items deepMutableCopy], retDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation*)getItemFeedingRandomPage:(int)page
+                                      onSucceed:(ArraySuccessBlock)successBlock
+                                        onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:ITEM_FEEDING_RANDOM
+                                 method:@"GET"
+                               paramers:@{@"pageNo":@(page), @"pageSize": @10}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                NSDictionary* retDict = completedOperation.responseJSON;
+                if (successBlock) {
+                    NSArray* items = retDict[@"data"][@"items"];
+                    successBlock([items deepMutableCopy], retDict[@"metadata"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)

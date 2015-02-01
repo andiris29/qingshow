@@ -34,7 +34,7 @@
     [WXApi registerApp:kWechatAppID];
     
     //umeng
-    [MobClick setLogEnabled:YES];
+    [MobClick setLogEnabled:NO];
     [MobClick setAppVersion:VERSION];
     [MobClick setEncryptEnabled:YES];
     [MobClick updateOnlineConfig];
