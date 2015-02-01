@@ -86,7 +86,7 @@ public class S07ListAdapter extends BaseAdapter {
 
         holderView.name.setText(data.get(position).getItemName());
         holderView.category.setText(data.get(position).getItemCategory());
-        ImageLoader.getInstance().displayImage(data.get(position).getBrandPortrait(), holderView.brandLogo, AppUtil.getPortraitDisplayOptions());
+        ImageLoader.getInstance().displayImage(data.get(position).getBrandRef().getBrandLogo(), holderView.brandLogo, AppUtil.getPortraitDisplayOptions());
 
         holderView.detailButton.setTag(position);
         holderView.detailButton.setOnClickListener(new View.OnClickListener() {
