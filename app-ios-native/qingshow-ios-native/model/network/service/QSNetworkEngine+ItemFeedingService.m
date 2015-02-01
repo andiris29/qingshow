@@ -11,7 +11,7 @@
 #import "NSArray+QSExtension.h"
 #import "QSCommonUtil.h"
 
-#define ITEM_FEEDING_BY_BRAND_NEW @"i6temFeeding/byBrandNew"
+#define ITEM_FEEDING_BY_BRAND_NEW @"itemFeeding/byBrandNew"
 #define ITEM_FEEDING_BY_BRAND_DISCOUNT @"itemFeeding/byBrandDiscount"
 #define ITEM_FEEDING_RANDOM @"itemFeeding/random"
 
