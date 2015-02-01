@@ -173,7 +173,7 @@
             succeedBlock(array, metadata);
         } onError:^(NSError* e){
             if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:1];
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:2];
             }
             errorBlock(e);
         }];

@@ -67,18 +67,45 @@
     if ([QSItemUtil getPriceAfterDiscount:itemDict].length) {
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;
-        self.priceLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
-        self.discountLabel.text = [QSItemUtil getPrice:itemDict];
+        self.originLabel.hidden = NO;
+        self.priceLabel.text = [NSString stringWithFormat:@"倾秀价:%@", [QSItemUtil getPriceAfterDiscount:itemDict]];
+        self.originLabel.text = @"来源价:";
+        self.discountLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPrice:itemDict]];
         [self.discountLabel sizeToFit];
     } else {
         self.saleLabel.hidden = YES;
         self.discountLabel.hidden = YES;
-        self.priceLabel.text = [QSItemUtil getPrice:itemDict];
-        self.discountLabel.text = @"";
+        self.originLabel.hidden = YES;
+        
+        self.priceLabel.text = [NSString stringWithFormat:@"倾秀价:%@", [QSItemUtil getPrice:itemDict]];
+//        self.discountLabel.text = [NSString stringWithFormat:@"倾秀价:%@", [QSItemUtil getPrice:itemDict]];
     }
     self.nameLabel.text = [QSItemUtil getImageDesc:itemDict atIndex:(int)self.imageScrollView.pageControl.currentPage];
 
     self.shopBtn.hidden = [QSItemUtil getShopUrl:itemDict] == nil;
+    
+    [self layoutPriceLabel];
+}
+- (void)layoutPriceLabel
+{
+    [self.priceLabel sizeToFit];
+    [self.discountLabel sizeToFit];
+    [self.originLabel sizeToFit];
+    
+    float width1 = self.priceLabel.frame.size.width;
+    float width2 = self.originLabel.frame.size.width;
+    
+    CGRect rect = self.priceLabel.frame;
+    rect.origin.x = 24;
+    self.priceLabel.frame = rect;
+    
+    rect = self.originLabel.frame;
+    rect.origin.x = self.priceLabel.frame.origin.x + width1 + 24.f;
+    self.originLabel.frame =rect;
+    
+    rect = self.discountLabel.frame;
+    rect.origin.x = self.originLabel.frame.origin.x + width2 + 5.f;
+    self.discountLabel.frame = rect;
     
 }
 - (void)baseYsetup
@@ -137,12 +164,17 @@
     CGRect rect = self.nameLabel.frame;
     rect.size.height = height;
     self.nameLabel.frame = rect;
+    
     CGRect rect2 = self.priceLabel.frame;
     rect2.origin.y = rect.origin.y + rect.size.height + 5.f;
     self.priceLabel.frame = rect2;
     rect2 = self.discountLabel.frame;
     rect2.origin.y = self.priceLabel.frame.origin.y;
     self.discountLabel.frame =rect2;
+    
+    rect2 = self.originLabel.frame;
+    rect2.origin.y = self.priceLabel.frame.origin.y;
+    self.originLabel.frame = rect2;
 }
 - (void)loadAllImages
 {
