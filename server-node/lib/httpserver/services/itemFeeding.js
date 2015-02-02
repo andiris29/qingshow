@@ -21,6 +21,10 @@ var _feed = function(req, res, querier, aspectInceptions) {
         'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             async.series([
             function(callback) {
+                // Populate
+                Item.populate(currentPageModels, 'brandRef', callback);
+            },
+            function(callback) {
                 MongoHelper.updateCoverMetaData(currentPageModels, callback);
             }], callback);
         },
