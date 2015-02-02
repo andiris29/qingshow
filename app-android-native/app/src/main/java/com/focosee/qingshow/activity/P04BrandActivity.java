@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -282,14 +283,14 @@ public class P04BrandActivity extends Activity {
 
         latestListView.setAdapter(newestBrandItemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
-        latestPullRefreshListView.setPullRefreshEnabled(true);
+        latestPullRefreshListView.setPullRefreshEnabled(false);
         latestPullRefreshListView.setPullLoadEnabled(true);
 
         if (null != brandEntity) {
             latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    doNewestRefreshDataTask();
+                    //doNewestRefreshDataTask();
                 }
 
                 @Override
@@ -305,7 +306,7 @@ public class P04BrandActivity extends Activity {
                     startActivity(intent);
                 }
             });
-            latestPullRefreshListView.doPullRefreshing(true, 0);
+            doNewestRefreshDataTask();
         } else {
             latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
@@ -332,14 +333,14 @@ public class P04BrandActivity extends Activity {
 
         discountListView.setAdapter(discountBrandItemListAdapter);
         discountPullRefreshListView.setScrollLoadEnabled(true);
-        discountPullRefreshListView.setPullRefreshEnabled(true);
+        discountPullRefreshListView.setPullRefreshEnabled(false);
         discountPullRefreshListView.setPullLoadEnabled(true);
 
         if (null != brandEntity) {
             discountPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    doDiscountRefreshDataTask();
+                    //doDiscountRefreshDataTask();
                 }
 
                 @Override
@@ -356,7 +357,7 @@ public class P04BrandActivity extends Activity {
                 }
             });
 
-            discountPullRefreshListView.doPullRefreshing(true, 0);
+            doDiscountRefreshDataTask();
         } else {
             discountPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
@@ -381,14 +382,14 @@ public class P04BrandActivity extends Activity {
 
         showListView.setAdapter(showBrandItemListAdapter);
         showPullRefreshListView.setScrollLoadEnabled(true);
-        showPullRefreshListView.setPullRefreshEnabled(true);
+        showPullRefreshListView.setPullRefreshEnabled(false);
         showPullRefreshListView.setPullLoadEnabled(true);
 
         if (null != brandEntity) {
             showPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
                 @Override
                 public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                    doShowRefreshTask();
+                    //doShowRefreshTask();
                 }
 
                 @Override
@@ -403,7 +404,7 @@ public class P04BrandActivity extends Activity {
 
                 }
             });
-            showPullRefreshListView.doPullRefreshing(true, 0);
+            doShowRefreshTask();
         } else {
             showPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
                 @Override
@@ -429,14 +430,14 @@ public class P04BrandActivity extends Activity {
 
         fansListView.setAdapter(fansListAdapter);
         fansPullRefreshListView.setScrollLoadEnabled(true);
-        fansPullRefreshListView.setPullRefreshEnabled(true);
+        fansPullRefreshListView.setPullRefreshEnabled(false);
         fansPullRefreshListView.setPullLoadEnabled(true);
 
         if (null != brandEntity) {
             fansPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
                 public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    doFollowersRefreshDataTask();
+                    //doFollowersRefreshDataTask();
                 }
 
                 @Override
@@ -451,7 +452,7 @@ public class P04BrandActivity extends Activity {
 
                 }
             });
-            fansPullRefreshListView.doPullRefreshing(true, 0);
+            doFollowersRefreshDataTask();
         } else {
             fansPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
                 @Override
@@ -473,17 +474,11 @@ public class P04BrandActivity extends Activity {
 
     private void doNewestRefreshDataTask() {
         Log.d(TAG, "news:"+QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), "1"));
-        //Toast.makeText(this, QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), "1"), Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject) response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    latestPullRefreshListView.onPullDownRefreshComplete();
+                    latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -500,13 +495,13 @@ public class P04BrandActivity extends Activity {
 
                 newestBrandItemListAdapter.resetData(brandItemsEntities);
                 newestBrandItemListAdapter.notifyDataSetChanged();
-                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -519,11 +514,7 @@ public class P04BrandActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(P04BrandActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
@@ -554,12 +545,7 @@ public class P04BrandActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    discountPullRefreshListView.onPullDownRefreshComplete();
+                    discountPullRefreshListView.onPullUpRefreshComplete();
                     discountPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -576,13 +562,13 @@ public class P04BrandActivity extends Activity {
 
                 discountBrandItemListAdapter.resetData(modelShowEntities);
                 discountBrandItemListAdapter.notifyDataSetChanged();
-                discountPullRefreshListView.onPullDownRefreshComplete();
+                discountPullRefreshListView.onPullUpRefreshComplete();
                 discountPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                discountPullRefreshListView.onPullDownRefreshComplete();
+                discountPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -595,11 +581,7 @@ public class P04BrandActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(P04BrandActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     discountPullRefreshListView.onPullUpRefreshComplete();
                     discountPullRefreshListView.setHasMoreData(false);
                     return;
@@ -631,17 +613,16 @@ public class P04BrandActivity extends Activity {
     private void showsGetNetTask(String _pageIndex, final boolean _isRefresh){
         if(null == brandEntity)return;
         final boolean _refreshTag = _isRefresh;
-        //Toast.makeText(this, QSAppWebAPI.getBrandShowApi(String.valueOf(brandEntity.get_id()), _pageIndex), Toast.LENGTH_SHORT).show();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandShowApi(String.valueOf(brandEntity.get_id()), _pageIndex), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(pageIndex == 1) {
+
+                    }else{
+                        Toast.makeText(P04BrandActivity.this, "没有更多数据！", Toast.LENGTH_SHORT).show();
                     }
-                    showPullRefreshListView.onPullDownRefreshComplete();
+                    showPullRefreshListView.onPullUpRefreshComplete();
                     showPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -655,14 +636,14 @@ public class P04BrandActivity extends Activity {
                     ++pageIndex;
                 }
                 showBrandItemListAdapter.notifyDataSetChanged();
-                showPullRefreshListView.onPullDownRefreshComplete();
+                showPullRefreshListView.onPullUpRefreshComplete();
                 showPullRefreshListView.setHasMoreData(true);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                showPullRefreshListView.onPullDownRefreshComplete();
+                showPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -672,32 +653,32 @@ public class P04BrandActivity extends Activity {
     private void doFollowersRefreshDataTask() {
         if(null == brandEntity)return;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(brandEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
+                fansNumTotal.setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                    fansPullRefreshListView.onPullDownRefreshComplete();
+                    fansPullRefreshListView.onPullUpRefreshComplete();
                     fansPullRefreshListView.setHasMoreData(false);
+                    fansListAdapter.resetData(null);
+                    fansListAdapter.notifyDataSetChanged();
                     return;
                 }
 
                 pageIndex = 1;
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<FollowPeopleEntity> peopleEntities = FollowPeopleEntity.getFollowPeopleList(response);
 
-                fansListAdapter.resetData(modelShowEntities);
+
+                fansListAdapter.resetData(peopleEntities);
                 fansListAdapter.notifyDataSetChanged();
-                fansPullRefreshListView.onPullDownRefreshComplete();
+                fansPullRefreshListView.onPullUpRefreshComplete();
                 fansPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                fansPullRefreshListView.onPullDownRefreshComplete();
+                fansPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -710,11 +691,6 @@ public class P04BrandActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-                    try {
-                        Toast.makeText(P04BrandActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-                    }catch (JSONException e) {
-                        Toast.makeText(P04BrandActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
                     fansPullRefreshListView.onPullUpRefreshComplete();
                     fansPullRefreshListView.setHasMoreData(false);
                     return;
@@ -761,6 +737,7 @@ public class P04BrandActivity extends Activity {
                         showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        doFollowersRefreshDataTask();
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -791,6 +768,7 @@ public class P04BrandActivity extends Activity {
                         showMessage(P04BrandActivity.this, "取消关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
+                        doFollowersRefreshDataTask();
                     }else{
                         showMessage(P04BrandActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -817,12 +795,10 @@ public class P04BrandActivity extends Activity {
     }
 
     private void handleErrorMsg(VolleyError error) {
-        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P04BrandActivity", error.toString());
     }
 
     private void showMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Log.i(context.getPackageName(), message);
     }
 
@@ -831,5 +807,13 @@ public class P04BrandActivity extends Activity {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    private String getTotalDataFromResponse(JSONObject response) {
+        try {
+            return ((JSONObject) response.get("metadata")).get("numTotal").toString();
+        } catch (Exception e) {
+            return "0";
+        }
     }
 }

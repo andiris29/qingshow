@@ -90,12 +90,12 @@ public class U01WatchFragment extends Fragment {
         followerPeopleListAdapter.setU01PersonActivity(u01PersonalActivity);
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);
-        followerPullRefreshListView.setPullRefreshEnabled(true);
+        followerPullRefreshListView.setPullRefreshEnabled(false);
         followerPullRefreshListView.setPullLoadEnabled(true);
         followerPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                doFollowersRefreshDataTask();
+
             }
 
             @Override
@@ -119,8 +119,7 @@ public class U01WatchFragment extends Fragment {
 
             }
         });
-        followerPullRefreshListView.doPullRefreshing(true, 0);
-
+        doFollowersRefreshDataTask();
         return view;
     }
 
@@ -136,23 +135,23 @@ public class U01WatchFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-                    followerPullRefreshListView.onPullDownRefreshComplete();
+                    followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
                 }
 
-                ++pageIndex;
+                pageIndex = 1;
 
                 ArrayList<ModelEntity> modelShowEntities = ModelEntity.getModelEntityListFromResponse(response);
                 followerPeopleListAdapter.resetData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
-                followerPullRefreshListView.onPullDownRefreshComplete();
+                followerPullRefreshListView.onPullUpRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                followerPullRefreshListView.onPullDownRefreshComplete();
+                followerPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -161,17 +160,11 @@ public class U01WatchFragment extends Fragment {
 
     private void doFollowersLoadMoreTask() {
         MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getPeopleQueryFollowedApi(_id, pageIndex, 10), null, new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getPeopleQueryFollowedApi(_id, pageIndex + 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-                    ++pageIndex;
+                    Toast.makeText(getActivity(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
@@ -206,7 +199,6 @@ public class U01WatchFragment extends Fragment {
     }
 
     private void handleErrorMsg(VolleyError error) {
-        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P02ModelActivity", error.toString());
     }
 

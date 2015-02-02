@@ -18,8 +18,8 @@
 
         <ImageButton
             android:id="@+id/P02_back_image_button"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/s03_back_btn"/>
@@ -207,16 +207,10 @@
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_gravity="center_horizontal"-->
-                        <!--android:background="@drawable/icon_follow" />-->
-
                     <ImageView
                         android:id="@+id/P02_follow_sign_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="45dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/badge_follow_btn"/>
                 </LinearLayout>

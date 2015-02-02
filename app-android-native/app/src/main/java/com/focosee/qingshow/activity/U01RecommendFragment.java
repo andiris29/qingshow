@@ -81,17 +81,17 @@ public class U01RecommendFragment extends Fragment {
         itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
-        latestPullRefreshListView.setPullRefreshEnabled(true);
+        latestPullRefreshListView.setPullRefreshEnabled(false);
         latestPullRefreshListView.setPullLoadEnabled(true);
         latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doShowsRefreshDataTask();
+
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doShowsLoadMoreTask(currentPageIndex+"", 10+"");
+                doShowsLoadMoreTask(String.valueOf(currentPageIndex), String.valueOf(10));
             }
         });
 
@@ -104,8 +104,7 @@ public class U01RecommendFragment extends Fragment {
             }
         });
 
-        latestPullRefreshListView.doPullRefreshing(true, 0);
-
+        doShowsRefreshDataTask();
 
         return view;
     }
@@ -123,12 +122,7 @@ public class U01RecommendFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 ((TextView)getActivity().findViewById(R.id.recommendCountTextView)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (Exception e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-                    latestPullRefreshListView.onPullDownRefreshComplete();
+                    latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -139,13 +133,13 @@ public class U01RecommendFragment extends Fragment {
 
                 itemListAdapter.addItemTop(modelShowEntities);
                 itemListAdapter.notifyDataSetChanged();
-                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -158,11 +152,7 @@ public class U01RecommendFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
+                    Toast.makeText(getActivity(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;

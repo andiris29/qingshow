@@ -12,7 +12,7 @@
         android:background="@drawable/bg_pic">
 
         <ImageView
-            android:id="@+id/backTextView"
+            android:id="@+id/activity_personal_backTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

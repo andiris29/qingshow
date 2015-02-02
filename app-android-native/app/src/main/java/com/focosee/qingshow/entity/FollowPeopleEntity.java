@@ -67,9 +67,26 @@ public class FollowPeopleEntity extends AbsEntity {
     public String[] hairTypes;
     public int[] roles;
 
-    class FollowPeopleContext {
+    public class FollowPeopleContext {
         public int numFollowers;
         public int numShows;
         public boolean followedByCurrentUser = false;
+    }
+
+    public static MetaData get__context(JSONObject response){
+        String temp = null;
+        try {
+            temp = response.getJSONObject("metadata").toString();
+            Gson gson = new Gson();
+            return gson.fromJson(temp, MetaData.class);
+        } catch (JSONException e) {
+            log(e.toString());
+            return null;
+        }
+    }
+
+    public class MetaData{
+        public int numPages;
+        public int numTotal;
     }
 }

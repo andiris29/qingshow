@@ -146,12 +146,12 @@ public class P02ModelActivity extends Activity {
 
         latestListView.setAdapter(itemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
-        latestPullRefreshListView.setPullRefreshEnabled(true);
+        latestPullRefreshListView.setPullRefreshEnabled(false);
         latestPullRefreshListView.setPullLoadEnabled(true);
         latestPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                doShowsRefreshDataTask();
+                //doShowsRefreshDataTask();
             }
 
             @Override
@@ -169,7 +169,7 @@ public class P02ModelActivity extends Activity {
             }
         });
 
-        latestPullRefreshListView.doPullRefreshing(true, 0);
+        doShowsRefreshDataTask();
 
         // followed list page;
         followedPullRefreshListView = (MPullRefreshListView) pagerViewList.get(1).findViewById(R.id.pager_P02_item_list);
@@ -179,12 +179,12 @@ public class P02ModelActivity extends Activity {
 
         followedListView.setAdapter(followedPeopleListAdapter);
         followedPullRefreshListView.setScrollLoadEnabled(true);
-        followedPullRefreshListView.setPullRefreshEnabled(true);
+        followedPullRefreshListView.setPullRefreshEnabled(false);
         followedPullRefreshListView.setPullLoadEnabled(true);
         followedPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                doFollowedRefreshDataTask();
+//                doFollowedRefreshDataTask();
             }
 
             @Override
@@ -199,7 +199,7 @@ public class P02ModelActivity extends Activity {
 
             }
         });
-        followedPullRefreshListView.doPullRefreshing(true, 0);
+        doFollowedRefreshDataTask();
 
         // followers list page;
         followerPullRefreshListView = (MPullRefreshListView) pagerViewList.get(2).findViewById(R.id.pager_P02_item_list);
@@ -209,12 +209,12 @@ public class P02ModelActivity extends Activity {
 
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);
-        followerPullRefreshListView.setPullRefreshEnabled(true);
+        followerPullRefreshListView.setPullRefreshEnabled(false);
         followerPullRefreshListView.setPullLoadEnabled(true);
         followerPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                doFollowersRefreshDataTask();
+//                doFollowersRefreshDataTask();
             }
 
             @Override
@@ -231,8 +231,7 @@ public class P02ModelActivity extends Activity {
                 startActivity(intent);
             }
         });
-        followerPullRefreshListView.doPullRefreshing(true, 0);
-
+        doFollowersRefreshDataTask();
     }
 
     private void setIndicatorBackground(int pos) {
@@ -293,12 +292,7 @@ public class P02ModelActivity extends Activity {
             public void onResponse(JSONObject response) {
                 ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (Exception e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-                    latestPullRefreshListView.onPullDownRefreshComplete();
+                    latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -309,13 +303,13 @@ public class P02ModelActivity extends Activity {
 
                 itemListAdapter.resetData(modelShowEntities);
                 itemListAdapter.notifyDataSetChanged();
-                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullDownRefreshComplete();
+                latestPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -326,13 +320,9 @@ public class P02ModelActivity extends Activity {
         MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getTotalDataFromResponse(response));
+                //((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this,  e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
+                    Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
@@ -363,12 +353,7 @@ public class P02ModelActivity extends Activity {
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-                    followedPullRefreshListView.onPullDownRefreshComplete();
+                    followedPullRefreshListView.onPullUpRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -379,13 +364,13 @@ public class P02ModelActivity extends Activity {
 
                 followedPeopleListAdapter.resetData(modelShowEntities);
                 followedPeopleListAdapter.notifyDataSetChanged();
-                followedPullRefreshListView.onPullDownRefreshComplete();
+                followedPullRefreshListView.onPullUpRefreshComplete();
                 followedPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                followedPullRefreshListView.onPullDownRefreshComplete();
+                followedPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -396,13 +381,8 @@ public class P02ModelActivity extends Activity {
         MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
+                    Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followedPullRefreshListView.onPullUpRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
                     return;
@@ -433,12 +413,8 @@ public class P02ModelActivity extends Activity {
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-                    followerPullRefreshListView.onPullDownRefreshComplete();
+                    followedPeopleListAdapter.notifyDataSetChanged();
+                    followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -450,13 +426,13 @@ public class P02ModelActivity extends Activity {
 
                 followerPeopleListAdapter.resetData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
-                followerPullRefreshListView.onPullDownRefreshComplete();
+                followerPullRefreshListView.onPullUpRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                followerPullRefreshListView.onPullDownRefreshComplete();
+                followerPullRefreshListView.onPullUpRefreshComplete();
                 handleErrorMsg(error);
             }
         });
@@ -469,11 +445,7 @@ public class P02ModelActivity extends Activity {
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(getTotalDataFromResponse(response));
                 if (checkErrorExist(response)) {
-//                    try {
-//                        Toast.makeText(P02ModelActivity.this, ((JSONObject)response.get("metadata")).get("devInfo").toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (JSONException e) {
-//                        Toast.makeText(P02ModelActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
+                    Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
@@ -505,7 +477,6 @@ public class P02ModelActivity extends Activity {
         } else {
             __followModel();
         }
-        doFollowersRefreshDataTask();
         QSApplication.get().refreshPeople(this);
     }
 
@@ -522,6 +493,7 @@ public class P02ModelActivity extends Activity {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        doFollowersRefreshDataTask();
                     }else{
                         showMessage(P02ModelActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -552,6 +524,7 @@ public class P02ModelActivity extends Activity {
                         showMessage(P02ModelActivity.this, "取消关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
+                        doFollowersRefreshDataTask();
                     }else{
                         showMessage(P02ModelActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
                     }
@@ -578,12 +551,11 @@ public class P02ModelActivity extends Activity {
     }
 
     private void handleErrorMsg(VolleyError error) {
-        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P02ModelActivity", error.toString());
     }
 
     private void showMessage(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Log.i(context.getPackageName(), message);
     }
 
