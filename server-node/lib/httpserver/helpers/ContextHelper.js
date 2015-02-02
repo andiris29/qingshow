@@ -27,12 +27,20 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     var numShows = function(callback) {
         _numAssociated(peoples, Show, 'modelRef', 'numShows', callback);
     };
+    // __context.numFollowBrands
+    var numFollowBrands = function(callback) {
+        _numAssociated(peoples, RPeopleFollowBrand, 'initiatorRef', 'numFollowBrands', callback);
+    };
+    // __context.numFollowPeoples
+    var numFollowPeoples = function(callback) {
+        _numAssociated(peoples, RPeopleFollowPeople, 'initiatorRef', 'numFollowPeoples', callback);
+    };
     // __context.numFollowers
     var numFollowers = function(callback) {
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
 
-    async.parallel([followedByCurrentUser, numShows, numFollowers], function(err) {
+    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
         callback(null, peoples);
     });
 };
