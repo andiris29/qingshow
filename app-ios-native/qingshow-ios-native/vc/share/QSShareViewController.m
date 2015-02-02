@@ -106,6 +106,7 @@
 - (void)weiboSendMessageNotiHandler:(NSNotification*)notification
 {
     if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
+        [MobClick event:@"shareShow" attributes:@{@"snsName": @"weibo"} counter:1];
         if ([self.delegate respondsToSelector:@selector(didShareWeiboSuccess)]) {
             [self.delegate didShareWeiboSuccess];
         }
@@ -119,6 +120,7 @@
 }
 
 - (IBAction)shareWechatPressed:(id)sender {
+    [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = @"qingshow";
     message.description = @"qingshow";
@@ -138,6 +140,7 @@
     [self hideSharePanel];
 }
 - (IBAction)shareWechatFriendPressed:(id)sender {
+    [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = @"qingshow";
     message.description = @"qingshow";
