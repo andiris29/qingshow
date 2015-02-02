@@ -27,6 +27,7 @@ import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -45,6 +46,7 @@ public class U01PersonalActivity extends FragmentActivity {
 
     private ImageView backTextView;
     private ImageView settingsTextView;
+    private ImageView backgroundIV;
 //    private TextView likeCountTextView;
 //    private TextView recommendCountTextView;
 //    private TextView followedCountTextView;
@@ -101,6 +103,8 @@ public class U01PersonalActivity extends FragmentActivity {
             }
         });
 
+        backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
+        ImageLoader.getInstance().displayImage(people.background, backgroundIV);
 
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);

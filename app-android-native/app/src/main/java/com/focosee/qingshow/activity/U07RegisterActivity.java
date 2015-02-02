@@ -119,9 +119,11 @@ public class U07RegisterActivity extends Activity {
                                     ErrorHandler.handle(context, registerResponse.metadata.error);
                                 }
                             } else {
-                                //QSApplication.get().setPeople(registerResponse.data.people);
+                                QSApplication.get().setPeople(registerResponse.data.people);
                                 updateSettings();
                                 Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(U07RegisterActivity.this, U01PersonalActivity.class));
+                                finish();
                             }
                         }
                     }, new Response.ErrorListener() {
@@ -275,7 +277,7 @@ public class U07RegisterActivity extends Activity {
                         ErrorHandler.handle(context, updateResponse.metadata.error);
                     }
                 } else {
-                    //QSApplication.get().setPeople(updateResponse.data.people);
+                    QSApplication.get().setPeople(updateResponse.data.people);
                 }
             }
         }, new Response.ErrorListener() {

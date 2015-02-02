@@ -7,9 +7,14 @@
     tools:context="com.focosee.qingshow.activity.U01PersonalActivity">
 
     <RelativeLayout
+
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@drawable/bg_pic">
+        <ImageView
+            android:id="@+id/activity_personal_background"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
 
         <ImageView
             android:id="@+id/activity_personal_backTextView"
