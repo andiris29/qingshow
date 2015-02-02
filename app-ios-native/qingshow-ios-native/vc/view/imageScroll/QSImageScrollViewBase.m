@@ -58,9 +58,6 @@
         
         self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
         [self addSubview:self.pageControl];
-//        self.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-        self.pageControl.pageIndicatorTintColor = [UIColor colorWithRed:1.000 green:0.040 blue:0.380 alpha:1.000];
-//        [UIColor colorWithRed:<#(CGFloat)#> green:<#(CGFloat)#> blue:<#(CGFloat)#> alpha:<#(CGFloat)#>]
     }
     return self;
 }
