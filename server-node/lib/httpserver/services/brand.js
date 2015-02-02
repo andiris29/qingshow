@@ -14,103 +14,98 @@ var RequestHelper = require('../helpers/RequestHelper');
 
 var ServerError = require('../server-error');
 
-var _queryBrands = function(req, res) {
-    ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-        // querier
-        var criteria = {};
-        if (qsParam.type !== undefined) {
-            criteria.type = qsParam.type;
-        }
-        // Query
-        MongoHelper.queryPaging(Brand.find(criteria).sort({
-            'create' : -1
-        }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-    }, function(models) {
-        // responseDataBuilder
-        return {
-            'brands' : models
-        };
-    }, {
-        'afterParseRequest' : function(raw) {
+var brands = module.exports;
+
+brands.queryBrands = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            // querier
+            var criteria = {};
+            if (qsParam.type !== undefined) {
+                criteria.type = qsParam.type;
+            }
+            // Query
+            MongoHelper.queryPaging(Brand.find(criteria).sort({
+                'create' : -1
+            }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(models) {
+            // responseDataBuilder
             return {
-                'type' : RequestHelper.parseNumber(raw.type)
+                'brands' : models
             };
-        },
-        'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
-            async.series([
-            function(callback) {
-                MongoHelper.updateCoverMetaData(currentPageModels, callback);
+        }, {
+            'afterParseRequest' : function(raw) {
+                return {
+                    'type' : RequestHelper.parseNumber(raw.type)
+                };
             },
-            function(callback) {
-                ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
-            }], callback);
+            'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
+                async.series([
+                function(callback) {
+                    MongoHelper.updateCoverMetaData(currentPageModels, callback);
+                },
+                function(callback) {
+                    ContextHelper.appendBrandContext(req.qsCurrentUserId, currentPageModels, callback);
+                }], callback);
+            }
+        });
+    }
+};
+brands.queryFollowers = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, {
+            'query' : 'targetRef',
+            'result' : 'initiatorRef'
+        });
+    }
+};
+
+brands.follow = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        try {
+            var param = req.body;
+            var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+            var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
+        } catch (e) {
+            ResponseHelper.response(res, ServerError.PeopleNotExist);
+            return;
         }
-    });
-};
 
-var _queryFollowers = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowBrand, {
-        'query' : 'targetRef',
-        'result' : 'initiatorRef'
-    });
-};
-
-var _follow = function(req, res) {
-    try {
-        var param = req.body;
-        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
-    } catch (e) {
-        ResponseHelper.response(res, ServerError.PeopleNotExist);
-        return;
+        RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, targetRef, function(err) {
+            ResponseHelper.response(res, err);
+        });
     }
-
-    RelationshipHelper.create(RPeopleFollowBrand, initiatorRef, targetRef, function(err) {
-        ResponseHelper.response(res, err);
-    });
 };
 
-var _unfollow = function(req, res) {
-    try {
-        var param = req.body;
-        var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-        var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
-    } catch (e) {
-        ResponseHelper.response(res, ServerError.PeopleNotExist);
-        return;
-    }
-
-    RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, targetRef, function(err) {
-        ResponseHelper.response(res, err);
-    });
-};
-
-module.exports = {
-    'queryBrands' : {
-        method : 'get',
-        func : _queryBrands
-    },
-    'queryFollowers' : {
-        method : 'get',
-        func : _queryFollowers
-    },
-    'follow' : {
-        method : 'post',
-        func : _follow,
-        permissionValidators : ['loginValidator']
-    },
-    'unfollow' : {
-        method : 'post',
-        func : _unfollow,
-        permissionValidators : ['loginValidator']
-    },
-    'queryFollowed' : {
-        'method' : 'get',
-        'func' : function(req, res) {
-            ServiceHelper.queryRelatedBrands(req, res, RPeopleFollowBrand, {
-                'query' : 'initiatorRef',
-                'result' : 'targetRef'
-            });
+brands.follow = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        try {
+            var param = req.body;
+            var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
+            var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
+        } catch (e) {
+            ResponseHelper.response(res, ServerError.PeopleNotExist);
+            return;
         }
+        RelationshipHelper.remove(RPeopleFollowBrand, initiatorRef, targetRef, function(err) {
+            ResponseHelper.response(res, err);
+        });
     }
 };
+
+brands.queryFollowed = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        ServiceHelper.queryRelatedBrands(req, res, RPeopleFollowBrand, {
+            'query' : 'initiatorRef',
+            'result' : 'targetRef'
+        });
+    }
+};
+
