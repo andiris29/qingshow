@@ -39,7 +39,7 @@ itemFeeding.random = {
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             MongoHelper.queryRandom(Item.find(), Item.find(), qsParam.pageSize, function(err, models) {
-                callback(err, models, 20);
+                callback(err, models, qsParam.pageNo * qsParam.pageSize + 1);
             });
         }, {
             'beforeEndResponse' : function(json) {

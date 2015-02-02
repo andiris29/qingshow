@@ -59,9 +59,9 @@ brands.queryBrands = {
                 criteria.type = qsParam.type;
             }
             // Query
-            MongoHelper.queryPaging(Brand.find(criteria).sort({
-                'create' : -1
-            }), Brand.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryRandom(Brand.find(criteria), Brand.find(criteria), qsParam.pageSize, function(err, models) {
+                callback(err, models, qsParam.pageNo * qsParam.pageSize + 1);
+            });
         }, function(models) {
             // responseDataBuilder
             return {
