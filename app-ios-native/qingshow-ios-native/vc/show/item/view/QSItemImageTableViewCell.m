@@ -68,8 +68,8 @@
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;
         self.originLabel.hidden = NO;
-        self.priceLabel.text = [NSString stringWithFormat:@"倾秀价:%@", [QSItemUtil getPriceAfterDiscount:itemDict]];
-        self.originLabel.text = @"来源价:";
+        self.priceLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPriceAfterDiscount:itemDict]];
+        self.originLabel.text = @"";
         self.discountLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPrice:itemDict]];
         [self.discountLabel sizeToFit];
     } else {
@@ -77,7 +77,7 @@
         self.discountLabel.hidden = YES;
         self.originLabel.hidden = YES;
         
-        self.priceLabel.text = [NSString stringWithFormat:@"倾秀价:%@", [QSItemUtil getPrice:itemDict]];
+        self.priceLabel.text = [NSString stringWithFormat:@"%@", [QSItemUtil getPrice:itemDict]];
 //        self.discountLabel.text = [NSString stringWithFormat:@"倾秀价:%@", [QSItemUtil getPrice:itemDict]];
     }
     self.nameLabel.text = [QSItemUtil getImageDesc:itemDict atIndex:(int)self.imageScrollView.pageControl.currentPage];
