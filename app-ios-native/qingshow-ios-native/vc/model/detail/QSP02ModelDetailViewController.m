@@ -18,7 +18,7 @@
 @interface QSP02ModelDetailViewController ()
 
 #pragma mark - Data
-@property (strong, nonatomic) NSMutableDictionary* peopleDict;
+@property (strong, nonatomic) NSDictionary* peopleDict;
 
 #pragma mark - Delegate Obj
 @property (strong, nonatomic) QSBigImageTableViewProvider* showsDelegate;
