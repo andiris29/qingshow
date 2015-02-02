@@ -59,7 +59,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:paddingLeft="5dp"
-            android:hint="输入新消息"/>
+            android:hint="输入新评论"/>
 
         <Button
             android:id="@+id/S04_send_button"
