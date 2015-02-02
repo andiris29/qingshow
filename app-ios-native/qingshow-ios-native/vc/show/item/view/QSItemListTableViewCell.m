@@ -31,7 +31,11 @@
     self.priceLabel.text = [QSItemUtil getPrice:itemDict];
     NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
     if (brandDict) {
-        [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+        NSURL* url = [QSBrandUtil getBrandLogoUrl:brandDict];
+        if (url) {
+            [self.iconImgView setImageFromURL:url];
+        }
+
     } else {
         self.iconImgView.image = nil;
     }

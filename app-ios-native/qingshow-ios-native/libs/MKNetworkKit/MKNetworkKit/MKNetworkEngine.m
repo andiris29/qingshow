@@ -643,7 +643,9 @@ static NSOperationQueue *_sharedNetworkQueue;
 -(void) saveCacheData:(NSData*) data forKey:(NSString*) cacheDataKey
 {
   dispatch_async(self.backgroundCacheQueue, ^{
-    
+      if (!cacheDataKey) {
+          return;
+      }
     (self.memoryCache)[cacheDataKey] = data;
     
     NSUInteger index = [self.memoryCacheKeys indexOfObject:cacheDataKey];

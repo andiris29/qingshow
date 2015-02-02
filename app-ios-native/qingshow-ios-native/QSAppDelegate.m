@@ -38,7 +38,7 @@
     [MobClick setAppVersion:VERSION];
     [MobClick setEncryptEnabled:YES];
     [MobClick updateOnlineConfig];
-    [MobClick startWithAppkey:@"54c8f142fd98c58a8800034a" reportPolicy:BATCH channelId:nil];
+    [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];

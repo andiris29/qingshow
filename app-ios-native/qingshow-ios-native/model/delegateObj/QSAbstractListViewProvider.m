@@ -137,7 +137,7 @@
         return;
     }
     
-    if (scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height) {
+    if (scrollView.contentOffset.y + scrollView.frame.size.height * 3 >= scrollView.contentSize.height) {
         self.loadMoreOperation = [self fetchDataOfPage:self.currentPage + 1 completion:^{
             self.currentPage++;
             self.loadMoreOperation = nil;

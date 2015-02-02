@@ -9,6 +9,8 @@
 #import "QSS02ShandianViewController.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSNetworkKit.h"
+#import "QSP04BrandDetailViewController.h"
+#import "QSItemUtil.h"
 
 #define PAGE_ID @"S02"
 
@@ -75,6 +77,8 @@
 #pragma mark -
 - (void)didClickItem:(NSDictionary*)itemDict
 {
+    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
+//    QSP04BrandDetailViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
     QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
