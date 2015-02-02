@@ -11,12 +11,14 @@
 #import "MKNetworkOperation.h"
 #import "QSMetadataUtil.h"
 #import "NSNumber+QSExtension.h"
+#import "QSError.h"
 
 @interface QSAbstractListViewProvider ()
 
 @property (strong, nonatomic) MKNetworkOperation* refreshOperation;
 @property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
 @property (assign, nonatomic) BOOL fIsAll;
+@property (assign, nonatomic) BOOL fIsHandlerAll;
 @property (strong, nonatomic) UIRefreshControl* refreshControl;
 @end
 
@@ -37,6 +39,7 @@
         self.resultArray = [@[] mutableCopy];
         
         self.fIsAll = NO;
+        self.fIsHandlerAll = NO;
         self.loadMoreOperation = nil;
         self.refreshOperation = nil;
         self.currentPage = 1;
@@ -99,6 +102,7 @@
     }, ^(NSError *error) {
         if (error.code == 1009) {
             self.fIsAll = YES;
+            error = nil;
         }
         if (page == 1) {
             [self.resultArray removeAllObjects];
@@ -121,6 +125,7 @@
         [self.loadMoreOperation cancel];
         self.loadMoreOperation = nil;
         self.fIsAll = NO;
+        self.fIsHandlerAll = NO;
         self.refreshOperation = op;
     }
     return op;
@@ -131,6 +136,14 @@
 {
     if ([self.delegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
         [self.delegate scrollViewDidScroll:scrollView];
+    }
+    
+    if (self.fIsAll && ! self.fIsHandlerAll && scrollView.contentOffset.y + scrollView.frame.size.height >= scrollView.contentSize.height) {
+        self.fIsHandlerAll = YES;
+        QSError* e = [[QSError alloc] initWithDomain:@"qingshow" code:kQSErrorCodePageNotExist userInfo:nil];
+        if ([self.delegate respondsToSelector:@selector(handleNetworkError:)]) {
+            [self.delegate handleNetworkError:e];
+        }
     }
     
     if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || ! self.resultArray.count) {
