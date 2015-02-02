@@ -184,6 +184,7 @@
         }
         [self.followerDelegate fetchDataOfPage:1];
     } onError:^(NSError *error) {
+        [self updateView];
         [self handleError:error];
     }];
 }

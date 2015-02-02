@@ -86,15 +86,18 @@
 - (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate
 {
     NSUInteger i = [self.resultArray indexOfObject:data];
-    [self.resultArray removeObject:data];
-    NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-    UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
-    [self.view deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
-    
-    NSDictionary* metaData = [self.metadataDict mutableCopy];
-    [QSMetadataUtil addTotalNum:-1ll forDict:metaData];
-    self.metadataDict = metaData;
-    
+    if (i > self.resultArray.count) {
+        [self.view reloadData];
+    } else {
+        [self.resultArray removeObject:data];
+        NSIndexPath* indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        UITableViewRowAnimation a = fAnimate? UITableViewRowAnimationAutomatic : UITableViewRowAnimationNone;
+        [self.view deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:a];
+        
+        NSDictionary* metaData = [self.metadataDict mutableCopy];
+        [QSMetadataUtil addTotalNum:-1ll forDict:metaData];
+        self.metadataDict = metaData;
+    }
 }
 
 @end

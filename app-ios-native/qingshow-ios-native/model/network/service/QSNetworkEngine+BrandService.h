@@ -15,6 +15,10 @@
                               page:(int)page
                          onSucceed:(ArraySuccessBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)queryBrandsDetail:(NSDictionary*)brandDict
+                               onSucceed:(DicBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)handleFollowBrand:(NSDictionary*)brandDict
                                onSucceed:(BoolBlock)succeedBlock
                                  onError:(ErrorBlock)errorBlock;
@@ -23,5 +27,4 @@
                                      page:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
-
 @end

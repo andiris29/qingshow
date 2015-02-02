@@ -83,6 +83,13 @@
     [self.showsDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
     
+    [SHARE_NW_ENGINE queryBrandsDetail:self.brandDict onSucceed:^(NSDictionary *b) {
+        self.brandDict = b;
+        [self.badgeView bindWithBrandDict:self.brandDict];
+    } onError:^(NSError *error) {
+        
+    }];
+    
     [MobClick beginLogPageView:PAGE_ID];
 }
 
@@ -210,6 +217,7 @@
         [self.badgeView bindWithBrandDict:self.brandDict];
         [self.followerDelegate fetchDataOfPage:1];
     } onError:^(NSError *error) {
+        [self.badgeView bindWithBrandDict:self.brandDict];
         [self handleError:error];
     }];
 }

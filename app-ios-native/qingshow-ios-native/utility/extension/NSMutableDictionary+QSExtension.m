@@ -12,6 +12,9 @@
 
 - (void)updateWithDict:(NSDictionary*)dict
 {
+    if (!dict) {
+        return;
+    }
     dict = [dict deepMutableCopy];
     for (id key in [dict allKeys]) {
         self[key] = dict[key];

@@ -10,6 +10,11 @@
 
 #define kQSErrorDomain @"qs_error_domain"
 
+typedef NS_ENUM(NSInteger, kQSErrorCode) {
+    kQSErrorCodeAlreadyFollow = 1019,
+    kQSErrorCodeAlreadyUnfollow = 1020
+};
+
 @interface QSError : NSError
 
 - (NSString*)toString;

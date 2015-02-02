@@ -13,7 +13,7 @@
 
 + (NSString*)getBrandName:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return nil;
     }
     if ([dict isKindOfClass:[NSDictionary class]]) {
@@ -24,7 +24,7 @@
 }
 + (NSURL*)getBrandLogoUrl:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return nil;
     }
     NSString* s = dict[@"logo"];
@@ -33,7 +33,7 @@
 
 + (NSString*)getBrandTypeDesc:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return nil;
     }
     NSNumber* type = dict[@"type"];
@@ -42,7 +42,7 @@
 
 + (NSURL*)getBrandBgUrl:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return nil;
     }
     NSString* path = dict[@"background"];
@@ -52,7 +52,7 @@
 
 + (NSURL*)getBrandCoverUrl:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return nil;
     }
     NSString* path = dict[@"cover"];
@@ -61,19 +61,19 @@
 
 + (NSString*)getBrandShopPhone:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return @"";
     }
     
     NSDictionary* shopDict = dict[@"shopInfo"];
-    if ([QSCommonUtil checkIsNil:shopDict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return @"";
     }
     return shopDict[@"phone"];
 }
 + (NSString*)getBrandShopAddress:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return @"";
     }
     
@@ -86,7 +86,7 @@
 
 + (BOOL)getHasFollowBrand:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return NO;
     }
     
@@ -101,7 +101,7 @@
 }
 + (void)setHasFollow:(BOOL)f brand:(NSDictionary*)dict
 {
-    if ([QSCommonUtil checkIsNil:dict]) {
+    if (![QSCommonUtil checkIsDict:dict]) {
         return;
     }
     

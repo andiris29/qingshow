@@ -212,6 +212,7 @@
             [self showSuccessHudWithText:@"取消喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
+            [self bindWithDict:self.showDict];
             [self handleError:error];
         }];
     } else {
@@ -219,6 +220,7 @@
             [self showSuccessHudWithText:@"喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
+            [self bindWithDict:self.showDict];
             [self handleError:error];
         }];
     }

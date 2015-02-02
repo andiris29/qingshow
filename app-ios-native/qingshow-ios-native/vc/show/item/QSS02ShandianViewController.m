@@ -43,6 +43,7 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:PAGE_ID];
     [self.itemProvider refreshClickedData];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -77,9 +78,15 @@
 #pragma mark -
 - (void)didClickItem:(NSDictionary*)itemDict
 {
-    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
-//    QSP04BrandDetailViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
-    QSG01ItemWebViewController* vc = [[QSG01ItemWebViewController alloc] initWithItem:itemDict];
+    NSDictionary* brandDict = nil;
+    id brand = [QSItemUtil getBrand:itemDict];
+    if ([brand isKindOfClass:[NSDictionary class]]) {
+        brandDict = brand;
+    } else if ([brand isKindOfClass:[NSString class]]) {
+        brandDict = [@{@"_id" : brand} mutableCopy];
+    }
+
+    QSP04BrandDetailViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end
