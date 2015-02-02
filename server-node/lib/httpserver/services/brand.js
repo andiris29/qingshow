@@ -114,7 +114,7 @@ brands.follow = {
     }
 };
 
-brands.follow = {
+brands.unfollow = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
