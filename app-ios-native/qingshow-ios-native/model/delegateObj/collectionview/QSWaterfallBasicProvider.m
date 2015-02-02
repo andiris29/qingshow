@@ -85,7 +85,12 @@
             for (NSUInteger i = preCount; i < self.resultArray.count; i++){
                 [indexPaths addObject:[NSIndexPath indexPathForItem:i inSection:0]];
             }
-            [self.view insertItemsAtIndexPaths:indexPaths];
+            
+            if ([[UIView class] respondsToSelector:@selector(performWithoutAnimation:)]) {
+                [UIView performWithoutAnimation:^{
+                    [self.view insertItemsAtIndexPaths:indexPaths];
+                }];
+            }
         }
     } completion:block];
 }
