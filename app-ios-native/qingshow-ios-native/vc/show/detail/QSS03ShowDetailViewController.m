@@ -13,6 +13,7 @@
 #import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSCommonUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "QSNetworkKit.h"
@@ -439,7 +440,9 @@
 #pragma mark - Share
 - (void)showSharePanel
 {
-    [self.shareVc showSharePanel];
+    NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
+    NSString* urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web#?action=shareShow&_id=%@", showId];
+    [self.shareVc showSharePanelWithUrl:urlStr];
 }
 - (void)hideSharePanel
 {

@@ -85,7 +85,7 @@
 - (void)clickShareOfDict:(NSDictionary*)dict
 {
     NSLog(@"share");
-    [self.shareVc showSharePanel];
+    [self.shareVc showSharePanelWithUrl:nil];
 }
 - (void)clickLikeOfDict:(NSDictionary*)dict
 {

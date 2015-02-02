@@ -16,6 +16,8 @@
 
 @interface QSShareViewController ()
 
+@property (strong, nonatomic) NSString* shareUrl;
+
 @end
 
 @implementation QSShareViewController
@@ -42,8 +44,9 @@
 
 
 #pragma mark - Share
-- (void)showSharePanel
+- (void)showSharePanelWithUrl:(NSString*)urlStr
 {
+    self.shareUrl = urlStr;
     if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
         return;
     }
@@ -90,8 +93,13 @@
     WBWebpageObject* webPage = [WBWebpageObject object];
     webPage.objectID = @"qingshow_webpage_id";
     webPage.title = @"倾秀";
-    webPage.description = @"qingshow";
-    webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    webPage.description = @"倾秀";
+    if (self.shareUrl) {
+        webPage.webpageUrl = self.shareUrl;
+    } else {
+        webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    }
+
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
     
     //    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"gray_clock"], 0.5);
@@ -122,13 +130,17 @@
 - (IBAction)shareWechatPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"qingshow";
-    message.description = @"qingshow";
+    message.title = @"倾秀";
+    message.description = @"倾秀";
     
     WXWebpageObject *ext = [WXWebpageObject object];
     
-    ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    
+    if (self.shareUrl) {
+        ext.webpageUrl = self.shareUrl;
+    } else {
+        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    }
+
     message.mediaObject = ext;
     
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
@@ -142,12 +154,16 @@
 - (IBAction)shareWechatFriendPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"qingshow";
-    message.description = @"qingshow";
+    message.title = @"倾秀";
+    message.description = @"倾秀";
     
     WXWebpageObject *ext = [WXWebpageObject object];
     
-    ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    if (self.shareUrl) {
+        ext.webpageUrl = self.shareUrl;
+    } else {
+        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    }
     
     message.mediaObject = ext;
     
