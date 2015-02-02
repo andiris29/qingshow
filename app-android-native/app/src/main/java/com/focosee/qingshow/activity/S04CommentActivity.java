@@ -261,13 +261,13 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
         if (null != userId && userId.equals(commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles("回复", "查看个人主页", "删除")
+                    .setOtherButtonTitles("查看个人主页", "删除")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
         else {
             ActionSheet.createBuilder(this, getFragmentManager())
                     .setCancelButtonTitle("取消")
-                    .setOtherButtonTitles("回复", "查看个人主页")
+                    .setOtherButtonTitles("查看个人主页")
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
     }
@@ -281,12 +281,9 @@ public class S04CommentActivity extends Activity implements ActionSheet.ActionSh
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         switch (index) {
             case 0:
-                replyUserId = adapter.getCommentAtIndex(clickCommentIndex).getUserId();
-                break;
-            case 1:
                 startActivity(viewMainPageIntent);
                 break;
-            case 2:
+            case 1:
                 createDeleteDialog();
                 break;
             default:
