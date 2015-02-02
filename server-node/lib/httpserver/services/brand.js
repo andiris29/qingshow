@@ -40,7 +40,7 @@ brands.query = {
         },
         function(brands, callback) {
             // Append followed by current user
-            ContextHelper.appendShowContext(req.qsCurrentUserId, brands, callback);
+            ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
         }], function(err, brands) {
             ResponseHelper.response(res, err, {
                 'brands' : brands
