@@ -26,6 +26,10 @@
 @property (strong, nonatomic) IBOutlet UILabel* followerNumLabel;
 @property (strong, nonatomic) IBOutlet UIButton* followBtn;
 @property (strong, nonatomic) IBOutlet UIImageView* headPhotoImageView;
+
+@property (strong, nonatomic) IBOutlet UIImageView* leftIcon;
+@property (strong, nonatomic) IBOutlet UIImageView* rightIcon;
+
 @property (weak, nonatomic) NSObject<QSModelListTableViewCellDelegate>* delegate;
 
 - (IBAction)followButtonPressed:(id)sender;
