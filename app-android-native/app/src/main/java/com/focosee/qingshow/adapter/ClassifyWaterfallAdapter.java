@@ -29,6 +29,7 @@ class ClassifyViewHolder extends AbsViewHolder {
     TextView modelHeightWeightTV;
     TextView loveTV;
     ImageView shadowIV;
+    ImageView loveIV;
 }
 
 public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
@@ -69,6 +70,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
 //            holder.modelHeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height);
 //            holder.modelWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_weight);
             holder.loveTV = (TextView) convertView.findViewById(R.id.item_show_love);
+            holder.loveIV = (ImageView) convertView.findViewById(R.id.item_show_love_img);
             holder.shadowIV = (ImageView)  convertView.findViewById(R.id.item_show_shadow);
             convertView.setTag(holder);
         }
@@ -87,6 +89,10 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
 //        holder.modelHeightTV.setText(showInfo.getModelHeight());
 //        holder.modelWeightTV.setText(showInfo.getModelWeight());
         holder.loveTV.setText(showInfo.getShowNumLike());
+        if(showInfo.getShowIsFollowedByCurrentUser())
+            holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice_hover);
+        else
+            holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice);
         holder.shadowIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

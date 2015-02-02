@@ -33,10 +33,9 @@
 
                     <ImageView
                         android:id="@+id/S01_title_menu"
-                        android:layout_width="40dp"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="10dp"
-                        android:scaleType="fitCenter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
                         android:src="@drawable/nav_btn_menu" />
 
                     <ImageView
@@ -48,9 +47,9 @@
 
                     <ImageView
                         android:id="@+id/S01_title_account"
-                        android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="10dp"
                         android:src="@drawable/nav_account_btn"/>
 
                 </LinearLayout>

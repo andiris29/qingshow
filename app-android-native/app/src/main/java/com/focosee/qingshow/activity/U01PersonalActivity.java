@@ -26,6 +26,7 @@ import com.focosee.qingshow.entity.FollowPeopleEntity;
 import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MRoundImageView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -42,8 +43,8 @@ public class U01PersonalActivity extends FragmentActivity {
     private static final int PAGE_BRAND = 3;
     private static final int PAGER_CHOOSE = 4;
 
-    private TextView backTextView;
-    private TextView settingsTextView;
+    private ImageView backTextView;
+    private ImageView settingsTextView;
 //    private TextView likeCountTextView;
 //    private TextView recommendCountTextView;
 //    private TextView followedCountTextView;
@@ -119,7 +120,7 @@ public class U01PersonalActivity extends FragmentActivity {
             finish();
         }
 
-        ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
+        MRoundImageView portraitImageView = (MRoundImageView) findViewById(R.id.avatorImageView);
         if (people != null) {
             String portraitUrl = people.portrait;
             if (portraitUrl != null && !portraitUrl.equals("")) {
@@ -160,8 +161,8 @@ public class U01PersonalActivity extends FragmentActivity {
     }
 
     public void matchUI(){
-        backTextView = (TextView) findViewById(R.id.backTextView);
-        settingsTextView = (TextView) findViewById(R.id.settingsTextView);
+        backTextView = (ImageView) findViewById(R.id.backTextView);
+        settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
         matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
         watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);

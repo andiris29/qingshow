@@ -57,13 +57,13 @@ public class P03BrandListAdapter extends BaseAdapter {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
             holderView = new P03BrandHolderView();
-            holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
-            holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
             holderView.brandName = (TextView) convertView.findViewById(R.id.item_brand_name);
             //holderView.brandDescription = (TextView) convertView.findViewById(R.id.item_brand_description);
             convertView.setTag(holderView);
         }
         holderView = (P03BrandHolderView) convertView.getTag();
+        holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
+        holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
 
         holderView.brandSlogan.setOriginWidth(this.data.get(position).getCoverWidth());
         holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());

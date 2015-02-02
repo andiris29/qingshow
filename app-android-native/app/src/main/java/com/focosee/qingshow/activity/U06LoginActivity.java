@@ -59,7 +59,6 @@ public class U06LoginActivity extends Activity {
         TextView registerTextView;
         Button submitButton;
 
-        registerTextView = (TextView) findViewById(R.id.registerTextView);
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -71,14 +70,6 @@ public class U06LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-
-        registerTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(U06LoginActivity.this, U07RegisterActivity.class);
-                startActivity(intent);
             }
         });
 
