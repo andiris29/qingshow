@@ -6,7 +6,7 @@ var RuntimeAPI = function(crawler) {
         if (crawling) {
             this._crawler.crawl();
         }
-    });
+    }.bind(this));
     chrome.runtime.onMessage.addListener( function(message, sender, sendResponse) {
         if (message.method === 'crawl') {
             this._crawler.crawl();
