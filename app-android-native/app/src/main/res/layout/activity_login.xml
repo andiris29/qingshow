@@ -31,16 +31,6 @@
             android:textSize="@dimen/text_size"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/registerTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:text="@string/register_activity_login"
-            android:textColor="#454545"
-            android:textSize="@dimen/text_size" />
     </RelativeLayout>
 
     <RelativeLayout
