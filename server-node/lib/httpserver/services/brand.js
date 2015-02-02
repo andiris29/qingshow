@@ -16,6 +16,39 @@ var ServerError = require('../server-error');
 
 var brands = module.exports;
 
+brands.query = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        var _ids;
+        async.waterfall([
+        function(callback) {
+            // Parser req
+            try {
+                _ids = RequestHelper.parseIds(req.queryString._ids);
+                callback(null);
+            } catch (err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            // Query & populate
+            Brand.find({
+                '_id' : {
+                    '$in' : _ids
+                }
+            }).exec(callback);
+        },
+        function(brands, callback) {
+            // Append followed by current user
+            ContextHelper.appendShowContext(req.qsCurrentUserId, brands, callback);
+        }], function(err, brands) {
+            ResponseHelper.response(res, err, {
+                'brands' : brands
+            });
+        });
+    }
+};
+
 brands.queryBrands = {
     'method' : 'get',
     'func' : function(req, res) {
