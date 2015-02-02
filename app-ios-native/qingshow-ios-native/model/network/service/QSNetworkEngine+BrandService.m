@@ -129,7 +129,18 @@
             if (succeedBlock) {
                 succeedBlock(YES);
             }
-        } onError:errorBlock];
+        } onError:^(NSError *error) {
+            if ([error isKindOfClass:[QSError class]]) {
+                if (error.code == kQSErrorCodeAlreadyFollow) {
+                    [QSBrandUtil setHasFollow:YES brand:brandDict];
+                } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                    [QSBrandUtil setHasFollow:NO brand:brandDict];
+                }
+            }
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }];
     }
 }
 - (MKNetworkOperation*)followBrand:(NSDictionary*)brandDict
