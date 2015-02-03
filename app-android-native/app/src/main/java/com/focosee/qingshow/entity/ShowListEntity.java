@@ -89,16 +89,6 @@ public class ShowListEntity extends AbsEntity {
         return "";
     }
 
-//    public String getModelTag() {
-//        if (null != modelRef && null != modelRef.modelInfo && null != modelRef.modelInfo.status)
-//            return modelRef.modelInfo.status;
-//        return "";
-//    }
-
-//    public String getModelStatus() {
-//        return modelRef.modelInfo.status;
-//    }
-
     public ModelEntity getModelRef() {
         return modelRef;
     }

@@ -152,8 +152,6 @@ public class S01HomeActivity extends Activity {
             }
         });
 
-        setLastUpdateTime();
-
         _wfPullRefreshView.doPullRefreshing(true, 500);
 
         initEvent();
@@ -220,10 +218,10 @@ public class S01HomeActivity extends Activity {
             super.onBackPressed();
     }
 
-    private void setLastUpdateTime() {
+    private void setLastUpdateTime(JSONObject response) {
         String text = formatDateTime(System.currentTimeMillis());
         _wfPullRefreshView.setLastUpdatedLabel(text);
-        _adapter.resetUpdateString();
+        _adapter.resetUpdateString(response);
     }
 
     private String formatDateTime(long time) {
@@ -259,7 +257,7 @@ public class S01HomeActivity extends Activity {
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
                     _wfPullRefreshView.setHasMoreData(true);
-                    setLastUpdateTime();
+                    setLastUpdateTime(response);
 
                 } catch (Exception error) {
                     Log.i("test", "error" + error.toString());

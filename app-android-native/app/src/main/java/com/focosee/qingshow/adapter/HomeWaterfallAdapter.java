@@ -15,10 +15,15 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -194,12 +199,14 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         return (ShowListEntity)_data.get(index);
     }
 
-    public void resetUpdateString() {
+    public void resetUpdateString(JSONObject response) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
-        String originDateString = simpleDateFormat.format(new Date());
+        Calendar calendar = TimeUtil.getStringToCal(getRefreshTime(response));
+        Date date = calendar.getTime();
+        String originDateString = simpleDateFormat.format(date);
 
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+//        final Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         updateTimeString = originDateString.split("_")[1] + " 更新";
         updateDateString = originDateString.split("_")[0];
         updateWeekString = formatWeekInfo(calendar.get(Calendar.DAY_OF_WEEK));
@@ -237,6 +244,14 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         public TextView updateTimeTV;
         public TextView updateDateTV;
         public TextView updateWeekTV;
+    }
+
+    private String getRefreshTime(JSONObject response){
+        try {
+            return ((JSONObject)response.get("metadata")).get("refreshTime").toString();
+        } catch (JSONException e) {
+            return "请检查下网络。。";
+        }
     }
 
 }
