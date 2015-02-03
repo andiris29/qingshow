@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -62,17 +63,18 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
             viewHolder = new ItemViewHolder();
             //viewHolder.image = (ViewPager)convertView.findViewById(R.id.item_p04_item_image);
-            viewHolder.viewPager = (ViewPager) convertView.findViewById(R.id.item_p04_item_viewPager);
             viewHolder.viewGroup = (LinearLayout) convertView.findViewById(R.id.item_p04_item_viewGroup);
             viewHolder.discount = (TextView) convertView.findViewById(R.id.item_p04_item_discount);
             viewHolder.description = (TextView) convertView.findViewById(R.id.item_p04_item_description);
             viewHolder.price = (TextView) convertView.findViewById(R.id.item_p04_item_price);
+            viewHolder.sourcePrice = (TextView) convertView.findViewById(R.id.item_p04_item_source_price);
             viewHolder.detailButton = (ImageButton) convertView.findViewById(R.id.item_p04_item_detail_button);
-
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ItemViewHolder)convertView.getTag();
         }
+
+        viewHolder.viewPager = (ViewPager) convertView.findViewById(R.id.item_p04_item_viewPager);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 itemHeight);
@@ -80,7 +82,10 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         viewHolder.viewPager.setLayoutParams(params);
         //ImageLoader.getInstance().displayImage(itemList.get(position).getSource(), viewHolder.image);
         //viewHolder.discount.setText(itemList.get(position).getPrice());
-        viewHolder.price.setText(itemList.get(position).getPrice());
+        viewHolder.price.setText(itemList.get(position).getSourcePrice());
+        viewHolder.sourcePrice.setText(itemList.get(position).getPrice());
+        if("".equals(itemList.get(position).getSourcePrice()))
+            viewHolder.sourcePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         viewHolder.detailButton.setTag(position);
         viewHolder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +125,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         public TextView discount;
         public TextView description;
         public TextView price;
+        public TextView sourcePrice;
         public ImageButton detailButton;
         public LinearLayout viewGroup;
     }

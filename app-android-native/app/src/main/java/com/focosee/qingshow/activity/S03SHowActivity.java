@@ -114,19 +114,6 @@ public class S03SHowActivity extends Activity {
 
         matchUI();
 
-        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
-            @Override
-            public void onPosition(int position, int totalCount) {
-
-            }
-        });
-        this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
-            @Override
-            public void onPosition(int position, int totalCount) {
-
-            }
-        });
-
     }
 
     private void getShowDetailFromNet() {

@@ -246,9 +246,6 @@ public class ShowDetailEntity extends AbsEntity {
             return "￥ " + price;
         }
 
-//        public RefItem getBrandEntity() {
-//            return this;
-//        }
         public BrandEntity getBrandRef(){
 
             if(null == brandRef)return null;
@@ -284,6 +281,10 @@ public class ShowDetailEntity extends AbsEntity {
 
         public int getNumTotal(){ return (null == metadata) ? 0:metadata.numTotal; }
 
+        public int getDiscountOrder() { return (null == brandDiscountInfo) ? 0:brandDiscountInfo.order; }
+
+        public String getSourcePrice() { return (null == brandDiscountInfo) ? "" :"￥" + brandDiscountInfo.price; }
+
         public String _id;
         public String _kellyupdate;
         public int category;
@@ -294,6 +295,7 @@ public class ShowDetailEntity extends AbsEntity {
         public String create;
         public String price;
         public BrandNewInfo brandNewInfo;
+        public BrandDiscountInfo brandDiscountInfo;
         public ArrayList<ImageInfo> images;
         public MetaDataCover imageMetadata;
         public MetaData metadata;
@@ -326,6 +328,11 @@ public class ShowDetailEntity extends AbsEntity {
 
         public int order;
 
+    }
+
+    public class BrandDiscountInfo extends AbsEntity {
+        public int order;
+        public String price;
     }
 
     public static class RefBrand extends AbsEntity {

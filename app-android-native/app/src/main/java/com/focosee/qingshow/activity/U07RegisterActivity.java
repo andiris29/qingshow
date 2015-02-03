@@ -5,16 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -23,28 +20,24 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.LoginResponse;
 import com.focosee.qingshow.entity.RegisterResponse;
 import com.focosee.qingshow.entity.UpdateResponse;
 import com.focosee.qingshow.error.ErrorHandler;
 import com.focosee.qingshow.request.QXStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class U07RegisterActivity extends Activity {
+
+    private static final String DEBUG_TAG = "注册页";
     private RequestQueue requestQueue;
 
     private Button submitButton;
@@ -95,6 +88,20 @@ public class U07RegisterActivity extends Activity {
 
         requestQueue = Volley.newRequestQueue(context);
 
+        clothesSizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                setClothesSizeRadioGroupListener();
+            }
+        });
+
+        shoesSizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                setShoesSizeRadioGroupListener();
+            }
+        });
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +118,8 @@ public class U07RegisterActivity extends Activity {
                             editor.putString("id", accountEditText.getText().toString());
                             editor.putString("password", passwordEditText.getText().toString());
                             editor.putString("Cookie", rawCookie);
+
+                            editor.commit();
 
                             if (registerResponse == null || registerResponse.data == null) {
                                 if (registerResponse == null) {
@@ -248,7 +257,21 @@ public class U07RegisterActivity extends Activity {
             default:
                 break;
         }
-        return whichChecked;
+        return result;
+    }
+
+    private void setClothesSizeRadioGroupListener(){
+        for (int i = 0;i< clothesSizeRadioGroup.getChildCount();i++){
+            ((RadioButton) clothesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
+        }
+        ((RadioButton) clothesSizeRadioGroup.getChildAt(getClothesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
+    }
+
+    private void setShoesSizeRadioGroupListener(){
+        for(int i = 0 ; i < shoesSizeRadioGroup.getChildCount(); i ++ ){
+            ((RadioButton) shoesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
+        }
+        ((RadioButton) shoesSizeRadioGroup.getChildAt(getShoesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
     }
 
     private void updateSettings() {

@@ -242,6 +242,7 @@
                     android:layout_marginRight="25dp"
                     android:gravity="center"
                     android:button="@null"
+                    android:textColor="#ffffff"
                     android:text="XXS" />
 
                 <RadioButton
@@ -251,7 +252,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="XS" />
+                    android:text="XS"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/sSizeRadioButton"
@@ -260,7 +262,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="S" />
+                    android:text="S"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/mSizeRadioButton"
@@ -269,7 +272,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="M" />
+                    android:text="M"
+                    android:textColor="@color/darker_gray" />
 
 
                 <RadioButton
@@ -279,7 +283,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="L" />
+                    android:text="L"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/xlSizeRadioButton"
@@ -288,7 +293,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="XL" />
+                    android:text="XL"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/xxlSizeRadioButton"
@@ -297,7 +303,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="2XL" />
+                    android:text="2XL"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/xxxlSizeRadioButton"
@@ -306,7 +313,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="3XL" />
+                    android:text="3XL"
+                    android:textColor="@color/darker_gray" />
 
             </com.focosee.qingshow.widget.FlowRadioGroup>
         </RelativeLayout>
@@ -346,7 +354,8 @@
                     android:button="@null"
                     android:checked="true"
                     android:gravity="center"
-                    android:text="34" />
+                    android:text="34"
+                    android:textColor="#ffffff" />
 
                 <RadioButton
                     android:id="@+id/size35RadioButton"
@@ -355,7 +364,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="35" />
+                    android:text="35"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size36RadioButton"
@@ -364,7 +374,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="36" />
+                    android:text="36"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size37RadioButton"
@@ -373,7 +384,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="37" />
+                    android:text="37"
+                    android:textColor="@color/darker_gray" />
 
 
                 <RadioButton
@@ -383,7 +395,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="38" />
+                    android:text="38"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size39RadioButton"
@@ -392,7 +405,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="39" />
+                    android:text="39"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size40RadioButton"
@@ -401,7 +415,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="40" />
+                    android:text="40"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size41RadioButton"
@@ -410,7 +425,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="41" />
+                    android:text="41"
+                    android:textColor="@color/darker_gray" />
 
 
                 <RadioButton
@@ -420,7 +436,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="42" />
+                    android:text="42"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size43RadioButton"
@@ -429,7 +446,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="43" />
+                    android:text="43"
+                    android:textColor="@color/darker_gray" />
 
                 <RadioButton
                     android:id="@+id/size44RadioButton"
@@ -438,7 +456,8 @@
                     android:background="@drawable/register_radiobutton_bg"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="44" />
+                    android:text="44"
+                    android:textColor="@color/darker_gray" />
 
             </com.focosee.qingshow.widget.FlowRadioGroup>
 

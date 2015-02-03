@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         navi:left_drawable="@drawable/btn_back_default"
-        navi:tv_title="品牌"
+        navi:tv_title="品牌专区"
         ></com.focosee.qingshow.widget.MNavigationView>
 
     <LinearLayout

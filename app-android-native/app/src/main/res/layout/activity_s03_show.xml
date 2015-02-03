@@ -34,7 +34,8 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@drawable/show_bottom_shadow"/>
+                    android:background="@drawable/show_bottom_shadow"
+                    android:minHeight="100dp" />
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
