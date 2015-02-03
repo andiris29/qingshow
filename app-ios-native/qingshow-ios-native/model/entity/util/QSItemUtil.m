@@ -171,7 +171,8 @@
     if ([QSCommonUtil checkIsNil:price]) {
         return @"";
     } else {
-        return [NSString stringWithFormat:@"￥%@", price];
+        double priceDouble = price.doubleValue;
+        return [NSString stringWithFormat:@"￥%.2f", priceDouble];
     }
 }
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict
@@ -188,7 +189,8 @@
     if ([QSCommonUtil checkIsNil:price]) {
         return @"";
     } else {
-        return [NSString stringWithFormat:@"￥%@", price];
+        double priceDouble = price.doubleValue;
+        return [NSString stringWithFormat:@"￥%.2f", priceDouble];
     }
 }
 
