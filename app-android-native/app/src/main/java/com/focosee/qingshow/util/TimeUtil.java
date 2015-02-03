@@ -8,7 +8,7 @@ import java.util.TimeZone;
 public class TimeUtil {
     public static String getS04CommentTimeFormatString(String inputString) {
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         return simpleDateFormat.format(TimeUtil.getStringToCal(inputString).getTime());
     }
