@@ -73,6 +73,12 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindDelegateObj];
+    if (self.itemDict) {
+        if ([QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+            [self changeToSection:1];
+            [self.badgeView.btnGroup setSelect:1];
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -137,8 +143,9 @@
     self.itemNewDelegate.delegate = self;
     self.itemNewDelegate.type = QSItemImageListTableViewDelegateObjTypeNew;
     if (self.itemDict) {
-        self.itemNewDelegate.additionalResult = @[self.itemDict];
-//        [self.itemNewDelegate.view reloadData];
+        if (![QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+            self.itemNewDelegate.additionalResult = @[self.itemDict];
+        }
     }
     self.itemNewDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandNew:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
@@ -158,6 +165,13 @@
     [self.itemDiscountDelegate bindWithTableView:self.itemDiscountTableView];
     self.itemDiscountDelegate.delegate = self;
     self.itemDiscountDelegate.type = QSItemImageListTableViewDelegateObjTypeDiscount;
+    
+    if (self.itemDict) {
+        if ([QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+            self.itemDiscountDelegate.additionalResult = @[self.itemDict];
+        }
+    }
+    
     self.itemDiscountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
