@@ -56,12 +56,14 @@ public class P03BrandListActivity extends Activity {
             @Override
             public void onClick(View v) {
                 brandType = 0;
+                refreshData();
             }
         });
         findViewById(R.id.P03_brand_list_offline_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 brandType = 1;
+                refreshData();
             }
         });
 
@@ -131,8 +133,7 @@ public class P03BrandListActivity extends Activity {
             @Override
             public void onResponse(JSONObject response) {
                 if(checkErrorExist(response)){
-                    pullRefreshListView.onPullUpRefreshComplete();
-                    return;
+                    Toast.makeText(P03BrandListActivity.this, "没有数据！", Toast.LENGTH_SHORT).show();
                 }
                 pageIndex = 1;
                 ArrayList<BrandEntity> newData = BrandEntity.getBrandListFromResponse(response);
