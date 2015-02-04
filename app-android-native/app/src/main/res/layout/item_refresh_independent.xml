@@ -32,7 +32,7 @@
             android:layout_weight="2"
             android:layout_marginLeft="10dp"
             android:textColor="#a91a4e"
-            android:textSize="24px"
+            android:textSize="18px"
             android:text="15:00 更新"/>
 
         <LinearLayout
@@ -47,14 +47,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#4e4e4e"
-                android:textSize="19px"
+                android:textSize="15px"
                 android:text="2014/09/26"/>
             <TextView
                 android:id="@+id/item_refresh_independent_update_week"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#666666"
-                android:textSize="19px"
+                android:textSize="15px"
                 android:text="星期三 MON"/>
         </LinearLayout>
 

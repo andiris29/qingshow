@@ -71,7 +71,7 @@
             </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true"
             android:background="@color/indicator_bg_default_activity_personal">
@@ -144,7 +144,7 @@
                     android:layout_height="fill_parent">
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="25dp"
+                        android:layout_height="@dimen/view_indicator_height_activity_personal"
                         android:background="#99ffffff"
                         android:layout_gravity="center_vertical"/>
 
@@ -187,9 +187,10 @@
                     android:layout_height="fill_parent">
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="25dp"
+                        android:layout_height="@dimen/view_indicator_height_activity_personal"
                         android:background="#99ffffff"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1" />
 
 
                 </LinearLayout>
@@ -209,8 +210,8 @@
 
                     <ImageView
                         android:id="@+id/P02_follow_sign_text"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/follow_btn_width"
+                        android:layout_height="@dimen/follow_btn_height"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/badge_follow_btn"/>
                 </LinearLayout>
@@ -220,7 +221,7 @@
                     android:layout_height="fill_parent">
                     <View
                         android:layout_width="1dp"
-                        android:layout_height="25dp"
+                        android:layout_height="@dimen/view_indicator_height_activity_personal"
                         android:background="#99ffffff"
                         android:layout_gravity="center_vertical"/>
 
@@ -237,7 +238,7 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/P02_personalViewPager"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/view_indicator_height_activity_personal"
         android:layout_gravity="center"></android.support.v4.view.ViewPager>
 
 </LinearLayout>
