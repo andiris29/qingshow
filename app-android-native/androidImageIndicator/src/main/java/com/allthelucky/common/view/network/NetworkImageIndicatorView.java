@@ -4,15 +4,23 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.app.library.common.view.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 //import com.nostra13.universalimageloader.core.ImageLoader;
@@ -54,9 +62,9 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 				pageItem.setScaleType(ScaleType.CENTER_CROP);
 //                pageItem.setAdjustViewBounds(true);
                 pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-				pageItem.setImageResource(R.drawable.ic_launcher);
                 pageItem.setBackgroundColor(Color.WHITE);
-                mImageLoader.displayImage(urlList.get(index), pageItem, options);
+                mImageLoader.displayImage(urlList.get(index), pageItem, options, new AnimateFirstDisplayListener());
+                pageItem.setTag(urlList.get(index));
 				addViewItem(pageItem);
 			}
 		}
@@ -78,6 +86,32 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 
         addViewItemAtIndex(pageItem, 0);
         hasFirstBitmapSign=true;
+    }
+
+    /** 图片加载监听事件 **/
+    private static class AnimateFirstDisplayListener extends
+            SimpleImageLoadingListener {
+
+        static final List<String> displayedImages = Collections
+                .synchronizedList(new LinkedList<String>());
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view,
+                                      Bitmap loadedImage) {
+            if (loadedImage != null) {
+                ImageView imageView = (ImageView) view;
+                boolean firstDisplay = !displayedImages.contains(imageUri);
+                if (firstDisplay) {
+                    FadeInBitmapDisplayer.animate(imageView, 500); // 设置image隐藏动画500ms
+                    displayedImages.add(imageUri); // 将图片uri添加到集合中
+                }
+            }
+        }
+
+        @Override
+        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+;       }
     }
 
 }
