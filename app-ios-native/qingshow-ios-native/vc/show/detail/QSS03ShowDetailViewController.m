@@ -190,7 +190,12 @@
     [self hideSharePanel];
     NSString* video = self.showDict[@"video"];
     if (video) {
-        [self playMovie:video];
+        if (!self.movieController || self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
+            [self playMovie:video];
+        } else {
+            [self pauseVideo];
+        }
+
     }
 }
 
@@ -289,6 +294,7 @@
     [self.movieController play];
     [self setPlayModeBtnsHidden:YES];
     self.videoContainerView.userInteractionEnabled = YES;
+    [self.playBtn setImage:[UIImage imageNamed:@"s03_pause_btn"] forState:UIControlStateNormal];
 }
 - (void)pauseVideo
 {
@@ -299,7 +305,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveThunbnailImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
     [self.movieController requestThumbnailImagesAtTimes:@[@(self.movieController.currentPlaybackTime)] timeOption:MPMovieTimeOptionExact];
     [self setPlayModeBtnsHidden:NO];
-    [self.playBtn setImage:[UIImage imageNamed:@"s03_pause_btn"] forState:UIControlStateNormal];
+    [self.playBtn setImage:[UIImage imageNamed:@"s03_play_btn"] forState:UIControlStateNormal];
 }
 
 - (void)stopMovie{
@@ -332,8 +338,8 @@
 
         //Gesture
         //Tap
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
-        [self.videoContainerView addGestureRecognizer:tap];
+//        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
+//        [self.videoContainerView addGestureRecognizer:tap];
 
         //Notification
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -344,10 +350,8 @@
                                                  selector:@selector(handleFirstShowHideVideo)
                                                      name:MPMoviePlayerPlaybackStateDidChangeNotification
                                                    object:nil];
-        [self.movieController play];
-    } else {
-        [self startVideo];
     }
+    [self startVideo];
 }
 
 #pragma mark Gesture
@@ -380,14 +384,18 @@
 - (void)setPlayModeBtnsHidden:(BOOL)hidden
 {
     self.backBtn.hidden = hidden;
-    [self setBtnsHiddenExceptBack:hidden];
+    [self setBtnsHiddenExceptBackAndPlay:hidden];
 
 }
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
+    [self setBtnsHiddenExceptBackAndPlay:hidden];
+    self.playBtn.hidden = hidden;
+}
+- (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
+{
     self.buttnPanel.hidden = hidden;
     self.modelContainer.hidden = hidden;
-    self.playBtn.hidden = hidden;
 }
 
 
