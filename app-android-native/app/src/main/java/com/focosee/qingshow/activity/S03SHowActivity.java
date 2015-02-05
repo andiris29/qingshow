@@ -237,8 +237,6 @@ public class S03SHowActivity extends Activity {
 
         videoUriString = showDetailEntity.getShowVideo();
 
-        this.initPosterView(showDetailEntity.getPosters());
-
         ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
 
         modelInformation.setText(showDetailEntity.getModelName());
@@ -253,6 +251,7 @@ public class S03SHowActivity extends Activity {
 
         itemTextView.setText(showDetailEntity.getItemsCount());
 
+        this.initPosterView(showDetailEntity.getPosters());
 
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
