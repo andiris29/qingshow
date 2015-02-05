@@ -132,7 +132,7 @@
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = @"倾秀";
     message.description = @"倾秀";
-    
+    [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     WXWebpageObject *ext = [WXWebpageObject object];
     
     if (self.shareUrl) {
@@ -156,15 +156,17 @@
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = @"倾秀";
     message.description = @"倾秀";
+    [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     
     WXWebpageObject *ext = [WXWebpageObject object];
     
     if (self.shareUrl) {
+
         ext.webpageUrl = self.shareUrl;
     } else {
         ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
     }
-    
+
     message.mediaObject = ext;
     
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];

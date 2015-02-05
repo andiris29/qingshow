@@ -84,6 +84,7 @@
 
 - (void)clickShareOfDict:(NSDictionary*)dict
 {
+    return;
     NSLog(@"share");
     [self.shareVc showSharePanelWithUrl:nil];
 }
