@@ -8,7 +8,7 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="background_color">#f0f0f0</color>
-    <color name="darker_gray">#aaaa</color>
+    <color name="darker_gray">#424242</color>
     <!-- personal -->
     <color name="indicator_bg_default_activity_personal">#88000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
