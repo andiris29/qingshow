@@ -16,7 +16,7 @@ import com.focosee.qingshow.R;
 /**
  * Created by Chenhr on 15/1/28.
  */
-public class WebViewActivity extends Activity{
+public class WebViewActivity extends BaseActivity{
 
     public static final String URL = "WebViewActivity";
 

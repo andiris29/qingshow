@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class S07CollectActivity extends Activity {
+public class S07CollectActivity extends BaseActivity {
 
     public static final String INPUT_ITEMS = "S07CollectActivity_input_items";
     public static final String INPUT_BACK_IMAGE = "S07CollectActivity_input_back_image";

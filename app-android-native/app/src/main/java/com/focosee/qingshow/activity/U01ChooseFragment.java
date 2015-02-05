@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.focosee.qingshow.R;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zenan on 12/27/14.
@@ -42,4 +43,17 @@ public class U01ChooseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
+    }
+
 }

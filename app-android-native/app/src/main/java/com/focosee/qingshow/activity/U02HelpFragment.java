@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.umeng.analytics.MobclickAgent;
 
 public class U02HelpFragment extends Fragment {
     private Context context;
@@ -46,5 +47,17 @@ public class U02HelpFragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
     }
 }

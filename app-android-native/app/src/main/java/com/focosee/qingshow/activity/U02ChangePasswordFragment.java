@@ -28,6 +28,7 @@ import com.focosee.qingshow.error.ErrorHandler;
 import com.focosee.qingshow.request.QXStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -114,5 +115,17 @@ public class U02ChangePasswordFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
     }
 }

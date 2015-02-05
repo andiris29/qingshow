@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class S02ShowClassify extends Activity {
+public class S02ShowClassify extends BaseActivity {
 
     static class ShowClassifyConfig {
         private static final String[] titleList = {"闪点推荐", "美搭榜单", "人气用户", "潮流时尚", "品牌专区"};

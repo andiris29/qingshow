@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -320,7 +321,9 @@ public class ActionSheet extends Fragment implements OnClickListener {
 		return new Builder(context, fragmentManager);
 	}
 
-	private static class Attributes {
+
+
+    private static class Attributes {
 		private Context mContext;
 
 		public Attributes(Context context) {

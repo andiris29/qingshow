@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class S08TrendActivity extends Activity {
+public class S08TrendActivity extends BaseActivity {
 
     private final String TAG = "S08TrendActivity";
 

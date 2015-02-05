@@ -40,7 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class S04CommentActivity extends Activity implements ActionSheet.ActionSheetListener {
+public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
     public static boolean isOpened = false;

@@ -156,6 +156,9 @@
             <!--android:exported="true"-->
             <!--android:screenOrientation="portrait" />-->
         <activity android:name=".activity.WebViewActivity"/>
+
+        <meta-data android:value="54d34711fd98c533bd000c87" android:name="UMENG_APPKEY"></meta-data>
+        <meta-data android:value="native" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>

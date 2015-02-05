@@ -31,7 +31,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-public class S05ItemActivity extends Activity {
+public class S05ItemActivity extends BaseActivity {
     //是否第一次加载webView
     private boolean isFirstLoad = true;
     public static final String INPUT_ITEMS = "S05ItemActivity_input_items";

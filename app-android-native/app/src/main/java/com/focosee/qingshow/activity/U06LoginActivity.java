@@ -39,7 +39,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class U06LoginActivity extends Activity {
+public class U06LoginActivity extends BaseActivity {
     private EditText accountEditText;
     private EditText passwordEditText;
     private Context context;

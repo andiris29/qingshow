@@ -10,8 +10,9 @@ import android.view.WindowManager;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.util.AppUtil;
+import com.umeng.analytics.MobclickAgent;
 
-public class LaunchActivity extends Activity {
+public class LaunchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,9 @@ public class LaunchActivity extends Activity {
 
         getWindow().setFormat(PixelFormat.RGBA_8888);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DITHER);
+
+        MobclickAgent.updateOnlineConfig(this);
+        MobclickAgent.openActivityDurationTrack(false);
 
         setContentView(R.layout.activity_launch);
 

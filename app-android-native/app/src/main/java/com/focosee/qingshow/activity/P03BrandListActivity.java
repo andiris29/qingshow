@@ -29,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class P03BrandListActivity extends Activity {
+public class P03BrandListActivity extends BaseActivity {
 
     private MNavigationView navigationView;
     private MPullRefreshListView pullRefreshListView;

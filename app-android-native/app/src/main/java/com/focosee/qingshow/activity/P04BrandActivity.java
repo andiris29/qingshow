@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class P04BrandActivity extends Activity {
+public class P04BrandActivity extends BaseActivity {
     public static final String INPUT_BRAND = "P04BrandActivity_input_brand";
     public static final String INPUT_ITEM = "P04BrandActivity_input_item";
     private static final String TAG = "P04BrandActivity";

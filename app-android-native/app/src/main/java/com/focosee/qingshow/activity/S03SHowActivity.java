@@ -47,7 +47,7 @@ import java.util.Map;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
-public class S03SHowActivity extends Activity {
+public class S03SHowActivity extends BaseActivity {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";

@@ -22,6 +22,8 @@ import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
 import java.util.ArrayList;
 
@@ -142,7 +144,17 @@ public class U01BrandFragment extends Fragment{
         QSApplication.get().QSRequestQueue().add(jor);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
+    }
 
 
 }

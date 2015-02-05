@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class S01HomeActivity extends Activity {
+public class S01HomeActivity extends BaseActivity {
     //    private MNavigationView _navigationView;
     private boolean isFirstFocus_activity = true;
     private final static String S01_TAG = "S01HomeActivity";

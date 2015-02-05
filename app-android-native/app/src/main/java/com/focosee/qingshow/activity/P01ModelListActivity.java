@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class P01ModelListActivity extends Activity {
+public class P01ModelListActivity extends BaseActivity {
 
     private MNavigationView navigationView;
     private MPullRefreshListView pullRefreshListView;

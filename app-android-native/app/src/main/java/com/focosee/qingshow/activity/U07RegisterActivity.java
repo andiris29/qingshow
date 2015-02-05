@@ -35,7 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class U07RegisterActivity extends Activity {
+public class U07RegisterActivity extends BaseActivity {
 
     private static final String DEBUG_TAG = "注册页";
     private RequestQueue requestQueue;

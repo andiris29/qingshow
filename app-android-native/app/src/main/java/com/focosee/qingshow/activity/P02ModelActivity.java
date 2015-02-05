@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class P02ModelActivity extends Activity {
+public class P02ModelActivity extends BaseActivity {
 
     private static final String TAG = "P02ModelActivity";
 

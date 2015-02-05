@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class U02SettingsActivity extends Activity {
+public class U02SettingsActivity extends BaseActivity {
     private Context context;
     private RequestQueue requestQueue;
 

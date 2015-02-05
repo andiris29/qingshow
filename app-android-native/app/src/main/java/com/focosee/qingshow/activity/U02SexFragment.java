@@ -27,6 +27,7 @@ import com.focosee.qingshow.error.ErrorHandler;
 import com.focosee.qingshow.request.QXStringRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -165,5 +166,17 @@ public class U02SexFragment extends Fragment {
             femaleButton.setBackgroundResource(R.drawable.btn_choose_default);
             maleButton.setBackgroundResource(R.drawable.btn_choose_focused);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("MainScreen"); //统计页面
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("MainScreen");
     }
 }
