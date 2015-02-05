@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
+
 import com.allthelucky.common.view.ImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkImageIndicatorView;
 import com.android.volley.Request;
@@ -29,13 +30,16 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -237,8 +242,6 @@ public class S03SHowActivity extends BaseActivity {
 
         videoUriString = showDetailEntity.getShowVideo();
 
-        this.initPosterView(showDetailEntity.getPosters());
-
         ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
 
         modelInformation.setText(showDetailEntity.getModelName());
@@ -253,6 +256,7 @@ public class S03SHowActivity extends BaseActivity {
 
         itemTextView.setText(showDetailEntity.getItemsCount());
 
+        this.initPosterView(showDetailEntity.getPosters());
 
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,7 +382,7 @@ public class S03SHowActivity extends BaseActivity {
     private void initPosterView(String[] urlList) {
         this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
         this.imageIndicatorView.show();
-        //this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100, true);
+        this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100, true);
     }
 
     private void configVideo() {

@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -308,10 +307,10 @@ public class ImageIndicatorView extends RelativeLayout {
 			final View indicater = new ImageView(getContext());
 			this.indicateLayout.addView(indicater, index);
 		}
-		this.refreshHandler.sendEmptyMessage(totelCount * 100);
+		this.refreshHandler.sendEmptyMessage(currentIndex);
 		// 为ViewPager配置数据
 		this.viewPager.setAdapter(new MyPagerAdapter(this.viewList));
-		this.viewPager.setCurrentItem(totelCount * 100 , true);
+		this.viewPager.setCurrentItem(currentIndex, false);
 	}
 
 	/**
@@ -436,13 +435,13 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 
 		@Override
-		public void destroyItem(ViewGroup arg0, int arg1, Object arg2) {
-			arg0.removeView(pageViews.get(arg1 % this.itemSize));
+		public void destroyItem(View arg0, int arg1, Object arg2) {
+			((ViewPager) arg0).removeView(pageViews.get(arg1 % this.itemSize));
 		}
 
 		@Override
-		public Object instantiateItem(ViewGroup arg0, int arg1) {
-			arg0.addView(pageViews.get(arg1 % this.itemSize));
+		public Object instantiateItem(View arg0, int arg1) {
+			((ViewPager) arg0).addView(pageViews.get(arg1 % this.itemSize));
 			return pageViews.get(arg1 % this.itemSize);
 		}
 
@@ -457,12 +456,12 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 
 		@Override
-		public void startUpdate(ViewGroup arg0) {
+		public void startUpdate(View arg0) {
 
 		}
 
 		@Override
-		public void finishUpdate(ViewGroup arg0) {
+		public void finishUpdate(View arg0) {
 
 		}
 	}

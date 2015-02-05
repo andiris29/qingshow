@@ -62,7 +62,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:background="@color/indicator_bg_default_activity_personal">
@@ -134,9 +134,10 @@
             <View
                 android:id="@+id/p04_line_toleftDiscount"
                 android:layout_width="1dp"
-                android:layout_height="@dimen/view_indicator_height_activity_personal"
+                android:layout_height="25dp"
                 android:background="#99ffffff"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -175,9 +176,10 @@
                 <View
                     android:id="@+id/p04_line_toleftShow"
                     android:layout_width="1dp"
-                    android:layout_height="@dimen/view_indicator_height_activity_personal"
+                    android:layout_height="25dp"
                     android:background="#99ffffff"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -216,9 +218,10 @@
                 <View
                     android:id="@+id/p04_line_toleftFans"
                     android:layout_width="1dp"
-                    android:layout_height="@dimen/view_indicator_height_activity_personal"
+                    android:layout_height="25dp"
                     android:background="#99ffffff"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -236,8 +239,8 @@
 
                 <ImageView
                     android:id="@+id/P04_follow_sign_text"
-                    android:layout_width="@dimen/follow_btn_width"
-                    android:layout_height="@dimen/follow_btn_height"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/badge_follow_btn"/>
             </LinearLayout>
@@ -247,9 +250,10 @@
                 <View
                     android:id="@+id/p04_line_toleftFollows"
                     android:layout_width="1dp"
-                    android:layout_height="@dimen/view_indicator_height_activity_personal"
+                    android:layout_height="25dp"
                     android:background="#99ffffff"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone"/>
             </LinearLayout>
         </RelativeLayout>
 
