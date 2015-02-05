@@ -431,7 +431,7 @@ public class PlatformGridView extends LinearLayout implements
 			ll.addView(iv);
 
 			TextView tv = new TextView(context);
-			tv.setTextColor(0xff000000);
+			tv.setTextColor(0xffffffff);
 			tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
 			tv.setSingleLine();
 			tv.setIncludeFontPadding(false);
@@ -458,7 +458,7 @@ public class PlatformGridView extends LinearLayout implements
 				return null;
 			}
 
-			String resName = "logo_" + plat.getName();
+			String resName = "skyblue_logo_" + plat.getName();
 			int resId = getBitmapRes(getContext(), resName);
 			return BitmapFactory.decodeResource(getResources(), resId);
 		}

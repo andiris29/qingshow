@@ -32,7 +32,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 	// gridview of platform list
 	private PlatformGridView grid;
 	// cancel button
-	private Button btnCancel;
+//	private Button btnCancel;
 	// sliding up animation
 	private Animation animShow;
 	// sliding down animation
@@ -53,7 +53,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		grid.setHiddenPlatforms(hiddenPlatforms);
 		grid.setCustomerLogos(customerLogos);
 		grid.setParent(this);
-		btnCancel.setOnClickListener(this);
+//		btnCancel.setOnClickListener(this);
 
 		// display gridviews
 		llPage.clearAnimation();
@@ -72,7 +72,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 			}
 		};
 		llPage.setOrientation(LinearLayout.VERTICAL);
-		llPage.setBackgroundDrawable(new ColorDrawable(0xffffffff));
+		llPage.setBackgroundDrawable(new ColorDrawable(0x3f000000));
 		FrameLayout.LayoutParams lpLl = new FrameLayout.LayoutParams(
 				FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
 		lpLl.gravity = Gravity.BOTTOM;
@@ -88,28 +88,28 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 		llPage.addView(grid);
 
 		// cancel button
-		btnCancel = new Button(getContext());
-		btnCancel.setTextColor(0xff3a65ff);
-		btnCancel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-		int resId = getStringRes(getContext(), "cancel");
-		if (resId > 0) {
-			btnCancel.setText(resId);
-		}
-		btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
-
-		resId = getBitmapRes(getContext(), "classic_platform_corners_bg");
-		if(resId > 0){
-			btnCancel.setBackgroundResource(resId);
-		}else {
-		    btnCancel.setBackgroundDrawable(new ColorDrawable(0xffffffff));
-		}
-
-		LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
-		int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 10);
-		lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
-		btnCancel.setLayoutParams(lpBtn);
-		llPage.addView(btnCancel);
+//		btnCancel = new Button(getContext());
+//        btnCancel.setVisibility(View.INVISIBLE);
+//		btnCancel.setTextColor(0xff3a65ff);
+//		btnCancel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+//		int resId = getStringRes(getContext(), "cancel");
+//		if (resId > 0) {
+//			btnCancel.setText(resId);
+//		}
+//		btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
+//
+//		resId = getBitmapRes(getContext(), "classic_platform_corners_bg");
+//		if(resId > 0){
+//			btnCancel.setBackgroundResource(resId);
+//		}else {
+//		    btnCancel.setBackgroundDrawable(new ColorDrawable(0xffffffff));
+//		}
+//
+//		LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(
+//				LinearLayout.LayoutParams.MATCH_PARENT, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
+//		int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 10);
+//		lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
+//		btnCancel.setLayoutParams(lpBtn);
 	}
 
 	private void initAnim() {
@@ -167,7 +167,7 @@ public class PlatformListPage extends PlatformListFakeActivity implements View.O
 
 	@Override
 	public void onClick(View v) {
-		if (v.equals(flPage) || v.equals(btnCancel)) {
+		if (v.equals(flPage) ) {
 			setCanceled(true);
 			finish();
 		}
