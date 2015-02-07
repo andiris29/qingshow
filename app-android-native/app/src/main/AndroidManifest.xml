@@ -17,6 +17,8 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 
+
+
     <application
         android:name="com.focosee.qingshow.app.QSApplication"
         android:allowBackup="true"
@@ -59,6 +61,10 @@
             android:label="@string/title_activity_s03_show"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" >
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.focosee.qingshow.activity.S02ShowClassify"
@@ -126,6 +132,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" >
+        </activity>
+
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
@@ -140,12 +154,12 @@
             </intent-filter>
         </activity>
         <!--微信分享回调 -->
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+            <!--android:name=".wxapi.WXEntryActivity"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
+            <!--android:exported="true"-->
+            <!--android:screenOrientation="portrait" />-->
 
         <!--&lt;!&ndash;易信分享回调 &ndash;&gt;-->
         <!--<activity-->

@@ -1,22 +1,19 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,13 +27,38 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.People;
 import com.focosee.qingshow.entity.ShowDetailEntity;
 import com.focosee.qingshow.entity.ShowListEntity;
 import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.share.SinaAccessTokenKeeper;
+import com.focosee.qingshow.config.ShareConfig;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
+import com.focosee.qingshow.widget.SharePopupWindow;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sina.weibo.sdk.api.WebpageObject;
+import com.sina.weibo.sdk.api.WeiboMultiMessage;
+import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboHandler;
+import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
+import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.constant.WBConstants;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.utils.Utility;
+import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.json.JSONObject;
 
@@ -49,10 +71,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
-public class S03SHowActivity extends BaseActivity {
+public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler ,IWeiboHandler.Response {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
@@ -75,7 +94,6 @@ public class S03SHowActivity extends BaseActivity {
 //    private SurfaceView surfaceView;
 //    private MediaPlayer mediaPlayer;
 
-    private MediaController mediaController;
 
     private MRoundImageView modelImage;
     private TextView modelInformation;
@@ -84,6 +102,12 @@ public class S03SHowActivity extends BaseActivity {
     private TextView commentTextView;
     private TextView likeTextView;
     private TextView itemTextView;
+    private SharePopupWindow sharePopupWindow;
+
+    private IWXAPI wxApi;
+
+    private IWeiboShareAPI mWeiboShareAPI;
+
 
     // like image button
     private ImageButton likedImageButton;
@@ -95,7 +119,16 @@ public class S03SHowActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
 
+
         likedImageButton = (ImageButton) findViewById(R.id.S03_like_btn);
+
+        wxApi = WXAPIFactory.createWXAPI(this, ShareConfig.WX_APP_KEY, true);
+        wxApi.registerApp(ShareConfig.WX_APP_KEY);
+
+
+       // mSsoHandler = new SsoHandler(this, mAuthInfo);
+        mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
+        mWeiboShareAPI.registerApp();
 
         findViewById(R.id.S03_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,42 +333,10 @@ public class S03SHowActivity extends BaseActivity {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(Intent.ACTION_SEND);
-//                intent.setType("image/*");
-//                intent.putExtra(Intent.EXTRA_SUBJECT, "分享");
-//                intent.putExtra(Intent.EXTRA_TEXT, "测试内容!!!");
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(Intent.createChooser(intent, getTitle()));
 
-                ShareSDK.initSDK(S03SHowActivity.this);
-                OnekeyShare oks = new OnekeyShare();
-                //关闭sso授权
-                oks.disableSSOWhenAuthorize();
+                sharePopupWindow=new SharePopupWindow(S03SHowActivity.this,new ShareClickListener());
+                sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
 
-
-
-// 分享时Notification的图标和文字
-
-
-                oks.setNotification(R.drawable.app_icon, getString(R.string.app_name));
-                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-                oks.setTitle(getString(R.string.share));
-                // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-                oks.setTitleUrl("http://sharesdk.cn");
-                // text是分享文本，所有平台都需要这个字段
-                oks.setText("demo.demo~~~~");
-                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//                oks.setImagePath(getResources().getResourceName(R.drawable.app_icon));//确保SDcard下面存在此张图片
-                // url仅在微信（包括好友和朋友圈）中使用
-                oks.setUrl("http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=%7Bshow.id%7D");
-                // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-                oks.setComment("测试，测试");
-                // site是分享此内容的网站名称，仅在QQ空间使用
-                oks.setSite(getString(R.string.app_name));
-                // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-                oks.setSiteUrl("http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=%7Bshow.id%7D");
-// 启动分享GUI
-                oks.show(S03SHowActivity.this);
             }
         });
 
@@ -471,21 +472,156 @@ public class S03SHowActivity extends BaseActivity {
         }
     }
 
-    private void showIcon(boolean display) {
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        setIntent(intent);
+        wxApi.handleIntent(intent, this);
+        mWeiboShareAPI.handleWeiboResponse(intent,this);
+    }
+
+    private void shareToSina(){
+        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+        WebpageObject mediaObject = new WebpageObject();
+        mediaObject.identify = Utility.generateGUID();
+        mediaObject.title =ShareConfig.SHARE_TITLE;
+        mediaObject.description =ShareConfig.SHARE_DESCRIPTION;
+        mediaObject.setThumbImage(BitmapFactory.decodeResource(getResources(), ShareConfig.IMG));
+        mediaObject.actionUrl =  ShareConfig.SHARE_SHOW_URL +showDetailEntity.get_id();
+        mediaObject.defaultText = ShareConfig.SHARE_DESCRIPTION;
+
+        weiboMessage.mediaObject = mediaObject;
+
+        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
+        request.transaction = String.valueOf(System.currentTimeMillis());
+        request.multiMessage = weiboMessage;
+        AuthInfo authInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
+        Oauth2AccessToken accessToken = SinaAccessTokenKeeper.readAccessToken(getApplicationContext());
+        String token = "";
+        if (accessToken != null) {
+            token = accessToken.getToken();
+        }
+        mWeiboShareAPI.sendRequest(this, request, authInfo, token, new WeiboAuthListener() {
+
+            @Override
+            public void onWeiboException( WeiboException arg0 ) {
+            }
+
+            @Override
+            public void onComplete( Bundle bundle ) {
+                // TODO Auto-generated method stub
+                Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
+                SinaAccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
+            }
+
+            @Override
+            public void onCancel() {
+            }
+        });
 
     }
 
-    private int getWinWidth() {
-        DisplayMetrics dm = new DisplayMetrics();
-        //获取屏幕信息
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return dm.widthPixels;
+    @Override
+    public void onResponse(BaseResponse baseResponse) {
+        switch (baseResponse.errCode) {
+            case WBConstants.ErrorCode.ERR_OK:
+                Log.i("tag", "ERR_OK");
+                break;
+            case WBConstants.ErrorCode.ERR_CANCEL:
+                Log.i("tag", "ERR_CANCEL");
+                break;
+            case WBConstants.ErrorCode.ERR_FAIL:
+                Log.i("tag", "ERR_FAIL");
+                break;
+        }
     }
 
-    private int getWinHeight() {
-        DisplayMetrics dm = new DisplayMetrics();
-        //获取屏幕信息
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        return dm.heightPixels;
+
+
+    private void shareToWX(boolean isTimelineCb){
+
+        WXWebpageObject webpage = new WXWebpageObject();
+        WXMediaMessage msg;
+        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL +showDetailEntity.get_id();
+
+        msg = new WXMediaMessage();
+        msg.mediaObject = webpage;
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), ShareConfig.IMG);
+        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false);
+        msg.setThumbImage(thumb);
+        msg.title = ShareConfig.SHARE_TITLE;
+        msg.description = ShareConfig.SHARE_DESCRIPTION;
+
+
+        final SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(System.currentTimeMillis());
+        req.message = msg;
+        req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+        wxApi.sendReq(req);
+    }
+
+
+    @Override
+    public void onReq(BaseReq req) {
+        switch (req.getType()) {
+            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
+                Log.i("tag", "COMMAND_GETMESSAGE_FROM_WX");
+                break;
+            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
+                Log.i("tag", "COMMAND_SHOWMESSAGE_FROM_WX");
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onResp(BaseResp resp) {
+
+
+        switch (resp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                Log.i("tag", "ERR_OK");
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                Log.i("tag", "ERR_USER_CANCEL");
+                break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                Log.i("tag", "ERR_AUTH_DENIED");
+                break;
+            default:
+                Log.i("tag", "ERR_OK");
+                break;
+        }
+
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (mSsoHandler != null) {
+//            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+//        }
+//    }
+
+
+    class ShareClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.share_wechat:
+                    shareToWX(false);
+                    break;
+                case R.id.share_wx_timeline:
+                    shareToWX(true);
+                    break;
+                case R.id.share_sina:
+                    shareToSina();
+                    break;
+            }
+        }
     }
 }

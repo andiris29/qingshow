@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +22,7 @@ import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.request.MJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.SharePopupWindow;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,8 +36,7 @@ import com.focosee.qingshow.entity.TrendEntity;
 import org.json.JSONObject;
 import java.util.LinkedList;
 
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.onekeyshare.OnekeyShare;
+
 
 public class S08TrendListAdapter extends BaseAdapter {
 
@@ -132,31 +132,33 @@ public class S08TrendListAdapter extends BaseAdapter {
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShareSDK.initSDK(context);
-                OnekeyShare oks = new OnekeyShare();
-                //关闭sso授权
-                oks.disableSSOWhenAuthorize();
+//                ShareSDK.initSDK(context);
+//                OnekeyShare oks = new OnekeyShare();
+//                //关闭sso授权
+//                oks.disableSSOWhenAuthorize();
+//
+//// 分享时Notification的图标和文字
+//                oks.setNotification(R.drawable.app_icon, context.getString(R.string.app_name));
+//                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+//                oks.setTitle(context.getString(R.string.share));
+//                // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+//                oks.setTitleUrl("http://sharesdk.cn");
+//                // text是分享文本，所有平台都需要这个字段
+//                oks.setText("欢迎大家过来使用~");
+//                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+////                oks.setImagePath(getResources().getResourceName(R.drawable.app_icon));//确保SDcard下面存在此张图片
+//                // url仅在微信（包括好友和朋友圈）中使用
+//                oks.setUrl("http://sharesdk.cn");
+//                // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+//                oks.setComment("快来试用吧~");
+//                // site是分享此内容的网站名称，仅在QQ空间使用
+//                oks.setSite(context.getString(R.string.app_name));
+//                // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+//                oks.setSiteUrl("http://sharesdk.cn");
+//// 启动分享GUI
+//                oks.show(context);
 
-// 分享时Notification的图标和文字
-                oks.setNotification(R.drawable.app_icon, context.getString(R.string.app_name));
-                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-                oks.setTitle(context.getString(R.string.share));
-                // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-                oks.setTitleUrl("http://sharesdk.cn");
-                // text是分享文本，所有平台都需要这个字段
-                oks.setText("欢迎大家过来使用~");
-                // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//                oks.setImagePath(getResources().getResourceName(R.drawable.app_icon));//确保SDcard下面存在此张图片
-                // url仅在微信（包括好友和朋友圈）中使用
-                oks.setUrl("http://sharesdk.cn");
-                // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-                oks.setComment("快来试用吧~");
-                // site是分享此内容的网站名称，仅在QQ空间使用
-                oks.setSite(context.getString(R.string.app_name));
-                // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-                oks.setSiteUrl("http://sharesdk.cn");
-// 启动分享GUI
-                oks.show(context);
+                Log.i("tag",data.get(position).get_id());
             }
         });
         //评论

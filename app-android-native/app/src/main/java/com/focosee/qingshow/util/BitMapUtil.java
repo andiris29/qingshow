@@ -9,6 +9,8 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
+
 /**
  * Created by Administrator on 2015/1/12.
  */
@@ -238,6 +240,23 @@ public class BitMapUtil {
         Log.e("pix", w + " " + h + " " + pix.length);
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
         return (bitmap);
+    }
+
+    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+        if (needRecycle) {
+            bmp.recycle();
+        }
+
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 }

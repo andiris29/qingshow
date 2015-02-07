@@ -19,6 +19,8 @@ android {
     }
 }
 
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':likePinterest')
@@ -29,14 +31,7 @@ dependencies {
     compile 'com.android.support:support-v4:19.0.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
     compile files('libs/mframework.jar')
-    compile files('libs/ShareSDK-Core-2.5.7.jar')
-    compile files('libs/ShareSDK-QQ-2.5.7.jar')
-    compile files('libs/ShareSDK-QZone-2.5.7.jar')
-    compile files('libs/ShareSDK-SinaWeibo-2.5.7.jar')
-    compile files('libs/ShareSDK-TencentWeibo-2.5.7.jar')
-    compile files('libs/ShareSDK-Wechat-2.5.7.jar')
-    compile files('libs/ShareSDK-Wechat-Core-2.5.7.jar')
-    compile files('libs/ShareSDK-Wechat-Favorite-2.5.7.jar')
-    compile files('libs/ShareSDK-Wechat-Moments-2.5.7.jar')
-    compile files('umeng-analytics-v5.4.1.jar')
+    compile files('libs/weibosdkcore_v3.0.1.jar')
+    compile files('libs/umeng-analytics-v5.4.1.jar')
+    compile files('libs/libammsdk.jar')
 }
