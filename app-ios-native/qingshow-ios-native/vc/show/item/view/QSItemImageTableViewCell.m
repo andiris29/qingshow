@@ -9,6 +9,7 @@
 #import "QSItemImageTableViewCell.h"
 
 #import "QSItemUtil.h"
+#import "QSImageNameUtil.h"
 
 @interface QSItemImageTableViewCell ()
 
@@ -63,7 +64,7 @@
     self.itemDict = itemDict;
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
-    self.imageScrollView.imageUrlArray = [QSItemUtil getImagesUrl:itemDict];
+    self.imageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSItemUtil getImagesUrl:itemDict]];
     if ([QSItemUtil getPriceAfterDiscount:itemDict].length) {
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;

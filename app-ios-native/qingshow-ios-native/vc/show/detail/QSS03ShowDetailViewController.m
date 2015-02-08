@@ -18,6 +18,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "QSNetworkKit.h"
 #import "QSItemUtil.h"
+#import "QSImageNameUtil.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
@@ -427,7 +428,7 @@
     if (self.videoScreenShotImage) {
         [array addObject:self.videoScreenShotImage];
     }
-    NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:self.showDict];
+    NSArray* previewArray =  [QSImageNameUtil generate2xImageNameUrlArray:[QSShowUtil getShowVideoPreviewUrlArray:self.showDict]];
     [array addObjectsFromArray:previewArray];
     self.showImageScrollView.imageUrlArray = array;
     [self.showImageScrollView scrollToPage:0];

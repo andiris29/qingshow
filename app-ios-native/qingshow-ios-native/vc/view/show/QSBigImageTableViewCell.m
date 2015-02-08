@@ -13,6 +13,7 @@
 #import "QSPeopleUtil.h"
 #import "QSPreviewUtil.h"
 #import "QSBrandUtil.h"
+#import "QSImageNameUtil.h"
 
 
 @interface QSBigImageTableViewCell ()
@@ -169,7 +170,7 @@
     
     self.label1.text = [QSPeopleUtil getName:modelDict];
     self.label2.text = [QSPeopleUtil getDetailDesc:modelDict];
-    [self.iconImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
+    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
 
 }
 - (void)bindWithBrand:(NSDictionary*)brandDict
@@ -180,7 +181,7 @@
     self.label1.text = [QSBrandUtil getBrandName:brandDict];
     self.label2.text = [QSBrandUtil getBrandShopAddress:brandDict];
     [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.imgView setImageFromURL:[QSBrandUtil getBrandCoverUrl:brandDict]];
+    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSBrandUtil getBrandCoverUrl:brandDict]]];
 }
 
 - (void)bindWithPreview:(NSDictionary*)previewDict
@@ -205,7 +206,8 @@
     [self.likeBtn setTitle:[QSPreviewUtil getNumLikeDesc:previewDict] forState:UIControlStateNormal];
     [self.commentBtn setTitle:[QSPreviewUtil getNumCommentDesc:previewDict] forState:UIControlStateNormal];
 //    [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    self.singleImageScrollView.imageUrlArray = [QSPreviewUtil getImagesUrl:previewDict];
+    
+    self.singleImageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSPreviewUtil getImagesUrl:previewDict]];
     
     [self.likeBtn setHighlighted:[QSPreviewUtil getIsLike:previewDict]];
 }

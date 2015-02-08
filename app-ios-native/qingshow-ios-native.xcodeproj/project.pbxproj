@@ -36,6 +36,8 @@
 		EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */; };
 		EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF2E0F231A2F790400F3A25C /* libWeiboSDK.a */; };
 		EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EF2E0F2B1A2F790400F3A25C /* WeiboSDK.bundle */; };
+		EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD731A871512003CBBEE /* QSImageNameUtil.m */; };
+		EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD771A87153F003CBBEE /* QSDateUtil.m */; };
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
 		EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD51A4C677100218693 /* NSMutableDictionary+QSExtension.m */; };
 		EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46461E1A2AEB5C00172618 /* CoreText.framework */; };
@@ -56,7 +58,6 @@
 		EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55730D1A21B20000C3BC23 /* QSShowUtil.m */; };
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
-		EF55731E1A22179F00C3BC23 /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731D1A22179F00C3BC23 /* QSDateUtil.m */; };
 		EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDE01A74CC9C00D639FB /* QSAbstractListViewProvider.m */; };
 		EF59EDF81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDE81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m */; };
 		EF59EDF91A74FAEE00D639FB /* QSShowCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDEA1A74FAEE00D639FB /* QSShowCollectionViewProvider.m */; };
@@ -260,6 +261,10 @@
 		EF2E0F2B1A2F790400F3A25C /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		EF2E0F2C1A2F790400F3A25C /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		EF2E0F2D1A2F790400F3A25C /* WeiboUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboUser.h; sourceTree = "<group>"; };
+		EF36BD721A871512003CBBEE /* QSImageNameUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSImageNameUtil.h; sourceTree = "<group>"; };
+		EF36BD731A871512003CBBEE /* QSImageNameUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageNameUtil.m; sourceTree = "<group>"; };
+		EF36BD761A87153F003CBBEE /* QSDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDateUtil.h; sourceTree = "<group>"; };
+		EF36BD771A87153F003CBBEE /* QSDateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDateUtil.m; sourceTree = "<group>"; };
 		EF42BBD11A4C5B1C00218693 /* UILabelStrikeThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILabelStrikeThrough.h; sourceTree = "<group>"; };
 		EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UILabelStrikeThrough.m; sourceTree = "<group>"; };
 		EF42BBD41A4C677100218693 /* NSMutableDictionary+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+QSExtension.h"; sourceTree = "<group>"; };
@@ -293,8 +298,6 @@
 		EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemUtil.m; sourceTree = "<group>"; };
 		EF5573191A22105500C3BC23 /* QSCommentUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommentUtil.h; sourceTree = "<group>"; };
 		EF55731A1A22105500C3BC23 /* QSCommentUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCommentUtil.m; sourceTree = "<group>"; };
-		EF55731C1A22179F00C3BC23 /* QSDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDateUtil.h; sourceTree = "<group>"; };
-		EF55731D1A22179F00C3BC23 /* QSDateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSDateUtil.m; sourceTree = "<group>"; };
 		EF59EDDF1A74CC9C00D639FB /* QSAbstractListViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractListViewProvider.h; sourceTree = "<group>"; };
 		EF59EDE01A74CC9C00D639FB /* QSAbstractListViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractListViewProvider.m; sourceTree = "<group>"; };
 		EF59EDE31A74E84300D639FB /* QSAbstractListViewProvider+Protect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QSAbstractListViewProvider+Protect.h"; sourceTree = "<group>"; };
@@ -930,6 +933,10 @@
 			children = (
 				EF9C952A1A0FBFF2006A0AE3 /* extension */,
 				EF9A747B1A02A8E700095F07 /* type */,
+				EF36BD761A87153F003CBBEE /* QSDateUtil.h */,
+				EF36BD771A87153F003CBBEE /* QSDateUtil.m */,
+				EF36BD721A871512003CBBEE /* QSImageNameUtil.h */,
+				EF36BD731A871512003CBBEE /* QSImageNameUtil.m */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -1046,8 +1053,6 @@
 				EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */,
 				EF5573191A22105500C3BC23 /* QSCommentUtil.h */,
 				EF55731A1A22105500C3BC23 /* QSCommentUtil.m */,
-				EF55731C1A22179F00C3BC23 /* QSDateUtil.h */,
-				EF55731D1A22179F00C3BC23 /* QSDateUtil.m */,
 				EF4646211A2B00CA00172618 /* QSBrandUtil.h */,
 				EF4646221A2B00CA00172618 /* QSBrandUtil.m */,
 				EF7FA36E1A3440AC00090EE4 /* QSMetadataUtil.h */,
@@ -1553,6 +1558,7 @@
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
 				EF59EDFC1A74FAEE00D639FB /* QSCommentListTableViewProvider.m in Sources */,
+				EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */,
 				EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */,
 				EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */,
 				8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */,
@@ -1561,7 +1567,6 @@
 				EFF114AD1A0D2EEC009B7361 /* NSData+MKBase64.m in Sources */,
 				EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */,
 				EF59EDFA1A74FAEE00D639FB /* QSWaterfallBasicProvider.m in Sources */,
-				EF55731E1A22179F00C3BC23 /* QSDateUtil.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EFF89E091A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m in Sources */,
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,
@@ -1583,6 +1588,7 @@
 				EF2A41601A5D91BF003266E0 /* QSItemImageTableViewCell.m in Sources */,
 				EF59EDFF1A74FAEE00D639FB /* QSTableViewBasicProvider.m in Sources */,
 				EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */,
+				EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
