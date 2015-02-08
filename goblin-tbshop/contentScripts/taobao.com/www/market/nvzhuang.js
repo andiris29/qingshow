@@ -42,7 +42,7 @@ Page.prototype._crawl = function() {
             function(callback) {
                 var retry = 0;
                 var load = function() {
-                    lis$ = $('.m-itemList .items li .shopname a') //<a href="shopUrl" target="_blank">showName</a>
+                    lis$ = $('.m-itemList .items li .shopname a'); //<a href="shopUrl" target="_blank">showName</a>
 
                     if (lis$.length === 0) {
                         if (retry < 10) {
@@ -88,7 +88,7 @@ Page.prototype._crawl = function() {
 
                     setTimeout(function (){
                         _this._crawl();
-                    }, 100);
+                    }, 1000);
                 } else {
                     api.complete();
                     console.log('max page');
