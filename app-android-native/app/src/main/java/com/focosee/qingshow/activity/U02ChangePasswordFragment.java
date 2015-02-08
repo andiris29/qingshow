@@ -1,11 +1,10 @@
 package com.focosee.qingshow.activity;
 
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,27 +12,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.UpdateResponse;
-import com.focosee.qingshow.error.ErrorHandler;
-import com.focosee.qingshow.request.QXStringRequest;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.request.QSStringRequest;
 import com.umeng.analytics.MobclickAgent;
 
-import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.Map;
 
 public class U02ChangePasswordFragment extends Fragment {
     private Context context;
@@ -88,20 +82,14 @@ public class U02ChangePasswordFragment extends Fragment {
                     params.put("currentPassword", newPasswordEditText.getText().toString());
                     params.put("password", sharedPreferences.getString("password", ""));
 
-                    QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+                    QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
-                            }.getType());
-
-                            if (updateResponse == null || updateResponse.data == null) {
-                                if (updateResponse == null) {
-                                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                                } else {
-                                    ErrorHandler.handle(context, updateResponse.metadata.error);
-                                }
+                            MongoPeople user = UserParser.parseUpdate(response);
+                            if (user == null) {
+                                ErrorHandler.handle(context, MetadataParser.getError(response));
                             } else {
-                                QSApplication.get().setPeople(updateResponse.data.people);
+                                QSApplication.get().setPeople(user);
                                 Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
                             }
                         }

@@ -5,48 +5,34 @@ import android.util.Log;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.app.QSApplication;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO Do we have array response?
-public class MJsonArrayRequest extends JsonArrayRequest {
+public class QSJsonObjectRequest extends JsonObjectRequest {
 
     private Map<String, String> _params;
 
-    /**
-     * Creates a new request.
-     *
-     * @param url           URL to fetch the JSON from
-     * @param listener      Listener to receive the JSON response
-     * @param errorListener Error listener, or null to ignore errors.
-     */
-    public MJsonArrayRequest(String url, Response.Listener<JSONArray> listener, Response.ErrorListener errorListener) {
-        super(url, listener, errorListener);
+    public QSJsonObjectRequest(int method, String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        super(method, url, jsonRequest, listener, errorListener);
+    }
+
+    public QSJsonObjectRequest(String url, JSONObject jsonRequest, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener) {
+        super(url, jsonRequest, listener, errorListener);
     }
 
     @Override
-    protected Map<String, String> getParams() {
-        return _params;
-    }
-
-    @Override
-    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         QSApplication.get().checkSessionCookie(response.headers);
         Log.i("cookie", "get: " + response.headers.toString());
         return super.parseNetworkResponse(response);
     }
 
-    /* (non-Javadoc)
-     * @see com.android.volley.Request#getHeaders()
-     */
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         Map<String, String> headers = super.getHeaders();
@@ -58,6 +44,11 @@ public class MJsonArrayRequest extends JsonArrayRequest {
 
         QSApplication.get().addSessionCookie(headers);
 
+        headers.put("version", QSApplication.get().getVersionName());
+
+        Log.i("cookie", "json request: " + headers.toString());
+
         return headers;
     }
+
 }

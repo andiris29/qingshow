@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +25,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.error.ErrorCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.LoginResponse;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 
 import org.json.JSONObject;
 
@@ -91,8 +90,6 @@ public class U06LoginActivity extends BaseActivity {
                             @Override
                             public void onResponse(String response) {
                                 pDialog.dismiss();
-                                LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
-                                }.getType());
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("id", accountEditText.getText().toString());
@@ -102,18 +99,15 @@ public class U06LoginActivity extends BaseActivity {
                                 //editor.putString("connect.sid", rawCookie);
                                 editor.commit();
 
-                                if (loginResponse == null || loginResponse.data == null) {
-                                    if (loginResponse == null) {
-                                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                                MongoPeople user = UserParser.parseLogin(response);
+                                if (user == null) {
+                                    if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {
+                                        Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
                                     } else {
-                                        if (loginResponse.metadata.error == ErrorCode.IncorrectMailOrPassword) {
-                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                                        }
+                                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    QSApplication.get().setPeople(loginResponse.data.people);
+                                    QSApplication.get().setPeople(user);
                                     Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
                                     startActivity(intent);
                                     finish();

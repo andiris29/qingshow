@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
@@ -25,12 +25,13 @@ import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.RegisterResponse;
-import com.focosee.qingshow.entity.UpdateResponse;
-import com.focosee.qingshow.error.ErrorHandler;
-import com.focosee.qingshow.request.QXStringRequest;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.request.QSStringRequest;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -111,8 +112,6 @@ public class U07RegisterActivity extends BaseActivity {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            RegisterResponse registerResponse = new Gson().fromJson(response, new TypeToken<RegisterResponse>() {
-                            }.getType());
 
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("id", accountEditText.getText().toString());
@@ -121,14 +120,11 @@ public class U07RegisterActivity extends BaseActivity {
 
                             editor.commit();
 
-                            if (registerResponse == null || registerResponse.data == null) {
-                                if (registerResponse == null) {
-                                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                                } else {
-                                    ErrorHandler.handle(context, registerResponse.metadata.error);
-                                }
+                            MongoPeople user = UserParser.parseRegister(response);
+                            if (user == null) {
+                                ErrorHandler.handle(context, MetadataParser.getError(response));
                             } else {
-                                QSApplication.get().setPeople(registerResponse.data.people);
+                                QSApplication.get().setPeople(user);
                                 updateSettings();
                                 Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(U07RegisterActivity.this, U01PersonalActivity.class));
@@ -152,6 +148,7 @@ public class U07RegisterActivity extends BaseActivity {
                                 return Response.error(new ParseError(e));
                             }
                         }
+
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> map = new HashMap<String, String>();
@@ -260,15 +257,15 @@ public class U07RegisterActivity extends BaseActivity {
         return result;
     }
 
-    private void setClothesSizeRadioGroupListener(){
-        for (int i = 0;i< clothesSizeRadioGroup.getChildCount();i++){
+    private void setClothesSizeRadioGroupListener() {
+        for (int i = 0; i < clothesSizeRadioGroup.getChildCount(); i++) {
             ((RadioButton) clothesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
         }
         ((RadioButton) clothesSizeRadioGroup.getChildAt(getClothesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
     }
 
-    private void setShoesSizeRadioGroupListener(){
-        for(int i = 0 ; i < shoesSizeRadioGroup.getChildCount(); i ++ ){
+    private void setShoesSizeRadioGroupListener() {
+        for (int i = 0; i < shoesSizeRadioGroup.getChildCount(); i++) {
             ((RadioButton) shoesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
         }
         ((RadioButton) shoesSizeRadioGroup.getChildAt(getShoesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
@@ -281,26 +278,20 @@ public class U07RegisterActivity extends BaseActivity {
 
         Map<String, String> params = new HashMap<String, String>();
         if (gender >= 0)
-            params.put("gender", gender+"");
+            params.put("gender", gender + "");
         if (clothesSize >= 0)
-            params.put("clothingSize", clothesSize+"");
+            params.put("clothingSize", clothesSize + "");
         if (shoesSize >= 0)
-            params.put("shoeSize", shoesSize+"");
+            params.put("shoeSize", shoesSize + "");
 
-        QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+        QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
-                }.getType());
-
-                if (updateResponse == null || updateResponse.data == null) {
-                    if (updateResponse == null) {
-                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                    } else {
-                        ErrorHandler.handle(context, updateResponse.metadata.error);
-                    }
+                MongoPeople user = UserParser.parseUpdate(response);
+                if (user == null) {
+                    ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
-                    QSApplication.get().setPeople(updateResponse.data.people);
+                    QSApplication.get().setPeople(user);
                 }
             }
         }, new Response.ErrorListener() {

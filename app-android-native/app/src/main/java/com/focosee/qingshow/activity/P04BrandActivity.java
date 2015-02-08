@@ -1,7 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -17,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -27,11 +26,14 @@ import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
 import com.focosee.qingshow.adapter.P04FansListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
-import com.focosee.qingshow.entity.ModelShowEntity;
-import com.focosee.qingshow.entity.ShowDetailEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoBrand;
+import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -39,7 +41,9 @@ import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,8 +89,8 @@ public class P04BrandActivity extends BaseActivity {
 
     private ArrayList<View> pagerViewList;
 
-    private BrandEntity brandEntity;
-    private ShowDetailEntity.RefItem additionalItemEntity;
+    private MongoBrand brandEntity;
+    private MongoItem additionalItemEntity;
     private int pageIndex = 1;
 
     @Override
@@ -94,14 +98,14 @@ public class P04BrandActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p04_brand);
 
-        brandEntity = (null != getIntent().getExtras().getSerializable(INPUT_BRAND)) ? ((BrandEntity)getIntent().getExtras().getSerializable(INPUT_BRAND)) : null;
-        additionalItemEntity = (null != getIntent().getExtras().getSerializable(INPUT_ITEM)) ? (ShowDetailEntity.RefItem) getIntent().getExtras().getSerializable(INPUT_ITEM): null;
+        brandEntity = (null != getIntent().getExtras().getSerializable(INPUT_BRAND)) ? ((MongoBrand)getIntent().getExtras().getSerializable(INPUT_BRAND)) : null;
+        additionalItemEntity = (null != getIntent().getExtras().getSerializable(INPUT_ITEM)) ? (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM): null;
 
 
         if(null != additionalItemEntity && null == brandEntity) {
 
             if (null == additionalItemEntity.getBrandRef()) {//传过来的是id
-                brandEntity = new BrandEntity();
+                brandEntity = new MongoBrand();
                 brandEntity._id = additionalItemEntity.getBrandId();
             }
         }
@@ -134,10 +138,10 @@ public class P04BrandActivity extends BaseActivity {
         followSignText = (ImageView) findViewById(R.id.P04_follow_sign_text);
         bgImage = (ImageView) findViewById(R.id.P04_back_image_view);
 
-        newNumTotal.setText((null != brandEntity) ? brandEntity.getNewestNumber() : "0");
-        discountNumTotal.setText((null != brandEntity) ? brandEntity.getDiscountNumber() : "0");
+        newNumTotal.setText("0");
+        discountNumTotal.setText("0");
         showNumTotal.setText("0");
-        fansNumTotal.setText((null != brandEntity) ? brandEntity.getFansNumber() : "0");
+        fansNumTotal.setText("0");
 
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.getBrandLogo() : "", (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
@@ -274,7 +278,7 @@ public class P04BrandActivity extends BaseActivity {
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P04_item_list);
         latestListView = latestPullRefreshListView.getRefreshableView();
 
-        ArrayList<ShowDetailEntity.RefItem> newestBrandItemDataList = new ArrayList<ShowDetailEntity.RefItem>();
+        ArrayList<MongoItem> newestBrandItemDataList = new ArrayList<MongoItem>();
         if (null != additionalItemEntity) {
             newestBrandItemDataList.add(additionalItemEntity);
         }
@@ -301,7 +305,7 @@ public class P04BrandActivity extends BaseActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(P04BrandActivity.this, S03SHowActivity.class);
-                    intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ModelShowEntity)newestBrandItemListAdapter.getItem(position)).get_id());
+                    intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((MongoShow)newestBrandItemListAdapter.getItem(position)).get_id());
                     startActivity(intent);
                 }
             });
@@ -328,7 +332,7 @@ public class P04BrandActivity extends BaseActivity {
         discountPullRefreshListView = (MPullRefreshListView) pagerViewList.get(1).findViewById(R.id.pager_P04_item_list);
         discountListView = discountPullRefreshListView.getRefreshableView();
 
-        discountBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, new ArrayList<ShowDetailEntity.RefItem>());
+        discountBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, new ArrayList<MongoItem>());
 
         discountListView.setAdapter(discountBrandItemListAdapter);
         discountPullRefreshListView.setScrollLoadEnabled(true);
@@ -351,7 +355,7 @@ public class P04BrandActivity extends BaseActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(P04BrandActivity.this, S03SHowActivity.class);
-                    intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ModelShowEntity)discountBrandItemListAdapter.getItem(position)).get_id());
+                    intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((MongoShow)discountBrandItemListAdapter.getItem(position)).get_id());
                     startActivity(intent);
                 }
             });
@@ -377,7 +381,7 @@ public class P04BrandActivity extends BaseActivity {
     private void configShowsListPage() {
         showPullRefreshListView = (MPullRefreshMultiColumnListView) pagerViewList.get(2).findViewById(R.id.pager_P04_item_list);
         showListView = showPullRefreshListView.getRefreshableView();
-        showBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, new ArrayList<ShowDetailEntity.RefItem>());
+        showBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, new ArrayList<MongoItem>());
 
         showListView.setAdapter(showBrandItemListAdapter);
         showPullRefreshListView.setScrollLoadEnabled(true);
@@ -424,7 +428,7 @@ public class P04BrandActivity extends BaseActivity {
     private void configFansListPage() {
         fansPullRefreshListView = (MPullRefreshListView) pagerViewList.get(3).findViewById(R.id.pager_P02_item_list);
         fansListView = fansPullRefreshListView.getRefreshableView();
-        ArrayList<FollowPeopleEntity> followerPeopleList = new ArrayList<FollowPeopleEntity>();
+        ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         fansListAdapter = new P04FansListAdapter(this, followerPeopleList);
 
         fansListView.setAdapter(fansListAdapter);
@@ -476,7 +480,7 @@ public class P04BrandActivity extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
@@ -484,13 +488,11 @@ public class P04BrandActivity extends BaseActivity {
 
                 pageIndex = 1;
 
-                ArrayList<ShowDetailEntity.RefItem> brandItemsEntities = ShowDetailEntity.RefItem.getItemEntities(response);
-                ShowDetailEntity.MetaData metaData = ShowDetailEntity.RefItem.getMetaData(response);
+                ArrayList<MongoItem> brandItemsEntities = ItemFeedingParser.parse(response);
                 if (null != additionalItemEntity) {
                     brandItemsEntities.add(0, additionalItemEntity);
                 }
-                Log.d(TAG, "newNumTotal: " + String.valueOf(null == metaData ? 0:metaData.numTotal));
-                newNumTotal.setText(String.valueOf(null == metaData ? 0:metaData.numTotal));
+                newNumTotal.setText(MetadataParser.getNumTotal(response));
 
                 newestBrandItemListAdapter.resetData(brandItemsEntities);
                 newestBrandItemListAdapter.notifyDataSetChanged();
@@ -512,7 +514,7 @@ public class P04BrandActivity extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(P04BrandActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
@@ -521,7 +523,7 @@ public class P04BrandActivity extends BaseActivity {
 
                 pageIndex++;
 
-                ArrayList<ShowDetailEntity.RefItem> brandItemsEntities = ShowDetailEntity.RefItem.getItemEntities(response);
+                ArrayList<MongoItem> brandItemsEntities = ItemFeedingParser.parse(response);
 
                 newestBrandItemListAdapter.addData(brandItemsEntities);
                 newestBrandItemListAdapter.notifyDataSetChanged();
@@ -543,7 +545,7 @@ public class P04BrandActivity extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandDiscountApi(String.valueOf(brandEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     discountPullRefreshListView.onPullUpRefreshComplete();
                     discountPullRefreshListView.setHasMoreData(false);
                     return;
@@ -551,13 +553,11 @@ public class P04BrandActivity extends BaseActivity {
 
                 pageIndex = 1;
 
-                ArrayList<ShowDetailEntity.RefItem> modelShowEntities = ShowDetailEntity.RefItem.getItemEntities(response);
-                ShowDetailEntity.MetaData metaData = ShowDetailEntity.RefItem.getMetaData(response);
+                ArrayList<MongoItem> modelShowEntities = ItemFeedingParser.parse(response);
                 if (null != additionalItemEntity) {
                     modelShowEntities.add(0, additionalItemEntity);
                 }
-                Log.d(TAG, "discountNumTotal: " + String.valueOf(null == metaData ? 0:metaData.numTotal));
-                discountNumTotal.setText(String.valueOf(null == metaData ? 0:metaData.numTotal));
+                discountNumTotal.setText(MetadataParser.getNumTotal(response));
 
                 discountBrandItemListAdapter.resetData(modelShowEntities);
                 discountBrandItemListAdapter.notifyDataSetChanged();
@@ -579,7 +579,7 @@ public class P04BrandActivity extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandDiscountApi(String.valueOf(brandEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(P04BrandActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     discountPullRefreshListView.onPullUpRefreshComplete();
                     discountPullRefreshListView.setHasMoreData(false);
@@ -588,7 +588,7 @@ public class P04BrandActivity extends BaseActivity {
 
                 pageIndex++;
 
-                ArrayList<ShowDetailEntity.RefItem> modelShowEntities = ShowDetailEntity.RefItem.getItemEntities(response);
+                ArrayList<MongoItem> modelShowEntities = ItemFeedingParser.parse(response);
 
                 discountBrandItemListAdapter.addData(modelShowEntities);
                 discountBrandItemListAdapter.notifyDataSetChanged();
@@ -615,7 +615,7 @@ public class P04BrandActivity extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandShowApi(String.valueOf(brandEntity.get_id()), _pageIndex), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     if(pageIndex == 1) {
 
                     }else{
@@ -626,7 +626,7 @@ public class P04BrandActivity extends BaseActivity {
                     return;
                 }
 
-                ArrayList<ShowDetailEntity.RefItem> modelShowEntities = ShowDetailEntity.RefItem.getItemEntities(response);
+                ArrayList<MongoItem> modelShowEntities = ItemFeedingParser.parse(response);
                 if(_isRefresh){
                     showBrandItemListAdapter.resetData(modelShowEntities);
                     pageIndex = 1;
@@ -655,8 +655,8 @@ public class P04BrandActivity extends BaseActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                fansNumTotal.setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                fansNumTotal.setText(MetadataParser.getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     fansPullRefreshListView.onPullUpRefreshComplete();
                     fansPullRefreshListView.setHasMoreData(false);
                     fansListAdapter.resetData(null);
@@ -666,7 +666,7 @@ public class P04BrandActivity extends BaseActivity {
 
                 pageIndex = 1;
 
-                ArrayList<FollowPeopleEntity> peopleEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<MongoPeople> peopleEntities = PeopleParser.parseQueryFollowers(response);
 
 
                 fansListAdapter.resetData(peopleEntities);
@@ -689,7 +689,7 @@ public class P04BrandActivity extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(brandEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     fansPullRefreshListView.onPullUpRefreshComplete();
                     fansPullRefreshListView.setHasMoreData(false);
                     return;
@@ -697,7 +697,7 @@ public class P04BrandActivity extends BaseActivity {
 
                 pageIndex++;
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowers(response);
 
                 fansListAdapter.addData(modelShowEntities);
                 fansListAdapter.notifyDataSetChanged();
@@ -728,17 +728,17 @@ public class P04BrandActivity extends BaseActivity {
         followData.put("_id", brandEntity.get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
                     }else{
-                        showMessage(P04BrandActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
+                        showMessage(P04BrandActivity.this, "关注失败");
                     }
                 }catch (Exception e) {
                     showMessage(P04BrandActivity.this, e.toString());
@@ -759,17 +759,17 @@ public class P04BrandActivity extends BaseActivity {
         followData.put("_id", brandEntity.get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(P04BrandActivity.this, "取消关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
                     }else{
-                        showMessage(P04BrandActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
+                        showMessage(P04BrandActivity.this, "取消关注失败");
                     }
                 }catch (Exception e) {
                     showMessage(P04BrandActivity.this, e.toString());
@@ -785,14 +785,6 @@ public class P04BrandActivity extends BaseActivity {
         QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
     }
 
-    private boolean checkErrorExist(JSONObject response) {
-        try {
-            return ((JSONObject)response.get("metadata")).has("error");
-        }catch (Exception e) {
-            return true;
-        }
-    }
-
     private void handleErrorMsg(VolleyError error) {
         Log.i("P04BrandActivity", error.toString());
     }
@@ -806,13 +798,5 @@ public class P04BrandActivity extends BaseActivity {
         Point size = new Point();
         display.getSize(size);
         return size;
-    }
-
-    private String getTotalDataFromResponse(JSONObject response) {
-        try {
-            return ((JSONObject) response.get("metadata")).get("numTotal").toString();
-        } catch (Exception e) {
-            return "0";
-        }
     }
 }

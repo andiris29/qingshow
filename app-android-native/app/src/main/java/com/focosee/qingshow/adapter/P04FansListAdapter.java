@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class P04FansListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<FollowPeopleEntity> data;
+    private ArrayList<MongoPeople> data;
 
-    public P04FansListAdapter(Context context, ArrayList<FollowPeopleEntity> data) {
+    public P04FansListAdapter(Context context, ArrayList<MongoPeople> data) {
         this.context = context;
         this.data = data;
     }
@@ -66,11 +66,11 @@ public class P04FansListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(ArrayList<FollowPeopleEntity> newData) {
+    public void resetData(ArrayList<MongoPeople> newData) {
         this.data = newData;
     }
 
-    public void addData(ArrayList<FollowPeopleEntity> moreData) {
+    public void addData(ArrayList<MongoPeople> moreData) {
         this.data.addAll(this.data.size(), moreData);
     }
 

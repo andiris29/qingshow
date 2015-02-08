@@ -1,7 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,21 +15,22 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.adapter.P02ModelViewPagerAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
-import com.focosee.qingshow.entity.ModelEntity;
-import com.focosee.qingshow.entity.ModelShowEntity;
-import com.focosee.qingshow.entity.People;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -41,6 +40,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class P02ModelActivity extends BaseActivity {
@@ -64,7 +64,7 @@ public class P02ModelActivity extends BaseActivity {
     private P02ModelItemListAdapter itemListAdapter;
     private P02ModelFollowPeopleListAdapter followedPeopleListAdapter;
     private P02ModelFollowPeopleListAdapter followerPeopleListAdapter;
-    private ModelEntity modelEntity;
+    private MongoPeople modelEntity;
     private int pageIndex = 1;
     private LinearLayout line1;
     private LinearLayout line2;
@@ -93,7 +93,7 @@ public class P02ModelActivity extends BaseActivity {
 
         viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
 
-        modelEntity = (ModelEntity)getIntent().getExtras().getSerializable(INPUT_MODEL);
+        modelEntity = (MongoPeople)getIntent().getExtras().getSerializable(INPUT_MODEL);
 
         ImageLoader.getInstance().displayImage(modelEntity.getPortrait(), (ImageView)findViewById(R.id.P02_model_image_view), AppUtil.getPortraitDisplayOptions());
         ((TextView) findViewById(R.id.P02_model_name_text_view)).setText(String.valueOf(modelEntity.getName()));
@@ -141,7 +141,7 @@ public class P02ModelActivity extends BaseActivity {
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P02_item_list);
         latestListView = latestPullRefreshListView.getRefreshableView();
 
-        ArrayList<ModelShowEntity> itemEntities = new ArrayList<ModelShowEntity>();
+        LinkedList<MongoShow> itemEntities = new LinkedList<MongoShow>();
         itemListAdapter = new P02ModelItemListAdapter(this, itemEntities);
 
         latestListView.setAdapter(itemListAdapter);
@@ -164,7 +164,7 @@ public class P02ModelActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(P02ModelActivity.this, S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((ModelShowEntity)itemListAdapter.getItem(position)).get_id());
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((MongoShow)itemListAdapter.getItem(position)).get_id());
                 startActivity(intent);
             }
         });
@@ -174,7 +174,7 @@ public class P02ModelActivity extends BaseActivity {
         // followed list page;
         followedPullRefreshListView = (MPullRefreshListView) pagerViewList.get(1).findViewById(R.id.pager_P02_item_list);
         followedListView = followedPullRefreshListView.getRefreshableView();
-        ArrayList<FollowPeopleEntity> followedPeopleList = new ArrayList<FollowPeopleEntity>();
+        ArrayList<MongoPeople> followedPeopleList = new ArrayList<MongoPeople>();
         followedPeopleListAdapter = new P02ModelFollowPeopleListAdapter(this, followedPeopleList);
 
         followedListView.setAdapter(followedPeopleListAdapter);
@@ -204,7 +204,7 @@ public class P02ModelActivity extends BaseActivity {
         // followers list page;
         followerPullRefreshListView = (MPullRefreshListView) pagerViewList.get(2).findViewById(R.id.pager_P02_item_list);
         followerListView = followerPullRefreshListView.getRefreshableView();
-        ArrayList<FollowPeopleEntity> followerPeopleList = new ArrayList<FollowPeopleEntity>();
+        ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
 
         followerListView.setAdapter(followerPeopleListAdapter);
@@ -227,7 +227,7 @@ public class P02ModelActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(P02ModelActivity.this, U01PersonalActivity.class);
-                intent.putExtra(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE_ID, ((FollowPeopleEntity)followerPeopleListAdapter.getItem(position))._id);
+                intent.putExtra(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, ((MongoPeople)followerPeopleListAdapter.getItem(position)));
                 startActivity(intent);
             }
         });
@@ -287,11 +287,11 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void doShowsRefreshDataTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
@@ -299,7 +299,7 @@ public class P02ModelActivity extends BaseActivity {
 
                 pageIndex = 1;
 
-                ArrayList<ModelShowEntity> modelShowEntities = ModelShowEntity.getModelShowEntities(response);
+                LinkedList<MongoShow> modelShowEntities = FeedingParser.parse(response);
 
                 itemListAdapter.resetData(modelShowEntities);
                 itemListAdapter.notifyDataSetChanged();
@@ -317,11 +317,11 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void doShowsLoadMoreTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                //((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
@@ -330,7 +330,7 @@ public class P02ModelActivity extends BaseActivity {
 
                 pageIndex++;
 
-                ArrayList<ModelShowEntity> modelShowEntities = ModelShowEntity.getModelShowEntities(response);
+                LinkedList<MongoShow> modelShowEntities = FeedingParser.parse(response);
 
                 itemListAdapter.addData(modelShowEntities);
                 itemListAdapter.notifyDataSetChanged();
@@ -348,11 +348,11 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void doFollowedRefreshDataTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     followedPullRefreshListView.onPullUpRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
                     return;
@@ -360,7 +360,7 @@ public class P02ModelActivity extends BaseActivity {
 
                 pageIndex = 1;
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowed(response);
 
                 followedPeopleListAdapter.resetData(modelShowEntities);
                 followedPeopleListAdapter.notifyDataSetChanged();
@@ -378,10 +378,10 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void doFollowedLoadMoreTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followedPullRefreshListView.onPullUpRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
@@ -390,7 +390,7 @@ public class P02ModelActivity extends BaseActivity {
 
                 pageIndex++;
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowed(response);
 
                 followedPeopleListAdapter.addData(modelShowEntities);
                 followedPeopleListAdapter.notifyDataSetChanged();
@@ -408,11 +408,11 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void doFollowersRefreshDataTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     followedPeopleListAdapter.notifyDataSetChanged();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
@@ -421,8 +421,7 @@ public class P02ModelActivity extends BaseActivity {
 
                 pageIndex = 1;
 
-
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowers(response);
 
                 followerPeopleListAdapter.resetData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
@@ -440,11 +439,11 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void doFollowersLoadMoreTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
@@ -454,7 +453,7 @@ public class P02ModelActivity extends BaseActivity {
                 pageIndex++;
 
 
-                ArrayList<FollowPeopleEntity> modelShowEntities = FollowPeopleEntity.getFollowPeopleList(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowers(response);
 
                 followerPeopleListAdapter.addData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
@@ -485,17 +484,17 @@ public class P02ModelActivity extends BaseActivity {
         followData.put("_id", modelEntity.get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
                     }else{
-                        showMessage(P02ModelActivity.this, "关注失败" + response.toString() + response.get("metadata").toString().length());
+                        showMessage(P02ModelActivity.this, "关注失败");
                     }
                 }catch (Exception e) {
                     showMessage(P02ModelActivity.this, e.toString());
@@ -516,17 +515,17 @@ public class P02ModelActivity extends BaseActivity {
         followData.put("_id", modelEntity.get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "取消关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
                     }else{
-                        showMessage(P02ModelActivity.this, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
+                        showMessage(P02ModelActivity.this, "取消关注失败");
                     }
                 }catch (Exception e) {
                     showMessage(P02ModelActivity.this, e.toString());
@@ -542,14 +541,6 @@ public class P02ModelActivity extends BaseActivity {
         QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
     }
 
-    private boolean checkErrorExist(JSONObject response) {
-        try {
-            return ((JSONObject)response.get("metadata")).has("error");
-        }catch (Exception e) {
-            return true;
-        }
-    }
-
     private void handleErrorMsg(VolleyError error) {
         Log.i("P02ModelActivity", error.toString());
     }
@@ -557,14 +548,6 @@ public class P02ModelActivity extends BaseActivity {
     private void showMessage(Context context, String message) {
         //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Log.i(context.getPackageName(), message);
-    }
-
-    private String getTotalDataFromResponse(JSONObject response) {
-        try {
-            return ((JSONObject)response.get("metadata")).get("numTotal").toString();
-        } catch (Exception e) {
-            return "0";
-        }
     }
 
 }

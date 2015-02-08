@@ -1,11 +1,8 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,10 +17,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ShowDetailEntity;
+import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MVerticalViewPager;
@@ -38,7 +34,7 @@ public class S05ItemActivity extends BaseActivity {
 
     private MVerticalViewPager mVerticalViewPager;
 
-    private ArrayList<ShowDetailEntity.RefItem> items;
+    private ArrayList<MongoItem> items;
 
     private RelativeLayout mWebViewRelativeLayout;
 
@@ -47,7 +43,7 @@ public class S05ItemActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s05_item);
 
-        items = (ArrayList<ShowDetailEntity.RefItem>) getIntent().getExtras().getSerializable(INPUT_ITEMS);
+        items = (ArrayList<MongoItem>) getIntent().getExtras().getSerializable(INPUT_ITEMS);
 
         findViewById(R.id.S05_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override

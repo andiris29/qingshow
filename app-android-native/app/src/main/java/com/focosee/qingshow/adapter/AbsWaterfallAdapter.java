@@ -5,16 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.focosee.qingshow.entity.AbsEntity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.LinkedList;
 
-abstract class AbsViewHolder{}
+abstract class AbsViewHolder {
+}
 
 public abstract class AbsWaterfallAdapter extends BaseAdapter {
 
-    protected LinkedList<AbsEntity> _data;
+    protected LinkedList<Object> _data;
 
     protected Context _context;
     protected int _resourceId;
@@ -25,7 +25,7 @@ public abstract class AbsWaterfallAdapter extends BaseAdapter {
         _context = context;
         _resourceId = resourceId;
         _mImageFetcher = mImageFetcher;
-        _data = new LinkedList<AbsEntity>();
+        _data = new LinkedList<Object>();
     }
 
     @Override

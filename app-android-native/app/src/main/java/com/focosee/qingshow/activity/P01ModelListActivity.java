@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +14,10 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ModelEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -55,7 +56,7 @@ public class P01ModelListActivity extends BaseActivity {
 
         listView = pullRefreshListView.getRefreshableView();
 
-        adapter = new P01ModelListAdapter(this, new ArrayList<ModelEntity>(), ImageLoader.getInstance(), P01ModelListAdapter.TYPE_P01MODELLIST);
+        adapter = new P01ModelListAdapter(this, new ArrayList<MongoPeople>(), ImageLoader.getInstance(), P01ModelListAdapter.TYPE_P01MODELLIST);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -64,7 +65,7 @@ public class P01ModelListActivity extends BaseActivity {
 //                Toast.makeText(P01ModelListActivity.this, "test click", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(P01ModelListActivity.this, P02ModelActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((ModelEntity) adapter.getItem(position)));
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((MongoPeople) adapter.getItem(position)));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -87,10 +88,10 @@ public class P01ModelListActivity extends BaseActivity {
     }
 
     private void doRefreshData() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);
+                ArrayList<MongoPeople> moreData = PeopleParser.parseQueryModels(response);
                 adapter.resetData(moreData);
                 adapter.notifyDataSetChanged();
 
@@ -109,16 +110,16 @@ public class P01ModelListActivity extends BaseActivity {
     }
 
     private void doLoadMoreData() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getModelListApi(String.valueOf(_currentIndex+1), "10"), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getModelListApi(String.valueOf(_currentIndex + 1), "10"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
-                if(checkErrorExist(response)){
+                if (MetadataParser.hasError(response)) {
                     pullRefreshListView.onPullUpRefreshComplete();
                     Toast.makeText(P01ModelListActivity.this, "没有更多了！", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ArrayList<ModelEntity> moreData = ModelEntity.getModelEntityListFromResponse(response);
+                ArrayList<MongoPeople> moreData = PeopleParser.parseQueryModels(response);
                 adapter.addData(moreData);
                 adapter.notifyDataSetChanged();
                 pullRefreshListView.onPullUpRefreshComplete();
@@ -138,13 +139,4 @@ public class P01ModelListActivity extends BaseActivity {
         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P01ModelListActivity", error.toString());
     }
-
-    private boolean checkErrorExist(JSONObject response) {
-        try {
-            return ((JSONObject)response.get("metadata")).has("error");
-        }catch (Exception e) {
-            return true;
-        }
-    }
-
 }

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<FollowPeopleEntity> data;
+    private ArrayList<MongoPeople> data;
 
-    public P02ModelFollowPeopleListAdapter(Context context, ArrayList<FollowPeopleEntity> data) {
+    public P02ModelFollowPeopleListAdapter(Context context, ArrayList<MongoPeople> data) {
         this.context = context;
         this.data = data;
     }
@@ -67,11 +67,11 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(ArrayList<FollowPeopleEntity> newData) {
+    public void resetData(ArrayList<MongoPeople> newData) {
         this.data = newData;
     }
 
-    public void addData(ArrayList<FollowPeopleEntity> moreData) {
+    public void addData(ArrayList<MongoPeople> moreData) {
         this.data.addAll(this.data.size(), moreData);
     }
 

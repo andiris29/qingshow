@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,26 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
-import com.focosee.qingshow.entity.People;
-import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
 
 
 public class U01PersonalActivity extends FragmentActivity {
     private static final String TAG = "U01PersonalActivity";
-    public static final String U01PERSONALACTIVITY_PEOPLE_ID = "U01PersonalActivity_people_id";
+    public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
     private static final int PAGER_NUM = 4;
 
     private static final int PAGER_COLLECTION = 0;
@@ -47,7 +36,7 @@ public class U01PersonalActivity extends FragmentActivity {
     private ImageView backTextView;
     private ImageView settingsTextView;
     private ImageView backgroundIV;
-//    private TextView likeCountTextView;
+    //    private TextView likeCountTextView;
 //    private TextView recommendCountTextView;
 //    private TextView followedCountTextView;
 //    private TextView brandCountTextView;
@@ -67,7 +56,7 @@ public class U01PersonalActivity extends FragmentActivity {
     private LinearLayout line3;
     //private LinearLayout line4;
 
-    private People people;
+    private MongoPeople people;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +65,11 @@ public class U01PersonalActivity extends FragmentActivity {
         context = getApplicationContext();
         Intent mIntent = getIntent();
         matchUI();
-        if(null == mIntent.getStringExtra(U01PERSONALACTIVITY_PEOPLE_ID)) {
+        if (null != mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE)) {
+            people = (MongoPeople) mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE);
+        } else {
             people = QSApplication.get().getPeople();
-        }else {
-            String id = mIntent.getStringExtra(U01PERSONALACTIVITY_PEOPLE_ID);
-            Log.d(TAG, "id: " + id);
-            getPeople(id);
-
         }
-
 
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +111,11 @@ public class U01PersonalActivity extends FragmentActivity {
 
         MRoundImageView portraitImageView = (MRoundImageView) findViewById(R.id.avatorImageView);
         if (people != null) {
-            String portraitUrl = people.portrait;
-            if (portraitUrl != null && !portraitUrl.equals("")) {
-                Picasso.with(context).load(portraitUrl).into(portraitImageView);
-            }
+            // TODO Memory leak here
+//            String portraitUrl = people.portrait;
+//            if (portraitUrl != null && !portraitUrl.equals("")) {
+//                Picasso.with(context).load(portraitUrl).into(portraitImageView);
+//            }
         }
 
         personalPagerAdapter = new PersonalPagerAdapter(getSupportFragmentManager());
@@ -161,10 +147,9 @@ public class U01PersonalActivity extends FragmentActivity {
         });
         setIndicatorListener();
         personalViewPager.setCurrentItem(1);
-
     }
 
-    public void matchUI(){
+    public void matchUI() {
         backTextView = (ImageView) findViewById(R.id.activity_personal_backTextView);
         settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
         matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
@@ -239,7 +224,7 @@ public class U01PersonalActivity extends FragmentActivity {
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line1.setVisibility(View.VISIBLE);
-        }else if(pos == 3) {
+        } else if (pos == 3) {
             brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line1.setVisibility(View.VISIBLE);
             line2.setVisibility(View.VISIBLE);
@@ -273,33 +258,10 @@ public class U01PersonalActivity extends FragmentActivity {
         });
     }
 
-    public void refreshWatchNum(){
-        TextView tv = (TextView)findViewById(R.id.followedCountTextView);
-        tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString())-1));
+    public void refreshWatchNum() {
+        TextView tv = (TextView) findViewById(R.id.followedCountTextView);
+        tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString()) - 1));
     }
-
-    private void getPeople(String _id){
-
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(_id), null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    people = People.getPeopleEntitis(response);
-
-                } catch (Exception e) {
-//                    showMessage(S03SHowActivity.this, e.toString());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("点赞失败", "点赞失败");
-            }
-        });
-
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
-    }
-
 
 
 }

@@ -1,11 +1,8 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -13,13 +10,14 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoBrand;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -74,7 +72,7 @@ public class P03BrandListActivity extends BaseActivity {
         pullRefreshListView.setPullLoadEnabled(true);
         pullRefreshListView.setScrollLoadEnabled(true);
 
-        adapter = new P03BrandListAdapter(this, new ArrayList<BrandEntity>(), ImageLoader.getInstance());
+        adapter = new P03BrandListAdapter(this, new ArrayList<MongoBrand>(), ImageLoader.getInstance());
 
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,7 +80,7 @@ public class P03BrandListActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(P03BrandListActivity.this, P04BrandActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, ((BrandEntity) adapter.getItem(position)));
+                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, ((MongoBrand) adapter.getItem(position)));
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -104,16 +102,16 @@ public class P03BrandListActivity extends BaseActivity {
     }
 
     private void loadMoreData() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(checkErrorExist(response)){
+                if(MetadataParser.hasError(response)){
                     pullRefreshListView.onPullUpRefreshComplete();
                     Toast.makeText(P03BrandListActivity.this, "没有更多了！", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 pageIndex++;
-                ArrayList<BrandEntity> moreData = BrandEntity.getBrandListFromResponse(response);
+                ArrayList<MongoBrand> moreData = BrandParser.parseQueryBrands(response);
                 adapter.addData(moreData);
                 adapter.notifyDataSetChanged();
 
@@ -129,14 +127,14 @@ public class P03BrandListActivity extends BaseActivity {
     }
 
     private void refreshData() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if(checkErrorExist(response)){
+                if(MetadataParser.hasError(response)){
                     Toast.makeText(P03BrandListActivity.this, "没有数据！", Toast.LENGTH_SHORT).show();
                 }
                 pageIndex = 1;
-                ArrayList<BrandEntity> newData = BrandEntity.getBrandListFromResponse(response);
+                ArrayList<MongoBrand> newData = BrandParser.parseQueryBrands(response);
                 adapter.resetData(newData);
                 adapter.notifyDataSetChanged();
 
@@ -157,23 +155,15 @@ public class P03BrandListActivity extends BaseActivity {
         Log.i("P03BrandListActivity", error.toString());
     }
 
-    private ArrayList<BrandEntity> __createFakeData() {
-        ArrayList<BrandEntity> tempData = new ArrayList<BrandEntity>();
+    private ArrayList<MongoBrand> __createFakeData() {
+        ArrayList<MongoBrand> tempData = new ArrayList<MongoBrand>();
         for (int i = 0; i < 3; i++) {
-            BrandEntity brandEntity = new BrandEntity();
+            MongoBrand brandEntity = new MongoBrand();
             brandEntity.name = "品牌" + String.valueOf(i);
             brandEntity.logo = "http://img2.imgtn.bdimg.com/it/u=2439868726,3891592022&fm=21&gp=0.jpg";
             brandEntity.cover = "http://img1.imgtn.bdimg.com/it/u=3411049717,3668206888&fm=21&gp=0.jpg";
             tempData.add(brandEntity);
         }
         return tempData;
-    }
-
-    private boolean checkErrorExist(JSONObject response) {
-        try {
-            return ((JSONObject) response.get("metadata")).has("error");
-        } catch (Exception e) {
-            return true;
-        }
     }
 }

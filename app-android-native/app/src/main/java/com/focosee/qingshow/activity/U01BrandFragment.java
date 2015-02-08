@@ -10,14 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoBrand;
+import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -25,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -58,7 +61,7 @@ public class U01BrandFragment extends Fragment{
         View view =  inflater.inflate(R.layout.activity_personal_pager_brand, container, false);
 
         mPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P04_item_list);
-        mAdapter = new P03BrandListAdapter(getActivity(), new ArrayList<BrandEntity>(), ImageLoader.getInstance());
+        mAdapter = new P03BrandListAdapter(getActivity(), new ArrayList<MongoBrand>(), ImageLoader.getInstance());
 
         brandListView = mPullRefreshListView.getRefreshableView();
         brandListView.setAdapter(mAdapter);
@@ -93,11 +96,11 @@ public class U01BrandFragment extends Fragment{
 
     private void _getDataFromNet(boolean refreshSign) {
         final boolean _tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(QSApplication.get().QSUserId(getActivity())), null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(QSApplication.get().QSUserId(getActivity())), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    ArrayList<BrandEntity> results = BrandEntity.getBrandListFromResponse(response);
+                    ArrayList<MongoBrand> results = BrandParser.parseQueryBrands(response);
                     if (_tRefreshSign) {
                         mAdapter.resetData(results);
                         _currentPageIndex = 1;

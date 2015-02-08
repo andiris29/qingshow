@@ -1,4 +1,4 @@
-package com.focosee.qingshow.error;
+package com.focosee.qingshow.httpapi.response.error;
 
 import android.content.Context;
 import android.widget.Toast;

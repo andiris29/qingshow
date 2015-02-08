@@ -8,23 +8,24 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01PersonalActivity;
-import com.focosee.qingshow.activity.U01WatchFragment;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ModelEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,13 +45,13 @@ public class P01ModelListAdapter extends BaseAdapter {
     public final static String TYPE_P01MODELLIST = "P01ModelListAdapter";
     private String type = "P01ModelListAdapter";
 
-    private ArrayList<ModelEntity> data;
+    private ArrayList<MongoPeople> data;
     private ImageLoader imageLoader;
     private Context context;
     private FollowButtonOnClickListener followButtonOnClickListener;
     private U01PersonalActivity u01PersonalActivity;
 
-    public P01ModelListAdapter(Context context, ArrayList<ModelEntity> data, ImageLoader imageLoader, String type) {
+    public P01ModelListAdapter(Context context, ArrayList<MongoPeople> data, ImageLoader imageLoader, String type) {
         this.context = context;
         this.data = data;
         this.imageLoader = imageLoader;
@@ -62,7 +63,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         this.u01PersonalActivity = u01PersonalActivity;
     }
 
-    public ModelEntity getItemData(int position){
+    public MongoPeople getItemData(int position){
         return data.get(position);
     }
 
@@ -117,11 +118,11 @@ public class P01ModelListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(ArrayList<ModelEntity> newData) {
+    public void resetData(ArrayList<MongoPeople> newData) {
         this.data = newData;
     }
 
-    public void addData(ArrayList<ModelEntity> moreData) {
+    public void addData(ArrayList<MongoPeople> moreData) {
         this.data.addAll(this.data.size(), moreData);
     }
 
@@ -142,16 +143,16 @@ public class P01ModelListAdapter extends BaseAdapter {
         followData.put("_id", data.get(Integer.valueOf(v.getTag().toString()).intValue()).get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(context, "关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
                         v.setBackgroundResource(R.drawable.people_list_unfollow);
                     }else{
-                        showMessage(context, "关注失败" + response.toString() + response.get("metadata").toString().length());
+                        showMessage(context, "关注失败");
                     }
                 }catch (Exception e) {
                     showMessage(context, e.toString());
@@ -172,11 +173,11 @@ public class P01ModelListAdapter extends BaseAdapter {
         followData.put("_id", data.get(Integer.valueOf(v.getTag().toString()).intValue()).get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(context, "取消关注成功");
                         int position = Integer.valueOf(v.getTag().toString()).intValue();
                         data.get(position).setModelIsFollowedByCurrentUser(false);
@@ -187,7 +188,7 @@ public class P01ModelListAdapter extends BaseAdapter {
                         }else
                             v.setBackgroundResource(R.drawable.people_list_follow);
                     }else{
-                        showMessage(context, "取消关注失败" + response.toString() + response.get("metadata").toString().length());
+                        showMessage(context, "取消关注失败");
                     }
                 }catch (Exception e) {
                     showMessage(context, e.toString());

@@ -19,20 +19,22 @@ import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.WebViewActivity;
-import com.focosee.qingshow.entity.ShowDetailEntity;
+import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class P04BrandItemListAdapter extends BaseAdapter {
 
     private static String TAG = "P04BrandItemListAdapter";
     private Context context;
-    private ArrayList<ShowDetailEntity.RefItem> itemList;
+    private ArrayList<MongoItem> itemList;
     private int itemHeight;
 
     public P04BrandItemListAdapter(Context concreteContext, int screenHeight,
-                                   ArrayList<ShowDetailEntity.RefItem> concreteItemList) {
+                                   ArrayList<MongoItem> concreteItemList) {
         context = concreteContext;
         itemList = concreteItemList;
         this.itemHeight = screenHeight / 2;
@@ -112,11 +114,11 @@ public class P04BrandItemListAdapter extends BaseAdapter {
     }
 
 
-    public void resetData(ArrayList<ShowDetailEntity.RefItem> newData) {
+    public void resetData(ArrayList<MongoItem> newData) {
         this.itemList = newData;
     }
 
-    public void addData(ArrayList<ShowDetailEntity.RefItem> moreData) {
+    public void addData(ArrayList<MongoItem> moreData) {
         this.itemList.addAll(this.itemList.size(), moreData);
     }
 
@@ -133,7 +135,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
     class P04ViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener{
 
-        private ArrayList<ShowDetailEntity.ImageInfo> images;
+        private LinkedList<MongoItem.Image> images;
         private ImageView[] _mImgViewS;
         private int imgSize;
         private LinearLayout _mViewGroup;
@@ -143,7 +145,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
          */
         private ImageView[] tips;
 
-        public P04ViewPagerAdapter(ArrayList<ShowDetailEntity.ImageInfo> images, ItemViewHolder viewHolder){
+        public P04ViewPagerAdapter(LinkedList<MongoItem.Image> images, ItemViewHolder viewHolder){
             this.viewHolder = viewHolder;
             _mViewGroup = viewHolder.viewGroup;
             this.images = images;
@@ -175,7 +177,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         public Object instantiateItem(ViewGroup container, int position) {
 
             ImageView imageView = _mImgViewS[position % this.imgSize];
-            ShowDetailEntity.ImageInfo imgInfo = (ShowDetailEntity.ImageInfo)imageView.getTag();
+            MongoItem.Image imgInfo = (MongoItem.Image)imageView.getTag();
 
             ImageLoader.getInstance().displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
             container.addView(imageView, 0);
@@ -212,7 +214,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
             int index = 0;
 
-            for(ShowDetailEntity.ImageInfo imgInfo : images){
+            for(MongoItem.Image imgInfo : images){
 
                 ImageView imageView = new ImageView(context);
                 imageView.setLayoutParams(params);
@@ -251,8 +253,8 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         public void onPageSelected(int position) {
             setImageBackground(position);
             //this.viewHolder.detailButton.setTag(position % this.imgSize);
-            this.viewHolder.description.setText(((ShowDetailEntity.ImageInfo) _mImgViewS[position % this.imgSize].getTag()).description);
-            Log.d(TAG, "description" + ((ShowDetailEntity.ImageInfo)_mImgViewS[position % this.imgSize].getTag()).description);
+            this.viewHolder.description.setText(((MongoItem.Image) _mImgViewS[position % this.imgSize].getTag()).description);
+            Log.d(TAG, "description" + ((MongoItem.Image)_mImgViewS[position % this.imgSize].getTag()).description);
         }
 
         @Override

@@ -1,40 +1,42 @@
 package com.focosee.qingshow.adapter;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.widget.MPullRefreshListView;
-import com.focosee.qingshow.widget.SharePopupWindow;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
-import com.focosee.qingshow.entity.TrendEntity;
+import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.mongo.MongoPreview;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 
@@ -47,10 +49,10 @@ public class S08TrendListAdapter extends BaseAdapter {
 
 
     private Context context;
-    private List<TrendEntity> data;
+    private List<MongoPreview> data;
     private ImageLoader imageLoader;
 
-    public S08TrendListAdapter(Context context, LinkedList<TrendEntity> trendEntities, int screenHeight, ImageLoader imageLoader) {
+    public S08TrendListAdapter(Context context, LinkedList<MongoPreview> trendEntities, int screenHeight, ImageLoader imageLoader) {
         this.context = context;
         this.data = trendEntities;
         this.imageLoader = imageLoader;
@@ -74,9 +76,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void resetData(LinkedList<TrendEntity> datas) { this.data = datas; }
+    public void resetData(LinkedList<MongoPreview> datas) { this.data = datas; }
 
-    public void addItemLast(LinkedList<TrendEntity> datas) {
+    public void addItemLast(LinkedList<MongoPreview> datas) {
         this.data.addAll(datas);
     }
 
@@ -158,7 +160,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 //// 启动分享GUI
 //                oks.show(context);
 
-                Log.i("tag",data.get(position).get_id());
+                Log.i("tag", data.get(position).get_id());
             }
         });
         //评论
@@ -198,13 +200,13 @@ public class S08TrendListAdapter extends BaseAdapter {
                     likeData.put("_id", data.get(position).get_id());
                     JSONObject jsonObject = new JSONObject(likeData);
                     final int type = Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()));
-                    MJsonObjectRequest mJsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPreviewTrendLikeApi(type)
+                    QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPreviewTrendLikeApi(type)
                             , jsonObject, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
 
-                                if (response.get("metadata").toString().equals("{}")) {
+                                if (!MetadataParser.hasError(response)) {
                                     //TextView _likeTextView = (TextView) likeImageButton.getTag();
                                     int addOrdel = 0;
                                     String showMsg = "点赞成功";
@@ -225,7 +227,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                                     //showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
                                 } else {
                                     handleResponseError(response);
-                                    showMessage(context, "点赞失败" + response.toString() + response.get("metadata").toString().length());
+                                    showMessage(context, "点赞失败");
 
                                 }
                             } catch (Exception e) {
@@ -255,7 +257,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private void handleResponseError(JSONObject response) {
         try {
-            int errorCode = response.getJSONObject("metadata").getInt("error");
+            int errorCode = MetadataParser.getError(response);
             //String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
             String errorMessage = "";
             switch (errorCode) {
@@ -302,7 +304,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         private ImageView[] _mImgViewS;
 
-        private List<TrendEntity.ImageInfo> imageInfos;
+        private List<MongoPreview.Image> Images;
         private HolderView holderView;
         private LinearLayout _mViewGroup;
         /**
@@ -314,8 +316,8 @@ public class S08TrendListAdapter extends BaseAdapter {
             this.holderView = holderView;
             this._mViewGroup = holderView.viewGroup;
             this.mPosition = position;
-            this.imageInfos = data.get(mPosition).images;
-            this.imgSize = imageInfos.size();
+            this.Images = data.get(mPosition).images;
+            this.imgSize = Images.size();
             Log.d(TAG, "图片数：" + this.imgSize);
             this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
             _mImgViewS = new ImageView[this.imgSize];
@@ -348,7 +350,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         public Object instantiateItem(ViewGroup container, int position) {
 
             ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
-            TrendEntity.ImageInfo imgInfo = (TrendEntity.ImageInfo)imageView.getTag();
+            MongoPreview.Image imgInfo = (MongoPreview.Image)imageView.getTag();
 
             imageLoader.displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
             container.addView(imageView, 0);
@@ -363,7 +365,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                     , ViewGroup.LayoutParams.MATCH_PARENT);
             for (int i = 0;i<size;i++){
                 ImageView imageView = new ImageView(context);
-                TrendEntity.ImageInfo imgInfo = this.imageInfos.get(i);
+                MongoPreview.Image imgInfo = this.Images.get(i);
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setTag(imgInfo);
@@ -386,10 +388,11 @@ public class S08TrendListAdapter extends BaseAdapter {
 
             setImageBackground(arg0);
 
-            TrendEntity.ImageInfo imageInfo = this.imageInfos.get(arg0 % this.imgSize);
-            holderView.nameTextView.setText(imageInfo.brandDescription);
-            holderView.descriptionTextView.setText(imageInfo.description);
-            holderView.priceTextView.setText(imageInfo.priceDescription);
+            MongoPreview.Image Image = this.Images.get(arg0 % this.imgSize);
+            // TODO Remove nameTextView & priceTextView, then support newline in descriptionTextView
+            holderView.nameTextView.setText("");
+            holderView.descriptionTextView.setText(Image.description);
+            holderView.priceTextView.setText("");
         }
 
         private void initTips(){

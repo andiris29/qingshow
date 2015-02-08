@@ -9,19 +9,19 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.ModelShowEntity;
+import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class P02ModelItemListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<ModelShowEntity> itemList;
+    private LinkedList<MongoShow> itemList;
 
-    public P02ModelItemListAdapter(Context concreteContext, ArrayList<ModelShowEntity> concreteItemList) {
+    public P02ModelItemListAdapter(Context concreteContext, LinkedList<MongoShow> concreteItemList) {
         context = concreteContext;
         itemList = concreteItemList;
     }
@@ -73,11 +73,11 @@ public class P02ModelItemListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(ArrayList<ModelShowEntity> newData) {
+    public void resetData(LinkedList<MongoShow> newData) {
         this.itemList = newData;
     }
 
-    public void addData(ArrayList<ModelShowEntity> moreData) {
+    public void addData(LinkedList<MongoShow> moreData) {
         this.itemList.addAll(this.itemList.size(), moreData);
     }
 

@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
-import com.focosee.qingshow.entity.ShowListEntity;
+import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ClassifyViewHolder holder;
-        final ShowListEntity showInfo = (ShowListEntity) _data.get(position);
+        final MongoShow showInfo = (MongoShow) _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -106,18 +108,18 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
 
-    public void addItemLast(LinkedList<ShowListEntity> datas) {
+    public void addItemLast(LinkedList<MongoShow> datas) {
         _data.addAll(datas);
     }
 
-    public void addItemTop(LinkedList<ShowListEntity> datas) {
+    public void addItemTop(LinkedList<MongoShow> datas) {
         _data.clear();
         _data.addAll(datas);
     }
 
-    public ShowListEntity getItemDataAtIndex(int index) {
+    public MongoShow getItemDataAtIndex(int index) {
         if (index >= _data.size()) return null;
-        return (ShowListEntity)_data.get(index);
+        return (MongoShow)_data.get(index);
     }
 
     // Animation

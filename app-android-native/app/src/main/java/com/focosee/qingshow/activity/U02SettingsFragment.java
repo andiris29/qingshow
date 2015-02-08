@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,19 +29,20 @@ import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.People;
-import com.focosee.qingshow.entity.UpdateResponse;
-import com.focosee.qingshow.error.ErrorHandler;
-import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.focosee.qingshow.request.QXStringRequest;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.request.QSStringRequest;
 import com.focosee.qingshow.widget.ActionSheet;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener{
+public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
     private static final String[] sexArgs = {"男", "女"};
     private static final String[] hairArgs = {"长发", "超长发", "中长发", "短发", "光头", "其他"};
@@ -72,7 +74,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private EditText shoesSizeEditText;
     private EditText clothesSizeEditText;
 
-    private People people;
+    private MongoPeople people;
 
     public U02SettingsFragment() {
         // Required empty public constructor
@@ -160,9 +162,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     //进入页面时，给字段赋值
-    private void setData(){
-        if(null != people){
+    private void setData() {
+        if (null != people) {
             nameEditText.setText(people.name);
             ageEditText.setText("");
             heightEditText.setText(people.height);
@@ -183,15 +186,15 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     }
 
     //获得用户信息
-    private void getUser(){
+    private void getUser() {
 
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getUerApi(sharedPreferences.getString("id", "")), null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUerApi(sharedPreferences.getString("id", "")), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
-                    people = People.getPeopleEntitis(response);
+                try {
+                    people = UserParser.parseGet(response);
                     setData();
-                }catch (Exception error){
+                } catch (Exception error) {
                     Log.i("test", "error" + error.toString());
                     Toast.makeText(U02SettingsFragment.this.getActivity(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -200,7 +203,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(U02SettingsFragment.this.getActivity(), "Error:"+error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(U02SettingsFragment.this.getActivity(), "Error:" + error.toString(), Toast.LENGTH_LONG).show();
             }
         });
         QSApplication.get().QSRequestQueue().add(jor);
@@ -209,7 +212,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     public void showActionSheet(String type) {
 
-        if("sex".equals(type)) {
+        if ("sex".equals(type)) {
 
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
                     .setTag("sex")
@@ -218,7 +221,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if("hair".equals(type)){
+        if ("hair".equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
                     .setTag("hair")
                     .setCancelButtonTitle("取消")
@@ -226,7 +229,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if("clothSize".equals(type)){
+        if ("clothSize".equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
                     .setTag("clothSize")
                     .setCancelButtonTitle("取消")
@@ -243,24 +246,24 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
 
-        if("sex".equals(String.valueOf(actionSheet.getTag()))){
+        if ("sex".equals(String.valueOf(actionSheet.getTag()))) {
             sexTextView.setText(sexArgs[index]);
             sexTextView.setTag(index);
         }
 
-        if("hair".equals(String.valueOf(actionSheet.getTag()))){
+        if ("hair".equals(String.valueOf(actionSheet.getTag()))) {
             hairTextView.setText(hairArgs[index]);
             hairTextView.setTag(index);
         }
 
-        if("clothSize".equals(String.valueOf(actionSheet.getTag()))){
+        if ("clothSize".equals(String.valueOf(actionSheet.getTag()))) {
             clothesSizeEditText.setText(clothesSize[index]);
             clothesSizeEditText.setTag(index);
         }
         commitForm();
     }
 
-    private void commitForm(){
+    private void commitForm() {
         Map<String, String> params = new HashMap<String, String>();
         if (!nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
@@ -270,31 +273,25 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             params.put("height", heightEditText.getText().toString());
         if (!weightEditText.getText().toString().equals(""))
             params.put("weight", weightEditText.getText().toString());
-        if(null != sexTextView.getTag()){
+        if (null != sexTextView.getTag()) {
             params.put("gender", sexTextView.getTag().toString());
         }
-        if(null != hairTextView.getTag()){
+        if (null != hairTextView.getTag()) {
             params.put("hairType", hairTextView.getTag().toString());
         }
-        if(null != clothesSizeEditText.getTag()){
+        if (null != clothesSizeEditText.getTag()) {
             params.put("clothingSize", clothesSizeEditText.getTag().toString());
-            Toast.makeText(getActivity(),clothesSizeEditText.getTag().toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), clothesSizeEditText.getTag().toString(), Toast.LENGTH_LONG).show();
         }
 
-        QXStringRequest qxStringRequest = new QXStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+        QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                UpdateResponse updateResponse = new Gson().fromJson(response, new TypeToken<UpdateResponse>() {
-                }.getType());
-
-                if (updateResponse == null || updateResponse.data == null) {
-                    if (updateResponse == null) {
-                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                    } else {
-                        ErrorHandler.handle(context, updateResponse.metadata.error);
-                    }
+                MongoPeople user = UserParser.parseUpdate(response);
+                if (user == null) {
+                    ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
-                    QSApplication.get().setPeople(updateResponse.data.people);
+                    QSApplication.get().setPeople(user);
                 }
             }
         }, new Response.ErrorListener() {

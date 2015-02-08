@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
 
 import com.focosee.qingshow.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -21,7 +19,7 @@ public class AppUtil {
         SharedPreferences prefs;// = PreferenceManager.getDefaultSharedPreferences(context) ;
         prefs = context.getSharedPreferences("personal", Context.MODE_PRIVATE);
         String userId = prefs.getString("id", null);
-        return userId!=null;
+        return userId != null;
     }
 
     public static String getAppUserId(Context context) {
@@ -33,7 +31,7 @@ public class AppUtil {
     //获取版本号
     public static String getAppVersionName(Context context) {
         try {
-            PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -50,7 +48,7 @@ public class AppUtil {
                     .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
                     .cacheInMemory(true)
                     .cacheOnDisk(true)
-                    //.bitmapConfig(Bitmap.Config.RGB_565)
+                            //.bitmapConfig(Bitmap.Config.RGB_565)
 //            .considerExifParams(true)
 //            .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
 //            .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间

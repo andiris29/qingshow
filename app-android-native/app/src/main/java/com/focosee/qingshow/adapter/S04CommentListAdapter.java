@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.CommentEntity;
+import com.focosee.qingshow.entity.mongo.MongoComment;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -34,14 +34,14 @@ class CommentViewHolder {
 
 public class S04CommentListAdapter extends BaseAdapter {
 
-    private ArrayList<CommentEntity> data;
+    private ArrayList<MongoComment> data;
     private Context context;
     private ImageLoader imageLoader;
 
     private DisplayImageOptions imageOptions;
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
 
-    public S04CommentListAdapter(Context context, ArrayList<CommentEntity> comments, ImageLoader imageLoader){
+    public S04CommentListAdapter(Context context, ArrayList<MongoComment> comments, ImageLoader imageLoader){
         this.context = context;
         this.data = comments;
         this.imageLoader = imageLoader;
@@ -95,11 +95,11 @@ public class S04CommentListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(ArrayList<CommentEntity> commentEntities) {
+    public void resetData(ArrayList<MongoComment> commentEntities) {
         this.data = commentEntities;
     }
 
-    public void addDataInTail(ArrayList<CommentEntity> commentEntities) {
+    public void addDataInTail(ArrayList<MongoComment> commentEntities) {
         this.data.addAll(this.data.size(), commentEntities);
     }
 
@@ -122,7 +122,7 @@ public class S04CommentListAdapter extends BaseAdapter {
         }
     }
 
-    public CommentEntity getCommentAtIndex(int index) {
+    public MongoComment getCommentAtIndex(int index) {
         if (index >= data.size() || index < 0)
             return null;
         return data.get(index);

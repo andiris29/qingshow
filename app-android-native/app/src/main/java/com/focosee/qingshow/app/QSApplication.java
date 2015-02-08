@@ -2,30 +2,20 @@ package com.focosee.qingshow.app;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.LoginResponse;
-import com.focosee.qingshow.entity.People;
-import com.focosee.qingshow.error.ErrorCode;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -39,8 +29,6 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class QSApplication extends Application {
@@ -53,7 +41,7 @@ public class QSApplication extends Application {
     private static RequestQueue _requestQueue;
     private static String _userId;
     private SharedPreferences _preferences;
-    private static People people = null;
+    private static MongoPeople people = null;
 
     private String versionName;
 
@@ -152,11 +140,11 @@ public class QSApplication extends Application {
         }
     }
 
-    public People getPeople() {
+    public MongoPeople getPeople() {
         return people;
     }
 
-    public void setPeople(People p) {
+    public void setPeople(MongoPeople p) {
         people = p;
     }
 
@@ -170,11 +158,11 @@ public class QSApplication extends Application {
 //        Map map = new HashMap();
 //        map.put("_id", people._id);
 //        jsonObject.put("")
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(QSUserId(context)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getUerApi(QSUserId(context)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    people = People.getPeopleEntitis(response);
+                    people = UserParser.parseGet(response);
                     QSApplication.get().setPeople(people);
                 } catch (Exception e) {
 //                    showMessage(S03SHowActivity.this, e.toString());

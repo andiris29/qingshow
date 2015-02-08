@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,34 +15,22 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
-import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
-import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
-import com.focosee.qingshow.entity.ModelEntity;
-import com.focosee.qingshow.entity.ShowListEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.focosee.qingshow.widget.MNavigationView;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MPullRefreshListView;
-import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.huewu.pla.lib.MultiColumnListView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
 
 /**
  * Created by zenan on 12/27/14.
@@ -86,7 +73,7 @@ public class U01WatchFragment extends Fragment {
 
         followerPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
         followerListView = followerPullRefreshListView.getRefreshableView();
-        ArrayList<ModelEntity> followerPeopleList = new ArrayList<ModelEntity>();
+        ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), P01ModelListAdapter.TYPE_U01WATCHFRAGMENT);
         followerPeopleListAdapter.setU01PersonActivity(u01PersonalActivity);
         followerListView.setAdapter(followerPeopleListAdapter);
@@ -110,7 +97,7 @@ public class U01WatchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), P02ModelActivity.class);
 
-                ModelEntity itemEntity = followerPeopleListAdapter.getItemData(position);
+                MongoPeople itemEntity = followerPeopleListAdapter.getItemData(position);
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(P02ModelActivity.INPUT_MODEL, itemEntity);
@@ -130,12 +117,12 @@ public class U01WatchFragment extends Fragment {
     }
 
     private void doFollowersRefreshDataTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getPeopleQueryFollowedApi(_id,1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(getTotalDataFromResponse(response));
-                if (checkErrorExist(response)) {
+                ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(MetadataParser.getNumTotal(response));
+                if (MetadataParser.hasError(response)) {
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
@@ -143,7 +130,7 @@ public class U01WatchFragment extends Fragment {
 
                 pageIndex = 1;
 
-                ArrayList<ModelEntity> modelShowEntities = ModelEntity.getModelEntityListFromResponse(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowed(response);
                 followerPeopleListAdapter.resetData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
                 followerPullRefreshListView.onPullUpRefreshComplete();
@@ -160,11 +147,11 @@ public class U01WatchFragment extends Fragment {
     }
 
     private void doFollowersLoadMoreTask() {
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.GET,
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getPeopleQueryFollowedApi(_id, pageIndex + 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                if (checkErrorExist(response)) {
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(getActivity(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
@@ -174,7 +161,7 @@ public class U01WatchFragment extends Fragment {
                 pageIndex++;
 
 
-                ArrayList<ModelEntity> modelShowEntities = ModelEntity.getModelEntityListFromResponse(response);
+                ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowers(response);
 
                 followerPeopleListAdapter.addData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
@@ -191,24 +178,9 @@ public class U01WatchFragment extends Fragment {
         QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
-    private boolean checkErrorExist(JSONObject response) {
-        try {
-            return ((JSONObject) response.get("metadata")).has("error");
-        } catch (Exception e) {
-            return true;
-        }
-    }
 
     private void handleErrorMsg(VolleyError error) {
         Log.i("P02ModelActivity", error.toString());
-    }
-
-    private String getTotalDataFromResponse(JSONObject response) {
-        try {
-            return ((JSONObject) response.get("metadata")).get("numTotal").toString();
-        } catch (Exception e) {
-            return "0";
-        }
     }
 
     @Override

@@ -7,8 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.PopupWindow;
 
 import com.focosee.qingshow.R;
 

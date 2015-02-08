@@ -7,7 +7,6 @@ import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.ListView;
 
-import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 
 public class MPullRefreshListView extends PullToRefreshBase<ListView> implements AbsListView.OnScrollListener{

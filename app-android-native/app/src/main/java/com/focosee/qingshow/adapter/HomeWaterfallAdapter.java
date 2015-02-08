@@ -13,16 +13,15 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
-import com.focosee.qingshow.entity.ShowListEntity;
+import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
-import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -31,13 +30,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.TimeZone;
 
 class HomeViewHolder extends AbsViewHolder {
 
 
     // Public interface
-    public void setData(ShowListEntity entity, ImageLoader imageLoader) {
+    public void setData(MongoShow entity, ImageLoader imageLoader) {
 //        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)_myHeight));
 //        showIV.setLayoutParams(new LinearLayout.LayoutParams(entity.getCoverWidth(), entity.getCoverHeight()));
 
@@ -130,7 +128,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
         position--;
         HomeViewHolder holder;
-        ShowListEntity showInfo = (ShowListEntity) _data.get(position);
+        MongoShow showInfo = (MongoShow) _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -160,7 +158,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(_context, P02ModelActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((ShowListEntity) _data.get(final_position)).getModelRef());
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((MongoShow) _data.get(final_position)).getModelRef());
                 intent.putExtras(bundle);
                 _context.startActivity(intent);
             }
@@ -184,24 +182,24 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         return (null == _data) ? 0 : _data.size()+1;
     }
 
-    public void addItemLast(LinkedList<ShowListEntity> datas) {
+    public void addItemLast(LinkedList<MongoShow> datas) {
         _data.addAll(datas);
     }
 
-    public void addItemTop(LinkedList<ShowListEntity> datas) {
+    public void addItemTop(LinkedList<MongoShow> datas) {
         _data.clear();
         _data.addAll(datas);
     }
 
-    public ShowListEntity getItemDataAtIndex(int index) {
+    public MongoShow getItemDataAtIndex(int index) {
         index--;
         if (index >= _data.size() || index < 0) return null;
-        return (ShowListEntity)_data.get(index);
+        return (MongoShow)_data.get(index);
     }
 
     public void resetUpdateString(JSONObject response) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
-        Calendar calendar = TimeUtil.getStringToCal(getRefreshTime(response));
+        Calendar calendar = TimeUtil.getStringToCal(MetadataParser.getRefreshTime(response));
         Date date = calendar.getTime();
         String originDateString = simpleDateFormat.format(date);
 
@@ -246,12 +244,5 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         public TextView updateWeekTV;
     }
 
-    private String getRefreshTime(JSONObject response){
-        try {
-            return ((JSONObject)response.get("metadata")).get("refreshTime").toString();
-        } catch (JSONException e) {
-            return "请检查下网络。。";
-        }
-    }
 
 }

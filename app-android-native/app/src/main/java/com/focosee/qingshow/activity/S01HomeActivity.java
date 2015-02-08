@@ -1,7 +1,6 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,14 +21,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ShowListEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -38,7 +39,9 @@ import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -77,10 +80,10 @@ public class S01HomeActivity extends BaseActivity {
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (S03SHowActivity.ACTION_MESSAGE.equals(intent.getAction())){
+            if (S03SHowActivity.ACTION_MESSAGE.equals(intent.getAction())) {
                 int position = intent.getIntExtra("position", 0);
-                int numLike = Integer.parseInt(_adapter.getItemDataAtIndex(position).numLike);
-                _adapter.getItemDataAtIndex(position).numLike = String.valueOf(numLike+1);
+                int numLike = _adapter.getItemDataAtIndex(position).numLike;
+                _adapter.getItemDataAtIndex(position).numLike = numLike + 1;
                 _adapter.notifyDataSetChanged();
             }
         }
@@ -171,9 +174,9 @@ public class S01HomeActivity extends BaseActivity {
 
     private void openMenu() {
 
-        if(isFirstFocus_activity){
+        if (isFirstFocus_activity) {
             applyBlur();
-            if(Build.VERSION.SDK_INT > 16)
+            if (Build.VERSION.SDK_INT > 16)
                 isFirstFocus_activity = true;
         }
         _blurImage.setVisibility(View.VISIBLE);
@@ -203,7 +206,7 @@ public class S01HomeActivity extends BaseActivity {
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if(slideOffset == 0.0) _blurImage.setVisibility(View.INVISIBLE);
+                if (slideOffset == 0.0) _blurImage.setVisibility(View.INVISIBLE);
             }
         };
         spl.setDrawerListener(drawerbar);
@@ -241,11 +244,11 @@ public class S01HomeActivity extends BaseActivity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
+                    LinkedList<MongoShow> results = FeedingParser.parse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;
@@ -277,7 +280,7 @@ public class S01HomeActivity extends BaseActivity {
                 _wfPullRefreshView.onPullDownRefreshComplete();
                 _wfPullRefreshView.onPullUpRefreshComplete();
                 _wfPullRefreshView.setHasMoreData(true);
-                if(!AppUtil.checkNetWork(S01HomeActivity.this)) {
+                if (!AppUtil.checkNetWork(S01HomeActivity.this)) {
                     new AlertDialog.Builder(S01HomeActivity.this)
                             .setTitle("连接失败")
                             .setMessage("未连接网络或者信号不好。")
@@ -317,7 +320,9 @@ public class S01HomeActivity extends BaseActivity {
     };
 
     //进行模糊处理
-    private void applyBlur() { thread.run(); }
+    private void applyBlur() {
+        thread.run();
+    }
 
     // init menu
     private void initMenu() {
@@ -387,8 +392,6 @@ public class S01HomeActivity extends BaseActivity {
         _accountImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent intent = new Intent(S01HomeActivity.this,
                         (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
                                 ? U01PersonalActivity.class : U07RegisterActivity.class);
@@ -397,8 +400,6 @@ public class S01HomeActivity extends BaseActivity {
             }
         });
     }
-
-
 
 
 }

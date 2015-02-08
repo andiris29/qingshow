@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -9,22 +8,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
-import com.focosee.qingshow.entity.FollowPeopleEntity;
-import com.focosee.qingshow.entity.ShowDetailEntity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.focosee.qingshow.entity.mongo.MongoBrand;
+import com.focosee.qingshow.entity.mongo.MongoItem;
 
 import java.util.ArrayList;
 
@@ -40,9 +28,9 @@ public class S07CollectActivity extends BaseActivity {
     private S07ListAdapter adapter;
 
     private String brandText = null;
-    //private ShowDetailEntity.RefBrand brandEntity = null;
-    private BrandEntity brandEntity = null;
-    private ArrayList<ShowDetailEntity.RefItem> items;
+    //private MongoShowD.RefBrand brandEntity = null;
+    private MongoBrand brandEntity = null;
+    private ArrayList<MongoItem> items;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +46,9 @@ public class S07CollectActivity extends BaseActivity {
 
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
-        items = (ArrayList<ShowDetailEntity.RefItem>) bundle.getSerializable(INPUT_ITEMS);
+        items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
         brandText = intent.getStringExtra(INPUT_BRAND_TEXT);
-        //brandEntity = (ShowDetailEntity.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
+        //brandEntity = (MongoShowD.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
         //brandEntity = (BrandEntity) bundle.getSerializable(INPUT_BRAND_ENTITY);
         listView = (ListView) findViewById(R.id.S07_item_list);
 

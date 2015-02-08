@@ -1,6 +1,5 @@
 package com.focosee.qingshow.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -13,11 +12,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S05ItemActivity;
-import com.focosee.qingshow.entity.ShowDetailEntity;
+import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 
 public class S07ListAdapter extends BaseAdapter {
@@ -28,9 +29,9 @@ public class S07ListAdapter extends BaseAdapter {
 
     private Context context;
     private boolean withPrice;
-    private ArrayList<ShowDetailEntity.RefItem> data;
+    private ArrayList<MongoItem> data;
 
-    public S07ListAdapter(Context context, boolean withPrice, ArrayList<ShowDetailEntity.RefItem> items, int itemHeiht) {
+    public S07ListAdapter(Context context, boolean withPrice, ArrayList<MongoItem> items, int itemHeiht) {
         this.context = context;
         this.withPrice = withPrice;
         this.data = items;

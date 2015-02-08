@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.BrandEntity;
+import com.focosee.qingshow.entity.mongo.MongoBrand;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -26,10 +26,10 @@ class P03BrandHolderView {
 public class P03BrandListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<BrandEntity> data;
+    private ArrayList<MongoBrand> data;
     private ImageLoader imageLoader;
 
-    public P03BrandListAdapter(Context context, ArrayList<BrandEntity> data, ImageLoader imageLoader) {
+    public P03BrandListAdapter(Context context, ArrayList<MongoBrand> data, ImageLoader imageLoader) {
         this.context = context;
         this.data = data;
         this.imageLoader = imageLoader;
@@ -75,11 +75,11 @@ public class P03BrandListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(ArrayList<BrandEntity> newData) {
+    public void resetData(ArrayList<MongoBrand> newData) {
         this.data = newData;
     }
 
-    public void addData(ArrayList<BrandEntity> moreData) {
+    public void addData(ArrayList<MongoBrand> moreData) {
         this.data.addAll(moreData);
     }
 }

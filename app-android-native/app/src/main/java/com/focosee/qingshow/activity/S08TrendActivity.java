@@ -1,33 +1,32 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S08TrendListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.TrendEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoPreview;
+import com.focosee.qingshow.httpapi.response.dataparser.PreviewParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -64,7 +63,7 @@ public class S08TrendActivity extends BaseActivity {
             }
         });
 
-        adapter = new S08TrendListAdapter(this, new LinkedList<TrendEntity>(), getScreenHeight(), ImageLoader.getInstance());
+        adapter = new S08TrendListAdapter(this, new LinkedList<MongoPreview>(), getScreenHeight(), ImageLoader.getInstance());
         listView.setAdapter(adapter);
         listView.setSmoothScrollbarEnabled(false);
 
@@ -108,11 +107,11 @@ public class S08TrendActivity extends BaseActivity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        MJsonObjectRequest jor = new MJsonObjectRequest(QSAppWebAPI.getPreviewTrendListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getPreviewTrendListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
-                    LinkedList<TrendEntity> results = TrendEntity.getTrendListFromResponse(response);
+                    LinkedList<MongoPreview> results = PreviewParser.parseFeed(response);
                     if (_tRefreshSign) {
                        adapter.resetData(results);
                         _currentPageIndex = 1;

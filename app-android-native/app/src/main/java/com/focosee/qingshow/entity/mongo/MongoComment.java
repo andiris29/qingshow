@@ -1,6 +1,21 @@
-package com.focosee.qingshow.entity;
+package com.focosee.qingshow.entity.mongo;
 
-public class CommentEntity extends AbsEntity {
+import java.io.Serializable;
+
+// TODO Split to MongoShowComment & MongoPreviewComment... keep same as db design
+public class MongoComment implements Serializable {
+    public static final String DEBUG_TAG = "MongoComment";
+
+    public String _id;
+
+    // targetRef will not be populated
+    public String targetRef;
+
+    public MongoPeople authorRef;
+    public MongoPeople atRef;
+    public String comment;
+
+    public String create;
 
     public String getId() {
         return _id;
@@ -18,7 +33,7 @@ public class CommentEntity extends AbsEntity {
         return "";
     }
 
-    public ModelEntity getAuthorRef() {
+    public MongoPeople getAuthorRef() {
         return this.authorRef;
     }
 
@@ -38,27 +53,5 @@ public class CommentEntity extends AbsEntity {
         if (null != this.create)
             return this.create;
         return "未设置时间";
-    }
-
-    public String _id;
-    public String targetRef;
-    public String atRef;
-    public ModelEntity authorRef;
-    public String comment;
-    public String __v;
-    public String create;
-
-    public class RefAuthor {
-        public String _id;
-        public String __v;
-        public String[] followRefs;
-        public String[] followerRefs;
-        public String portrait;
-        public String background;
-        public String update;
-        public String create;
-        public int[] hairTypes;
-        public String[] roles;
-        public String name;
     }
 }

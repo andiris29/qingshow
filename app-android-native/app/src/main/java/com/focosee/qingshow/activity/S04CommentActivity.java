@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,8 +21,8 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.CommentEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
+import com.focosee.qingshow.entity.mongo.MongoComment;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.MCircularImageView;
@@ -32,8 +32,10 @@ import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -129,7 +131,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     private void doLoadMoreTask() {
-        MJsonObjectRequest jsonArrayRequest = new MJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 currentPage++;
@@ -151,7 +153,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     }
 
     private void doRefreshTask() {
-        MJsonObjectRequest jsonArrayRequest = new MJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 currentPage = 0;
@@ -189,7 +191,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         map.put("_atId", replyUserId);
         map.put("comment", comment);
         JSONObject jsonObject = new JSONObject(map);
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(),jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(),jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 doRefreshTask();
@@ -211,7 +213,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         Map<String, String> map = new HashMap<String, String>();
         map.put("_id", adapter.getCommentAtIndex(clickCommentIndex).getId());
         JSONObject jsonObject = new JSONObject(map);
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 doRefreshTask();
@@ -240,14 +242,14 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         return new SimpleDateFormat("MM-dd HH:mm").format(new Date(time));
     }
 
-    private static ArrayList<CommentEntity> getCommentsFromJsonObject(JSONObject response) {
+    private static ArrayList<MongoComment> getCommentsFromJsonObject(JSONObject response) {
         String jsonString = "";
         try {
             jsonString = response.getJSONObject("data").getJSONArray("showComments").toString();
         } catch (JSONException e) {
             Log.i("json", e.toString());
         }
-        return new Gson().fromJson(jsonString, new TypeToken<ArrayList<CommentEntity>>(){}.getType());
+        return new Gson().fromJson(jsonString, new TypeToken<ArrayList<MongoComment>>(){}.getType());
     }
 
     public void showActionSheet(int commentIndex) {

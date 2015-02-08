@@ -27,11 +27,13 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ShowDetailEntity;
-import com.focosee.qingshow.entity.ShowListEntity;
-import com.focosee.qingshow.request.MJsonObjectRequest;
-import com.focosee.qingshow.share.SinaAccessTokenKeeper;
 import com.focosee.qingshow.config.ShareConfig;
+import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.share.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
@@ -81,9 +83,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private int position;
 
     private String showId;
-    private ShowListEntity showListEntity;
-    private ShowDetailEntity showDetailEntity;
-    private ArrayList<ShowDetailEntity.RefItem> itemsData;
+    private MongoShow showListEntity;
+    private MongoShow showDetailEntity;// TODO remove the duplicated one
+    private ArrayList<MongoItem> itemsData;
     private String videoUriString;
     private Uri videoUri = null;
 
@@ -139,14 +141,14 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         Intent intent = getIntent();
         if(null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY)){
-            showListEntity = (ShowListEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
+            showListEntity = (MongoShow) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
             position = intent.getIntExtra("position", 0);
         }
         showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
         //if(null == intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY)){
         getShowDetailFromNet();
         //}else {
-        //    showDetailEntity = (ShowDetailEntity) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
+        //    showDetailEntity = (MongoShowD) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
         //}
 
         matchUI();
@@ -154,11 +156,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void getShowDetailFromNet() {
-        final MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
+        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.i("S03ShowActivity", response.toString());
-                showDetailEntity = ShowDetailEntity.getShowDetailFromResponse(response);
+                showDetailEntity = ShowParser.parseQuery(response).get(0);
                 showData();
             }
         }, new Response.ErrorListener() {
@@ -178,11 +180,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         String requestApi = (showDetailEntity.likedByCurrentUser()) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
 
-        MJsonObjectRequest jsonObjectRequest = new MJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if (response.get("metadata").toString().equals("{}")) {
+                    if (!MetadataParser.hasError(response)) {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
                         if(showDetailEntity.likedByCurrentUser()) {//发送广播，更新首页的numLike
@@ -192,11 +194,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                         }
                         setLikedImageButtonBackgroundImage();
                         likedImageButton.setClickable(true);
-                        showListEntity.numLike = showDetailEntity.getShowLikeNumber();
+                        showListEntity.numLike = showDetailEntity.numLike;
                         QSApplication.get().refreshPeople(S03SHowActivity.this);
                     } else {
                         handleResponseError(response);
-//                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败" + response.toString() + response.get("metadata").toString().length());
+//                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败");
                     }
                 } catch (Exception e) {
                     showMessage(S03SHowActivity.this, e.toString());
@@ -226,7 +228,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     private void handleResponseError(JSONObject response) {
         try {
-            int errorCode = response.getJSONObject("metadata").getInt("error");
+            int errorCode = MetadataParser.getError(response);
             String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
             switch (errorCode) {
                 case 1012:
@@ -258,7 +260,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         modelImage = (MRoundImageView) findViewById(R.id.S03_model_portrait);
         modelInformation = (TextView) findViewById(R.id.S03_model_name);
         modelAgeHeight = (TextView) findViewById(R.id.S03_model_age_height);
-        modelSignature = (TextView) findViewById(R.id.S03_model_signature);
 
         commentTextView = (TextView) findViewById(R.id.S03_comment_text_view);
         likeTextView = (TextView) findViewById(R.id.S03_like_text_view);
@@ -280,8 +281,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         modelInformation.setText(showDetailEntity.getModelName());
 
         modelAgeHeight.setText(showDetailEntity.getModelWeightHeight());
-
-        modelSignature.setText(showDetailEntity.getModelStatus());
 
         commentTextView.setText(showDetailEntity.getShowCommentNumber());
 

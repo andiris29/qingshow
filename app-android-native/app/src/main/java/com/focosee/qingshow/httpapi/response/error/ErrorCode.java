@@ -1,4 +1,4 @@
-package com.focosee.qingshow.error;
+package com.focosee.qingshow.httpapi.response.error;
 
 /**
  * Created by zenan on 1/2/15.
