@@ -10,6 +10,8 @@ var RuntimeAPI = function(crawler) {
     chrome.runtime.onMessage.addListener( function(message, sender, sendResponse) {
         if (message.method === 'crawl') {
             this._crawler.crawl();
+        } else if (message.method === "stopCrawl") {
+            this._crawler.stopCrawl();
         } else if (message.method === 'onCrawlComplete') {
             var callback = this._callbacks[message.args.crawler.id];
             if (callback) {
@@ -45,6 +47,7 @@ RuntimeAPI.prototype.queryGlobalCrawling = function(callback) {
 };
 
 RuntimeAPI.prototype.createSubCrawers = function(urls, callback) {
+    
     async.parallelLimit(urls.map( function(url, index) {
         return function(callback) {
             url = URI.build(_.extend(URI.parse(window.location.href), URI.parse(url)));

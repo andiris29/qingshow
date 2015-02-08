@@ -55,13 +55,24 @@ chrome.tabs.onActivated.addListener(function(tab) {
  *
  */
 chrome.pageAction.onClicked.addListener(function(tab) {
-	_crawling = true;
+    if (!_crawling) {
+        _crawling = true;
+        _getActiveTab(function(tab) {
+            chrome.tabs.sendMessage(tab.id, {
+                'method' : 'crawl'
+            });
+        });
+    } else {
+        _crawling = false;
+        _getActiveTab(function(tab) {
+            chrome.tabs.sendMessage(tab.id, {
+                'method' : 'stopCrawl'
+            });
+        });
+    }
 
-	_getActiveTab(function(tab) {
-		chrome.tabs.sendMessage(tab.id, {
-			'method' : 'crawl'
-		});
-	});
+
+
 });
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
