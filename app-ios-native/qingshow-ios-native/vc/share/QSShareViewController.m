@@ -14,6 +14,9 @@
 #import "QSSharePlatformConst.h"
 #import "UIViewController+ShowHud.h"
 
+#define kShareTitle @"时尚宠儿的归属地"
+#define kShareDesc @"美丽乐分享，潮流资讯早知道"
+
 @interface QSShareViewController ()
 
 @property (strong, nonatomic) NSString* shareUrl;
@@ -92,8 +95,8 @@
     WBMessageObject *message = [WBMessageObject message];
     WBWebpageObject* webPage = [WBWebpageObject object];
     webPage.objectID = @"qingshow_webpage_id";
-    webPage.title = @"倾秀";
-    webPage.description = @"倾秀";
+    webPage.title = kShareTitle;
+    webPage.description = kShareDesc;
     if (self.shareUrl) {
         webPage.webpageUrl = self.shareUrl;
     } else {
@@ -106,7 +109,7 @@
     
     message.mediaObject = webPage;
     WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
-    message.text = @"倾秀";
+    message.text = @"";
     [WeiboSDK sendRequest:msgRequest];
 }
 
@@ -127,11 +130,13 @@
     }
 }
 
+//朋友圈
 - (IBAction)shareWechatPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"倾秀";
-    message.description = @"倾秀";
+    
+    message.title = [NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc];
+//    message.description = kShareDesc;
     [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     WXWebpageObject *ext = [WXWebpageObject object];
     
@@ -151,11 +156,13 @@
     [WXApi sendReq:req];
     [self hideSharePanel];
 }
+
+//微信好友
 - (IBAction)shareWechatFriendPressed:(id)sender {
     [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"倾秀";
-    message.description = @"倾秀";
+    message.title = kShareTitle;
+    message.description = kShareDesc;
     [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     
     WXWebpageObject *ext = [WXWebpageObject object];
