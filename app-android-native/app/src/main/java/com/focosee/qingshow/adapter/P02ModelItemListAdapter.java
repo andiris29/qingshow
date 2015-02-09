@@ -58,9 +58,9 @@ public class P02ModelItemListAdapter extends BaseAdapter {
             viewHolder = (ItemViewHolder) convertView.getTag();
         }
 
-        viewHolder.image.setOriginWidth(itemList.get(position).getCoverWidth());
-        viewHolder.image.setOriginHeight(itemList.get(position).getCoverHeight());
-        ImageLoader.getInstance().displayImage(itemList.get(position).getCover(), viewHolder.image, AppUtil.getShowDisplayOptions());
+        viewHolder.image.setOriginWidth(itemList.get(position).getHorizontalCoverWidth());
+        viewHolder.image.setOriginHeight(itemList.get(position).getHorizontalCoverHeight());
+        ImageLoader.getInstance().displayImage(itemList.get(position).getHorizontalCover(), viewHolder.image, AppUtil.getShowDisplayOptions());
         viewHolder.detailButton.setTag(position);
         viewHolder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -13,7 +13,7 @@ public class MongoShow implements Serializable {
     public String _id;
 
     public String cover;
-    public String horizontalCover;// TODO integrate
+    public String horizontalCover;
 
     public String video;
     public String[] posters;
@@ -22,11 +22,23 @@ public class MongoShow implements Serializable {
 
     public MongoPeople modelRef;
     public MongoItem[] itemRefs;
-    public MongoBrand brandRef;
 
     public ShowContext __context;
     public ImageMetadata coverMetadata;
-    public ImageMetadata horizontalCoverMetadata;// TODO integrate
+    public ImageMetadata horizontalCoverMetadata;
+
+
+    public int getHorizontalCoverHeight() {
+        if (null != horizontalCoverMetadata && null != horizontalCoverMetadata.url)
+            return horizontalCoverMetadata.height;
+        return 0;
+    }
+
+    public int getHorizontalCoverWidth() {
+        if (null != horizontalCoverMetadata && null != horizontalCoverMetadata.url)
+            return horizontalCoverMetadata.width;
+        return 0;
+    }
 
     public String getShowCover() {
         if (null != coverMetadata && null != coverMetadata.url)
@@ -140,6 +152,8 @@ public class MongoShow implements Serializable {
     public String getCover() {
         return cover;
     }
+
+    public String getHorizontalCover(){ return horizontalCover; }
 
     public String getItemsCount() {
         return String.valueOf((null != itemRefs) ? itemRefs.length : 0);
