@@ -37,6 +37,7 @@
             android:layout_marginLeft="10dp"
             android:paddingRight="20dp"
             android:text="就爱文艺小清新"
+            android:singleLine="false"
             android:textColor="#ffffffff" />
 
         <TextView
