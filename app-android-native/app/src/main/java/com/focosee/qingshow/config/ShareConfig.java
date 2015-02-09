@@ -18,12 +18,6 @@ package com.focosee.qingshow.config;
 
 import com.focosee.qingshow.R;
 
-/**
- * 该类定义了微博授权时所需要的参数。
- *
- * @author SINA
- * @since 2013-09-29
- */
 public interface ShareConfig {
 
     public static final String SINA_APP_KEY = "2665932670";
@@ -35,7 +29,7 @@ public interface ShareConfig {
                     + "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
                     + "follow_app_official_microblog," + "invitation_write";
 
-    public static final String SHARE_SHOW_URL = "http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    public static final String SHARE_SHOW_URL = "http://chingshow.com/app-web#?action=shareShow&_id=";
     public static final String SHARE_TITLE="";
     public static final String SHARE_DESCRIPTION="美丽乐分享，潮流资讯早知道";
     public static final int IMG = R.drawable.wx_share;
