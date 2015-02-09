@@ -18,11 +18,18 @@
 
 @interface QSCommentTableViewCell : UITableViewCell
 
++ (CGSize)getCellSize:(NSDictionary*)commentDict;
++ (CGSize)getCommentSize:(NSString*)str;
+
 @property (strong, nonatomic) IBOutlet UIImageView* iconImageView;
 @property (strong, nonatomic) IBOutlet UILabel* nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel* dateLabel;
 @property (strong, nonatomic) IBOutlet UILabel* contentLabel;
+@property (strong, nonatomic) IBOutlet UIView* splitter;
+
 @property (weak, nonatomic) NSObject<QSCommentTableViewCellDelegate>* delegate;
 - (void)bindWithComment:(NSDictionary*)commentDict;
 - (IBAction)didTapIconImage:(UIGestureRecognizer*)ges;
+
+
 @end

@@ -10,7 +10,7 @@
 #import "QSSingleImageScrollView.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSS03ItemDetailViewController.h"
-#import "QSCommentListViewController.h"
+#import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
@@ -21,7 +21,6 @@
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSUserManager.h"
-#import "QSS03ItemListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
 
@@ -69,6 +68,7 @@
 
     self.showContainer.frame = [UIScreen mainScreen].bounds;
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.frame];
+    self.showImageScrollView.pageControlOffsetY = 10.f;
     self.showImageScrollView.pageControl.hidden = YES;
     self.showImageScrollView.delegate = self;
     [self.showContainer addSubview:self.showImageScrollView];
@@ -103,14 +103,23 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    
-    __weak QSS03ShowDetailViewController* weakSelf = self;
-    [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
-        weakSelf.showDict = dict;
-        [weakSelf bindWithDict:dict];
-    } onError:^(NSError *error) {
-
-    }];
+    [self bindExceptImageWithDict:self.showDict];
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (!self.itemListVc) {
+        __weak QSS03ShowDetailViewController* weakSelf = self;
+        if (self.showDict) {
+            [weakSelf bindWithDict:self.showDict];
+        }
+        [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
+            weakSelf.showDict = dict;
+            [weakSelf bindWithDict:dict];
+        } onError:^(NSError *error) {
+            
+        }];
+    }
 
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -129,6 +138,14 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    [self bindExceptImageWithDict:dict];
+    //Image
+    //    self.showImageScrollView.imageUrlArray = previewArray;
+    [self updateShowImgScrollView];
+}
+
+- (void)bindExceptImageWithDict:(NSDictionary*)dict
+{
     //Model
     NSDictionary* peopleInfo = [QSShowUtil getPeopleFromShow:dict];
     
@@ -139,15 +156,13 @@
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
     self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
     
-    //Image
-//    self.showImageScrollView.imageUrlArray = previewArray;
-    [self updateShowImgScrollView];
+    //Like Btn
+    [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
+    
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
 
-    //Like Btn
-    [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -177,7 +192,7 @@
 
 - (IBAction)commentBtnPressed:(id)sender {
     [self hideSharePanel];
-    UIViewController* vc =[[QSCommentListViewController alloc] initWithShow:self.showDict];
+    UIViewController* vc =[[QSS04CommentListViewController alloc] initWithShow:self.showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -191,14 +206,14 @@
     [self hideSharePanel];
     if ([QSShowUtil getIsLike:self.showDict]) {
         [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"unlike succeed"];
+            [self showSuccessHudWithText:@"取消喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"like succeed"];
+            [self showSuccessHudWithText:@"喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
@@ -224,8 +239,31 @@
 }
 
 - (IBAction)itemButtonPressed:(id)sender {
-    UIViewController* vc = [[QSS03ItemListViewController alloc] initWithShow:self.showDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
+    vc.delegate = self;
+    self.itemListVc = vc;
+    vc.view.frame = self.view.bounds;
+    [self.view addSubview:vc.view];
+    [self setPlayModeBtnsHidden:YES];
+    [self addChildViewController:vc];
+    vc.view.alpha = 0.f;
+    [UIView animateWithDuration:.3f animations:^{
+        vc.view.alpha = 1.f;
+    }];
+    
+}
+
+- (void)didClickCloseBtn
+{
+    [UIView animateWithDuration:.3f animations:^{
+        self.itemListVc.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [self setPlayModeBtnsHidden:NO];
+        [self.itemListVc.view removeFromSuperview];
+        [self.itemListVc removeFromParentViewController];
+        self.itemListVc = nil;
+    }];
+
 }
 
 - (IBAction)shareContainerPressed:(id)sender {

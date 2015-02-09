@@ -100,9 +100,15 @@
     self.iconImageView.layer.masksToBounds = YES;
     
     [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    [self.backgroundImageView setImageFromURL:[QSBrandUtil getBrandBgUrl:brandDict] placeHolderImage:nil animation:YES];
     self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
-    self.roleLabel.text = [QSBrandUtil getBrandTypeDesc:brandDict];
+    self.roleLabel.text = @"";
     self.statusLabel.text = @"";
+    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
+        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
+        
+        [f setFollowed:[QSBrandUtil getHasFollowBrand:brandDict]];
+    }
 }
 
 #pragma mark - QSSectionButtonGroupDelegate

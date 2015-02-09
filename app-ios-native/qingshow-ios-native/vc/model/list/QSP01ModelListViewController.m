@@ -37,6 +37,7 @@
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
     };
+    [self.delegateObj fetchDataOfPage:1];
 }
 
 #pragma mark - Life Cycle
@@ -82,11 +83,11 @@
 {
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
-            [self showTextHud:@"follow succeed"];
+            [self showTextHud:@"关注成功"];
         }
         else
         {
-            [self showTextHud:@"unfollow succeed"];
+            [self showTextHud:@"取消关注成功"];
         }
         NSUInteger index = [self.delegateObj.resultArray indexOfObject:model];
         [self.delegateObj.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];

@@ -20,15 +20,17 @@ QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
 
 @interface QSImageScrollViewBase : UIView<UIScrollViewDelegate>
 
-+ (QSImageScrollViewBase*)generateView;
+//+ (QSImageScrollViewBase*)generateView;
 
 - (int)getViewCount;
 - (UIView*)getViewForPage:(int)page;
 - (void)updateImages;
+@property (assign, nonatomic) float pageControlOffsetY;
 @property (weak, nonatomic) NSObject<QSImageScrollViewBaseDelegate>* delegate;
 
 @property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
 @property (strong, nonatomic) NSMutableArray* imageViewArray;
+@property (assign, nonatomic) BOOL enableLazyLoad;
 
 - (id)initWithFrame:(CGRect)frame;
 - (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d;

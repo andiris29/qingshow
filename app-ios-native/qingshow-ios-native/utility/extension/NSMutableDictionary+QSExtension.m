@@ -7,11 +7,12 @@
 //
 
 #import "NSMutableDictionary+QSExtension.h"
-
+#import "NSDictionary+QSExtension.h"
 @implementation NSMutableDictionary(QSExtension)
 
 - (void)updateWithDict:(NSDictionary*)dict
 {
+    dict = [dict deepMutableCopy];
     for (id key in [dict allKeys]) {
         self[key] = dict[key];
     }

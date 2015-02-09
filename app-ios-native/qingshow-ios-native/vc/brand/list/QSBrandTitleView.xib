@@ -8,40 +8,40 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSBrandTitleView"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QSBrandTitleView">
-            <rect key="frame" x="0.0" y="0.0" width="87" height="39"/>
+            <rect key="frame" x="0.0" y="0.0" width="142" height="39"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="集各类新品或特色商品" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsy-iM-nad">
-                    <rect key="frame" x="8" y="21" width="71" height="13"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="13" id="OKo-K9-qFb"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="7"/>
-                    <color key="textColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="品牌专区" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="92U-kw-WpG">
-                    <rect key="frame" x="8" y="4" width="71" height="15"/>
+                    <rect key="frame" x="8" y="4" width="126" height="15"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="15" id="XOG-Fa-Bpe"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <color key="textColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="集各类新品或特色商品" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zsy-iM-nad">
+                    <rect key="frame" x="11" y="24" width="120" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="OKo-K9-qFb"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.15686274510000001" green="0.15686274510000001" blue="0.15686274510000001" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="zsy-iM-nad" secondAttribute="trailing" constant="8" id="BLl-wP-Ht4"/>
+                <constraint firstAttribute="trailing" secondItem="zsy-iM-nad" secondAttribute="trailing" constant="11" id="BLl-wP-Ht4"/>
                 <constraint firstAttribute="trailing" secondItem="92U-kw-WpG" secondAttribute="trailing" constant="8" id="Kem-ky-B7a"/>
-                <constraint firstItem="zsy-iM-nad" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Q4M-sa-4ax"/>
-                <constraint firstItem="zsy-iM-nad" firstAttribute="top" secondItem="92U-kw-WpG" secondAttribute="bottom" constant="2" id="kHz-Yb-fMc"/>
+                <constraint firstItem="zsy-iM-nad" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="11" id="Q4M-sa-4ax"/>
+                <constraint firstItem="zsy-iM-nad" firstAttribute="top" secondItem="92U-kw-WpG" secondAttribute="bottom" constant="5" id="kHz-Yb-fMc"/>
                 <constraint firstItem="92U-kw-WpG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="uea-Xo-uI3"/>
                 <constraint firstItem="92U-kw-WpG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="vIV-Bh-akw"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="407.5" y="365.5"/>
+            <point key="canvasLocation" x="435" y="365.5"/>
         </view>
     </objects>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

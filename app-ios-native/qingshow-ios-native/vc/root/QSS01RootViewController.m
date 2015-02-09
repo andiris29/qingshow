@@ -14,13 +14,14 @@
 #import "QSP01ModelListViewController.h"
 #import "QSP02ModelDetailViewController.h"
 #import "QSP03BrandListViewController.h"
-#import "QSS02FashionViewController.h"
+#import "QSS08PreviewViewController.h"
 
 #import "QSS02CategoryViewController.h"
 
 #import "QSU02UserSettingViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
+#import "QSU07RegisterViewController.h"
 #import "QSS06CompareViewController.h"
 
 #import "QSUserManager.h"
@@ -109,7 +110,7 @@
     [self.delegateObj bindWithCollectionView:self.collectionView];
     __weak QSS01RootViewController* weakSelf = self;
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingPage:page onSucceed:succeedBlock onError:^(NSError *error) {
+        return [SHARE_NW_ENGINE getChosenFeedingType:0 page:page onSucceed:succeedBlock onError:^(NSError *error) {
             if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1009) {
                 UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"未连接网络或信号不好" message:nil delegate:weakSelf cancelButtonTitle:@"确定" otherButtonTitles: nil];
                 [a show];
@@ -167,7 +168,7 @@
 //    } else
     if (!userManager.userInfo) {
         //未登陆
-        UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
+        UIViewController *vc = [[QSU07RegisterViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         //已登陆
@@ -184,14 +185,14 @@
 {
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
-            [self showSuccessHudWithText:@"unlike succeed"];
+            [self showSuccessHudWithText:@"取消喜欢成功"];
             [self.delegateObj updateShow:showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
-            [self showSuccessHudWithText:@"like succeed"];
+            [self showSuccessHudWithText:@"喜欢成功"];
             [self.delegateObj updateShow:showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
@@ -227,7 +228,7 @@
         }
         case 8:
         {
-            UIViewController* vc = [[QSS02FashionViewController alloc] init];
+            UIViewController* vc = [[QSS08PreviewViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

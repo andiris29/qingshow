@@ -13,6 +13,7 @@
 
 @property (assign, nonatomic) QSSectionButtonGroupType type;
 @property (strong, nonatomic) NSMutableArray* splitterArray;
+@property (assign, nonatomic) int btnCount;
 @end
 
 @implementation QSSectionButtonGroup
@@ -25,28 +26,40 @@
 
 - (id)initWithType:(QSSectionButtonGroupType)type
 {
-    
+    if (type == QSSectionButtonGroupTypeBrand || type == QSSectionButtonGroupTypeU01) {
+        self = [self initWithType:type btnCount:4];
+    } else {
+        self = [self initWithType:type btnCount:3];
+    }
+
+    if (self) {
+        
+    }
+    return self;
+
+}
+- (id)initWithType:(QSSectionButtonGroupType)type btnCount:(int)count
+{
     self = [self initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 45)];
     if (self) {
         self.type = type;
+        self.btnCount = count;
         [self configView];
         [self updateLayout];
     }
     return self;
-
 }
 
 #pragma mark - Layout
 - (void)configView
 {
-    self.buttonGroup = @[
-                         [QSSectionNumberTextButton generateView],
-                         [QSSectionNumberTextButton generateView],
-                         [QSSectionNumberTextButton generateView]
-                         ];
-
+    NSMutableArray* a = [@[] mutableCopy];
+    for (int i = 0; i < self.btnCount; i++) {
+        [a addObject:[QSSectionNumberTextButton generateView]];
+    }
+    self.buttonGroup = a;
     
-    if (self.type == QSSectionButtonGroupTypeImage) {
+    if (self.type == QSSectionButtonGroupTypeImage || self.type == QSSectionButtonGroupTypeBrand) {
         self.singleButton = [QSSectionFollowButton generateView];
     } else  if (self.type == QSSectionButtonGroupTypeText){
         self.singleButton = [QSSectionTextButton generateView];
@@ -63,7 +76,7 @@
         [self addSubview:self.singleButton];
     }
     self.splitterArray = [@[] mutableCopy];
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < self.btnCount; i++) {
         UIView* splitter = [[UIView alloc] init];
         splitter.backgroundColor = [UIColor whiteColor];
         [self addSubview:splitter];

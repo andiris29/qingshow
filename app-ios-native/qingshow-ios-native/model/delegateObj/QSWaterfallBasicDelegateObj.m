@@ -8,6 +8,8 @@
 
 #import "QSWaterfallBasicDelegateObj.h"
 #import "MKNetworkOperation.h"
+#import "QSMetadataUtil.h"
+#import "NSNumber+QSExtension.h"
 @interface QSWaterfallBasicDelegateObj ()
 @property (strong, nonatomic) MKNetworkOperation* refreshOperation;
 @property (strong, nonatomic) MKNetworkOperation* loadMoreOperation;
@@ -48,6 +50,11 @@
     return CGSizeZero;
 }
 
+- (void)dealloc
+{
+    self.collectionView.dataSource = nil;
+    self.collectionView.delegate = nil;
+}
 
 #pragma mark - Config
 - (void)refreshClickedData
@@ -91,7 +98,7 @@
 {
 
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
-        self.metaDataDict = metadata;
+        self.metadataDict = metadata;
         int preCount = 0;
         if (page == 1) {
             [self.resultArray removeAllObjects];
@@ -160,7 +167,7 @@
 #pragma mark - Scroll View
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation) {
+    if (self.fIsAll || self.refreshOperation || self.loadMoreOperation || ! self.resultArray.count) {
         return;
     }
     
@@ -181,4 +188,23 @@
     }];
 }
 
+- (NSString*)getTotalCountDesc
+{
+    if (!self.metadataDict) {
+        return @"0";
+    }
+    long long filterCount = 0;
+    for (NSDictionary* dict in self.resultArray) {
+        if (self.filterBlock) {
+            if (self.filterBlock(dict)){
+                filterCount++;
+            }
+        }
+    }
+    long long t = [QSMetadataUtil getNumberTotal:self.metadataDict] - filterCount;
+    t = t >= 0ll? t : 0ll;
+    return @(t).kmbtStringValue;
+}
+
 @end
+

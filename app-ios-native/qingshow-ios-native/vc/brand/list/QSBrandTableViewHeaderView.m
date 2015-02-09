@@ -15,7 +15,13 @@
 + (QSBrandTableViewHeaderView*)generateView
 {
     UINib* nib = [UINib nibWithNibName:@"QSBrandTableViewHeaderView" bundle:nil];
-    return [nib instantiateWithOwner:self options:nil][0];
+    
+    QSBrandTableViewHeaderView* view = [nib instantiateWithOwner:self options:nil][0];
+    
+    CGRect r = view.frame;
+    r.size.height = 44.f;
+    view.frame = r;
+    return view;
 }
 
 #pragma mark - Life Cycle

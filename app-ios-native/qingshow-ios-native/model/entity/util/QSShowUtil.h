@@ -21,6 +21,7 @@
 //+ (float)getCoverWidth:(NSDictionary*)showDict;
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
++ (void)addNumberComment:(long long)num forShow:(NSDictionary*)showDict;
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict;
 + (NSString*)getNumberItemDescription:(NSDictionary*)showDict;
 + (BOOL)getIsLike:(NSDictionary*)showDict;

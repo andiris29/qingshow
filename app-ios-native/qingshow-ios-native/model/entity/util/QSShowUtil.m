@@ -10,7 +10,9 @@
 #import "QSItemUtil.h"
 #import "NSNumber+QSExtension.h"
 #import "QSCommonUtil.h"
-
+#import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
 @implementation QSShowUtil
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
 {
@@ -68,7 +70,7 @@
     }
     NSArray* itemArray = showDict[@"itemRefs"];
     if (itemArray.count) {
-        if (![itemArray[0] isKindOfClass:[NSDictionary class]]   ) {
+        if (![itemArray[0] isKindOfClass:[NSDictionary class]]) {
             return @[];
         }
     }
@@ -83,7 +85,7 @@
     if (![showDict isKindOfClass:[NSDictionary class]]) {
         return nil;
     }
-    NSArray* items = showDict[@"itemRefs"];
+    NSArray* items = [self getItems:showDict];
     if (items) {
         return items[index];
     }
@@ -98,14 +100,7 @@
     }
     if (showDict) {
         NSDictionary* peopleDict = showDict[@"modelRef"];
-        if ([QSCommonUtil checkIsNil:peopleDict]) {
-            return peopleDict;
-        } else {
-#warning 需要优化
-            NSMutableDictionary* mP = [peopleDict mutableCopy];
-            [self setPeople:mP show:showDict];
-            return mP;
-        }
+        return peopleDict;
     }
     return nil;
 }
@@ -133,6 +128,22 @@
     }
     return @"0";
 }
++ (void)addNumberComment:(long long)num forShow:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict] || ![showDict isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)showDict;
+    NSMutableDictionary* context = [showDict[@"__context"] mutableCopy];
+    if (context) {
+        if ([QSCommonUtil checkIsNil:context[@"numComments"]]) {
+            return;
+        }
+        context[@"numComments"] = @(((NSNumber*)context[@"numComments"]).longLongValue + num);
+        m[@"__context"] = context;
+    }
+}
+
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {

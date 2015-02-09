@@ -76,7 +76,7 @@
 
 - (void)bindItem:(NSDictionary*)item
 {
-    self.desLabel.text = [QSItemUtil getItemDescription:item];
+    self.desLabel.text = [QSItemUtil getItemName:item];
     NSDictionary* brandDict = [QSItemUtil getBrand:item];
     [self.brandBtn setTitle:[QSBrandUtil getBrandName:brandDict] forState:UIControlStateNormal];
 }

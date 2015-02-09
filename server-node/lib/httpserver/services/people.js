@@ -33,11 +33,17 @@ var _queryModels = function(req, res) {
 };
 
 var _queryFollowers = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, 'targetRef', 'initiatorRef');
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
+        'query' : 'targetRef',
+        'result' : 'initiatorRef'
+    });
 };
 
 var _queryFollowed = function(req, res) {
-    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, 'initiatorRef', 'targetRef');
+    ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
+        'query' : 'initiatorRef',
+        'result' : 'targetRef'
+    });
 };
 
 var _follow = function(req, res) {

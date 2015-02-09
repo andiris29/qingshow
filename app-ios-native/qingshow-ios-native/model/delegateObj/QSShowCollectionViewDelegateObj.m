@@ -28,6 +28,16 @@
     if (self.clickedData) {
         NSIndexPath* indexPath = [self getIndexPathOfShow:self.clickedData];
         QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+        if (self.filterBlock) {
+            if (!self.filterBlock(self.clickedData)) {
+                //remove
+                [self.resultArray removeObject:self.clickedData];
+                [self.collectionView reloadData];
+//                [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+                return;
+            }
+        }
+
         [cell bindData:self.clickedData];
         self.clickedData = nil;
     }
@@ -102,7 +112,7 @@
 {
     if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
         QSTimeCollectionViewCell* cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
-        [cell bindWithMetadata:self.metaDataDict];
+        [cell bindWithMetadata:self.metadataDict];
         return cell;
     } else {
         QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSShowCollectionViewCell" forIndexPath:indexPath];

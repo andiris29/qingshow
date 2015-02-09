@@ -25,6 +25,10 @@
                                       page:(int)page
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)peopleQueryFollowedBrand:(NSDictionary*)peopleDict
+                                           page:(int)page
+                                      onSucceed:(ArraySuccessBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Interaction Follow
 - (MKNetworkOperation*)handleFollowModel:(NSDictionary*)model

@@ -7,14 +7,20 @@
 //
 
 #import "NSArray+QSExtension.h"
-
+#import "NSDictionary+QSExtension.h"
 @implementation NSArray(QSExtension)
 
-- (NSMutableArray*)deepDictMutableCopy
+- (NSMutableArray*)deepMutableCopy
 {
     NSMutableArray* a = [@[] mutableCopy];
-    for (NSDictionary* dict in self) {
-        [a addObject:[dict mutableCopy]];
+    for (id obj in self) {
+        id v = obj;
+        if ([v isKindOfClass:[NSArray class]]) {
+            v = [((NSArray*)v) deepMutableCopy];
+        } else if ([v isKindOfClass:[NSDictionary class]]) {
+            v = [((NSDictionary*)v) deepMutableCopy];
+        }
+        [a addObject:v];
     }
     return a;
 }

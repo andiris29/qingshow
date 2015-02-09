@@ -17,12 +17,47 @@
         return nil;
     }
     NSString* path = itemDict[@"cover"];
-    if (path) {
+    if (![QSCommonUtil checkIsNil:path]) {
         NSURL* url = [NSURL URLWithString:path];
         return url;
     }
     return nil;
 }
++ (NSArray*)getImagesUrl:(NSDictionary*)itemDict
+{
+    NSArray* array = itemDict[@"images"];
+    if ([QSCommonUtil checkIsNil:array]) {
+        return nil;
+    }
+    NSMutableArray* m = [@[] mutableCopy];
+    for (NSDictionary* d in array) {
+        NSString* s = d[@"url"];
+        [m addObject:[NSURL URLWithString:s]];
+    }
+    
+    return m;
+}
++ (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
+{
+    NSArray* array = itemDict[@"images"];
+    if (index < array.count) {
+        NSDictionary* d = array[index];
+        return d[@"description"];
+    }
+    return @"";
+}
+//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
+//{
+//    NSURL* cover = [self getCoverUrl:itemDict];
+//    NSArray* imagesUrl = [self getImagesUrl:itemDict];
+//    NSMutableArray* m = [@[] mutableCopy];
+//    if (cover) {
+//        [m addObject:cover];
+//    }
+//    [m addObjectsFromArray:imagesUrl];
+//    return m;
+//}
+
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
     if (![QSCommonUtil checkIsDict:itemDict]) {
@@ -48,7 +83,7 @@
     for (NSDictionary* itemDict in itemsArray) {
         NSString* typeStr = [QSItemUtil getItemTypeName:itemDict];
 //        NSAttributedString* typeAttributedStr = [NSAttributedString alloc] initWithString:typeStr attributes:@{}
-        NSString* des = [QSItemUtil getItemDescription:itemDict];
+        NSString* des = [QSItemUtil getItemName:itemDict];
         NSMutableAttributedString * a = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@ ", typeStr, des] attributes:nil];
 
         [a addAttribute:NSFontAttributeName value:CFBridgingRelease(CTFontCreateWithName((CFStringRef)[UIFont fontWithName:@"Arial" size:14].fontName, 14, nil)) range:NSMakeRange(0, a.length)];
@@ -61,7 +96,8 @@
     }
     return str;
 }
-+ (NSString*)getItemDescription:(NSDictionary*)itemDict
+
++ (NSString*)getItemName:(NSDictionary*)itemDict
 {
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
@@ -87,8 +123,25 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    return itemDict[@"brandRef"];
+    NSDictionary* b = itemDict[@"brandRef"];
+    if ([QSCommonUtil checkIsNil:b]) {
+        return b;
+    } else {
+        NSMutableDictionary* mb = [b mutableCopy];
+        [self setBrand:mb forItem:itemDict];
+        return mb;
+    }
 }
+
++ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
+{
+    if (![item isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)item;
+    m[@"brandRef"] = brandDict;
+}
+
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 {
     if ([QSCommonUtil checkIsNil:itemArray]) {
@@ -123,7 +176,12 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    NSNumber* price = itemDict[@"priceAfterDiscount"];
+    //brandDiscountInfo.price
+    NSDictionary* brandDiscountInfo = itemDict[@"brandDiscountInfo"];
+    if (![QSCommonUtil checkIsDict:brandDiscountInfo]) {
+        return nil;
+    }
+    NSNumber* price = brandDiscountInfo[@"price"];
     if ([QSCommonUtil checkIsNil:price]) {
         return @"";
     } else {
@@ -131,10 +189,4 @@
     }
 }
 
-+ (NSURL*)getIconUrl:(NSDictionary*)itemDict
-{
-#warning 没字段
-    
-    return nil;
-}
 @end

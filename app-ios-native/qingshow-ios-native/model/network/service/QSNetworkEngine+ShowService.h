@@ -26,8 +26,10 @@
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)deleteComment:(NSDictionary*)commentDict
+                              ofShow:(NSDictionary*)showDict
                            onSucceed:(VoidBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
+
 #pragma mark - Like
 - (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
                       onSucceed:(VoidBlock)succeedBlock

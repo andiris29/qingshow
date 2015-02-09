@@ -40,10 +40,6 @@
 - (UIView*)getViewForPage:(int)imageIndex
 {
     QSSingleImageScrollView* imageView = [[QSSingleImageScrollView alloc] initWithFrame:self.bounds];
-    if (self.itemsArray) {
-#warning 需要改成多个url
-        imageView.imageUrlArray = @[[QSItemUtil getCoverUrl:self.itemsArray[imageIndex]]];
-    }
     imageView.translatesAutoresizingMaskIntoConstraints = YES;
     [imageView.pageControl removeFromSuperview];
     return imageView;

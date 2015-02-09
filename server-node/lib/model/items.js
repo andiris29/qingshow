@@ -5,8 +5,11 @@ var itemSchema;
 itemSchema = Schema({
     category : Number, // <code>
     name : String,
-    cover : String,
-    coverMetadata : {
+    images : [{
+        url : String,
+        description : String
+    }],
+    imageMetadata : {
         url : String,
         width : Number,
         height : Number

@@ -8,21 +8,23 @@
 
 #import "QSU02UserSettingViewController.h"
 #import "QSU04EmailViewController.h"
-#import "QSU05HairGenderTableViewController.h"
 #import "QSU08PasswordViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
 #import "QSImageEditingViewController.h"
-
+#import "QSPeopleUtil.h"
+#import "QSDateUtil.h"
+#import "UIImage+fixOrientation.h"
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
 
 typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     QSU02UserSettingViewControllerSelectTypeNone,
     QSU02UserSettingViewControllerSelectTypeGender,
-    QSU02UserSettingViewControllerSelectTypeCamera
+    QSU02UserSettingViewControllerSelectTypeCamera,
+    QSU02UserSettingViewControllerSelectTypeHairType
 };
 
 @interface QSU02UserSettingViewController ()
@@ -50,6 +52,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewDidLoad];
     [self initNavigation];
     self.currentActionSheet = QSU02UserSettingViewControllerSelectTypeNone;
+    self.birthdayText.delegate = self;
+    self.nameText.delegate = self;
+    self.lengthText.delegate = self;
+    self.weightText.delegate = self;
+    self.brandText.delegate = self;
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -62,12 +69,52 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - UITextFieldDelegate
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    [self hideKeyboardAndDatePicker];
+    NSString *value = textField.text;
+    if (value.length == 0) {
+        return;
+    }
+    NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
+    if (textField == self.nameText) {
+        if ([value compare:currentProfile[@"name"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"name": value} pop:NO];
+        }
+    } else if (textField == self.birthdayText) {
+        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"birthday"]];
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        NSString* birth= [dateFormatter stringFromDate:date];
+        if ([value compare:birth] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
+        }
+    } else if (textField == self.lengthText) {
+        if (value .length != 0) {
+            value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
+        }
+        if ([value compare:currentProfile[@"length"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"height": value} pop:NO];
+        }
+    } else if (textField == self.weightText) {
+        if (value.length != 0) {
+            value = [value stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+        }
+        if ([value compare:currentProfile[@"weight"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
+        }
+    } else if (textField == self.brandText) {
+        if ([value compare:currentProfile[@"favoriteBrand"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"favoriteBrand": value} pop:NO];
+        }
+    }
+}
+
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self hideKeyboardAndDatePicker];
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     switch (indexPath.section) {
         case 0:
             // 选择section
@@ -103,39 +150,18 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             // 基本section
             if (indexPath.row == 1) {
                 // GOTO Gender
-                self.currentActionSheet = [[UIActionSheet alloc] initWithTitle:@"性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"男",@"女", nil];
+                self.currentActionSheet = [[UIActionSheet alloc] initWithTitle:@"性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:GENDER_LIST, nil];
                 self.currentSelectType = QSU02UserSettingViewControllerSelectTypeGender;
                 [self hideKeyboardAndDatePicker];
                 [self.currentActionSheet showInView:self.view];
-//                NSLog(@"GOTO Gender");
-//                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
-//                                                          initWithNibName:@"QSU05HairGenderTableViewController"
-//                                                                   bundle:nil];
-//                
-//                if (people[@"gender"] != nil) {
-//                    NSArray *codes = [NSArray arrayWithObject:people[@"gender"]];
-//                    vc.selectCodes = codes;
-//                }
-//                vc.codeTable = GENDER_LIST;
-//                vc.delegate = self;
-//                vc.codeType = CODE_TYPE_GENDER;
-//                [self.navigationController pushViewController:vc animated:YES];
             } else if (indexPath.row == 2) {
                 // 选择生日
             } else if (indexPath.row == 5) {
                 // GOTO HairType
-                NSLog(@"GOTO HairType");
-                QSU05HairGenderTableViewController *vc = [[QSU05HairGenderTableViewController alloc]
-                                                          initWithNibName:@"QSU05HairGenderTableViewController"
-                                                                   bundle:nil];
-                
-                vc.codeTable = HAIR_LIST;
-                vc.delegate = self;
-                vc.codeType = CODE_TYPE_HAIR;
-                if (people[@"hairTypes"] != nil) {
-                    vc.selectCodes = people[@"hairTypes"];
-                }
-                [self.navigationController pushViewController:vc animated:YES];
+                self.currentActionSheet = [[UIActionSheet alloc]initWithTitle:@"发型" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:HAIR_LIST, nil];
+                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeHairType;
+                [self hideKeyboardAndDatePicker];
+                [self.currentActionSheet showInView:self.view];
             }
             
             break;
@@ -176,8 +202,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         [addcharity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         //[addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
-        [addcharity setBackgroundColor:[UIColor colorWithRed:252.f/255.f green:103.f/255.f blue:105.f/255.f alpha:1.f]];
-        addcharity.frame=CGRectMake(10, 25, 300, 50); //set some large width to ur title
+        [addcharity setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+        CGRect screenBound = [[UIScreen mainScreen] bounds];
+        CGSize screenSize = screenBound.size;
+        CGFloat screenWidth = screenSize.width;
+        addcharity.frame=CGRectMake(10, 25, screenWidth - 20 , 50); //set some large width to ur title
         addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
         addcharity.layer.masksToBounds = YES;
         [footerView addSubview:addcharity];
@@ -208,6 +237,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         if (buttonIndex != actionSheet.cancelButtonIndex) {
             [self updatePeopleEntityViewController:self byEntity:@{@"gender" : @(buttonIndex)} pop:NO];
         }
+    } else if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeHairType) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"hairType": @(buttonIndex)} pop:NO];
+        }
     }
     
     
@@ -227,6 +260,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     if (!image) {
         image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
     }
+    
+    image = [image fixOrientation];
     
     QSImageEditingViewController* vc = nil;
     if (_uploadImageType == UPLOAD_PORTRAIT) {
@@ -277,7 +312,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 - (void)cancelImageEditing:(QSImageEditingViewController *)vc
 {
-    [vc dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Private Method
@@ -286,33 +321,39 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     NSLog(@"initNavigation");
     self.navigationItem.title = @"设置";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
+//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:nil];
+    
     [[self navigationItem] setBackBarButtonItem:backButton];
+//    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
+//    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
     
-    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
-                                                               style:UIBarButtonItemStylePlain
-                                                              target:self
-                                                              action:@selector(actionSave)];
-    
-    [[self navigationItem] setRightBarButtonItem:btnSave];
+//    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
+//                                                               style:UIBarButtonItemStylePlain
+//                                                              target:self
+//                                                              action:@selector(actionSave)];
+//    
+//    [[self navigationItem] setRightBarButtonItem:btnSave];
 }
 
 - (void)loadUserSetting {
     
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
     self.nameText.text = (NSString *)people[@"name"];
-    self.lengthText.text = [(NSNumber *)people[@"height"] stringValue];
-    self.weightText.text = [(NSNumber *)people[@"weight"] stringValue];
+    
+    // TODO Unify these npe check to QSPeopleUtil?
+    self.lengthText.text = [QSPeopleUtil getHeight:people];
     if (self.lengthText.text.length != 0) {
         self.lengthText.text = [NSString stringWithFormat:@"%@ cm", self.lengthText.text];
     }
+    self.weightText.text = [QSPeopleUtil getWeight:people];
     if (self.weightText.text.length != 0) {
         self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
     }
-    if (people[@"birthtime"] == nil) {
+    if (people[@"birthday"] == nil) {
         self.birthdayText.text = @"";
     } else {
-        self.birthdayText.text = (NSString *)people[@"birthtime"];
+        [self updateBirthDayLabel:[QSDateUtil buildDateFromResponseString:(NSString *)people[@"birthday"]]];
     }
     
     self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height / 2;
@@ -324,7 +365,12 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Get Portrait & Backgrund's Image
     [self refreshImage];
     
-    self.brandText.text = (NSString *)people[@"brand"];
+    self.shoeSizeLabel.text = [QSPeopleUtil getShoeSizeDesc:people];
+    self.clothingSizeLabel.text = [QSPeopleUtil getClothingSizeDesc:people];
+    self.brandText.text = (NSString *)people[@"favoriteBrand"];
+    
+    self.genderLabel.text = [QSPeopleUtil getGenderDesc:people];
+    self.hairTypeLabel.text = [QSPeopleUtil getHairTypeDesc:people];
 }
 
 - (void)updateBirthDayLabel:(NSDate *)birthDay {
@@ -339,7 +385,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
         if (metadata[@"error"] == nil && people != nil) {
             [vc showSuccessHudWithText:@"更新成功"];
-            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+            EntitySuccessBlock successLoad = ^(NSDictionary *people, NSDictionary *metadata) {
+                [self loadUserSetting];
+            };
+            [SHARE_NW_ENGINE getLoginUserOnSucced:successLoad onError:nil];
             if (fPop) {
                 [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
             }
@@ -370,6 +419,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)refreshImage {
     
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+    [self.portraitImage setImageFromURL:[QSPeopleUtil getHeadIconUrl:people]];
+    [self.backgroundImage setImageFromURL:[QSPeopleUtil getBackgroundUrl:people]];
+    /*
     if (people[@"portrait"] != nil) {
         NSString *portaits = people[@"portrait"];
         [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
@@ -383,6 +435,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     } else {
         [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
     }
+     */
 }
 
 #pragma mark - Action
@@ -428,23 +481,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [self updatePeopleEntityViewController:vc byEntity:@{@"email": email}];
 }
 
-- (void)codeUpdateViewController:(QSU05HairGenderTableViewController *)vc forCodeType:(NSString *)codeType bySelectedCode:(NSArray *)codes {
-    if ([codeType compare:CODE_TYPE_GENDER] == NSOrderedSame) {
-        // Update Gender
-        [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: codes[0]}];
-    } else {
-        // Update HairType
-        NSMutableString *hairTypes = [[NSMutableString alloc]init];
-        for (int i = 0; i < codes.count; i++) {
-            [hairTypes appendString:[NSString stringWithFormat:@"%@", codes[i]]];
-            if (i < (codes.count - 1)) {
-                [hairTypes appendString:@","];
-            }
-        }
-        [self updatePeopleEntityViewController:vc byEntity:@{vc.codeType: hairTypes}];
-    }
-}
-
 #pragma mark - Action
 
 - (IBAction)lengthEditingDidBegin:(id)sender {
@@ -476,6 +512,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField != self.birthdayText) {
+        return;
+    }
     UIDatePicker *datePicker = [[UIDatePicker alloc] init];
     datePicker.datePickerMode = UIDatePickerModeDate;
     [datePicker setLocale:[NSLocale currentLocale]];
@@ -498,11 +537,12 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 
 - (void)hideKeyboardAndDatePicker
 {
-    NSArray* a = @[self.birthdayText, self.nameText, self.lengthText, self.weightText];
+    NSArray* a = @[self.birthdayText, self.nameText, self.lengthText, self.weightText, self.brandText];
     for (UIView* view in a) {
         [view resignFirstResponder];
     }
 }
+
 - (void)didTapTableView:(UITapGestureRecognizer*)ges
 {
     [self hideKeyboardAndDatePicker];

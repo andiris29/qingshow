@@ -2,8 +2,9 @@
 define([
     'ui/UIComponent',
     'app/model',
-    'app/views/user/U06Login'
-], function(UIComponent, model, U06Login) {
+    'app/views/user/U06Login',
+    'app/services/ShowService'
+], function(UIComponent, model, U06Login, ShowService) {
 // @formatter:on
     /**
      * View container, own the animation between view switch
@@ -20,10 +21,10 @@ define([
 
         var fragment = andrea.env.uriFragment, entry = (fragment.entry || '').toUpperCase();
         if (entry === 'S03') {
-            model.getShow(fragment._id, function(show) {
-                if (show) {
+            ShowService.query([fragment._id], function(metadata, data) {
+                if (!metadata.error && data.shows.length) {
                     appRuntime.view.to('app/views/show/S03Show', {
-                        'show' : show
+                        'show' : data.shows[0]
                     });
                 } else {
                     appRuntime.view.to('app/views/show/S01Home');
