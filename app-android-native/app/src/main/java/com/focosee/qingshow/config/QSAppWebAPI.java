@@ -7,9 +7,9 @@ public class QSAppWebAPI {
     private static final String HOST_ADDRESS = "http://chingshow.com:30001";
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 
-    public static final String LOGIN_SERVICE_URL = HOST_NAME+ "/user/login";
-    public static final String REGISTER_SERVICE_URL = HOST_NAME+ "/user/register";
-    public static final String UPDATE_SERVICE_URL = HOST_NAME+ "/user/update";
+    public static final String LOGIN_SERVICE_URL = HOST_NAME + "/user/login";
+    public static final String REGISTER_SERVICE_URL = HOST_NAME + "/user/register";
+    public static final String UPDATE_SERVICE_URL = HOST_NAME + "/user/update";
     public static final String LOGOUT_SERVICE_URL = HOST_NAME + "/user/logout";
     public static final String GET_SERVICE_URL = HOST_NAME + "/user/get";
 
@@ -55,18 +55,20 @@ public class QSAppWebAPI {
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
     private static final String PREVIEW_TREND_UNLIKE_API = HOST_NAME + "/preview/unlike";
 
-    public static String getBrandFollowedApi(String _id){
+    public static String getBrandFollowedApi(String _id) {
         return BRAND_FOLLOWED_API + "?_id=" + _id;
     }
 
-    public static String getUerApi(String _id){ return GET_SERVICE_URL + "?id=" + _id; }
+    public static String getUerApi(String _id) {
+        return GET_SERVICE_URL + "?id=" + _id;
+    }
 
-    public static String getPreviewTrendLikeApi(int type){
-        if(0 == type) return PREVIEW_TREND_UNLIKE_API;
+    public static String getPreviewTrendLikeApi(int type) {
+        if (0 == type) return PREVIEW_TREND_UNLIKE_API;
         return PREVIEW_TREND_LIKE_API;
     }
 
-    public static String getPreviewTrendListApi(int pageIndex, int pageSize){
+    public static String getPreviewTrendListApi(int pageIndex, int pageSize) {
         return PREVIEW_TREND_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
@@ -74,16 +76,16 @@ public class QSAppWebAPI {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getFeedingLikeApi(int pageIndex, int pageSize) {
-        return FEEDING_LIKE + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    public static String getFeedingLikeApi(String _id, int pageIndex, int pageSize) {
+        return FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getFeedingRecommendationApi(int pageIndex, int pageSize) {
-        return FEEDING_RECOMMENDATION + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    public static String getFeedingRecommendationApi(String _id, int pageIndex, int pageSize) {
+        return FEEDING_RECOMMENDATION + "?_id=" + _id + "&pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
     public static String getPeopleQueryFollowedApi(String _id, int pageIndex, int pageSize) {
-        return People_Query_Followed + "?_id=" +_id + "&pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+        return People_Query_Followed + "?_id=" + _id + "&pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
     public static String getShowDetailApi(String showId) {

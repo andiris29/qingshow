@@ -49,6 +49,7 @@ import java.util.LinkedList;
 
 public class S01HomeActivity extends BaseActivity {
     //    private MNavigationView _navigationView;
+    private static String ACTION_MESSAGE = "S01HomeActivity_actionMessage";
     private boolean isFirstFocus_activity = true;
     private final static String S01_TAG = "S01HomeActivity";
     private LinearLayout _popView;
@@ -81,7 +82,7 @@ public class S01HomeActivity extends BaseActivity {
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (S03SHowActivity.ACTION_MESSAGE.equals(intent.getAction())) {
+            if (ACTION_MESSAGE.equals(intent.getAction())) {
                 int position = intent.getIntExtra("position", 0);
                 int numLike = _adapter.getItemDataAtIndex(position).numLike;
                 _adapter.getItemDataAtIndex(position).numLike = numLike + 1;
@@ -152,6 +153,7 @@ public class S01HomeActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
                 intent.putExtras(bundle);
+                S03SHowActivity.ACTION_MESSAGE = ACTION_MESSAGE;
                 startActivity(intent);
             }
         });
@@ -160,7 +162,7 @@ public class S01HomeActivity extends BaseActivity {
 
         initEvent();
 
-        registerReceiver(broadcastReceiver, new IntentFilter(S03SHowActivity.ACTION_MESSAGE));
+        registerReceiver(broadcastReceiver, new IntentFilter(ACTION_MESSAGE));
 
     }
 

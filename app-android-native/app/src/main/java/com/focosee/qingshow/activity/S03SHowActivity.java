@@ -79,7 +79,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
-    public static final String ACTION_MESSAGE = "S03SHowActivity_like";
+    public static String ACTION_MESSAGE = "";
     public final String TAG = "S03SHowActivity";
     private int position;
 
@@ -116,6 +116,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private ImageButton likedImageButton;
 
     private LinearLayout buttomLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
