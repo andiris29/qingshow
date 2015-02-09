@@ -436,7 +436,12 @@ public class ImageIndicatorView extends RelativeLayout {
 			return super.getItemPosition(object);
 		}
 
-		@Override
+
+        @Override
+        public void destroyItem(View container, int position, Object object) {
+        }
+
+        @Override
 		public Object instantiateItem(ViewGroup container, int position) {
 
             position %= this.itemSize;
