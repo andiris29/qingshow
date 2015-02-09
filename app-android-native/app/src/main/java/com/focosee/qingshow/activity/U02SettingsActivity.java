@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class U02SettingsActivity extends BaseActivity {
@@ -57,5 +58,19 @@ public class U02SettingsActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U02UserSetting"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U02UserSetting"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }

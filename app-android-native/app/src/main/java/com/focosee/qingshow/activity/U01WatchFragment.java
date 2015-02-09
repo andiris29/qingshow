@@ -202,15 +202,4 @@ public class U01WatchFragment extends Fragment {
         Log.i("P02ModelActivity", error.toString());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("MainScreen"); //统计页面
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("MainScreen");
-    }
 }

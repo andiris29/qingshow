@@ -26,7 +26,6 @@ import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoComment;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.MongoCodeUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MNavigationView;
@@ -35,6 +34,7 @@ import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
+public class    S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
     public static boolean isOpened = false;
@@ -61,7 +61,6 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     private int currentPage = 0;
     private int numbersPerPage = 10;
     private String showId;
-    private String showUserId;
     private String replyUserId = null;
 
     private Intent viewMainPageIntent= null;
@@ -328,5 +327,19 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S04CommentList"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S04CommentList"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }

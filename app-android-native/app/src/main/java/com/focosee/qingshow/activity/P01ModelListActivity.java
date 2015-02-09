@@ -23,6 +23,7 @@ import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -139,5 +140,19 @@ public class P01ModelListActivity extends BaseActivity {
     private void handleErrorMsg(VolleyError error) {
         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P01ModelListActivity", error.toString());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("P01ModelList"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("P01ModelList"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }

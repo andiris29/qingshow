@@ -13,6 +13,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
 import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -89,5 +90,19 @@ public class S07CollectActivity extends BaseActivity {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S07Collocation"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S07Collocation"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }
