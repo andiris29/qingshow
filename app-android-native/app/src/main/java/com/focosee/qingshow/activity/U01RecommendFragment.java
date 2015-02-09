@@ -18,7 +18,6 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
@@ -37,14 +36,11 @@ import java.util.LinkedList;
  * Created by zenan on 12/27/14.
  */
 public class U01RecommendFragment extends Fragment {
-    public static String ACTION_MESSAGE = "U01RecommendFragment_actionMessage";
     private int currentPageIndex = 1;
 
     private MPullRefreshMultiColumnListView latestPullRefreshListView;
     private MultiColumnListView latestListView;
     private ClassifyWaterfallAdapter itemListAdapter;
-    private U01PersonalActivity u01PersonalActivity;
-    private MongoPeople people;
 
     public static U01RecommendFragment newInstance() {
         U01RecommendFragment fragment = new U01RecommendFragment();
@@ -56,16 +52,9 @@ public class U01RecommendFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public void setU01PersonalActivity(U01PersonalActivity u01PersonalActivity){
-        this.u01PersonalActivity = u01PersonalActivity;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getActivity() instanceof U01PersonalActivity){
-            people = ((U01PersonalActivity)getActivity()).getMongoPeople();
-        }
         if (getArguments() != null) {
 
         }
@@ -100,7 +89,6 @@ public class U01RecommendFragment extends Fragment {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), S03SHowActivity.class);
-                S03SHowActivity.ACTION_MESSAGE = ACTION_MESSAGE;
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((MongoShow)itemListAdapter.getItem(position))._id);
                 startActivity(intent);
             }
@@ -119,7 +107,7 @@ public class U01RecommendFragment extends Fragment {
 
     private void doShowsRefreshDataTask() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getFeedingRecommendationApi(people.get_id(), 1, 10), null, new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getFeedingRecommendationApi(1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ((TextView)getActivity().findViewById(R.id.recommendCountTextView)).setText(MetadataParser.getNumTotal(response));
@@ -150,8 +138,7 @@ public class U01RecommendFragment extends Fragment {
 
     private void doShowsLoadMoreTask(String pageNo, String pageSize) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getFeedingRecommendationApi(people.get_id(), Integer.parseInt(pageNo)
-                        , Integer.parseInt(pageSize)), null, new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getFeedingRecommendationApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {

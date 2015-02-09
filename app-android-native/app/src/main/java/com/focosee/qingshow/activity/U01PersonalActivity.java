@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -14,12 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 
 public class U01PersonalActivity extends FragmentActivity {
@@ -31,6 +35,7 @@ public class U01PersonalActivity extends FragmentActivity {
     private static final int PAGER_RECOMMEND = 1;
     private static final int PAGER_WATCH = 2;
     private static final int PAGE_BRAND = 3;
+    private static final int PAGER_CHOOSE = 4;
 
     private ImageView backTextView;
     private ImageView settingsTextView;
@@ -44,10 +49,12 @@ public class U01PersonalActivity extends FragmentActivity {
     private RelativeLayout watchRelativeLayout;
     private RelativeLayout fansRelativeLayout;
     private RelativeLayout brandRelativeLayout;
+    //private RelativeLayout followRelativeLayout;
 
     private LinearLayout line1;
     private LinearLayout line2;
     private LinearLayout line3;
+    //private LinearLayout line4;
 
     private MongoPeople people;
 
@@ -62,36 +69,24 @@ public class U01PersonalActivity extends FragmentActivity {
         matchUI();
         if (null != mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE)) {
             people = (MongoPeople) mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE);
-        } else if (null != mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL)) {
+            peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
+        } else if (null != mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL)){
             people = (MongoPeople) mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL);
+            peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
         } else {//本人
             people = QSApplication.get().getPeople();
+            peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
         }
-
-        if (people != null) {
-            if (people.get_id().equals(QSApplication.get().getPeople().get_id())) {
-                peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
-            } else {
-                peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
-            }
-        } else {
-            Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
-            startActivity(intent);
-            Toast.makeText(context, "请登录账号", Toast.LENGTH_LONG).show();
-            finish();
-        }
-
 
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
                 finish();
             }
         });
 
 
-        if (peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) {
+        if(peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndx()){
             settingsTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -106,9 +101,16 @@ public class U01PersonalActivity extends FragmentActivity {
 
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);
-        if (people.name != null) nameTextView.setText(people.name);
-        if (people.height != null && people.weight != null)
-            heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+        if (people != null) {
+            if (people.name != null) nameTextView.setText(people.name);
+            if (people.height != null && people.weight != null)
+                heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+        } else {
+            Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
+            startActivity(intent);
+            Toast.makeText(context, "请登录账号", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         MRoundImageView portraitImageView = (MRoundImageView) findViewById(R.id.avatorImageView);
         if (people != null) {
@@ -152,9 +154,8 @@ public class U01PersonalActivity extends FragmentActivity {
 
     public void matchUI() {
         backTextView = (ImageView) findViewById(R.id.activity_personal_backTextView);
-        settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
-        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) {//不是本人
-            settingsTextView.setVisibility(View.GONE);
+        if(peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndx()){
+            settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
         }
         matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
         watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
@@ -182,11 +183,9 @@ public class U01PersonalActivity extends FragmentActivity {
             switch (pos) {
                 case PAGER_COLLECTION:
                     fragment = U01CollectionFragment.newInstance();
-                    ((U01CollectionFragment) fragment).setU01PersonalActivity(U01PersonalActivity.this);
                     break;
                 case PAGER_RECOMMEND:
                     fragment = U01RecommendFragment.newInstance();
-                    ((U01RecommendFragment) fragment).setU01PersonalActivity(U01PersonalActivity.this);
                     break;
                 case PAGER_WATCH:
                     fragment = U01WatchFragment.newInstance();
@@ -269,7 +268,7 @@ public class U01PersonalActivity extends FragmentActivity {
         tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString()) - 1));
     }
 
-    public MongoPeople getMongoPeople() {
+    public MongoPeople getMongoPeople(){
         return people;
     }
 
