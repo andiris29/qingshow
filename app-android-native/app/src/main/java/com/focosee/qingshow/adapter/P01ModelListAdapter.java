@@ -17,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -43,7 +44,8 @@ class P01ModelHolderView {
 public class P01ModelListAdapter extends BaseAdapter {
     public final static String TYPE_U01WATCHFRAGMENT = "U01WatchFragment";
     public final static String TYPE_P01MODELLIST = "P01ModelListAdapter";
-    private String type = "P01ModelListAdapter";
+    public final static String TYPE_OTHERS = "others";
+    private int type = PeopleTypeInU01PersonalActivity.NOREMOVEITEM.getIndx();//在人气用户页面
 
     private ArrayList<MongoPeople> data;
     private ImageLoader imageLoader;
@@ -51,7 +53,7 @@ public class P01ModelListAdapter extends BaseAdapter {
     private FollowButtonOnClickListener followButtonOnClickListener;
     private U01PersonalActivity u01PersonalActivity;
 
-    public P01ModelListAdapter(Context context, ArrayList<MongoPeople> data, ImageLoader imageLoader, String type) {
+    public P01ModelListAdapter(Context context, ArrayList<MongoPeople> data, ImageLoader imageLoader, int type) {
         this.context = context;
         this.data = data;
         this.imageLoader = imageLoader;
@@ -59,11 +61,11 @@ public class P01ModelListAdapter extends BaseAdapter {
         followButtonOnClickListener = new FollowButtonOnClickListener();
     }
 
-    public void setU01PersonActivity(U01PersonalActivity u01PersonalActivity){
+    public void setU01PersonActivity(U01PersonalActivity u01PersonalActivity) {
         this.u01PersonalActivity = u01PersonalActivity;
     }
 
-    public MongoPeople getItemData(int position){
+    public MongoPeople getItemData(int position) {
         return data.get(position);
     }
 
@@ -99,18 +101,18 @@ public class P01ModelListAdapter extends BaseAdapter {
 
             convertView.setTag(holderView);
         }
-        holderView = (P01ModelHolderView)convertView.getTag();
+        holderView = (P01ModelHolderView) convertView.getTag();
 
-        this.imageLoader.displayImage(this.data.get(position).getPortrait(),holderView.modelImageView, AppUtil.getPortraitDisplayOptions());
+        this.imageLoader.displayImage(this.data.get(position).getPortrait(), holderView.modelImageView, AppUtil.getPortraitDisplayOptions());
         holderView.nameTextView.setText(this.data.get(position).getName());
-        holderView.heightTextView.setText(this.data.get(position).getHeight()+this.data.get(position).getWeight());
+        holderView.heightTextView.setText(this.data.get(position).getHeight() + this.data.get(position).getWeight());
         //holderView.weightTextView.setText(this.data.get(position).getWeight());
         holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
         holderView.followButton.setTag(String.valueOf(position));
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
             holderView.followButton.setBackgroundResource(R.drawable.people_list_unfollow);
-        }else{
+        } else {
             holderView.followButton.setBackgroundResource(R.drawable.people_list_follow);
         }
         holderView.followButton.setOnClickListener(followButtonOnClickListener);
@@ -131,8 +133,8 @@ public class P01ModelListAdapter extends BaseAdapter {
         @Override
         public void onClick(final View v) {
             if (data.get(Integer.valueOf(v.getTag().toString()).intValue()).getModelIsFollowedByCurrentUser()) {
-                unFollowModel((Button) v, type);
-            }else {
+                unFollowModel((Button) v);
+            } else {
                 followModel((Button) v);
             }
         }
@@ -151,10 +153,10 @@ public class P01ModelListAdapter extends BaseAdapter {
                         showMessage(context, "关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
                         v.setBackgroundResource(R.drawable.people_list_unfollow);
-                    }else{
+                    } else {
                         showMessage(context, "关注失败");
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     showMessage(context, e.toString());
                 }
             }
@@ -168,7 +170,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
     }
 
-    private void unFollowModel(final Button v, final String type) {
+    private void unFollowModel(final Button v) {
         Map<String, String> followData = new HashMap<String, String>();
         followData.put("_id", data.get(Integer.valueOf(v.getTag().toString()).intValue()).get_id());
         JSONObject jsonObject = new JSONObject(followData);
@@ -181,16 +183,16 @@ public class P01ModelListAdapter extends BaseAdapter {
                         showMessage(context, "取消关注成功");
                         int position = Integer.valueOf(v.getTag().toString()).intValue();
                         data.get(position).setModelIsFollowedByCurrentUser(false);
-                        if(type.equals(P01ModelListAdapter.TYPE_U01WATCHFRAGMENT) && null != u01PersonalActivity) {
+                        if (type == (PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) && null != u01PersonalActivity) {
                             data.remove(position);
                             notifyDataSetChanged();
                             u01PersonalActivity.refreshWatchNum();
-                        }else
+                        } else
                             v.setBackgroundResource(R.drawable.people_list_follow);
-                    }else{
+                    } else {
                         showMessage(context, "取消关注失败");
                     }
-                }catch (Exception e) {
+                } catch (Exception e) {
                     showMessage(context, e.toString());
                 }
             }

@@ -20,10 +20,13 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoComment;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.MongoCodeUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MNavigationView;
@@ -257,8 +260,9 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
         String commentUserId = adapter.getCommentAtIndex(commentIndex).getUserId();
 
         clickCommentIndex = commentIndex;
-        viewMainPageIntent = new Intent(S04CommentActivity.this, P02ModelActivity.class);
+        viewMainPageIntent = new Intent();
         viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
+        viewMainPageIntent.putExtra(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
 
         if (null != userId && userId.equals(commentUserId)) {
             ActionSheet.createBuilder(this, getFragmentManager())
@@ -283,6 +287,19 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         switch (index) {
             case 0:
+                if(null != adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef()){
+                    int[] roles = adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef().getRoles();
+
+                    for(int role : roles){
+                        if(role == RolesCode.MODEL.getIndex()){
+                            viewMainPageIntent.setClass(S04CommentActivity.this, P02ModelActivity.class);
+                            startActivity(viewMainPageIntent);
+                            return;
+                        }
+                    }
+                }
+                viewMainPageIntent.setClass(S04CommentActivity.this, U01PersonalActivity.class);
+                U01PersonalActivity.peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
                 startActivity(viewMainPageIntent);
                 break;
             case 1:

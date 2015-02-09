@@ -18,6 +18,8 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -41,8 +43,10 @@ public class U01WatchFragment extends Fragment {
     private P01ModelListAdapter followerPeopleListAdapter;
     private U01PersonalActivity u01PersonalActivity;
 
+
     private int pageIndex = 1;
     private String _id;
+    private MongoPeople people;
 
     public static U01WatchFragment newInstance() {
         U01WatchFragment fragment = new U01WatchFragment();
@@ -60,7 +64,10 @@ public class U01WatchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        _id = QSApplication.get().getPeople()._id;
+        if(getActivity() instanceof U01PersonalActivity){
+            people = ((U01PersonalActivity)getActivity()).getMongoPeople();
+            _id = people.get_id();
+        }
         if (getArguments() != null) {
 
         }
@@ -74,7 +81,7 @@ public class U01WatchFragment extends Fragment {
         followerPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
         followerListView = followerPullRefreshListView.getRefreshableView();
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
-        followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), P01ModelListAdapter.TYPE_U01WATCHFRAGMENT);
+        followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), U01PersonalActivity.peopleType);
         followerPeopleListAdapter.setU01PersonActivity(u01PersonalActivity);
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);
@@ -101,7 +108,19 @@ public class U01WatchFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(P02ModelActivity.INPUT_MODEL, itemEntity);
+                bundle.putSerializable(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, itemEntity);
 
+                int[] roles = followerPeopleListAdapter.getItemData(position).getRoles();
+
+                for(int role : roles){
+                    if(role == RolesCode.MODEL.getIndex()){
+                        intent.setClass(getActivity(), P02ModelActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        return;
+                    }
+                }
+                intent.setClass(getActivity(), U01PersonalActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
 

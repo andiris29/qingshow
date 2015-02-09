@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -37,10 +40,6 @@ public class U01PersonalActivity extends FragmentActivity {
     private ImageView backTextView;
     private ImageView settingsTextView;
     private ImageView backgroundIV;
-    //    private TextView likeCountTextView;
-//    private TextView recommendCountTextView;
-//    private TextView followedCountTextView;
-//    private TextView brandCountTextView;
     private Context context;
 
     private ViewPager personalViewPager;
@@ -59,6 +58,8 @@ public class U01PersonalActivity extends FragmentActivity {
 
     private MongoPeople people;
 
+    public static int peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +69,13 @@ public class U01PersonalActivity extends FragmentActivity {
         matchUI();
         if (null != mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE)) {
             people = (MongoPeople) mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE);
-        } else {
+            peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
+        } else if (null != mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL)){
+            people = (MongoPeople) mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL);
+            peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
+        } else {//本人
             people = QSApplication.get().getPeople();
+            peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
         }
 
         backTextView.setOnClickListener(new View.OnClickListener() {
@@ -80,13 +86,15 @@ public class U01PersonalActivity extends FragmentActivity {
         });
 
 
-        settingsTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(U01PersonalActivity.this, U02SettingsActivity.class);
-                startActivity(intent);
-            }
-        });
+        if(peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndx()){
+            settingsTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(U01PersonalActivity.this, U02SettingsActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
 
         backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
         ImageLoader.getInstance().displayImage(people.background, backgroundIV);
@@ -97,14 +105,9 @@ public class U01PersonalActivity extends FragmentActivity {
             if (people.name != null) nameTextView.setText(people.name);
             if (people.height != null && people.weight != null)
                 heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
-//            if(!AppUtil.getAppUserId(this).equals(people._id))//不是本人
-//                settingsTextView.setVisibility(View.GONE);
-//            .setText(String.valueOf(people.))
         } else {
             Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
             startActivity(intent);
-            //likeCountTextView.setText(String.valueOf(people.likingShowRefs.length));
-//            recommendCountTextView
             Toast.makeText(context, "请登录账号", Toast.LENGTH_LONG).show();
             finish();
         }
@@ -151,7 +154,9 @@ public class U01PersonalActivity extends FragmentActivity {
 
     public void matchUI() {
         backTextView = (ImageView) findViewById(R.id.activity_personal_backTextView);
-        settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
+        if(peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndx()){
+            settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
+        }
         matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
         watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
@@ -263,5 +268,8 @@ public class U01PersonalActivity extends FragmentActivity {
         tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString()) - 1));
     }
 
+    public MongoPeople getMongoPeople(){
+        return people;
+    }
 
 }
