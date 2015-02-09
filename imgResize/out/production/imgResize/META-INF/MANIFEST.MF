@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: com.focosee.qingshow.Main
+Main-Class: com.focosee.qingshow.Main
+
