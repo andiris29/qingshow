@@ -26,12 +26,8 @@ dependencies {
     compile project(':likePinterest')
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'com.google.code.gson:gson:2.3'
-    compile 'com.mcxiaoke.volley:library:1.0.7'
-    compile project(':androidImageIndicator')
     compile 'com.android.support:support-v4:19.0.0'
     compile 'com.squareup.picasso:picasso:2.4.0'
-    compile files('libs/mframework.jar')
-    compile files('libs/weibosdkcore_v3.0.1.jar')
-    compile files('libs/umeng-analytics-v5.4.1.jar')
-    compile files('libs/libammsdk.jar')
+    compile 'com.mcxiaoke.volley:library:1.0.7'
+    compile project(':androidImageIndicator')
 }

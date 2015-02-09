@@ -20,6 +20,7 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
 
 public class U01PersonalActivity extends FragmentActivity {
@@ -111,11 +112,11 @@ public class U01PersonalActivity extends FragmentActivity {
 
         MRoundImageView portraitImageView = (MRoundImageView) findViewById(R.id.avatorImageView);
         if (people != null) {
-            // TODO Memory leak here
-//            String portraitUrl = people.portrait;
-//            if (portraitUrl != null && !portraitUrl.equals("")) {
+            String portraitUrl = people.portrait;
+            if (portraitUrl != null && !portraitUrl.equals("")) {
 //                Picasso.with(context).load(portraitUrl).into(portraitImageView);
-//            }
+                ImageLoader.getInstance().displayImage(portraitUrl, portraitImageView);
+            }
         }
 
         personalPagerAdapter = new PersonalPagerAdapter(getSupportFragmentManager());
