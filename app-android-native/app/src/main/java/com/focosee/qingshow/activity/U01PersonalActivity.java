@@ -24,6 +24,7 @@ import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class U01PersonalActivity extends FragmentActivity {
@@ -272,4 +273,17 @@ public class U01PersonalActivity extends FragmentActivity {
         return people;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U01User"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01User"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
+    }
 }

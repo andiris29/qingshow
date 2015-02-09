@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.focosee.qingshow.R;
@@ -26,6 +27,7 @@ public class LaunchActivity extends BaseActivity {
         //友盟接口
         MobclickAgent.updateOnlineConfig(this);
         MobclickAgent.openActivityDurationTrack(false);
+
 
         setContentView(R.layout.activity_launch);
 

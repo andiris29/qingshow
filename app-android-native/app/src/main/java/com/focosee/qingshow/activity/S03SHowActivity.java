@@ -61,6 +61,7 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -622,5 +623,19 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                     break;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S03Show"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S03Show"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }

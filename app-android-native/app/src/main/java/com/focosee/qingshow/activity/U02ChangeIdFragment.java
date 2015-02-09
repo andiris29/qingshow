@@ -105,16 +105,12 @@ public class U02ChangeIdFragment extends Fragment {
             }
         });
     }
-
-    @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("MainScreen"); //统计页面
+        MobclickAgent.onPageStart("U04ChangeMail"); //统计页面
     }
-
-    @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("MainScreen");
+        MobclickAgent.onPageEnd("U04ChangeMail");
     }
 }

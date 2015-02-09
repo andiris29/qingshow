@@ -39,6 +39,7 @@ import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -401,5 +402,17 @@ public class S01HomeActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S01Home"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S01Home"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
+    }
 }

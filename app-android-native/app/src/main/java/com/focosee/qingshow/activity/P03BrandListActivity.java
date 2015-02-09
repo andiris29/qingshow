@@ -22,6 +22,7 @@ import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -165,5 +166,19 @@ public class P03BrandListActivity extends BaseActivity {
             tempData.add(brandEntity);
         }
         return tempData;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("P03BrandList"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("P03BrandList"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }
