@@ -10,7 +10,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/bg_pic">
+        android:background="@drawable/user_bg_default">
         <ImageView
             android:id="@+id/activity_personal_background"
             android:layout_width="fill_parent"
@@ -49,7 +49,7 @@
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/nav_icon_people"/>
+                android:src="@drawable/user_head_default"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
