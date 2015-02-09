@@ -21,6 +21,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.WebViewActivity;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.UmengCountUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -93,12 +94,9 @@ public class P04BrandItemListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int position = Integer.parseInt(v.getTag().toString());
-                Log.d(TAG, "位置信息：" + position);
-                Log.d(TAG, "URL: " + itemList.get(position).getSource());
                 Intent intent  = new Intent(context, WebViewActivity.class);
                 intent.putExtra(WebViewActivity.URL, itemList.get(position).getSource());
                 context.startActivity(intent);
-                Toast.makeText(context, "click item " + String.valueOf(position) + " button", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -36,6 +36,7 @@ import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.share.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -89,6 +90,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private ArrayList<MongoItem> itemsData;
     private String videoUriString;
     private Uri videoUri = null;
+    private int playTime = 0;
 
     // Component declaration
     private RelativeLayout mRelativeLayout;
@@ -427,9 +429,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 //        Bitmap bitmap = view.getDrawingCache();
 
 //        videoView.buildDrawingCache();
-        Bitmap bitmapInput = videoView.getDrawingCache();
+//        Bitmap bitmapInput = videoView.getDrawingCache();
 //        Bitmap bitmapInput = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-        Bitmap bitmap = Bitmap.createBitmap(bitmapInput);
+//        Bitmap bitmap = Bitmap.createBitmap(bitmapInput);
 //        Bitmap bitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
 //
 //        Canvas canvas = new Canvas(bitmapInput);
@@ -439,8 +441,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 //        savePic(bitmapInput, "test.png");
 
 
-        this.imageIndicatorView.addBitmapAtFirst(bitmap, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
-        this.imageIndicatorView.show();
+//        this.imageIndicatorView.addBitmapAtFirst(bitmap, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
+//        this.imageIndicatorView.show();
 
         findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
     }
@@ -528,6 +530,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     public void onResponse(BaseResponse baseResponse) {
         switch (baseResponse.errCode) {
             case WBConstants.ErrorCode.ERR_OK:
+                UmengCountUtil.countShareShow(this,"weibo");
                 Log.i("tag", "ERR_OK");
                 break;
             case WBConstants.ErrorCode.ERR_CANCEL:
@@ -560,6 +563,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         req.transaction = String.valueOf(System.currentTimeMillis());
         req.message = msg;
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
+        UmengCountUtil.countShareShow(this,"weixin");
         wxApi.sendReq(req);
     }
 
@@ -636,6 +640,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onPause() {
         super.onPause();
+        playTime = videoView.getCurrentPosition();
+        UmengCountUtil.countPlayVideo(this,showId,playTime);
         MobclickAgent.onPageEnd("S03Show"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
     }
