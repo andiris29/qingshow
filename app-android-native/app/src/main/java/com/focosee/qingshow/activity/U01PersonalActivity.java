@@ -21,6 +21,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
@@ -84,10 +85,12 @@ public class U01PersonalActivity extends FragmentActivity {
         }
 
         if (people != null) {
-            if (people.get_id().equals(QSApplication.get().getPeople().get_id())) {
-                peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
-            } else {
+            if (!AppUtil.getAppUserLoginStatus(this)){
                 peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
+            }else {
+                if (people.get_id().equals(QSApplication.get().getPeople().get_id())) {
+                    peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
+                }
             }
         } else {
             Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
