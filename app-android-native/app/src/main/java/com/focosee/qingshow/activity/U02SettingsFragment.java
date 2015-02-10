@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,13 +30,16 @@ import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.request.QSStringRequest;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
@@ -71,6 +75,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout helpRelativeLayout;
     private RelativeLayout aboutVIPRelativeLayout;
 
+    private ImageView portraitImageView;
+    private ImageView backgroundImageView;
+
     private EditText nameEditText;
     private TextView sexTextView;
     private EditText ageEditText;
@@ -103,29 +110,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
         getUser();
 
+        matchUI();
+
         setJumpListener();
-        shoesSizeEditText = (EditText) getActivity().findViewById(R.id.shoesSizeEditText);
-        shoesSizeEditText.setOnFocusChangeListener(this);
-        clothesSizeEditText = (EditText) getActivity().findViewById(R.id.clothesSizeEditText);
-        clothesSizeEditText.setOnFocusChangeListener(this);
-
-        nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
-        nameEditText.setOnFocusChangeListener(this);
-
-        sexTextView = (TextView) getActivity().findViewById(R.id.sexTextView);
-
-        ageEditText = (EditText) getActivity().findViewById(R.id.ageEditText);
-        ageEditText.setOnFocusChangeListener(this);
-
-        heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
-        heightEditText.setOnFocusChangeListener(this);
-
-        weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
-        weightEditText.setOnFocusChangeListener(this);
-
-        hairTextView = (EditText) getActivity().findViewById(R.id.hairTextView);
-
-        favoriteBrandText = (TextView) getActivity().findViewById(R.id.brandTextView);
 
         Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
         quitButton.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +151,35 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         });
     }
 
+    private void matchUI(){
+
+        portraitImageView = (ImageView) getActivity().findViewById(R.id.portraitImageView);
+        backgroundImageView = (ImageView) getActivity().findViewById(R.id.backgroundImageView);
+
+        shoesSizeEditText = (EditText) getActivity().findViewById(R.id.shoesSizeEditText);
+        shoesSizeEditText.setOnFocusChangeListener(this);
+        clothesSizeEditText = (EditText) getActivity().findViewById(R.id.clothesSizeEditText);
+        clothesSizeEditText.setOnFocusChangeListener(this);
+
+        nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
+        nameEditText.setOnFocusChangeListener(this);
+
+        sexTextView = (TextView) getActivity().findViewById(R.id.sexTextView);
+
+        ageEditText = (EditText) getActivity().findViewById(R.id.ageEditText);
+        ageEditText.setOnFocusChangeListener(this);
+
+        heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
+        heightEditText.setOnFocusChangeListener(this);
+
+        weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
+        weightEditText.setOnFocusChangeListener(this);
+
+        hairTextView = (EditText) getActivity().findViewById(R.id.hairTextView);
+
+        favoriteBrandText = (TextView) getActivity().findViewById(R.id.brandTextView);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -176,6 +192,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
+
+            ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
+            ImageLoader.getInstance().displayImage(people.background, backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
+
             nameEditText.setText(people.name);
             ageEditText.setText("");
             heightEditText.setText(people.height);

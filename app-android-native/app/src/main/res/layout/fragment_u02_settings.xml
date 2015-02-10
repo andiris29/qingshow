@@ -57,13 +57,13 @@
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
-            <ImageView
+            <com.focosee.qingshow.widget.MRoundImageView
                 android:id="@+id/portraitImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:src="@drawable/bg_photpchoose_eg01" />
+                android:background="@drawable/bg_photpchoose_eg01" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -88,14 +88,14 @@
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
-            <ImageView
+            <com.focosee.qingshow.widget.MRoundImageView
                 android:id="@+id/backgroundImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:src="@drawable/bg_photpchoose_eg02" />
+                android:background="@drawable/bg_photpchoose_eg02" />
 
             <TextView
                 android:layout_width="wrap_content"
