@@ -47,3 +47,24 @@ goblin.queryTOPShops = {
         });
     }
 };
+
+goblin.updateTOPShopHotSales = {
+    'method' : 'post',
+    'func' : function(req, res) {
+        // TODO
+    }
+};
+
+goblin.queryItems = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        // TODO
+    }
+};
+
+goblin.updateItemPrices = {
+    'method' : 'post',
+    'func' : function(req, res) {
+        // TODO
+    }
+};
