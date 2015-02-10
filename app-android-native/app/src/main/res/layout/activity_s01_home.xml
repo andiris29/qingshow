@@ -109,6 +109,40 @@
                 android:text="闪点推荐"
                 android:textColor="#ffffffff" />
 
+            <ImageView
+                android:id="@+id/S01_nav_icon_brand"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/root_menu_brand" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="品牌商户"
+                android:textColor="#ffffffff" />
+
+            <ImageView
+                android:id="@+id/S01_nav_icon_design"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/root_menu_design" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="潮流时尚"
+                android:textColor="#ffffffff" />
+
 
             <ImageView
                 android:id="@+id/S01_nav_icon_match"
@@ -146,40 +180,9 @@
                 android:textColor="#ffffffff" />
 
 
-            <ImageView
-                android:id="@+id/S01_nav_icon_design"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/root_menu_design" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="潮流时尚"
-                android:textColor="#ffffffff" />
 
 
-            <ImageView
-                android:id="@+id/S01_nav_icon_brand"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/root_menu_brand" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="品牌专区"
-                android:textColor="#ffffffff" />
         </LinearLayout>
     </RelativeLayout>
 
