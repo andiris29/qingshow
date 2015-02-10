@@ -1,25 +1,11 @@
 var async = require('async'), _ = require('underscore');
 var request = require('request');
 
-var _appKey = null;
-var _appSecret = null;
-
-var _environment = function(value) {
-    if (value === 'graceDevelopment') {
-        _appKey = '21700680';
-        _appSecret = '98831154902e1129c977cf7f8c2e2145';
-    } else if (value === 'graceProduction') {
-        _appKey = '21613035';
-        _appSecret = '0cdf701594faeb88d2dd5c564bbbe5ce';
-    } else if (value === 'focosee') {
-        _appKey = '21557116';
-        _appSecret = '673790b6f46d07a8e7a11702af6ca8d4';
-    }
-};
-_environment('graceDevelopment');
-
 var taobao = module.exports;
 
+// graceDevelopment
+var _appKey = '21700680';
+var _appSecret = '98831154902e1129c977cf7f8c2e2145';
 // TODO
 var _session;
 
@@ -76,7 +62,7 @@ var _invoke = function(api, appParams, callback) {
         async.waterfall([
         function(callback) {
             // Unzip response
-            if (response.headers['content-encoding'] === 'gzip') {
+            if (!error && response.headers['content-encoding'] === 'gzip') {
                 require('zlib').gunzip(body, function(err, unzipped) {
                     callback(error, response, unzipped.toString());
                 });
