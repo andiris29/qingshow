@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -158,12 +159,21 @@ public class U01PersonalActivity extends FragmentActivity {
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
+
             }
         });
         setIndicatorListener();
-        personalViewPager.setCurrentItem(1);
+        personalViewPager.setOffscreenPageLimit(4);
+        personalViewPager.setCurrentItem(0);
 
         registerReceiver(receiver, new IntentFilter(LOGOUT_ACTOIN));
+    }
+
+    private void initFragments(){
+        U01CollectionFragment.newInstance();
+        U01RecommendFragment.newInstance();
+        U01CollectionFragment.newInstance();
+        U01BrandFragment.newInstance();
     }
 
     @Override
@@ -204,15 +214,12 @@ public class U01PersonalActivity extends FragmentActivity {
             switch (pos) {
                 case PAGER_COLLECTION:
                     fragment = U01CollectionFragment.newInstance();
-                    ((U01CollectionFragment) fragment).setU01PersonalActivity(U01PersonalActivity.this);
                     break;
                 case PAGER_RECOMMEND:
                     fragment = U01RecommendFragment.newInstance();
-                    ((U01RecommendFragment) fragment).setU01PersonalActivity(U01PersonalActivity.this);
                     break;
                 case PAGER_WATCH:
                     fragment = U01WatchFragment.newInstance();
-                    ((U01WatchFragment) fragment).setU01PersonalActivity(U01PersonalActivity.this);
                     break;
                 case PAGE_BRAND:
                     fragment = U01BrandFragment.newInstance();

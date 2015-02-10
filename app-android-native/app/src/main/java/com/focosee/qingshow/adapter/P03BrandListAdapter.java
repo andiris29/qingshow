@@ -35,6 +35,10 @@ public class P03BrandListAdapter extends BaseAdapter {
         this.imageLoader = imageLoader;
     }
 
+    public ArrayList<MongoBrand> getData(){
+        return data;
+    }
+
     @Override
     public int getCount() {
         return (null != data) ? data.size() : 0;

@@ -43,21 +43,21 @@ public class U01RecommendFragment extends Fragment {
     private MPullRefreshMultiColumnListView latestPullRefreshListView;
     private MultiColumnListView latestListView;
     private ClassifyWaterfallAdapter itemListAdapter;
-    private U01PersonalActivity u01PersonalActivity;
     private MongoPeople people;
 
+    private static U01RecommendFragment instance;
+
     public static U01RecommendFragment newInstance() {
-        U01RecommendFragment fragment = new U01RecommendFragment();
 
-        return fragment;
+            if (instance == null) {
+                instance = new U01RecommendFragment();
+            }
+
+            return instance;
     }
 
-    public U01RecommendFragment() {
+    private U01RecommendFragment() {
         // Required empty public constructor
-    }
-
-    public void setU01PersonalActivity(U01PersonalActivity u01PersonalActivity){
-        this.u01PersonalActivity = u01PersonalActivity;
     }
 
     @Override

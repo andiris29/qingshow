@@ -44,21 +44,20 @@ public class U01CollectionFragment extends Fragment {
     private MPullRefreshMultiColumnListView latestPullRefreshListView;
     private MultiColumnListView latestListView;
     private ClassifyWaterfallAdapter itemListAdapter;
-    private U01PersonalActivity u01PersonalActivity;
     private MongoPeople people;
+    private static U01CollectionFragment instance;
 
     public static U01CollectionFragment newInstance() {
-        U01CollectionFragment fragment = new U01CollectionFragment();
 
-        return fragment;
+            if (instance == null) {
+                instance = new U01CollectionFragment();
+            }
+
+            return instance;
     }
 
-    public U01CollectionFragment() {
+    private U01CollectionFragment() {
         // Required empty public constructor
-    }
-
-    public void setU01PersonalActivity(U01PersonalActivity u01PersonalActivity){
-        this.u01PersonalActivity = u01PersonalActivity;
     }
 
     @Override

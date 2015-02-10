@@ -2,13 +2,16 @@ package com.focosee.qingshow.activity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -18,6 +21,8 @@ import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
+import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
@@ -40,16 +45,28 @@ public class U01BrandFragment extends Fragment{
     private ListView brandListView;
 
     private int _currentPageIndex = 1;
+    private MongoPeople people;
+
+    private static U01BrandFragment instance;
 
     public static U01BrandFragment newInstance(){
-        return new U01BrandFragment();
+
+            if (instance == null) {
+                instance = new U01BrandFragment();
+            }
+
+            return instance;
     }
 
-    public U01BrandFragment(){}
+    private U01BrandFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        people = ((U01PersonalActivity) getActivity()).getMongoPeople();
+        if(people == null){
+            people = new MongoPeople();
+        }
         if (getArguments() != null) {
 
         }
@@ -66,14 +83,12 @@ public class U01BrandFragment extends Fragment{
         brandListView = mPullRefreshListView.getRefreshableView();
         brandListView.setAdapter(mAdapter);
 
-        mPullRefreshListView.setPullRefreshEnabled(true);
-        mPullRefreshListView.setScrollLoadEnabled(true);
+        mPullRefreshListView.setPullRefreshEnabled(false);
         mPullRefreshListView.setScrollLoadEnabled(true);
 
         mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                doRefreshTask();
             }
 
             @Override
@@ -81,6 +96,22 @@ public class U01BrandFragment extends Fragment{
                 doGetMoreTask();
             }
         });
+
+        brandListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent  = new Intent(getActivity(), P04BrandActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, mAdapter.getData().get(i));
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+
+
+            }
+        });
+        doRefreshTask();
 
         return view;
     }
@@ -96,12 +127,13 @@ public class U01BrandFragment extends Fragment{
 
     private void _getDataFromNet(boolean refreshSign) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(QSApplication.get().QSUserId(getActivity())), null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(people.get_id()), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
                     ArrayList<MongoBrand> results = BrandParser.parseQueryBrands(response);
                     if (_tRefreshSign) {
+                        ((TextView)getActivity().findViewById(R.id.brandCountTextView)).setText(MetadataParser.getNumTotal(response));
                         mAdapter.resetData(results);
                         _currentPageIndex = 1;
                     } else {
@@ -114,7 +146,6 @@ public class U01BrandFragment extends Fragment{
                     mPullRefreshListView.setHasMoreData(true);
 
                 }catch (Exception error){
-                    Log.i("test", "error" + error.toString());
                     //Toast.makeText(getApplication(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getActivity(), "最后一页", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();

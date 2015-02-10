@@ -41,24 +41,24 @@ public class U01WatchFragment extends Fragment {
     private ListView followerListView;
     private MPullRefreshListView followerPullRefreshListView;
     private P01ModelListAdapter followerPeopleListAdapter;
-    private U01PersonalActivity u01PersonalActivity;
-
 
     private int pageIndex = 1;
     private String _id;
     private MongoPeople people;
 
+    private static U01WatchFragment instance;
+
     public static U01WatchFragment newInstance() {
-        U01WatchFragment fragment = new U01WatchFragment();
-        return fragment;
+
+            if (instance == null) {
+                instance = new U01WatchFragment();
+            }
+            return instance;
+
     }
 
     public U01WatchFragment() {
         // Required empty public constructor
-    }
-
-    public void setU01PersonalActivity(U01PersonalActivity u01PersonalActivity){
-        this.u01PersonalActivity = u01PersonalActivity;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class U01WatchFragment extends Fragment {
         followerListView = followerPullRefreshListView.getRefreshableView();
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), U01PersonalActivity.peopleType);
-        followerPeopleListAdapter.setU01PersonActivity(u01PersonalActivity);
+        followerPeopleListAdapter.setU01PersonActivity((U01PersonalActivity)getActivity());
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);
         followerPullRefreshListView.setPullRefreshEnabled(false);
