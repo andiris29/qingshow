@@ -312,8 +312,10 @@ public class ImageIndicatorView extends RelativeLayout {
 		this.refreshHandler.sendEmptyMessage(currentIndex);
 		// 为ViewPager配置数据
 		this.viewPager.setAdapter(new MyPagerAdapter(this.viewList));
-		this.viewPager.setCurrentItem(Integer.MAX_VALUE, false);
-	}
+		this.viewPager.setCurrentItem(viewList.size() * 3, false);
+    }
+
+
 
 	/**
 	 * 箭头点击事件处理

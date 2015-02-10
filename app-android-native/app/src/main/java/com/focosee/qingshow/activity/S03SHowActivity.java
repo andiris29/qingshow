@@ -428,8 +428,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 //        view.buildDrawingCache();
 //        Bitmap bitmap = view.getDrawingCache();
 
-//        videoView.buildDrawingCache();
-//        Bitmap bitmapInput = videoView.getDrawingCache();
+
 //        Bitmap bitmapInput = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 //        Bitmap bitmap = Bitmap.createBitmap(bitmapInput);
 //        Bitmap bitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
@@ -440,9 +439,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 //        savePic(bitmapInput, "test.png");
 
-
-//        this.imageIndicatorView.addBitmapAtFirst(bitmap, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
-//        this.imageIndicatorView.show();
+        videoView.buildDrawingCache();
+        Bitmap bitmapInput = videoView.getDrawingCache();
+        this.imageIndicatorView.addBitmapAtFirst(bitmapInput, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
+        imageIndicatorView.show();
+//      this.imageIndicatorView.getViewPager().getAdapter().notifyDataSetChanged();
 
         findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
     }
