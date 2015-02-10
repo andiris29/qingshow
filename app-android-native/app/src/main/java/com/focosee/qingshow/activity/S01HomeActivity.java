@@ -166,6 +166,12 @@ public class S01HomeActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
+
     private void closeMenu() {
         _blurImage.setVisibility(View.INVISIBLE);
         spl.closeDrawer(_mFrmLeft);

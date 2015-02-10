@@ -1,7 +1,9 @@
 package com.focosee.qingshow.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +30,8 @@ public class U01PersonalActivity extends FragmentActivity {
     public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
     private static final int PAGER_NUM = 4;
 
+    public static final String LOGOUT_ACTOIN = "logout_action";
+
     private static final int PAGER_COLLECTION = 0;
     private static final int PAGER_RECOMMEND = 1;
     private static final int PAGER_WATCH = 2;
@@ -53,6 +57,15 @@ public class U01PersonalActivity extends FragmentActivity {
     private MongoPeople people;
 
     public static int peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(LOGOUT_ACTOIN.equals(intent.getAction())){
+                finish();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +162,14 @@ public class U01PersonalActivity extends FragmentActivity {
         });
         setIndicatorListener();
         personalViewPager.setCurrentItem(1);
+
+        registerReceiver(receiver, new IntentFilter(LOGOUT_ACTOIN));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     public void matchUI() {

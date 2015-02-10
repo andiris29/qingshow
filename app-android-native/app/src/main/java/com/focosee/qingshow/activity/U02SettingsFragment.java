@@ -122,6 +122,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
+                getActivity().sendBroadcast(new Intent(U01PersonalActivity.LOGOUT_ACTOIN));
                 getActivity().finish();
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
                         new Response.Listener<String>() {
