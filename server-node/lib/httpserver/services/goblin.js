@@ -31,7 +31,7 @@ goblin.queryTOPShops = {
                     // Query top
                     taobao.shop.get({
                         'nick' : nick,
-                        'fields' : 'sid,nick,title,desc,pic_path,shop_score.item_score,shop_score.service_score,shop_score.delivery_score'
+                        'fields' : 'sid,nick,title,desc,pic_path,shop_score'
                     }, function(err, result) {
                         // TODO save to db.topShops, and push to local array topShops
                         console.log(JSON.stringify(result.shop_get_response, null, 4));
