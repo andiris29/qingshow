@@ -46,7 +46,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     private static final String[] sexArgs = {"男", "女"};
     private static final String[] hairArgs = {"长发", "超长发", "中长发", "短发", "光头", "其他"};
+    private static final String[] shoesSize = {"34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44"};
     private static final String[] clothesSize = {"XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL"};
+    private static final String TAG_SEX = "sex";
+    private static final String TAG_HAIR = "hair";
+    private static final String TAG_SHOESIZE = "shoeSize";
+    private static final String TAG_CLOTHESSIZE = "clothSize";
 
     private Context context;
     private RequestQueue requestQueue;
@@ -57,6 +62,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
+    private RelativeLayout shoeSizeLayout;
     private RelativeLayout clothSizeLayout;
     private RelativeLayout changePasswordRelativeLayout;
     private RelativeLayout changeEmailRelativeLayout;
@@ -70,9 +76,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private EditText ageEditText;
     private EditText heightEditText;
     private EditText weightEditText;
-    private TextView hairTextView;
+    private EditText hairTextView;
     private EditText shoesSizeEditText;
     private EditText clothesSizeEditText;
+    private TextView favoriteBrandText;
 
     private MongoPeople people;
 
@@ -98,6 +105,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
         setJumpListener();
         shoesSizeEditText = (EditText) getActivity().findViewById(R.id.shoesSizeEditText);
+        shoesSizeEditText.setOnFocusChangeListener(this);
         clothesSizeEditText = (EditText) getActivity().findViewById(R.id.clothesSizeEditText);
         clothesSizeEditText.setOnFocusChangeListener(this);
 
@@ -115,7 +123,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
         weightEditText.setOnFocusChangeListener(this);
 
-        hairTextView = (TextView) getActivity().findViewById(R.id.hairTextView);
+        hairTextView = (EditText) getActivity().findViewById(R.id.hairTextView);
+
+        favoriteBrandText = (TextView) getActivity().findViewById(R.id.brandTextView);
 
         Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
         quitButton.setOnClickListener(new View.OnClickListener() {
@@ -172,11 +182,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             weightEditText.setText(people.weight);
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
-            //hairTextView.setText(people.hairTypes[0]);
-            //hairTextView.setTag(people.hairTypes);
-            shoesSizeEditText.setText(people.shoeSize);
+            hairTextView.setText(hairArgs[people.hairType]);
+            hairTextView.setTag(people.hairType);
+            shoesSizeEditText.setText(shoesSize[people.shoeSize]);
+            shoesSizeEditText.setTag(people.shoeSize);
             //Toast.makeText(getActivity(), clothesSize[Integer.valueOf(people.clothingSize)], Toast.LENGTH_LONG).show();
-            clothesSizeEditText.setText(clothesSize[Integer.valueOf(people.clothingSize)]);
+            clothesSizeEditText.setTag(people.clothingSize);
+            clothesSizeEditText.setText(clothesSize[people.clothingSize]);
+            favoriteBrandText.setText(people.favoriteBrand);
         }
     }
 
@@ -212,26 +225,34 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     public void showActionSheet(String type) {
 
-        if ("sex".equals(type)) {
+        if (TAG_SEX.equals(type)) {
 
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
-                    .setTag("sex")
+                    .setTag(TAG_SEX)
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles(sexArgs)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if ("hair".equals(type)) {
+        if (TAG_HAIR.equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
-                    .setTag("hair")
+                    .setTag(TAG_HAIR)
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles(hairArgs)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
         }
 
-        if ("clothSize".equals(type)) {
+        if (TAG_SHOESIZE.equals(type)) {
             ActionSheet.createBuilder(getActivity(), getFragmentManager())
-                    .setTag("clothSize")
+                    .setTag(TAG_SHOESIZE)
+                    .setCancelButtonTitle("取消")
+                    .setOtherButtonTitles(shoesSize)
+                    .setCancelableOnTouchOutside(true).setListener(this).show();
+        }
+
+        if (TAG_CLOTHESSIZE.equals(type)) {
+            ActionSheet.createBuilder(getActivity(), getFragmentManager())
+                    .setTag(TAG_CLOTHESSIZE)
                     .setCancelButtonTitle("取消")
                     .setOtherButtonTitles(clothesSize)
                     .setCancelableOnTouchOutside(true).setListener(this).show();
@@ -246,17 +267,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     @Override
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
 
-        if ("sex".equals(String.valueOf(actionSheet.getTag()))) {
+        if (TAG_SEX.equals(String.valueOf(actionSheet.getTag()))) {
             sexTextView.setText(sexArgs[index]);
             sexTextView.setTag(index);
         }
 
-        if ("hair".equals(String.valueOf(actionSheet.getTag()))) {
+        if (TAG_HAIR.equals(String.valueOf(actionSheet.getTag()))) {
             hairTextView.setText(hairArgs[index]);
             hairTextView.setTag(index);
         }
 
-        if ("clothSize".equals(String.valueOf(actionSheet.getTag()))) {
+        if (TAG_SHOESIZE.equals(String.valueOf(actionSheet.getTag()))) {
+            shoesSizeEditText.setText(shoesSize[index]);
+            shoesSizeEditText.setTag(index);
+        }
+
+        if (TAG_CLOTHESSIZE.equals(String.valueOf(actionSheet.getTag()))) {
             clothesSizeEditText.setText(clothesSize[index]);
             clothesSizeEditText.setTag(index);
         }
@@ -279,9 +305,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         if (null != hairTextView.getTag()) {
             params.put("hairType", hairTextView.getTag().toString());
         }
+        if (null != shoesSizeEditText.getTag()) {
+            params.put("shoeSize", shoesSizeEditText.getTag().toString());
+        }
         if (null != clothesSizeEditText.getTag()) {
             params.put("clothingSize", clothesSizeEditText.getTag().toString());
-            Toast.makeText(getActivity(), clothesSizeEditText.getTag().toString(), Toast.LENGTH_LONG).show();
+        }
+        if (!"".equals(favoriteBrandText.getText())) {
+            params.put("favoriteBrand", favoriteBrandText.getText().toString());
         }
 
         QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
@@ -308,6 +339,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                commitForm();
                 getActivity().finish();
             }
         });
@@ -318,7 +350,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image:/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_PICK);
                 startActivityForResult(intent, 1);
             }
         });
@@ -328,7 +360,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image:/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_PICK);
                 startActivityForResult(intent, 1);
             }
         });
@@ -338,7 +370,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet("sex");
+                showActionSheet(TAG_SEX);
             }
         });
         hairRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.hairRelativeLayout);
@@ -346,7 +378,15 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet("hair");
+                showActionSheet(TAG_HAIR);
+            }
+        });
+        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
+        shoeSizeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_SHOESIZE);
             }
         });
         clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
@@ -354,7 +394,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View v) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet("clothSize");
+                showActionSheet(TAG_CLOTHESSIZE);
             }
         });
 
