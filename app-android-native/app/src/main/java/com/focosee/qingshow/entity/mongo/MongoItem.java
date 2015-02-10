@@ -77,7 +77,11 @@ public class MongoItem implements Serializable {
     }
 
     public String getPrice() {
-        return "￥ " + price;
+        if (null == brandDiscountInfo){//tab:最新
+            return "￥ " + price;
+        } else {//tab:优惠
+            return "￥" + brandDiscountInfo.price;
+        }
     }
 
     public MongoBrand getBrandRef() {
@@ -90,6 +94,6 @@ public class MongoItem implements Serializable {
     }
 
     public String getSourcePrice() {
-        return (null == brandDiscountInfo) ? "" : "￥" + brandDiscountInfo.price;
+        return "￥ " + price;
     }
 }
