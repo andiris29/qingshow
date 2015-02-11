@@ -47,7 +47,6 @@ goblin.queryTOPShops = {
                             'fields' : 'sid,nick,title,desc,pic_path,shop_score'
                         }, function (err, result) {
                             if (err) {
-                                console.log(err, null, 4);
                                 callback();
                                 return;
                             }
@@ -116,14 +115,14 @@ goblin.updateTOPShopHotSales = {
 goblin.queryItems = {
     'method' : 'get',
     'func' : function (req, res) {
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+        ServiceHelper.queryPaging(req, res, function (qsParam, callback) {
             MongoHelper.queryPaging(Item.find(), Item.find(), qsParam.pageNo, qsParam.pageSize, callback);
         }, function (models) {
             // responseDataBuilder
             return {
                 'items' : models
             };
-        } );
+        });
     }
 };
 
@@ -146,7 +145,7 @@ goblin.updateItemPrices = {
                     "_id" : qsParam._id
                 }, callback);
             },
-            function (callback, item) {
+            function (item, callback) {
                 if (qsParam.price) {
                     item.price = parseFloat(qsParam.price);
                 }
