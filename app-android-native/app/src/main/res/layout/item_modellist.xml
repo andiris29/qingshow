@@ -60,7 +60,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/root_icon_cloth" />
+                android:background="@drawable/people_cell_brand_icon" />
 
             <TextView
                 android:id="@+id/item_model_cloth_number"

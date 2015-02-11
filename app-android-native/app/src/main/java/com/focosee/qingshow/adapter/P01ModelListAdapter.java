@@ -18,6 +18,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -110,6 +111,7 @@ public class P01ModelListAdapter extends BaseAdapter {
         holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
         holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
         holderView.followButton.setTag(String.valueOf(position));
+        int[] roles = data.get(position).getRoles();
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
             holderView.followButton.setBackgroundResource(R.drawable.people_list_unfollow);
         } else {

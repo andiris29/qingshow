@@ -60,8 +60,8 @@ public class P04FansListAdapter extends BaseAdapter {
 
         ImageLoader.getInstance().displayImage(data.get(position).getPeoplePortrait(), holderView.imageView);
         holderView.nameTextView.setText(data.get(position).getPeopleName());
-        holderView.showNumberTextView.setText(data.get(position).getShowNumberString());
-        holderView.likedNumberTextView.setText(data.get(position).getLikeNumberString());
+        holderView.showNumberTextView.setText(data.get(position).get__context().numFollowBrands);
+        holderView.likedNumberTextView.setText(data.get(position).get__context().numFollowPeoples);
 
         return convertView;
     }

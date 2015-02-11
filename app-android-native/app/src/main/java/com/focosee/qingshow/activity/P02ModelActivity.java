@@ -20,10 +20,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.adapter.P02ModelViewPagerAdapter;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.entity.mongo.MongoShow;
@@ -70,6 +72,7 @@ public class P02ModelActivity extends BaseActivity {
     private LinearLayout line1;
     private LinearLayout line2;
     private LinearLayout line3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,7 +210,7 @@ public class P02ModelActivity extends BaseActivity {
         followerListView = followerPullRefreshListView.getRefreshableView();
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
-
+        followerPeopleListAdapter.setP02ModelActivity(this);
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);
         followerPullRefreshListView.setPullRefreshEnabled(false);
@@ -563,4 +566,10 @@ public class P02ModelActivity extends BaseActivity {
         MobclickAgent.onPageEnd("P02Model"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
     }
+
+    public void refreshWatchNum() {
+        TextView tv = (TextView) findViewById(R.id.P02_follower_number_text_view);
+        tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString()) - 1));
+    }
+
 }
