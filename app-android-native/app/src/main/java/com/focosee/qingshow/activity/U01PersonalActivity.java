@@ -108,15 +108,17 @@ public class U01PersonalActivity extends FragmentActivity {
             }
         });
 
+        settingsTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(U01PersonalActivity.this, U02SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        if (peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) {
-            settingsTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(U01PersonalActivity.this, U02SettingsActivity.class);
-                    startActivity(intent);
-                }
-            });
+
+        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) {
+            settingsTextView.setVisibility(View.GONE);
         }
 
         backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
