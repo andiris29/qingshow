@@ -63,7 +63,6 @@ goblin.queryTOPShops = {
                             topShops.push(s);
                             console.log(JSON.stringify(result.shop_get_response, null, 4));
                             s.save(callback);
-//                            callback();
                         });
                     });
                 });
@@ -79,7 +78,36 @@ goblin.queryTOPShops = {
 goblin.updateTOPShopHotSales = {
     'method' : 'post',
     'func' : function (req, res) {
-        // TODO
+        var qsParam = null;
+        async.waterfall([
+            function (callback) {
+                try {
+                    qsParam = RequestHelper.parse(req.body);
+                } catch (e) {
+                    callback(e);
+                    return;
+                }
+                callback();
+            },
+            function (callback) {
+                TopShop.findOne({
+                    "nick" : qsParam.nick
+                }, callback);
+            },
+            function (topShop, callback) {
+                if (req.__context) {
+                    topShop.__context = qsParam.__context;
+                    topShop.save(callback);
+                } else {
+                    callback(null, topShop);
+                }
+            }
+        ], function (err, topShop) {
+            ResponseHelper.response(res, err, {
+                "topShop" : topShop
+            });
+        });
+
     }
 };
 
