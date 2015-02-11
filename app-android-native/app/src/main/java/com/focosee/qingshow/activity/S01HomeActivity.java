@@ -16,6 +16,7 @@ import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -408,6 +409,15 @@ public class S01HomeActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            if (isMenuOpened())closeMenu();
+            else openMenu();
+        }
+            return true;
     }
 
     @Override
