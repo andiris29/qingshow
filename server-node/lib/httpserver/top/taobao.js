@@ -48,8 +48,10 @@ var _invoke = function(api, appParams, callback) {
     args.sign = _sign(args);
     var data = require('querystring').stringify(args);
     // Post
+    var requestUrl = 'http://gw.api.taobao.com/router/rest';
+//    requestUrl = 'http://140.205.164.88/router/rest';
     request.post({
-        'url' : 'http://gw.api.taobao.com/router/rest',
+        'url' : requestUrl,
         'headers' : {
             'Accept-Language' : 'zh-CN,ja;q=0.8,en-US;q=0.6,en;q=0.4',
             'Accept-Encoding' : 'gzip, deflate',
