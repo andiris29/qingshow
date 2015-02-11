@@ -27,12 +27,20 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     var numShows = function(callback) {
         _numAssociated(peoples, Show, 'modelRef', 'numShows', callback);
     };
+    // __context.numFollowBrands
+    var numFollowBrands = function(callback) {
+        _numAssociated(peoples, RPeopleFollowBrand, 'initiatorRef', 'numFollowBrands', callback);
+    };
+    // __context.numFollowPeoples
+    var numFollowPeoples = function(callback) {
+        _numAssociated(peoples, RPeopleFollowPeople, 'initiatorRef', 'numFollowPeoples', callback);
+    };
     // __context.numFollowers
     var numFollowers = function(callback) {
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
 
-    async.parallel([followedByCurrentUser, numShows, numFollowers], function(err) {
+    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
         callback(null, peoples);
     });
 };
@@ -115,22 +123,23 @@ var _numAssociated = function(models, RModel, associateField, contextField, call
 };
 
 var _rInitiator = function(RModel, initiatorRef, models, contextField, callback) {
-    if (initiatorRef) {
-        var tasks = models.map(function(model) {
-            return function(callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            if (initiatorRef) {
                 RModel.findOne({
                     'initiatorRef' : initiatorRef,
                     'targetRef' : model._id
                 }, function(err, relationship) {
                     model.__context[contextField] = Boolean(!err && relationship);
-                    callback(null);
+                    callback();
                 });
-            };
-        });
-        async.parallel(tasks, function(err) {
-            callback(null, models);
-        });
-    } else {
+            } else {
+                model.__context[contextField] = false;
+                callback();
+            }
+        };
+    });
+    async.parallel(tasks, function(err) {
         callback(null, models);
-    }
+    });
 };

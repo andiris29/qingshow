@@ -38,10 +38,6 @@ ServerError.PagingNotExist = 1009;
 ServerError.EmailAlreadyExist = 1010;
 ServerError.AlreadyLikeShow = 1011;
 ServerError.NeedLogin = 1012;
-ServerError.AlreadyFollowPeople = 1013;
-ServerError.DidNotFollowPeople = 1014;
-ServerError.AlreadyFollowBrand = 1015;
-ServerError.DidNotFollowBrand = 1016;
 ServerError.PItemNotExist = 1017;
 ServerError.RequestValidationFail = 1018;
 ServerError.AlreadyRelated = 1019;
@@ -77,14 +73,6 @@ var _codeToString = function(code) {
             return "AlreadyLikeShow";
         case 1012 :
             return "NeedLogin";
-        case 1013 :
-            return "AlreadyFollowPeople";
-        case 1014 :
-            return "DidNotFollowPeople";
-        case 1015 :
-            return "AlreadyFollowBrand";
-        case 1016 :
-            return "DidNotFollowBrand";
         case 1017 :
             return "PItemNotExist";
         case 1022 :

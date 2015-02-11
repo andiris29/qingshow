@@ -59,20 +59,6 @@ show.query = {
         },
         function(shows, callback) {
             // Append followed by current user
-            var brands = [];
-            shows.forEach(function(show) {
-                show.itemRefs.forEach(function(item) {
-                    if (item.brandRef) {
-                        brands.push(item.brandRef);
-                    }
-                });
-            });
-            ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, function(err, brands) {
-                callback(err, shows);
-            });
-        },
-        function(shows, callback) {
-            // Append followed by current user
             ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {
             ResponseHelper.response(res, err, {

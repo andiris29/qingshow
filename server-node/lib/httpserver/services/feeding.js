@@ -54,6 +54,7 @@ feeding.recommendation = {
             MongoHelper.queryPaging(Show.find().sort({
                 // TODO
             }), Show.find().limit(20), qsParam.pageNo, qsParam.pageSize, callback);
+
         });
     }
 };
@@ -71,13 +72,12 @@ feeding.hot = {
 
 feeding.like = {
     'method' : 'get',
-    'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             async.waterfall([
             function(callback) {
                 var criteria = {
-                    'initiatorRef' : req.qsCurrentUserId
+                    'initiatorRef' : qsParam._id || req.qsCurrentUserId
                 };
                 MongoHelper.queryPaging(RPeopleLikeShow.find(criteria).sort({
                     'create' : -1
@@ -90,6 +90,12 @@ feeding.like = {
                 });
                 callback(null, shows, count);
             }], callback);
+        }, {
+            'afterParseRequest' : function(raw) {
+                return {
+                    '_id' : RequestHelper.parseId(raw._id)
+                };
+            }
         });
     }
 };
@@ -102,9 +108,7 @@ feeding.chosen = {
             async.waterfall([
             function(callback) {
                 // Query chosen
-                ShowChosen.find({
-                    'type' : qsParam.type
-                }).where('activateTime').lte(Date.now()).sort({
+                ShowChosen.find().where('activateTime').lte(Date.now()).sort({
                     'activateTime' : 1
                 }).limit(1).exec(function(err, chosens) {
                     if (err) {
@@ -133,11 +137,6 @@ feeding.chosen = {
                 });
             }], callback);
         }, {
-            'afterParseRequest' : function(raw) {
-                return {
-                    'type' : RequestHelper.parseNumber(raw.type) || 0
-                };
-            },
             'beforeEndResponse' : function(json) {
                 if (chosen) {
                     json.metadata.refreshTime = chosen.activateTime;
