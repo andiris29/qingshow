@@ -2,11 +2,13 @@ var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
 var taobao = require('../top/taobao');
 
-var TopShop = require('../../model/topShop');
+var TopShop = require('../../model/topShops');
+var Item = require('../../model/items')
 
 var MongoHelper = require('../helpers/MongoHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
+var ServiceHelper = require('../helpers/ServiceHelper');
 
 var goblin = module.exports;
 
@@ -114,13 +116,50 @@ goblin.updateTOPShopHotSales = {
 goblin.queryItems = {
     'method' : 'get',
     'func' : function (req, res) {
-        // TODO
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            MongoHelper.queryPaging(Item.find(), Item.find(), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function (models) {
+            // responseDataBuilder
+            return {
+                'items' : models
+            };
+        } );
     }
 };
 
 goblin.updateItemPrices = {
     'method' : 'post',
     'func' : function (req, res) {
-        // TODO
+        var qsParam = null;
+        async.waterfall([
+            function (callback) {
+                try {
+                    qsParam = RequestHelper.parse(req.body);
+                } catch (e) {
+                    callback(e);
+                    return;
+                }
+                callback();
+            },
+            function (callback) {
+                Item.findOne({
+                    "_id" : qsParam._id
+                }, callback);
+            },
+            function (callback, item) {
+                if (qsParam.price) {
+                    item.price = parseFloat(qsParam.price);
+                }
+                if (qsParam.brandDiscountInfo && qsParam.brandDiscountInfo.price) {
+                    item.brandDiscountInfo = item.brandDiscountInfo || {};
+                    item.brandDiscountInfo.price = parseFloat(qsParam.brandDiscountInfo.price);
+                }
+                callback(item);
+            }
+        ], function (err, item) {
+            ResponseHelper.response(res, err, {
+                "item" : item
+            });
+        });
     }
 };

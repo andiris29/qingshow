@@ -5,6 +5,7 @@ var itemSchema;
 itemSchema = Schema({
     category : Number, // <code>
     name : String,
+    price: Number,
     images : [{
         url : String,
         description : String
