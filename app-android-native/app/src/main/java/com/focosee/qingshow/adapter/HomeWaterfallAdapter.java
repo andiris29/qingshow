@@ -16,6 +16,7 @@ import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -42,7 +43,7 @@ class HomeViewHolder extends AbsViewHolder {
         showIV.setOriginWidth(entity.getCoverWidth());
         showIV.setOriginHeight(entity.getCoverHeight());
 
-        imageLoader.displayImage(entity.getShowCover(), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
+        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
         imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         modelNameTV.setText(entity.getModelName());
         modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());

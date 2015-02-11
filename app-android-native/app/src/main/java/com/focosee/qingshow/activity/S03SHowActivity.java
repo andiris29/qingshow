@@ -36,6 +36,7 @@ import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.share.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.focosee.qingshow.widget.SharePopupWindow;
@@ -300,7 +301,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                 if (S07CollectActivity.isOpened) return;
                 S07CollectActivity.isOpened = true;
                 Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
-                intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, showDetailEntity.getCover());
+                intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, ImgUtil.imgTo2x(showDetailEntity.getCover()));
 //                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -73,7 +74,7 @@ public class P03BrandListAdapter extends BaseAdapter {
         holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());
 
         this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait, AppUtil.getPortraitDisplayOptions());
-        this.imageLoader.displayImage(this.data.get(position).getBrandCover(), holderView.brandSlogan, AppUtil.getShowDisplayOptions());
+        this.imageLoader.displayImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()), holderView.brandSlogan, AppUtil.getShowDisplayOptions());
         holderView.brandName.setText(this.data.get(position).getBrandName());
         //holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;

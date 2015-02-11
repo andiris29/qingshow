@@ -28,6 +28,7 @@ import com.focosee.qingshow.entity.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -160,7 +161,6 @@ public class S08TrendListAdapter extends BaseAdapter {
 //// 启动分享GUI
 //                oks.show(context);
 
-                Log.i("tag", data.get(position).get_id());
             }
         });
         //评论
@@ -352,7 +352,7 @@ public class S08TrendListAdapter extends BaseAdapter {
             ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
             MongoPreview.Image imgInfo = (MongoPreview.Image)imageView.getTag();
 
-            imageLoader.displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
+            imageLoader.displayImage(ImgUtil.imgTo2x(imgInfo.url), imageView, AppUtil.getShowDisplayOptions());
             container.addView(imageView, 0);
 
             return imageView;

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -60,7 +61,7 @@ public class P02ModelItemListAdapter extends BaseAdapter {
 
         viewHolder.image.setOriginWidth(itemList.get(position).getHorizontalCoverWidth());
         viewHolder.image.setOriginHeight(itemList.get(position).getHorizontalCoverHeight());
-        ImageLoader.getInstance().displayImage(itemList.get(position).getHorizontalCover(), viewHolder.image, AppUtil.getShowDisplayOptions());
+        ImageLoader.getInstance().displayImage(ImgUtil.imgTo2x(itemList.get(position).getHorizontalCover()), viewHolder.image, AppUtil.getShowDisplayOptions());
         viewHolder.detailButton.setTag(position);
         viewHolder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override

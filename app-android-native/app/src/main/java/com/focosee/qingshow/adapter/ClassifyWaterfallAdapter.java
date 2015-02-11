@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -84,7 +85,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         holder.showIV.setOriginWidth(showInfo.getCoverWidth());
         holder.showIV.setOriginHeight(showInfo.getCoverHeight());
 
-        _mImageFetcher.displayImage(showInfo.getShowCover(), holder.showIV, coverOptions, animateFirstListener);
+        _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.getShowCover()), holder.showIV, coverOptions, animateFirstListener);
         _mImageFetcher.displayImage(showInfo.getModelPhoto(), holder.modelIV, animateFirstListener);
         holder.modelNameTV.setText(showInfo.getModelName());
         holder.modelHeightWeightTV.setText(showInfo.getModelHeightAndHeightWithFormat());
