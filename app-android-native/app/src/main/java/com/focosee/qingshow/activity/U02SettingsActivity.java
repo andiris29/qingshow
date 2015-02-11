@@ -1,9 +1,11 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -22,7 +24,7 @@ public class U02SettingsActivity extends BaseActivity {
         context = getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
 
-        U02SettingsFragment settingsFragment = new U02SettingsFragment();
+        U02SettingsFragment settingsFragment = U02SettingsFragment.newIntance();
         getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
     }
 
@@ -43,6 +45,12 @@ public class U02SettingsActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_settings, menu);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(this, "activity", Toast.LENGTH_SHORT).show();
     }
 
     @Override

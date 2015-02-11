@@ -58,7 +58,7 @@ public class U01BrandFragment extends Fragment{
             return instance;
     }
 
-    private U01BrandFragment(){}
+    public U01BrandFragment(){}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

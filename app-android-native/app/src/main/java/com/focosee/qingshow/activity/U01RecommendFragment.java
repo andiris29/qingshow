@@ -56,7 +56,7 @@ public class U01RecommendFragment extends Fragment {
             return instance;
     }
 
-    private U01RecommendFragment() {
+    public U01RecommendFragment() {
         // Required empty public constructor
     }
 

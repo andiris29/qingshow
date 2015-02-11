@@ -56,7 +56,7 @@ public class U01CollectionFragment extends Fragment {
             return instance;
     }
 
-    private U01CollectionFragment() {
+    public U01CollectionFragment() {
         // Required empty public constructor
     }
 

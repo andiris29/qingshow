@@ -7,8 +7,14 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,17 +38,40 @@ import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.request.QSStringRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.RequestContent;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +85,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private static final String TAG_HAIR = "hair";
     private static final String TAG_SHOESIZE = "shoeSize";
     private static final String TAG_CLOTHESSIZE = "clothSize";
+    private static final int TYPE_PORTRAIT = 10000;//上传头像
+    private static final int TYPE_BACKGROUD = 10001;//上传背景
 
     private Context context;
     private RequestQueue requestQueue;
@@ -87,11 +118,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private EditText shoesSizeEditText;
     private EditText clothesSizeEditText;
     private TextView favoriteBrandText;
+    public static U02SettingsFragment instance;
 
     private MongoPeople people;
 
+    private Thread thread;
+
+    public static U02SettingsFragment newIntance(){
+        if(null == instance) {
+            instance = new U02SettingsFragment();
+        }
+        return instance;
+    }
+
     public U02SettingsFragment() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -183,11 +225,208 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
-            ContentResolver contentResolver = getActivity().getContentResolver();
-        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == Activity.RESULT_OK && requestCode == 1) {
+//            Uri uri = data.getData();
+//            ContentResolver contentResolver = getActivity().getContentResolver();
+//        }
         super.onActivityResult(requestCode, resultCode, data);
+        try {
+            // When an Image is picked
+            if (resultCode == Activity.RESULT_OK && null != data) {
+                // Get the Image from data
+
+                Uri selectedImage = data.getData();
+
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+                // Get the cursor
+                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String imgDecodableString = cursor.getString(columnIndex);
+
+
+
+                cursor.close();
+
+                if(requestCode == TYPE_PORTRAIT) {
+
+//                ImageView imgView = (ImageView) getfindViewById(R.id.imgView);
+//                // Set the Image in ImageView after decoding the String
+//                portraitImageView.setImageBitmap(BitmapFactory
+//                        .decodeFile(imgDecodableString));
+                    uploadImage(imgDecodableString, TYPE_PORTRAIT);
+                }
+
+                if(requestCode == TYPE_BACKGROUD){
+                    uploadImage(imgDecodableString, TYPE_BACKGROUD);
+                }
+
+
+            } else {
+                Toast.makeText(context, "You haven't picked Image",
+                        Toast.LENGTH_LONG).show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Something went wrong : " + e.toString(), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    private void uploadImage(final String imgUri, final int type){
+
+        final Bitmap bitmap = BitmapFactory.decodeFile(imgUri);
+
+        Toast.makeText(getActivity(), "fdskajflkdsajlfdsa", Toast.LENGTH_SHORT).show();
+
+        //byte[] bitmapArray = BitMapUtil.bmpToByteArray(bitmap, true);
+
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+
+        String api,key;
+
+        if (type == TYPE_PORTRAIT) {
+            api = QSAppWebAPI.getUserUpdateportrait();
+            key = "portrait";
+        } else {
+            api = QSAppWebAPI.getUserUpdatebackground();
+            key = "background";
+        }
+        final String API = api;
+//        JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put(key, output);
+//        } catch (JSONException e) {
+//            Toast.makeText(context, "上传文件失败，请重试！", Toast.LENGTH_SHORT).show();
+//        }
+//        Map params = new HashMap();
+//        params.put(key, bitmapArray);
+
+
+//        QSJsonObjectRequest qsJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, api
+//            , jsonObject, new Response.Listener<JSONObject>(){
+//
+//            @Override
+//            public void onResponse(JSONObject response) {
+//
+//                if(MetadataParser.hasError(response) || null == UserParser.parseGet(response)){
+//                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+//                    return;
+//                }
+//
+//                QSApplication.get().setPeople(UserParser.parseGet(response));
+//                if(type == TYPE_PORTRAIT)
+//                    ImageLoader.getInstance().displayImage(people.getPortrait(), portraitImageView, AppUtil.getPortraitDisplayOptions());
+//                else
+//                    ImageLoader.getInstance().displayImage(people.getBackground(), backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
+//
+//                Toast.makeText(context, "上传成功！", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }, new Response.ErrorListener(){
+//
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+
+        thread = new Thread(){
+            @Override
+            public void run() {
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httppost = new HttpPost(API);
+
+
+                InputStreamEntity reqEntity = null;
+                HttpResponse response = null;
+                SharedPreferences _preferences = PreferenceManager.getDefaultSharedPreferences(QSApplication.get());
+
+                _preferences = QSApplication.get().getSharedPreferences("personal", Context.MODE_PRIVATE);
+                httppost.addHeader("Cookie", _preferences.getString("Cookie", ""));
+
+                try {
+                    reqEntity = new InputStreamEntity( new FileInputStream(imgUri), -1);
+                    reqEntity.setContentType("binary/octet-stream");
+                    reqEntity.setChunked(true);
+                    httppost.setEntity(reqEntity);
+                    //Toast.makeText(context, "reqEntity: " + reqEntity, Toast.LENGTH_SHORT).show();
+                    response = httpclient.execute(httppost);
+                    Log.d("response:", response.toString());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if((response.getStatusLine().toString()).equals("HTTP/1.1 200 OK")){
+                    // Successfully Uploaded
+                    Log.i("uploaded", response.getStatusLine().toString());
+
+                    try {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+
+                        StringBuilder sb = new StringBuilder();
+
+
+
+                        String line = null;
+
+                        while ((line = reader.readLine()) != null) {
+
+                            sb.append(line + "/n");
+
+                        }
+                        Log.d("uploaded", sb.toString());
+
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+
+                    }
+
+                    //Toast.makeText(context, "uploaded:" + response, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    // Did not upload. Add your logic here. Maybe you want to retry.
+                    Log.i(" not uploaded", response.getStatusLine().toString());
+                    //Toast.makeText(context, "not uploaded", Toast.LENGTH_SHORT).show();
+                }
+
+                httpclient.getConnectionManager().shutdown();
+            }
+        };
+
+        new UploadTask().execute("");
+//        QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, api, new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                MongoPeople user = UserParser.parseUpdate(response);
+//                if (user == null) {
+//                    ErrorHandler.handle(context, MetadataParser.getError(response));
+//                } else {
+//                    QSApplication.get().setPeople(user);
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(context, "请检查网络" + error.toString(), Toast.LENGTH_LONG).show();
+//            }
+//        });
+//        requestQueue.add(qxStringRequest);
+//        QSApplication.get().QSRequestQueue().add(qsJsonObjectRequest);
+
+
+
     }
 
     //进入页面时，给字段赋值
@@ -370,9 +609,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setType("image:/*");
-                intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(intent, 1);
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
             }
         });
         backgroundRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.backgroundRelativeLayout);
@@ -380,9 +619,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.setType("image:/*");
+                intent.setType("image/*");
                 intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(intent, 1);
+
+                startActivityForResult(Intent.createChooser(intent,"请选择背景"), TYPE_BACKGROUD);
             }
         });
 
@@ -468,4 +708,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
     }
+
+    class UploadTask extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            thread.start();
+            return null;
+        }
+    }
+
 }

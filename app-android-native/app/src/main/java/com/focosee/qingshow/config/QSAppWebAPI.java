@@ -55,6 +55,9 @@ public class QSAppWebAPI {
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
     private static final String PREVIEW_TREND_UNLIKE_API = HOST_NAME + "/preview/unlike";
 
+    private static final String USER_UPDATEPORTRAIT = HOST_NAME + "/user/updatePortrait";
+    private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
+
     public static String getBrandFollowedApi(String _id) {
         return BRAND_FOLLOWED_API + "?_id=" + _id;
     }
@@ -165,5 +168,13 @@ public class QSAppWebAPI {
 
     public static String getBrandShowApi(String brandId, String pageNo) {
         return BRAND_SHOW_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+    }
+
+    public static String getUserUpdatebackground(){
+        return USER_UPDATEBACKGROUND;
+    }
+
+    public static String getUserUpdateportrait(){
+        return USER_UPDATEPORTRAIT;
     }
 }
