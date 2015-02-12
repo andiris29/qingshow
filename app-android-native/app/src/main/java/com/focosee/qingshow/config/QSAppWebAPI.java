@@ -57,6 +57,7 @@ public class QSAppWebAPI {
 
     private static final String USER_UPDATEPORTRAIT = HOST_NAME + "/user/updatePortrait";
     private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
+    private static final String ITEM_RANDOM = HOST_NAME +"/itemFeeding/random";
 
     public static String getBrandFollowedApi(String _id) {
         return BRAND_FOLLOWED_API + "?_id=" + _id;
@@ -168,6 +169,11 @@ public class QSAppWebAPI {
 
     public static String getBrandShowApi(String brandId, String pageNo) {
         return BRAND_SHOW_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
+    }
+
+    public static String getitemRandomApi(int pageIndex, int pageSize){
+
+        return ITEM_RANDOM + "?pageNo=" +String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
     public static String getUserUpdatebackground(){

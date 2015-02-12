@@ -10,11 +10,11 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
+import com.focosee.qingshow.adapter.S02ItemRandomAdapter;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.mongo.MongoShow;
-import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
+import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.focosee.qingshow.httpapi.response.dataparser.ItemRandomParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -49,7 +49,7 @@ public class S02ShowClassify extends BaseActivity {
     private MNavigationView _navigationView;
     private MPullRefreshMultiColumnListView _pullRefreshListView;
     private MultiColumnListView _waterfallListView;
-    private ClassifyWaterfallAdapter _adapter;
+    private S02ItemRandomAdapter _adapter;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
     private int _currentPageIndex = 1;
@@ -83,7 +83,7 @@ public class S02ShowClassify extends BaseActivity {
 
         _waterfallListView = _pullRefreshListView.getRefreshableView();
 
-        _adapter = new ClassifyWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
+        _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
 
         _waterfallListView.setAdapter(_adapter);
 
@@ -113,15 +113,10 @@ public class S02ShowClassify extends BaseActivity {
             }
         });
 
-        setLastUpdateTime();
 
         _pullRefreshListView.doPullRefreshing(true, 500);
     }
 
-    private void setLastUpdateTime() {
-        String text = formatDateTime(System.currentTimeMillis());
-        _pullRefreshListView.setLastUpdatedLabel(text);
-    }
 
     private String formatDateTime(long time) {
         if (0 == time) {
@@ -141,11 +136,11 @@ public class S02ShowClassify extends BaseActivity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(ShowClassifyConfig.getApi(classifyMod, Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    LinkedList<MongoShow> results = FeedingParser.parse(response);
+                    LinkedList<MongoItem> results = ItemRandomParser.parse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;
@@ -157,7 +152,8 @@ public class S02ShowClassify extends BaseActivity {
                     _pullRefreshListView.onPullDownRefreshComplete();
                     _pullRefreshListView.onPullUpRefreshComplete();
                     _pullRefreshListView.setHasMoreData(true);
-                    setLastUpdateTime();
+                    setLastUpdateTime(response);
+
 
                 } catch (Exception error) {
                     Toast.makeText(S02ShowClassify.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
@@ -215,4 +211,11 @@ public class S02ShowClassify extends BaseActivity {
         MobclickAgent.onPageEnd("S02"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
     }
+
+    private void setLastUpdateTime(JSONObject response) {
+        String text = formatDateTime(System.currentTimeMillis());
+        _pullRefreshListView.setLastUpdatedLabel(text);
+        _adapter.resetUpdateString(response);
+    }
+
 }
