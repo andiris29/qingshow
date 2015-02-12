@@ -386,7 +386,7 @@ public class S01HomeActivity extends BaseActivity {
 
         _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
 
-        ((ImageView) findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
+        ((LinearLayout) findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isMenuOpened()) {
