@@ -29,3 +29,7 @@ server-node/public
 .project
 mongodb/_dump
 folder-uploads
+
+#goblin
+admin-tools/goblin-tbitem/.idea
+admin-tools/goblin-tbitem/logs
