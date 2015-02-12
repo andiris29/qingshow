@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -90,15 +91,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private MongoShow showDetailEntity;// TODO remove the duplicated one
     private ArrayList<MongoItem> itemsData;
     private String videoUriString;
-    private Uri videoUri = null;
     private int playTime = 0;
 
     // Component declaration
     private RelativeLayout mRelativeLayout;
     private NetworkImageIndicatorView imageIndicatorView;
     private VideoView videoView;
-//    private SurfaceView surfaceView;
-//    private MediaPlayer mediaPlayer;
 
 
     private MRoundImageView modelImage;
@@ -117,8 +115,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     // like image button
     private ImageButton likedImageButton;
+    private ImageButton playImageButton;
 
     private LinearLayout buttomLayout;
+    private RelativeLayout beforeLayout;
 
 
     @Override
@@ -128,6 +128,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
 
         likedImageButton = (ImageButton) findViewById(R.id.S03_like_btn);
+        playImageButton = (ImageButton) findViewById(R.id.S03_video_start_btn);
+        beforeLayout = (RelativeLayout) findViewById(R.id.S03_before_video_without_back);
 
         wxApi = WXAPIFactory.createWXAPI(this, ShareConfig.WX_APP_KEY, true);
         wxApi.registerApp(ShareConfig.WX_APP_KEY);
@@ -344,10 +346,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         });
 
-        findViewById(R.id.S03_video_start_btn).setOnClickListener(new View.OnClickListener() {
+        playImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startVideo();
+                if(videoView.isPlaying()) pauseVideo();
+                else startVideo();
+
             }
         });
 
@@ -363,9 +367,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
             @Override
             public void onPosition(int position, int totalCount) {
-                Log.d(TAG, "videoView.visible: " + videoView.getVisibility());
                 if(videoView.getVisibility() == View.GONE) return;
-                Log.d(TAG, "position: " + position % totalCount);
                 findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
                 if(position % totalCount == 0)
                     findViewById(R.id.S03_before_video_without_back).setVisibility(View.VISIBLE);
@@ -394,13 +396,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         videoView.setDrawingCacheEnabled(true);
         videoView.setVideoPath(videoUriString);
         videoView.requestFocus();
-        videoView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                pauseVideo();
-                return false;
-            }
-        });
     }
 
     private boolean isFirstStart = true;
@@ -410,10 +405,24 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             configVideo();
             isFirstStart = false;
         }
-        findViewById(R.id.S03_before_video_view).setVisibility(View.GONE);
-//        imageIndicatorView.setVisibility(View.GONE);
+        playImageButton.setBackgroundResource(R.drawable.s03_pause_btn);
+        showOneView(beforeLayout,playImageButton.getId());
+        imageIndicatorView.setVisibility(View.GONE);
+        findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
         videoView.setVisibility(View.VISIBLE);
         videoView.start();
+    }
+
+    private void showOneView(ViewGroup viewGroup,int id){
+        for (int i = 0;i < viewGroup.getChildCount();i++){
+            if(viewGroup.getChildAt(i).getId() != id)  viewGroup.getChildAt(i).setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void showAllView(ViewGroup viewGroup){
+        for (int i = 0;i < viewGroup.getChildCount();i++){
+             viewGroup.getChildAt(i).setVisibility(View.VISIBLE);
+        }
     }
 
     private void pauseVideo() {
@@ -446,7 +455,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         imageIndicatorView.show();
 //      this.imageIndicatorView.getViewPager().getAdapter().notifyDataSetChanged();
 
-        findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
+        playImageButton.setBackgroundResource(R.drawable.s03_play_btn);
+        imageIndicatorView.setVisibility(View.VISIBLE);
+        findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
+        showAllView(beforeLayout);
+
     }
 
     // 保存到sdcard

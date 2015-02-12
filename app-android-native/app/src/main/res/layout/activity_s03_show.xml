@@ -5,6 +5,7 @@
     android:background="#ffe1e1e1"
     tools:context="com.focosee.qingshow.activity.S03SHowActivity">
 
+
     <RelativeLayout
         android:id="@+id/S03_relative_layout"
         android:layout_width="fill_parent"
@@ -203,6 +204,7 @@
                         android:gravity="center"
                         android:paddingTop="15dp"
                         android:textColor="#ffffff" />
+
 
                 </RelativeLayout>
 
