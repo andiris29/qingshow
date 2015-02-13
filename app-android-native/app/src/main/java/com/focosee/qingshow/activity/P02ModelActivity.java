@@ -110,7 +110,7 @@ public class P02ModelActivity extends BaseActivity {
         followSignText = (ImageView) findViewById(R.id.P02_follow_sign_text);
 
         if(null != modelEntity && modelEntity.getModelIsFollowedByCurrentUser()){
-            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
+            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
         }
 
         ArrayList<View> pagerViewList = new ArrayList<View>();
@@ -500,7 +500,7 @@ public class P02ModelActivity extends BaseActivity {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
+                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
                     }else{
                         showMessage(P02ModelActivity.this, "关注失败" + response);

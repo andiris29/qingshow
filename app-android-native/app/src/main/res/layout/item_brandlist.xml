@@ -20,15 +20,15 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/show_bottom_shadow"/>
+        />
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:background="@drawable/show_bottom_shadow"
+        android:paddingBottom="20dp">
 
         <com.focosee.qingshow.widget.MCircularImageView
             android:id="@+id/item_brand_portrait"

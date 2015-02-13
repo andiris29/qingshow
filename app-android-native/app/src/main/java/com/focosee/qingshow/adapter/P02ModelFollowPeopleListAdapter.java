@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,6 +78,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
             holderView = new HolderView();
 
             holderView.imageView = (MCircularImageView) convertView.findViewById(R.id.item_p02_follow_people_image);
+            holderView.fansFollowedImageView = (ImageView) convertView.findViewById(R.id.fans_followed);
             holderView.nameTextView = (TextView) convertView.findViewById(R.id.item_p02_follow_people_name);
             holderView.showNumberTextView = (TextView) convertView.findViewById(R.id.item_p02_follow_people_show);
             holderView.likedNumberTextView = (TextView) convertView.findViewById(R.id.item_p02_follow_people_like);
@@ -95,6 +97,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
         for(int role : roles){
             if(role == RolesCode.MODEL.getIndex()) {
                 holderView.followButton.setVisibility(View.VISIBLE);
+                holderView.fansFollowedImageView.setBackgroundResource(R.drawable.model_cell_icon01_cloth);
             }
         }
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
@@ -201,6 +204,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
     }
     class HolderView {
         public MCircularImageView imageView;
+        public ImageView fansFollowedImageView;
         public TextView nameTextView;
         public TextView showNumberTextView;
         public TextView likedNumberTextView;
