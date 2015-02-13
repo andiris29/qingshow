@@ -28,12 +28,10 @@ public class S07ListAdapter extends BaseAdapter {
     private int ITEMHEIGHT = 100;
 
     private Context context;
-    private boolean withPrice;
     private ArrayList<MongoItem> data;
 
-    public S07ListAdapter(Context context, boolean withPrice, ArrayList<MongoItem> items, int itemHeiht) {
+    public S07ListAdapter(Context context, ArrayList<MongoItem> items, int itemHeiht) {
         this.context = context;
-        this.withPrice = withPrice;
         this.data = items;
         ITEMHEIGHT = itemHeiht/5;
     }
@@ -59,26 +57,28 @@ public class S07ListAdapter extends BaseAdapter {
 
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
-            if (this.withPrice) {
-                convertView = layoutInflater.inflate(R.layout.item_s07_item_with_price_list, null);
-            } else {
-                convertView = layoutInflater.inflate(R.layout.item_s07_item_list, null);
-            }
-
             holderView = new HolderView();
-            holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_collection);
             AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
                     ITEMHEIGHT);
-            holderView.item_collection.setLayoutParams(params);
-            holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
-            holderView.brandLogo = (ImageView) convertView.findViewById(R.id.item_S07_brandlogo);
-            holderView.name = (TextView) convertView.findViewById(R.id.item_S07_name);
-            holderView.detailButton = (Button) convertView.findViewById(R.id.item_S07_detail_btn);
-
-            if (this.withPrice) {
+            if ("".equals(data.get(position).getPrice()) || null ==data.get(position).getPrice()) {
+                convertView = layoutInflater.inflate(R.layout.item_s07_item_list, null);
+                holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_collection);
+                holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
+                holderView.brandLogo = (ImageView) convertView.findViewById(R.id.item_S07_brandlogo);
+                holderView.name = (TextView) convertView.findViewById(R.id.item_S07_name);
+                holderView.detailButton = (Button) convertView.findViewById(R.id.item_S07_detail_btn);
+            } else {
+                convertView = layoutInflater.inflate(R.layout.item_s07_item_with_price_list, null);
                 holderView.originPriceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_origin_price);
                 holderView.priceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_price);
+                holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_with_price_collection);
+                holderView.category = (TextView) convertView.findViewById(R.id.item_S07_with_price_category);
+                holderView.brandLogo = (ImageView) convertView.findViewById(R.id.item_S07_with_price_brandlogo);
+                holderView.name = (TextView) convertView.findViewById(R.id.item_S07_with_price_name);
+                holderView.detailButton = (Button) convertView.findViewById(R.id.item_S07_with_price_detail_btn);
             }
+
+            holderView.item_collection.setLayoutParams(params);
 
             convertView.setTag(holderView);
         }
@@ -98,9 +98,11 @@ public class S07ListAdapter extends BaseAdapter {
             }
         });
 
-        if (this.withPrice) {
-            holderView.originPriceTV.setText(data.get(position).getOriginPrice());
-            holderView.originPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        if (!("".equals(data.get(position).getPrice()) || null ==data.get(position).getPrice())) {
+            if(null != data.get(position).brandDiscountInfo) {
+                holderView.originPriceTV.setText(data.get(position).getSourcePrice());
+                holderView.originPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            }
             holderView.priceTV.setText(data.get(position).getPrice());
         }
 
