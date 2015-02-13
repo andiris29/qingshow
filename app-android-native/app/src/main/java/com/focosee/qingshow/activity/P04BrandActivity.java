@@ -151,7 +151,7 @@ public class P04BrandActivity extends BaseActivity {
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage, AppUtil.getShowDisplayOptions());
 
         if(brandEntity.getModelIsFollowedByCurrentUser()){
-            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
         }
 
         constructViewPager();
@@ -736,7 +736,7 @@ public class P04BrandActivity extends BaseActivity {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
                         doFollowersRefreshDataTask();
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败");
