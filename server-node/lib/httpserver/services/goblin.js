@@ -169,6 +169,29 @@ goblin.updateItemPrices = {
 };
 */
 
+var _crawlTaobaoInfo = function (item, callback) {
+    async.waterfall([
+        function (callback) {
+            //Web Taobao Info
+            taobaoWeb.item.getWebSkus(item, function (err, webSkus) {
+                item.taobaoInfo = item.taobaoInfo || {};
+                item.taobaoInfo.web_skus = webSkus;
+                callback(null);
+            });
+        },
+        function (callback) {
+            // TODO Api Taobao Info
+            callback();
+        }
+    ], function (err) {
+        if (err) {
+            callback(err);
+        } else {
+            item.save(callback);
+        }
+    });
+}
+
 goblin.refreshItemTaobaoInfo = {
     'method' : 'get',
     'func' : function (req, res) {
@@ -177,7 +200,9 @@ goblin.refreshItemTaobaoInfo = {
         async.waterfall([
             function (callback) {
                 //TODO check admin
-
+                callback();
+            },
+            function (callback) {
                 var itemId = null;
                 try {
                     itemId = RequestHelper.parseId(req.queryString._id);
@@ -192,19 +217,8 @@ goblin.refreshItemTaobaoInfo = {
                 }, callback);
             },
             function (item, callback) {
-                taobaoWeb.item.getWebSkus(item, function (err, webSkus) {
-                    item.taobaoInfo = item.taobaoInfo || {};
-                    item.taobaoInfo.web_skus = webSkus;
-                    callback(null, item);
-                });
+                _crawlTaobaoInfo(item, callback);
             },
-            function (item, callback) {
-                //TODO taobaoAPI
-                callback(null, item);
-            },
-            function (item, callback) {
-                item.save(callback);
-            }
         ], function (err, item) {
             ResponseHelper.response(res, err, {
                 "item" : item
@@ -214,19 +228,47 @@ goblin.refreshItemTaobaoInfo = {
 };
 
 goblin.batchRefreshItemTaobaoInfo = {
-    'method' : 'post',
+    'method' : 'get',
     'func' : function (req, res) {
         var qsParam = null;
+        var items = null;
         async.waterfall([
             function (callback) {
+                // TODO check admin
 
+                try {
+                    qsParam = RequestHelper.parse(req.queryString);
+                } catch (e) {
+                    callback(e);
+                    return;
+                }
+                callback();
             },
             function (callback) {
-
+                //query items
+                MongoHelper.queryPaging(Item.find(), Item.find(), qsParam.pageNo, qsParam.pageSize, function(err, result) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        callback(null, result);
+                    }
+                });
+            },
+            function (result, callback) {
+                items = result;
+                var tasks = [];
+                items.forEach(function (item) {
+                    var task = function(callback) {
+                        _crawlTaobaoInfo(item, callback);
+                    };
+                    tasks.push(task);
+                });
+                async.parallel(tasks, callback);
             }
         ], function (err) {
-
+            ResponseHelper.response(res, err, {
+                "items" : items
+            });
         });
-        return;
     }
 };
