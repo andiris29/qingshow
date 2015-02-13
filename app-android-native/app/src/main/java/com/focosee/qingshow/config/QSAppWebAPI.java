@@ -74,8 +74,8 @@ public class QSAppWebAPI {
         return BRAND_QUERY_API + "?_ids=" + _ids;
     }
 
-    public static String getBrandFollowedApi(String _id) {
-        return BRAND_FOLLOWED_API + "?_id=" + _id;
+    public static String getBrandFollowedApi(String _id, int pageNo, int pageSize) {
+        return BRAND_FOLLOWED_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getUerApi(String _id) {
@@ -96,7 +96,7 @@ public class QSAppWebAPI {
     }
 
     public static String getFeedingLikeApi(String _id, int pageIndex, int pageSize) {
-        return FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+        return FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
     }
 
     public static String getFeedingRecommendationApi(String _id, int pageIndex, int pageSize) {
@@ -118,7 +118,7 @@ public class QSAppWebAPI {
     }
 
     public static String getShowCommentsListApi(String showId, int pageIndex, int pageSize) {
-        return SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo" + String.valueOf(pageIndex) + "pageSize" + String.valueOf(pageSize);
+        return SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo=" + pageIndex + "pageSize=" + pageSize;
     }
 
     public static String getCommentPostApi() {

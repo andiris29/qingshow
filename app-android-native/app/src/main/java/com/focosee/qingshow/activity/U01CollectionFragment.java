@@ -93,7 +93,7 @@ public class U01CollectionFragment extends Fragment {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                doShowsLoadMoreTask(String.valueOf(currentPageIndex), String.valueOf(10));
+                doShowsLoadMoreTask(currentPageIndex+1, 10);
             }
         });
 
@@ -156,9 +156,9 @@ public class U01CollectionFragment extends Fragment {
         QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
-    private void doShowsLoadMoreTask(String pageNo, String pageSize) {
+    private void doShowsLoadMoreTask(int pageNo, int pageSize) {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getFeedingLikeApi(people.get_id(), Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getFeedingLikeApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {

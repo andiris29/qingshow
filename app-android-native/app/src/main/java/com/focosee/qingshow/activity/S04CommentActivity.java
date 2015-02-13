@@ -24,6 +24,7 @@ import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoComment;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
@@ -58,7 +59,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
 
     private S04CommentListAdapter adapter;
 
-    private int currentPage = 0;
+    private int currentPage = 1;
     private int numbersPerPage = 10;
     private String showId;
     private String replyUserId = null;
@@ -136,6 +137,12 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    pullRefreshListView.onPullUpRefreshComplete();
+                    pullRefreshListView.setHasMoreData(false);
+                    Toast.makeText(S04CommentActivity.this, R.string.no_more_data, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 currentPage++;
                 adapter.addDataInTail(S04CommentActivity.getCommentsFromJsonObject(response));
                 adapter.notifyDataSetChanged();
@@ -147,7 +154,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
             @Override
             public void onErrorResponse(VolleyError error) {
                 pullRefreshListView.onPullUpRefreshComplete();
-                Toast.makeText(S04CommentActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(S04CommentActivity.this, R.string.check_wifi, Toast.LENGTH_SHORT).show();
                 Log.i("test", error.toString());
             }
         });
@@ -158,7 +165,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                currentPage = 0;
+                currentPage = 1;
                 adapter.resetData(S04CommentActivity.getCommentsFromJsonObject(response));
                 adapter.notifyDataSetChanged();
                 pullRefreshListView.onPullDownRefreshComplete();
@@ -169,7 +176,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
             @Override
             public void onErrorResponse(VolleyError error) {
                 pullRefreshListView.onPullDownRefreshComplete();
-                Toast.makeText(S04CommentActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 Log.i("test", error.toString());
             }
         });
@@ -179,7 +185,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
     private void postComment() {
 
         if (! AppUtil.getAppUserLoginStatus(S04CommentActivity.this)) {
-            Toast.makeText(S04CommentActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
+            Toast.makeText(S04CommentActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
             return;
         }
 

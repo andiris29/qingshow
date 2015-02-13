@@ -84,4 +84,9 @@
     <!-- S01Home Activity -->
     <string name="menu_open">open</string>
     <string name="menu_close">close</string>
+
+    <!-- comm -->
+    <string name="no_more_data">没有更多数据了！</string>
+    <string name="need_login">请先登录</string>
+    <string name="check_wifi">请检查网络</string>
 </resources>
