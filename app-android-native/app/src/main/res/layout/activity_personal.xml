@@ -9,13 +9,13 @@
     <RelativeLayout
 
         android:layout_width="match_parent"
-        android:layout_height="@dimen/RelativeLayout_height_activity_model"
-        android:background="@drawable/user_bg_default">
+        android:layout_height="@dimen/RelativeLayout_height_activity_model">
         <ImageView
             android:id="@+id/activity_personal_background"
             android:layout_width="fill_parent"
             android:scaleType="centerCrop"
-            android:layout_height="@dimen/RelativeLayout_height_activity_model" />
+            android:layout_height="@dimen/RelativeLayout_height_activity_model"
+            android:src="@drawable/user_bg_default"/>
 
         <ImageView
             android:id="@+id/activity_personal_backTextView"

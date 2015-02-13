@@ -63,8 +63,12 @@ public class U01RecommendFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getActivity() instanceof U01PersonalActivity){
-            people = ((U01PersonalActivity)getActivity()).getMongoPeople();
+        if(null != savedInstanceState){
+            people = (MongoPeople) savedInstanceState.get("people");
+        } else {
+            if (getActivity() instanceof U01PersonalActivity) {
+                people = ((U01PersonalActivity) getActivity()).getMongoPeople();
+            }
         }
         if (getArguments() != null) {
 
@@ -116,6 +120,11 @@ public class U01RecommendFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("people", people);
+    }
 
     private void doShowsRefreshDataTask() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,

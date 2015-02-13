@@ -70,6 +70,10 @@ public class QSApplication extends Application {
 
     }
 
+    public String getCookie() {
+        return _preferences.getString("Cookie", "");
+    }
+
     public void configImageLoader() {
         File cacheDir = StorageUtils.getCacheDirectory(this);
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
