@@ -48,9 +48,9 @@ public class S04CommentListAdapter extends BaseAdapter {
 
 
         imageOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.root_user_background) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.root_user_background)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.root_user_background)  //设置图片加载/解码过程中错误时候显示的图片
+                .showImageOnLoading(R.drawable.user_head_default) //设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.user_head_default)//设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.user_head_default)  //设置图片加载/解码过程中错误时候显示的图片
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -71,7 +71,7 @@ public class S04CommentListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override

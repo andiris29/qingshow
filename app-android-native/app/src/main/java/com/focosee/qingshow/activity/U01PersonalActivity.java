@@ -80,7 +80,7 @@ public class U01PersonalActivity extends FragmentActivity {
         setContentView(R.layout.activity_personal);
         context = getApplicationContext();
         Intent mIntent = getIntent();
-        matchUI();
+
         if (null != mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE)) {
             people = (MongoPeople) mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE);
         } else if (null != mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL)) {
@@ -105,7 +105,7 @@ public class U01PersonalActivity extends FragmentActivity {
             finish();
         }
 
-
+        matchUI();
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

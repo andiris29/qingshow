@@ -43,7 +43,6 @@ public class U01WatchFragment extends Fragment {
     private P01ModelListAdapter followerPeopleListAdapter;
 
     private int pageIndex = 1;
-    private String _id;
     private MongoPeople people;
 
     private static U01WatchFragment instance;
@@ -146,7 +145,7 @@ public class U01WatchFragment extends Fragment {
 
     private void doFollowersRefreshDataTask() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getPeopleQueryFollowedApi(_id,1, 10), null, new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getPeopleQueryFollowedApi(people.get_id(),1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(MetadataParser.getNumTotal(response));
@@ -176,11 +175,11 @@ public class U01WatchFragment extends Fragment {
 
     private void doFollowersLoadMoreTask() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
-                QSAppWebAPI.getPeopleQueryFollowedApi(_id, pageIndex + 1, 10), null, new Response.Listener<JSONObject>() {
+                QSAppWebAPI.getPeopleQueryFollowedApi(people.get_id(), pageIndex + 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
-                    Toast.makeText(getActivity(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;

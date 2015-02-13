@@ -285,7 +285,12 @@ public class P02ModelActivity extends BaseActivity {
         followRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                followOrUnfollowTask();
+                if(AppUtil.getAppUserLoginStatus(P02ModelActivity.this)) {
+                    followOrUnfollowTask();
+                } else {
+                    Toast.makeText(P02ModelActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(P02ModelActivity.this, U06LoginActivity.class));
+                }
             }
         });
     }
@@ -498,7 +503,7 @@ public class P02ModelActivity extends BaseActivity {
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
                         doFollowersRefreshDataTask();
                     }else{
-                        showMessage(P02ModelActivity.this, "关注失败");
+                        showMessage(P02ModelActivity.this, "关注失败" + response);
                     }
                 }catch (Exception e) {
                     showMessage(P02ModelActivity.this, e.toString());

@@ -118,16 +118,16 @@ public class U01BrandFragment extends Fragment{
 
 
     private void doRefreshTask() {
-        _getDataFromNet(true);
+        _getDataFromNet(true, 1, 10);
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false);
+        _getDataFromNet(false, _currentPageIndex+1, 10);
     }
 
-    private void _getDataFromNet(boolean refreshSign) {
+    private void _getDataFromNet(boolean refreshSign, int pageNo, int pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(people.get_id()), null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 try{
@@ -146,7 +146,6 @@ public class U01BrandFragment extends Fragment{
                     mPullRefreshListView.setHasMoreData(true);
 
                 }catch (Exception error){
-                    //Toast.makeText(getApplication(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getActivity(), "最后一页", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
@@ -157,7 +156,6 @@ public class U01BrandFragment extends Fragment{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(S08TrendActivity.this, "Error:"+error.toString(), Toast.LENGTH_LONG).show();
                 mPullRefreshListView.onPullDownRefreshComplete();
                 mPullRefreshListView.onPullUpRefreshComplete();
                 mPullRefreshListView.setHasMoreData(true);
@@ -174,7 +172,6 @@ public class U01BrandFragment extends Fragment{
                 }
             }
         });
-        //Toast.makeText(this,jor.get,Toast.LENGTH_LONG).show();
         QSApplication.get().QSRequestQueue().add(jor);
     }
 
