@@ -67,7 +67,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if(null != convertView)
         if (position == 0) {
             UpdateCellHolderView updateCellHolderView;
 
@@ -108,6 +107,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
         holder.showIV.setOriginHeight(showInfo.imageMetadata.height);
 
         _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.imageMetadata.url), holder.showIV, coverOptions, animateFirstListener);
+
         holder.priceTV.setText(showInfo.getPrice());
         if(null != showInfo.brandDiscountInfo) {
             holder.sorcePriceTV.setText(showInfo.getSourcePrice());
@@ -137,6 +137,11 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
     }
 
     @Override
+    public int getCount() {
+        return (null == _data) ? 0 : _data.size()+1;
+    }
+
+    @Override
     public int getViewTypeCount() {
         return 2;
     }
@@ -145,7 +150,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
     public int getItemViewType(int position) {
         return (position == 0) ? 0 : 1;
     }
-
 
     public MongoItem getItemDataAtIndex(int index) {
         if (index >= _data.size()) return null;
