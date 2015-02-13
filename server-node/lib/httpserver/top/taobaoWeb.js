@@ -45,7 +45,7 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {
     request.get({
-        'url' : 'http://detailskip.taobao.com/json/sib.htm?p=1&itemId=' + tbItemId,
+        'url' : 'http://detailskip.taobao.com/json/sib.htm?p=1&rcid=16&chnl&price=7000&shopId&vd=1&skil=false&pf=1&al=false&ap=1&ss=0&free=0&st=1&ct=1&prior=1&ref&itemId=' + tbItemId,
         'headers' : {
             'referer' : 'http://item.taobao.com/item.htm?id=' + tbItemId,
             'accept-language' : 'en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4'
@@ -57,14 +57,30 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
         } else {
             try {
                 var g_config = {
-                    'vdata' : {}
+                    vdata : {}
                 };
                 eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
 
-//                var price, promoPrice;
-                // TODO Parse g_config.PromoData to find the item.brandDiscountInfo.price
-                // TODO Parse g_config.Price to find the price
-                callback(null, null);
+                var priceBeforeDiscount = parseFloat(g_config.Price);
+                var stockInfo = g_config.DynamicStock.sku;
+                var priceInfo = g_config.PromoData;
+                var webSkus = [];
+                var sku_id;
+                for (sku_id in stockInfo) {
+                    try {
+                        var price = priceInfo[sku_id][0].price ? parseFloat(priceInfo[sku_id][0].price) : priceBeforeDiscount;
+                        var stock = parseInt(stockInfo[sku_id].stock);
+                        var sku = {
+                            'sku_id' : sku_id,
+                            'price' : price,
+                            'stock' : stock
+                        };
+                        webSkus.push(sku);
+                    } catch (e) {
+                        console.log('Parse itemId: ' + tbItemId + ' sku: ' + sku_id + ' Error');
+                    }
+                }
+                callback(null, webSkus);
             } catch (e) {
                 callback(e);
             }
@@ -95,7 +111,13 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                         try {
 
                             var stock = stockInfo[sku_id].quantity;
-                            var price = parseFloat(priceInfo[sku_id].promotionList[0].price);
+                            var price = null;
+                            if (priceInfo[sku_id].promotionList) {
+                                price = parseFloat(priceInfo[sku_id].promotionList[0].price);
+                            } else {
+                                price = parseFloat(priceInfo[sku_id].price);
+                            }
+
                             var skuObj = {
                                 'sku_id' : sku_id,
                                 'promo_price' : price,

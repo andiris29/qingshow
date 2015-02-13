@@ -178,9 +178,12 @@ goblin.refreshItemTaobaoInfo = {
             function (callback) {
                 //TODO check admin
 
-                //TODO catch exception of parseId
-                var itemId = RequestHelper.parseId(req.queryString._id);
-
+                var itemId = null;
+                try {
+                    itemId = RequestHelper.parseId(req.queryString._id);
+                } catch (e) {
+                    callback(e);
+                }
                 callback(null, itemId);
             },
             function (itemId, callback) {
@@ -200,7 +203,6 @@ goblin.refreshItemTaobaoInfo = {
                 callback(null, item);
             },
             function (item, callback) {
-                //TODO save to db
                 item.save(callback);
             }
         ], function (err, item) {
