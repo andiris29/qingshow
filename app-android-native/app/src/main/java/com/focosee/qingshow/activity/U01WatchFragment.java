@@ -64,9 +64,12 @@ public class U01WatchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getActivity() instanceof U01PersonalActivity){
-            people = ((U01PersonalActivity)getActivity()).getMongoPeople();
-            _id = people.get_id();
+        if(null != savedInstanceState){
+            people = (MongoPeople) savedInstanceState.get("people");
+        } else {
+            if (getActivity() instanceof U01PersonalActivity) {
+                people = ((U01PersonalActivity) getActivity()).getMongoPeople();
+            }
         }
         if (getArguments() != null) {
 
@@ -133,6 +136,12 @@ public class U01WatchFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("people", people);
     }
 
     private void doFollowersRefreshDataTask() {

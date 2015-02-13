@@ -49,9 +49,9 @@ public class U01CollectionFragment extends Fragment {
 
     public static U01CollectionFragment newInstance() {
 
-            if (instance == null) {
+            //if (instance == null) {
                 instance = new U01CollectionFragment();
-            }
+            //}
 
             return instance;
     }
@@ -63,10 +63,13 @@ public class U01CollectionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getActivity() instanceof U01PersonalActivity){
-            people = ((U01PersonalActivity)getActivity()).getMongoPeople();
-        }
-        if (getArguments() != null) {
+
+        if (savedInstanceState != null) {
+            people = (MongoPeople) savedInstanceState.get("people");
+        } else {
+            if(getActivity() instanceof U01PersonalActivity){
+                people = ((U01PersonalActivity)getActivity()).getMongoPeople();
+            }
         }
     }
 
@@ -112,6 +115,14 @@ public class U01CollectionFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("people", people);
+//        getFragmentManager().putFragment(outState, "mContent", mContent);
     }
 
     private void doShowsRefreshDataTask() {

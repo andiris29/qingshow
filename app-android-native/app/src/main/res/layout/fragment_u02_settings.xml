@@ -63,7 +63,7 @@
                 android:layout_height="45dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:background="@drawable/bg_photpchoose_eg01" />
+                android:src="@drawable/user_head_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:background="@drawable/bg_photpchoose_eg02" />
+                android:src="@drawable/user_bg_default" />
 
             <TextView
                 android:layout_width="wrap_content"

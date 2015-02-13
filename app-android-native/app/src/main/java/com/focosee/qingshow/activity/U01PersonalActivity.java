@@ -33,6 +33,7 @@ public class U01PersonalActivity extends FragmentActivity {
     private static final int PAGER_NUM = 4;
 
     public static final String LOGOUT_ACTOIN = "logout_action";
+    public static final String USER_UPDATE = "user_update";
 
     private static final int PAGER_COLLECTION = 0;
     private static final int PAGER_RECOMMEND = 1;
@@ -66,6 +67,10 @@ public class U01PersonalActivity extends FragmentActivity {
             if(LOGOUT_ACTOIN.equals(intent.getAction())){
                 finish();
             }
+            if(USER_UPDATE.equals(intent.getAction())){
+                people = QSApplication.get().getPeople();
+                Toast.makeText(getApplicationContext(), people.getBackground(), Toast.LENGTH_LONG).show();
+            }
         }
     };
 
@@ -82,7 +87,9 @@ public class U01PersonalActivity extends FragmentActivity {
             people = (MongoPeople) mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL);
         } else {//本人
             people = QSApplication.get().getPeople();
+            Toast.makeText(getApplicationContext(), "U01:" + people.getBackground(), Toast.LENGTH_LONG).show();
         }
+
 
         if (people != null) {
             if (!AppUtil.getAppUserLoginStatus(this)){
@@ -122,17 +129,17 @@ public class U01PersonalActivity extends FragmentActivity {
         }
 
         backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
-        ImageLoader.getInstance().displayImage(people.background, backgroundIV);
+        ImageLoader.getInstance().displayImage(people.getBackground(), backgroundIV);
 
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);
-        if (people.name != null) nameTextView.setText(people.name);
+        nameTextView.setText(people.getName());
         if (people.height != null && people.weight != null)
-            heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
+            heightAndWeightTextView.setText(people.getHeight() + people.getWeight());
 
         MRoundImageView portraitImageView = (MRoundImageView) findViewById(R.id.avatorImageView);
         if (people != null) {
-            String portraitUrl = people.portrait;
+            String portraitUrl = people.getPortrait();
             if (portraitUrl != null && !portraitUrl.equals("")) {
 //                Picasso.with(context).load(portraitUrl).into(portraitImageView);
                 ImageLoader.getInstance().displayImage(portraitUrl, portraitImageView);
@@ -160,6 +167,7 @@ public class U01PersonalActivity extends FragmentActivity {
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
+
             }
 
             @Override
@@ -172,13 +180,7 @@ public class U01PersonalActivity extends FragmentActivity {
         personalViewPager.setCurrentItem(0);
 
         registerReceiver(receiver, new IntentFilter(LOGOUT_ACTOIN));
-    }
-
-    private void initFragments(){
-        U01CollectionFragment.newInstance();
-        U01RecommendFragment.newInstance();
-        U01CollectionFragment.newInstance();
-        U01BrandFragment.newInstance();
+        registerReceiver(receiver, new IntentFilter(USER_UPDATE));
     }
 
     @Override
