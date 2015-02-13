@@ -67,8 +67,16 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                 var webSkus = [];
                 var sku_id;
                 for (sku_id in stockInfo) {
+                    if (sku_id === 'dummy') {
+                        continue;
+                    }
                     try {
-                        var price = priceInfo[sku_id][0].price ? parseFloat(priceInfo[sku_id][0].price) : priceBeforeDiscount;
+                        var price = null;
+                        if (priceInfo[sku_id] && priceInfo[sku_id].length && priceInfo[sku_id][0] && priceInfo[sku_id][0].price) {
+                            price = parseFloat(priceInfo[sku_id][0].price);
+                        } else {
+                            price = priceBeforeDiscount;
+                        }
                         var stock = parseInt(stockInfo[sku_id].stock);
                         var sku = {
                             'sku_id' : sku_id,
@@ -108,11 +116,13 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                     var priceInfo = object.defaultModel.itemPriceResultDO.priceInfo;
                     var stockInfo = object.defaultModel.inventoryDO.skuQuantity;
                     for (var sku_id in priceInfo) {
+                        if (sku_id === 'dummy') {
+                            continue;
+                        }
                         try {
-
                             var stock = stockInfo[sku_id].quantity;
                             var price = null;
-                            if (priceInfo[sku_id].promotionList) {
+                            if (priceInfo[sku_id].promotionList && priceInfo[sku_id].promotionList.length && priceInfo[sku_id].promotionList[0].price) {
                                 price = parseFloat(priceInfo[sku_id].promotionList[0].price);
                             } else {
                                 price = parseFloat(priceInfo[sku_id].price);
