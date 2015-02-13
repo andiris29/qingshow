@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
-var taobao = require('../top/taobao');
+
+var taobaoAPI = require('../top/taobaoAPI');
+var taobaoWeb = require('../top/taobaoWeb');
 
 var TopShop = require('../../model/topShops');
 var Item = require('../../model/items')
@@ -11,6 +13,7 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServiceHelper = require('../helpers/ServiceHelper');
 
 var goblin = module.exports;
+
 
 // E.g http://127.0.0.1:30001/services/goblin/queryTOPShops?nicks=粉白色小猪哒
 goblin.queryTOPShops = {
@@ -42,7 +45,7 @@ goblin.queryTOPShops = {
                 newNicks.forEach(function (nick) {
                     tasks.push(function (callback) {
                         // Query top
-                        taobao.shop.get({
+                        taobaoAPI.shop.get({
                             'nick' : nick,
                             'fields' : 'sid,nick,title,desc,pic_path,shop_score'
                         }, function (err, result) {
@@ -112,6 +115,7 @@ goblin.updateTOPShopHotSales = {
     }
 };
 
+/*
 goblin.queryItems = {
     'method' : 'get',
     'func' : function (req, res) {
@@ -125,6 +129,7 @@ goblin.queryItems = {
         });
     }
 };
+
 
 goblin.updateItemPrices = {
     'method' : 'post',
@@ -160,5 +165,66 @@ goblin.updateItemPrices = {
                 "item" : item
             });
         });
+    }
+};
+*/
+
+goblin.refreshItemTaobaoInfo = {
+    'method' : 'get',
+    'func' : function (req, res) {
+
+        var qsParam = null;
+        async.waterfall([
+            function (callback) {
+                //TODO check admin
+
+                //TODO catch exception of parseId
+                var itemId = RequestHelper.parseId(req.queryString._id);
+
+                callback(null, itemId);
+            },
+            function (itemId, callback) {
+                Item.findOne({
+                    "_id" : itemId
+                }, callback);
+            },
+            function (item, callback) {
+                taobaoWeb.item.getWebSkus(item, function (err, webSkus) {
+                    item.taobaoInfo = item.taobaoInfo || {};
+                    item.taobaoInfo.web_skus = webSkus;
+                    callback(null, item);
+                });
+            },
+            function (item, callback) {
+                //TODO taobaoAPI
+                callback(null, item);
+            },
+            function (item, callback) {
+                //TODO save to db
+                item.save(callback);
+            }
+        ], function (err, item) {
+            ResponseHelper.response(res, err, {
+                "item" : item
+            });
+        });
+    }
+};
+
+goblin.batchRefreshItemTaobaoInfo = {
+    'method' : 'post',
+    'func' : function (req, res) {
+        var qsParam = null;
+        async.waterfall([
+            function (callback) {
+
+            },
+            function (callback) {
+
+            }
+        ], function (err) {
+
+        });
+        return;
     }
 };
