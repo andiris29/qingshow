@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 
@@ -18,6 +19,9 @@ import com.focosee.qingshow.R;
 public class SharePopupWindow extends PopupWindow {
 
     private View mainview;
+    private ViewGroup viewGroup;
+
+    private View showView;
     public SharePopupWindow(Activity context,View.OnClickListener itemclick){
         super(context);
         LayoutInflater inflater=(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
@@ -30,8 +34,8 @@ public class SharePopupWindow extends PopupWindow {
         int outHeight = options.outHeight;
         Log.i("tag",outHeight + "");
         this.setWidth(LayoutParams.MATCH_PARENT);
-        this.setHeight(outHeight*3);
-        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        this.setHeight(LayoutParams.WRAP_CONTENT);
+        ColorDrawable dw = new ColorDrawable(0x30000000);
         this.setBackgroundDrawable(dw);
         this.setContentView(mainview);
         this.setFocusable(true);
@@ -42,4 +46,29 @@ public class SharePopupWindow extends PopupWindow {
 
     }
 
+
+    public void setupDismiss(ViewGroup viewGroup){
+        this.viewGroup = viewGroup;
+    }
+
+    public void setShowView(View showView) {
+        this.showView = showView;
+    }
+
+
+    private void showOneView(View view){
+        view.setVisibility(View.VISIBLE);
+    }
+
+    private void showAllView(ViewGroup viewGroup){
+        for (int i = 0;i < viewGroup.getChildCount();i++){
+            viewGroup.getChildAt(i).setVisibility(View.VISIBLE);
+        }
+    }
+    @Override
+    public void dismiss() {
+        if(showView != null) showOneView(showView);
+        if(viewGroup != null)   showAllView(viewGroup);
+        super.dismiss();
+    }
 }

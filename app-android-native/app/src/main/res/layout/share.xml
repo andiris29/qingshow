@@ -8,12 +8,15 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="1">
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             android:src="@drawable/skyblue_logo_sinaweibo"
             android:id="@+id/share_sina"/>
         <TextView
@@ -28,6 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:layout_weight="1">
     <ImageView
@@ -46,6 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center"
         android:layout_weight="1">
     <ImageView
