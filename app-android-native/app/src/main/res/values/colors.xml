@@ -10,7 +10,7 @@
     <color name="background_color">#f0f0f0</color>
     <color name="darker_gray">#424242</color>
     <!-- personal -->
-    <color name="indicator_bg_default_activity_personal">#88000000</color>
+    <color name="indicator_bg_default_activity_personal">#33000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
     <color name="indicator_text_color_default_activity_personal">#ffffff</color>
     

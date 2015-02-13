@@ -22,5 +22,6 @@
 
     <!-- comm -->
     <dimen name="RelativeLayout_height_activity_model">230dp</dimen>
+    <dimen name="line_between_tab">15dp</dimen>
 
 </resources>
