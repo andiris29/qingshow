@@ -90,7 +90,7 @@ public class MongoItem implements Serializable {
 
     public String getBrandId() {
         if (null == brandRef) return "";
-        return String.valueOf(brandRef);
+        return String.valueOf(brandRef.get_id());
     }
 
     public String getSourcePrice() {

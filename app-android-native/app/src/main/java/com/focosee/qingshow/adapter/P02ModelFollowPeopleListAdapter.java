@@ -37,7 +37,9 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<MongoPeople> data;
 
-
+    public ArrayList<MongoPeople> getData() {
+        return data;
+    }
 
     private P02ModelActivity p02ModelActivity;
     private int type = PeopleTypeInU01PersonalActivity.NOREMOVEITEM.getIndx();
@@ -91,7 +93,9 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
         holderView.likedNumberTextView.setText(String.valueOf(data.get(position).get__context().numFollowPeoples));
         int[] roles = data.get(position).getRoles();
         for(int role : roles){
-            if(role == RolesCode.MODEL.getIndex()) holderView.followButton.setVisibility(View.VISIBLE);
+            if(role == RolesCode.MODEL.getIndex()) {
+                holderView.followButton.setVisibility(View.VISIBLE);
+            }
         }
         if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
             holderView.followButton.setBackgroundResource(R.drawable.people_list_unfollow);

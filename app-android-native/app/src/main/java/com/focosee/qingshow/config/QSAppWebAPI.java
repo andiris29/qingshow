@@ -40,6 +40,8 @@ public class QSAppWebAPI {
     private static final String SHOW_UNLIKE_API = HOST_NAME + "/show/unlike";
 
     private static final String BRAND_FOLLOWED_API = HOST_NAME + "/brand/queryFollowed";
+    private static final String BRAND_FOLLOW_API = HOST_NAME + "/brand/follow";
+    private static final String BRAND_UNFOLLOW_API = HOST_NAME + "/brand/unfollow";
 
 //    private static final String BRAND_NEWEST_API = HOST_NAME + "/feeding/byBrandNew";
 //    private static final String BRAND_DISCOUNT_API = HOST_NAME + "/feeding/byBrandDiscount";
@@ -47,6 +49,7 @@ public class QSAppWebAPI {
     private static final String BRAND_MATCH_API = HOST_NAME + "/itemFeeding/byBrandNew";
     private static final String BRAND_DISCOUNT_API = HOST_NAME + "/itemFeeding/byBrandDiscount";
     private static final String BRAND_SHOW_API = HOST_NAME + "/feeding/byBrand";
+    private static final String BRAND_QUERY_API = HOST_NAME + "/brand/query";
 
     private static final String QUERY_PEOPLE_FOLLOWER_API = HOST_NAME + "/people/queryFollowers";
     private static final String QUERY_PEOPLE_FOLLOWED_API = HOST_NAME + "/people/queryFollowed";
@@ -58,6 +61,18 @@ public class QSAppWebAPI {
     private static final String USER_UPDATEPORTRAIT = HOST_NAME + "/user/updatePortrait";
     private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
     private static final String ITEM_RANDOM = HOST_NAME +"/itemFeeding/random";
+
+    public static String getBrandFollowApi(){
+        return BRAND_FOLLOW_API;
+    }
+
+    public static String getBrandUnfollowApi(){
+        return BRAND_UNFOLLOW_API;
+    }
+
+    public static String getBrandQueryApi(String _ids){
+        return BRAND_QUERY_API + "?_ids=" + _ids;
+    }
 
     public static String getBrandFollowedApi(String _id) {
         return BRAND_FOLLOWED_API + "?_id=" + _id;

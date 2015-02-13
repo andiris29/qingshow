@@ -15,22 +15,23 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P04BrandItemListAdapter;
 import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
-import com.focosee.qingshow.adapter.P04FansListAdapter;
 import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.request.QSJsonObjectRequest;
@@ -42,9 +43,7 @@ import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,6 +51,7 @@ import java.util.Map;
 public class P04BrandActivity extends BaseActivity {
     public static final String INPUT_BRAND = "P04BrandActivity_input_brand";
     public static final String INPUT_ITEM = "P04BrandActivity_input_item";
+    public static final String INPUT_BRAND_ID = "p04BrandActivity_input_brand";
     private static final String TAG = "P04BrandActivity";
 
     private ViewPager viewPager;
@@ -86,7 +86,7 @@ public class P04BrandActivity extends BaseActivity {
     private P04BrandItemListAdapter newestBrandItemListAdapter;
     private P04BrandItemListAdapter discountBrandItemListAdapter;
     private P04BrandItemListAdapter showBrandItemListAdapter;
-    private P04FansListAdapter fansListAdapter;
+    private P02ModelFollowPeopleListAdapter fansListAdapter;
 
     private ArrayList<View> pagerViewList;
 
@@ -105,9 +105,10 @@ public class P04BrandActivity extends BaseActivity {
 
         if(null != additionalItemEntity && null == brandEntity) {
 
-            if (null == additionalItemEntity.getBrandRef()) {//传过来的是id
+            if (null == additionalItemEntity.getBrandRef().__context) {//传过来的是id
                 brandEntity = new MongoBrand();
                 brandEntity._id = additionalItemEntity.getBrandId();
+                getBrandFromNet();
             }else brandEntity = additionalItemEntity.getBrandRef();
         }
 
@@ -273,6 +274,35 @@ public class P04BrandActivity extends BaseActivity {
                 }
             }
         });
+
+    }
+
+    private void getBrandFromNet() {
+        if(null == brandEntity)return;
+        String _ids = brandEntity.get_id();
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandQueryApi(_ids), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    Toast.makeText(P04BrandActivity.this, "店铺不存在了！", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+
+                ArrayList<MongoBrand> modelShowEntities = BrandParser.parseQueryBrands(response);
+                if(null == modelShowEntities) {
+                    finish();
+                    return;
+                }
+                brandEntity = modelShowEntities.get(0);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                handleErrorMsg(error);
+            }
+        });
+        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
     }
 
     private void configNewestShowListPage() {
@@ -430,7 +460,7 @@ public class P04BrandActivity extends BaseActivity {
         fansPullRefreshListView = (MPullRefreshListView) pagerViewList.get(3).findViewById(R.id.pager_P02_item_list);
         fansListView = fansPullRefreshListView.getRefreshableView();
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
-        fansListAdapter = new P04FansListAdapter(this, followerPeopleList);
+        fansListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
 
         fansListView.setAdapter(fansListAdapter);
         fansPullRefreshListView.setScrollLoadEnabled(true);
@@ -452,7 +482,21 @@ public class P04BrandActivity extends BaseActivity {
 
             fansListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    MongoPeople people = fansListAdapter.getData().get(i);
+                    intent.setClass(P04BrandActivity.this, U01PersonalActivity.class);
+                    for (int role : people.getRoles()) {
+                        if ( role == RolesCode.MODEL.getIndex()){
+                            intent.setClass(P04BrandActivity.this, P02ModelActivity.class);
+                            bundle.putSerializable(P02ModelActivity.INPUT_MODEL, people);
+                        } else {
+                            bundle.putSerializable(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, people);
+                        }
+                    }
+
+                    startActivity(intent);
 
                 }
             });
@@ -729,7 +773,7 @@ public class P04BrandActivity extends BaseActivity {
         followData.put("_id", brandEntity.get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getBrandFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -739,7 +783,7 @@ public class P04BrandActivity extends BaseActivity {
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
                         doFollowersRefreshDataTask();
                     }else{
-                        showMessage(P04BrandActivity.this, "关注失败");
+                        showMessage(P04BrandActivity.this, "关注失败" + response);
                     }
                 }catch (Exception e) {
                     showMessage(P04BrandActivity.this, e.toString());
@@ -760,7 +804,7 @@ public class P04BrandActivity extends BaseActivity {
         followData.put("_id", brandEntity.get_id());
         JSONObject jsonObject = new JSONObject(followData);
 
-        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getBrandUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {

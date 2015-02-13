@@ -87,7 +87,6 @@ public class U01PersonalActivity extends FragmentActivity {
             people = (MongoPeople) mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL);
         } else {//本人
             people = QSApplication.get().getPeople();
-            Toast.makeText(getApplicationContext(), "U01:" + people.getBackground(), Toast.LENGTH_LONG).show();
         }
 
 

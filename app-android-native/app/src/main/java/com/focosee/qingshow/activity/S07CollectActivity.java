@@ -61,7 +61,6 @@ public class S07CollectActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent1 = new Intent(S07CollectActivity.this, P04BrandActivity.class);
                 Bundle bundle1 = new Bundle();
-                bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, items.get(position).getBrandRef());
                 bundle1.putSerializable(P04BrandActivity.INPUT_ITEM, items.get(position));
                 //bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, brandEntity);
                 intent1.putExtras(bundle1);
