@@ -350,7 +350,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onClick(View v) {
 
+
+                showOneView( (RelativeLayout)findViewById(R.id.S03_before_video_view_button),R.id.S03_image_indicator);
+
                 sharePopupWindow=new SharePopupWindow(S03SHowActivity.this,new ShareClickListener());
+                findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
+                sharePopupWindow.setupDismiss((RelativeLayout)findViewById(R.id.S03_before_video_view_button));
+                sharePopupWindow.setShowView(findViewById(R.id.S03_back_btn));
                 sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
 
             }

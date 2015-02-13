@@ -83,19 +83,17 @@
 
     <RelativeLayout
         android:id="@+id/s01_FrameLa_left"
-        android:layout_width="150dp"
+        android:layout_width="140dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:gravity="center_vertical">
-
+        android:layout_gravity="start">
 
         <LinearLayout
             android:id="@+id/S01_pop_menu"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:alpha="50"
-            android:background="#000000"
-            android:gravity="center_horizontal"
+            android:alpha="80"
+            android:background="#B0000000"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -104,7 +102,6 @@
                 android:id="@+id/S01_nav_icon_flash"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/root_menu_flash" />
@@ -112,7 +109,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="闪点推荐"
                 android:textColor="#ffffffff" />
@@ -121,7 +118,7 @@
                 android:id="@+id/S01_nav_icon_brand"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/root_menu_brand" />
@@ -129,7 +126,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="品牌商户"
                 android:textColor="#ffffffff" />
@@ -138,7 +135,7 @@
                 android:id="@+id/S01_nav_icon_design"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/root_menu_design" />
@@ -146,7 +143,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="潮流时尚"
                 android:textColor="#ffffffff" />
@@ -156,7 +153,7 @@
                 android:id="@+id/S01_nav_icon_match"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/root_menu_match" />
@@ -164,7 +161,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="美搭榜单"
                 android:textColor="#ffffffff" />
@@ -174,7 +171,7 @@
                 android:id="@+id/S01_nav_icon_people"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:src="@drawable/root_menu_people" />
@@ -182,14 +179,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="人气用户"
                 android:textColor="#ffffffff" />
-
-
-
-
 
         </LinearLayout>
     </RelativeLayout>
