@@ -13,7 +13,7 @@
     <color name="indicator_bg_default_activity_personal">#88000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
     <color name="indicator_text_color_default_activity_personal">#ffffff</color>
-    
+    <color name="p01_text_color_model_height">#9e9e9e</color>
     <color name="btntextcolor">#ff1E90FF</color><!--dialog中按钮字体颜色 -->
 
     <color name="transparent">#0000</color>
