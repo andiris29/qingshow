@@ -297,6 +297,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         this.initPosterView(showDetailEntity.getPosters());
 
+        modelImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S03SHowActivity.this,P02ModelActivity.class);
+                intent.putExtra(P02ModelActivity.INPUT_MODEL,showDetailEntity.modelRef );
+                S03SHowActivity.this.startActivity(intent);
+
+            }
+        });
+
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
