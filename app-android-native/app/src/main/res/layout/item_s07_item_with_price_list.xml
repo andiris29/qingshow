@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:gravity="center_vertical"
-    android:background="#000000"
     android:descendantFocusability="blocksDescendants">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -56,7 +55,7 @@
         android:layout_height="wrap_content"
         android:textSize="40px"
         android:textColor="#ffffff"
-        android:text="589.00"/>
+        android:text=""/>
 
     <TextView
         android:id="@+id/item_S07_with_price_price"
@@ -64,7 +63,7 @@
         android:layout_height="wrap_content"
         android:textSize="40px"
         android:textColor="#ffffff"
-        android:text="289.00"/>
+        android:text=""/>
     </LinearLayout>
 
     <Button

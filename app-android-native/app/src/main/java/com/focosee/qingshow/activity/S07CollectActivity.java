@@ -48,12 +48,11 @@ public class S07CollectActivity extends BaseActivity {
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
-        brandText = intent.getStringExtra(INPUT_BRAND_TEXT);
         //brandEntity = (MongoShowD.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
         //brandEntity = (BrandEntity) bundle.getSerializable(INPUT_BRAND_ENTITY);
         listView = (ListView) findViewById(R.id.S07_item_list);
 
-        adapter = new S07ListAdapter(this, (null != brandText), items, getScreenSize().y);
+        adapter = new S07ListAdapter(this, items, getScreenSize().y);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
