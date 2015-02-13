@@ -33,6 +33,8 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -41,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="171cm"
-                android:layout_marginLeft="5dp" />
+                android:textColor="@color/p01_text_color_model_height" />
 
             <TextView
                 android:id="@+id/item_model_weight"
@@ -55,19 +57,22 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/people_cell_brand_icon" />
+                android:background="@drawable/model_cell_icon01_cloth" />
 
             <TextView
                 android:id="@+id/item_model_cloth_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="104"
-                android:layout_marginLeft="3dp" />
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/p01_text_color_model_height" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -80,7 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1025"
-                android:layout_marginLeft="3dp" />
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/p01_text_color_model_height" />
         </LinearLayout>
     </LinearLayout>
 
