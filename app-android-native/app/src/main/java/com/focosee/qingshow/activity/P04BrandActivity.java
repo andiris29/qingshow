@@ -108,7 +108,7 @@ public class P04BrandActivity extends BaseActivity {
             if (null == additionalItemEntity.getBrandRef()) {//传过来的是id
                 brandEntity = new MongoBrand();
                 brandEntity._id = additionalItemEntity.getBrandId();
-            }
+            }else brandEntity = additionalItemEntity.getBrandRef();
         }
 
         findViewById(R.id.P04_back_image_button).setOnClickListener(new View.OnClickListener() {
