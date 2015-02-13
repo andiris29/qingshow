@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <com.focosee.qingshow.widget.MImageView_OriginSize
-            android:id="@+id/item_random_image"
+            android:id="@+id/item_p02_random_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_launcher"
@@ -39,24 +39,28 @@
 
             <LinearLayout
                 android:id="@+id/item_show_love_ll"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignBottom="@+id/item_show_center_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/item_show_center_content"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/item_random_love"
-                    android:layout_width="fill_parent"
-                    android:layout_height="20dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="105"
+                    android:id="@+id/item_s02_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:textSize="10sp" />
+                    android:text="￥159.84"/>
+                <TextView
+                    android:id="@+id/item_s02_source_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:layout_marginLeft="20dp"
+                    android:text=""/>
             </LinearLayout>
 
         </RelativeLayout>

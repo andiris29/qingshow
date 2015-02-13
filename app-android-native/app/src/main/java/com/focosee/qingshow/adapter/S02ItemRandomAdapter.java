@@ -3,6 +3,7 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.activity.P04BrandActivity;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -67,9 +67,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Log.i("tag",position + "!!!");
         if(null != convertView)
-        Log.i("tag",convertView.getTag() + "");
         if (position == 0) {
             UpdateCellHolderView updateCellHolderView;
 
@@ -80,7 +78,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
                 updateCellHolderView.updateTimeTV = (TextView) convertView.findViewById(R.id.item_refresh_independent_update_time);
                 updateCellHolderView.updateDateTV = (TextView) convertView.findViewById(R.id.item_refresh_independent_update_date);
                 updateCellHolderView.updateWeekTV = (TextView) convertView.findViewById(R.id.item_refresh_independent_update_week);
-                Log.i("tag","updateCell");
                 convertView.setTag(updateCellHolderView);
             }
 
@@ -101,17 +98,22 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(_resourceId, null);
             holder = new ItemViewHolder();
-            holder.showIV = (MImageView_OriginSize) convertView.findViewById(R.id.item_random_image);
-            holder.priceTV = (TextView) convertView.findViewById(R.id.item_random_love);
+            holder.showIV = (MImageView_OriginSize) convertView.findViewById(R.id.item_p02_random_image);
+            holder.priceTV = (TextView) convertView.findViewById(R.id.item_s02_price);
+            holder.sorcePriceTV = (TextView) convertView.findViewById(R.id.item_s02_source_price);
             convertView.setTag(holder);
-            Log.i("tag","holder");
         }
         holder = (ItemViewHolder) convertView.getTag();
         holder.showIV.setOriginWidth(showInfo.imageMetadata.width);
         holder.showIV.setOriginHeight(showInfo.imageMetadata.height);
 
         _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.imageMetadata.url), holder.showIV, coverOptions, animateFirstListener);
-        holder.priceTV.setText("￥" + showInfo.price);
+        holder.priceTV.setText(showInfo.getPrice());
+        if(null != showInfo.brandDiscountInfo) {
+            holder.sorcePriceTV.setText(showInfo.getSourcePrice());
+            holder.sorcePriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+
         holder.showIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,11 +169,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
         }
     }
 
-    class ItemViewHolder extends AbsViewHolder{
-        TextView priceTV;
-        MImageView_OriginSize showIV;
-
-    }
 
 
     public void resetUpdateString(JSONObject response) {
@@ -220,6 +217,13 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
         public TextView updateTimeTV;
         public TextView updateDateTV;
         public TextView updateWeekTV;
+    }
+
+    class ItemViewHolder extends AbsViewHolder{
+        TextView priceTV;
+        TextView sorcePriceTV;
+        MImageView_OriginSize showIV;
+
     }
 
 }
