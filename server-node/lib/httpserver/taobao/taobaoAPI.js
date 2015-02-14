@@ -30,6 +30,11 @@ _expose('taobao.shop.get', {
     'paging' : false
 });
 
+_expose('taobao.item.get', {
+    'authorize' : false,
+    'paging' : false
+});
+
 var _invoke = function(api, appParams, callback) {
     var config = _configs[api];
     // Prepare params

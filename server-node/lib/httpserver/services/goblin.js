@@ -1,8 +1,9 @@
 var mongoose = require('mongoose');
 var async = require('async'), _ = require('underscore');
 
-var taobaoAPI = require('../top/taobaoAPI');
-var taobaoWeb = require('../top/taobaoWeb');
+var taobaoAPI = require('../taobao/taobaoAPI');
+var taobaoWeb = require('../taobao/taobaoWeb');
+var taobaoHelper = require('../taobao/taobaoHelper');
 
 var TopShop = require('../../model/topShops');
 var Item = require('../../model/items')
@@ -126,8 +127,17 @@ var _crawlTaobaoInfo = function (item, callback) {
             });
         },
         function (callback) {
-            // TODO Api Taobao Info
             callback();
+            return;
+            //TODO enable Taobao api after limited
+            var num_iid = parseInt(taobaoHelper.getTaobaoIdFromSource(item.source));
+            taobaoAPI.item.get({
+                'fields' : 'num_iid,title,price,desc_modules,sell_point',
+                'num_iid' : num_iid
+            }, function (err, result) {
+                //TODO handle Taobao api
+                callback();
+            });
         }
     ], function (err) {
         if (err) {
@@ -194,8 +204,10 @@ goblin.batchRefreshItemTaobaoInfo = {
             },
             function (callback) {
                 //query items
-                var query = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : new Date()}}]);
-                var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : new Date()}}]);
+                //TODO handle time
+                var time = new Date();
+                var query = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
+                var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
                 qsParam.pageNo = qsParam.pageNo || 1;
                 qsParam.pageSize = qsParam.pageSize || 10;
                 MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result) {
