@@ -111,8 +111,8 @@ public class MNavigationView extends LinearLayout {
         //
         tv_title = new TextView(context);
 
-        LayoutParams centerParam = new LayoutParams(LayoutParams.FILL_PARENT,
-                LayoutParams.FILL_PARENT);
+        LayoutParams centerParam = new LayoutParams(LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT);
 //        centerParam.weight = 1;
         tv_title.setLayoutParams(centerParam);
         tv_title.setTextColor(Color.BLACK);

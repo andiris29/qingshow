@@ -3,6 +3,8 @@ package com.focosee.qingshow.entity.mongo;
 import com.focosee.qingshow.entity.metadata.ImageMetadata;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 
 /**
@@ -78,9 +80,9 @@ public class MongoItem implements Serializable {
 
     public String getPrice() {
         if (null == brandDiscountInfo){//tab:最新
-            return "￥ " + price;
+            return "￥ " + new DecimalFormat("0.00").format(new BigDecimal(price));
         } else {//tab:优惠
-            return "￥" + brandDiscountInfo.price;
+            return "￥" + new DecimalFormat("0.00").format(new BigDecimal(brandDiscountInfo.price.toString()));
         }
     }
 
@@ -94,6 +96,6 @@ public class MongoItem implements Serializable {
     }
 
     public String getSourcePrice() {
-        return "￥ " + price;
+        return "￥ " + new DecimalFormat("0.00").format(new BigDecimal(price));
     }
 }
