@@ -115,60 +115,6 @@ goblin.updateTOPShopHotSales = {
     }
 };
 
-/*
-goblin.queryItems = {
-    'method' : 'get',
-    'func' : function (req, res) {
-        ServiceHelper.queryPaging(req, res, function (qsParam, callback) {
-            MongoHelper.queryPaging(Item.find(), Item.find(), qsParam.pageNo, qsParam.pageSize, callback);
-        }, function (models) {
-            // responseDataBuilder
-            return {
-                'items' : models
-            };
-        });
-    }
-};
-
-
-goblin.updateItemPrices = {
-    'method' : 'post',
-    'func' : function (req, res) {
-        var qsParam = null;
-        async.waterfall([
-            function (callback) {
-                try {
-                    qsParam = RequestHelper.parse(req.body);
-                } catch (e) {
-                    callback(e);
-                    return;
-                }
-                callback();
-            },
-            function (callback) {
-                Item.findOne({
-                    "_id" : qsParam._id
-                }, callback);
-            },
-            function (item, callback) {
-                if (qsParam.price) {
-                    item.price = parseFloat(qsParam.price);
-                }
-                if (qsParam.brandDiscountInfo && qsParam.brandDiscountInfo.price) {
-                    item.brandDiscountInfo = item.brandDiscountInfo || {};
-                    item.brandDiscountInfo.price = parseFloat(qsParam.brandDiscountInfo.price);
-                }
-                callback(item);
-            }
-        ], function (err, item) {
-            ResponseHelper.response(res, err, {
-                "item" : item
-            });
-        });
-    }
-};
-*/
-
 var _crawlTaobaoInfo = function (item, callback) {
     async.waterfall([
         function (callback) {
@@ -187,6 +133,8 @@ var _crawlTaobaoInfo = function (item, callback) {
         if (err) {
             callback(err);
         } else {
+            item.taobaoInfo = item.taobaoInfo || {};
+            item.taobaoInfo.refreshTime = new Date();
             item.save(callback);
         }
     });
@@ -246,7 +194,11 @@ goblin.batchRefreshItemTaobaoInfo = {
             },
             function (callback) {
                 //query items
-                MongoHelper.queryPaging(Item.find(), Item.find(), qsParam.pageNo, qsParam.pageSize, function(err, result) {
+                var query = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : new Date()}}]);
+                var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : new Date()}}]);
+                qsParam.pageNo = qsParam.pageNo || 1;
+                qsParam.pageSize = qsParam.pageSize || 10;
+                MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result) {
                     if (err) {
                         callback(err);
                     } else {
