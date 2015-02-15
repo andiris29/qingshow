@@ -164,15 +164,6 @@ public class P02ModelActivity extends BaseActivity {
             }
         });
 
-        latestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(P02ModelActivity.this, S03SHowActivity.class);
-                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, ((MongoShow)itemListAdapter.getItem(position)).get_id());
-                startActivity(intent);
-            }
-        });
-
         doShowsRefreshDataTask();
 
         // followed list page;

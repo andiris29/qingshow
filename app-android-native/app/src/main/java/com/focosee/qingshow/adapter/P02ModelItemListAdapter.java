@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.entity.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
@@ -63,11 +65,13 @@ public class P02ModelItemListAdapter extends BaseAdapter {
         viewHolder.image.setOriginHeight(itemList.get(position).getHorizontalCoverHeight());
         ImageLoader.getInstance().displayImage(ImgUtil.imgTo2x(itemList.get(position).getHorizontalCover()), viewHolder.image, AppUtil.getShowDisplayOptions());
         viewHolder.detailButton.setTag(position);
+        final String id = itemList.get(position).get_id();
         viewHolder.detailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = Integer.valueOf(((ImageButton) v).getTag().toString()).intValue();
-                Toast.makeText(context, "click item " + String.valueOf(position) + " button", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, S03SHowActivity.class);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, id);
+                context.startActivity(intent);
             }
         });
 
