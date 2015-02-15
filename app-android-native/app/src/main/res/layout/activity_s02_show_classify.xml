@@ -8,6 +8,7 @@
         android:id="@+id/S02_nav_bar"
         android:layout_width="fill_parent"
         navi:left_drawable="@drawable/btn_back_default"
+        android:gravity="center"
         android:layout_height="50dp"></com.focosee.qingshow.widget.MNavigationView>
 
 

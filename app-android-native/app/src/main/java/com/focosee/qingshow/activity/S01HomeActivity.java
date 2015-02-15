@@ -17,6 +17,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -191,6 +192,12 @@ public class S01HomeActivity extends BaseActivity {
         }
         _blurImage.setVisibility(View.VISIBLE);
 
+        _mFrmLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return true;
+            }
+        });
         spl.openDrawer(_mFrmLeft);
     }
 
@@ -201,14 +208,16 @@ public class S01HomeActivity extends BaseActivity {
             //菜单打开
             @Override
             public void onDrawerOpened(View drawerView) {
-
+                _wfPullRefreshView.setClickable(false);
+                _wfListView.setClickable(false);
                 openMenu();
             }
 
             // 菜单关闭
             @Override
             public void onDrawerClosed(View drawerView) {
-
+                _wfPullRefreshView.setClickable(true);
+                _wfListView.setClickable(true);
                 closeMenu();
 
                 _tag = 0;
