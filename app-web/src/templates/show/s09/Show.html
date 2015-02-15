@@ -1,24 +1,53 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0">
 <link rel="stylesheet" href="../../../css/style.css" />
 <style>
-    .qs-poster-slick-container {
+    .s09-show {
         height: 100%;
     }
-    .qs-poster-slick {
+    .s09-show .qs-poster-slick-container {
         height: 100%;
     }
-    .qs-poster {
+    .s09-show .qs-poster-slick {
+        height: 100%;
+    }
+    .s09-show .qs-poster {
         height: 100%;
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
         overflow: hidden;
     }
+    .s09-show .qs-play {
+        width: 60px;
+        position: absolute;
+        left: calc(50% - 60px / 2);
+        top: calc(50% - 60px / 2 - 20px);
+    }
+    .s09-show .qs-shadow {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+    .s09-show .qs-portrait {
+        width: 15%;
+        border: 1px solid #fff;
+        position: absolute;
+        left: 5%;
+        bottom: 5%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 </style>
-<div class="qs-view-component">
+<div class="qs-component s09-show">
     <div class="qs-poster-slick-container">
         <div class="clone qs-poster-slick">
             <div class="qs-poster fake-css-background-image" style="background-image: url('http://trial01.focosee.com/demo6/1222b20601.jpg')"></div>
         </div>
+    </div>
+    <img class="qs-play" src="../../../assets/s09/play.png" />
+    <div>
+        <img class="qs-shadow" src="../../../assets/common/shadow@2x.png" />
+        <div class="qs-portrait fake-css-background-image" style="background-image: url('http://trial01.focosee.com/demo2/b2.jpg')" ></div>
     </div>
 </div>

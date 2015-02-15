@@ -30,19 +30,19 @@ define([
             var thumbShows = results[1].data.shows.filter(function(thumbShow) {
                 return thumbShow._id !== show._id;
             });
-            ViewFactory.create('/show/s09/Show', this.$('.qs-s09-show').get(0), {
+            ViewFactory.create('/show/s09/Show', this.$('.qs-show').get(0), {
                 'show' : show
             });
-            ViewFactory.create('/show/s09/ShowThumb', this.$('.qs-s09-thumb-show:eq(0)').get(0), {
+            ViewFactory.create('/show/s09/ShowThumb', this.$('.qs-thumb-show:eq(0)').get(0), {
                 'show' : thumbShows[0]
             });
-            ViewFactory.create('/show/s09/ShowThumb', this.$('.qs-s09-thumb-show:eq(1)').get(0), {
+            ViewFactory.create('/show/s09/ShowThumb', this.$('.qs-thumb-show:eq(1)').get(0), {
                 'show' : thumbShows[1]
             });
-            ViewFactory.create('/show/s09/ItemThumb', this.$('.qs-s09-thumb-item:eq(0)').get(0), {
+            ViewFactory.create('/show/s09/ItemThumb', this.$('.qs-thumb-item:eq(0)').get(0), {
                 'item' : results[2].data.items[0]
             });
-            ViewFactory.create('/show/s09/ItemThumb', this.$('.qs-s09-thumb-item:eq(1)').get(0), {
+            ViewFactory.create('/show/s09/ItemThumb', this.$('.qs-thumb-item:eq(1)').get(0), {
                 'item' : results[2].data.items[1]
             });
         });

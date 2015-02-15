@@ -20,6 +20,7 @@ define([
                     // Pre-handling
                     data = data.replace(/<meta.*>/g, '');
                     data = data.replace(/<link.*>/g, '');
+                    data = data.replace(/<<script src.*>/g, '');
                     data = data.replace(/(\.\/|\.\.\/).*assets/g, './assets');
                     // Handling
                     var tplt$ = $(data);
