@@ -15,6 +15,18 @@
         <link rel="shortcut icon" href="./assets/common/icons/40.png">
         <link rel="apple-touch-icon" href="./assets/common/icons/80.png">
 
+        <link rel="stylesheet" href="./libs/slick-1.4.0/slick/slick.css" />
+        <link rel="stylesheet" href="./libs/video-js-4.11.4/video-js.min.css" />
+
+        <script src="./libs/URI.js-1.14.1/src/URI.min.js"></script>
+        <script src="./libs/URI.js-1.14.1/src/URI.fragmentQuery.js"></script>
+        <script src="./libs/async-0.9.0/lib/async.js"></script>
+        <script src="./libs/jquery-2.1.1/jquery-2.1.1.min.js"></script>
+        <script src="./libs/slick-1.4.0/slick/slick.min.js"></script>
+        <script src="./libs/underscore-1.7.0/underscore-min.js"></script>
+        <script src="./libs/video-js-4.11.4/video.js"></script>
+        <script src="./libs/requirejs-2.1.5/require.min.js"></script>
+        
         <link rel="stylesheet" href="./css/style.css" />
         <link rel="stylesheet" href="./css/s09.css" />
         <!--
@@ -22,6 +34,26 @@
         (-webkit-max-device-pixel-ratio: 1.9)" href="./css/1x/s09.css" />
         <link rel="stylesheet" media="only screen and (-webkit-min-device-pixel-ratio: 2)" href="./css/2x/s09.css" />
         -->
+
+        <script>
+            (function() {
+                requirejs.config({
+                    'baseUrl' : '',
+                    'paths' : {
+                        'violet' : './js/violet',
+                        'qingshow' : './js/qingshow'
+                    }
+                });
+
+                window.appConfig = {
+                    'appServer' : 'http://chingshow.com:30001/services',
+                };
+                $(function() {
+                    // chingshow
+                    require(['qingshow/bootstrap']);
+                });
+            })();
+        </script>
     </head>
 
     <body>
