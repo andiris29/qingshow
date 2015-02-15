@@ -43,7 +43,7 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 	 * @param urlList
 	 *            URL列表
 	 */
-	public void setupLayoutByImageUrl(final List<String> urlList, ImageLoader mImageLoader, DisplayImageOptions options) {
+	public void setupLayoutByImageUrl(final List<String> urlList, ImageLoader mImageLoader) {
 		if (urlList == null)
 			throw new NullPointerException();
 
@@ -56,7 +56,7 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
                 pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 				pageItem.setImageResource(R.drawable.ic_launcher);
                 pageItem.setBackgroundColor(Color.WHITE);
-                mImageLoader.displayImage(urlList.get(index), pageItem, options);
+                mImageLoader.displayImage(urlList.get(index), pageItem);
 				addViewItem(pageItem);
 			}
 		}

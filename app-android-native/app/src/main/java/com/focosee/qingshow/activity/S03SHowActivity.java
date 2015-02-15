@@ -403,7 +403,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void initPosterView(String[] urlList) {
-        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
+        this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
         this.imageIndicatorView.show();
         this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100, true);
     }
@@ -467,7 +467,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         videoView.buildDrawingCache();
         Bitmap bitmapInput = videoView.getDrawingCache();
-        this.imageIndicatorView.addBitmapAtFirst(bitmapInput, ImageLoader.getInstance(), AppUtil.getShowDisplayOptions());
+        this.imageIndicatorView.addBitmapAtFirst(bitmapInput, ImageLoader.getInstance(), null);
         imageIndicatorView.show();
 //      this.imageIndicatorView.getViewPager().getAdapter().notifyDataSetChanged();
 
