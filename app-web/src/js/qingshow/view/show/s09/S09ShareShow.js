@@ -15,6 +15,9 @@ define([
 
         async.parallel([
         function(callback) {
+            TemplateService.load('/view/show/s09/S09ShareShow.html', callback);
+        },
+        function(callback) {
             HTTPService.request('/show/query', {
                 '_ids' : [options._id]
             }, callback);
@@ -30,19 +33,19 @@ define([
             }, callback);
         }], function(err, results) {
             new Show($('.qs-s09-show', this._dom), {
-                'show' : results[0].data.shows[0]
-            });
-            new ShowThumb($('.qs-s09-thumb-show:eq(0)', this._dom), {
                 'show' : results[1].data.shows[0]
             });
+            new ShowThumb($('.qs-s09-thumb-show:eq(0)', this._dom), {
+                'show' : results[2].data.shows[0]
+            });
             new ShowThumb($('.qs-s09-thumb-show:eq(1)', this._dom), {
-                'show' : results[1].data.shows[1]
+                'show' : results[2].data.shows[1]
             });
             new ItemThumb($('.qs-s09-thumb-item:eq(0)', this._dom), {
-                'item' : results[2].data.items[0]
+                'item' : results[3].data.items[0]
             });
             new ItemThumb($('.qs-s09-thumb-item:eq(1)', this._dom), {
-                'item' : results[2].data.items[1]
+                'item' : results[3].data.items[1]
             });
         });
     };
