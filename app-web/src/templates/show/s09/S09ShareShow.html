@@ -79,22 +79,31 @@
         width: 75%;
         height: 100%;
     }
+    .qs-s09-v-splitter {
+        float: left;
+        width: 2px;
+        height: 100%;
+    }
     .qs-s09-side {
         float: left;
-        width: 25%;
+        width: calc(25% - 2px);
         height: 100%;
+    }
+    .qs-s09-h-splitter {
+        width: 100%;
+        height: 2px;
     }
     .qs-s09-thumb-show {
         width: 100%;
-        height: 40%;
+        height: calc(40% - 2px);
     }
     .qs-s09-thumb-item-container {
         width: 100%;
-        height: 20%;
+        height: calc(20% - 2px);
     }
     .qs-s09-thumb-item {
         float: left;
-        width: 50%;
+        width: calc(50% - 2px / 2);
         height: 100%;
     }
 </style>
@@ -108,13 +117,18 @@
     </div>
     <div class="qs-s09-main">
         <div class="qs-s09-show"></div>
+        <div class="qs-s09-v-splitter"></div>
         <div class="qs-s09-side">
             <div class="qs-s09-thumb-show"></div>
+            <div class="qs-s09-h-splitter"></div>
             <div class="qs-s09-thumb-show"></div>
+            <div class="qs-s09-h-splitter"></div>
             <div class="qs-s09-thumb-item-container">
                 <div class="qs-s09-thumb-item"></div>
+                <div class="qs-s09-v-splitter"></div>
                 <div class="qs-s09-thumb-item"></div>
             </div>
+            <div class="qs-s09-h-splitter"></div>
         </div>
     </div>
     <div class="qs-s09-footer">

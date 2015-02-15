@@ -10,6 +10,9 @@ define([], function() {
         this._data = data;
 
         this._trigger$ = $({});
+        this.$ = function(selector) {
+            return $(selector, this._dom);
+        };
         this._destroyed = false;
     };
 
@@ -26,6 +29,7 @@ define([], function() {
         this.trigger('destroying');
 
         this._dom$.remove();
+        this.$ = null;
         this._destroyed = true;
 
         this.trigger('destroy');

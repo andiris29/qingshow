@@ -7,9 +7,14 @@ define([
     var Show = function(dom, options) {
         Show.superclass.constructor.apply(this, arguments);
 
-        console.log(options);
+        this._mongoShow = options.show;
+        this._render();
     };
     OOUtil.extend(Show, UIComponent);
+
+    Show.prototype._render = function() {
+        this.$('.qs-poster').css('background-image', 'url(' + this._mongoShow.posters[0] + ')');
+    };
 
     return Show;
 });
