@@ -13,8 +13,10 @@
     <dimen name="item_height_activity_settings">50dp</dimen>
     
     <!-- personal -->
-    <dimen name="indicator_height_activity_personal">40dp</dimen>
-    
+    <dimen name="indicator_height_activity_personal">60dp</dimen>
+    <dimen name="indicator_height_activity_itembar">60dp</dimen>
+
+
     <!-- register -->
     <dimen name="radio_button_width_activity_register">30dp</dimen>
     <dimen name="radio_button_height_activity_register">30dp</dimen>
