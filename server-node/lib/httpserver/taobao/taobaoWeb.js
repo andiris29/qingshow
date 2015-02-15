@@ -2,7 +2,9 @@
 var async = require('async');
 var Iconv = require('iconv').Iconv;
 var request = require('request');
-var taobaoHelper = require('./taobaoHelper')
+var cheerio = require('cheerio');
+
+var taobaoHelper = require('./taobaoHelper');
 var taobaoWeb = module.exports;
 
 
@@ -17,9 +19,11 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
             var tbItemId = taobaoHelper.getTaobaoIdFromSource(source);
 
             if (taobaoHelper.isFromTmall(source)) {
-                _getTmallItemWebSkus(tbItemId, callback);
+                _parseTmallWebPage(source, callback);
+//                _getTmallItemWebSkus(tbItemId, callback);
             } else if (taobaoHelper.isFromTaobao(source)) {
-                _getTaobaoItemWebSkus(tbItemId, callback);
+                _parseTaobaoWebPage(source, callback);
+//                _getTaobaoItemWebSkus(tbItemId, callback);
             } else {
                 // TODO handle parse source error
             }
@@ -29,7 +33,72 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
     });
     //
 };
+var _parseTaobaoWebPage = function (source, callback) {
+    callback();
+};
+var _parseTmallWebPage = function (source, callback) {
+    request.get({
+        'url' : source
+    }, function (err, response, body) {
+        if (err) {
+            callback(err);
+        } else {
+            var $ = cheerio.load(body);
+            var scriptTags = $('script');
+            var tshopSetupScript = null;
+            scriptTags.each(function (i, e) {
+                var scriptContent = cheerio(this).text();
+                if (scriptContent.indexOf('TShop.Setup') !== -1) {
+                    tshopSetupScript = scriptContent;
+                }
+            });
+            var TShop = {};
+            var emptyFunc = function () {
 
+            };
+            TShop.poc = emptyFunc;
+            TShop.setConfig = emptyFunc;
+            TShop.Setup = function (taobaoInfo) {
+                var itemInfo = taobaoInfo.valItemInfo;
+                var salesProperty = itemInfo.salesProp;
+                /*
+                * {
+                * 20549 : {
+                *         59280855 : “desc”,
+                *         72380707 : "desc"
+                *     }
+                * }
+                * */
+
+                var skuMap = taobaoInfo.skuMap;
+                /*
+                *
+                * {
+                *   ;2059:59280855;1627207:28341; : {
+                *       price : "778.00",
+                *       priceCent : 77800,
+                *       skuId :62599662055,
+                *       stock : 0
+                *   }
+                * }
+                *
+                * */
+
+//                console.log(obj);
+
+            };
+            try {
+                eval(tshopSetupScript);
+            } catch (e) {
+                console.log(e);
+            }
+            callback();
+
+        }
+
+    });
+
+};
 
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {
