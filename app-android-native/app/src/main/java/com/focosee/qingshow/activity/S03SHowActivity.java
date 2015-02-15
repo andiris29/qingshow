@@ -439,33 +439,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     private void pauseVideo() {
 
-//        MediaMetadataRetriever rev = new MediaMetadataRetriever();
-//        rev.setDataSource(this, Uri.parse(videoUriString));
-//        Bitmap bitmap = rev.getFrameAtTime(videoView.getCurrentPosition() * 1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
 
         videoView.pause();
-
-//        View view = findViewById(R.id.S03_relative_layout).getRootView();
-//        view.setDrawingCacheEnabled(true);
-//        view.buildDrawingCache();
-//        Bitmap bitmap = view.getDrawingCache();
-
-
-//        Bitmap bitmapInput = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-//        Bitmap bitmap = Bitmap.createBitmap(bitmapInput);
-//        Bitmap bitmap = Surface.screenshot((int) dims[0], (int) dims[1]);
-//
-//        Canvas canvas = new Canvas(bitmapInput);
-//        canvas.drawBitmap(bitmap, 0, 0, null);
-
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-//        savePic(bitmapInput, "test.png");
 
         videoView.buildDrawingCache();
         Bitmap bitmapInput = videoView.getDrawingCache();
         this.imageIndicatorView.addBitmapAtFirst(bitmapInput, ImageLoader.getInstance(), null);
         imageIndicatorView.show();
-//      this.imageIndicatorView.getViewPager().getAdapter().notifyDataSetChanged();
 
         playImageButton.setBackgroundResource(R.drawable.s03_play_btn);
         imageIndicatorView.setVisibility(View.VISIBLE);

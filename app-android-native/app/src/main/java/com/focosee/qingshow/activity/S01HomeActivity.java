@@ -202,7 +202,7 @@ public class S01HomeActivity extends BaseActivity {
     }
 
     private void initEvent() {
-        drawerbar = new ActionBarDrawerToggle(this, spl, R.drawable.ic_launcher, R.string.menu_open, R.string.menu_close) {
+        drawerbar = new ActionBarDrawerToggle(this, spl, R.drawable.root_cell_placehold_image1, R.string.menu_open, R.string.menu_close) {
             private int _tag = 0;
 
             //菜单打开

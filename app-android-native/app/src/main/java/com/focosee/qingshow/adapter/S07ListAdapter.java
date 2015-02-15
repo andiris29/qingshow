@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -62,7 +63,7 @@ public class S07ListAdapter extends BaseAdapter {
                     ITEMHEIGHT);
             if ("".equals(data.get(position).getPrice()) || null ==data.get(position).getPrice()) {
                 convertView = layoutInflater.inflate(R.layout.item_s07_item_list, null);
-                holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_collection);
+                holderView.item_collection = (RelativeLayout) convertView.findViewById(R.id.item_s07_collection);
                 holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
                 holderView.brandLogo = (ImageView) convertView.findViewById(R.id.item_S07_brandlogo);
                 holderView.name = (TextView) convertView.findViewById(R.id.item_S07_name);
@@ -71,7 +72,7 @@ public class S07ListAdapter extends BaseAdapter {
                 convertView = layoutInflater.inflate(R.layout.item_s07_item_with_price_list, null);
                 holderView.originPriceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_origin_price);
                 holderView.priceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_price);
-                holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_with_price_collection);
+                holderView.item_collection = (RelativeLayout) convertView.findViewById(R.id.item_s07_with_price_collection);
                 holderView.category = (TextView) convertView.findViewById(R.id.item_S07_with_price_category);
                 holderView.brandLogo = (ImageView) convertView.findViewById(R.id.item_S07_with_price_brandlogo);
                 holderView.name = (TextView) convertView.findViewById(R.id.item_S07_with_price_name);
@@ -110,7 +111,7 @@ public class S07ListAdapter extends BaseAdapter {
     }
 
     class HolderView {
-        public LinearLayout item_collection;
+        public RelativeLayout item_collection;
         public TextView category;
         public ImageView brandLogo;
         public TextView name;

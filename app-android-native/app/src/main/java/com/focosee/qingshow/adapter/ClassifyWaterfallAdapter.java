@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -39,22 +40,11 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
 
     private Context context;
 
-    private DisplayImageOptions coverOptions;
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
 
     public ClassifyWaterfallAdapter(Context context, int resourceId, ImageLoader mImageFetcher) {
         super(context, resourceId, mImageFetcher);
         this.context = context;
-        coverOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.ic_launcher) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.ic_launcher)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.ic_launcher)  //设置图片加载/解码过程中错误时候显示的图片
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
-                .displayer(new FadeInBitmapDisplayer(100))//是否图片加载好后渐入的动画时间
-                .build();//构建完成
     }
 
     @Override
@@ -85,7 +75,7 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         holder.showIV.setOriginWidth(showInfo.getCoverWidth());
         holder.showIV.setOriginHeight(showInfo.getCoverHeight());
 
-        _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.getShowCover()), holder.showIV, coverOptions, animateFirstListener);
+        _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.getShowCover()), holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
         _mImageFetcher.displayImage(showInfo.getModelPhoto(), holder.modelIV, animateFirstListener);
         holder.modelNameTV.setText(showInfo.getModelName());
         holder.modelHeightWeightTV.setText(showInfo.getModelHeightAndHeightWithFormat());

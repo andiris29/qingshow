@@ -54,7 +54,6 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 				pageItem.setScaleType(ScaleType.CENTER_CROP);
 //                pageItem.setAdjustViewBounds(true);
                 pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-				pageItem.setImageResource(R.drawable.ic_launcher);
                 pageItem.setBackgroundColor(Color.WHITE);
                 mImageLoader.displayImage(urlList.get(index), pageItem);
 				addViewItem(pageItem);
