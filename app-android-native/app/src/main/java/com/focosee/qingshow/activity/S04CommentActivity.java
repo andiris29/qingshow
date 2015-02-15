@@ -4,7 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -86,6 +89,29 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         inputText = (EditText) findViewById(R.id.S04_input);
         sendButton = (Button) findViewById(R.id.S04_send_button);
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.S04_container_list);
+
+        inputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                if(i3 > 0) {
+                    sendButton.setBackgroundColor(Color.RED);
+                    sendButton.setTextColor(Color.WHITE);
+                }else if(i3 == 0){
+                    sendButton.setBackgroundResource(R.drawable.s04_send_background);
+                    sendButton.setTextColor(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         if(AppUtil.getAppUserLoginStatus(this) && null != QSApplication.get().getPeople()){
             ImageLoader.getInstance().displayImage(QSApplication.get().getPeople().portrait, userImage);
