@@ -97,20 +97,6 @@ public class U01BrandFragment extends Fragment{
             }
         });
 
-        brandListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent  = new Intent(getActivity(), P04BrandActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, mAdapter.getData().get(i));
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-
-
-            }
-        });
         doRefreshTask();
 
         return view;

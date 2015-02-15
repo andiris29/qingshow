@@ -1,6 +1,8 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.P04BrandActivity;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
@@ -22,6 +25,7 @@ class P03BrandHolderView {
     public ImageView brandPortrait;
     public TextView brandName;
     public TextView brandDescription;
+    public ImageView detailButton;
 }
 
 public class P03BrandListAdapter extends BaseAdapter {
@@ -56,7 +60,7 @@ public class P03BrandListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         P03BrandHolderView holderView;
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
@@ -69,6 +73,7 @@ public class P03BrandListAdapter extends BaseAdapter {
         holderView = (P03BrandHolderView) convertView.getTag();
         holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
         holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
+        holderView.detailButton = (ImageView) convertView.findViewById(R.id.item_brand_detail);
 
         holderView.brandSlogan.setOriginWidth(this.data.get(position).getCoverWidth());
         holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());
@@ -76,6 +81,17 @@ public class P03BrandListAdapter extends BaseAdapter {
         this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait);
         this.imageLoader.displayImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()), holderView.brandSlogan);
         holderView.brandName.setText(this.data.get(position).getBrandName());
+        holderView.detailButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent  = new Intent(context, P04BrandActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, data.get(position));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
         //holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;
     }
