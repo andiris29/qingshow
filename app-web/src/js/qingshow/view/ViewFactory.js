@@ -15,13 +15,15 @@ define([
         function(callback) {
             TemplateService.load('./templates' + module + '.html', callback);
         }], function(err, results) {
-            if (err) {
-                callback(err);
-            } else {
+            var view;
+            if (!err) {
                 var Module = results[0];
                 var template$ = results[1];
 
-                callback(null, new Module($(dom).append(template$).get(0), options));
+                view = new Module($(dom).append(template$).get(0), options);
+            }
+            if (callback) {
+                callback(err, view);
             }
         });
     };

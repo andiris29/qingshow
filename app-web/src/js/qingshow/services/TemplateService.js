@@ -36,8 +36,12 @@ define([
                     $('.fakeAttrPoster', dom$).removeClass('fakeAttrPoster').removeAttr('poster');
                     _cache[url] = dom$;
                 }
-                // Callback
-                callback(null, _cache[url].clone().get(0));
+            }).always(function() {
+                if (_cache[url]) {
+                    callback(null, _cache[url].clone().get(0));
+                } else {
+                    callback();
+                }
             });
         }
     };
