@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -87,6 +88,9 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         //viewHolder.discount.setText(itemList.get(position).getPrice());
         viewHolder.price.setText(itemList.get(position).getPrice());
         if(null != itemList.get(position).brandDiscountInfo) {
+            viewHolder.discount.setText("SALE");
+            viewHolder.discount.setTextColor(Color.RED);
+            viewHolder.discount.setTextSize(20);
             viewHolder.sourcePrice.setText(itemList.get(position).getSourcePrice());
             viewHolder.sourcePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }

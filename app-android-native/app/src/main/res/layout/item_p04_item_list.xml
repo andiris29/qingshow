@@ -39,6 +39,7 @@
                 android:id="@+id/item_p04_item_discount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textStyle="italic|bold"
                 android:textColor="#ffffff"
                 android:text=""/>
             <TextView
