@@ -4,13 +4,40 @@
     .s09-show {
         height: 100%;
     }
-    .s09-show .qs-poster-slick-container {
+    .s09-show .qs-video {
+        position: absolute;
+        width: 100%;
         height: 100%;
+        overflow: hidden;
+    }
+    .s09-show .qs-video > video {
+        object-fit: cover;
+    }
+    .s09-show .qs-poster-slick-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+    .s09-show .qs-poster-slick-container .slick-dots {
+        bottom: 12%;
+    }
+    .s09-show .qs-poster-slick-container .slick-dots li {
+        margin: 0 2px;
+    }
+    .s09-show .qs-poster-slick-container .slick-dots .slick-active button:before {
+        color: #fff;
+    }
+    .s09-show .qs-poster-slick-container .slick-list {
+        overflow: hidden;
     }
     .s09-show .qs-poster-slick {
+        width: 100%;
         height: 100%;
+        padding: 0px;
+        float: left;
     }
     .s09-show .qs-poster {
+        width: 100%;
         height: 100%;
         background-size: cover;
         background-repeat: no-repeat;
@@ -40,6 +67,9 @@
     }
 </style>
 <div class="qs-component s09-show">
+    <video class="qs-video video-js vjs-default-skin"
+    preload="auto"
+    data-setup="{}"></video>
     <div class="qs-poster-slick-container">
         <div class="clone qs-poster-slick">
             <div class="qs-poster fake-css-background-image" style="background-image: url('http://trial01.focosee.com/demo6/1222b20601.jpg')"></div>
