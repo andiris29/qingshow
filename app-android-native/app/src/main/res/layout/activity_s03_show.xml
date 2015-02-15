@@ -104,108 +104,120 @@
 
                     </LinearLayout>
 
-                    <ImageButton
+
+                    <ImageView
                         android:id="@+id/S03_video_start_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
                         android:layout_alignBottom="@+id/S03_model_portrait"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="25dp"
-                        android:background="@drawable/s03_play_btn" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/s03_play_btn" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/S03_share_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_above="@+id/S03_video_start_btn"
                         android:layout_alignRight="@+id/S03_video_start_btn"
-                        android:layout_marginBottom="30dp"
-                        android:background="@drawable/s03_share_btn" />
+                        android:layout_marginBottom="20dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/s03_share_btn" />
 
                     <ImageView
                         android:id="@+id/S03_line_share_like"
-                        android:layout_width="50dp"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/S03_share_btn"
                         android:layout_alignRight="@+id/S03_share_btn"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/s03_line" />
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/s03_line" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/S03_like_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_above="@+id/S03_line_share_like"
                         android:layout_alignRight="@+id/S03_line_share_like"
-                        android:background="@drawable/s03_like_btn" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/s03_like_btn" />
 
                     <TextView
                         android:id="@+id/S03_like_text_view"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/S03_like_btn"
                         android:layout_alignTop="@+id/S03_like_btn"
+                        android:layout_alignBottom="@+id/S03_like_btn"
+                        android:layout_alignRight="@+id/S03_like_btn"
                         android:gravity="center"
-                        android:paddingBottom="3dp"
+                        android:paddingBottom="2dp"
                         android:textColor="#ffffff" />
 
                     <ImageView
                         android:id="@+id/S03_line_like_message"
-                        android:layout_width="50dp"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/S03_like_btn"
                         android:layout_alignRight="@+id/S03_like_btn"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="2dp"
                         android:background="@drawable/s03_line" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/S03_comment_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_above="@+id/S03_line_like_message"
                         android:layout_alignRight="@+id/S03_line_like_message"
-                        android:background="@drawable/s03_comment_btn" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/s03_comment_btn" />
 
                     <TextView
                         android:id="@+id/S03_comment_text_view"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/S03_comment_btn"
                         android:layout_alignTop="@+id/S03_comment_btn"
+                        android:layout_alignBottom="@+id/S03_comment_btn"
+                        android:layout_alignRight="@+id/S03_comment_btn"
                         android:gravity="center"
-                        android:paddingBottom="7dp"
+                        android:paddingBottom="2dp"
                         android:textColor="#ffffff" />
 
                     <ImageView
                         android:id="@+id/S03_line_comment_item"
-                        android:layout_width="50dp"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/S03_comment_btn"
                         android:layout_alignRight="@+id/S03_comment_btn"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/s03_line" />
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginTop="2dp"
+                        android:src="@drawable/s03_line" />
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/S03_item_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_above="@+id/S03_line_comment_item"
                         android:layout_alignRight="@+id/S03_line_comment_item"
-                        android:background="@drawable/s03_item_btn" />
+                        android:scaleType="centerInside"
+                        android:src="@drawable/s03_item_btn" />
 
                     <TextView
                         android:id="@+id/S03_item_text_view"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/S03_item_btn"
                         android:layout_alignTop="@+id/S03_item_btn"
+                        android:layout_alignBottom="@+id/S03_item_btn"
+                        android:layout_alignRight="@+id/S03_item_btn"
                         android:gravity="center"
                         android:paddingTop="15dp"
+                        android:layout_centerInParent="true"
                         android:textColor="#ffffff" />
-
 
                 </RelativeLayout>
 

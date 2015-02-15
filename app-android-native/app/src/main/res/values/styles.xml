@@ -41,4 +41,9 @@
         <!--<item name="android:windowAnimationStyle">@+android:style/Animation.Translucent</item>-->
     </style>
 
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/share_anim_show</item>
+        <item name="android:windowExitAnimation">@anim/share_anim_dismiss</item>
+    </style>
+
 </resources>

@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -114,8 +115,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
 
     // like image button
-    private ImageButton likedImageButton;
-    private ImageButton playImageButton;
+    private ImageView likedImageButton;
+    private ImageView playImageButton;
 
     private LinearLayout buttomLayout;
     private RelativeLayout beforeLayout;
@@ -127,8 +128,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         setContentView(R.layout.activity_s03_show);
 
 
-        likedImageButton = (ImageButton) findViewById(R.id.S03_like_btn);
-        playImageButton = (ImageButton) findViewById(R.id.S03_video_start_btn);
+        likedImageButton = (ImageView) findViewById(R.id.S03_like_btn);
+        playImageButton = (ImageView) findViewById(R.id.S03_video_start_btn);
         beforeLayout = (RelativeLayout) findViewById(R.id.S03_before_video_without_back);
 
         wxApi = WXAPIFactory.createWXAPI(this, ShareConfig.WX_APP_KEY, true);
@@ -350,13 +351,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onClick(View v) {
 
-
-                showOneView( (RelativeLayout)findViewById(R.id.S03_before_video_view_button),R.id.S03_image_indicator);
-
                 sharePopupWindow=new SharePopupWindow(S03SHowActivity.this,new ShareClickListener());
-                findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
-                sharePopupWindow.setupDismiss((RelativeLayout)findViewById(R.id.S03_before_video_view_button));
-                sharePopupWindow.setShowView(findViewById(R.id.S03_back_btn));
+                sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
                 sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
 
             }
