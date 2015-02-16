@@ -45,7 +45,54 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
     //
 };
 var _parseTaobaoWebPage = function (source, webSkus, callback) {
-    callback();
+    request.get({
+        'url' : source,
+        'encoding' : 'binary'
+    }, function (err, response, body) {
+        if (err) {
+            callback(err);
+        } else {
+            var b = new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString();
+            var $ = cheerio.load(b);
+            var scriptTags = $('script');
+            var hubConfigScript = null;
+            scriptTags.each(function () {
+                var scriptContent = cheerio(this).text();
+                if (scriptContent.indexOf('Hub.config.set') !== -1) {
+                    hubConfigScript = scriptContent;
+                }
+            });
+            var Hub = {
+                config : {}
+            };
+            try {
+                Hub.config.set = function (key, obj) {
+                    if (key !== 'sku') {
+                        return;
+                    }
+                    console.log(obj);
+                };
+            } catch (e) {
+                console.log(e);
+            }
+
+            try {
+                eval(hubConfigScript);
+                var skuInfo = Hub.config.get('sku');
+                var skuMap = skuInfo.valItemInfo.skuMap;
+                var propertyMap = _parseTaobaoPropertyMap($);
+                var skus = _generateSkusForTmall(webSkus, skuMap, propertyMap);
+                var taobaoInfo = {};
+                taobaoInfo.skus = skus;
+                //TODO top_title, top_nick, top_num_iid, prop_price
+                
+                callback(null, taobaoInfo);
+            } catch (e) {
+                console.log(e);
+                callback(e);
+            }
+        }
+    });
 };
 
 
@@ -163,6 +210,25 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
         }
     });
 };
+var _parseTaobaoPropertyMap = function ($) {
+    var propertyMap = {};
+    var liTags = $('.tb-skin li');
+    liTags.each(function () {
+        var this$ = cheerio(this);
+        var dataValue = this$.attr('data-value');
+        if (dataValue && dataValue.length) {
+            var title = this$.attr('title');
+            if (title && title.length) {
+                propertyMap[dataValue] = title;
+            } else {
+                var sub$ = this$.find('span');
+                propertyMap[dataValue] = sub$.text();
+            }
+        }
+    });
+    return propertyMap;
+};
+
 var _parseTmallPropertyMap = function ($) {
     var propertyMap = {};
     var liTags = $('.tb-sku li');
@@ -180,6 +246,7 @@ var _parseTmallPropertyMap = function ($) {
     });
     return propertyMap;
 }
+
 
 var _generateSkusForTmall = function (webSkus, skuMap, propertyMap) {
     var skus = webSkus.map(function (webSku) {
