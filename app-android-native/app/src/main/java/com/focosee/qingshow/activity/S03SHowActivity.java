@@ -361,6 +361,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         playImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                playImageButton.setImageResource(R.drawable.s03_pause_btn);
                 if(videoView.isPlaying()) pauseVideo();
                 else startVideo();
 
@@ -417,7 +418,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             configVideo();
             isFirstStart = false;
         }
-        playImageButton.setBackgroundResource(R.drawable.s03_pause_btn);
         showOneView(beforeLayout,playImageButton.getId());
         imageIndicatorView.setVisibility(View.GONE);
         findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
@@ -447,7 +447,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         this.imageIndicatorView.addBitmapAtFirst(bitmapInput, ImageLoader.getInstance(), null);
         imageIndicatorView.show();
 
-        playImageButton.setBackgroundResource(R.drawable.s03_play_btn);
+        playImageButton.setImageResource(R.drawable.s03_play_btn);
         imageIndicatorView.setVisibility(View.VISIBLE);
         findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
         showAllView(beforeLayout);

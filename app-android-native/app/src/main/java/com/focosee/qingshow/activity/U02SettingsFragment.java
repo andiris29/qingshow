@@ -53,7 +53,7 @@ import java.util.Map;
 public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
     private static final String[] sexArgs = {"男", "女"};
-    private static final String[] hairArgs = {"长发", "超长发", "中长发", "短发", "光头", "其他"};
+    private static final String[] hairArgs = {"所有", "长发", "超长发", "中长发", "短发"};
     private static final String[] shoesSize = {"34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44"};
     private static final String[] clothesSize = {"XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL"};
     private static final String TAG_SEX = "sex";
@@ -93,7 +93,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private EditText shoesSizeEditText;
     private EditText clothesSizeEditText;
     private TextView favoriteBrandText;
+    private TextView changePwText;
     public static U02SettingsFragment instance;
+    private float textWidth;
 
     private MongoPeople people;
 
@@ -194,6 +196,11 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         hairTextView = (EditText) getActivity().findViewById(R.id.hairTextView);
 
         favoriteBrandText = (TextView) getActivity().findViewById(R.id.brandTextView);
+
+        changePwText = (TextView) getActivity().findViewById(R.id.u02_change_pw_text);
+
+        textWidth = changePwText.getPaint().measureText(changePwText.getText().toString());
+
     }
 
     @Override
@@ -295,6 +302,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
             ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
             ImageLoader.getInstance().displayImage(people.background, backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
+
 
             nameEditText.setText(people.name);
             ageEditText.setText("");

@@ -135,7 +135,7 @@
 
             <TextView
                 android:id="@+id/nameTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -170,7 +170,7 @@
 
             <TextView
                 android:id="@+id/sexLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -203,7 +203,7 @@
 
             <TextView
                 android:id="@+id/ageTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -239,7 +239,7 @@
 
             <TextView
                 android:id="@+id/heightTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -314,7 +314,7 @@
 
             <TextView
                 android:id="@+id/hairLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -353,7 +353,7 @@
 
             <TextView
                 android:id="@+id/shoesSizeTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -392,7 +392,7 @@
 
             <TextView
                 android:id="@+id/clothesSizeTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -431,7 +431,7 @@
 
             <TextView
                 android:id="@+id/brandLabel"
-                android:layout_width="wrap_content"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
@@ -466,7 +466,8 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
@@ -487,7 +488,8 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/u02_change_pw_text"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
