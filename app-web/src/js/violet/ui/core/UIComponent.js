@@ -28,7 +28,7 @@ define([], function() {
     UIComponent.prototype.destroy = function() {
         this.trigger('destroying');
 
-        this._dom$.remove();
+        this._dom$.empty();
         this.$ = null;
         this._destroyed = true;
 

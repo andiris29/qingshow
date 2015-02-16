@@ -8,15 +8,54 @@ define([
     var Show = function(dom, options) {
         Show.superclass.constructor.apply(this, arguments);
 
+        this._vjs = null;
+        this._slickContainer$ = null;
+        this._slickItemTplt$ = null;
+
         this._mongoShow = options.show;
 
-        this._vjs = null;
-
-        this._render();
+        this._initialize();
     };
     OOUtil.extend(Show, UIComponent);
 
+    Show.prototype.mongoShow = function(value) {
+        if (arguments.length) {
+            this._mongoShow = value;
+
+            this._render();
+        } else {
+            return this._mongoShow;
+        }
+    };
+
+    Show.prototype._initialize = function() {
+        // Render
+        this._render();
+        // Events
+        InteractionUtil.onTouchOrClick(this.$('.qs-play'), function(event) {
+            this._vjs.play();
+        }.bind(this));
+        InteractionUtil.onTouchOrClick(this.$('.qs-pause'), function(event) {
+            this._vjs.pause();
+        }.bind(this));
+    };
+
+    Show.prototype._reset = function() {
+        // Reset
+        if (this._slickContainer$) {
+            this._slickContainer$.slick('unslick');
+        }
+        if (this._vjs) {
+            if (!this._vjs.paused()) {
+                this._vjs.pause();
+                this._switch(false);
+            }
+        }
+    };
+
     Show.prototype._render = function() {
+        this._reset();
+        // Render
         var mongoShow = this._mongoShow;
 
         var portrait$ = this.$('.qs-portrait');
@@ -26,20 +65,37 @@ define([
             'border-radius' : portrait$.width() / 2
         });
         // Video
-        var video$ = this.$('.qs-video').attr({
-            'width' : this._dom$.width(),
-            'height' : this._dom$.height()
-        });
-        $('<source/>').attr({
-            'type' : 'video/mp4',
-            'src' : mongoShow.video
-        }).appendTo(video$);
-        var vjs = this._vjs = videojs(video$.get(0));
+        if (!this._vjs) {
+            var video$ = this.$('.qs-video').attr({
+                'width' : this._dom$.width(),
+                'height' : this._dom$.height()
+            });
+            $('<source/>').attr({
+                'type' : 'video/mp4',
+                'src' : mongoShow.video
+            }).appendTo(video$);
+            var vjs = this._vjs = videojs(video$.get(0));
+            vjs.on('play', function() {
+                this._switch(true);
+            }.bind(this));
+            vjs.on('pause', function() {
+                this._switch(false);
+            }.bind(this));
+            vjs.on('ended', function() {
+                this._switch(false);
+                vjs.load();
+            }.bind(this));
+        } else {
+            this._vjs.src(mongoShow.video);
+        }
         // Slick
-        var slickContainer$ = this.$('.qs-poster-slick-container');
-        var slickItemTplt$ = this.$('.qs-poster-slick-container > .clone').removeClass('clone').remove();
+        var slickContainer$ = this._slickContainer$ = this.$('.qs-poster-slick-container');
+        if (!this._slickItemTplt$) {
+            this._slickItemTplt$ = this.$('.qs-poster-slick-container > .clone').removeClass('clone');
+        }
+        slickContainer$.empty();
         mongoShow.posters.forEach( function(poster, index) {
-            var slick$ = slickItemTplt$.clone().appendTo(slickContainer$);
+            var slick$ = this._slickItemTplt$.clone().appendTo(slickContainer$);
             $('.qs-poster', slick$).css({
                 'background-image' : 'url(' + poster + ')',
                 'height' : this._dom$.height()
@@ -51,24 +107,7 @@ define([
             'slidesToShow' : 1,
             'slidesToScroll' : 1
         });
-        // Events
-        InteractionUtil.onTouchOrClick(this.$('.qs-play'), function(event) {
-            vjs.play();
-        });
-        InteractionUtil.onTouchOrClick(this.$('.qs-pause'), function(event) {
-            vjs.pause();
-        });
-        vjs.on('play', function() {
-            this._switch(true);
-        }.bind(this));
-        vjs.on('pause', function() {
-            this._switch(false);
-        }.bind(this));
-        vjs.on('ended', function() {
-            this._switch(false);
-            video$.get(0).load();
-        }.bind(this));
-
+        //
         this._switch(false);
     };
 

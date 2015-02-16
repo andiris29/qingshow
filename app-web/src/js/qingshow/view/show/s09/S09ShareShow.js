@@ -34,17 +34,13 @@ define([
             var thumbMongoShows = results[1].data.shows.filter(function(thumbShow) {
                 return thumbShow._id !== stageMongoShow._id;
             });
-            ViewFactory.create('/show/s09/Show', this.$('.qs-show').get(0), {
-                'show' : stageMongoShow
-            }, function(err, module) {
-                this._stageShow = module;
-            }.bind(this));
+            this._createStageShow(stageMongoShow);
             this._createThumbShow(this.$('.qs-thumb-show:eq(0)').get(0), thumbMongoShows[0]);
             this._createThumbShow(this.$('.qs-thumb-show:eq(1)').get(0), thumbMongoShows[1]);
-            ViewFactory.create('/show/s09/ItemThumb', this.$('.qs-thumb-item:eq(0)').get(0), {
+            ViewFactory.create('/show/s09/ThumbItem', this.$('.qs-thumb-item:eq(0)').get(0), {
                 'item' : results[2].data.items[0]
             });
-            ViewFactory.create('/show/s09/ItemThumb', this.$('.qs-thumb-item:eq(1)').get(0), {
+            ViewFactory.create('/show/s09/ThumbItem', this.$('.qs-thumb-item:eq(1)').get(0), {
                 'item' : results[2].data.items[1]
             });
         }.bind(this));
@@ -59,10 +55,24 @@ define([
     };
     OOUtil.extend(S09ShareShow, UIComponent);
 
-    S09ShareShow.prototype._createThumbShow = function(dom, mongoShow) {
-        ViewFactory.create('/show/s09/ShowThumb', dom, {
+    S09ShareShow.prototype._createStageShow = function(mongoShow) {
+        ViewFactory.create('/show/s09/Show', this.$('.qs-show').get(0), {
             'show' : mongoShow
-        });
+        }, function(err, module) {
+            this._stageShow = module;
+        }.bind(this));
+    };
+    S09ShareShow.prototype._createThumbShow = function(dom, mongoShow) {
+        ViewFactory.create('/show/s09/ThumbShow', dom, {
+            'show' : mongoShow
+        }, function(err, thumbShow) {
+            thumbShow.on('requestOnStage', function(event) {
+                // Swap
+                var mongoShow = thumbShow.mongoShow();
+                thumbShow.mongoShow(this._stageShow.mongoShow());
+                this._stageShow.mongoShow(mongoShow);
+            }.bind(this));
+        }.bind(this));
     };
 
     return S09ShareShow;
