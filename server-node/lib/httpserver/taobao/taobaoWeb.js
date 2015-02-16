@@ -47,6 +47,9 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
 var _parseTaobaoWebPage = function (source, webSkus, callback) {
     callback();
 };
+
+
+// Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
     request.get({
         'url' : source,
@@ -57,7 +60,6 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
         } else {
             var b = new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString();
             var $ = cheerio.load(b);
-
 
             var scriptTags = $('script');
             var tshopSetupScript = null;
@@ -71,12 +73,28 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
             var emptyFunc = function () {};
             TShop.poc = emptyFunc;
             TShop.setConfig = emptyFunc;
-            TShop.Setup = function (taobaoInfo) {
-                var itemInfo = taobaoInfo.valItemInfo;
+            TShop.Setup = function (obj) {
+                var itemInfo = obj.valItemInfo;
                 var skuMap = itemInfo.skuMap;
+
                 var propertyMap = _parseTmallPropertyMap($);
-                var info = _generateTaobaoInfoFromTmall(webSkus, skuMap, propertyMap);
-                callback(null, info);
+                var skus = _generateSkusForTmall(webSkus, skuMap, propertyMap);
+
+                var title = null;
+                $('meta').each(function () {
+                    var i = cheerio(this);
+                    if (i.attr('name') === 'keywords') {
+                        title = i.attr('content');
+                    }
+                });
+
+                var nick = $('.slogo-shopname').text();
+                var taobaoInfo = {};
+                taobaoInfo.skus = skus;
+                taobaoInfo.top_title = title;
+                taobaoInfo.top_nick = nick;
+                taobaoInfo.top_num_iid = taobaoHelper.getTaobaoIdFromSource(source);
+                callback(null, taobaoInfo);
             };
             try {
                 eval(tshopSetupScript);
@@ -87,6 +105,64 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
     });
 };
 
+
+var _getTmallItemWebSkus = function(tbItemId, callback) {
+    request.get({
+        'url' : 'http://mdskip.taobao.com/core/initItemDetail.htm?callback=setMdskip&itemId=' + tbItemId,
+        'headers' : {
+            'referer' : 'http://detail.tmall.com/item.htm?id=' + tbItemId,
+            'accept-language' : 'en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4'
+        },
+        'encoding' : 'binary'
+    }, function (err, response, body) {
+        if (err) {
+            callback(err);
+        } else {
+            try {
+                var isSetMdskipInvoke = false;
+                var setMdskip = function(object) {
+                    isSetMdskipInvoke = true;
+                    var webSkus = [];
+                    var priceInfo = object.defaultModel.itemPriceResultDO.priceInfo;
+//                    var stockInfo = object.defaultModel.inventoryDO.skuQuantity;
+                    for (var key in priceInfo) {
+                        if (key === 'dummy') {
+                            continue;
+                        }
+                        try {
+//                            var stock = stockInfo[key].quantity;
+                            var price = null;
+                            if (priceInfo[key].promotionList && priceInfo[key].promotionList.length && priceInfo[key].promotionList[0].price) {
+                                price = parseFloat(priceInfo[key].promotionList[0].price);
+                            } else {
+                                price = parseFloat(priceInfo[key].price);
+                            }
+
+                            var skuObj = {
+                                'key' : key,
+                                'promo_price' : price
+//                                'stock' : stock
+                            };
+                            webSkus.push(skuObj);
+                        } catch (e) {
+                            console.log('Parse item :' + tbItemId + '  key: ' + key + ' error.');
+                        }
+                    }
+                    callback(null, webSkus);
+                };
+                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+
+                if (!isSetMdskipInvoke) {
+                    console.log('Parse item :' + tbItemId + ' Error' );
+                    //TODO handle error
+                    callback(null, null);
+                }
+            } catch(e) {
+                callback(e);
+            }
+        }
+    });
+};
 var _parseTmallPropertyMap = function ($) {
     var propertyMap = {};
     var liTags = $('.tb-sku li');
@@ -105,7 +181,7 @@ var _parseTmallPropertyMap = function ($) {
     return propertyMap;
 }
 
-var _generateTaobaoInfoFromTmall = function (webSkus, skuMap, propertyMap) {
+var _generateSkusForTmall = function (webSkus, skuMap, propertyMap) {
     var skus = webSkus.map(function (webSku) {
         var targetKey = null;
         var targetValue = null;
@@ -198,64 +274,6 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                 }
                 callback(null, webSkus);
             } catch (e) {
-                callback(e);
-            }
-        }
-    });
-};
-
-var _getTmallItemWebSkus = function(tbItemId, callback) {
-    request.get({
-        'url' : 'http://mdskip.taobao.com/core/initItemDetail.htm?callback=setMdskip&itemId=' + tbItemId,
-        'headers' : {
-            'referer' : 'http://detail.tmall.com/item.htm?id=' + tbItemId,
-            'accept-language' : 'en,en-US;q=0.8,zh-CN;q=0.6,zh;q=0.4'
-        },
-        'encoding' : 'binary'
-    }, function (err, response, body) {
-        if (err) {
-            callback(err);
-        } else {
-            try {
-                var isSetMdskipInvoke = false;
-                var setMdskip = function(object) {
-                    isSetMdskipInvoke = true;
-                    var webSkus = [];
-                    var priceInfo = object.defaultModel.itemPriceResultDO.priceInfo;
-                    var stockInfo = object.defaultModel.inventoryDO.skuQuantity;
-                    for (var key in priceInfo) {
-                        if (key === 'dummy') {
-                            continue;
-                        }
-                        try {
-                            var stock = stockInfo[key].quantity;
-                            var price = null;
-                            if (priceInfo[key].promotionList && priceInfo[key].promotionList.length && priceInfo[key].promotionList[0].price) {
-                                price = parseFloat(priceInfo[key].promotionList[0].price);
-                            } else {
-                                price = parseFloat(priceInfo[key].price);
-                            }
-
-                            var skuObj = {
-                                'key' : key,
-                                'promo_price' : price,
-                                'stock' : stock
-                            };
-                            webSkus.push(skuObj);
-                        } catch (e) {
-                            console.log('Parse item :' + tbItemId + '  key: ' + key + ' error.');
-                        }
-                    }
-                    callback(null, webSkus);
-                };
-                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
-
-                if (!isSetMdskipInvoke) {
-                    console.log('Parse item :' + tbItemId + ' Error' );
-                    //TODO handle error
-                    callback(null, null);
-                }
-            } catch(e) {
                 callback(e);
             }
         }
