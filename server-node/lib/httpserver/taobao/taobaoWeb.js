@@ -19,24 +19,35 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
             var tbItemId = taobaoHelper.getTaobaoIdFromSource(source);
 
             if (taobaoHelper.isFromTmall(source)) {
-                _parseTmallWebPage(source, callback);
-//                _getTmallItemWebSkus(tbItemId, callback);
+                _getTmallItemWebSkus(tbItemId, function (err, webSkus) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        _parseTmallWebPage(source, webSkus, callback);
+                    }
+                });
             } else if (taobaoHelper.isFromTaobao(source)) {
-                _parseTaobaoWebPage(source, callback);
-//                _getTaobaoItemWebSkus(tbItemId, callback);
+                _getTaobaoItemWebSkus(tbItemId, function (err, webSkus) {
+                    if (err) {
+                        callback(err);
+                    } else {
+                        _parseTaobaoWebPage(source, webSkus, callback);
+                    }
+                });
             } else {
+                callback('parse source error');
                 // TODO handle parse source error
             }
         }
-    ], function (err, webSkus) {
-        callback(null, webSkus);
+    ], function (err, taobaoInfo) {
+        callback(null, taobaoInfo);
     });
     //
 };
-var _parseTaobaoWebPage = function (source, callback) {
+var _parseTaobaoWebPage = function (source, webSkus, callback) {
     callback();
 };
-var _parseTmallWebPage = function (source, callback) {
+var _parseTmallWebPage = function (source, webSkus, callback) {
     request.get({
         'url' : source
     }, function (err, response, body) {
@@ -46,60 +57,87 @@ var _parseTmallWebPage = function (source, callback) {
             var $ = cheerio.load(body);
             var scriptTags = $('script');
             var tshopSetupScript = null;
-            scriptTags.each(function (i, e) {
+            scriptTags.each(function () {
                 var scriptContent = cheerio(this).text();
                 if (scriptContent.indexOf('TShop.Setup') !== -1) {
                     tshopSetupScript = scriptContent;
                 }
             });
             var TShop = {};
-            var emptyFunc = function () {
-
-            };
+            var emptyFunc = function () {};
             TShop.poc = emptyFunc;
             TShop.setConfig = emptyFunc;
             TShop.Setup = function (taobaoInfo) {
                 var itemInfo = taobaoInfo.valItemInfo;
                 var salesProperty = itemInfo.salesProp;
-                /*
-                * {
-                * 20549 : {
-                *         59280855 : “desc”,
-                *         72380707 : "desc"
-                *     }
-                * }
-                * */
 
-                var skuMap = taobaoInfo.skuMap;
-                /*
-                *
-                * {
-                *   ;2059:59280855;1627207:28341; : {
-                *       price : "778.00",
-                *       priceCent : 77800,
-                *       skuId :62599662055,
-                *       stock : 0
-                *   }
-                * }
-                *
-                * */
+                var skuMap = itemInfo.skuMap;
 
-//                console.log(obj);
+                callback();
 
+                var taobaoInfo = _generateTaobaoInfoFromTmall(webSkus, skuMap, salesProperty);
+                console.log(taobaoInfo);
+                callback(null, taobaoInfo);
             };
             try {
                 eval(tshopSetupScript);
             } catch (e) {
-                console.log(e);
+                callback(e);
             }
-            callback();
 
         }
-
     });
-
+};
+var _generateTaobaoInfoFromTmall = function (webSkus, skuMap, propertyMap) {
+    var skus = webSkus.map(function (webSku) {
+        var targetKey = null;
+        var targetValue = null;
+        for (var mapKey in skuMap) {
+            var mapValue = skuMap[mapKey];
+            if (String(mapValue.skuId) === webSku.key || mapKey === webSku.key) {
+                targetKey = mapKey;
+                targetValue = mapValue;
+                break;
+            }
+        }
+        if (!targetKey || !targetKey) {
+            return null;
+        }
+        
+        var retSku = {
+            sku_id : targetValue.skuId,
+            properties : targetKey,
+            price : parseFloat(targetValue.price),
+            promo_price : webSku.promo_price,
+            stock : targetValue.stock
+        }
+        retSku.properties_name = _parsePropertiesName(retSku.properties, propertyMap);
+        return retSku;
+    });
+    var skus = skus.filter(function (s) { return s !== null; })
+    return skus;
 };
 
+var _parsePropertiesName = function (propertiesStr, propertyMap) {
+    var proNameArray = [];
+    propertiesStr.split(';').forEach(function (prop) {
+        if (prop && prop.length) {
+            var propComps = prop.split(':');
+            var value = propComps.reduce(function (newMap, currentValue){
+                if (newMap[currentValue]) {
+                    return newMap[currentValue];
+                } else {
+                    return newMap;
+                }
+            }, propertyMap);
+            if (typeof value == 'string' && value.length) {
+                proNameArray.push(value);
+            }
+        }
+    });
+    return proNameArray.join(';');
+
+}
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {
     request.get({
@@ -123,27 +161,27 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                 var stockInfo = g_config.DynamicStock.sku;
                 var priceInfo = g_config.PromoData;
                 var webSkus = [];
-                var sku_id;
-                for (sku_id in stockInfo) {
-                    if (sku_id === 'dummy') {
+                var key;
+                for (key in stockInfo) {
+                    if (key === 'dummy') {
                         continue;
                     }
                     try {
                         var price = null;
-                        if (priceInfo[sku_id] && priceInfo[sku_id].length && priceInfo[sku_id][0] && priceInfo[sku_id][0].price) {
-                            price = parseFloat(priceInfo[sku_id][0].price);
+                        if (priceInfo[key] && priceInfo[key].length && priceInfo[key][0] && priceInfo[key][0].price) {
+                            price = parseFloat(priceInfo[key][0].price);
                         } else {
                             price = priceBeforeDiscount;
                         }
-                        var stock = parseInt(stockInfo[sku_id].stock);
+                        var stock = parseInt(stockInfo[key].stock);
                         var sku = {
-                            'sku_id' : sku_id,
+                            'key' : key,
                             'price' : price,
                             'stock' : stock
                         };
                         webSkus.push(sku);
                     } catch (e) {
-                        console.log('Parse itemId: ' + tbItemId + ' sku: ' + sku_id + ' Error');
+                        console.log('Parse itemId: ' + tbItemId + ' sku: ' + key + ' Error');
                     }
                 }
                 callback(null, webSkus);
@@ -173,27 +211,27 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                     var webSkus = [];
                     var priceInfo = object.defaultModel.itemPriceResultDO.priceInfo;
                     var stockInfo = object.defaultModel.inventoryDO.skuQuantity;
-                    for (var sku_id in priceInfo) {
-                        if (sku_id === 'dummy') {
+                    for (var key in priceInfo) {
+                        if (key === 'dummy') {
                             continue;
                         }
                         try {
-                            var stock = stockInfo[sku_id].quantity;
+                            var stock = stockInfo[key].quantity;
                             var price = null;
-                            if (priceInfo[sku_id].promotionList && priceInfo[sku_id].promotionList.length && priceInfo[sku_id].promotionList[0].price) {
-                                price = parseFloat(priceInfo[sku_id].promotionList[0].price);
+                            if (priceInfo[key].promotionList && priceInfo[key].promotionList.length && priceInfo[key].promotionList[0].price) {
+                                price = parseFloat(priceInfo[key].promotionList[0].price);
                             } else {
-                                price = parseFloat(priceInfo[sku_id].price);
+                                price = parseFloat(priceInfo[key].price);
                             }
 
                             var skuObj = {
-                                'sku_id' : sku_id,
+                                'key' : key,
                                 'promo_price' : price,
                                 'stock' : stock
                             };
                             webSkus.push(skuObj);
                         } catch (e) {
-                            console.log('Parse item :' + tbItemId + '  sku: ' + sku_id + ' error.');
+                            console.log('Parse item :' + tbItemId + '  key: ' + key + ' error.');
                         }
                     }
                     callback(null, webSkus);
