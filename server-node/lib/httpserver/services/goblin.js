@@ -120,9 +120,10 @@ var _crawlTaobaoInfo = function (item, callback) {
     async.waterfall([
         function (callback) {
             //Web Taobao Info
-            taobaoWeb.item.getWebSkus(item, function (err, webSkus) {
-                item.taobaoInfo = item.taobaoInfo || {};
-                item.taobaoInfo.web_skus = webSkus;
+            taobaoWeb.item.getWebSkus(item, function (err, taobaoInfo) {
+                item.taobaoInfo = taobaoInfo;
+//                item.taobaoInfo = item.taobaoInfo || {};
+//                item.taobaoInfo.web_skus = webSkus;
                 callback(null);
             });
         },

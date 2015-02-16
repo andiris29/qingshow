@@ -31,15 +31,7 @@ itemSchema = Schema({
         type : Date,
         'default' : Date.now
     },
-    taobaoInfo : {
-        top_num_iid : String,
-        top_title : String,
-        top_nick : String,
-        top_type : String,
-        refreshTime : Date,
-        top_skus : Array,
-        web_skus : Array
-    }
+    taobaoInfo : Object
 });
 
 var Item = mongoose.model('items', itemSchema);
