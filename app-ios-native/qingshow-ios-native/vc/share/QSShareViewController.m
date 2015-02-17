@@ -100,7 +100,7 @@
     if (self.shareUrl) {
         webPage.webpageUrl = self.shareUrl;
     } else {
-        webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        webPage.webpageUrl = @"http://chingshow.com/";
     }
 
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
