@@ -16,7 +16,7 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
             callback(null, item.source);
         },
         function (source, callback) {
-            var tbItemId = taobaoHelper.getTaobaoIdFromSource(source);
+            var tbItemId = taobaoHelper.getIidFromSource(source);
 
             if (taobaoHelper.isFromTmall(source)) {
                 _getTmallItemWebSkus(tbItemId, function (err, webSkus) {
@@ -45,8 +45,10 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
     //
 };
 var _parseTaobaoWebPage = function (source, webSkus, callback) {
+    var iid = taobaoHelper.getIidFromSource(source);
+    var url = 'http://item.taobao.com/item.htm?id=' + iid;
     request.get({
-        'url' : source,
+        'url' : url,
         'encoding' : 'binary'
     }, function (err, response, body) {
         if (err) {
@@ -81,14 +83,14 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 var skuInfo = Hub.config.get('sku');
                 var skuMap = skuInfo.valItemInfo.skuMap;
                 var propertyMap = _parseTaobaoPropertyMap($);
-                var skus = _generateSkusForTmall(webSkus, skuMap, propertyMap);
+                var skus = _generateSkus(webSkus, skuMap, propertyMap);
 
                 var top_title = $('.tb-main-title').attr('data-title');
                 var nick = $('.tb-seller-name').attr('title');
 
                 var taobaoInfo = {};
                 taobaoInfo.skus = skus;
-                taobaoInfo.top_num_iid = taobaoHelper.getTaobaoIdFromSource(source);
+                taobaoInfo.top_num_iid = taobaoHelper.getIidFromSource(source);
                 taobaoInfo.top_title = top_title;
                 taobaoInfo.nick = nick;
 
@@ -104,7 +106,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
 
 // Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
-    var iid = taobaoHelper.getTaobaoIdFromSource(source);
+    var iid = taobaoHelper.getIidFromSource(source);
     var url = 'http://detail.tmall.com/item.htm?id=' + iid;
     var r = request.get({
         'url' : url,
@@ -133,7 +135,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 var skuMap = itemInfo.skuMap;
 
                 var propertyMap = _parseTmallPropertyMap($);
-                var skus = _generateSkusForTmall(webSkus, skuMap, propertyMap);
+                var skus = _generateSkus(webSkus, skuMap, propertyMap);
 
                 var title = null;
                 $('meta').each(function () {
@@ -148,7 +150,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 taobaoInfo.skus = skus;
                 taobaoInfo.top_title = title;
                 taobaoInfo.top_nick = nick;
-                taobaoInfo.top_num_iid = taobaoHelper.getTaobaoIdFromSource(source);
+                taobaoInfo.top_num_iid = taobaoHelper.getIidFromSource(source);
                 callback(null, taobaoInfo);
             };
             try {
@@ -257,7 +259,7 @@ var _parseTmallPropertyMap = function ($) {
 }
 
 
-var _generateSkusForTmall = function (webSkus, skuMap, propertyMap) {
+var _generateSkus = function (webSkus, skuMap, propertyMap) {
     var skus = webSkus.map(function (webSku) {
         var targetKey = null;
         var targetValue = null;

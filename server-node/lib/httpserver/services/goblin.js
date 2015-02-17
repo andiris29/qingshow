@@ -131,7 +131,7 @@ var _crawlTaobaoInfo = function (item, callback) {
             callback();
             return;
             //TODO enable Taobao api after limited
-            var num_iid = parseInt(taobaoHelper.getTaobaoIdFromSource(item.source));
+            var num_iid = parseInt(taobaoHelper.getIidFromSource(item.source));
             taobaoAPI.item.get({
                 'fields' : 'num_iid,title,price,desc_modules,sell_point',
                 'num_iid' : num_iid
