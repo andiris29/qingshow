@@ -34,6 +34,7 @@ define([
         this._render();
         // Events
         InteractionUtil.onTouchOrClick(this.$('.qs-play'), function(event) {
+            this._vjs.show();
             this._vjs.play();
         }.bind(this));
         InteractionUtil.onTouchOrClick(this.$('.qs-pause'), function(event) {
@@ -77,6 +78,7 @@ define([
             'src' : mongoShow.video
         }).appendTo(video$);
         var vjs = this._vjs = videojs(video$.get(0));
+        vjs.hide();
         vjs.on('play', function() {
             this._switch(true);
         }.bind(this));
@@ -121,19 +123,16 @@ define([
     };
 
     Show.prototype._switch = function(playing) {
-        var video$ = this.$('.qs-video');
         var slickContainer$ = this.$('.qs-poster-slick-container');
         var model$ = this.$('.qs-model');
         var play$ = this.$('.qs-play');
         var pause$ = this.$('.qs-pause');
         if (playing) {
-            video$.show();
             pause$.show();
             slickContainer$.hide();
             model$.hide();
             play$.hide();
         } else {
-            video$.hide();
             pause$.hide();
             slickContainer$.show();
             model$.show();

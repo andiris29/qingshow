@@ -104,11 +104,12 @@ define([
             'left' : to.left() + 'px',
             'top' : to.top() + 'px'
         }, 300, function() {
-            animator$.remove();
-            animator$ = null;
-
-            this._animating = false;
             callback();
+
+            _.delay(function() {
+                this._animating = false;
+                animator$.remove();
+            }.bind(this), 300);
         }.bind(this));
     };
     return S09ShareShow;
