@@ -81,6 +81,8 @@ public class S02ShowClassify extends BaseActivity {
             }
         });
 
+
+        _navigationView.getBtn_right().setVisibility(View.INVISIBLE);
         _waterfallListView = _pullRefreshListView.getRefreshableView();
 
         _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());

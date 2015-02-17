@@ -49,6 +49,7 @@ public class P01ModelListActivity extends BaseActivity {
                 P01ModelListActivity.this.finish();
             }
         });
+        navigationView.getBtn_right().setVisibility(View.INVISIBLE);
 
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P01_model_list_view);
 

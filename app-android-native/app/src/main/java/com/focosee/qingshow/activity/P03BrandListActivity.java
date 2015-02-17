@@ -50,6 +50,7 @@ public class P03BrandListActivity extends BaseActivity {
                 P03BrandListActivity.this.finish();
             }
         });
+        navigationView.getBtn_right().setVisibility(View.INVISIBLE);
 
         findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
             @Override
