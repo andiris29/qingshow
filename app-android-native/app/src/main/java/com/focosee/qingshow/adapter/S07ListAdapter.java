@@ -1,5 +1,6 @@
 package com.focosee.qingshow.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -10,7 +11,6 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,6 +53,7 @@ public class S07ListAdapter extends BaseAdapter {
     }
 
     @Override
+    @SuppressLint("WrongViewCast")
     public View getView(int position, View convertView, ViewGroup parent) {
         HolderView holderView;
 
