@@ -104,9 +104,11 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
 
 // Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
-    request.get({
-        'url' : source,
-        'encoding' : 'binary'
+    var iid = taobaoHelper.getTaobaoIdFromSource(source);
+    var url = 'http://detail.tmall.com/item.htm?id=' + iid;
+    var r = request.get({
+        'url' : url,
+        'encoding' : 'binary',
     }, function (err, response, body) {
         if (err) {
             callback(err);
@@ -156,6 +158,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
             }
         }
     });
+    r.setMaxListeners(0);
 };
 
 
