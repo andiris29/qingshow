@@ -3,13 +3,13 @@ define([
     'qingshow/view/ViewFactory'
 ], function(ViewFactory) {
 // @formatter:on
-    var fragment = URI(window.location.href).fragment(true);
+    var query = URI(window.location.href).query(true);
 
     var module, options;
-    if (fragment.action === 'shareShow') {
+    if (query.action === 'shareShow') {
         module = '/show/s09/S09ShareShow';
         options = {
-            '_id' : fragment._id
+            '_id' : query._id
         };
     }
     var dom = document.createElement('div');
