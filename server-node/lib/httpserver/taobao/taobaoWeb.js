@@ -82,10 +82,16 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 var skuMap = skuInfo.valItemInfo.skuMap;
                 var propertyMap = _parseTaobaoPropertyMap($);
                 var skus = _generateSkusForTmall(webSkus, skuMap, propertyMap);
+
+                var top_title = $('.tb-main-title').attr('data-title');
+                var nick = $('.tb-seller-name').attr('title');
+
                 var taobaoInfo = {};
                 taobaoInfo.skus = skus;
-                //TODO top_title, top_nick, top_num_iid, prop_price
-                
+                taobaoInfo.top_num_iid = taobaoHelper.getTaobaoIdFromSource(source);
+                taobaoInfo.top_title = top_title;
+                taobaoInfo.nick = nick;
+
                 callback(null, taobaoInfo);
             } catch (e) {
                 console.log(e);
@@ -313,11 +319,11 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                 eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
 
                 var priceBeforeDiscount = parseFloat(g_config.Price);
-                var stockInfo = g_config.DynamicStock.sku;
+//                var stockInfo = g_config.DynamicStock.sku;
                 var priceInfo = g_config.PromoData;
                 var webSkus = [];
                 var key;
-                for (key in stockInfo) {
+                for (key in priceInfo) {
                     if (key === 'dummy') {
                         continue;
                     }
@@ -328,11 +334,11 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                         } else {
                             price = priceBeforeDiscount;
                         }
-                        var stock = parseInt(stockInfo[key].stock);
+//                        var stock = parseInt(stockInfo[key].stock);
                         var sku = {
                             'key' : key,
-                            'price' : price,
-                            'stock' : stock
+                            'promo_price' : price
+//                            'stock' : stock
                         };
                         webSkus.push(sku);
                     } catch (e) {
