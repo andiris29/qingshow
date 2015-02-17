@@ -17,9 +17,10 @@ public class Main {
                 if (Main.checkIs2x(filePath)) {
                     String name = Main.getNameWithout2x(filePath);
                     File f = new File(name);
-                    if (!f.exists()) {
-                        ImageResizer.resizeImage(filePath, name);
+                    if (f.exists()) {
+                    	f.delete();
                     }
+                    ImageResizer.resizeImage(filePath, name);
                 }
             }
         });
