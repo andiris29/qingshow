@@ -10,6 +10,7 @@ public class FileWalker {
         File f = new File(directoryPath);
 
         if (!f.isDirectory()) {
+        	System.out.println(directoryPath + " is not a directory.");
             return;
         }
 
