@@ -6,7 +6,7 @@ var taobaoWeb = require('../taobao/taobaoWeb');
 var taobaoHelper = require('../taobao/taobaoHelper');
 
 var TopShop = require('../../model/topShops');
-var Item = require('../../model/items')
+var Item = require('../../model/items');
 
 var MongoHelper = require('../helpers/MongoHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -206,7 +206,12 @@ goblin.batchRefreshItemTaobaoInfo = {
             function (callback) {
                 //query items
                 //TODO handle time
-                var time = new Date();
+                var time = null;
+                if (qsParam.startDate) {
+                    time = RequestHelper.parseDate(qsParam.startDate);
+                } else {
+                    time = new Date();
+                }
                 var query = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
                 var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
                 qsParam.pageNo = qsParam.pageNo || 1;
