@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +91,8 @@ public class U02ChangePasswordFragment extends Fragment {
                                 ErrorHandler.handle(context, MetadataParser.getError(response));
                             } else {
                                 QSApplication.get().setPeople(user);
+//                                U02SettingsFragment settingsFragment = new U02SettingsFragment();
+//                                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
                                 Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
                             }
                         }

@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -532,7 +533,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in,0,R.anim.push_left_in,0).replace(R.id.settingsScrollView, fragment).commit();
             }
         });
         changeEmailRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changeEmailRelativeLayout);
