@@ -28,16 +28,23 @@
         <script src="./libs/video-js-4.11.4/video.js"></script>
         <script src="./libs/requirejs-2.1.5/require.min.js"></script>
 
-        <link rel="stylesheet" href="./css/app-web-aio.css" />
+        <link rel="stylesheet" href="./css/style.css" />
         <!--
         <link rel="stylesheet" media="only screen and (-webkit-min-device-pixel-ratio: 1) and
         (-webkit-max-device-pixel-ratio: 1.9)" href="./css/1x/s09.css" />
         <link rel="stylesheet" media="only screen and (-webkit-min-device-pixel-ratio: 2)" href="./css/2x/s09.css" />
         -->
 
-        <script src="./js/app-web-aio.js"></script>
         <script>
             (function() {
+                requirejs.config({
+                    'baseUrl' : '',
+                    'paths' : {
+                        'violet' : './js/violet',
+                        'qingshow' : './js/qingshow'
+                    }
+                });
+
                 window.appConfig = {
                     'appServer' : 'http://chingshow.com:30001/services',
                 };
