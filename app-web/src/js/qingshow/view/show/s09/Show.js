@@ -9,6 +9,7 @@ define([
         Show.superclass.constructor.apply(this, arguments);
 
         this._vjs = null;
+        this._videoTplt$ = null;
         this._slickContainer$ = null;
         this._slickItemTplt$ = null;
 
@@ -46,10 +47,8 @@ define([
             this._slickContainer$.slick('unslick');
         }
         if (this._vjs) {
-            if (!this._vjs.paused()) {
-                this._vjs.pause();
-                this._switch(false);
-            }
+            this._vjs.dispose();
+            this._switch(false);
         }
     };
 
@@ -65,29 +64,29 @@ define([
             'border-radius' : portrait$.width() / 2
         });
         // Video
-        if (!this._vjs) {
-            var video$ = this.$('.qs-video').attr({
+        if (!this._videoTplt$) {
+            this._videoTplt$ = this.$('.qs-video').attr({
                 'width' : this._dom$.width(),
                 'height' : this._dom$.height()
-            });
-            $('<source/>').attr({
-                'type' : 'video/mp4',
-                'src' : mongoShow.video
-            }).appendTo(video$);
-            var vjs = this._vjs = videojs(video$.get(0));
-            vjs.on('play', function() {
-                this._switch(true);
-            }.bind(this));
-            vjs.on('pause', function() {
-                this._switch(false);
-            }.bind(this));
-            vjs.on('ended', function() {
-                this._switch(false);
-                vjs.load();
-            }.bind(this));
-        } else {
-            this._vjs.src(mongoShow.video);
+            }).removeClass('clone').remove();
         }
+        var videoContainer$ = this.$('.qs-video-container');
+        var video$ = this._videoTplt$.clone().appendTo(videoContainer$);
+        $('<source/>').attr({
+            'type' : 'video/mp4',
+            'src' : mongoShow.video
+        }).appendTo(video$);
+        var vjs = this._vjs = videojs(video$.get(0));
+        vjs.on('play', function() {
+            this._switch(true);
+        }.bind(this));
+        vjs.on('pause', function() {
+            this._switch(false);
+        }.bind(this));
+        vjs.on('ended', function() {
+            this._switch(false);
+            vjs.load();
+        }.bind(this));
         // Slick
         var slickContainer$ = this._slickContainer$ = this.$('.qs-poster-slick-container');
         if (!this._slickItemTplt$) {
