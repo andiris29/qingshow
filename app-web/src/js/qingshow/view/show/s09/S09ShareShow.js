@@ -4,15 +4,17 @@ define([
     'violet/utils/UADetector',
     'violet/utils/InteractionUtil',
     'violet/ui/core/UIComponent',
+    'violet/ui/geometric/Rectangle',
     'qingshow/services/HTTPService',
     'qingshow/view/ViewFactory'
-], function(OOUtil, UADetector, InteractionUtil, UIComponent, 
+], function(OOUtil, UADetector, InteractionUtil, UIComponent, Rectangle,
     HTTPService, ViewFactory) {
 // @formatter:on
     var S09ShareShow = function(dom, options) {
         S09ShareShow.superclass.constructor.apply(this, arguments);
 
         this._stageShow = null;
+        this._animating = false;
 
         async.parallel([
         function(callback) {
@@ -62,18 +64,52 @@ define([
             this._stageShow = module;
         }.bind(this));
     };
+
     S09ShareShow.prototype._createThumbShow = function(dom, mongoShow) {
         ViewFactory.create('/show/s09/ThumbShow', dom, {
             'show' : mongoShow
         }, function(err, thumbShow) {
             thumbShow.on('requestOnStage', function(event) {
                 // Swap
-                var mongoShow = thumbShow.mongoShow();
-                thumbShow.mongoShow(this._stageShow.mongoShow());
-                this._stageShow.mongoShow(mongoShow);
+                this._animate(thumbShow, function() {
+                    var mongoShow = thumbShow.mongoShow();
+                    thumbShow.mongoShow(this._stageShow.mongoShow());
+                    this._stageShow.mongoShow(mongoShow);
+                }.bind(this));
             }.bind(this));
         }.bind(this));
     };
 
+    S09ShareShow.prototype._animate = function(thumbShow, callback) {
+        if (this._animating) {
+            return;
+        }
+        this._animating = true;
+
+        var from = Rectangle.parseDOM(thumbShow.dom());
+        var to = Rectangle.parseDOM(this._stageShow.dom());
+
+        var animator$ = $(document.createElement('div')).appendTo(document.body);
+        animator$.addClass('s09-onstage-animator').css({
+            'background-image' : 'url(' + thumbShow.mongoShow().posters[0] + ')',
+            'width' : from.width() + 'px',
+            'height' : from.height() + 'px',
+            'left' : from.left() + 'px',
+            'top' : from.top() + 'px'
+        });
+
+        animator$.animate({
+            'width' : to.width() + 'px',
+            'height' : to.height() + 'px',
+            'left' : to.left() + 'px',
+            'top' : to.top() + 'px'
+        }, 300, function() {
+            animator$.remove();
+            animator$ = null;
+
+            this._animating = false;
+            callback();
+        }.bind(this));
+    };
     return S09ShareShow;
 });
