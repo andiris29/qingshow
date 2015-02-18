@@ -10,6 +10,8 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
+#define PAGE_ID @"U08"
+
 @interface QSU08PasswordViewController ()
 
 @end
@@ -34,6 +36,16 @@
     
     // Initialize View
     
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

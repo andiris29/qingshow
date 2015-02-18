@@ -66,10 +66,12 @@
     return [self initWithFrame:frame direction:QSImageScrollViewDirectionHor];
 }
 
-
-
 #pragma mark - Layout
 - (void)updateImages
+{
+    [self updateImagesWithLazyLoad:self.enableLazyLoad];
+}
+- (void)updateImagesWithLazyLoad:(BOOL)isLazyLoad
 {
     int imageCount = [self getViewCount];
 
@@ -96,7 +98,7 @@
             [self.scrollView addSubview:imageView];
             [self.imageViewArray addObject:imageView];
         }
-        if (!self.enableLazyLoad || imageIndex == self.pageControl.currentPage) {
+        if (!isLazyLoad || imageIndex == self.pageControl.currentPage) {
             [self updateView:imageView forPage:imageIndex];
         } else {
             [self emptyView:imageView forPage:imageIndex];
@@ -230,5 +232,10 @@
         self.scrollView.contentOffset = CGPointMake(0, currentPage * size.height);
     }
     
+}
+
+- (void)loadAllImages
+{
+    [self updateImagesWithLazyLoad:NO];
 }
 @end

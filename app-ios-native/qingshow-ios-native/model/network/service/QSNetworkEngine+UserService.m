@@ -82,6 +82,7 @@
                                  method:@"POST"
                                paramers:@{}
                                 fileKey:@"portrait"
+                               fileName:@"portrait.jpeg"
                                   image:image
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
@@ -109,6 +110,7 @@
                                  method:@"POST"
                                paramers:@{}
                                 fileKey:@"background"
+                               fileName:@"background.jpeg"
                                   image:image
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {

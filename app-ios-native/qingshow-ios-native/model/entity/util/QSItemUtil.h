@@ -26,4 +26,6 @@
 + (NSDictionary*)getBrand:(NSDictionary*)item;
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
+
+//+ (CGFloat)getHeight:(NSDictionary*)itemDict;
 @end

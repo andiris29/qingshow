@@ -10,6 +10,7 @@
 #import "QSNetworkEngine+PeopleService.h"
 #import "NSArray+QSExtension.h"
 #import "QSPeopleUtil.h"
+#import "QSError.h"
 
 // People
 #define PATH_PEOPLE_QUERY_MODELS @"people/queryModels"
@@ -135,7 +136,18 @@
             if (succeedBlock) {
                 succeedBlock(NO);
             }
-        } onError:errorBlock];
+        } onError:^(NSError *error) {
+            if ([error isKindOfClass:[QSError class]]) {
+                if (error.code == kQSErrorCodeAlreadyFollow) {
+                    [QSPeopleUtil setPeople:model isFollowed:YES];
+                } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                    [QSPeopleUtil setPeople:model isFollowed:NO];
+                }
+            }
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }];
     }
     else
     {

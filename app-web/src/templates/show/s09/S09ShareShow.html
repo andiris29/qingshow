@@ -1,0 +1,148 @@
+<meta name="viewport" content="width=device-width; initial-scale=1.0">
+<link rel="stylesheet" href="../../../css/style.css" />
+<style>
+    .s09-onstage-animator {
+        position: absolute;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        overflow: hidden;
+    }
+    .s09 {
+    }
+    .s09 .qs-header {
+        background-color: rgb(193, 17, 75);
+        width: 100%;
+        height: 50px;
+        position: relative;
+    }
+    .s09 .qs-header > img {
+        position: absolute;
+    }
+    .s09 .qs-header-left-1 {
+        height: 40px;
+        top: 5px;
+        left: 10px;
+    }
+    .s09 .qs-header-left-2 {
+        height: 20px;
+        top: 20px;
+        left: 65px;
+    }
+    .s09 .qs-header-right-1 {
+        height: 16px;
+        top: 22px;
+        right: 132px;
+    }
+    .s09 .qs-header-right-2 {
+        height: 38px;
+        top: 4px;
+        right: 32px;
+    }
+    .s09 .qs-header-right-3 {
+        height: 8px;
+        bottom: 4px;
+        right: 4px;
+    }
+    .s09 .qs-footer {
+        position: absolute;
+        bottom: 0;
+        background-color: #000;
+        width: 100%;
+        height: 50px;
+    }
+    .s09 .qs-logo {
+        position: absolute;
+        left: 15px;
+        top: 7px;
+        background-image: url(../../../assets/common/icons/80.png);
+        background-size: cover;
+        border-radius: 8px;
+        width: 36px;
+        height: 36px;
+    }
+    .s09 .qs-description {
+        position: absolute;
+        left: 65px;
+        color: #fff;
+        height: 50px;
+        line-height: 50px;
+    }
+    .s09 .qs-download {
+        position: absolute;
+        right: 5px;
+        top: 10px;
+        background-image: url(./assets/s09/download.png);
+        background-size: cover;
+        width: 76.5px;
+        height: 27px;
+    }
+    .s09 .qs-main {
+        width: 100%;
+        height: calc(100% - 50px - 50px);
+    }
+    .s09 .qs-show {
+        float: left;
+        width: 75%;
+        height: 100%;
+    }
+    .s09 .qs-v-splitter {
+        float: left;
+        width: 2px;
+        height: 100%;
+    }
+    .s09 .qs-side {
+        float: left;
+        width: calc(25% - 2px);
+        height: 100%;
+    }
+    .s09 .qs-h-splitter {
+        width: 100%;
+        height: 2px;
+    }
+    .s09 .qs-thumb-show {
+        width: 100%;
+        height: calc(40% - 2px);
+    }
+    .s09 .qs-thumb-item-container {
+        width: 100%;
+        height: calc(20% - 2px);
+    }
+    .s09 .qs-thumb-item {
+        float: left;
+        width: calc(50% - 2px / 2);
+        height: 100%;
+    }
+</style>
+<div class="qs-page s09">
+    <div class="qs-header">
+        <img class="qs-header-left-1" src="../../../assets/s09/header-left-1.png"></img>
+        <img class="qs-header-left-2" src="../../../assets/s09/header-left-2.png"></img>
+        <img class="qs-header-right-1" src="../../../assets/s09/header-right-1.png"></img>
+        <img class="qs-header-right-2" src="../../../assets/s09/header-right-2.png"></img>
+        <img class="qs-header-right-3" src="../../../assets/s09/header-right-3.png"></img>
+    </div>
+    <div class="qs-main">
+        <div class="qs-show"></div>
+        <div class="qs-v-splitter"></div>
+        <div class="qs-side">
+            <div class="qs-thumb-show"></div>
+            <div class="qs-h-splitter"></div>
+            <div class="qs-thumb-show"></div>
+            <div class="qs-h-splitter"></div>
+            <div class="qs-thumb-item-container">
+                <div class="qs-thumb-item"></div>
+                <div class="qs-v-splitter"></div>
+                <div class="qs-thumb-item"></div>
+            </div>
+            <div class="qs-h-splitter"></div>
+        </div>
+    </div>
+    <div class="qs-footer">
+        <div class="qs-logo"></div>
+        <div class="qs-description">
+            更多精彩视频
+        </div>
+        <div class="qs-download"></div>
+    </div>
+</div>

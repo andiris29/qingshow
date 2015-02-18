@@ -10,6 +10,8 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
+#define PAGE_ID @"U04"
+
 @interface QSU04EmailViewController ()
 
 @end
@@ -35,6 +37,16 @@
     // Initialize Current Email Label
     self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
     
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

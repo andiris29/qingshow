@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="app-web" basedir=".." default="all">
+    <!-- Gerneral spec -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+    <property environment="env" />
+    <property name="dir.src" value="${basedir}/src" />
+    <property name="dir.build" value="${basedir}/build" />
+    <property name="dir.bin.output" value="${basedir}/bin/${ant.project.name}" />
+    <property name="dir.bin.temp" value="${basedir}/bin/temp" />
+    <property name="dir.bin.packages" value="${basedir}/bin/packages" />
+
+    <!-- Project spec -->
+    <property name="build.version" value="1.4.0" />
+    <target name="all" depends="clean, build, copy-dependency, minify, package, after" />
+
+    <!-- Targets -->
+    <target name="clean">
+        <delete dir="${dir.bin.output}"/>
+    </target>
+    <target name="build" depends="clean">
+        <!-- js -->
+        <exec executable="node">
+            <arg line="${env.tool_r}/r.js -o ${dir.build}/build.js out=${dir.bin.temp}/js/${ant.project.name}-aio.js optimize=none " />
+        </exec>
+        <!-- css -->
+        <concat destfile="${dir.bin.output}/css/${ant.project.name}-aio.css" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <header filtering="no" trimleading="yes">/* ${ant.project.name} */</header>
+            <fileset file="${dir.src}/css/style.css" />
+        </concat>
+    </target>
+    <target name="copy-dependency" depends="build">
+        <!-- index.html -->
+        <copy tofile="${dir.bin.output}/index.html">
+            <file file="${dir.src}/index.html" />
+        </copy>
+        <!-- assets -->
+        <copy todir="${dir.bin.output}/assets">
+            <fileset dir="${dir.src}/assets" />
+        </copy>
+        <!-- templates -->
+        <copy todir="${dir.bin.output}/templates">
+            <fileset dir="${dir.src}/templates" />
+        </copy>
+        <!-- libs -->
+        <copy todir="${dir.bin.output}/libs">
+            <fileset dir="${dir.src}/libs" />
+        </copy>
+    </target>
+    <target name="minify" depends="copy-dependency">
+        <java jar="${env.tool_yuicompressor}" fork="true" failonerror="true">
+            <arg line="--type js --charset utf-8 -o ${dir.bin.temp}/js/${ant.project.name}-aio-noversion.js ${dir.bin.temp}/js/${ant.project.name}-aio.js" />
+        </java>
+        <concat destfile="${dir.bin.output}/js/${ant.project.name}-aio.js" force="yes" encoding="UTF-8" outputencoding="UTF-8">
+            <header filtering="no" trimleading="yes">/* ${ant.project.name}-${build.version} */</header>
+            <fileset file="${dir.bin.temp}/js/${ant.project.name}-aio-noversion.js" />
+        </concat>
+        <java jar="${env.tool_yuicompressor}" fork="true" failonerror="true">
+            <arg line="--type css --charset utf-8 -o ${dir.bin.output}/css/${ant.project.name}-aio.css ${dir.bin.output}/css/${ant.project.name}-aio.css" />
+        </java>
+    </target>
+    <target name="package" depends="minify">
+        <zip destfile="${dir.bin.packages}/${ant.project.name}-${build.version}.zip">
+            <fileset dir="${dir.bin.output}" />
+        </zip>
+    </target>
+    <target name="after">
+        <delete dir="${dir.bin.temp}"/>
+        <delete dir="${dir.bin.output}"/>
+    </target>
+</project>

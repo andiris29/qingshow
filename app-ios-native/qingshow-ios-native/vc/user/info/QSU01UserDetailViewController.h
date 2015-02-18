@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-#import "QSBigImageTableViewDelegateObj.h"
-@interface QSU01UserDetailViewController : QSDetailBaseViewController<QSBigImageTableViewDelegateObjDelegate>
+#import "QSBigImageTableViewProvider.h"
+@interface QSU01UserDetailViewController : QSDetailBaseViewController<QSBigImageTableViewProviderDelegate>
 
 @property (strong, nonatomic) IBOutlet UICollectionView* likedCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;

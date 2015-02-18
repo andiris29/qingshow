@@ -19,6 +19,7 @@
 #import "UIImage+fixOrientation.h"
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
+#define PAGE_ID @"U02"
 
 typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     QSU02UserSettingViewControllerSelectTypeNone,
@@ -63,6 +64,12 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self loadUserSetting];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

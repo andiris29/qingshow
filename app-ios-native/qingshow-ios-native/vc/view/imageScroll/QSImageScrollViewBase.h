@@ -36,5 +36,5 @@ QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
 - (id)initWithFrame:(CGRect)frame direction:(QSImageScrollViewDirection)d;
 
 - (void)scrollToPage:(int)page;
-
+- (void)loadAllImages;
 @end

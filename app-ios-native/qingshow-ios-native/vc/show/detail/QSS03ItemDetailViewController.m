@@ -12,6 +12,7 @@
 #import "QSItemUtil.h"
 #import "QSBrandUtil.h"
 
+#define PAGE_ID @"S03"
 
 @interface QSS03ItemDetailViewController ()
 
@@ -46,6 +47,18 @@
         [self bindItem:self.items[0]];
     }
     
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

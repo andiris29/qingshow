@@ -34,7 +34,7 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
-    p[@"version"] = @"1.0.1";
+    p[@"version"] = VERSION;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];
@@ -44,4 +44,21 @@
     return op;
 }
 
+- (MKNetworkOperation *)startOperationWithPath:(NSString *)path
+                                        method:(NSString *)method
+                                      paramers:(NSDictionary *)paramDict
+                                       fileKey:(NSString *)fileKey
+                                      fileName:(NSString*)fileName
+                                         image:(NSData *)image
+                                   onSucceeded:(OperationSucceedBlock)succeedBlock
+                                       onError:(OperationErrorBlock)errorBlock {
+    NSMutableDictionary* p = [paramDict mutableCopy];
+    p[@"version"] = VERSION;
+    MKNetworkOperation *op = nil;
+    op = [self operationWithPath:path params:p httpMethod:method];
+    [op addData:image forKey:fileKey mimeType:@"application/octet-stream" fileName:fileName];
+    [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
+    [self enqueueOperation:op];
+    return op;
+}
 @end

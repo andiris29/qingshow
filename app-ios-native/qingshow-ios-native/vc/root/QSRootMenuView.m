@@ -66,7 +66,7 @@
 - (void)awakeFromNib
 {
 
-    NSArray* typeArray = @[@1, @2, @3, @8, @9];   //1,2,3,8,9
+    NSArray* typeArray = @[@1, @9, @8, @2, @3];   //1,9,8,2,3
     self.itemArray = [@[] mutableCopy];
 
     for (int i = 0; i < 5; i++) {

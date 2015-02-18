@@ -22,6 +22,7 @@ client-mobile/qingshow_android/bin
 #ignore WebStorm file
 server-node/.idea
 .picasa.ini
+goblin-tbshop/.idea
 
 #ignore public
 server-node/public
@@ -30,9 +31,14 @@ mongodb/_dump
 folder-uploads
 winston.log.*
 
-
 #for goblin
 admin-tools/goblin-tbitem/.idea
 admin-tools/goblin-tbshop/.idea
 admin-tools/imgResize/out
 admin-tools/imgResize/.idea
+
+#app-web
+app-web/bin
+
+#app-web
+app-web/bin

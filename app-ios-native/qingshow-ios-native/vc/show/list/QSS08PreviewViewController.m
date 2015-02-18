@@ -12,10 +12,11 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
+#define PAGE_ID @"S08"
 
 @interface QSS08PreviewViewController ()
 
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSBigImageTableViewProvider* delegateObj;
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
 
@@ -43,6 +44,12 @@
 {
     [super viewWillAppear:animated];
     [self.delegateObj refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,7 +65,7 @@
 #pragma mark - 
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.delegateObj = [[QSBigImageTableViewProvider alloc] init];
     self.delegateObj.type = QSBigImageTableViewCellTypeFashion;
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -68,7 +75,7 @@
     self.delegateObj.delegate = self;
 }
 
-#pragma mark - QSBigImageTableViewDelegateObjDelegate
+#pragma mark - QSBigImageTableViewProviderDelegate
 - (void)clickCommentOfDict:(NSDictionary*)dict
 {
     UIViewController* vc = [[QSS04CommentListViewController alloc] initWithPreview:dict];
@@ -77,8 +84,9 @@
 
 - (void)clickShareOfDict:(NSDictionary*)dict
 {
+    return;
     NSLog(@"share");
-    [self.shareVc showSharePanel];
+    [self.shareVc showSharePanelWithUrl:nil];
 }
 - (void)clickLikeOfDict:(NSDictionary*)dict
 {

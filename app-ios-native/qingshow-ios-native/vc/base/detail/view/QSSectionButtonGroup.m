@@ -91,14 +91,17 @@
 }
 - (void)updateLayout
 {
-    
+    float singleBtnWidthRate = 1.5f;
+    if (self.buttonGroup.count == 3) {
+        singleBtnWidthRate = 1.2f;
+    }
     CGSize size = self.frame.size;
     
     float width = 0;
     UIView* lastSplitter  = [self.splitterArray lastObject];
     [lastSplitter removeFromSuperview];
     if (self.singleButton) {
-        width = size.width / (self.buttonGroup.count + 1);
+        width = size.width / (self.buttonGroup.count + singleBtnWidthRate);  //single button占singleBtnWidthRate倍宽度
         [self addSubview:lastSplitter];
     } else {
         width = size.width / self.buttonGroup.count;
@@ -111,7 +114,7 @@
         UIView* splitter = self.splitterArray[i];
         splitter.frame = CGRectMake((i + 1) * width - 1, height / 3, 1, height / 3);
     }
-    self.singleButton.frame = CGRectMake(self.buttonGroup.count * width, 0, width, height);
+    self.singleButton.frame = CGRectMake(self.buttonGroup.count * width, 0, width * singleBtnWidthRate, height);
 }
 #pragma mark - Gesture
 - (void)groupButtonPressed:(UIGestureRecognizer*)ges

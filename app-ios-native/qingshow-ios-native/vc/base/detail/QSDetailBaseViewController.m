@@ -152,7 +152,7 @@
             //Scroll To Top
             self.touchLocation = CGPointMake(0, - self.badgeView.frame.size.height);
             self.preTouchLocation = self.touchLocation;
-            float time = ABS(self.topConstrain.constant) / 600;
+//            float time = ABS(self.topConstrain.constant) / 600;
             self.topConstrain.constant = -scrollView.contentOffset.y - self.badgeView.frame.size.height;
             self.topConstrain.constant = self.topConstrain.constant >= 0 ? 0 : self.topConstrain.constant;
             self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
@@ -232,7 +232,7 @@
 {
     [self showPeopleDetailViewControl:peopleDict];
 }
-#pragma mark - QSModelListTableViewDelegateObjDelegate
+#pragma mark - QSModelListTableViewProviderDelegate
 - (void)clickModel:(NSDictionary*)model
 {
     [self showPeopleDetailViewControl:model];

@@ -28,7 +28,7 @@
     return CGSizeMake([UIScreen mainScreen].bounds.size.width, (leftY>rightY?leftY:rightY));
 }
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath  withIndex:(int)index
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath  withIndex:(NSInteger)index
 {
     CGSize itemSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
     CGFloat itemHeight = floorf(itemSize.height * self.itemWidth / itemSize.width);

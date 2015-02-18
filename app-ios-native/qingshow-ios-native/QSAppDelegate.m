@@ -12,8 +12,8 @@
 
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
-
-
+#import "MobClick.h"
+#import "Version.h"
 
 
 @interface QSAppDelegate ()
@@ -26,11 +26,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
+    //Weibo
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kWeiboAppKeyNum];
     
+    //Wechat
     [WXApi registerApp:kWechatAppID];
+    
+    //umeng
+    [MobClick setLogEnabled:NO];
+    [MobClick setAppVersion:VERSION];
+    [MobClick setEncryptEnabled:YES];
+    [MobClick updateOnlineConfig];
+    [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];

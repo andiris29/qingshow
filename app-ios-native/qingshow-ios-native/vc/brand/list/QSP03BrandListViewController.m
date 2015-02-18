@@ -11,9 +11,12 @@
 #import "QSNetworkKit.h"
 
 #import "QSBrandTitleView.h"
+
+#define PAGE_ID @"P03"
+
 @interface QSP03BrandListViewController ()
 
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSBigImageTableViewProvider* delegateObj;
 @property (strong, nonatomic) QSBrandTableViewHeaderView* headerView;
 @property (strong, nonatomic) NSNumber* type;
 @end
@@ -56,6 +59,13 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.delegateObj refreshClickedData];
+
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +76,7 @@
 #pragma mark - 
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.delegateObj = [[QSBigImageTableViewProvider alloc] init];
     self.delegateObj.type = QSBigImageTableViewCellTypeBrand;
 //    self.delegateObj.delegate = self;
     [self.delegateObj bindWithTableView:self.tableView];
@@ -77,7 +87,7 @@
     self.delegateObj.delegate = self;
     [self.delegateObj fetchDataOfPage:1];
 }
-#pragma mark - QSBrandCollectionViewDelegateObjDelegate
+#pragma mark - QSBrandCollectionViewProviderDelegate
 - (void)didClickBrand:(NSDictionary*)brandDict {
     UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict];
     [self.navigationController pushViewController:vc animated:YES];

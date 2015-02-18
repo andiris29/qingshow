@@ -16,7 +16,8 @@
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)getLikeFeedingPage:(int)page
+- (MKNetworkOperation*)getLikeFeedingUser:(NSDictionary*)userDict
+                                     page:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)getRecommendationFeedingPage:(int)page

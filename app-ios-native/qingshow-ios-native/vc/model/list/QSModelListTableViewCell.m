@@ -50,8 +50,21 @@
     } else {
         [self.followBtn setImage:[UIImage imageNamed:@"people_list_follow"] forState:UIControlStateNormal];
     }
-    self.showNumLabel.text = [QSPeopleUtil getNumberShowsDescription:modelDict];
-    self.followerNumLabel.text = [QSPeopleUtil getNumberFollowersDescription:modelDict];
+    
+    if ([QSPeopleUtil checkPeopleIsModel:modelDict]) {
+        self.showNumLabel.text = [QSPeopleUtil getNumberShowsDescription:modelDict];
+        self.followerNumLabel.text = [QSPeopleUtil getNumberFollowersDescription:modelDict];
+        self.leftIcon.image = [UIImage imageNamed:@"model_cell_icon01_cloth"];
+        self.rightIcon.image = [UIImage imageNamed:@"model_cell_icon02_noticeno"];
+    } else {
+        //left
+        self.showNumLabel.text = [QSPeopleUtil getNumberFollowPeoples:modelDict];
+        //right
+        self.followerNumLabel.text = [QSPeopleUtil getNumberFollowBrands:modelDict];
+        self.leftIcon.image = [UIImage imageNamed:@"model_cell_icon02_noticeno"];
+        self.rightIcon.image = [UIImage imageNamed:@"people_cell_brand_icon"];
+    }
+
 }
 
 @end

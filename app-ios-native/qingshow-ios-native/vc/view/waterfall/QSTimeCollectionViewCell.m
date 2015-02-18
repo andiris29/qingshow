@@ -21,8 +21,8 @@
 }
 - (void)awakeFromNib
 {
-    self.layer.cornerRadius = 4;
-    self.layer.masksToBounds = YES;
+//    self.layer.cornerRadius = 4;
+//    self.layer.masksToBounds = YES;
 }
 - (void)bindWithMetadata:(NSDictionary*)metaData
 {

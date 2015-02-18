@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+        Remove this if you use the .htaccess -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title>[dev] 倾秀-时尚宠儿的归属地</title>
+        <meta name="description" content="">
+
+        <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+        <link rel="shortcut icon" href="./assets/common/icons/40.png">
+        <link rel="apple-touch-icon" href="./assets/common/icons/80.png">
+
+        <link rel="stylesheet" href="./libs/slick-1.4.0/slick/slick.css" />
+        <link rel="stylesheet" href="./libs/slick-1.4.0/slick/slick-theme.css" />
+        <link rel="stylesheet" href="./libs/video-js-4.11.4/video-js.min.css" />
+
+        <script src="./libs/URI.js-1.14.1/src/URI.min.js"></script>
+        <script src="./libs/URI.js-1.14.1/src/URI.fragmentQuery.js"></script>
+        <script src="./libs/async-0.9.0/lib/async.js"></script>
+        <script src="./libs/jquery-2.1.1/jquery-2.1.1.min.js"></script>
+        <script src="./libs/slick-1.4.0/slick/slick.min.js"></script>
+        <script src="./libs/underscore-1.7.0/underscore-min.js"></script>
+        <script src="./libs/video-js-4.11.4/video.js"></script>
+        <script src="./libs/requirejs-2.1.5/require.min.js"></script>
+
+        <link rel="stylesheet" href="./css/style.css" />
+        <!--
+        <link rel="stylesheet" media="only screen and (-webkit-min-device-pixel-ratio: 1) and
+        (-webkit-max-device-pixel-ratio: 1.9)" href="./css/1x/s09.css" />
+        <link rel="stylesheet" media="only screen and (-webkit-min-device-pixel-ratio: 2)" href="./css/2x/s09.css" />
+        -->
+
+        <script>
+            (function() {
+                requirejs.config({
+                    'baseUrl' : '',
+                    'paths' : {
+                        'violet' : './js/violet',
+                        'qingshow' : './js/qingshow'
+                    }
+                });
+
+                window.appConfig = {
+                    'appServer' : 'http://chingshow.com:30001/services',
+                };
+                $(function() {
+                    // chingshow
+                    require(['qingshow/bootstrap']);
+                });
+            })();
+        </script>
+    </head>
+
+    <body>
+        <div id="root"></div>
+    </body>
+</html>

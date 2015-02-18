@@ -14,7 +14,12 @@
 #import "QSSharePlatformConst.h"
 #import "UIViewController+ShowHud.h"
 
+#define kShareTitle @"时尚宠儿的归属地"
+#define kShareDesc @"美丽乐分享，潮流资讯早知道"
+
 @interface QSShareViewController ()
+
+@property (strong, nonatomic) NSString* shareUrl;
 
 @end
 
@@ -42,8 +47,9 @@
 
 
 #pragma mark - Share
-- (void)showSharePanel
+- (void)showSharePanelWithUrl:(NSString*)urlStr
 {
+    self.shareUrl = urlStr;
     if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
         return;
     }
@@ -89,16 +95,21 @@
     WBMessageObject *message = [WBMessageObject message];
     WBWebpageObject* webPage = [WBWebpageObject object];
     webPage.objectID = @"qingshow_webpage_id";
-    webPage.title = @"倾秀";
-    webPage.description = @"qingshow";
-    webPage.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    webPage.title = kShareTitle;
+    webPage.description = kShareDesc;
+    if (self.shareUrl) {
+        webPage.webpageUrl = self.shareUrl;
+    } else {
+        webPage.webpageUrl = @"http://chingshow.com/";
+    }
+
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
     
     //    NSData *imageData = UIImagePNGRepresentation([UIImage imageNamed:@"gray_clock"], 0.5);
     
     message.mediaObject = webPage;
     WBSendMessageToWeiboRequest *msgRequest = [WBSendMessageToWeiboRequest requestWithMessage:message authInfo:request access_token:weiboAccessToken];
-    message.text = @"倾秀";
+    message.text = @"";
     [WeiboSDK sendRequest:msgRequest];
 }
 
@@ -106,6 +117,7 @@
 - (void)weiboSendMessageNotiHandler:(NSNotification*)notification
 {
     if (WeiboSDKResponseStatusCodeSuccess == ((NSNumber*)notification.userInfo[@"statusCode"]).integerValue) {
+        [MobClick event:@"shareShow" attributes:@{@"snsName": @"weibo"} counter:1];
         if ([self.delegate respondsToSelector:@selector(didShareWeiboSuccess)]) {
             [self.delegate didShareWeiboSuccess];
         }
@@ -118,15 +130,22 @@
     }
 }
 
+//朋友圈
 - (IBAction)shareWechatPressed:(id)sender {
+    [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"qingshow";
-    message.description = @"qingshow";
     
+    message.title = [NSString stringWithFormat:@"【%@】%@", kShareTitle, kShareDesc];
+//    message.description = kShareDesc;
+    [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     WXWebpageObject *ext = [WXWebpageObject object];
     
-    ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    
+    if (self.shareUrl) {
+        ext.webpageUrl = self.shareUrl;
+    } else {
+        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    }
+
     message.mediaObject = ext;
     
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
@@ -137,15 +156,24 @@
     [WXApi sendReq:req];
     [self hideSharePanel];
 }
+
+//微信好友
 - (IBAction)shareWechatFriendPressed:(id)sender {
+    [MobClick event:@"shareShow" attributes:@{@"snsName": @"weixin"} counter:1];
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = @"qingshow";
-    message.description = @"qingshow";
+    message.title = kShareTitle;
+    message.description = kShareDesc;
+    [message setThumbImage:[UIImage imageNamed:@"share_icon"]];
     
     WXWebpageObject *ext = [WXWebpageObject object];
     
-    ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
-    
+    if (self.shareUrl) {
+
+        ext.webpageUrl = self.shareUrl;
+    } else {
+        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+    }
+
     message.mediaObject = ext;
     
     SendMessageToWXReq* req = [[SendMessageToWXReq alloc] init];
