@@ -10,7 +10,7 @@
     <property name="dir.bin.packages" value="${basedir}/bin/packages" />
 
     <!-- Project spec -->
-    <property name="build.version" value="1.3.8" />
+    <property name="build.version" value="1.4.0" />
     <target name="all" depends="clean, build, copy-dependency, minify, package, after" />
 
     <!-- Targets -->
