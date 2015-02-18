@@ -19,6 +19,7 @@
 #import "QSS02CategoryViewController.h"
 
 #import "QSU02UserSettingViewController.h"
+#import "QSS02ShandianViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
@@ -32,11 +33,14 @@
 #import "UIImage+BlurryImage.h"
 #import "QSAppDelegate.h"
 
+#define PAGE_ID @"S01"
+
+
 @interface QSS01RootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
 @property (assign, nonatomic) BOOL fIsShowMenu;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSShowCollectionViewProvider* delegateObj;
 //@property (assign, nonatomic) BOOL fISLogined;
 
 @property (assign, nonatomic) BOOL fIsFirstLoad;
@@ -86,6 +90,8 @@
     self.menuView.hidden = !self.fIsShowMenu;
     
     [self.delegateObj refreshClickedData];
+    
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -95,6 +101,8 @@
     if (self.fIsFirstLoad) {
         self.fIsFirstLoad = NO;
     }
+    
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -104,7 +112,7 @@
 #pragma mark - Network
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.delegateObj = [[QSShowCollectionViewProvider alloc] init];
     self.delegateObj.delegate = self;
     self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
     [self.delegateObj bindWithCollectionView:self.collectionView];
@@ -208,6 +216,12 @@
 {
     [self hideMenu];
     switch (type) {
+        case 1:
+        {
+            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
         case 3:
         {
             UIViewController* vc = [[QSP01ModelListViewController alloc] init];

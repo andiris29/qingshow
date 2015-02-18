@@ -23,5 +23,13 @@
                                          image:(NSData *)image
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock;
+- (MKNetworkOperation *)startOperationWithPath:(NSString *)path
+                                        method:(NSString *)method
+                                      paramers:(NSDictionary *)paramDict
+                                       fileKey:(NSString *)fileKey
+                                      fileName:(NSString*)fileName
+                                         image:(NSData *)image
+                                   onSucceeded:(OperationSucceedBlock)succeedBlock
+                                       onError:(OperationErrorBlock)errorBlock;
 
 @end

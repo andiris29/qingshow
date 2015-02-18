@@ -13,15 +13,17 @@
 #import "QSMetadataUtil.h"
 #import "UIViewController+QSExtension.h"
 
+#define PAGE_ID @"P02"
+
 @interface QSP02ModelDetailViewController ()
 
 #pragma mark - Data
-@property (strong, nonatomic) NSMutableDictionary* peopleDict;
+@property (strong, nonatomic) NSDictionary* peopleDict;
 
 #pragma mark - Delegate Obj
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
+@property (strong, nonatomic) QSBigImageTableViewProvider* showsDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followingDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followerDelegate;
 
 
 @end
@@ -43,13 +45,16 @@
 
 - (void)delegateObjInit
 {
-    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.showsDelegate = [[QSBigImageTableViewProvider alloc] init];
     self.showsDelegate.delegate = self;
-    self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.showsDelegate.hasRefreshControl = NO;
+    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followingDelegate.delegate = self;
-    self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.followingDelegate.hasRefreshControl = NO;
+    self.followerDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followerDelegate.delegate = self;
     self.followerDelegate.type = QSModelListTableViewDelegateObjTypeHideFollow;
+    self.followerDelegate.hasRefreshControl = NO;
 }
 
 #pragma mark - Life Cycle
@@ -66,6 +71,12 @@
     [self.showsDelegate refreshClickedData];
     [self.followingDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -173,6 +184,7 @@
         }
         [self.followerDelegate fetchDataOfPage:1];
     } onError:^(NSError *error) {
+        [self updateView];
         [self handleError:error];
     }];
 }

@@ -10,7 +10,7 @@
 #import "QSNetworkEngine+Protect.h"
 #import "QSShowUtil.h"
 #import "NSMutableDictionary+QSExtension.h"
-
+#import "QSError.h"
 //Query
 #define PATH_QUERY_SHOW @"show/query"
 //Comment
@@ -142,6 +142,13 @@
             succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if ([error isKindOfClass:[QSError class]]) {
+            if (error.code == kQSErrorCodeAlreadyFollow) {
+                [QSShowUtil setIsLike:YES show:showDict];
+            } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                [QSShowUtil setIsLike:NO show:showDict];
+            }
+        }
         if (errorBlock) {
             errorBlock(error);
         }
@@ -158,6 +165,13 @@
             succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if ([error isKindOfClass:[QSError class]]) {
+            if (error.code == kQSErrorCodeAlreadyFollow) {
+                [QSShowUtil setIsLike:YES show:showDict];
+            } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                [QSShowUtil setIsLike:NO show:showDict];
+            }
+        }
         if (errorBlock) {
             errorBlock(error);
         }

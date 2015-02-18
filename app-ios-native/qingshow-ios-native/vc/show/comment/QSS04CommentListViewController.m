@@ -18,13 +18,16 @@
 #import "UIViewController+QSExtension.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
+#define PAGE_ID @"S04"
+
+
 @interface QSS04CommentListViewController ()
 
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 
 @property (strong, nonatomic) NSDictionary* showDict;
 @property (strong, nonatomic) NSDictionary* previewDict;
-@property (strong, nonatomic) QSCommentListTableViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSCommentListTableViewProvider* delegateObj;
 @property (assign, nonatomic) int clickIndex;
 
 @property (assign, nonatomic) QSCommentListViewControllerType type;
@@ -43,7 +46,7 @@
         self.type = QSCommentListViewControllerTypeShow;
         __weak QSS04CommentListViewController* weakSelf = self;
         self.showDict = showDict;
-        self.delegateObj = [[QSCommentListTableViewDelegateObj alloc] init];
+        self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE getCommentsOfShow:weakSelf.showDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
@@ -58,7 +61,7 @@
         self.type = QSCommentListViewControllerTypePreview;
         __weak QSS04CommentListViewController* weakSelf = self;
         self.previewDict = previewDict;
-        self.delegateObj = [[QSCommentListTableViewDelegateObj alloc] init];
+        self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE queryCommentPreview:weakSelf.previewDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
@@ -85,10 +88,7 @@
     self.clickIndex = -1;
     
     [self.headIcon setImageFromURL:[QSPeopleUtil getHeadIconUrl:[QSUserManager shareUserManager].userInfo]];
-    
-    
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -106,6 +106,12 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -113,7 +119,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - QSCommentListTableViewDelegateObj
+#pragma mark - QSCommentListTableViewProviderDelegate
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
     [self showPeopleDetailViewControl:peopleDict];
@@ -125,7 +131,7 @@
     {
         destructiveTitle = @"删除";
     }
-    
+    [self.textField resignFirstResponder];
     self.clickIndex = index;
     UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复",*/ @"查看个人主页", nil];
     [sheet showInView:self.view];
@@ -144,14 +150,14 @@
         if (self.type == QSCommentListViewControllerTypeShow) {
             [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
                 [self.delegateObj.resultArray removeObjectAtIndex:index];
-                [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             } onError:^(NSError *error) {
                 [self handleError:error];
             }];
         } else if (self.type == QSCommentListViewControllerTypePreview) {
             [SHARE_NW_ENGINE deletePreviewComment:comment ofPreview:self.previewDict onSucceed:^{
                 [self.delegateObj.resultArray removeObjectAtIndex:index];
-                [self.delegateObj.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
             } onError:^(NSError *error) {
                 [self handleError:error];
             }];
@@ -176,12 +182,12 @@
         }
     }
 }
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    [self.textField resignFirstResponder];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.textField resignFirstResponder];
 //    self.textField.placeholder = @"回复评论";
 //    self.clickIndex = -1;
-//}
+}
 #pragma mark - Text Field
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {

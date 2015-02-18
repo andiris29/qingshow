@@ -22,9 +22,14 @@ client-mobile/qingshow_android/bin
 #ignore WebStorm file
 server-node/.idea
 .picasa.ini
+goblin-tbshop/.idea
 
 #ignore public
 server-node/public
 .project
 mongodb/_dump
 folder-uploads
+
+#goblin
+admin-tools/goblin-tbitem/.idea
+admin-tools/goblin-tbitem/logs

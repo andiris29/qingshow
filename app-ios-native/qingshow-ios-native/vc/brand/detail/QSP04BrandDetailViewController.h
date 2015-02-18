@@ -7,14 +7,13 @@
 //
 
 #import "QSDetailBaseViewController.h"
-#import "QSBigImageTableViewDelegateObj.h"
-#import "QSItemImageListTableViewDelegateObj.h"
-@interface QSP04BrandDetailViewController : QSDetailBaseViewController <QSBigImageTableViewDelegateObjDelegate, QSItemImageListTableViewDelegateObjDelegate>
+#import "QSBigImageTableViewProvider.h"
+#import "QSItemImageListTableViewProvider.h"
+@interface QSP04BrandDetailViewController : QSDetailBaseViewController <QSBigImageTableViewProviderDelegate, QSItemImageListTableViewProviderDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView* itemNewTableView;
 @property (weak, nonatomic) IBOutlet UITableView* itemDiscountTableView;
 @property (weak, nonatomic) IBOutlet UITableView* showTableView;
-//@property (strong, nonatomic) IBOutlet UICollectionView* showCollectionView;
 
 @property (weak, nonatomic) IBOutlet UITableView* followerTableView;
 

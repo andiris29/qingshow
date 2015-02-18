@@ -24,14 +24,14 @@
 - (void)updateView:(UIView*)view forPage:(int)imageIndex
 {
     UIImageView* imageView = (UIImageView*)view;
-    if (self.imageArray) {
+    if (self.imageArray && self.imageArray.count) {
         UIImage* image = self.imageArray[imageIndex];
         imageView.image = image;
-    } else if (self.imageUrlArray) {
+    } else if (self.imageUrlArray && self.imageUrlArray.count) {
         id imageInfo = self.imageUrlArray[imageIndex];
         if ([imageInfo isKindOfClass:[NSURL class]]) {
             NSURL* imageUrl = (NSURL*)imageInfo;
-            [imageView setImageFromURL:imageUrl];
+            [imageView setImageFromURL:imageUrl placeHolderImage:nil animation:NO];
         } else if ([imageInfo isKindOfClass:[UIImage class]]){
             imageView.image = (UIImage*)imageInfo;
         }
@@ -57,5 +57,4 @@
     _imageArray = nil;
     [self updateImages];
 }
-
 @end

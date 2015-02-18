@@ -13,9 +13,11 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 
+#define PAGE_ID @"S02"
+
 @interface QSS02CategoryViewController ()
 @property (assign, nonatomic) QSFeedingCategory type;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* delegateObj;
+@property (strong, nonatomic) QSShowCollectionViewProvider* delegateObj;
 @end
 
 @implementation QSS02CategoryViewController
@@ -36,6 +38,12 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.delegateObj refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)viewDidLoad {
@@ -55,7 +63,7 @@
 #pragma mark - 
 - (void)configDelegateObj
 {
-    self.delegateObj = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.delegateObj = [[QSShowCollectionViewProvider alloc] init];
     self.delegateObj.delegate = self;
     [self.delegateObj bindWithCollectionView:self.collectionView];
     __weak QSS02CategoryViewController* weakSelf = self;
@@ -64,8 +72,7 @@
     };
     [self.delegateObj fetchDataOfPage:1];
 }
-#pragma mark - QSShowDelegateObjDelegate
-#pragma mark -
+#pragma mark - QSShowProviderDelegate
 - (void)didClickShow:(NSDictionary*)showDict
 {
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];

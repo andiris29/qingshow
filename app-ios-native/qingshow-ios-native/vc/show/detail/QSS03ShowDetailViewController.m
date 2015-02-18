@@ -13,10 +13,12 @@
 #import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSCommonUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <MediaPlayer/MediaPlayer.h>
 #import "QSNetworkKit.h"
 #import "QSItemUtil.h"
+#import "QSImageNameUtil.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
@@ -24,6 +26,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
 
+#define PAGE_ID @"S03"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -104,6 +107,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     [self bindExceptImageWithDict:self.showDict];
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -124,8 +128,9 @@
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self hideSharePanel];
     [super viewWillDisappear:animated];
+    [self hideSharePanel];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 
@@ -186,7 +191,12 @@
     [self hideSharePanel];
     NSString* video = self.showDict[@"video"];
     if (video) {
-        [self playMovie:video];
+        if (!self.movieController || self.movieController.playbackState == MPMoviePlaybackStatePaused || self.movieController.playbackState == MPMoviePlaybackStateStopped) {
+            [self playMovie:video];
+        } else {
+            [self pauseVideo];
+        }
+
     }
 }
 
@@ -209,6 +219,7 @@
             [self showSuccessHudWithText:@"取消喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
+            [self bindWithDict:self.showDict];
             [self handleError:error];
         }];
     } else {
@@ -216,6 +227,7 @@
             [self showSuccessHudWithText:@"喜欢成功"];
             [self bindWithDict:self.showDict];
         } onError:^(NSError *error) {
+            [self bindWithDict:self.showDict];
             [self handleError:error];
         }];
     }
@@ -228,6 +240,10 @@
     tran.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_root"];
     [self.navigationController popViewControllerAnimated:NO];
+    if (self.movieController) {
+        [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"length": @(self.movieController.currentPlaybackTime).stringValue} durations:(int)(self.movieController.currentPlaybackTime * 1000)];
+    }
+    
 
 }
 
@@ -279,6 +295,7 @@
     [self.movieController play];
     [self setPlayModeBtnsHidden:YES];
     self.videoContainerView.userInteractionEnabled = YES;
+    [self.playBtn setImage:[UIImage imageNamed:@"s03_pause_btn"] forState:UIControlStateNormal];
 }
 - (void)pauseVideo
 {
@@ -289,7 +306,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveThunbnailImage:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
     [self.movieController requestThumbnailImagesAtTimes:@[@(self.movieController.currentPlaybackTime)] timeOption:MPMovieTimeOptionExact];
     [self setPlayModeBtnsHidden:NO];
-    [self.playBtn setImage:[UIImage imageNamed:@"s03_pause_btn"] forState:UIControlStateNormal];
+    [self.playBtn setImage:[UIImage imageNamed:@"s03_play_btn"] forState:UIControlStateNormal];
 }
 
 - (void)stopMovie{
@@ -322,8 +339,8 @@
 
         //Gesture
         //Tap
-        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
-        [self.videoContainerView addGestureRecognizer:tap];
+//        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapVideo)];
+//        [self.videoContainerView addGestureRecognizer:tap];
 
         //Notification
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -334,10 +351,8 @@
                                                  selector:@selector(handleFirstShowHideVideo)
                                                      name:MPMoviePlayerPlaybackStateDidChangeNotification
                                                    object:nil];
-        [self.movieController play];
-    } else {
-        [self startVideo];
     }
+    [self startVideo];
 }
 
 #pragma mark Gesture
@@ -370,14 +385,18 @@
 - (void)setPlayModeBtnsHidden:(BOOL)hidden
 {
     self.backBtn.hidden = hidden;
-    [self setBtnsHiddenExceptBack:hidden];
+    [self setBtnsHiddenExceptBackAndPlay:hidden];
 
 }
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
+    [self setBtnsHiddenExceptBackAndPlay:hidden];
+    self.playBtn.hidden = hidden;
+}
+- (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
+{
     self.buttnPanel.hidden = hidden;
     self.modelContainer.hidden = hidden;
-    self.playBtn.hidden = hidden;
 }
 
 
@@ -409,7 +428,7 @@
     if (self.videoScreenShotImage) {
         [array addObject:self.videoScreenShotImage];
     }
-    NSArray* previewArray = [QSShowUtil getShowVideoPreviewUrlArray:self.showDict];
+    NSArray* previewArray =  [QSImageNameUtil generate2xImageNameUrlArray:[QSShowUtil getShowVideoPreviewUrlArray:self.showDict]];
     [array addObjectsFromArray:previewArray];
     self.showImageScrollView.imageUrlArray = array;
     [self.showImageScrollView scrollToPage:0];
@@ -430,7 +449,9 @@
 #pragma mark - Share
 - (void)showSharePanel
 {
-    [self.shareVc showSharePanel];
+    NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
+    NSString* urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@", showId];
+    [self.shareVc showSharePanelWithUrl:urlStr];
 }
 - (void)hideSharePanel
 {

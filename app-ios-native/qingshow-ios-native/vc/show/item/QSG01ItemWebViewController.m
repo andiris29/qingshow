@@ -9,6 +9,8 @@
 #import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
 
+#define PAGE_ID @"G01"
+
 @interface QSG01ItemWebViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
@@ -30,7 +32,14 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [MobClick beginLogPageView:PAGE_ID];
 }
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -39,6 +48,7 @@
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    [MobClick event:@"viewItemSource" attributes:@{@"itemId": self.itemDict[@"_id"]} counter:1];
 }
 
 - (void)didReceiveMemoryWarning {

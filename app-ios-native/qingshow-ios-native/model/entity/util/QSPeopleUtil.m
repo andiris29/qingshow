@@ -260,6 +260,37 @@
     return @"0";
 }
 
++ (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict
+{
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
+    NSDictionary* context = peopleDict[@"__context"];
+    if (context) {
+        NSNumber* f = context[@"numFollowBrands"];
+        if (f) {
+            return f.kmbtStringValue;
+        }
+    }
+    return @"0";
+}
+
++ (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict
+{
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    }
+    
+    NSDictionary* context = peopleDict[@"__context"];
+    if (context) {
+        NSNumber* f = context[@"numFollowPeoples"];
+        if (f) {
+            return f.kmbtStringValue;
+        }
+    }
+    return @"0";
+}
 
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict
 {

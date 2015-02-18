@@ -27,9 +27,13 @@
 @property (strong, nonatomic) IBOutlet UILabel* nameLabel;
 @property (strong, nonatomic) IBOutlet UILabel* priceLabel;
 @property (strong, nonatomic) IBOutlet UILabelStrikeThrough* discountLabel;
+@property (strong, nonatomic) IBOutlet UILabel* originLabel;
+
 @property (strong, nonatomic) IBOutlet UIButton* shopBtn;
 - (IBAction)shopBtnPressed:(id)sender;
 @property (weak, nonatomic) NSObject<QSItemImageTableViewCellDelegate>* delegate;
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict;
+
+- (void)loadAllImages;
 @end

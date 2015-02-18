@@ -14,6 +14,8 @@
 #import "QSU01UserDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 
+#define PAGE_ID @"U06"
+
 @interface QSU06LoginViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UITextField *userText;
@@ -97,6 +99,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [MobClick beginLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -105,6 +108,11 @@
     
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];

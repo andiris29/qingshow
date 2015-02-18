@@ -20,13 +20,15 @@
 #import "UIViewController+ShowHud.h"
 #import "QSBrandUtil.h"
 
+#define PAGE_ID @"U01"
+
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
 #pragma mark Delegate Obj
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* likedDelegate;
-@property (strong, nonatomic) QSShowCollectionViewDelegateObj* recommendationDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followingDelegate;
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* likedBrandDelegate;
+@property (strong, nonatomic) QSShowCollectionViewProvider* likedDelegate;
+@property (strong, nonatomic) QSShowCollectionViewProvider* recommendationDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followingDelegate;
+@property (strong, nonatomic) QSBigImageTableViewProvider* likedBrandDelegate;
 @property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
 
@@ -54,14 +56,18 @@
 
 - (void)delegateObjInit
 {
-    self.likedDelegate  = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.likedDelegate  = [[QSShowCollectionViewProvider alloc] init];
     self.likedDelegate.delegate = self;
-    self.recommendationDelegate = [[QSShowCollectionViewDelegateObj alloc] init];
+    self.likedDelegate.hasRefreshControl = NO;
+    self.recommendationDelegate = [[QSShowCollectionViewProvider alloc] init];
     self.recommendationDelegate.delegate = self;
-    self.followingDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.recommendationDelegate.hasRefreshControl = NO;
+    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
     self.followingDelegate.delegate = self;
-    self.likedBrandDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
+    self.followingDelegate.hasRefreshControl = NO;
+    self.likedBrandDelegate = [[QSBigImageTableViewProvider alloc] init];
     self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
+    self.likedBrandDelegate.hasRefreshControl = NO;
     self.likedBrandDelegate.delegate = self;
 }
 
@@ -89,6 +95,7 @@
     [self.recommendationDelegate refreshClickedData];
     [self.followingDelegate refreshClickedData];
     [self.likedBrandDelegate refreshClickedData];
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -97,6 +104,7 @@
     [self.recommendationDelegate fetchDataOfPage:1];
     [self.followingDelegate fetchDataOfPage:1];
     [self.likedBrandDelegate fetchDataOfPage:1];
+    [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -116,7 +124,7 @@
     //favor collectioin view
     [self.likedDelegate bindWithCollectionView:self.likedCollectionView];
     self.likedDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getLikeFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:0];
             succeedBlock(array, metadata);
         } onError:^(NSError* e){
@@ -127,9 +135,12 @@
         }];
 
     };
-    self.likedDelegate.filterBlock = ^BOOL(id obj){
-        return [QSShowUtil getIsLike:obj];
-    };
+    if (self.fShowAccountBtn) {
+        self.likedDelegate.filterBlock = ^BOOL(id obj){
+            return [QSShowUtil getIsLike:obj];
+        };
+    }
+
     self.likedDelegate.delegate = self;
     [self.likedDelegate reloadData];
 
@@ -162,9 +173,12 @@
             errorBlock(e);
         }];
     };
-    self.followingDelegate.filterBlock = ^BOOL(id obj){
-        return [QSPeopleUtil  getPeopleIsFollowed:obj];
-    };
+    if (self.fShowAccountBtn) {
+        self.followingDelegate.filterBlock = ^BOOL(id obj){
+            return [QSPeopleUtil  getPeopleIsFollowed:obj];
+        };
+    }
+
     self.followingDelegate.delegate = self;
     [self.followingDelegate reloadData];
     //Like brand tableVIew
@@ -180,9 +194,12 @@
             errorBlock(e);
         }];
     };
-    self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
-        return [QSBrandUtil getHasFollowBrand:obj];
-    };
+    if (self.fShowAccountBtn) {
+        self.likedBrandDelegate.filterBlock = ^BOOL(id obj) {
+            return [QSBrandUtil getHasFollowBrand:obj];
+        };
+    }
+
     [self.likedBrandDelegate reloadData];
 }
 
@@ -237,10 +254,14 @@
     [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
         if (fFollow) {
             [self showTextHud:@"关注成功"];
+            [self.followingDelegate refreshData:model];
         }
-        else
-        {
-            [self.followingDelegate removeData:model withAnimation:YES];
+        else {
+            if (self.fShowAccountBtn) {
+                [self.followingDelegate removeData:model withAnimation:YES];
+            } else {
+                [self.followingDelegate refreshData:model];
+            }
             [self showTextHud:@"取消关注成功"];
             [self.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:self.followingDelegate.metadataDict] atIndex:2];
         }

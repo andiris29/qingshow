@@ -32,7 +32,10 @@
     NSMutableArray* m = [@[] mutableCopy];
     for (NSDictionary* d in array) {
         NSString* s = d[@"url"];
-        [m addObject:[NSURL URLWithString:s]];
+        NSURL* url = [NSURL URLWithString:s];
+        if (url && ![[NSNull null] isEqual:url]) {
+            [m addObject:url];
+        }
     }
     
     return m;
@@ -168,7 +171,8 @@
     if ([QSCommonUtil checkIsNil:price]) {
         return @"";
     } else {
-        return [NSString stringWithFormat:@"￥%@", price];
+        double priceDouble = price.doubleValue;
+        return [NSString stringWithFormat:@"￥%.2f", priceDouble];
     }
 }
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict
@@ -185,8 +189,24 @@
     if ([QSCommonUtil checkIsNil:price]) {
         return @"";
     } else {
-        return [NSString stringWithFormat:@"￥%@", price];
+        double priceDouble = price.doubleValue;
+        return [NSString stringWithFormat:@"￥%.2f", priceDouble];
     }
 }
 
+//+ (NSDictionary*)getImageMetaData:(NSDictionary*)itemDict
+//{
+//    return itemDict[@"imageMetadata"];
+//}
+//
+//+ (CGFloat)getHeight:(NSDictionary*)itemDict
+//{
+//    NSDictionary* m = [self getImageMetaData:itemDict];
+//    return ((NSNumber*)m[@"height"]).floatValue;
+//}
+//+ (CGFloat)getWidth:(NSDictionary*)itemDict
+//{
+//    NSDictionary* m = [self getImageMetaData:itemDict];
+//    return ((NSNumber*)m[@"width"]).floatValue;
+//}
 @end

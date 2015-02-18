@@ -33,6 +33,10 @@
 + (void)addNumFollower:(long long)num forPeople:(NSDictionary*)peopleDict;
 + (NSString*)getNumberShowsDescription:(NSDictionary*)modelDict;
 
++ (NSString*)getNumberFollowBrands:(NSDictionary*)peopleDict;
++ (NSString*)getNumberFollowPeoples:(NSDictionary*)peopleDict;
+
+
 + (BOOL)getPeopleIsFollowed:(NSDictionary*)dict;
 + (void)setPeople:(NSDictionary*)peopleDict isFollowed:(BOOL)isFollowed;
 

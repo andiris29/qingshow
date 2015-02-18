@@ -10,14 +10,18 @@
 #import "QSNetworkEngine+Protect.h"
 #import "QSBrandUtil.h"
 #import "NSArray+QSExtension.h"
+#import "NSDictionary+QSExtension.h"
 #import "QSCommonUtil.h"
+#import "NSMutableDictionary+QSExtension.h"
+#import "QSError.h"
+
 
 //Path
 #define PATH_PEOPLE_FOLLOW_BRAND @"brand/follow"
 #define PATH_PEOPLE_UNFOLLOW_BRAND @"brand/unfollow"
 #define PATH_QUERY_BRAND @"brand/queryBrands"
 #define PATH_QUERY_BRAND_FOLLOWER @"brand/queryFollowers"
-
+#define PATH_QUARY_BRAND_DETAIL @"brand/query"
 
 @implementation QSNetworkEngine(BrandService)
 #pragma mark - Query
@@ -35,6 +39,37 @@
         NSArray* retArray = retDict[@"data"][@"brands"];
         if (succeedBlock) {
             succeedBlock([retArray deepMutableCopy], retDict[@"metadata"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)queryBrandsDetail:(NSDictionary*)brandDict
+                               onSucceed:(DicBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock
+{
+    NSString* brandId = [QSCommonUtil getIdOrEmptyStr:brandDict];
+    NSDictionary* paramDict = @{@"_ids" : brandId};
+    return [self startOperationWithPath:PATH_QUARY_BRAND_DETAIL method:@"GET" paramers:paramDict onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary* retDict = completedOperation.responseJSON;
+        NSArray* brands = retDict[@"data"][@"brands"];
+        
+        NSDictionary* b = nil;
+        if (brands.count) {
+            b = brands[0];
+        }
+
+        NSMutableDictionary* mB = [b deepMutableCopy];
+        if ([brandDict isKindOfClass:[NSMutableDictionary class]]) {
+            NSMutableDictionary* d = (NSMutableDictionary*)brandDict;
+            [d updateWithDict:mB];
+        }
+        
+        if (succeedBlock) {
+            succeedBlock(brandDict);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
@@ -73,7 +108,18 @@
             if (succeedBlock) {
                 succeedBlock(NO);
             }
-        } onError:errorBlock];
+        } onError:^(NSError *error) {
+            if ([error isKindOfClass:[QSError class]]) {
+                if (error.code == kQSErrorCodeAlreadyFollow) {
+                    [QSBrandUtil setHasFollow:YES brand:brandDict];
+                } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                    [QSBrandUtil setHasFollow:NO brand:brandDict];
+                }
+            }
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }];
     }
     else
     {
@@ -83,7 +129,18 @@
             if (succeedBlock) {
                 succeedBlock(YES);
             }
-        } onError:errorBlock];
+        } onError:^(NSError *error) {
+            if ([error isKindOfClass:[QSError class]]) {
+                if (error.code == kQSErrorCodeAlreadyFollow) {
+                    [QSBrandUtil setHasFollow:YES brand:brandDict];
+                } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                    [QSBrandUtil setHasFollow:NO brand:brandDict];
+                }
+            }
+            if (errorBlock) {
+                errorBlock(error);
+            }
+        }];
     }
 }
 - (MKNetworkOperation*)followBrand:(NSDictionary*)brandDict

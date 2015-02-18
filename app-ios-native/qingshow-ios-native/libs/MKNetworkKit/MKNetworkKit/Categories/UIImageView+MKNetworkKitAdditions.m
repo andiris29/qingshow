@@ -65,84 +65,91 @@ const float kFreshLoadAnimationDuration = 0.35f;
 
 - (UIViewContentMode)preContentMode
 {
-  return ((NSNumber*)objc_getAssociatedObject(self, &preContentModeKey)).intValue;
+    return ((NSNumber*)objc_getAssociatedObject(self, &preContentModeKey)).intValue;
 }
 - (void)setPreContentMode:(UIViewContentMode)preContentMode
 {
-  objc_setAssociatedObject(self, &preContentModeKey, @(preContentMode), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &preContentModeKey, @(preContentMode), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 
 - (NSString*)currentImageUrl
 {
-  return (NSString*) objc_getAssociatedObject(self, &currentImageUrlKey);
+    return (NSString*) objc_getAssociatedObject(self, &currentImageUrlKey);
 }
 - (void)setCurrentImageUrl:(NSString*)url
 {
-  objc_setAssociatedObject(self, &currentImageUrlKey, url, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &currentImageUrlKey, url, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 
 +(void) setDefaultEngine:(MKNetworkEngine*) engine {
-  
-  DefaultEngine = engine;
+    
+    DefaultEngine = engine;
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url {
-  
-  return [self setImageFromURL:url placeHolderImage:nil];
+    
+    return [self setImageFromURL:url placeHolderImage:nil];
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image {
-  
-  return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:YES];
+    
+    return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:YES];
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image animation:(BOOL) yesOrNo {
-  
-  return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:yesOrNo];
+    
+    return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:yesOrNo];
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
     if (self.contentMode != UIViewContentModeCenter) {
         self.preContentMode = self.contentMode;
     }
-
-    if (![[url absoluteString] isEqualToString:[self currentImageUrl]] && image) {
+    if (image) {
         self.image = image;
         self.contentMode = UIViewContentModeCenter;
+    } else {
+        self.image = nil;
     }
-  [self.imageFetchOperation cancel];
-  if(!imageCacheEngine) imageCacheEngine = DefaultEngine;
-  
-  if(imageCacheEngine) {
-    self.imageFetchOperation = [imageCacheEngine imageAtURL:url
-                                                       size:self.frame.size
-                                          completionHandler:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
-                                            if(animation) {
-                                            [UIView transitionWithView:self.superview
-                                                              duration:isInCache?kFromCacheAnimationDuration:kFreshLoadAnimationDuration
-                                                               options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
-                                                            animations:^{
-                                                                 self.image = fetchedImage;
-                                                                self.contentMode = self.preContentMode;
-                                                                [self setCurrentImageUrl:[url absoluteString]];
-                                                               } completion:nil];
-                                            } else {
-                                                self.image = fetchedImage;
-                                                self.contentMode = self.preContentMode;
-                                                [self setCurrentImageUrl:[url absoluteString]];
-                                            }
-                                          } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
-//                                              self.image = image;
-//                                              self.contentMode = self.preContentMode;
-                                            DLog(@"%@", error);
-                                          }];
-  } else {
+
+    [self.imageFetchOperation cancel];
+    if(!imageCacheEngine) imageCacheEngine = DefaultEngine;
     
-    DLog(@"No default engine found and imageCacheEngine parameter is null")
-  }
-  
-  return self.imageFetchOperation;
+    if(imageCacheEngine) {
+        self.imageFetchOperation = [imageCacheEngine imageAtURL:url
+                                                           size:self.frame.size
+                                              completionHandler:^(UIImage *fetchedImage, NSURL *url, BOOL isInCache) {
+                                                  if(animation) {
+                                                      [UIView transitionWithView:self.superview
+                                                                        duration:isInCache?kFromCacheAnimationDuration:kFreshLoadAnimationDuration
+                                                                         options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
+                                                                      animations:^{
+                                                                          self.image = fetchedImage;
+                                                                          self.contentMode = self.preContentMode;
+                                                                          [self setCurrentImageUrl:[url absoluteString]];
+                                                                      } completion:nil];
+                                                  } else {
+                                                      self.image = fetchedImage;
+                                                      self.contentMode = self.preContentMode;
+                                                      [self setCurrentImageUrl:[url absoluteString]];
+                                                  }
+                                              } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                                  //                                              self.image = image;
+                                                  //                                              self.contentMode = self.preContentMode;
+                                                  DLog(@"%@", error);
+                                              }];
+        NSData* data = [imageCacheEngine cachedDataForOperation:self.imageFetchOperation];
+        if (data) {
+            self.image = [[UIImage alloc] initWithData:data];
+            self.contentMode = self.preContentMode;
+        }
+    } else {
+        
+        DLog(@"No default engine found and imageCacheEngine parameter is null")
+    }
+    
+    return self.imageFetchOperation;
 }
 @end

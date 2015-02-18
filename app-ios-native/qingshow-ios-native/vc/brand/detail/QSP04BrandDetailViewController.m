@@ -12,10 +12,12 @@
 #import "QSMetadataUtil.h"
 #import "QSBrandUtil.h"
 #import "UIViewController+QSExtension.h"
-#import "QSItemImageListTableViewDelegateObj.h"
+#import "QSItemImageListTableViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSG01ItemWebViewController.h"
+
+#define PAGE_ID @"P04"
 
 @interface QSP04BrandDetailViewController ()
 
@@ -23,10 +25,10 @@
 @property (strong, nonatomic) NSDictionary* itemDict;
 
 #pragma mark Delegate Obj
-@property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemNewDelegate;
-@property (strong, nonatomic) QSItemImageListTableViewDelegateObj* itemDiscountDelegate;
-@property (strong, nonatomic) QSBigImageTableViewDelegateObj* showsDelegate;
-@property (strong, nonatomic) QSModelListTableViewDelegateObj* followerDelegate;
+@property (strong, nonatomic) QSItemImageListTableViewProvider* itemNewDelegate;
+@property (strong, nonatomic) QSItemImageListTableViewProvider* itemDiscountDelegate;
+@property (strong, nonatomic) QSBigImageTableViewProvider* showsDelegate;
+@property (strong, nonatomic) QSModelListTableViewProvider* followerDelegate;
 
 @end
 
@@ -56,10 +58,14 @@
 
 - (void)delegateObjInit
 {
-    self.itemNewDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
-    self.itemDiscountDelegate = [[QSItemImageListTableViewDelegateObj alloc] init];
-    self.showsDelegate = [[QSBigImageTableViewDelegateObj alloc] init];
-    self.followerDelegate = [[QSModelListTableViewDelegateObj alloc] init];
+    self.itemNewDelegate = [[QSItemImageListTableViewProvider alloc] init];
+    self.itemNewDelegate.hasRefreshControl = NO;
+    self.itemDiscountDelegate = [[QSItemImageListTableViewProvider alloc] init];
+    self.itemDiscountDelegate.hasRefreshControl = NO;
+    self.showsDelegate = [[QSBigImageTableViewProvider alloc] init];
+    self.showsDelegate.hasRefreshControl = NO;
+    self.followerDelegate = [[QSModelListTableViewProvider alloc] init];
+    self.followerDelegate.hasRefreshControl = NO;
 }
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
@@ -67,6 +73,12 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindDelegateObj];
+    if (self.itemDict) {
+        if ([QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+            [self changeToSection:1];
+            [self.badgeView.btnGroup setSelect:1];
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -76,7 +88,23 @@
     [self.itemDiscountDelegate refreshClickedData];
     [self.showsDelegate refreshClickedData];
     [self.followerDelegate refreshClickedData];
+    
+    [SHARE_NW_ENGINE queryBrandsDetail:self.brandDict onSucceed:^(NSDictionary *b) {
+        self.brandDict = b;
+        [self.badgeView bindWithBrandDict:self.brandDict];
+    } onError:^(NSError *error) {
+        
+    }];
+    
+    [MobClick beginLogPageView:PAGE_ID];
 }
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -115,7 +143,9 @@
     self.itemNewDelegate.delegate = self;
     self.itemNewDelegate.type = QSItemImageListTableViewDelegateObjTypeNew;
     if (self.itemDict) {
-        self.itemNewDelegate.additionalResult = @[self.itemDict];
+        if (![QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+            self.itemNewDelegate.additionalResult = @[self.itemDict];
+        }
     }
     self.itemNewDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandNew:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
@@ -135,6 +165,13 @@
     [self.itemDiscountDelegate bindWithTableView:self.itemDiscountTableView];
     self.itemDiscountDelegate.delegate = self;
     self.itemDiscountDelegate.type = QSItemImageListTableViewDelegateObjTypeDiscount;
+    
+    if (self.itemDict) {
+        if ([QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+            self.itemDiscountDelegate.additionalResult = @[self.itemDict];
+        }
+    }
+    
     self.itemDiscountDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getItemFeedingByBrandDiscount:weakSelf.brandDict page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
             [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:1];
@@ -157,7 +194,7 @@
             succeedBlock(array, metadata);
         } onError:^(NSError* e){
             if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:1];
+                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:2];
             }
             errorBlock(e);
         }];
@@ -194,6 +231,7 @@
         [self.badgeView bindWithBrandDict:self.brandDict];
         [self.followerDelegate fetchDataOfPage:1];
     } onError:^(NSError *error) {
+        [self.badgeView bindWithBrandDict:self.brandDict];
         [self handleError:error];
     }];
 }
