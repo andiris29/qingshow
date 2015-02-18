@@ -35,6 +35,9 @@ peopleSchema = Schema({
             'default' : Date.now
         }
     },
+    modelInfo : {
+        order : Number
+    },
     create : {
         type : Date,
         'default' : Date.now

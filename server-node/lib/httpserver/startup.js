@@ -6,6 +6,11 @@ var path = require('path');
 var fs = require('fs');
 var async = require('async'), _ = require('underscore');
 
+// Log
+var winston = require('winston');
+winston.add(winston.transports.DailyRotateFile, {
+    'filename' : require('path').join(__dirname, 'winston.log')
+});
 //param parser
 var bodyParser = require('body-parser');
 //Cookie and session
@@ -17,7 +22,7 @@ var sessionMongoose = require("session-mongoose");
 qsdb.connect();
 
 //Services Name
-var servicesNames = ['feeding', 'itemFeeding', 'user', 'potential', 'people', 'brand', 'show', 'preview', 'admin'];
+var servicesNames = ['feeding', 'itemFeeding', 'user', 'potential', 'people', 'brand', 'show', 'preview', 'admin', 'goblin'];
 var services = servicesNames.map(function(path) {
     return {
         'path' : path,
@@ -102,6 +107,7 @@ var wrapCallback = function(fullpath, callback) {
                 res.qsPerformance.d = _.random(3000, 10000);
             }
         }
+        // req.queryString.version: "1.2.0"
         callback.func(req, res);
     };
 };

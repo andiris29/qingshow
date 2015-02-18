@@ -21,6 +21,10 @@ var _feed = function(req, res, querier, aspectInceptions) {
         'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
             async.series([
             function(callback) {
+                // Populate
+                Item.populate(currentPageModels, 'brandRef', callback);
+            },
+            function(callback) {
                 MongoHelper.updateCoverMetaData(currentPageModels, callback);
             }], callback);
         },
@@ -29,6 +33,22 @@ var _feed = function(req, res, querier, aspectInceptions) {
 };
 
 var itemFeeding = module.exports;
+
+itemFeeding.random = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, callback) {
+            MongoHelper.queryRandom(Item.find(), Item.find(), qsParam.pageSize, function(err, models) {
+                callback(err, models, qsParam.pageNo * qsParam.pageSize + 1);
+            });
+        }, {
+            'beforeEndResponse' : function(json) {
+                json.metadata.refreshTime = new Date();
+                return json;
+            }
+        });
+    }
+};
 
 itemFeeding.byBrandNew = {
     'method' : 'get',

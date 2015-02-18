@@ -65,9 +65,33 @@ _removePeopleById = function(req, res) {
 _saveItem = function(req, res) {
     _saveModel(Item, 'item', req, res, function(req, res) {
         var param = req.body;
-        var item = new Item();
+        var item = new Item({
+            imageMetadata : {
+                url : ( param.imageMetadataUrl ? param.imageMetadataUrl: ''),
+                width : ( param.imageMetadataWidth ? RequestHelper.parseNumber(param.imageMetadataWidth) : 0),
+                height : ( param.imageMetadataHeight ? RequestHelper.parseNumber(param.imageMetadataHeight) : 0)
+            },
+            brandNewInfo : {
+                order: (param.brandNewInfoOrder ? RequestHelper.parseNumber(param.brandNewInfoOrder) : 0)
+            },
+            brandDiscountInfo : {
+                price: (param.brandDiscountInfoPrice ? RequestHelper.parseNumber(param.brandDiscountInfoPrice) : 0),
+                order: (param.brandDiscountInfoOrder ? RequestHelper.parseNumber(param.brandDiscountInfoOrder) : 0)
+            },
+            images: []
+        });
 
-        ['name', 'cover', 'source'].forEach(function(field) {
+        var urls = RequestHelper.paraseArray(param.imagesUrl);
+        var descriptions = RequestHelper.paraseArray(param.imagesDescription);
+
+        urls.forEach(function(element, index) {
+            item.images.push({
+                url: element,
+                description : descriptions[index]
+            });
+        });
+
+        ['name', 'source'].forEach(function(field) {
             if (param[field]) {
                 item.set(field, param[field]);
             }
