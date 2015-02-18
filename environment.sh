@@ -1,5 +1,7 @@
-#tool_ant, tool_r, tool_yuicompressor
-#ref to /etc/launchd.conf
+# Ref to /etc/launchd.conf
+export tool_ant=/Users/i068020/Documents/jianguoyun/antSoftware/tools/generic/apache-ant-1.9.4
+export tool_r=/Users/i068020/Documents/jianguoyun/antSoftware/tools/js/requirejs/r-2.1.11
+export tool_yuicompressor=/Users/i068020/Documents/jianguoyun/antSoftware/tools/js/yuicompressor-2.4.8.jar
 
 export folder_qingshow=/Users/i068020/Documents/_git/antSoftware/com.focosee.qingshow
 
