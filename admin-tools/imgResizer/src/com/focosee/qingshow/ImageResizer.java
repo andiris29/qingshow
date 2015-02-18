@@ -24,7 +24,10 @@ public class ImageResizer {
             String format = destName.substring(dotIndex + 1);
             ImageIO.write(resizedImage, format, out);
             out.close();
-            System.out.println(imageName + " => " + destName);
-        } catch (Exception e) {}
+            System.out.println("Resize success: " + imageName);
+            System.out.println("    => " + destName);
+        } catch (Exception e) {
+            System.out.println("Resize fail: " + imageName);
+        }
     }
 }
