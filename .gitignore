@@ -34,8 +34,7 @@ winston.log.*
 #for goblin
 admin-tools/goblin-tbitem/.idea
 admin-tools/goblin-tbshop/.idea
-admin-tools/imgResize/out
-admin-tools/imgResize/.idea
+admin-tools/imgResizer/out
 
 #app-web
 app-web/bin

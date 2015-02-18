@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="imgResizer">
-    <output-path>$PROJECT_DIR$/out/artifacts/imgResizer</output-path>
+  <artifact type="jar" name="imgResizer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/imgResizer_jar</output-path>
     <root id="archive" name="imgResizer.jar">
-      <element id="module-output" name="imgResize" />
+      <element id="module-output" name="imgResizer" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/imgscalr-lib-4.2.jar" path-in-jar="/" />
     </root>
   </artifact>

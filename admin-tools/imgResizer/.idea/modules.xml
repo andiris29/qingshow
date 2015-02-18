@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/imgResize.iml" filepath="$PROJECT_DIR$/imgResize.iml" />
+      <module fileurl="file://$PROJECT_DIR$/imgResizer.iml" filepath="$PROJECT_DIR$/imgResizer.iml" />
     </modules>
   </component>
 </project>
