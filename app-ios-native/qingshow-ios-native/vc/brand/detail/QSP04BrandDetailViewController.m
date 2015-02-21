@@ -17,7 +17,7 @@
 #import "QSItemUtil.h"
 #import "QSG01ItemWebViewController.h"
 
-#define PAGE_ID @"P04"
+#define PAGE_ID @"P04 - 品牌"
 
 @interface QSP04BrandDetailViewController ()
 

@@ -10,7 +10,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
-#define PAGE_ID @"U08"
+#define PAGE_ID @"U08 - 更改密码"
 
 @interface QSU08PasswordViewController ()
 

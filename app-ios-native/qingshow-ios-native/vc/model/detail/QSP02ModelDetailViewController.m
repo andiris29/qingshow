@@ -13,7 +13,7 @@
 #import "QSMetadataUtil.h"
 #import "UIViewController+QSExtension.h"
 
-#define PAGE_ID @"P02"
+#define PAGE_ID @"P02 - 模特"
 
 @interface QSP02ModelDetailViewController ()
 

@@ -9,7 +9,7 @@
 #import "QSG01ItemWebViewController.h"
 #import "QSItemUtil.h"
 
-#define PAGE_ID @"G01"
+#define PAGE_ID @"G01 - 内嵌浏览器"
 
 @interface QSG01ItemWebViewController ()
 

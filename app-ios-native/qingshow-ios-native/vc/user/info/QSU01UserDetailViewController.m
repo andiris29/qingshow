@@ -20,7 +20,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSBrandUtil.h"
 
-#define PAGE_ID @"U01"
+#define PAGE_ID @"U01 - 个人"
 
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;

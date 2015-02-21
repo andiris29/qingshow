@@ -19,7 +19,7 @@
 #import "UIImage+fixOrientation.h"
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
-#define PAGE_ID @"U02"
+#define PAGE_ID @"U02 - 个人设置"
 
 typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     QSU02UserSettingViewControllerSelectTypeNone,

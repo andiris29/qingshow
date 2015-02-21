@@ -13,7 +13,7 @@
 #import "UIViewController+Utility.h"
 #import "QSNetworkKit.h"
 
-#define PAGE_ID @"U07"
+#define PAGE_ID @"U07 - 注册"
 
 @interface QSU07RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *accountText;

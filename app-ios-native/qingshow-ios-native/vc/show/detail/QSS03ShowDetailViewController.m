@@ -26,7 +26,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
 
-#define PAGE_ID @"S03"
+#define PAGE_ID @"S03 - 秀"
 
 @interface QSS03ShowDetailViewController ()
 

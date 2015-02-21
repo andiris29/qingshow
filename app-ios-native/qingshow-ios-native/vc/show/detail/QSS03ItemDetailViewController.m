@@ -12,7 +12,7 @@
 #import "QSItemUtil.h"
 #import "QSBrandUtil.h"
 
-#define PAGE_ID @"S03"
+#define PAGE_ID @"S03 - 秀"
 
 @interface QSS03ItemDetailViewController ()
 

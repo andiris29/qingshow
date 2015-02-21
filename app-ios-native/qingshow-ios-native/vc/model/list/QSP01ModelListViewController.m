@@ -12,7 +12,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
 
-#define PAGE_ID @"P01"
+#define PAGE_ID @"P01 - 模特一览"
 
 @interface QSP01ModelListViewController ()
 

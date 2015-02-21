@@ -14,7 +14,7 @@
 #import "QSU01UserDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 
-#define PAGE_ID @"U06"
+#define PAGE_ID @"U06 - 登录"
 
 @interface QSU06LoginViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
