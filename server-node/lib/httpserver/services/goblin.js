@@ -124,19 +124,6 @@ var _crawlTaobaoInfo = function (item, callback) {
                 item.taobaoInfo = taobaoInfo;
 //                item.taobaoInfo = item.taobaoInfo || {};
 //                item.taobaoInfo.web_skus = webSkus;
-                callback(null);
-            });
-        },
-        function (callback) {
-            callback();
-            return;
-            //TODO enable Taobao api after limited
-            var num_iid = parseInt(taobaoHelper.getIidFromSource(item.source));
-            taobaoAPI.item.get({
-                'fields' : 'num_iid,title,price,desc_modules,sell_point',
-                'num_iid' : num_iid
-            }, function (err, result) {
-                //TODO handle Taobao api
                 callback();
             });
         }
@@ -183,7 +170,8 @@ goblin.refreshItemTaobaoInfo = {
                 "item" : item
             });
         });
-    }
+    },
+    permissionValidators : ['loginValidator'] //TODO
 };
 
 goblin.batchRefreshItemTaobaoInfo = {
@@ -193,8 +181,6 @@ goblin.batchRefreshItemTaobaoInfo = {
         var items = null;
         async.waterfall([
             function (callback) {
-                // TODO check admin
-
                 try {
                     qsParam = RequestHelper.parse(req.queryString);
                 } catch (e) {
@@ -240,5 +226,6 @@ goblin.batchRefreshItemTaobaoInfo = {
                 "items" : items
             });
         });
-    }
+    },
+    permissionValidators : ['adminValidator']
 };
