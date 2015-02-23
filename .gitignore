@@ -33,6 +33,7 @@ folder-uploads
 #goblin
 admin-tools/goblin-tbitem/.idea
 admin-tools/goblin-tbitem/logs
+admin-tools/goblin-tbshop/.idea
 
 #app-web
 app-web/bin
