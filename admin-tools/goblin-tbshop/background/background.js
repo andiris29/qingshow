@@ -70,9 +70,6 @@ chrome.pageAction.onClicked.addListener(function(tab) {
             });
         });
     }
-
-
-
 });
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {

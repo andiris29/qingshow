@@ -38,7 +38,7 @@ Page.prototype._crawl = function() {
             function(callback) {
                 var retry = 0;
                 var load = function() {
-                    lis$ = $('.st-item .seller a'); //<a href="shopUrl" target="_blank">showName</a>
+                    lis$ = $('.col.item .seller a'); //<a href="shopUrl" target="_blank">showName</a>
 
                     if (lis$.length === 0) {
                         if (retry < 10) {
@@ -51,7 +51,7 @@ Page.prototype._crawl = function() {
                         var shopNames = [];
                         for (var i = 0; i < lis$.length; i++) {
                             var dom = lis$[i];
-                            shopNames.push(dom.innerHTML);
+                            shopNames.push($(dom).attr('href'));
                         }
 
                         //Filter Redundant shopName
@@ -59,25 +59,14 @@ Page.prototype._crawl = function() {
                             return shopNames.indexOf(value) === index;
                         });
 
-                        //TODO http request
-                        $.getJSON('http://121.41.162.102:30001/services/feeding/chosen', {}, function (data){
-                            var topShops = data.topShops;
-                            //shopId;
-                            //http://shop{shop_id}.taobao.com/search.htm?search=y&orderType=hotsell_desc
-                            //http://shop107823567.taobao.com/search.htm?search=y&orderType=hotsell_desc
-                            var shopIds = ["107823567"];
-                            var urls = shopIds.map(function (sId) {
-                                return "http://shop" + sId + ".taobao.com/search.htm?search=y&orderType=hotsell_desc";
-                            });
-                            api.createSubCrawers(urls);
-                            callback(null, lis$);
-                        });
+                        api.createSubCrawers(filterShopNames);
+                        callback();
 
                     }
                 };
                 load();
             },
-            function(lis$) {
+            function() {
                 var itemNext = $('.page-next');
                 var disableBtn = $(".icon-btn-next-2-disable", itemNext);
                 if (!disableBtn.length) {

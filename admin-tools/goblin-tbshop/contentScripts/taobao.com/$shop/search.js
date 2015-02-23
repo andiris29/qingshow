@@ -72,7 +72,7 @@ Page.prototype._crawl = function() {
                             };
                             hotSales.push(sale);
                         }
-
+                        //TODO parse sid
                         var shopEntity = {
                             nick : nick,
                             __context : {
@@ -102,6 +102,7 @@ Page.prototype._crawl = function() {
              //shopId;
              //http://shop{shop_id}.taobao.com/search.htm?search=y&orderType=hotsell_desc
              //http://shop107823567.taobao.com/search.htm?search=y&orderType=hotsell_desc
+             //http://zeroup.taobao.com/search.htm?search=y&orderType=hotsell_desc
              var shopIds = ["107823567"];
              var urls = shopIds.map(function (sId) {
              return "http://shop" + sId + ".taobao.com/search.htm?search=y&orderType=hotsell_desc";

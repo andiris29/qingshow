@@ -29,7 +29,7 @@ Page.prototype.startCrawl = function () {
 
 Page.prototype.stopCrawl = function () {
     this.isStart = false;
-}
+};
 
 Page.prototype._crawl = function() {
     var _this = this;
@@ -52,36 +52,23 @@ Page.prototype._crawl = function() {
                             callback('load fail.');
                         }
                     } else {
-                        var shopNames = [];
+                        var shopUrl = [];
                         for (var i = 0; i < lis$.length; i++) {
                             var dom = lis$[i];
-                            shopNames.push(dom.innerHTML);
+                            shopUrl.push($(dom).attr('href'));
                         }
 
                         //Filter Redundant shopName
-                        var filterShopNames = shopNames.filter(function (value, index) {
-                            return shopNames.indexOf(value) === index;
+                        var filterShopUrls = shopUrl.filter(function (value, index) {
+                            return shopUrl.indexOf(value) === index;
                         });
-
-                        //TODO http request
-                        $.getJSON('http://121.41.162.102:30001/services/feeding/chosen', {}, function (data){
-                            var topShops = data.topShops;
-                            //shopId;
-                            //http://shop{shop_id}.taobao.com/search.htm?search=y&orderType=hotsell_desc
-                            //http://shop107823567.taobao.com/search.htm?search=y&orderType=hotsell_desc
-                            var shopIds = ["107823567"];
-                            var urls = shopIds.map(function (sId) {
-                                return "http://shop" + sId + ".taobao.com/search.htm?search=y&orderType=hotsell_desc";
-                            });
-                            api.createSubCrawers(urls);
-                            callback(null, lis$);
-                        });
-
+                        api.createSubCrawers(filterShopUrls);
+                        callback();
                     }
                 };
                 load();
             },
-            function(lis$) {
+            function() {
                 var itemNext = $('.item.next');
                 if (!itemNext.hasClass('.next-disabled')) {
                     itemNext.click();
