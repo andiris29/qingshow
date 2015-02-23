@@ -23,14 +23,17 @@ public class MongoPeople implements Serializable {
     public int hairType;
     //    +birthday <date>
     public String favoriteBrand;
-    //    +userInfo
-    //    +userInfo.id
-    //    +userInfo.password
-    //    +userInfo.encryptedPassword
+    public UserInfo userInfo;
     //    +modelInfo
     //    +modelInfo.order
 
     private PeopleContext __context;
+
+    public class UserInfo implements Serializable {
+        public String id;
+        public String password;
+        public String encryptedPassword;
+    }
 
     public PeopleContext get__context() {
         return __context;

@@ -88,7 +88,7 @@ public class S05ItemActivity extends BaseActivity {
         ((Button)findViewById(R.id.S05_buy_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(index).getSource()));
+                /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.beforeParseNetworkResponse(items.get(index).getSource()));
                 startActivity(intent);*/
                 mWebViewRelativeLayout.setVisibility(View.VISIBLE);
 

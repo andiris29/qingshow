@@ -20,19 +20,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.adapter.P02ModelViewPagerAdapter;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -276,7 +275,7 @@ public class P02ModelActivity extends BaseActivity {
         followRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(AppUtil.getAppUserLoginStatus(P02ModelActivity.this)) {
+                if(QSModel.INSTANCE.loggedin()) {
                     followOrUnfollowTask();
                 } else {
                     Toast.makeText(P02ModelActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
@@ -313,7 +312,7 @@ public class P02ModelActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doShowsLoadMoreTask() {
@@ -344,7 +343,7 @@ public class P02ModelActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doFollowedRefreshDataTask() {
@@ -374,7 +373,7 @@ public class P02ModelActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doFollowedLoadMoreTask() {
@@ -404,7 +403,7 @@ public class P02ModelActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doFollowersRefreshDataTask() {
@@ -435,7 +434,7 @@ public class P02ModelActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doFollowersLoadMoreTask() {
@@ -467,7 +466,7 @@ public class P02ModelActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void followOrUnfollowTask() {
@@ -476,7 +475,6 @@ public class P02ModelActivity extends BaseActivity {
         } else {
             __followModel();
         }
-        QSApplication.get().refreshPeople(this);
     }
 
     private void __followModel() {
@@ -507,7 +505,7 @@ public class P02ModelActivity extends BaseActivity {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
     }
 
     private void __unFollowModel() {
@@ -538,7 +536,7 @@ public class P02ModelActivity extends BaseActivity {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

@@ -12,13 +12,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -109,7 +109,7 @@ public class P01ModelListActivity extends BaseActivity {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doLoadMoreData() {
@@ -135,7 +135,7 @@ public class P01ModelListActivity extends BaseActivity {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

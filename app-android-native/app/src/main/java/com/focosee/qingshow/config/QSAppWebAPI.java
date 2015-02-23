@@ -78,7 +78,11 @@ public class QSAppWebAPI {
         return BRAND_FOLLOWED_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getUerApi(String _id) {
+    public static String getUserApi() {
+        return GET_SERVICE_URL;
+    }
+
+    public static String getUserApi(String _id) {
         return GET_SERVICE_URL + "?id=" + _id;
     }
 

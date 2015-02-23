@@ -3,15 +3,12 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -25,28 +22,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.httpEntity.MultipartEntity;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.request.MultipartRequest;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
-import com.focosee.qingshow.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
 import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,7 +65,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     private Context context;
     private RequestQueue requestQueue;
-    private SharedPreferences sharedPreferences;
 
     private TextView backTextView;
     private RelativeLayout personalRelativeLayout;
@@ -124,7 +122,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         super.onActivityCreated(savedInstanceState);
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
-        sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
 
         getUser();
 
@@ -136,17 +133,17 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferences.edit().clear().commit();
+                QSApplication.instance().saveCookie("");
                 Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
                 getActivity().sendBroadcast(new Intent(U01PersonalActivity.LOGOUT_ACTOIN));
                 getActivity().finish();
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
+                QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-
+                                QSModel.INSTANCE.setUser(null);
                             }
                         }, new Response.ErrorListener() {
                     @Override
@@ -154,16 +151,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                         Log.e("TAG", error.getMessage(), error);
                     }
                 }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        String rawCookie = sharedPreferences.getString("Cookie", "");
-                        if (rawCookie != null && rawCookie.length() > 0) {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Cookie", rawCookie);
-                            return headers;
-                        }
-                        return super.getHeaders();
-                    }
                 };
                 requestQueue.add(stringRequest);
             }
@@ -258,7 +245,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             api = QSAppWebAPI.getUserUpdatebackground();
         }
         String API = api;
-        MultipartRequest multipartRequest = new MultipartRequest(Request.Method.POST,
+        QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
                 API, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -266,7 +253,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
-                    QSApplication.get().setPeople(user);
+                    QSModel.INSTANCE.setUser(user);
                     context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                 }
                 if(type == TYPE_PORTRAIT){
@@ -329,7 +316,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //获得用户信息
     private void getUser() {
 
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUerApi(sharedPreferences.getString("id", "")), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUserApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -347,7 +334,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 Toast.makeText(U02SettingsFragment.this.getActivity(), "网络请求错误", Toast.LENGTH_LONG).show();
             }
         });
-        QSApplication.get().QSRequestQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().add(jor);
 
     }
 
@@ -450,7 +437,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
-                    QSApplication.get().setPeople(user);
+                    QSModel.INSTANCE.setUser(user);
                     context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                 }
             }

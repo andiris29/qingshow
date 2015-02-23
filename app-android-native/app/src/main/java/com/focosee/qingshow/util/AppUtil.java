@@ -1,11 +1,11 @@
 package com.focosee.qingshow.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.app.QSApplication;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
@@ -15,22 +15,10 @@ public class AppUtil {
     private static DisplayImageOptions portraitDisplayOptions = null;
     private static DisplayImageOptions modelBackgroundDisplayOptions = null;
 
-    public static boolean getAppUserLoginStatus(Context context) {
-        SharedPreferences prefs;// = PreferenceManager.getDefaultSharedPreferences(context) ;
-        prefs = context.getSharedPreferences("personal", Context.MODE_PRIVATE);
-        String userId = prefs.getString("id", null);
-        return userId != null;
-    }
-
-    public static String getAppUserId(Context context) {
-        SharedPreferences preferences;
-        preferences = context.getSharedPreferences("personal", Context.MODE_PRIVATE);
-        return preferences.getString("_id", null);
-    }
-
     //获取版本号
-    public static String getAppVersionName(Context context) {
+    public static String getVersion() {
         try {
+            Context context = QSApplication.instance();
             PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {

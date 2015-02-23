@@ -11,11 +11,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S02ItemRandomAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemRandomParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -174,7 +174,7 @@ public class S02ShowClassify extends BaseActivity {
                 _pullRefreshListView.setHasMoreData(true);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().add(jor);
     }
 
 

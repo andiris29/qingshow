@@ -22,14 +22,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoComment;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MNavigationView;
@@ -113,8 +113,8 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
             }
         });
 
-        if(AppUtil.getAppUserLoginStatus(this) && null != QSApplication.get().getPeople()){
-            ImageLoader.getInstance().displayImage(QSApplication.get().getPeople().portrait, userImage);
+        if(QSModel.INSTANCE.loggedin()){
+            ImageLoader.getInstance().displayImage(QSModel.INSTANCE.getUser().portrait, userImage);
         }
         pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setScrollLoadEnabled(true);
@@ -184,7 +184,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 Log.i("test", error.toString());
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonArrayRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);
     }
 
     private void doRefreshTask() {
@@ -205,12 +205,12 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 Log.i("test", error.toString());
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonArrayRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);
     }
 
     private void postComment() {
 
-        if (! AppUtil.getAppUserLoginStatus(S04CommentActivity.this)) {
+        if (! QSModel.INSTANCE.loggedin()) {
             Toast.makeText(S04CommentActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
             return;
         }
@@ -240,7 +240,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 Toast.makeText(S04CommentActivity.this, "发布失败，" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void deleteComment() {
@@ -260,7 +260,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void setLastUpdateTime() {
@@ -287,7 +287,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
     }
 
     public void showActionSheet(int commentIndex) {
-        String userId = AppUtil.getAppUserId(S04CommentActivity.this);
+        String userId = QSModel.INSTANCE.getUser()._id;
         String commentUserId = adapter.getCommentAtIndex(commentIndex).getUserId();
 
         clickCommentIndex = commentIndex;

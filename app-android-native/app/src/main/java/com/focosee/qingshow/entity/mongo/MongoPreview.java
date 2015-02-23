@@ -67,7 +67,7 @@ public class MongoPreview implements Serializable {
     }
 
 
-    public class Image {
+    public class Image implements Serializable {
         public String url;
         public String description;
     }

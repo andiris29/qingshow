@@ -3,9 +3,7 @@ package com.focosee.qingshow.activity;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +17,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -33,7 +31,6 @@ import java.util.HashMap;
 public class U02ChangePasswordFragment extends Fragment {
     private Context context;
     private RequestQueue requestQueue;
-    private SharedPreferences sharedPreferences;
 
     private EditText currentPasswordEditText;
     private EditText newPasswordEditText;
@@ -57,7 +54,6 @@ public class U02ChangePasswordFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
-        sharedPreferences = getActivity().getSharedPreferences("personal", Context.MODE_PRIVATE);
 
         currentPasswordEditText = (EditText) getActivity().findViewById(R.id.currentPasswordEditText);
         newPasswordEditText = (EditText) getActivity().findViewById(R.id.newPasswordEditText);
@@ -80,8 +76,8 @@ public class U02ChangePasswordFragment extends Fragment {
                     Toast.makeText(context, "请确认两次输入密码是否一致", Toast.LENGTH_LONG).show();
                 } else {
                     HashMap<String, String> params = new HashMap<String, String>();
-                    params.put("currentPassword", newPasswordEditText.getText().toString());
-                    params.put("password", sharedPreferences.getString("password", ""));
+                    params.put("currentPassword", currentPasswordEditText.getText().toString());
+                    params.put("password", newPasswordEditText.getText().toString());
 
                     QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
                         @Override
@@ -90,7 +86,7 @@ public class U02ChangePasswordFragment extends Fragment {
                             if (user == null) {
                                 ErrorHandler.handle(context, MetadataParser.getError(response));
                             } else {
-                                QSApplication.get().setPeople(user);
+                                QSModel.INSTANCE.setUser(user);
 //                                U02SettingsFragment settingsFragment = new U02SettingsFragment();
 //                                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
                                 Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
@@ -112,6 +108,7 @@ public class U02ChangePasswordFragment extends Fragment {
         super.onResume();
         MobclickAgent.onPageStart("U08ChangePassword"); //统计页面
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd("U08ChangePassword");

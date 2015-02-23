@@ -1,11 +1,10 @@
-package com.focosee.qingshow.request;
+package com.focosee.qingshow.httpapi.request;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.focosee.qingshow.app.QSApplication;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,13 +29,13 @@ public class QSStringRequest extends StringRequest {
 
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
-        Map<String, String> headers = super.getHeaders();
-        if (headers == null || headers.equals(Collections.emptyMap())) {
-            headers = new HashMap<String, String>();
-        }
-        QSApplication.get().addSessionCookie(headers);
-        headers.put("version", QSApplication.get().getVersionName());
-        return headers;
+        return RequestHelper.beforeGetHeaders(super.getHeaders());
+    }
+
+    @Override
+    protected Response<String> parseNetworkResponse(NetworkResponse response) {
+        RequestHelper.beforeParseNetworkResponse(response.headers);
+        return super.parseNetworkResponse(response);
     }
 
     @Override

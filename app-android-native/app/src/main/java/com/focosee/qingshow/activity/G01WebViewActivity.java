@@ -15,7 +15,7 @@ import com.focosee.qingshow.R;
 /**
  * Created by Chenhr on 15/1/28.
  */
-public class WebViewActivity extends BaseActivity{
+public class G01WebViewActivity extends BaseActivity{
 
     public static final String URL = "WebViewActivity";
 
@@ -36,7 +36,7 @@ public class WebViewActivity extends BaseActivity{
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WebViewActivity.this.finish();
+                G01WebViewActivity.this.finish();
             }
         });
 
@@ -51,7 +51,7 @@ public class WebViewActivity extends BaseActivity{
         webSettings.setJavaScriptEnabled(true);
         mWebView.setWebViewClient(new WebViewClient() {
 
-            final ProgressDialog progressDialog = new ProgressDialog(WebViewActivity.this);
+            final ProgressDialog progressDialog = new ProgressDialog(G01WebViewActivity.this);
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;

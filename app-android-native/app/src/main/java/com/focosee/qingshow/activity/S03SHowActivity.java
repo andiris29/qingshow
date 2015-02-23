@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,14 +24,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.config.ShareConfig;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
 import com.focosee.qingshow.share.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -177,7 +174,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                 Log.i("S03ShowActivity", error.toString());
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void clickLikeShowButton() {
@@ -203,7 +200,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                         setLikedImageButtonBackgroundImage();
                         likedImageButton.setClickable(true);
                         showListEntity.numLike = showDetailEntity.numLike;
-                        QSApplication.get().refreshPeople(S03SHowActivity.this);
                     } else {
                         handleResponseError(response);
 //                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败");
@@ -219,7 +215,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void setLikedImageButtonBackgroundImage() {

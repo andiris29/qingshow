@@ -16,13 +16,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -159,7 +159,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
     }
 
     private void unFollowModel(final Button v) {
@@ -195,7 +195,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
     }
 
     private void showMessage(Context context, String message) {

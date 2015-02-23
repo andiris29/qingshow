@@ -11,17 +11,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
@@ -68,7 +67,7 @@ public class U01PersonalActivity extends FragmentActivity {
                 finish();
             }
             if(USER_UPDATE.equals(intent.getAction())){
-                people = QSApplication.get().getPeople();
+                people = QSModel.INSTANCE.getUser();
                 Toast.makeText(getApplicationContext(), people.getBackground(), Toast.LENGTH_LONG).show();
             }
         }
@@ -86,15 +85,15 @@ public class U01PersonalActivity extends FragmentActivity {
         } else if (null != mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL)) {
             people = (MongoPeople) mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL);
         } else {//本人
-            people = QSApplication.get().getPeople();
+            people = QSModel.INSTANCE.getUser();
         }
 
 
         if (people != null) {
-            if (!AppUtil.getAppUserLoginStatus(this)){
+            if (!QSModel.INSTANCE.loggedin()){
                 peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
             }else {
-                if (people.get_id().equals(QSApplication.get().getPeople().get_id())) {
+                if (people.get_id().equals(QSModel.INSTANCE.getUser().get_id())) {
                     peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
                 }
             }

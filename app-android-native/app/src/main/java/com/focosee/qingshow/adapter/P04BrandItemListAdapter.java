@@ -16,13 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.WebViewActivity;
+import com.focosee.qingshow.activity.G01WebViewActivity;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.UmengCountUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -100,8 +98,8 @@ public class P04BrandItemListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 int position = Integer.parseInt(v.getTag().toString());
-                Intent intent  = new Intent(context, WebViewActivity.class);
-                intent.putExtra(WebViewActivity.URL, itemList.get(position).getSource());
+                Intent intent  = new Intent(context, G01WebViewActivity.class);
+                intent.putExtra(G01WebViewActivity.URL, itemList.get(position).getSource());
                 context.startActivity(intent);
             }
         });

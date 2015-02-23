@@ -12,12 +12,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -125,7 +125,7 @@ public class P03BrandListActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void refreshData() {
@@ -149,7 +149,7 @@ public class P03BrandListActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

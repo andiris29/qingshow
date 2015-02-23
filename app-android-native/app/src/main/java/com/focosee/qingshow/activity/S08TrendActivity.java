@@ -15,11 +15,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S08TrendListAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPreview;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.PreviewParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -157,7 +157,7 @@ public class S08TrendActivity extends BaseActivity {
             }
         });
         //Toast.makeText(this,jor.get,Toast.LENGTH_LONG).show();
-        QSApplication.get().QSRequestQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().add(jor);
 
 
     }

@@ -23,18 +23,19 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P04BrandItemListAdapter;
 import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.code.RolesCode;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoBrand;
 import com.focosee.qingshow.entity.mongo.MongoItem;
 import com.focosee.qingshow.entity.mongo.MongoPeople;
 import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemFeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -265,7 +266,7 @@ public class P04BrandActivity extends BaseActivity {
         followRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(AppUtil.getAppUserLoginStatus(P04BrandActivity.this)) {
+                if(QSModel.INSTANCE.loggedin()) {
                     followOrUnfollowTask();
                 }else{
                     Toast.makeText(P04BrandActivity.this, "请先登录！", Toast.LENGTH_SHORT).show();
@@ -302,7 +303,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void configNewestShowListPage() {
@@ -551,7 +552,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doNewestLoadMoreTask() {
@@ -582,7 +583,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doDiscountRefreshDataTask() {
@@ -616,7 +617,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doDiscountLoadMoreTask() {
@@ -647,7 +648,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doShowRefreshTask(){ showsGetNetTask("1", true);}
@@ -691,7 +692,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doFollowersRefreshDataTask() {
@@ -726,7 +727,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void doFollowersLoadMoreTask() {
@@ -756,7 +757,7 @@ public class P04BrandActivity extends BaseActivity {
                 handleErrorMsg(error);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void followOrUnfollowTask() {
@@ -796,7 +797,7 @@ public class P04BrandActivity extends BaseActivity {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
     }
 
     private void __unFollowModel() {
@@ -827,7 +828,7 @@ public class P04BrandActivity extends BaseActivity {
             }
         });
 
-        QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
     }
 
     private void handleErrorMsg(VolleyError error) {

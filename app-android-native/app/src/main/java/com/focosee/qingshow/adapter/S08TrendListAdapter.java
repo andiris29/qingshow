@@ -22,11 +22,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoPreview;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
@@ -241,7 +241,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                         }
                     });
 
-                    QSApplication.get().QSRequestQueue().add(mJsonObjectRequest);
+                    RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
 
                 }
             }

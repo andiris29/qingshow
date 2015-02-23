@@ -28,11 +28,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
-import com.focosee.qingshow.app.QSApplication;
 import com.focosee.qingshow.config.QSAppWebAPI;
 import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
-import com.focosee.qingshow.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -312,7 +313,7 @@ public class S01HomeActivity extends BaseActivity {
                 }
             }
         });
-        QSApplication.get().QSRequestQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().add(jor);
     }
 
 
@@ -412,7 +413,7 @@ public class S01HomeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(S01HomeActivity.this,
-                        (AppUtil.getAppUserLoginStatus(S01HomeActivity.this))
+                        (QSModel.INSTANCE.loggedin())
                                 ? U01PersonalActivity.class : U07RegisterActivity.class);
 
                 startActivity(intent);
