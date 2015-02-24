@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
-import com.focosee.qingshow.entity.mongo.MongoBrand;
-import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoBrand;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;

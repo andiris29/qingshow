@@ -1,7 +1,7 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
-import com.focosee.qingshow.entity.mongo.MongoItem;
-import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.response.dataparser.deserializer.MongoItemIdDeserializer;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;

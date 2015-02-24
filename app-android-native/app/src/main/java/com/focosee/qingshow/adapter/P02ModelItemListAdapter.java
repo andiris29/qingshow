@@ -7,11 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
-import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;

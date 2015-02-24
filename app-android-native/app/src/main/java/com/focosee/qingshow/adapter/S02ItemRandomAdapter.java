@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +12,14 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P04BrandActivity;
-import com.focosee.qingshow.entity.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;

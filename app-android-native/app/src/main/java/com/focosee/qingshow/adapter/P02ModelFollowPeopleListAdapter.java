@@ -16,10 +16,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
-import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
-import com.focosee.qingshow.code.RolesCode;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.constants.code.RolesCode;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -43,7 +43,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
     }
 
     private P02ModelActivity p02ModelActivity;
-    private int type = PeopleTypeInU01PersonalActivity.NOREMOVEITEM.getIndx();
+    private int type = PeopleTypeInU01PersonalActivity.NOREMOVEITEM.getIndex();
 
     public P02ModelFollowPeopleListAdapter(Context context, ArrayList<MongoPeople> data) {
         this.context = context;
@@ -175,7 +175,7 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
                         showMessage(context, "取消关注成功");
                         int position = Integer.valueOf(v.getTag().toString()).intValue();
                         data.get(position).setModelIsFollowedByCurrentUser(false);
-                        if (type == (PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) && null != p02ModelActivity) {
+                        if (type == (PeopleTypeInU01PersonalActivity.MYSELF.getIndex()) && null != p02ModelActivity) {
                             data.remove(position);
                             notifyDataSetChanged();
                             p02ModelActivity.refreshWatchNum();

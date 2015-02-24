@@ -22,10 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
-import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
-import com.focosee.qingshow.code.RolesCode;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.mongo.MongoComment;
+import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.constants.code.RolesCode;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
@@ -330,7 +330,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                     }
                 }
                 viewMainPageIntent.setClass(S04CommentActivity.this, U01PersonalActivity.class);
-                U01PersonalActivity.peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
+                U01PersonalActivity.peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
                 startActivity(viewMainPageIntent);
                 break;
             case 1:

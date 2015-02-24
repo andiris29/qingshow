@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.command.Callback;
-import com.focosee.qingshow.activity.command.UserCommand;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.umeng.analytics.MobclickAgent;
 
 public class LaunchActivity extends BaseActivity {

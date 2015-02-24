@@ -5,7 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.QSApplication;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 

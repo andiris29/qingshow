@@ -1,6 +1,6 @@
 package com.focosee.qingshow.httpapi.request;
 
-import com.focosee.qingshow.app.QSApplication;
+import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
 
 import java.util.Collections;
@@ -36,13 +36,13 @@ public class RequestHelper {
             String key = (String) iterator.next();
             if (COOKIE_KEY_RES.equalsIgnoreCase(key)) {
                 String cookie = headers.get(key);
-                QSApplication.instance().saveCookie(cookie);
+                CookieSerializer.INSTANCE.saveCookie(cookie);
             }
         }
     }
 
     private static void _appendCookie(Map<String, String> headers) {
-        String cookie = QSApplication.instance().loadCookie();
+        String cookie = CookieSerializer.INSTANCE.loadCookie();
         if (cookie.length() > 0) {
             headers.put(COOKIE_KEY_REQ, cookie);
         }

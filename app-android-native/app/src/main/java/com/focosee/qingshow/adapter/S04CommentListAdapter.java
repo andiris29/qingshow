@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.mongo.MongoComment;
+import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;

@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;

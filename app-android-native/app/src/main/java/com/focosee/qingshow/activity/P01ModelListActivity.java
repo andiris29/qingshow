@@ -12,9 +12,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
-import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
@@ -59,7 +59,7 @@ public class P01ModelListActivity extends BaseActivity {
 
         listView = pullRefreshListView.getRefreshableView();
 
-        adapter = new P01ModelListAdapter(this, new ArrayList<MongoPeople>(), ImageLoader.getInstance(), PeopleTypeInU01PersonalActivity.NOREMOVEITEM.getIndx());
+        adapter = new P01ModelListAdapter(this, new ArrayList<MongoPeople>(), ImageLoader.getInstance(), PeopleTypeInU01PersonalActivity.NOREMOVEITEM.getIndex());
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

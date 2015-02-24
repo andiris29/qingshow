@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.QSModel;
 import com.umeng.analytics.MobclickAgent;
 

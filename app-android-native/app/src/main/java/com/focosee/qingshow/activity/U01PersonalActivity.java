@@ -18,8 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.code.PeopleTypeInU01PersonalActivity;
-import com.focosee.qingshow.entity.mongo.MongoPeople;
+import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,7 +58,7 @@ public class U01PersonalActivity extends FragmentActivity {
 
     private MongoPeople people;
 
-    public static int peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
+    public static int peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -91,10 +91,10 @@ public class U01PersonalActivity extends FragmentActivity {
 
         if (people != null) {
             if (!QSModel.INSTANCE.loggedin()){
-                peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndx();
+                peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
             }else {
                 if (people.get_id().equals(QSModel.INSTANCE.getUser().get_id())) {
-                    peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
+                    peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
                 }
             }
         } else {
@@ -108,7 +108,7 @@ public class U01PersonalActivity extends FragmentActivity {
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndx();
+                peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
                 finish();
             }
         });
@@ -122,7 +122,7 @@ public class U01PersonalActivity extends FragmentActivity {
         });
 
 
-        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) {
+        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndex()) {
             settingsTextView.setVisibility(View.GONE);
         }
 
@@ -190,7 +190,7 @@ public class U01PersonalActivity extends FragmentActivity {
     public void matchUI() {
         backTextView = (ImageView) findViewById(R.id.activity_personal_backTextView);
         settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
-        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndx()) {//不是本人
+        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndex()) {//不是本人
             settingsTextView.setVisibility(View.GONE);
         }
         matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);

@@ -1,6 +1,6 @@
 package com.focosee.qingshow.httpapi.response;
 
-import com.focosee.qingshow.entity.metadata.PagingMetadata;
+import com.focosee.qingshow.model.vo.metadata.PagingMetadata;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

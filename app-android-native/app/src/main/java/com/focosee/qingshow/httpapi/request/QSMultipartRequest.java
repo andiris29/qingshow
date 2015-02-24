@@ -7,7 +7,6 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.focosee.qingshow.entity.httpEntity.MultipartEntity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -19,7 +18,7 @@ import java.util.Map;
  */
 public class QSMultipartRequest extends Request<String> {
 
-    MultipartEntity mMultiPartEntity = new MultipartEntity();
+    QSMultipartEntity mMultiPartEntity = new QSMultipartEntity();
     Response.Listener<String> mListener;
 
     public QSMultipartRequest(int method, String url, Response.Listener<String> mListener, Response.ErrorListener listener) {
@@ -30,7 +29,7 @@ public class QSMultipartRequest extends Request<String> {
     /**
      * @return
      */
-    public MultipartEntity getMultiPartEntity() {
+    public QSMultipartEntity getMultiPartEntity() {
         return mMultiPartEntity;
     }
 

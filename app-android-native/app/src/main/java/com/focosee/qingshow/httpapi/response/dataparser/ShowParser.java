@@ -1,6 +1,6 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
-import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

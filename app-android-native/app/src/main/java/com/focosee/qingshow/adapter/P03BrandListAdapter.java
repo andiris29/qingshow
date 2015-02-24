@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P04BrandActivity;
-import com.focosee.qingshow.entity.mongo.MongoBrand;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;

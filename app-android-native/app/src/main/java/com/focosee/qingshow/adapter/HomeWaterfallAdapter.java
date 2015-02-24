@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
-import com.focosee.qingshow.entity.mongo.MongoShow;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;

@@ -28,18 +28,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.httpEntity.MultipartEntity;
-import com.focosee.qingshow.entity.mongo.MongoPeople;
-import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
+import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -133,7 +133,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                QSApplication.instance().saveCookie("");
+                CookieSerializer.INSTANCE.saveCookie("");
                 Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
@@ -271,7 +271,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 // 获取MultipartEntity对象
-        MultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
+        QSMultipartEntity multipartEntity = multipartRequest.getMultiPartEntity();
         multipartEntity.addStringPart("content", "hello");
 // 文件参数
         File file = new File(imgUri);
