@@ -33,46 +33,47 @@ goblin.queryTOPShops = {
                 }).exec(function (err, shops) {
                     topShops = shops;
                     // Parse new nicks
-                    var newNicks = nicks.filter(function (n) {
-                        return !shops.some(function (s) {
-                            return s.nick === n;
-                        });
-                    });
-                    callback(null, newNicks);
+//                    var newNicks = nicks.filter(function (n) {
+//                        return !shops.some(function (s) {
+//                            return s.nick === n;
+//                        });
+//                    });
+                    callback(null);
                 });
-            },
-            function (newNicks, callback) {
-                var tasks = [];
-                newNicks.forEach(function (nick) {
-                    tasks.push(function (callback) {
-                        // Query top
-                        taobaoAPI.shop.get({
-                            'nick' : nick,
-                            'fields' : 'sid,nick,title,desc,pic_path,shop_score'
-                        }, function (err, result) {
-                            if (err) {
-                                callback();
-                                return;
-                            }
-
-                            try {
-                                result.shop_get_response.shop.shop_score.delivery_score =
-                                    parseFloat(result.shop_get_response.shop.shop_score.delivery_score);
-                                result.shop_get_response.shop.shop_score.item_score =
-                                    parseFloat(result.shop_get_response.shop.shop_score.item_score);
-                                result.shop_get_response.shop.shop_score.service_score =
-                                    parseFloat(result.shop_get_response.shop.shop_score.service_score);
-                            } catch (e) { }
-
-                            var s = new TopShop(result.shop_get_response.shop);
-                            topShops.push(s);
-                            console.log(JSON.stringify(result.shop_get_response, null, 4));
-                            s.save(callback);
-                        });
-                    });
-                });
-                async.parallel(tasks, callback);
-            }], function (err) {
+            }
+//            ,function (newNicks, callback) {
+//                var tasks = [];
+//                newNicks.forEach(function (nick) {
+//                    tasks.push(function (callback) {
+//                        // Query top
+//                        taobaoAPI.shop.get({
+//                            'nick' : nick,
+//                            'fields' : 'sid,nick,title,desc,pic_path,shop_score'
+//                        }, function (err, result) {
+//                            if (err) {
+//                                callback();
+//                                return;
+//                            }
+//
+//                            try {
+//                                result.shop_get_response.shop.shop_score.delivery_score =
+//                                    parseFloat(result.shop_get_response.shop.shop_score.delivery_score);
+//                                result.shop_get_response.shop.shop_score.item_score =
+//                                    parseFloat(result.shop_get_response.shop.shop_score.item_score);
+//                                result.shop_get_response.shop.shop_score.service_score =
+//                                    parseFloat(result.shop_get_response.shop.shop_score.service_score);
+//                            } catch (e) { }
+//
+//                            var s = new TopShop(result.shop_get_response.shop);
+//                            topShops.push(s);
+//                            console.log(JSON.stringify(result.shop_get_response, null, 4));
+//                            s.save(callback);
+//                        });
+//                    });
+//                });
+//                async.parallel(tasks, callback);
+//            }
+        ], function (err) {
             ResponseHelper.response(res, err, {
                 'topShops' : topShops
             });

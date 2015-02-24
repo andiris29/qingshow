@@ -73,6 +73,17 @@ Page.prototype._crawl = function() {
                             hotSales.push(sale);
                         }
                         //TODO parse sid
+                        var shopId = window.shop_config.shopId;
+                        var scriptTags = $('head script');
+                        for (var i = 0; i < scriptTags.length; i++) {
+                            var scr = scriptTags[i];
+                            if (scr.innerText.indexOf('shop_config') !== -1) {
+                                var shopConfigScript = scr.innerText;
+                                eval(shopConfigScript);
+                            }
+                        }
+
+
                         var shopEntity = {
                             nick : nick,
                             __context : {
