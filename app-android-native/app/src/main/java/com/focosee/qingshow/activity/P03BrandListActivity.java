@@ -77,16 +77,6 @@ public class P03BrandListActivity extends BaseActivity {
         adapter = new P03BrandListAdapter(this, new ArrayList<MongoBrand>(), ImageLoader.getInstance());
 
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(P03BrandListActivity.this, P04BrandActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, ((MongoBrand) adapter.getItem(position)));
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
 
         pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override

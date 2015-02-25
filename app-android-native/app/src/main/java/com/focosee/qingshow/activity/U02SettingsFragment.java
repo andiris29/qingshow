@@ -95,7 +95,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private EditText nameEditText;
     private TextView sexTextView;
     private EditText birthEditText;
-    private DatePicker datePicker;
     private EditText heightEditText;
     private EditText weightEditText;
     private EditText hairTextView;
@@ -508,24 +507,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onClick(View view) {
                 getActivity().setTheme(R.style.ActionSheetStyleIOS7);
                 showActionSheet(TAG_HAIR);
-            }
-        });
-        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
-        shoeSizeLayout.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(TAG_SHOESIZE);
-            }
-        });
-        clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
-        clothSizeLayout.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(TAG_CLOTHESSIZE);
             }
         });
         birthRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.birthRelativeLayout);
