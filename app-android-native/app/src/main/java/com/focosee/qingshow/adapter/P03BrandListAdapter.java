@@ -26,7 +26,6 @@ class P03BrandHolderView {
     public MImageView_OriginSize brandSlogan;
     public ImageView brandPortrait;
     public TextView brandName;
-    public TextView brandDescription;
     public ImageView detailButton;
 }
 
@@ -69,7 +68,6 @@ public class P03BrandListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
             holderView = new P03BrandHolderView();
             holderView.brandName = (TextView) convertView.findViewById(R.id.item_brand_name);
-            //holderView.brandDescription = (TextView) convertView.findViewById(R.id.item_brand_description);
             convertView.setTag(holderView);
         }
         holderView = (P03BrandHolderView) convertView.getTag();
@@ -79,53 +77,8 @@ public class P03BrandListAdapter extends BaseAdapter {
 
         holderView.brandSlogan.setOriginWidth(this.data.get(position).getCoverWidth());
         holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());
-        final ImageView brandPortrait = holderView.brandPortrait;
-        this.imageLoader.loadImage(this.data.get(position).getBrandLogo(),new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                brandPortrait.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                brandPortrait.setImageBitmap(loadedImage);
-                brandPortrait.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        });
-        final ImageView brandSlogan = holderView.brandSlogan;
-        this.imageLoader.loadImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()),new ImageLoadingListener(){
-
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                brandSlogan.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-            }
-
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                brandSlogan.setImageBitmap(loadedImage);
-                brandSlogan.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-
-            }
-        });
+        this.imageLoader.loadImage(this.data.get(position).getBrandLogo(),new P03ImageLoadingListener(holderView.brandPortrait));
+        this.imageLoader.loadImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()),new P03ImageLoadingListener(holderView.brandSlogan));
         holderView.brandName.setText(this.data.get(position).getBrandName());
         holderView.detailButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -138,7 +91,6 @@ public class P03BrandListAdapter extends BaseAdapter {
                 context.startActivity(intent);
             }
         });
-        //holderView.brandDescription.setText(this.data.get(position).getBrandDescription());
         return convertView;
     }
 
@@ -148,6 +100,37 @@ public class P03BrandListAdapter extends BaseAdapter {
 
     public void addData(ArrayList<MongoBrand> moreData) {
         this.data.addAll(moreData);
+    }
+
+    class P03ImageLoadingListener implements ImageLoadingListener{
+
+        private ImageView myView = null;
+
+        public P03ImageLoadingListener(ImageView view){
+            this.myView = view;
+        }
+
+        @Override
+        public void onLoadingStarted(String imageUri, View view) {
+            myView.setVisibility(View.INVISIBLE);
+
+        }
+
+        @Override
+        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+        }
+
+        @Override
+        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            myView.setImageBitmap(loadedImage);
+            myView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onLoadingCancelled(String imageUri, View view) {
+
+        }
     }
 
 }
