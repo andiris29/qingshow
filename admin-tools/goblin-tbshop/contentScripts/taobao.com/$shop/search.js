@@ -75,7 +75,7 @@ Page.prototype._crawl = function() {
                             };
                             hotSales.push(sale);
                         }
-                        
+
                         var shopId = window.shop_config.shopId;
                         var scriptTags = $('head script');
                         for (var i = 0; i < scriptTags.length; i++) {

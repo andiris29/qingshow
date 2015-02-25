@@ -171,8 +171,9 @@ goblin.refreshItemTaobaoInfo = {
                 "item" : item
             });
         });
-    },
-    permissionValidators : ['loginValidator'] //TODO
+    }
+//    ,
+//    permissionValidators : ['loginValidator'] //TODO
 };
 
 goblin.batchRefreshItemTaobaoInfo = {
@@ -192,7 +193,6 @@ goblin.batchRefreshItemTaobaoInfo = {
             },
             function (callback) {
                 //query items
-                //TODO handle time
                 var time = null;
                 if (qsParam.startDate) {
                     time = RequestHelper.parseDate(qsParam.startDate);
@@ -227,6 +227,7 @@ goblin.batchRefreshItemTaobaoInfo = {
                 "items" : items
             });
         });
-    },
-    permissionValidators : ['adminValidator']
+    }
+//    ,
+//    permissionValidators : ['adminValidator']
 };
