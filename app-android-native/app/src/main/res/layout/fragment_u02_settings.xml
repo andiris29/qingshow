@@ -196,13 +196,13 @@
             android:background="@color/line_activity_settings" />
 
         <RelativeLayout
-            android:id="@+id/ageRelativeLayout"
+            android:id="@+id/birthRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
 
             <TextView
-                android:id="@+id/ageTextView"
+                android:id="@+id/birthDayTextView"
                 android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -212,20 +212,28 @@
                 android:textSize="@dimen/text_size" />
 
             <EditText
-                android:id="@+id/ageEditText"
+                android:id="@+id/birthDayEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
-                android:layout_toRightOf="@id/ageTextView"
+                android:layout_toRightOf="@id/birthDayTextView"
                 android:background="@null"
-                android:hint="请填写年龄"
+                android:hint="请选择出生日期"
+                android:focusable="false"
+                android:enabled="false"
+                android:clickable="false"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
                 android:textColorHint="#C7C7CD" />
-        </RelativeLayout>
 
+        </RelativeLayout>
+        <!--<DatePicker-->
+            <!--android:id="@+id/datePicker"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:visibility="visible"></DatePicker>-->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

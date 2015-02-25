@@ -15,7 +15,7 @@ public class MongoPeople implements Serializable {
     public String background;
     public String height;
     public String weight;
-
+    public String birthday;
     public int job;
     public int shoeSize;
     public int clothingSize;

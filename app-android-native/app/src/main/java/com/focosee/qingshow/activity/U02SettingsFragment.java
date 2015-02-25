@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
@@ -41,12 +44,16 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +76,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private TextView backTextView;
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
+    private RelativeLayout birthRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
     private RelativeLayout shoeSizeLayout;
@@ -85,7 +93,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     private EditText nameEditText;
     private TextView sexTextView;
-    private EditText ageEditText;
+    private EditText birthEditText;
+    private DatePicker datePicker;
     private EditText heightEditText;
     private EditText weightEditText;
     private EditText hairTextView;
@@ -172,8 +181,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
         sexTextView = (TextView) getActivity().findViewById(R.id.sexTextView);
 
-        ageEditText = (EditText) getActivity().findViewById(R.id.ageEditText);
-        ageEditText.setOnFocusChangeListener(this);
+        birthEditText = (EditText) getActivity().findViewById(R.id.birthDayEditText);
+        birthEditText.setOnFocusChangeListener(this);
 
         heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
         heightEditText.setOnFocusChangeListener(this);
@@ -256,10 +265,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     QSModel.INSTANCE.setUser(user);
                     context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                 }
-                if(type == TYPE_PORTRAIT){
+                if (type == TYPE_PORTRAIT) {
                     ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getPortraitDisplayOptions());
                 }
-                if(type == TYPE_BACKGROUD){
+                if (type == TYPE_BACKGROUD) {
                     ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getModelBackgroundDisplayOptions());
                 }
             }
@@ -293,7 +302,12 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
 
             nameEditText.setText(people.name);
-            ageEditText.setText("");
+            if (!("".equals(people.birthday) || null == people.birthday)) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Calendar calendar = TimeUtil.getStringToCal(people.birthday);
+                Date date = calendar.getTime();
+                birthEditText.setText(simpleDateFormat.format(date));
+            }
             heightEditText.setText(people.height);
             weightEditText.setText(people.weight);
             sexTextView.setText(sexArgs[people.gender]);
@@ -311,6 +325,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         commitForm();
+        getUser();
+        UserCommand.refresh();
     }
 
     //获得用户信息
@@ -408,8 +424,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         Map<String, String> params = new HashMap<String, String>();
         if (!nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
-        if (!ageEditText.getText().toString().equals(""))
-            params.put("age", ageEditText.getText().toString());
+        if (!birthEditText.getTag().toString().equals("")) {
+            params.put("birthday", birthEditText.getTag().toString());
+        }
         if (!heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
         if (!weightEditText.getText().toString().equals(""))
@@ -498,6 +515,31 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 showActionSheet(TAG_HAIR);
             }
         });
+        birthRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.birthRelativeLayout);
+        birthRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Date date = new Date();
+                String[] dateStr = new String[3];
+                if (!("".equals(people.birthday) || null == people.birthday)) {
+
+                    String dateString = birthEditText.getText().toString();
+                    dateStr = dateString.split("/");
+                }
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
+                        birthEditText.setText(i + "/" + (i2 + 1) + "/" + i3);
+                        birthEditText.setTag(datePicker.getDrawingTime());
+                        commitForm();
+                    }
+                }, Integer.parseInt(dateStr[0]), Integer.parseInt(dateStr[1])-1, Integer.parseInt(dateStr[2]));
+
+                datePickerDialog.show();
+            }
+        });
+
 //        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
 //        shoeSizeLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -520,7 +562,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in,0,R.anim.push_left_in,0).replace(R.id.settingsScrollView, fragment).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).replace(R.id.settingsScrollView, fragment).commit();
             }
         });
         changeEmailRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changeEmailRelativeLayout);
