@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
 
@@ -76,9 +79,53 @@ public class P03BrandListAdapter extends BaseAdapter {
 
         holderView.brandSlogan.setOriginWidth(this.data.get(position).getCoverWidth());
         holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());
+        final ImageView brandPortrait = holderView.brandPortrait;
+        this.imageLoader.loadImage(this.data.get(position).getBrandLogo(),new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                brandPortrait.setVisibility(View.INVISIBLE);
+            }
 
-        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(), holderView.brandPortrait);
-        this.imageLoader.displayImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()), holderView.brandSlogan);
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                brandPortrait.setImageBitmap(loadedImage);
+                brandPortrait.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
+            }
+        });
+        final ImageView brandSlogan = holderView.brandSlogan;
+        this.imageLoader.loadImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()),new ImageLoadingListener(){
+
+            @Override
+            public void onLoadingStarted(String imageUri, View view) {
+                brandSlogan.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                brandSlogan.setImageBitmap(loadedImage);
+                brandSlogan.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoadingCancelled(String imageUri, View view) {
+
+            }
+        });
         holderView.brandName.setText(this.data.get(position).getBrandName());
         holderView.detailButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -102,4 +149,5 @@ public class P03BrandListAdapter extends BaseAdapter {
     public void addData(ArrayList<MongoBrand> moreData) {
         this.data.addAll(moreData);
     }
+
 }
