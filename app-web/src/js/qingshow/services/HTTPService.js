@@ -1,6 +1,7 @@
 // @formatter:off
 define([
-], function() {
+    'qingshow/core/VERSION'
+], function(VERSION) {
 // @formatter:on
     var HTTPService = {};
 
@@ -23,6 +24,8 @@ define([
             callback = data;
             data = null;
         }
+        data = data || {};
+        data.version = VERSION;
         // Transform data to requestable
         for (var key in data) {
             if (data[key] instanceof Array) {
