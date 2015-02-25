@@ -3,6 +3,8 @@ package com.focosee.qingshow.util;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.QSApplication;
@@ -14,6 +16,7 @@ public class AppUtil {
     private static DisplayImageOptions showDisplayOptions = null;
     private static DisplayImageOptions portraitDisplayOptions = null;
     private static DisplayImageOptions modelBackgroundDisplayOptions = null;
+    private static DisplayImageOptions simapleDisplayOptions = null;
 
     //获取版本号
     public static String getVersion() {
@@ -56,6 +59,18 @@ public class AppUtil {
                     .build();
         }
         return portraitDisplayOptions;
+    }
+
+    public static DisplayImageOptions getSimapleDisplayOptions(){
+        if (null == simapleDisplayOptions){
+            simapleDisplayOptions = new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.root_input_backgound)
+                    .showImageForEmptyUri(R.drawable.root_input_backgound)
+                    .showImageOnFail(R.drawable.root_input_backgound)
+                    .cacheInMemory(true)
+                    .cacheOnDisk(true).build();
+        }
+        return simapleDisplayOptions;
     }
 
     public static DisplayImageOptions getModelBackgroundDisplayOptions() {

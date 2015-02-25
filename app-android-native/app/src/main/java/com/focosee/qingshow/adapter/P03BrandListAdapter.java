@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P04BrandActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -68,17 +69,18 @@ public class P03BrandListAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
             holderView = new P03BrandHolderView();
             holderView.brandName = (TextView) convertView.findViewById(R.id.item_brand_name);
+            holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
+            holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
+            holderView.detailButton = (ImageView) convertView.findViewById(R.id.item_brand_detail);
             convertView.setTag(holderView);
         }
         holderView = (P03BrandHolderView) convertView.getTag();
-        holderView.brandSlogan = (MImageView_OriginSize) convertView.findViewById(R.id.item_brand_slogan);
-        holderView.brandPortrait = (ImageView) convertView.findViewById(R.id.item_brand_portrait);
-        holderView.detailButton = (ImageView) convertView.findViewById(R.id.item_brand_detail);
+
 
         holderView.brandSlogan.setOriginWidth(this.data.get(position).getCoverWidth());
         holderView.brandSlogan.setOriginHeight(this.data.get(position).getCoverHeight());
-        this.imageLoader.loadImage(this.data.get(position).getBrandLogo(),new P03ImageLoadingListener(holderView.brandPortrait));
-        this.imageLoader.loadImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()),new P03ImageLoadingListener(holderView.brandSlogan));
+        this.imageLoader.displayImage(this.data.get(position).getBrandLogo(),holderView.brandPortrait, AppUtil.getSimapleDisplayOptions(),new P03ImageLoadingListener());
+        this.imageLoader.displayImage(ImgUtil.imgTo2x(this.data.get(position).getBrandCover()),holderView.brandSlogan,AppUtil.getSimapleDisplayOptions(),new P03ImageLoadingListener());
         holderView.brandName.setText(this.data.get(position).getBrandName());
         holderView.detailButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -104,15 +106,10 @@ public class P03BrandListAdapter extends BaseAdapter {
 
     class P03ImageLoadingListener implements ImageLoadingListener{
 
-        private ImageView myView = null;
-
-        public P03ImageLoadingListener(ImageView view){
-            this.myView = view;
-        }
 
         @Override
         public void onLoadingStarted(String imageUri, View view) {
-            myView.setVisibility(View.INVISIBLE);
+            view.setVisibility(View.INVISIBLE);
 
         }
 
@@ -123,8 +120,8 @@ public class P03BrandListAdapter extends BaseAdapter {
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            myView.setImageBitmap(loadedImage);
-            myView.setVisibility(View.VISIBLE);
+            ((ImageView)view).setImageBitmap(loadedImage);
+            view.setVisibility(View.VISIBLE);
         }
 
         @Override

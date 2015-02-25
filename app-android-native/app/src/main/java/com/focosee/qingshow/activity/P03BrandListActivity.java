@@ -56,6 +56,7 @@ public class P03BrandListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 brandType = 0;
+                pullRefreshListView.getRefreshableView().setSelection(0);
                 refreshData();
             }
         });
@@ -63,6 +64,7 @@ public class P03BrandListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 brandType = 1;
+                pullRefreshListView.getRefreshableView().setSelection(0);
                 refreshData();
             }
         });
