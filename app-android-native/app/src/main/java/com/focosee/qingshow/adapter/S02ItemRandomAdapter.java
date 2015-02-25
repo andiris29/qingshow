@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/2/12.
  */
-public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
+public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
 
 
     private String updateTimeString = "15:00更新";
@@ -79,7 +79,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
 
         position--;
         ItemViewHolder holder;
-        final MongoItem showInfo = (MongoItem) _data.get(position);
+        final MongoItem showInfo = _data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(_resourceId, null);
@@ -114,14 +114,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
     }
 
 
-    public void addItemLast(LinkedList<MongoItem> datas) {
-        _data.addAll(datas);
-    }
 
-    public void addItemTop(LinkedList<MongoItem> datas) {
-        _data.clear();
-        _data.addAll(datas);
-    }
 
     @Override
     public int getCount() {
@@ -136,11 +129,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
     @Override
     public int getItemViewType(int position) {
         return (position == 0) ? 0 : 1;
-    }
-
-    public MongoItem getItemDataAtIndex(int index) {
-        if (index >= _data.size()) return null;
-        return (MongoItem)_data.get(index);
     }
 
     private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
@@ -160,49 +148,20 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter {
         }
     }
 
-
+    @Override
+    public void refreshDate(JSONObject response) {
+        resetUpdateString(response);
+    }
 
     public void resetUpdateString(JSONObject response) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
         Calendar calendar = TimeUtil.getStringToCal(MetadataParser.getRefreshTime(response));
         Date date = calendar.getTime();
         String originDateString = simpleDateFormat.format(date);
-
-//        final Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         updateTimeString = originDateString.split("_")[1] + " 更新";
         updateDateString = originDateString.split("_")[0];
-        updateWeekString = formatWeekInfo(calendar.get(Calendar.DAY_OF_WEEK));
+        updateWeekString = TimeUtil.formatWeekInfo(calendar.get(Calendar.DAY_OF_WEEK));
     }
-
-    public String formatWeekInfo(int dayOfWeek) {
-        String result;
-        switch (dayOfWeek) {
-            case 1:
-                result = "星期日 SUN";
-                break;
-            case 2:
-                result = "星期一 MON";
-                break;
-            case 3:
-                result = "星期二 TUE";
-                break;
-            case 4:
-                result = "星期三 WED";
-                break;
-            case 5:
-                result = "星期四 THURS";
-                break;
-            case 6:
-                result = "星期五 FRI";
-                break;
-            default:
-                result = "星期六 SAT";
-                break;
-        }
-        return result;
-    }
-
 
     class UpdateCellHolderView {
         public TextView updateTimeTV;

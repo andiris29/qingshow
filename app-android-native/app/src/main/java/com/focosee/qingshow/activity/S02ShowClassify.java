@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.AbsWaterfallAdapter;
+import com.focosee.qingshow.adapter.HotWaterfallAdapter;
 import com.focosee.qingshow.adapter.S02ItemRandomAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemRandomParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -20,7 +23,6 @@ import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
@@ -49,7 +51,7 @@ public class S02ShowClassify extends BaseActivity {
     private MNavigationView _navigationView;
     private MPullRefreshMultiColumnListView _pullRefreshListView;
     private MultiColumnListView _waterfallListView;
-    private S02ItemRandomAdapter _adapter;
+    private AbsWaterfallAdapter _adapter;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
     private int _currentPageIndex = 1;
@@ -85,7 +87,14 @@ public class S02ShowClassify extends BaseActivity {
         _navigationView.getBtn_right().setVisibility(View.INVISIBLE);
         _waterfallListView = _pullRefreshListView.getRefreshableView();
 
-        _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
+        switch (classifyMod){
+            case 0:
+                _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
+                break;
+            case 1:
+                _adapter = new HotWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
+                break;
+        }
 
         _waterfallListView.setAdapter(_adapter);
 
@@ -103,18 +112,6 @@ public class S02ShowClassify extends BaseActivity {
                 doGetMoreTask();
             }
         });
-
-        _waterfallListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(S02ShowClassify.this, S03SHowActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-
 
         _pullRefreshListView.doPullRefreshing(true, 500);
     }
@@ -138,11 +135,27 @@ public class S02ShowClassify extends BaseActivity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
+        String url = "";
+        switch (classifyMod){
+            case 0:
+                url = QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize));
+                break;
+            case 1:
+                url = QSAppWebAPI.getShowHotApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize));
+                break;
+        }
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    LinkedList<MongoItem> results = ItemRandomParser.parse(response);
+                    LinkedList results = null;
+                    switch (classifyMod){
+                        case 0:
+                             results = ItemRandomParser.parse(response);
+                            break;
+                        case 1:
+                             results = FeedingParser.parse(response);
+                            break;
+                    }
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;
@@ -155,15 +168,6 @@ public class S02ShowClassify extends BaseActivity {
                     _pullRefreshListView.onPullUpRefreshComplete();
                     _pullRefreshListView.setHasMoreData(true);
                     setLastUpdateTime(response);
-
-
-                } catch (Exception error) {
-                    Toast.makeText(S02ShowClassify.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    _pullRefreshListView.onPullDownRefreshComplete();
-                    _pullRefreshListView.onPullUpRefreshComplete();
-                    _pullRefreshListView.setHasMoreData(true);
-                }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -217,7 +221,7 @@ public class S02ShowClassify extends BaseActivity {
     private void setLastUpdateTime(JSONObject response) {
         String text = formatDateTime(System.currentTimeMillis());
         _pullRefreshListView.setLastUpdatedLabel(text);
-        _adapter.resetUpdateString(response);
+        _adapter.refreshDate(response);
     }
 
 }

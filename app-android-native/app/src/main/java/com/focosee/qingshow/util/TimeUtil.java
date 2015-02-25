@@ -30,4 +30,33 @@ public class TimeUtil {
         result.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
         return result;
     }
+
+    public static String formatWeekInfo(int dayOfWeek) {
+        String result;
+        switch (dayOfWeek) {
+            case 1:
+                result = "星期日 SUN";
+                break;
+            case 2:
+                result = "星期一 MON";
+                break;
+            case 3:
+                result = "星期二 TUE";
+                break;
+            case 4:
+                result = "星期三 WED";
+                break;
+            case 5:
+                result = "星期四 THURS";
+                break;
+            case 6:
+                result = "星期五 FRI";
+                break;
+            default:
+                result = "星期六 SAT";
+                break;
+        }
+        return result;
+    }
+
 }

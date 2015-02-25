@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import org.json.JSONObject;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +36,7 @@ class ClassifyViewHolder extends AbsViewHolder {
     ImageView loveIV;
 }
 
-public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
+public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
     private Context context;
 
@@ -46,9 +48,14 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
     }
 
     @Override
+    public void refreshDate(JSONObject response) {
+
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ClassifyViewHolder holder;
-        final MongoShow showInfo = (MongoShow) _data.get(position);
+        final MongoShow showInfo = _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -94,21 +101,6 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter {
         });
 
         return convertView;
-    }
-
-
-    public void addItemLast(LinkedList<MongoShow> datas) {
-        _data.addAll(datas);
-    }
-
-    public void addItemTop(LinkedList<MongoShow> datas) {
-        _data.clear();
-        _data.addAll(datas);
-    }
-
-    public MongoShow getItemDataAtIndex(int index) {
-        if (index >= _data.size()) return null;
-        return (MongoShow)_data.get(index);
     }
 
     // Animation

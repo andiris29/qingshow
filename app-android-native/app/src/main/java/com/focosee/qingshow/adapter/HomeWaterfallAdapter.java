@@ -91,7 +91,7 @@ class HomeViewHolder extends AbsViewHolder {
 
 }
 
-public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
+public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
     private String updateTimeString = "15:00更新";
     private String updateDateString = "2015/01/01";
@@ -99,6 +99,11 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
     public HomeWaterfallAdapter(Context context, int resourceId, ImageLoader mImageFetcher) {
         super(context, resourceId, mImageFetcher);
+    }
+
+    @Override
+    public void refreshDate(JSONObject response) {
+        resetUpdateString(response);
     }
 
     @Override
@@ -129,7 +134,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
 
         position--;
         HomeViewHolder holder;
-        MongoShow showInfo = (MongoShow) _data.get(position);
+        MongoShow showInfo = _data.get(position);
 
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -159,7 +164,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(_context, P02ModelActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((MongoShow) _data.get(final_position)).getModelRef());
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ( _data.get(final_position)).getModelRef());
                 intent.putExtras(bundle);
                 _context.startActivity(intent);
             }
@@ -183,61 +188,16 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter {
         return (null == _data) ? 0 : _data.size()+1;
     }
 
-    public void addItemLast(LinkedList<MongoShow> datas) {
-        _data.addAll(datas);
-    }
-
-    public void addItemTop(LinkedList<MongoShow> datas) {
-        _data.clear();
-        _data.addAll(datas);
-    }
-
-    public MongoShow getItemDataAtIndex(int index) {
-        index--;
-        if (index >= _data.size() || index < 0) return null;
-        return (MongoShow)_data.get(index);
-    }
-
     public void resetUpdateString(JSONObject response) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
         Calendar calendar = TimeUtil.getStringToCal(MetadataParser.getRefreshTime(response));
         Date date = calendar.getTime();
         String originDateString = simpleDateFormat.format(date);
-
-//        final Calendar calendar = Calendar.getInstance();
-//        calendar.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         updateTimeString = originDateString.split("_")[1] + " 更新";
         updateDateString = originDateString.split("_")[0];
-        updateWeekString = formatWeekInfo(calendar.get(Calendar.DAY_OF_WEEK));
+        updateWeekString = TimeUtil.formatWeekInfo(calendar.get(Calendar.DAY_OF_WEEK));
     }
 
-    public String formatWeekInfo(int dayOfWeek) {
-        String result;
-        switch (dayOfWeek) {
-            case 1:
-                result = "星期日 SUN";
-                break;
-            case 2:
-                result = "星期一 MON";
-                break;
-            case 3:
-                result = "星期二 TUE";
-                break;
-            case 4:
-                result = "星期三 WED";
-                break;
-            case 5:
-                result = "星期四 THURS";
-                break;
-            case 6:
-                result = "星期五 FRI";
-                break;
-            default:
-                result = "星期六 SAT";
-                break;
-        }
-        return result;
-    }
 
     class UpdateCellHolderView {
         public TextView updateTimeTV;

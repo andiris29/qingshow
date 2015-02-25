@@ -99,6 +99,10 @@ public class QSAppWebAPI {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
+    public static String getShowHotApi(int pageIndex, int pageSize){
+        return HOST_NAME + SHOW_LIST_CATEGORY_API[1] + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+    }
+
     public static String getFeedingLikeApi(String _id, int pageIndex, int pageSize) {
         return FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
     }
