@@ -29,11 +29,13 @@ server-node/public
 .project
 mongodb/_dump
 folder-uploads
+winston.log.*
 
-#goblin
+#for goblin
 admin-tools/goblin-tbitem/.idea
 admin-tools/goblin-tbitem/logs
 admin-tools/goblin-tbshop/.idea
+admin-tools/imgResizer/out
 
 #app-web
 app-web/bin
