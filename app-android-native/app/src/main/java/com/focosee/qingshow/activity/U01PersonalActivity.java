@@ -68,7 +68,6 @@ public class U01PersonalActivity extends FragmentActivity {
             }
             if(USER_UPDATE.equals(intent.getAction())){
                 people = QSModel.INSTANCE.getUser();
-                Toast.makeText(getApplicationContext(), people.getBackground(), Toast.LENGTH_LONG).show();
             }
         }
     };

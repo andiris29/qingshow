@@ -11,4 +11,8 @@ public class Callback {
     public void onError() {
 
     }
+
+    public void onError(int errorCode) {
+
+    }
 }

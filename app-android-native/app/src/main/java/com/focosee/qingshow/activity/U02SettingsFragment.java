@@ -30,6 +30,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -132,9 +133,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         context = (Context) getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
 
+        matchUI();
+
         getUser();
 
-        matchUI();
 
         setJumpListener();
 
@@ -314,8 +316,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             sexTextView.setTag(people.gender);
             hairTextView.setText(hairArgs[people.hairType]);
             hairTextView.setTag(people.hairType);
-            shoesSizeEditText.setText(shoesSize[people.shoeSize]);
-            shoesSizeEditText.setTag(people.shoeSize);
+            shoesSizeEditText.setText(people.shoeSize + "");
             clothesSizeEditText.setTag(people.clothingSize);
             clothesSizeEditText.setText(clothesSize[people.clothingSize]);
             favoriteBrandText.setText(people.favoriteBrand);
@@ -332,25 +333,20 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     //获得用户信息
     private void getUser() {
 
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUserApi(), null, new Response.Listener<JSONObject>() {
+        people = QSModel.INSTANCE.getUser();
+        if(people != null ) setData();
+        else UserCommand.refresh(new Callback(){
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    people = UserParser.parseGet(response);
-                    setData();
-                } catch (Exception error) {
-                    Log.i("test", "error" + error.toString());
-                    Toast.makeText(U02SettingsFragment.this.getActivity(), "网络请求错误", Toast.LENGTH_SHORT).show();
-                }
-
+            public void onComplete() {
+                super.onComplete();
+                setData();
             }
-        }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(U02SettingsFragment.this.getActivity(), "网络请求错误", Toast.LENGTH_LONG).show();
+            public void onError() {
+                super.onError();
+                Toast.makeText(U02SettingsFragment.this.getActivity(), "网络请求错误", Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueueManager.INSTANCE.getQueue().add(jor);
 
     }
 
@@ -410,7 +406,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
         if (TAG_SHOESIZE.equals(String.valueOf(actionSheet.getTag()))) {
             shoesSizeEditText.setText(shoesSize[index]);
-            shoesSizeEditText.setTag(index);
         }
 
         if (TAG_CLOTHESSIZE.equals(String.valueOf(actionSheet.getTag()))) {
@@ -422,23 +417,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     private void commitForm() {
         Map<String, String> params = new HashMap<String, String>();
-        if (!nameEditText.getText().toString().equals(""))
+        if (nameEditText != null && !nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
-        if (!birthEditText.getTag().toString().equals("")) {
+        if (birthEditText != null && !birthEditText.getText().toString().equals("")) {
             params.put("birthday", birthEditText.getTag().toString());
         }
-        if (!heightEditText.getText().toString().equals(""))
+        if (heightEditText != null && !heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
-        if (!weightEditText.getText().toString().equals(""))
+        if (weightEditText != null && !weightEditText.getText().toString().equals(""))
             params.put("weight", weightEditText.getText().toString());
+        if (shoesSizeEditText != null && !shoesSizeEditText.getText().toString().equals(""))
+            params.put("shoeSize", shoesSizeEditText.getText().toString());
         if (null != sexTextView.getTag()) {
             params.put("gender", sexTextView.getTag().toString());
         }
         if (null != hairTextView.getTag()) {
             params.put("hairType", hairTextView.getTag().toString());
-        }
-        if (null != shoesSizeEditText.getTag()) {
-            params.put("shoeSize", shoesSizeEditText.getTag().toString());
         }
         if (null != clothesSizeEditText.getTag()) {
             params.put("clothingSize", clothesSizeEditText.getTag().toString());
@@ -447,24 +441,25 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             params.put("favoriteBrand", favoriteBrandText.getText().toString());
         }
 
-        QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+        UserCommand.update(params,new Callback(){
             @Override
-            public void onResponse(String response) {
-                MongoPeople user = UserParser.parseUpdate(response);
-                if (user == null) {
-                    ErrorHandler.handle(context, MetadataParser.getError(response));
-                } else {
-                    QSModel.INSTANCE.setUser(user);
-                    context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
-                }
+            public void onComplete() {
+                super.onComplete();
+                context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
             }
-        }, new Response.ErrorListener() {
+
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onError(int errorCode) {
+                super.onError(errorCode);
+                ErrorHandler.handle(context, errorCode);
+            }
+
+            @Override
+            public void onError() {
+                super.onError();
                 Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
             }
         });
-        requestQueue.add(qxStringRequest);
     }
 
     private void setJumpListener() {
@@ -515,6 +510,24 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 showActionSheet(TAG_HAIR);
             }
         });
+        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
+        shoeSizeLayout.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_SHOESIZE);
+            }
+        });
+        clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
+        clothSizeLayout.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_CLOTHESSIZE);
+            }
+        });
         birthRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.birthRelativeLayout);
         birthRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -540,22 +553,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-//        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
-//        shoeSizeLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-//                showActionSheet(TAG_SHOESIZE);
-//            }
-//        });
-//        clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
-//        clothSizeLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-//                showActionSheet(TAG_CLOTHESSIZE);
-//            }
-//        });
 
         changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {

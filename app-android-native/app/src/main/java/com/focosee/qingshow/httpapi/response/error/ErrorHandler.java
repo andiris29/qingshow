@@ -76,6 +76,8 @@ public class ErrorHandler {
             case ErrorCode.InvalidCurrentPassword:
                 Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
                 break;
+            case ErrorCode.NoNetWork:
+                Toast.makeText(context, "请检查网络", Toast.LENGTH_SHORT).show();
             default:
                 Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
                 break;

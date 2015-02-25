@@ -26,4 +26,5 @@ public class ErrorCode {
     public static final int AlreadyRelated = 1019;
     public static final int AlreadyUnrelated = 1020;
     public static final int InvalidCurrentPassword = 1021;
+    public static final int NoNetWork = 1022;
 }

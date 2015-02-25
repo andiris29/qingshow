@@ -17,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
@@ -191,37 +193,37 @@ public class U07RegisterActivity extends BaseActivity {
         int result = -1;
         switch (whichChecked) {
             case R.id.size34RadioButton:
-                result = 0;
+                result = 34;
                 break;
             case R.id.size35RadioButton:
-                result = 1;
+                result = 35;
                 break;
             case R.id.size36RadioButton:
-                result = 2;
+                result = 36;
                 break;
             case R.id.size37RadioButton:
-                result = 3;
+                result = 37;
                 break;
             case R.id.size38RadioButton:
-                result = 4;
+                result = 38;
                 break;
             case R.id.size39RadioButton:
-                result = 5;
+                result = 39;
                 break;
             case R.id.size40RadioButton:
-                result = 6;
+                result = 40;
                 break;
             case R.id.size41RadioButton:
-                result = 7;
+                result = 41;
                 break;
             case R.id.size42RadioButton:
-                result = 8;
+                result = 42;
                 break;
             case R.id.size43RadioButton:
-                result = 9;
+                result = 43;
                 break;
             case R.id.size44RadioButton:
-                result = 10;
+                result = 44;
                 break;
             default:
                 break;
@@ -256,23 +258,15 @@ public class U07RegisterActivity extends BaseActivity {
         if (shoesSize >= 0)
             params.put("shoeSize", shoesSize + "");
 
-        QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+
+        UserCommand.update(params,new Callback(){
+
             @Override
-            public void onResponse(String response) {
-                MongoPeople user = UserParser.parseUpdate(response);
-                if (user == null) {
-                    ErrorHandler.handle(context, MetadataParser.getError(response));
-                } else {
-                    QSModel.INSTANCE.setUser(user);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "请检查网络", Toast.LENGTH_LONG).show();
+            public void onError(int errorCode) {
+                super.onError(errorCode);
+                ErrorHandler.handle(U07RegisterActivity.this,errorCode);
             }
         });
-        requestQueue.add(qxStringRequest);
     }
 
     @Override
