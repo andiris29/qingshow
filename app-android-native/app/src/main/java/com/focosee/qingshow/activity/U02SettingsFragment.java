@@ -498,22 +498,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 showActionSheet(TAG_HAIR);
             }
         });
-        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
-        shoeSizeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(TAG_SHOESIZE);
-            }
-        });
-        clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
-        clothSizeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
-                showActionSheet(TAG_CLOTHESSIZE);
-            }
-        });
+//        shoeSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.shoesSizeRelativeLayout);
+//        shoeSizeLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+//                showActionSheet(TAG_SHOESIZE);
+//            }
+//        });
+//        clothSizeLayout = (RelativeLayout) getActivity().findViewById(R.id.clothesSizeRelativeLayout);
+//        clothSizeLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+//                showActionSheet(TAG_CLOTHESSIZE);
+//            }
+//        });
 
         changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
