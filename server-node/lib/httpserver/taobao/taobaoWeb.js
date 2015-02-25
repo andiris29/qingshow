@@ -247,11 +247,22 @@ var _parseTmallPropertyMap = function ($) {
         var this$ = cheerio(this);
         var dataValue = this$.attr('data-value');
         if (dataValue && dataValue.length) {
+            propertyMap[dataValue] = {};
             var title = this$.attr('title');
             if (title && title.length) {
-                propertyMap[dataValue] = title;
+                propertyMap[dataValue].properties_name = title;
             } else {
-                propertyMap[dataValue] = this$.text();
+                propertyMap[dataValue].properties_name = this$.text();
+            }
+
+            var aTag = this$.find('a');
+            var aStyle = aTag.attr('style');
+            if (aStyle && aStyle.length) {
+                var bgRegex = /background:url\((.*)\)/
+                var matchResult = aStyle.match(bgRegex);
+                if (matchResult.length > 1) {
+                    propertyMap[dataValue].properties_thumbnail = matchResult[1];
+                }
             }
         }
     });
@@ -284,6 +295,10 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
             stock : targetValue.stock
         }
         retSku.properties_name = _parsePropertiesName(retSku.properties, propertyMap);
+        var thumbnail = _parsePropertiesThumbnail(retSku.properties, propertyMap);
+        if (thumbnail) {
+            retSku.properties_thumbnail = thumbnail;
+        }
         return retSku;
     });
     var skus = skus.filter(function (s) { return s !== null; })
@@ -295,7 +310,7 @@ var _parsePropertiesName = function (propertiesStr, propertyMap) {
     var proNameArray = [];
     propertiesStr.split(';').forEach(function (prop) {
         if (prop && prop.length) {
-            var value = propertyMap[prop];
+            var value = propertyMap[prop].properties_name;
             if (typeof value == 'string' && value.length) {
                 proNameArray.push(value);
             }
@@ -303,6 +318,18 @@ var _parsePropertiesName = function (propertiesStr, propertyMap) {
     });
     return proNameArray.join(';');
 };
+var _parsePropertiesThumbnail = function (propertiesStr, propertyMap) {
+    var propThumbnail = null;
+    propertiesStr.split(';').forEach(function (prop) {
+        if (prop && prop.length) {
+            var value = propertyMap[prop].properties_thumbnail;
+            if (typeof value == 'string' && value.length) {
+                propThumbnail = value;
+            }
+        }
+    });
+    return propThumbnail;
+}
 
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {
