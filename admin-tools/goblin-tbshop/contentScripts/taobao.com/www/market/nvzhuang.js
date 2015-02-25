@@ -68,11 +68,10 @@ Page.prototype._crawl = function() {
                 };
                 load();
             },
-            function() {
+            function(callback) {
                 var itemNext = $('.item.next');
                 if (!itemNext.hasClass('.next-disabled')) {
                     itemNext.click();
-
                     setTimeout(function (){
                         _this._crawl();
                     }, 1000);
@@ -80,10 +79,13 @@ Page.prototype._crawl = function() {
                     api.complete();
                     console.log('max page');
                 }
+                callback();
             }
         ],
         function(err) {
-            api.error(err);
+            if (err) {
+                api.error(err);
+            }
         }
     );
 };

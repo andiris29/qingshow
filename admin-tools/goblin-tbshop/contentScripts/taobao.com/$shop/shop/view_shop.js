@@ -36,12 +36,51 @@ Page.prototype._crawl = function() {
     if (!this.isStart) {
         return;
     }
-    var locationOrigin = window.location.origin;
-    var searchLocation = locationOrigin + '/search.htm?search=y&orderType=hotsell_desc';
-    api.createSubCrawers([searchLocation]);
-    setTimeout(function(){
-        api.complete();
-    }, 0);
+
+
+    async.waterfall([
+            function (callback) {
+                var scoreTitles = $('.dsr-title');
+                var scoreNums = $('.dsr-num');
+                var scoreEntity = {};
+                var keyMap = {
+                    "描述" : "item_score",
+                    "物流" : "delivery_score",
+                    "服务" : "service_score"
+                };
+                for (var i = 0; i < scoreTitles.length; i++) {
+                    var t = scoreTitles[i].innerText;
+                    var s = parseFloat(scoreNums[i].innerText);
+                    var scoreKey = keyMap[t];
+                    scoreEntity[scoreKey] = s;
+                }
+                callback(null, scoreEntity);
+            },
+            function (scoreEntity, callback) {
+                //TODO http request
+
+                callback();
+            }, function (callback) {
+                //TODO createSubCrawers
+                var locationOrigin = window.location.origin;
+                var searchLocation = locationOrigin + '/search.htm?search=y&orderType=hotsell_desc';
+                api.createSubCrawers([searchLocation]);
+
+            }
+        ],
+        function (err) {
+            if (err) {
+                api.error(err);
+            } else {
+                setTimeout(function(){
+                    api.complete();
+                }, 0);
+            }
+        }
+    );
+
+
+
 };
 
 var PageManager = function() {

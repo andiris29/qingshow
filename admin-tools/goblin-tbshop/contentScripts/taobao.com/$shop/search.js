@@ -49,8 +49,11 @@ Page.prototype._crawl = function() {
                             callback('load fail.');
                         }
                     } else {
-
-                        var nick = $(".shop-name a")[0].innerText;
+                        //title
+                        var title = $(".shop-name a")[0].innerText;
+                        //nick
+                        var nick = $('.seller-name').innerText;
+                        nick = nick.replace("掌柜：", "");
 
                         var hotSales = [];
                         for (var i = 0; i < lis$.length; i++) {
@@ -72,7 +75,7 @@ Page.prototype._crawl = function() {
                             };
                             hotSales.push(sale);
                         }
-                        //TODO parse sid
+                        
                         var shopId = window.shop_config.shopId;
                         var scriptTags = $('head script');
                         for (var i = 0; i < scriptTags.length; i++) {
@@ -85,7 +88,9 @@ Page.prototype._crawl = function() {
 
 
                         var shopEntity = {
+                            sid : shopId,
                             nick : nick,
+                            titie : title,
                             __context : {
                                 hotSales : hotSales
                             }
