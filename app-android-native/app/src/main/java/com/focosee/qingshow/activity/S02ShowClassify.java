@@ -40,13 +40,9 @@ public class S02ShowClassify extends BaseActivity {
         public static String getTitle(int mod) {
             return (titleList.length > mod) ? titleList[mod] : "参数错误";
         }
-
-        public static String getApi(int mod, int pageNo, int pageSize) {
-            return QSAppWebAPI.getShowCategoryListApi(mod, pageNo, pageSize);
-        }
     }
 
-    public static final String INPUT_CATEGORY = "sfdsjflkasd";
+    public static final String INPUT_CATEGORY = "INPUT_CATEGORY";
 
     private MNavigationView _navigationView;
     private MPullRefreshMultiColumnListView _pullRefreshListView;

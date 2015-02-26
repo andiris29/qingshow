@@ -154,7 +154,7 @@ public class S01HomeActivity extends BaseActivity {
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY, _adapter.getItemDataAtIndex(position));
                 intent.putExtra("position", position);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
+                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position - 1)._id);
                 intent.putExtras(bundle);
                 S03SHowActivity.ACTION_MESSAGE = ACTION_MESSAGE;
                 startActivity(intent);
