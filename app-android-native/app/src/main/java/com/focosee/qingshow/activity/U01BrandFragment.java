@@ -1,7 +1,12 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,6 +41,8 @@ import java.util.ArrayList;
  */
 public class U01BrandFragment extends Fragment{
 
+    public static String ACTION_REFRESH = "refresh_U01BrandFragment";
+    public static String BEREMOVEOBJECT = "MongoBrandIsRemoving";
     private MPullRefreshListView mPullRefreshListView;
     private P03BrandListAdapter mAdapter;
     private ListView brandListView;
@@ -44,6 +51,21 @@ public class U01BrandFragment extends Fragment{
     private MongoPeople people;
 
     private static U01BrandFragment instance;
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(ACTION_REFRESH.equals(intent.getAction())){
+                Toast.makeText(getActivity(), intent.getAction(), Toast.LENGTH_SHORT).show();
+                MongoBrand brandEntity = (MongoBrand) intent.getSerializableExtra(BEREMOVEOBJECT);
+                if(null == brandEntity)return;
+                if(mAdapter.getData().contains(brandEntity)) {
+                    mAdapter.getData().remove(brandEntity);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    };
 
     public static U01BrandFragment newInstance(){
 
@@ -66,6 +88,18 @@ public class U01BrandFragment extends Fragment{
         if (getArguments() != null) {
 
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        activity.registerReceiver(receiver, new IntentFilter(BEREMOVEOBJECT));
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     @Override

@@ -40,6 +40,7 @@ public class QSAppWebAPI {
     private static final String SHOW_UNLIKE_API = HOST_NAME + "/show/unlike";
 
     private static final String BRAND_FOLLOWED_API = HOST_NAME + "/brand/queryFollowed";
+    private static final String BRAND_FOLLOWERS_API = HOST_NAME + "/brand/queryFollowers";
     private static final String BRAND_FOLLOW_API = HOST_NAME + "/brand/follow";
     private static final String BRAND_UNFOLLOW_API = HOST_NAME + "/brand/unfollow";
 
@@ -68,6 +69,10 @@ public class QSAppWebAPI {
 
     public static String getBrandUnfollowApi(){
         return BRAND_UNFOLLOW_API;
+    }
+
+    public static String getBrandFollowersApi(String _id, int pageNo){
+        return BRAND_FOLLOWERS_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=10";
     }
 
     public static String getBrandQueryApi(String _ids){

@@ -23,8 +23,11 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P04BrandItemListAdapter;
 import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.RolesCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -45,6 +48,8 @@ import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
+
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,13 +114,21 @@ public class P04BrandActivity extends BaseActivity {
             if (null == additionalItemEntity.getBrandRef().__context) {//传过来的是id
                 brandEntity = new MongoBrand();
                 brandEntity._id = additionalItemEntity.getBrandId();
-                getBrandFromNet();
             }else brandEntity = additionalItemEntity.getBrandRef();
         }
+
+        getBrandFromNet();
 
         findViewById(R.id.P04_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!brandEntity.getModelIsFollowedByCurrentUser()) {
+                    Intent intent = new Intent();
+                    intent.setAction(U01BrandFragment.BEREMOVEOBJECT);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(U01BrandFragment.BEREMOVEOBJECT, brandEntity);
+                    sendBroadcast(intent);
+                }
                 P04BrandActivity.this.finish();
             }
         });
@@ -153,7 +166,7 @@ public class P04BrandActivity extends BaseActivity {
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage, AppUtil.getShowDisplayOptions());
 
         if(brandEntity.getModelIsFollowedByCurrentUser()){
-            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
+            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
         }
 
         constructViewPager();
@@ -697,7 +710,7 @@ public class P04BrandActivity extends BaseActivity {
 
     private void doFollowersRefreshDataTask() {
         if(null == brandEntity)return;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(brandEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandFollowersApi(brandEntity.get_id(), 1), null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
@@ -713,7 +726,6 @@ public class P04BrandActivity extends BaseActivity {
                 pageIndex = 1;
 
                 ArrayList<MongoPeople> peopleEntities = PeopleParser.parseQueryFollowers(response);
-
 
                 fansListAdapter.resetData(peopleEntities);
                 fansListAdapter.notifyDataSetChanged();
@@ -732,7 +744,7 @@ public class P04BrandActivity extends BaseActivity {
 
     private void doFollowersLoadMoreTask() {
         if(null == brandEntity)return;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(brandEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandFollowersApi(brandEntity.get_id(), pageIndex + 1), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -767,6 +779,7 @@ public class P04BrandActivity extends BaseActivity {
         } else {
             __followModel();
         }
+        sendBroadcast(new Intent(P03BrandListActivity.ACTION_REFRESH));
     }
 
     private void __followModel() {
@@ -779,21 +792,22 @@ public class P04BrandActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if (!MetadataParser.hasError(response)) {
-                        showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        showMessage(P04BrandActivity.this, "关注成功");
                         doFollowersRefreshDataTask();
+                        UserCommand.refresh();
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response);
                     }
                 }catch (Exception e) {
-                    showMessage(P04BrandActivity.this, e.toString());
+                    showMessage(P04BrandActivity.this, "关注失败");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                showMessage(P04BrandActivity.this, error.toString());
+                ErrorHandler.handle(P04BrandActivity.this, ErrorCode.NoNetWork);
             }
         });
 
@@ -810,21 +824,22 @@ public class P04BrandActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if (!MetadataParser.hasError(response)) {
-                        showMessage(P04BrandActivity.this, "取消关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
+                        showMessage(P04BrandActivity.this, "取消关注成功");
                         doFollowersRefreshDataTask();
+                        UserCommand.refresh();
                     }else{
                         showMessage(P04BrandActivity.this, "取消关注失败");
                     }
                 }catch (Exception e) {
-                    showMessage(P04BrandActivity.this, e.toString());
+                    showMessage(P04BrandActivity.this, "取消关注失败");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                showMessage(P04BrandActivity.this, error.toString());
+                ErrorHandler.handle(P04BrandActivity.this, ErrorCode.NoNetWork);
             }
         });
 
@@ -837,6 +852,7 @@ public class P04BrandActivity extends BaseActivity {
 
     private void showMessage(Context context, String message) {
         Log.i(context.getPackageName(), message);
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     private Point getScreenSize(){

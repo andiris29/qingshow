@@ -1,6 +1,9 @@
 package com.focosee.qingshow.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 
 public class P03BrandListActivity extends BaseActivity {
 
+    public static String ACTION_REFRESH = "refresh_P03BrandListActivity";
+
     private MNavigationView navigationView;
     private MPullRefreshListView pullRefreshListView;
     private ListView listView;
@@ -37,6 +42,13 @@ public class P03BrandListActivity extends BaseActivity {
     private int pageIndex = 1;
 
     private P03BrandListAdapter adapter;
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +104,13 @@ public class P03BrandListActivity extends BaseActivity {
             }
         });
         pullRefreshListView.doPullRefreshing(true, 0);
+        registerReceiver(receiver, new IntentFilter(P03BrandListActivity.ACTION_REFRESH));
+    }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     private void loadMoreData() {

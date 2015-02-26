@@ -86,7 +86,6 @@ public class P03BrandListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Intent intent  = new Intent(context, P04BrandActivity.class);
-
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(P04BrandActivity.INPUT_BRAND, data.get(position));
                 intent.putExtras(bundle);
