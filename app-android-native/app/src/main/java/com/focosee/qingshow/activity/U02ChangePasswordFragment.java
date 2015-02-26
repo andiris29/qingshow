@@ -74,7 +74,8 @@ public class U02ChangePasswordFragment extends Fragment {
             public void onClick(View view) {
                 if (!newPasswordEditText.getText().toString().equals(confirmPasswordEditText.getText().toString())) {
                     Toast.makeText(context, "请确认两次输入密码是否一致", Toast.LENGTH_LONG).show();
-                } else {
+                } else if(!newPasswordEditText.getText().toString().equals("") &&
+                        !confirmPasswordEditText.getText().toString().equals("")){
                     HashMap<String, String> params = new HashMap<String, String>();
                     params.put("currentPassword", currentPasswordEditText.getText().toString());
                     params.put("password", newPasswordEditText.getText().toString());
@@ -87,8 +88,8 @@ public class U02ChangePasswordFragment extends Fragment {
                                 ErrorHandler.handle(context, MetadataParser.getError(response));
                             } else {
                                 QSModel.INSTANCE.setUser(user);
-//                                U02SettingsFragment settingsFragment = new U02SettingsFragment();
-//                                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+                                U02SettingsFragment settingsFragment = new U02SettingsFragment();
+                                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
                                 Toast.makeText(context, "保存成功", Toast.LENGTH_LONG).show();
                             }
                         }
