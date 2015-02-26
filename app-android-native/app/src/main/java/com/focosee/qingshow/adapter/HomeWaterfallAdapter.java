@@ -21,6 +21,7 @@ import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
@@ -37,18 +38,14 @@ class HomeViewHolder extends AbsViewHolder {
 
     // Public interface
     public void setData(MongoShow entity, ImageLoader imageLoader) {
-//        holder.showIV.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)_myHeight));
-//        showIV.setLayoutParams(new LinearLayout.LayoutParams(entity.getCoverWidth(), entity.getCoverHeight()));
 
         showIV.setOriginWidth(entity.getCoverWidth());
         showIV.setOriginHeight(entity.getCoverHeight());
 
-        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
-        imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
+        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(),animateFirstListener);
+        imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(),animateFirstListener);
         modelNameTV.setText(entity.getModelName());
         modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
-//        modelHeightTV.setText(entity.getModelHeight());
-//        modelWeightTV.setText(entity.getModelWeight());
         loveTV.setText(entity.getShowNumLike());
         //TODO 换图片
         if(entity.getModelRef().getModelIsFollowedByCurrentUser()){
@@ -78,7 +75,6 @@ class HomeViewHolder extends AbsViewHolder {
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
             if (loadedImage != null) {
-                Log.i("test", "load complete not null");
                 ImageView imageView = (ImageView) view;
                 boolean firstDisplay = !displayedImages.contains(imageUri);
                 if (firstDisplay) {
@@ -148,10 +144,11 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
             holder.loveIV = (ImageView) convertView.findViewById(R.id.item_show_love_img);
             holder.shadowView = (ImageView) convertView.findViewById(R.id.item_show_shadow);
             convertView.setTag(holder);
+        }else{
+            holder = (HomeViewHolder) convertView.getTag();
         }
-
-        holder = (HomeViewHolder) convertView.getTag();
-
+        _mImageFetcher.cancelDisplayTask(holder.modelIV);
+        _mImageFetcher.cancelDisplayTask(holder.showIV);
         if(showInfo.getShowIsFollowedByCurrentUser())
             holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice_hover);
         else
