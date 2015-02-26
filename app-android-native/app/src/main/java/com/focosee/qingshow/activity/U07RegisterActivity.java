@@ -78,6 +78,7 @@ public class U07RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
+                finish();
             }
         });
 
