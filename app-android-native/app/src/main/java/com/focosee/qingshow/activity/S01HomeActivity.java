@@ -115,23 +115,8 @@ public class S01HomeActivity extends BaseActivity {
 
         _wfListView.setAdapter(_adapter);
         _wfListView.setSmoothScrollbarEnabled(false);
-        _wfListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-//                if(Build.VERSION.SDK_INT > 16) {
-//                    if (scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE)
-//                        applyBlur();
-//                }
-            }
-
-            @Override
-            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
         _wfPullRefreshView.setPullLoadEnabled(true);
         _wfPullRefreshView.setScrollLoadEnabled(true);
-
         _wfPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
@@ -145,7 +130,7 @@ public class S01HomeActivity extends BaseActivity {
 
 
         });
-
+        _wfListView.setOnScrollListener(_wfPullRefreshView.initLoadPauseOnScrollListenser(ImageLoader.getInstance(),true,true));
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
@@ -244,7 +229,7 @@ public class S01HomeActivity extends BaseActivity {
     private void setLastUpdateTime(JSONObject response) {
         String text = formatDateTime(System.currentTimeMillis());
         _wfPullRefreshView.setLastUpdatedLabel(text);
-        _adapter.resetUpdateString(response);
+        _adapter.refreshDate(response);
     }
 
     private String formatDateTime(long time) {

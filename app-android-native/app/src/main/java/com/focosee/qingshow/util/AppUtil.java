@@ -64,11 +64,12 @@ public class AppUtil {
     public static DisplayImageOptions getSimapleDisplayOptions(){
         if (null == simapleDisplayOptions){
             simapleDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.root_input_backgound)
-                    .showImageForEmptyUri(R.drawable.root_input_backgound)
-                    .showImageOnFail(R.drawable.root_input_backgound)
+                    .showImageOnLoading(0)
+                    .showImageForEmptyUri(0)
+                    .showImageOnFail(0)
                     .cacheInMemory(true)
-                    .cacheOnDisk(true).build();
+                    .cacheOnDisk(true)
+                    .build();
         }
         return simapleDisplayOptions;
     }
