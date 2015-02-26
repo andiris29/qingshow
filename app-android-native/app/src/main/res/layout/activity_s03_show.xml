@@ -142,7 +142,7 @@
                         android:layout_above="@+id/S03_line_share_like"
                         android:layout_alignRight="@+id/S03_line_share_like"
                         android:scaleType="centerInside"
-                        android:src="@drawable/s03_like_btn" />
+                         />
 
                     <TextView
                         android:id="@+id/S03_like_text_view"
