@@ -86,9 +86,12 @@ public class QSAppWebAPI {
         return GET_SERVICE_URL + "?id=" + _id;
     }
 
-    public static String getPreviewTrendLikeApi(int type) {
-        if (0 == type) return PREVIEW_TREND_UNLIKE_API;
+    public static String getPreviewTrendLikeApi() {
         return PREVIEW_TREND_LIKE_API;
+    }
+
+    public static String getPreviewTrendUnLikeApi(){
+        return PREVIEW_TREND_UNLIKE_API;
     }
 
     public static String getPreviewTrendListApi(int pageIndex, int pageSize) {

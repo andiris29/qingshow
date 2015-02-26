@@ -117,8 +117,8 @@
 
                     <ImageView
                         android:id="@+id/S03_share_btn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
+                        android:layout_height="@dimen/right_btn_list_height"
                         android:layout_above="@+id/S03_video_start_btn"
                         android:layout_alignRight="@+id/S03_video_start_btn"
                         android:layout_marginBottom="20dp"
@@ -127,7 +127,7 @@
 
                     <ImageView
                         android:id="@+id/S03_line_share_like"
-                        android:layout_width="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/S03_share_btn"
                         android:layout_alignRight="@+id/S03_share_btn"
@@ -137,8 +137,8 @@
 
                     <ImageView
                         android:id="@+id/S03_like_btn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
+                        android:layout_height="@dimen/right_btn_list_height"
                         android:layout_above="@+id/S03_line_share_like"
                         android:layout_alignRight="@+id/S03_line_share_like"
                         android:scaleType="centerInside"
@@ -158,7 +158,7 @@
 
                     <ImageView
                         android:id="@+id/S03_line_like_message"
-                        android:layout_width="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/S03_like_btn"
                         android:layout_alignRight="@+id/S03_like_btn"
@@ -168,8 +168,8 @@
 
                     <ImageView
                         android:id="@+id/S03_comment_btn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
+                        android:layout_height="@dimen/right_btn_list_height"
                         android:layout_above="@+id/S03_line_like_message"
                         android:layout_alignRight="@+id/S03_line_like_message"
                         android:scaleType="centerInside"
@@ -189,7 +189,7 @@
 
                     <ImageView
                         android:id="@+id/S03_line_comment_item"
-                        android:layout_width="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
                         android:layout_height="wrap_content"
                         android:layout_above="@+id/S03_comment_btn"
                         android:layout_alignRight="@+id/S03_comment_btn"
@@ -199,8 +199,8 @@
 
                     <ImageView
                         android:id="@+id/S03_item_btn"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="@dimen/right_btn_list_width"
+                        android:layout_height="@dimen/right_btn_list_height"
                         android:layout_above="@+id/S03_line_comment_item"
                         android:layout_alignRight="@+id/S03_line_comment_item"
                         android:scaleType="centerInside"

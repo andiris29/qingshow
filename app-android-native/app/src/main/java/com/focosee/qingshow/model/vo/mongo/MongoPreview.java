@@ -36,6 +36,12 @@ public class MongoPreview implements Serializable {
         return false;
     }
 
+    public void setIsLikeByCurrentUser(boolean isLike){
+        if(null != __context) {
+            __context.likedByCurrentUser = isLike;
+        }
+    }
+
     public String getCover(int index) {
         if (null == images.get(index)) {
             return "";

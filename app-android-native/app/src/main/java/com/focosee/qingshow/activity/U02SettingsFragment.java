@@ -231,19 +231,17 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 }
 
             } else {
-                Toast.makeText(context, "You haven't picked Image",
+                Toast.makeText(context, "您未选择图片！",
                         Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(context, "Something went wrong : " + e.toString(), Toast.LENGTH_LONG)
+            //e.printStackTrace();
+            Toast.makeText(context, "未知错误，请重试！", Toast.LENGTH_LONG)
                     .show();
         }
     }
 
     private void uploadImage(final String imgUri, final int type) {
-
-        final Bitmap bitmap = BitmapFactory.decodeFile(imgUri);
 
         String api = "";
 

@@ -23,6 +23,8 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -183,71 +185,81 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
-        if(0 != Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()))) {
+        if(data.get(position).getIsLikeByCurrentUser()) {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         }else{
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-            //holderView.likeImageButton.setClickable(false);
         }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ImageButton likeImageButton = (ImageButton) v;
                 if (null != data && null != data.get(position).get_id()) {
-
-                    Map<String, String> likeData = new HashMap<String, String>();
-                    likeData.put("_id", data.get(position).get_id());
-                    JSONObject jsonObject = new JSONObject(likeData);
-                    final int type = Integer.parseInt(String.valueOf(holderView.likeImageButton.getTag()));
-                    QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPreviewTrendLikeApi(type)
-                            , jsonObject, new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            try {
-
-                                if (!MetadataParser.hasError(response)) {
-                                    //TextView _likeTextView = (TextView) likeImageButton.getTag();
-                                    int addOrdel = 0;
-                                    String showMsg = "点赞成功";
-                                    if(1 == type){
-                                        addOrdel = 1;
-                                        holderView.likeImageButton.setTag(0);//0表示已点赞，null表示未点赞
-                                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-                                    }else{
-                                        addOrdel = -1;
-                                        holderView.likeImageButton.setTag(1);
-                                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
-                                    }
-                                    holderView.likeTextView.setText(
-                                            String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + addOrdel));
-                                    //holderView.likeImageButton.setClickable(false);
-                                    showMessage(context, showMsg);
-
-                                    //showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
-                                } else {
-                                    handleResponseError(response);
-                                    showMessage(context, "点赞失败");
-
-                                }
-                            } catch (Exception e) {
-                                showMessage(context, e.toString());
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            showMessage(context, error.toString());
-                        }
-                    });
-
-                    RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
-
+                    followOrNot(data.get(position).getIsLikeByCurrentUser(), position, holderView);
                 }
             }
         });
 
         return convertView;
+    }
+
+    private void followOrNot(final boolean isLiked, final int position,final HolderView holderView){
+
+        String api;
+        if(isLiked)
+            api = QSAppWebAPI.getPreviewTrendUnLikeApi();
+        else {
+            api = QSAppWebAPI.getPreviewTrendLikeApi();
+        }
+
+        Map<String, String> likeData = new HashMap<String, String>();
+        likeData.put("_id", data.get(position).get_id());
+        JSONObject jsonObject = new JSONObject(likeData);
+        QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, api
+                , jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    String showMsg = "";
+                    if (!MetadataParser.hasError(response)) {
+                        if(isLiked){
+                            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+                            holderView.likeTextView.setText(
+                                    String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
+                            showMsg = "点赞";
+                        }else{
+                            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+                            holderView.likeTextView.setText(
+                                    String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) - 1));
+                            showMsg = "取消点赞";
+                        }
+                        data.get(position).setIsLikeByCurrentUser(!isLiked);
+                        showMessage(context, showMsg + "成功");
+
+                    } else {
+                        handleResponseError(response);
+                        showMessage(context, showMsg+ "失败");
+
+                    }
+                } catch (Exception e) {
+                    //showMessage(context, e.toString());
+                    ErrorHandler.handle(context, ErrorCode.NoNetWork);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                showMessage(context, error.toString());
+                ErrorHandler.handle(context, ErrorCode.NoNetWork);
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
+
+
+
+
+
     }
 
     private void showMessage(Context context, String message) {

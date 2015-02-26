@@ -70,8 +70,8 @@
 
         <ImageButton
             android:id="@+id/S08_item_video_start_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/right_btn_list_width"
+            android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="20dp"
@@ -81,8 +81,8 @@
 
         <ImageButton
             android:id="@+id/S08_item_share_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/right_btn_list_width"
+            android:layout_height="40dp"
             android:layout_above="@+id/S08_item_video_start_btn"
             android:layout_alignRight="@+id/S08_item_video_start_btn"
             android:layout_marginBottom="30dp"
@@ -100,8 +100,8 @@
 
         <ImageButton
             android:id="@+id/S08_item_like_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/right_btn_list_width"
+            android:layout_height="@dimen/right_btn_list_height"
             android:layout_above="@+id/S08_item_share_btn"
             android:layout_alignRight="@+id/S08_item_share_btn"
             android:layout_marginBottom="20dp"
@@ -109,8 +109,8 @@
 
         <TextView
             android:id="@+id/S08_item_like_text_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/right_btn_list_width"
+            android:layout_height="@dimen/right_btn_list_height"
             android:layout_alignLeft="@+id/S08_item_like_btn"
             android:layout_alignTop="@+id/S08_item_like_btn"
             android:gravity="center"
@@ -129,8 +129,8 @@
 
         <ImageButton
             android:id="@+id/S08_item_comment_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/right_btn_list_width"
+            android:layout_height="@dimen/right_btn_list_height"
             android:layout_above="@+id/S08_item_like_btn"
             android:layout_alignRight="@+id/S08_item_like_btn"
             android:layout_marginBottom="20dp"
@@ -138,8 +138,8 @@
 
         <TextView
             android:id="@+id/S08_item_comment_text_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="@dimen/right_btn_list_width"
+            android:layout_height="@dimen/right_btn_list_height"
             android:layout_alignLeft="@+id/S08_item_comment_btn"
             android:layout_alignTop="@+id/S08_item_comment_btn"
             android:gravity="center"
