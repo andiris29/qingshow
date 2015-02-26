@@ -7,7 +7,6 @@
     tools:context="com.focosee.qingshow.activity.U01PersonalActivity">
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="@dimen/RelativeLayout_height_activity_model">
         <ImageView

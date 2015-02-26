@@ -416,9 +416,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         Map<String, String> params = new HashMap<String, String>();
         if (nameEditText != null && !nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
-        if (birthEditText != null && !birthEditText.getText().toString().equals("")) {
+        if (birthEditText != null && !birthEditText.getText().toString().equals(""))
             params.put("birthday", birthEditText.getTag().toString());
-        }
         if (heightEditText != null && !heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
         if (weightEditText != null && !weightEditText.getText().toString().equals(""))
@@ -511,7 +510,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         birthRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date date = new Date();
                 String[] dateStr = new String[3];
                 if (!("".equals(people.birthday) || null == people.birthday)) {
 
@@ -523,7 +521,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
                         birthEditText.setText(i + "/" + (i2 + 1) + "/" + i3);
-                        birthEditText.setTag(datePicker.getDrawingTime());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(i, i2, i3);
+                        birthEditText.setTag(calendar.getTime());
                         commitForm();
                     }
                 }, Integer.parseInt(dateStr[0]), Integer.parseInt(dateStr[1])-1, Integer.parseInt(dateStr[2]));

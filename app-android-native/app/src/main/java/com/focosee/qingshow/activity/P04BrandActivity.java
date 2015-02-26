@@ -781,7 +781,7 @@ public class P04BrandActivity extends BaseActivity {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P04BrandActivity.this, "关注成功");
                         brandEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn1);
+                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response);
