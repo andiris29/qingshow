@@ -64,7 +64,9 @@ public class U02ChangePasswordFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 U02SettingsFragment settingsFragment = new U02SettingsFragment();
-                getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+               // getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0,R.anim.push_left_in, 0).
+                        replace(R.id.settingsScrollView, settingsFragment).commit();
             }
         });
 

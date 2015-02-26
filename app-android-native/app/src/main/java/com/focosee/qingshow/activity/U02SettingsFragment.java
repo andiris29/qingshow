@@ -80,8 +80,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout birthRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout hairRelativeLayout;
-    private RelativeLayout shoeSizeLayout;
-    private RelativeLayout clothSizeLayout;
     private RelativeLayout changePasswordRelativeLayout;
     private RelativeLayout changeEmailRelativeLayout;
     private RelativeLayout informRelativeLayout;
@@ -540,7 +538,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).replace(R.id.settingsScrollView, fragment).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0,R.anim.push_left_in, 0).
+                        replace(R.id.settingsScrollView, fragment).commit();
             }
         });
         changeEmailRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changeEmailRelativeLayout);
