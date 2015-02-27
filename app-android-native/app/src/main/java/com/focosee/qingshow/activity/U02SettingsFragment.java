@@ -509,12 +509,11 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 String[] dateStr = new String[3];
-                if (!("".equals(people.birthday) || null == people.birthday)) {
-
-                    String dateString = birthEditText.getText().toString();
-                    dateStr = dateString.split("/");
+                String dateString = people.birthday;
+                if (("".equals(dateString)) || null == dateString) {
+                    dateString = "1970/01/01";
                 }
-
+                dateStr = dateString.split("/");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
