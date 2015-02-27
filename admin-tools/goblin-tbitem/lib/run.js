@@ -1,7 +1,6 @@
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async'), _ = require('underscore');
 var request = require('request');
-var Iconv = require('iconv').Iconv;
 
 // Log
 var winston = require('winston'), fs = require('fs'), path = require('path');
