@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class U06LoginActivity extends BaseActivity {
 
         requestQueue = Volley.newRequestQueue(context);
 
-        TextView backTextView = (TextView) findViewById(R.id.backTextView);
+        ImageView backTextView = (ImageView) findViewById(R.id.backImageView);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
