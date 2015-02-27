@@ -1,6 +1,9 @@
 package com.focosee.qingshow.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +40,19 @@ public class P01ModelListActivity extends BaseActivity {
     private P01ModelListAdapter adapter;
     private int _currentIndex = 1;
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(U01PersonalActivity.USER_UPDATE.equals(intent.getAction())){
+
+                int position = intent.getIntExtra("position", 0);
+                adapter.getItemData(position).setModelIsFollowedByCurrentUser(!adapter.getItemData(position).getModelIsFollowedByCurrentUser());
+                adapter.getItemData(position).get__context().numFollowers = intent.getIntExtra("numFollowers", 0);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +86,7 @@ public class P01ModelListActivity extends BaseActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ((MongoPeople) adapter.getItem(position)));
                 intent.putExtras(bundle);
+                intent.putExtra("position", position);
                 startActivity(intent);
             }
         });
@@ -88,6 +105,7 @@ public class P01ModelListActivity extends BaseActivity {
 
         pullRefreshListView.doPullRefreshing(true, 0);
 
+        registerReceiver(receiver, new IntentFilter(U01PersonalActivity.USER_UPDATE));
     }
 
     private void doRefreshData() {

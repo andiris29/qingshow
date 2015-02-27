@@ -73,6 +73,8 @@ public class P02ModelActivity extends BaseActivity {
     private LinearLayout line2;
     private LinearLayout line3;
 
+    private int position;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class P02ModelActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
 
         modelEntity = (MongoPeople)getIntent().getExtras().getSerializable(INPUT_MODEL);
+        position = getIntent().getIntExtra("position", 0);
 
         ImageLoader.getInstance().displayImage(modelEntity.getPortrait(), (ImageView)findViewById(R.id.P02_model_image_view), AppUtil.getPortraitDisplayOptions());
         ((TextView) findViewById(R.id.P02_model_name_text_view)).setText(String.valueOf(modelEntity.getName()));
@@ -491,7 +494,10 @@ public class P02ModelActivity extends BaseActivity {
                         modelEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
-                        sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        Intent intent = new Intent(U01PersonalActivity.USER_UPDATE);
+                        intent.putExtra("position", position);
+                        intent.putExtra("numFollowers", modelEntity.getNumberFollowers() + 1);
+                        sendBroadcast(intent);
                         sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
                         UserCommand.refresh();
                     }else{
@@ -521,7 +527,10 @@ public class P02ModelActivity extends BaseActivity {
                         modelEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
-                        sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        Intent intent = new Intent(U01PersonalActivity.USER_UPDATE);
+                        intent.putExtra("position", position);
+                        intent.putExtra("numFollowers", modelEntity.getNumberFollowers() - 1);
+                        sendBroadcast(intent);
                         sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
                         UserCommand.refresh();
                     }else{

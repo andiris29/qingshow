@@ -54,7 +54,7 @@ public class U01CollectionFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(U01RecommendFragment.ACTION_MESSAGE.equals(intent.getAction()) || ACTION_MESSAGE.equals(intent.getAction())){
+            if(ACTION_MESSAGE.equals(intent.getAction())){
                 doShowsRefreshDataTask();
             }
         }
