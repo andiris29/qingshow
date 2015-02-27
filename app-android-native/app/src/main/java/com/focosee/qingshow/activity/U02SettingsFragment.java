@@ -415,7 +415,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         if (nameEditText != null && !nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
         if (birthEditText != null && !birthEditText.getText().toString().equals(""))
-            params.put("birthday", birthEditText.getTag().toString());
+            params.put("birthday", birthEditText.getText().toString());
         if (heightEditText != null && !heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
         if (weightEditText != null && !weightEditText.getText().toString().equals(""))
