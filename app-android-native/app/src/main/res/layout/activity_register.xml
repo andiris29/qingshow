@@ -15,14 +15,13 @@
             android:layout_height="@dimen/title_bar_height"
             android:background="@drawable/bg_titlebar">
 
-            <TextView
-                android:id="@id/backTextView"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+            <ImageView
+                android:id="@+id/backImageView"
+                android:layout_width="@dimen/title_bar_height"
+                android:layout_height="@dimen/title_bar_height"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/btn_back_default" />
+                android:padding="12dp"
+                android:src="@drawable/btn_back_default" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -35,10 +34,10 @@
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/register_login_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="@dimen/title_bar_height"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:layout_centerVertical="true"
                 android:text="@string/login_activity_login"
                 android:textColor="#454545"

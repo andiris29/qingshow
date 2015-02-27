@@ -1,6 +1,10 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -36,6 +40,8 @@ import java.util.ArrayList;
  * Created by zenan on 12/27/14.
  */
 public class U01WatchFragment extends Fragment {
+
+    public static String ACTION_MESSAGE = "refresh_U01WatchFragment";
     private ListView followerListView;
     private MPullRefreshListView followerPullRefreshListView;
     private P01ModelListAdapter followerPeopleListAdapter;
@@ -44,6 +50,16 @@ public class U01WatchFragment extends Fragment {
     private MongoPeople people;
 
     private static U01WatchFragment instance;
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(ACTION_MESSAGE.equals(intent.getAction())){
+                doFollowersRefreshDataTask();
+            }
+        }
+    };
 
     public static U01WatchFragment newInstance() {
 
@@ -56,6 +72,18 @@ public class U01WatchFragment extends Fragment {
 
     public U01WatchFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        activity.registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     @Override

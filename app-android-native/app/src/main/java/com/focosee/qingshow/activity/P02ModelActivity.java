@@ -23,6 +23,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.adapter.P02ModelViewPagerAdapter;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -72,6 +73,8 @@ public class P02ModelActivity extends BaseActivity {
     private LinearLayout line2;
     private LinearLayout line3;
 
+    private int position;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class P02ModelActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
 
         modelEntity = (MongoPeople)getIntent().getExtras().getSerializable(INPUT_MODEL);
+        position = getIntent().getIntExtra("position", 0);
 
         ImageLoader.getInstance().displayImage(modelEntity.getPortrait(), (ImageView)findViewById(R.id.P02_model_image_view), AppUtil.getPortraitDisplayOptions());
         ((TextView) findViewById(R.id.P02_model_name_text_view)).setText(String.valueOf(modelEntity.getName()));
@@ -485,18 +489,20 @@ public class P02ModelActivity extends BaseActivity {
         QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
+                        Intent intent = new Intent(U01PersonalActivity.USER_UPDATE);
+                        intent.putExtra("position", position);
+                        intent.putExtra("numFollowers", modelEntity.getNumberFollowers() + 1);
+                        sendBroadcast(intent);
+                        sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
+                        UserCommand.refresh();
                     }else{
                         showMessage(P02ModelActivity.this, "关注失败" + response);
                     }
-                }catch (Exception e) {
-                    showMessage(P02ModelActivity.this, e.toString());
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -516,18 +522,20 @@ public class P02ModelActivity extends BaseActivity {
         QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "取消关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
+                        Intent intent = new Intent(U01PersonalActivity.USER_UPDATE);
+                        intent.putExtra("position", position);
+                        intent.putExtra("numFollowers", modelEntity.getNumberFollowers() - 1);
+                        sendBroadcast(intent);
+                        sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
+                        UserCommand.refresh();
                     }else{
                         showMessage(P02ModelActivity.this, "取消关注失败");
                     }
-                }catch (Exception e) {
-                    showMessage(P02ModelActivity.this, e.toString());
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -544,8 +552,7 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void showMessage(Context context, String message) {
-        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        Log.i(context.getPackageName(), message);
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onResume() {

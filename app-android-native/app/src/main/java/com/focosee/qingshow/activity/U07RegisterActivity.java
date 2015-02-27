@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -66,8 +67,8 @@ public class U07RegisterActivity extends BaseActivity {
         clothesSizeRadioGroup = (RadioGroup) findViewById(R.id.clothesSizeRadioGroup);
         shoesSizeRadioGroup = (RadioGroup) findViewById(R.id.shoesSizeRadioGroup);
 
-        TextView backTextView = (TextView) findViewById(R.id.backTextView);
-        backTextView.setOnClickListener(new View.OnClickListener() {
+        ImageView backImageView = (ImageView) findViewById(R.id.backImageView);
+        backImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

@@ -31,6 +31,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -87,7 +88,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
     public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
-    public static String ACTION_MESSAGE = "";
+    public static String ACTION_MESSAGE = "";//动态变化的
     public final String TAG = "S03SHowActivity";
     private int position;
 
@@ -195,25 +196,18 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
-                        if(showDetailEntity.likedByCurrentUser()) {//发送广播，更新首页的numLike
-                            Intent intent = new Intent(ACTION_MESSAGE);
-                            intent.putExtra("position", position);
-                            sendBroadcast(intent);
-                        }
+                        Intent intent = new Intent(ACTION_MESSAGE);
+                        intent.putExtra("position", position);
+                        sendBroadcast(intent);
                         setLikedImageButtonBackgroundImage();
                         likedImageButton.setClickable(true);
-                        showListEntity.numLike = showDetailEntity.numLike;
+                        UserCommand.refresh();
                     } else {
                         handleResponseError(response);
-//                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败");
                     }
-                } catch (Exception e) {
-                    showMessage(S03SHowActivity.this, e.toString());
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -238,7 +232,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void handleResponseError(JSONObject response) {
-        try {
             int errorCode = MetadataParser.getError(response);
             String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
             switch (errorCode) {
@@ -253,9 +246,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                     break;
             }
             showMessage(S03SHowActivity.this, errorMessage);
-        } catch (Exception e) {
-            showMessage(S03SHowActivity.this, e.toString() + response.toString());
-        }
     }
 
     private void showMessage(Context context, String message) {

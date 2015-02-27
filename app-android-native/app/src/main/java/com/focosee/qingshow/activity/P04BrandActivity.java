@@ -122,13 +122,6 @@ public class P04BrandActivity extends BaseActivity {
         findViewById(R.id.P04_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!brandEntity.getModelIsFollowedByCurrentUser()) {
-                    Intent intent = new Intent();
-                    intent.setAction(U01BrandFragment.BEREMOVEOBJECT);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(U01BrandFragment.BEREMOVEOBJECT, brandEntity);
-                    sendBroadcast(intent);
-                }
                 P04BrandActivity.this.finish();
             }
         });
@@ -797,6 +790,8 @@ public class P04BrandActivity extends BaseActivity {
                         showMessage(P04BrandActivity.this, "关注成功");
                         doFollowersRefreshDataTask();
                         UserCommand.refresh();
+                        sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        sendBroadcast(new Intent(U01BrandFragment.ACTION_MESSAGE));
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response);
                     }
@@ -829,6 +824,8 @@ public class P04BrandActivity extends BaseActivity {
                         showMessage(P04BrandActivity.this, "取消关注成功");
                         doFollowersRefreshDataTask();
                         UserCommand.refresh();
+                        sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        sendBroadcast(new Intent(U01BrandFragment.ACTION_MESSAGE));
                     }else{
                         showMessage(P04BrandActivity.this, "取消关注失败");
                     }

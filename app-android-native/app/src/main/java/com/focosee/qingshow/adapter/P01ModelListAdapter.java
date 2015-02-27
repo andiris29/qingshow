@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01PersonalActivity;
+import com.focosee.qingshow.activity.U01WatchFragment;
 import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -153,7 +155,10 @@ public class P01ModelListAdapter extends BaseAdapter {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(context, "关注成功");
                         data.get(Integer.valueOf(v.getTag().toString()).intValue()).setModelIsFollowedByCurrentUser(true);
+                        data.get(Integer.valueOf(v.getTag().toString()).intValue()).get__context().numFollowers =
+                                data.get(Integer.valueOf(v.getTag().toString()).intValue()).get__context().numFollowers + 1;
                         v.setBackgroundResource(R.drawable.people_list_unfollow);
+                        notifyDataSetChanged();
                     } else {
                         showMessage(context, "关注失败");
                     }
@@ -187,9 +192,14 @@ public class P01ModelListAdapter extends BaseAdapter {
                         if (type == (PeopleTypeInU01PersonalActivity.MYSELF.getIndex()) && null != u01PersonalActivity) {
                             data.remove(position);
                             notifyDataSetChanged();
-                            u01PersonalActivity.refreshWatchNum();
-                        } else
+//                            u01PersonalActivity.refreshWatchNum();
+                            context.sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
+                        } else {
+                            data.get(Integer.valueOf(v.getTag().toString()).intValue()).get__context().numFollowers =
+                                    data.get(Integer.valueOf(v.getTag().toString()).intValue()).get__context().numFollowers - 1;
                             v.setBackgroundResource(R.drawable.people_list_follow);
+                            notifyDataSetChanged();
+                        }
                     } else {
                         showMessage(context, "取消关注失败");
                     }

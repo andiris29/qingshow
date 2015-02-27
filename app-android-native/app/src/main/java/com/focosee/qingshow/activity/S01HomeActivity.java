@@ -52,7 +52,7 @@ import java.util.LinkedList;
 
 public class S01HomeActivity extends BaseActivity {
     //    private MNavigationView _navigationView;
-    private static String ACTION_MESSAGE = "S01HomeActivity_actionMessage";
+    public static String ACTION_MESSAGE = "S01HomeActivity_actionMessage";
     private boolean isFirstFocus_activity = true;
     private final static String S01_TAG = "S01HomeActivity";
     private LinearLayout _popView;
@@ -86,9 +86,12 @@ public class S01HomeActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (ACTION_MESSAGE.equals(intent.getAction())) {
-                int position = intent.getIntExtra("position", 0);
-                int numLike = _adapter.getItemDataAtIndex(position).numLike;
-                _adapter.getItemDataAtIndex(position).numLike = numLike + 1;
+                int position = intent.getIntExtra("position", 0) - 1;
+                MongoShow showEntity = _adapter.getItemDataAtIndex(position);
+                if(!showEntity.getShowIsFollowedByCurrentUser())
+                    _adapter.getItemDataAtIndex(position).numLike = showEntity.numLike + 1;
+                _adapter.getItemDataAtIndex(position).setLikedByCurrentUser(!showEntity.getShowIsFollowedByCurrentUser());
+                Toast.makeText(S01HomeActivity.this,_adapter.getItemDataAtIndex(position).numLike+"---position:"+ position, Toast.LENGTH_SHORT).show();
                 _adapter.notifyDataSetChanged();
             }
         }
@@ -138,10 +141,10 @@ public class S01HomeActivity extends BaseActivity {
                 Intent intent = new Intent(S01HomeActivity.this, S03SHowActivity.class);
                 intent.putExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY, _adapter.getItemDataAtIndex(position));
                 intent.putExtra("position", position);
+                S03SHowActivity.ACTION_MESSAGE = ACTION_MESSAGE;
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position - 1)._id);
                 intent.putExtras(bundle);
-                S03SHowActivity.ACTION_MESSAGE = ACTION_MESSAGE;
                 startActivity(intent);
             }
         });
