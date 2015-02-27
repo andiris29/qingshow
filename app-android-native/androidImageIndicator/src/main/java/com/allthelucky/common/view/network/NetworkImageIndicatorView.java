@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -53,7 +54,7 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 				final ImageView pageItem = new ImageView(getContext());
 				pageItem.setScaleType(ScaleType.CENTER_CROP);
 //                pageItem.setAdjustViewBounds(true);
-                pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 pageItem.setBackgroundColor(Color.WHITE);
                 mImageLoader.displayImage(urlList.get(index), pageItem);
 				addViewItem(pageItem);
@@ -65,17 +66,17 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 //        removeAllViews();
 //    }
 
-    public void addBitmapAtFirst(Bitmap firstImage, ImageLoader mImageLoader, DisplayImageOptions options) {
+    public void addBitmapAtFirst(Bitmap firstImage) {
         if (hasFirstBitmapSign) {
             removeViewItemAtIndex(0);
         }
         final ImageView pageItem = new ImageView(getContext());
         pageItem.setScaleType(ScaleType.CENTER_CROP);
-        pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        pageItem.setImageBitmap(firstImage);
-//        mImageLoader.displayImage("http://img.uutuu.com/data6/a/ph/large/080412/c593300067964cbbb6b3ce45eed9c58f.jpg", pageItem);
-
-        addViewItemAtIndex(pageItem, 0);
+        pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        if(!firstImage.isRecycled() && firstImage != null){
+            pageItem.setImageBitmap(firstImage);
+            addViewItemAtIndex(pageItem, 0);
+        }
         hasFirstBitmapSign=true;
     }
 

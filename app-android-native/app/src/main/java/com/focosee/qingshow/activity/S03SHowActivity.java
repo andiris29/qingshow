@@ -1,12 +1,18 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -23,6 +29,7 @@ import com.allthelucky.common.view.network.NetworkImageIndicatorView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
@@ -294,11 +301,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         this.initPosterView(showDetailEntity.getPosters());
 
-        modelImage.setOnClickListener(new View.OnClickListener(){
+        modelImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S03SHowActivity.this,P02ModelActivity.class);
-                intent.putExtra(P02ModelActivity.INPUT_MODEL,showDetailEntity.modelRef );
+                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
+                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity.modelRef);
                 S03SHowActivity.this.startActivity(intent);
 
             }
@@ -324,7 +331,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onClick(View v) {
                 if (null != showDetailEntity && null != showDetailEntity._id) {
-                    if(S04CommentActivity.isOpened) return;
+                    if (S04CommentActivity.isOpened) return;
                     S04CommentActivity.isOpened = true;
                     Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
@@ -347,9 +354,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onClick(View v) {
 
-                sharePopupWindow=new SharePopupWindow(S03SHowActivity.this,new ShareClickListener());
+                sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
                 sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
-                sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+                sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
             }
         });
@@ -367,9 +374,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         this.buttomLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
-//                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity);
-//                startActivity(intent);
             }
         });
 
@@ -414,8 +418,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             configVideo();
             isFirstStart = false;
         }
-        showOneView(beforeLayout,playImageButton.getId());
-        imageIndicatorView.setVisibility(View.GONE);
+        showOneView(beforeLayout, playImageButton.getId());
+        imageIndicatorView.setVisibility(View.INVISIBLE);
         findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
         videoView.setVisibility(View.VISIBLE);
         videoView.start();
@@ -435,16 +439,21 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     private void pauseVideo() {
 
-
         videoView.pause();
 
-        videoView.buildDrawingCache();
-        Bitmap bitmapInput = videoView.getDrawingCache();
-        this.imageIndicatorView.addBitmapAtFirst(bitmapInput, ImageLoader.getInstance(), null);
-        imageIndicatorView.show();
+        MediaMetadataRetriever rev = new MediaMetadataRetriever();
+        Bitmap bitmap = null;
+        try {
+            rev.setDataSource(videoUriString,new HashMap<String, String>());
+            bitmap = rev.getFrameAtTime(videoView.getCurrentPosition() * 1000,
+                    MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        }catch (Exception e){
 
-        playImageButton.setImageResource(R.drawable.s03_play_btn);
+        }
+        imageIndicatorView.addBitmapAtFirst(bitmap);
+        imageIndicatorView.show();
         imageIndicatorView.setVisibility(View.VISIBLE);
+        playImageButton.setImageResource(R.drawable.s03_play_btn);
         findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
         showAllView(beforeLayout);
 
