@@ -7,8 +7,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -33,11 +31,9 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
@@ -45,16 +41,13 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -299,11 +292,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
 
             nameEditText.setText(people.name);
-            if (!("".equals(people.birthday) || null == people.birthday)) {
+            if (null != people.birthday) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                Calendar calendar = TimeUtil.getStringToCal(people.birthday);
-                Date date = calendar.getTime();
-                birthEditText.setText(simpleDateFormat.format(date));
+                birthEditText.setText(simpleDateFormat.format(people.birthday.getTime()));
             }
             heightEditText.setText(people.height);
             weightEditText.setText(people.weight);
@@ -329,13 +320,14 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private void getUser() {
 
         people = QSModel.INSTANCE.getUser();
-        if(people != null ) setData();
-        else UserCommand.refresh(new Callback(){
+        if (people != null) setData();
+        else UserCommand.refresh(new Callback() {
             @Override
             public void onComplete() {
                 super.onComplete();
                 setData();
             }
+
             @Override
             public void onError() {
                 super.onError();
@@ -435,7 +427,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             params.put("favoriteBrand", favoriteBrandText.getText().toString());
         }
 
-        UserCommand.update(params,new Callback(){
+        UserCommand.update(params, new Callback() {
             @Override
             public void onComplete() {
                 super.onComplete();
@@ -508,12 +500,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         birthRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] dateStr = new String[3];
-                String dateString = people.birthday;
-                if (("".equals(dateString)) || null == dateString) {
-                    dateString = "1970/01/01";
-                }
-                dateStr = dateString.split("/");
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i2, int i3) {
@@ -523,7 +509,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                         birthEditText.setTag(calendar.getTime());
                         commitForm();
                     }
-                }, Integer.parseInt(dateStr[0]), Integer.parseInt(dateStr[1])-1, Integer.parseInt(dateStr[2]));
+                }, people.birthday != null ? people.birthday.get(GregorianCalendar.YEAR) : 1990,
+                        people.birthday != null ? people.birthday.get(GregorianCalendar.MONTH) : 0,
+                        people.birthday != null ? people.birthday.get(GregorianCalendar.DATE) : 1);
 
                 datePickerDialog.show();
             }
@@ -535,7 +523,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onClick(View view) {
                 U02ChangePasswordFragment fragment = new U02ChangePasswordFragment();
-                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0,R.anim.push_left_in, 0).
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_left_in, 0, R.anim.push_left_in, 0).
                         replace(R.id.settingsScrollView, fragment).commit();
             }
         });

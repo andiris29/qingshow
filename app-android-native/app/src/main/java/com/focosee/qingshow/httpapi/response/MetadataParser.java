@@ -1,6 +1,8 @@
 package com.focosee.qingshow.httpapi.response;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.metadata.PagingMetadata;
+import com.focosee.qingshow.util.TimeUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -8,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by i068020 on 2/8/15.
@@ -46,7 +50,7 @@ public class MetadataParser {
             String metadataString = response.getJSONObject("metadata").toString();
             Type metadataType = new TypeToken<PagingMetadata>() {
             }.getType();
-            Gson gson = new Gson();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(metadataString, metadataType);
         } catch (JSONException e) {
             return null;
@@ -62,11 +66,14 @@ public class MetadataParser {
         }
     }
 
-    public static String getRefreshTime(JSONObject response) {
+    public static GregorianCalendar getRefreshTime(JSONObject response) {
         try {
-            return ((JSONObject) response.get("metadata")).get("refreshTime").toString();
-        } catch (JSONException e) {
-            return "";
+            String refreshTime = ((JSONObject) response.get("metadata")).get("refreshTime").toString();
+            return TimeUtil.parseUTC(refreshTime);
+        } catch (Exception e) {
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(new Date());
+            return calendar;
         }
     }
 }

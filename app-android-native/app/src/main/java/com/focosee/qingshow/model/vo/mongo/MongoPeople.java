@@ -3,6 +3,7 @@ package com.focosee.qingshow.model.vo.mongo;
 import com.focosee.qingshow.model.vo.context.PeopleContext;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 public class MongoPeople implements Serializable {
     public static final String DEBUG_TAG = "MongoPeople";
@@ -15,13 +16,12 @@ public class MongoPeople implements Serializable {
     public String background;
     public String height;
     public String weight;
-    public String birthday;
+    public GregorianCalendar birthday;
     public int job;
     public int shoeSize;
     public int clothingSize;
     public int gender;
     public int hairType;
-    //    +birthday <date>
     public String favoriteBrand;
     public UserInfo userInfo;
     //    +modelInfo

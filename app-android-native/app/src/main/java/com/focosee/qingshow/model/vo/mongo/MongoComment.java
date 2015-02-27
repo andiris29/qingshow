@@ -1,6 +1,7 @@
 package com.focosee.qingshow.model.vo.mongo;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 
 // TODO Split to MongoShowComment & MongoPreviewComment... keep same as db design
 public class MongoComment implements Serializable {
@@ -15,7 +16,7 @@ public class MongoComment implements Serializable {
     public MongoPeople atRef;
     public String comment;
 
-    public String create;
+    public GregorianCalendar create;
 
     public String getId() {
         return _id;
@@ -47,11 +48,5 @@ public class MongoComment implements Serializable {
         if (null != this.comment)
             return this.comment;
         return "评论内容为空";
-    }
-
-    public String getCommentTime() {
-        if (null != this.create)
-            return this.create;
-        return "未设置时间";
     }
 }

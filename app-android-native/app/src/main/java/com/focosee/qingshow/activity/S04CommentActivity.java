@@ -25,17 +25,17 @@ import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.constants.code.RolesCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.model.vo.mongo.MongoComment;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.focosee.qingshow.widget.MCircularImageView;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
@@ -283,7 +283,8 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         } catch (JSONException e) {
             Log.i("json", e.toString());
         }
-        return new Gson().fromJson(jsonString, new TypeToken<ArrayList<MongoComment>>(){}.getType());
+        return QSGsonFactory.create().fromJson(jsonString, new TypeToken<ArrayList<MongoComment>>() {
+        }.getType());
     }
 
     public void showActionSheet(int commentIndex) {

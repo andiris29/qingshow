@@ -1,8 +1,9 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.httpapi.response.dataparser.deserializer.MongoItemIdDeserializer;
+import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
@@ -18,7 +19,7 @@ public class FeedingParser {
 
     public static LinkedList<MongoShow> parse(JSONObject response) {
         try {
-            GsonBuilder builder = new GsonBuilder();
+            GsonBuilder builder = QSGsonFactory.createBuilder();
             builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
 
             String shows = response.getJSONObject("data").getJSONArray("shows").toString();

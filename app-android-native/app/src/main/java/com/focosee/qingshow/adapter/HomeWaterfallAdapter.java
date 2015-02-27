@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +12,14 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
@@ -42,13 +40,13 @@ class HomeViewHolder extends AbsViewHolder {
         showIV.setOriginWidth(entity.getCoverWidth());
         showIV.setOriginHeight(entity.getCoverHeight());
 
-        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(),animateFirstListener);
-        imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(),animateFirstListener);
+        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
+        imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         modelNameTV.setText(entity.getModelName());
         modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
         loveTV.setText(entity.getShowNumLike());
         //TODO 换图片
-        if(entity.getModelRef().getModelIsFollowedByCurrentUser()){
+        if (entity.getModelRef().getModelIsFollowedByCurrentUser()) {
             loveIV.setBackgroundResource(R.drawable.model_cell_icon02_noticeno);
         }
     }
@@ -57,14 +55,14 @@ class HomeViewHolder extends AbsViewHolder {
     ImageView modelIV;
     TextView modelNameTV;
     TextView modelHeightWeightTV;
-//    TextView modelHeightTV;
+    //    TextView modelHeightTV;
 //    TextView modelWeightTV;
     TextView loveTV;
     ImageView loveIV;
     public ImageView shadowView;
 
 
-//    // Helper property
+    //    // Helper property
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
 
     // Helper class Animation
@@ -136,7 +134,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(_resourceId, null);
             holder = new HomeViewHolder();
-            holder.showIV  = (MImageView_OriginSize) convertView.findViewById(R.id.item_show_image);
+            holder.showIV = (MImageView_OriginSize) convertView.findViewById(R.id.item_show_image);
             holder.modelIV = (ImageView) convertView.findViewById(R.id.item_show_model_image);
             holder.modelNameTV = (TextView) convertView.findViewById(R.id.item_show_model_name);
             holder.modelHeightWeightTV = (TextView) convertView.findViewById(R.id.item_show_model_height_weight);
@@ -144,12 +142,12 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
             holder.loveIV = (ImageView) convertView.findViewById(R.id.item_show_love_img);
             holder.shadowView = (ImageView) convertView.findViewById(R.id.item_show_shadow);
             convertView.setTag(holder);
-        }else{
+        } else {
             holder = (HomeViewHolder) convertView.getTag();
         }
         _mImageFetcher.cancelDisplayTask(holder.modelIV);
         _mImageFetcher.cancelDisplayTask(holder.showIV);
-        if(showInfo.getShowIsFollowedByCurrentUser())
+        if (showInfo.getShowIsFollowedByCurrentUser())
             holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice_hover);
         else
             holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice);
@@ -161,7 +159,7 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
             public void onClick(View v) {
                 Intent intent = new Intent(_context, P02ModelActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ( _data.get(final_position)).getModelRef());
+                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, (_data.get(final_position)).getModelRef());
                 intent.putExtras(bundle);
                 _context.startActivity(intent);
             }
@@ -182,12 +180,12 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
     @Override
     public int getCount() {
-        return (null == _data) ? 0 : _data.size()+1;
+        return (null == _data) ? 0 : _data.size() + 1;
     }
 
     public void resetUpdateString(JSONObject response) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
-        Calendar calendar = TimeUtil.getStringToCal(MetadataParser.getRefreshTime(response));
+        Calendar calendar = MetadataParser.getRefreshTime(response);
         Date date = calendar.getTime();
         String originDateString = simpleDateFormat.format(date);
         updateTimeString = originDateString.split("_")[1] + " 更新";

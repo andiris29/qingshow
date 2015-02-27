@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -48,10 +49,12 @@ public class UserParser {
 
     private static MongoPeople _parsePeople(JSONObject response) {
         try {
+            Gson gson = QSGsonFactory.create();
+
             String people = response.getJSONObject("data").getJSONObject("people").toString();
             Type type = new TypeToken<MongoPeople>() {
             }.getType();
-            Gson gson = new Gson();
+
             return gson.fromJson(people, type);
 
         } catch (JSONException e) {

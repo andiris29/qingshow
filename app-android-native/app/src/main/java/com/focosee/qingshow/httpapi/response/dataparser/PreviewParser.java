@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,7 +19,7 @@ public class PreviewParser {
             String previews = response.getJSONObject("data").getJSONArray("previews").toString();
             Type typeList = new TypeToken<LinkedList<MongoPreview>>() {
             }.getType();
-            Gson gson = new Gson();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(previews, typeList);
         } catch (Exception e) {
             return null;

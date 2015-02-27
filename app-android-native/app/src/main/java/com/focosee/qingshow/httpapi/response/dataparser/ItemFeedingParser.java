@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,7 +21,7 @@ public class ItemFeedingParser {
             String items = response.getJSONObject("data").getJSONArray("items").toString();
             Type listType = new TypeToken<ArrayList<MongoItem>>() {
             }.getType();
-            Gson gson = new Gson();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(items, listType);
         } catch (JSONException e) {
             return null;

@@ -1,5 +1,6 @@
 package com.focosee.qingshow.httpapi.response.dataparser;
 
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +17,7 @@ public class ShowParser {
     public static LinkedList<MongoShow> parseQuery(JSONObject response) {
         try {
             String shows = response.getJSONObject("data").getJSONArray("shows").toString();
-            Gson gson = new Gson();
+            Gson gson = QSGsonFactory.create();
             return gson.fromJson(shows, new TypeToken<LinkedList<MongoShow>>() {
             }.getType());
         } catch (JSONException e) {

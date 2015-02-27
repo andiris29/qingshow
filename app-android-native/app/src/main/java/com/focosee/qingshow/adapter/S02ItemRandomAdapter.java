@@ -96,7 +96,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.imageMetadata.url), holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
 
         holder.priceTV.setText(showInfo.getPrice());
-        if(null != showInfo.brandDiscountInfo) {
+        if (null != showInfo.brandDiscountInfo) {
             holder.sorcePriceTV.setText(showInfo.getSourcePrice());
             holder.sorcePriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
@@ -114,11 +114,9 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
     }
 
 
-
-
     @Override
     public int getCount() {
-        return (null == _data) ? 0 : _data.size()+1;
+        return (null == _data) ? 0 : _data.size() + 1;
     }
 
     @Override
@@ -155,7 +153,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
 
     public void resetUpdateString(JSONObject response) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd_HH:mm");
-        Calendar calendar = TimeUtil.getStringToCal(MetadataParser.getRefreshTime(response));
+        Calendar calendar = MetadataParser.getRefreshTime(response);
         Date date = calendar.getTime();
         String originDateString = simpleDateFormat.format(date);
         updateTimeString = originDateString.split("_")[1] + " 更新";
@@ -169,7 +167,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         public TextView updateWeekTV;
     }
 
-    class ItemViewHolder extends AbsViewHolder{
+    class ItemViewHolder extends AbsViewHolder {
         TextView priceTV;
         TextView sorcePriceTV;
         MImageView_OriginSize showIV;

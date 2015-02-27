@@ -13,13 +13,13 @@ import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoComment;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.TimeUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -91,7 +91,9 @@ public class S04CommentListAdapter extends BaseAdapter {
         this.imageLoader.displayImage(data.get(position).getAuthorImage(), holder.commentImage, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         holder.commentName.setText(data.get(position).getAuthorName());
         holder.commentContent.setText(data.get(position).getCommentContent());
-        holder.commentTime.setText(TimeUtil.getS04CommentTimeFormatString(data.get(position).getCommentTime()));
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        holder.commentTime.setText(simpleDateFormat.format(data.get(position).create.getTime()));
         return convertView;
     }
 
