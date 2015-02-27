@@ -188,7 +188,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
                         showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
@@ -199,14 +198,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                         }
                         setLikedImageButtonBackgroundImage();
                         likedImageButton.setClickable(true);
-                        showListEntity.numLike = showDetailEntity.numLike;
                     } else {
                         handleResponseError(response);
-//                        showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败");
                     }
-                } catch (Exception e) {
-                    showMessage(S03SHowActivity.this, e.toString());
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -231,7 +225,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void handleResponseError(JSONObject response) {
-        try {
             int errorCode = MetadataParser.getError(response);
             String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
             switch (errorCode) {
@@ -246,9 +239,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                     break;
             }
             showMessage(S03SHowActivity.this, errorMessage);
-        } catch (Exception e) {
-            showMessage(S03SHowActivity.this, e.toString() + response.toString());
-        }
     }
 
     private void showMessage(Context context, String message) {
