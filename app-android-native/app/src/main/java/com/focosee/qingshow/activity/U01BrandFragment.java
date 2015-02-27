@@ -41,8 +41,6 @@ import java.util.ArrayList;
  */
 public class U01BrandFragment extends Fragment{
 
-    public static String ACTION_REFRESH = "refresh_U01BrandFragment";
-    public static String BEREMOVEOBJECT = "MongoBrandIsRemoving";
     private MPullRefreshListView mPullRefreshListView;
     private P03BrandListAdapter mAdapter;
     private ListView brandListView;
@@ -55,14 +53,9 @@ public class U01BrandFragment extends Fragment{
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(ACTION_REFRESH.equals(intent.getAction())){
-                Toast.makeText(getActivity(), intent.getAction(), Toast.LENGTH_SHORT).show();
-                MongoBrand brandEntity = (MongoBrand) intent.getSerializableExtra(BEREMOVEOBJECT);
-                if(null == brandEntity)return;
-                if(mAdapter.getData().contains(brandEntity)) {
-                    mAdapter.getData().remove(brandEntity);
-                    mAdapter.notifyDataSetChanged();
-                }
+
+            if(U01PersonalActivity.USER_UPDATE.equals(intent.getAction())){
+                doRefreshTask();
             }
         }
     };
@@ -81,10 +74,7 @@ public class U01BrandFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        people = ((U01PersonalActivity) getActivity()).getMongoPeople();
-        if(people == null){
-            people = new MongoPeople();
-        }
+
         if (getArguments() != null) {
 
         }
@@ -92,7 +82,7 @@ public class U01BrandFragment extends Fragment{
 
     @Override
     public void onAttach(Activity activity) {
-        activity.registerReceiver(receiver, new IntentFilter(BEREMOVEOBJECT));
+        activity.registerReceiver(receiver, new IntentFilter(U01PersonalActivity.USER_UPDATE));
         super.onAttach(activity);
     }
 
@@ -104,6 +94,10 @@ public class U01BrandFragment extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        people = ((U01PersonalActivity) getActivity()).getMongoPeople();
+        if(people == null){
+            people = new MongoPeople();
+        }
 
         View view =  inflater.inflate(R.layout.activity_personal_pager_brand, container, false);
 
@@ -131,7 +125,6 @@ public class U01BrandFragment extends Fragment{
 
         return view;
     }
-
 
     private void doRefreshTask() {
         _getDataFromNet(true, 1, 10);
