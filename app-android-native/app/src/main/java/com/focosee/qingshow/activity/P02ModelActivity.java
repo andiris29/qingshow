@@ -485,18 +485,15 @@ public class P02ModelActivity extends BaseActivity {
         QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleFollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
+                        sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                     }else{
                         showMessage(P02ModelActivity.this, "关注失败" + response);
                     }
-                }catch (Exception e) {
-                    showMessage(P02ModelActivity.this, e.toString());
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -516,18 +513,15 @@ public class P02ModelActivity extends BaseActivity {
         QSJsonObjectRequest mJsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getPeopleUnfollowApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "取消关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(false);
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
+                        sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                     }else{
                         showMessage(P02ModelActivity.this, "取消关注失败");
                     }
-                }catch (Exception e) {
-                    showMessage(P02ModelActivity.this, e.toString());
-                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -544,8 +538,7 @@ public class P02ModelActivity extends BaseActivity {
     }
 
     private void showMessage(Context context, String message) {
-        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        Log.i(context.getPackageName(), message);
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onResume() {
