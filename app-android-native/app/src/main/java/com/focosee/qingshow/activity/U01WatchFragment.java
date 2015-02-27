@@ -40,6 +40,8 @@ import java.util.ArrayList;
  * Created by zenan on 12/27/14.
  */
 public class U01WatchFragment extends Fragment {
+
+    public static String ACTION_MESSAGE = "refresh_U01WatchFragment";
     private ListView followerListView;
     private MPullRefreshListView followerPullRefreshListView;
     private P01ModelListAdapter followerPeopleListAdapter;
@@ -53,7 +55,7 @@ public class U01WatchFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(U01PersonalActivity.USER_UPDATE.equals(intent.getAction())){
+            if(ACTION_MESSAGE.equals(intent.getAction())){
                 doFollowersRefreshDataTask();
             }
         }
@@ -74,8 +76,14 @@ public class U01WatchFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        activity.registerReceiver(receiver, new IntentFilter(U01PersonalActivity.USER_UPDATE));
+        activity.registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
         super.onAttach(activity);
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroyView();
     }
 
     @Override

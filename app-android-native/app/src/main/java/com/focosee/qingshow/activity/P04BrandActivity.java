@@ -791,6 +791,7 @@ public class P04BrandActivity extends BaseActivity {
                         doFollowersRefreshDataTask();
                         UserCommand.refresh();
                         sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        sendBroadcast(new Intent(U01BrandFragment.ACTION_MESSAGE));
                     }else{
                         showMessage(P04BrandActivity.this, "关注失败" + response);
                     }
@@ -824,6 +825,7 @@ public class P04BrandActivity extends BaseActivity {
                         doFollowersRefreshDataTask();
                         UserCommand.refresh();
                         sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        sendBroadcast(new Intent(U01BrandFragment.ACTION_MESSAGE));
                     }else{
                         showMessage(P04BrandActivity.this, "取消关注失败");
                     }

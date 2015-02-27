@@ -1,6 +1,10 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -46,6 +50,16 @@ public class U01CollectionFragment extends Fragment {
     private MongoPeople people;
     private static U01CollectionFragment instance;
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(U01RecommendFragment.ACTION_MESSAGE.equals(intent.getAction()) || ACTION_MESSAGE.equals(intent.getAction())){
+                doShowsRefreshDataTask();
+            }
+        }
+    };
+
     public static U01CollectionFragment newInstance() {
 
             //if (instance == null) {
@@ -60,6 +74,23 @@ public class U01CollectionFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onResume() {
+        doShowsRefreshDataTask();
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -70,6 +101,7 @@ public class U01CollectionFragment extends Fragment {
                 people = ((U01PersonalActivity)getActivity()).getMongoPeople();
             }
         }
+        getActivity().registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
     }
 
     @Override

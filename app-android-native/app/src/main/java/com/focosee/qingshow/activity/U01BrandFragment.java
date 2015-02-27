@@ -41,6 +41,7 @@ import java.util.ArrayList;
  */
 public class U01BrandFragment extends Fragment{
 
+    public static String ACTION_MESSAGE = "refresh_U01BrandFragment";
     private MPullRefreshListView mPullRefreshListView;
     private P03BrandListAdapter mAdapter;
     private ListView brandListView;
@@ -54,7 +55,7 @@ public class U01BrandFragment extends Fragment{
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if(U01PersonalActivity.USER_UPDATE.equals(intent.getAction())){
+            if(ACTION_MESSAGE.equals(intent.getAction())){
                 doRefreshTask();
             }
         }
@@ -82,7 +83,7 @@ public class U01BrandFragment extends Fragment{
 
     @Override
     public void onAttach(Activity activity) {
-        activity.registerReceiver(receiver, new IntentFilter(U01PersonalActivity.USER_UPDATE));
+        activity.registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
         super.onAttach(activity);
     }
 

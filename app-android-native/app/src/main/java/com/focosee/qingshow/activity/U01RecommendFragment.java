@@ -1,6 +1,10 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -45,6 +49,18 @@ public class U01RecommendFragment extends Fragment {
     private MongoPeople people;
 
     private static U01RecommendFragment instance;
+    /**
+     * 当关注或取消关注时。接收广播，刷新列表
+     */
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(U01CollectionFragment.ACTION_MESSAGE.equals(intent.getAction()) || ACTION_MESSAGE.equals(intent.getAction())){
+                doShowsRefreshDataTask();
+            }
+        }
+    };
 
     public static U01RecommendFragment newInstance() {
 
@@ -60,6 +76,17 @@ public class U01RecommendFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(null != savedInstanceState){
@@ -72,6 +99,7 @@ public class U01RecommendFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+        getActivity().registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
     }
 
     @Override

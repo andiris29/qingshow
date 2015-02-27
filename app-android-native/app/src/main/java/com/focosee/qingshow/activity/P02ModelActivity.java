@@ -23,6 +23,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P02ModelItemListAdapter;
 import com.focosee.qingshow.adapter.P02ModelViewPagerAdapter;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -491,6 +492,8 @@ public class P02ModelActivity extends BaseActivity {
                         followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
                         sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
+                        UserCommand.refresh();
                     }else{
                         showMessage(P02ModelActivity.this, "关注失败" + response);
                     }
@@ -519,6 +522,8 @@ public class P02ModelActivity extends BaseActivity {
                         followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
                         sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
+                        sendBroadcast(new Intent(U01WatchFragment.ACTION_MESSAGE));
+                        UserCommand.refresh();
                     }else{
                         showMessage(P02ModelActivity.this, "取消关注失败");
                     }
