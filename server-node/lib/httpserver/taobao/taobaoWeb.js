@@ -1,6 +1,6 @@
 
 var async = require('async');
-var Iconv = require('iconv').Iconv;
+var Iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
 
@@ -54,7 +54,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
         if (err) {
             callback(err);
         } else {
-            var b = new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString();
+            var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
             var $ = cheerio.load(b);
             var scriptTags = $('script');
             var hubConfigScript = null;
@@ -115,7 +115,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
         if (err) {
             callback(err);
         } else {
-            var b = new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString();
+            var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
             var $ = cheerio.load(b);
 
             var scriptTags = $('script');
@@ -208,7 +208,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                     }
                     callback(null, webSkus);
                 };
-                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
 
                 if (!isSetMdskipInvoke) {
                     console.log('Parse item :' + tbItemId + ' Error' );
@@ -348,7 +348,7 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                 var g_config = {
                     vdata : {}
                 };
-                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
 
                 var priceBeforeDiscount = parseFloat(g_config.Price);
 //                var stockInfo = g_config.DynamicStock.sku;

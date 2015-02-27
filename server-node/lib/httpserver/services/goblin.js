@@ -146,7 +146,6 @@ goblin.refreshItemTaobaoInfo = {
         var qsParam = null;
         async.waterfall([
             function (callback) {
-                //TODO check admin
                 callback();
             },
             function (callback) {
