@@ -168,14 +168,12 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //评论
         holderView.messageTextView.setText(String.valueOf(data.get(position).getNumComments()));
-        Log.d(TAG, "position:"+position);
         holderView.messageImageButton.setTag(position);
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
-                if (null != data.get(position).images.get(mPosition) && null != data.get(position).get_id()) {
-                    Log.d(TAG, data.get(position).get_id());
+                if (null != data.get(position).get_id()) {
                     Intent intent = new Intent(context, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
                     context.startActivity(intent);

@@ -77,7 +77,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/root_icon_noticeno"
+                android:background="@drawable/model_cell_icon02_noticeno"
                 android:layout_marginLeft="20dp" />
 
             <TextView
