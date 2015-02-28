@@ -44,6 +44,7 @@ ServerError.AlreadyRelated = 1019;
 ServerError.AlreadyUnrelated = 1020;
 ServerError.InvalidCurrentPassword = 1021;
 ServerError.IsNotAdmin = 1022;
+ServerError.TopShopNotExist = 1023;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -77,6 +78,8 @@ var _codeToString = function(code) {
             return "PItemNotExist";
         case 1022 :
             return "IsNotAdmin";
+        case 1023 :
+            return "TopShopNotExist";
     }
 };
 

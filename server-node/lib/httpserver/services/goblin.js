@@ -12,6 +12,7 @@ var MongoHelper = require('../helpers/MongoHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 var ServiceHelper = require('../helpers/ServiceHelper');
+var ServerError = require('../server-error');
 
 var goblin = module.exports;
 
@@ -101,6 +102,11 @@ goblin.updateTOPShopHotSales = {
                 }, callback);
             },
             function (topShop, callback) {
+                if (!topShop) {
+                    callback(ServerError.TopShopNotExist);
+                    return;
+                }
+
                 if (req.__context) {
                     topShop.__context = qsParam.__context;
                     topShop.save(callback);
@@ -143,7 +149,6 @@ goblin.refreshItemTaobaoInfo = {
     'method' : 'get',
     'func' : function (req, res) {
 
-        var qsParam = null;
         async.waterfall([
             function (callback) {
                 callback();
@@ -163,7 +168,11 @@ goblin.refreshItemTaobaoInfo = {
                 }, callback);
             },
             function (item, callback) {
-                _crawlTaobaoInfo(item, callback);
+                if (item) {
+                    _crawlTaobaoInfo(item, callback);
+                } else {
+                    callback(ServerError.ItemNotExist);
+                }
             },
         ], function (err, item) {
             ResponseHelper.response(res, err, {
