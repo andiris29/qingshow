@@ -29,7 +29,7 @@ public class UTCDeserializer implements JsonDeserializer<GregorianCalendar> {
         try {
             return TimeUtil.parseUTC(jsonElement.getAsString());
         } catch (ParseException e) {
-            throw new JsonParseException(e);
+            return null;
         }
     }
 }
