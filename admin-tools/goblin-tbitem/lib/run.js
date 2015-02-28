@@ -78,6 +78,7 @@ var rule = new schedule.RecurrenceRule();
 rule.hour = 1;
 
 schedule.scheduleJob(rule, function(){
-    console.log('Goblin-tbitem begin at ' + new Date());
+    winston.info('Goblin-tbitem daily begin at ' + new Date());
     _next();
 });
+winston.info('Goblin-tbitem schedules success');
