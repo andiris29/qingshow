@@ -7,12 +7,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/RelativeLayout_height_activity_model">
+        android:layout_height="350dp">
 
         <ImageView
             android:id="@+id/P04_back_image_view"
             android:layout_width="fill_parent"
-            android:layout_height="@dimen/RelativeLayout_height_activity_model"
+            android:layout_height="350dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"

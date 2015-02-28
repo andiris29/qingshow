@@ -23,7 +23,7 @@
     <dimen name="align_width_activity_register">90dp</dimen>
 
     <!-- comm -->
-    <dimen name="RelativeLayout_height_activity_model">350dp</dimen>
+    <dimen name="RelativeLayout_height_activity_model">230dp</dimen>
     <dimen name="line_between_tab">15dp</dimen>
 
     <!-- right button -->
