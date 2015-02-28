@@ -89,7 +89,7 @@ public class U01PersonalActivity extends FragmentActivity {
 
 
         if (people != null) {
-            if (!QSModel.INSTANCE.loggedin()){
+            if (!QSModel.INSTANCE.loggedin() || !people.get_id().equals(QSModel.INSTANCE.getUser()._id)){
                 peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
             }else {
                 if (people.get_id().equals(QSModel.INSTANCE.getUser().get_id())) {
@@ -119,11 +119,6 @@ public class U01PersonalActivity extends FragmentActivity {
                 startActivity(intent);
             }
         });
-
-
-        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndex()) {
-            settingsTextView.setVisibility(View.GONE);
-        }
 
         backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
         ImageLoader.getInstance().displayImage(people.getBackground(), backgroundIV);
