@@ -64,6 +64,11 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                     hubConfigScript = scriptContent;
                 }
             });
+            if (!hubConfigScript) {
+                callback();
+                return;
+            }
+
             var Hub = {
                 config : {}
             };
@@ -79,6 +84,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
             }
 
             try {
+
                 eval(hubConfigScript);
                 var skuInfo = Hub.config.get('sku');
                 var skuMap = skuInfo.valItemInfo.skuMap;
@@ -132,6 +138,10 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
             TShop.setConfig = emptyFunc;
             TShop.Setup = function (obj) {
                 var itemInfo = obj.valItemInfo;
+                if (!itemInfo) {
+                    callback();
+                    return;
+                }
                 var skuMap = itemInfo.skuMap;
 
                 var propertyMap = _parseTmallPropertyMap($);
@@ -153,11 +163,16 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 taobaoInfo.top_num_iid = taobaoHelper.getIidFromSource(source);
                 callback(null, taobaoInfo);
             };
-            try {
-                eval(tshopSetupScript);
-            } catch (e) {
-                callback(e);
+            if(tshopSetupScript) {
+                try {
+                    eval(tshopSetupScript);
+                } catch (e) {
+                    callback(e);
+                }
+            } else {
+                callback();
             }
+
         }
     });
     r.setMaxListeners(0);
@@ -180,6 +195,10 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                 var isSetMdskipInvoke = false;
                 var setMdskip = function(object) {
                     isSetMdskipInvoke = true;
+                    if (!object.isSuccess) {
+                        callback(null, []);
+                        return;
+                    }
                     var webSkus = [];
                     var priceInfo = object.defaultModel.itemPriceResultDO.priceInfo;
 //                    var stockInfo = object.defaultModel.inventoryDO.skuQuantity;
@@ -309,7 +328,7 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
 var _parsePropertiesName = function (propertiesStr, propertyMap) {
     var proNameArray = [];
     propertiesStr.split(';').forEach(function (prop) {
-        if (prop && prop.length) {
+        if (prop && prop.length && propertyMap[prop]) {
             var value = propertyMap[prop].properties_name;
             if (typeof value == 'string' && value.length) {
                 proNameArray.push(value);
@@ -321,7 +340,7 @@ var _parsePropertiesName = function (propertiesStr, propertyMap) {
 var _parsePropertiesThumbnail = function (propertiesStr, propertyMap) {
     var propThumbnail = null;
     propertiesStr.split(';').forEach(function (prop) {
-        if (prop && prop.length) {
+        if (prop && prop.length && propertyMap[prop]) {
             var value = propertyMap[prop].properties_thumbnail;
             if (typeof value == 'string' && value.length) {
                 propThumbnail = value;
