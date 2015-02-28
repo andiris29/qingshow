@@ -203,7 +203,7 @@ goblin.batchRefreshItemTaobaoInfo = {
                 //query items
                 var time = null;
                 if (qsParam.startDate) {
-                    time = RequestHelper.parseDate(qsParam.startDate);
+                    time = new Date(qsParam.startDate);
                 } else {
                     time = new Date();
                 }
@@ -211,7 +211,8 @@ goblin.batchRefreshItemTaobaoInfo = {
                 var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
                 qsParam.pageNo = qsParam.pageNo || 1;
                 qsParam.pageSize = qsParam.pageSize || 10;
-                MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result) {
+                MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result, count) {
+                    console.log('remain : ' + count);
                     if (err) {
                         callback(err);
                     } else {
