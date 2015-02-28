@@ -25,6 +25,7 @@
     <!-- comm -->
     <dimen name="RelativeLayout_height_activity_model">230dp</dimen>
     <dimen name="line_between_tab">15dp</dimen>
+    <dimen name="relativeLayout_width_follow_btn">40dp</dimen>
 
     <!-- right button -->
     <dimen name="right_btn_list_width">40dp</dimen>

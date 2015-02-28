@@ -227,12 +227,12 @@
 
         <RelativeLayout
             android:id="@+id/P04_follow_relativeLayout"
-            android:layout_width="0dp"
+            android:layout_width="50dp"
             android:layout_height="@dimen/indicator_height_activity_personal"
             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="vertical">
