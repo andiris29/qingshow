@@ -70,4 +70,14 @@ var _next = function() {
         }
     });
 };
-_next();
+//_next();
+
+// schedule to begin goblin item at 1:00 every day
+var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
+rule.hour = 1;
+
+schedule.scheduleJob(rule, function(){
+    console.log('Goblin-tbitem begin at ' + new Date());
+    _next();
+});
