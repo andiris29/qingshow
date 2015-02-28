@@ -112,6 +112,11 @@ public class S02ShowClassify extends BaseActivity {
         _pullRefreshListView.doPullRefreshing(true, 500);
     }
 
+    @Override
+    public void reconn() {
+        doRefreshTask();
+    }
+
 
     private String formatDateTime(long time) {
         if (0 == time) {
@@ -164,14 +169,6 @@ public class S02ShowClassify extends BaseActivity {
                     _pullRefreshListView.onPullUpRefreshComplete();
                     _pullRefreshListView.setHasMoreData(true);
                     setLastUpdateTime(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S02ShowClassify.this, "Error:" + error.toString(), Toast.LENGTH_SHORT).show();
-                _pullRefreshListView.onPullDownRefreshComplete();
-                _pullRefreshListView.onPullUpRefreshComplete();
-                _pullRefreshListView.setHasMoreData(true);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jor);

@@ -189,12 +189,6 @@ public class U01WatchFragment extends Fragment {
                 followerPullRefreshListView.onPullUpRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                followerPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -220,12 +214,6 @@ public class U01WatchFragment extends Fragment {
                 followerPeopleListAdapter.notifyDataSetChanged();
                 followerPullRefreshListView.onPullUpRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                followerPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

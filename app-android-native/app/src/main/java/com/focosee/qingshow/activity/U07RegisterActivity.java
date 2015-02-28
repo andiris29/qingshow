@@ -140,6 +140,11 @@ public class U07RegisterActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void reconn() {
+
+    }
+
     private int getSexRadioButtonVal() {
         int whichChecked = sexRadioGroup.getCheckedRadioButtonId();
         int result = -1;

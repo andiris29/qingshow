@@ -21,6 +21,11 @@ public class U02SettingsActivity extends BaseActivity {
     }
 
     @Override
+    public void reconn() {
+
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart("U02UserSetting"); //统计页面

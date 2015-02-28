@@ -177,12 +177,6 @@ public class U01CollectionFragment extends Fragment {
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -207,12 +201,6 @@ public class U01CollectionFragment extends Fragment {
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

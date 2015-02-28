@@ -166,11 +166,6 @@ public class P01ModelListAdapter extends BaseAdapter {
                     showMessage(context, e.toString());
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMessage(context, error.toString());
-            }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
@@ -206,11 +201,6 @@ public class P01ModelListAdapter extends BaseAdapter {
                 } catch (Exception e) {
                     showMessage(context, e.toString());
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMessage(context, error.toString());
             }
         });
 

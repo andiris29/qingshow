@@ -15,7 +15,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
@@ -39,13 +37,10 @@ import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
-import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -91,7 +86,6 @@ public class S01HomeActivity extends BaseActivity {
                 if(!showEntity.getShowIsFollowedByCurrentUser())
                     _adapter.getItemDataAtIndex(position).numLike = showEntity.numLike + 1;
                 _adapter.getItemDataAtIndex(position).setLikedByCurrentUser(!showEntity.getShowIsFollowedByCurrentUser());
-                Toast.makeText(S01HomeActivity.this,_adapter.getItemDataAtIndex(position).numLike+"---position:"+ position, Toast.LENGTH_SHORT).show();
                 _adapter.notifyDataSetChanged();
             }
         }
@@ -271,37 +265,15 @@ public class S01HomeActivity extends BaseActivity {
                     setLastUpdateTime(response);
 
                 } catch (Exception error) {
-                    Log.i("test", "error" + error.toString());
-                    //Toast.makeText(S01HomeActivity.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
-                    _wfPullRefreshView.setHasMoreData(true);
-                }
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(S01HomeActivity.this, "Error:" + error.toString(), Toast.LENGTH_SHORT).show();
-                _wfPullRefreshView.onPullDownRefreshComplete();
-                _wfPullRefreshView.onPullUpRefreshComplete();
-                _wfPullRefreshView.setHasMoreData(true);
-                if (!AppUtil.checkNetWork(S01HomeActivity.this)) {
-                    new AlertDialog.Builder(S01HomeActivity.this)
-                            .setTitle("连接失败")
-                            .setMessage("未连接网络或者信号不好。")
-                            .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    doRefreshTask();
-                                }
-                            }).show();
+                    _wfPullRefreshView.setHasMoreData(false);
                 }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().getSequenceNumber();
     }
 
 
@@ -430,5 +402,10 @@ public class S01HomeActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPageEnd("S01Home"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void reconn() {
+        doRefreshTask();
     }
 }

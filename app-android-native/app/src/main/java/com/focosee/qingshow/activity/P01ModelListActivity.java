@@ -108,6 +108,11 @@ public class P01ModelListActivity extends BaseActivity {
         registerReceiver(receiver, new IntentFilter(U01PersonalActivity.USER_UPDATE));
     }
 
+    @Override
+    public void reconn() {
+
+    }
+
     private void doRefreshData() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getModelListApi("1", "10"), null, new Response.Listener<JSONObject>() {
             @Override
@@ -119,11 +124,6 @@ public class P01ModelListActivity extends BaseActivity {
                 _currentIndex = 1;
 
                 pullRefreshListView.onPullDownRefreshComplete();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
             }
         });
 
@@ -146,11 +146,6 @@ public class P01ModelListActivity extends BaseActivity {
                 pullRefreshListView.onPullUpRefreshComplete();
                 _currentIndex++;
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
-            }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -158,7 +153,6 @@ public class P01ModelListActivity extends BaseActivity {
 
     private void handleErrorMsg(VolleyError error) {
         Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("P01ModelListActivity", error.toString());
     }
 
     @Override

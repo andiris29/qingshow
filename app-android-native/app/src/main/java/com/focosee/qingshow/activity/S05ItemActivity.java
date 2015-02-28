@@ -79,6 +79,11 @@ public class S05ItemActivity extends BaseActivity {
         showItemAtIndex(0);
     }
 
+    @Override
+    public void reconn() {
+
+    }
+
     public void showItemAtIndex(final int index) {
         ImageLoader.getInstance().displayImage(items.get(index).getBrandPortrait(), (MCircularImageView)findViewById(R.id.S05_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.S05_item_name)).setText(items.get(index).getItemName());

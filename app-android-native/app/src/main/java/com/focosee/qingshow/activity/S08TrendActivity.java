@@ -85,6 +85,11 @@ public class S08TrendActivity extends BaseActivity {
         mPullRefreshListView.doPullRefreshing(true,500);
     }
 
+    @Override
+    public void reconn() {
+        doRefreshTask();
+    }
+
     private void setLastUpdateTime() {
         String text = formatDateTime(System.currentTimeMillis());
         mPullRefreshListView.setLastUpdatedLabel(text);
@@ -135,25 +140,6 @@ public class S08TrendActivity extends BaseActivity {
                     mPullRefreshListView.setHasMoreData(true);
                 }
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(S08TrendActivity.this, "Error:"+error.toString(), Toast.LENGTH_LONG).show();
-                mPullRefreshListView.onPullDownRefreshComplete();
-                mPullRefreshListView.onPullUpRefreshComplete();
-                mPullRefreshListView.setHasMoreData(true);
-                if(!AppUtil.checkNetWork(S08TrendActivity.this)){
-                    new AlertDialog.Builder(S08TrendActivity.this)
-                            .setTitle("连接失败")
-                            .setMessage("未连接网络或者信号不好。")
-                            .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    doRefreshTask();
-                                }
-                            }).show();
-                }
             }
         });
         //Toast.makeText(this,jor.get,Toast.LENGTH_LONG).show();

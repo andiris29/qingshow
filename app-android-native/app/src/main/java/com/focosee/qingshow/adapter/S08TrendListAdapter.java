@@ -245,12 +245,6 @@ public class S08TrendListAdapter extends BaseAdapter {
                     ErrorHandler.handle(context, ErrorCode.NoNetWork);
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-//                showMessage(context, error.toString());
-                ErrorHandler.handle(context, ErrorCode.NoNetWork);
-            }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);

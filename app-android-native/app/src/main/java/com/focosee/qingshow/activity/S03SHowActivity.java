@@ -168,18 +168,17 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     }
 
+    @Override
+    public void reconn() {
+        getShowDetailFromNet();
+    }
+
     private void getShowDetailFromNet() {
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i("S03ShowActivity", response.toString());
                 showDetailEntity = ShowParser.parseQuery(response).get(0);
                 showData();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i("S03ShowActivity", error.toString());
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -208,11 +207,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                     } else {
                         handleResponseError(response);
                     }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMessage(S03SHowActivity.this, error.toString());
             }
         });
 

@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.QSApplication;
@@ -89,9 +90,9 @@ public class AppUtil {
 
     public static boolean checkNetWork(Context context) {
         boolean flag = false;
-        /*ConnectivityManager cwjManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cwjManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cwjManager.getActiveNetworkInfo() != null)
-            flag = cwjManager.getActiveNetworkInfo().isAvailable();*/
-        return true;
+            flag = cwjManager.getActiveNetworkInfo().isAvailable();
+        return flag;
     }
 }

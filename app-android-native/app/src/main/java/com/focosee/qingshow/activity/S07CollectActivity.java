@@ -83,6 +83,11 @@ public class S07CollectActivity extends BaseActivity {
         isOpened = false;
     }
 
+    @Override
+    public void reconn() {
+
+    }
+
     private Point getScreenSize(){
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();

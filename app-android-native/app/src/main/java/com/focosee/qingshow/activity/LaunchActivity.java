@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.umeng.analytics.MobclickAgent;
 
-public class LaunchActivity extends BaseActivity {
+public class LaunchActivity extends BaseActivity{
 
 
     @Override
@@ -36,7 +37,20 @@ public class LaunchActivity extends BaseActivity {
                 LaunchActivity.this.startActivity(mainIntent);
                 LaunchActivity.this.finish();
             }
+
+            @Override
+            public void onError() {
+                super.onError();
+                Intent mainIntent = new Intent(LaunchActivity.this, S01HomeActivity.class);
+                LaunchActivity.this.startActivity(mainIntent);
+                LaunchActivity.this.finish();
+            }
         });
+
+    }
+
+    @Override
+    public void reconn() {
 
     }
 }

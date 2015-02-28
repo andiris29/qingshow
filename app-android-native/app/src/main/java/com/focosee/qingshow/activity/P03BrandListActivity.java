@@ -113,6 +113,11 @@ public class P03BrandListActivity extends BaseActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void reconn() {
+        refreshData();
+    }
+
     private void loadMoreData() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),String.valueOf(pageIndex + 1)),null, new Response.Listener<JSONObject>() {
             @Override
@@ -128,11 +133,6 @@ public class P03BrandListActivity extends BaseActivity {
                 adapter.notifyDataSetChanged();
 
                 pullRefreshListView.onPullUpRefreshComplete();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -152,11 +152,6 @@ public class P03BrandListActivity extends BaseActivity {
 
                 pullRefreshListView.onPullDownRefreshComplete();
                 pullRefreshListView.setHasMoreData(true);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

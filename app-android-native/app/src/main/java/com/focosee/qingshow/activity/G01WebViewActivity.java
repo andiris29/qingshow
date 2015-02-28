@@ -46,6 +46,11 @@ public class G01WebViewActivity extends BaseActivity{
         loadWebView(url);
     }
 
+    @Override
+    public void reconn() {
+
+    }
+
     private void loadWebView(String url){
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);

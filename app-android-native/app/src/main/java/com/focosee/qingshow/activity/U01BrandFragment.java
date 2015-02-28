@@ -163,24 +163,6 @@ public class U01BrandFragment extends Fragment{
                 }
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mPullRefreshListView.onPullDownRefreshComplete();
-                mPullRefreshListView.onPullUpRefreshComplete();
-                mPullRefreshListView.setHasMoreData(true);
-                if(!AppUtil.checkNetWork(getActivity())) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle("连接失败")
-                            .setMessage("未连接网络或者信号不好。")
-                            .setPositiveButton("重新连接", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    doRefreshTask();
-                                }
-                            }).show();
-                }
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jor);
     }

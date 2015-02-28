@@ -182,6 +182,14 @@ public class P04BrandActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void reconn() {
+        doNewestRefreshDataTask();
+        doDiscountRefreshDataTask();
+        doShowRefreshTask();
+        doFollowersRefreshDataTask();
+    }
+
     private void constructViewPager() {
         pagerViewList = new ArrayList<View>();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -302,11 +310,6 @@ public class P04BrandActivity extends BaseActivity {
                     return;
                 }
                 brandEntity = modelShowEntities.get(0);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -799,11 +802,6 @@ public class P04BrandActivity extends BaseActivity {
                     showMessage(P04BrandActivity.this, "关注失败");
                 }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ErrorHandler.handle(P04BrandActivity.this, ErrorCode.NoNetWork);
-            }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
@@ -832,11 +830,6 @@ public class P04BrandActivity extends BaseActivity {
                 }catch (Exception e) {
                     showMessage(P04BrandActivity.this, "取消关注失败");
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                ErrorHandler.handle(P04BrandActivity.this, ErrorCode.NoNetWork);
             }
         });
 

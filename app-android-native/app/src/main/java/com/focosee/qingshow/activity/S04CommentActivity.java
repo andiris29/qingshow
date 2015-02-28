@@ -159,6 +159,11 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         isOpened = false;
     }
 
+    @Override
+    public void reconn() {
+        doRefreshTask();
+    }
+
     private void doLoadMoreTask() {
         QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
             @Override
@@ -176,13 +181,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 pullRefreshListView.setHasMoreData(true);
                 setLastUpdateTime();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pullRefreshListView.onPullUpRefreshComplete();
-                Toast.makeText(S04CommentActivity.this, R.string.check_wifi, Toast.LENGTH_SHORT).show();
-                Log.i("test", error.toString());
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);
     }
@@ -197,12 +195,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 pullRefreshListView.onPullDownRefreshComplete();
                 pullRefreshListView.setHasMoreData(true);
                 setLastUpdateTime();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pullRefreshListView.onPullDownRefreshComplete();
-                Log.i("test", error.toString());
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonArrayRequest);
@@ -234,11 +226,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0); //强制隐藏键盘
                 //Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S04CommentActivity.this, "发布失败，" + error.toString(), Toast.LENGTH_SHORT).show();
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -251,12 +238,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
             @Override
             public void onResponse(JSONObject response) {
                 doRefreshTask();
-                Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S04CommentActivity.this, "删除失败，" + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 

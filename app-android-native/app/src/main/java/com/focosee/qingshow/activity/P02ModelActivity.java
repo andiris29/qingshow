@@ -232,6 +232,13 @@ public class P02ModelActivity extends BaseActivity {
         doFollowersRefreshDataTask();
     }
 
+    @Override
+    public void reconn() {
+        doFollowersRefreshDataTask();
+        doShowsRefreshDataTask();
+        doFollowedRefreshDataTask();
+    }
+
     private void setIndicatorBackground(int pos) {
         newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
@@ -309,12 +316,6 @@ public class P02ModelActivity extends BaseActivity {
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -340,12 +341,6 @@ public class P02ModelActivity extends BaseActivity {
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -370,12 +365,6 @@ public class P02ModelActivity extends BaseActivity {
                 followedPullRefreshListView.onPullUpRefreshComplete();
                 followedPullRefreshListView.setHasMoreData(true);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                followedPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -399,12 +388,6 @@ public class P02ModelActivity extends BaseActivity {
                 followedPeopleListAdapter.notifyDataSetChanged();
                 followedPullRefreshListView.onPullUpRefreshComplete();
                 followedPullRefreshListView.setHasMoreData(true);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                followedPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -431,12 +414,6 @@ public class P02ModelActivity extends BaseActivity {
                 followerPullRefreshListView.onPullUpRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                followerPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
-            }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
@@ -462,12 +439,6 @@ public class P02ModelActivity extends BaseActivity {
                 followerPeopleListAdapter.notifyDataSetChanged();
                 followerPullRefreshListView.onPullUpRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                followerPullRefreshListView.onPullUpRefreshComplete();
-                handleErrorMsg(error);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -504,11 +475,6 @@ public class P02ModelActivity extends BaseActivity {
                         showMessage(P02ModelActivity.this, "关注失败" + response);
                     }
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMessage(P02ModelActivity.this, error.toString());
-            }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
@@ -536,11 +502,6 @@ public class P02ModelActivity extends BaseActivity {
                     }else{
                         showMessage(P02ModelActivity.this, "取消关注失败");
                     }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMessage(P02ModelActivity.this, error.toString());
             }
         });
 
