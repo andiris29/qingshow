@@ -28,3 +28,7 @@ server-node/public
 .project
 mongodb/_dump
 folder-uploads
+
+#admin tool
+admin-tools/goblin-tbitem
+admin-tools/goblin-tbshop
