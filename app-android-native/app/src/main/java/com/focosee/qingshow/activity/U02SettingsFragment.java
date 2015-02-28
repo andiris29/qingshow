@@ -111,26 +111,28 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_u02_settings, container, false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (null != savedInstanceState) {
+            people = (MongoPeople) savedInstanceState.getSerializable("people");
+        }
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        context = (Context) getActivity().getApplicationContext();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
+        context = getActivity().getApplicationContext();
         requestQueue = Volley.newRequestQueue(context);
 
-        matchUI();
+        matchUI(view);
+        if(null == people)
+            getUser();
+        setJumpListener(view);
 
-        getUser();
-
-
-        setJumpListener();
-
-        Button quitButton = (Button) getActivity().findViewById(R.id.quitButton);
+        Button quitButton = (Button) view.findViewById(R.id.quitButton);
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,37 +158,43 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 requestQueue.add(stringRequest);
             }
         });
+        return view;
     }
 
-    private void matchUI() {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
-        portraitImageView = (ImageView) getActivity().findViewById(R.id.portraitImageView);
-        backgroundImageView = (ImageView) getActivity().findViewById(R.id.backgroundImageView);
+    private void matchUI(View view) {
 
-        shoesSizeEditText = (EditText) getActivity().findViewById(R.id.shoesSizeEditText);
+        portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
+        backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
+
+        shoesSizeEditText = (EditText) view.findViewById(R.id.shoesSizeEditText);
         shoesSizeEditText.setOnFocusChangeListener(this);
-        clothesSizeEditText = (EditText) getActivity().findViewById(R.id.clothesSizeEditText);
+        clothesSizeEditText = (EditText) view.findViewById(R.id.clothesSizeEditText);
         clothesSizeEditText.setOnFocusChangeListener(this);
 
-        nameEditText = (EditText) getActivity().findViewById(R.id.nameEditText);
+        nameEditText = (EditText) view.findViewById(R.id.nameEditText);
         nameEditText.setOnFocusChangeListener(this);
 
-        sexTextView = (TextView) getActivity().findViewById(R.id.sexTextView);
+        sexTextView = (TextView) view.findViewById(R.id.sexTextView);
 
-        birthEditText = (EditText) getActivity().findViewById(R.id.birthDayEditText);
+        birthEditText = (EditText) view.findViewById(R.id.birthDayEditText);
         birthEditText.setOnFocusChangeListener(this);
 
-        heightEditText = (EditText) getActivity().findViewById(R.id.heightEditText);
+        heightEditText = (EditText) view.findViewById(R.id.heightEditText);
         heightEditText.setOnFocusChangeListener(this);
 
-        weightEditText = (EditText) getActivity().findViewById(R.id.weightEditText);
+        weightEditText = (EditText) view.findViewById(R.id.weightEditText);
         weightEditText.setOnFocusChangeListener(this);
 
-        hairTextView = (EditText) getActivity().findViewById(R.id.hairTextView);
+        hairTextView = (EditText) view.findViewById(R.id.hairTextView);
 
-        favoriteBrandText = (TextView) getActivity().findViewById(R.id.brandTextView);
+        favoriteBrandText = (TextView) view.findViewById(R.id.brandTextView);
 
-        changePwText = (TextView) getActivity().findViewById(R.id.u02_change_pw_text);
+        changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
 
         textWidth = changePwText.getPaint().measureText(changePwText.getText().toString());
 
@@ -252,7 +260,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
-                    QSModel.INSTANCE.setUser(user);
+                    getUser();
                     context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                 }
                 if (type == TYPE_PORTRAIT) {
@@ -307,6 +315,13 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             clothesSizeEditText.setText(clothesSize[people.clothingSize]);
             favoriteBrandText.setText(people.favoriteBrand);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getUser();
+        outState.putSerializable("people", people);
     }
 
     @Override
@@ -448,8 +463,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         });
     }
 
-    private void setJumpListener() {
-        backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
+    private void setJumpListener(View view) {
+        backTextView = (TextView) view.findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -458,7 +473,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        personalRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.personalRelativeLayout);
+        personalRelativeLayout = (RelativeLayout) view.findViewById(R.id.personalRelativeLayout);
         personalRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -468,19 +483,18 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 startActivityForResult(Intent.createChooser(intent, "请选择头像"), TYPE_PORTRAIT);
             }
         });
-        backgroundRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.backgroundRelativeLayout);
+        backgroundRelativeLayout = (RelativeLayout) view.findViewById(R.id.backgroundRelativeLayout);
         backgroundRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-
                 startActivityForResult(Intent.createChooser(intent, "请选择背景"), TYPE_BACKGROUD);
             }
         });
 
-        sexRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.sexRelativeLayout);
+        sexRelativeLayout = (RelativeLayout) view.findViewById(R.id.sexRelativeLayout);
         sexRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -488,7 +502,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 showActionSheet(TAG_SEX);
             }
         });
-        hairRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.hairRelativeLayout);
+        hairRelativeLayout = (RelativeLayout) view.findViewById(R.id.hairRelativeLayout);
         hairRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -496,7 +510,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 showActionSheet(TAG_HAIR);
             }
         });
-        birthRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.birthRelativeLayout);
+        birthRelativeLayout = (RelativeLayout) view.findViewById(R.id.birthRelativeLayout);
         birthRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -518,7 +532,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         });
 
 
-        changePasswordRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changePasswordRelativeLayout);
+        changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -527,7 +541,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                         replace(R.id.settingsScrollView, fragment).commit();
             }
         });
-        changeEmailRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.changeEmailRelativeLayout);
+        changeEmailRelativeLayout = (RelativeLayout) view.findViewById(R.id.changeEmailRelativeLayout);
         changeEmailRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -535,7 +549,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
             }
         });
-        informRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.informRelativeLayout);
+        informRelativeLayout = (RelativeLayout) view.findViewById(R.id.informRelativeLayout);
         informRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -543,7 +557,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
             }
         });
-        rulesRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.rulesRelativeLayout);
+        rulesRelativeLayout = (RelativeLayout) view.findViewById(R.id.rulesRelativeLayout);
         rulesRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -551,7 +565,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, hairFragment).commit();
             }
         });
-        helpRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.helpRelativeLayout);
+        helpRelativeLayout = (RelativeLayout) view.findViewById(R.id.helpRelativeLayout);
         helpRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -559,7 +573,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
             }
         });
-        aboutVIPRelativeLayout = (RelativeLayout) getActivity().findViewById(R.id.aboutVIPRelativeLayout);
+        aboutVIPRelativeLayout = (RelativeLayout) view.findViewById(R.id.aboutVIPRelativeLayout);
         aboutVIPRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

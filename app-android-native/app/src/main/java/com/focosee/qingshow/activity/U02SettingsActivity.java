@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -7,7 +8,7 @@ import com.focosee.qingshow.R;
 import com.umeng.analytics.MobclickAgent;
 
 
-public class U02SettingsActivity extends BaseActivity {
+public class U02SettingsActivity extends Activity {
     private Context context;
 
     @Override
@@ -18,11 +19,6 @@ public class U02SettingsActivity extends BaseActivity {
 
         U02SettingsFragment settingsFragment = U02SettingsFragment.newIntance();
         getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
-    }
-
-    @Override
-    public void reconn() {
-
     }
 
     @Override
