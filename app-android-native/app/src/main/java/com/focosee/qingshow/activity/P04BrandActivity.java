@@ -497,15 +497,14 @@ public class P04BrandActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     MongoPeople people = fansListAdapter.getData().get(i);
                     intent.setClass(P04BrandActivity.this, U01PersonalActivity.class);
+                    bundle.putSerializable(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, people);
                     for (int role : people.getRoles()) {
                         if ( role == RolesCode.MODEL.getIndex()){
                             intent.setClass(P04BrandActivity.this, P02ModelActivity.class);
                             bundle.putSerializable(P02ModelActivity.INPUT_MODEL, people);
-                        } else {
-                            bundle.putSerializable(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, people);
                         }
                     }
-
+                    intent.putExtras(bundle);
                     startActivity(intent);
 
                 }

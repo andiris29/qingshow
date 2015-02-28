@@ -66,7 +66,7 @@ public class U01PersonalActivity extends FragmentActivity {
             if(LOGOUT_ACTOIN.equals(intent.getAction())){
                 finish();
             }
-            if(USER_UPDATE.equals(intent.getAction())){
+            if(USER_UPDATE.equals(intent.getAction()) && peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndex()){
                 people = QSModel.INSTANCE.getUser();
             }
         }
