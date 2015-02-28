@@ -110,6 +110,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
             viewHolder.viewPager.setAdapter(mViewPagerAdapter);
             viewHolder.viewPager.setOnPageChangeListener(mViewPagerAdapter);
+            viewHolder.viewPager.setOffscreenPageLimit(1);
             viewHolder.viewPager.setCurrentItem(itemList.get(position).images.size() * 100);
         }
         return convertView;

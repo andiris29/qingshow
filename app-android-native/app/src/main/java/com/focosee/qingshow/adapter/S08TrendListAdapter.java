@@ -132,6 +132,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         //设置监听，主要是设置点点的背景
         holderView.viewPager.setOnPageChangeListener(mViewPagerAdapter);
         //设置ViewPager的默认项, 设置为长度的100倍，这样子开始就能往左滑动
+        holderView.viewPager.setOffscreenPageLimit(1);
         holderView.viewPager.setCurrentItem(data.get(position).images.size() * 100);
         //分享
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
