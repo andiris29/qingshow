@@ -113,7 +113,7 @@ Page.prototype._crawl = function() {
             api.error(err);
             /*
              //TODO http request
-             $.getJSON('http://121.41.162.102:30001/services/feeding/chosen', {}, function (data){
+             $.getJSON('http://121.41.162.102/services/feeding/chosen', {}, function (data){
              var topShops = data.topShops;
              //shopId;
              //http://shop{shop_id}.taobao.com/search.htm?search=y&orderType=hotsell_desc
