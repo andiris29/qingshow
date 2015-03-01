@@ -4,7 +4,7 @@ package com.focosee.qingshow.constants.config;
  * Created by jackyu on 11/22/14.
  */
 public class QSAppWebAPI {
-    private static final String HOST_ADDRESS = "http://chingshow.com:30001";
+    private static final String HOST_ADDRESS = "http://chingshow.com";
     private static final String HOST_NAME = HOST_ADDRESS + "/services";
 
     public static final String LOGIN_SERVICE_URL = HOST_NAME + "/user/login";
