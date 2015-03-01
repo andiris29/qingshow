@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:text="微信朋友"/>
+            android:text="微信好友"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
