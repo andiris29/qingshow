@@ -35,7 +35,7 @@ public class SharePopupWindow extends PopupWindow {
         Log.i("tag",outHeight + "");
         this.setWidth(LayoutParams.MATCH_PARENT);
         this.setHeight(LayoutParams.WRAP_CONTENT);
-        ColorDrawable dw = new ColorDrawable(0x30000000);
+        ColorDrawable dw = new ColorDrawable(0x80000000);
         this.setBackgroundDrawable(dw);
         this.setContentView(mainview);
         this.setFocusable(true);
