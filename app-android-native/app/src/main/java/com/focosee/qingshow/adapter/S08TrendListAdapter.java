@@ -185,9 +185,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
         if(data.get(position).getIsLikeByCurrentUser()) {
-            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
-        }else{
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+        }else{
+            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
