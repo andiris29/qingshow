@@ -237,11 +237,11 @@ public class S01HomeActivity extends BaseActivity {
     }
 
     private void doRefreshTask() {
-        _getDataFromNet(true, "1", "10");
+        _getDataFromNet(true, "1", "20");
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "20");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {

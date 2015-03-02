@@ -139,7 +139,7 @@ public class S02ShowClassify extends BaseActivity {
         String url = "";
         switch (classifyMod){
             case 0:
-                url = QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize));
+                url = QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(20));
                 break;
             case 1:
                 url = QSAppWebAPI.getShowHotApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize));
