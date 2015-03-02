@@ -14,4 +14,5 @@
 }
 
 @property (nonatomic,assign) BOOL isWithStrikeThrough;
+@property (nonatomic, assign) BOOL isNotStrikeDollor;
 @end

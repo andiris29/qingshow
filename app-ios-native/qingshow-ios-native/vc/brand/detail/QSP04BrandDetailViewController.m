@@ -74,7 +74,7 @@
     [self configView];
     [self bindDelegateObj];
     if (self.itemDict) {
-        if ([QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+        if ([QSItemUtil hasDiscountInfo:self.itemDict]) {
             [self changeToSection:1];
             [self.badgeView.btnGroup setSelect:1];
         }
@@ -143,7 +143,7 @@
     self.itemNewDelegate.delegate = self;
     self.itemNewDelegate.type = QSItemImageListTableViewDelegateObjTypeNew;
     if (self.itemDict) {
-        if (![QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+        if (![QSItemUtil hasDiscountInfo:self.itemDict]) {
             self.itemNewDelegate.additionalResult = @[self.itemDict];
         }
     }
@@ -167,7 +167,7 @@
     self.itemDiscountDelegate.type = QSItemImageListTableViewDelegateObjTypeDiscount;
     
     if (self.itemDict) {
-        if ([QSItemUtil getPriceAfterDiscount:self.itemDict].length) {
+        if ([QSItemUtil hasDiscountInfo:self.itemDict]) {
             self.itemDiscountDelegate.additionalResult = @[self.itemDict];
         }
     }

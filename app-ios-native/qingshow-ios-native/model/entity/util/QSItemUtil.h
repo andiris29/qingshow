@@ -20,6 +20,7 @@
 + (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
 + (NSString*)getItemName:(NSDictionary*)item;
 + (NSString*)getItemTypeName:(NSDictionary*)item;
++ (BOOL)hasDiscountInfo:(NSDictionary*)item;
 + (NSString*)getPrice:(NSDictionary*)item;
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict;
 

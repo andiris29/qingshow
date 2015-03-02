@@ -60,6 +60,7 @@
     
     self.imgScrollView.itemsArray = [QSShowUtil getItems:self.showDict];
     self.label2.isWithStrikeThrough = YES;
+    self.label2.isNotStrikeDollor = YES;
 
 }
 - (void)viewDidLayoutSubviews

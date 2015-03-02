@@ -51,6 +51,7 @@
     self.imageScrollView.enableLazyLoad = YES;
     [self.imageContainerView addSubview:self.imageScrollView];
     self.discountLabel.isWithStrikeThrough = YES;
+    self.discountLabel.isNotStrikeDollor = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -65,7 +66,7 @@
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
     self.imageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSItemUtil getImagesUrl:itemDict]];
-    if ([QSItemUtil getPriceAfterDiscount:itemDict].length) {
+    if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;
         self.originLabel.hidden = NO;
