@@ -65,12 +65,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/S07_top_line"
             android:layout_marginLeft="20dp"
+            android:divider="#ffffff"
+            android:dividerHeight="2dp"
             android:layout_marginRight="20dp" ></ListView>
 
         <View
             android:layout_below="@+id/S07_item_list"
             android:layout_width="fill_parent"
-            android:layout_height="1dp"
+            android:layout_height="2dp"
             android:layout_marginTop="0dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
