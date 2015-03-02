@@ -399,7 +399,7 @@ public class P02ModelActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
-                    followedPeopleListAdapter.notifyDataSetChanged();
+                    followerPeopleListAdapter.notifyDataSetChanged();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;

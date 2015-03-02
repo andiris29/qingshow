@@ -76,7 +76,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:text="刀刀"
+                                android:text=""
                                 android:textColor="#ffffff"
                                 android:textSize="30px" />
 
@@ -86,7 +86,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="20岁 170cm"
+                                android:text=""
                                 android:textColor="#ffffff"
                                 android:textSize="25px" />
 
@@ -98,7 +98,7 @@
                             android:layout_height="fill_parent"
                             android:layout_weight="1"
                             android:gravity="left|bottom"
-                            android:text="就爱文艺小清新"
+                            android:text=""
                             android:textColor="#ffffff"
                             android:textSize="25px" />
 

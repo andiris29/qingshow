@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.Map;
 
 
-
 public class S08TrendListAdapter extends BaseAdapter {
 
 
@@ -79,7 +78,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         return 0;
     }
 
-    public void resetData(LinkedList<MongoPreview> datas) { this.data = datas; }
+    public void resetData(LinkedList<MongoPreview> datas) {
+        this.data = datas;
+    }
 
     public void addItemLast(LinkedList<MongoPreview> datas) {
         this.data.addAll(datas);
@@ -159,15 +160,16 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
-        if(data.get(position).getIsLikeByCurrentUser()) {
+        if (data.get(position).getIsLikeByCurrentUser()) {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-        }else{
+        } else {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != data && null != data.get(position).get_id()) {
+                    holderView.likeImageButton.setClickable(false);
                     followOrNot(data.get(position).getIsLikeByCurrentUser(), position, holderView);
                 }
             }
@@ -176,10 +178,10 @@ public class S08TrendListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void followOrNot(final boolean isLiked, final int position,final HolderView holderView){
+    private void followOrNot(final boolean isLiked, final int position, final HolderView holderView) {
 
         String api;
-        if(isLiked)
+        if (isLiked)
             api = QSAppWebAPI.getPreviewTrendUnLikeApi();
         else {
             api = QSAppWebAPI.getPreviewTrendLikeApi();
@@ -192,42 +194,32 @@ public class S08TrendListAdapter extends BaseAdapter {
                 , jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-
-                    String showMsg = "";
-                    if (!MetadataParser.hasError(response)) {
-                        if(isLiked){
-                            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-                            holderView.likeTextView.setText(
-                                    String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
-                            showMsg = "点赞";
-                        }else{
-                            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
-                            holderView.likeTextView.setText(
-                                    String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) - 1));
-                            showMsg = "取消点赞";
-                        }
-                        data.get(position).setIsLikeByCurrentUser(!isLiked);
-                        showMessage(context, showMsg + "成功");
-
+                String showMsg = "";
+                if (!MetadataParser.hasError(response)) {
+                    if (isLiked) {
+                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+                        holderView.likeTextView.setText(
+                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
+                        showMsg = "点赞";
                     } else {
-                        handleResponseError(response);
-                        showMessage(context, showMsg+ "失败");
-
+                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+                        holderView.likeTextView.setText(
+                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) - 1));
+                        showMsg = "取消点赞";
                     }
-                } catch (Exception e) {
-                    //showMessage(context, e.toString());
-                    ErrorHandler.handle(context, ErrorCode.NoNetWork);
+                    data.get(position).setIsLikeByCurrentUser(!isLiked);
+                    showMessage(context, showMsg + "成功");
+
+                } else {
+                    handleResponseError(response);
+                    showMessage(context, showMsg + "失败");
+
                 }
+                holderView.likeImageButton.setClickable(true);
             }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(mJsonObjectRequest);
-
-
-
-
-
     }
 
     private void showMessage(Context context, String message) {
@@ -330,7 +322,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         public Object instantiateItem(ViewGroup container, int position) {
 
             ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
-            MongoPreview.Image imgInfo = (MongoPreview.Image)imageView.getTag();
+            MongoPreview.Image imgInfo = (MongoPreview.Image) imageView.getTag();
 
             imageLoader.displayImage(ImgUtil.imgTo2x(imgInfo.url), imageView, AppUtil.getShowDisplayOptions());
             container.addView(imageView, 0);
@@ -338,12 +330,12 @@ public class S08TrendListAdapter extends BaseAdapter {
             return imageView;
         }
 
-        private void initMImageViews(int size){
+        private void initMImageViews(int size) {
 
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                     , ViewGroup.LayoutParams.MATCH_PARENT);
-            for (int i = 0;i<size;i++){
+            for (int i = 0; i < size; i++) {
                 ImageView imageView = new ImageView(context);
                 MongoPreview.Image imgInfo = this.Images.get(i);
                 imageView.setLayoutParams(params);
@@ -356,12 +348,13 @@ public class S08TrendListAdapter extends BaseAdapter {
         }
 
 
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+        }
 
         @Override
-        public void onPageScrollStateChanged(int arg0) {}
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {}
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
 
         @Override
         public void onPageSelected(int arg0) {
@@ -375,7 +368,7 @@ public class S08TrendListAdapter extends BaseAdapter {
             holderView.priceTextView.setText("");
         }
 
-        private void initTips(){
+        private void initTips() {
             tips = new ImageView[this.imgSize];
             _mViewGroup.removeAllViews();
             for (int i = 0; i < tips.length; i++) {

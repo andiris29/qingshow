@@ -87,7 +87,6 @@ public class U01PersonalActivity extends FragmentActivity {
             people = QSModel.INSTANCE.getUser();
         }
 
-
         if (people != null) {
             if (!QSModel.INSTANCE.loggedin() || !people.get_id().equals(QSModel.INSTANCE.getUser()._id)){
                 peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
@@ -177,8 +176,8 @@ public class U01PersonalActivity extends FragmentActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     public void matchUI() {
@@ -290,11 +289,6 @@ public class U01PersonalActivity extends FragmentActivity {
                 personalViewPager.setCurrentItem(3);
             }
         });
-    }
-
-    public void refreshWatchNum() {
-        TextView tv = (TextView) findViewById(R.id.followedCountTextView);
-        tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString()) - 1));
     }
 
     public MongoPeople getMongoPeople() {

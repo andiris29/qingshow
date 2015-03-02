@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:paddingRight="20dp"
-            android:text="就爱文艺小清新"
+            android:text=""
             android:singleLine="false"
             android:textColor="#ffffffff" />
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:paddingRight="20dp"
-            android:text="刀刀 20岁 170cm"
+            android:text=""
             android:textColor="#ffffffff" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="价格： 1920元"
+            android:text=""
             android:textColor="#ffffffff" />
 
     </LinearLayout>
