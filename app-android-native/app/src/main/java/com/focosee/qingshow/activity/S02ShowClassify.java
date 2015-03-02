@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -23,6 +25,7 @@ import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
@@ -97,6 +100,36 @@ public class S02ShowClassify extends BaseActivity {
         _pullRefreshListView.setPullLoadEnabled(true);
         _pullRefreshListView.setScrollLoadEnabled(true);
 
+        _pullRefreshListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+                pauseOnScroll(ImageLoader.getInstance(), true, true, scrollState);
+
+            }
+
+            @Override
+            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+
+            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling,int scrollState){
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        imageLoader.resume();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        if (pauseOnScroll) {
+                            imageLoader.pause();
+                        }
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        if (pauseOnFling) {
+                            imageLoader.pause();
+                        }
+                        break;
+                }
+            }
+        });
+
         _pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
@@ -111,6 +144,7 @@ public class S02ShowClassify extends BaseActivity {
 
         _pullRefreshListView.doPullRefreshing(true, 500);
     }
+
 
     @Override
     public void reconn() {

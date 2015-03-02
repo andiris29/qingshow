@@ -18,6 +18,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.HomeViewHolder;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -37,6 +39,7 @@ import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
@@ -127,7 +130,35 @@ public class S01HomeActivity extends BaseActivity {
 
 
         });
-        _wfListView.setOnScrollListener(_wfPullRefreshView.initLoadPauseOnScrollListenser(ImageLoader.getInstance(),true,true));
+        _wfPullRefreshView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+                    pauseOnScroll(ImageLoader.getInstance(), true, true, scrollState);
+                }
+
+                @Override
+                public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                }
+
+            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling,int scrollState){
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        imageLoader.resume();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        if (pauseOnScroll) {
+                            imageLoader.pause();
+                        }
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        if (pauseOnFling) {
+                            imageLoader.pause();
+                        }
+                        break;
+                }
+            }
+        });
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {

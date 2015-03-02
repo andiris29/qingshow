@@ -19,7 +19,9 @@ import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.json.JSONObject;
@@ -30,61 +32,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-class HomeViewHolder extends AbsViewHolder {
-
-
-    // Public interface
-    public void setData(MongoShow entity, ImageLoader imageLoader) {
-
-        showIV.setOriginWidth(entity.getCoverWidth());
-        showIV.setOriginHeight(entity.getCoverHeight());
-
-        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
-        imageLoader.displayImage(entity.getModelPhoto(), modelIV, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
-        modelNameTV.setText(entity.getModelName());
-        modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
-        loveTV.setText(entity.getShowNumLike());
-        //TODO 换图片
-        if (entity.getModelRef().getModelIsFollowedByCurrentUser()) {
-            loveIV.setBackgroundResource(R.drawable.model_cell_icon02_noticeno);
-        }
-    }
-
-    MImageView_OriginSize showIV;
-    ImageView modelIV;
-    TextView modelNameTV;
-    TextView modelHeightWeightTV;
-    //    TextView modelHeightTV;
-//    TextView modelWeightTV;
-    TextView loveTV;
-    ImageView loveIV;
-    public ImageView shadowView;
-
-
-    //    // Helper property
-    private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
-
-    // Helper class Animation
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
-
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
-
-        @Override
-        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-            if (loadedImage != null) {
-                ImageView imageView = (ImageView) view;
-                boolean firstDisplay = !displayedImages.contains(imageUri);
-                if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
-                    displayedImages.add(imageUri);
-                }
-            }
-        }
-    }
-
-}
-
 public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
     private String updateTimeString = "15:00更新";
@@ -146,13 +93,11 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
             holder = (HomeViewHolder) convertView.getTag();
         }
         _mImageFetcher.cancelDisplayTask(holder.modelIV);
-        _mImageFetcher.cancelDisplayTask(holder.showIV);
         if (showInfo.getShowIsFollowedByCurrentUser())
             holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice_hover);
         else
             holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice);
-
-        holder.setData(showInfo, _mImageFetcher);
+        holder.setData(_data.get(position),_mImageFetcher);
         final int final_position = position;
         holder.shadowView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +144,8 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
         public TextView updateDateTV;
         public TextView updateWeekTV;
     }
+
+
 
 
 }

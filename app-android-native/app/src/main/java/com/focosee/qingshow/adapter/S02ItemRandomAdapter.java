@@ -43,6 +43,8 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
 
     private Context context;
 
+    private ItemViewHolder holder;
+
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
 
 
@@ -78,7 +80,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
 
 
         position--;
-        ItemViewHolder holder;
         final MongoItem showInfo = _data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
@@ -129,9 +130,15 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         return (position == 0) ? 0 : 1;
     }
 
-    private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
+    private class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
 
-        static final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+        final List<String> displayedImages = Collections.synchronizedList(new LinkedList<String>());
+
+        @Override
+        public void onLoadingStarted(String imageUri, View view) {
+            super.onLoadingStarted(imageUri, view);
+            holder.priceTV.setVisibility(View.GONE);
+        }
 
         @Override
         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
@@ -143,6 +150,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
                     displayedImages.add(imageUri);
                 }
             }
+            holder.priceTV.setVisibility(View.VISIBLE);
         }
     }
 

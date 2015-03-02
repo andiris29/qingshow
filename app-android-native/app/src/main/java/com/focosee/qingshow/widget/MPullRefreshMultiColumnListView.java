@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Adapter;
 
+import com.focosee.qingshow.command.Callback;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -241,33 +242,12 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 //        }
 //    }
 
-    public LoadPauseOnScrollListenser initLoadPauseOnScrollListenser(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling){
-        return imageLoader == null ? new LoadPauseOnScrollListenser()
-                :new LoadPauseOnScrollListenser(imageLoader,pauseOnScroll,pauseOnFling);
-    }
-
-    private class LoadPauseOnScrollListenser implements  PLA_AbsListView.OnScrollListener {
-
-        private ImageLoader imageLoader;
-
-        private boolean pauseOnScroll;
-        private boolean pauseOnFling;
-
-        public LoadPauseOnScrollListenser(){
-
-        }
-
-        public LoadPauseOnScrollListenser(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling){
-            this.imageLoader = imageLoader;
-            this.pauseOnScroll = pauseOnScroll;
-            this.pauseOnFling = pauseOnFling;
-        }
+    public class LoadPauseOnScrollListenser implements  PLA_AbsListView.OnScrollListener {
 
         @Override
         public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-            if (isScrollLoadEnabled() && hasMoreData()) {
-                if(imageLoader != null) pauseOnScroll(scrollState);
 
+            if (isScrollLoadEnabled() && hasMoreData()) {
                 if (scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_IDLE
                         || scrollState == PLA_AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
                     if (isReadyForPullUp()) {
@@ -283,28 +263,10 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 
         @Override
         public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
             if (null != mScrollListener) {
                 mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
         }
 
-        private void pauseOnScroll(int scrollState){
-            switch (scrollState) {
-                case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                    imageLoader.resume();
-                    break;
-                case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                    if (pauseOnScroll) {
-                        imageLoader.pause();
-                    }
-                    break;
-                case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                    if (pauseOnFling) {
-                        imageLoader.pause();
-                    }
-                    break;
-            }
-        }
     }
 }
