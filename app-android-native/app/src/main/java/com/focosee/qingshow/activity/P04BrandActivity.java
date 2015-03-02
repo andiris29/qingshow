@@ -111,10 +111,7 @@ public class P04BrandActivity extends BaseActivity {
 
         if(null != additionalItemEntity && null == brandEntity) {
 
-            if (null == additionalItemEntity.getBrandRef().__context) {//传过来的是id
-                brandEntity = new MongoBrand();
-                brandEntity._id = additionalItemEntity.getBrandId();
-            }else brandEntity = additionalItemEntity.getBrandRef();
+             brandEntity = additionalItemEntity.getBrandRef();
         }
 
         getBrandFromNet();
