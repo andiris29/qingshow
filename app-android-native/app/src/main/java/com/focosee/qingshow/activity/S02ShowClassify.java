@@ -89,6 +89,7 @@ public class S02ShowClassify extends BaseActivity {
         switch (classifyMod){
             case 0:
                 _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
+                _pullRefreshListView.setmFooterLayout(null);
                 break;
             case 1:
                 _adapter = new HotWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());

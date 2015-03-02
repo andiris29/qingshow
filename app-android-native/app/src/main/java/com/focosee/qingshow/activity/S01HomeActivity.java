@@ -117,6 +117,7 @@ public class S01HomeActivity extends BaseActivity {
         _wfListView.setSmoothScrollbarEnabled(false);
         _wfPullRefreshView.setPullLoadEnabled(true);
         _wfPullRefreshView.setScrollLoadEnabled(true);
+        _wfPullRefreshView.setmFooterLayout(null);
         _wfPullRefreshView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
