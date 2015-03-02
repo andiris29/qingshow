@@ -39,9 +39,9 @@ public class MongoComment implements Serializable {
     }
 
     public String getAuthorName() {
-        if (null != this.authorRef && null != this.authorRef.name)
+        if (null != this.authorRef && null != this.authorRef.name && !"".equals(this.authorRef.name))
             return this.authorRef.name;
-        return "未命名";
+        return "倾秀用户";
     }
 
     public String getCommentContent() {

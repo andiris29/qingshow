@@ -25,6 +25,7 @@ import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
@@ -168,6 +169,10 @@ public class S08TrendListAdapter extends BaseAdapter {
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!QSModel.INSTANCE.loggedin()) {
+                    Toast.makeText(context, R.string.need_login, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (null != data && null != data.get(position).get_id()) {
                     holderView.likeImageButton.setClickable(false);
                     followOrNot(data.get(position).getIsLikeByCurrentUser(), position, holderView);
@@ -333,8 +338,8 @@ public class S08TrendListAdapter extends BaseAdapter {
         private void initMImageViews(int size) {
 
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , ViewGroup.LayoutParams.MATCH_PARENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
+                    , ViewGroup.LayoutParams.WRAP_CONTENT);
             for (int i = 0; i < size; i++) {
                 ImageView imageView = new ImageView(context);
                 MongoPreview.Image imgInfo = this.Images.get(i);

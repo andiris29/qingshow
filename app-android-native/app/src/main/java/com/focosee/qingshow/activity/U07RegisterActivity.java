@@ -36,6 +36,7 @@ import java.util.Map;
 public class U07RegisterActivity extends BaseActivity {
 
     private static final String DEBUG_TAG = "注册页";
+    private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
 
     private Button submitButton;
@@ -200,37 +201,37 @@ public class U07RegisterActivity extends BaseActivity {
         int result = -1;
         switch (whichChecked) {
             case R.id.size34RadioButton:
-                result = 34;
+                result = 0;
                 break;
             case R.id.size35RadioButton:
-                result = 35;
+                result = 1;
                 break;
             case R.id.size36RadioButton:
-                result = 36;
+                result = 2;
                 break;
             case R.id.size37RadioButton:
-                result = 37;
+                result = 3;
                 break;
             case R.id.size38RadioButton:
-                result = 38;
+                result = 4;
                 break;
             case R.id.size39RadioButton:
-                result = 39;
+                result = 5;
                 break;
             case R.id.size40RadioButton:
-                result = 40;
+                result = 6;
                 break;
             case R.id.size41RadioButton:
-                result = 41;
+                result = 7;
                 break;
             case R.id.size42RadioButton:
-                result = 42;
+                result = 8;
                 break;
             case R.id.size43RadioButton:
-                result = 43;
+                result = 9;
                 break;
             case R.id.size44RadioButton:
-                result = 44;
+                result = 10;
                 break;
             default:
                 break;
@@ -248,6 +249,7 @@ public class U07RegisterActivity extends BaseActivity {
     private void setShoesSizeRadioGroupListener() {
         for (int i = 0; i < shoesSizeRadioGroup.getChildCount(); i++) {
             ((RadioButton) shoesSizeRadioGroup.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
+            getShoesSizeRadioButtonVal();
         }
         ((RadioButton) shoesSizeRadioGroup.getChildAt(getShoesSizeRadioButtonVal())).setTextColor(getResources().getColor(R.color.white));
     }
@@ -255,7 +257,7 @@ public class U07RegisterActivity extends BaseActivity {
     private void updateSettings() {
         int gender = getSexRadioButtonVal();
         int clothesSize = getClothesSizeRadioButtonVal();
-        int shoesSize = getShoesSizeRadioButtonVal();
+        int shoesSize = shoeSizes[getShoesSizeRadioButtonVal()];
 
         Map<String, String> params = new HashMap<String, String>();
         if (gender >= 0)
