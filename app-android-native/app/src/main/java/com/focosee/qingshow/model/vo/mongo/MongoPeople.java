@@ -82,7 +82,7 @@ public class MongoPeople implements Serializable {
 
     public String getPeopleName() {
         if(null == name || "".equals(name))
-            return "未命名";
+            return "倾秀用户";
         return name;
     }
 
