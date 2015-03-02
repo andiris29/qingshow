@@ -2,6 +2,7 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Adapter;
@@ -90,7 +91,7 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 
     @Override
     protected boolean isReadyForPullUp() {
-        return isLastItemVisible();
+        return isDistanceToLastItemVisible(10) || isLastItemVisible();
     }
 
     @Override
@@ -103,7 +104,7 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
         super.startLoading();
 
         if (null != mLoadMoreFooterLayout) {
-            mLoadMoreFooterLayout.setState(ILoadingLayout.State.REFRESHING);
+           // mLoadMoreFooterLayout.setState(ILoadingLayout.State.REFRESHING);
         }
     }
 
@@ -112,7 +113,7 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
         super.onPullUpRefreshComplete();
 
         if (null != mLoadMoreFooterLayout) {
-            mLoadMoreFooterLayout.setState(ILoadingLayout.State.RESET);
+            //mLoadMoreFooterLayout.setState(ILoadingLayout.State.RESET);
         }
     }
 
@@ -120,21 +121,21 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
     public void setScrollLoadEnabled(boolean scrollLoadEnabled) {
         super.setScrollLoadEnabled(scrollLoadEnabled);
 
-        if (scrollLoadEnabled) {
-            // 设置Footer
-            if (null == mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout = new FooterLoadingLayout(getContext());
-            }
-
-            if (null == mLoadMoreFooterLayout.getParent()) {
-                mListView.addFooterView(mLoadMoreFooterLayout, null, false);
-            }
-            mLoadMoreFooterLayout.show(true);
-        } else {
-            if (null != mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout.show(false);
-            }
-        }
+//        if (scrollLoadEnabled) {
+//            // 设置Footer
+//            if (null == mLoadMoreFooterLayout) {
+//                mLoadMoreFooterLayout = new FooterLoadingLayout(getContext());
+//            }
+//
+//            if (null == mLoadMoreFooterLayout.getParent()) {
+//               mListView.addFooterView(mLoadMoreFooterLayout, null, false);
+//            }
+//            mLoadMoreFooterLayout.show(true);
+//        } else {
+//            if (null != mLoadMoreFooterLayout) {
+//                mLoadMoreFooterLayout.show(false);
+//            }
+//        }
     }
 
     @Override
@@ -198,7 +199,8 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 
         final int lastItemPosition = adapter.getCount() - 1;
         final int lastVisiblePosition = mListView.getLastVisiblePosition();
-
+        Log.i("tag","lastVisiblePosition : "+ lastVisiblePosition);
+        Log.i("tag","lastItemPosition : "+ lastItemPosition);
         /**
          * This check should really just be: lastVisiblePosition == lastItemPosition, but ListView
          * internally uses a FooterView which messes the positions up. For me we'll just subtract
@@ -217,30 +219,21 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
         return false;
     }
 
+    private boolean isDistanceToLastItemVisible(int num) {
+        final Adapter adapter = mListView.getAdapter();
 
+        if (null == adapter || adapter.isEmpty()) {
+            return true;
+        }
 
-//    @Override
-//    public void onScrollStateChanged(AbsListView view, int scrollState) {
-//        if (isScrollLoadEnabled() && hasMoreData()) {
-//            if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE
-//                    || scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-//                if (isReadyForPullUp()) {
-//                    startLoading();
-//                }
-//            }
-//        }
-//
-//        if (null != mScrollListener) {
-//            mScrollListener.onScrollStateChanged(view, scrollState);
-//        }
-//    }
-//
-//    @Override
-//    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//        if (null != mScrollListener) {
-//            mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-//        }
-//    }
+        final int lastItemPosition = adapter.getCount() - 1;
+        final int lastVisiblePosition = mListView.getLastVisiblePosition();
+
+        if(lastItemPosition - lastVisiblePosition == num){
+            return true;
+        }
+        return false;
+    }
 
     public class LoadPauseOnScrollListenser implements  PLA_AbsListView.OnScrollListener {
 

@@ -46,7 +46,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     }
     
     /**回滚的时间*/
-    private static final int SCROLL_DURATION = 150;
+    private static final int SCROLL_DURATION = 1;
     /**阻尼系数*/
     private static final float OFFSET_RADIO = 2.5f;
     /**上一次移动的点 */
@@ -296,8 +296,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 pullHeaderLayout(deltaY / OFFSET_RADIO);
                 handled = true;
             } else if (isPullLoadEnabled() && isReadyForPullUp()) {
-                pullFooterLayout(deltaY / OFFSET_RADIO);
-                handled = true;
+                if(mFooterLayout != null) {
+                    pullFooterLayout(deltaY / OFFSET_RADIO);
+                    handled = true;
+                }
             } else {
                 mIsHandledTouchEvent = false;
             }
@@ -319,9 +321,13 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                     // 加载更多
                     if (isPullLoadEnabled() && (mPullUpState == State.RELEASE_TO_REFRESH)) {
                         startLoading();
-                        handled = true;
+                        if(mFooterLayout != null) {
+                            handled = true;
+                        }
                     }
-                    resetFooterLayout();
+                    if(mFooterLayout != null) {
+                        resetFooterLayout();
+                    }
                 }
             }
             break;
@@ -355,7 +361,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     
     @Override
     public boolean isPullLoadEnabled() {
-        return mPullLoadEnabled && (null != mFooterLayout);
+        return mPullLoadEnabled ;
     }
   
     @Override
@@ -402,11 +408,13 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 @Override
                 public void run() {
                     setInterceptTouchEventEnabled(true);
+                    if(mFooterLayout != null)
                     mFooterLayout.setState(State.RESET);
                 }
             }, getSmoothScrollDuration());
-            
-            resetFooterLayout();
+            if(mFooterLayout != null) {
+                resetFooterLayout();
+            }
             setInterceptTouchEventEnabled(false);
         }
     }
@@ -425,6 +433,11 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     public LoadingLayout getFooterLoadingLayout() {
         return mFooterLayout;
     }
+
+    public void setmFooterLayout(LoadingLayout mFooterLayout) {
+        this.mFooterLayout = mFooterLayout;
+    }
+
 
     @Override
     public void setLastUpdatedLabel(CharSequence label){
@@ -638,7 +651,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             } else {
                 mPullUpState = State.PULL_TO_REFRESH;
             }
-            
+            if(mFooterLayout != null)
             mFooterLayout.setState(mPullUpState);
             onStateChanged(mPullUpState, false);
         }
@@ -735,10 +748,9 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         if (isPullLoading()) {
             return;
         }
-        
         mPullUpState = State.REFRESHING;
         onStateChanged(State.REFRESHING, false);
-        
+
         if (null != mFooterLayout) {
             mFooterLayout.setState(State.REFRESHING);
         }
