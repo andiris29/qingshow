@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -91,12 +93,12 @@ public class S04CommentListAdapter extends BaseAdapter {
         this.imageLoader.displayImage(data.get(position).getAuthorImage(), holder.commentImage, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         holder.commentName.setText(data.get(position).getAuthorName());
         holder.commentContent.setText(data.get(position).getCommentContent());
-
+        holder.commentTime.setTextColor(Color.GRAY);
+        holder.commentContent.setTextColor(Color.GRAY);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         holder.commentTime.setText(simpleDateFormat.format(data.get(position).create.getTime()));
         return convertView;
     }
-
     public void resetData(ArrayList<MongoComment> commentEntities) {
         this.data = commentEntities;
     }
