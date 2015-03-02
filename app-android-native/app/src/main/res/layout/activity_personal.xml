@@ -35,14 +35,14 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/u01_account_btn"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginLeft="40dp"
-            android:layout_height="wrap_content">
-
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_below="@+id/activity_personal_backTextView"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
             <com.focosee.qingshow.widget.MRoundImageView
                 android:id="@+id/avatorImageView"
                 android:layout_width="45dp"
@@ -63,8 +63,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_small"
                     android:textColor="#ffffff"
-                    android:layout_alignParentTop="true"
-                    android:text="21212123" />
+                    android:layout_alignParentTop="true" />
 
                 <TextView
                     android:id="@+id/heightAndWeightTextView"
@@ -72,10 +71,9 @@
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
                     android:layout_below="@id/nameTextView"
-                    android:textSize="@dimen/text_size_small"
-                    android:text="33333333" />
+                    android:textSize="@dimen/text_size_small" />
             </RelativeLayout>
-        </RelativeLayout>
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
