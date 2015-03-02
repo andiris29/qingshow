@@ -199,8 +199,6 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 
         final int lastItemPosition = adapter.getCount() - 1;
         final int lastVisiblePosition = mListView.getLastVisiblePosition();
-        Log.i("tag","lastVisiblePosition : "+ lastVisiblePosition);
-        Log.i("tag","lastItemPosition : "+ lastItemPosition);
         /**
          * This check should really just be: lastVisiblePosition == lastItemPosition, but ListView
          * internally uses a FooterView which messes the positions up. For me we'll just subtract
