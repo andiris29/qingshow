@@ -128,8 +128,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         requestQueue = Volley.newRequestQueue(context);
 
         matchUI(view);
-        if(null == people)
-            getUser();
+        getUser();
         setJumpListener(view);
 
         Button quitButton = (Button) view.findViewById(R.id.quitButton);
