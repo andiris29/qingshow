@@ -76,9 +76,11 @@ var _next = function() {
 var schedule = require('node-schedule');
 var rule = new schedule.RecurrenceRule();
 rule.hour = 1;
+rule.minute = 0;
 
 schedule.scheduleJob(rule, function(){
     winston.info('Goblin-tbitem daily begin at ' + new Date());
+    startDate = new Date();
     _next();
 });
 winston.info('Goblin-tbitem schedules success');
