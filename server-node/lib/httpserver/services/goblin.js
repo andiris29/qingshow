@@ -210,8 +210,31 @@ goblin.batchRefreshItemTaobaoInfo = {
                 } else {
                     time = new Date();
                 }
-                var query = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
-                var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
+
+                var criteria = {
+                    '$and': [{
+                        '$or': [{
+                            'taobaoInfo.refreshTime': {
+                                '$exists': false
+                            }
+                        }, {
+                            'taobaoInfo.refreshTime': {
+                                '$lt': time
+                            }
+                        }]
+                    }, {
+                        '$or': [{
+                            'deactive': {
+                                '$exists': false
+                            }
+                        }, {
+                            'deactive': false
+                        }]
+                    }]
+                };
+
+                var query = Item.find(criteria);
+                var queryCount = Item.find(criteria);
                 qsParam.pageNo = qsParam.pageNo || 1;
                 qsParam.pageSize = qsParam.pageSize || 10;
                 MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result, count) {
