@@ -37,7 +37,6 @@
             android:id="@+id/P04_brand_portrait"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/ic_launcher"
             android:layout_marginLeft="20dp"/>
 
         <LinearLayout
@@ -51,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#ffffff"
                 android:textSize="40px"
-                android:text="MANGO 旗舰店"/>
+                android:text=""/>
             <!--<TextView-->
                 <!--android:id="@+id/P04_brand_url"-->
                 <!--android:layout_width="wrap_content"-->

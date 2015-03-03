@@ -153,7 +153,7 @@ public class P04BrandActivity extends BaseActivity {
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
         //((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
 
-        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage, AppUtil.getShowDisplayOptions());
+        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage);
 
         if(brandEntity.getModelIsFollowedByCurrentUser()){
             followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);

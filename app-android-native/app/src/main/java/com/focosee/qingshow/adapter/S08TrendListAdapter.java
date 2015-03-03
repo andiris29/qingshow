@@ -337,14 +337,13 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         private void initMImageViews(int size) {
 
-
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    , ViewGroup.LayoutParams.WRAP_CONTENT);
+                    , ViewGroup.LayoutParams.FILL_PARENT);
             for (int i = 0; i < size; i++) {
                 ImageView imageView = new ImageView(context);
                 MongoPreview.Image imgInfo = this.Images.get(i);
                 imageView.setLayoutParams(params);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageView.setTag(imgInfo);
                 _mImgViewS[i] = imageView;
 
