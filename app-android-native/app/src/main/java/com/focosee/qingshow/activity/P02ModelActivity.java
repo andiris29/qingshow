@@ -306,15 +306,16 @@ public class P02ModelActivity extends BaseActivity {
                     latestPullRefreshListView.setHasMoreData(false);
                     return;
                 }
-
                 pageIndex = 1;
 
                 LinkedList<MongoShow> modelShowEntities = FeedingParser.parse(response);
+                if(modelShowEntities != null && modelShowEntities.size() != 0){
+                    itemListAdapter.resetData(modelShowEntities);
+                    itemListAdapter.notifyDataSetChanged();
+                    latestPullRefreshListView.onPullUpRefreshComplete();
+                    latestPullRefreshListView.setHasMoreData(true);
+                }
 
-                itemListAdapter.resetData(modelShowEntities);
-                itemListAdapter.notifyDataSetChanged();
-                latestPullRefreshListView.onPullUpRefreshComplete();
-                latestPullRefreshListView.setHasMoreData(true);
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -359,11 +360,12 @@ public class P02ModelActivity extends BaseActivity {
                 pageIndex = 1;
 
                 ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowed(response);
-
-                followedPeopleListAdapter.resetData(modelShowEntities);
-                followedPeopleListAdapter.notifyDataSetChanged();
-                followedPullRefreshListView.onPullUpRefreshComplete();
-                followedPullRefreshListView.setHasMoreData(true);
+                if(modelShowEntities != null && modelShowEntities.size() != 0) {
+                    followedPeopleListAdapter.resetData(modelShowEntities);
+                    followedPeopleListAdapter.notifyDataSetChanged();
+                    followedPullRefreshListView.onPullUpRefreshComplete();
+                    followedPullRefreshListView.setHasMoreData(true);
+                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -408,11 +410,12 @@ public class P02ModelActivity extends BaseActivity {
                 pageIndex = 1;
 
                 ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowers(response);
-
-                followerPeopleListAdapter.resetData(modelShowEntities);
-                followerPeopleListAdapter.notifyDataSetChanged();
-                followerPullRefreshListView.onPullUpRefreshComplete();
-                followerPullRefreshListView.setHasMoreData(true);
+                if(modelShowEntities != null && modelShowEntities.size() != 0) {
+                    followerPeopleListAdapter.resetData(modelShowEntities);
+                    followerPeopleListAdapter.notifyDataSetChanged();
+                    followerPullRefreshListView.onPullUpRefreshComplete();
+                    followerPullRefreshListView.setHasMoreData(true);
+                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

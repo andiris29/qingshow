@@ -64,6 +64,9 @@ public class HomeViewHolder extends AbsViewHolder {
                 view.setVisibility(View.GONE);
             modelHeightWeightTV.setVisibility(View.GONE);
             modelNameTV.setVisibility(View.GONE);
+            shadowView.setVisibility(View.GONE);
+            loveIV.setVisibility(View.GONE);
+            loveTV.setVisibility(View.GONE);
         }
 
         @Override
@@ -80,6 +83,9 @@ public class HomeViewHolder extends AbsViewHolder {
                 view.setVisibility(View.VISIBLE);
             modelHeightWeightTV.setVisibility(View.VISIBLE);
             modelNameTV.setVisibility(View.VISIBLE);
+            shadowView.setVisibility(View.VISIBLE);
+            loveIV.setVisibility(View.VISIBLE);
+            loveTV.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -281,7 +281,6 @@ public class S01HomeActivity extends BaseActivity {
         QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
                     LinkedList<MongoShow> results = FeedingParser.parse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
@@ -295,13 +294,12 @@ public class S01HomeActivity extends BaseActivity {
                     _wfPullRefreshView.onPullUpRefreshComplete();
                     _wfPullRefreshView.setHasMoreData(true);
                     setLastUpdateTime(response);
-
-                } catch (Exception error) {
-                    Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
-                    _wfPullRefreshView.onPullDownRefreshComplete();
-                    _wfPullRefreshView.onPullUpRefreshComplete();
-                    _wfPullRefreshView.setHasMoreData(false);
-                }
+                    if(results.size() == 0) {
+                        Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
+                        _wfPullRefreshView.onPullDownRefreshComplete();
+                        _wfPullRefreshView.onPullUpRefreshComplete();
+                        _wfPullRefreshView.setHasMoreData(false);
+                    }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jor);

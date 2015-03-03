@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 import java.util.LinkedList;
 
-abstract class AbsViewHolder {
+abstract class AbsViewHolder  {
 }
 
 public abstract class AbsWaterfallAdapter<T> extends BaseAdapter {
