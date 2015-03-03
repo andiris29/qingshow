@@ -26,6 +26,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.widget.ILoadingLayout;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -49,6 +50,7 @@ public class U01CollectionFragment extends Fragment {
     private ClassifyWaterfallAdapter itemListAdapter;
     private MongoPeople people;
     private static U01CollectionFragment instance;
+    private boolean noMoreData = false;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -163,8 +165,9 @@ public class U01CollectionFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 ((TextView)getActivity().findViewById(R.id.likeCountTextView)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
+                    noMoreData = true;
                     latestPullRefreshListView.onPullUpRefreshComplete();
-                    latestPullRefreshListView.setHasMoreData(false);
+                    latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 
@@ -187,6 +190,9 @@ public class U01CollectionFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
+                    if(noMoreData){
+                        return;
+                    }
                     Toast.makeText(getActivity(), "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);

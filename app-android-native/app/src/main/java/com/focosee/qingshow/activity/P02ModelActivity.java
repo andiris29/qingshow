@@ -34,6 +34,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.ILoadingLayout;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -296,14 +297,17 @@ public class P02ModelActivity extends BaseActivity {
         });
     }
 
+    boolean showsNoData = false;
+
     private void doShowsRefreshDataTask() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
+                    showsNoData = true;
                     latestPullRefreshListView.onPullUpRefreshComplete();
-                    latestPullRefreshListView.setHasMoreData(false);
+                    latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
                 pageIndex = 1;
@@ -327,6 +331,9 @@ public class P02ModelActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 //((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
+                    if(showsNoData){
+                        return;
+                    }
                     Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     latestPullRefreshListView.onPullUpRefreshComplete();
                     latestPullRefreshListView.setHasMoreData(false);
@@ -346,24 +353,29 @@ public class P02ModelActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
+
+    boolean followedNoData = false;
+
     private void doFollowedRefreshDataTask() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
-                    followedPullRefreshListView.onPullUpRefreshComplete();
-                    followedPullRefreshListView.setHasMoreData(false);
+                    followedNoData = true;
+                    followedPullRefreshListView.onPullDownRefreshComplete();
+                    followedPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 
                 pageIndex = 1;
 
                 ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowed(response);
+
                 if(modelShowEntities != null && modelShowEntities.size() != 0) {
                     followedPeopleListAdapter.resetData(modelShowEntities);
                     followedPeopleListAdapter.notifyDataSetChanged();
-                    followedPullRefreshListView.onPullUpRefreshComplete();
+                    followedPullRefreshListView.onPullDownRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(true);
                 }
             }
@@ -376,6 +388,9 @@ public class P02ModelActivity extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
+                    if(followedNoData){
+                        return;
+                    }
                     Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followedPullRefreshListView.onPullUpRefreshComplete();
                     followedPullRefreshListView.setHasMoreData(false);
@@ -385,7 +400,6 @@ public class P02ModelActivity extends BaseActivity {
                 pageIndex++;
 
                 ArrayList<MongoPeople> modelShowEntities = PeopleParser.parseQueryFollowed(response);
-
                 followedPeopleListAdapter.addData(modelShowEntities);
                 followedPeopleListAdapter.notifyDataSetChanged();
                 followedPullRefreshListView.onPullUpRefreshComplete();
@@ -395,15 +409,16 @@ public class P02ModelActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
+    boolean followerNoData = false;
     private void doFollowersRefreshDataTask() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
-                    followerPeopleListAdapter.notifyDataSetChanged();
+                    followerNoData = true;
                     followerPullRefreshListView.onPullUpRefreshComplete();
-                    followerPullRefreshListView.setHasMoreData(false);
+                    followedPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 
@@ -427,6 +442,9 @@ public class P02ModelActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
+                    if(followerNoData){
+                        return;
+                    }
                     Toast.makeText(P02ModelActivity.this, "没有更多数据了！", Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);

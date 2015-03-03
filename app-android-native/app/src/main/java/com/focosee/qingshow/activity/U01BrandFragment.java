@@ -28,6 +28,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.ILoadingLayout;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -45,6 +46,7 @@ public class U01BrandFragment extends Fragment{
     private MPullRefreshListView mPullRefreshListView;
     private P03BrandListAdapter mAdapter;
     private ListView brandListView;
+    private boolean noMoreData = false;
 
     private int _currentPageIndex = 1;
     private MongoPeople people;
@@ -135,11 +137,25 @@ public class U01BrandFragment extends Fragment{
         _getDataFromNet(false, _currentPageIndex+1, 10);
     }
 
-    private void _getDataFromNet(boolean refreshSign, int pageNo, int pageSize) {
+    private void _getDataFromNet(boolean refreshSign, final int pageNo, int pageSize) {
         final boolean _tRefreshSign = refreshSign;
         QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
+
+                if(MetadataParser.hasError(response)){
+                    if(pageNo == 1){
+                        noMoreData = true;
+                        mPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                    }else {
+                        if(noMoreData){
+                            return;
+                        }
+                        mPullRefreshListView.onPullUpRefreshComplete();
+                        mPullRefreshListView.setHasMoreData(false);
+                    }
+                }
+
                 try{
                     ArrayList<MongoBrand> results = BrandParser.parseQueryBrands(response);
                     if (_tRefreshSign) {
@@ -157,9 +173,8 @@ public class U01BrandFragment extends Fragment{
 
                 }catch (Exception error){
                     Toast.makeText(getActivity(), "最后一页", Toast.LENGTH_SHORT).show();
-                    mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
-                    mPullRefreshListView.setHasMoreData(true);
+                    mPullRefreshListView.setHasMoreData(false);
                 }
 
             }

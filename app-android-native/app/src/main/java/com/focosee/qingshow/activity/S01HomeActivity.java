@@ -29,6 +29,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HomeViewHolder;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
@@ -281,6 +282,11 @@ public class S01HomeActivity extends BaseActivity {
         QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getShowListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    _wfPullRefreshView.onPullDownRefreshComplete();
+                    _wfPullRefreshView.onPullUpRefreshComplete();
+                    _wfPullRefreshView.setHasMoreData(false);
+                }else{
                     LinkedList<MongoShow> results = FeedingParser.parse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
@@ -300,6 +306,7 @@ public class S01HomeActivity extends BaseActivity {
                         _wfPullRefreshView.onPullUpRefreshComplete();
                         _wfPullRefreshView.setHasMoreData(false);
                     }
+                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jor);

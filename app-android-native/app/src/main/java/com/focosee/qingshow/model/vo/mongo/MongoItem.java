@@ -86,7 +86,7 @@ public class MongoItem implements Serializable {
             if(null == minPrice){
                 return null;
             }
-            return FormatPrice(String.valueOf(Double.parseDouble(minPrice) - 0.01));
+            return minPrice;
         }
 
         public String getPromoPrice(){

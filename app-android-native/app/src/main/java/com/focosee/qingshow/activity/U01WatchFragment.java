@@ -28,6 +28,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.widget.ILoadingLayout;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -45,6 +46,7 @@ public class U01WatchFragment extends Fragment {
     private ListView followerListView;
     private MPullRefreshListView followerPullRefreshListView;
     private P01ModelListAdapter followerPeopleListAdapter;
+    private boolean noMoreData = false;
 
     private int pageIndex = 1;
     private MongoPeople people;
@@ -176,9 +178,9 @@ public class U01WatchFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
-                    followerPullRefreshListView.onPullUpRefreshComplete();
+                    noMoreData = true;
                     followerPullRefreshListView.onPullDownRefreshComplete();
-                    followerPullRefreshListView.setHasMoreData(false);
+                    followerPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 
@@ -201,6 +203,9 @@ public class U01WatchFragment extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
+                    if(noMoreData){
+                        return;
+                    }
                     Toast.makeText(getActivity(), R.string.no_more_data, Toast.LENGTH_SHORT).show();
                     followerPullRefreshListView.onPullUpRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
