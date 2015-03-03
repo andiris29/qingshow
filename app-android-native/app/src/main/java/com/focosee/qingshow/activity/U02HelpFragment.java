@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.umeng.analytics.MobclickAgent;
 
 public class U02HelpFragment extends Fragment {
@@ -37,7 +38,7 @@ public class U02HelpFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context = (Context) getActivity().getApplicationContext();
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
         backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {

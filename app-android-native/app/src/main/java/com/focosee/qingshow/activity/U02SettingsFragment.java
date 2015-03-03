@@ -34,6 +34,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
@@ -125,7 +126,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
         context = getActivity().getApplicationContext();
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
         matchUI(view);
         getUser();

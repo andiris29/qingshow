@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P04BrandActivity;
-import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -94,7 +93,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         holder.showIV.setOriginWidth(showInfo.imageMetadata.width);
         holder.showIV.setOriginHeight(showInfo.imageMetadata.height);
 
-        _mImageFetcher.displayImage(ImgUtil.imgTo2x(showInfo.imageMetadata.url), holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
+        _mImageFetcher.displayImage(showInfo.imageMetadata.url, holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
 
         holder.priceTV.setText(showInfo.getPrice());
         if (null != showInfo.brandDiscountInfo) {

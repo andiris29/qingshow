@@ -17,9 +17,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.QSModel;
 import com.umeng.analytics.MobclickAgent;
 
@@ -51,7 +51,7 @@ public class U02ChangeIdFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context = (Context) getActivity().getApplicationContext();
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
         currentIdEditText = (EditText) getActivity().findViewById(R.id.currentIdEditText);
         newIdEditText = (EditText) getActivity().findViewById(R.id.newIdEditText);

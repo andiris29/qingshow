@@ -16,17 +16,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
@@ -84,7 +84,7 @@ public class U07RegisterActivity extends BaseActivity {
             }
         });
 
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
         clothesSizeRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
