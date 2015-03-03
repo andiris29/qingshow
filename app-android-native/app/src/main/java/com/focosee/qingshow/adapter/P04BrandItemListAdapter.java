@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -16,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.G01WebViewActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -31,13 +34,14 @@ public class P04BrandItemListAdapter extends BaseAdapter {
     private static String TAG = "P04BrandItemListAdapter";
     private Context context;
     private ArrayList<MongoItem> itemList;
+    private Point itemSize;
     private int itemHeight;
 
-    public P04BrandItemListAdapter(Context concreteContext, int screenHeight,
+    public P04BrandItemListAdapter(Context concreteContext, Point screenSize,
                                    ArrayList<MongoItem> concreteItemList) {
         context = concreteContext;
         itemList = concreteItemList;
-        this.itemHeight = screenHeight / 2;
+        this.itemSize = screenSize;
     }
 
     @Override
@@ -71,6 +75,11 @@ public class P04BrandItemListAdapter extends BaseAdapter {
             viewHolder.price = (TextView) convertView.findViewById(R.id.item_p04_item_price);
             viewHolder.sourcePrice = (TextView) convertView.findViewById(R.id.item_p04_item_source_price);
             viewHolder.detailButton = (ImageButton) convertView.findViewById(R.id.item_p04_item_detail_button);
+            if(null != itemList){
+                if(null != itemList.get(position).imageMetadata){
+                    itemHeight = this.itemSize.x  * itemList.get(position).imageMetadata.height / itemList.get(position).imageMetadata.width;
+                }
+            }
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ItemViewHolder)convertView.getTag();
@@ -107,7 +116,6 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         //if(null != itemList.get(position).images) {
         if(null != itemList.get(position).images && itemList.get(position).images.size() != 0) {
             P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images, viewHolder);
-
             viewHolder.viewPager.setAdapter(mViewPagerAdapter);
             viewHolder.viewPager.setOnPageChangeListener(mViewPagerAdapter);
             viewHolder.viewPager.setOffscreenPageLimit(1);
@@ -213,15 +221,15 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         private void initImageViewList(){
             _mImgViewS = new ImageView[this.imgSize];
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , ViewGroup.LayoutParams.MATCH_PARENT);
+                    , itemHeight);
 
             int index = 0;
 
             for(MongoItem.Image imgInfo : images){
 
-                ImageView imageView = new ImageView(context);
+                MImageView_OriginSize imageView = new MImageView_OriginSize(context);
                 imageView.setLayoutParams(params);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageView.setTag(imgInfo);
                 _mImgViewS[index] = imageView;
                 index++;

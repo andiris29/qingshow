@@ -153,7 +153,7 @@ public class P04BrandActivity extends BaseActivity {
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
         //((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
 
-        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage, AppUtil.getShowDisplayOptions());
+        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage);
 
         if(brandEntity.getModelIsFollowedByCurrentUser()){
             followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
@@ -320,7 +320,7 @@ public class P04BrandActivity extends BaseActivity {
         if (null != additionalItemEntity) {
             newestBrandItemDataList.add(additionalItemEntity);
         }
-        newestBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, newestBrandItemDataList);
+        newestBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize(), newestBrandItemDataList);
 
         latestListView.setAdapter(newestBrandItemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
@@ -370,7 +370,7 @@ public class P04BrandActivity extends BaseActivity {
         discountPullRefreshListView = (MPullRefreshListView) pagerViewList.get(1).findViewById(R.id.pager_P04_item_list);
         discountListView = discountPullRefreshListView.getRefreshableView();
 
-        discountBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, new ArrayList<MongoItem>());
+        discountBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize(), new ArrayList<MongoItem>());
 
         discountListView.setAdapter(discountBrandItemListAdapter);
         discountPullRefreshListView.setScrollLoadEnabled(true);
@@ -419,7 +419,7 @@ public class P04BrandActivity extends BaseActivity {
     private void configShowsListPage() {
         showPullRefreshListView = (MPullRefreshMultiColumnListView) pagerViewList.get(2).findViewById(R.id.pager_P04_item_list);
         showListView = showPullRefreshListView.getRefreshableView();
-        showBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize().y, new ArrayList<MongoItem>());
+        showBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize(), new ArrayList<MongoItem>());
 
         showListView.setAdapter(showBrandItemListAdapter);
         showPullRefreshListView.setScrollLoadEnabled(true);
