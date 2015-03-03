@@ -129,8 +129,6 @@ var _crawlTaobaoInfo = function (item, callback) {
             //Web Taobao Info
             taobaoWeb.item.getWebSkus(item, function (err, taobaoInfo) {
                 item.taobaoInfo = taobaoInfo;
-//                item.taobaoInfo = item.taobaoInfo || {};
-//                item.taobaoInfo.web_skus = webSkus;
                 callback();
             });
         }
@@ -139,6 +137,11 @@ var _crawlTaobaoInfo = function (item, callback) {
             callback(err);
         } else {
             item.taobaoInfo = item.taobaoInfo || {};
+            if (Object.keys(item.taobaoInfo).length === 0) {
+                item.deactive = true;
+            } else {
+                delete item.deactive;
+            }
             item.taobaoInfo.refreshTime = new Date();
             item.save(callback);
         }
