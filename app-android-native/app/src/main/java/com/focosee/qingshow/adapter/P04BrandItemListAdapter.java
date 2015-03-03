@@ -85,7 +85,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         //ImageLoader.getInstance().displayImage(itemList.get(position).getSource(), viewHolder.image);
         //viewHolder.discount.setText(itemList.get(position).getPrice());
         viewHolder.price.setText(itemList.get(position).getPrice());
-        if(null != itemList.get(position).brandDiscountInfo) {
+        if(null != itemList.get(position).taobaoInfo.getMinPromoPrice()) {
             viewHolder.discount.setText("SALE");
             viewHolder.discount.setTextColor(Color.RED);
             viewHolder.discount.setTextSize(20);

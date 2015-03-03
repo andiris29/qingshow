@@ -96,7 +96,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         _mImageFetcher.displayImage(showInfo.imageMetadata.url, holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
 
         holder.priceTV.setText(showInfo.getPrice());
-        if (null != showInfo.brandDiscountInfo) {
+        if (null != showInfo.taobaoInfo.getMinPromoPrice()) {
             holder.sorcePriceTV.setText(showInfo.getSourcePrice());
             holder.sorcePriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
@@ -136,7 +136,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         @Override
         public void onLoadingStarted(String imageUri, View view) {
             super.onLoadingStarted(imageUri, view);
-            holder.priceTV.setVisibility(View.GONE);
         }
 
         @Override
@@ -149,7 +148,6 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
                     displayedImages.add(imageUri);
                 }
             }
-            holder.priceTV.setVisibility(View.VISIBLE);
         }
     }
 
