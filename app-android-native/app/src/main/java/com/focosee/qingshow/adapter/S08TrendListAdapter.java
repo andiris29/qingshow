@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -19,12 +20,9 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -47,19 +45,20 @@ public class S08TrendListAdapter extends BaseAdapter {
 
 
     private final String TAG = "com.focosee.qingshow.adapter.S08TrendListAdapter";
-    //每一行的最小高度
-    private int minHeight;
 
+    private Point itemSize;
+
+    private int itemHeight;
 
     private Context context;
     private List<MongoPreview> data;
     private ImageLoader imageLoader;
 
-    public S08TrendListAdapter(Context context, LinkedList<MongoPreview> trendEntities, int screenHeight, ImageLoader imageLoader) {
+    public S08TrendListAdapter(Context context, LinkedList<MongoPreview> trendEntities, Point screenSize, ImageLoader imageLoader) {
         this.context = context;
         this.data = trendEntities;
         this.imageLoader = imageLoader;
-        this.minHeight = screenHeight * 8 / 9;
+        this.itemSize = screenSize;
     }
 
 
@@ -115,18 +114,23 @@ public class S08TrendListAdapter extends BaseAdapter {
 
             holderView.likeImageButton.setTag(1);
 
+            if(null != data){
+                if(null != data.get(position).imageMetadata){
+                    this.itemHeight = this.itemSize.x * data.get(position).imageMetadata.height / data.get(position).imageMetadata.width;
+                }
+            }
+
             convertView.setTag(holderView);
         } else {
             holderView = (HolderView) convertView.getTag();
         }
-        int item_height = this.minHeight;
         int item_width = holderView.viewPager.getLayoutParams().width;
 
         //如何图片高度小于最小高度，则设为最小高度
         params_rLayout = new RelativeLayout.LayoutParams(item_width
-                , item_height);
+                , this.itemHeight);
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
-                item_height));
+                this.itemHeight));
 
         //设置Adapter
         MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView);
@@ -337,8 +341,8 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         private void initMImageViews(int size) {
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    , ViewGroup.LayoutParams.FILL_PARENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT
+                    , itemHeight);
             for (int i = 0; i < size; i++) {
                 ImageView imageView = new ImageView(context);
                 MongoPreview.Image imgInfo = this.Images.get(i);

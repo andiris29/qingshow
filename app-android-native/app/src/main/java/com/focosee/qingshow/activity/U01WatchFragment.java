@@ -177,6 +177,7 @@ public class U01WatchFragment extends Fragment {
                 ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     followerPullRefreshListView.onPullUpRefreshComplete();
+                    followerPullRefreshListView.onPullDownRefreshComplete();
                     followerPullRefreshListView.setHasMoreData(false);
                     return;
                 }
@@ -187,6 +188,7 @@ public class U01WatchFragment extends Fragment {
                 followerPeopleListAdapter.resetData(modelShowEntities);
                 followerPeopleListAdapter.notifyDataSetChanged();
                 followerPullRefreshListView.onPullUpRefreshComplete();
+                followerPullRefreshListView.onPullDownRefreshComplete();
                 followerPullRefreshListView.setHasMoreData(true);
             }
         });
