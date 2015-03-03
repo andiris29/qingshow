@@ -39,8 +39,8 @@ var _next = function() {
                 return;
             }
             var retObj = JSON.parse(body);
-            if (retObj.metadata && retObj.metadata.err && retObj.metadata.err === 1009) {
-                if (retObj.metadata.err === 1009) {
+            if (retObj.metadata && retObj.metadata.error) {
+                if (retObj.metadata.error === 1009) {
                     callback('complete');
                 } else {
                     callback(retObj.metadata.err);
@@ -53,7 +53,7 @@ var _next = function() {
         if (err) {
             if (err === 'complete') {
                 winston.info('all complete');
-                process.exit();
+//                process.exit();
             } else {
                 logs.push('fail');
                 winston.info(logs.join(' '));

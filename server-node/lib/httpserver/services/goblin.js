@@ -215,6 +215,8 @@ goblin.batchRefreshItemTaobaoInfo = {
                     console.log('remain : ' + count);
                     if (err) {
                         callback(err);
+                    } else if (!count) {
+                        callback(ServerError.PagingNotExist);
                     } else {
                         callback(null, result);
                     }
