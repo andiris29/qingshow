@@ -165,7 +165,8 @@ public class U01RecommendFragment extends Fragment {
                 if (MetadataParser.hasError(response)) {
                     noMoreData = true;
                     latestPullRefreshListView.onPullUpRefreshComplete();
-                    latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                    if(latestPullRefreshListView.getFooterLoadingLayout() != null)
+                        latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 

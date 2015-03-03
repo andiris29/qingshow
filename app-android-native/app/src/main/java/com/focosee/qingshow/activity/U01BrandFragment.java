@@ -146,7 +146,8 @@ public class U01BrandFragment extends Fragment{
                 if(MetadataParser.hasError(response)){
                     if(pageNo == 1){
                         noMoreData = true;
-                        mPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                        if(mPullRefreshListView.getFooterLoadingLayout() != null)
+                            mPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     }else {
                         if(noMoreData){
                             return;

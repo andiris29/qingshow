@@ -180,7 +180,8 @@ public class U01WatchFragment extends Fragment {
                 if (MetadataParser.hasError(response)) {
                     noMoreData = true;
                     followerPullRefreshListView.onPullDownRefreshComplete();
-                    followerPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                    if(followerPullRefreshListView.getFooterLoadingLayout() != null)
+                        followerPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 

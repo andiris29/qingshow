@@ -307,7 +307,8 @@ public class P02ModelActivity extends BaseActivity {
                 if (MetadataParser.hasError(response)) {
                     showsNoData = true;
                     latestPullRefreshListView.onPullUpRefreshComplete();
-                    latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                    if(latestPullRefreshListView.getFooterLoadingLayout() != null)
+                        latestPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
                 pageIndex = 1;
@@ -364,7 +365,8 @@ public class P02ModelActivity extends BaseActivity {
                 if (MetadataParser.hasError(response)) {
                     followedNoData = true;
                     followedPullRefreshListView.onPullDownRefreshComplete();
-                    followedPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                    if(followedPullRefreshListView.getFooterLoadingLayout() != null)
+                         followedPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 
@@ -418,7 +420,8 @@ public class P02ModelActivity extends BaseActivity {
                 if (MetadataParser.hasError(response)) {
                     followerNoData = true;
                     followerPullRefreshListView.onPullUpRefreshComplete();
-                    followedPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
+                    if(followerPullRefreshListView.getFooterLoadingLayout() != null)
+                        followerPullRefreshListView.getFooterLoadingLayout().setState(ILoadingLayout.State.NONE);
                     return;
                 }
 
