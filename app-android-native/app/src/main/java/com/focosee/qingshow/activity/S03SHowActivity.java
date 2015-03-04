@@ -120,6 +120,48 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     private LinearLayout buttomLayout;
     private RelativeLayout beforeLayout;
+    private Boolean isPlayed = false;
+    private State mState = State.RESET;
+
+    public enum State {
+
+        RESET,
+
+        AFTER_PLAY
+
+    }
+
+    public void setState(State state){
+        this.mState = state;
+        onStateChanged(state);
+    }
+
+    public void onStateChanged(State state) {
+        switch (state){
+            case RESET:
+                onReset();
+                break;
+            case AFTER_PLAY:
+                onAfterPlay();
+                break;
+        }
+    }
+
+    private void onAfterPlay() {
+
+    }
+
+    private void onReset() {
+        if(isPlayed){
+            imageIndicatorView.removeViewItemAtIndex(0);
+            imageIndicatorView.show();
+            findViewById(R.id.S03_before_video_without_back).setVisibility(View.VISIBLE);
+            isPlayed = false;
+            isFirstStart = true;
+        }
+
+    }
+
 
 
     @Override
@@ -360,6 +402,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
             @Override
             public void onPosition(int position, int totalCount) {
+                Log.i("tag","playing");
                 if(!videoView.isShown()) return;
                 findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
                 if(position % totalCount == 0)
@@ -396,14 +439,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private void startVideo() {
         if (isFirstStart) {
             configVideo();
-            imageIndicatorView.addViewAtFirst(videoView);
-            imageIndicatorView.show();
+            imageIndicatorView.addViewAtFirst(videoView,false);
             isFirstStart = false;
+            imageIndicatorView.getViewPager().setCurrentItem(0,false);
+            imageIndicatorView.show();
         }
         imageIndicatorView.getIndicateLayout().setVisibility(View.INVISIBLE);
         showOneView(beforeLayout, playImageButton.getId());
         findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
         imageIndicatorView.getViewPager().setScrollEnabled(false);
+        isPlayed = true;
         videoView.start();
     }
 
@@ -616,9 +661,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onResume() {
-        if(playTime != 0) {
-            videoView.seekTo(playTime);
-        }
+        setState(State.RESET);
         MobclickAgent.onPageStart("S03Show");
         MobclickAgent.onResume(this);
         super.onResume();

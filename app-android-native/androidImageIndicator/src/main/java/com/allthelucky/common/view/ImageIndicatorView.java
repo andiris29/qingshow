@@ -319,7 +319,7 @@ public class ImageIndicatorView extends RelativeLayout {
 		// 为ViewPager配置数据
 		this.viewPager.setAdapter(new MyPagerAdapter(this.viewList));
 		this.viewPager.setCurrentItem(0, false);
-        this.viewPager.setOffscreenPageLimit(10);
+        this.viewPager.setOffscreenPageLimit(5);
     }
 
 
