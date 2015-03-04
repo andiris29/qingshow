@@ -35,10 +35,6 @@ public class HomeViewHolder extends AbsViewHolder {
         modelNameTV.setText(entity.getModelName());
         modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
         loveTV.setText(entity.getShowNumLike());
-        //TODO 换图片
-        if (entity.getModelRef().getModelIsFollowedByCurrentUser()) {
-            loveIV.setBackgroundResource(R.drawable.model_cell_icon02_noticeno);
-        }
     }
 
     MImageView_OriginSize showIV;

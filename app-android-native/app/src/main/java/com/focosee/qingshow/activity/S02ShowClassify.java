@@ -1,6 +1,9 @@
 package com.focosee.qingshow.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +24,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemRandomParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
@@ -46,6 +50,7 @@ public class S02ShowClassify extends BaseActivity {
     }
 
     public static final String INPUT_CATEGORY = "INPUT_CATEGORY";
+    public static String ACTION_MESSAGE = "S02ShowClassify_actionMessage";
 
     private MNavigationView _navigationView;
     private MPullRefreshMultiColumnListView _pullRefreshListView;
@@ -55,6 +60,21 @@ public class S02ShowClassify extends BaseActivity {
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
     private int _currentPageIndex = 1;
     private int classifyMod = 0;
+
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (ACTION_MESSAGE.equals(intent.getAction())) {
+                int position = intent.getIntExtra("position", 0);
+                MongoShow showEntity = (MongoShow)_adapter.getItemDataAtIndex(position);
+                if(!showEntity.getShowIsFollowedByCurrentUser())
+                    showEntity.numLike = showEntity.numLike + 1;
+                showEntity.setLikedByCurrentUser(!showEntity.getShowIsFollowedByCurrentUser());
+                _adapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +164,15 @@ public class S02ShowClassify extends BaseActivity {
         });
 
         _pullRefreshListView.doPullRefreshing(true, 500);
+
+        registerReceiver(broadcastReceiver, new IntentFilter(ACTION_MESSAGE));
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     public void reconn() {

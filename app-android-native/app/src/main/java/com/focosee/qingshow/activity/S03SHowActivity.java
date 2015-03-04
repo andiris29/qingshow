@@ -152,7 +152,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             showListEntity = (MongoShow) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
             position = intent.getIntExtra("position", 0);
         }
-        showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
+        if(null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID)){
+            showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
+            position = intent.getIntExtra("position", 0);
+        }
         getShowDetailFromNet();
 
         matchUI();
