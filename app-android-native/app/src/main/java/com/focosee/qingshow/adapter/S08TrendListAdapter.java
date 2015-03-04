@@ -112,8 +112,6 @@ public class S08TrendListAdapter extends BaseAdapter {
             holderView.messageImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_comment_btn);
             holderView.messageTextView = (TextView) convertView.findViewById(R.id.S08_item_comment_text_view);
 
-            holderView.likeImageButton.setTag(1);
-
             if(null != data){
                 if(null != data.get(position).imageMetadata){
                     this.itemHeight = this.itemSize.x * data.get(position).imageMetadata.height / data.get(position).imageMetadata.width;
@@ -165,10 +163,11 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
+        Log.i("tag",data.get(position).getIsLikeByCurrentUser() + "");
         if (data.get(position).getIsLikeByCurrentUser()) {
-            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-        } else {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+        } else {
+            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
         }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +194,8 @@ public class S08TrendListAdapter extends BaseAdapter {
         else {
             api = QSAppWebAPI.getPreviewTrendLikeApi();
         }
+        Log.i("tag",api);
+
 
         Map<String, String> likeData = new HashMap<String, String>();
         likeData.put("_id", data.get(position).get_id());
@@ -209,7 +210,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                         holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
                         holderView.likeTextView.setText(
                                 String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
-                        showMsg = "点赞";
+                        showMsg = "点赞成功";
                     } else {
                         holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
                         holderView.likeTextView.setText(
@@ -217,7 +218,7 @@ public class S08TrendListAdapter extends BaseAdapter {
                         showMsg = "取消点赞";
                     }
                     data.get(position).setIsLikeByCurrentUser(!isLiked);
-                    showMessage(context, showMsg + "成功");
+                    showMessage(context, showMsg);
 
                 } else {
                     handleResponseError(response);

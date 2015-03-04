@@ -232,9 +232,6 @@ public class MongoItem implements Serializable {
             if (taobaoInfo.getPrice() == null) {
                 return "";
             } else {
-                Log.i("tag", _id);
-                Log.i("tag", taobaoInfo.getPrice());
-                Log.i("tag", name);
                 return taobaoInfo.getPrice();
             }
         }else {
