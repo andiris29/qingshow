@@ -195,6 +195,7 @@ public class S02ShowClassify extends BaseActivity {
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;
+                        ImageLoader.getInstance().resume();
                     } else {
                         _adapter.addItemLast(results);
                         _currentPageIndex++;
