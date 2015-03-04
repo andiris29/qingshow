@@ -173,7 +173,6 @@ public class U01BrandFragment extends Fragment{
                     mPullRefreshListView.setHasMoreData(true);
 
                 }catch (Exception error){
-                    Toast.makeText(getActivity(), "最后一页", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullUpRefreshComplete();
                     mPullRefreshListView.setHasMoreData(false);
                 }
