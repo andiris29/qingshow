@@ -1,23 +1,21 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -40,13 +38,13 @@ import java.util.ArrayList;
 /**
  * Created by rong5690001 on 2015/1/19.
  */
-public class U01BrandFragment extends Fragment{
+public class U01BrandFragment extends Fragment implements AbsListView.OnScrollListener, View.OnTouchListener{
 
     public static String ACTION_MESSAGE = "refresh_U01BrandFragment";
-    private MPullRefreshListView mPullRefreshListView;
+    public MPullRefreshListView mPullRefreshListView;
     private P03BrandListAdapter mAdapter;
-    private ListView brandListView;
     private boolean noMoreData = false;
+    public ListView brandListView;
 
     private int _currentPageIndex = 1;
     private MongoPeople people;
@@ -105,9 +103,12 @@ public class U01BrandFragment extends Fragment{
         View view =  inflater.inflate(R.layout.activity_personal_pager_brand, container, false);
 
         mPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P04_item_list);
+        mPullRefreshListView.setOnScrollListener(this);
         mAdapter = new P03BrandListAdapter(getActivity(), new ArrayList<MongoBrand>(), ImageLoader.getInstance());
 
         brandListView = mPullRefreshListView.getRefreshableView();
+        brandListView.setPadding(0, U01PersonalActivity.headHeight, 0, 0);
+        brandListView.setOnTouchListener(this);
         brandListView.setAdapter(mAdapter);
 
         mPullRefreshListView.setPullRefreshEnabled(false);
@@ -183,5 +184,19 @@ public class U01BrandFragment extends Fragment{
     }
 
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        ((U01PersonalActivity) getActivity()).onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        ((U01PersonalActivity) getActivity()).onTouch(v, event);
+        return false;
+    }
 }
