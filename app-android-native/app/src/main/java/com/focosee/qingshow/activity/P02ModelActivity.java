@@ -2,11 +2,16 @@ package com.focosee.qingshow.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,7 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -35,24 +39,26 @@ import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ILoadingLayout;
+import com.focosee.qingshow.util.DensityUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.focosee.qingshow.widget.PullToRefreshBase;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class P02ModelActivity extends BaseActivity {
+public class P02ModelActivity extends BaseActivity implements AbsListView.OnScrollListener, View.OnTouchListener, PLA_AbsListView.OnScrollListener{
 
     private static final String TAG = "P02ModelActivity";
 
     public static final String INPUT_MODEL = "P02ModelActivity_input_model";
-    private ViewPager viewPager;
+    private RelativeLayout headRelativeLayout;
+    private MViewPager_NoScroll viewPager;
     private MPullRefreshListView latestPullRefreshListView;
     private ListView latestListView;
     private MPullRefreshListView followedPullRefreshListView;
@@ -89,6 +95,9 @@ public class P02ModelActivity extends BaseActivity {
             }
         });
 
+        headRelativeLayout = (RelativeLayout) findViewById(R.id.P02_head_relative);
+        headHeight = headRelativeLayout.getLayoutParams().height;
+
         newRelativeLayout = (RelativeLayout) findViewById(R.id.P02_newRelativeLayout);
         discountRelativeLayout = (RelativeLayout) findViewById(R.id.P02_discountRelativeLayout);
         fansRelativeLayout = (RelativeLayout) findViewById(R.id.P02_fansRelativeLayout);
@@ -98,7 +107,8 @@ public class P02ModelActivity extends BaseActivity {
         line2 = (LinearLayout) findViewById(R.id.p02_line_toleftFans);
         line3 = (LinearLayout) findViewById(R.id.p02_line_toleftFollows);
 
-        viewPager = (ViewPager) findViewById(R.id.P02_personalViewPager);
+        viewPager = (MViewPager_NoScroll) findViewById(R.id.P02_personalViewPager);
+        viewPager.setScrollble(false);
 
         modelEntity = (MongoPeople)getIntent().getExtras().getSerializable(INPUT_MODEL);
         position = getIntent().getIntExtra("position", 0);
@@ -147,7 +157,11 @@ public class P02ModelActivity extends BaseActivity {
 
         // shows list page;
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P02_item_list);
+        latestPullRefreshListView.setOnScrollListener(this);
         latestListView = latestPullRefreshListView.getRefreshableView();
+        Toast.makeText(this, headRelativeLayout.getLayoutParams().height + "", Toast.LENGTH_SHORT).show();
+        latestListView.setPadding(0, headHeight, 0, 0);
+        latestListView.setOnTouchListener(this);
 
         LinkedList<MongoShow> itemEntities = new LinkedList<MongoShow>();
         itemListAdapter = new P02ModelItemListAdapter(this, itemEntities);
@@ -173,6 +187,9 @@ public class P02ModelActivity extends BaseActivity {
         // followed list page;
         followedPullRefreshListView = (MPullRefreshListView) pagerViewList.get(1).findViewById(R.id.pager_P02_item_list);
         followedListView = followedPullRefreshListView.getRefreshableView();
+        followedListView.setPadding(0, headHeight, 0, 0);
+        followedPullRefreshListView.setOnScrollListener(this);
+        followedListView.setOnTouchListener(this);
         ArrayList<MongoPeople> followedPeopleList = new ArrayList<MongoPeople>();
         followedPeopleListAdapter = new P02ModelFollowPeopleListAdapter(this, followedPeopleList);
 
@@ -203,6 +220,9 @@ public class P02ModelActivity extends BaseActivity {
         // followers list page;
         followerPullRefreshListView = (MPullRefreshListView) pagerViewList.get(2).findViewById(R.id.pager_P02_item_list);
         followerListView = followerPullRefreshListView.getRefreshableView();
+        followerListView.setPadding(0, headHeight, 0, 0);
+        followerPullRefreshListView.setOnScrollListener(this);
+        followerListView.setOnTouchListener(this);
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
         followerPeopleListAdapter.setP02ModelActivity(this);
@@ -269,18 +289,24 @@ public class P02ModelActivity extends BaseActivity {
         newRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                latestListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(0);
             }
         });
         discountRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                followedListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(1);
             }
         });
         fansRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                followerListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(2);
             }
         });
@@ -558,4 +584,121 @@ public class P02ModelActivity extends BaseActivity {
         tv.setText(String.valueOf(Integer.parseInt(tv.getText().toString()) - 1));
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    private int firstVisibleItem;
+    private int padding;
+    private int headHeight;
+    private boolean isHeadMove = true;
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        this.firstVisibleItem = firstVisibleItem;
+        padding = headRelativeLayout.getLayoutParams().height+(int)headRelativeLayout.getY();
+        padding = padding > headHeight ? headHeight : padding;
+        padding = padding < 0 ? 0 : padding;
+        if(isHeadMove) {
+            if (null != view.getChildAt(0)) {
+                if(firstVisibleItem == 0 && view.getChildAt(0).getY() >= (float)0) {
+                    isHeadMove = true;
+                }
+                if (padding > 0 && padding <= headHeight) {
+
+//                    System.out.println("viewChildTop:" + view.getChildAt(0).getTop());
+//                    System.out.println("headTop:" + headRelativeLayout.getTop());
+//                    System.out.println("headY:" + headRelativeLayout.getY());
+
+//                    view.getChildAt(0).setY(view.getY());
+                    view.setPadding(0, padding, 0, 0);
+
+                    headRelativeLayout.setY(view.getChildAt(0).getY() - headRelativeLayout.getLayoutParams().height);
+//                viewPager.setY(view.getChildAt(firstVisibleItem).getY());
+
+
+//                System.out.println("滚动到第一个");
+//                System.out.println("firstViewY:" + view.getChildAt(firstVisibleItem).getY());
+                }else {
+                    isHeadMove = false;
+                    if (view.getPaddingTop() != 0 && padding == 0)
+                        view.setPadding(0, padding, 0, 0);
+                }
+            }
+        }
+        System.out.println("padding：" + padding);
+    }
+
+    private VelocityTracker mVelocityTracker;
+
+    private float speedTouch;
+    private float offSetTouch;
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        float scrollY = 0;
+        //final float scale = getResources().getDisplayMetrics().density;
+//        System.out.println("相对于屏幕左上角的Y:" + (230 * scale + 0.5f));5
+        if(null == mVelocityTracker) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+
+        mVelocityTracker.addMovement(event);
+
+        final VelocityTracker velocityTracker = mVelocityTracker;
+        // 1000 provides pixels per second
+        velocityTracker.computeCurrentVelocity(1, (float)0.8); //设置maxVelocity值为0.1时，速率大于0.01时，显示的速率都是0.01,速率小于0.01时，显示正常
+        speedTouch = velocityTracker.getYVelocity();
+
+        velocityTracker.computeCurrentVelocity(1000); //设置units的值为1000，意思为一秒时间内运动了多少个像素
+        offSetTouch = velocityTracker.getYVelocity();
+        System.out.println("位移：" + offSetTouch);
+        if(offSetTouch > 0 && offSetTouch > 300) {//向下滑动
+
+//            if(speedTouch == (float) 0.8) {//快速滑动
+////                if(headRelativeLayout.getY() != (float)0){
+////                    headRelativeLayout.setY(0);
+////                    isHeadMove = true;
+////                }
+////                if(v.getPaddingTop() != headHeight){
+////                    v.setPadding(0, headHeight, 0, 0);
+////                }
+//
+//            } else {//触摸滑动
+                if(padding < headHeight){
+//                    padding = DensityUtil.dip2px(this, offSetTouch) > headHeight ? headHeight : DensityUtil.dip2px(this, offSetTouch);
+//                    headRelativeLayout.setY((headRelativeLayout.getY()+offSetTouch) > 0 ? 0 : (headRelativeLayout.getY()+offSetTouch));
+//                    v.setPadding(0, padding, 0, 0);
+                    headRelativeLayout.setY(0);
+                    padding = headHeight;
+                    v.setPadding(0, padding, 0, 0);
+                    isHeadMove = false;
+                }
+//            }
+
+        } else if (offSetTouch < -300){//向上滑动
+            isHeadMove = true;
+//            if(speedTouch == (float)-0.8) {//快速滑动
+//
+//            }
+        }
+        return false;
+    }
+
+    private Point getScreenSize(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
+    @Override
+    public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
 }

@@ -8,7 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,8 +29,6 @@ import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.RolesCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -40,27 +41,31 @@ import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.DensityUtil;
+import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
+import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
+import com.huewu.pla.lib.internal.PLA_ListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
-
-import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class P04BrandActivity extends BaseActivity {
+public class P04BrandActivity extends BaseActivity implements AbsListView.OnScrollListener, View.OnTouchListener, PLA_ListView.OnScrollListener{
     public static final String INPUT_BRAND = "P04BrandActivity_input_brand";
     public static final String INPUT_ITEM = "P04BrandActivity_input_item";
     public static final String INPUT_BRAND_ID = "p04BrandActivity_input_brand";
     private static final String TAG = "P04BrandActivity";
 
-    private ViewPager viewPager;
+    private RelativeLayout headRelativeLayout;
+    private MViewPager_NoScroll viewPager;
     private MPullRefreshListView latestPullRefreshListView;
     private ListView latestListView;
     private MPullRefreshListView discountPullRefreshListView;
@@ -105,6 +110,8 @@ public class P04BrandActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p04_brand);
 
+        headRelativeLayout = (RelativeLayout) findViewById(R.id.P04_head_relative);
+        headHeight = headRelativeLayout.getLayoutParams().height;
         brandEntity = (null != getIntent().getExtras().getSerializable(INPUT_BRAND)) ? ((MongoBrand)getIntent().getExtras().getSerializable(INPUT_BRAND)) : null;
         additionalItemEntity = (null != getIntent().getExtras().getSerializable(INPUT_ITEM)) ? (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM): null;
 
@@ -139,7 +146,8 @@ public class P04BrandActivity extends BaseActivity {
         showNumTotal = (TextView) findViewById(R.id.P04_brand_show_number_text_view);
         fansNumTotal = (TextView) findViewById(R.id.P04_brand_fans_number_text_view);
 
-        viewPager = (ViewPager) findViewById(R.id.P04_content_viewPager);
+        viewPager = (MViewPager_NoScroll) findViewById(R.id.P04_content_viewPager);
+        viewPager.setScrollble(false);
 
         followSignText = (ImageView) findViewById(R.id.P04_follow_sign_text);
         bgImage = (ImageView) findViewById(R.id.P04_back_image_view);
@@ -227,6 +235,11 @@ public class P04BrandActivity extends BaseActivity {
         line3.setVisibility(View.GONE);
         line4.setVisibility(View.GONE);
 
+        latestListView.setPadding(0, headHeight, 0, 0);
+        discountListView.setPadding(0, headHeight, 0, 0);
+        showListView.setPadding(0, headHeight, 0, 0);
+        fansListView.setPadding(0, headHeight, 0, 0);
+
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
@@ -253,24 +266,32 @@ public class P04BrandActivity extends BaseActivity {
         newRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                latestListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(0);
             }
         });
         discountRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                discountListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(1);
             }
         });
         showRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                showListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(2);
             }
         });
         fansRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                headRelativeLayout.setY(0);
+                fansListView.setPadding(0, headHeight, 0, 0);
                 viewPager.setCurrentItem(3);
             }
         });
@@ -314,7 +335,9 @@ public class P04BrandActivity extends BaseActivity {
 
     private void configNewestShowListPage() {
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P04_item_list);
+        latestPullRefreshListView.setOnScrollListener(this);
         latestListView = latestPullRefreshListView.getRefreshableView();
+        latestListView.setOnTouchListener(this);
 
         ArrayList<MongoItem> newestBrandItemDataList = new ArrayList<MongoItem>();
         if (null != additionalItemEntity) {
@@ -368,8 +391,9 @@ public class P04BrandActivity extends BaseActivity {
 
     private void configDiscountShowListPage() {
         discountPullRefreshListView = (MPullRefreshListView) pagerViewList.get(1).findViewById(R.id.pager_P04_item_list);
+        discountPullRefreshListView.setOnScrollListener(this);
         discountListView = discountPullRefreshListView.getRefreshableView();
-
+        discountListView.setOnTouchListener(this);
         discountBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize(), new ArrayList<MongoItem>());
 
         discountListView.setAdapter(discountBrandItemListAdapter);
@@ -418,7 +442,9 @@ public class P04BrandActivity extends BaseActivity {
 
     private void configShowsListPage() {
         showPullRefreshListView = (MPullRefreshMultiColumnListView) pagerViewList.get(2).findViewById(R.id.pager_P04_item_list);
+        showPullRefreshListView.setOnScrollListener(this);
         showListView = showPullRefreshListView.getRefreshableView();
+        showListView.setOnTouchListener(this);
         showBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize(), new ArrayList<MongoItem>());
 
         showListView.setAdapter(showBrandItemListAdapter);
@@ -860,5 +886,143 @@ public class P04BrandActivity extends BaseActivity {
         super.onPause();
         MobclickAgent.onPageEnd("P04Brand"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
+    }
+
+    private int firstVisibleItem;
+    private int oldY = 0;
+    private int offSet = 0;
+    private int top = 0;
+    private int padding;
+    private int headHeight;
+    private boolean isHeadMove = true;
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        this.firstVisibleItem = firstVisibleItem;
+        padding = headRelativeLayout.getLayoutParams().height+(int)headRelativeLayout.getY();
+        padding = padding > headHeight ? headHeight : padding;
+        padding = padding < 0 ? 0 : padding;
+        if(isHeadMove) {
+            if (null != view.getChildAt(0)) {
+                if (padding > 0 && padding <= headHeight) {
+
+//                    System.out.println("viewChildTop:" + view.getChildAt(0).getTop());
+//                    System.out.println("headTop:" + headRelativeLayout.getTop());
+//                    System.out.println("headY:" + headRelativeLayout.getY());
+
+//                    view.getChildAt(0).setY(view.getY());
+                    view.setPadding(0, padding, 0, 0);
+
+                    headRelativeLayout.setY(view.getChildAt(0).getY() - headRelativeLayout.getLayoutParams().height);
+//                viewPager.setY(view.getChildAt(firstVisibleItem).getY());
+
+
+//                System.out.println("滚动到第一个");
+//                System.out.println("firstViewY:" + view.getChildAt(firstVisibleItem).getY());
+                }else {
+                    isHeadMove = false;
+                    if (view.getPaddingTop() != 0 && padding == 0)
+                        view.setPadding(0, padding, 0, 0);
+                }
+            }
+        }
+        System.out.println("padding：" + padding);
+    }
+
+    private VelocityTracker mVelocityTracker;
+
+    private float speedTouch;
+    private float offSetTouch;
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        float scrollY = 0;
+        //final float scale = getResources().getDisplayMetrics().density;
+//        System.out.println("相对于屏幕左上角的Y:" + (230 * scale + 0.5f));5
+        if(null == mVelocityTracker) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+
+        mVelocityTracker.addMovement(event);
+
+        final VelocityTracker velocityTracker = mVelocityTracker;
+        // 1000 provides pixels per second
+        velocityTracker.computeCurrentVelocity(1, (float)0.8); //设置maxVelocity值为0.1时，速率大于0.01时，显示的速率都是0.01,速率小于0.01时，显示正常
+        speedTouch = velocityTracker.getYVelocity();
+
+        velocityTracker.computeCurrentVelocity(1000); //设置units的值为1000，意思为一秒时间内运动了多少个像素
+        offSetTouch = velocityTracker.getYVelocity();
+        if(offSetTouch > 0 && offSetTouch > 300) {//向下滑动
+
+            if(speedTouch == (float) 0.8) {//快速滑动
+//                if(headRelativeLayout.getY() != (float)0){
+//                    headRelativeLayout.setY(0);
+//                    isHeadMove = true;
+//                }
+//                if(v.getPaddingTop() != headHeight){
+//                    v.setPadding(0, headHeight, 0, 0);
+//                }
+
+            } else {//触摸滑动
+                if(padding < headHeight){
+//                    padding = DensityUtil.dip2px(this, offSetTouch) > headHeight ? headHeight : DensityUtil.dip2px(this, offSetTouch);
+//                    headRelativeLayout.setY((headRelativeLayout.getY()+offSetTouch) > 0 ? 0 : (headRelativeLayout.getY()+offSetTouch));
+//                    v.setPadding(0, padding, 0, 0);
+                    headRelativeLayout.setY(0);
+                    padding = headHeight;
+                    v.setPadding(0, padding, 0, 0);
+                    isHeadMove = false;
+                }
+            }
+
+        } else if (offSetTouch<-300) {//向上滑动
+            isHeadMove = true;
+//            if(speedTouch == (float)-0.8) {//快速滑动
+//
+//            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        this.firstVisibleItem = firstVisibleItem;
+        padding = headRelativeLayout.getLayoutParams().height+(int)headRelativeLayout.getY();
+        padding = padding > headHeight ? headHeight : padding;
+        padding = padding < 0 ? 0 : padding;
+        if(isHeadMove) {
+            if (null != view.getChildAt(0)) {
+                if (padding > 0 && padding <= headHeight) {
+
+//                    System.out.println("viewChildTop:" + view.getChildAt(0).getTop());
+//                    System.out.println("headTop:" + headRelativeLayout.getTop());
+//                    System.out.println("headY:" + headRelativeLayout.getY());
+
+//                    view.getChildAt(0).setY(view.getY());
+                    view.setPadding(0, padding, 0, 0);
+
+                    //headRelativeLayout.setY(view.getChildAt(0).getY() - headRelativeLayout.getLayoutParams().height);
+//                viewPager.setY(view.getChildAt(firstVisibleItem).getY());
+
+
+//                System.out.println("滚动到第一个");
+//                System.out.println("firstViewY:" + view.getChildAt(firstVisibleItem).getY());
+                }else {
+                    isHeadMove = false;
+                    if (view.getPaddingTop() != 0 && padding == 0)
+                        view.setPadding(0, padding, 0, 0);
+                }
+            }
+        }
+        System.out.println("padding：" + padding);
     }
 }

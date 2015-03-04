@@ -1,11 +1,18 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.P02ModelActivity">
 
+    <com.focosee.qingshow.widget.MViewPager_NoScroll
+        android:id="@+id/P02_personalViewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"></com.focosee.qingshow.widget.MViewPager_NoScroll>
+
     <RelativeLayout
+        android:id="@+id/P02_head_relative"
         android:layout_width="match_parent"
         android:layout_height="@dimen/RelativeLayout_height_activity_model">
 
@@ -237,14 +244,12 @@
 
         </LinearLayout>
 
+
+
     </RelativeLayout>
 
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/P02_personalViewPager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"></android.support.v4.view.ViewPager>
 
-</LinearLayout>
+
+</RelativeLayout>

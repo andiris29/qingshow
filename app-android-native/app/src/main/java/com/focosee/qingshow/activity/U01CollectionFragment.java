@@ -9,11 +9,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -30,23 +30,23 @@ import com.focosee.qingshow.widget.ILoadingLayout;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
+
 
 /**
  * Created by zenan on 12/27/14.
  */
-public class U01CollectionFragment extends Fragment {
+public class U01CollectionFragment extends Fragment implements View.OnTouchListener, PLA_AbsListView.OnScrollListener{
 
     public static String ACTION_MESSAGE = "U01CollectionFragment_actionMessage";
     private int currentPageIndex = 1;
 
-    private MPullRefreshMultiColumnListView latestPullRefreshListView;
-    private MultiColumnListView latestListView;
+    public MPullRefreshMultiColumnListView latestPullRefreshListView;
+    public MultiColumnListView latestListView;
     private ClassifyWaterfallAdapter itemListAdapter;
     private MongoPeople people;
     private static U01CollectionFragment instance;
@@ -64,9 +64,9 @@ public class U01CollectionFragment extends Fragment {
 
     public static U01CollectionFragment newInstance() {
 
-            //if (instance == null) {
+            if (instance == null) {
                 instance = new U01CollectionFragment();
-            //}
+            }
 
             return instance;
     }
@@ -112,7 +112,11 @@ public class U01CollectionFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_personal_pager_collection, container, false);
 
         latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
+        //latestPullRefreshListView.setOnScrollListener(this);
         latestListView = latestPullRefreshListView.getRefreshableView();
+        //latestListView.setOnTouchListener(this);
+        latestListView.setPadding(0, U01PersonalActivity.headHeight, 0, 0);
+        System.out.println("Collection-onCreateView: " + latestListView.getPaddingTop());
 
         itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
@@ -147,6 +151,8 @@ public class U01CollectionFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        System.out.println("Collection-onActivityCreated: " + U01PersonalActivity.headHeight);
+        latestListView.setPadding(0, U01PersonalActivity.headHeight, 0, 0);
         super.onActivityCreated(savedInstanceState);
 
     }
@@ -217,4 +223,19 @@ public class U01CollectionFragment extends Fragment {
         Log.i("P02ModelActivity", error.toString());
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        ((U01PersonalActivity)getActivity()).onTouch(v, event);
+        return false;
+    }
+
+    @Override
+    public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        ((U01PersonalActivity)getActivity()).onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+    }
 }

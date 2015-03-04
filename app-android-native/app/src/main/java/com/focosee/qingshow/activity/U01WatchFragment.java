@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,11 +42,11 @@ import java.util.ArrayList;
 /**
  * Created by zenan on 12/27/14.
  */
-public class U01WatchFragment extends Fragment {
+public class U01WatchFragment extends Fragment implements AbsListView.OnScrollListener, View.OnTouchListener{
 
     public static String ACTION_MESSAGE = "refresh_U01WatchFragment";
-    private ListView followerListView;
-    private MPullRefreshListView followerPullRefreshListView;
+    public ListView followerListView;
+    public MPullRefreshListView followerPullRefreshListView;
     private P01ModelListAdapter followerPeopleListAdapter;
     private boolean noMoreData = false;
 
@@ -109,7 +111,10 @@ public class U01WatchFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_personal_pager_watch, container, false);
 
         followerPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
+//        followerPullRefreshListView.setOnScrollListener(this);
         followerListView = followerPullRefreshListView.getRefreshableView();
+//        followerListView.setOnTouchListener(this);
+        followerListView.setPadding(0, U01PersonalActivity.headHeight, 0, 0);
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), U01PersonalActivity.peopleType);
         followerPeopleListAdapter.setU01PersonActivity((U01PersonalActivity)getActivity());
@@ -232,4 +237,19 @@ public class U01WatchFragment extends Fragment {
         Log.i("P02ModelActivity", error.toString());
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        ((U01PersonalActivity) getActivity()).onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        ((U01PersonalActivity) getActivity()).onTouch(v, event);
+        return false;
+    }
 }
