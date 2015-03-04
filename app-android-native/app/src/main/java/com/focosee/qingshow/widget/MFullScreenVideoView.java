@@ -2,8 +2,11 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageButton;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 /**
@@ -15,9 +18,9 @@ public class MFullScreenVideoView extends VideoView {
 	private int videoHeight;
     private ImageButton palyButton;
 
+
 	public MFullScreenVideoView(Context context) {
 		super(context);
-
 	}
 
 	public MFullScreenVideoView(Context context, AttributeSet attrs) {
@@ -28,9 +31,13 @@ public class MFullScreenVideoView extends VideoView {
 		super(context, attrs, defStyle);
 	}
 
+    @Override
+    public void destroyDrawingCache() {
+        Log.i("tag","videoDestroy");
+    }
 
 
-	@Override
+    @Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int width = getDefaultSize(videoWidth, widthMeasureSpec);
 		int height = getDefaultSize(videoHeight, heightMeasureSpec);

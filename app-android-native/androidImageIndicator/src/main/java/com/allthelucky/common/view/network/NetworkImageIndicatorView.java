@@ -66,6 +66,16 @@ public class NetworkImageIndicatorView extends ImageIndicatorView {
 //        removeAllViews();
 //    }
 
+    public void addViewAtFirst(View view){
+        if (hasFirstBitmapSign) {
+            removeViewItemAtIndex(0);
+        }
+        if(view != null){
+            addViewItemAtIndex(view,0);
+        }
+        hasFirstBitmapSign = true;
+    }
+
     public void addBitmapAtFirst(Bitmap firstImage) {
         if (hasFirstBitmapSign) {
             removeViewItemAtIndex(0);

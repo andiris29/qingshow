@@ -1,24 +1,20 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +24,6 @@ import com.allthelucky.common.view.ImageIndicatorView;
 import com.allthelucky.common.view.network.NetworkImageIndicatorView;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -45,6 +39,7 @@ import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
+import com.focosee.qingshow.widget.MFullScreenVideoView;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -158,11 +153,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             position = intent.getIntExtra("position", 0);
         }
         showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
-        //if(null == intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY)){
         getShowDetailFromNet();
-        //}else {
-        //    showDetailEntity = (MongoShowD) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY);
-        //}
 
         matchUI();
 
@@ -233,7 +224,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                     errorMessage = "请先登录！";
                     break;
                 case 1000:
-                    errorMessage = "服务器错误，请稍微重试！";
+                    errorMessage = "服务器错误，请稍后重试！";
                     break;
                 default:
                     errorMessage = String.valueOf(errorCode) + response.toString();
@@ -250,8 +241,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private void matchUI() {
         this.mRelativeLayout = (RelativeLayout) findViewById(R.id.S03_relative_layout);
         this.imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.S03_image_indicator);
-        this.videoView = (VideoView) findViewById(R.id.S03_video_view);
-
+        this.videoView = new MFullScreenVideoView(this);
+        videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
         modelImage = (MRoundImageView) findViewById(R.id.S03_model_portrait);
         modelInformation = (TextView) findViewById(R.id.S03_model_name);
         modelAgeHeight = (TextView) findViewById(R.id.S03_model_age_height);
@@ -319,6 +311,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
                     S04CommentActivity.isOpened = true;
                     Intent intent = new Intent(S03SHowActivity.this, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, showDetailEntity._id);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 } else {
                     Toast.makeText(S03SHowActivity.this, "Plese NPC!", Toast.LENGTH_SHORT).show();
@@ -364,7 +357,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         this.imageIndicatorView.setOnItemChangeListener(new ImageIndicatorView.OnItemChangeListener() {
             @Override
             public void onPosition(int position, int totalCount) {
-                if(videoView.getVisibility() == View.GONE) return;
+                if(!videoView.isShown()) return;
                 findViewById(R.id.S03_before_video_view).setVisibility(View.VISIBLE);
                 if(position % totalCount == 0)
                     findViewById(R.id.S03_before_video_without_back).setVisibility(View.VISIBLE);
@@ -386,7 +379,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private void initPosterView(String[] urlList) {
         this.imageIndicatorView.setupLayoutByImageUrl(Arrays.asList(urlList), ImageLoader.getInstance());
         this.imageIndicatorView.show();
-        this.imageIndicatorView.getViewPager().setCurrentItem(urlList.length * 100, true);
+        this.imageIndicatorView.getViewPager().setCurrentItem(0, false);
     }
 
     private void configVideo() {
@@ -400,12 +393,14 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private void startVideo() {
         if (isFirstStart) {
             configVideo();
+            imageIndicatorView.addViewAtFirst(videoView);
+            imageIndicatorView.show();
             isFirstStart = false;
         }
+        imageIndicatorView.getIndicateLayout().setVisibility(View.INVISIBLE);
         showOneView(beforeLayout, playImageButton.getId());
-        imageIndicatorView.setVisibility(View.INVISIBLE);
         findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
-        videoView.setVisibility(View.VISIBLE);
+        imageIndicatorView.getViewPager().setScrollEnabled(false);
         videoView.start();
     }
 
@@ -425,20 +420,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         videoView.pause();
 
-        MediaMetadataRetriever rev = new MediaMetadataRetriever();
-        Bitmap bitmap = null;
-        try {
-            rev.setDataSource(videoUriString,new HashMap<String, String>());
-            bitmap = rev.getFrameAtTime(videoView.getCurrentPosition() * 1000,
-                    MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-        }catch (Exception e){
-
-        }
-        imageIndicatorView.addBitmapAtFirst(bitmap);
-        imageIndicatorView.show();
-        imageIndicatorView.setVisibility(View.VISIBLE);
+        imageIndicatorView.getIndicateLayout().setVisibility(View.VISIBLE);
         playImageButton.setImageResource(R.drawable.s03_play_btn);
         findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
+        imageIndicatorView.getViewPager().setScrollEnabled(true);
         showAllView(beforeLayout);
 
     }
@@ -628,17 +613,22 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onResume() {
+        if(playTime != 0) {
+            videoView.seekTo(playTime);
+        }
+        MobclickAgent.onPageStart("S03Show");
+        MobclickAgent.onResume(this);
         super.onResume();
-        MobclickAgent.onPageStart("S03Show"); //统计页面
-        MobclickAgent.onResume(this);          //统计时长
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        playTime = videoView.getCurrentPosition();
-        UmengCountUtil.countPlayVideo(this,showId,playTime);
-        MobclickAgent.onPageEnd("S03Show"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        if(videoView.isShown()) {
+            playTime = videoView.getCurrentPosition();
+            UmengCountUtil.countPlayVideo(this, showId, playTime);
+        }
+        MobclickAgent.onPageEnd("S03Show");
         MobclickAgent.onPause(this);
     }
 }

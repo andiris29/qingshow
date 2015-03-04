@@ -8,6 +8,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,9 @@ public class ImageIndicatorView extends RelativeLayout {
 	/**
 	 * ViewPager控件
 	 */
-	protected ViewPager viewPager;
-	/**
+	protected CtrlScrollViewPager viewPager;
+
+    /**
 	 * 指示器容器
 	 */
 	protected LinearLayout indicateLayout;
@@ -123,7 +125,7 @@ public class ImageIndicatorView extends RelativeLayout {
 	 */
 	public void init(Context context) {
 		LayoutInflater.from(context).inflate(R.layout.image_indicator_layout, this);
-		this.viewPager = (ViewPager) findViewById(R.id.view_pager);
+		this.viewPager = (CtrlScrollViewPager) findViewById(R.id.view_pager);
 		this.indicateLayout = (LinearLayout) findViewById(R.id.indicater_layout);
 //        this.startButton = (Button) findViewById(R.id.start_button);
 //        this.messageButton = (Button) findViewById(R.id.message_button);
@@ -134,12 +136,16 @@ public class ImageIndicatorView extends RelativeLayout {
 		this.refreshHandler = new ScrollIndicateHandler(ImageIndicatorView.this);
 	}
 
+    public LinearLayout getIndicateLayout() {
+        return indicateLayout;
+    }
+
 	/**
 	 * 取ViewPager实例
 	 * 
 	 * @return
 	 */
-	public ViewPager getViewPager() {
+	public CtrlScrollViewPager getViewPager() {
 		return viewPager;
 	}
 
@@ -312,7 +318,8 @@ public class ImageIndicatorView extends RelativeLayout {
 		this.refreshHandler.sendEmptyMessage(currentIndex);
 		// 为ViewPager配置数据
 		this.viewPager.setAdapter(new MyPagerAdapter(this.viewList));
-		this.viewPager.setCurrentItem(viewList.size() * 3, false);
+		this.viewPager.setCurrentItem(0, false);
+        this.viewPager.setOffscreenPageLimit(10);
     }
 
 
@@ -345,8 +352,8 @@ public class ImageIndicatorView extends RelativeLayout {
 	protected class PageChangeListener implements OnPageChangeListener {
 		@Override
 		public void onPageSelected(int index) {
-			currentIndex = index;
-			refreshHandler.sendEmptyMessage(index);
+            currentIndex = index;
+            refreshHandler.sendEmptyMessage(index);
 		}
 
 		@Override
@@ -354,7 +361,7 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 
 		@Override
-		public void onPageScrollStateChanged(int arg0) {
+		public void onPageScrollStateChanged(int state) {
 
 		}
 	}
@@ -425,7 +432,7 @@ public class ImageIndicatorView extends RelativeLayout {
 
 		@Override
 		public int getCount() {
-            return Integer.MAX_VALUE;
+            return itemSize;
 		}
 
 		@Override
@@ -438,28 +445,17 @@ public class ImageIndicatorView extends RelativeLayout {
 			return super.getItemPosition(object);
 		}
 
-
         @Override
-        public void destroyItem(View container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            Log.i("tag","destroy");
+            container.removeView((View) object);
         }
 
         @Override
-		public Object instantiateItem(ViewGroup container, int position) {
-
-            position %= this.itemSize;
-            if (position<0){
-                position = this.itemSize + position;
-            }
-
-            View itemView = pageViews.get(position);
-            ViewParent vp =itemView.getParent();
-            if (vp!=null){
-                ViewGroup parent = (ViewGroup)vp;
-                parent.removeView(itemView);
-            }
-            container.addView(itemView);
-            return itemView;
-		}
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(pageViews.get(position));
+            return pageViews.get(position);
+        }
 
 		@Override
 		public void restoreState(Parcelable arg0, ClassLoader arg1) {
