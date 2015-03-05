@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -61,7 +62,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         this.itemSize = screenSize;
     }
 
-
+    public List<MongoPreview> getData(){
+        return data;
+    }
     @Override
     public int getCount() {
 
@@ -155,9 +158,8 @@ public class S08TrendListAdapter extends BaseAdapter {
                 if (null != data.get(position).get_id()) {
                     Intent intent = new Intent(context, S04CommentActivity.class);
                     intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
+                    intent.putExtra("position:", position);
                     context.startActivity(intent);
-                } else {
-                    Toast.makeText(context, "Plese NPC!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

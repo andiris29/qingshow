@@ -71,12 +71,15 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
     private Intent viewMainPageIntent= null;
     private int clickCommentIndex= -1;
 
+    private int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s04_comment);
 
         showId = getIntent().getStringExtra(INPUT_SHOW_ID);
+        position = getIntent().getIntExtra("position", 0);
 
         ((MNavigationView)findViewById(R.id.S04_navigation_bar)).getBtn_left().setOnClickListener(new View.OnClickListener() {
             @Override

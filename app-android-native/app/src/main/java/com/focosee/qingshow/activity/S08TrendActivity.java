@@ -1,7 +1,11 @@
 package com.focosee.qingshow.activity;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +50,16 @@ public class S08TrendActivity extends BaseActivity {
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
-
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())){
+                int numComments = adapter.getData().get(intent.getIntExtra("position", 0)).getNumComments();
+                adapter.getData().get(intent.getIntExtra("position", 0)).__context.numComments = numComments + intent.getIntExtra("value",0);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +96,7 @@ public class S08TrendActivity extends BaseActivity {
             }
         });
         mPullRefreshListView.doPullRefreshing(true,500);
+        registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
     }
 
     @Override
