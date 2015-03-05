@@ -139,7 +139,6 @@ public class S02ShowClassify extends BaseActivity {
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                         if (pauseOnScroll) {
-                            imageLoader.pause();
                         }
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
@@ -227,6 +226,7 @@ public class S02ShowClassify extends BaseActivity {
                         _adapter.addItemLast(results);
                         _currentPageIndex++;
                     }
+                    ImageLoader.getInstance().resume();
                     _adapter.notifyDataSetChanged();
                     _pullRefreshListView.onPullDownRefreshComplete();
                     _pullRefreshListView.onPullUpRefreshComplete();

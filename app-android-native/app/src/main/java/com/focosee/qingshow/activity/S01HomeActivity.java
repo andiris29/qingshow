@@ -150,7 +150,6 @@ public class S01HomeActivity extends BaseActivity {
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
                         if (pauseOnScroll) {
-                            imageLoader.pause();
                         }
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:

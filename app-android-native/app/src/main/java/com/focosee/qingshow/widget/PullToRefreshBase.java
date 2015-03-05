@@ -47,7 +47,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     }
     
     /**回滚的时间*/
-    private static final int SCROLL_DURATION = 1;
+    private static final int SCROLL_DURATION = 200;
     /**阻尼系数*/
     private static final float OFFSET_RADIO = 2.5f;
     /**上一次移动的点 */

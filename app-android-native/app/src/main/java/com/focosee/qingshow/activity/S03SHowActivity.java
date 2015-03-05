@@ -127,7 +127,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
         RESET,
 
-        AFTER_PLAY
+        AFTER_PLAY,
+
+        START_PLAY
 
     }
 
@@ -144,10 +146,36 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             case AFTER_PLAY:
                 onAfterPlay();
                 break;
+            case START_PLAY:
+                onStartPlay();
+                break;
         }
     }
 
+    private void onStartPlay() {
+        if (isFirstStart) {
+            configVideo();
+            imageIndicatorView.addViewAtFirst(videoView, false);
+            isFirstStart = false;
+            imageIndicatorView.getViewPager().setCurrentItem(0,false);
+            imageIndicatorView.show();
+        }
+        imageIndicatorView.getIndicateLayout().setVisibility(View.INVISIBLE);
+        showOneView(beforeLayout, playImageButton.getId());
+        findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
+        imageIndicatorView.getViewPager().setScrollEnabled(false);
+        isPlayed = true;
+        videoView.start();
+    }
+
     private void onAfterPlay() {
+        videoView.pause();
+
+        imageIndicatorView.getIndicateLayout().setVisibility(View.VISIBLE);
+        playImageButton.setImageResource(R.drawable.s03_play_btn);
+        findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
+        imageIndicatorView.getViewPager().setScrollEnabled(true);
+        showAllView(beforeLayout);
 
     }
 
@@ -437,19 +465,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private boolean isFirstStart = true;
 
     private void startVideo() {
-        if (isFirstStart) {
-            configVideo();
-            imageIndicatorView.addViewAtFirst(videoView,false);
-            isFirstStart = false;
-            imageIndicatorView.getViewPager().setCurrentItem(0,false);
-            imageIndicatorView.show();
-        }
-        imageIndicatorView.getIndicateLayout().setVisibility(View.INVISIBLE);
-        showOneView(beforeLayout, playImageButton.getId());
-        findViewById(R.id.S03_back_btn).setVisibility(View.INVISIBLE);
-        imageIndicatorView.getViewPager().setScrollEnabled(false);
-        isPlayed = true;
-        videoView.start();
+        setState(State.START_PLAY);
     }
 
     private void showOneView(ViewGroup viewGroup,int id){
@@ -465,15 +481,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void pauseVideo() {
-
-        videoView.pause();
-
-        imageIndicatorView.getIndicateLayout().setVisibility(View.VISIBLE);
-        playImageButton.setImageResource(R.drawable.s03_play_btn);
-        findViewById(R.id.S03_back_btn).setVisibility(View.VISIBLE);
-        imageIndicatorView.getViewPager().setScrollEnabled(true);
-        showAllView(beforeLayout);
-
+        setState(State.AFTER_PLAY);
     }
 
     // 保存到sdcard
