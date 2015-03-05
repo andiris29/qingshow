@@ -52,6 +52,7 @@ import java.util.Map;
 public class    S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
+    public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
     public static boolean isOpened = false;
 
     private MCircularImageView userImage;
@@ -220,6 +221,9 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(),jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                if(!MetadataParser.hasError(response)){
+                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value",1));
+                }
                 doRefreshTask();
                 inputText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -237,7 +241,10 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                doRefreshTask();
+                if(!MetadataParser.hasError(response)){
+                    sendBroadcast(new Intent( COMMENT_NUM_CHANGE).putExtra("value",-1));
+                    doRefreshTask();
+                }
             }
         });
 

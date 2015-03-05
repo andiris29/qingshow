@@ -1,8 +1,10 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -133,6 +135,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
 
     }
 
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())){
+                commentTextView.setText(String.valueOf(Integer.parseInt(commentTextView.getText().toString())+intent.getIntExtra("value",0)));
+            }
+        }
+    };
+
     public void setState(State state){
         this.mState = state;
         onStateChanged(state);
@@ -229,6 +241,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         getShowDetailFromNet();
 
         matchUI();
+
+        registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
 
     }
 
