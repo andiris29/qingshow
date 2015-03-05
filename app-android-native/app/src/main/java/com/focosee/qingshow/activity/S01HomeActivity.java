@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -149,8 +150,7 @@ public class S01HomeActivity extends BaseActivity {
                         imageLoader.resume();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        if (pauseOnScroll) {
-                        }
+                        imageLoader.resume();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                         if (pauseOnFling) {
@@ -284,6 +284,7 @@ public class S01HomeActivity extends BaseActivity {
                 if (MetadataParser.hasError(response)) {
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
+                    Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.setHasMoreData(false);
                 }else{
                     LinkedList<MongoShow> results = FeedingParser.parse(response);

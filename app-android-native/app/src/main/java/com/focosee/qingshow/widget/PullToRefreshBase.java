@@ -45,9 +45,9 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
          */
         void onPullUpToRefresh(final PullToRefreshBase<V> refreshView);
     }
-    
+
     /**回滚的时间*/
-    private static final int SCROLL_DURATION = 200;
+    private int scrollDurtion = 200;
     /**阻尼系数*/
     private static final float OFFSET_RADIO = 2.5f;
     /**上一次移动的点 */
@@ -221,7 +221,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     }
     
     @Override
-    public final boolean onInterceptTouchEvent(MotionEvent event) {
+    public boolean onInterceptTouchEvent(MotionEvent event) {
         if (!isInterceptTouchEventEnabled()) {
             return false;
         }
@@ -277,7 +277,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         default:
             break;
         }
-        
+        Log.i("tag",mIsHandledTouchEvent + "-baseHandled");
         return mIsHandledTouchEvent;
     }
 
@@ -461,7 +461,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             @Override
             public void run() {
                 int newScrollValue = -mHeaderHeight;
-                int duration = smoothScroll ? SCROLL_DURATION : 0;
+                int duration = smoothScroll ? scrollDurtion : 0;
                 
                 startRefreshing();
                 smoothScrollTo(newScrollValue, duration, 0);
@@ -520,7 +520,11 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
      * @return 返回值时间为毫秒
      */
     protected long getSmoothScrollDuration() {
-        return SCROLL_DURATION;
+        return scrollDurtion;
+    }
+
+    public void setScrollDurtion(int scrollDurtion){
+        this.scrollDurtion = scrollDurtion;
     }
     
     /**

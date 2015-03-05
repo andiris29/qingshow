@@ -122,24 +122,25 @@ public class S02ShowClassify extends BaseActivity {
         _pullRefreshListView.setScrollLoadEnabled(true);
 
         _pullRefreshListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+            int i = 0;
             @Override
             public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-                pauseOnScroll(ImageLoader.getInstance(), true, true, scrollState);
-
+                pauseOnScroll(ImageLoader.getInstance(),true, scrollState);
+                i++;
+                Log.i("tag",i + "-scroll" + scrollState);
             }
 
             @Override
             public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
 
-            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling,int scrollState){
+            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnFling,int scrollState){
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         imageLoader.resume();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        if (pauseOnScroll) {
-                        }
+                        imageLoader.resume();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                         if (pauseOnFling) {

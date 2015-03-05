@@ -3,6 +3,7 @@ package com.focosee.qingshow.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Adapter;
@@ -49,7 +50,7 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
      */
     public MPullRefreshMultiColumnListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
+        setScrollDurtion(1);
         setPullLoadEnabled(false);
     }
 
@@ -231,6 +232,12 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+            super.onInterceptTouchEvent(event);
+            return false;
     }
 
     public class LoadPauseOnScrollListenser implements  PLA_AbsListView.OnScrollListener {

@@ -157,7 +157,8 @@ public class P04BrandActivity extends BaseActivity implements AbsListView.OnScro
         showNumTotal.setText("0");
         fansNumTotal.setText("0");
 
-        ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.getBrandLogo() : "", (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
+        ImageLoader.getInstance().displayImage((null != brandEntity) ? (null == brandEntity.getBrandLogo()) ? "" : brandEntity.getBrandLogo() : ""
+                , (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
         //((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
 
