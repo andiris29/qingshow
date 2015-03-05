@@ -164,7 +164,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
         Log.i("tag",data.get(position).getIsLikeByCurrentUser() + "");
-        if (data.get(position).getIsLikeByCurrentUser()) {
+        if (!data.get(position).getIsLikeByCurrentUser()) {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         } else {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
@@ -207,15 +207,15 @@ public class S08TrendListAdapter extends BaseAdapter {
                 String showMsg = "";
                 if (!MetadataParser.hasError(response)) {
                     if (isLiked) {
-                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-                        holderView.likeTextView.setText(
-                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
-                        showMsg = "点赞成功";
-                    } else {
                         holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
                         holderView.likeTextView.setText(
-                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) - 1));
+                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
                         showMsg = "取消点赞";
+                    } else {
+                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+                        holderView.likeTextView.setText(
+                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) - 1));
+                        showMsg = "点赞成功";
                     }
                     data.get(position).setIsLikeByCurrentUser(!isLiked);
                     showMessage(context, showMsg);
