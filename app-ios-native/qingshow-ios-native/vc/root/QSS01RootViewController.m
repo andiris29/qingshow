@@ -33,7 +33,7 @@
 #import "UIImage+BlurryImage.h"
 #import "QSAppDelegate.h"
 
-#define PAGE_ID @"S01"
+#define PAGE_ID @"S01 - 倾秀首页"
 
 
 @interface QSS01RootViewController ()

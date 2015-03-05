@@ -12,7 +12,7 @@
 #import "QSP04BrandDetailViewController.h"
 #import "QSItemUtil.h"
 
-#define PAGE_ID @"S02"
+#define PAGE_ID @"S02 - 闪点推荐"
 
 @interface QSS02ShandianViewController ()
 

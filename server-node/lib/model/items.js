@@ -5,6 +5,8 @@ var itemSchema;
 itemSchema = Schema({
     category : Number, // <code>
     name : String,
+    price: Number,
+    deactive : Boolean,
     images : [{
         url : String,
         description : String
@@ -29,7 +31,8 @@ itemSchema = Schema({
     create : {
         type : Date,
         'default' : Date.now
-    }
+    },
+    taobaoInfo : Object
 });
 
 var Item = mongoose.model('items', itemSchema);

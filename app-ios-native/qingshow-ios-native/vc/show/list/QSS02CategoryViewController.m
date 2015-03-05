@@ -13,7 +13,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 
-#define PAGE_ID @"S02"
+#define PAGE_ID @"S02 - "
 
 @interface QSS02CategoryViewController ()
 @property (assign, nonatomic) QSFeedingCategory type;
@@ -38,12 +38,14 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [self.delegateObj refreshClickedData];
-    [MobClick beginLogPageView:PAGE_ID];
+    NSString* pageId = [NSString stringWithFormat:@"%@%@", PAGE_ID, categoryToString(self.type)];
+    [MobClick beginLogPageView:pageId];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:PAGE_ID];
+    NSString* pageId = [NSString stringWithFormat:@"%@%@", PAGE_ID, categoryToString(self.type)];
+    [MobClick endLogPageView:pageId];
 }
 
 - (void)viewDidLoad {

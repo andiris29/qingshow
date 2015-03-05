@@ -12,7 +12,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
-#define PAGE_ID @"S08"
+#define PAGE_ID @"S08 - 潮流时尚"
 
 @interface QSS08PreviewViewController ()
 

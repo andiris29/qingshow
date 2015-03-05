@@ -1,0 +1,11 @@
+Current version
+	1.4.0
+
+Upgrade version number
+	app-ios-native
+		Project file
+		Version.h
+	app-android-native
+		AndroidManifest.xml
+	app-web
+		VERSION.js

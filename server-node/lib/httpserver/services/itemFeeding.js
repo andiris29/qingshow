@@ -38,7 +38,16 @@ itemFeeding.random = {
     'method' : 'get',
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
-            MongoHelper.queryRandom(Item.find(), Item.find(), qsParam.pageSize, function(err, models) {
+            var criteria = {
+                '$or': [{
+                    'deactive': {
+                        '$exists': false
+                    }
+                }, {
+                    'deactive': false
+                }]
+            };
+            MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, function(err, models) {
                 callback(err, models, qsParam.pageNo * qsParam.pageSize + 1);
             });
         }, {
@@ -55,10 +64,20 @@ itemFeeding.byBrandNew = {
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             var criteria = {
-                'brandRef' : qsParam._id,
-                'brandNewInfo' : {
-                    '$ne' : null
-                }
+                '$and': [{
+                    'brandRef': qsParam._id,
+                    'brandNewInfo': {
+                        '$ne': null
+                    }
+                }, {
+                    '$or': [{
+                        'deactive': {
+                            '$exists': false
+                        }
+                    }, {
+                        'deactive': false
+                    }]
+                }]
             };
             MongoHelper.queryPaging(Item.find(criteria).sort({
                 'brandNewInfo.order' : 1
@@ -78,11 +97,22 @@ itemFeeding.byBrandDiscount = {
     'func' : function(req, res) {
         _feed(req, res, function(qsParam, callback) {
             var criteria = {
-                'brandRef' : qsParam._id,
-                'brandDiscountInfo' : {
-                    '$ne' : null
-                }
+                '$and': [{
+                    'brandRef': qsParam._id,
+                    'brandDiscountInfo': {
+                        '$ne': null
+                    }
+                }, {
+                    '$or': [{
+                        'deactive': {
+                            '$exists': false
+                        }
+                    }, {
+                        'deactive': false
+                    }]
+                }]
             };
+
             MongoHelper.queryPaging(Item.find(criteria).sort({
                 'brandDiscountInfo.order' : 1
             }), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);

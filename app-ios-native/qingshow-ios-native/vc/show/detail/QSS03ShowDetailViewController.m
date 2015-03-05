@@ -26,7 +26,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIView+ScreenShot.h"
 
-#define PAGE_ID @"S03"
+#define PAGE_ID @"S03 - 秀"
 
 @interface QSS03ShowDetailViewController ()
 
@@ -68,6 +68,9 @@
 //    self.itemContainer.layer.masksToBounds = YES;
 //    self.showContainer.layer.cornerRadius = 4;
 //    self.showContainer.layer.masksToBounds = YES;
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 
     self.showContainer.frame = [UIScreen mainScreen].bounds;
     self.showImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.showContainer.frame];
@@ -115,11 +118,11 @@
     if (!self.itemListVc) {
         __weak QSS03ShowDetailViewController* weakSelf = self;
         if (self.showDict) {
-            [weakSelf bindWithDict:self.showDict];
+            [weakSelf bindExceptImageWithDict:self.showDict];
         }
         [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
             weakSelf.showDict = dict;
-            [weakSelf bindWithDict:dict];
+            [weakSelf bindExceptImageWithDict:dict];
         } onError:^(NSError *error) {
             
         }];
@@ -217,17 +220,17 @@
     if ([QSShowUtil getIsLike:self.showDict]) {
         [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
             [self showSuccessHudWithText:@"取消喜欢成功"];
-            [self bindWithDict:self.showDict];
+            [self bindExceptImageWithDict:self.showDict];
         } onError:^(NSError *error) {
-            [self bindWithDict:self.showDict];
+            [self bindExceptImageWithDict:self.showDict];
             [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
             [self showSuccessHudWithText:@"喜欢成功"];
-            [self bindWithDict:self.showDict];
+            [self bindExceptImageWithDict:self.showDict];
         } onError:^(NSError *error) {
-            [self bindWithDict:self.showDict];
+            [self bindExceptImageWithDict:self.showDict];
             [self handleError:error];
         }];
     }

@@ -18,7 +18,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
-#define PAGE_ID @"S04"
+#define PAGE_ID @"S04 - 评论"
 
 
 @interface QSS04CommentListViewController ()

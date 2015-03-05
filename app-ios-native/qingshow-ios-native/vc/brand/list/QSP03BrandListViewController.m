@@ -12,7 +12,7 @@
 
 #import "QSBrandTitleView.h"
 
-#define PAGE_ID @"P03"
+#define PAGE_ID @"P03 - 品牌一览"
 
 @interface QSP03BrandListViewController ()
 

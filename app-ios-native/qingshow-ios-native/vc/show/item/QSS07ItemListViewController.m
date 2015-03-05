@@ -15,7 +15,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSP04BrandDetailViewController.h"
 
-#define PAGE_ID @"S07"
+#define PAGE_ID @"S07 - 搭配清单"
 
 
 //#import "QSS03ItemShopDetailViewController.h"

@@ -14,7 +14,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+ShowHud.h"
 
-#define PAGE_ID @"S03"
+#define PAGE_ID @"S03 - 秀"
 
 @interface QSS03ItemShopDetailViewController ()
 
@@ -60,6 +60,7 @@
     
     self.imgScrollView.itemsArray = [QSShowUtil getItems:self.showDict];
     self.label2.isWithStrikeThrough = YES;
+    self.label2.isNotStrikeDollor = YES;
 
 }
 - (void)viewDidLayoutSubviews

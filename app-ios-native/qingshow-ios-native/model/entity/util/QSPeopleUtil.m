@@ -77,7 +77,7 @@
     
     NSString* name = peopleDict[@"name"];
     if (!name || !name.length) {
-        name = @"未命名";
+        name = @"倾秀用户";
     }
     return name;
 }
