@@ -137,7 +137,7 @@ public class S08TrendActivity extends BaseActivity {
                     Toast.makeText(getApplication(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
-                    mPullRefreshListView.setHasMoreData(true);
+                    mPullRefreshListView.setHasMoreData(false);
                 }
 
             }

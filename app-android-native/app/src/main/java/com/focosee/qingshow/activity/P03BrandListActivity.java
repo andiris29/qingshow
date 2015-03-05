@@ -130,8 +130,8 @@ public class P03BrandListActivity extends BaseActivity {
                 pageIndex++;
                 ArrayList<MongoBrand> moreData = BrandParser.parseQueryBrands(response);
                 adapter.addData(moreData);
+                pullRefreshListView.setHasMoreData(false);
                 adapter.notifyDataSetChanged();
-
                 pullRefreshListView.onPullUpRefreshComplete();
             }
         });

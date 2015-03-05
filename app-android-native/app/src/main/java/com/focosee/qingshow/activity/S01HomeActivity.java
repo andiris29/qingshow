@@ -284,28 +284,23 @@ public class S01HomeActivity extends BaseActivity {
                 if (MetadataParser.hasError(response)) {
                     _wfPullRefreshView.onPullDownRefreshComplete();
                     _wfPullRefreshView.onPullUpRefreshComplete();
-                    Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.setHasMoreData(false);
                 }else{
                     LinkedList<MongoShow> results = FeedingParser.parse(response);
-                    if(results.size() == 0) {
-                        Toast.makeText(S01HomeActivity.this, "已经是最后一页了", Toast.LENGTH_SHORT).show();
-                        _wfPullRefreshView.onPullDownRefreshComplete();
-                        _wfPullRefreshView.onPullUpRefreshComplete();
-                        _wfPullRefreshView.setHasMoreData(false);
-                        return;
-                    }
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
+                        _adapter.notifyDataSetChanged();
+                        _wfPullRefreshView.onPullDownRefreshComplete();
                         _currentPageIndex = 1;
                         ImageLoader.getInstance().resume();
                     } else {
                         _adapter.addItemLast(results);
+                        _adapter.notifyDataSetChanged();
+                        _wfPullRefreshView.onPullUpRefreshComplete();
+
                         _currentPageIndex++;
                     }
-                    _adapter.notifyDataSetChanged();
-                    _wfPullRefreshView.onPullDownRefreshComplete();
-                    _wfPullRefreshView.onPullUpRefreshComplete();
                     _wfPullRefreshView.setHasMoreData(true);
                     setLastUpdateTime(response);
                 }
