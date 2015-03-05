@@ -67,9 +67,9 @@ public class U01WatchFragment extends Fragment implements AbsListView.OnScrollLi
 
     public static U01WatchFragment newInstance() {
 
-            if (instance == null) {
+//            if (instance == null) {
                 instance = new U01WatchFragment();
-            }
+//            }
             return instance;
 
     }

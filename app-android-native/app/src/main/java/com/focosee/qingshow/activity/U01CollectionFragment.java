@@ -64,9 +64,9 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
 
     public static U01CollectionFragment newInstance() {
 
-            if (instance == null) {
+//            if (instance == null) {
                 instance = new U01CollectionFragment();
-            }
+//            }
 
             return instance;
     }
@@ -115,7 +115,7 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
         //latestPullRefreshListView.setOnScrollListener(this);
         latestListView = latestPullRefreshListView.getRefreshableView();
         //latestListView.setOnTouchListener(this);
-        latestListView.setPadding(0, U01PersonalActivity.headHeight, 0, 0);
+        latestListView.setPadding(20, U01PersonalActivity.headHeight, 0, 0);
         System.out.println("Collection-onCreateView: " + latestListView.getPaddingTop());
 
         itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());

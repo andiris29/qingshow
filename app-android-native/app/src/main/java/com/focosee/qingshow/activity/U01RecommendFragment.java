@@ -68,9 +68,9 @@ public class U01RecommendFragment extends Fragment implements View.OnTouchListen
 
     public static U01RecommendFragment newInstance() {
 
-            if (instance == null) {
+//            if (instance == null) {
                 instance = new U01RecommendFragment();
-            }
+//            }
 
             return instance;
     }

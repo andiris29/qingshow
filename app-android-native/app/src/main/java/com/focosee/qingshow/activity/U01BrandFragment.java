@@ -63,9 +63,9 @@ public class U01BrandFragment extends Fragment implements AbsListView.OnScrollLi
 
     public static U01BrandFragment newInstance(){
 
-            if (instance == null) {
+//            if (instance == null) {
                 instance = new U01BrandFragment();
-            }
+//            }
 
             return instance;
     }
