@@ -32,7 +32,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 
-public class U01PersonalActivity extends FragmentActivity implements AbsListView.OnScrollListener, View.OnTouchListener, PLA_AbsListView.OnScrollListener{
+public class U01PersonalActivity extends FragmentActivity{
     private static final String TAG = "U01PersonalActivity";
     public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
     private static final int PAGER_NUM = 4;
@@ -45,7 +45,7 @@ public class U01PersonalActivity extends FragmentActivity implements AbsListView
     private static final int PAGER_WATCH = 2;
     private static final int PAGE_BRAND = 3;
 
-    private RelativeLayout headRelativeLayout;
+    public RelativeLayout headRelativeLayout;
     private ImageView backTextView;
     private ImageView settingsTextView;
     private ImageView backgroundIV;
@@ -86,7 +86,6 @@ public class U01PersonalActivity extends FragmentActivity implements AbsListView
         context = getApplicationContext();
         Intent mIntent = getIntent();
         headRelativeLayout = (RelativeLayout) findViewById(R.id.U01_head_relative);
-        headHeight = headRelativeLayout.getLayoutParams().height;
 
         if (null != mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE)) {
             people = (MongoPeople) mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE);
@@ -259,6 +258,8 @@ public class U01PersonalActivity extends FragmentActivity implements AbsListView
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
 
+        headRelativeLayout.setY(0);//重置刊头位置
+
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
@@ -325,136 +326,4 @@ public class U01PersonalActivity extends FragmentActivity implements AbsListView
         MobclickAgent.onPause(this);
     }
 
-    private int firstVisibleItem;
-    private int padding;
-    public static int headHeight;
-    private boolean isHeadMove = false;
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        this.firstVisibleItem = firstVisibleItem;
-        padding = headRelativeLayout.getLayoutParams().height+(int)headRelativeLayout.getY();
-        padding = padding > headHeight ? headHeight : padding;
-        padding = padding < 0 ? 0 : padding;
-        if(isHeadMove) {
-            if (null != view.getChildAt(0)) {
-                if (padding > 0 && padding <= headHeight) {
-
-//                    System.out.println("viewChildTop:" + view.getChildAt(0).getTop());
-//                    System.out.println("headTop:" + headRelativeLayout.getTop());
-//                    System.out.println("headY:" + headRelativeLayout.getY());
-
-//                    view.getChildAt(0).setY(view.getY());
-                    view.setPadding(0, padding, 0, 0);
-
-                    headRelativeLayout.setY((view.getChildAt(0).getY() - headRelativeLayout.getLayoutParams().height) > 0 ? 0 : view.getChildAt(0).getY() - headRelativeLayout.getLayoutParams().height);
-//                viewPager.setY(view.getChildAt(firstVisibleItem).getY());
-
-
-//                System.out.println("滚动到第一个");
-//                System.out.println("firstViewY:" + view.getChildAt(firstVisibleItem).getY());
-                }else {
-                    isHeadMove = false;
-                    if (view.getPaddingTop() != 0 && padding == 0)
-                        view.setPadding(0, padding, 0, 0);
-                }
-            }
-        }
-        System.out.println("padding：" + padding);
-    }
-
-    private VelocityTracker mVelocityTracker;
-
-    private float speedTouch;
-    private float offSetTouch;
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        //final float scale = getResources().getDisplayMetrics().density;
-//        System.out.println("相对于屏幕左上角的Y:" + (230 * scale + 0.5f));5
-        if(null == mVelocityTracker) {
-            mVelocityTracker = VelocityTracker.obtain();
-            isHeadMove = true;
-        }
-
-        mVelocityTracker.addMovement(event);
-
-        final VelocityTracker velocityTracker = mVelocityTracker;
-        // 1000 provides pixels per second
-        velocityTracker.computeCurrentVelocity(1, (float)0.8); //设置maxVelocity值为0.1时，速率大于0.01时，显示的速率都是0.01,速率小于0.01时，显示正常
-        speedTouch = velocityTracker.getYVelocity();
-
-        velocityTracker.computeCurrentVelocity(1000); //设置units的值为1000，意思为一秒时间内运动了多少个像素
-        offSetTouch = velocityTracker.getYVelocity();
-        if(offSetTouch > 0 && offSetTouch > 300) {//向下滑动
-
-//            if(speedTouch == (float) 0.8) {//快速滑动
-////                if(headRelativeLayout.getY() != (float)0){
-////                    headRelativeLayout.setY(0);
-////                    isHeadMove = true;
-////                }
-////                if(v.getPaddingTop() != headHeight){
-////                    v.setPadding(0, headHeight, 0, 0);
-////                }
-//
-//            } else {//触摸滑动
-            if(padding < headHeight){
-                headRelativeLayout.setY(0);
-                padding = headHeight;
-                v.setPadding(0, padding, 0, 0);
-                isHeadMove = false;
-            }
-//            }
-
-        } else if (offSetTouch < -300) {//向上滑动
-            isHeadMove = true;
-//            if(speedTouch == (float)-0.8) {//快速滑动
-//
-//            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-
-    }
-
-    @Override
-    public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        this.firstVisibleItem = firstVisibleItem;
-        padding = headRelativeLayout.getLayoutParams().height+(int)headRelativeLayout.getY();
-        padding = padding > headHeight ? headHeight : padding;
-        padding = padding < 0 ? 0 : padding;
-        if(isHeadMove) {
-            if (null != view.getChildAt(0)) {
-                if (padding > 0 && padding <= headHeight) {
-                    System.out.println("U01Activity_padding: " + padding);
-
-//                    System.out.println("viewChildTop:" + view.getChildAt(0).getTop());
-//                    System.out.println("headTop:" + headRelativeLayout.getTop());
-//                    System.out.println("headY:" + headRelativeLayout.getY());
-
-//                    view.getChildAt(0).setY(view.getY());
-                    view.setPadding(0, padding, 0, 0);
-
-                    headRelativeLayout.setY((DensityUtil.dip2px(this, view.getChildAt(0).getTop()) - headRelativeLayout.getLayoutParams().height) > 0 ? 0 : DensityUtil.dip2px(this, view.getChildAt(0).getTop()) - headRelativeLayout.getLayoutParams().height);
-//                viewPager.setY(view.getChildAt(firstVisibleItem).getY());
-
-
-//                System.out.println("滚动到第一个");
-//                System.out.println("firstViewY:" + view.getChildAt(firstVisibleItem).getY());
-                }else {
-                    isHeadMove = false;
-                    if (view.getPaddingTop() != 0 && padding == 0)
-                        view.setPadding(0, padding, 0, 0);
-                }
-            }
-        }
-        System.out.println("padding--U01：" + padding);
-    }
 }

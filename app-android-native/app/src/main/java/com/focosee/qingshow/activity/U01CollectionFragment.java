@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
+import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -40,7 +41,7 @@ import java.util.LinkedList;
 /**
  * Created by zenan on 12/27/14.
  */
-public class U01CollectionFragment extends Fragment implements View.OnTouchListener, PLA_AbsListView.OnScrollListener{
+public class U01CollectionFragment extends Fragment{
 
     public static String ACTION_MESSAGE = "U01CollectionFragment_actionMessage";
     private int currentPageIndex = 1;
@@ -51,6 +52,7 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
     private MongoPeople people;
     private static U01CollectionFragment instance;
     private boolean noMoreData = false;
+    private HeadScrollAdapter headScrollAdapter;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -106,20 +108,23 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
         getActivity().registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_personal_pager_collection, container, false);
-
+        headScrollAdapter = new HeadScrollAdapter(((U01PersonalActivity) getActivity()).headRelativeLayout, getActivity());
         latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
-        //latestPullRefreshListView.setOnScrollListener(this);
+        latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
-        //latestListView.setOnTouchListener(this);
-        latestListView.setPadding(20, U01PersonalActivity.headHeight, 0, 0);
+        latestListView.setOnTouchListener(headScrollAdapter);
+        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         System.out.println("Collection-onCreateView: " + latestListView.getPaddingTop());
 
         itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
+        latestListView.setBackgroundColor(getResources().getColor(R.color.black));
         latestPullRefreshListView.setScrollLoadEnabled(true);
         latestPullRefreshListView.setPullRefreshEnabled(false);
         latestPullRefreshListView.setPullLoadEnabled(true);
@@ -146,15 +151,26 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
 
         doShowsRefreshDataTask();
 
+        latestListView.post(new Runnable() {
+            @Override
+            public void run() {
+                if(null != latestListView.getChildAt(0)){
+                    //进去先让listview向下滚动一段距离，不然前两项只显示不全
+                    latestListView.scrollTo(0, -headScrollAdapter.headHeight);
+                    latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
+                    System.out.println("Collection-Runnable: " + latestListView.getPaddingTop());
+                }
+            }
+        });
+        latestListView.setSelection(0);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        System.out.println("Collection-onActivityCreated: " + U01PersonalActivity.headHeight);
-        latestListView.setPadding(0, U01PersonalActivity.headHeight, 0, 0);
+        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
+        System.out.println("Collection-onActivityCreated: " + latestListView.getPaddingTop());
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
@@ -162,6 +178,13 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
         super.onSaveInstanceState(outState);
         outState.putSerializable("people", people);
 //        getFragmentManager().putFragment(outState, "mContent", mContent);
+    }
+
+    @Override
+    public void onStart() {
+        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
+        System.out.println("Collection-onStart: " + latestListView.getPaddingTop());
+        super.onStart();
     }
 
     private void doShowsRefreshDataTask() {
@@ -186,6 +209,8 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
+
+                System.out.println("refresh");
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -217,25 +242,5 @@ public class U01CollectionFragment extends Fragment implements View.OnTouchListe
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    private void handleErrorMsg(VolleyError error) {
-        Log.i("P02ModelActivity", error.toString());
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        ((U01PersonalActivity)getActivity()).onTouch(v, event);
-        return false;
-    }
-
-    @Override
-    public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-
-    }
-
-    @Override
-    public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        ((U01PersonalActivity)getActivity()).onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
     }
 }
