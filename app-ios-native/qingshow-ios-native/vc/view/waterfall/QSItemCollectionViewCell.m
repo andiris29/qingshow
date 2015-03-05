@@ -25,6 +25,7 @@
 - (void)awakeFromNib {
     [self baseHeightSetup];
     self.priceLabel.isWithStrikeThrough = YES;
+    self.priceLabel.isNotStrikeDollor = YES;
 }
 
 #pragma mark - Binding
@@ -38,7 +39,8 @@
         self.itemImageView.image = nil;
     }
     
-    if ([QSItemUtil getPriceAfterDiscount:itemDict].length) {
+    
+    if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.priceLabel.hidden = NO;
         self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
         self.priceLabel.text = [QSItemUtil getPrice:itemDict];

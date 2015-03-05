@@ -6,6 +6,7 @@ itemSchema = Schema({
     category : Number, // <code>
     name : String,
     price: Number,
+    deactive : Boolean,
     images : [{
         url : String,
         description : String

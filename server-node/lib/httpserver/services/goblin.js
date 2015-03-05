@@ -12,6 +12,7 @@ var MongoHelper = require('../helpers/MongoHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 var ServiceHelper = require('../helpers/ServiceHelper');
+var ServerError = require('../server-error');
 
 var goblin = module.exports;
 
@@ -101,6 +102,11 @@ goblin.updateTOPShopHotSales = {
                 }, callback);
             },
             function (topShop, callback) {
+                if (!topShop) {
+                    callback(ServerError.TopShopNotExist);
+                    return;
+                }
+
                 if (req.__context) {
                     topShop.__context = qsParam.__context;
                     topShop.save(callback);
@@ -123,8 +129,6 @@ var _crawlTaobaoInfo = function (item, callback) {
             //Web Taobao Info
             taobaoWeb.item.getWebSkus(item, function (err, taobaoInfo) {
                 item.taobaoInfo = taobaoInfo;
-//                item.taobaoInfo = item.taobaoInfo || {};
-//                item.taobaoInfo.web_skus = webSkus;
                 callback();
             });
         }
@@ -133,6 +137,11 @@ var _crawlTaobaoInfo = function (item, callback) {
             callback(err);
         } else {
             item.taobaoInfo = item.taobaoInfo || {};
+            if (Object.keys(item.taobaoInfo).length === 0) {
+                item.deactive = true;
+            } else {
+                delete item.deactive;
+            }
             item.taobaoInfo.refreshTime = new Date();
             item.save(callback);
         }
@@ -143,10 +152,8 @@ goblin.refreshItemTaobaoInfo = {
     'method' : 'get',
     'func' : function (req, res) {
 
-        var qsParam = null;
         async.waterfall([
             function (callback) {
-                //TODO check admin
                 callback();
             },
             function (callback) {
@@ -164,15 +171,20 @@ goblin.refreshItemTaobaoInfo = {
                 }, callback);
             },
             function (item, callback) {
-                _crawlTaobaoInfo(item, callback);
+                if (item) {
+                    _crawlTaobaoInfo(item, callback);
+                } else {
+                    callback(ServerError.ItemNotExist);
+                }
             },
         ], function (err, item) {
             ResponseHelper.response(res, err, {
                 "item" : item
             });
         });
-    },
-    permissionValidators : ['loginValidator'] //TODO
+    }
+//    ,
+//    permissionValidators : ['loginValidator'] //TODO
 };
 
 goblin.batchRefreshItemTaobaoInfo = {
@@ -192,20 +204,45 @@ goblin.batchRefreshItemTaobaoInfo = {
             },
             function (callback) {
                 //query items
-                //TODO handle time
                 var time = null;
                 if (qsParam.startDate) {
-                    time = RequestHelper.parseDate(qsParam.startDate);
+                    time = new Date(qsParam.startDate);
                 } else {
                     time = new Date();
                 }
-                var query = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
-                var queryCount = Item.find().or([{'taobaoInfo.refreshTime' : {'$exists' : false}}, {'taobaoInfo.refreshTime' : {'$lt' : time}}]);
+
+                var criteria = {
+                    '$and': [{
+                        '$or': [{
+                            'taobaoInfo.refreshTime': {
+                                '$exists': false
+                            }
+                        }, {
+                            'taobaoInfo.refreshTime': {
+                                '$lt': time
+                            }
+                        }]
+                    }, {
+                        '$or': [{
+                            'deactive': {
+                                '$exists': false
+                            }
+                        }, {
+                            'deactive': false
+                        }]
+                    }]
+                };
+
+                var query = Item.find(criteria);
+                var queryCount = Item.find(criteria);
                 qsParam.pageNo = qsParam.pageNo || 1;
                 qsParam.pageSize = qsParam.pageSize || 10;
-                MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result) {
+                MongoHelper.queryPaging(query, queryCount, qsParam.pageNo, qsParam.pageSize, function(err, result, count) {
+                    console.log('remain : ' + count);
                     if (err) {
                         callback(err);
+                    } else if (!count) {
+                        callback(ServerError.PagingNotExist);
                     } else {
                         callback(null, result);
                     }
@@ -227,6 +264,7 @@ goblin.batchRefreshItemTaobaoInfo = {
                 "items" : items
             });
         });
-    },
-    permissionValidators : ['adminValidator']
+    }
+//    ,
+//    permissionValidators : ['adminValidator']
 };

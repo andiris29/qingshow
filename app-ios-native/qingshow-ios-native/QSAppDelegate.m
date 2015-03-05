@@ -13,7 +13,6 @@
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
 #import "MobClick.h"
-#import "Version.h"
 
 
 @interface QSAppDelegate ()
@@ -35,7 +34,8 @@
     
     //umeng
     [MobClick setLogEnabled:NO];
-    [MobClick setAppVersion:VERSION];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
     [MobClick setEncryptEnabled:YES];
     [MobClick updateOnlineConfig];
     [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];

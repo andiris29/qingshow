@@ -401,7 +401,6 @@
 		EFA1F5651A5305DE00010F79 /* ImageCropperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropperView.m; sourceTree = "<group>"; };
 		EFA1F5661A5305DE00010F79 /* UIImage+Rotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Rotation.h"; sourceTree = "<group>"; };
 		EFA1F5671A5305DE00010F79 /* UIImage+Rotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Rotation.m"; sourceTree = "<group>"; };
-		EFA1F56A1A53112E00010F79 /* Version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		EFA618A21A12588B00560699 /* QSS03ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ItemDetailViewController.h; sourceTree = "<group>"; };
 		EFA618A31A12588B00560699 /* QSS03ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ItemDetailViewController.m; sourceTree = "<group>"; };
 		EFA618A41A12588B00560699 /* QSS03ItemDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemDetailViewController.xib; sourceTree = "<group>"; };
@@ -867,7 +866,6 @@
 				EF9A74211A02A82600095F07 /* QSAppDelegate.m */,
 				EF9A74291A02A82600095F07 /* Images.xcassets */,
 				EF9A74181A02A82600095F07 /* Supporting Files */,
-				EFA1F56A1A53112E00010F79 /* Version.h */,
 			);
 			path = "qingshow-ios-native";
 			sourceTree = "<group>";
@@ -1769,8 +1767,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: cheng cheng (5YH853PY86)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
@@ -1784,7 +1782,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "95bdb097-dd21-42b3-bab5-ca69073a3fc5";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1795,8 +1793,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: cheng cheng (5YH853PY86)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
@@ -1810,7 +1808,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "95bdb097-dd21-42b3-bab5-ca69073a3fc5";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
 				VALID_ARCHS = "armv7 arm64";
 				WRAPPER_EXTENSION = app;
 			};

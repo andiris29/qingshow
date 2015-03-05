@@ -162,8 +162,102 @@
     }
     return array;
 }
+
++ (NSArray*)getSkusArray:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    NSDictionary* taobaoInfoDict = itemDict[@"taobaoInfo"];
+    if (![QSCommonUtil checkIsDict:taobaoInfoDict]) {
+        return nil;
+    }
+    NSArray* skus = taobaoInfoDict[@"skus"];
+    if (![QSCommonUtil checkIsArray:skus]) {
+        return nil;
+    }
+    return skus;
+}
+
++ (BOOL)hasDiscountInfo:(NSDictionary*)itemDict
+{
+
+    NSArray* skus = [self getSkusArray:itemDict];
+    if (!skus || !skus.count) {
+        return NO;
+    }
+    
+    //Check at least one dict
+    BOOL f = YES;
+    for (NSDictionary* sku in skus) {
+        if ([QSCommonUtil checkIsDict:sku]) {
+            f = NO;
+            break;
+        }
+    }
+    if (f) {
+        return NO;
+    }
+    
+    //Check at least one promo_price
+    f = YES;
+    for (NSDictionary* sku in skus) {
+        if ([QSCommonUtil checkIsDict:sku]) {
+            id promoPrice = sku[@"promo_price"];
+            if (![QSCommonUtil checkIsNil:promoPrice]) {
+                f = NO;
+                break;
+            }
+        }
+    }
+    if (f) {
+        return NO;
+    }
+    
+    f = NO;
+    for (NSDictionary* sku in skus) {
+        if ([QSCommonUtil checkIsDict:sku]) {
+            NSNumber* promoPrice = sku[@"promo_price"];
+            NSNumber* price = sku[@"price"];
+            if (ABS(price.doubleValue - promoPrice.doubleValue) > 0.01) {
+                f = YES;
+                break;
+            }
+        }
+    }
+    return f;
+}
+
 + (NSString*)getPrice:(NSDictionary*)itemDict
 {
+    NSArray* skus = [self getSkusArray:itemDict];
+    if (!skus || !skus.count) {
+        return @"";
+    }
+    NSArray* sortedSkus = [skus sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSDictionary* d1 = (NSDictionary*)obj1;
+        NSDictionary* d2 = (NSDictionary*)obj2;
+        NSNumber* price1 = (NSNumber*)d1[@"price"];
+        NSNumber* price2 = (NSNumber*)d2[@"price"];
+        return price1.doubleValue > price2.doubleValue;
+    }];
+    NSDictionary* minSku = [sortedSkus firstObject];
+    NSNumber* minPrice = minSku[@"price"];
+    NSDictionary* maxSku = [sortedSkus lastObject];
+    NSNumber* maxPrice = maxSku[@"price"];
+    if ([self hasDiscountInfo:itemDict]) {
+        return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
+        //min(skus[i].price) + ' - ' + max(skus[i].price)
+        if (sortedSkus.count == 1 || (ABS(maxPrice.doubleValue - minPrice.doubleValue)) < 0.01) {
+            return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+        } else {
+            return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
+        }
+    } else {
+        //min(skus[i].price) - 0.01
+        return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+    }
+    /*
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
@@ -174,9 +268,28 @@
         double priceDouble = price.doubleValue;
         return [NSString stringWithFormat:@"￥%.2f", priceDouble];
     }
+     */
 }
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict
 {
+    NSArray* skus = [self getSkusArray:itemDict];
+    if (!skus || !skus.count) {
+        return @"";
+    }
+    if (![self hasDiscountInfo:itemDict]) {
+        return @"";
+    }
+    NSArray* sortedSkus = [skus sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSDictionary* d1 = (NSDictionary*)obj1;
+        NSDictionary* d2 = (NSDictionary*)obj2;
+        NSNumber* price1 = (NSNumber*)d1[@"promo_price"];
+        NSNumber* price2 = (NSNumber*)d2[@"promo_price"];
+        return price1.doubleValue > price2.doubleValue;
+    }];
+    NSDictionary* minSku = [sortedSkus firstObject];
+    NSNumber* minPrice = minSku[@"promo_price"];
+    return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
+    /*
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
@@ -192,6 +305,7 @@
         double priceDouble = price.doubleValue;
         return [NSString stringWithFormat:@"￥%.2f", priceDouble];
     }
+     */
 }
 
 //+ (NSDictionary*)getImageMetaData:(NSDictionary*)itemDict

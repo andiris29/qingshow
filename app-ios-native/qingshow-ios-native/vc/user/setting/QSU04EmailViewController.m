@@ -10,7 +10,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
 
-#define PAGE_ID @"U04"
+#define PAGE_ID @"U04 - 邮箱设置"
 
 @interface QSU04EmailViewController ()
 

@@ -1,12 +1,12 @@
 {
-    "name": "com.focosee.qingshow-goblin-tbitem",
-    "version": "0.1.0",
-    "dependencies": {
-        "async": "0.9.*",
-        "underscore": "1.7.*",
-        "minimist": "1.1.*",
-        "request": "^2.51.*",
-        "winston": "0.8.3",
-        "iconv": "2.1.*"
-    }
+  "name": "com.focosee.qingshow-goblin-tbitem",
+  "version": "0.1.0",
+  "dependencies": {
+    "async": "0.9.*",
+    "minimist": "1.1.*",
+    "node-schedule": "^0.2.1",
+    "request": "^2.51.*",
+    "underscore": "1.7.*",
+    "winston": "0.8.3"
+  }
 }

@@ -1,7 +1,6 @@
 var argv = require('minimist')(process.argv.slice(2));
 var async = require('async'), _ = require('underscore');
 var request = require('request');
-var Iconv = require('iconv').Iconv;
 
 // Log
 var winston = require('winston'), fs = require('fs'), path = require('path');
@@ -40,8 +39,8 @@ var _next = function() {
                 return;
             }
             var retObj = JSON.parse(body);
-            if (retObj.metadata && retObj.metadata.err && retObj.metadata.err === 1009) {
-                if (retObj.metadata.err === 1009) {
+            if (retObj.metadata && retObj.metadata.error) {
+                if (retObj.metadata.error === 1009) {
                     callback('complete');
                 } else {
                     callback(retObj.metadata.err);
@@ -54,7 +53,7 @@ var _next = function() {
         if (err) {
             if (err === 'complete') {
                 winston.info('all complete');
-                process.exit();
+//                process.exit();
             } else {
                 logs.push('fail');
                 winston.info(logs.join(' '));
@@ -71,4 +70,17 @@ var _next = function() {
         }
     });
 };
-_next();
+//_next();
+
+// schedule to begin goblin item at 1:00 every day
+var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
+rule.hour = 1;
+rule.minute = 0;
+
+schedule.scheduleJob(rule, function(){
+    winston.info('Goblin-tbitem daily begin at ' + new Date());
+    startDate = new Date();
+    _next();
+});
+winston.info('Goblin-tbitem schedules success');

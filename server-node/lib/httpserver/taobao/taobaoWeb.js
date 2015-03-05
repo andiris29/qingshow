@@ -1,6 +1,6 @@
 
 var async = require('async');
-var Iconv = require('iconv').Iconv;
+var Iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
 
@@ -54,7 +54,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
         if (err) {
             callback(err);
         } else {
-            var b = new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString();
+            var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
             var $ = cheerio.load(b);
             var scriptTags = $('script');
             var hubConfigScript = null;
@@ -64,6 +64,11 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                     hubConfigScript = scriptContent;
                 }
             });
+            if (!hubConfigScript) {
+                callback();
+                return;
+            }
+
             var Hub = {
                 config : {}
             };
@@ -79,6 +84,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
             }
 
             try {
+
                 eval(hubConfigScript);
                 var skuInfo = Hub.config.get('sku');
                 var skuMap = skuInfo.valItemInfo.skuMap;
@@ -115,7 +121,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
         if (err) {
             callback(err);
         } else {
-            var b = new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString();
+            var b = Iconv.decode(new Buffer(body, 'binary'), 'gbk');
             var $ = cheerio.load(b);
 
             var scriptTags = $('script');
@@ -132,6 +138,10 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
             TShop.setConfig = emptyFunc;
             TShop.Setup = function (obj) {
                 var itemInfo = obj.valItemInfo;
+                if (!itemInfo) {
+                    callback();
+                    return;
+                }
                 var skuMap = itemInfo.skuMap;
 
                 var propertyMap = _parseTmallPropertyMap($);
@@ -153,11 +163,16 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 taobaoInfo.top_num_iid = taobaoHelper.getIidFromSource(source);
                 callback(null, taobaoInfo);
             };
-            try {
-                eval(tshopSetupScript);
-            } catch (e) {
-                callback(e);
+            if(tshopSetupScript) {
+                try {
+                    eval(tshopSetupScript);
+                } catch (e) {
+                    callback(e);
+                }
+            } else {
+                callback();
             }
+
         }
     });
     r.setMaxListeners(0);
@@ -180,6 +195,10 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                 var isSetMdskipInvoke = false;
                 var setMdskip = function(object) {
                     isSetMdskipInvoke = true;
+                    if (!object.isSuccess) {
+                        callback(null, []);
+                        return;
+                    }
                     var webSkus = [];
                     var priceInfo = object.defaultModel.itemPriceResultDO.priceInfo;
 //                    var stockInfo = object.defaultModel.inventoryDO.skuQuantity;
@@ -208,7 +227,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                     }
                     callback(null, webSkus);
                 };
-                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
 
                 if (!isSetMdskipInvoke) {
                     console.log('Parse item :' + tbItemId + ' Error' );
@@ -247,11 +266,22 @@ var _parseTmallPropertyMap = function ($) {
         var this$ = cheerio(this);
         var dataValue = this$.attr('data-value');
         if (dataValue && dataValue.length) {
+            propertyMap[dataValue] = {};
             var title = this$.attr('title');
             if (title && title.length) {
-                propertyMap[dataValue] = title;
+                propertyMap[dataValue].properties_name = title;
             } else {
-                propertyMap[dataValue] = this$.text();
+                propertyMap[dataValue].properties_name = this$.text();
+            }
+
+            var aTag = this$.find('a');
+            var aStyle = aTag.attr('style');
+            if (aStyle && aStyle.length) {
+                var bgRegex = /background:url\((.*)\)/
+                var matchResult = aStyle.match(bgRegex);
+                if (matchResult.length > 1) {
+                    propertyMap[dataValue].properties_thumbnail = matchResult[1];
+                }
             }
         }
     });
@@ -284,6 +314,10 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
             stock : targetValue.stock
         }
         retSku.properties_name = _parsePropertiesName(retSku.properties, propertyMap);
+        var thumbnail = _parsePropertiesThumbnail(retSku.properties, propertyMap);
+        if (thumbnail) {
+            retSku.properties_thumbnail = thumbnail;
+        }
         return retSku;
     });
     var skus = skus.filter(function (s) { return s !== null; })
@@ -294,8 +328,8 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
 var _parsePropertiesName = function (propertiesStr, propertyMap) {
     var proNameArray = [];
     propertiesStr.split(';').forEach(function (prop) {
-        if (prop && prop.length) {
-            var value = propertyMap[prop];
+        if (prop && prop.length && propertyMap[prop]) {
+            var value = propertyMap[prop].properties_name;
             if (typeof value == 'string' && value.length) {
                 proNameArray.push(value);
             }
@@ -303,6 +337,18 @@ var _parsePropertiesName = function (propertiesStr, propertyMap) {
     });
     return proNameArray.join(';');
 };
+var _parsePropertiesThumbnail = function (propertiesStr, propertyMap) {
+    var propThumbnail = null;
+    propertiesStr.split(';').forEach(function (prop) {
+        if (prop && prop.length && propertyMap[prop]) {
+            var value = propertyMap[prop].properties_thumbnail;
+            if (typeof value == 'string' && value.length) {
+                propThumbnail = value;
+            }
+        }
+    });
+    return propThumbnail;
+}
 
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {
@@ -321,7 +367,7 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                 var g_config = {
                     vdata : {}
                 };
-                eval(new Iconv('gbk', 'utf-8').convert(new Buffer(body, 'binary')).toString());
+                eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
 
                 var priceBeforeDiscount = parseFloat(g_config.Price);
 //                var stockInfo = g_config.DynamicStock.sku;

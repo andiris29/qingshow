@@ -12,10 +12,33 @@
 
 @synthesize isWithStrikeThrough;
 
+- (float)getDollarSizeWidth
+{
+    CGSize conSize = CGSizeMake(INFINITY, INFINITY);
+    UIFont* font = self.font;
+    NSString* str = @"￥";
+    CGSize size;
+    if ([str respondsToSelector:@selector(sizeWithAttributes:)]) {
+        //Above IOS 7
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        size = [str boundingRectWithSize:conSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:nil].size;
+    } else {
+        //Below IOS 7
+        size = [str sizeWithFont:font constrainedToSize:conSize lineBreakMode:NSLineBreakByWordWrapping];
+    }
+    
+    return size.width;
+}
 - (void)drawRect:(CGRect)rect
 {
     if (isWithStrikeThrough)
     {
+        float f = 0;
+        if (self.isNotStrikeDollor && [self.text hasPrefix:@"￥"]) {
+            f = [self getDollarSizeWidth];
+        }
+        
         CGContextRef c = UIGraphicsGetCurrentContext();
         
         UIColor* color = self.textColor;
@@ -27,7 +50,7 @@
         CGContextBeginPath(c);
         //画直线
         CGFloat halfWayUp = rect.size.height/2 + rect.origin.y;
-        CGContextMoveToPoint(c, rect.origin.x, halfWayUp );//开始点
+        CGContextMoveToPoint(c, rect.origin.x + f, halfWayUp );//开始点
         CGContextAddLineToPoint(c, rect.origin.x + rect.size.width, halfWayUp);//结束点
         //画斜线
 //        CGContextMoveToPoint(c, rect.origin.x, rect.origin.y+5 );

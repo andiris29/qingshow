@@ -15,7 +15,17 @@
 }
 + (BOOL)checkIsDict:(id)obj
 {
+    if ([self checkIsNil:obj]) {
+        return NO;
+    }
     return [obj isKindOfClass:[NSDictionary class]];
+}
++ (BOOL)checkIsArray:(id)obj
+{
+    if ([self checkIsNil:obj]) {
+        return NO;
+    }
+    return [obj isKindOfClass:[NSArray class]];
 }
 + (NSString*)getIdOrEmptyStr:(NSDictionary*)dict
 {

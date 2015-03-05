@@ -7,7 +7,6 @@
 //
 
 #import "QSNetworkEngine+Protect.h"
-#import "Version.h"
 
 @implementation QSNetworkEngine (Protect)
 
@@ -19,7 +18,8 @@
 {
     MKNetworkOperation* op = nil;
     NSMutableDictionary* p = [paramDict mutableCopy];
-    p[@"version"] = VERSION;
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    p[@"version"] = version;
     op = [self operationWithPath:path params:p httpMethod:method ];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
     [self enqueueOperation:op];
@@ -34,7 +34,8 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
-    p[@"version"] = VERSION;
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    p[@"version"] = version;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey];
@@ -53,7 +54,8 @@
                                    onSucceeded:(OperationSucceedBlock)succeedBlock
                                        onError:(OperationErrorBlock)errorBlock {
     NSMutableDictionary* p = [paramDict mutableCopy];
-    p[@"version"] = VERSION;
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    p[@"version"] = version;
     MKNetworkOperation *op = nil;
     op = [self operationWithPath:path params:p httpMethod:method];
     [op addData:image forKey:fileKey mimeType:@"application/octet-stream" fileName:fileName];
