@@ -236,8 +236,12 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (isReadyForPullDown()) {
+            return super.onInterceptTouchEvent(event);
+        }else {
             super.onInterceptTouchEvent(event);
             return false;
+        }
     }
 
     public class LoadPauseOnScrollListenser implements  PLA_AbsListView.OnScrollListener {
