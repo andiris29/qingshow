@@ -119,12 +119,13 @@ public class U01CollectionFragment extends Fragment{
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
         latestListView.setOnTouchListener(headScrollAdapter);
-        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        System.out.println("Collection-onCreateView: " + latestListView.getPaddingTop());
+        //设置margin，不然一进去时，第一项会显示不全
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
+        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
+        latestListView.setLayoutParams(params);
 
         itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
-        latestListView.setBackgroundColor(getResources().getColor(R.color.black));
         latestPullRefreshListView.setScrollLoadEnabled(true);
         latestPullRefreshListView.setPullRefreshEnabled(false);
         latestPullRefreshListView.setPullLoadEnabled(true);
@@ -151,25 +152,11 @@ public class U01CollectionFragment extends Fragment{
 
         doShowsRefreshDataTask();
 
-        latestListView.post(new Runnable() {
-            @Override
-            public void run() {
-                if(null != latestListView.getChildAt(0)){
-                    //进去先让listview向下滚动一段距离，不然前两项只显示不全
-                    latestListView.scrollTo(0, -headScrollAdapter.headHeight);
-                    latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-                    System.out.println("Collection-Runnable: " + latestListView.getPaddingTop());
-                }
-            }
-        });
-        latestListView.setSelection(0);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        System.out.println("Collection-onActivityCreated: " + latestListView.getPaddingTop());
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -177,14 +164,6 @@ public class U01CollectionFragment extends Fragment{
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putSerializable("people", people);
-//        getFragmentManager().putFragment(outState, "mContent", mContent);
-    }
-
-    @Override
-    public void onStart() {
-        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        System.out.println("Collection-onStart: " + latestListView.getPaddingTop());
-        super.onStart();
     }
 
     private void doShowsRefreshDataTask() {
@@ -209,7 +188,6 @@ public class U01CollectionFragment extends Fragment{
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
-
                 System.out.println("refresh");
             }
         });

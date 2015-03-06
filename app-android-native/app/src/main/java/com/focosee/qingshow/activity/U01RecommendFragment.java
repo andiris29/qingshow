@@ -118,8 +118,11 @@ public class U01RecommendFragment extends Fragment{
         latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
+        //设置margin，不然一进去时，第一项会显示不全
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
+        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
+        latestListView.setLayoutParams(params);
         latestListView.setOnTouchListener(headScrollAdapter);
-        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
 
         itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
@@ -188,7 +191,6 @@ public class U01RecommendFragment extends Fragment{
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
                 //进去先让listview向下滚动一段距离，不然前两项只显示不全
-                latestListView.scrollTo(0, -headScrollAdapter.headHeight);
             }
         }, new Response.ErrorListener() {
             @Override
