@@ -24,12 +24,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
+import com.focosee.qingshow.adapter.HotWaterfallAdapter;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
 import com.focosee.qingshow.adapter.P04BrandItemListAdapter;
 import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.code.RolesCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -57,6 +59,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class P04BrandActivity extends BaseActivity{
@@ -97,7 +100,7 @@ public class P04BrandActivity extends BaseActivity{
     private P04BrandViewPagerAdapter viewPagerAdapter;
     private P04BrandItemListAdapter newestBrandItemListAdapter;
     private P04BrandItemListAdapter discountBrandItemListAdapter;
-    private P04BrandItemListAdapter showBrandItemListAdapter;
+    private HotWaterfallAdapter showBrandItemListAdapter;
     private P02ModelFollowPeopleListAdapter fansListAdapter;
 
     private ArrayList<View> pagerViewList;
@@ -448,7 +451,7 @@ public class P04BrandActivity extends BaseActivity{
         showPullRefreshListView.setOnScrollListener(headScrollAdapter);
         showListView = showPullRefreshListView.getRefreshableView();
         showListView.setOnTouchListener(headScrollAdapter);
-        showBrandItemListAdapter = new P04BrandItemListAdapter(this, getScreenSize(), new ArrayList<MongoItem>());
+        showBrandItemListAdapter = new HotWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
 
         showListView.setAdapter(showBrandItemListAdapter);
         showPullRefreshListView.setScrollLoadEnabled(true);
@@ -692,6 +695,7 @@ public class P04BrandActivity extends BaseActivity{
     private void showsGetNetTask(String _pageIndex, final boolean _isRefresh){
         if(null == brandEntity)return;
         final boolean _refreshTag = _isRefresh;
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandShowApi(String.valueOf(brandEntity.get_id()), _pageIndex), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -705,15 +709,15 @@ public class P04BrandActivity extends BaseActivity{
                     showPullRefreshListView.setHasMoreData(false);
                     return;
                 }
-
-                ArrayList<MongoItem> modelShowEntities = ItemFeedingParser.parse(response);
+                LinkedList<MongoShow> results  = FeedingParser.parse(response);
                 if(_isRefresh){
-                    showBrandItemListAdapter.resetData(modelShowEntities);
+                    showBrandItemListAdapter.addItemTop(results);
                     pageIndex = 1;
                 }else{
-                    showBrandItemListAdapter.addData(modelShowEntities);
+                    showBrandItemListAdapter.addItemLast(results);
                     ++pageIndex;
                 }
+                showBrandItemListAdapter.notifyDataSetChanged();
                 showBrandItemListAdapter.notifyDataSetChanged();
                 showPullRefreshListView.onPullUpRefreshComplete();
                 showPullRefreshListView.setHasMoreData(true);
