@@ -108,8 +108,6 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
 
     }
 
-    int[] location = new int[2];
-
     boolean firstScroll = true;
 
     @Override
@@ -130,11 +128,8 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
                     firstScroll = false;
                     return;
                 }
-            }
-            if (null != view.getChildAt(0)) {
                 if (padding > 0 && padding <= headHeight) {
                     view.setPadding(0, padding, 0, 0);
-                    view.getChildAt(0).getLocationOnScreen(location);
                     //head根据第一项的位置变化而变化
                     headRelativeLayout.setY(((float) view.getChildAt(0).getTop() - headHeight) > 0 ? 0 : (float) view.getChildAt(0).getTop() - headHeight);
                 } else {

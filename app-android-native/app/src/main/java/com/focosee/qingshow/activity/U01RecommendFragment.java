@@ -190,7 +190,14 @@ public class U01RecommendFragment extends Fragment{
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
-                //进去先让listview向下滚动一段距离，不然前两项只显示不全
+                //只有一条数据时，不可以滑动
+                if(modelShowEntities.size() < 2) {
+                    latestListView.setOnTouchListener(null);
+                    latestListView.setOnScrollListener(null);
+                }else{
+                    latestListView.setOnTouchListener(headScrollAdapter);
+                    latestListView.setOnScrollListener(headScrollAdapter);
+                }
             }
         }, new Response.ErrorListener() {
             @Override

@@ -188,7 +188,14 @@ public class U01CollectionFragment extends Fragment{
                 itemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
-                System.out.println("refresh");
+                //只有一条数据时，不可以滑动
+                if(modelShowEntities.size() < 2) {
+                    latestListView.setOnTouchListener(null);
+                    latestListView.setOnScrollListener(null);
+                }else{
+                    latestListView.setOnTouchListener(headScrollAdapter);
+                    latestListView.setOnScrollListener(headScrollAdapter);
+                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
