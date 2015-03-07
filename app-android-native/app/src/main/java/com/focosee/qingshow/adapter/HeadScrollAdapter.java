@@ -128,6 +128,8 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
                     firstScroll = false;
                     return;
                 }
+            }
+            if (null != view.getChildAt(0)) {
                 if (padding > 0 && padding <= headHeight) {
                     view.setPadding(0, padding, 0, 0);
                     //head根据第一项的位置变化而变化
