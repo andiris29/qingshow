@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -82,7 +83,6 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
         velocityTracker.computeCurrentVelocity(1000); //设置units的值为1000，意思为一秒时间内运动了多少个像素
         offSetTouch = velocityTracker.getYVelocity();
         if (offSetTouch > 0 && offSetTouch > direction) {//向下滑动
-
             if (speedTouch == maxVelocity) {//快速滑动
                 headRelativeLayout.setY(0);
                 padding = headHeight;
@@ -112,15 +112,6 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
 
     @Override
     public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if(totalItemCount < 3){
-            view.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    return true;
-                }
-            });
-            return;
-        }
 
         this.firstVisibleItem = firstVisibleItem;
         padding = headRelativeLayout.getLayoutParams().height + (int) headRelativeLayout.getY();

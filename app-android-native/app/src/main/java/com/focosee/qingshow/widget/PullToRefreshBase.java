@@ -277,7 +277,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         default:
             break;
         }
-        Log.i("tag",mIsHandledTouchEvent + "-baseHandled");
         return mIsHandledTouchEvent;
     }
 
