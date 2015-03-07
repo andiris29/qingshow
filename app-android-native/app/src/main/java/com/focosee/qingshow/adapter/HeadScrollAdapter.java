@@ -112,6 +112,15 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
 
     @Override
     public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if(totalItemCount < 3){
+            view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return true;
+                }
+            });
+            return;
+        }
 
         this.firstVisibleItem = firstVisibleItem;
         padding = headRelativeLayout.getLayoutParams().height + (int) headRelativeLayout.getY();
