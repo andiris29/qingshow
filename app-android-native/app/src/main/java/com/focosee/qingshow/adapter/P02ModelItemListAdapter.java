@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
@@ -22,6 +23,7 @@ public class P02ModelItemListAdapter extends BaseAdapter {
 
     private Context context;
     private LinkedList<MongoShow> itemList;
+    private View view_hidden;
 
     public P02ModelItemListAdapter(Context concreteContext, LinkedList<MongoShow> concreteItemList) {
         context = concreteContext;
@@ -29,13 +31,23 @@ public class P02ModelItemListAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return (null != itemList) ? itemList.size() : 0;
+    public Object getItem(int position) {
+        return (null != itemList) ? itemList.get(position + 1) : null;
     }
 
     @Override
-    public Object getItem(int position) {
-        return (null != itemList) ? itemList.get(position) : null;
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? 0 : 1;
+    }
+
+    @Override
+    public int getCount() {
+        return (null == itemList) ? 0 : itemList.size() + 1;
     }
 
     @Override
@@ -45,7 +57,22 @@ public class P02ModelItemListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        if(position == 0){
+            RelativeLayout headRelativeLayout;
+            if(convertView == null) {
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                convertView = layoutInflater.inflate(R.layout.activity_p02_model, null);
+                headRelativeLayout = (RelativeLayout)convertView.findViewById(R.id.P02_head_relative);
+                headRelativeLayout.removeAllViews();
+                convertView.setTag(headRelativeLayout);
+            }
+            headRelativeLayout = (RelativeLayout) convertView.getTag();
+            return convertView;
+        }
+
         ItemViewHolder viewHolder;
+        position--;
 
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);

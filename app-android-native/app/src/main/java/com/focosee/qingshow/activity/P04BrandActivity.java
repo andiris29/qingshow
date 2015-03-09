@@ -234,13 +234,6 @@ public class P04BrandActivity extends BaseActivity{
         line3.setVisibility(View.GONE);
         line4.setVisibility(View.GONE);
 
-        headRelativeLayout.setY(0);
-
-        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        discountListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        showListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        fansListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
@@ -268,7 +261,6 @@ public class P04BrandActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(0);
             }
         });
@@ -276,7 +268,6 @@ public class P04BrandActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                discountListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(1);
             }
         });
@@ -284,7 +275,6 @@ public class P04BrandActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                showListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(2);
             }
         });
@@ -292,7 +282,6 @@ public class P04BrandActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                fansListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(3);
             }
         });
@@ -493,6 +482,7 @@ public class P04BrandActivity extends BaseActivity{
     private void configFansListPage() {
         fansPullRefreshListView = (MPullRefreshListView) pagerViewList.get(3).findViewById(R.id.pager_P02_item_list);
         fansListView = fansPullRefreshListView.getRefreshableView();
+        fansListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         fansListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
 

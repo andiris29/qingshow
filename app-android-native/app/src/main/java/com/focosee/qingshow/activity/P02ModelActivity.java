@@ -160,7 +160,7 @@ public class P02ModelActivity extends BaseActivity{
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P02_item_list);
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
-        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
+//        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         latestListView.setOnTouchListener(headScrollAdapter);
 
         LinkedList<MongoShow> itemEntities = new LinkedList<MongoShow>();
@@ -290,7 +290,6 @@ public class P02ModelActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(0);
             }
         });
@@ -298,7 +297,6 @@ public class P02ModelActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                followedListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(1);
             }
         });
@@ -306,7 +304,6 @@ public class P02ModelActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 headRelativeLayout.setY(0);
-                followerListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
                 viewPager.setCurrentItem(2);
             }
         });

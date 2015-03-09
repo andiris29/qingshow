@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
+import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter_HasHeadRelativeLayout;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
@@ -50,7 +51,7 @@ public class U01RecommendFragment extends Fragment{
 
     public MPullRefreshMultiColumnListView latestPullRefreshListView;
     public MultiColumnListView latestListView;
-    private ClassifyWaterfallAdapter itemListAdapter;
+    private ClassifyWaterfallAdapter_HasHeadRelativeLayout itemListAdapter;
     private MongoPeople people;
     private boolean noMoreData = false;
     private HeadScrollAdapter headScrollAdapter;
@@ -119,13 +120,13 @@ public class U01RecommendFragment extends Fragment{
         latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
-        //设置margin，不然一进去时，第一项会显示不全
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
-        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
-        latestListView.setLayoutParams(params);
-        latestListView.setOnTouchListener(headScrollAdapter);
+//        //设置margin，不然一进去时，第一项会显示不全
+//        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
+//        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
+//        latestListView.setLayoutParams(params);
+//        latestListView.setOnTouchListener(headScrollAdapter);
 
-        itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
+        itemListAdapter = new ClassifyWaterfallAdapter_HasHeadRelativeLayout(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
         latestPullRefreshListView.setPullRefreshEnabled(false);
@@ -192,13 +193,13 @@ public class U01RecommendFragment extends Fragment{
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
                 //只有一条数据时，不可以滑动
-                if(modelShowEntities.size() < 2) {
-                    latestListView.setOnTouchListener(null);
-                    latestListView.setOnScrollListener(null);
-                }else{
-                    latestListView.setOnTouchListener(headScrollAdapter);
-                    latestListView.setOnScrollListener(headScrollAdapter);
-                }
+//                if(modelShowEntities.size() < 2) {
+//                    latestListView.setOnTouchListener(null);
+//                    latestListView.setOnScrollListener(null);
+//                }else{
+//                    latestListView.setOnTouchListener(headScrollAdapter);
+//                    latestListView.setOnScrollListener(headScrollAdapter);
+//                }
             }
         }, new Response.ErrorListener() {
             @Override

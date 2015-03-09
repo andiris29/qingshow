@@ -46,12 +46,12 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return (null != itemList) ? itemList.size() : 0;
+        return (null != itemList) ? itemList.size() + 1: 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return (null != itemList) ? itemList.get(position) : null;
+        return (null != itemList) ? itemList.get(position + 1) : null;
     }
 
     @Override
@@ -60,7 +60,32 @@ public class P04BrandItemListAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? 0:1;
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        if(position == 0){
+            RelativeLayout headRalativeLayout;
+            if(null == convertView){
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                convertView = layoutInflater.inflate(R.layout.activity_p04_brand, null);
+                headRalativeLayout = (RelativeLayout)convertView.findViewById(R.id.P04_head_relative);
+                headRalativeLayout.removeAllViews();
+                convertView.setTag(headRalativeLayout);
+            }
+//            headRalativeLayout = (RelativeLayout)convertView.getTag();
+            return convertView;
+        }
+
+        position--;
         ItemViewHolder viewHolder;
 
         if (convertView == null) {

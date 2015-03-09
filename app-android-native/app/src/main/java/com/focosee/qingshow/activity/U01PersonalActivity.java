@@ -242,8 +242,6 @@ public class U01PersonalActivity extends FragmentActivity{
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
 
-        headRelativeLayout.setY(0);//重置刊头位置
-
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);

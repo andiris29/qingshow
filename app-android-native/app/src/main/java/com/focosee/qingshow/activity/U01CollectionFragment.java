@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
+import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter_HasHeadRelativeLayout;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -48,7 +49,7 @@ public class U01CollectionFragment extends Fragment{
 
     public MPullRefreshMultiColumnListView latestPullRefreshListView;
     public MultiColumnListView latestListView;
-    private ClassifyWaterfallAdapter itemListAdapter;
+    private ClassifyWaterfallAdapter_HasHeadRelativeLayout itemListAdapter;
     private MongoPeople people;
     private static U01CollectionFragment instance;
     private boolean noMoreData = false;
@@ -120,12 +121,12 @@ public class U01CollectionFragment extends Fragment{
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
         latestListView.setOnTouchListener(headScrollAdapter);
-        //设置margin，不然一进去时，第一项会显示不全
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
-        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
-        latestListView.setLayoutParams(params);
+//        //设置margin，不然一进去时，第一项会显示不全
+//        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
+//        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
+//        latestListView.setLayoutParams(params);
 
-        itemListAdapter = new ClassifyWaterfallAdapter(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
+        itemListAdapter = new ClassifyWaterfallAdapter_HasHeadRelativeLayout(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
         latestPullRefreshListView.setScrollLoadEnabled(true);
         latestPullRefreshListView.setPullRefreshEnabled(false);
@@ -190,13 +191,13 @@ public class U01CollectionFragment extends Fragment{
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
                 //只有一条数据时，不可以滑动
-                if(modelShowEntities.size() < 2) {
-                    latestListView.setOnTouchListener(null);
-                    latestListView.setOnScrollListener(null);
-                }else{
-                    latestListView.setOnTouchListener(headScrollAdapter);
-                    latestListView.setOnScrollListener(headScrollAdapter);
-                }
+//                if(modelShowEntities.size() < 2) {
+//                    latestListView.setOnTouchListener(null);
+//                    latestListView.setOnScrollListener(null);
+//                }else{
+//                    latestListView.setOnTouchListener(headScrollAdapter);
+//                    latestListView.setOnScrollListener(headScrollAdapter);
+//                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

@@ -85,9 +85,8 @@ public class P02ModelFollowPeopleListAdapter extends BaseAdapter {
             holderView.followButton = (Button) convertView.findViewById(R.id.item_p02_model_follow);
 
             convertView.setTag(holderView);
-        } else {
-            holderView = (HolderView)convertView.getTag();
         }
+        holderView = (HolderView)convertView.getTag();
 
         ImageLoader.getInstance().displayImage(data.get(position).getPeoplePortrait(), holderView.imageView, AppUtil.getPortraitDisplayOptions());
         holderView.nameTextView.setText(data.get(position).getPeopleName());

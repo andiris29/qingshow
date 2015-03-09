@@ -8,17 +8,15 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
+import com.focosee.qingshow.adapter.U01BrandListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -26,14 +24,11 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.BrandParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ILoadingLayout;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
@@ -44,7 +39,7 @@ public class U01BrandFragment extends Fragment{
     private HeadScrollAdapter headScrollAdapter;
     public static String ACTION_MESSAGE = "refresh_U01BrandFragment";
     public MPullRefreshListView mPullRefreshListView;
-    private P03BrandListAdapter mAdapter;
+    private U01BrandListAdapter mAdapter;
     private boolean noMoreData = false;
     public ListView brandListView;
 
@@ -102,10 +97,9 @@ public class U01BrandFragment extends Fragment{
 
         mPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P04_item_list);
         mPullRefreshListView.setOnScrollListener(headScrollAdapter);
-        mAdapter = new P03BrandListAdapter(getActivity(), new ArrayList<MongoBrand>(), ImageLoader.getInstance());
+        mAdapter = new U01BrandListAdapter(getActivity(), new ArrayList<MongoBrand>(), ImageLoader.getInstance());
 
         brandListView = mPullRefreshListView.getRefreshableView();
-        brandListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         brandListView.setOnTouchListener(headScrollAdapter);
         brandListView.setAdapter(mAdapter);
 
