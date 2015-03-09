@@ -53,6 +53,7 @@ public class U01CollectionFragment extends Fragment{
     private static U01CollectionFragment instance;
     private boolean noMoreData = false;
     private HeadScrollAdapter headScrollAdapter;
+    private QSJsonObjectRequest jsonObjectRequest;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -167,7 +168,7 @@ public class U01CollectionFragment extends Fragment{
     }
 
     private void doShowsRefreshDataTask() {
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
+         jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getFeedingLikeApi(people.get_id(), 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -202,7 +203,7 @@ public class U01CollectionFragment extends Fragment{
     }
 
     private void doShowsLoadMoreTask(int pageNo, int pageSize) {
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
+        jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getFeedingLikeApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -227,5 +228,19 @@ public class U01CollectionFragment extends Fragment{
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onPause() {
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onDestroyView();
     }
 }

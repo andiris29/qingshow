@@ -56,6 +56,7 @@ public class U01WatchFragment extends Fragment{
     private HeadScrollAdapter headScrollAdapter;
 
     private static U01WatchFragment instance;
+    private QSJsonObjectRequest jsonObjectRequest;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -84,12 +85,6 @@ public class U01WatchFragment extends Fragment{
     public void onAttach(Activity activity) {
         activity.registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
         super.onAttach(activity);
-    }
-
-    @Override
-    public void onDestroyView() {
-        getActivity().unregisterReceiver(receiver);
-        super.onDestroyView();
     }
 
     @Override
@@ -179,7 +174,7 @@ public class U01WatchFragment extends Fragment{
     }
 
     private void doFollowersRefreshDataTask() {
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
+        jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getPeopleQueryFollowedApi(people.get_id(),1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -206,7 +201,7 @@ public class U01WatchFragment extends Fragment{
     }
 
     private void doFollowersLoadMoreTask() {
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
+        jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getPeopleQueryFollowedApi(people.get_id(), pageIndex + 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -232,5 +227,20 @@ public class U01WatchFragment extends Fragment{
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onPause() {
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(receiver);
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onDestroyView();
     }
 }

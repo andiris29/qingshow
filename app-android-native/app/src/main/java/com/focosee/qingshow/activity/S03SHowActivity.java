@@ -699,4 +699,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         MobclickAgent.onPageEnd("S03Show");
         MobclickAgent.onPause(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }
 }

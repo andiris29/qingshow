@@ -50,6 +50,7 @@ public class U01BrandFragment extends Fragment{
 
     private int _currentPageIndex = 1;
     private MongoPeople people;
+    private QSJsonObjectRequest jsonObjectRequest;
 
     private static U01BrandFragment instance;
 
@@ -87,12 +88,6 @@ public class U01BrandFragment extends Fragment{
     public void onAttach(Activity activity) {
         activity.registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
         super.onAttach(activity);
-    }
-
-    @Override
-    public void onDestroyView() {
-        getActivity().unregisterReceiver(receiver);
-        super.onDestroyView();
     }
 
     @Override
@@ -143,7 +138,7 @@ public class U01BrandFragment extends Fragment{
 
     private void _getDataFromNet(boolean refreshSign, final int pageNo, int pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>(){
+        jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getBrandFollowedApi(people.get_id(), pageNo, pageSize), null, new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
 
@@ -183,6 +178,21 @@ public class U01BrandFragment extends Fragment{
 
             }
         });
-        RequestQueueManager.INSTANCE.getQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onPause() {
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(receiver);
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onDestroyView();
     }
 }

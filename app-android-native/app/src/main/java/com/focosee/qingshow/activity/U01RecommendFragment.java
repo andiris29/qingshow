@@ -54,6 +54,7 @@ public class U01RecommendFragment extends Fragment{
     private MongoPeople people;
     private boolean noMoreData = false;
     private HeadScrollAdapter headScrollAdapter;
+    private JsonObjectRequest jsonObjectRequest;
 
     private static U01RecommendFragment instance;
     /**
@@ -169,7 +170,7 @@ public class U01RecommendFragment extends Fragment{
 
 
     private void doShowsRefreshDataTask() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getFeedingRecommendationApi(people.get_id(), 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -209,7 +210,7 @@ public class U01RecommendFragment extends Fragment{
     }
 
     private void doShowsLoadMoreTask(String pageNo, String pageSize) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
                 QSAppWebAPI.getFeedingRecommendationApi(people.get_id(), Integer.parseInt(pageNo)
                         , Integer.parseInt(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
@@ -245,5 +246,19 @@ public class U01RecommendFragment extends Fragment{
     private void handleErrorMsg(VolleyError error) {
         Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
         Log.i("P02ModelActivity", error.toString());
+    }
+
+    @Override
+    public void onPause() {
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if(null != jsonObjectRequest)
+            RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
+        super.onDestroyView();
     }
 }

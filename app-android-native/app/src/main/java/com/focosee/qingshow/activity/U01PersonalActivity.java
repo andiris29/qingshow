@@ -171,11 +171,6 @@ public class U01PersonalActivity extends FragmentActivity{
         registerReceiver(receiver, new IntentFilter(USER_UPDATE));
     }
 
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(receiver);
-        super.onDestroy();
-    }
 
     public void matchUI() {
         backTextView = (ImageView) findViewById(R.id.activity_personal_backTextView);
@@ -313,6 +308,12 @@ public class U01PersonalActivity extends FragmentActivity{
         super.onPause();
         MobclickAgent.onPageEnd("U01User"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
 }
