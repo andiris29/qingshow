@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -52,6 +54,8 @@ import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import me.drakeet.materialdialog.MaterialDialog;
+
 public class S01HomeActivity extends BaseActivity {
     //    private MNavigationView _navigationView;
     public static String ACTION_MESSAGE = "S01HomeActivity_actionMessage";
@@ -72,6 +76,11 @@ public class S01HomeActivity extends BaseActivity {
 
     private ImageView _blurImage;
     private ImageView _accountImage;
+
+    private Timer timer = new Timer(true);
+    private TimerTask timerTask;
+    private long time = 2000;
+    private int count = 0;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
@@ -185,6 +194,8 @@ public class S01HomeActivity extends BaseActivity {
         _wfPullRefreshView.doPullRefreshing(true, 500);
 
         initEvent();
+
+        initShowVerison();
 
         registerReceiver(broadcastReceiver, new IntentFilter(ACTION_MESSAGE));
 
@@ -429,6 +440,48 @@ public class S01HomeActivity extends BaseActivity {
             else openMenu();
         }
             return true;
+    }
+
+    private void initShowVerison() {
+        findViewById(R.id.S01_logo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++count;
+                if(null != timerTask){
+                    timerTask.cancel();
+                }
+                timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        count = 0;
+                    }
+                };
+                timer.schedule(timerTask, time / 5);
+                String version = "";
+                try {
+                    version = getPackageManager().getPackageInfo(getPackageName(),0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if(count == 5)
+                    showDialag(version);
+            }
+        });
+    }
+
+    private void showDialag(String msg){
+        LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.version_dialag, null);
+        TextView textView = (TextView) linearLayout.findViewById(R.id.version);
+        textView.setText(msg);
+        final MaterialDialog materialDialog = new MaterialDialog(this);
+
+        materialDialog.setContentView(linearLayout)
+            .setPositiveButton("确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    materialDialog.dismiss();
+                }
+            }).show();
     }
 
     @Override
