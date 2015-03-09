@@ -234,6 +234,8 @@ public class P04BrandActivity extends BaseActivity{
         line3.setVisibility(View.GONE);
         line4.setVisibility(View.GONE);
 
+        headRelativeLayout.setY(0);
+
         latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         discountListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         showListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);

@@ -13,7 +13,7 @@
     <RelativeLayout
         android:id="@+id/P04_head_relative"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="280dp">
 
         <ImageView
             android:id="@+id/P04_back_image_view"
