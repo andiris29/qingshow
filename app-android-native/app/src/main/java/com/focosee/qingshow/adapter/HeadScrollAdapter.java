@@ -1,7 +1,6 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -56,7 +55,7 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
 
     private float speedTouch;
     private float offSetTouch;
-    private float maxVelocity = 8;
+    private float maxVelocity = 20;
     private float direction = 500;
 
     @Override

@@ -1,7 +1,9 @@
 package com.focosee.qingshow.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +55,15 @@ public class U07RegisterActivity extends BaseActivity {
 
     String rawCookie = "";
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(U06LoginActivity.LOGIN_SUCCESS.equals(intent.getAction())){
+                finish();
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +91,6 @@ public class U07RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-                finish();
             }
         });
 
@@ -139,11 +149,18 @@ public class U07RegisterActivity extends BaseActivity {
                 }
             }
         });
+        registerReceiver(receiver, new IntentFilter(U06LoginActivity.LOGIN_SUCCESS));
     }
 
     @Override
     public void reconn() {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     private int getSexRadioButtonVal() {
