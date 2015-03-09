@@ -18,7 +18,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -37,6 +36,8 @@ import java.util.Map;
 
 
 public class U06LoginActivity extends BaseActivity {
+
+    public static String LOGIN_SUCCESS = "logined";
     private EditText accountEditText;
     private EditText passwordEditText;
     private Context context;
@@ -98,6 +99,7 @@ public class U06LoginActivity extends BaseActivity {
                                     QSModel.INSTANCE.setUser(user);
                                     Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
                                     startActivity(intent);
+                                    sendBroadcast(new Intent(LOGIN_SUCCESS));
                                     finish();
                                 }
                             }
