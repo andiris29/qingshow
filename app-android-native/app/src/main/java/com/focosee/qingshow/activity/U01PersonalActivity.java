@@ -10,24 +10,19 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.util.DensityUtil;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MRoundImageView;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
-import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
@@ -128,7 +123,7 @@ public class U01PersonalActivity extends FragmentActivity{
         });
 
         backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
-        ImageLoader.getInstance().displayImage(people.getBackground(), backgroundIV);
+        ImageLoader.getInstance().displayImage(people.getBackground(), backgroundIV, AppUtil.getModelBackgroundDisplayOptions());
 
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);
@@ -136,14 +131,8 @@ public class U01PersonalActivity extends FragmentActivity{
         if (people.height != null && people.weight != null)
             heightAndWeightTextView.setText(people.getHeight() + people.getWeight());
 
-        MRoundImageView portraitImageView = (MRoundImageView) findViewById(R.id.avatorImageView);
-        if (people != null) {
-            String portraitUrl = people.getPortrait();
-            if (portraitUrl != null && !portraitUrl.equals("")) {
-//                Picasso.with(context).load(portraitUrl).into(portraitImageView);
-                ImageLoader.getInstance().displayImage(portraitUrl, portraitImageView);
-            }
-        }
+        ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
+        ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
 
         personalPagerAdapter = new PersonalPagerAdapter(getSupportFragmentManager());
         personalViewPager.setAdapter(personalPagerAdapter);

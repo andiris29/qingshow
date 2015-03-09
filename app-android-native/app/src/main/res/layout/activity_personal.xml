@@ -19,8 +19,7 @@
             android:id="@+id/activity_personal_background"
             android:layout_width="fill_parent"
             android:scaleType="centerCrop"
-            android:layout_height="@dimen/RelativeLayout_height_activity_model"
-            android:src="@drawable/user_bg_default"/>
+            android:layout_height="@dimen/RelativeLayout_height_activity_model"/>
 
         <ImageView
             android:id="@+id/activity_personal_backTextView"
@@ -49,13 +48,12 @@
                 android:layout_below="@+id/activity_personal_backTextView"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-            <com.focosee.qingshow.widget.MRoundImageView
+            <com.focosee.qingshow.widget.MCircularImageView
                 android:id="@+id/avatorImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/user_head_default"/>
+                android:layout_centerVertical="true"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"

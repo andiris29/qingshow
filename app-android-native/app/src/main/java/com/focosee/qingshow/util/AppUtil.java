@@ -51,7 +51,6 @@ public class AppUtil {
     public static DisplayImageOptions getPortraitDisplayOptions() {
         if (null == portraitDisplayOptions) {
             portraitDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.user_head_default)
                     .showImageForEmptyUri(R.drawable.user_head_default)
                     .showImageOnFail(R.drawable.user_head_default)
                     .cacheInMemory(true)
@@ -77,7 +76,6 @@ public class AppUtil {
     public static DisplayImageOptions getModelBackgroundDisplayOptions() {
         if (null == modelBackgroundDisplayOptions) {
             modelBackgroundDisplayOptions = new DisplayImageOptions.Builder()
-                    .showImageOnLoading(R.drawable.user_bg_default)
                     .showImageForEmptyUri(R.drawable.user_bg_default)
                     .showImageOnFail(R.drawable.user_bg_default)
                     .cacheInMemory(true)

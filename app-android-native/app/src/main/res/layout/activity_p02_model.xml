@@ -20,8 +20,7 @@
             android:id="@+id/P02_back_image_view"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/RelativeLayout_height_activity_model"
-            android:scaleType="fitXY"
-            android:src="@drawable/bg_pic"/>
+            android:scaleType="fitXY"/>
 
         <ImageButton
             android:id="@+id/P02_back_image_button"
@@ -42,7 +41,6 @@
             android:id="@+id/P02_model_image_view"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:background="@drawable/ic_launcher"
             android:layout_marginLeft="20dp"
             />
 

@@ -114,11 +114,11 @@ public class P02ModelActivity extends BaseActivity{
         modelEntity = (MongoPeople)getIntent().getExtras().getSerializable(INPUT_MODEL);
         position = getIntent().getIntExtra("position", 0);
 
-        ImageLoader.getInstance().displayImage(modelEntity.getPortrait(), (ImageView)findViewById(R.id.P02_model_image_view), AppUtil.getPortraitDisplayOptions());
+        ImageLoader.getInstance().displayImage(modelEntity.portrait, (ImageView)findViewById(R.id.P02_model_image_view), AppUtil.getPortraitDisplayOptions());
         ((TextView) findViewById(R.id.P02_model_name_text_view)).setText(String.valueOf(modelEntity.getName()));
         ((TextView) findViewById(R.id.P02_model_job_text_view)).setText(String.valueOf(modelEntity.getJob()));
         ((TextView) findViewById(R.id.P02_model_height_weight_text_view)).setText(String.valueOf(modelEntity.getHeightWeight()));
-        ImageLoader.getInstance().displayImage(modelEntity.getBackground(), (ImageView)findViewById(R.id.P02_back_image_view), AppUtil.getModelBackgroundDisplayOptions());
+        ImageLoader.getInstance().displayImage(modelEntity.background, (ImageView)findViewById(R.id.P02_back_image_view), AppUtil.getModelBackgroundDisplayOptions());
         ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(String.valueOf(modelEntity.getNumberShows()));
         ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(String.valueOf(modelEntity.getNumberFollowers()));
         ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(String.valueOf(modelEntity.getNumberFollowers()));
