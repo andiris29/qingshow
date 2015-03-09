@@ -159,7 +159,7 @@ public class MongoItem implements Serializable {
             if(minPrice.equals(maxPrice)) {
                 return FormatPrice(maxPrice);
             }
-            return FormatPrice(minPrice) +"-"+ FormatPrice(maxPrice);
+            return FormatPrice(minPrice) +"-"+ new DecimalFormat("0.00").format(new BigDecimal(maxPrice));
         }
 
         public String  FormatPrice(String price){
@@ -207,6 +207,7 @@ public class MongoItem implements Serializable {
     }
 
     public String getPrice() {
+        Log.i("tag",_id + "_id");
         if (taobaoInfo != null){
             if(taobaoInfo.getPromoPrice() != null) {
                 return taobaoInfo.getPromoPrice();

@@ -90,6 +90,8 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
             convertView.setTag(holder);
         }
         holder = (ItemViewHolder) convertView.getTag();
+        holder.priceTV.setText("");
+        holder.sorcePriceTV.setText("");
         holder.showIV.setOriginWidth(showInfo.imageMetadata.width);
         holder.showIV.setOriginHeight(showInfo.imageMetadata.height);
 
