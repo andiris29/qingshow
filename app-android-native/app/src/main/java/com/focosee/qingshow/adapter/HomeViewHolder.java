@@ -88,7 +88,7 @@ public class HomeViewHolder extends AbsViewHolder {
                 ImageView imageView = (ImageView) view;
                 boolean firstDisplay = !displayedImages.contains(imageUri);
                 if (firstDisplay) {
-                    FadeInBitmapDisplayer.animate(imageView, 500);
+                    FadeInBitmapDisplayer.animate(imageView, 1000);
                     displayedImages.add(imageUri);
                 }
             }
@@ -96,14 +96,20 @@ public class HomeViewHolder extends AbsViewHolder {
                 modelIV.setVisibility(View.VISIBLE);
             }
             imageLoader.displayImage(modelUrl, modelIV, AppUtil.getSimapleDisplayOptions(),new SimpleImageLoadingListener(){
+
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    view.setVisibility(View.INVISIBLE);
+                }
+
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    super.onLoadingComplete(imageUri, view, loadedImage);
                     modelHeightWeightTV.setVisibility(View.VISIBLE);
                     modelNameTV.setVisibility(View.VISIBLE);
                     shadowView.setVisibility(View.VISIBLE);
                     loveIV.setVisibility(View.VISIBLE);
                     loveTV.setVisibility(View.VISIBLE);
+                    view.setVisibility(View.VISIBLE);
                 }
             });
         }

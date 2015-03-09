@@ -100,7 +100,7 @@ public class MNavigationView extends RelativeLayout {
             btn_left.setLayoutParams(btnLeftParams);
             btn_left.setText(strBtnLeft);
         } else if (left_drawable != 0) {
-            LayoutParams btnLeftParams = new LayoutParams(50, 50);
+            LayoutParams btnLeftParams = new LayoutParams(66, 50);
             btnLeftParams.setMargins(30, 0,0,0);
             btnLeftParams.addRule(RelativeLayout.ALIGN_LEFT,RelativeLayout.TRUE);
             btnLeftParams.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
