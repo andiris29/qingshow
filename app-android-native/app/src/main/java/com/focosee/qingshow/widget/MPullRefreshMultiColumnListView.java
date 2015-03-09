@@ -92,7 +92,7 @@ public class MPullRefreshMultiColumnListView extends PullToRefreshBase<MultiColu
 
     @Override
     protected boolean isReadyForPullUp() {
-        return isDistanceToLastItemVisible(10) || isLastItemVisible() || isDistanceToLastItemVisible(1);
+        return isDistanceToLastItemVisible(20) || isLastItemVisible() || isDistanceToLastItemVisible(1);
     }
 
     @Override

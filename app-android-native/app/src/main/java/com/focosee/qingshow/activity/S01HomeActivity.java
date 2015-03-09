@@ -49,6 +49,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class S01HomeActivity extends BaseActivity {
     //    private MNavigationView _navigationView;
@@ -136,29 +138,34 @@ public class S01HomeActivity extends BaseActivity {
         _wfPullRefreshView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-                    pauseOnScroll(ImageLoader.getInstance(), true, true, scrollState);
+                    final ImageLoader imageLoader = ImageLoader.getInstance();
+                    Timer timer = new Timer(true);
+                    switch (scrollState) {
+                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                            timer.cancel();
+                            imageLoader.resume();
+                            break;
+                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                            // 启动一个timer，500ms
+                            imageLoader.pause();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    imageLoader.resume();
+                                }
+                            },500);
+                            break;
+                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                            imageLoader.pause();
+                            timer.cancel();
+                            break;
+                    }
                 }
 
                 @Override
                 public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
                 }
 
-            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnScroll, boolean pauseOnFling,int scrollState){
-                switch (scrollState) {
-                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                        imageLoader.resume();
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        imageLoader.resume();
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        if (pauseOnFling) {
-                            imageLoader.pause();
-                        }
-                        break;
-                }
-            }
         });
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
             @Override
@@ -269,11 +276,11 @@ public class S01HomeActivity extends BaseActivity {
     }
 
     private void doRefreshTask() {
-        _getDataFromNet(true, "1", "20");
+        _getDataFromNet(true, "1", "30");
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "20");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "30");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
