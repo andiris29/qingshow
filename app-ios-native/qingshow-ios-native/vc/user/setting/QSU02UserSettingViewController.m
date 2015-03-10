@@ -216,7 +216,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 3) {
         return 100.0f;
     }
     
@@ -224,7 +224,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 3) {
         UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
         UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
         [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];

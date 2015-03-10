@@ -10,7 +10,7 @@
             <objects>
                 <tableViewController restorationIdentifier="U02TableVC" storyboardIdentifier="U02UserSetting" id="E0l-eU-NZJ" customClass="QSU02UserSettingViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="U02TableVC" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="7h1-FB-UMl">
-                        <rect key="frame" x="0.0" y="94" width="320" height="474"/>
+                        <rect key="frame" x="0.0" y="94" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -298,7 +298,6 @@
                             <outlet property="delegate" destination="E0l-eU-NZJ" id="zha-WP-vwv"/>
                         </connections>
                     </tableView>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="backgroundImage" destination="ap4-ln-9Pb" id="J48-Gd-sa5"/>
                         <outlet property="birthdayText" destination="n7p-ef-h7u" id="x5h-oq-grd"/>
