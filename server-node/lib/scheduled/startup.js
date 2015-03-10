@@ -1,10 +1,8 @@
-var StartUp = module.exports;
-
 var schedule = require('node-schedule');
 var winston = require('winston');
 var goblinItem = require('./goblin/goblin-item');
 
-StartUp.start = function () {
+module.exports = function () {
     _scheduleGoblinItem();
 };
 

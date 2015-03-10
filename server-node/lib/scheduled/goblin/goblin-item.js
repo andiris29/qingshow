@@ -4,11 +4,11 @@ var async = require('async');
 var winston = require('winston');
 var _ = require('underscore');
 
-var Item = require('../../../model/items');
-var MongoHelper = require('../../helpers/MongoHelper');
-var taobaoMongoHelper = require('../../taobao/taobaoMongoHelper');
-var ServerError = require('../../server-error');
-
+var Item = require('../../model/items');
+// TODO Remove dependency on httpserver
+var MongoHelper = require('../../httpserver/helpers/MongoHelper');
+var taobaoMongoHelper = require('../../httpserver/taobao/taobaoMongoHelper');
+var ServerError = require('../../httpserver/server-error');
 
 goblinItem.start = function (startDate) {
     _next(startDate, 10);
