@@ -1,9 +1,8 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,41 +10,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.CommentEntity;
-import com.focosee.qingshow.entity.LoginResponse;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.httpapi.request.QSStringRequest;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.model.QSModel;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class U06LoginActivity extends Activity {
+public class U06LoginActivity extends BaseActivity {
+
+    public static String LOGIN_SUCCESS = "logined";
     private EditText accountEditText;
     private EditText passwordEditText;
     private Context context;
     private RequestQueue requestQueue;
-    private SharedPreferences sharedPreferences;
 
     String rawCookie = "";
 
@@ -55,51 +51,21 @@ public class U06LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         context = getApplicationContext();
-        sharedPreferences = getSharedPreferences("personal", Context.MODE_PRIVATE);
 
         TextView registerTextView;
         Button submitButton;
 
-        registerTextView = (TextView) findViewById(R.id.registerTextView);
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
 
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
-        registerTextView.setOnClickListener(new View.OnClickListener() {
+        ImageView backTextView = (ImageView) findViewById(R.id.backImageView);
+        backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //test cookie
-                StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                        "http://chingshow.com:30001/services/feeding/like",
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.v("TAG", response.toString());
-                                Log.v("TAG", rawCookie);
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                    }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        if (rawCookie != null && rawCookie.length() > 0) {
-                            HashMap<String, String> headers = new HashMap<String, String>();
-                            headers.put("Cookie", rawCookie);
-                            return headers;
-                        }
-                        return super.getHeaders();
-                    }
-
-                };
-                requestQueue.add(stringRequest);
-                Intent intent = new Intent(U06LoginActivity.this, U07RegisterActivity.class);
-                startActivity(intent);
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -110,35 +76,30 @@ public class U06LoginActivity extends Activity {
                 params.put("id", accountEditText.getText().toString());
                 params.put("password", passwordEditText.getText().toString());
                 JSONObject jsonObject = new JSONObject(params);
-                StringRequest stringRequest = new StringRequest(Request.Method.POST,
+
+                final ProgressDialog pDialog = new ProgressDialog(U06LoginActivity.this);
+                pDialog.setMessage("加载中...");
+                pDialog.show();
+
+                QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST,
                         QSAppWebAPI.LOGIN_SERVICE_URL,
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("id", accountEditText.getText().toString());
-                                editor.putString("password", passwordEditText.getText().toString());
-                                editor.putString("Cookie", rawCookie);
-                                editor.putString("connect.sid", rawCookie);
-                                editor.commit();
+                                pDialog.dismiss();
 
-                                LoginResponse loginResponse = new Gson().fromJson(response, new TypeToken<LoginResponse>() {
-                                }.getType());
-
-                                if (loginResponse == null || loginResponse.data == null) {
-                                    if (loginResponse == null) {
-                                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                                MongoPeople user = UserParser.parseLogin(response);
+                                if (user == null) {
+                                    if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {
+                                        Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
                                     } else {
-                                        if (loginResponse.metadata.error == 1001) {
-                                            Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                                        }
+                                        Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    QSApplication.get().setPeople(loginResponse.data.people);
+                                    QSModel.INSTANCE.setUser(user);
                                     Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
                                     startActivity(intent);
+                                    sendBroadcast(new Intent(LOGIN_SUCCESS));
                                     finish();
                                 }
                             }
@@ -148,18 +109,6 @@ public class U06LoginActivity extends Activity {
                         Log.e("TAG", error.getMessage(), error);
                     }
                 }) {
-                    @Override
-                    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                        try {
-                            Map<String, String> responseHeaders = response.headers;
-                            rawCookie = responseHeaders.get("Set-Cookie").split(";")[0].split("=")[1];
-                            String dataString = new String(response.data, "UTF-8");
-                            return Response.success(dataString, HttpHeaderParser.parseCacheHeaders(response));
-                        } catch (UnsupportedEncodingException e) {
-                            return Response.error(new ParseError(e));
-                        }
-                    }
-
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> map = new HashMap<String, String>();
@@ -172,6 +121,11 @@ public class U06LoginActivity extends Activity {
                 requestQueue.add(stringRequest);
             }
         });
+
+    }
+
+    @Override
+    public void reconn() {
 
     }
 
@@ -195,5 +149,19 @@ public class U06LoginActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U06Login"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U06Login"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
     }
 }

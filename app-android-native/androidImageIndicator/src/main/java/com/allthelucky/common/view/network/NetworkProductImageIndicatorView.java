@@ -30,7 +30,6 @@ public class NetworkProductImageIndicatorView extends ProductImageIndicatorView 
                 final ImageView pageItem = new ImageView(getContext());
                 pageItem.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 pageItem.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                pageItem.setImageResource(R.drawable.ic_launcher);
                 mImageLoader.displayImage(urlList.get(index), pageItem);
                 addViewItem(pageItem);
             }

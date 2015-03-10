@@ -7,9 +7,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-/**
- * Created by jackyu on 11/23/14.
- */
 public class MCircularImageView extends IMaskedImageView {
     public MCircularImageView(Context paramContext) {
         super(paramContext);

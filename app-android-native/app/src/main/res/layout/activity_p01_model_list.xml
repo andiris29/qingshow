@@ -8,8 +8,9 @@
         android:id="@+id/P01_model_list_navigation"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        navi:left_drawable="@drawable/root_icon_back"
-        navi:tv_title="模特列表"
+        navi:left_drawable="@drawable/btn_back_default"
+        navi:right_drawable="@drawable/root_icon_back"
+        navi:tv_title="人气达人"
         ></com.focosee.qingshow.widget.MNavigationView>
 
     <com.focosee.qingshow.widget.MPullRefreshListView

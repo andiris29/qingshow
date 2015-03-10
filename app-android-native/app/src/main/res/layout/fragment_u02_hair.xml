@@ -44,6 +44,15 @@
                 android:textSize="@dimen/text_size" />
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/text_size_small"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:text="请选择您的发型:" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -53,7 +62,6 @@
             android:id="@+id/allRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_activity_settings"
-            android:layout_marginTop="15dp"
             android:background="#ffffff">
 
             <TextView
@@ -62,17 +70,78 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:textSize="@dimen/text_size"
-                android:text="所有" />
+                android:text="所有"
+                android:textSize="@dimen/text_size" />
 
             <CheckBox
                 android:id="@+id/allCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
                 style="@style/CustomCheckboxTheme"
-                android:layout_height="wrap_content" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <RelativeLayout
+            android:id="@+id/longRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_activity_settings"
+            android:background="#ffffff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:text="长发"
+                android:textSize="@dimen/text_size" />
+
+            <CheckBox
+                android:id="@+id/longCheckBox"
+                style="@style/CustomCheckboxTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <RelativeLayout
+            android:id="@+id/extremeRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_activity_settings"
+            android:background="#ffffff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:text="超级长发"
+                android:textSize="@dimen/text_size" />
+
+            <CheckBox
+                android:id="@+id/extremeCheckBox"
+                style="@style/CustomCheckboxTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <View
@@ -92,17 +161,17 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:textSize="@dimen/text_size"
-                android:text="中长发" />
+                android:text="中长发"
+                android:textSize="@dimen/text_size" />
 
             <CheckBox
                 android:id="@+id/middleCheckBox"
                 style="@style/CustomCheckboxTheme"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <View
@@ -111,7 +180,7 @@
             android:background="@color/line_activity_settings" />
 
         <RelativeLayout
-            android:id="@+id/longRelativeLayout"
+            android:id="@+id/shortRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
@@ -119,20 +188,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_size"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:layout_alignParentLeft="true"
-                android:text="长发" />
+                android:text="短发"
+                android:textSize="@dimen/text_size" />
 
             <CheckBox
-                android:id="@+id/longCheckBox"
+                android:id="@+id/shortCheckBox"
                 style="@style/CustomCheckboxTheme"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
 
         <View
@@ -141,7 +210,7 @@
             android:background="@color/line_activity_settings" />
 
         <RelativeLayout
-            android:id="@+id/extremeRelativeLayout"
+            android:id="@+id/baldRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height_activity_settings"
             android:background="#ffffff">
@@ -149,20 +218,50 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
-                android:textSize="@dimen/text_size"
-                android:layout_alignParentLeft="true"
-                android:text="超长发" />
+                android:text="光头"
+                android:textSize="@dimen/text_size" />
 
             <CheckBox
-                android:id="@+id/extremeCheckBox"
+                android:id="@+id/baldCheckBox"
                 style="@style/CustomCheckboxTheme"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <RelativeLayout
+            android:id="@+id/othersRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_activity_settings"
+            android:background="#ffffff">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:text="其他"
+                android:textSize="@dimen/text_size" />
+
+            <CheckBox
+                android:id="@+id/othersCheckBox"
+                style="@style/CustomCheckboxTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp" />
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

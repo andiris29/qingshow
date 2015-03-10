@@ -23,7 +23,7 @@ public class MRelativeLayout_3_4 extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * 4 / 3) + MeasureSpec.EXACTLY;
+        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec) * 4 / 3 + MeasureSpec.EXACTLY;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 

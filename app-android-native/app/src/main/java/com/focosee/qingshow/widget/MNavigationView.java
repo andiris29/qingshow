@@ -8,13 +8,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 
 
-public class MNavigationView extends LinearLayout {
+public class MNavigationView extends RelativeLayout {
 
     private Button btn_left;
     private Button btn_right;
@@ -75,8 +75,6 @@ public class MNavigationView extends LinearLayout {
 
     private void initContent() {
         // Orientation
-        setOrientation(HORIZONTAL);
-        setGravity(Gravity.CENTER_VERTICAL);
 
         // Back color
         setBackgroundColor(Color.WHITE);
@@ -95,13 +93,17 @@ public class MNavigationView extends LinearLayout {
 
         if (null != strBtnLeft) {
             LayoutParams btnLeftParams = new LayoutParams(
-                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            btnLeftParams.setMargins(10, 0, 0, 0);
+                    50, ViewGroup.LayoutParams.FILL_PARENT);
+            btnLeftParams.addRule(RelativeLayout.ALIGN_LEFT,RelativeLayout.TRUE);
+            btnLeftParams.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
             btn_left.setLayoutParams(btnLeftParams);
+            btn_left.setPadding(10, 10, 10, 10);
             btn_left.setText(strBtnLeft);
         } else if (left_drawable != 0) {
-            LayoutParams btnLeftParams = new LayoutParams(50, 50);
+            LayoutParams btnLeftParams = new LayoutParams(66, 50);
             btnLeftParams.setMargins(30, 0,0,0);
+            btnLeftParams.addRule(RelativeLayout.ALIGN_LEFT,RelativeLayout.TRUE);
+            btnLeftParams.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
             btn_left.setLayoutParams(btnLeftParams);//new LayoutParams(50, 50));
         }
 
@@ -111,11 +113,12 @@ public class MNavigationView extends LinearLayout {
         //
         tv_title = new TextView(context);
 
-        LayoutParams centerParam = new LayoutParams(LayoutParams.FILL_PARENT,
-                LayoutParams.FILL_PARENT);
-//        centerParam.weight = 1;
-        tv_title.setLayoutParams(centerParam);
+        LayoutParams lp=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        lp.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
+        tv_title.setLayoutParams(lp);
         tv_title.setTextColor(Color.BLACK);
+        tv_title.setTextSize(16);
 
         if (null != strTitle) {
             tv_title.setText(strTitle);
@@ -135,7 +138,7 @@ public class MNavigationView extends LinearLayout {
 
         if (right_drawable != 0) {
 //            btn_right.setBackgroundResource(right_drawable);
-            btn_right.setBackgroundResource(R.drawable.nav_btn_account);
+              btn_right.setBackgroundResource(R.drawable.nav_account_btn_woman);
         } else {
             btn_right.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -143,7 +146,8 @@ public class MNavigationView extends LinearLayout {
 
             LayoutParams btnRightParams = new LayoutParams(
                     LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            btnRightParams.setMargins(0, 0, 10, 0);
+            btnRightParams.setMargins(0, 0, 0, 0);
+            btnRightParams.addRule(RelativeLayout.ALIGN_RIGHT,RelativeLayout.TRUE);
             btn_right.setLayoutParams(btnRightParams);
 
             btn_right.setText(strBtnRight);
@@ -165,6 +169,7 @@ public class MNavigationView extends LinearLayout {
         }
 
     }
+
 
     public Button getBtn_left() {
         return btn_left;

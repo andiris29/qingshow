@@ -2,19 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/news_item_bg" >
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.focosee.qingshow.widget.MImageView_OriginSize
             android:id="@+id/item_brand_slogan"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher"></ImageView>
+            android:scaleType="centerCrop" ></com.focosee.qingshow.widget.MImageView_OriginSize>
     </LinearLayout>
 
     <ImageView
@@ -22,20 +20,21 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/show_bottom_shadow"/>
+        />
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:background="@drawable/show_bottom_shadow"
+        android:paddingBottom="20dp">
 
-        <com.focosee.qingshow.widget.MCircularImageView
+        <ImageView
             android:id="@+id/item_brand_portrait"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"/>
 
@@ -44,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/item_brand_right_arrow"
             android:layout_toRightOf="@+id/item_brand_portrait"
-            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -54,26 +54,12 @@
 
                 <TextView
                     android:id="@+id/item_brand_name"
+                    android:layout_marginTop="3dp"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:gravity="left|bottom"
                     android:textColor="#ffffff" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/item_brand_description"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:gravity="left|top"
-                    android:textColor="#ffffff" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -86,10 +72,11 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/item_brand_detail"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
-                android:src="@drawable/root_icon_right_arrow" />
+                android:src="@drawable/show_cell_detail" />
 
         </LinearLayout>
 

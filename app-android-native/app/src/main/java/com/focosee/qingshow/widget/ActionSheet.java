@@ -320,7 +320,9 @@ public class ActionSheet extends Fragment implements OnClickListener {
 		return new Builder(context, fragmentManager);
 	}
 
-	private static class Attributes {
+
+
+    private static class Attributes {
 		private Context mContext;
 
 		public Attributes(Context context) {

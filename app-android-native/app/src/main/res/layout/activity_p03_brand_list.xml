@@ -8,13 +8,48 @@
         android:id="@+id/P03_brand_list_navigation"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        navi:left_drawable="@drawable/root_icon_back"
-        navi:tv_title="品牌"
+        navi:left_drawable="@drawable/btn_back_default"
+        navi:right_drawable="@drawable/root_icon_back"
+        navi:tv_title="品牌专区"
         ></com.focosee.qingshow.widget.MNavigationView>
+
+    <LinearLayout
+        android:id="@+id/P03_brand_list_tab_control"
+        android:layout_below="@+id/P03_brand_list_navigation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#e5e5e5">
+
+        <Button
+            android:id="@+id/P03_brand_list_online_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/p03_control_tab_round_shape"
+            android:text="线上商店"
+            android:textColor="#000000"
+            android:layout_marginRight="5dp"/>
+
+        <Button
+            android:id="@+id/P03_brand_list_offline_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/p03_control_tab_round_shape"
+            android:text="线下店铺"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp"/>
+
+        </LinearLayout>
 
     <com.focosee.qingshow.widget.MPullRefreshListView
         android:id="@+id/P03_brand_list_list_view"
-        android:layout_below="@+id/P03_brand_list_navigation"
+        android:layout_below="@+id/P03_brand_list_tab_control"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshListView>
 

@@ -2,22 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:background="@drawable/news_item_bg"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:descendantFocusability="blocksDescendants">
 
     <com.focosee.qingshow.widget.MCircularImageView
         android:id="@+id/item_model_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_centerVertical="true"
-        android:background="@drawable/ic_launcher" />
+        android:layout_centerVertical="true" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/item_model_follow"
         android:layout_toRightOf="@+id/item_model_image"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/item_model_name"
@@ -25,12 +25,16 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="anna" />
+            android:text="anna"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             android:gravity="center_vertical">
 
             <TextView
@@ -38,43 +42,51 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="171cm" />
+                android:text="171cm"
+                android:textColor="@color/p01_text_color_model_height" />
 
             <TextView
                 android:id="@+id/item_model_weight"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="46.5kg" />
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/root_icon_cloth" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/model_cell_icon01_cloth" />
 
             <TextView
                 android:id="@+id/item_model_cloth_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="104" />
+                android:text="104"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/p01_text_color_model_height" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/root_icon_noticeno" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/model_cell_icon02_noticeno"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/item_model_like_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1025" />
+                android:text="1025"
+                android:layout_marginLeft="3dp"
+                android:textColor="@color/p01_text_color_model_height" />
         </LinearLayout>
     </LinearLayout>
 
@@ -85,8 +97,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:textColor="#ffffff"
-        android:background="@drawable/root_icon_red_round_background"
-        android:layout_marginRight="10dp"
-        android:text="+关注" />
+        android:background="@drawable/people_list_follow"
+        android:layout_marginRight="10dp"/>
 
 </RelativeLayout>

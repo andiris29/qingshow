@@ -1,9 +1,9 @@
 package com.focosee.qingshow.activity;
 
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.umeng.analytics.MobclickAgent;
 
 public class U02HelpFragment extends Fragment {
     private Context context;
@@ -36,7 +38,7 @@ public class U02HelpFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context = (Context) getActivity().getApplicationContext();
-        requestQueue = Volley.newRequestQueue(context);
+        requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
         backTextView = (TextView) getActivity().findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {
@@ -47,4 +49,5 @@ public class U02HelpFragment extends Fragment {
             }
         });
     }
+
 }

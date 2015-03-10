@@ -1,27 +1,37 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.ClassifyWaterfallAdapter;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.ShowListEntity;
+import com.focosee.qingshow.adapter.AbsWaterfallAdapter;
+import com.focosee.qingshow.adapter.HotWaterfallAdapter;
+import com.focosee.qingshow.adapter.S02ItemRandomAdapter;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.dataparser.ItemRandomParser;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
-import com.huewu.pla.lib.internal.PLA_AdapterView;
+import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
 
@@ -29,31 +39,42 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
+public class S02ShowClassify extends BaseActivity {
 
-class ShowClassifyConfig {
-    private static final String[] titleList = {"闪点推荐","美搭榜单", "人气用户", "设计风尚", "品牌专区"};
+    static class ShowClassifyConfig {
+        private static final String[] titleList = {"闪点推荐", "美搭榜单", "人气用户", "潮流时尚", "品牌专区"};
 
-    public static String getTitle(int mod) {
-        return (titleList.length > mod) ? titleList[mod] : "参数错误";
+        public static String getTitle(int mod) {
+            return (titleList.length > mod) ? titleList[mod] : "参数错误";
+        }
     }
 
-    public static String getApi(int mod, int pageNo, int pageSize) {
-        return QSAppWebAPI.getShowCategoryListApi(mod, pageNo, pageSize);
-    }
-}
-
-public class S02ShowClassify extends Activity {
-
-    public static final String INPUT_CATEGORY = "sfdsjflkasd";
+    public static final String INPUT_CATEGORY = "INPUT_CATEGORY";
+    public static String ACTION_MESSAGE = "S02ShowClassify_actionMessage";
 
     private MNavigationView _navigationView;
     private MPullRefreshMultiColumnListView _pullRefreshListView;
     private MultiColumnListView _waterfallListView;
-    private ClassifyWaterfallAdapter _adapter;
+    private AbsWaterfallAdapter _adapter;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
     private int _currentPageIndex = 1;
     private int classifyMod = 0;
+
+
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (ACTION_MESSAGE.equals(intent.getAction())) {
+                int position = intent.getIntExtra("position", 0);
+                MongoShow showEntity = (MongoShow)_adapter.getItemDataAtIndex(position);
+                if(!showEntity.getShowIsFollowedByCurrentUser())
+                    showEntity.numLike = showEntity.numLike + 1;
+                showEntity.setLikedByCurrentUser(!showEntity.getShowIsFollowedByCurrentUser());
+                _adapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,14 +102,54 @@ public class S02ShowClassify extends Activity {
             }
         });
 
+
+        _navigationView.getBtn_right().setVisibility(View.INVISIBLE);
         _waterfallListView = _pullRefreshListView.getRefreshableView();
 
-        _adapter = new ClassifyWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
+        switch (classifyMod){
+            case 0:
+                _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
+                _pullRefreshListView.setmFooterLayout(null);
+                break;
+            case 1:
+                _adapter = new HotWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
+                break;
+        }
 
         _waterfallListView.setAdapter(_adapter);
 
         _pullRefreshListView.setPullLoadEnabled(true);
         _pullRefreshListView.setScrollLoadEnabled(true);
+
+        _pullRefreshListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+            int i = 0;
+            @Override
+            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+                pauseOnScroll(ImageLoader.getInstance(),true, scrollState);
+                i++;
+                Log.i("tag",i + "-scroll" + scrollState);
+            }
+
+            @Override
+            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+
+            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnFling,int scrollState){
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        imageLoader.resume();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        imageLoader.resume();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        if (pauseOnFling) {
+                            imageLoader.pause();
+                        }
+                        break;
+                }
+            }
+        });
 
         _pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
@@ -102,25 +163,22 @@ public class S02ShowClassify extends Activity {
             }
         });
 
-        _waterfallListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(PLA_AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(S02ShowClassify.this, S03SHowActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S03SHowActivity.INPUT_SHOW_ENTITY_ID, _adapter.getItemDataAtIndex(position)._id);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-
-        setLastUpdateTime();
-
         _pullRefreshListView.doPullRefreshing(true, 500);
+
+        registerReceiver(broadcastReceiver, new IntentFilter(ACTION_MESSAGE));
     }
-    private void setLastUpdateTime() {
-        String text = formatDateTime(System.currentTimeMillis());
-        _pullRefreshListView.setLastUpdatedLabel(text);
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
+
+    @Override
+    public void reconn() {
+        doRefreshTask();
+    }
+
 
     private String formatDateTime(long time) {
         if (0 == time) {
@@ -135,49 +193,50 @@ public class S02ShowClassify extends Activity {
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        JsonObjectRequest jor = new JsonObjectRequest(ShowClassifyConfig.getApi(classifyMod, Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        String url = "";
+        switch (classifyMod){
+            case 0:
+                url = QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(20));
+                break;
+            case 1:
+                url = QSAppWebAPI.getShowHotApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize));
+                break;
+        }
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
-                    LinkedList<ShowListEntity> results = ShowListEntity.getShowListFromResponse(response);
+                    LinkedList results = null;
+                    switch (classifyMod){
+                        case 0:
+                             results = ItemRandomParser.parse(response);
+                            break;
+                        case 1:
+                             results = FeedingParser.parse(response);
+                            break;
+                    }
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;
+                        ImageLoader.getInstance().resume();
                     } else {
                         _adapter.addItemLast(results);
                         _currentPageIndex++;
                     }
+                    ImageLoader.getInstance().resume();
                     _adapter.notifyDataSetChanged();
                     _pullRefreshListView.onPullDownRefreshComplete();
                     _pullRefreshListView.onPullUpRefreshComplete();
                     _pullRefreshListView.setHasMoreData(true);
-                    setLastUpdateTime();
-
-                }catch (Exception error){
-                    Toast.makeText(S02ShowClassify.this, "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                    _pullRefreshListView.onPullDownRefreshComplete();
-                    _pullRefreshListView.onPullUpRefreshComplete();
-                    _pullRefreshListView.setHasMoreData(true);
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(S02ShowClassify.this, "Error:"+error.toString(), Toast.LENGTH_SHORT).show();
-                _pullRefreshListView.onPullDownRefreshComplete();
-                _pullRefreshListView.onPullUpRefreshComplete();
-                _pullRefreshListView.setHasMoreData(true);
+                    setLastUpdateTime(response);
             }
         });
-        QSApplication.get().QSRequestQueue().add(jor);
+        RequestQueueManager.INSTANCE.getQueue().add(jor);
     }
-
 
 
     @Override
@@ -201,4 +260,25 @@ public class S02ShowClassify extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("S02"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("S02"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
+    }
+
+    private void setLastUpdateTime(JSONObject response) {
+        String text = formatDateTime(System.currentTimeMillis());
+        _pullRefreshListView.setLastUpdatedLabel(text);
+        _adapter.refreshDate(response);
+    }
+
 }

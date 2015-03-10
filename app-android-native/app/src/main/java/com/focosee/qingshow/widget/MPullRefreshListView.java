@@ -2,12 +2,13 @@ package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Adapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 
 public class MPullRefreshListView extends PullToRefreshBase<ListView> implements AbsListView.OnScrollListener{
@@ -15,9 +16,10 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
     /**ListView*/
     private ListView mListView;
     /**用于滑到底部自动加载的Footer*/
-    private LoadingLayout mLoadMoreFooterLayout;
+    private FooterLoadingLayout mLoadMoreFooterLayout;
     /**滚动的监听器*/
     private AbsListView.OnScrollListener mScrollListener;
+
 
     /**
      * 构造方法
@@ -47,7 +49,10 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
      */
     public MPullRefreshListView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
+        mLoadMoreFooterLayout = new FooterLoadingLayout(context);
+        mLoadMoreFooterLayout.setState(ILoadingLayout.State.RESET);
+        mListView.addFooterView(mLoadMoreFooterLayout,null,false);
+        mLoadMoreFooterLayout.show(false);
         setPullLoadEnabled(false);
     }
 
@@ -66,14 +71,20 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
      * @param hasMoreData true表示还有更多的数据，false表示没有更多数据了
      */
     public void setHasMoreData(boolean hasMoreData) {
-        if (!hasMoreData) {
-            if (null != mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout.setState(ILoadingLayout.State.NO_MORE_DATA);
-            }
+        Log.i("tag","getParent" + mListView.getFooterViewsCount());
 
+        if (!hasMoreData) {
+            if (0 == mListView.getFooterViewsCount()) {
+                mLoadMoreFooterLayout.setState(ILoadingLayout.State.NO_MORE_DATA);
+                mLoadMoreFooterLayout.show(true);
+            }
             LoadingLayout footerLoadingLayout = getFooterLoadingLayout();
             if (null != footerLoadingLayout) {
                 footerLoadingLayout.setState(ILoadingLayout.State.NO_MORE_DATA);
+            }
+        }else{
+            if(mListView == mLoadMoreFooterLayout.getParent()){
+                mLoadMoreFooterLayout.show(false);
             }
         }
     }
@@ -100,48 +111,20 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
     @Override
     protected void startLoading() {
         super.startLoading();
-
-        if (null != mLoadMoreFooterLayout) {
-            mLoadMoreFooterLayout.setState(ILoadingLayout.State.REFRESHING);
-        }
     }
 
     @Override
     public void onPullUpRefreshComplete() {
         super.onPullUpRefreshComplete();
-
-        if (null != mLoadMoreFooterLayout) {
-            mLoadMoreFooterLayout.setState(ILoadingLayout.State.RESET);
-        }
     }
 
     @Override
     public void setScrollLoadEnabled(boolean scrollLoadEnabled) {
         super.setScrollLoadEnabled(scrollLoadEnabled);
-
-        if (scrollLoadEnabled) {
-            // 设置Footer
-            if (null == mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout = new FooterLoadingLayout(getContext());
-            }
-
-            if (null == mLoadMoreFooterLayout.getParent()) {
-                mListView.addFooterView(mLoadMoreFooterLayout, null, false);
-            }
-            mLoadMoreFooterLayout.show(true);
-        } else {
-            if (null != mLoadMoreFooterLayout) {
-                mLoadMoreFooterLayout.show(false);
-            }
-        }
     }
 
     @Override
     public LoadingLayout getFooterLoadingLayout() {
-        if (isScrollLoadEnabled()) {
-            return mLoadMoreFooterLayout;
-        }
-
         return super.getFooterLoadingLayout();
     }
 
@@ -156,7 +139,7 @@ public class MPullRefreshListView extends PullToRefreshBase<ListView> implements
      * @return true表示还有更多数据
      */
     private boolean hasMoreData() {
-        if ((null != mLoadMoreFooterLayout) && (mLoadMoreFooterLayout.getState() == ILoadingLayout.State.NO_MORE_DATA)) {
+        if ((null != getFooterLoadingLayout()) && (getFooterLoadingLayout().getState() == ILoadingLayout.State.NO_MORE_DATA)) {
             return false;
         }
 

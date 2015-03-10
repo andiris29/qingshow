@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="app_name">倾秀</string>
     <string name="title_activity_blank">BlankActivity</string>
@@ -13,12 +13,13 @@
     <string name="personal_picture_activity_settings">个人头像</string>
     <string name="background_picture_activity_settings">背景图像</string>
     <string name="information_activity_settings">基本信息</string>
-    <string name="name_activity_settings">姓名</string>
+    <string name="name_activity_settings">昵称</string>
     <string name="sex_activity_settings">性别</string>
-    <string name="age_activity_settings">年龄</string>
+    <string name="age_activity_settings">生日</string>
     <string name="height_activity_settings">身高</string>
     <string name="weight_activity_settings">体重</string>
     <string name="hair_activity_settings">发型</string>
+    <string name="brand_activity_settings">品牌</string>
     <string name="ref_activity_settings">></string>
     <string name="others_activity_settings">其他</string>
     <string name="change_password_activity_settings">更改密码</string>
@@ -30,6 +31,8 @@
     <string name="quit_activity_settings">退出登录</string>
     <string name="left_ref_activity_settings">back</string>
     <string name="save_activity_settings">保存</string>
+    <string name="shoes_size_activity_settings">鞋码</string>
+    <string name="clothes_size_activity_settings">服装尺寸</string>
 
     <!-- Register Activity -->
     <string name="title_activity_register">RegisterActivity</string>
@@ -43,7 +46,7 @@
 
     <!-- Login Activity -->
     <string name="title_activity_login">LoginActivity</string>
-    <string name="title_bar_activity_login">登陆</string>
+    <string name="title_bar_activity_login">登录</string>
     <string name="register_activity_login">注册</string>
     <string name="account_hint_activity_login">请输入邮箱或手机号码</string>
     <string name="account_activity_login">账号</string>
@@ -65,12 +68,25 @@
     <string name="title_activity_s04_comment">S04CommentActivity</string>
     <string name="title_activity_p03_brand_list">P03BrandListActivity</string>
     <string name="title_activity_p01_model_list">P01ModelListActivity</string>
-
     <string name="prompt">提示</string>
     <string name="exit_app">你确定要退出应用吗?</string>
     <string name="confirm">确定</string>
-    <string name="cancel">取消</string>
+    <string name="cancels">取消</string>
     <string name="dismiss">隐藏</string>
+    <string name="title_activity_p04_brand">P04BrandActivity</string>
+    <string name="title_activity_p02_model">P02ModelActivity</string>
+    <string name="title_activity_item">ItemActivity</string>
+    <string name="title_activity_s07_collect">S07CollectActivity</string>
+    <string name="title_activity_s05_item">S05ItemActivity</string>
+    <string name="title_activity_s08_trend">S08TrendActivity</string>
+    <string name="title_activity_launch">倾秀</string>
 
+    <!-- S01Home Activity -->
+    <string name="menu_open">open</string>
+    <string name="menu_close">close</string>
 
+    <!-- comm -->
+    <string name="no_more_data">没有更多数据了！</string>
+    <string name="need_login">请先登录</string>
+    <string name="check_wifi">请检查网络</string>
 </resources>
