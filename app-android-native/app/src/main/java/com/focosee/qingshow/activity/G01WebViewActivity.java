@@ -9,6 +9,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.focosee.qingshow.R;
 
@@ -21,7 +22,7 @@ public class G01WebViewActivity extends BaseActivity{
 
     private WebView mWebView;
 
-    private ImageButton backBtn;
+    private ImageView backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class G01WebViewActivity extends BaseActivity{
 
         setContentView(R.layout.webview_activity);
 
-        backBtn = (ImageButton) findViewById(R.id.webview_back);
+        backBtn = (ImageView) findViewById(R.id.webview_back);
 
         mWebView = (WebView) findViewById(R.id.webview_webview);
 

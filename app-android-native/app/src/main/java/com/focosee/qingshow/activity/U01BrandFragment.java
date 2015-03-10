@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
@@ -46,6 +48,7 @@ public class U01BrandFragment extends Fragment{
     private int _currentPageIndex = 1;
     private MongoPeople people;
     private QSJsonObjectRequest jsonObjectRequest;
+    private TextView numToatal;
 
     private static U01BrandFragment instance;
 
@@ -119,6 +122,8 @@ public class U01BrandFragment extends Fragment{
 
         doRefreshTask();
 
+        numToatal = (TextView)getActivity().findViewById(R.id.brandCountTextView);
+
         return view;
     }
 
@@ -153,7 +158,7 @@ public class U01BrandFragment extends Fragment{
                 try{
                     ArrayList<MongoBrand> results = BrandParser.parseQueryBrands(response);
                     if (_tRefreshSign) {
-                        ((TextView)getActivity().findViewById(R.id.brandCountTextView)).setText(MetadataParser.getNumTotal(response));
+                        numToatal.setText(MetadataParser.getNumTotal(response));
                         mAdapter.resetData(results);
                         _currentPageIndex = 1;
                     } else {
@@ -184,9 +189,14 @@ public class U01BrandFragment extends Fragment{
 
     @Override
     public void onDestroyView() {
-        getActivity().unregisterReceiver(receiver);
         if(null != jsonObjectRequest)
             RequestQueueManager.INSTANCE.getQueue().cancelAll(jsonObjectRequest);
         super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroy();
     }
 }

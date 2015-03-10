@@ -56,6 +56,7 @@ public class U01RecommendFragment extends Fragment{
     private boolean noMoreData = false;
     private HeadScrollAdapter headScrollAdapter;
     private JsonObjectRequest jsonObjectRequest;
+    private TextView numTotal;
 
     private static U01RecommendFragment instance;
     /**
@@ -86,6 +87,7 @@ public class U01RecommendFragment extends Fragment{
 
     @Override
     public void onAttach(Activity activity) {
+
         super.onAttach(activity);
     }
 
@@ -120,11 +122,6 @@ public class U01RecommendFragment extends Fragment{
         latestPullRefreshListView = (MPullRefreshMultiColumnListView) view.findViewById(R.id.pager_P02_item_list);
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
-//        //设置margin，不然一进去时，第一项会显示不全
-//        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)latestListView.getLayoutParams();
-//        params.setMargins(0, headScrollAdapter.headHeight, 0, 0);
-//        latestListView.setLayoutParams(params);
-//        latestListView.setOnTouchListener(headScrollAdapter);
 
         itemListAdapter = new ClassifyWaterfallAdapter_HasHeadRelativeLayout(getActivity(), R.layout.item_showlist, ImageLoader.getInstance());
         latestListView.setAdapter(itemListAdapter);
@@ -154,7 +151,7 @@ public class U01RecommendFragment extends Fragment{
         });
 
         doShowsRefreshDataTask();
-
+        numTotal = (TextView)getActivity().findViewById(R.id.recommendCountTextView);
         return view;
     }
 
@@ -175,7 +172,7 @@ public class U01RecommendFragment extends Fragment{
                 QSAppWebAPI.getFeedingRecommendationApi(people.get_id(), 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)getActivity().findViewById(R.id.recommendCountTextView)).setText(MetadataParser.getNumTotal(response));
+                numTotal.setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     noMoreData = true;
                     latestPullRefreshListView.onPullUpRefreshComplete();

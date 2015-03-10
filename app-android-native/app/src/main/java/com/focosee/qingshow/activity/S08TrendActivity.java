@@ -188,4 +188,9 @@ public class S08TrendActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }
 }

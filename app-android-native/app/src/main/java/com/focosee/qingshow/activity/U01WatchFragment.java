@@ -57,6 +57,7 @@ public class U01WatchFragment extends Fragment{
 
     private static U01WatchFragment instance;
     private QSJsonObjectRequest jsonObjectRequest;
+    private TextView numTotal;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -159,6 +160,8 @@ public class U01WatchFragment extends Fragment{
             }
         });
         doFollowersRefreshDataTask();
+        numTotal = (TextView)getActivity().findViewById(R.id.followedCountTextView);
+        getActivity().registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
         return view;
     }
 
@@ -178,7 +181,7 @@ public class U01WatchFragment extends Fragment{
                 QSAppWebAPI.getPeopleQueryFollowedApi(people.get_id(),1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView) getActivity().findViewById(R.id.followedCountTextView)).setText(MetadataParser.getNumTotal(response));
+                numTotal.setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     noMoreData = true;
                     followerPullRefreshListView.onPullDownRefreshComplete();
