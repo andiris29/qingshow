@@ -4,7 +4,7 @@ var Iconv = require('iconv-lite');
 var request = require('request');
 var cheerio = require('cheerio');
 
-var taobaoHelper = require('./taobaoHelper');
+var taobaoUtil = require('./taobaoUtil');
 var taobaoWeb = module.exports;
 
 
@@ -16,9 +16,9 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
             callback(null, item.source);
         },
         function (source, callback) {
-            var tbItemId = taobaoHelper.getIidFromSource(source);
+            var tbItemId = taobaoUtil.getIidFromSource(source);
 
-            if (taobaoHelper.isFromTmall(source)) {
+            if (taobaoUtil.isFromTmall(source)) {
                 _getTmallItemWebSkus(tbItemId, function (err, webSkus) {
                     if (err) {
                         callback(err);
@@ -26,7 +26,7 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
                         _parseTmallWebPage(source, webSkus, callback);
                     }
                 });
-            } else if (taobaoHelper.isFromTaobao(source)) {
+            } else if (taobaoUtil.isFromTaobao(source)) {
                 _getTaobaoItemWebSkus(tbItemId, function (err, webSkus) {
                     if (err) {
                         callback(err);
@@ -44,8 +44,9 @@ taobaoWeb.item.getWebSkus = function (item, callback) {
     });
     //
 };
+
 var _parseTaobaoWebPage = function (source, webSkus, callback) {
-    var iid = taobaoHelper.getIidFromSource(source);
+    var iid = taobaoUtil.getIidFromSource(source);
     var url = 'http://item.taobao.com/item.htm?id=' + iid;
     request.get({
         'url' : url,
@@ -96,7 +97,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
 
                 var taobaoInfo = {};
                 taobaoInfo.skus = skus;
-                taobaoInfo.top_num_iid = taobaoHelper.getIidFromSource(source);
+                taobaoInfo.top_num_iid = taobaoUtil.getIidFromSource(source);
                 taobaoInfo.top_title = top_title;
                 taobaoInfo.nick = nick;
 
@@ -112,7 +113,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
 
 // Tmall
 var _parseTmallWebPage = function (source, webSkus, callback) {
-    var iid = taobaoHelper.getIidFromSource(source);
+    var iid = taobaoUtil.getIidFromSource(source);
     var url = 'http://detail.tmall.com/item.htm?id=' + iid;
     var r = request.get({
         'url' : url,
@@ -160,7 +161,7 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 taobaoInfo.skus = skus;
                 taobaoInfo.top_title = title;
                 taobaoInfo.top_nick = nick;
-                taobaoInfo.top_num_iid = taobaoHelper.getIidFromSource(source);
+                taobaoInfo.top_num_iid = taobaoUtil.getIidFromSource(source);
                 callback(null, taobaoInfo);
             };
             if(tshopSetupScript) {

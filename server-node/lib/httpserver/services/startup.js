@@ -10,6 +10,7 @@ var sessionMongoose = require("session-mongoose");
 var bodyParser = require('body-parser');
 var path = require('path');
 var _ = require('underscore');
+var winston = require('winston');
 
 
 //Services Name
@@ -114,6 +115,5 @@ StartUp.start = function (appServerPort, folderUploads, pathUploads, qsdb) {
             }
         }
     });
-
-    console.log('Http server startup complete!');
-}
+    winston.info('Http server startup complete!');
+};

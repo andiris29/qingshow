@@ -48,10 +48,10 @@ define([
         }.bind(this));
         // Events for static stuff
         InteractionUtil.onTouchOrClick(this.$('.qs-download'), function(event) {
-            if (UADetector.isAndroid()) {
-                // TODO Android
+            if (window.WeixinJSBridge || UADetector.isAndroid()) {
+                window.open('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
             } else {
-                window.open('https://itunes.apple.com/us/app/qing-xiu/id946116105');
+                window.open('https://itunes.apple.com/us/app/qing-xiu/id946116105?ls=1&mt=8');
             }
         });
     };
@@ -106,7 +106,7 @@ define([
         }, 300, function() {
             callback();
 
-            _.delay(function() {
+            _.delay( function() {
                 this._animating = false;
                 animator$.remove();
             }.bind(this), 300);

@@ -6,7 +6,7 @@
         'qingshow' : './qingshow'
     },
     'include': [
-        'qingshow/bootstrap',
+        'qingshow/core/bootstrap',
         'qingshow/view/show/s09/S09ShareShow',
         'qingshow/view/show/s09/Show',
         'qingshow/view/show/s09/ThumbItem',
