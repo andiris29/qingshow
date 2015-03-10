@@ -50,6 +50,13 @@
 {
     QSUserLocationTableViewCell* cell = [self.tableView dequeueReusableCellWithIdentifier:QSUserLocationTableViewCellIdentifier forIndexPath:indexPath];
 #warning TODO binding
+    NSDictionary* testDict = @{ @"name" : @"黄小仙",
+                                @"phone" : @"13332223334",
+                                @"privince" : @"上海",
+                                @"address" : @"上海市普陀区中山北路号楼层",
+                                @"default" : @""
+                                };
+    [cell bindWithDict:testDict];
     return cell;
 }
 

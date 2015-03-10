@@ -84,6 +84,7 @@
 		EF78E3321AAF3E2300665EDD /* QSU10UserLocationListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF78E3301AAF3E2300665EDD /* QSU10UserLocationListViewController.xib */; };
 		EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF78E3341AAF459800665EDD /* QSU09OrderListViewController.m */; };
 		EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF78E3351AAF459800665EDD /* QSU09OrderListViewController.xib */; };
+		EF78E33A1AAF47C700665EDD /* QSReceiverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF78E3391AAF47C700665EDD /* QSReceiverUtil.m */; };
 		EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */; };
 		EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */; };
 		EF87FDD21A45A797003A6050 /* QSBrandTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF87FDD11A45A797003A6050 /* QSBrandTableViewHeaderView.m */; };
@@ -348,6 +349,8 @@
 		EF78E3331AAF459800665EDD /* QSU09OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU09OrderListViewController.h; sourceTree = "<group>"; };
 		EF78E3341AAF459800665EDD /* QSU09OrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU09OrderListViewController.m; sourceTree = "<group>"; };
 		EF78E3351AAF459800665EDD /* QSU09OrderListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU09OrderListViewController.xib; sourceTree = "<group>"; };
+		EF78E3381AAF47C700665EDD /* QSReceiverUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSReceiverUtil.h; sourceTree = "<group>"; };
+		EF78E3391AAF47C700665EDD /* QSReceiverUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSReceiverUtil.m; sourceTree = "<group>"; };
 		EF7FA36E1A3440AC00090EE4 /* QSMetadataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMetadataUtil.h; sourceTree = "<group>"; };
 		EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMetadataUtil.m; sourceTree = "<group>"; };
 		EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingService.h"; sourceTree = "<group>"; };
@@ -1084,6 +1087,8 @@
 				EFA98A811A38923300A8BFC7 /* QSCommonUtil.m */,
 				EFB31A511A4FB95C00257BC9 /* QSPreviewUtil.h */,
 				EFB31A521A4FB95C00257BC9 /* QSPreviewUtil.m */,
+				EF78E3381AAF47C700665EDD /* QSReceiverUtil.h */,
+				EF78E3391AAF47C700665EDD /* QSReceiverUtil.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -1648,6 +1653,7 @@
 				EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */,
 				EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */,
 				EF17292F1A1CE4F7001819E3 /* QSSectionTextButton.m in Sources */,
+				EF78E33A1AAF47C700665EDD /* QSReceiverUtil.m in Sources */,
 				EFC5436D1A17512E001B2C49 /* QSP02ModelDetailViewController.m in Sources */,
 				EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */,
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,

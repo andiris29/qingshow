@@ -7,11 +7,12 @@
 //
 
 #import "QSUserLocationTableViewCell.h"
-
+#import "QSReceiverUtil.h"
 @implementation QSUserLocationTableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -22,6 +23,9 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
-#warning TODO
+    self.nameLabel.text = [QSReceiverUtil getName:dict];
+    self.phoneLabel.text = [QSReceiverUtil getPhone:dict];
+    self.addressLabel.text = [QSReceiverUtil getAddress:dict];
 }
+
 @end

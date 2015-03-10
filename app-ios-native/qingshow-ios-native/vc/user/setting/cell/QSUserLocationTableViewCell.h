@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #define QSUserLocationTableViewCellIdentifier @"QSUserLocationTableViewCellIdentifier"
-#define QSUserLocationTableViewCellHeight 158.f 
+#define QSUserLocationTableViewCellHeight 163.f
 @interface QSUserLocationTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel* nameLabel;
