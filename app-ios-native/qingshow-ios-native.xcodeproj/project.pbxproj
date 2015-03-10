@@ -78,6 +78,12 @@
 		EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826AD1A4EBA2200C69460 /* UIImage+BlurryImage.m */; };
 		EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826B01A4F057900C69460 /* UIView+ScreenShot.m */; };
 		EF7826B41A4F233200C69460 /* QSNetworkEngine+PreviewService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7826B31A4F233200C69460 /* QSNetworkEngine+PreviewService.m */; };
+		EF78E32C1AAF1AF200665EDD /* QSUserLocationTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF78E32A1AAF1AF200665EDD /* QSUserLocationTableViewCell.m */; };
+		EF78E32D1AAF1AF200665EDD /* QSUserLocationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF78E32B1AAF1AF200665EDD /* QSUserLocationTableViewCell.xib */; };
+		EF78E3311AAF3E2300665EDD /* QSU10UserLocationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF78E32F1AAF3E2300665EDD /* QSU10UserLocationListViewController.m */; };
+		EF78E3321AAF3E2300665EDD /* QSU10UserLocationListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF78E3301AAF3E2300665EDD /* QSU10UserLocationListViewController.xib */; };
+		EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF78E3341AAF459800665EDD /* QSU09OrderListViewController.m */; };
+		EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF78E3351AAF459800665EDD /* QSU09OrderListViewController.xib */; };
 		EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */; };
 		EF7FA3751A34481100090EE4 /* QSNetworkEngine+FeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */; };
 		EF87FDD21A45A797003A6050 /* QSBrandTableViewHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF87FDD11A45A797003A6050 /* QSBrandTableViewHeaderView.m */; };
@@ -333,6 +339,15 @@
 		EF7826B01A4F057900C69460 /* UIView+ScreenShot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ScreenShot.m"; sourceTree = "<group>"; };
 		EF7826B21A4F233200C69460 /* QSNetworkEngine+PreviewService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+PreviewService.h"; sourceTree = "<group>"; };
 		EF7826B31A4F233200C69460 /* QSNetworkEngine+PreviewService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+PreviewService.m"; sourceTree = "<group>"; };
+		EF78E3291AAF1AF200665EDD /* QSUserLocationTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserLocationTableViewCell.h; sourceTree = "<group>"; };
+		EF78E32A1AAF1AF200665EDD /* QSUserLocationTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserLocationTableViewCell.m; sourceTree = "<group>"; };
+		EF78E32B1AAF1AF200665EDD /* QSUserLocationTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSUserLocationTableViewCell.xib; sourceTree = "<group>"; };
+		EF78E32E1AAF3E2300665EDD /* QSU10UserLocationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU10UserLocationListViewController.h; sourceTree = "<group>"; };
+		EF78E32F1AAF3E2300665EDD /* QSU10UserLocationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU10UserLocationListViewController.m; sourceTree = "<group>"; };
+		EF78E3301AAF3E2300665EDD /* QSU10UserLocationListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU10UserLocationListViewController.xib; sourceTree = "<group>"; };
+		EF78E3331AAF459800665EDD /* QSU09OrderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU09OrderListViewController.h; sourceTree = "<group>"; };
+		EF78E3341AAF459800665EDD /* QSU09OrderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU09OrderListViewController.m; sourceTree = "<group>"; };
+		EF78E3351AAF459800665EDD /* QSU09OrderListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU09OrderListViewController.xib; sourceTree = "<group>"; };
 		EF7FA36E1A3440AC00090EE4 /* QSMetadataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMetadataUtil.h; sourceTree = "<group>"; };
 		EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMetadataUtil.m; sourceTree = "<group>"; };
 		EF7FA3731A34481100090EE4 /* QSNetworkEngine+FeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+FeedingService.h"; sourceTree = "<group>"; };
@@ -758,6 +773,16 @@
 				EF7826A61A4EB4F200C69460 /* user_head_default.png */,
 			);
 			path = resource;
+			sourceTree = "<group>";
+		};
+		EF78E3271AAF1AD900665EDD /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				EF78E3291AAF1AF200665EDD /* QSUserLocationTableViewCell.h */,
+				EF78E32A1AAF1AF200665EDD /* QSUserLocationTableViewCell.m */,
+				EF78E32B1AAF1AF200665EDD /* QSUserLocationTableViewCell.xib */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 		EF7FA3721A3447E300090EE4 /* service */ = {
@@ -1202,6 +1227,7 @@
 		EFF114861A0D2EDD009B7361 /* setting */ = {
 			isa = PBXGroup;
 			children = (
+				EF78E3271AAF1AD900665EDD /* cell */,
 				8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */,
 				8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */,
 				8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */,
@@ -1214,6 +1240,12 @@
 				EFA1F55E1A53052100010F79 /* QSImageEditingViewController.h */,
 				EFA1F55F1A53052100010F79 /* QSImageEditingViewController.m */,
 				EFA1F5601A53052100010F79 /* QSImageEditingViewController.xib */,
+				EF78E32E1AAF3E2300665EDD /* QSU10UserLocationListViewController.h */,
+				EF78E32F1AAF3E2300665EDD /* QSU10UserLocationListViewController.m */,
+				EF78E3301AAF3E2300665EDD /* QSU10UserLocationListViewController.xib */,
+				EF78E3331AAF459800665EDD /* QSU09OrderListViewController.h */,
+				EF78E3341AAF459800665EDD /* QSU09OrderListViewController.m */,
+				EF78E3351AAF459800665EDD /* QSU09OrderListViewController.xib */,
 			);
 			path = setting;
 			sourceTree = "<group>";
@@ -1493,6 +1525,7 @@
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				EF65677B1A47129D00B66E21 /* QSS08PreviewViewController.xib in Resources */,
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
+				EF78E32D1AAF1AF200665EDD /* QSUserLocationTableViewCell.xib in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
 				EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */,
@@ -1506,6 +1539,7 @@
 				EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */,
 				EFA1F5621A53052100010F79 /* QSImageEditingViewController.xib in Resources */,
 				EF7826A71A4EB4F200C69460 /* user_bg_default.png in Resources */,
+				EF78E3321AAF3E2300665EDD /* QSU10UserLocationListViewController.xib in Resources */,
 				EF4903671A7E52C100A848B4 /* QSS02ShandianViewController.xib in Resources */,
 				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
 				EF4D50A51A177174001E179B /* QSP04BrandDetailViewController.xib in Resources */,
@@ -1514,6 +1548,7 @@
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF87FDD51A45A7A8003A6050 /* QSBrandTableViewHeaderView.xib in Resources */,
+				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
 				EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF87FDDA1A45BE15003A6050 /* QSBrandTitleView.xib in Resources */,
@@ -1545,6 +1580,7 @@
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
 				EF87FDD21A45A797003A6050 /* QSBrandTableViewHeaderView.m in Sources */,
 				EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */,
+				EF78E32C1AAF1AF200665EDD /* QSUserLocationTableViewCell.m in Sources */,
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				82F4E2711A165B98007A90B4 /* QSU07RegisterViewController.m in Sources */,
 				EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */,
@@ -1573,6 +1609,7 @@
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
 				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,
+				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
 				EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */,
@@ -1587,6 +1624,7 @@
 				EF59EDFF1A74FAEE00D639FB /* QSTableViewBasicProvider.m in Sources */,
 				EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */,
 				EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */,
+				EF78E3311AAF3E2300665EDD /* QSU10UserLocationListViewController.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,

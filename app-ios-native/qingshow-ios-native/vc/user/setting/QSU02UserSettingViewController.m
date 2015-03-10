@@ -9,6 +9,8 @@
 #import "QSU02UserSettingViewController.h"
 #import "QSU04EmailViewController.h"
 #import "QSU08PasswordViewController.h"
+#import "QSU09OrderListViewController.h"
+#import "QSU10UserLocationListViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
@@ -124,6 +126,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:
+        {
             // 选择section
             _uploadImageType = indexPath.row;
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -153,7 +156,21 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
             }
             break;
+        }
         case 1:
+        {
+            UIViewController* vc = nil;
+            if (indexPath.row == 0) {
+                vc = [[QSU09OrderListViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else if (indexPath.row == 1) {
+                vc = [[QSU10UserLocationListViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            break;
+        }
+        case 2:
+        {
             // 基本section
             if (indexPath.row == 1) {
                 // GOTO Gender
@@ -172,7 +189,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             }
             
             break;
-        case 2:
+        }
+        case 3:
+        {
             // 其他section
             if (indexPath.row == 0) {
                 // Change Password
@@ -188,8 +207,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 NSLog(@"Nothing");
             }
             break;
+        }
         default:
+        {
             break;
+        }
     }
 }
 
