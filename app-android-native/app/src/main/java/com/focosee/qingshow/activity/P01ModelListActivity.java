@@ -168,4 +168,10 @@ public class P01ModelListActivity extends BaseActivity {
         MobclickAgent.onPageEnd("P01ModelList"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
         MobclickAgent.onPause(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }
 }

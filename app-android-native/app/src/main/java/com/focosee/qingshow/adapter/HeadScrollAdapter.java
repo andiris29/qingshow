@@ -33,8 +33,6 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        System.out.println("firstVisibleItem: " + firstVisibleItem);
-        System.out.println(view.getChildAt(1));
         if(null == view.getChildAt(1)) return;
 
         if(firstVisibleItem != 0){
@@ -43,22 +41,7 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
             }
             return;
         }
-//        this.firstVisibleItem = firstVisibleItem;
-//        padding = headRelativeLayout.getLayoutParams().height + (int) headRelativeLayout.getY();
-//        padding = padding > headHeight ? headHeight : padding;
-//        padding = padding < 0 ? 0 : padding;
-//        if (true) {
-//                if (true) {
-//                    view.setPadding(0, padding, 0, 0);
-                    System.out.println("viewY: " + view.getChildAt(1).getY());
-                    System.out.println("paddingTop: " + view.getPaddingTop());
-                    headRelativeLayout.setY((view.getChildAt(1).getY() - headRelativeLayout.getLayoutParams().height) > 0 ? 0 : view.getChildAt(1).getY() - headRelativeLayout.getLayoutParams().height);
-//                } else {
-////                    isHeadMove = false;
-////                    if (view.getPaddingTop() != 0 && padding == 0)
-////                        view.setPadding(0, padding, 0, 0);
-//                }
-//        }
+        headRelativeLayout.setY((view.getChildAt(1).getY() - headRelativeLayout.getLayoutParams().height) > 0 ? 0 : view.getChildAt(1).getY() - headRelativeLayout.getLayoutParams().height);
     }
 
     private VelocityTracker mVelocityTracker;

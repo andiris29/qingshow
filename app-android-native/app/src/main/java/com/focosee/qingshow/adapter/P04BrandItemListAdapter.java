@@ -81,7 +81,6 @@ public class P04BrandItemListAdapter extends BaseAdapter {
                 headRalativeLayout.removeAllViews();
                 convertView.setTag(headRalativeLayout);
             }
-//            headRalativeLayout = (RelativeLayout)convertView.getTag();
             return convertView;
         }
 
@@ -118,13 +117,19 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         viewHolder.viewPager.setLayoutParams(params);
         //ImageLoader.getInstance().displayImage(itemList.get(position).getSource(), viewHolder.image);
         //viewHolder.discount.setText(itemList.get(position).getPrice());
-        viewHolder.price.setText(itemList.get(position).getPrice());
-        if(null != itemList.get(position).taobaoInfo.getMinPromoPrice()) {
-            viewHolder.discount.setText("SALE");
-            viewHolder.discount.setTextColor(Color.RED);
-            viewHolder.discount.setTextSize(20);
-            viewHolder.sourcePrice.setText(itemList.get(position).getSourcePrice());
-            viewHolder.sourcePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        System.out.println("".equals(itemList.get(position).getPrice()));
+        if("".equals(itemList.get(position).getPrice())){
+            viewHolder.price.setText(itemList.get(position).getSourcePrice());
+            viewHolder.sourcePrice.setText("");
+        } else {
+            viewHolder.price.setText(itemList.get(position).getPrice());
+            if (null != itemList.get(position).taobaoInfo.getMinPromoPrice() && !"".equals(itemList.get(position).taobaoInfo.getMinPromoPrice())) {
+                viewHolder.discount.setText("SALE");
+                viewHolder.discount.setTextColor(Color.RED);
+                viewHolder.discount.setTextSize(20);
+                viewHolder.sourcePrice.setText(itemList.get(position).getSourcePrice());
+                viewHolder.sourcePrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            }
         }
 
         viewHolder.detailButton.setTag(position);

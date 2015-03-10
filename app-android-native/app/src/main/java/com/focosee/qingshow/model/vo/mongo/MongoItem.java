@@ -65,28 +65,23 @@ public class MongoItem implements Serializable {
         }
 
         public String getMinPromoPrice(){
-            String minPrice = null;
-            if(skus == null){
-                return null;
-            }
-            if(skus.size() == 0){
+            double minPrice = 0;
+            if(skus == null || skus.size() == 0){
                 return null;
             }
             for(int i = 0;i < skus.size();i++){
                 if(skus.get(i).promo_price == null){
                     continue;
                 }
-                if(i == 0){
-                    minPrice = skus.get(i).promo_price;
-                }else{
-                    minPrice = String.valueOf(Math.min(Double.parseDouble(skus.get(i - 1).promo_price),
-                            Double.parseDouble(skus.get(i).promo_price)));
-                }
+                if(i == 0)
+                    minPrice = Double.parseDouble(skus.get(i).promo_price);
+                else
+                    minPrice = (minPrice > Double.parseDouble(skus.get(i).promo_price)) ? Double.parseDouble(skus.get(i).promo_price) : minPrice;
             }
-            if(null == minPrice){
+            if(0 == minPrice){
                 return null;
             }
-            return minPrice;
+            return String.valueOf(minPrice);
         }
 
         public String getPromoPrice(){
@@ -100,32 +95,27 @@ public class MongoItem implements Serializable {
         }
 
         public String getMinPrice(){
-            String minPrice = null;
-            if(skus == null){
-                return null;
-            }
-            if(skus.size() == 0){
+            double minPrice = 0;
+            if(skus == null || skus.size() == 0){
                 return null;
             }
             for(int i = 0;i < skus.size();i++){
                 if(skus.get(i).price == null){
                     continue;
                 }
-                if(i == 0){
-                    minPrice = skus.get(i).price;
-                }else{
-                    minPrice = String.valueOf(Math.min(Double.parseDouble(skus.get(i - 1).price),
-                            Double.parseDouble(skus.get(i).price)));
-                }
+                if(i == 0)
+                    minPrice = Double.parseDouble(skus.get(i).price);
+                else
+                    minPrice = (minPrice >Double.parseDouble(skus.get(i).price)) ? Double.parseDouble(skus.get(i).price) : minPrice;
             }
-            if(null == minPrice){
+            if(0 == minPrice){
                 return null;
             }
-            return minPrice;
+            return String.valueOf(minPrice);
         }
 
         public String getMaxPrice(){
-            String maxPrice = null;
+            double maxPrice = 0;
             if(skus == null){
                 return null;
             }
@@ -136,17 +126,12 @@ public class MongoItem implements Serializable {
                 if(skus.get(i).price == null){
                     continue;
                 }
-                if(i == 0){
-                    maxPrice = skus.get(i).price;
-                }else{
-                    maxPrice = String.valueOf(Math.max(Double.parseDouble(skus.get(i - 1).price),
-                            Double.parseDouble(skus.get(i).price)));
-                }
+                maxPrice = (maxPrice > Double.parseDouble(skus.get(i).price)) ? maxPrice : Double.parseDouble(skus.get(i).price);
             }
-            if(null == maxPrice){
+            if(0 == maxPrice){
                 return null;
             }
-            return maxPrice;
+            return String.valueOf(maxPrice);
         }
 
         public String getPrice(){
@@ -207,7 +192,6 @@ public class MongoItem implements Serializable {
     }
 
     public String getPrice() {
-        Log.i("tag",_id + "_id");
         if (taobaoInfo != null){
             if(taobaoInfo.getPromoPrice() != null) {
                 return taobaoInfo.getPromoPrice();
