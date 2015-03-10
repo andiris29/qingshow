@@ -5,6 +5,7 @@ var async = require('async');
 
 // Log
 var winston = require('winston');
+
 winston.add(winston.transports.DailyRotateFile, {
     'filename' : require('path').join(__dirname, 'winston.log')
 });
@@ -28,6 +29,9 @@ var folderUploads = uploadsCfg[0], pathUploads = uploadsCfg[1];
 var serviceStartUp = require('./services/startup');
 serviceStartUp.start(argv['app-server-port'], folderUploads, pathUploads, qsdb);
 
+// Startup goblin
+var scheduledStartUp = require('./scheduled/startup');
+scheduledStartUp.start();
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {

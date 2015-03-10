@@ -79,7 +79,11 @@
     }
     .s09 .qs-main {
         width: 100%;
-        height: calc(100% - 50px - 50px);
+        top: 50px;
+        bottom: 50px;
+        left: 0;
+        right: 0;
+        position: absolute;
     }
     .s09 .qs-show {
         float: left;
@@ -91,9 +95,13 @@
         width: 2px;
         height: 100%;
     }
-    .s09 .qs-side {
+    .s09 .qs-side-container {
         float: left;
-        width: calc(25% - 2px);
+        width: 25%;
+        height: 100%;
+    }
+    .s09 .qs-side {
+        padding-left: 2px;
         height: 100%;
     }
     .s09 .qs-h-splitter {
@@ -124,18 +132,17 @@
     </div>
     <div class="qs-main">
         <div class="qs-show"></div>
-        <div class="qs-v-splitter"></div>
-        <div class="qs-side">
-            <div class="qs-thumb-show"></div>
-            <div class="qs-h-splitter"></div>
-            <div class="qs-thumb-show"></div>
-            <div class="qs-h-splitter"></div>
-            <div class="qs-thumb-item-container">
-                <div class="qs-thumb-item"></div>
-                <div class="qs-v-splitter"></div>
-                <div class="qs-thumb-item"></div>
+        <div class="qs-side-container">
+            <div class="qs-side">
+                <div class="qs-thumb-show"></div>
+                <div class="qs-thumb-show"></div>
+                <div class="qs-thumb-item-container">
+                    <div class="qs-thumb-item"></div>
+                    <div class="qs-v-splitter"></div>
+                    <div class="qs-thumb-item"></div>
+                </div>
+                <div class="qs-h-splitter"></div>
             </div>
-            <div class="qs-h-splitter"></div>
         </div>
     </div>
     <div class="qs-footer">

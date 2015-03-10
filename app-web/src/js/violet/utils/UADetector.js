@@ -157,7 +157,19 @@ define([], function Setup() {
         identity : 'iPad'
     }];
 
-    var _userAgent = searchString(dataBrowser) || "An unknown browser", _version = searchVersion(navigator.userAgent) || searchVersion(navigator.appVersion) || "an unknown version", _isIE = searchString(dataBrowser) === "Explorer", _isFirefox = searchString(dataBrowser) === 'Firefox', _isChrome = searchString(dataBrowser) === 'Chrome', _isSafari = searchString(dataBrowser) === 'Safari', _isUIWebView = searchString(dataBrowser) === 'UIWebView', _os = searchString(dataOS) || "an unknown OS", _renderEngine = searchString(dataRenderEngine) || "An unknown RenderEngine", _mobile = searchString(dataMobile), _pointerEnabled = navigator.pointerEnabled === true;
+    // @formatter:off
+    var _userAgent = searchString(dataBrowser) || "An unknown browser", 
+        _version = searchVersion(navigator.userAgent) || searchVersion(navigator.appVersion) || "an unknown version", 
+        _isIE = searchString(dataBrowser) === "Explorer", 
+        _isFirefox = searchString(dataBrowser) === 'Firefox', 
+        _isChrome = searchString(dataBrowser) === 'Chrome', 
+        _isSafari = searchString(dataBrowser) === 'Safari', 
+        _isUIWebView = searchString(dataBrowser) === 'UIWebView', 
+        _os = searchString(dataOS) || "an unknown OS", 
+        _renderEngine = searchString(dataRenderEngine) || "An unknown RenderEngine", 
+        _mobile = searchString(dataMobile), 
+        _pointerEnabled = navigator.pointerEnabled === true;
+    // @formatter:on
     var UADetector = {
         userAgent : function() {
             return _userAgent;
@@ -209,4 +221,4 @@ define([], function Setup() {
         }
     };
     return (UADetector);
-}); 
+});

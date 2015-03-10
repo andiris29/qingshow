@@ -136,6 +136,11 @@
 {
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
     UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+    titleImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
+    tapGes.numberOfTapsRequired = 5;
+    [titleImageView addGestureRecognizer:tapGes];
+    
     self.navigationItem.titleView = titleImageView;
     
     UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
@@ -143,6 +148,13 @@
     
     UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_account_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
+}
+
+- (void)didTapRootTitle
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    [self showTextHud:[NSString stringWithFormat:@"version: %@", version]];
 }
 
 #pragma mark - IBAction
@@ -182,8 +194,6 @@
         //已登陆
         UIViewController* vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
         [self.navigationController pushViewController:vc animated:YES];
-        
-
     }
 }
 
