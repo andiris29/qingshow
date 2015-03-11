@@ -8,14 +8,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.util.QSComponent;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class S07CollectActivity extends BaseActivity {
 
@@ -48,8 +52,6 @@ public class S07CollectActivity extends BaseActivity {
         Intent intent = getIntent();
         final Bundle bundle = intent.getExtras();
         items = (ArrayList<MongoItem>) bundle.getSerializable(INPUT_ITEMS);
-        //brandEntity = (MongoShowD.RefBrand) bundle.getSerializable(INPUT_BRAND_ENTITY);
-        //brandEntity = (BrandEntity) bundle.getSerializable(INPUT_BRAND_ENTITY);
         listView = (ListView) findViewById(R.id.S07_item_list);
 
         adapter = new S07ListAdapter(this, items, getScreenSize().y);
@@ -58,22 +60,24 @@ public class S07CollectActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(null == items.get(position).getBrandRef()){
+                    QSComponent.showDialag(S07CollectActivity.this, getResources().getString(R.string.brand_not_exist));
+                    return;
+                }
                 Intent intent1 = new Intent(S07CollectActivity.this, P04BrandActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putSerializable(P04BrandActivity.INPUT_ITEM, items.get(position));
-                //bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, brandEntity);
                 intent1.putExtras(bundle1);
                 startActivity(intent1);
 
             }
         });
 
-//        ImageLoader.getInstance().displayImage(getIntent().getStringExtra(INPUT_BACK_IMAGE),(ImageView)findViewById(R.id.S07_background_image));
         if (null != brandText) {
-            ((TextView)findViewById(R.id.S07_brand_tv)).setVisibility(View.VISIBLE);
+            findViewById(R.id.S07_brand_tv).setVisibility(View.VISIBLE);
             ((TextView)findViewById(R.id.S07_brand_tv)).setText(brandText);
         } else {
-            ((TextView)findViewById(R.id.S07_brand_tv)).setVisibility(View.GONE);
+            findViewById(R.id.S07_brand_tv).setVisibility(View.GONE);
         }
     }
 

@@ -89,4 +89,5 @@
     <string name="no_more_data">没有更多数据了！</string>
     <string name="need_login">请先登录</string>
     <string name="check_wifi">请检查网络</string>
+    <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
 </resources>

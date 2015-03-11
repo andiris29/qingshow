@@ -40,6 +40,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
@@ -464,25 +465,12 @@ public class S01HomeActivity extends BaseActivity {
                     e.printStackTrace();
                 }
                 if(count == 5)
-                    showDialag(version);
+                    QSComponent.showDialag(S01HomeActivity.this, "当前版本是："+version);
             }
         });
     }
 
-    private void showDialag(String msg){
-        LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.version_dialag, null);
-        TextView textView = (TextView) linearLayout.findViewById(R.id.version);
-        textView.setText(msg);
-        final MaterialDialog materialDialog = new MaterialDialog(this);
 
-        materialDialog.setContentView(linearLayout)
-            .setPositiveButton("确定", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    materialDialog.dismiss();
-                }
-            }).show();
-    }
 
     @Override
     public void onResume() {
