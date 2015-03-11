@@ -58,6 +58,14 @@
     <string name="title_activity_personal">PersonalActivity</string>
     <string name="settings_activity_personal">设置</string>
 
+    <!-- EditAddress Activity -->
+    <string name="title_activity_address">AddressActivity</string>
+    <string name="save_btn_activity_address">保存</string>
+    <string name="consignee_name">收货人姓名</string>
+    <string name="consignee_phone_num">收货人电话</string>
+    <string name="consignee_area">所在区域</string>
+    <string name="consignee_detail_address">详细地址</string>
+
     <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_s01_home">倾秀</string>
