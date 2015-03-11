@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S04CommentListAdapter;
 import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
@@ -52,6 +51,7 @@ import java.util.Map;
 public class    S04CommentActivity extends BaseActivity implements ActionSheet.ActionSheetListener {
 
     public static final String INPUT_SHOW_ID = "S04CommentActivity show id";
+    public static final String INPUT_PREVIEW_ID = "S04CommentActivity preview id";
     public static final String COMMENT_NUM_CHANGE = "comment_num_changed";
     public static boolean isOpened = false;
 
@@ -65,7 +65,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
 
     private int currentPage = 1;
     private int numbersPerPage = 10;
-    private String showId;
+    private String id;
     private String replyUserId = null;
 
     private Intent viewMainPageIntent= null;
@@ -73,14 +73,23 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
 
     private int position;
 
+    private int API_TYPE = 0;//0是show, 1是preview
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s04_comment);
 
-        showId = getIntent().getStringExtra(INPUT_SHOW_ID);
-        position = getIntent().getIntExtra("position", 0);
+        Intent intent = getIntent();
 
+        if(!"".equals(intent.getStringExtra(INPUT_SHOW_ID)) && null != intent.getStringExtra(INPUT_SHOW_ID)){
+            id = intent.getStringExtra(INPUT_SHOW_ID);
+            API_TYPE = 0;
+        }else{
+            id = intent.getStringExtra(INPUT_PREVIEW_ID);
+            API_TYPE = 1;
+        }
+        position = intent.getIntExtra("s08_position", 0);
         ((MNavigationView)findViewById(R.id.S04_navigation_bar)).getBtn_left().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,7 +178,12 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
     }
 
     private void doLoadMoreTask() {
-        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, currentPage+1, numbersPerPage), null, new Response.Listener<JSONObject>() {
+        String api;
+        if(API_TYPE == 0)
+            api = QSAppWebAPI.getShowCommentsListApi(id, currentPage+1, numbersPerPage);
+        else
+            api = QSAppWebAPI.getPreviewQuerycommentsApi(id, currentPage+1, numbersPerPage);
+        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
@@ -179,7 +193,7 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                     return;
                 }
                 currentPage++;
-                adapter.addDataInTail(S04CommentActivity.getCommentsFromJsonObject(response));
+                adapter.addDataInTail(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
                 pullRefreshListView.onPullUpRefreshComplete();
                 pullRefreshListView.setHasMoreData(true);
@@ -190,11 +204,16 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
     }
 
     private void doRefreshTask() {
-        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowCommentsListApi(showId, 0, numbersPerPage), null, new Response.Listener<JSONObject>() {
+        String api;
+        if(API_TYPE == 0)
+            api = QSAppWebAPI.getShowCommentsListApi(id, 0, numbersPerPage);
+        else
+            api = QSAppWebAPI.getPreviewQuerycommentsApi(id, 0, numbersPerPage);
+        QSJsonObjectRequest jsonArrayRequest = new QSJsonObjectRequest(api, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 currentPage = 1;
-                adapter.resetData(S04CommentActivity.getCommentsFromJsonObject(response));
+                adapter.resetData(S04CommentActivity.getCommentsFromJsonObject(response, API_TYPE));
                 adapter.notifyDataSetChanged();
                 pullRefreshListView.onPullDownRefreshComplete();
                 pullRefreshListView.setHasMoreData(true);
@@ -217,21 +236,20 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
             return;
         }
         Map<String, String> map = new HashMap<String, String>();
-        map.put("_id", showId);
+        map.put("_id", id);
         map.put("_atId", replyUserId);
         map.put("comment", comment);
         JSONObject jsonObject = new JSONObject(map);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(),jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentPostApi(API_TYPE),jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(!MetadataParser.hasError(response)){
-                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value",1));
+                    sendBroadcast(new Intent(COMMENT_NUM_CHANGE).putExtra("value",1).putExtra("position" ,position));
                 }
                 doRefreshTask();
                 inputText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0); //强制隐藏键盘
-                //Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -241,11 +259,11 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         Map<String, String> map = new HashMap<String, String>();
         map.put("_id", adapter.getCommentAtIndex(clickCommentIndex).getId());
         JSONObject jsonObject = new JSONObject(map);
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(), jsonObject, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getCommentDeleteApi(API_TYPE), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(!MetadataParser.hasError(response)){
-                    sendBroadcast(new Intent( COMMENT_NUM_CHANGE).putExtra("value",-1));
+                    sendBroadcast(new Intent( COMMENT_NUM_CHANGE).putExtra("value",-1).putExtra("position" ,position));
                     doRefreshTask();
                 }
             }
@@ -267,10 +285,12 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         return new SimpleDateFormat("MM-dd HH:mm").format(new Date(time));
     }
 
-    private static ArrayList<MongoComment> getCommentsFromJsonObject(JSONObject response) {
+    private static ArrayList<MongoComment> getCommentsFromJsonObject(JSONObject response, int API_TYPE) {
         String jsonString = "";
+        String arrayName = "showComments";
+        if(API_TYPE == 1) arrayName = "previewComments";
         try {
-            jsonString = response.getJSONObject("data").getJSONArray("showComments").toString();
+            jsonString = response.getJSONObject("data").getJSONArray(arrayName).toString();
         } catch (JSONException e) {
             Log.i("json", e.toString());
         }

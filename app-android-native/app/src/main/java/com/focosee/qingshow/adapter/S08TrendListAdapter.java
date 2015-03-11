@@ -90,12 +90,13 @@ public class S08TrendListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         RelativeLayout.LayoutParams params_rLayout;
 
         final HolderView holderView;
 
+        final int final_position = position;
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.item_s08_trend_list, null);
@@ -154,18 +155,16 @@ public class S08TrendListAdapter extends BaseAdapter {
         holderView.messageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int mPosition = Integer.valueOf(((ImageButton) v).getTag().toString());
-                if (null != data.get(position).get_id()) {
+                if (null != data.get(final_position).get_id()) {
                     Intent intent = new Intent(context, S04CommentActivity.class);
-                    intent.putExtra(S04CommentActivity.INPUT_SHOW_ID, data.get(position).get_id());
-                    intent.putExtra("position:", position);
+                    intent.putExtra(S04CommentActivity.INPUT_PREVIEW_ID, data.get(final_position).get_id());
+                    intent.putExtra("s08_position", final_position);
                     context.startActivity(intent);
                 }
             }
         });
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
-        Log.i("tag",data.get(position).getIsLikeByCurrentUser() + "");
         if (!data.get(position).getIsLikeByCurrentUser()) {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         } else {
@@ -178,9 +177,9 @@ public class S08TrendListAdapter extends BaseAdapter {
                     Toast.makeText(context, R.string.need_login, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (null != data && null != data.get(position).get_id()) {
+                if (null != data && null != data.get(final_position).get_id()) {
                     holderView.likeImageButton.setClickable(false);
-                    followOrNot(data.get(position).getIsLikeByCurrentUser(), position, holderView);
+                    followOrNot(data.get(final_position).getIsLikeByCurrentUser(), final_position, holderView);
                 }
             }
         });
@@ -196,8 +195,6 @@ public class S08TrendListAdapter extends BaseAdapter {
         else {
             api = QSAppWebAPI.getPreviewTrendLikeApi();
         }
-        Log.i("tag",api);
-
 
         Map<String, String> likeData = new HashMap<String, String>();
         likeData.put("_id", data.get(position).get_id());
@@ -236,13 +233,11 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private void showMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        Log.i(context.getPackageName(), message);
     }
 
     private void handleResponseError(JSONObject response) {
         try {
             int errorCode = MetadataParser.getError(response);
-            //String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
             String errorMessage = "";
             switch (errorCode) {
                 case 1012:
@@ -263,7 +258,6 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     class HolderView {
         public RelativeLayout relativeLayout;
-        public MPullRefreshListView listView;
 
         public ViewPager viewPager;
         public LinearLayout viewGroup;
@@ -373,7 +367,6 @@ public class S08TrendListAdapter extends BaseAdapter {
             setImageBackground(arg0);
 
             MongoPreview.Image Image = this.Images.get(arg0 % this.imgSize);
-            // TODO Remove nameTextView & priceTextView, then support newline in descriptionTextView
             holderView.nameTextView.setText("");
             holderView.descriptionTextView.setText(Image.description);
             holderView.priceTextView.setText("");

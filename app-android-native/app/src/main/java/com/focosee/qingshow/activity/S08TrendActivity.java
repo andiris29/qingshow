@@ -21,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S08TrendListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.PreviewParser;
@@ -54,9 +55,12 @@ public class S08TrendActivity extends BaseActivity {
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())){
-                int numComments = adapter.getData().get(intent.getIntExtra("position", 0)).getNumComments();
-                adapter.getData().get(intent.getIntExtra("position", 0)).__context.numComments = numComments + intent.getIntExtra("value",0);
+            if (S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())) {
+                int position = intent.getIntExtra("position", 0);
+                int numComments = adapter.getData().get(position).getNumComments();
+                adapter.getData().get(position).__context.numComments = numComments + intent.getIntExtra("value", 0);
+                System.out.println("value:"+numComments + intent.getIntExtra("value", 0) + "");
+                System.out.println("position:"+ position);
                 adapter.notifyDataSetChanged();
             }
         }
@@ -96,7 +100,7 @@ public class S08TrendActivity extends BaseActivity {
                 doGetMoreTask();
             }
         });
-        mPullRefreshListView.doPullRefreshing(true,500);
+        mPullRefreshListView.doPullRefreshing(true, 500);
         registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
     }
 
@@ -123,55 +127,44 @@ public class S08TrendActivity extends BaseActivity {
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex+1), "10");
+        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getPreviewTrendListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getPreviewTrendListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try{
-                    LinkedList<MongoPreview> results = PreviewParser.parseFeed(response);
-                    if (_tRefreshSign) {
-                       adapter.resetData(results);
-                        _currentPageIndex = 1;
-                    } else {
-                        adapter.addItemLast(results);
-                        _currentPageIndex++;
-                    }
-                    adapter.notifyDataSetChanged();
-                    mPullRefreshListView.onPullDownRefreshComplete();
-                    mPullRefreshListView.onPullUpRefreshComplete();
-                    mPullRefreshListView.setHasMoreData(true);
-                    setLastUpdateTime();
-
-                }catch (Exception error){
-                    Log.i("test", "error" + error.toString());
-                    //Toast.makeText(getApplication(), "Error:" + error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                if (MetadataParser.hasError(response)) {
                     Toast.makeText(getApplication(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     mPullRefreshListView.onPullDownRefreshComplete();
                     mPullRefreshListView.onPullUpRefreshComplete();
                     mPullRefreshListView.setHasMoreData(false);
+                    return;
                 }
-
+                LinkedList<MongoPreview> results = PreviewParser.parseFeed(response);
+                if (_tRefreshSign) {
+                    adapter.resetData(results);
+                    _currentPageIndex = 1;
+                } else {
+                    adapter.addItemLast(results);
+                    _currentPageIndex++;
+                }
+                adapter.notifyDataSetChanged();
+                mPullRefreshListView.onPullDownRefreshComplete();
+                mPullRefreshListView.onPullUpRefreshComplete();
+                mPullRefreshListView.setHasMoreData(true);
+                setLastUpdateTime();
             }
         });
-        //Toast.makeText(this,jor.get,Toast.LENGTH_LONG).show();
         RequestQueueManager.INSTANCE.getQueue().add(jor);
-
-
     }
 
-    private Point getScreenSize(){
+    private Point getScreenSize() {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         return size;
-    }
-
-    private int getScreenWidth(){
-        return getScreenSize().x;
     }
 
     @Override

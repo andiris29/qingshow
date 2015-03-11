@@ -16,7 +16,6 @@
             android:layout_width="@dimen/title_bar_height"
             android:layout_height="@dimen/title_bar_height"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
             android:padding="10dp"
             android:background="#00000000"
             android:src="@drawable/btn_back_default" />

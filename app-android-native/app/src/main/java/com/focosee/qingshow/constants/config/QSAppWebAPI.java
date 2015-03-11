@@ -58,6 +58,9 @@ public class QSAppWebAPI {
     private static final String PREVIEW_TREND_LIST_API = HOST_NAME + "/preview/feed";
     private static final String PREVIEW_TREND_LIKE_API = HOST_NAME + "/preview/like";
     private static final String PREVIEW_TREND_UNLIKE_API = HOST_NAME + "/preview/unlike";
+    private static final String PREVIEW_QUERYCOMMENTS_API = HOST_NAME + "/preview/queryComments";
+    private static final String PREVIEW_COMMENT_POST_API = HOST_NAME + "/preview/comment";
+    private static final String PREVIEW_COMMENT_DEL_API = HOST_NAME + "/preview/deleteComment";
 
     private static final String USER_UPDATEPORTRAIT = HOST_NAME + "/user/updatePortrait";
     private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
@@ -103,6 +106,10 @@ public class QSAppWebAPI {
         return PREVIEW_TREND_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
+    public static String getPreviewQuerycommentsApi(String _id, int pageIndex, int pageSize){
+        return PREVIEW_QUERYCOMMENTS_API + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
+    }
+
     public static String getShowListApi(int pageIndex, int pageSize) {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
@@ -137,11 +144,17 @@ public class QSAppWebAPI {
         return SHOW_COMMENTS_LIST_API + "?_id=" + showId + "&pageNo=" + pageIndex + "pageSize=" + pageSize;
     }
 
-    public static String getCommentPostApi() {
+    public static String getCommentPostApi(int API_TYPE) {
+        if(API_TYPE == 1){//preview
+            return PREVIEW_COMMENT_POST_API;
+        }
         return COMMENT_POST_API;
     }
 
-    public static String getCommentDeleteApi() {
+    public static String getCommentDeleteApi(int API_TYPE) {
+        if(API_TYPE == 1){
+            return PREVIEW_COMMENT_DEL_API;
+        }
         return COMMENT_DELETE_API;
     }
 
