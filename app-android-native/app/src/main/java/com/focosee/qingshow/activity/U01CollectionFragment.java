@@ -63,6 +63,11 @@ public class U01CollectionFragment extends Fragment{
 
             if(ACTION_MESSAGE.equals(intent.getAction())){
                 doShowsRefreshDataTask();
+
+            }
+            if(U01PersonalActivity.BACKTHEPOSIONONE.equals(intent.getAction())){
+                latestListView.smoothScrollToPosition(0);
+                headScrollAdapter.setHeadY(0);
             }
         }
     };
@@ -109,6 +114,7 @@ public class U01CollectionFragment extends Fragment{
             }
         }
         getActivity().registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
+        getActivity().registerReceiver(receiver, new IntentFilter(U01PersonalActivity.BACKTHEPOSIONONE));
     }
 
 

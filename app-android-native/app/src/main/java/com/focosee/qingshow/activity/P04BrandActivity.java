@@ -234,6 +234,12 @@ public class P04BrandActivity extends BaseActivity{
         line3.setVisibility(View.GONE);
         line4.setVisibility(View.GONE);
 
+        latestListView.smoothScrollToPosition(0);
+        discountListView.smoothScrollToPosition(0);
+        showListView.smoothScrollToPosition(0);
+        fansListView.smoothScrollToPosition(0);
+
+
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
@@ -566,6 +572,7 @@ public class P04BrandActivity extends BaseActivity{
                 newestBrandItemListAdapter.notifyDataSetChanged();
                 latestPullRefreshListView.onPullUpRefreshComplete();
                 latestPullRefreshListView.setHasMoreData(true);
+                latestListView.smoothScrollToPosition(0);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -631,6 +638,7 @@ public class P04BrandActivity extends BaseActivity{
                 discountBrandItemListAdapter.notifyDataSetChanged();
                 discountPullRefreshListView.onPullUpRefreshComplete();
                 discountPullRefreshListView.setHasMoreData(true);
+                discountListView.smoothScrollToPosition(0);
             }
         }, new Response.ErrorListener() {
             @Override
@@ -698,6 +706,7 @@ public class P04BrandActivity extends BaseActivity{
                 if(_isRefresh){
                     showBrandItemListAdapter.addItemTop(results);
                     pageIndex = 1;
+                    showListView.smoothScrollToPosition(0);
                 }else{
                     showBrandItemListAdapter.addItemLast(results);
                     ++pageIndex;

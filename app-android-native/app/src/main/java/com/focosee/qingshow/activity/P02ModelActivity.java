@@ -270,8 +270,13 @@ public class P02ModelActivity extends BaseActivity{
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
 
+        latestListView.smoothScrollToPosition(0);
+        followedListView.smoothScrollToPosition(0);
+        followerListView.smoothScrollToPosition(0);
+
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+
             line2.setVisibility(View.VISIBLE);
             line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {

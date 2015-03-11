@@ -66,6 +66,10 @@ public class U01WatchFragment extends Fragment{
             if(ACTION_MESSAGE.equals(intent.getAction())){
                 doFollowersRefreshDataTask();
             }
+            if(U01PersonalActivity.BACKTHEPOSIONONE.equals(intent.getAction())){
+                followerListView.smoothScrollToPosition(0);
+                headScrollAdapter.setHeadY(0);
+            }
         }
     };
 
@@ -85,6 +89,7 @@ public class U01WatchFragment extends Fragment{
     @Override
     public void onAttach(Activity activity) {
         activity.registerReceiver(receiver, new IntentFilter(ACTION_MESSAGE));
+        activity.registerReceiver(receiver, new IntentFilter(U01PersonalActivity.BACKTHEPOSIONONE));
         super.onAttach(activity);
     }
 

@@ -61,6 +61,11 @@ public class ClassifyWaterfallAdapter_HasHeadRelativeLayout extends AbsWaterfall
     }
 
     @Override
+    public Object getItem(int arg0) {
+        return _data.get(arg0-2);
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if(position < 2){

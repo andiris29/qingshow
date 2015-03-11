@@ -26,6 +26,10 @@ public class HeadScrollAdapter implements AbsListView.OnScrollListener, View.OnT
         headHeight = headRelativeLayout.getLayoutParams().height;
     }
 
+    public void setHeadY(float Y){
+        headRelativeLayout.setY(Y);
+    }
+
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 

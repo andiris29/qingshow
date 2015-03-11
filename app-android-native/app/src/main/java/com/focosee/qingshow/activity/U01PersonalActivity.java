@@ -30,6 +30,7 @@ import com.umeng.analytics.MobclickAgent;
 public class U01PersonalActivity extends FragmentActivity{
     private static final String TAG = "U01PersonalActivity";
     public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
+    public static final String BACKTHEPOSIONONE = "back the position one";
     private static final int PAGER_NUM = 4;
 
     public static final String LOGOUT_ACTOIN = "logout_action";
@@ -241,7 +242,7 @@ public class U01PersonalActivity extends FragmentActivity{
         line1.setVisibility(View.GONE);
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
-
+        sendBroadcast(new Intent(BACKTHEPOSIONONE));
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
             line2.setVisibility(View.VISIBLE);
@@ -263,28 +264,24 @@ public class U01PersonalActivity extends FragmentActivity{
         matchRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                headRelativeLayout.setY(0);
                 personalViewPager.setCurrentItem(0);
             }
         });
         watchRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                headRelativeLayout.setY(0);
                 personalViewPager.setCurrentItem(1);
             }
         });
         fansRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                headRelativeLayout.setY(0);
                 personalViewPager.setCurrentItem(2);
             }
         });
         brandRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                headRelativeLayout.setY(0);
                 personalViewPager.setCurrentItem(3);
             }
         });
