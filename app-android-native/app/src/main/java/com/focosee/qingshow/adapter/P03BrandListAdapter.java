@@ -80,8 +80,8 @@ public class P03BrandListAdapter extends BaseAdapter {
             if(null == convertView){
                 LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
                 convertView = layoutInflater.inflate(R.layout.activity_p03_brand_list, null);
-                convertView.findViewById(R.id.P03_brand_list_navigation).setVisibility(View.GONE);
                 convertView.findViewById(R.id.P03_brand_list_tab_control).setVisibility(View.VISIBLE);
+                convertView.findViewById(R.id.P03_title_relative_layout).setVisibility(View.GONE);
                 convertView.findViewById(R.id.P03_brand_list_list_view).setVisibility(View.GONE);
                 convertView.findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
                     @Override

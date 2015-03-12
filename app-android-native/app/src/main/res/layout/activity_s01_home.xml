@@ -8,7 +8,7 @@
     android:scrollbarStyle="outsideOverlay"
     tools:context="com.focosee.focosee.activity.S01HomeActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:id="@+id/s01_FrameLa_right">
@@ -17,47 +17,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/s01_show_relative"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/S01_navigation"
                     android:layout_width="fill_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="fill_parent"
                     android:layout_alignParentTop="true"
                     android:background="#ffffff"
+                    android:layout_weight="12"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/S01_title_menu"
-                        android:layout_width="50dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        >
                     <ImageView
+                        android:id="@+id/S01_title_menu"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop ="10dp"
-                        android:paddingLeft="10dp"
+                        android:layout_height="fill_parent"
+                        android:padding ="10dp"
+                        android:layout_weight="1"
                         android:src="@drawable/nav_btn_menu" />
-                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/S01_logo"
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
+                        android:layout_weight="4"
                         android:src="@drawable/nav_btn_image_logo" />
 
                     <ImageView
                         android:id="@+id/S01_title_account"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:paddingRight="10dp"
                         android:src="@drawable/nav_account_btn"/>
 
@@ -71,7 +66,7 @@
                     android:layout_weight="1"
                     android:cacheColorHint="#00000000"
                     android:minHeight="20dp"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
-            </RelativeLayout>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/s01_switch_right_background"
@@ -80,23 +75,25 @@
                 android:layout_gravity="center"
                 android:visibility="invisible" />
         </FrameLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/s01_FrameLa_left"
         android:layout_width="140dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="#B0000000"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        android:background="#B0000000">
 
         <LinearLayout
             android:id="@+id/S01_pop_menu"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:paddingTop="@dimen/left_menu_padding_top_and_bottom"
+            android:paddingBottom="@dimen/left_menu_padding_top_and_bottom"
             android:alpha="80"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:gravity="center"
             android:visibility="visible">
 
 
@@ -104,6 +101,7 @@
                 android:id="@+id/S01_nav_icon_flash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:src="@drawable/root_menu_flash" />
 
             <TextView
@@ -112,7 +110,7 @@
                 android:layout_marginTop="@dimen/left_menu_item_margin_text"
                 android:gravity="center"
                 android:text="闪点推荐"
-                android:textSize="@dimen/text_size"
+                android:layout_weight="1"
                 android:textColor="#ffffffff" />
 
             <ImageView
@@ -120,6 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/left_menu_item_margin"
+                android:layout_weight="4"
                 android:src="@drawable/root_menu_brand" />
 
             <TextView
@@ -127,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/left_menu_item_margin_text"
                 android:gravity="center"
-                android:textSize="@dimen/text_size"
+                android:layout_weight="1"
                 android:text="品牌商户"
                 android:textColor="#ffffffff" />
 
@@ -136,6 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/left_menu_item_margin"
+                android:layout_weight="4"
                 android:src="@drawable/root_menu_design" />
 
             <TextView
@@ -144,8 +144,8 @@
                 android:layout_marginTop="@dimen/left_menu_item_margin_text"
                 android:gravity="center"
                 android:text="潮流时尚"
-                android:textColor="#ffffffff"
-                android:textSize="@dimen/text_size" />
+                android:layout_weight="1"
+                android:textColor="#ffffffff"/>
 
 
             <ImageView
@@ -153,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/left_menu_item_margin"
+                android:layout_weight="4"
                 android:src="@drawable/root_menu_match" />
 
             <TextView
@@ -161,8 +162,8 @@
                 android:layout_marginTop="@dimen/left_menu_item_margin_text"
                 android:gravity="center"
                 android:text="美搭榜单"
-                android:textColor="#ffffffff"
-                android:textSize="@dimen/text_size" />
+                android:layout_weight="1"
+                android:textColor="#ffffffff"/>
 
 
             <ImageView
@@ -170,6 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/left_menu_item_margin"
+                android:layout_weight="4"
                 android:src="@drawable/root_menu_people" />
 
             <TextView
@@ -178,8 +180,8 @@
                 android:layout_marginTop="@dimen/left_menu_item_margin_text"
                 android:gravity="center"
                 android:text="人气用户"
-                android:textColor="#ffffffff"
-                android:textSize="@dimen/text_size" />
+                android:layout_weight="1"
+                android:textColor="#ffffffff"/>
 
         </LinearLayout>
     </RelativeLayout>

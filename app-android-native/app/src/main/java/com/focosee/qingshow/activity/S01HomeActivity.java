@@ -74,7 +74,7 @@ public class S01HomeActivity extends BaseActivity {
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
     private int _currentPageIndex = 1;
-    private RelativeLayout relativeLayout_right_fragment;
+    private LinearLayout relativeLayout_right_fragment;
 
     private ImageView _blurImage;
     private ImageView _accountImage;
@@ -121,7 +121,7 @@ public class S01HomeActivity extends BaseActivity {
 
         initMenu();
 
-        relativeLayout_right_fragment = (RelativeLayout) findViewById(R.id.s01_show_relative);
+        relativeLayout_right_fragment = (LinearLayout) findViewById(R.id.s01_show_relative);
 
         _blurImage = (ImageView) findViewById(R.id.s01_switch_right_background);
         _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);
@@ -417,7 +417,7 @@ public class S01HomeActivity extends BaseActivity {
 
         _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
 
-        ((LinearLayout) findViewById(R.id.S01_title_menu)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.S01_title_menu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isMenuOpened()) {

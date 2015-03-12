@@ -1,22 +1,51 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.P01ModelListActivity">
 
-    <com.focosee.qingshow.widget.MNavigationView
-        xmlns:navi="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/P01_model_list_navigation"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        navi:left_drawable="@drawable/btn_back_default"
-        navi:right_drawable="@drawable/root_icon_back"
-        navi:tv_title="人气达人"
-        ></com.focosee.qingshow.widget.MNavigationView>
+    <LinearLayout
+        android:id="@+id/S08_title_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="12"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_titlebar">
+
+        <ImageView
+            android:id="@+id/P01_back_image_button"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:layout_weight="5"
+            android:background="#00000000"
+            android:src="@drawable/btn_back_default" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="人气用户"
+            android:textColor="#454545"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size" />
+    </LinearLayout>
 
     <com.focosee.qingshow.widget.MPullRefreshListView
-        android:layout_below="@+id/P01_model_list_navigation"
         android:id="@+id/P01_model_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshListView>
+        android:layout_height="fill_parent"
+        android:layout_weight="1"></com.focosee.qingshow.widget.MPullRefreshListView>
 
-</RelativeLayout>
+</LinearLayout>

@@ -1,9 +1,9 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/settingsScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
+    android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.U02SettingsActivity">
 
-</ScrollView>
+</LinearLayout>

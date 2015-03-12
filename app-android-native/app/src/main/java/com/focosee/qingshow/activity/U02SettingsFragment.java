@@ -68,7 +68,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private Context context;
     private RequestQueue requestQueue;
 
-    private TextView backTextView;
+    private ImageView backTextView;
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
     private RelativeLayout birthRelativeLayout;
@@ -464,7 +464,7 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     }
 
     private void setJumpListener(View view) {
-        backTextView = (TextView) view.findViewById(R.id.backTextView);
+        backTextView = (ImageView) view.findViewById(R.id.backTextView);
         backTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

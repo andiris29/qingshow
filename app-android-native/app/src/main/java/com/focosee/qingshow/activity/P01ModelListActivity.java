@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
@@ -22,19 +20,15 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class P01ModelListActivity extends BaseActivity {
 
-    private MNavigationView navigationView;
     private MPullRefreshListView pullRefreshListView;
     private ListView listView;
     private P01ModelListAdapter adapter;
@@ -58,14 +52,12 @@ public class P01ModelListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p01_model_list);
 
-        navigationView = (MNavigationView) findViewById(R.id.P01_model_list_navigation);
-        navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.P01_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 P01ModelListActivity.this.finish();
             }
         });
-        navigationView.getBtn_right().setVisibility(View.INVISIBLE);
 
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P01_model_list_view);
 

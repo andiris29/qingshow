@@ -9,12 +9,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Toast;
-
+import android.widget.TextView;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.AbsWaterfallAdapter;
 import com.focosee.qingshow.adapter.HotWaterfallAdapter;
@@ -25,16 +22,13 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.ItemRandomParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.widget.MNavigationView;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.huewu.pla.lib.MultiColumnListView;
 import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -52,7 +46,6 @@ public class S02ShowClassify extends BaseActivity {
     public static final String INPUT_CATEGORY = "INPUT_CATEGORY";
     public static String ACTION_MESSAGE = "S02ShowClassify_actionMessage";
 
-    private MNavigationView _navigationView;
     private MPullRefreshMultiColumnListView _pullRefreshListView;
     private MultiColumnListView _waterfallListView;
     private AbsWaterfallAdapter _adapter;
@@ -84,26 +77,16 @@ public class S02ShowClassify extends BaseActivity {
         Intent intent = getIntent();
         classifyMod = intent.getIntExtra(S02ShowClassify.INPUT_CATEGORY, 0);
 
-        _navigationView = (MNavigationView) findViewById(R.id.S02_nav_bar);
         _pullRefreshListView = (MPullRefreshMultiColumnListView) findViewById(R.id.S02_waterfall_content);
 
-        _navigationView.getTv_title().setText(ShowClassifyConfig.getTitle(classifyMod));
-        _navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {
+        ((TextView)findViewById(R.id.S02_title_tv)).setText(ShowClassifyConfig.getTitle(classifyMod));
+        findViewById(R.id.S02_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 S02ShowClassify.this.finish();
             }
         });
-        _navigationView.getBtn_right().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(S02ShowClassify.this, U06LoginActivity.class);
-                startActivity(intent);
-            }
-        });
 
-
-        _navigationView.getBtn_right().setVisibility(View.INVISIBLE);
         _waterfallListView = _pullRefreshListView.getRefreshableView();
 
         switch (classifyMod){

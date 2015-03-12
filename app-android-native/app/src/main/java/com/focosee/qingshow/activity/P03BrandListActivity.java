@@ -7,12 +7,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
@@ -38,7 +35,6 @@ public class P03BrandListActivity extends BaseActivity {
 
     public static String ACTION_REFRESH = "refresh_P03BrandListActivity";
 
-    private MNavigationView navigationView;
     public MPullRefreshListView pullRefreshListView;
     private ListView listView;
     public int brandType = 0;
@@ -58,14 +54,12 @@ public class P03BrandListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p03_brand_list);
 
-        navigationView = (MNavigationView) findViewById(R.id.P03_brand_list_navigation);
-        navigationView.getBtn_left().setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.P03_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 P03BrandListActivity.this.finish();
             }
         });
-        navigationView.getBtn_right().setVisibility(View.INVISIBLE);
 
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P03_brand_list_list_view);
         listView = pullRefreshListView.getRefreshableView();
