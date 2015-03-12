@@ -28,7 +28,7 @@
             android:layout_centerInParent="true"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="人气用户"
+            android:text="人气达人"
             android:textColor="#454545"
             android:textStyle="bold" />
 

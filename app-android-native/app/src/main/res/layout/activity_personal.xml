@@ -27,9 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/s03_back_btn" />
+            android:padding="10dp"
+            android:src="@drawable/s03_back_btn" />
         <ImageView
             android:id="@+id/settingsTextView"
             android:layout_width="wrap_content"
@@ -105,15 +104,16 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="0"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_size" />
 
                     <TextView
+                        android:id="@+id/likeTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="收藏"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
+                        android:textColor="@color/darker_gray"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
 
@@ -144,11 +144,12 @@
                         android:textSize="@dimen/text_size" />
 
                     <TextView
+                        android:id="@+id/recommendTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="推荐"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
+                        android:textColor="@color/left_menu_text_color"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout
@@ -189,11 +190,12 @@
                         android:textSize="@dimen/text_size" />
 
                     <TextView
+                        android:id="@+id/followedTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="关注"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
+                        android:textColor="@color/left_menu_text_color"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout
@@ -232,11 +234,12 @@
                         android:textSize="@dimen/text_size" />
 
                     <TextView
+                        android:id="@+id/brandTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="店铺"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
+                        android:textColor="@color/left_menu_text_color"
                         android:textSize="@dimen/text_size_small" />
                 </LinearLayout>
                 <LinearLayout

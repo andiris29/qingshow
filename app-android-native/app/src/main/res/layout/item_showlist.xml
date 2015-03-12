@@ -43,8 +43,9 @@
             <com.focosee.qingshow.widget.MRoundImageView
                 xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/item_show_model_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 imagecontrol:border_outside_color="#fffffe"
@@ -53,8 +54,9 @@
             <LinearLayout
                 android:id="@+id/item_show_center_content"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginLeft="5dp"
+                android:paddingTop="5dp"
                 android:layout_toLeftOf="@+id/item_show_love_ll"
                 android:layout_toRightOf="@+id/item_show_model_image"
                 android:orientation="vertical">
@@ -62,7 +64,7 @@
                 <TextView
                     android:id="@+id/item_show_model_name"
                     android:layout_width="fill_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left|top"
                     android:textColor="#ffffff"
@@ -71,7 +73,7 @@
                 <TextView
                     android:id="@+id/item_show_model_height_weight"
                     android:layout_width="fill_parent"
-                    android:layout_height="20dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="left|center"
                     android:textColor="#ffffff"
@@ -83,6 +85,8 @@
                 android:id="@+id/item_show_love_ll"
                 android:layout_width="35dp"
                 android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:paddingTop="5dp"
                 android:layout_alignBottom="@+id/item_show_center_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/item_show_center_content"
@@ -96,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/root_cell_icon_notice"/>
+                    android:src="@drawable/root_cell_icon_notice"/>
 
                 <TextView
                     android:id="@+id/item_show_love"

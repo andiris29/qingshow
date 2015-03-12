@@ -94,9 +94,9 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
         holder.modelIV.setVisibility(View.GONE);
         _mImageFetcher.cancelDisplayTask(holder.modelIV);
         if (showInfo.getShowIsFollowedByCurrentUser())
-            holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice_hover);
+            holder.loveIV.setImageResource(R.drawable.root_cell_icon_notice_hover);
         else
-            holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice);
+            holder.loveIV.setImageResource(R.drawable.root_cell_icon_notice);
         holder.setData(_data.get(position),_mImageFetcher);
         final int final_position = position;
         holder.shadowView.setOnClickListener(new View.OnClickListener() {

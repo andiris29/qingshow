@@ -90,6 +90,11 @@ public class P04BrandActivity extends BaseActivity{
     private View line3;
     private View line4;
 
+    private TextView newestTV;
+    private TextView discoutTV;
+    private TextView showTV;
+    private TextView fansTV;
+
     private P04BrandViewPagerAdapter viewPagerAdapter;
     private P04BrandItemListAdapter newestBrandItemListAdapter;
     private P04BrandItemListAdapter discountBrandItemListAdapter;
@@ -144,6 +149,11 @@ public class P04BrandActivity extends BaseActivity{
         showNumTotal = (TextView) findViewById(R.id.P04_brand_show_number_text_view);
         fansNumTotal = (TextView) findViewById(R.id.P04_brand_fans_number_text_view);
 
+        newestTV = (TextView) findViewById(R.id.P04_brand_newest_text_view);
+        discoutTV = (TextView) findViewById(R.id.P04_brand_discount_text_view);
+        showTV = (TextView) findViewById(R.id.P04_brand_show_text_view);
+        fansTV = (TextView) findViewById(R.id.P04_brand_fans_text_view);
+
         viewPager = (MViewPager_NoScroll) findViewById(R.id.P04_content_viewPager);
         viewPager.setScrollble(false);
 
@@ -158,12 +168,11 @@ public class P04BrandActivity extends BaseActivity{
         ImageLoader.getInstance().displayImage((null != brandEntity) ? (null == brandEntity.getBrandLogo()) ? "" : brandEntity.getBrandLogo() : ""
                 , (ImageView) findViewById(R.id.P04_brand_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.P04_brand_name)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
-        //((TextView)findViewById(R.id.P04_brand_url)).setText((null != brandEntity) ? brandEntity.getBrandName() : "未定义");
 
         ImageLoader.getInstance().displayImage((null != brandEntity) ? brandEntity.background : "", bgImage);
 
         if(brandEntity.getModelIsFollowedByCurrentUser()){
-            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+            followSignText.setImageResource(R.drawable.badge_unfollow_btn);
         }
 
         constructViewPager();
@@ -239,22 +248,38 @@ public class P04BrandActivity extends BaseActivity{
         showListView.smoothScrollToPosition(0);
         fansListView.smoothScrollToPosition(0);
 
+        newNumTotal.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        newestTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        discountNumTotal.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        discoutTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        showNumTotal.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        showTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansNumTotal.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
 
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            newNumTotal.setTextColor(getResources().getColor(R.color.black));
+            newestTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line2.setVisibility(View.VISIBLE);
             line3.setVisibility(View.VISIBLE);
             line4.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            discountNumTotal.setTextColor(getResources().getColor(R.color.black));
+            discoutTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line3.setVisibility(View.VISIBLE);
             line4.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             showRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            showNumTotal.setTextColor(getResources().getColor(R.color.black));
+            showTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line1.setVisibility(View.VISIBLE);
             line4.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            fansNumTotal.setTextColor(getResources().getColor(R.color.black));
+            fansTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line1.setVisibility(View.VISIBLE);
             line2.setVisibility(View.VISIBLE);
         } else if (pos == 4) {

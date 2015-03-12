@@ -59,6 +59,15 @@ public class U01PersonalActivity extends FragmentActivity{
     private LinearLayout line2;
     private LinearLayout line3;
 
+    private TextView likeNumTV;
+    private TextView likeTV;
+    private TextView remNumTV;
+    private TextView remTV;
+    private TextView fansNumTV;
+    private TextView fansTV;
+    private TextView brandNumTV;
+    private TextView brandTV;
+
     private MongoPeople people;
 
     public static int peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
@@ -188,6 +197,15 @@ public class U01PersonalActivity extends FragmentActivity{
         line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
         line3 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
 
+        likeNumTV = (TextView) findViewById(R.id.likeCountTextView);
+        likeTV = (TextView) findViewById(R.id.likeTextView);
+        remNumTV = (TextView) findViewById(R.id.recommendCountTextView);
+        remTV = (TextView) findViewById(R.id.recommendTextView);
+        fansNumTV = (TextView) findViewById(R.id.followedCountTextView);
+        fansTV = (TextView) findViewById(R.id.followedTextView);
+        brandNumTV = (TextView) findViewById(R.id.brandCountTextView);
+        brandTV = (TextView) findViewById(R.id.brandTextView);
+
         line1.setVisibility(View.GONE);
 
         personalViewPager = (MViewPager_NoScroll) findViewById(R.id.personalViewPager);
@@ -242,19 +260,38 @@ public class U01PersonalActivity extends FragmentActivity{
         line1.setVisibility(View.GONE);
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
+
         sendBroadcast(new Intent(BACKTHEPOSIONONE));
+
+        likeNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        likeTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        remNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        remTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        brandNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        brandTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            likeNumTV.setTextColor(getResources().getColor(R.color.black));
+            likeTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line2.setVisibility(View.VISIBLE);
             line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            remNumTV.setTextColor(getResources().getColor(R.color.black));
+            remTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line3.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            fansNumTV.setTextColor(getResources().getColor(R.color.black));
+            fansTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line1.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
             brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            brandNumTV.setTextColor(getResources().getColor(R.color.black));
+            brandTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line1.setVisibility(View.VISIBLE);
             line2.setVisibility(View.VISIBLE);
         }

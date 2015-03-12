@@ -28,7 +28,7 @@
             android:layout_centerInParent="true"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="品牌商户"
+            android:text="品牌专区"
             android:textColor="#454545"
             android:textStyle="bold" />
 

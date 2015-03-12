@@ -378,13 +378,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onClick(View v) {
                 if (S07CollectActivity.isOpened) return;
+                if(null == showDetailEntity.getItemsList() || null == showDetailEntity.getCover())return;
                 S07CollectActivity.isOpened = true;
                 Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
                 intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, ImgUtil.imgTo2x(showDetailEntity.getCover()));
-//                intent.putExtra(S07CollectActivity.INPUT_BRAND_TEXT, showDetailEntity.getBrandNameText());
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
-                //bundle.putSerializable(S07CollectActivity.INPUT_BRAND_ENTITY, showDetailEntity.get());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

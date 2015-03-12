@@ -79,6 +79,12 @@ public class P02ModelActivity extends BaseActivity{
     private LinearLayout line1;
     private LinearLayout line2;
     private LinearLayout line3;
+    private TextView showNumTV;
+    private TextView showTV;
+    private TextView followNumTV;
+    private TextView followTV;
+    private TextView fansNumTV;
+    private TextView fansTV;
 
     private int position;
 
@@ -90,7 +96,7 @@ public class P02ModelActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p02_model);
 
-        ((ImageButton) findViewById(R.id.P02_back_image_button)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.P02_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 P02ModelActivity.this.finish();
@@ -107,6 +113,13 @@ public class P02ModelActivity extends BaseActivity{
         line1 = (LinearLayout) findViewById(R.id.p02_line_toleftDiscount);
         line2 = (LinearLayout) findViewById(R.id.p02_line_toleftFans);
         line3 = (LinearLayout) findViewById(R.id.p02_line_toleftFollows);
+
+        showNumTV = (TextView) findViewById(R.id.P02_show_number_text_view);
+        showTV = (TextView) findViewById(R.id.P02_show_text_view);
+        followNumTV = (TextView) findViewById(R.id.P02_followed_number_text_view);
+        followTV = (TextView) findViewById(R.id.P02_followed_text_view);
+        fansNumTV = (TextView) findViewById(R.id.P02_follower_number_text_view);
+        fansTV = (TextView) findViewById(R.id.P02_follower_text_view);
 
         viewPager = (MViewPager_NoScroll) findViewById(R.id.P02_personalViewPager);
         viewPager.setScrollble(false);
@@ -125,7 +138,7 @@ public class P02ModelActivity extends BaseActivity{
         followSignText = (ImageView) findViewById(R.id.P02_follow_sign_text);
 
         if(null != modelEntity && modelEntity.getModelIsFollowedByCurrentUser()){
-            followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+            followSignText.setImageResource(R.drawable.badge_unfollow_btn);
         }
 
         ArrayList<View> pagerViewList = new ArrayList<View>();
@@ -133,7 +146,6 @@ public class P02ModelActivity extends BaseActivity{
         pagerViewList.add(inflater.inflate(R.layout.pager_p02_model_item, null));
         pagerViewList.add(inflater.inflate(R.layout.pager_p02_model_item, null));
         pagerViewList.add(inflater.inflate(R.layout.pager_p02_model_item, null));
-//        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_follow, null));
         viewPagerAdapter = new P02ModelViewPagerAdapter(pagerViewList);
 
         viewPager.setAdapter(viewPagerAdapter);
@@ -160,7 +172,6 @@ public class P02ModelActivity extends BaseActivity{
         latestPullRefreshListView = (MPullRefreshListView) pagerViewList.get(0).findViewById(R.id.pager_P02_item_list);
         latestPullRefreshListView.setOnScrollListener(headScrollAdapter);
         latestListView = latestPullRefreshListView.getRefreshableView();
-//        latestListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
         latestListView.setOnTouchListener(headScrollAdapter);
 
         LinkedList<MongoShow> itemEntities = new LinkedList<MongoShow>();
@@ -221,8 +232,6 @@ public class P02ModelActivity extends BaseActivity{
         followerPullRefreshListView = (MPullRefreshListView) pagerViewList.get(2).findViewById(R.id.pager_P02_item_list);
         followerListView = followerPullRefreshListView.getRefreshableView();
         followerListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
-        //followerPullRefreshListView.setOnScrollListener(headScrollAdapter);
-        //followerListView.setOnTouchListener(headScrollAdapter);
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
         followerPeopleListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
         followerPeopleListAdapter.setP02ModelActivity(this);
@@ -270,20 +279,32 @@ public class P02ModelActivity extends BaseActivity{
         line2.setVisibility(View.GONE);
         line3.setVisibility(View.GONE);
 
+        showNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        showTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        followNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        followTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+
         latestListView.smoothScrollToPosition(0);
         followedListView.smoothScrollToPosition(0);
         followerListView.smoothScrollToPosition(0);
 
         if (pos == 0) {
             newRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
-
+            showNumTV.setTextColor(getResources().getColor(R.color.black));
+            showTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line2.setVisibility(View.VISIBLE);
             line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             discountRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            followNumTV.setTextColor(getResources().getColor(R.color.black));
+            followTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line3.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            fansNumTV.setTextColor(getResources().getColor(R.color.black));
+            fansTV.setTextColor(getResources().getColor(R.color.darker_gray));
             line1.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
             followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
@@ -331,7 +352,7 @@ public class P02ModelActivity extends BaseActivity{
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView) findViewById(R.id.P02_show_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                showNumTV.setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     showsNoData = true;
                     latestPullRefreshListView.onPullUpRefreshComplete();
@@ -358,7 +379,6 @@ public class P02ModelActivity extends BaseActivity{
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getModelShowsApi(String.valueOf(modelEntity.get_id()), String.valueOf(pageIndex + 1)), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //((TextView) findViewById(R.id.P02_show_number_text_view)).setText(getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     if(showsNoData){
                         return;
@@ -389,7 +409,7 @@ public class P02ModelActivity extends BaseActivity{
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowedApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)findViewById(R.id.P02_followed_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                followNumTV.setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     followedNoData = true;
                     followedPullRefreshListView.onPullDownRefreshComplete();
@@ -444,7 +464,7 @@ public class P02ModelActivity extends BaseActivity{
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.GET, QSAppWebAPI.getQueryPeopleFollowerApi(String.valueOf(modelEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                ((TextView)findViewById(R.id.P02_follower_number_text_view)).setText(MetadataParser.getNumTotal(response));
+                fansNumTV.setText(MetadataParser.getNumTotal(response));
                 if (MetadataParser.hasError(response)) {
                     followerNoData = true;
                     followerPullRefreshListView.onPullUpRefreshComplete();
@@ -515,7 +535,7 @@ public class P02ModelActivity extends BaseActivity{
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        followSignText.setImageResource(R.drawable.badge_unfollow_btn);
                         doFollowersRefreshDataTask();
                         Intent intent = new Intent(U01PersonalActivity.USER_UPDATE);
                         intent.putExtra("position", position);
@@ -543,7 +563,7 @@ public class P02ModelActivity extends BaseActivity{
                     if (!MetadataParser.hasError(response)) {
                         showMessage(P02ModelActivity.this, "取消关注成功");
                         modelEntity.setModelIsFollowedByCurrentUser(false);
-                        followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
+                        followSignText.setImageResource(R.drawable.badge_follow_btn);
                         doFollowersRefreshDataTask();
                         Intent intent = new Intent(U01PersonalActivity.USER_UPDATE);
                         intent.putExtra("position", position);

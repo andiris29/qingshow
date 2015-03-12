@@ -127,7 +127,8 @@ public class S01HomeActivity extends BaseActivity {
         _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);
         _mFrmLeft = (RelativeLayout) findViewById(R.id.s01_FrameLa_left);
 
-        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)_mFrmLeft.getLayoutParams();
+        //左边菜单自适应屏幕
+        ViewGroup.LayoutParams params = _mFrmLeft.getLayoutParams();
         params.width = AppUtil.getScreenSize(this).x * 3/7;
         _mFrmLeft.setLayoutParams(params);
 
