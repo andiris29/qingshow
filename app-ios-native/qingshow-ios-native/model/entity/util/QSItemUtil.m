@@ -246,7 +246,7 @@
     NSDictionary* maxSku = [sortedSkus lastObject];
     NSNumber* maxPrice = maxSku[@"price"];
     if ([self hasDiscountInfo:itemDict]) {
-        return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
+//        return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
         //min(skus[i].price) + ' - ' + max(skus[i].price)
         if (sortedSkus.count == 1 || (ABS(maxPrice.doubleValue - minPrice.doubleValue)) < 0.01) {
             return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
