@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QSU09OrderListViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (instancetype)init;
 

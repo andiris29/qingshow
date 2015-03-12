@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#define QSOrderListTableViewCellIdentifier @"QSOrderListTableViewCellIdentifier"
+#define QSOrderListTableViewCellHeight 172
+
+
 @class QSOrderListTableViewCell;
 
 @protocol QSOrderListTableViewCellDelegate <NSObject>

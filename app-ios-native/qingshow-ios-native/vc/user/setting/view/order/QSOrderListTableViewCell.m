@@ -17,6 +17,7 @@
     [self configBtn:self.refundButton];
     [self configBtn:self.logisticButton];
     [self configBtn:self.submitButton];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 - (void)configBtn:(UIButton*)btn
 {
