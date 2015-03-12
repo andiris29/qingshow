@@ -11,6 +11,11 @@
     <dimen name="margin_left_activity_settings">10dp</dimen>
     <dimen name="margin_right_activity_settings">10dp</dimen>
     <dimen name="item_height_activity_settings">50dp</dimen>
+
+    <!-- main -->
+    <dimen name="left_menu_item_margin">10dp</dimen>
+    <dimen name="left_menu_item_margin_text">5dp</dimen>
+    <dimen name="left_menu_padding_top_and_bottom">30dp</dimen>
     
     <!-- personal -->
     <dimen name="indicator_height_activity_personal">60dp</dimen>

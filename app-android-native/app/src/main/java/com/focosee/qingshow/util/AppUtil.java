@@ -1,11 +1,14 @@
 package com.focosee.qingshow.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.view.Display;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.QSApplication;
@@ -91,5 +94,12 @@ public class AppUtil {
         if (cwjManager.getActiveNetworkInfo() != null)
             flag = cwjManager.getActiveNetworkInfo().isAvailable();
         return flag;
+    }
+
+    public static Point getScreenSize(Activity activity){
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
     }
 }

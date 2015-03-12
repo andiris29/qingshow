@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,6 +100,8 @@ public class S01HomeActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             if (ACTION_MESSAGE.equals(intent.getAction())) {
                 int position = intent.getIntExtra("position", 0) - 1;
+                if(position >= _adapter.getCount())return;
+                System.out.println("postion_S01:" + position);
                 MongoShow showEntity = _adapter.getItemDataAtIndex(position);
                 if(!showEntity.getShowIsFollowedByCurrentUser())
                     _adapter.getItemDataAtIndex(position).numLike = showEntity.numLike + 1;
@@ -123,6 +126,11 @@ public class S01HomeActivity extends BaseActivity {
         _blurImage = (ImageView) findViewById(R.id.s01_switch_right_background);
         _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);
         _mFrmLeft = (RelativeLayout) findViewById(R.id.s01_FrameLa_left);
+
+        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)_mFrmLeft.getLayoutParams();
+        params.width = AppUtil.getScreenSize(this).x * 3/7;
+        _mFrmLeft.setLayoutParams(params);
+
         _wfPullRefreshView = (MPullRefreshMultiColumnListView) findViewById(R.id.S01_waterfall_content);
         _wfListView = _wfPullRefreshView.getRefreshableView();
         _adapter = new HomeWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
@@ -465,7 +473,7 @@ public class S01HomeActivity extends BaseActivity {
                     e.printStackTrace();
                 }
                 if(count == 5)
-                    QSComponent.showDialag(S01HomeActivity.this, "当前版本是："+version);
+                    QSComponent.showDialag(S01HomeActivity.this, "当前版本是：" + version);
             }
         });
     }
