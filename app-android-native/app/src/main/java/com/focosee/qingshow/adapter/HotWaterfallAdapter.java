@@ -54,9 +54,9 @@ public class HotWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
         holder = (HomeViewHolder) convertView.getTag();
         if(showInfo.getShowIsFollowedByCurrentUser())
-            holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice_hover);
+            holder.loveIV.setImageResource(R.drawable.root_cell_icon_notice_hover);
         else
-            holder.loveIV.setBackgroundResource(R.drawable.root_cell_icon_notice);
+            holder.loveIV.setImageResource(R.drawable.root_cell_icon_notice);
         holder.setData(showInfo, _mImageFetcher);
         final int final_position = position;
         holder.shadowView.setOnClickListener(new View.OnClickListener() {
