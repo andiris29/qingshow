@@ -33,11 +33,9 @@ tradeSchema = Schema({
         company : String,
         trackingID : String
     },
-    'return' : {
-        logistic : {
-            company : String,
-            trackingID : String
-        }
+    returnlogistic : {
+        company : String,
+        trackingID : String
     },
     create : {
         type : Date,

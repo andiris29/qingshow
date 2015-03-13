@@ -43,7 +43,7 @@ peopleSchema = Schema({
         phone : String,
         province : String,
         address : String,
-        default : Boolean 
+        isDefault : Boolean 
     }],
     create : {
         type : Date,
