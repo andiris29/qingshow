@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darker_gray"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/U11ec_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_height"
+        android:background="@drawable/bg_titlebar">
+
+        <ImageView
+            android:id="@+id/U11ec_back_image_button"
+            android:layout_width="@dimen/title_bar_height"
+            android:layout_height="@dimen/title_bar_height"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:background="#00000000"
+            android:src="@drawable/btn_back_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="新增地址"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/U11ec_save_btn"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="@string/save_btn_activity_address"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/consigee_name_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:singleLine="true"
+            android:textSize="20dp"
+            android:background="@null"
+            android:hint="@string/consignee_name"
+            android:layout_marginLeft="10dp"/>
+
+        </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/consigee_phoneNum_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:singleLine="true"
+            android:textSize="20dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/consignee_phone_num"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+    <LinearLayout
+        android:id="@+id/consignee_area_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:textSize="20dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:clickable="false"
+            android:text="@string/consignee_area"
+            android:textColorHint="#4D4D4F"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:src="@drawable/icon_arrow"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="@color/white"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical">
+        <EditText
+            android:id="@+id/consigee_detailArea_editText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:singleLine="true"
+            android:textSize="20dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/consignee_detail_address"/>
+
+    </LinearLayout>
+</LinearLayout>
