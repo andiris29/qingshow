@@ -1,10 +1,8 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -16,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,20 +22,18 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.HomeViewHolder;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.QSComponent;
@@ -49,14 +44,14 @@ import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import me.drakeet.materialdialog.MaterialDialog;
 
 public class S01HomeActivity extends BaseActivity {
     //    private MNavigationView _navigationView;
@@ -65,7 +60,7 @@ public class S01HomeActivity extends BaseActivity {
     private final static String S01_TAG = "S01HomeActivity";
     private LinearLayout _popView;
     //抽屉对象
-    private RelativeLayout _mFrmRight;
+    private LinearLayout _mFrmRight;
     private RelativeLayout _mFrmLeft;
     private ActionBarDrawerToggle drawerbar;
     private DrawerLayout spl;
@@ -124,7 +119,7 @@ public class S01HomeActivity extends BaseActivity {
         relativeLayout_right_fragment = (LinearLayout) findViewById(R.id.s01_show_relative);
 
         _blurImage = (ImageView) findViewById(R.id.s01_switch_right_background);
-        _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);
+        _mFrmRight = (LinearLayout) findViewById(R.id.s01_FrameLa_right);
         _mFrmLeft = (RelativeLayout) findViewById(R.id.s01_FrameLa_left);
 
         //左边菜单自适应屏幕
