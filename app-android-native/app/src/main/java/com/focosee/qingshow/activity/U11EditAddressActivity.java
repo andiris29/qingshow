@@ -16,6 +16,7 @@ public class U11EditAddressActivity extends BaseActivity {
 
         setContentView(R.layout.activity_address_edit);
 
+        getFragmentManager().beginTransaction().replace(R.id.address_fragment, U11AddressEditFragment.newInstace()).commit();
 
     }
 

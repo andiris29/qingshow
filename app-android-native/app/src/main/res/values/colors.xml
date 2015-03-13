@@ -10,6 +10,8 @@
     <color name="white">#ffffff</color>
     <color name="background_color">#f0f0f0</color>
     <color name="darker_gray">#424242</color>
+    <color name="hint_text_color">#C7C7CD</color>
+    <color name="pink">#a91a4e</color>
     <!-- personal -->
     <color name="indicator_bg_default_activity_personal">#33000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
@@ -18,5 +20,9 @@
     <color name="btntextcolor">#ff1E90FF</color><!--dialog中按钮字体颜色 -->
 
     <color name="transparent">#0000</color>
+
     <color name="master">#a91a4e</color>
+
+    <color name="gray_background">#CCCCCC</color>
+>>>>>>> Stashed changes
 </resources>

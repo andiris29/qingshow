@@ -127,7 +127,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(S04CommentActivity.this, "test", Toast.LENGTH_SHORT).show();
                 postComment();
             }
         });
@@ -231,7 +230,6 @@ public class    S04CommentActivity extends BaseActivity implements ActionSheet.A
                 inputText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(inputText.getWindowToken(), 0); //强制隐藏键盘
-                //Toast.makeText(S04CommentActivity.this, "get" + response.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

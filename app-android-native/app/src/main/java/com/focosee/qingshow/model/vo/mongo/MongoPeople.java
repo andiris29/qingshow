@@ -44,6 +44,13 @@ public class MongoPeople implements Serializable {
         public String encryptedPassword;
     }
 
+    public class Receiver implements Serializable {
+        public String name;
+        public String phone;
+        public String province;
+        public String address;
+    }
+
     public PeopleContext get__context() {
         return __context;
     }

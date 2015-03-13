@@ -154,7 +154,7 @@
                 android:background="@null"
                 android:hint="请填写姓名"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
         </RelativeLayout>
 
         <View
@@ -226,7 +226,7 @@
                 android:clickable="false"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
 
         </RelativeLayout>
         <!--<DatePicker-->
@@ -267,7 +267,7 @@
                 android:hint="请填写身高"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
         </RelativeLayout>
 
         <View
@@ -458,7 +458,7 @@
                 android:background="@null"
                 android:hint="请填写喜欢的品牌"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
         </RelativeLayout>
 
         <View
