@@ -1,39 +1,67 @@
-var Item = require('../../model/items');
-var People = require('../../model/peoples');
-var tradeSchema;
-tradeSchema = Schema({
+var tradeSchema = Schema({
     status : Number,
-    price : Number,
+    totalFee : Number,
     orders : [{
         quantity : Number,
         price : Number,
-        itemSnapshot : Item,
-        peopleSnapshot : People,
+        itemSnapshot : Object,
+        peopleSnapshot : Object,
         r : {
-            skuIndex: Number,
-            receiverIndex : Number
+            itemSnapshot : {
+                skuIndex : Number
+            },
+            peopleSnapshot : {
+                receiverIndex : Number
+            }
         }
     }],
     pay : {
         weixin : {
-            appid : String,
-            partnerid : String,
-            prepayid : String
+            prepayid : String,
+            transaction_id : String,
+            partner : String,
+            trade_mode : String,
+            total_fee : String,
+            fee_type : String,
+            AppId : String,
+            OpenId : String,
+            time_end : String,
+            notifyLogs : [{
+                notify_id : String,
+                trade_state : String,
+                date : {
+                    type : Date,
+                    'default' : Date.now
+                }
+            }]
         },
         alipay : {
-            partner : String,
-            seller : String
+            trade_no : String,
+            trade_status : String,
+            total_fee : String,
+            refund_status : String,
+            gmt_refund : String,
+            seller_id : String,
+            seller_email : String,
+            buyer_id : String,
+            buyer_email : String,
+            notifyLogs : [{
+                notify_type : String,
+                notify_id : String,
+                trade_status : String,
+                refund_status : String,
+                date : {
+                    type : Date,
+                    'default' : Date.now
+                }
+            }],
         }
-    },
-    taobaoInfo : {
-        userNick : String,
-        tradeID : String
     },
     logistic : {
         company : String,
         trackingID : String
     },
-    returnlogistic : {
+    returnLogistic : {
         company : String,
         trackingID : String
     },
@@ -49,7 +77,10 @@ tradeSchema = Schema({
         },
         peopleRef : {
             type : Schema.Types.ObjectId,
-            ref : 'peoples';
+            ref : 'peoples'
         }
     }]
 });
+
+var Trade = mongoose.model('trades', tradeSchema);
+module.exports = Trade;

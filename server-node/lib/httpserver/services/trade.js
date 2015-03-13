@@ -89,9 +89,9 @@ _create = function(req, res) {
         ResponseHelper.response(res, error, {
             'trade' : trade,
             'rPeopleCreateTrade' : relation
-        }):
+        });
     });
-}；
+};
 
 _getSnapShot = function(id, schema) {
     async.waterfall([function(callback) {
