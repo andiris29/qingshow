@@ -58,12 +58,9 @@ public class S07CollectActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent1 = new Intent(S07CollectActivity.this, P04BrandActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putSerializable(P04BrandActivity.INPUT_ITEM, items.get(position));
-                //bundle1.putSerializable(P04BrandActivity.INPUT_BRAND, brandEntity);
-                intent1.putExtras(bundle1);
-                startActivity(intent1);
+                Intent intent = new Intent(S07CollectActivity.this, S10ItemDetailActivity.class);
+                Bundle bundle = new Bundle();
+                startActivity(intent);
 
             }
         });

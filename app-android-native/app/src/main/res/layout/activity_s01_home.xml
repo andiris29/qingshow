@@ -34,16 +34,16 @@
                     <LinearLayout
                         android:id="@+id/S01_title_menu"
                         android:layout_width="50dp"
-                        android:layout_gravity="center_vertical"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop ="10dp"
-                        android:paddingLeft="10dp"
-                        android:src="@drawable/nav_btn_menu" />
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="10dp"
+                            android:paddingTop="10dp"
+                            android:src="@drawable/nav_btn_menu" />
                     </LinearLayout>
 
                     <ImageView
@@ -59,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="10dp"
-                        android:src="@drawable/nav_account_btn"/>
+                        android:src="@drawable/nav_account_btn" />
 
                 </LinearLayout>
 

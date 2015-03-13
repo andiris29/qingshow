@@ -35,4 +35,20 @@
         <attr name="border_inside_color" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="counter">
+        <attr name="add_button_bg" format="color|reference"/>
+        <attr name="cut_button_bg" format="color|reference"/>
+        <attr name="num_text_color" format="color|reference"/>
+        <attr name="num_text" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="payment">
+        <attr name="logo_res" format="reference"/>
+        <attr name="name_text" format="string"/>
+        <attr name="info_text" format="string"/>
+        <attr name="checked" format="color|reference"/>
+        <attr name="button_res" format="color|reference"/>
+        <attr name="mode" format="string"/>
+    </declare-styleable>
+
 </resources>

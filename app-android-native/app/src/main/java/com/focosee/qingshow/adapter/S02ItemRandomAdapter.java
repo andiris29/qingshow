@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P04BrandActivity;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
@@ -106,8 +107,8 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         holder.showIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, P04BrandActivity.class);
-                intent.putExtra(P04BrandActivity.INPUT_ITEM, showInfo);
+                Intent intent = new Intent(context, S10ItemDetailActivity.class);
+//                intent.putExtra();
                 context.startActivity(intent);
             }
         });

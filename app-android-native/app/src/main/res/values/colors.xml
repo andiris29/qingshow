@@ -2,6 +2,7 @@
 <resources>
     <!-- Settings Activity -->
     <item name="line_activity_settings" type="color">#DFE3E6</item>
+    <item name="text_color" type="color">#DFE3E6</item>
     <item name="bg_activity_settings" type="color">#01ffffff</item>
     <item name="title_activity" type="color">#ffffffff</item>
     <color name="category_bg_activity_settings">#F2F2F2</color>
@@ -17,4 +18,5 @@
     <color name="btntextcolor">#ff1E90FF</color><!--dialog中按钮字体颜色 -->
 
     <color name="transparent">#0000</color>
+    <color name="master">#a91a4e</color>
 </resources>

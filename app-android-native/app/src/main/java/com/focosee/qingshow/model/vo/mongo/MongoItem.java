@@ -26,17 +26,12 @@ public class MongoItem implements Serializable {
     public String price;
 
     public MongoBrand brandRef;
-    public BrandNewInfo brandNewInfo;
     public BrandDiscountInfo brandDiscountInfo;
     public TaoBaoInfo taobaoInfo;
 
     public class Image implements Serializable {
         public String url;
         public String description;
-    }
-
-    public class BrandNewInfo implements Serializable {
-        public int order;
     }
 
     public class BrandDiscountInfo implements Serializable {

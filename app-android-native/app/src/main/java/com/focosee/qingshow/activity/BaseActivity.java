@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.focosee.qingshow.util.AppUtil;
@@ -16,7 +17,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * Created by Administrator on 2015/2/5.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends FragmentActivity {
 
     public static String NOTNET = "not_net";
 

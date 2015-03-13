@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.focosee.qingshow.widget.PaymentGroup
+        android:id="@+id/s11_payment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <com.focosee.qingshow.widget.PaymentRadio xmlns:payment="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            payment:button_res="@drawable/s11_payment"
+            payment:checked="@drawable/s11_payment_hover"
+            payment:info_text="操作简单易用，支持大额支付"
+            payment:logo_res="@drawable/weixin"
+            payment:name_text="微信支付"
+            payment:mode="weixin" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <com.focosee.qingshow.widget.PaymentRadio xmlns:payment="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            payment:button_res="@drawable/s11_payment"
+            payment:checked="@drawable/s11_payment_hover"
+            payment:info_text="使用支付宝账户支付"
+            payment:logo_res="@drawable/alipay"
+            payment:name_text="支付宝"
+            payment:mode="alipay" />
+
+    </com.focosee.qingshow.widget.PaymentGroup>
+</android.support.v7.widget.CardView>
