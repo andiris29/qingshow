@@ -52,6 +52,7 @@
                 android:textColor="@color/text_color" />
 
             <EditText
+                android:id="@+id/s11_receipt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -83,6 +84,7 @@
                 android:textColor="@color/text_color" />
 
             <EditText
+                android:id="@+id/s11_receipt_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -127,6 +129,7 @@
             android:padding="10dp">
 
             <EditText
+                android:id="@+id/s11_receipt_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

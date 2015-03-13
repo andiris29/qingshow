@@ -4,6 +4,7 @@ import com.focosee.qingshow.model.vo.context.PeopleContext;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 public class MongoPeople implements Serializable {
     public static final String DEBUG_TAG = "MongoPeople";
@@ -24,10 +25,18 @@ public class MongoPeople implements Serializable {
     public int hairType;
     public String favoriteBrand;
     public UserInfo userInfo;
+    public LinkedList<Receiver> receivers;
     //    +modelInfo
     //    +modelInfo.order
 
     private PeopleContext __context;
+
+    public class Receiver implements Serializable {
+        public String name;
+        public String phone;
+        public String province;
+        public String address;
+    }
 
     public class UserInfo implements Serializable {
         public String id;

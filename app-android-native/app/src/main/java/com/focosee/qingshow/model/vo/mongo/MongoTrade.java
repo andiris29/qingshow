@@ -13,6 +13,7 @@ public class MongoTrade implements Serializable {
     public LinkedList<Order> orders;
     public TaobaoInfo taobaoInfo;
     public Logistic logistic;
+    public Returnlogistic returnlogistic;
 
     class Order implements Serializable{
         public String quantity;
@@ -43,6 +44,11 @@ public class MongoTrade implements Serializable {
     }
 
     class Logistic{
+        public String company;
+        public String trackingID;
+    }
+
+    class Returnlogistic{
         public String company;
         public String trackingID;
     }
