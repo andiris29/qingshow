@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,62 +6,58 @@
     android:orientation="vertical"
     tools:context="com.focosee.qingshow.activity.U01PersonalActivity">
 
+    <com.focosee.qingshow.widget.MViewPager_NoScroll
+        android:id="@+id/personalViewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MViewPager_NoScroll>
+
     <RelativeLayout
-        android:id="@+id/titleBarRelativeLayout"
+        android:id="@+id/U01_head_relative"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
-        android:background="@drawable/bg_titlebar">
+        android:layout_height="@dimen/RelativeLayout_height_activity_model">
+        <ImageView
+            android:id="@+id/activity_personal_background"
+            android:layout_width="fill_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="@dimen/RelativeLayout_height_activity_model"/>
 
-        <TextView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/btn_back_default" />
-
-        <TextView
+        <ImageView
+            android:id="@+id/activity_personal_backTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="个人页面"
-            android:textColor="#454545"
-            android:textSize="@dimen/text_size"
-            android:textStyle="bold" />
-
-        <TextView
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:src="@drawable/s03_back_btn" />
+        <ImageView
             android:id="@+id/settingsTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:text="@string/settings_activity_personal"
-            android:textColor="#454545"
-            android:textSize="@dimen/text_size" />
-    </RelativeLayout>
+            android:layout_marginTop="10dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/u01_account_btn"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/bg_pic">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content">
-
-            <ImageView
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="40dp"
+                android:layout_below="@+id/activity_personal_backTextView"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+            <com.focosee.qingshow.widget.MCircularImageView
                 android:id="@+id/avatorImageView"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_toRightOf="@id/avatorImageView"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -70,8 +66,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_small"
                     android:textColor="#ffffff"
-                    android:layout_alignParentTop="true"
-                    android:text="" />
+                    android:layout_alignParentTop="true" />
 
                 <TextView
                     android:id="@+id/heightAndWeightTextView"
@@ -79,15 +74,15 @@
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
                     android:layout_below="@id/nameTextView"
-                    android:textSize="@dimen/text_size_small"
-                    android:text="" />
+                    android:textSize="@dimen/text_size_small" />
             </RelativeLayout>
-        </RelativeLayout>
+            </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/indicator_bg_default_activity_personal"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -104,30 +99,34 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/likeCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="0"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
+                        android:id="@+id/likeTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="搭配"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text="收藏"
+                        android:textColor="@color/darker_gray"
+                        android:textSize="@dimen/tab_text_size_small" />
                 </LinearLayout>
 
             </RelativeLayout>
+
+
+
 
             <RelativeLayout
                 android:id="@+id/watchRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_default_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -136,29 +135,44 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/recommendCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="0"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
+                        android:id="@+id/recommendTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="关注"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text="推荐"
+                        android:textColor="@color/left_menu_text_color"
+                        android:textSize="@dimen/tab_text_size_small" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/u01_line_toleftRecommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/line_between_tab"
+                        android:background="#99ffffff"
+                        android:layout_gravity="center_vertical"/>
+
+
                 </LinearLayout>
             </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/fansRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_default_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -167,29 +181,42 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/followedCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="0"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
+                        android:id="@+id/followedTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="粉丝"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text="关注"
+                        android:textColor="@color/left_menu_text_color"
+                        android:textSize="@dimen/tab_text_size_small" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/u01_line_toleftAttention"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/line_between_tab"
+                        android:background="#99ffffff"
+                        android:layout_gravity="center_vertical"/>
+
+
                 </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/followRelativeLayout"
+                android:id="@+id/brandRelativeLayout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/indicator_height_activity_personal"
-                android:layout_weight="1"
-                android:background="@color/indicator_bg_default_activity_personal">
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -198,29 +225,34 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/brandCountTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:background="@drawable/icon_follow" />
+                        android:text="0"
+                        android:textColor="@color/indicator_text_color_default_activity_personal"
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
+                        android:id="@+id/brandTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Follow"
-                        android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size_small" />
+                        android:text="店铺"
+                        android:textColor="@color/left_menu_text_color"
+                        android:textSize="@dimen/tab_text_size_small" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/u01_line_toleftBrand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="@dimen/line_between_tab"
+                        android:background="#99ffffff"
+                        android:layout_gravity="center_vertical"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-
-
     </RelativeLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/personalViewPager"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"></android.support.v4.view.ViewPager>
-
-</LinearLayout>
+</RelativeLayout>

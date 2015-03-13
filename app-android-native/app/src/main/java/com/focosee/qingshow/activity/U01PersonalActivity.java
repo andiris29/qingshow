@@ -1,70 +1,129 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.P03BrandListAdapter;
-import com.focosee.qingshow.app.QSApplication;
-import com.focosee.qingshow.config.QSAppWebAPI;
-import com.focosee.qingshow.entity.BrandEntity;
-import com.focosee.qingshow.entity.People;
-import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
-import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.huewu.pla.lib.MultiColumnListView;
+import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.widget.MRoundImageView;
+import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
+import com.umeng.analytics.MobclickAgent;
 
 
-public class U01PersonalActivity extends Activity {
-    private TextView settingsTextView;
+public class U01PersonalActivity extends FragmentActivity{
+    private static final String TAG = "U01PersonalActivity";
+    public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
+    public static final String BACKTHEPOSIONONE = "back the position one";
+    private static final int PAGER_NUM = 4;
+
+    public static final String LOGOUT_ACTOIN = "logout_action";
+    public static final String USER_UPDATE = "user_update";
+
+    private static final int PAGER_COLLECTION = 0;
+    private static final int PAGER_RECOMMEND = 1;
+    private static final int PAGER_WATCH = 2;
+    private static final int PAGE_BRAND = 3;
+
+    public RelativeLayout headRelativeLayout;
+    private ImageView backTextView;
+    private ImageView settingsTextView;
+    private ImageView backgroundIV;
     private Context context;
-    private LayoutInflater inflater;
 
-    private MPullRefreshMultiColumnListView pullRefreshListView;
-    private MultiColumnListView multiColumnListView;
-
-    private P03BrandListAdapter adapter;
-
-    private ViewPager personalViewPager;
-
-    private ArrayList<View> pagerViewList;
+    private MViewPager_NoScroll personalViewPager;
+    private PersonalPagerAdapter personalPagerAdapter;
 
     private RelativeLayout matchRelativeLayout;
     private RelativeLayout watchRelativeLayout;
     private RelativeLayout fansRelativeLayout;
-    private RelativeLayout followRelativeLayout;
+    private RelativeLayout brandRelativeLayout;
+
+    private LinearLayout line1;
+    private LinearLayout line2;
+    private LinearLayout line3;
+
+    private TextView likeNumTV;
+    private TextView likeTV;
+    private TextView remNumTV;
+    private TextView remTV;
+    private TextView fansNumTV;
+    private TextView fansTV;
+    private TextView brandNumTV;
+    private TextView brandTV;
+
+    private MongoPeople people;
+
+    public static int peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
+
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(LOGOUT_ACTOIN.equals(intent.getAction())){
+                finish();
+            }
+            if(USER_UPDATE.equals(intent.getAction()) && peopleType == PeopleTypeInU01PersonalActivity.MYSELF.getIndex()){
+                people = QSModel.INSTANCE.getUser();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
         context = getApplicationContext();
+        Intent mIntent = getIntent();
+        headRelativeLayout = (RelativeLayout) findViewById(R.id.U01_head_relative);
 
-        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (null != mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE)) {
+            people = (MongoPeople) mIntent.getSerializableExtra(U01PERSONALACTIVITY_PEOPLE);
+        } else if (null != mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL)) {
+            people = (MongoPeople) mIntent.getSerializableExtra(P02ModelActivity.INPUT_MODEL);
+        } else {//本人
+            people = QSModel.INSTANCE.getUser();
+        }
 
-        settingsTextView = (TextView) findViewById(R.id.settingsTextView);
+        if (people != null) {
+            if (!QSModel.INSTANCE.loggedin() || !people.get_id().equals(QSModel.INSTANCE.getUser()._id)){
+                peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
+            }else {
+                if (people.get_id().equals(QSModel.INSTANCE.getUser().get_id())) {
+                    peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
+                }
+            }
+        } else {
+            Intent intent = new Intent(U01PersonalActivity.this, U06LoginActivity.class);
+            startActivity(intent);
+            Toast.makeText(context, "请登录账号", Toast.LENGTH_LONG).show();
+            finish();
+        }
+
+        matchUI();
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                peopleType = PeopleTypeInU01PersonalActivity.MYSELF.getIndex();
+                finish();
+            }
+        });
+
         settingsTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,38 +132,19 @@ public class U01PersonalActivity extends Activity {
             }
         });
 
+        backgroundIV = (ImageView) findViewById(R.id.activity_personal_background);
+        ImageLoader.getInstance().displayImage(people.getBackground(), backgroundIV, AppUtil.getModelBackgroundDisplayOptions());
+
         TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
         TextView heightAndWeightTextView = (TextView) findViewById(R.id.heightAndWeightTextView);
-        People people = QSApplication.get().getPeople();
-        if (people != null) {
-            if (people.name!=null) nameTextView.setText(people.name);
-            if (people.height!=null && people.weight!=null)
-                heightAndWeightTextView.setText(people.height + "cm/" + people.weight + "kg");
-        }
+        nameTextView.setText(people.getName());
+        if (people.height != null && people.weight != null)
+            heightAndWeightTextView.setText(people.getHeight() + people.getWeight());
 
         ImageView portraitImageView = (ImageView) findViewById(R.id.avatorImageView);
-        if (QSApplication.get().getPeople() != null) {
-            String portraitUrl = QSApplication.get().getPeople().portrait;
-            if (portraitUrl != null && !portraitUrl.equals("")) {
-                Picasso.with(context).load(portraitUrl).into(portraitImageView);
-            }
-        }
+        ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
 
-        matchRelativeLayout = (RelativeLayout)findViewById(R.id.matchRelativeLayout);
-        watchRelativeLayout = (RelativeLayout)findViewById(R.id.watchRelativeLayout);
-        fansRelativeLayout = (RelativeLayout)findViewById(R.id.fansRelativeLayout);
-        followRelativeLayout = (RelativeLayout)findViewById(R.id.followRelativeLayout);
-
-
-        personalViewPager = (ViewPager) findViewById(R.id.personalViewPager);
-
-        pagerViewList = new ArrayList<View>();
-        View view = inflater.inflate(R.layout.activity_personal_pager_match, null);
-        pagerViewList.add(view);
-        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_watch, null));
-        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_following, null));
-        pagerViewList.add(inflater.inflate(R.layout.activity_personal_pager_follow, null));
-
+        personalPagerAdapter = new PersonalPagerAdapter(getSupportFragmentManager());
         personalViewPager.setAdapter(personalPagerAdapter);
         personalViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -118,57 +158,142 @@ public class U01PersonalActivity extends Activity {
 
                 } else if (position == 3) {
 
+                } else {
+
                 }
             }
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
+
             }
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
+
             }
         });
-
         setIndicatorListener();
+        personalViewPager.setOffscreenPageLimit(4);
+        personalViewPager.setCurrentItem(0);
+
+        registerReceiver(receiver, new IntentFilter(LOGOUT_ACTOIN));
+        registerReceiver(receiver, new IntentFilter(USER_UPDATE));
+    }
 
 
-        pullRefreshListView = (MPullRefreshMultiColumnListView)
-                pagerViewList.get(0).findViewById(R.id.P03_brand_list_list_view);
-        multiColumnListView = pullRefreshListView.getRefreshableView();
-        pullRefreshListView.setPullRefreshEnabled(true);
-        pullRefreshListView.setPullLoadEnabled(true);
-        adapter = new P03BrandListAdapter(this, new ArrayList<BrandEntity>(), ImageLoader.getInstance());
+    public void matchUI() {
+        backTextView = (ImageView) findViewById(R.id.activity_personal_backTextView);
+        settingsTextView = (ImageView) findViewById(R.id.settingsTextView);
+        if (peopleType != PeopleTypeInU01PersonalActivity.MYSELF.getIndex()) {//不是本人
+            settingsTextView.setVisibility(View.GONE);
+        }
+        matchRelativeLayout = (RelativeLayout) findViewById(R.id.matchRelativeLayout);
+        watchRelativeLayout = (RelativeLayout) findViewById(R.id.watchRelativeLayout);
+        fansRelativeLayout = (RelativeLayout) findViewById(R.id.fansRelativeLayout);
+        brandRelativeLayout = (RelativeLayout) findViewById(R.id.brandRelativeLayout);
 
-        multiColumnListView.setAdapter(adapter);
+        line1 = (LinearLayout) findViewById(R.id.u01_line_toleftRecommend);
+        line2 = (LinearLayout) findViewById(R.id.u01_line_toleftAttention);
+        line3 = (LinearLayout) findViewById(R.id.u01_line_toleftBrand);
 
-        pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                refreshData();
+        likeNumTV = (TextView) findViewById(R.id.likeCountTextView);
+        likeTV = (TextView) findViewById(R.id.likeTextView);
+        remNumTV = (TextView) findViewById(R.id.recommendCountTextView);
+        remTV = (TextView) findViewById(R.id.recommendTextView);
+        fansNumTV = (TextView) findViewById(R.id.followedCountTextView);
+        fansTV = (TextView) findViewById(R.id.followedTextView);
+        brandNumTV = (TextView) findViewById(R.id.brandCountTextView);
+        brandTV = (TextView) findViewById(R.id.brandTextView);
+
+        line1.setVisibility(View.GONE);
+
+        personalViewPager = (MViewPager_NoScroll) findViewById(R.id.personalViewPager);
+        personalViewPager.setScrollble(false);
+    }
+
+
+
+    public class PersonalPagerAdapter extends FragmentPagerAdapter {
+
+        public PersonalPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int pos) {
+            Fragment fragment = null;
+            switch (pos) {
+                case PAGER_COLLECTION:
+                    fragment = U01CollectionFragment.newInstance();
+                    break;
+                case PAGER_RECOMMEND:
+                    fragment = U01RecommendFragment.newInstance();
+                    break;
+                case PAGER_WATCH:
+                    fragment = U01WatchFragment.newInstance();
+                    break;
+                case PAGE_BRAND:
+                    fragment = U01BrandFragment.newInstance();
+                    break;
+                default:
+                    fragment = U01CollectionFragment.newInstance();
             }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<MultiColumnListView> refreshView) {
-                loadMoreData();
+            if (fragment == null) {
+                fragment = U01CollectionFragment.newInstance();
             }
-        });
-        pullRefreshListView.doPullRefreshing(true, 0);
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return PAGER_NUM;
+        }
     }
 
     private void setIndicatorBackground(int pos) {
         matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
         fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
-        followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+        brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_default_activity_personal));
+
+        line1.setVisibility(View.GONE);
+        line2.setVisibility(View.GONE);
+        line3.setVisibility(View.GONE);
+
+        sendBroadcast(new Intent(BACKTHEPOSIONONE));
+
+        likeNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        likeTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        remNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        remTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        fansTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        brandNumTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+        brandTV.setTextColor(getResources().getColor(R.color.left_menu_text_color));
+
         if (pos == 0) {
             matchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            likeNumTV.setTextColor(getResources().getColor(R.color.black));
+            likeTV.setTextColor(getResources().getColor(R.color.darker_gray));
+            line2.setVisibility(View.VISIBLE);
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 1) {
             watchRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            remNumTV.setTextColor(getResources().getColor(R.color.black));
+            remTV.setTextColor(getResources().getColor(R.color.darker_gray));
+            line3.setVisibility(View.VISIBLE);
         } else if (pos == 2) {
             fansRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            fansNumTV.setTextColor(getResources().getColor(R.color.black));
+            fansTV.setTextColor(getResources().getColor(R.color.darker_gray));
+            line1.setVisibility(View.VISIBLE);
         } else if (pos == 3) {
-            followRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            brandRelativeLayout.setBackgroundColor(getResources().getColor(R.color.indicator_bg_chosen_activity_personal));
+            brandNumTV.setTextColor(getResources().getColor(R.color.black));
+            brandTV.setTextColor(getResources().getColor(R.color.darker_gray));
+            line1.setVisibility(View.VISIBLE);
+            line2.setVisibility(View.VISIBLE);
         }
     }
 
@@ -191,116 +316,36 @@ public class U01PersonalActivity extends Activity {
                 personalViewPager.setCurrentItem(2);
             }
         });
-        followRelativeLayout.setOnClickListener(new View.OnClickListener() {
+        brandRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 personalViewPager.setCurrentItem(3);
             }
         });
     }
 
-    private void loadMoreData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowListApi(0, 0),null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                ArrayList<BrandEntity> moreData = __createFakeData();
-                adapter.addData(moreData);
-                adapter.notifyDataSetChanged();
-
-                pullRefreshListView.onPullUpRefreshComplete();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
-            }
-        });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
-    }
-
-    private void refreshData() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getShowListApi(0,0),null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                ArrayList<BrandEntity> newData = __createFakeData();
-                adapter.resetData(newData);
-                adapter.notifyDataSetChanged();
-
-                pullRefreshListView.onPullDownRefreshComplete();
-                pullRefreshListView.setHasMoreData(true);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                handleErrorMsg(error);
-            }
-        });
-        QSApplication.get().QSRequestQueue().add(jsonObjectRequest);
-    }
-
-    private void handleErrorMsg(VolleyError error) {
-        Toast.makeText(this, error.toString(), Toast.LENGTH_SHORT).show();
-        Log.i("P03BrandListActivity", error.toString());
-    }
-
-    private ArrayList<BrandEntity> __createFakeData() {
-        ArrayList<BrandEntity> tempData = new ArrayList<BrandEntity>();
-        for (int i = 0; i < 5; i++) {
-            BrandEntity brandEntity = new BrandEntity();
-            brandEntity.name = "品牌" + String.valueOf(i);
-            brandEntity.logo = "http://img2.imgtn.bdimg.com/it/u=2439868726,3891592022&fm=21&gp=0.jpg";
-            brandEntity.slogan = "http://img1.imgtn.bdimg.com/it/u=3411049717,3668206888&fm=21&gp=0.jpg";
-            tempData.add(brandEntity);
-        }
-        return tempData;
-    }
-
-    private PagerAdapter personalPagerAdapter = new PagerAdapter() {
-        @Override
-        public int getCount() {
-            return pagerViewList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(pagerViewList.get(position));
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return super.getItemPosition(object);
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(pagerViewList.get(position));
-            return pagerViewList.get(position);
-        }
-    };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_personal, menu);
-        return true;
+    public MongoPeople getMongoPeople() {
+        return people;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("U01User"); //统计页面
+        MobclickAgent.onResume(this);          //统计时长
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("U01User"); // 保证 onPageEnd 在onPause 之前调用,因为 onPause 中会保存信息
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
+    }
+
 }

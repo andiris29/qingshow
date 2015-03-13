@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +12,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.entity.CommentEntity;
+import com.focosee.qingshow.model.vo.mongo.MongoComment;
+import com.focosee.qingshow.util.AppUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,23 +36,23 @@ class CommentViewHolder {
 
 public class S04CommentListAdapter extends BaseAdapter {
 
-    private ArrayList<CommentEntity> data;
+    private ArrayList<MongoComment> data;
     private Context context;
     private ImageLoader imageLoader;
 
     private DisplayImageOptions imageOptions;
     private AnimateFirstDisplayListener animateFirstListener = new AnimateFirstDisplayListener();
 
-    public S04CommentListAdapter(Context context, ArrayList<CommentEntity> comments, ImageLoader imageLoader){
+    public S04CommentListAdapter(Context context, ArrayList<MongoComment> comments, ImageLoader imageLoader){
         this.context = context;
         this.data = comments;
         this.imageLoader = imageLoader;
 
 
         imageOptions = new DisplayImageOptions.Builder()
-                .showImageOnLoading(R.drawable.root_user_background) //设置图片在下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.root_user_background)//设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.root_user_background)  //设置图片加载/解码过程中错误时候显示的图片
+                .showImageOnLoading(R.drawable.user_head_default) //设置图片在下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.user_head_default)//设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.user_head_default)  //设置图片加载/解码过程中错误时候显示的图片
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .considerExifParams(true)
@@ -69,7 +73,7 @@ public class S04CommentListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -86,18 +90,20 @@ public class S04CommentListAdapter extends BaseAdapter {
             convertView.setTag(holder);
         }
         holder = (CommentViewHolder)convertView.getTag();
-        this.imageLoader.displayImage(data.get(position).getAuthorImage(), holder.commentImage, imageOptions, animateFirstListener);
+        this.imageLoader.displayImage(data.get(position).getAuthorImage(), holder.commentImage, AppUtil.getPortraitDisplayOptions(), animateFirstListener);
         holder.commentName.setText(data.get(position).getAuthorName());
         holder.commentContent.setText(data.get(position).getCommentContent());
-        holder.commentTime.setText(data.get(position).getCommentTime());
+        holder.commentTime.setTextColor(Color.GRAY);
+        holder.commentContent.setTextColor(Color.GRAY);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        holder.commentTime.setText(simpleDateFormat.format(data.get(position).create.getTime()));
         return convertView;
     }
-
-    public void resetData(ArrayList<CommentEntity> commentEntities) {
+    public void resetData(ArrayList<MongoComment> commentEntities) {
         this.data = commentEntities;
     }
 
-    public void addDataInTail(ArrayList<CommentEntity> commentEntities) {
+    public void addDataInTail(ArrayList<MongoComment> commentEntities) {
         this.data.addAll(this.data.size(), commentEntities);
     }
 
@@ -120,7 +126,7 @@ public class S04CommentListAdapter extends BaseAdapter {
         }
     }
 
-    public CommentEntity getCommentAtIndex(int index) {
+    public MongoComment getCommentAtIndex(int index) {
         if (index >= data.size() || index < 0)
             return null;
         return data.get(index);

@@ -3,16 +3,40 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="text_size">20sp</dimen>
-    <dimen name="text_size_small">17sp</dimen>
+    <dimen name="text_size">16sp</dimen>
+    <dimen name="text_size_small">13sp</dimen>
+    <dimen name="tab_text_size">16sp</dimen>
+    <dimen name="tab_text_size_small">13sp</dimen>
     <dimen name="title_bar_height">50dp</dimen>
 
     <!-- settings -->
     <dimen name="margin_left_activity_settings">10dp</dimen>
     <dimen name="margin_right_activity_settings">10dp</dimen>
     <dimen name="item_height_activity_settings">50dp</dimen>
+
+    <!-- main -->
+    <dimen name="left_menu_item_margin">10dp</dimen>
+    <dimen name="left_menu_item_margin_text">5dp</dimen>
+    <dimen name="left_menu_padding_top_and_bottom">30dp</dimen>
+    <dimen name="left_menu_text_size">14dp</dimen>
     
     <!-- personal -->
-    <dimen name="indicator_height_activity_personal">70dp</dimen>
+    <dimen name="indicator_height_activity_personal">40dp</dimen>
+    <dimen name="indicator_height_activity_itembar">40dp</dimen>
 
+
+    <!-- register -->
+    <dimen name="radio_button_width_activity_register">30dp</dimen>
+    <dimen name="radio_button_height_activity_register">30dp</dimen>
+    <dimen name="align_width_activity_register">90dp</dimen>
+
+    <!-- comm -->
+    <dimen name="RelativeLayout_height_activity_model">230dp</dimen>
+    <dimen name="line_between_tab">15dp</dimen>
+    <dimen name="relativeLayout_width_follow_btn">20dp</dimen>
+
+    <!-- right button -->
+    <dimen name="right_btn_list_width">40dp</dimen>
+    <dimen name="right_btn_list_height">40dp</dimen>
+    <dimen name="right_btn_list_marginBottom">6dp</dimen>
 </resources>

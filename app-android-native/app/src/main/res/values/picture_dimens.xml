@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- ViewPager的间隔 -->
     <dimen name="pciture_view_pager_margin">80dp</dimen>
     <!-- 工具栏上按钮的间距 -->

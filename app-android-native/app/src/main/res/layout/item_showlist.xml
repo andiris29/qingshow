@@ -7,107 +7,113 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-        <ImageView
+        <com.focosee.qingshow.widget.MImageView_OriginSize
             android:id="@+id/item_show_image"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher"></ImageView>
+            android:src="@drawable/root_cell_placehold_image1"
+            android:scaleType="fitCenter"></com.focosee.qingshow.widget.MImageView_OriginSize>
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/item_show_shadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/show_bottom_shadow"/>
+        android:adjustViewBounds="true"
+        android:background="@drawable/show_bottom_shadow" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_vertical">
 
-        <com.focosee.qingshow.widget.MCircularImageView
-            android:id="@+id/item_show_model_image"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"/>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/item_show_love_ll"
-            android:layout_toRightOf="@+id/item_show_model_image"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
+
+            <com.focosee.qingshow.widget.MRoundImageView
+                xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/item_show_model_image"
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                imagecontrol:border_outside_color="#fffffe"
+                imagecontrol:border_thickness="2dp" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:id="@+id/item_show_center_content"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:orientation="horizontal">
+                android:layout_marginLeft="5dp"
+                android:paddingTop="5dp"
+                android:layout_toLeftOf="@+id/item_show_love_ll"
+                android:layout_toRightOf="@+id/item_show_model_image"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/item_show_model_name"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="left|bottom"
-                    android:textColor="#ffffff" />
+                    android:gravity="left|top"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/item_show_model_height_weight"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
+                android:id="@+id/item_show_love_ll"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="5dp"
+                android:paddingTop="5dp"
+                android:layout_alignBottom="@+id/item_show_center_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/item_show_center_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/item_show_love_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/root_cell_icon_notice"/>
 
                 <TextView
-                    android:id="@+id/item_show_model_height"
+                    android:id="@+id/item_show_love"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="20dp"
                     android:layout_weight="1"
-                    android:gravity="left|top"
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:id="@+id/item_show_model_weight"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:gravity="left|top"
-                    android:textColor="#ffffff" />
+                    android:gravity="center"
+                    android:text="105"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/item_show_love_ll"
-            android:layout_width="45dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:src="@drawable/model_cell_icon02_noticeno" />
-
-            <TextView
-                android:id="@+id/item_show_love"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:text="105" />
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

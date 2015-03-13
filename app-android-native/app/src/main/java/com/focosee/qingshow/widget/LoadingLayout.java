@@ -175,6 +175,9 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
      */
     protected void onStateChanged(State curState, State oldState) {
         switch (curState) {
+        case NONE:
+            onNone();
+        break;
         case RESET:
             onReset();
             break;
@@ -199,7 +202,11 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
             break;
         }
     }
-    
+
+    protected void onNone(){
+
+    }
+
     /**
      * 当状态设置为{@link com.focosee.qingshow.widget.ILoadingLayout.State#RESET}时调用
      */

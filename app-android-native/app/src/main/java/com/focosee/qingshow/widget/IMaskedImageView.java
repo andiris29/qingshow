@@ -11,9 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-/**
- * Created by jackyu on 11/23/14.
- */
 public abstract class IMaskedImageView extends ImageView {
     private static final Xfermode MASK_XFERMODE;
     private Bitmap mask;

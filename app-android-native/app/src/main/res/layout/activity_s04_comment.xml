@@ -8,7 +8,7 @@
         android:id="@+id/S04_navigation_bar"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        navi:left_drawable="@drawable/root_icon_back"
+        navi:left_drawable="@drawable/btn_back_default"
         navi:right_drawable="@drawable/root_icon_back"
         navi:tv_title="评论"></com.focosee.qingshow.widget.MNavigationView>
 
@@ -42,12 +42,12 @@
         android:padding="5dp"
         android:background="#558a8a8a">
 
-        <ImageView
+        <com.focosee.qingshow.widget.MCircularImageView
             android:id="@+id/S04_user_image"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="8"
-            android:src="@drawable/root_user_background"/>
+            android:src="@drawable/root_user_background" />
         
         <EditText
             android:id="@+id/S04_input"
@@ -58,7 +58,8 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:hint="输入新消息"/>
+            android:paddingLeft="5dp"
+            android:hint="输入新评论"/>
 
         <Button
             android:id="@+id/S04_send_button"

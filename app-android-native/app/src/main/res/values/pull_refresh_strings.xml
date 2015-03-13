@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="pushmsg_center_no_more_msg">已经到底啦</string>
     <string name="pushmsg_center_pull_up_text">松开加载更多</string>

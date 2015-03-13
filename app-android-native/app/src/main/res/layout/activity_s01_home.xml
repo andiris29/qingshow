@@ -1,221 +1,198 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/s01_sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:scrollbarStyle="outsideOverlay"
     tools:context="com.focosee.focosee.activity.S01HomeActivity">
 
     <LinearLayout
-        android:id="@+id/S01_navigation"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:background="#ffffff"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:id="@+id/s01_FrameLa_right">
 
-        <ImageView
-            android:id="@+id/S01_title_menu"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/nav_btn_menu" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:src="@drawable/nav_btn_image_logo" />
+            <LinearLayout
+                android:id="@+id/s01_show_relative"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/S01_title_account"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/nav_btn_account" />
+                <LinearLayout
+                    android:id="@+id/S01_navigation"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:background="#ffffff"
+                    android:layout_weight="12"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/S01_title_menu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding ="12dp"
+                        android:layout_weight="1"
+                        android:src="@drawable/nav_btn_menu" />
+
+                    <ImageView
+                        android:id="@+id/S01_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_weight="4"
+                        android:src="@drawable/nav_btn_image_logo" />
+
+                    <ImageView
+                        android:id="@+id/S01_title_account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="7dp"
+                        android:src="@drawable/nav_account_btn"/>
+
+                </LinearLayout>
+
+                <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
+                    android:id="@+id/S01_waterfall_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/S01_navigation"
+                    android:layout_weight="1"
+                    android:cacheColorHint="#00000000"
+                    android:minHeight="20dp"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/s01_switch_right_background"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+        </FrameLayout>
     </LinearLayout>
 
-    <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView
-        android:id="@+id/S01_waterfall_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/S01_navigation"></com.focosee.qingshow.widget.MPullRefreshMultiColumnListView>
-
-    <LinearLayout
-        android:id="@+id/S01_pop_menu"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/S01_navigation"
-        android:orientation="vertical"
-        android:background="#01ffffff"
-        android:visibility="visible">
+    <RelativeLayout
+        android:id="@+id/s01_FrameLa_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_gravity="start"
+        android:background="#B0000000">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/S01_pop_menu"
+            android:layout_width="80dp"
+            android:layout_height="fill_parent"
+            android:paddingTop="@dimen/left_menu_padding_top_and_bottom"
+            android:paddingBottom="@dimen/left_menu_padding_top_and_bottom"
+            android:alpha="80"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:background="#eeffffff" >
-
-            <LinearLayout
+            android:visibility="visible">
+            <View
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:layout_height="0px"
+                android:layout_weight="3"/>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_flash"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_flash" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="闪点推荐" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_match"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_match" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="美搭榜单" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_people"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_people" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="人气用户" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <ImageView
+                android:id="@+id/S01_nav_icon_flash"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="0px"
+                android:layout_weight="3"
+                android:src="@drawable/root_menu_flash"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:gravity="center"
+                android:text="闪点推荐"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:textColor="@color/left_menu_text_color"
+                android:textSize="@dimen/left_menu_text_size" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+            <ImageView
+                android:id="@+id/S01_nav_icon_brand"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="3"
+                android:src="@drawable/root_menu_brand"
+                android:padding="5dp" />
 
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_design"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_design" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="品牌商户"
+                android:textColor="@color/left_menu_text_color"
+                android:textSize="@dimen/left_menu_text_size" />
 
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="设计风尚" />
+            <ImageView
+                android:id="@+id/S01_nav_icon_design"
+                android:layout_width="fill_parent"
+                android:layout_height="0px"
+                android:layout_weight="3"
+                android:src="@drawable/root_menu_design"
+                android:padding="5dp" />
 
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/S01_nav_icon_brand"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/nav_icon_brand" />
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:text="品牌专区" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:gravity="center"
+                android:text="潮流时尚"
+                android:layout_weight="1"
+                android:textColor="@color/left_menu_text_color"
+                android:textSize="@dimen/left_menu_text_size" />
 
 
-                </LinearLayout>
+            <ImageView
+                android:id="@+id/S01_nav_icon_match"
+                android:layout_width="fill_parent"
+                android:layout_height="0px"
+                android:layout_weight="3"
+                android:src="@drawable/root_menu_match"
+                android:padding="5dp" />
 
-            </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:gravity="center"
+                android:text="美搭榜单"
+                android:layout_weight="1"
+                android:textColor="@color/left_menu_text_color"
+                android:textSize="@dimen/left_menu_text_size" />
+
+
+            <ImageView
+                android:id="@+id/S01_nav_icon_people"
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:layout_weight="3"
+                android:src="@drawable/root_menu_people"
+                android:padding="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0px"
+                android:gravity="center"
+                android:text="人气用户"
+                android:layout_weight="1"
+                android:textColor="@color/left_menu_text_color"
+                android:textSize="@dimen/left_menu_text_size" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0px"
+                android:layout_weight="3"/>
 
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v4.widget.DrawerLayout>
+

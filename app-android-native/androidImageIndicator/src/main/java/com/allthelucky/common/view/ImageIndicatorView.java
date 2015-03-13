@@ -8,9 +8,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,23 +33,24 @@ public class ImageIndicatorView extends RelativeLayout {
 	/**
 	 * ViewPager控件
 	 */
-	protected ViewPager viewPager;
-	/**
+	protected CtrlScrollViewPager viewPager;
+
+    /**
 	 * 指示器容器
 	 */
 	protected LinearLayout indicateLayout;
-    /**
-     * 播放视频按钮
-     */
-    private Button startButton;
-    /**
-     * 评论按钮
-     */
-    private Button messageButton;
-    /**
-     * 分享按钮
-     */
-    private Button shareButton;
+//    /**
+//     * 播放视频按钮
+//     */
+//    private Button startButton;
+//    /**
+//     * 评论按钮
+//     */
+//    private Button messageButton;
+//    /**
+//     * 分享按钮
+//     */
+//    private Button shareButton;
 	/**
 	 * 页面列表
 	 */
@@ -122,23 +125,27 @@ public class ImageIndicatorView extends RelativeLayout {
 	 */
 	public void init(Context context) {
 		LayoutInflater.from(context).inflate(R.layout.image_indicator_layout, this);
-		this.viewPager = (ViewPager) findViewById(R.id.view_pager);
+		this.viewPager = (CtrlScrollViewPager) findViewById(R.id.view_pager);
 		this.indicateLayout = (LinearLayout) findViewById(R.id.indicater_layout);
-        this.startButton = (Button) findViewById(R.id.start_button);
-        this.messageButton = (Button) findViewById(R.id.message_button);
-        this.shareButton = (Button) findViewById(R.id.share_button);
+//        this.startButton = (Button) findViewById(R.id.start_button);
+//        this.messageButton = (Button) findViewById(R.id.message_button);
+//        this.shareButton = (Button) findViewById(R.id.share_button);
 
 		this.viewPager.setOnPageChangeListener(new PageChangeListener());
 
 		this.refreshHandler = new ScrollIndicateHandler(ImageIndicatorView.this);
 	}
 
+    public LinearLayout getIndicateLayout() {
+        return indicateLayout;
+    }
+
 	/**
 	 * 取ViewPager实例
 	 * 
 	 * @return
 	 */
-	public ViewPager getViewPager() {
+	public CtrlScrollViewPager getViewPager() {
 		return viewPager;
 	}
 
@@ -173,6 +180,31 @@ public class ImageIndicatorView extends RelativeLayout {
 		view.setOnClickListener(new ItemClickListener(position));
 		this.viewList.add(view);
 	}
+
+    /**
+     * 添加单个View
+     *
+     * @param view
+     */
+    public void addViewItemAtIndex(View view, int index) {
+        final int position = viewList.size();
+        view.setOnClickListener(new ItemClickListener(index));
+        for (int i=0; i<this.viewList.size(); i++) {
+            if (i >= index) {
+                this.viewList.get(i).setOnClickListener(new ItemClickListener(i+1));
+            }
+        }
+        this.viewList.add(index, view);
+    }
+
+    public void removeViewItemAtIndex(int index) {
+        for (int i=0; i<this.viewList.size(); i++) {
+            if (i>index) {
+                this.viewList.get(i).setOnClickListener(new ItemClickListener(i-1));
+            }
+        }
+        this.viewList.remove(index);
+    }
 
 	/**
 	 * 条目点击事件监听类
@@ -278,6 +310,7 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 		this.indicateLayout.setLayoutParams(params);
 		// 初始化指示器
+        this.indicateLayout.removeAllViews();
 		for (int index = 0; index < this.totelCount; index++) {
 			final View indicater = new ImageView(getContext());
 			this.indicateLayout.addView(indicater, index);
@@ -285,8 +318,11 @@ public class ImageIndicatorView extends RelativeLayout {
 		this.refreshHandler.sendEmptyMessage(currentIndex);
 		// 为ViewPager配置数据
 		this.viewPager.setAdapter(new MyPagerAdapter(this.viewList));
-		this.viewPager.setCurrentItem(currentIndex, false);
-	}
+		this.viewPager.setCurrentItem(0, false);
+        this.viewPager.setOffscreenPageLimit(5);
+    }
+
+
 
 	/**
 	 * 箭头点击事件处理
@@ -316,8 +352,8 @@ public class ImageIndicatorView extends RelativeLayout {
 	protected class PageChangeListener implements OnPageChangeListener {
 		@Override
 		public void onPageSelected(int index) {
-			currentIndex = index;
-			refreshHandler.sendEmptyMessage(index);
+            currentIndex = index;
+            refreshHandler.sendEmptyMessage(index);
 		}
 
 		@Override
@@ -325,7 +361,7 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 
 		@Override
-		public void onPageScrollStateChanged(int arg0) {
+		public void onPageScrollStateChanged(int state) {
 
 		}
 	}
@@ -338,7 +374,7 @@ public class ImageIndicatorView extends RelativeLayout {
 
 		for (int index = 0; index < totelCount; index++) {
 			final ImageView imageView = (ImageView) this.indicateLayout.getChildAt(index);
-			if (this.currentIndex == index) {
+			if (this.currentIndex % totelCount == index) {
 				imageView.setBackgroundResource(R.drawable.image_indicator_focus);
 			} else {
 				imageView.setBackgroundResource(R.drawable.image_indicator);
@@ -354,44 +390,49 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 	}
 
-    /**
-     * 获取开始播放的按钮
-     */
-    public Button getStartButton() {
-        return this.startButton;
-    }
-
-    /**
-     * 获取评论的按钮
-     */
-    public Button getMessageButton() {
-        return this.messageButton;
-    }
-
-    /**
-     * 获取分享的按钮
-     */
-    public Button getShareButton() {
-        return this.shareButton;
-    }
+//    /**
+//     * 获取开始播放的按钮
+//     */
+//    public Button getStartButton() {
+//        return this.startButton;
+//    }
+//
+//    /**
+//     * 获取评论的按钮
+//     */
+//    public Button getMessageButton() {
+//        return this.messageButton;
+//    }
+//
+//    /**
+//     * 获取分享的按钮
+//     */
+//    public Button getShareButton() {
+//        return this.shareButton;
+//    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * 4 / 3) + MeasureSpec.EXACTLY;
+//        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * 4 / 3) + MeasureSpec.EXACTLY;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
 
     public class MyPagerAdapter extends PagerAdapter {
 		private List<View> pageViews = new ArrayList<View>();
+        private int itemSize = 1;
 
 		public MyPagerAdapter(List<View> pageViews) {
-			this.pageViews = pageViews;
+
+            this.pageViews = pageViews;
+            if(null != pageViews && 0 != pageViews.size()){
+                this.itemSize = pageViews.size();
+            }
 		}
 
 		@Override
 		public int getCount() {
-			return pageViews.size();
+            return itemSize;
 		}
 
 		@Override
@@ -404,16 +445,17 @@ public class ImageIndicatorView extends RelativeLayout {
 			return super.getItemPosition(object);
 		}
 
-		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
-			((ViewPager) arg0).removeView(pageViews.get(arg1));
-		}
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            Log.i("tag","destroy");
+            container.removeView((View) object);
+        }
 
-		@Override
-		public Object instantiateItem(View arg0, int arg1) {
-			((ViewPager) arg0).addView(pageViews.get(arg1));
-			return pageViews.get(arg1);
-		}
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            container.addView(pageViews.get(position));
+            return pageViews.get(position);
+        }
 
 		@Override
 		public void restoreState(Parcelable arg0, ClassLoader arg1) {

@@ -112,4 +112,9 @@ public class FooterLoadingLayout extends LoadingLayout {
         mHintView.setVisibility(View.VISIBLE);
         mHintView.setText(R.string.pushmsg_center_no_more_msg);
     }
+
+    @Override
+    protected void onNone() {
+        mHintView.setVisibility(View.GONE);
+    }
 }
