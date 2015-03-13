@@ -3,10 +3,8 @@ package com.focosee.qingshow.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -43,9 +41,6 @@ public class G01WebViewActivity extends BaseActivity{
 
         Intent intent = getIntent();
         String url = intent.getStringExtra(URL);
-//        Uri uri = Uri.parse(url);
-//        Intent intentGo = new Intent(Intent.ACTION_VIEW, uri);
-//        startActivity(intentGo);
         loadWebView(url);
     }
 
@@ -56,9 +51,7 @@ public class G01WebViewActivity extends BaseActivity{
 
     private void loadWebView(String url){
         WebSettings webSettings = mWebView.getSettings();
-        webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptEnabled(true);
-//        webSettings.setBlockNetworkLoads(true);
         mWebView.setWebViewClient(new WebViewClient() {
 
             final ProgressDialog progressDialog = new ProgressDialog(G01WebViewActivity.this);
@@ -68,15 +61,9 @@ public class G01WebViewActivity extends BaseActivity{
             }
 
             @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                if(url != null) return null;
-                return super.shouldInterceptRequest(view, url);
-            }
-
-            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                progressDialog.hide();
+                progressDialog.dismiss();
             }
 
             @Override
