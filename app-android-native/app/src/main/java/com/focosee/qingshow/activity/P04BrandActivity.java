@@ -837,7 +837,7 @@ public class P04BrandActivity extends BaseActivity{
                 try {
                     if (!MetadataParser.hasError(response)) {
                         brandEntity.setModelIsFollowedByCurrentUser(true);
-                        followSignText.setBackgroundResource(R.drawable.badge_unfollow_btn);
+                        followSignText.setImageResource(R.drawable.badge_unfollow_btn);
                         showMessage(P04BrandActivity.this, "关注成功");
                         doFollowersRefreshDataTask();
                         UserCommand.refresh();
@@ -866,7 +866,7 @@ public class P04BrandActivity extends BaseActivity{
                 try {
                     if (!MetadataParser.hasError(response)) {
                         brandEntity.setModelIsFollowedByCurrentUser(false);
-                        followSignText.setBackgroundResource(R.drawable.badge_follow_btn);
+                        followSignText.setImageResource(R.drawable.badge_follow_btn);
                         showMessage(P04BrandActivity.this, "取消关注成功");
                         doFollowersRefreshDataTask();
                         UserCommand.refresh();

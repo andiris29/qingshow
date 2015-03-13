@@ -105,7 +105,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="0"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
                         android:id="@+id/likeTextView"
@@ -114,7 +114,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="收藏"
                         android:textColor="@color/darker_gray"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/tab_text_size_small" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -141,7 +141,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="0"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
                         android:id="@+id/recommendTextView"
@@ -150,7 +150,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="推荐"
                         android:textColor="@color/left_menu_text_color"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/tab_text_size_small" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/u01_line_toleftRecommend"
@@ -187,7 +187,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="0"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
                         android:id="@+id/followedTextView"
@@ -196,7 +196,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="关注"
                         android:textColor="@color/left_menu_text_color"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/tab_text_size_small" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/u01_line_toleftAttention"
@@ -231,7 +231,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="0"
                         android:textColor="@color/indicator_text_color_default_activity_personal"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/tab_text_size" />
 
                     <TextView
                         android:id="@+id/brandTextView"
@@ -240,7 +240,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="店铺"
                         android:textColor="@color/left_menu_text_color"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/tab_text_size_small" />
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/u01_line_toleftBrand"

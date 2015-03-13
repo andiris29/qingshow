@@ -110,10 +110,10 @@ public class S08TrendListAdapter extends BaseAdapter {
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
             holderView.priceTextView = (TextView) convertView.findViewById(R.id.S08_item_price);
 
-            holderView.shareImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_share_btn);
-            holderView.likeImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_like_btn);
+            holderView.shareImageButton = (ImageView) convertView.findViewById(R.id.S08_item_share_btn);
+            holderView.likeImageButton = (ImageView) convertView.findViewById(R.id.S08_item_like_btn);
             holderView.likeTextView = (TextView) convertView.findViewById(R.id.S08_item_like_text_view);
-            holderView.messageImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_comment_btn);
+            holderView.messageImageButton = (ImageView) convertView.findViewById(R.id.S08_item_comment_btn);
             holderView.messageTextView = (TextView) convertView.findViewById(R.id.S08_item_comment_text_view);
 
             if(null != data){
@@ -166,9 +166,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
         if (!data.get(position).getIsLikeByCurrentUser()) {
-            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+            holderView.likeImageButton.setImageResource(R.drawable.s03_like_btn);
         } else {
-            holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+            holderView.likeImageButton.setImageResource(R.drawable.s03_like_btn_hover);
         }
         holderView.likeImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,14 +206,14 @@ public class S08TrendListAdapter extends BaseAdapter {
                 String showMsg = "";
                 if (!MetadataParser.hasError(response)) {
                     if (isLiked) {
-                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
-                        holderView.likeTextView.setText(
-                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
-                        showMsg = "取消点赞";
-                    } else {
-                        holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+                        holderView.likeImageButton.setImageResource(R.drawable.s03_like_btn);
                         holderView.likeTextView.setText(
                                 String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) - 1));
+                        showMsg = "取消点赞";
+                    } else {
+                        holderView.likeImageButton.setImageResource(R.drawable.s03_like_btn_hover);
+                        holderView.likeTextView.setText(
+                                String.valueOf(Integer.parseInt(holderView.likeTextView.getText().toString()) + 1));
                         showMsg = "点赞成功";
                     }
                     data.get(position).setIsLikeByCurrentUser(!isLiked);
@@ -265,10 +265,10 @@ public class S08TrendListAdapter extends BaseAdapter {
         public TextView descriptionTextView;
         public TextView priceTextView;
 
-        public ImageButton shareImageButton;
-        public ImageButton likeImageButton;
+        public ImageView shareImageButton;
+        public ImageView likeImageButton;
         public TextView likeTextView;
-        public ImageButton messageImageButton;
+        public ImageView messageImageButton;
         public TextView messageTextView;
     }
 

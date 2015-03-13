@@ -68,25 +68,25 @@
         android:gravity="bottom"
         android:paddingBottom="10dp">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/S08_item_video_start_btn"
             android:layout_width="@dimen/right_btn_list_width"
             android:layout_height="70dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="25dp"
-            android:background="@drawable/s03_play_btn"
+            android:src="@drawable/s03_play_btn"
             android:visibility="invisible" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/S08_item_share_btn"
             android:layout_width="@dimen/right_btn_list_width"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/right_btn_list_width"
             android:layout_above="@+id/S08_item_video_start_btn"
             android:layout_alignRight="@+id/S08_item_video_start_btn"
-            android:layout_marginBottom="30dp"
-            android:background="@drawable/s03_share_btn" />
+            android:layout_marginBottom="@dimen/right_btn_list_marginBottom"
+            android:src="@drawable/s03_share_btn" />
 
         <!--<ImageView
             android:id="@+id/S08_item_line_share_like"
@@ -98,14 +98,14 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/s03_line" />-->
 
-        <ImageButton
+        <ImageView
             android:id="@+id/S08_item_like_btn"
             android:layout_width="@dimen/right_btn_list_width"
             android:layout_height="@dimen/right_btn_list_height"
             android:layout_above="@+id/S08_item_share_btn"
             android:layout_alignRight="@+id/S08_item_share_btn"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/s03_like_btn" />
+            android:layout_marginBottom="@dimen/right_btn_list_marginBottom"
+            android:src="@drawable/s03_like_btn" />
 
         <TextView
             android:id="@+id/S08_item_like_text_view"
@@ -114,8 +114,7 @@
             android:layout_alignLeft="@+id/S08_item_like_btn"
             android:layout_alignTop="@+id/S08_item_like_btn"
             android:gravity="center"
-            android:text="11"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
 
         <!--<ImageView
             android:id="@+id/S08_item_line_like_message"
@@ -127,14 +126,14 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/s03_line" />-->
 
-        <ImageButton
+        <ImageView
             android:id="@+id/S08_item_comment_btn"
             android:layout_width="@dimen/right_btn_list_width"
             android:layout_height="@dimen/right_btn_list_height"
             android:layout_above="@+id/S08_item_like_btn"
             android:layout_alignRight="@+id/S08_item_like_btn"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/s03_comment_btn" />
+            android:layout_marginBottom="@dimen/right_btn_list_marginBottom"
+            android:src="@drawable/s03_comment_btn" />
 
         <TextView
             android:id="@+id/S08_item_comment_text_view"
@@ -143,7 +142,7 @@
             android:layout_alignLeft="@+id/S08_item_comment_btn"
             android:layout_alignTop="@+id/S08_item_comment_btn"
             android:gravity="center"
-            android:textColor="#ffffff" />
+            android:textColor="#ffffff"/>
 
     </RelativeLayout>
 
