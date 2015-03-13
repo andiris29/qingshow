@@ -227,6 +227,10 @@ _update = function(req, res) {
         }
         delete qsParam.password;
         delete qsParam.currentPassword;
+        if (qsParam.receivers) {
+            people.set('receivers', qsParam.receivers);
+        }
+        delete qsParam.receivers;
         for (var field in qsParam) {
             people.set(field, qsParam[field]);
         }
