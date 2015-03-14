@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSUserLocationTableViewCell.h"
 
-@interface QSU10UserLocationListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface QSU10UserLocationListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSUserLocationTableViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

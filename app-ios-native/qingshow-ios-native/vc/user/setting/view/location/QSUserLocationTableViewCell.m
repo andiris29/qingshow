@@ -27,5 +27,23 @@
     self.phoneLabel.text = [QSReceiverUtil getPhone:dict];
     self.addressLabel.text = [QSReceiverUtil getAddress:dict];
 }
-
+#pragma mark - IBAction
+- (IBAction)editBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didClickEditButtonOfCell:)]) {
+        [self.delegate didClickEditButtonOfCell:self];
+    }
+}
+- (IBAction)deleteBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didClickDeleteButtonOfCell:)]) {
+        [self.delegate didClickDeleteButtonOfCell:self];
+    }
+}
+- (IBAction)selectedIndicatorPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didClickSelectedIndicatorOfCell:)]) {
+        [self.delegate didClickSelectedIndicatorOfCell:self];
+    }
+}
 @end
