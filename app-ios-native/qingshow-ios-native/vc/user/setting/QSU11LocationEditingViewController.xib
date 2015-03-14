@@ -138,8 +138,20 @@
                         <color key="textColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9h-hZ-RGx">
+                        <rect key="frame" x="304" y="14" width="8" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="672-Oz-vuR"/>
+                            <constraint firstAttribute="width" constant="8" id="Ml0-Dt-R0z"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="f9h-hZ-RGx" secondAttribute="trailing" constant="8" id="38f-Bw-IGy"/>
+                    <constraint firstItem="f9h-hZ-RGx" firstAttribute="top" secondItem="LAy-ra-FqD" secondAttribute="top" constant="14" id="9zL-OF-tYS"/>
                     <constraint firstItem="xbR-a5-qWa" firstAttribute="leading" secondItem="LAy-ra-FqD" secondAttribute="leading" constant="8" id="GM2-0U-di7"/>
                     <constraint firstItem="xbR-a5-qWa" firstAttribute="top" secondItem="LAy-ra-FqD" secondAttribute="top" constant="14" id="JtD-xf-139"/>
                     <constraint firstItem="FcC-So-V1Y" firstAttribute="leading" secondItem="xbR-a5-qWa" secondAttribute="trailing" constant="8" id="gRo-bV-Ggu"/>
