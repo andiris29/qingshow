@@ -45,6 +45,8 @@ ServerError.AlreadyUnrelated = 1020;
 ServerError.InvalidCurrentPassword = 1021;
 ServerError.IsNotAdmin = 1022;
 ServerError.TopShopNotExist = 1023;
+ServerError.TradeNotExist = 1024;
+ServerError.TradeStatusChangeError = 1025;
 
 var _codeToString = function(code) {
     switch (code) {
@@ -80,6 +82,10 @@ var _codeToString = function(code) {
             return "IsNotAdmin";
         case 1023 :
             return "TopShopNotExist";
+        case 1024 :
+            return "TradeNotExist";
+        case 1025 :
+            return "TradeStatusChangeError";
     }
 };
 

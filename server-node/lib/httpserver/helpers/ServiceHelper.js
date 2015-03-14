@@ -102,6 +102,18 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     });
 };
 
+ServiceHelper.queryRelatedTrades = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(trades) {
+        return {
+            'trades' : trades
+        };
+    }, {
+        'afterQuery' : function(qsParam, trades, numTotal, callback) {
+            ContextHelper.appendPeopleContext(req,qsCurrentUserId, trades, callback);
+        }
+    });
+};
+
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
