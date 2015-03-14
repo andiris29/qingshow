@@ -7,7 +7,7 @@
 //
 
 #import "QSU10UserLocationListViewController.h"
-
+#import "QSU11LocationEditingViewController.h"
 
 @interface QSU10UserLocationListViewController ()
 
@@ -57,6 +57,8 @@
     // Do any additional setup after loading the view from its nib.
     [self.tableView registerNib:[UINib nibWithNibName:@"QSUserLocationTableViewCell" bundle:nil] forCellReuseIdentifier:QSUserLocationTableViewCellIdentifier];
     self.title = @"收获地址管理";
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(newLocationBtnPressed)];
     item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
@@ -92,7 +94,9 @@
 #pragma mark - QSUserLocationTableViewCellDelegate
 - (void)didClickEditButtonOfCell:(QSUserLocationTableViewCell*)cell
 {
-
+    NSDictionary* dict = [self locationDictForCell:cell];
+    UIViewController* vc = [[QSU11LocationEditingViewController alloc] initWithDict:dict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didClickDeleteButtonOfCell:(QSUserLocationTableViewCell*)cell
 {
@@ -106,7 +110,8 @@
 #pragma mark - Private
 - (void)newLocationBtnPressed
 {
-    
+    UIViewController* vc = [[QSU11LocationEditingViewController alloc] initWithDict:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (NSDictionary*)locationDictForIndexPath:(NSIndexPath*)indexPath
 {
