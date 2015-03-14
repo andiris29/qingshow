@@ -169,6 +169,8 @@
 		EFD0B7FD1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */; };
 		EFD28CF71AB3F56C00991ADD /* QSU11LocationEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CF51AB3F56C00991ADD /* QSU11LocationEditingViewController.m */; };
 		EFD28CF81AB3F56C00991ADD /* QSU11LocationEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CF61AB3F56C00991ADD /* QSU11LocationEditingViewController.xib */; };
+		EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */; };
+		EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */; };
 		EFE419F41A407AEE005175BB /* QSS03ItemShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */; };
 		EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */; };
 		EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */; };
@@ -503,6 +505,9 @@
 		EFD28CF41AB3F56C00991ADD /* QSU11LocationEditingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU11LocationEditingViewController.h; sourceTree = "<group>"; };
 		EFD28CF51AB3F56C00991ADD /* QSU11LocationEditingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU11LocationEditingViewController.m; sourceTree = "<group>"; };
 		EFD28CF61AB3F56C00991ADD /* QSU11LocationEditingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU11LocationEditingViewController.xib; sourceTree = "<group>"; };
+		EFD28CFA1AB41CBE00991ADD /* QSU12RefundViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU12RefundViewController.h; sourceTree = "<group>"; };
+		EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU12RefundViewController.m; sourceTree = "<group>"; };
+		EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU12RefundViewController.xib; sourceTree = "<group>"; };
 		EFE419F11A407AEE005175BB /* QSS03ItemShopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ItemShopDetailViewController.h; sourceTree = "<group>"; };
 		EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ItemShopDetailViewController.m; sourceTree = "<group>"; };
 		EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemShopDetailViewController.xib; sourceTree = "<group>"; };
@@ -1296,6 +1301,9 @@
 				EFD28CF41AB3F56C00991ADD /* QSU11LocationEditingViewController.h */,
 				EFD28CF51AB3F56C00991ADD /* QSU11LocationEditingViewController.m */,
 				EFD28CF61AB3F56C00991ADD /* QSU11LocationEditingViewController.xib */,
+				EFD28CFA1AB41CBE00991ADD /* QSU12RefundViewController.h */,
+				EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */,
+				EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */,
 			);
 			path = setting;
 			sourceTree = "<group>";
@@ -1601,6 +1609,7 @@
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF87FDD51A45A7A8003A6050 /* QSBrandTableViewHeaderView.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
+				EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */,
 				EF78E3481AAF4C7600665EDD /* QSUserLocationTableViewCell.xib in Resources */,
 				EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
@@ -1711,6 +1720,7 @@
 				EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */,
 				EFF89E041A13A4AD004E6C55 /* QSP03BrandListViewController.m in Sources */,
 				EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */,
+				EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */,
 				EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */,

@@ -129,7 +129,7 @@
                         <color key="textColor" red="0.66274509803921566" green="0.10196078431372549" blue="0.30588235294117649" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所在区域" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FcC-So-V1Y">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FcC-So-V1Y">
                         <rect key="frame" x="64" y="14" width="226" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="xho-Dt-Ahs"/>
