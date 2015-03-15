@@ -14,6 +14,7 @@
 @interface QSG01ItemWebViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
+@property (assign, nonatomic) BOOL fFirst;
 @end
 
 @implementation QSG01ItemWebViewController
@@ -47,8 +48,12 @@
     self.navigationItem.titleView = titleImageView;
     
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
+    self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    self.fFirst = YES;
+    
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": self.itemDict[@"_id"]} counter:1];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,4 +71,14 @@
 }
 */
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (self.fFirst && ([request.URL.absoluteString hasPrefix:@"tmall://"] || [request.URL.absoluteString hasPrefix:@"taobao://"])) {
+        self.fFirst = NO;
+        return NO;
+    } else {
+        return YES;
+    }
+
+}
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSG01ItemWebViewController : UIViewController
+@interface QSG01ItemWebViewController : UIViewController <UIWebViewDelegate>
 
 - (id)initWithItem:(NSDictionary*)item;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
