@@ -10,4 +10,8 @@
 
 @interface QSCreateTradeReceiverInfoTitleCell : QSCreateTradeHeigh40Cell
 
+@property (strong, nonatomic) IBOutlet UIButton* locationBtn;
+
+- (IBAction)locationBtnPressed:(id)sender;
+
 @end

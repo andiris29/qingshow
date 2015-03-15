@@ -7,15 +7,21 @@
 //
 
 #import "QSCreateTradeReceiverInfoTitleCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation QSCreateTradeReceiverInfoTitleCell
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.locationBtn.layer.masksToBounds = YES;
+    self.locationBtn.layer.borderWidth = 1.f;
+    self.locationBtn.layer.borderColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f].CGColor;
+    self.locationBtn.layer.cornerRadius = 4.f;
 }
-*/
 
+- (IBAction)locationBtnPressed:(id)sender
+{
+
+}
 @end

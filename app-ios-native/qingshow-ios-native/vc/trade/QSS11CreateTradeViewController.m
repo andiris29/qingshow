@@ -7,6 +7,7 @@
 //
 
 #import "QSS11CreateTradeViewController.h"
+#import "QSCreateTradeTableViewCellBase.h"
 
 @interface QSS11CreateTradeViewController ()
 
@@ -21,6 +22,7 @@
 
 @property (strong, nonatomic) NSArray* totalPriceCellArray;
 
+@property (strong, nonatomic) NSArray* headerArray;
 @end
 
 @implementation QSS11CreateTradeViewController
@@ -39,8 +41,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self configView];
+
     [self configCellArray];
+    [self configView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,6 +56,13 @@
 - (void)configView
 {
     self.title = @"订单确认";
+    NSMutableArray* headerArray = [@[] mutableCopy];
+    for (int i = 0; i < self.cellGroupArray.count; i++) {
+        UIView* view = [[UIView alloc] init];
+        view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+        [headerArray addObject:view];
+    }
+    
 }
 
 - (void)configCellArray
@@ -84,9 +94,9 @@
       ];
 }
 
-- (UITableViewCell*)cellForIndexPath:(NSIndexPath*)indexPath
+- (QSCreateTradeTableViewCellBase*)cellForIndexPath:(NSIndexPath*)indexPath
 {
-    UITableViewCell* cell = nil;
+    QSCreateTradeTableViewCellBase* cell = nil;
     
     NSArray* cellArray = self.cellGroupArray[indexPath.section];
     cell = cellArray[indexPath.row];
@@ -101,16 +111,30 @@
     return cellArray.count;
 }
 
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    return nil;
+    QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
+    [cell bindWithDict:nil];
+    return cell;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return self.cellGroupArray.count;
 }
 
+#pragma mark - UITableView Delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
+    return [cell getHeightWithDict:nil];
+}
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return self.headerArray[section];
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 5.f;
+}
 @end

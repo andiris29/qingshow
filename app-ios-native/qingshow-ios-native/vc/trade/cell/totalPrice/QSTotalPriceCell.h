@@ -10,4 +10,9 @@
 
 @interface QSTotalPriceCell : QSCreateTradeTableViewCellBase
 
+@property (strong, nonatomic) IBOutlet UILabel* priceLabel;
+@property (strong, nonatomic) IBOutlet UIButton* submitBtn;
+
+- (IBAction)submitBtnPressed:(id)sender;
+
 @end

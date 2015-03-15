@@ -10,4 +10,6 @@
 
 @interface QSCreateTradeReceiverInfoTextCell : QSCreateTradeHeigh46Cell
 
+@property (strong, nonatomic) IBOutlet UITextField* textField;
+
 @end

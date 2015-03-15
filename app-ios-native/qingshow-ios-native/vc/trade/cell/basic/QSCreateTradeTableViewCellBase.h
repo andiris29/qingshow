@@ -10,7 +10,7 @@
 
 @interface QSCreateTradeTableViewCellBase : UITableViewCell
 
-- (void)bindWitdDict:(NSDictionary*)dict;
+- (void)bindWithDict:(NSDictionary*)dict;
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict;
 - (id)getInputData;
 

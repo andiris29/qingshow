@@ -7,12 +7,23 @@
 //
 
 #import "QSTotalPriceCell.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation QSTotalPriceCell
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    self.submitBtn.layer.cornerRadius = 4.f;
+    self.submitBtn.layer.masksToBounds = YES;
+}
 
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict
 {
     return 65.f;
 }
-
+- (IBAction)submitBtnPressed:(id)sender
+{
+    
+}
 @end

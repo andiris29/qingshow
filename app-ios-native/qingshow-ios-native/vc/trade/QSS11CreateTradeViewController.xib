@@ -188,7 +188,7 @@
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhz-Ao-boo">
                         <rect key="frame" x="78" y="16" width="28" height="28"/>
-                        <color key="backgroundColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <state key="normal" title="-">
                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -196,13 +196,13 @@
                     </button>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VKM-3z-60I">
                         <rect key="frame" x="114" y="17" width="40" height="28"/>
-                        <color key="backgroundColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eje-LB-5n3">
                         <rect key="frame" x="162" y="17" width="28" height="28"/>
-                        <color key="backgroundColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <state key="normal" title="+">
                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -214,6 +214,11 @@
                     <constraint firstItem="hjR-lp-Z52" firstAttribute="top" secondItem="4ah-RG-Gt7" secondAttribute="top" constant="22" id="cvg-Yt-Seg"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="minusBtn" destination="fhz-Ao-boo" id="S1d-NL-J9S"/>
+                <outlet property="numberTextField" destination="VKM-3z-60I" id="PfZ-sy-vzR"/>
+                <outlet property="plusBtn" destination="eje-LB-5n3" id="OIh-EM-RkL"/>
+            </connections>
             <point key="canvasLocation" x="955" y="535"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="15S-S2-52n" customClass="QSCreateTradeReceiverInfoTitleCell">
@@ -235,9 +240,15 @@
                             <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="locationBtnPressed:" destination="15S-S2-52n" eventType="touchUpInside" id="GY2-h5-vxy"/>
+                        </connections>
                     </button>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="locationBtn" destination="VzH-kY-1fb" id="Po8-7o-nA5"/>
+            </connections>
             <point key="canvasLocation" x="1412.5" y="145"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px5-tN-uwV" customClass="QSCreateTradeReceiverInfoTextCell">
@@ -247,14 +258,22 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="收货人姓名:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Viu-Bm-Zns">
-                        <rect key="frame" x="8" y="16" width="64" height="15"/>
+                        <rect key="frame" x="8" y="16" width="64" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="22" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Rl-rr-aJH">
+                        <rect key="frame" x="80" y="16" width="233" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="1405.5" y="275"/>
+            <connections>
+                <outlet property="textField" destination="0Rl-rr-aJH" id="gEo-qR-lS7"/>
+            </connections>
+            <point key="canvasLocation" x="1405.5" y="274"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3ED-XR-GZq" customClass="QSCreateTradeReceiverInfoTextCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
@@ -268,8 +287,16 @@
                         <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="22" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Npo-Ti-Zx6">
+                        <rect key="frame" x="85" y="15" width="233" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="Npo-Ti-Zx6" id="Zcs-Eg-Axq"/>
+            </connections>
             <point key="canvasLocation" x="1412.5" y="402"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2Ol-zb-7sH" customClass="QSCreateTradeReceiverInfoLocationCell">
@@ -300,8 +327,16 @@
                         <color key="textColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="22" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wj9-pq-zJg">
+                        <rect key="frame" x="72" y="15" width="233" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="wj9-pq-zJg" id="9kq-ke-MEu"/>
+            </connections>
             <point key="canvasLocation" x="1405.5" y="636"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Swl-FW-O50" customClass="QSCreateTradeHeigh40Cell">
@@ -351,6 +386,9 @@
                     </button>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="selectedBtn" destination="7RJ-Ri-cxy" id="nUD-Wh-aHA"/>
+            </connections>
             <point key="canvasLocation" x="1817.5" y="280"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qdV-pm-cch" customClass="QSCreateTradePayInfoSelectCell">
@@ -384,6 +422,9 @@
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="selectedBtn" destination="ale-cd-vqU" id="svf-lo-1RR"/>
+            </connections>
             <point key="canvasLocation" x="1817.5" y="412"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qYg-34-QGT" customClass="QSCreateTradePayInfoSelectCell">
@@ -417,6 +458,9 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="selectedBtn" destination="gOZ-ud-UX8" id="eNh-sJ-91k"/>
+            </connections>
             <point key="canvasLocation" x="1817.5" y="528"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yOL-GW-vcb" customClass="QSTotalPriceCell">
@@ -445,9 +489,16 @@
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="submitBtnPressed:" destination="yOL-GW-vcb" eventType="touchUpInside" id="4IP-x4-OH0"/>
+                        </connections>
                     </button>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="priceLabel" destination="CYb-S9-b2A" id="eCO-gt-827"/>
+                <outlet property="submitBtn" destination="Hk3-Fr-aqd" id="7kN-5a-iPs"/>
+            </connections>
             <point key="canvasLocation" x="2194.5" y="160"/>
         </tableViewCell>
     </objects>

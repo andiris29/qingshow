@@ -10,4 +10,6 @@
 
 @interface QSCreateTradePayInfoSelectCell : QSCreateTradeHeigh46Cell
 
+@property (strong, nonatomic) IBOutlet UIButton* selectedBtn;
+
 @end

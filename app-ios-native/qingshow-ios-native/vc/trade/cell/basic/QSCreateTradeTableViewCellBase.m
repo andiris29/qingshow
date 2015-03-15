@@ -28,7 +28,7 @@
     // Configure the view for the selected state
 }
 
-- (void)bindWitdDict:(NSDictionary*)dict
+- (void)bindWithDict:(NSDictionary*)dict
 {
 }
 

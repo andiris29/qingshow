@@ -17,7 +17,7 @@
     // Drawing code
 }
 */
-- (void)bindWitdDict:(NSDictionary*)dict
+- (void)bindWithDict:(NSDictionary*)dict
 {
 }
 
