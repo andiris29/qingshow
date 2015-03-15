@@ -7,7 +7,7 @@
 //
 
 #import "QSU09OrderListViewController.h"
-#import "QSOrderListTableViewProvider.h"
+#import "QSU12RefundViewController.h"
 #import "QSNetworkKit.h"
 #import "QSOrderListHeaderView.h"
 @interface QSU09OrderListViewController ()
@@ -55,6 +55,9 @@
 
     self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     [self.tableView reloadData];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
+    [[self navigationItem] setBackBarButtonItem:backButton];
 }
 - (void)configProvider
 {
@@ -64,7 +67,23 @@
         //TODO change network block
         return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
     };
+    self.provider.delegate = self;
 
     [self.provider fetchDataOfPage:1];
+}
+
+#pragma mark - QSOrderListTableViewProviderDelegate
+- (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict
+{
+    UIViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)didClickLogisticBtnOfOrder:(NSDictionary*)orderDict
+{
+
+}
+- (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict
+{
+
 }
 @end

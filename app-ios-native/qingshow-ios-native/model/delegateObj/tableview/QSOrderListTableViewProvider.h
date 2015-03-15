@@ -7,8 +7,20 @@
 //
 
 #import "QSTableViewBasicProvider.h"
+#import "QSOrderListTableViewCell.h"
 
-@interface QSOrderListTableViewProvider : QSTableViewBasicProvider
+@protocol QSOrderListTableViewProviderDelegate <NSObject>
+
+- (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict;
+- (void)didClickLogisticBtnOfOrder:(NSDictionary*)orderDict;
+- (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict;
+
+@end
+
+@interface QSOrderListTableViewProvider : QSTableViewBasicProvider <QSOrderListTableViewCellDelegate>
 
 @property (assign, nonatomic) CGFloat headerHeight;
+
+@property (weak, nonatomic) NSObject<QSOrderListTableViewProviderDelegate>* delegate;
+
 @end

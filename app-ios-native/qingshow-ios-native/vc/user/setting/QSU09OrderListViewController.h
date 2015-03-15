@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSOrderListTableViewProvider.h"
 
-@interface QSU09OrderListViewController : UIViewController
+
+@interface QSU09OrderListViewController : UIViewController <QSOrderListTableViewProviderDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (instancetype)init;

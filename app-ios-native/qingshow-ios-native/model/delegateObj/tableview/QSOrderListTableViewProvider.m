@@ -7,7 +7,7 @@
 //
 
 #import "QSOrderListTableViewProvider.h"
-#import "QSOrderListTableViewCell.h"
+
 
 @implementation QSOrderListTableViewProvider
 
@@ -22,10 +22,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSOrderListTableViewCell* cell = (QSOrderListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:QSOrderListTableViewCellIdentifier forIndexPath:indexPath];
-//    cell.delegate = self;
-//    NSDictionary* dict = self.resultArray[indexPath.row];
-//    [cell bindWithPeople:dict];
-//    cell.followBtn.hidden = self.type == QSModelListTableViewDelegateObjTypeHideFollow;
+    cell.delegate = self;
+    [cell bindWithDict:[self orderForIndexPath:indexPath]];
     return cell;
 }
 
@@ -42,4 +40,40 @@
     return QSOrderListTableViewCellHeight;
 }
 
+#pragma mark - QSOrderListTableViewCellDelegate
+- (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell
+{
+    if ([self.delegate respondsToSelector:@selector(didClickRefundBtnOfOrder:)]) {
+        [self.delegate didClickRefundBtnOfOrder:[self orderForCell:cell]];
+    }
+}
+- (void)didClickLogisticBtnForCell:(QSOrderListTableViewCell*)cell
+{
+    if ([self.delegate respondsToSelector:@selector(didClickLogisticBtnOfOrder:)]) {
+        [self.delegate didClickLogisticBtnOfOrder:[self orderForCell:cell]];
+    }
+}
+- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell
+{
+    if ([self.delegate respondsToSelector:@selector(didClickSubmitBtnOfOrder:)]) {
+        [self.delegate didClickSubmitBtnOfOrder:[self orderForCell:cell]];
+    }
+}
+
+#pragma mark - Private
+- (NSDictionary*)orderForCell:(UITableViewCell*)cell
+{
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    return [self orderForIndexPath:indexPath];
+}
+
+- (NSDictionary*)orderForIndexPath:(NSIndexPath*)indexPath
+{
+    NSInteger row = indexPath.row;
+    if (row < self.resultArray.count) {
+        return self.resultArray[row];
+    } else {
+        return nil;
+    }
+}
 @end
