@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
@@ -47,7 +48,7 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="418" y="320"/>
         </view>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yMR-Hb-tKX">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yMR-Hb-tKX" customClass="QSCreateTradeItemInfoTitleCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yMR-Hb-tKX" id="762-nR-B46">
@@ -113,9 +114,15 @@
                     <constraint firstItem="rpW-LE-OTd" firstAttribute="leading" secondItem="hGV-nr-0qH" secondAttribute="trailing" constant="28" id="sYS-Wf-QsQ"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="priceAfterDiscountLabel" destination="rpW-LE-OTd" id="7q6-le-qUV"/>
+                <outlet property="priceLabel" destination="YiE-XJ-yFQ" id="XRP-Hr-MkT"/>
+                <outlet property="priceTextLabel" destination="ZgZ-aP-XEn" id="Ukc-Wy-Clc"/>
+                <outlet property="titleLabel" destination="YBg-9l-PCA" id="311-Qm-nFs"/>
+            </connections>
             <point key="canvasLocation" x="949" y="155"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jfb-He-aaO">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jfb-He-aaO" customClass="QSCreateTradeItemInfoColorCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfb-He-aaO" id="BIv-xr-4Wi">
@@ -139,7 +146,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="949" y="282"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0mE-1x-HpC">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0mE-1x-HpC" customClass="QSCreateTradeItemInfoSizeCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0mE-1x-HpC" id="Rpj-op-Frc">
@@ -163,7 +170,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="976" y="419"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0JF-BK-tFN">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0JF-BK-tFN" customClass="QSCreateTradeItemInfoQuantityCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0JF-BK-tFN" id="4ah-RG-Gt7">
@@ -209,7 +216,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="955" y="535"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="15S-S2-52n">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="15S-S2-52n" customClass="QSCreateTradeReceiverInfoTitleCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="15S-S2-52n" id="k5N-zn-xNi">
@@ -233,7 +240,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1412.5" y="145"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px5-tN-uwV">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px5-tN-uwV" customClass="QSCreateTradeReceiverInfoTextCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Px5-tN-uwV" id="nBn-Vn-Kuy">
@@ -249,7 +256,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1405.5" y="275"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3ED-XR-GZq">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3ED-XR-GZq" customClass="QSCreateTradeReceiverInfoTextCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3ED-XR-GZq" id="YE2-tp-KfG">
@@ -265,7 +272,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1412.5" y="402"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2Ol-zb-7sH">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2Ol-zb-7sH" customClass="QSCreateTradeReceiverInfoLocationCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Ol-zb-7sH" id="zqs-79-XD8">
@@ -281,7 +288,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1412.5" y="522"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px1-O4-CeG">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px1-O4-CeG" customClass="QSCreateTradeReceiverInfoTextCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Px1-O4-CeG" id="ysB-Hk-Lgl">
@@ -297,7 +304,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1405.5" y="636"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Swl-FW-O50">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Swl-FW-O50" customClass="QSCreateTradeHeigh40Cell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Swl-FW-O50" id="x8V-if-pLS">
@@ -313,7 +320,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1817.5" y="145"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="W0Q-zU-5lt">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="W0Q-zU-5lt" customClass="QSCreateTradePayInfoSelectCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W0Q-zU-5lt" id="pPe-kX-0bb">
@@ -346,7 +353,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1817.5" y="280"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qdV-pm-cch">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qdV-pm-cch" customClass="QSCreateTradePayInfoSelectCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qdV-pm-cch" id="OIM-gE-ZFu">
@@ -379,7 +386,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1817.5" y="412"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qYg-34-QGT">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qYg-34-QGT" customClass="QSCreateTradePayInfoSelectCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qYg-34-QGT" id="NY8-ZN-wvS">
@@ -412,7 +419,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="1817.5" y="528"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yOL-GW-vcb">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="yOL-GW-vcb" customClass="QSTotalPriceCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="65"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yOL-GW-vcb" id="gfM-cP-QO9">

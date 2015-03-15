@@ -1,5 +1,5 @@
 //
-//  QSCreateTradeItemInfoTitleCell.h
+//  QSCreateTradeItemInfoColorCell.h
 //  qingshow-ios-native
 //
 //  Created by wxy325 on 3/16/15.
@@ -8,6 +8,6 @@
 
 #import "QSCreateTradeHeigh60Cell.h"
 
-@interface QSCreateTradeItemInfoTitleCell : QSCreateTradeHeigh60Cell
+@interface QSCreateTradeItemInfoColorCell : QSCreateTradeHeigh60Cell
 
 @end
