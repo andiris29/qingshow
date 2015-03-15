@@ -33,4 +33,10 @@
 #pragma mark - Total Cell
 @property (strong, nonatomic) IBOutlet UITableViewCell *totalCell;
 
+#pragma mark - 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+
+#pragma mark - Init
+- (id)initWithDict:(NSDictionary*)dict;
 @end

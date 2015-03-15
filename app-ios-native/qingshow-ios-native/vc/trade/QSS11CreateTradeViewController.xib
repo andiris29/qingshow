@@ -20,6 +20,7 @@
                 <outlet property="receiverInfoNameCell" destination="Px5-tN-uwV" id="Fip-0P-bxl"/>
                 <outlet property="receiverInfoPhoneCell" destination="3ED-XR-GZq" id="WEL-e2-U0E"/>
                 <outlet property="receiverInfoTitleCell" destination="15S-S2-52n" id="Ndz-FU-rOI"/>
+                <outlet property="tableView" destination="lwj-Es-0Kt" id="1iN-55-m3p"/>
                 <outlet property="totalCell" destination="yOL-GW-vcb" id="EgT-fA-aE8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>

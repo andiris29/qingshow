@@ -20,6 +20,8 @@
     if ([self respondsToSelector:@selector(setLayoutMargins:)]) {
         self.layoutMargins = UIEdgeInsetsZero;
     }
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -39,5 +41,10 @@
 - (id)getInputData
 {
     return nil;
+}
+
+- (void)hideKeyboard
+{
+
 }
 @end

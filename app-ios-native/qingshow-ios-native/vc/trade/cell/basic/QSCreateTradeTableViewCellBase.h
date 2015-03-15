@@ -13,5 +13,5 @@
 - (void)bindWithDict:(NSDictionary*)dict;
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict;
 - (id)getInputData;
-
+- (void)hideKeyboard;
 @end

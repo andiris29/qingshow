@@ -11,6 +11,7 @@
 #import "QSNetworkKit.h"
 #import "QSP04BrandDetailViewController.h"
 #import "QSItemUtil.h"
+#import "QSS11CreateTradeViewController.h"
 
 #define PAGE_ID @"S02 - 闪点推荐"
 
@@ -78,6 +79,9 @@
 #pragma mark -
 - (void)didClickItem:(NSDictionary*)itemDict
 {
+    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:itemDict];
+    [self.navigationController pushViewController:vc animated:YES];
+    /*
     NSDictionary* brandDict = nil;
     id brand = [QSItemUtil getBrand:itemDict];
     if ([brand isKindOfClass:[NSDictionary class]]) {
@@ -88,5 +92,6 @@
 
     QSP04BrandDetailViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
+     */
 }
 @end

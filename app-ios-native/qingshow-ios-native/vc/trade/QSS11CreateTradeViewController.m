@@ -63,6 +63,12 @@
         [headerArray addObject:view];
     }
     
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        self.tableView.separatorInset = UIEdgeInsetsZero;
+    }
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        self.tableView.layoutMargins = UIEdgeInsetsZero;
+    }
 }
 
 - (void)configCellArray
@@ -104,6 +110,15 @@
     return cell;
 }
 
+- (void)hidekeyboard
+{
+    for (NSArray* a in self.cellGroupArray) {
+        for (QSCreateTradeTableViewCellBase* c in a) {
+            [c hideKeyboard];
+        }
+    }
+}
+
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -136,5 +151,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 5.f;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UIScrollView Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self hidekeyboard];
 }
 @end

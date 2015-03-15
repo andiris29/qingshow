@@ -17,5 +17,8 @@
     // Drawing code
 }
 */
-
+- (void)hideKeyboard
+{
+    [self.textField resignFirstResponder];
+}
 @end
