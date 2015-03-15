@@ -362,7 +362,7 @@ public class S01HomeActivity extends BaseActivity {
         ((ImageView) findViewById(R.id.S01_nav_icon_flash)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, U11EditAddressActivity.class);
+                Intent intent = new Intent(S01HomeActivity.this, U09TradeListActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
                 startActivity(intent);
                 closeMenu();
