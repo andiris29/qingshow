@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var uuid = require('node-uuid');
 
 var People = require('../../model/peoples');
 
@@ -25,7 +26,7 @@ var _decrypt = function(string) {
     return dec;
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -227,10 +228,6 @@ _update = function(req, res) {
         }
         delete qsParam.password;
         delete qsParam.currentPassword;
-        if (qsParam.receivers) {
-            people.set('receivers', qsParam.receivers);
-        }
-        delete qsParam.receivers;
         for (var field in qsParam) {
             people.set(field, qsParam[field]);
         }
@@ -248,6 +245,39 @@ _updatePortrait = function(req, res) {
 
 _updateBackground = function(req, res) {
     _upload(req, res, 'background');
+};
+
+_saveReceiver = function(req, res) {
+    var param = req.body;
+    async.waterfall([function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }, function(error, people) {
+            if (!error && !people) {
+                callback(ServerError.PeopleNotExist);
+            } else {
+                callback(error, people);
+            }
+        });
+    }, function(people, callback) {
+        var receivers = [];
+        if (param.receivers) {
+            param.receivers.forEach(function(element) {
+                if (!element.id) {
+                    element.id = uuid.v1();
+                }
+                receivers.push(element);
+            });
+            people.receivers = receivers;
+            people.save(callback);
+        } else {
+            callback(null, people);
+        }
+    }], function(error, people) {
+        ResponseHelper.response(res, error, {
+            'people' : people
+        });
+    });
 };
 
 var _upload = function(req, res, keyword) {
@@ -318,6 +348,11 @@ module.exports = {
     'updateBackground' : {
         method : 'post',
         func : _updateBackground,
+        permissionValidators : ['loginValidator']
+    },
+    'saveReceiver' : {
+        method : 'post',
+        func : _saveReceiver,
         permissionValidators : ['loginValidator']
     }
 };

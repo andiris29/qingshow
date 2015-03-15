@@ -8,10 +8,10 @@ var tradeSchema = Schema({
         peopleSnapshot : Object,
         r : {
             itemSnapshot : {
-                skuIndex : Number
+                sku_id : Number
             },
             peopleSnapshot : {
-                receiverIndex : Number
+                receiver_id : String
             }
         }
     }],
