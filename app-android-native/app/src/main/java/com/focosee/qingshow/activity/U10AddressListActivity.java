@@ -55,6 +55,7 @@ public class U10AddressListActivity extends BaseActivity {
         mAdapter.setOnViewHolderListener(new OnViewHolderListener() {
             @Override
             public void onRequestedLastItem() {
+                mAdapter.setAddcount(mAdapter.getItemCount() + 10);
                 Toast.makeText(U10AddressListActivity.this, "loadMore", Toast.LENGTH_SHORT).show();
             }
         });

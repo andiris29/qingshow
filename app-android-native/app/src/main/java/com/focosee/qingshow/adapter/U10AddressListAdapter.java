@@ -23,6 +23,8 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
     private Context context;
     private OnViewHolderListener onViewHolderListener;
+    private int default_posion = Integer.MAX_VALUE;
+    private int addcount;
 
     public ArrayList<MongoPeople.Receiver> datas = null;
     public U10AddressListAdapter(Context context) {
@@ -58,11 +60,28 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             }
         });
 
+        final int position = i;
+
+        viewHolder.chooseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(position == default_posion)return;
+
+
+
+            }
+        });
+
     }
     //获取数据的数量
     @Override
     public int getItemCount() {
-        return 10;
+        return addcount + 10;
+    }
+
+    public void setAddcount(int addcount){
+        this.addcount = addcount;
     }
 
     public void setOnViewHolderListener(OnViewHolderListener onViewHolderListener){
