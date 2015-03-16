@@ -148,9 +148,9 @@
 
 
 #pragma mark - IBAction
-- (IBAction)playBtnPressed:(id)sender {
+- (IBAction)playOrPauseBtnPressed:(id)sender {
     [self hideSharePanel];
-    [super playBtnPressed:sender];
+    [super playOrPauseBtnPressed:sender];
 }
 
 - (IBAction)commentBtnPressed:(id)sender {
@@ -265,6 +265,7 @@
 {
     [self setBtnsHiddenExceptBackAndPlay:hidden];
     self.playBtn.hidden = hidden;
+//    self.pauseBtn.hidden = hidden;
 }
 - (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
 {

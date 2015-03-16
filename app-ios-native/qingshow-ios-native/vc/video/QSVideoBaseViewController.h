@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIView *scrollViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *videoContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
+@property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 
 
 -(void)playMovie:(NSString *)path;
@@ -24,7 +25,7 @@
 - (void)stopMovie;
 
 - (void)updateShowImgScrollView;
-- (IBAction)playBtnPressed:(id)sender;
+- (IBAction)playOrPauseBtnPressed:(id)sender;
 - (IBAction)backBtnPressed:(id)sender;
 #pragma mark - Method To Be Override
 - (NSArray*)generateImagesData;
