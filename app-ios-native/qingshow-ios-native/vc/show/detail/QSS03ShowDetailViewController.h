@@ -26,7 +26,6 @@
 //@property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIView *buttnPanel;
-@property (weak, nonatomic) IBOutlet UIView *shareContainer;
 @property (weak, nonatomic) IBOutlet UIButton *itemBtn;
 
 #pragma mark - Init
@@ -41,12 +40,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *modelContainer;
 
-@property (weak, nonatomic) IBOutlet UIView *sharePanel;
-
-
-
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
-
 
 @property (strong, nonatomic) QSS07ItemListViewController* itemListVc;
 

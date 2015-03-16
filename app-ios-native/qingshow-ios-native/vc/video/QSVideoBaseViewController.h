@@ -18,8 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 
-
--(void)playMovie:(NSString *)path;
+- (void)playMovie:(NSString *)path;
 - (void)startVideo;
 - (void)pauseVideo;
 - (void)stopMovie;

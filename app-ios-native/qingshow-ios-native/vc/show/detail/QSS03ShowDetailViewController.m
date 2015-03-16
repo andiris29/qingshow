@@ -28,13 +28,7 @@
 
 @interface QSS03ShowDetailViewController ()
 
-
-
 @property (strong, nonatomic) NSDictionary* showDict;
-
-@property (assign, nonatomic) CGRect commentBtnRect;
-@property (assign, nonatomic) CGRect shareBtnRect;
-@property (assign, nonatomic) CGRect playBtnRect;
 
 @property (strong, nonatomic) QSShareViewController* shareVc;
 @end
@@ -59,10 +53,6 @@
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.layer.borderWidth = 1;
     self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
-    
-    self.commentBtnRect = self.commentBtn.frame;
-    self.shareBtnRect = self.shareBtn.frame;
-    self.playBtnRect = self.playBtn.frame;
     
     self.shareVc = [[QSShareViewController alloc] init];
     self.shareVc.delegate = self;
@@ -186,7 +176,7 @@
 }
 
 
-
+#pragma mark - 
 - (IBAction)didTapModel:(id)sender {
     NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
     QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
@@ -194,6 +184,7 @@
     
 }
 
+#pragma mark -
 - (IBAction)itemButtonPressed:(id)sender {
     QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
     vc.delegate = self;
