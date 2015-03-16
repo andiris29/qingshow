@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="10dp">
 
     <LinearLayout
@@ -23,6 +24,7 @@
             android:textSize="@dimen/text_size_small" />
 
         <TextView
+            android:id="@+id/item_tradelist_num"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
@@ -46,6 +48,7 @@
             android:textSize="@dimen/text_size_small" />
 
         <TextView
+            android:id="@+id/item_tradelist_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
@@ -79,6 +82,7 @@
             android:paddingTop="20dp">
 
             <ImageView
+                android:id="@+id/item_tradelist_image"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
@@ -92,6 +96,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
+                    android:id="@+id/item_tradelist_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="秋冬新款" />
@@ -100,17 +105,18 @@
                     android:layout_height="60dp"
                     android:paddingTop="20dp">
                     <TextView
-                    android:id="@+id/item_tradelist_color"
+                    android:id="@+id/item_tradelist_color_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:text="@string/trade_color"/>
                     <TextView
+                        android:id="@+id/item_tradelist_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_toRightOf="@+id/item_tradelist_color"
+                        android:layout_toRightOf="@+id/item_tradelist_color_left"
                         android:text="黑"/>
                     <TextView
 
@@ -131,34 +137,25 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/trade_measurement"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/item_tradelist_measurement"
-                        android:text="S"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/item_tradelist_count"
+                        android:layout_toLeftOf="@+id/item_tradelist_quantity"
                         android:text="@string/trade_count"/>
                     <TextView
-                        android:id="@+id/item_tradelist_count"
+                        android:id="@+id/item_tradelist_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:text="1件"/>
                     <TextView
-                        android:id="@+id/item_tradelist_measurement"
+                        android:id="@+id/item_tradelist_measurement_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/trade_measurement"/>
                     <TextView
+                        android:id="@+id/item_tradelist_measurement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@+id/item_tradelist_measurement"
+                        android:layout_toRightOf="@+id/item_tradelist_measurement_left"
                         android:text="S"/>
                     </RelativeLayout>
             </LinearLayout>
@@ -172,6 +169,12 @@
             android:layout_marginTop="10dp"
             android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/item_tradelist_finish"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical">
+            <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -182,6 +185,7 @@
                     android:layout_marginBottom="10dp"
                     />
                 <TextView
+                    android:id="@+id/item_tradelist_createTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2015-3-1"
@@ -198,12 +202,36 @@
                 android:text="@string/trade_finish_date"
                 />
                 <TextView
+                    android:id="@+id/item_tradelist_finishTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="2015-3-1"
                     />
             </LinearLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/item_tradelist_trading"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+                
+                <ImageView
+                    android:id="@+id/item_tradelist_applyreturn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
+                    android:src="@drawable/apply_return"/>
+                <ImageView
+                    android:id="@+id/item_tradelist_applyreceive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/apply_receive"/>
+                
+                
+                </RelativeLayout>
+            
 
         </LinearLayout>
 

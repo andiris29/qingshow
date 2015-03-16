@@ -80,6 +80,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private RelativeLayout rulesRelativeLayout;
     private RelativeLayout helpRelativeLayout;
     private RelativeLayout aboutVIPRelativeLayout;
+    private RelativeLayout tradeRelativeLayout;
+    private RelativeLayout addresslistRelativeLayout;
 
     private ImageView portraitImageView;
     private ImageView backgroundImageView;
@@ -167,6 +169,9 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     }
 
     private void matchUI(View view) {
+
+        tradeRelativeLayout = (RelativeLayout) view.findViewById(R.id.tradelistRelativeLayout);
+        addresslistRelativeLayout = (RelativeLayout) view.findViewById(R.id.addresslist_RelativeLayout);
 
         portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
         backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
@@ -579,6 +584,22 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onClick(View view) {
                 U02AboutVIPFragment fragment = new U02AboutVIPFragment();
                 getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, fragment).commit();
+            }
+        });
+
+        tradeRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), U09TradeListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        addresslistRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
+                startActivity(intent);
             }
         });
     }

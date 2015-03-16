@@ -5,16 +5,19 @@
     android:background="@color/gray_background"
     android:gravity="center_horizontal"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/U11ec_title_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_height"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
         android:background="@drawable/bg_titlebar">
 
         <ImageView
             android:id="@+id/U11ec_back_image_button"
-            android:layout_width="@dimen/title_bar_height"
-            android:layout_height="@dimen/title_bar_height"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:layout_alignParentLeft="true"
             android:padding="10dp"
             android:background="#00000000"
@@ -22,8 +25,9 @@
 
         <TextView
             android:id="@+id/U11_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="5"
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_name_activity_addaddress"
@@ -33,16 +37,21 @@
 
         <TextView
             android:id="@+id/U11ec_save_btn"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:layout_alignParentRight="true"
             android:padding="10dp"
             android:gravity="center"
             android:text="@string/save_btn_activity_address"
             android:textColor="#a91a4e"
             android:textSize="@dimen/text_size" />
-    </RelativeLayout>
-
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/item_height_activity_settings"
@@ -146,5 +155,6 @@
         android:layout_gravity="center"
         android:gravity="center" >
     </com.focosee.qingshow.widget.CityPicker>
+    </LinearLayout>
 
 </LinearLayout>

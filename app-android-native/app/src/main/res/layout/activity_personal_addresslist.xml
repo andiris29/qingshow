@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/S08_title_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="12"
+        android:background="@drawable/bg_titlebar"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/S08_back_image_button"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:padding="10dp"
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:src="@drawable/btn_back_default" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/title_name_activity_addresslist"
+            android:textColor="#454545"
+            android:textSize="@dimen/text_size"
+            android:layout_weight="5"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/person_addresslist_btn_address"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:textColor="@color/pink"
+            android:gravity="center"
+            android:text="@string/title_name_activity_addaddress"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/person_addresslist_recycleview"
+        android:scrollbars="none"
+        android:background="@color/gray_background"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"/>
 
 </LinearLayout>

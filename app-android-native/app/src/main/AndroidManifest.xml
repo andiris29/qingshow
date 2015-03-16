@@ -63,8 +63,26 @@
             android:configChanges="keyboardHidden|orientation" >
         </activity>
         <activity
+            android:name="com.focosee.qingshow.activity.U09TradeListActivity"
+            android:label="@string/title_name_activity_trade"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.U10AddressListActivity"
+            android:label="@string/title_activity_addresslist"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
             android:name="com.focosee.qingshow.activity.U11EditAddressActivity"
             android:label="@string/title_activity_address"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.U12ReturnActivity"
+            android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" >
         </activity>

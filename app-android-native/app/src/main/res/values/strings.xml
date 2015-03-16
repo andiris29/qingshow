@@ -68,6 +68,26 @@
     <string name="consignee_area">所在区域</string>
     <string name="consignee_detail_address">详细地址</string>
 
+    <!-- Addresslist Activity -->
+    <string name="title_activity_addresslist">AddressActivity</string>
+    <string name="title_name_activity_addresslist">收货地址管理</string>
+    <string name="name_activity_addresslist">姓名:</string>
+    <string name="phone_activity_addresslist">电话:</string>
+    <string name="address_activity_addresslist">地址:</string>
+
+    <!-- Return Activity -->
+    <string name="title_activity_return">ReturnActivity</string>
+    <string name="title_name_activity_return">退货方式</string>
+    <string name="address_activity_return">退货地址:</string>
+    <string name="receiver_activity_return">退货收件人:</string>
+    <string name="phone_activity_return">联系电话:</string>
+    <string name="matters_activity_return">*退货注意事项:</string>
+    <string name="info_title_activity_return">填写退货信息</string>
+    <string name="info_expressage_activity_return">货运公司:</string>
+    <string name="info_expressNO_activity_return">货运单号:</string>
+    <string name="info_expressDate_activity_return">寄出日期:</string>
+    <string name="sure_btn_activity_return">申请退货</string>
+
     <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_s01_home">倾秀</string>
@@ -83,6 +103,8 @@
     <string name="confirm">确定</string>
     <string name="cancels">取消</string>
     <string name="dismiss">隐藏</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
     <string name="title_activity_p04_brand">P04BrandActivity</string>
     <string name="title_activity_p02_model">P02ModelActivity</string>
     <string name="title_activity_item">ItemActivity</string>
@@ -101,6 +123,7 @@
     <string name="check_wifi">请检查网络</string>
 
     <!-- trade -->
+    <string name="title_name_activity_trade">订单管理</string>
     <string name="service_text">客服热线:</string>
     <string name="service_phone_number">4008-123-655</string>
     <string name="service_describe1">7天退货</string>
