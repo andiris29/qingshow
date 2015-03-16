@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSNumberPageControl.h"
+
 @class QSImageScrollViewBase;
 @protocol QSImageScrollViewBaseDelegate <NSObject>
 @optional
@@ -28,7 +30,7 @@ QSImageScrollViewDirectionHor, QSImageScrollViewDirectionVer
 @property (assign, nonatomic) float pageControlOffsetY;
 @property (weak, nonatomic) NSObject<QSImageScrollViewBaseDelegate>* delegate;
 
-@property (strong, nonatomic) IBOutlet UIPageControl* pageControl;
+@property (strong, nonatomic) QSNumberPageControl* pageControl;
 @property (strong, nonatomic) NSMutableArray* imageViewArray;
 @property (assign, nonatomic) BOOL enableLazyLoad;
 

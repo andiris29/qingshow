@@ -56,7 +56,7 @@
         self.scrollView.delegate = self;
         [self addSubview:self.scrollView];
         
-        self.pageControl = [[UIPageControl alloc] initWithFrame:CGRectZero];
+        self.pageControl = [[QSNumberPageControl alloc] init];
         [self addSubview:self.pageControl];
     }
     return self;

@@ -132,6 +132,7 @@
 		EF9A743B1A02A82700095F07 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EF9A74391A02A82700095F07 /* InfoPlist.strings */; };
 		EF9A743D1A02A82700095F07 /* qingshow_ios_nativeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A743C1A02A82700095F07 /* qingshow_ios_nativeTests.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
+		EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */; };
 		EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95261A0FB7B3006A0AE3 /* MBProgressHUD.m */; };
 		EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */; };
 		EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952F1A0FC3A9006A0AE3 /* QSError.m */; };
@@ -460,6 +461,8 @@
 		EF9A74771A02A89900095F07 /* QSNetworkEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkEngine.h; sourceTree = "<group>"; };
 		EF9A74781A02A89900095F07 /* QSNetworkEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkEngine.m; sourceTree = "<group>"; };
 		EF9A747C1A02A8F500095F07 /* QSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSBlock.h; sourceTree = "<group>"; };
+		EF9BC1E81AB7433F00391530 /* QSNumberPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNumberPageControl.h; sourceTree = "<group>"; };
+		EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNumberPageControl.m; sourceTree = "<group>"; };
 		EF9C95251A0FB7B3006A0AE3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		EF9C95261A0FB7B3006A0AE3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		EF9C952B1A0FBFF2006A0AE3 /* UIViewController+ShowHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ShowHud.h"; sourceTree = "<group>"; };
@@ -1359,6 +1362,8 @@
 				EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */,
 				EFE419F71A409A9F005175BB /* QSAllItemImageScrollView.h */,
 				EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */,
+				EF9BC1E81AB7433F00391530 /* QSNumberPageControl.h */,
+				EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */,
 			);
 			path = imageScroll;
 			sourceTree = "<group>";
@@ -1768,6 +1773,7 @@
 				82F4E27B1A17475A007A90B4 /* UIViewController+Utility.m in Sources */,
 				EF59EDFB1A74FAEE00D639FB /* QSBigImageTableViewProvider.m in Sources */,
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
+				EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */,
 				EFC543651A1750AD001B2C49 /* QSSectionButtonGroup.m in Sources */,
 				EF810F4D1AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m in Sources */,
 				EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */,
