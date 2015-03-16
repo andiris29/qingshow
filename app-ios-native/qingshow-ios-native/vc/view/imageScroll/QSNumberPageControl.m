@@ -51,7 +51,7 @@
 
 - (void)updateText
 {
-    self.numberLabel.text = [NSString stringWithFormat:@"%d/%d", self.currentPage + 1, self.numberOfPages];
+    self.numberLabel.text = [NSString stringWithFormat:@"%d/%d", (self.currentPage + 1), self.numberOfPages];
 }
 
 @end
