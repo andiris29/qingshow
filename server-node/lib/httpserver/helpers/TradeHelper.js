@@ -4,7 +4,9 @@ var async = require('async');
 var People = require('../../model/peoples');
 var Trade = require('../../model/trades');
 
-var updateStatus = function(trade, updateStatus, peopleId, callback) {
+var TradeHelper = module.exports;
+
+TradeHelper.updateStatus = function(trade, updateStatus, peopleId, callback) {
     var statusLog = {
         'status' : updateStatus,
         peopleRef : peopleId,

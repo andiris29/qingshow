@@ -39,7 +39,7 @@ peopleSchema = Schema({
         order : Number
     },
     receivers : [{
-        id: String,
+        uuid: String,
         name : String,
         phone : String,
         province : String,

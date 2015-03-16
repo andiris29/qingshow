@@ -260,22 +260,63 @@ _saveReceiver = function(req, res) {
             }
         });
     }, function(people, callback) {
-        var receivers = [];
-        if (param.receivers) {
-            param.receivers.forEach(function(element) {
-                if (!element.id) {
-                    element.id = uuid.v1();
-                }
-                receivers.push(element);
-            });
-            people.receivers = receivers;
-            people.save(callback);
-        } else {
-            callback(null, people);
+        var receiver = {};
+        for(var element in param) {
+            receiver[element] = param[element];
         }
-    }], function(error, people) {
+        if (!receiver.isDefault) {
+            receiver.isDefault = false;
+        }
+        if (people.receivers == null || people.receivers.length == 0) {
+            people.receivers = [];
+            receiver.isDefault = true;
+            if (!receiver.uuid) {
+                receiver.uuid = uuid.v1();
+            }
+            people.receivers.push(receiver);
+        } else {
+            var hit = -1;
+            // find index
+            for (var i = 0; i < people.receivers.length; i++) {
+                var element = people.receivers[i];
+                if (!receiver.uuid) {
+                    if (element.name == receiver.name && element.phone == receiver.phone && element.province == receiver.province && element.address == receiver.address) {
+                        hit = i;
+                        break;
+                    }
+                } else {
+                    if (element.uuid == receiver.uuid) {
+                        hit = i;
+                        break;
+                    }
+                }
+            }
+
+            if (receiver.isDefault) {
+                for (var i = 0; i < people.receivers.length; i++) {
+                    people.receivers[i].isDefault = false;
+                }
+            }
+
+            if (!receiver.uuid) {
+                receiver.uuid = uuid.v1();
+            }
+            if (hit == -1) {
+                people.receivers.push(receiver);
+            } else {
+                for(var field in receiver) {
+                    people.receivers[hit].set(field, receiver[field]);
+                }
+            }
+        }
+
+        people.save(function(error, people) {
+            callback(error, people, receiver.uuid);
+        });
+    }], function(error, people, nowUuid) {
         ResponseHelper.response(res, error, {
-            'people' : people
+            'people' : people,
+            'receiverUuid' : nowUuid 
         });
     });
 };

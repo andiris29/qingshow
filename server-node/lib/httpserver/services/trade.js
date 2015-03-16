@@ -20,38 +20,32 @@ var _create, _query, _statusTo, _getSnapShot, _getStatusName;
 _create = function(req, res) {
     var param = req.body;
     async.waterfall([function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }).exec(function(error, people) {
+            if (!error && !people) {
+                callback(ServerError.PeopleNotExist);
+            } else {
+                callback(error, people);
+            }
+        });
+    }, function(people, callback) {
         var orders = param.orders;
         var trade = new Trade();
-        var peopleSp = _getSnapShot(req.qsCurrentUserId, People);
-        if (!peopleSp) {
-            callback(ServerError.PeopleNotExist);
-            return;
-        }
         trade.orders = [];
         orders.forEach(function(element) {
-            var itemSp = _getSnapShot(RequestHelper.parseId(element._id), Item);
-            if (!itemSp) {
-                callback(ServerError.ItemNotExist);
-                return;
-            }
             var order = {
-                itemSnapshot : itemSp,
-                peopleSnapshot : peopleSp,
+                itemSnapshot : element.itemSnapshot,
+                peopleSnapshot : people,
                 quantity : element.quantity,
                 price : element.price,
-                r : {
-                    itemSnapshot : element.r.itemSnapshot,
-                    peopleSnapshot : element.r.peopleSnapshot
-                }
+                selectedItemSkuId : element.selectedItemSkuId,
+                selectedPeopleReceiverUuid: element.selectedPeopleReceiverUuid
             };
             trade.orders.push(order);
         });
-        ['pay', 'totalFee', 'logistic', 'returnLogistic'].forEach(function(element) {
-            if (param[element]) {
-                trade.set(element, param[element]);
-            }
-        });
-        trade.save(function(err) {
+        trade.set('totalFee', param['totalFee']);
+        trade.save(function(err, trade) {
             if (err) {
                 callback(err);
                 return;
@@ -67,7 +61,7 @@ _create = function(req, res) {
         // make relation
         var initiatorRef = req.qsCurrentUserId;
         var targetRef = trade._id;
-        RelationshipHelper.creat(PeopleCreateTrade, initiatorRef, targetRef, function(err, relation) {
+        RelationshipHelper.create(PeopleCreateTrade, initiatorRef, targetRef, function(err, relation) {
             callback(err, trade, relation);
         });
     }, function(trade, relation, callback) {
@@ -95,7 +89,8 @@ _statusTo = function(req, res) {
     async.waterfall([function(callback) {
         // get trade;
         Trade.findOne({
-            '_id' : RequestHelper.parseId(param.id)
+            '_id' : RequestHelper.parseId(param._id)
+
         }).exec(function(error, trade) {
             if (!error && !trade) {
                 callback(ServerError.TradeNotExist);
@@ -188,7 +183,7 @@ _statusTo = function(req, res) {
         }).exec(function(error, people) {
             callback(error, trade, people);
         });
-    }, function(trade, people callback) {
+    }, function(trade, people, callback) {
         // send mail
         var subject = "[" + _getStatusName(trade.status) + "]" + trade.orders[0].itemSnapshot.name + "*" + trade.orders[0].quantity + "=" + trade.orders[0].price;
         var content = "用户：\n"  
@@ -207,7 +202,7 @@ _statusTo = function(req, res) {
 };
 
 _query = function(req, res) {
-    ServiceHelper.queryRelatedTrades(req, res, RPeopleCreateTrade, {
+    ServiceHelper.queryRelatedTrades(req, res, PeopleCreateTrade, {
         'query' : 'initiatorRef',
         'result' : 'targetRef'
     });
@@ -262,7 +257,7 @@ module.exports = {
         permissionValidators : ['loginValidator']
     },
     'query' : {
-        method : 'post',
+        method : 'get',
         func : _query,
         permissionValidators : ['loginValidator']
     }

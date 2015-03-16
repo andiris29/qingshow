@@ -1,3 +1,6 @@
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
 var tradeSchema = Schema({
     status : Number,
     totalFee : Number,
@@ -5,15 +8,9 @@ var tradeSchema = Schema({
         quantity : Number,
         price : Number,
         itemSnapshot : Object,
+        selectedItemSkuId : String,
         peopleSnapshot : Object,
-        r : {
-            itemSnapshot : {
-                sku_id : Number
-            },
-            peopleSnapshot : {
-                receiver_id : String
-            }
-        }
+        selectedPeopleReceiverUuid: String
     }],
     pay : {
         weixin : {

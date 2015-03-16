@@ -109,7 +109,7 @@ ServiceHelper.queryRelatedTrades = function(req, res, RModel, fields) {
         };
     }, {
         'afterQuery' : function(qsParam, trades, numTotal, callback) {
-            ContextHelper.appendPeopleContext(req,qsCurrentUserId, trades, callback);
+            ContextHelper.appendPeopleContext(RequestHelper.parseId(req.body._id), trades, callback);
         }
     });
 };
