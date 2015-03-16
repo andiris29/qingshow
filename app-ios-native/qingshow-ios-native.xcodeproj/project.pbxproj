@@ -133,6 +133,7 @@
 		EF9A743D1A02A82700095F07 /* qingshow_ios_nativeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A743C1A02A82700095F07 /* qingshow_ios_nativeTests.m */; };
 		EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9A74781A02A89900095F07 /* QSNetworkEngine.m */; };
 		EF9BC1EA1AB7433F00391530 /* QSNumberPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */; };
+		EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9BC1EE1AB749AD00391530 /* QSVideoBaseViewController.m */; };
 		EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95261A0FB7B3006A0AE3 /* MBProgressHUD.m */; };
 		EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */; };
 		EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952F1A0FC3A9006A0AE3 /* QSError.m */; };
@@ -143,8 +144,6 @@
 		EFA1F5621A53052100010F79 /* QSImageEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA1F5601A53052100010F79 /* QSImageEditingViewController.xib */; };
 		EFA1F5681A5305DE00010F79 /* ImageCropperView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F5651A5305DE00010F79 /* ImageCropperView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F5671A5305DE00010F79 /* UIImage+Rotation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618A31A12588B00560699 /* QSS03ItemDetailViewController.m */; };
-		EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618A41A12588B00560699 /* QSS03ItemDetailViewController.xib */; };
 		EFA618AC1A125FCB00560699 /* QSS04CommentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AA1A125FCB00560699 /* QSS04CommentListViewController.m */; };
 		EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618AB1A125FCB00560699 /* QSS04CommentListViewController.xib */; };
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
@@ -463,6 +462,8 @@
 		EF9A747C1A02A8F500095F07 /* QSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSBlock.h; sourceTree = "<group>"; };
 		EF9BC1E81AB7433F00391530 /* QSNumberPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNumberPageControl.h; sourceTree = "<group>"; };
 		EF9BC1E91AB7433F00391530 /* QSNumberPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNumberPageControl.m; sourceTree = "<group>"; };
+		EF9BC1ED1AB749AD00391530 /* QSVideoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSVideoBaseViewController.h; sourceTree = "<group>"; };
+		EF9BC1EE1AB749AD00391530 /* QSVideoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSVideoBaseViewController.m; sourceTree = "<group>"; };
 		EF9C95251A0FB7B3006A0AE3 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		EF9C95261A0FB7B3006A0AE3 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		EF9C952B1A0FBFF2006A0AE3 /* UIViewController+ShowHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ShowHud.h"; sourceTree = "<group>"; };
@@ -481,9 +482,6 @@
 		EFA1F5651A5305DE00010F79 /* ImageCropperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCropperView.m; sourceTree = "<group>"; };
 		EFA1F5661A5305DE00010F79 /* UIImage+Rotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Rotation.h"; sourceTree = "<group>"; };
 		EFA1F5671A5305DE00010F79 /* UIImage+Rotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Rotation.m"; sourceTree = "<group>"; };
-		EFA618A21A12588B00560699 /* QSS03ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS03ItemDetailViewController.h; sourceTree = "<group>"; };
-		EFA618A31A12588B00560699 /* QSS03ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS03ItemDetailViewController.m; sourceTree = "<group>"; };
-		EFA618A41A12588B00560699 /* QSS03ItemDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemDetailViewController.xib; sourceTree = "<group>"; };
 		EFA618A91A125FCB00560699 /* QSS04CommentListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS04CommentListViewController.h; sourceTree = "<group>"; };
 		EFA618AA1A125FCB00560699 /* QSS04CommentListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS04CommentListViewController.m; sourceTree = "<group>"; };
 		EFA618AB1A125FCB00560699 /* QSS04CommentListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS04CommentListViewController.xib; sourceTree = "<group>"; };
@@ -686,6 +684,7 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EF9BC1EC1AB7499A00391530 /* video */,
 				EF810F2E1AB5D1460079BA76 /* trade */,
 				EFA1F5521A52E85A00010F79 /* share */,
 				EFD0B7F21A1A586700BCDFBA /* compare */,
@@ -1158,6 +1157,15 @@
 			path = type;
 			sourceTree = "<group>";
 		};
+		EF9BC1EC1AB7499A00391530 /* video */ = {
+			isa = PBXGroup;
+			children = (
+				EF9BC1ED1AB749AD00391530 /* QSVideoBaseViewController.h */,
+				EF9BC1EE1AB749AD00391530 /* QSVideoBaseViewController.m */,
+			);
+			path = video;
+			sourceTree = "<group>";
+		};
 		EF9C95241A0FB7B3006A0AE3 /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1341,9 +1349,6 @@
 				EFC7ADA71A10E22B0078D1F9 /* QSS03ShowDetailViewController.h */,
 				EFC7ADA81A10E22B0078D1F9 /* QSS03ShowDetailViewController.m */,
 				EFC7ADA91A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib */,
-				EFA618A21A12588B00560699 /* QSS03ItemDetailViewController.h */,
-				EFA618A31A12588B00560699 /* QSS03ItemDetailViewController.m */,
-				EFA618A41A12588B00560699 /* QSS03ItemDetailViewController.xib */,
 			);
 			path = detail;
 			sourceTree = "<group>";
@@ -1730,7 +1735,6 @@
 				826423371A11281A00D3F6BF /* QSU06LoginViewController.xib in Resources */,
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
 				EFF89E051A13A4AD004E6C55 /* QSP03BrandListViewController.xib in Resources */,
-				EFA618A61A12588B00560699 /* QSS03ItemDetailViewController.xib in Resources */,
 				EFA1F5621A53052100010F79 /* QSImageEditingViewController.xib in Resources */,
 				EF7826A71A4EB4F200C69460 /* user_bg_default.png in Resources */,
 				EFD28CF81AB3F56C00991ADD /* QSU11LocationEditingViewController.xib in Resources */,
@@ -1797,6 +1801,7 @@
 				EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */,
 				EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */,
 				EF810F731AB601E50079BA76 /* QSCreateTradeReceiverInfoTextCell.m in Sources */,
+				EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */,
 				EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */,
 				8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */,
 				EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */,
@@ -1836,7 +1841,6 @@
 				EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */,
 				EF78E3311AAF3E2300665EDD /* QSU10UserLocationListViewController.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
-				EFA618A51A12588B00560699 /* QSS03ItemDetailViewController.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
 				EFA98A761A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,

@@ -10,15 +10,12 @@
 #import "QSImageScrollViewBase.h"
 #import "QSShareViewController.h"
 #import "QSS07ItemListViewController.h"
+#import "QSVideoBaseViewController.h"
 
-@interface QSS03ShowDetailViewController : UIViewController <QSImageScrollViewBaseDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate>
+
+@interface QSS03ShowDetailViewController : QSVideoBaseViewController < UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate>
 
 #pragma mark - IBOutlet
-
-
-@property (weak, nonatomic) IBOutlet UIView *showContainer;
-
-
 @property (weak, nonatomic) IBOutlet UIImageView *headIconImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
@@ -36,19 +33,12 @@
 - (id)initWithShow:(NSDictionary*)showDict;
 
 #pragma mark - IBAction
-- (IBAction)playBtnPressed:(id)sender;
 - (IBAction)commentBtnPressed:(id)sender;
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)likeBtnPressed:(id)sender;
-- (IBAction)backBtnPressed:(id)sender;
 - (IBAction)didTapModel:(id)sender;
 - (IBAction)itemButtonPressed:(id)sender;
 
-- (IBAction)shareContainerPressed:(id)sender;
-
-
-
-@property (weak, nonatomic) IBOutlet UIView *videoContainerView;
 @property (weak, nonatomic) IBOutlet UIView *modelContainer;
 
 @property (weak, nonatomic) IBOutlet UIView *sharePanel;
@@ -56,7 +46,7 @@
 
 
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
-@property (weak, nonatomic) IBOutlet UIButton *playBtn;
+
 
 @property (strong, nonatomic) QSS07ItemListViewController* itemListVc;
 

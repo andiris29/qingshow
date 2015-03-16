@@ -10,7 +10,7 @@
 
 @protocol QSS03ItemListViewControllerDelegate <NSObject>
 
-- (void)didClickCloseBtn;
+- (void)didClickItemListCloseBtn;
 
 @end
 

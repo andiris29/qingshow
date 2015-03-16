@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
@@ -18,8 +17,8 @@
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
                 <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
                 <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
+                <outlet property="scrollViewContainer" destination="Rzs-4O-hfv" id="pTH-la-QN4"/>
                 <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
-                <outlet property="showContainer" destination="Rzs-4O-hfv" id="IFv-V1-6zA"/>
                 <outlet property="videoContainerView" destination="5Fn-9j-ahl" id="xg0-iQ-TbL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
