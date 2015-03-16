@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 
 import com.focosee.qingshow.R;
 
@@ -11,6 +13,7 @@ import com.focosee.qingshow.R;
  * Created by Administrator on 2015/3/13.
  */
 public class ImageRadioGroup extends FlowRadioGroup {
+
 
     public ImageRadioGroup(Context context) {
         super(context);
@@ -42,4 +45,6 @@ public class ImageRadioGroup extends FlowRadioGroup {
         }
         return super.onTouchEvent(event);
     }
+
+
 }

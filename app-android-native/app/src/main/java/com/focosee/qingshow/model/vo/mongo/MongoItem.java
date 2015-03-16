@@ -47,7 +47,7 @@ public class MongoItem implements Serializable {
         public String top_num_iid;
         public LinkedList<SKU> skus;
 
-        private class SKU implements Serializable{
+        public class SKU implements Serializable{
 
             public String stock;
             public String promo_price;

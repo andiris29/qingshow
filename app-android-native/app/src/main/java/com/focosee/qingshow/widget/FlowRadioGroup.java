@@ -10,6 +10,8 @@ import android.widget.RadioGroup;
  */
 public class FlowRadioGroup extends RadioGroup {
 
+    private int realPadding = 0;
+
     public FlowRadioGroup(Context context) {
         super(context);
     }
@@ -17,6 +19,9 @@ public class FlowRadioGroup extends RadioGroup {
     public FlowRadioGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
+
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -66,7 +71,17 @@ public class FlowRadioGroup extends RadioGroup {
                     y = row * height + height;
                 }
                 child.layout(x - width, y - height, x, y);
+                x += realPadding;
             }
         }
+
+    }
+
+    public int getRealPadding() {
+        return realPadding;
+    }
+
+    public void setRealPadding(int realPadding) {
+        this.realPadding = realPadding;
     }
 }

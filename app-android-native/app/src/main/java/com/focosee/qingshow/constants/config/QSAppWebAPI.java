@@ -63,6 +63,8 @@ public class QSAppWebAPI {
     private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
     private static final String ITEM_RANDOM = HOST_NAME +"/itemFeeding/random";
 
+    private static final String TRADE_CREATE = HOST_NAME + "/trade/create";
+
     public static String getBrandFollowApi(){
         return BRAND_FOLLOW_API;
     }

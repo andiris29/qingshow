@@ -9,7 +9,7 @@ import android.widget.ImageView;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class ImageRadio extends ImageView{
+public class ImageRadio extends ImageView {
 
     private boolean check = false;
 
@@ -25,6 +25,15 @@ public class ImageRadio extends ImageView{
         super(context, attrs, defStyle);
     }
 
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        setMeasuredDimension(200, 200);
+    }
+
+    @Override
+    public void layout(int l, int t, int r, int b) {
+        super.layout(l, t, r, b);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {

@@ -8,6 +8,7 @@ import java.util.LinkedList;
  */
 public class MongoTrade implements Serializable {
 
+    public String _id;
     public String totalFee;
     public int status;
     public LinkedList<Order> orders;
@@ -18,23 +19,10 @@ public class MongoTrade implements Serializable {
     class Order implements Serializable{
         public String quantity;
         public String price;
-        public R r;
+        public MongoItem itemSnapshot;
+        public String selectedItemSkuId;
+        public String selectedPeopleReceiverUuid;
 
-        class R{
-
-            public ItemSnapshot itemSnapshot;
-            public PeopleSnapshot peopleSnapshot;
-
-            class ItemSnapshot{
-                public String _id;
-                public int skuIndex;
-            }
-
-            class PeopleSnapshot{
-                public int receiverIndex;
-            }
-
-        }
 
     }
 

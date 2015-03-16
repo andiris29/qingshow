@@ -17,20 +17,30 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/s03_back_btn" />
 
+
         <android.support.v4.view.ViewPager
             android:id="@+id/s10_item_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="150dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/s10_info_bg"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingLeft="20dp">
+
+            <LinearLayout
+                android:id="@+id/s10_item_viewGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:orientation="horizontal"></LinearLayout>
 
             <TextView
                 android:id="@+id/item_p04_item_discount"
