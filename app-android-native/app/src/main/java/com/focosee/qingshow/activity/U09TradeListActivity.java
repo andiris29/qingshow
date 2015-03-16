@@ -26,15 +26,16 @@ public class U09TradeListActivity extends BaseActivity{
 
         setContentView(R.layout.activity_person_tradelist);
 
-        tradelist = (RecyclerView) findViewById(R.id.person_activity_tradelist_recycleview);
-
-        mAdapter = new U09TradeListAdapter(this);
         findViewById(R.id.person_activity_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(U09.this, U11EditAddressActivity.class));
+                finish();
             }
         });
+
+        tradelist = (RecyclerView) findViewById(R.id.person_activity_tradelist_recycleview);
+
+        mAdapter = new U09TradeListAdapter(this);
 
 //创建默认的线性LayoutManager
         mLayoutManager = new LinearLayoutManager(this);

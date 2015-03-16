@@ -109,6 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                        android:textColor="@color/p01_text_color_model_height"
                     android:text="@string/trade_color"/>
                     <TextView
                         android:id="@+id/item_tradelist_color"
@@ -116,6 +117,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
+                        android:textColor="@color/p01_text_color_model_height"
                         android:layout_toRightOf="@+id/item_tradelist_color_left"
                         android:text="黑"/>
                     <TextView
@@ -124,6 +126,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_toLeftOf="@+id/item_tradelist_price"
+                        android:textColor="@color/p01_text_color_model_height"
                         android:text="@string/trade_price"/>
                     <TextView
                         android:id="@+id/item_tradelist_price"
@@ -132,28 +135,32 @@
                         android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
-
+                        android:textColor="@color/p01_text_color_model_height"
                         android:text="￥350.00"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/item_tradelist_quantity"
+                        android:textColor="@color/p01_text_color_model_height"
                         android:text="@string/trade_count"/>
                     <TextView
                         android:id="@+id/item_tradelist_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
+                        android:textColor="@color/p01_text_color_model_height"
                         android:text="1件"/>
                     <TextView
                         android:id="@+id/item_tradelist_measurement_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/p01_text_color_model_height"
                         android:text="@string/trade_measurement"/>
                     <TextView
                         android:id="@+id/item_tradelist_measurement"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/p01_text_color_model_height"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/item_tradelist_measurement_left"
                         android:text="S"/>
@@ -214,7 +221,7 @@
                 android:id="@+id/item_tradelist_trading"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:visibility="visible">
                 
                 <ImageView
                     android:id="@+id/item_tradelist_applyreturn"

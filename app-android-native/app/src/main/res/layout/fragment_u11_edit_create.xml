@@ -41,7 +41,6 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:layout_alignParentRight="true"
-            android:padding="10dp"
             android:gravity="center"
             android:text="@string/save_btn_activity_address"
             android:textColor="#a91a4e"
@@ -153,6 +152,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
+        android:background="@drawable/item_shadow"
         android:gravity="center" >
     </com.focosee.qingshow.widget.CityPicker>
     </LinearLayout>

@@ -1,18 +1,23 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U12ReturnActivity;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -38,9 +43,46 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
         if(i % 2 ==0){
+            viewHolder.tradingLayout.setVisibility(View.GONE);
             viewHolder.finishLayout.setVisibility(View.VISIBLE);
+            viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, U12ReturnActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+            viewHolder.applyReceive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final MaterialDialog dialog = new MaterialDialog(context);
+
+                    LayoutInflater layoutInflater = LayoutInflater.from(context);
+                    View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
+                    dialog.setContentView(view);
+                    ((TextView)view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("头图范德萨辅导费萨芬四大皆空啦");
+                    view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    view.findViewById(R.id.tradedialog_comfirm_btn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "确认收货成功！", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
+
+
+                }
+            });
         } else {
             viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+            viewHolder.finishLayout.setVisibility(View.GONE);
         }
 
         //加载更多
@@ -71,6 +113,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         public TextView finishTime;
         public LinearLayout finishLayout;
         public RelativeLayout tradingLayout;
+        public ImageView applyReturn;
+        public ImageView applyReceive;
         public ViewHolder(View view){
             super(view);
             tradeNo = (TextView) view.findViewById(R.id.item_tradelist_num);
@@ -85,6 +129,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             finishTime = (TextView) view.findViewById(R.id.item_tradelist_finishTime);
             finishLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_finish);
             tradingLayout = (RelativeLayout) view.findViewById(R.id.item_tradelist_trading);
+            applyReturn = (ImageView) view.findViewById(R.id.item_tradelist_applyreturn);
+            applyReceive = (ImageView) view.findViewById(R.id.item_tradelist_applyreceive);
         }
     }
 

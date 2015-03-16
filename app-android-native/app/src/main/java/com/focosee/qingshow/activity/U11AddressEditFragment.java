@@ -25,14 +25,15 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         AREA
     }
 
+    private TextView titleTV;
     private EditText consigeeNameET;
     private EditText consigeePhoneET;
     private TextView consigeeAreaTV;
     private EditText consigeeDetailAreaET;
-
     private CityPicker cityPicker;
     private LinearLayout area_layout;
     private MongoPeople people;
+    private String id = null;
 
     public static U11AddressEditFragment newInstace(){
         return new U11AddressEditFragment();
@@ -47,6 +48,10 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         people = QSModel.INSTANCE.getUser();
 
         super.onCreate(savedInstanceState);
+
+        if(null != getArguments()){
+            id = getArguments().getString("id");
+        }
     }
 
     @Override
@@ -66,6 +71,11 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             }
         });
 
+        if(null == id){
+            ((TextView) view.findViewById(R.id.U11_title_tv)).setText(getResources().getString(R.string.title_name_activity_addaddress));
+        } else {
+            ((TextView) view.findViewById(R.id.U11_title_tv)).setText(getResources().getString(R.string.title_name_activity_editaddress));
+        }
         consigeeNameET = (EditText) view.findViewById(R.id.consigee_name_editText);
         consigeePhoneET = (EditText) view.findViewById(R.id.consigee_phoneNum_editText);
         consigeeAreaTV = (TextView) view.findViewById(R.id.U11_area_tv);

@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U11EditAddressActivity;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -19,7 +24,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
     private Context context;
     private OnViewHolderListener onViewHolderListener;
 
-    public String[] datas = null;
+    public ArrayList<MongoPeople.Receiver> datas = null;
     public U10AddressListAdapter(Context context) {
         this.context = context;
     }
@@ -36,6 +41,22 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
         //加载更多
         if (i == getItemCount() - 1) onViewHolderListener.onRequestedLastItem();
+
+        viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, U11EditAddressActivity.class);
+                intent.putExtra("id", "fdsafdsa");
+                context.startActivity(intent);
+            }
+        });
+
+        viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, U11EditAddressActivity.class));
+            }
+        });
 
     }
     //获取数据的数量

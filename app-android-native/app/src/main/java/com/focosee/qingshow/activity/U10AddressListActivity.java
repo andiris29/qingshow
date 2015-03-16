@@ -30,6 +30,13 @@ public class U10AddressListActivity extends BaseActivity {
 
         setContentView(R.layout.activity_personal_addresslist);
 
+        findViewById(R.id.person_addresslist_back_image_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         addresslist = (RecyclerView) findViewById(R.id.person_addresslist_recycleview);
         findViewById(R.id.person_addresslist_btn_address).setOnClickListener(new View.OnClickListener() {
             @Override
