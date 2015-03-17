@@ -157,24 +157,36 @@ _statusTo = function(req, res) {
         }
     }, function(trade, callback) {
         // update trade
+        var newStatus = param.status;
         if (newStatus == 1) {
             // TODO 
         } else if (newStatus == 2) {
-            // TODO taobaoInfo is not exist
+            if (!trade.agent) {
+                tarde.agent = {};
+            }
+            trade.agent.taobaoUserNick = param['agent']['taobaoUserNick'];
+            trade.agent.taobaoTradeId = param['agent']['taobaoTradeId'];
         } else if (newStatus == 3) {
-            trade.logistic.set('company', param.logistic['company']);
-            trade.logistic.set('trackingID', param.logistic['trackingID']);
+            if (!trade.logistic) {
+                tarde.logistic = {};
+            }
+            trade.logistic.company = param['logistic']['company'];
+            trade.logistic.trackingId = param['logistic']['trackingId'];
         } else if (newStatus == 7) {
-            trade.returnLogistic.set('company', param.returnLogistic['company']);
-            trade.returnLogistic.set('trackingID', param.returnLogistic['trackingID']);
+            if (!trade.returnLogistic) {
+                tarde.returnLogistic = {};
+            }
+            trade.returnLogistic.company = param['returnLogistic']['company'];
+            trade.returnLogistic.trackingId = param['returnLogistic']['trackingId'];
         }
-        trade.status = newStatus;
-        trade.save().exec(function(error, trade) {
+        //trade.status = newStatus;
+        trade.save(function(error, trade) {
             callback(error,trade);
         });
     }, function(trade, callback) {
         // update status
-        TradeHelper.updateStatus(trade, 0, req.qsCurrentUserId, function(err, trade) {
+        var newStatus = param.status;
+        TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
             callback(err, trade);
         });
     }, function(trade, callback) {

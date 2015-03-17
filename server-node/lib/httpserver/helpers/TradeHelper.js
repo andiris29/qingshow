@@ -13,7 +13,7 @@ TradeHelper.updateStatus = function(trade, updateStatus, peopleId, callback) {
         date : Date.now
     };
     trade.set('status', updateStatus);
-    if (trade.statusLogs) {
+    if (trade.statusLogs == null) {
         trade.statusLogs = [];
     }
     trade.statusLogs.push(statusLog);
