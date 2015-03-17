@@ -12,7 +12,7 @@
 @interface QSVideoBaseViewController ()
 
 @property (strong, nonatomic) UIImage* videoScreenShotImage;
-@property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
+
 @property (strong, nonatomic) MPMoviePlayerController* movieController;
 
 @end

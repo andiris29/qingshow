@@ -22,7 +22,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
-#import "UIView+ScreenShot.h"
 
 #define PAGE_ID @"S03 - 秀"
 

@@ -12,6 +12,7 @@
 #import "QSP04BrandDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSS11CreateTradeViewController.h"
+#import "QSS10ItemDetailVideoViewController.h"
 
 #define PAGE_ID @"S02 - 闪点推荐"
 
@@ -79,7 +80,8 @@
 #pragma mark -
 - (void)didClickItem:(NSDictionary*)itemDict
 {
-    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:itemDict];
+    UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
+//    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
     /*
     NSDictionary* brandDict = nil;

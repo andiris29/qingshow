@@ -138,6 +138,8 @@
 		EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952C1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m */; };
 		EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C952F1A0FC3A9006A0AE3 /* QSError.m */; };
 		EF9C95331A0FC3CD006A0AE3 /* QSNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */; };
+		EFA0F9051AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA0F9031AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m */; };
+		EFA0F9061AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA0F9041AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib */; };
 		EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F5551A52E88A00010F79 /* QSShareViewController.m */; };
 		EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */; };
 		EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA1F55F1A53052100010F79 /* QSImageEditingViewController.m */; };
@@ -472,6 +474,9 @@
 		EF9C952F1A0FC3A9006A0AE3 /* QSError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSError.m; sourceTree = "<group>"; };
 		EF9C95311A0FC3CD006A0AE3 /* QSNetworkOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNetworkOperation.h; sourceTree = "<group>"; };
 		EF9C95321A0FC3CD006A0AE3 /* QSNetworkOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNetworkOperation.m; sourceTree = "<group>"; };
+		EFA0F9021AB877B700E52F0B /* QSS10ItemDetailVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS10ItemDetailVideoViewController.h; sourceTree = "<group>"; };
+		EFA0F9031AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS10ItemDetailVideoViewController.m; sourceTree = "<group>"; };
+		EFA0F9041AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS10ItemDetailVideoViewController.xib; sourceTree = "<group>"; };
 		EFA1F5541A52E88A00010F79 /* QSShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShareViewController.h; sourceTree = "<group>"; };
 		EFA1F5551A52E88A00010F79 /* QSShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShareViewController.m; sourceTree = "<group>"; };
 		EFA1F5561A52E88A00010F79 /* QSShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSShareViewController.xib; sourceTree = "<group>"; };
@@ -1554,6 +1559,9 @@
 				EF4903631A7E52C100A848B4 /* QSS02ShandianViewController.h */,
 				EF4903641A7E52C100A848B4 /* QSS02ShandianViewController.m */,
 				EF4903651A7E52C100A848B4 /* QSS02ShandianViewController.xib */,
+				EFA0F9021AB877B700E52F0B /* QSS10ItemDetailVideoViewController.h */,
+				EFA0F9031AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m */,
+				EFA0F9041AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -1755,6 +1763,7 @@
 				EF87FDDA1A45BE15003A6050 /* QSBrandTitleView.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */,
+				EFA0F9061AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib in Resources */,
 				EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1854,6 +1863,7 @@
 				EFA98A821A38923300A8BFC7 /* QSCommonUtil.m in Sources */,
 				EF1A59271A06761800001AE0 /* QSShowCollectionViewCell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
+				EFA0F9051AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m in Sources */,
 				82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */,
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,

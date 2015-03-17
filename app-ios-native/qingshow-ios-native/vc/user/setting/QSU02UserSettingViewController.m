@@ -316,7 +316,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             // refresh local login user's data
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
             [self refreshImage];
-            //[self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
         } else {
             [self showErrorHudWithText:@"上传失败"];
         }
@@ -331,8 +330,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Convert UIImage to NSData
     NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     // write NSData to sandbox
-    //    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
-    //    [imageData writeToFile:fullPath atomically:NO];
     if (_uploadImageType == UPLOAD_PORTRAIT) {
         [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
     } else {
@@ -351,18 +348,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     self.navigationItem.title = @"设置";
     self.navigationItem.backBarButtonItem.title = @"";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
-//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:nil];
     
     [[self navigationItem] setBackBarButtonItem:backButton];
-//    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
-//    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
-    
-//    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
-//                                                               style:UIBarButtonItemStylePlain
-//                                                              target:self
-//                                                              action:@selector(actionSave)];
-//    
-//    [[self navigationItem] setRightBarButtonItem:btnSave];
 }
 
 - (void)loadUserSetting {

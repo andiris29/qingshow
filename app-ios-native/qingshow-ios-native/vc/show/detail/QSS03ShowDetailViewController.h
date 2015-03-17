@@ -24,7 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *favorBtn;
 
 //@property (weak, nonatomic) IBOutlet UILabel *favorNumberLabel;
-@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+
 @property (weak, nonatomic) IBOutlet UIView *buttnPanel;
 @property (weak, nonatomic) IBOutlet UIButton *itemBtn;
 

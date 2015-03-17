@@ -13,10 +13,12 @@
 @interface QSVideoBaseViewController : UIViewController <QSImageScrollViewBaseDelegate>
 
 #pragma mark - IBOutlet
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (weak, nonatomic) IBOutlet UIView *scrollViewContainer;
 @property (weak, nonatomic) IBOutlet UIView *videoContainerView;
 @property (weak, nonatomic) IBOutlet UIButton *playBtn;
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
+@property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
 
 - (void)playMovie:(NSString *)path;
 - (void)startVideo;
