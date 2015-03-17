@@ -12,9 +12,10 @@ define([
                 'method' : method
             };
         };
-        add('/show/query', 'get');
-        add('/feeding/chosen', 'get');
-        add('/itemFeeding/random', 'get');
+        add('/user/login', 'post');
+        add('/user/saveReceiver', 'post');
+        add('/trade/create', 'post');
+        add('/trade/query', 'get');
         return result;
     })();
 
