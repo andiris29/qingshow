@@ -9,7 +9,6 @@ var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
-var RPeopleCreateTrade = require('../../model/rPeopleCreateTrade');
 
 /**
  * ContextHelper
@@ -41,11 +40,7 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
 
-    var numTrades = function(callback) {
-        _numAssociated(peoples, RPeopleCreateTrade, 'initiatorRef', 'numCreateTrade', callback);
-    }
-
-    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers, numTrades], function(err) {
+    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
         callback(null, peoples);
     });
 };
