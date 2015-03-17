@@ -5,39 +5,36 @@ define([
 // @formatter:on
     var HTTPService = {};
 
-    var _manifests = (function() {
-        var result = {};
-        var add = function(path, method) {
-            result[path] = {
-                'method' : method
-            };
-        };
-        add('/user/login', 'post');
-        add('/user/saveReceiver', 'post');
-        add('/trade/create', 'post');
-        add('/trade/query', 'get');
-        return result;
-    })();
-
-    HTTPService.request = function(path, data, callback) {
-        // Handle optional parameters
-        if (arguments.length === 2 && arguments[1] instanceof Function) {
-            callback = data;
-            data = null;
-        }
-        data = data || {};
-        data.version = VERSION;
+    HTTPService.get = function(path, data, callback) {
+        var args = Array.prototype.slice.call(arguments);
         // Transform data to requestable
         for (var key in data) {
             if (data[key] instanceof Array) {
                 data[key] = data[key].join(',');
             }
         }
+        args.splice(1, 0, 'get');
+        HTTPService.request.apply(null, args);
+    };
+
+    HTTPService.post = function(path, data, callback) {
+        var args = Array.prototype.slice.call(arguments);
+        args.splice(1, 0, 'post');
+        HTTPService.request.apply(null, args);
+    };
+
+    HTTPService.request = function(path, method, data, callback) {
+        // Handle optional parameters
+        if (arguments.length === 3 && arguments[2] instanceof Function) {
+            callback = data;
+            data = null;
+        }
+        data = data || {};
+        data.version = VERSION;
         // Build settings
-        var manifest = _manifests[path];
         var settings = {
             'url' : window.appConfig.appServer + path,
-            'type' : manifest.method,
+            'type' : method,
             'data' : data,
             'dataType' : 'json',
             'cache' : false,

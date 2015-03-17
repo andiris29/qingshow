@@ -107,10 +107,6 @@ ServiceHelper.queryRelatedTrades = function(req, res, RModel, fields) {
         return {
             'trades' : trades
         };
-    }, {
-        'afterQuery' : function(qsParam, trades, numTotal, callback) {
-            ContextHelper.appendPeopleContext(RequestHelper.parseId(req.body._id), trades, callback);
-        }
     });
 };
 

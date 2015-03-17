@@ -5,13 +5,13 @@ define([
 // @formatter:on
     return {
         'login' : function() {
-            HTTPService.request('/user/login', {
+            HTTPService.post('/user/login', {
                 'id' : 'wangzheng',
                 'password' : 'wangzheng'
             });
         },
         'saveReceiver' : function() {
-            HTTPService.request('/user/saveReceiver', {
+            HTTPService.post('/user/saveReceiver', {
                 'name' : '王铮',
                 'phone' : '13524183713',
                 'province' : '上海／上海／浦东',

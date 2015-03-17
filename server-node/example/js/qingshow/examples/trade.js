@@ -5,7 +5,7 @@ define([
 // @formatter:on
     return {
         'create' : function() {
-            HTTPService.request('/trade/create', {
+            HTTPService.post('/trade/create', {
                 'totalFee' : 412,
                 'orders' : [{
                     'quantity' : 2,
@@ -84,14 +84,15 @@ define([
                             "url" : "http://trial01.focosee.com/demo2/a2031404.jpg",
                             "description" : "仿羊绒材质，牛角斗篷"
                         }]
-                    },
-                    'selectedItemSkuId' : 2,
-                    'selectedPeopleReceiverUuid' : 'xxx'
-                }]
+                    }
+                }],
+                'selectedItemSkuId' : 2,
+                'selectedPeopleReceiverUuid' : 'xxx'
             });
         },
-        'query' : function() {
-            HTTPService.request('/trade/query', function() {
+        'queryCreatedBy' : function() {
+            HTTPService.get('/trade/queryCreatedBy', {
+                '_id' : '5496cb7fc05ab9282a6df5dc'
             });
         }
     };
