@@ -10,6 +10,7 @@
 
 @interface QSReceiverUtil : NSObject
 
++ (NSString*)getUuid:(NSDictionary*)dict;
 + (NSString*)getName:(NSDictionary*)dict;
 + (NSString*)getPhone:(NSDictionary*)dict;
 + (NSString*)getProvince:(NSDictionary*)dict;

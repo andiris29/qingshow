@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
-
+#define TEXT_HUD_DELAY 1.f
 
 @interface UIViewController (ShowHud)
 

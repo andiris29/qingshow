@@ -10,6 +10,14 @@
 #import "QSCommonUtil.h"
 @implementation QSReceiverUtil
 
++ (NSString*)getUuid:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    return dict[@"uuid"];
+}
+
 + (NSString*)getName:(NSDictionary*)dict
 {
     if (![QSCommonUtil checkIsDict:dict]) {

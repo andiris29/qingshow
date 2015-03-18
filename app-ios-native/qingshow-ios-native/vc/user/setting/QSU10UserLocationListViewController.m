@@ -8,6 +8,10 @@
 
 #import "QSU10UserLocationListViewController.h"
 #import "QSU11LocationEditingViewController.h"
+#import "QSUserManager.h"
+#import "QSPeopleUtil.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU10UserLocationListViewController ()
 
@@ -22,33 +26,14 @@
 {
     self = [super initWithNibName:@"QSU10UserLocationListViewController" bundle:nil];
     if (self) {
-        [self buildTestData];
+        [self updateLocationList];
     }
     return self;
 }
 
-- (void)buildTestData
+- (void)updateLocationList
 {
-    NSMutableArray* array = [@[] mutableCopy];
-    [array addObject:@{ @"name" : @"黄小仙",
-                       @"phone" : @"13332223334",
-                       @"privince" : @"上海",
-                       @"address" : @"上海市普陀区中山北路号楼层",
-                       @"default" : @""
-                        }];
-    [array addObject:@{ @"name" : @"黄小仙",
-                        @"phone" : @"13332223334",
-                        @"privince" : @"上海",
-                        @"address" : @"上海市普陀区中山北路号楼层",
-                        @"default" : @""
-                        }];
-    [array addObject:@{ @"name" : @"黄小仙",
-                        @"phone" : @"13332223334",
-                        @"privince" : @"上海",
-                        @"address" : @"上海市普陀区中山北路号楼层",
-                        @"default" : @""
-                        }];
-    self.locationArray = array;
+    self.locationArray = [QSPeopleUtil getReceiverList:[QSUserManager shareUserManager].userInfo];
 }
 
 #pragma mark - Life Cycle
@@ -63,6 +48,17 @@
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(newLocationBtnPressed)];
     item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+        [self updateLocationList];
+        [self.tableView reloadData];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,7 +100,8 @@
 }
 - (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell
 {
-
+    UIViewController* vc = [[QSU11LocationEditingViewController alloc] initWithDict:[self locationDictForCell:cell]];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Private

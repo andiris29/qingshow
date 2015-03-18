@@ -7,6 +7,9 @@
 //
 
 #import "QSU11LocationEditingViewController.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+ShowHud.h"
+#import "QSReceiverUtil.h"
 
 @interface QSU11LocationEditingViewController ()
 
@@ -125,15 +128,45 @@
         self.title = @"新增地址";
     }
     
-#warning TODO
+    self.nameTextField.text = [QSReceiverUtil getName:dict];
+    self.phoneTextField.text = [QSReceiverUtil getPhone:dict];
+    self.localLabel.text = [QSReceiverUtil getProvince:dict];
+    self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
 
 
 #pragma mark - IBAction
 - (void)didSelectSaveBtn
 {
+    if (!self.nameTextField.text.length || !self.phoneTextField.text.length || !self.detailLocationTextField.text.length) {
+        [self showErrorHudWithText:@"请填写完整信息"];
+        return;
+    }
     
+    [self hideKeyboard];
+    NSString* uuid = nil;
+    if (self.locationDict) {
+        uuid = [QSReceiverUtil getUuid:self.locationDict];
+    }
+    
+#warning TODO adjust province
+    [SHARE_NW_ENGINE saveReceiver:uuid
+                             name:self.nameTextField.text
+                            phone:self.phoneTextField.text
+                         province:@"上海"
+                          address:self.detailLocationTextField.text
+                        isDefault:NO
+                        onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
+    {
+        [self showTextHud:@"保存成功"];
+        [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 
-
+- (void)popBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

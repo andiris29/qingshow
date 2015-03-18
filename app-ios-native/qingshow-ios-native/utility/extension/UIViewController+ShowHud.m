@@ -19,7 +19,7 @@
     hud.removeFromSuperViewOnHide = YES;
     hud.labelText = text;
     [hud show:YES];
-    [hud hide:YES afterDelay:1.f];
+    [hud hide:YES afterDelay:TEXT_HUD_DELAY];
 }
 
 - (void)showErrorHudWithText:(NSString*)text
@@ -32,7 +32,7 @@
     HUD.removeFromSuperViewOnHide = YES;
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"exclamationmark"]];
     [HUD show:YES];
-    [HUD hide:YES afterDelay:1.f];
+    [HUD hide:YES afterDelay:TEXT_HUD_DELAY];
 }
 
 
@@ -54,7 +54,7 @@
     HUD.removeFromSuperViewOnHide = YES;
     HUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
     [HUD show:YES];
-    [HUD hide:YES afterDelay:1.f];
+    [HUD hide:YES afterDelay:TEXT_HUD_DELAY];
 }
 - (MBProgressHUD*)showNetworkWaitingHud
 {

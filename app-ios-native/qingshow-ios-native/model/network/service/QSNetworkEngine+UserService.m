@@ -18,6 +18,7 @@
 #define PATH_USER_UPDATE @"user/update"
 #define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
+#define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
 
 
 @implementation QSNetworkEngine(UserService)
@@ -204,4 +205,42 @@
 }
 
 
+- (MKNetworkOperation *)saveReceiver:(NSString*)uuid
+                                name:(NSString*)name
+                               phone:(NSString*)phone
+                            province:(NSString*)province
+                             address:(NSString*)address
+                           isDefault:(BOOL)isDefault
+                           onSuccess:(void (^)(NSDictionary *people, NSString* uuid, NSDictionary *metadata))succeedBlock
+                             onError:(ErrorBlock)errorBlock
+{
+    NSMutableDictionary* paramDict = [@{
+                                        @"name" : name,
+                                        @"phone" : phone,
+                                        @"province" : province,
+                                        @"address" : address,
+                                        @"isDefault" : @(isDefault)
+                                        } mutableCopy];
+    if (uuid) {
+        paramDict[@"uuid"] = uuid;
+    }
+    
+    return [self startOperationWithPath:PATH_USER_SAVE_RECEIVER
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:
+            ^(MKNetworkOperation *completeOperation) {
+                NSDictionary *retDict = completeOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"data"][@"receiverUuid"], retDict[@"metadata"]);
+                }
+            }
+                                onError:
+            ^(MKNetworkOperation *completedOperation, NSError *error) {
+                if(errorBlock) {
+                    errorBlock(error);
+                }
+            }
+            ];
+}
 @end
