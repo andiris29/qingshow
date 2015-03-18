@@ -14,4 +14,7 @@
 @property (strong, nonatomic) IBOutlet UIButton* plusBtn;
 @property (strong, nonatomic) IBOutlet UITextField* numberTextField;
 
+- (IBAction)plusBtnPressed:(id)sender;
+- (IBAction)minusBtnPressed:(id)sender;
+
 @end

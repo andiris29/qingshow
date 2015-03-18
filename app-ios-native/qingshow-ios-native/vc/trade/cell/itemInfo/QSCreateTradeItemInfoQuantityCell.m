@@ -27,4 +27,20 @@
     btn.layer.borderWidth = 1.f;
 }
 
+
+- (IBAction)plusBtnPressed:(id)sender
+{
+    [self adjustQuantityBy:1];
+}
+- (IBAction)minusBtnPressed:(id)sender
+{
+    [self adjustQuantityBy:-1];
+}
+- (void)adjustQuantityBy:(int)num
+{
+    int quantity = self.numberTextField.text.intValue;
+    quantity += num;
+    quantity = quantity > 0 ? quantity : 1;
+    self.numberTextField.text = @(quantity).stringValue;
+}
 @end
