@@ -36,6 +36,7 @@ public class MongoPeople implements Serializable {
         public String phone;
         public String province;
         public String address;
+        public boolean defult;
     }
 
     public class UserInfo implements Serializable {

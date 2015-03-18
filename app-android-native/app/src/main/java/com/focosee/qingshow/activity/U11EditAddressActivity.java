@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.focosee.qingshow.R;
@@ -9,6 +10,9 @@ import com.focosee.qingshow.R;
  */
 public class U11EditAddressActivity extends BaseActivity {
 
+    private U11AddressEditFragment fragment;
+
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +20,16 @@ public class U11EditAddressActivity extends BaseActivity {
 
         setContentView(R.layout.activity_address_edit);
 
-        getFragmentManager().beginTransaction().replace(R.id.address_fragment, U11AddressEditFragment.newInstace()).commit();
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        fragment = U11AddressEditFragment.newInstace();
+        if(null != id && !"".equals(id)){
+            Bundle bundle = new Bundle();
+            bundle.putString("id", getIntent().getStringExtra("id"));
+            fragment.setArguments(bundle);
+        }
+
+        getFragmentManager().beginTransaction().replace(R.id.address_fragment, fragment).commit();
 
     }
 
