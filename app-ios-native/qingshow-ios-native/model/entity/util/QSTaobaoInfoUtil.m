@@ -24,9 +24,9 @@
 {
     NSArray* skus = [self getSkusArray:taobaoInfo];
     NSMutableArray* retArray = [@[] mutableCopy];
-    [skus enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString* sku = (NSString*)obj;
-        NSArray* propertyComp = [sku componentsSeparatedByString:@";"];
+    [skus enumerateObjectsUsingBlock:^(NSDictionary* sku, NSUInteger idx, BOOL *stop) {
+        NSString* properties = sku[@"properties"];
+        NSArray* propertyComp = [properties componentsSeparatedByString:@";"];
         [propertyComp enumerateObjectsUsingBlock:^(id obj2, NSUInteger idx2, BOOL *sto2) {
             NSString* property = (NSString*)obj2;
             if (property.length) {
@@ -194,7 +194,24 @@
         if ([properties rangeOfString:property].location != NSNotFound) {
             NSString* propName = sku[@"properties_name"];
             if (![QSCommonUtil checkIsNil:propName] && propName.length) {
-                return propName;
+                NSArray* pArray = [properties componentsSeparatedByString:@";"];
+                NSMutableArray* filterPropArray = [@[] mutableCopy];
+                [pArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    if (((NSString*)obj).length) {
+                        [filterPropArray addObject:obj];
+                    }
+                }];
+                
+                NSArray* pNameArray = [propName componentsSeparatedByString:@";"];
+                NSMutableArray* filterPropNameArray = [@[] mutableCopy];
+                [pNameArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                    if (((NSString*)obj).length) {
+                        [filterPropNameArray addObject:obj];
+                    }
+                }];
+                
+                NSUInteger index = [filterPropArray indexOfObject:property];
+                return filterPropNameArray[index];
             } else {
                 return nil;
             }

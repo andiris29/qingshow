@@ -31,6 +31,8 @@
 		EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF1A59221A06761800001AE0 /* QSShowCollectionViewCell.xib */; };
 		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
 		EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */; };
+		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
+		EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */; };
 		EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2A41571A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m */; };
 		EF2A41601A5D91BF003266E0 /* QSItemImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2A415E1A5D91BF003266E0 /* QSItemImageTableViewCell.m */; };
 		EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */; };
@@ -279,6 +281,10 @@
 		EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSWaterFallCollectionViewLayout.m; sourceTree = "<group>"; };
 		EF1A592A1A06763000001AE0 /* QSS01RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS01RootViewController.h; sourceTree = "<group>"; };
 		EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS01RootViewController.m; sourceTree = "<group>"; };
+		EF241E691AB9BF6F007B5058 /* QSTradeSelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeSelectButton.h; sourceTree = "<group>"; };
+		EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeSelectButton.m; sourceTree = "<group>"; };
+		EF241E6D1AB9CD82007B5058 /* QSLayoutUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSLayoutUtil.h; sourceTree = "<group>"; };
+		EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSLayoutUtil.m; sourceTree = "<group>"; };
 		EF2A41561A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ItemFeedingService.h"; sourceTree = "<group>"; };
 		EF2A41571A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ItemFeedingService.m"; sourceTree = "<group>"; };
 		EF2A415D1A5D91BF003266E0 /* QSItemImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemImageTableViewCell.h; sourceTree = "<group>"; };
@@ -1150,6 +1156,8 @@
 				EF36BD771A87153F003CBBEE /* QSDateUtil.m */,
 				EF36BD721A871512003CBBEE /* QSImageNameUtil.h */,
 				EF36BD731A871512003CBBEE /* QSImageNameUtil.m */,
+				EF241E6D1AB9CD82007B5058 /* QSLayoutUtil.h */,
+				EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -1216,6 +1224,8 @@
 		EFA0F9081AB8998300E52F0B /* button */ = {
 			isa = PBXGroup;
 			children = (
+				EF241E691AB9BF6F007B5058 /* QSTradeSelectButton.h */,
+				EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */,
 			);
 			path = button;
 			sourceTree = "<group>";
@@ -1841,6 +1851,7 @@
 				EF78E34B1AAF4C9400665EDD /* QSOrderListHeaderView.m in Sources */,
 				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,
 				EF810F701AB601C20079BA76 /* QSCreateTradeReceiverInfoTitleCell.m in Sources */,
+				EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */,
 				EF78E3511AAF4CB900665EDD /* QSOrderListTableViewCell.m in Sources */,
 				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
@@ -1866,6 +1877,7 @@
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
 				EFA98A761A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m in Sources */,
+				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
 				EF59EDFD1A74FAEE00D639FB /* QSItemImageListTableViewProvider.m in Sources */,
 				EFC543681A1750AD001B2C49 /* QSSectionNumberTextButton.m in Sources */,

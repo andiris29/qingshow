@@ -13,6 +13,7 @@
 
 #import "QSCommentUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSLayoutUtil.h"
 
 
 @implementation QSCommentTableViewCell
@@ -31,18 +32,8 @@
     //237
     float borderWitdh = 320 - 237;
     float labelWidth = [UIScreen mainScreen].bounds.size.width - borderWitdh;
-    CGSize conSize = CGSizeMake(labelWidth, INFINITY);
     UIFont* font = [UIFont systemFontOfSize:14.f];
-    CGSize size;
-    if ([str respondsToSelector:@selector(sizeWithAttributes:)]) {
-        //Above IOS 7
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        size = [str boundingRectWithSize:conSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:nil].size;
-    } else {
-        //Below IOS 7
-        size = [str sizeWithFont:font constrainedToSize:conSize lineBreakMode:NSLineBreakByWordWrapping];
-    }
+    CGSize size =[QSLayoutUtil sizeForString:str withMaxWidth:labelWidth height:INFINITY font:font];
     if (size.height < 17) {
         size.height = 17;
     }

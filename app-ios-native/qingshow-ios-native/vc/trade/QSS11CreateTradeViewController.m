@@ -11,6 +11,9 @@
 
 @interface QSS11CreateTradeViewController ()
 
+@property (strong, nonatomic) NSDictionary* itemDict;
+
+
 @property (strong, nonatomic) NSArray* cellGroupArray;
 
 
@@ -32,7 +35,7 @@
 {
     self = [super initWithNibName:@"QSS11CreateTradeViewController" bundle:nil];
     if (self) {
-        
+        self.itemDict = dict;
     }
     return self;
 }
@@ -44,6 +47,8 @@
 
     [self configCellArray];
     [self configView];
+    
+    [self updateAllCell];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -59,6 +64,14 @@
 
 
 #pragma mark - Private Method
+- (void)updateAllCell
+{
+    [self.cellGroupArray enumerateObjectsUsingBlock:^(NSArray* cellArray, NSUInteger idx, BOOL *stop) {
+        [cellArray enumerateObjectsUsingBlock:^(QSCreateTradeTableViewCellBase* cell, NSUInteger idx, BOOL *stop) {
+            [cell bindWithDict:self.itemDict];
+        }];
+    }];
+}
 - (void)configView
 {
     self.title = @"订单确认";
@@ -148,7 +161,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
-    return [cell getHeightWithDict:nil];
+    return [cell getHeightWithDict:self.itemDict];
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {

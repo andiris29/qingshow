@@ -7,6 +7,21 @@
 //
 
 #import "QSCreateTradeItemInfoSizeCell.h"
+#import "QSItemUtil.h"
+#import "QSTaobaoInfoUtil.h"
+#import "QSTradeSelectButton.h"
+
+#define BASE_X 100.f
+#define MARGIN_X 10.f
+#define BASE_Y 15.f
+#define BTN_HEIGHT 27.f
+#define DELTA_Y 30.f
+
+@interface QSCreateTradeItemInfoSizeCell ()
+
+@property (strong, nonatomic) NSArray* sizeArray;
+@property (strong, nonatomic) NSMutableArray* btnArray;
+@end
 
 @implementation QSCreateTradeItemInfoSizeCell
 
@@ -20,6 +35,58 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
-}
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
+    self.sizeArray = [QSTaobaoInfoUtil getSizeSkus:taobaoInfo];
+    self.btnArray = [@[] mutableCopy];
+    float screenWidth = [UIScreen mainScreen].bounds.size.width;
+    
+    __block float currentOriginX = BASE_X;
+    __block float currentOriginY = BASE_Y;
 
+    [self.sizeArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString* sizeProp = (NSString*)obj;
+        NSString* sizeName = [QSTaobaoInfoUtil getNameOfProperty:sizeProp taobaoInfo:taobaoInfo];
+        
+        QSTradeSelectButton* btn = [[QSTradeSelectButton alloc] init];
+        btn.text = sizeName;
+        
+        if (currentOriginX + btn.frame.size.width + MARGIN_X > screenWidth) {
+            currentOriginX = BASE_X;
+            currentOriginY = currentOriginY + DELTA_Y;
+        }
+        
+        CGRect rect = btn.frame;
+        rect.origin = CGPointMake(currentOriginX, currentOriginY);
+        btn.frame = rect;
+        
+
+        [self.contentView addSubview:btn];
+        currentOriginX += btn.frame.size.width + MARGIN_X;
+
+    }];
+}
+- (CGFloat)getHeightWithDict:(NSDictionary*)dict
+{
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
+    NSArray* sizeArray = [QSTaobaoInfoUtil getSizeSkus:taobaoInfo];
+    float screenWidth = [UIScreen mainScreen].bounds.size.width;
+    
+    __block float currentOriginX = BASE_X;
+    __block float currentOriginY = BASE_Y;
+    
+    [sizeArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString* sizeProp = (NSString*)obj;
+        NSString* sizeName = [QSTaobaoInfoUtil getNameOfProperty:sizeProp taobaoInfo:taobaoInfo];
+        
+        float btnWidth = [QSTradeSelectButton getWidthWithText:sizeName];
+        
+        if (currentOriginX + btnWidth + MARGIN_X > screenWidth) {
+            currentOriginX = BASE_X;
+            currentOriginY = currentOriginY + DELTA_Y;
+        }
+        currentOriginX += btnWidth + MARGIN_X;
+        
+    }];
+    return currentOriginY + BTN_HEIGHT + BASE_Y;
+}
 @end
