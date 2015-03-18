@@ -63,6 +63,10 @@
     [[self navigationItem] setBackBarButtonItem:backButton];
     self.backPreTopCon = self.backBtnTopConstrain.constant;
     self.canScrollBadgeViewUp = YES;
+    
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
 }
 
 - (void)viewWillLayoutSubviews
