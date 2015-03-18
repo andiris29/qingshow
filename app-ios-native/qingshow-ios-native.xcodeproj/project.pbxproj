@@ -961,10 +961,10 @@
 			isa = PBXGroup;
 			children = (
 				EFA0F9081AB8998300E52F0B /* button */,
-				EF810F5F1AB5FE770079BA76 /* QSCreateTradeItemInfoColorCell.h */,
-				EF810F601AB5FE770079BA76 /* QSCreateTradeItemInfoColorCell.m */,
 				EF810F611AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.h */,
 				EF810F621AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m */,
+				EF810F5F1AB5FE770079BA76 /* QSCreateTradeItemInfoColorCell.h */,
+				EF810F601AB5FE770079BA76 /* QSCreateTradeItemInfoColorCell.m */,
 				EF810F631AB5FE770079BA76 /* QSCreateTradeItemInfoSizeCell.h */,
 				EF810F641AB5FE770079BA76 /* QSCreateTradeItemInfoSizeCell.m */,
 				EF810F651AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.h */,

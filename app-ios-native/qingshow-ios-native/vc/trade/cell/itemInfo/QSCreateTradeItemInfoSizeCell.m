@@ -11,7 +11,7 @@
 #import "QSTaobaoInfoUtil.h"
 #import "QSTradeSelectButton.h"
 
-#define BASE_X 100.f
+#define BASE_X 85.f
 #define MARGIN_X 10.f
 #define BASE_Y 15.f
 #define BTN_HEIGHT 27.f
