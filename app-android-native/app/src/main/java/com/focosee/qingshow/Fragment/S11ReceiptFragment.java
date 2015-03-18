@@ -2,6 +2,7 @@ package com.focosee.qingshow.Fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ public class S11ReceiptFragment extends Fragment {
     private EditText nameView;
     private EditText phoneView;
     private EditText addressView;
-    private String provinceStr = "";
+    private String provinceStr = "广西壮族自治区柳州市市辖区";
     private MongoPeople.Receiver receiver;
 
     @Override

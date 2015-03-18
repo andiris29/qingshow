@@ -14,6 +14,15 @@ import com.focosee.qingshow.R;
  */
 public class ImageRadioGroup extends FlowRadioGroup {
 
+    private OnCheckedChangeListener onCheckedChangeListener;
+
+    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
+        this.onCheckedChangeListener = onCheckedChangeListener;
+    }
+
+    public interface OnCheckedChangeListener {
+        public void checkedChanged(View view, int index);
+    }
 
     public ImageRadioGroup(Context context) {
         super(context);
@@ -25,6 +34,7 @@ public class ImageRadioGroup extends FlowRadioGroup {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+
         for (int i = 0; i < getChildCount(); i++) {
             ImageRadio item = (ImageRadio) getChildAt(i);
             item.setCheck(false);
@@ -39,6 +49,9 @@ public class ImageRadioGroup extends FlowRadioGroup {
             ImageRadio item = (ImageRadio) getChildAt(i);
             if (item.isCheck()) {
                 item.setImageResource(R.drawable.s11_item_chek);
+                if (onCheckedChangeListener != null) {
+                    onCheckedChangeListener.checkedChanged(item,i);
+                }
             } else {
                 item.setImageResource(0);
             }

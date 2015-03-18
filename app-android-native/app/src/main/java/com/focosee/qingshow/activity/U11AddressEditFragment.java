@@ -1,12 +1,9 @@
 package com.focosee.qingshow.activity;
 
-import android.app.DownloadManager;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserReceiverCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.CityPicker;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -177,21 +166,20 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString()))
             params.put("address", consigeeDetailAreaET.getText().toString());
         System.out.println("userSaveReceiver:"+QSAppWebAPI.getUserSaveReceiverApi());
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+        UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
-            public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
-                    Toast.makeText(getActivity(), "保存失败，请重试", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+            public void onError() {
+                super.onError();
+                Toast.makeText(getActivity(), "保存失败，请重试", Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onComplete() {
+                super.onComplete();
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-                UserCommand.refresh();
                 isSaved = true;
             }
         });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     @Override
