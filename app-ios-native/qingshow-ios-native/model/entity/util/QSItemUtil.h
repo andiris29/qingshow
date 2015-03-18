@@ -28,5 +28,7 @@
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
 
++ (NSDictionary*)getTaobaoInfo:(NSDictionary*)item;
+
 //+ (CGFloat)getHeight:(NSDictionary*)itemDict;
 @end

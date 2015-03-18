@@ -308,19 +308,11 @@
      */
 }
 
-//+ (NSDictionary*)getImageMetaData:(NSDictionary*)itemDict
-//{
-//    return itemDict[@"imageMetadata"];
-//}
-//
-//+ (CGFloat)getHeight:(NSDictionary*)itemDict
-//{
-//    NSDictionary* m = [self getImageMetaData:itemDict];
-//    return ((NSNumber*)m[@"height"]).floatValue;
-//}
-//+ (CGFloat)getWidth:(NSDictionary*)itemDict
-//{
-//    NSDictionary* m = [self getImageMetaData:itemDict];
-//    return ((NSNumber*)m[@"width"]).floatValue;
-//}
++ (NSDictionary*)getTaobaoInfo:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    return itemDict[@"taobaoInfo"];
+}
 @end
