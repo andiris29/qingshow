@@ -1,5 +1,8 @@
 package com.focosee.qingshow.model.vo.mongo;
 
+import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
@@ -11,32 +14,37 @@ public class MongoTrade implements Serializable {
     public String _id;
     public String totalFee;
     public int status;
+    @NonNull
+    public String create;
+
+    @NonNull
     public LinkedList<Order> orders;
+
+    @NonNull
     public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
 
-    class Order implements Serializable{
+    public class Order implements Serializable{
         public String quantity;
         public String price;
         public MongoItem itemSnapshot;
         public String selectedItemSkuId;
         public String selectedPeopleReceiverUuid;
 
-
     }
 
-    class TaobaoInfo{
+    public class TaobaoInfo{
         public String userNick;
         public String tradeID;
     }
 
-    class Logistic{
+    public class Logistic{
         public String company;
         public String trackingID;
     }
 
-    class Returnlogistic{
+    public class Returnlogistic{
         public String company;
         public String trackingID;
     }

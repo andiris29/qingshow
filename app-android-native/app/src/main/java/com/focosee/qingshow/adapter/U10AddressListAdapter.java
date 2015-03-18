@@ -12,9 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -22,13 +22,12 @@ import java.util.ArrayList;
 public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAdapter.ViewHolder>{
 
     private Context context;
-    private OnViewHolderListener onViewHolderListener;
     private int default_posion = Integer.MAX_VALUE;
-    private int addcount;
-
-    public ArrayList<MongoPeople.Receiver> datas = null;
+    private MongoPeople people;
+    public LinkedList<MongoPeople.Receiver> datas = null;
     public U10AddressListAdapter(Context context) {
         this.context = context;
+        people = QSModel.INSTANCE.getUser();
     }
     //创建新View，被LayoutManager所调用
     @Override
@@ -39,10 +38,16 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
     }
     //将数据与界面进行绑定的操作
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
-        //加载更多
-        if (i == getItemCount() - 1) onViewHolderListener.onRequestedLastItem();
+        viewHolder.nameTV.setText(datas.get(i).name);
+        viewHolder.phoneTV.setText(datas.get(i).phone);
+        viewHolder.addressTV.setText(datas.get(i).address);
+        if(datas.get(i).defult){
+            viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment_hover);
+        } else {
+            viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment);
+        }
 
         viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,10 +58,10 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             }
         });
 
-        viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
+        viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, U11EditAddressActivity.class));
+
             }
         });
 
@@ -68,8 +73,14 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
                 if(position == default_posion)return;
 
+                if(default_posion != Integer.MAX_VALUE){
+                    datas.get(default_posion).defult = false;
+                }
+                default_posion = position;
 
+                datas.get(position).defult = true;
 
+                notifyDataSetChanged();
             }
         });
 
@@ -77,19 +88,15 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
     //获取数据的数量
     @Override
     public int getItemCount() {
-        return addcount + 10;
+        return null == datas ? 0 : datas.size();
     }
 
-    public void setAddcount(int addcount){
-        this.addcount = addcount;
-    }
-
-    public void setOnViewHolderListener(OnViewHolderListener onViewHolderListener){
-        this.onViewHolderListener = onViewHolderListener;
+    public void resetData(LinkedList<MongoPeople.Receiver> datas){
+        this.datas = datas;
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView chooseBtn;
         public LinearLayout delLayout;
         public LinearLayout editLayout;
@@ -133,9 +140,5 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             if(parent.getChildPosition(view) == 0)
                 outRect.top = space;
         }
-    }
-
-    public interface OnViewHolderListener {
-        void onRequestedLastItem();
     }
 }

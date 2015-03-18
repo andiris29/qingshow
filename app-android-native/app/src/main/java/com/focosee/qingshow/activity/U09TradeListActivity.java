@@ -1,15 +1,24 @@
 package com.focosee.qingshow.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
-
+import com.android.volley.Response;
+import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U09TradeListAdapter;
-import com.focosee.qingshow.adapter.U10AddressListAdapter;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import org.json.JSONObject;
+import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2015/3/13.
@@ -19,12 +28,19 @@ public class U09TradeListActivity extends BaseActivity{
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+    private MongoPeople people;
+    private int currentPageNo = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_person_tradelist);
+
+        people = QSModel.INSTANCE.getUser();
+        if(null == people){
+            finish();
+        }
 
         findViewById(R.id.person_activity_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,11 +62,55 @@ public class U09TradeListActivity extends BaseActivity{
         mAdapter.setOnViewHolderListener(new U09TradeListAdapter.OnViewHolderListener() {
             @Override
             public void onRequestedLastItem() {
-                Toast.makeText(U09TradeListActivity.this, "loadMore", Toast.LENGTH_SHORT).show();
+                doLoadMore();
+
             }
         });
         tradelist.setAdapter(mAdapter);
         tradelist.addItemDecoration(mAdapter.getItemDecoration(20));
+
+        tradelist.setOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                doLoadMore();
+            }
+        });
+
+        doRefresh();
+
+    }
+
+    private void doRefresh(){
+        getTradeFromNet(1, 10);
+    }
+
+    private void doLoadMore(){
+        getTradeFromNet(currentPageNo + 1, 10);
+    }
+
+    private void getTradeFromNet(int pageNo, int pageSize){
+
+        System.out.println(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize));
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+                LinkedList<MongoTrade> tradeList = TradeParser.parseQuery(response);
+                if(currentPageNo == 1){
+                    mAdapter.resetDatas(tradeList);
+                } else {
+                    currentPageNo++;
+                    mAdapter.addDatas(tradeList);
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
 
     }
 

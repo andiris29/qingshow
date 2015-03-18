@@ -223,18 +223,23 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible">
                 
-                <ImageView
+                <Button
                     android:id="@+id/item_tradelist_applyreturn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
-                    android:src="@drawable/apply_return"/>
-                <ImageView
+                    android:background="@drawable/tradelist_btn"
+                    android:textColor="@color/master"
+                    android:text="@string/apply_return_activity_trade"/>
+                <Button
                     android:id="@+id/item_tradelist_applyreceive"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:src="@drawable/apply_receive"/>
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/tradelist_btn"
+                    android:textColor="@color/master"
+                    android:text="@string/comfirm_receive_activity_trade"/>
                 
                 
                 </RelativeLayout>

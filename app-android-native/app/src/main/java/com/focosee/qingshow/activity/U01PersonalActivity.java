@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -28,9 +29,11 @@ import com.umeng.analytics.MobclickAgent;
 
 
 public class U01PersonalActivity extends FragmentActivity{
+
     private static final String TAG = "U01PersonalActivity";
     public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
     private static final int PAGER_NUM = 4;
+    private static final String PEOPLE_KEY = "people_key_outstate";
 
     public static final String LOGOUT_ACTOIN = "logout_action";
     public static final String USER_UPDATE = "user_update";
@@ -314,4 +317,14 @@ public class U01PersonalActivity extends FragmentActivity{
         super.onDestroy();
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        people = QSModel.INSTANCE.getUser();
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
 }

@@ -37,6 +37,13 @@ public class MongoPeople implements Serializable {
         public String province;
         public String address;
         public boolean defult;
+        public Receiver(){
+
+        }
+    }
+
+    public Receiver newReceiverInstance(){
+        return new Receiver();
     }
 
     public class UserInfo implements Serializable {
