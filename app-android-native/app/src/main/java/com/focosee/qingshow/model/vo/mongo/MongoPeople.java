@@ -32,11 +32,12 @@ public class MongoPeople implements Serializable {
     private PeopleContext __context;
 
     public class Receiver implements Serializable {
+        public String uuid;
         public String name;
         public String phone;
         public String province;
         public String address;
-        public boolean defult;
+        public boolean isDefault;
         public Receiver(){
 
         }
