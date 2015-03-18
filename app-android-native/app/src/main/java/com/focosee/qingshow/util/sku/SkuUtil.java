@@ -37,30 +37,33 @@ public class SkuUtil {
         }
         skusProp = new HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU>();
         for (MongoItem.TaoBaoInfo.SKU sku : skus) {
-
-            ArrayList<Prop> props = new ArrayList<Prop>();
-            for (int i = 0; i < sku.properties_name.split(";").length; i++) {
-
-                Prop prop = new Prop();
-
-                String propStr = sku.properties.split(";")[i + 1];
-                if (!TextUtils.isEmpty(propStr)) {
-                    String strs[] = propStr.split(":");
-                    String propId = strs[0];
-                    String propValue = strs[1];
-                    prop.setPropId(propId);
-                    prop.setPropValue(propValue);
-                }
-
-                String name = sku.properties_name.split(";")[i];
-                prop.setName(name);
-
-                props.add(prop);
-            }
-
-            skusProp.put(props, sku);
+            skusProp.put(filter(sku), sku);
         }
 
         return skusProp;
+    }
+
+
+    public static ArrayList<Prop> filter(MongoItem.TaoBaoInfo.SKU sku) {
+        ArrayList<Prop> props = new ArrayList<Prop>();
+        for (int i = 0; i < sku.properties_name.split(";").length; i++) {
+
+            Prop prop = new Prop();
+
+            String propStr = sku.properties.split(";")[i + 1];
+            if (!TextUtils.isEmpty(propStr)) {
+                String strs[] = propStr.split(":");
+                String propId = strs[0];
+                String propValue = strs[1];
+                prop.setPropId(propId);
+                prop.setPropValue(propValue);
+            }
+
+            String name = sku.properties_name.split(";")[i];
+            prop.setName(name);
+
+            props.add(prop);
+        }
+        return props;
     }
 }
