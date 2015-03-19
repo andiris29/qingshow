@@ -7,7 +7,8 @@
 //
 
 #import "QSCreateTradeHeigh60Cell.h"
+#import "QSCreateTradeColorAndSizeBaseTableViewCell.h"
 
-@interface QSCreateTradeItemInfoSizeCell : QSCreateTradeHeigh60Cell
+@interface QSCreateTradeItemInfoSizeCell : QSCreateTradeColorAndSizeBaseTableViewCell
 
 @end

@@ -32,6 +32,7 @@
 		EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A59241A06761800001AE0 /* QSWaterFallCollectionViewLayout.m */; };
 		EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */; };
 		EF1F52B11ABB281100E7EDDF /* QSNetworkEngine+TradeService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */; };
+		EF1F52B51ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1F52B41ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m */; };
 		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
 		EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */; };
 		EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2A41571A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m */; };
@@ -284,6 +285,8 @@
 		EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS01RootViewController.m; sourceTree = "<group>"; };
 		EF1F52AF1ABB281100E7EDDF /* QSNetworkEngine+TradeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+TradeService.h"; sourceTree = "<group>"; };
 		EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+TradeService.m"; sourceTree = "<group>"; };
+		EF1F52B31ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeColorAndSizeBaseTableViewCell.h; sourceTree = "<group>"; };
+		EF1F52B41ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeColorAndSizeBaseTableViewCell.m; sourceTree = "<group>"; };
 		EF241E691AB9BF6F007B5058 /* QSTradeSelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTradeSelectButton.h; sourceTree = "<group>"; };
 		EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeSelectButton.m; sourceTree = "<group>"; };
 		EF241E6D1AB9CD82007B5058 /* QSLayoutUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSLayoutUtil.h; sourceTree = "<group>"; };
@@ -974,6 +977,8 @@
 				EF810F641AB5FE770079BA76 /* QSCreateTradeItemInfoSizeCell.m */,
 				EF810F651AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.h */,
 				EF810F661AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m */,
+				EF1F52B31ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.h */,
+				EF1F52B41ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m */,
 			);
 			path = itemInfo;
 			sourceTree = "<group>";
@@ -1930,6 +1935,7 @@
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFF114AF1A0D2EEC009B7361 /* NSDictionary+RequestEncoding.m in Sources */,
 				EFF114B11A0D2EEC009B7361 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
+				EF1F52B51ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m in Sources */,
 				EF4D50A31A177158001E179B /* QSP04BrandDetailViewController.m in Sources */,
 				EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */,
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,

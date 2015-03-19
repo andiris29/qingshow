@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol QSCreateTradeTableViewCellBaseDelegate <NSObject>
+
+@end
+
 @interface QSCreateTradeTableViewCellBase : UITableViewCell
+
+@property (weak, nonatomic) NSObject<QSCreateTradeTableViewCellBaseDelegate>* delegate;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict;

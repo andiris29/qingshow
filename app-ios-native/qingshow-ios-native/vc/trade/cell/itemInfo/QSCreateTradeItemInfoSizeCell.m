@@ -19,11 +19,6 @@
 
 @interface QSCreateTradeItemInfoSizeCell ()
 
-@property (strong, nonatomic) NSArray* sizeArray;
-@property (strong, nonatomic) NSMutableArray* btnArray;
-
-@property (strong, nonatomic) QSTradeSelectButton* currentSelectBtn;
-
 @end
 
 @implementation QSCreateTradeItemInfoSizeCell
@@ -44,14 +39,14 @@
     }
     
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
-    self.sizeArray = [QSTaobaoInfoUtil getSizeSkus:taobaoInfo];
+    self.skusArray = [QSTaobaoInfoUtil getSizeSkus:taobaoInfo];
     self.btnArray = [@[] mutableCopy];
     float screenWidth = [UIScreen mainScreen].bounds.size.width;
     
     __block float currentOriginX = BASE_X;
     __block float currentOriginY = BASE_Y;
 
-    [self.sizeArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    [self.skusArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString* sizeProp = (NSString*)obj;
         NSString* sizeName = [QSTaobaoInfoUtil getNameOfProperty:sizeProp taobaoInfo:taobaoInfo];
         
@@ -76,19 +71,7 @@
     }];
 }
 
-- (void)btnPressed:(QSTradeSelectButton*)btn
-{
-    if (btn == self.currentSelectBtn) {
-        self.currentSelectBtn.isSelected = NO;
-        self.currentSelectBtn = nil;
-    } else {
-        for (QSTradeSelectButton* btn in self.btnArray) {
-            btn.isSelected = NO;
-        }
-        btn.isSelected = YES;
-        self.currentSelectBtn = btn;
-    }
-}
+
 
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict
 {

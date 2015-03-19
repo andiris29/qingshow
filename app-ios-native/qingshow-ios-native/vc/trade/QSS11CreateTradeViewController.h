@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSCreateTradeTableViewCellBase.h"
+#import "QSCreateTradeColorAndSizeBaseTableViewCell.h"
 
-@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSCreateTradeColorAndSizeBaseTableViewCellDelegate>
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet UITableViewCell *itemInfoTitleCell;
