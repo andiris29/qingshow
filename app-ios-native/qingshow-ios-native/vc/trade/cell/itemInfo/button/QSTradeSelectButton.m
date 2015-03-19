@@ -45,8 +45,16 @@
         self.layer.borderWidth = 1.f;
         
         self.isSelected = NO;
+        self.userInteractionEnabled = YES;
+        UIGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClick)];
+        [self addGestureRecognizer:ges];
     }
     return self;
+}
+
+- (void)didClick
+{
+    [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - Layout

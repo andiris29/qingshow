@@ -8,6 +8,13 @@
 
 #import "QSS11CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
+#import "QSTaobaoInfoUtil.h"
+#import "QSItemUtil.h"
+#import "QSNetworkKit.h"
+#import "QSUserManager.h"
+#import "QSReceiverUtil.h"
+#import "QSPeopleUtil.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSS11CreateTradeViewController ()
 
@@ -180,5 +187,28 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self hidekeyboard];
+}
+
+- (IBAction)submitButtonPressed:(id)sender {
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
+    NSArray* skus = [QSTaobaoInfoUtil getSkusArray:taobaoInfo];
+    NSDictionary* sku = skus[0];
+    NSArray* r = [QSPeopleUtil getReceiverList:[QSUserManager shareUserManager].userInfo];
+    NSDictionary* rec = r[0];
+    [QSReceiverUtil getUuid:rec];
+    [SHARE_NW_ENGINE createTradeTotalFee:1
+                                quantity:1
+                                   price:1
+                                    item:self.itemDict
+                                     sku:sku[@"sku_id"]
+                            receiverUuid:[QSReceiverUtil getUuid:rec]
+                               onSucceed:^
+     {
+         [self showTextHud:@"success"];
+     }
+                                 onError:^(NSError *error)
+     {
+         [self showErrorHudWithError:error];
+     }];
 }
 @end

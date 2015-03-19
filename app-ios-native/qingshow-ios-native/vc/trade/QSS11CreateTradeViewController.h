@@ -39,4 +39,8 @@
 
 #pragma mark - Init
 - (id)initWithDict:(NSDictionary*)dict;
+
+#pragma mark - IBAction
+- (IBAction)submitButtonPressed:(id)sender;
+
 @end

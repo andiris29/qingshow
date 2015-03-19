@@ -24,4 +24,6 @@
 + (NSString*)getPromoPriceOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary*)taobaoInfo;
 + (BOOL)getIsAvaliableOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary*)taobaoInfo;
 
+
++ (NSArray*)getSkusArray:(NSDictionary*)taobaoInfo;
 @end

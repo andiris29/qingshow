@@ -22,8 +22,5 @@
 {
     return 65.f;
 }
-- (IBAction)submitBtnPressed:(id)sender
-{
-    
-}
+
 @end
