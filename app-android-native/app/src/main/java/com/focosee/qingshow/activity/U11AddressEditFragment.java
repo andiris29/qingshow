@@ -30,17 +30,18 @@ import java.util.Map;
  */
 public class U11AddressEditFragment extends Fragment implements View.OnFocusChangeListener, TextView.OnEditorActionListener {
 
-    private String province_text;
+    private final String NAME_STR = "name";
+    private final String PHONE_STR = "phone";
+    private final String PROVINCE_STR = "province";
+    private final String ADDRESS_STR = "address";
 
     enum ViewName{
         AREA
     }
 
-    private final String savedInstanceState_key = "receicer";
     private final String MPREFERENCES = "mPreferences";
 
     private SharedPreferences preferences;
-    private TextView titleTV;
     private EditText consigeeNameET;
     private EditText consigeePhoneET;
     private TextView consigeeAreaTV;
@@ -50,6 +51,8 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private MongoPeople people;
     private String id = null;
     private boolean isSaved = false;
+
+    private MongoPeople.Receiver receiver;
 
     public static U11AddressEditFragment newInstace(){
         return new U11AddressEditFragment();
@@ -62,6 +65,8 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         super.onCreate(savedInstanceState);
         people = QSModel.INSTANCE.getUser();
+
+        receiver = (MongoPeople.Receiver) getActivity().getIntent().getSerializableExtra("receiver");
 
         preferences = getActivity().getSharedPreferences(MPREFERENCES,Context.MODE_PRIVATE);
 
@@ -140,32 +145,44 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     }
 
     private void setData(){
-        if(preferences.contains("name"))
-            consigeeNameET.setText(preferences.getString("name",""));
-        if(preferences.contains("phone"))
-            consigeePhoneET.setText(preferences.getString("phone", ""));
-        if(preferences.contains("province_text")) {
-            consigeeAreaTV.setText(preferences.getString("province_text", ""));
-            consigeeAreaTV.setTextColor(getResources().getColor(R.color.pink));
+
+        if(null != receiver){//编辑页面
+            consigeeNameET.setText(receiver.name);
+            consigeePhoneET.setText(receiver.phone);
+            consigeeAreaTV.setText(receiver.province);
+            consigeeDetailAreaET.setText(receiver.address);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(NAME_STR, consigeeNameET.getText().toString());
+            editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
+            editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
+            editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
+            return;
+        }
+
+        if(preferences.contains(NAME_STR))
+            consigeeNameET.setText(preferences.getString(NAME_STR,""));
+        if(preferences.contains(PHONE_STR))
+            consigeePhoneET.setText(preferences.getString(PHONE_STR, ""));
+        if(preferences.contains(PROVINCE_STR)) {
+            consigeeAreaTV.setText(preferences.getString(PROVINCE_STR, ""));
         }
 //        if(preferences.contains("province_code"))
 //            consigeeAreaTV.setTag(preferences.getString("province_code",""));
-        if(preferences.contains("address"))
-            consigeeDetailAreaET.setText(preferences.getString("address",""));
+        if(preferences.contains(ADDRESS_STR))
+            consigeeDetailAreaET.setText(preferences.getString(ADDRESS_STR,""));
     }
 
     private void commitForm(){
 
         Map<String, String> params = new HashMap<String, String>();
         if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()))
-            params.put("name", consigeeNameET.getText().toString());
+            params.put(NAME_STR, consigeeNameET.getText().toString());
         if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText().toString()))
-            params.put("phone", consigeePhoneET.getText().toString());
+            params.put(PHONE_STR, consigeePhoneET.getText().toString());
         if(null != consigeeAreaTV.getTag())
-            params.put("province", consigeeAreaTV.getTag().toString());
+            params.put(PROVINCE_STR, consigeeAreaTV.getTag().toString());
         if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString()))
-            params.put("address", consigeeDetailAreaET.getText().toString());
-        System.out.println("userSaveReceiver:"+QSAppWebAPI.getUserSaveReceiverApi());
+            params.put(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
         UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
             public void onError() {
@@ -186,47 +203,47 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     public void onPause() {
         super.onPause();
         SharedPreferences.Editor editor = preferences.edit();
-
-        if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText()) || !preferences.contains("name")) {
-            editor.putString("name", consigeeNameET.getText().toString());
+        //name
+        if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText()) || !preferences.contains(NAME_STR)) {
+            editor.putString(NAME_STR, consigeeNameET.getText().toString());
             isSaved = false;
         }
-        if(preferences.contains("name")){
-            if(!preferences.getString("name", "").equals(consigeeNameET.getText().toString())){
-                editor.putString("name", consigeeNameET.getText().toString());
+        if(preferences.contains(NAME_STR)){
+            if(!preferences.getString(NAME_STR, "").equals(consigeeNameET.getText().toString())){
+                editor.putString(NAME_STR, consigeeNameET.getText().toString());
                 isSaved = false;
             }
         }
-
-        if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText()) || !preferences.contains("phone")) {
-            editor.putString("phone", consigeePhoneET.getText().toString());
+        //phone
+        if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText()) || !preferences.contains(PHONE_STR)) {
+            editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
             isSaved = false;
         }
-        if(preferences.contains("phone")){
-            if(!preferences.getString("phone", "").equals(consigeePhoneET.getText().toString())){
-                editor.putString("phone", consigeePhoneET.getText().toString());
+        if(preferences.contains(PHONE_STR)){
+            if(!preferences.getString(PHONE_STR, "").equals(consigeePhoneET.getText().toString())){
+                editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
                 isSaved = false;
             }
         }
-
-        if(null != consigeeAreaTV.getText() && !"".equals(consigeeAreaTV.getText()) || !preferences.contains("province_text")) {
-            editor.putString("province_text", consigeeAreaTV.getText().toString());
+        //province
+        if(null != consigeeAreaTV.getText() && !"".equals(consigeeAreaTV.getText()) || !preferences.contains(PROVINCE_STR)) {
+            editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
             isSaved = false;
         }
-        if(preferences.contains("province_text")){
-            if(!preferences.getString("province_text", "").equals(consigeePhoneET.getText().toString())){
-                editor.putString("province_text", consigeePhoneET.getText().toString());
+        if(preferences.contains(PROVINCE_STR)){
+            if(!preferences.getString(PROVINCE_STR, "").equals(consigeeAreaTV.getText().toString())){
+                editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
                 isSaved = false;
             }
         }
-
-        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText()) || !preferences.contains("address")) {
-            editor.putString("address", consigeeDetailAreaET.getText().toString());
+        //address
+        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText()) || !preferences.contains(ADDRESS_STR)) {
+            editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
             isSaved = false;
         }
-        if(preferences.contains("address")){
-            if(!preferences.getString("address", "").equals(consigeeDetailAreaET.getText().toString())){
-                editor.putString("address", consigeeDetailAreaET.getText().toString());
+        if(preferences.contains(ADDRESS_STR)){
+            if(!preferences.getString(ADDRESS_STR, "").equals(consigeeDetailAreaET.getText().toString())){
+                editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
                 isSaved = false;
             }
         }

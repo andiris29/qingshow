@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -17,16 +18,14 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.widget.CityPicker;
-import com.google.gson.JsonObject;
-
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -55,9 +54,12 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
-        viewHolder.nameTV.setText(datas.get(i).name);
-        viewHolder.phoneTV.setText(datas.get(i).phone);
-        viewHolder.addressTV.setText(datas.get(i).address);
+        final int position = i;
+
+        viewHolder.nameTV.setText(null == datas.get(i).name ? "" : datas.get(i).name);
+        viewHolder.phoneTV.setText(null == datas.get(i).phone ? "" : datas.get(i).phone);
+        viewHolder.addressTV.setText((null == datas.get(i).province ? "" : datas.get(i).province)
+                + (null == datas.get(i).address ? "" : datas.get(i).address));
         if(datas.get(i).isDefault){
             viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment_hover);
             default_posion = i;
@@ -69,7 +71,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, U11EditAddressActivity.class);
-                intent.putExtra("id", "fdsafdsa");
+                intent.putExtra("receiver", datas.get(position));
                 context.startActivity(intent);
             }
         });
@@ -77,18 +79,15 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                delReceiver(datas.get(position).uuid);
             }
         });
-
-        final int position = i;
 
         viewHolder.chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(position == default_posion)return;
-
 
                 if(default_posion != Integer.MAX_VALUE){
                     datas.get(default_posion).isDefault = false;
@@ -148,6 +147,29 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
     public void resetData(LinkedList<MongoPeople.Receiver> datas){
         this.datas = datas;
+    }
+
+
+    public void delReceiver(String uuid){
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("uuid", uuid);
+
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getUserRemoveReceiverApi(), new JSONObject(params), new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(context, MetadataParser.getError(response));
+                    return;
+                }
+                QSModel.INSTANCE.setUser(UserParser.parseGet(response));
+                notifyDataSetChanged();
+                Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jor);
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
