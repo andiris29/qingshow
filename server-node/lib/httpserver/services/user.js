@@ -26,7 +26,7 @@ var _decrypt = function(string) {
     return dec;
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -357,6 +357,46 @@ var _upload = function(req, res, keyword) {
     return;
 };
 
+_removeReceiver = function(req, res) {
+    var param = req.body;
+    async.waterfall([function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }).exec(function(error, people) {
+            if (!error && !people) {
+                callback(ServerError.PeopleNotExist);
+            } else {
+                callback(error, people);
+            }
+        });
+    }, function(people, callback) {
+        var receivers = people.receivers;
+        var index = -1;
+        var isDefault = false;
+        if (receivers != null) {
+            for(var i = 0; i < receivers.length; i++) {
+                if (receivers[i].uuid == param.uuid) {
+                    index = i;
+                    isDefault = receivers[i].isDefault;
+                    break;
+                }
+            }
+
+            if (index > -1) {
+                people.receivers.splice(index, 1);
+                if (isDefault && people.receivers.length > 0) {
+                    people.receivers[0].isDefault = true;
+                }
+            }
+        }
+        people.save(callback);
+    }], function(error, people) {
+        ResponseHelper.response(res, error, {
+            'people' : people
+        });
+    });
+};
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -394,6 +434,11 @@ module.exports = {
     'saveReceiver' : {
         method : 'post',
         func : _saveReceiver,
+        permissionValidators : ['loginValidator']
+    },
+    'removeReceiver' : {
+        method : 'post',
+        func : _removeReceiver,
         permissionValidators : ['loginValidator']
     }
 };
