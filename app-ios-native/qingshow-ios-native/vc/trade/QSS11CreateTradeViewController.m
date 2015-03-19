@@ -156,7 +156,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
-    [cell bindWithDict:nil];
+    [cell bindWithDict:self.itemDict];
     return cell;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

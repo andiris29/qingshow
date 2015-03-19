@@ -22,6 +22,7 @@
 
 @property (strong, nonatomic) NSArray* colorArray;
 @property (strong, nonatomic) NSMutableArray* btnArray;
+@property (strong, nonatomic) QSTradeSelectButton* currentSelectBtn;
 
 @end
 
@@ -36,6 +37,12 @@
 */
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    if (self.btnArray) {
+        for (QSTradeSelectButton* btn in self.btnArray) {
+            [btn removeFromSuperview];
+        }
+    }
+    
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
     self.colorArray = [QSTaobaoInfoUtil getColorSkus:taobaoInfo];
     self.btnArray = [@[] mutableCopy];
@@ -49,7 +56,9 @@
         NSString* sizeName = [QSTaobaoInfoUtil getNameOfProperty:sizeProp taobaoInfo:taobaoInfo];
         
         QSTradeSelectButton* btn = [[QSTradeSelectButton alloc] init];
+        [self.btnArray addObject:btn];
         btn.text = sizeName;
+        [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         if (currentOriginX + btn.frame.size.width + MARGIN_X > screenWidth) {
             currentOriginX = BASE_X;
@@ -65,6 +74,20 @@
         currentOriginX += btn.frame.size.width + MARGIN_X;
         
     }];
+}
+
+- (void)btnPressed:(QSTradeSelectButton*)btn
+{
+    if (btn == self.currentSelectBtn) {
+        self.currentSelectBtn.isSelected = NO;
+        self.currentSelectBtn = nil;
+    } else {
+        for (QSTradeSelectButton* btn in self.btnArray) {
+            btn.isSelected = NO;
+        }
+        btn.isSelected = YES;
+        self.currentSelectBtn = btn;
+    }
 }
 
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict

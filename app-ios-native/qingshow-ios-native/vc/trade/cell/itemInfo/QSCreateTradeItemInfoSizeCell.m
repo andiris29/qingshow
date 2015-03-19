@@ -21,10 +21,12 @@
 
 @property (strong, nonatomic) NSArray* sizeArray;
 @property (strong, nonatomic) NSMutableArray* btnArray;
+
+@property (strong, nonatomic) QSTradeSelectButton* currentSelectBtn;
+
 @end
 
 @implementation QSCreateTradeItemInfoSizeCell
-
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -35,6 +37,12 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
+    if (self.btnArray) {
+        for (QSTradeSelectButton* btn in self.btnArray) {
+            [btn removeFromSuperview];
+        }
+    }
+    
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
     self.sizeArray = [QSTaobaoInfoUtil getSizeSkus:taobaoInfo];
     self.btnArray = [@[] mutableCopy];
@@ -48,6 +56,8 @@
         NSString* sizeName = [QSTaobaoInfoUtil getNameOfProperty:sizeProp taobaoInfo:taobaoInfo];
         
         QSTradeSelectButton* btn = [[QSTradeSelectButton alloc] init];
+        [self.btnArray addObject:btn];
+        [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
         btn.text = sizeName;
         
         if (currentOriginX + btn.frame.size.width + MARGIN_X > screenWidth) {
@@ -65,6 +75,21 @@
 
     }];
 }
+
+- (void)btnPressed:(QSTradeSelectButton*)btn
+{
+    if (btn == self.currentSelectBtn) {
+        self.currentSelectBtn.isSelected = NO;
+        self.currentSelectBtn = nil;
+    } else {
+        for (QSTradeSelectButton* btn in self.btnArray) {
+            btn.isSelected = NO;
+        }
+        btn.isSelected = YES;
+        self.currentSelectBtn = btn;
+    }
+}
+
 - (CGFloat)getHeightWithDict:(NSDictionary*)dict
 {
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
