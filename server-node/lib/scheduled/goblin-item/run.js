@@ -1,19 +1,16 @@
-var goblinItem =  module.exports;
+var schedule = require('node-schedule');
+var winston = require('winston');
 
 var async = require('async');
 var winston = require('winston');
 var _ = require('underscore');
 
+var TaobaoWebItem = require('../../taobao/web/Item');
+
 var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
 var MongoHelper = require('../../httpserver/helpers/MongoHelper');
-var taobaoMongoHelper = require('../../httpserver/taobao/taobaoMongoHelper');
 var ServerError = require('../../httpserver/server-error');
-
-goblinItem.start = function (startDate) {
-    _next(startDate, 10);
-};
-
 
 var _next = function (time, retryTime) {
     async.waterfall([
@@ -30,13 +27,13 @@ var _next = function (time, retryTime) {
                         }
                     }]
                 }, {
-                    '$or': [{
-                        'deactive': {
-                            '$exists': false
-                        }
-                    }, {
-                        'deactive': false
-                    }]
+                    // '$or': [{
+                        // 'deactive': {
+                            // '$exists': false
+                        // }
+                    // }, {
+                        // 'deactive': false
+                    // }]
                 }]
             };
 
@@ -60,11 +57,15 @@ var _next = function (time, retryTime) {
             var tasks = [];
             items.forEach(function (item) {
                 var task = function (callback) {
-                    taobaoMongoHelper.crawlItemTaobaoInfo(item, callback);
+                    _crawlItemTaobaoInfo(item, function(err) {
+                        setTimeout(function() {
+                            callback(err);
+                        }, 1000);
+                    });
                 };
                 tasks.push(task);
             });
-            async.parallel(tasks, callback);
+            async.series(tasks, callback);
 
         }
     ], function (err) {
@@ -92,5 +93,41 @@ var _next = function (time, retryTime) {
                 _next(time, retryTime);
             }, 1000);
         }
+    });
+};
+
+var _crawlItemTaobaoInfo = function (item, callback) {
+    async.waterfall([
+        function (callback) {
+            TaobaoWebItem.getSkus(item.source, function (err, taobaoInfo) {
+                item.taobaoInfo = taobaoInfo;
+                callback();
+            });
+        }
+    ], function (err) {
+        if (err) {
+            callback(err);
+        } else {
+            item.taobaoInfo = item.taobaoInfo || {};
+            if (Object.keys(item.taobaoInfo).length === 0) {
+                item.deactive = true;
+            } else {
+                item.deactive = false;
+            }
+            item.taobaoInfo.refreshTime = new Date();
+            item.save(callback);
+        }
+    });
+};
+
+module.exports = function () {
+    var rule = new schedule.RecurrenceRule();
+    rule.hour = 1;
+    rule.minute = 0;
+    schedule.scheduleJob(rule, function () {
+        var startDate = new Date();
+        winston.info('Goblin-tbitem run at: ' + startDate);
+        
+        _next(startDate, 10);
     });
 };
