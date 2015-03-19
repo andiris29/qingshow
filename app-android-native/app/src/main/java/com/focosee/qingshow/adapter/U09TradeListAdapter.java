@@ -22,6 +22,7 @@ import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
@@ -162,6 +163,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 
         RequestQueueManager.INSTANCE.getQueue().add(jor);
     }
+
 
     private JSONObject getStatusJSONObjcet(MongoTrade trade){
 

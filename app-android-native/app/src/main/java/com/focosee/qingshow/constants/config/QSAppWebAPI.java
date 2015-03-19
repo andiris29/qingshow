@@ -13,6 +13,7 @@ public class QSAppWebAPI {
     public static final String LOGOUT_SERVICE_URL = HOST_NAME + "/user/logout";
     public static final String GET_SERVICE_URL = HOST_NAME + "/user/get";
     private static final String USER_SAVE_RECEIVER_API = HOST_NAME + "/user/saveReceiver";
+    private static final String USER_REMOVE_RECEIVER_API = HOST_NAME + "/user/removeReceiver";
 
     public static final String People_Query_Followed = HOST_NAME + "/people/queryFollowed";
 
@@ -67,6 +68,10 @@ public class QSAppWebAPI {
     private static final String TRADE_CREATE_API = HOST_NAME + "/trade/create";
     private static final String TRADE_QUERY_API = HOST_NAME + "/trade/queryCreatedBy";
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
+
+    public static String getUserRemoveReceiverApi(){
+        return USER_REMOVE_RECEIVER_API;
+    }
 
     public static String getUserSaveReceiverApi(){
         return USER_SAVE_RECEIVER_API;
