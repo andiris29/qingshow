@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,19 +10,20 @@
         android:layout_height="0dp"
         android:layout_weight="11">
 
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/s10_item_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <ImageButton
+            android:onClick="onClick"
             android:id="@+id/s10_back_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/s03_back_btn" />
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/s10_item_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
 
         <LinearLayout
@@ -43,40 +45,22 @@
                 android:orientation="horizontal"></LinearLayout>
 
             <TextView
-                android:id="@+id/item_p04_item_discount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#ffffff"
-                android:textStyle="italic|bold" />
-
-            <TextView
+                android:paddingTop="25dp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/s10_item_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="面料法兰绒"
+                android:text=""
                 android:textColor="#ffffff" />
 
-            <LinearLayout
+            <TextView
+                android:padding="5dp"
+                android:id="@+id/s10_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/s10_item_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#ffffff" />
-
-                <TextView
-                    android:id="@+id/s10_item_source_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text=""
-                    android:textColor="#ffffff" />
-            </LinearLayout>
+                android:text=""
+                android:textColor="#ffffff" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -90,12 +74,15 @@
             android:id="@+id/s10_watch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:src="@drawable/s10_watch" />
 
         <ImageView
+            android:onClick="onClick"
             android:id="@+id/s10_bay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:src="@drawable/s10_bay" />
     </LinearLayout>
 </LinearLayout>

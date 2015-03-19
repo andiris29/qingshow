@@ -1,32 +1,25 @@
 package com.focosee.qingshow.Fragment;
 
+import com.focosee.qingshow.model.vo.mongo.MongoOrder;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+
+import java.util.LinkedList;
+
 /**
  * Created by Administrator on 2015/3/17.
  */
 public class S11DetailsEvent {
 
-    private int quantity;
-    private String price;
-    private String selectedItemSkuId;
+    private MongoOrder order;
     private boolean exists = false;
 
-    public S11DetailsEvent(int quantity, String price, String selectedItemSkuId, boolean exists) {
-        this.quantity = quantity;
-        this.price = price;
-        this.selectedItemSkuId = selectedItemSkuId;
+    public S11DetailsEvent(MongoOrder order, boolean exists) {
+        this.order = order;
         this.exists = exists;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public String getSelectedItemSkuId() {
-        return selectedItemSkuId;
+    public MongoOrder getOrder() {
+        return order;
     }
 
     public boolean isExists() {

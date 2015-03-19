@@ -1,7 +1,8 @@
 package com.focosee.qingshow.Fragment;
 
-import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,25 +10,26 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S11NewTradeActivity;
+import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 /**
  * Created by Administrator on 2015/3/11.
  */
-public class S11ReceiptFragment extends Fragment {
+public class S11ReceiptFragment extends Fragment implements View.OnClickListener{
 
     private View rootView;
     private EditText nameView;
     private EditText phoneView;
     private EditText addressView;
-    private String provinceStr = "广西壮族自治区柳州市市辖区";
+    private String provinceStr = "上海市普陀区";
     private MongoPeople.Receiver receiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_s11_receipt,container,false);
-        MongoPeople people = new MongoPeople();
-        receiver = people.new Receiver();
+        receiver = (MongoPeople.Receiver) getActivity().getIntent().getExtras().get(S11NewTradeActivity.INPUT_RECEIVER_ENTITY);
         init();
         return rootView;
     }
@@ -37,9 +39,16 @@ public class S11ReceiptFragment extends Fragment {
         phoneView = (EditText) rootView.findViewById(R.id.s11_receipt_phone);
         addressView = (EditText) rootView.findViewById(R.id.s11_receipt_address);
 
+        rootView.findViewById(R.id.s11_receipt_manage).setOnClickListener(this);
+
     }
 
     public MongoPeople.Receiver getReceiver(){
+
+        if (null == receiver) {
+            MongoPeople people = new MongoPeople();
+            receiver = people.new Receiver();
+        }
 
         receiver.name = nameView.getText().toString();
         receiver.phone = phoneView.getText().toString();
@@ -49,4 +58,12 @@ public class S11ReceiptFragment extends Fragment {
         return receiver;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.s11_receipt_manage:
+                startActivity(new Intent(getActivity(), U10AddressListActivity.class));
+                break;
+        }
+    }
 }

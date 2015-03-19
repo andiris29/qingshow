@@ -68,6 +68,8 @@ public class QSAppWebAPI {
     private static final String TRADE_QUERY_API = HOST_NAME + "/trade/queryCreatedBy";
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
 
+    public static String getTradeCreateApi(){return TRADE_CREATE_API;}
+
     public static String getUserSaveReceiverApi(){
         return USER_SAVE_RECEIVER_API;
     }

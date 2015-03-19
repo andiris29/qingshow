@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
+import static com.focosee.qingshow.util.StringUtil.FormatPrice;
+
 /**
  * Created by i068020 on 2/8/15.
  */
@@ -140,10 +142,6 @@ public class MongoItem implements Serializable {
                 return FormatPrice(maxPrice);
             }
             return FormatPrice(minPrice) +"-"+ new DecimalFormat("0.00").format(new BigDecimal(maxPrice));
-        }
-
-        public String  FormatPrice(String price){
-            return "￥" + new DecimalFormat("0.00").format(new BigDecimal(price));
         }
 
     }

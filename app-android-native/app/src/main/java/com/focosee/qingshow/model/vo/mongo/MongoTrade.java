@@ -18,21 +18,12 @@ public class MongoTrade implements Serializable {
     public String create;
 
     @NonNull
-    public LinkedList<Order> orders;
+    public LinkedList<MongoOrder> orders;
 
     @NonNull
     public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
-
-    public class Order implements Serializable{
-        public String quantity;
-        public String price;
-        public MongoItem itemSnapshot;
-        public String selectedItemSkuId;
-        public String selectedPeopleReceiverUuid;
-
-    }
 
     public class TaobaoInfo{
         public String userNick;

@@ -24,15 +24,13 @@ import java.util.LinkedList;
 /**
  * Created by Administrator on 2015/3/13.
  */
-public class S10ItemDetailActivity extends BaseActivity {
+public class S10ItemDetailActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
     private ViewPager viewPager;
-    private TextView discount;
     private TextView description;
     private TextView price;
-    private TextView sourcePrice;
     private ImageView watch;
     private LinearLayout group;
 
@@ -48,33 +46,19 @@ public class S10ItemDetailActivity extends BaseActivity {
 
     private void init() {
         viewPager = (ViewPager) findViewById(R.id.s10_item_viewpager);
-        discount = (TextView) findViewById(R.id.s10_item_description);
+        description = (TextView) findViewById(R.id.s10_item_description);
         price = (TextView) findViewById(R.id.s10_item_price);
-        sourcePrice = (TextView) findViewById(R.id.s10_item_source_price);
         watch = (ImageView) findViewById(R.id.s10_watch);
         group = (LinearLayout) findViewById(R.id.s10_item_viewGroup);
 
-        viewPager.setAdapter(new ItemImgViewPagerAdapter(itemEntity.images,this));
+        ItemImgViewPagerAdapter viewPagerAdapter = new ItemImgViewPagerAdapter(itemEntity.images, this);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOnPageChangeListener(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setCurrentItem(itemEntity.images.size() * 3);
 
-        findViewById(R.id.s10_bay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("tag",itemEntity._id + "");
-                Intent intent = new Intent(S10ItemDetailActivity.this, S11NewTradeActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY,itemEntity);
-                intent.putExtras(bundle);
-                S10ItemDetailActivity.this.startActivity(intent);
-            }
-        });
-
-        findViewById(R.id.s10_back_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+        description.setText(itemEntity.name);
+        price.setText(itemEntity.getPrice());
 
     }
 
@@ -84,15 +68,28 @@ public class S10ItemDetailActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.s10_bay:
+                Intent intent = new Intent(S10ItemDetailActivity.this, S11NewTradeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY, itemEntity);
+                intent.putExtras(bundle);
+                S10ItemDetailActivity.this.startActivity(intent);
+                break;
+            case R.id.s10_back_btn:
+                finish();
+                break;
+        }
+    }
+
     private class ItemImgViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
         private LinkedList<MongoItem.Image> images;
         private ImageView[] _mImgViewS;
         private int imgSize;
         private Context context;
-        /**
-         * 装点点的ImageView数组
-         */
         private ImageView[] tips;
 
         public ItemImgViewPagerAdapter(LinkedList<MongoItem.Image> images, Context context) {
@@ -118,9 +115,6 @@ public class S10ItemDetailActivity extends BaseActivity {
             container.removeView(_mImgViewS[position % this.imgSize]);
         }
 
-        /**
-         * 载入图片进去，用当前的position 除以 图片数组长度取余数是关键
-         */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
@@ -174,11 +168,6 @@ public class S10ItemDetailActivity extends BaseActivity {
 
         }
 
-        /**
-         * 设置选中的tip的背景
-         *
-         * @param selectItems
-         */
         private void setImageBackground(int selectItems) {
 
 

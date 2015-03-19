@@ -27,7 +27,7 @@ public class ImageRadio extends ImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(200, 200);
+        setMeasuredDimension(150, 150);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class UserReceiverCommand {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
-                    callback.onError();
+                    callback.onError(MetadataParser.getError(response));
                     return;
                 }
                 callback.onComplete(response);

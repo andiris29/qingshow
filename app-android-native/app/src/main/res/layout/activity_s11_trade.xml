@@ -16,6 +16,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:onClick="onClick"
             android:id="@+id/s11_back_image_button"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -113,7 +114,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/s11_paytext"
             android:padding="10dp"
-            android:text="￥350.00"
             android:textColor="@color/master"
             android:textSize="@dimen/text_title_size" />
 
@@ -124,7 +124,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
-            android:src="@drawable/s11_submit" />
+            android:background="@drawable/s11_submit" />
 
     </RelativeLayout>
 </LinearLayout>
