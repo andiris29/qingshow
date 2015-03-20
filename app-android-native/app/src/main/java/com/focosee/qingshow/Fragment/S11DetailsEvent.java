@@ -1,9 +1,6 @@
-package com.focosee.qingshow.Fragment;
+package com.focosee.qingshow.fragment;
 
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
-import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-
-import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2015/3/17.

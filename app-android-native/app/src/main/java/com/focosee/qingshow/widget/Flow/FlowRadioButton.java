@@ -1,4 +1,4 @@
-package com.focosee.qingshow.widget.Flow;
+package com.focosee.qingshow.widget.flow;
 
 import android.content.Context;
 import android.graphics.Color;

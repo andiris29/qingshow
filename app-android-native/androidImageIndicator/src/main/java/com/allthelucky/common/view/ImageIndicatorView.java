@@ -323,29 +323,6 @@ public class ImageIndicatorView extends RelativeLayout {
     }
 
 
-
-	/**
-	 * 箭头点击事件处理
-	 */
-	private class ArrowClickListener implements View.OnClickListener {
-		@Override
-		public void onClick(View view) {
-//			if (view == leftButton) {
-//				if (currentIndex >= (totelCount - 1)) {
-//					return;
-//				} else {
-//					viewPager.setCurrentItem(currentIndex + 1, true);
-//				}
-//			} else {
-//				if (totelCount <= 0) {
-//					return;
-//				} else {
-//					viewPager.setCurrentItem(currentIndex - 1, true);
-//				}
-//			}
-		}
-	}
-
 	/**
 	 * 页面变更监听
 	 */
@@ -390,30 +367,9 @@ public class ImageIndicatorView extends RelativeLayout {
 		}
 	}
 
-//    /**
-//     * 获取开始播放的按钮
-//     */
-//    public Button getStartButton() {
-//        return this.startButton;
-//    }
-//
-//    /**
-//     * 获取评论的按钮
-//     */
-//    public Button getMessageButton() {
-//        return this.messageButton;
-//    }
-//
-//    /**
-//     * 获取分享的按钮
-//     */
-//    public Button getShareButton() {
-//        return this.shareButton;
-//    }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        heightMeasureSpec = MeasureSpec.getSize(widthMeasureSpec * 4 / 3) + MeasureSpec.EXACTLY;
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -447,7 +403,6 @@ public class ImageIndicatorView extends RelativeLayout {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            Log.i("tag","destroy");
             container.removeView((View) object);
         }
 

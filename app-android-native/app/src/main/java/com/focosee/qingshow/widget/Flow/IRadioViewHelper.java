@@ -1,4 +1,4 @@
-package com.focosee.qingshow.widget.Flow;
+package com.focosee.qingshow.widget.flow;
 
 /**
  * Created by Administrator on 2015/3/20.

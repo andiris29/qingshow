@@ -1,10 +1,9 @@
-package com.focosee.qingshow.Fragment;
+package com.focosee.qingshow.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -14,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -26,10 +23,10 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
-import com.focosee.qingshow.widget.Flow.FlowRadioButton;
-import com.focosee.qingshow.widget.Flow.FlowRadioGroup;
-import com.focosee.qingshow.widget.Flow.FlowRadioImgeView;
-import com.focosee.qingshow.widget.OfficialFlowRadioGroup;
+import com.focosee.qingshow.widget.flow.FlowRadioButton;
+import com.focosee.qingshow.widget.flow.FlowRadioGroup;
+import com.focosee.qingshow.widget.flow.FlowRadioImgeView;
+import com.focosee.qingshow.widget.flow.IRadioViewHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -296,7 +293,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             }
 
             if (i == 1) {
-                colorItem.setChecked(true);
+                ((IRadioViewHelper)itemGroup.getChildAt(0)).setChecked(true);
                 myPropList.add(color.prop);
                 onSecletChanged();
             }

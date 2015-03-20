@@ -17,7 +17,9 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
+import com.focosee.qingshow.widget.PageIndicator;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.LinkedList;
 
@@ -31,8 +33,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     private ViewPager viewPager;
     private TextView description;
     private TextView price;
-    private ImageView watch;
-    private LinearLayout group;
+    private PageIndicator pageIndicator;
 
     private MongoItem itemEntity;
 
@@ -48,14 +49,14 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         viewPager = (ViewPager) findViewById(R.id.s10_item_viewpager);
         description = (TextView) findViewById(R.id.s10_item_description);
         price = (TextView) findViewById(R.id.s10_item_price);
-        watch = (ImageView) findViewById(R.id.s10_watch);
-        group = (LinearLayout) findViewById(R.id.s10_item_viewGroup);
+        pageIndicator = (PageIndicator) findViewById(R.id.s10_page_indicator);
 
         ItemImgViewPagerAdapter viewPagerAdapter = new ItemImgViewPagerAdapter(itemEntity.images, this);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOnPageChangeListener(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(1);
         viewPager.setCurrentItem(itemEntity.images.size() * 3);
+        pageIndicator.setCount(itemEntity.images.size());
 
         description.setText(itemEntity.name);
         price.setText(itemEntity.getPrice());
@@ -91,14 +92,12 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         private ImageView[] _mImgViewS;
         private int imgSize;
         private Context context;
-        private ImageView[] tips;
 
         public ItemImgViewPagerAdapter(LinkedList<MongoItem.Image> images, Context context) {
             this.images = images;
             this.imgSize = images.size() == 0 ? 1 : images.size();
             this.context = context;
             initImageViewList();
-            initTips();
         }
 
         @Override
@@ -128,26 +127,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             return imageView;
         }
 
-        private void initTips() {
-            tips = new ImageView[this.imgSize];
-            group.removeAllViews();
-            for (int i = 0; i < tips.length; i++) {
-                ImageView imageView_tips = new ImageView(context);
-                imageView_tips.setLayoutParams(new LinearLayout.LayoutParams(10, 10));
-                tips[i] = imageView_tips;
-                if (i == 0) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                layoutParams.leftMargin = 5;
-                layoutParams.rightMargin = 5;
-                group.addView(imageView_tips, layoutParams);
-            }
-        }
 
         private void initImageViewList() {
             _mImgViewS = new ImageView[this.imgSize];
@@ -169,18 +148,6 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
         }
 
-        private void setImageBackground(int selectItems) {
-
-
-            for (int i = 0; i < tips.length; i++) {
-                if (i == (selectItems % this.imgSize)) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-            }
-        }
-
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -188,8 +155,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
         @Override
         public void onPageSelected(int position) {
-            setImageBackground(position);
-            //this.viewHolder.detailButton.setTag(position % this.imgSize);
+            pageIndicator.setIndex(position % this.imgSize + 1);
             description.setText(((MongoItem.Image) _mImgViewS[position % this.imgSize].getTag()).description);
         }
 

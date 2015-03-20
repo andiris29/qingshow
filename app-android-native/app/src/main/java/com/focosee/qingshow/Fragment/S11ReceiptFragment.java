@@ -1,16 +1,14 @@
-package com.focosee.qingshow.Fragment;
+package com.focosee.qingshow.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.S11NewTradeActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
