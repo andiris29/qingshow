@@ -4,8 +4,6 @@ import com.focosee.qingshow.util.TimeUtil;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-
 import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.GregorianCalendar;
@@ -27,9 +25,13 @@ public class UTCDeserializer implements JsonDeserializer<GregorianCalendar> {
     public GregorianCalendar deserialize(JsonElement jsonElement, Type type,
                                          JsonDeserializationContext jsonDeserializationContext) {
         try {
-            return TimeUtil.parseUTC(jsonElement.getAsString());
-        } catch (ParseException e) {
+            return TimeUtil.parseUTC(getNullAsEmptyString(jsonElement));
+        } catch (Exception e) {
             return null;
         }
+    }
+
+    private String getNullAsEmptyString(JsonElement jsonElement) {
+        return jsonElement.isJsonNull() ? "" : jsonElement.getAsString();
     }
 }

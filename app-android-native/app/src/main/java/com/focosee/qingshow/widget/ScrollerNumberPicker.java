@@ -56,9 +56,9 @@ public class ScrollerNumberPicker extends View {
 	/** 显示多少个内容 */
 	private int itemNumber = 7;
 	/** 默认字体颜色 */
-	private int normalColor = 0xff000000;
+	private int normalColor = 0xffff0000;
 	/** 选中时候的字体颜色 */
-	private int selectedColor = 0xffff0000;
+	private int selectedColor = 0xffffff;
 	/** 蒙板高度 */
 	private float maskHight = 48.0f;
 	/** 选择监听 */

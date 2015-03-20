@@ -14,10 +14,9 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01PersonalActivity;
-import com.focosee.qingshow.activity.U01WatchFragment;
+import com.focosee.qingshow.activity.fragment.U01WatchFragment;
 import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;

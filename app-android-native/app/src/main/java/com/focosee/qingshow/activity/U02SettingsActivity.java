@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.umeng.analytics.MobclickAgent;
 
 

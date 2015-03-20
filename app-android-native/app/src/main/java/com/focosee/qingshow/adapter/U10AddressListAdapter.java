@@ -11,24 +11,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.activity.U11EditAddressActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.google.gson.Gson;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/3/16.
@@ -36,7 +39,7 @@ import java.util.Map;
 public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAdapter.ViewHolder>{
 
     private Context context;
-    private int default_posion = Integer.MAX_VALUE;
+    private int default_posion = 0;
     private MongoPeople people;
     public LinkedList<MongoPeople.Receiver> datas = null;
     public U10AddressListAdapter(Context context) {
@@ -70,16 +73,16 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, U11EditAddressActivity.class);
-                intent.putExtra("receiver", datas.get(position));
-                context.startActivity(intent);
+            Intent intent = new Intent(context, U11EditAddressActivity.class);
+            intent.putExtra("receiver", datas.get(position));
+            context.startActivity(intent);
             }
         });
 
         viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delReceiver(datas.get(position).uuid);
+            delReceiver(datas.get(position).uuid);
             }
         });
 
@@ -87,54 +90,61 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             @Override
             public void onClick(View v) {
 
-                if(position == default_posion)return;
+            if(position == default_posion)return;
 
-                if(default_posion != Integer.MAX_VALUE){
-                    datas.get(default_posion).isDefault = false;
+            if(default_posion != Integer.MAX_VALUE){
+                datas.get(default_posion).isDefault = false;
+            }
+
+            datas.get(position).isDefault = true;
+
+            Gson gson = new Gson();
+            gson.toJson(datas.get(position));
+
+            JSONObject jsonObject = null;
+
+            try{
+                jsonObject = new JSONObject(new Gson().toJson(datas.get(position)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if(MetadataParser.hasError(response)){
+                        ErrorHandler.handle(context,MetadataParser.getError(response));
+                    }
+                    notifyDataSetChanged();
                 }
+            });
 
+            try{
+                jsonObject = new JSONObject(new Gson().toJson(datas.get(default_posion)));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
-                datas.get(position).isDefault = true;
-
-                Map params1 = new HashMap();
-                params1.put("uuid", datas.get(position).uuid);
-                params1.put("name", datas.get(position).name);
-                params1.put("phone", datas.get(position).phone);
-                params1.put("province", datas.get(position).province);
-                params1.put("address", datas.get(position).address);
-                params1.put("isDefault", datas.get(position).isDefault);
-
-                QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params1), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if(MetadataParser.hasError(response)){
-                            ErrorHandler.handle(context,MetadataParser.getError(response));
-                        }
-                        notifyDataSetChanged();
+            QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    if(MetadataParser.hasError(response)){
+                        ErrorHandler.handle(context,MetadataParser.getError(response));
                     }
-                });
+                    default_posion = position;
+                    notifyDataSetChanged();
+                }
+            });
 
-                Map params2 = new HashMap();
-                params2.put("uuid", datas.get(default_posion).uuid);
-                params2.put("name", datas.get(default_posion).name);
-                params2.put("phone", datas.get(default_posion).phone);
-                params2.put("province", datas.get(default_posion).province);
-                params2.put("address", datas.get(default_posion).address);
-                params2.put("isDefault", datas.get(default_posion).isDefault);
+            RequestQueueManager.INSTANCE.getQueue().add(jor1);
+            RequestQueueManager.INSTANCE.getQueue().add(jor2);
 
-                QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params2), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        if(MetadataParser.hasError(response)){
-                            ErrorHandler.handle(context,MetadataParser.getError(response));
-                        }
-                        default_posion = position;
-                        notifyDataSetChanged();
-                    }
-                });
-
-                RequestQueueManager.INSTANCE.getQueue().add(jor1);
-                RequestQueueManager.INSTANCE.getQueue().add(jor2);
+            if(context instanceof U10AddressListActivity){
+                if(!"".equals(((U10AddressListActivity)context).fromWhere)){
+                    EventBus.getDefault().post(datas.get(default_posion));
+                    ((U10AddressListActivity)context).finish();
+                }
+            }
             }
         });
 

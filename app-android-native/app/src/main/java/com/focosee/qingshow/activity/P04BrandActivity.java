@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U01BrandFragment;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.adapter.HotWaterfallAdapter;
 import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;

@@ -1,4 +1,4 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -7,12 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,8 +17,9 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.P02ModelActivity;
+import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.adapter.P01ModelListAdapter;
 import com.focosee.qingshow.constants.code.RolesCode;

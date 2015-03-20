@@ -4,6 +4,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
 /**
@@ -14,16 +15,12 @@ public class MongoTrade implements Serializable {
     public String _id;
     public Number totalFee;
     public int status;
-    @NonNull
-    public String create;
-
-    @NonNull
+    public GregorianCalendar create;
     public LinkedList<MongoOrder> orders;
-
-    @NonNull
-    public TaobaoInfo taobaoInfo;
+//    public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
+    public LinkedList<StatusLog> statusLogs;
 
     public class TaobaoInfo{
         public String userNick;
@@ -38,6 +35,13 @@ public class MongoTrade implements Serializable {
     public class Returnlogistic{
         public String company;
         public String trackingID;
+    }
+
+    public class StatusLog {
+        public GregorianCalendar update;
+        public String _id;
+        public String peopleRef;
+        public int status;
     }
 
 }

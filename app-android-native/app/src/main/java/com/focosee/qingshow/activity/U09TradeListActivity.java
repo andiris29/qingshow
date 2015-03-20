@@ -80,11 +80,11 @@ public class U09TradeListActivity extends BaseActivity{
 
     }
 
-    private void doRefresh(){
+    public void doRefresh(){
         getTradeFromNet(1, 10);
     }
 
-    private void doLoadMore(){
+    public void doLoadMore(){
         getTradeFromNet(currentPageNo + 1, 10);
     }
 
