@@ -99,17 +99,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
     }
 
-    private void initOrder() {
-        if (detailsFragment.getOrder() == null) {
-            submit.setBackgroundResource(R.drawable.s11_submit_off);
-            submit.setClickable(false);
-            return;
-        }
-        order = detailsFragment.getOrder();
-        priceTV.setText(StringUtil.FormatPrice(order.price));
-    }
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -135,15 +124,26 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    private void initOrder() {
+        setAllow(detailsFragment.getOrder() != null,
+                detailsFragment.getOrder());
+    }
 
     public void onEventMainThread(S11DetailsEvent event) {
-        if (!event.isExists()) {
+        setAllow(event.isExists(),event.getOrder());
+    }
+
+    private void setAllow(boolean allow,MongoOrder order){
+        if (allow) {
+            submit.setBackgroundResource(R.drawable.s11_submit);
+            submit.setClickable(true);
+            this.order = order;
+            priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.price)));
+        } else {
             submit.setBackgroundResource(R.drawable.s11_submit_off);
             submit.setClickable(false);
-            return;
+            priceTV.setText("商品暂无");
         }
-        order = event.getOrder();
-        priceTV.setText(StringUtil.FormatPrice(order.price));
     }
 
     @Override

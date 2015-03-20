@@ -5,40 +5,32 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S11NewTradeActivity;
-import com.focosee.qingshow.adapter.S11ItemImgAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
-import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
-import com.focosee.qingshow.widget.FlowRadioGroup;
-import com.focosee.qingshow.widget.ImageRadio;
-import com.focosee.qingshow.widget.ImageRadioGroup;
+import com.focosee.qingshow.widget.Flow.FlowRadioButton;
+import com.focosee.qingshow.widget.Flow.FlowRadioGroup;
+import com.focosee.qingshow.widget.Flow.FlowRadioImgeView;
+import com.focosee.qingshow.widget.OfficialFlowRadioGroup;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
@@ -59,7 +51,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private Button cutButton;
     private TextView numView;
     private FlowRadioGroup sizeGroup;
-    private ImageRadioGroup itemGroup;
+    private FlowRadioGroup itemGroup;
     private ImageView reference;
     private TextView showReference;
     private TextView name;
@@ -107,7 +99,8 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
                 if (prop.getPropId().equals(SkuUtil.KEY.COLOR.id)) {
                     SkuColor skuColor = new SkuColor(prop);
-                    skuColor.setUrl(skusProp.get(props).properties_thumbnail);
+                    skuColor.setUrl(skusProp.get(props).properties_thumbnail != null ?
+                                    skusProp.get(props).properties_thumbnail: "");
                     colors.add(skuColor);
                 }
 
@@ -131,7 +124,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             order = new MongoOrder();
             order.quantity = num;
             order.itemSnapshot = itemEntity;
-            order.price = sku.promo_price;
+            order.price = Double.parseDouble(sku.promo_price);
             order.selectedItemSkuId = sku.sku_id;
 
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText(StringUtil.FormatPrice(sku.promo_price));
@@ -157,7 +150,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         cutButton = (Button) rootView.findViewById(R.id.S11_cut_num);
         numView = (TextView) rootView.findViewById(R.id.S11_num);
         sizeGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_size_group);
-        itemGroup = (ImageRadioGroup) rootView.findViewById(R.id.s11_item_group);
+        itemGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_item_group);
         reference = (ImageView) rootView.findViewById(R.id.s11_reference);
         showReference = (TextView) rootView.findViewById(R.id.s11_show_reference);
         ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -194,65 +187,77 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         if (null == skus) {
             return;
         }
-        if(sizes.isEmpty()){
+        if (sizes.isEmpty()) {
             rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
             return;
         }
-
-        sizeGroup.setRealPadding(20);
         int i = 0;
 
         final ArrayList<Prop> sizeList = new ArrayList<Prop>();
-
+        ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+        itemParams.setMargins(10,10,10,10);
         for (Prop size : sizes) {
-            RadioGroup.LayoutParams itemParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.WRAP_CONTENT,
-                    RadioGroup.LayoutParams.WRAP_CONTENT);
-            RadioButton sizeItem = new RadioButton(getActivity());
-            sizeItem.setButtonDrawable(new ColorDrawable(Color.TRANSPARENT));
-            sizeItem.setBackgroundResource(R.drawable.trade_size_bg);
+
+            FlowRadioButton sizeItem = new FlowRadioButton(getActivity());
+            sizeItem.setBackgroundResource(R.drawable.s11_size_item_bg);
             sizeItem.setTextColor(getResources().getColor(R.color.black));
             sizeItem.setGravity(Gravity.CENTER);
-            sizeItem.setPadding(30, 30, 30, 30);
 
             if (!TextUtils.isEmpty(size.getName())) {
                 sizeItem.setText(size.getName());
-                sizeGroup.addView(sizeItem, itemParams);
-                sizeList.add(size);
-                i++;
+            } else {
+                sizeItem.setText("XXL");
             }
+            sizeGroup.addView(sizeItem, itemParams);
+            sizeList.add(size);
+            i++;
 
             if (i == 1) {
-                sizeGroup.check(sizeItem.getId());
-                sizeItem.setTextColor(getResources().getColor(R.color.white));
+                sizeItem.setChecked(true);
                 myPropList.add(size);
                 onSecletChanged();
             }
         }
 
-        if (0==sizeGroup.getChildCount()){
+        if (0 == sizeGroup.getChildCount()) {
             rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
             return;
         }
 
-        sizeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        sizeGroup.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
             int selectNum = 0;
 
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                for (int i = 0; i < group.getChildCount(); i++) {
-                    ((RadioButton) group.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
-                    if (group.getChildAt(i).getId() == group.findViewById(checkedId).getId()) {
-                        int index = myPropList.indexOf(sizeList.get(selectNum));
-                        myPropList.remove(index);
-                        myPropList.add(index, sizeList.get(i));
-                        onSecletChanged();
-                        selectNum = i;
-                    }
-                }
-                RadioButton radioButton = ((RadioButton) group.findViewById(checkedId));
-                radioButton.setTextColor(getResources().getColor(R.color.white));
+            public void checkedChanged(int i) {
+                int index = myPropList.indexOf(sizeList.get(selectNum));
+                myPropList.remove(index);
+                myPropList.add(index, sizeList.get(i));
+                onSecletChanged();
+                selectNum = i;
             }
         });
+
+
+//        sizeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            int selectNum = 0;
+//
+//            @Override
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                for (int i = 0; i < group.getChildCount(); i++) {
+//                    ((RadioButton) group.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
+//                    if (group.getChildAt(i).getId() == group.findViewById(checkedId).getId()) {
+//                        int index = myPropList.indexOf(sizeList.get(selectNum));
+//                        myPropList.remove(index);
+//                        myPropList.add(index, sizeList.get(i));
+//                        onSecletChanged();
+//                        selectNum = i;
+//                    }
+//                }
+//                RadioButton radioButton = ((RadioButton) group.findViewById(checkedId));
+//                radioButton.setTextColor(getResources().getColor(R.color.white));
+//            }
+//        });
     }
 
     private void initItem() {
@@ -260,20 +265,19 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         if (null == skus) {
             return;
         }
-        if(colors.isEmpty()){
+        if (colors.isEmpty()) {
             rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
             return;
         }
 
-        itemGroup.setRealPadding(20);
         int i = 0;
 
         final ArrayList<Prop> colorList = new ArrayList<Prop>();
 
         for (SkuColor color : colors) {
-            LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(200, 200);
-            final ImageRadio colorItem = new ImageRadio(getActivity());
-            colorItem.setLayoutParams(itemParams);
+            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(150, 150);
+            itemParams.setMargins(10, 10, 10, 10);
+            final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
 
             if (!TextUtils.isEmpty(color.getUrl())) {
                 ImageLoader.getInstance().loadImage(color.getUrl(), new SimpleImageLoadingListener() {
@@ -288,23 +292,26 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                         colorItem.setBackgroundDrawable(new BitmapDrawable(null, loadedImage));
                     }
                 });
-                itemGroup.addView(colorItem, itemParams);
-                colorList.add(color.prop);
-                i++;
-                onSecletChanged();
+            }else {
+                colorItem.setBackgroundResource(R.drawable.root_cell_placehold_image1);
             }
+            itemGroup.addView(colorItem, itemParams);
+            colorList.add(color.prop);
+            i++;
 
             if (i == 1) {
                 colorItem.setImageResource(R.drawable.s11_item_chek);
+                colorItem.setChecked(true);
                 myPropList.add(color.prop);
+                onSecletChanged();
             }
         }
 
-        itemGroup.setOnCheckedChangeListener(new ImageRadioGroup.OnCheckedChangeListener() {
+        itemGroup.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
             int selectNum = 0;
 
             @Override
-            public void checkedChanged(View view, int i) {
+            public void checkedChanged(int i) {
                 int index = myPropList.indexOf(colorList.get(selectNum));
                 myPropList.remove(index);
                 myPropList.add(index, colorList.get(i));
@@ -313,7 +320,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        if (0==itemGroup.getChildCount()){
+        if (0 == itemGroup.getChildCount()) {
             rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
             return;
         }

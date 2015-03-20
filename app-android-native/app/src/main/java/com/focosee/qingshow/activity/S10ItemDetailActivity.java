@@ -76,6 +76,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY, itemEntity);
                 intent.putExtras(bundle);
+                Log.i("tag",itemEntity._id);
                 S10ItemDetailActivity.this.startActivity(intent);
                 break;
             case R.id.s10_back_btn:

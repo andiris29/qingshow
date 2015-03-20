@@ -83,7 +83,7 @@
                 android:padding="10dp"
                 android:text="选择颜色"
                 android:textSize="@dimen/text_title_size" />
-            <com.focosee.qingshow.widget.ImageRadioGroup
+            <com.focosee.qingshow.widget.Flow.FlowRadioGroup
                 android:id="@+id/s11_item_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                     android:text="选择尺码"
                     android:textSize="@dimen/text_title_size" />
 
-                <com.focosee.qingshow.widget.FlowRadioGroup
+                <com.focosee.qingshow.widget.Flow.FlowRadioGroup
                     android:id="@+id/s11_size_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

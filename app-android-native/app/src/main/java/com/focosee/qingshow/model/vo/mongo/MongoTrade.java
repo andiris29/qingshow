@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class MongoTrade implements Serializable {
 
     public String _id;
-    public String totalFee;
+    public Number totalFee;
     public int status;
     @NonNull
     public String create;

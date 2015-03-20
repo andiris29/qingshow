@@ -46,7 +46,7 @@ public class SkuUtil {
 
     public static ArrayList<Prop> filter(MongoItem.TaoBaoInfo.SKU sku) {
         ArrayList<Prop> props = new ArrayList<Prop>();
-        for (int i = 0; i < sku.properties_name.split(";").length; i++) {
+        for (int i = 0; i < sku.properties.split(";").length - 1; i++) {
 
             Prop prop = new Prop();
 
@@ -59,8 +59,10 @@ public class SkuUtil {
                 prop.setPropValue(propValue);
             }
 
-            String name = sku.properties_name.split(";")[i];
-            prop.setName(name);
+            if(!TextUtils.isEmpty(sku.properties_name) && sku.properties_name.split(";").length >= i){
+                String name = sku.properties_name.split(";")[i];
+                prop.setName(name);
+            }
 
             props.add(prop);
         }

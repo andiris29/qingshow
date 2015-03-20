@@ -8,15 +8,15 @@ import android.widget.RadioGroup;
 /**
  * Created by zenan on 1/11/15.
  */
-public class FlowRadioGroup extends RadioGroup {
+public class OfficialFlowRadioGroup extends RadioGroup {
 
     private int realPadding = 0;
 
-    public FlowRadioGroup(Context context) {
+    public OfficialFlowRadioGroup(Context context) {
         super(context);
     }
 
-    public FlowRadioGroup(Context context, AttributeSet attrs) {
+    public OfficialFlowRadioGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

@@ -63,7 +63,7 @@ public class QSAppWebAPI {
 
     private static final String USER_UPDATEPORTRAIT = HOST_NAME + "/user/updatePortrait";
     private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
-    private static final String ITEM_RANDOM = HOST_NAME +"/itemFeeding/random";
+        private static final String ITEM_RANDOM = HOST_NAME +"/itemFeeding/random";
 
     private static final String TRADE_CREATE_API = HOST_NAME + "/trade/create";
     private static final String TRADE_QUERY_API = HOST_NAME + "/trade/queryCreatedBy";

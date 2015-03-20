@@ -86,7 +86,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 //            viewHolder.color.setText(trade.orders.get(0).itemSnapshot);
             viewHolder.measurement.setText(props.get(0).getPropValue());
             viewHolder.quantity.setText(trade.orders.get(0).quantity);
-            viewHolder.price.setText(trade.orders.get(0).price);
+            viewHolder.price.setText(String.valueOf(trade.orders.get(0).price));
         }catch (Exception e){
             e.printStackTrace();
         }

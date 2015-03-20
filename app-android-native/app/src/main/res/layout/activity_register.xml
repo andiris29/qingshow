@@ -225,7 +225,7 @@
                 android:textColor="#1E1E1E"
                 android:textSize="@dimen/text_size" />
 
-            <com.focosee.qingshow.widget.FlowRadioGroup
+            <com.focosee.qingshow.widget.OfficialFlowRadioGroup
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/clothesSizeRadioGroup"
@@ -317,7 +317,7 @@
                     android:text="3XL"
                     android:textColor="@color/darker_gray" />
 
-            </com.focosee.qingshow.widget.FlowRadioGroup>
+            </com.focosee.qingshow.widget.OfficialFlowRadioGroup>
             <View android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_below="@id/clothesSizeRadioGroup"
@@ -344,7 +344,7 @@
                 android:textColor="#1E1E1E"
                 android:textSize="@dimen/text_size" />
 
-            <com.focosee.qingshow.widget.FlowRadioGroup
+            <com.focosee.qingshow.widget.OfficialFlowRadioGroup
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:id="@+id/shoesSizeRadioGroup"
@@ -466,7 +466,7 @@
                     android:text="44"
                     android:textColor="@color/darker_gray" />
 
-            </com.focosee.qingshow.widget.FlowRadioGroup>
+            </com.focosee.qingshow.widget.OfficialFlowRadioGroup>
 
             <View android:layout_width="match_parent"
                 android:layout_height="0dp"
