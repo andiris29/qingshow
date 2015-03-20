@@ -32,7 +32,9 @@ public class U10AddressListActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             if(U11AddressEditFragment.ASK_REFRESH.equals(intent.getAction())){
                 people = QSModel.INSTANCE.getUser();
+                mAdapter.resetData(people.receivers);
                 mAdapter.notifyDataSetChanged();
+                System.out.println("it's in");
             }
         }
     };

@@ -1,16 +1,12 @@
 package com.focosee.qingshow.command;
 
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-
 import org.json.JSONObject;
-
 import java.util.Map;
 
 /**
