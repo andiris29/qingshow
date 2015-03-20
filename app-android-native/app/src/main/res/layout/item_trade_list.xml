@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="300dp"
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="10dp">
@@ -57,8 +57,6 @@
             android:text="交易完成"
             android:textColor="@color/pink"
             android:textSize="@dimen/text_size_small" />
-
-
     </LinearLayout>
 
     <View
@@ -85,8 +83,7 @@
                 android:id="@+id/item_tradelist_image"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_launcher" />
+                android:layout_weight="1"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -230,6 +227,7 @@
                     android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
                     android:background="@drawable/tradelist_btn"
                     android:textColor="@color/master"
+                    android:visibility="gone"
                     android:text="@string/apply_return_activity_trade"/>
                 <Button
                     android:id="@+id/item_tradelist_applyreceive"
@@ -239,6 +237,7 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/tradelist_btn"
                     android:textColor="@color/master"
+                    android:visibility="gone"
                     android:text="@string/comfirm_receive_activity_trade"/>
                 
                 

@@ -1,4 +1,4 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 
 import android.app.Fragment;
@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.umeng.analytics.MobclickAgent;
 
 public class U02TermsFragment extends Fragment {
     private Context context;

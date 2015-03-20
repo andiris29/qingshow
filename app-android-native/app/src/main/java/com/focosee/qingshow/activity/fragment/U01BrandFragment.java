@@ -1,4 +1,4 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
-import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.adapter.U01BrandListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;

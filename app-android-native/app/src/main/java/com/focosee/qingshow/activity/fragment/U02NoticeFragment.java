@@ -1,4 +1,4 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 
 import android.app.Fragment;
@@ -10,19 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.umeng.analytics.MobclickAgent;
 
-public class U02HelpFragment extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class U02NoticeFragment extends Fragment {
     private Context context;
     private RequestQueue requestQueue;
 
     private TextView backTextView;
 
-
-    public U02HelpFragment() {
+    public U02NoticeFragment() {
         // Required empty public constructor
     }
 
@@ -31,7 +31,7 @@ public class U02HelpFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_u02_help, container, false);
+        return inflater.inflate(R.layout.fragment_u02_notice, container, false);
     }
 
     @Override

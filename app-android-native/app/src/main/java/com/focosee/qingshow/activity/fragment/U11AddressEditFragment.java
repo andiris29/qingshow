@@ -1,7 +1,9 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -13,14 +15,17 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.CityPicker;
+import com.focosee.qingshow.widget.DialogCityPicker;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +39,8 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private final String PHONE_STR = "phone";
     private final String PROVINCE_STR = "province";
     private final String ADDRESS_STR = "address";
+
+    public static final String ASK_REFRESH = "ask_refresh";
 
     enum ViewName{
         AREA
@@ -96,6 +103,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         view.findViewById(R.id.U11ec_save_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cityPicker.setVisibility(View.GONE);
                 commitForm();
             }
         });
@@ -120,11 +128,22 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             @Override
             public void onClick(View v) {
                 cityPicker.setVisibility(View.VISIBLE);
-                consigeeAreaTV.setTextColor(getResources().getColor(R.color.pink));
+//                final DialogCityPicker dialogCityPicker = new DialogCityPicker(getActivity());
+//
+//                dialogCityPicker.setOnClickListener(new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        consigeeAreaTV.setText(dialogCityPicker.getValue());
+//
+//                    }
+//                });
+//                consigeeAreaTV.setTextColor(getResources().getColor(R.color.pink));
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(consigeeNameET.getWindowToken(), 0); //强制隐藏键盘
                 imm.hideSoftInputFromWindow(consigeePhoneET.getWindowToken(), 0); //强制隐藏键盘
                 imm.hideSoftInputFromWindow(consigeeDetailAreaET.getWindowToken(), 0); //强制隐藏键盘
+//                dialogCityPicker.show();
             }
         });
 
@@ -149,7 +168,9 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         if(null != receiver){//编辑页面
             consigeeNameET.setText(receiver.name);
             consigeePhoneET.setText(receiver.phone);
-            consigeeAreaTV.setText(receiver.province);
+            if(!"".equals(receiver.province) && null != receiver.province){
+                consigeeAreaTV.setText(receiver.province);
+            }
             consigeeDetailAreaET.setText(receiver.address);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(NAME_STR, consigeeNameET.getText().toString());
@@ -175,6 +196,9 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     private void commitForm(){
 
         Map<String, String> params = new HashMap<String, String>();
+        if(null != receiver){//编辑页面
+            params.put("uuid", receiver.uuid);
+        }
         if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()))
             params.put(NAME_STR, consigeeNameET.getText().toString());
         if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText().toString()))
@@ -185,14 +209,19 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             params.put(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
         UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
-            public void onError() {
-                super.onError();
-                Toast.makeText(getActivity(), "保存失败，请重试", Toast.LENGTH_SHORT).show();
+            public void onError(int errorCode) {
+                ErrorHandler.handle(getActivity(), errorCode);
             }
 
             @Override
-            public void onComplete() {
-                super.onComplete();
+            public void onComplete(JSONObject response) {
+                super.onComplete(response);
+                UserCommand.refresh(new Callback(){
+                    @Override
+                    public void onComplete() {
+                        getActivity().sendBroadcast(new Intent(ASK_REFRESH));
+                    }
+                });
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 isSaved = true;
             }
@@ -256,8 +285,9 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if(!(ViewName.AREA == v.getTag() && hasFocus)){
-            cityPicker.setVisibility(View.INVISIBLE);
-            consigeeAreaTV.setTextColor(getResources().getColor(R.color.black));
+//            cityPicker.setVisibility(View.INVISIBLE);
+
+//            consigeeAreaTV.setTextColor(getResources().getColor(R.color.p01_text_color_model_height));
         }
     }
 

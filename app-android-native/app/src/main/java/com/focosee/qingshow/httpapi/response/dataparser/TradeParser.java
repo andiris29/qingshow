@@ -4,10 +4,8 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.LinkedList;
 
 /**
@@ -16,7 +14,7 @@ import java.util.LinkedList;
 public class TradeParser {
     public static LinkedList<MongoTrade> parseQuery(JSONObject response) {
         try {
-            String shows = response.getJSONObject("data").getJSONArray("trade").toString();
+            String shows = response.getJSONObject("data").getJSONArray("trades").toString();
             Gson gson = QSGsonFactory.create();
             return gson.fromJson(shows, new TypeToken<LinkedList<MongoTrade>>() {
             }.getType());

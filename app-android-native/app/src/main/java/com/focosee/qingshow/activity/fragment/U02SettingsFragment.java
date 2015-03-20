@@ -1,4 +1,4 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 
 import android.app.Activity;
@@ -26,8 +26,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.U01PersonalActivity;
+import com.focosee.qingshow.activity.U06LoginActivity;
+import com.focosee.qingshow.activity.U09TradeListActivity;
+import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;

@@ -67,6 +67,8 @@
             android:background="@null"
             android:hint="@string/consignee_name"
             android:layout_marginLeft="10dp"
+            android:textColor="@color/p01_text_color_model_height"
+            android:textColorHint="@color/gray_background"
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
         </LinearLayout>
@@ -90,6 +92,8 @@
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:hint="@string/consignee_phone_num"
+            android:textColor="@color/p01_text_color_model_height"
+            android:textColorHint="@color/gray_background"
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
     </LinearLayout>
@@ -117,7 +121,7 @@
             android:layout_marginLeft="10dp"
             android:clickable="false"
             android:text="@string/consignee_area"
-            android:textColorHint="#4D4D4F"/>
+            android:textColor="@color/master"/>
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,6 +148,8 @@
             android:background="@null"
             android:layout_marginLeft="10dp"
             android:hint="@string/consignee_detail_address"
+            android:textColor="@color/p01_text_color_model_height"
+            android:textColorHint="@color/gray_background"
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
     </LinearLayout>

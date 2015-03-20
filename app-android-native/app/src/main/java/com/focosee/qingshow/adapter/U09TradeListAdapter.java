@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -22,18 +21,16 @@ import com.focosee.qingshow.activity.U12ReturnActivity;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -69,10 +66,9 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         final MongoTrade trade = datas.get(i);
 
         viewHolder.tradeNo.setText(null == trade._id ? "" : trade._id);
-        if(!(trade.status > 8 || trade.status < 0)){
+        if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
             viewHolder.tradeStatus.setText(StatusCode.statusArrays[trade.status]);
         }
-//        ImageLoader.getInstance().displayImage();
         try {
             viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
             LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
@@ -85,14 +81,29 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             ArrayList<Prop> props = SkuUtil.filter(mSku);
 //            viewHolder.color.setText(trade.orders.get(0).itemSnapshot);
             viewHolder.measurement.setText(props.get(0).getPropValue());
-            viewHolder.quantity.setText(trade.orders.get(0).quantity);
+            viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
             viewHolder.price.setText(String.valueOf(trade.orders.get(0).price));
+            System.out.println("url:" + trade.orders.get(0).itemSnapshot.imageMetadata.url);
+            ImageLoader.getInstance().displayImage(trade.orders.get(0).itemSnapshot.imageMetadata.url, viewHolder.image, AppUtil.getPortraitDisplayOptions());
+            viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){
             e.printStackTrace();
         }
+        //等待买家付款
+        if(trade.status == 0){
+            viewHolder.applyReceive.setText(context.getResources().getString(R.string.pay_activity_trade));
+            viewHolder.applyReceive.setVisibility(View.VISIBLE);
+            viewHolder.applyReceive.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+        }
+
+        //卖家已发货
         if(trade.status == 3){
-            viewHolder.tradingLayout.setVisibility(View.GONE);
+//            viewHolder.tradingLayout.setVisibility(View.GONE);
             viewHolder.finishLayout.setVisibility(View.VISIBLE);
             viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,7 +120,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                     LayoutInflater layoutInflater = LayoutInflater.from(context);
                     View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
                     dialog.setContentView(view);
-                    ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("头图范德萨辅导费萨芬四大皆空啦");
+                    ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("确认收货");
                     view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -120,6 +131,9 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                         @Override
                         public void onClick(View v) {
                             statusTo(trade);
+                            if(context instanceof U09TradeListActivity){
+                                ((U09TradeListActivity)context).doRefresh();
+                            }
                             dialog.dismiss();
                         }
                     });
@@ -127,12 +141,16 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 }
             });
         }
+        //交易成功，交易自动关闭
+        viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+//        viewHolder.finishLayout.setVisibility(View.GONE);
+        viewHolder.creatTime.setText(trade.create.toString());
         if(trade.status == 5){
-            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
-            viewHolder.finishLayout.setVisibility(View.GONE);
-            viewHolder.creatTime.setText(trade.create);
 //            viewHolder.finishTime.setText();
         }
+
+
+
     }
     //获取数据的数量
     @Override
@@ -174,7 +192,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 || trade.status == 6 || trade.status == 7) params.put("status", trade.status);
         switch (trade.status){
             case 2:
-                params.put("taobaoInfo.userNick", trade.orders.get(0).itemSnapshot.taobaoInfo.nick);
+//                params.put("taobaoInfo.userNick", trade.orders.get(0).itemSnapshot.taobaoInfo.nick);
                 params.put("taobaoInfo.tradeID", trade._id);
                 break;
             case 3:

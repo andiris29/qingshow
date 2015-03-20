@@ -1,4 +1,4 @@
-package com.focosee.qingshow.activity;
+package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.focosee.qingshow.R;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by zenan on 12/27/14.
