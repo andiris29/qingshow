@@ -100,7 +100,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                 if (prop.getPropId().equals(SkuUtil.KEY.COLOR.id)) {
                     SkuColor skuColor = new SkuColor(prop);
                     skuColor.setUrl(skusProp.get(props).properties_thumbnail != null ?
-                                    skusProp.get(props).properties_thumbnail: "");
+                            skusProp.get(props).properties_thumbnail : "");
                     colors.add(skuColor);
                 }
 
@@ -196,7 +196,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         final ArrayList<Prop> sizeList = new ArrayList<Prop>();
         ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                 ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-        itemParams.setMargins(10,10,10,10);
+        itemParams.setMargins(10, 10, 10, 10);
         for (Prop size : sizes) {
 
             FlowRadioButton sizeItem = new FlowRadioButton(getActivity());
@@ -207,7 +207,8 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             if (!TextUtils.isEmpty(size.getName())) {
                 sizeItem.setText(size.getName());
             } else {
-                sizeItem.setText("XXL");
+                sizeItem.setText(size.getPropValue() != null ?
+                        size.getPropValue() : "");
             }
             sizeGroup.addView(sizeItem, itemParams);
             sizeList.add(size);
@@ -237,27 +238,6 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                 selectNum = i;
             }
         });
-
-
-//        sizeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            int selectNum = 0;
-//
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                for (int i = 0; i < group.getChildCount(); i++) {
-//                    ((RadioButton) group.getChildAt(i)).setTextColor(getResources().getColor(R.color.darker_gray));
-//                    if (group.getChildAt(i).getId() == group.findViewById(checkedId).getId()) {
-//                        int index = myPropList.indexOf(sizeList.get(selectNum));
-//                        myPropList.remove(index);
-//                        myPropList.add(index, sizeList.get(i));
-//                        onSecletChanged();
-//                        selectNum = i;
-//                    }
-//                }
-//                RadioButton radioButton = ((RadioButton) group.findViewById(checkedId));
-//                radioButton.setTextColor(getResources().getColor(R.color.white));
-//            }
-//        });
     }
 
     private void initItem() {
@@ -284,7 +264,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
                         super.onLoadingStarted(imageUri, view);
-                        colorItem.setBackgroundResource(R.drawable.root_cell_placehold_image1);
+                        colorItem.setBackgroundResource(0);
                     }
 
                     @Override
@@ -292,15 +272,30 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                         colorItem.setBackgroundDrawable(new BitmapDrawable(null, loadedImage));
                     }
                 });
-            }else {
-                colorItem.setBackgroundResource(R.drawable.root_cell_placehold_image1);
+
+                itemGroup.addView(colorItem, itemParams);
+                colorList.add(color.prop);
+                i++;
+            } else {
+                ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                        ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+                params.setMargins(10, 10, 10, 10);
+                FlowRadioButton sizeItem = new FlowRadioButton(getActivity());
+                sizeItem.setBackgroundResource(R.drawable.s11_size_item_bg);
+                sizeItem.setTextColor(getResources().getColor(R.color.black));
+                sizeItem.setGravity(Gravity.CENTER);
+                if (!TextUtils.isEmpty(color.prop.getName())) {
+                    sizeItem.setText(color.prop.getName());
+                } else {
+                    sizeItem.setText(color.prop.getPropValue() != null ?
+                            color.prop.getPropValue() : "");
+                }
+                itemGroup.addView(sizeItem, params);
+                colorList.add(color.prop);
+                i++;
             }
-            itemGroup.addView(colorItem, itemParams);
-            colorList.add(color.prop);
-            i++;
 
             if (i == 1) {
-                colorItem.setImageResource(R.drawable.s11_item_chek);
                 colorItem.setChecked(true);
                 myPropList.add(color.prop);
                 onSecletChanged();

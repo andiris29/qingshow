@@ -32,6 +32,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +52,6 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class S11NewTradeActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
-    public static final String INPUT_RECEIVER_ENTITY = "INPUT_RECEIVER_ENTITY";
 
     private ImageView submit;
     private TextView priceTV;
@@ -156,6 +156,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         receiver = receiptFragment.getReceiver();
 
         Map<String, String> params = new HashMap<String, String>();
+        if (!TextUtils.isEmpty(receiver.uuid)) params.put("uuid", receiver.uuid);
         if (!TextUtils.isEmpty(receiver.name)) params.put("name", receiver.name);
         if (!TextUtils.isEmpty(receiver.phone)) params.put("phone", receiver.phone);
         if (!TextUtils.isEmpty(receiver.province)) params.put("province", receiver.province);
@@ -166,7 +167,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                 super.onComplete(response);
                 try {
                     selectedPeopleReceiverUuid = response.getJSONObject("data").getString("receiverUuid").toString();
-                    Log.i("tag", selectedPeopleReceiverUuid);
                 } catch (Exception ex) {
 
                 }
@@ -199,6 +199,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(S11NewTradeActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 new MaterialDialog(S11NewTradeActivity.this).setView(dialog).show();
