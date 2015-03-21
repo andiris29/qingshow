@@ -58,6 +58,14 @@ trade.create = {
             TradeHelper.updateStatus(trade, 0, req.qsCurrentUserId, function(err) {
                 callback(err, trade, relationship);
             });
+        },
+        function(trade, relationship, callback) {
+            if (trade.pay && trade.pay.weixin) {
+                // TODO Communicate to payment to get prepayid for weixin
+                callback(null, trade, relationship);
+            } else {
+                callback(null, trade, relationship);
+            }
         }], function(error, trade, relationship) {
             // Send response
             ResponseHelper.response(res, error, {
@@ -81,7 +89,6 @@ trade.statusTo = {
             // get trade;
             Trade.findOne({
                 '_id' : RequestHelper.parseId(param._id)
-
             }).exec(function(error, trade) {
                 if (!error && !trade) {
                     callback(ServerError.TradeNotExist);
