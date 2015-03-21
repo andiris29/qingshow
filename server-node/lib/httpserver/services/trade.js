@@ -13,8 +13,6 @@ var RelationshipHelper = require('../helpers/RelationshipHelper');
 
 var ServerError = require('../server-error');
 
-var _create, _query, _statusTo, _getStatusName;
-
 var trade = module.exports;
 
 trade.create = {
