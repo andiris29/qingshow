@@ -145,6 +145,13 @@ trade.statusTo = {
                 } else {
                     callback(ServerError.TradeStatusChangeError);
                 }
+            } else if (newStatus == 9 || newStatus == 10) {
+                //当 request.status ＝ 9, 10: 退款成功／失败，交易自动关闭，检查当前状态为 8，不然报错
+                if (trade.status == 8) {
+                    callback(null, trade);
+                } else {
+                    callback(ServerError.TradeStatusChangeError);
+                }
             } else {
                 callback(null, trade);
             }
@@ -153,7 +160,7 @@ trade.statusTo = {
             // update trade
             var newStatus = param.status;
             if (newStatus == 1) {
-                // TODO
+                // TODO Save the parameters from payment server.
             } else if (newStatus == 2) {
                 if (!trade.agent) {
                     tarde.agent = {};
@@ -172,6 +179,12 @@ trade.statusTo = {
                 }
                 trade.returnLogistic.company = param['returnLogistic']['company'];
                 trade.returnLogistic.trackingId = param['returnLogistic']['trackingId'];
+            } else if (newStatus == 8) {
+                // TODO Communicate with payment server to request refund.
+            } else if (newStatus == 9) {
+                // TODO Save the parameters from payment server.
+            } else if (newStatus == 10) {
+                // TODO Save the parameters from payment server.
             }
             //trade.status = newStatus;
             trade.save(function(error, trade) {
