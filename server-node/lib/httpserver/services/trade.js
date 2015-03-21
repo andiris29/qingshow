@@ -78,6 +78,19 @@ trade.create = {
     }
 };
 
+// Validate new status
+var _statusValidationMap = {
+    1 : [0], // 等待买家付款
+    2 : [1], // 等待倾秀代购
+    3 : [2], // 等待卖家发货
+    4 : [3], // 买家已签收
+    5 : [3, 4], // 交易成功
+    6 : [1, 2, 3, 4], // 申请退货中
+    7 : [6], // 退货中
+    8 : [7], // 退款中
+    9 : [8], // 退款成功
+    10 : [8],// 退款失败
+};
 trade.statusTo = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
@@ -101,67 +114,14 @@ trade.statusTo = {
             });
         },
         function(trade, callback) {
-            // check status
-            var newStatus = param.status;
-            if (newStatus == 6) {
-                //当 request.status ＝ 6: 申请退货中，检查当前状态为 1,2,3,4，不然报错
-                if (trade.status >= 1 && trade.status <= 4) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 7) {
-                //当 request.status ＝ 7: 退货中，即退货已发出，检查当前状态为 6，不然报错
-                if (trade.status == 6) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 1) {
-                //当 request.status ＝ 1: 等待倾秀代购，即买家已付款，检查当前状态为 0，不然报错
-                if (trade.status == 0) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 2) {
-                //当 request.status ＝ 2: 等待卖家发货，即倾秀已代购，检查当前状态为 1，不然报错
-                if (trade.status == 1) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 3) {
-                //当 request.status ＝ 3: 卖家已发货，检查当前状态为 2，不然报错
-                if (trade.status == 2) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 5) {
-                //当 request.status ＝ 5: 交易成功，交易自动关闭，检查当前状态为 3,4，不然报错
-                if (trade.status == 3 || trade.status == 4) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 8) {
-                //当 request.status ＝ 8: 退款成功，交易自动关闭，检查当前状态为 7，不然报错
-                if (trade.status == 7) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else if (newStatus == 9 || newStatus == 10) {
-                //当 request.status ＝ 9, 10: 退款成功／失败，交易自动关闭，检查当前状态为 8，不然报错
-                if (trade.status == 8) {
-                    callback(null, trade);
-                } else {
-                    callback(ServerError.TradeStatusChangeError);
-                }
-            } else {
+            // Validate status
+            var valid = _statusValidationMap[param.status];
+            if (valid && valid.indexOf(trade.status) !== -1) {
                 callback(null, trade);
+            } else {
+                callback(ServerError.TradeStatusChangeError);
             }
+
         },
         function(trade, callback) {
             // update trade
