@@ -13,6 +13,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -34,10 +35,27 @@
         self.currentSelectBtn = btn;
     }
     
-    if ([self.delegate respondsToSelector:@selector(updateForColorAndSizeCellTrigger:)]) {
-        [self.delegate updateForColorAndSizeCellTrigger:self];
+    if ([self.delegate respondsToSelector:@selector(updateCellTriggerBy:)]) {
+        [self.delegate updateCellTriggerBy:self];
     }
     
 }
 
+- (void)enableAllBtn
+{
+    for (QSTradeSelectButton* btn in self.btnArray) {
+        btn.enabled = YES;
+    }
+}
+
+- (id)getInputData
+{
+    if (!self.currentSelectBtn) {
+        return nil;
+    } else {
+        NSUInteger index = [self.btnArray indexOfObject:self.currentSelectBtn];
+        return self.skusArray[index];
+    }
+
+}
 @end

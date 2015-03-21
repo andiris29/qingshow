@@ -35,6 +35,7 @@
 - (void)bindWithDict:(NSDictionary*)dict
 {
     if (self.btnArray) {
+        return;
         for (QSTradeSelectButton* btn in self.btnArray) {
             [btn removeFromSuperview];
         }
@@ -98,6 +99,18 @@
     return currentOriginY + BTN_HEIGHT + BASE_Y;
 }
 
-
+- (void)updateWithSizeSelected:(NSString*)sku item:(NSDictionary*)itemDict
+{
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
+    if (!sku) {
+        [self enableAllBtn];
+    } else {
+        for (int i = 0; i < self.btnArray.count; i++) {
+            QSTradeSelectButton* btn = self.btnArray[i];
+            NSString* colorSku = self.skusArray[i];
+            btn.enabled = [QSTaobaoInfoUtil getIsAvaliableOfSize:sku color:colorSku taobaoInfo:taobaoInfo];
+        }
+    }
+}
 
 @end

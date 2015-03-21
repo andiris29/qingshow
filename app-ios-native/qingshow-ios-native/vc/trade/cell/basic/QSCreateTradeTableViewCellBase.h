@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class QSCreateTradeTableViewCellBase;
 @protocol QSCreateTradeTableViewCellBaseDelegate <NSObject>
+
+- (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell;
 
 @end
 

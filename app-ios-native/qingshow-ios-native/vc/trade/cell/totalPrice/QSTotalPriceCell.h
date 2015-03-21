@@ -13,4 +13,6 @@
 @property (strong, nonatomic) IBOutlet UILabel* priceLabel;
 @property (strong, nonatomic) IBOutlet UIButton* submitBtn;
 
+- (void)updateWithPrice:(NSString*)price;
+
 @end

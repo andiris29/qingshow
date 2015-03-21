@@ -22,5 +22,8 @@
 {
     return 65.f;
 }
-
+- (void)updateWithPrice:(NSString*)price
+{
+    self.priceLabel.text = price;
+}
 @end

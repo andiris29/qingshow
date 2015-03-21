@@ -12,4 +12,7 @@
 
 @property (strong, nonatomic) IBOutlet UIButton* selectedBtn;
 
+@property (assign, nonatomic) BOOL isSelect;
+
+
 @end

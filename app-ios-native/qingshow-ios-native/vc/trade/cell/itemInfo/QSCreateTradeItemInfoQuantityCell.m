@@ -42,5 +42,16 @@
     quantity += num;
     quantity = quantity > 0 ? quantity : 1;
     self.numberTextField.text = @(quantity).stringValue;
+    
+    if ([self.delegate respondsToSelector:@selector(updateCellTriggerBy:)]) {
+        [self.delegate updateCellTriggerBy:self];
+    }
+    
 }
+
+- (id)getInputData
+{
+    return @(self.numberTextField.text.intValue);
+}
+
 @end

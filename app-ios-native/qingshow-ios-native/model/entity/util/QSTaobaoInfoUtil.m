@@ -9,8 +9,8 @@
 #import "QSTaobaoInfoUtil.h"
 #import "QSCommonUtil.h"
 
-#define SIZE_PRE @"20509:"
-#define COLOR_PRE @"1627207:"
+#define SIZE_PRE @"205"
+#define COLOR_PRE @"162"
 
 @interface QSTaobaoInfoUtil ()
 + (NSDictionary*)getFirstSku:(NSDictionary*)taobaoInfo;
@@ -105,31 +105,11 @@
 #pragma mark - Public;
 + (BOOL)hasSizeSku:(NSDictionary*)taobaoInfo
 {
-    NSDictionary* sku = [self getFirstSku:taobaoInfo];
-    NSString* properties = sku[@"properties"];
-    if ([QSCommonUtil checkIsNil:properties]) {
-        return NO;
-    }
-    
-    if ([properties rangeOfString:SIZE_PRE].location != NSNotFound) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [self getSizeSkus:taobaoInfo].count != 0;
 }
 + (BOOL)hasColorSku:(NSDictionary*)taobaoInfo
 {
-    NSDictionary* sku = [self getFirstSku:taobaoInfo];
-    NSString* properties = sku[@"properties"];
-    if ([QSCommonUtil checkIsNil:properties]) {
-        return NO;
-    }
-    
-    if ([properties rangeOfString:COLOR_PRE].location != NSNotFound) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [self getColorSkus:taobaoInfo].count != 0;
 }
 
 + (BOOL)hasPropertiesThumbnail:(NSDictionary*)taobaoInfo
@@ -223,12 +203,32 @@
 + (NSString*)getPriceOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo
 {
     NSDictionary* sku = [self findSkusOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    return sku[@"price"];
+    if (!sku) {
+        return nil;
+    }
+    NSNumber* p = sku[@"price"];
+    return [NSString stringWithFormat:@"￥%.2f",p.doubleValue];
 }
+
++ (NSString*)getPromoPriceOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo quanitty:(NSNumber*)quantity
+{
+    NSDictionary* sku = [self findSkusOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
+    if (!sku) {
+        return nil;
+    }
+    NSNumber* p = sku[@"promo_price"];
+    
+    return [NSString stringWithFormat:@"￥%.2f",(p.doubleValue * quantity.intValue)];
+}
+
 + (NSString*)getPromoPriceOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo
 {
     NSDictionary* sku = [self findSkusOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    return sku[@"promo_price"];
+    if (!sku) {
+        return nil;
+    }
+    NSNumber* p = sku[@"promo_price"];
+    return [NSString stringWithFormat:@"￥%.2f",p.doubleValue];
 }
 + (BOOL)getIsAvaliableOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo
 {

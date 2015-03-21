@@ -10,11 +10,6 @@
 #import "QSCreateTradeTableViewCellBase.h"
 @class QSTradeSelectButton;
 @class QSCreateTradeColorAndSizeBaseTableViewCell;
-@protocol QSCreateTradeColorAndSizeBaseTableViewCellDelegate <QSCreateTradeTableViewCellBaseDelegate>
-
-- (void)updateForColorAndSizeCellTrigger:(QSCreateTradeColorAndSizeBaseTableViewCell*)cell;
-
-@end
 
 @interface QSCreateTradeColorAndSizeBaseTableViewCell : QSCreateTradeTableViewCellBase
 
@@ -22,8 +17,7 @@
 @property (strong, nonatomic) NSMutableArray* btnArray;
 @property (strong, nonatomic) QSTradeSelectButton* currentSelectBtn;
 
-@property (weak, nonatomic) NSObject<QSCreateTradeColorAndSizeBaseTableViewCellDelegate>* delegate;
 
 - (void)btnPressed:(QSTradeSelectButton*)btn;
-
+- (void)enableAllBtn;
 @end

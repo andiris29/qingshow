@@ -56,6 +56,11 @@
 {
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
+- (void)setEnabled:(BOOL)enabled
+{
+    [super setEnabled:enabled];
+    [self updateColor];
+}
 
 #pragma mark - Layout
 - (void)layoutSubviews
@@ -66,6 +71,10 @@
 #pragma mark - Getter And Setter
 - (void)updateColor
 {
+    if (!self.enabled) {
+        self.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1.f];
+        return;
+    }
     if (_type == QSTradeSelectButtonTypeText) {
         if (self.isSelected) {
             

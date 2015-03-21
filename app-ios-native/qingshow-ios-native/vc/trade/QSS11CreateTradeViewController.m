@@ -8,6 +8,7 @@
 
 #import "QSS11CreateTradeViewController.h"
 #import "QSCreateTradeTableViewCellBase.h"
+#import "QSCreateTradePayInfoSelectCell.h"
 #import "QSTaobaoInfoUtil.h"
 #import "QSItemUtil.h"
 #import "QSNetworkKit.h"
@@ -183,6 +184,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    if ([self.payWayCellArray indexOfObject:cell] != NSNotFound) {
+        if (cell != self.payInfoTitleCell) {
+            for (QSCreateTradePayInfoSelectCell* c in self.payWayCellArray) {
+                if (c == self.payInfoTitleCell) {
+                    continue;
+                }
+                c.isSelect = c == cell;
+            }
+        }
+    }
+    
 }
 
 #pragma mark - UIScrollView Delegate
@@ -214,9 +228,36 @@
      }];
 }
 
-#pragma mark - QSCreateTradeColorAndSizeBaseTableViewCellDelegate
-- (void)updateForColorAndSizeCellTrigger:(QSCreateTradeColorAndSizeBaseTableViewCell*)cell
+#pragma mark - QSCreateTradeTableViewCellBaseDelegate
+- (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell
 {
+    if (cell == self.itemInfoColorCell) {
+        NSString* v = [self.itemInfoColorCell getInputData];
+        [self.itemInfoSizeCell updateWithColorSelected:v item:self.itemDict];
+        [self updatePriceRelatedCell];
+    } else if (cell == self.itemInfoSizeCell) {
+        NSString* v = [self.itemInfoSizeCell getInputData];
+        [self.itemInfoColorCell updateWithSizeSelected:v item:self.itemDict];
+        [self updatePriceRelatedCell];
+    }else if (cell == self.itemInfoQuantityCell) {
+        [self updatePriceRelatedCell];
+    }
     
+//    for (NSArray* a in self.cellGroupArray) {
+//        for (QSCreateTradeTableViewCellBase* c in a) {
+//            if (cell == c) {
+//                continue;
+//            }
+//            
+//        }
+//    }
+}
+- (void)updatePriceRelatedCell {
+    NSString* sizeSku = [self.itemInfoSizeCell getInputData];
+    NSString* colorSku = [self.itemInfoColorCell getInputData];
+    [self.itemInfoTitleCell updateWithSize:sizeSku color:colorSku item:self.itemDict];
+    
+    NSString* price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:[QSItemUtil getTaobaoInfo:self.itemDict] quanitty:[self.itemInfoQuantityCell getInputData]];
+    [self.totalCell updateWithPrice:price];
 }
 @end

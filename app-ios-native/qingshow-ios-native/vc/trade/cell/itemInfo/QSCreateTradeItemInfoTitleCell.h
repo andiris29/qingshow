@@ -15,4 +15,6 @@
 @property (strong, nonatomic) IBOutlet UILabel* priceTextLabel;
 @property (strong, nonatomic) IBOutlet UILabel* priceLabel;
 
+- (void)updateWithSize:(NSString*)sizeSku color:(NSString*)colorSku item:(NSDictionary*)itemDict;
+
 @end

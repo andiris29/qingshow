@@ -9,6 +9,15 @@
 #import "QSCreateTradePayInfoSelectCell.h"
 
 @implementation QSCreateTradePayInfoSelectCell
+- (void)awakeFromNib
+{
+    _isSelect = NO;
+}
+- (void)setIsSelect:(BOOL)isSelect
+{
+    _isSelect = isSelect;
+    self.selectedBtn.highlighted = _isSelect;
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

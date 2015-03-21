@@ -10,4 +10,6 @@
 
 @interface QSCreateTradeItemInfoColorCell : QSCreateTradeColorAndSizeBaseTableViewCell
 
+- (void)updateWithSizeSelected:(NSString*)sku item:(NSDictionary*)itemDict;
+
 @end
