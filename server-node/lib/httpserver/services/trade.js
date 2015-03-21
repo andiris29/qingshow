@@ -129,21 +129,18 @@ trade.statusTo = {
             if (newStatus == 1) {
                 // TODO Save the parameters from payment server.
             } else if (newStatus == 2) {
-                if (!trade.agent) {
-                    tarde.agent = {};
-                }
+                trade.agent = trade.agent || {};
                 trade.agent.taobaoUserNick = param['agent']['taobaoUserNick'];
                 trade.agent.taobaoTradeId = param['agent']['taobaoTradeId'];
             } else if (newStatus == 3) {
-                if (!trade.logistic) {
-                    tarde.logistic = {};
-                }
+                trade.logistic = trade.logistic || {};
                 trade.logistic.company = param['logistic']['company'];
                 trade.logistic.trackingId = param['logistic']['trackingId'];
+            } else if (newStatus == 4) {
+                trade.logistic = trade.logistic || {};
+                trade.logistic.receiptDate = param['logistic']['receiptDate'];
             } else if (newStatus == 7) {
-                if (!trade.returnLogistic) {
-                    tarde.returnLogistic = {};
-                }
+                trade.returnLogistic = trade.returnLogistic || {};
                 trade.returnLogistic.company = param['returnLogistic']['company'];
                 trade.returnLogistic.trackingId = param['returnLogistic']['trackingId'];
             } else if (newStatus == 8) {
