@@ -100,7 +100,8 @@
 - (void)configCellArray
 {
 
-    self.itemInfoCellArray = @[self.itemInfoTitleCell,
+    self.itemInfoCellArray = @[
+                               self.itemInfoTitleCell,
                                self.itemInfoColorCell,
                                self.itemInfoSizeCell,
                                self.itemInfoQuantityCell];

@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSCreateTradeColorAndSizeBaseTableViewCell.h"
+#import "QSCreateTradeHeigh60Cell.h"
 
-@interface QSCreateTradeItemInfoTitleCell : QSCreateTradeColorAndSizeBaseTableViewCell
+@interface QSCreateTradeItemInfoTitleCell : QSCreateTradeHeigh60Cell
 
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel* priceAfterDiscountLabel;
