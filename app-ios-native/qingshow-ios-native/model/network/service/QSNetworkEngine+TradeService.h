@@ -11,16 +11,16 @@
 
 @interface QSNetworkEngine(TradeService)
 
-- (MKNetworkOperation*)createTradeTotalFee:(long)totalFee
+- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                   quantity:(int)quantity
-                                     price:(long)price
+                                     price:(double)price
                                       item:(NSDictionary*)item
-                                       sku:(NSString*)sku
+                                       sku:(NSNumber*)sku
                               receiverUuid:(NSString*)uuid
                                  onSucceed:(VoidBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation*)createTradeTotalFee:(long)totalFee
+- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                 orderArray:(NSArray*)orderArray
                                  onSucceed:(VoidBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
@@ -30,4 +30,7 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation*)queryOrderListPage:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 @end

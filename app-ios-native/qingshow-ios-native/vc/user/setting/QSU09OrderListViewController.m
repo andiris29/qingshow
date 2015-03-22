@@ -64,9 +64,7 @@
     self.provider = [[QSOrderListTableViewProvider alloc] init];
     [self.provider bindWithTableView:self.tableView];
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        //TODO change network block
-
-        return [SHARE_NW_ENGINE getModelListPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE queryOrderListPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     self.provider.delegate = self;
 

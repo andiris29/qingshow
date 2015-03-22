@@ -68,6 +68,75 @@
     }
 }
 
++ (NSDictionary*)findSkusWithSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo
+{
+    if ([skuId respondsToSelector:@selector(stringValue)]) {
+#warning workaround class of skuId
+        skuId = ((NSNumber*)skuId).stringValue;
+    }
+    
+    NSArray* skus = [self getSkusArray:taobaoInfo];
+    for (NSDictionary* sku in skus) {
+        NSString* rSkuId = sku[@"sku_id"];
+        
+        if ([rSkuId isEqual:skuId]) {
+            return sku;
+        }
+    }
+    return nil;
+}
+
++ (NSString*)getSizeOfSku:(NSDictionary*)skuDict
+{
+    NSArray* propComponents = [skuDict[@"properties"] componentsSeparatedByString:@";"];
+    NSMutableArray* filterProp = [@[] mutableCopy];
+    for (NSString* comp in propComponents) {
+        if (comp.length) {
+            [filterProp addObject:comp];
+        }
+    }
+    
+    NSArray* propNames = [skuDict[@"properties_name"] componentsSeparatedByString:@";"];
+    
+    for (int i = 0; i < filterProp.count; i++) {
+        NSString* comp = filterProp[i];
+        if ([comp hasPrefix:SIZE_PRE]) {
+            if (i < propNames.count) {
+                return propNames[i];
+            } else {
+                return @"";
+            }
+        }
+    }
+    
+    return @"";
+}
++ (NSString*)getColorOfSku:(NSDictionary*)skuDict
+{
+    NSArray* propComponents = [skuDict[@"properties"] componentsSeparatedByString:@";"];
+    NSMutableArray* filterProp = [@[] mutableCopy];
+    for (NSString* comp in propComponents) {
+        if (comp.length) {
+            [filterProp addObject:comp];
+        }
+    }
+    
+    NSArray* propNames = [skuDict[@"properties_name"] componentsSeparatedByString:@";"];
+    
+    for (int i = 0; i < filterProp.count; i++) {
+        NSString* comp = filterProp[i];
+        if ([comp hasPrefix:COLOR_PRE]) {
+            if (i < propNames.count) {
+                return propNames[i];
+            } else {
+                return @"";
+            }
+        }
+    }
+    
+    return @"";
+}
+
 + (NSDictionary*)findSkusOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary*)taobaoInfo
 {
     NSMutableArray* array = [@[] mutableCopy];
@@ -230,6 +299,17 @@
     NSNumber* p = sku[@"promo_price"];
     return [NSString stringWithFormat:@"￥%.2f",p.doubleValue];
 }
+
++ (NSNumber*)getSkuOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo
+{
+    NSDictionary* sku = [self findSkusOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
+    if (!sku) {
+        return nil;
+    }
+    NSNumber* p = sku[@"sku_id"];
+    return p;
+}
+
 + (BOOL)getIsAvaliableOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo
 {
     NSDictionary* sku = [self findSkusOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];

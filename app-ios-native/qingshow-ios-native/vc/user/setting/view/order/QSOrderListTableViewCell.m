@@ -8,6 +8,12 @@
 
 #import "QSOrderListTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
+#import "QSTradeUtil.h"
+#import "QSOrderUtil.h"
+#import "QSItemUtil.h"
+#import "QSTaobaoInfoUtil.h"
+#import "QSCommonUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 
 @implementation QSOrderListTableViewCell
 
@@ -35,8 +41,30 @@
 }
 
 #pragma mark - Binding
-- (void)bindWithDict:(NSDictionary*)dict
+- (void)bindWithDict:(NSDictionary*)tradeDict
 {
+    NSArray* orderList = [QSTradeUtil getOrderArray:tradeDict];
+    NSDictionary* orderDict = nil;
+    if (orderList.count) {
+        orderDict = orderList[0];
+    }
+    NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
+    
+    self.orderIdLabel.text = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+    self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
+    self.titleLabel.text = [QSItemUtil getItemName:itemDict];
+    [self.itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    
+    self.priceLabel.text = [QSOrderUtil getPriceDesc:orderDict];
+    self.quantityLabel.text = [QSOrderUtil getQuantityDesc:orderDict];
+
+    NSString* sku = [QSOrderUtil getSkuId:orderDict];
+    NSDictionary* skuDict = [QSTaobaoInfoUtil findSkusWithSkuId:sku taobaoInfo:taobaoInfo];
+    
+    self.sizeLabel.text = [QSTaobaoInfoUtil getSizeOfSku:skuDict];
+    self.colorLabel.text = [QSTaobaoInfoUtil getColorOfSku:skuDict];
+    
 }
 #pragma mark - Getter And Setter
 - (void)setType:(QSOrderListTableViewCellType)type

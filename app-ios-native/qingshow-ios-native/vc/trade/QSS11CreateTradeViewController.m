@@ -219,17 +219,22 @@
 
 - (IBAction)submitButtonPressed:(id)sender {
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    NSArray* skus = [QSTaobaoInfoUtil getSkusArray:taobaoInfo];
-    NSDictionary* sku = skus[0];
-    NSArray* r = [QSPeopleUtil getReceiverList:[QSUserManager shareUserManager].userInfo];
-    NSDictionary* rec = r[0];
-    [QSReceiverUtil getUuid:rec];
-    [SHARE_NW_ENGINE createTradeTotalFee:1
-                                quantity:1
-                                   price:1
+    NSString* sizeSku = [self.itemInfoSizeCell getInputData];
+    NSString* colorSku = [self.itemInfoColorCell getInputData];
+    NSNumber* quantity = [self.itemInfoQuantityCell getInputData];
+    
+    
+    NSNumber* sku = [QSTaobaoInfoUtil getSkuOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
+    NSString* price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:@1];
+    NSString* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
+    [self.totalCell updateWithPrice:totalPrice];
+    
+    [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
+                                quantity:quantity.intValue
+                                   price:price.doubleValue
                                     item:self.itemDict
-                                     sku:sku[@"sku_id"]
-                            receiverUuid:[QSReceiverUtil getUuid:rec]
+                                     sku:sku
+                            receiverUuid:[QSReceiverUtil getUuid:self.selectedReceiver]
                                onSucceed:^
      {
          [self showTextHud:@"success"];
@@ -271,8 +276,8 @@
     NSString* colorSku = [self.itemInfoColorCell getInputData];
     [self.itemInfoTitleCell updateWithSize:sizeSku color:colorSku item:self.itemDict];
     
-    NSString* price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:[QSItemUtil getTaobaoInfo:self.itemDict] quanitty:[self.itemInfoQuantityCell getInputData]];
-    [self.totalCell updateWithPrice:price];
+    NSString* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:[QSItemUtil getTaobaoInfo:self.itemDict] quanitty:[self.itemInfoQuantityCell getInputData]];
+    [self.totalCell updateWithPrice:totalPrice];
 }
 
 #pragma mark - QSU10ReceiverListViewControllerDelegate

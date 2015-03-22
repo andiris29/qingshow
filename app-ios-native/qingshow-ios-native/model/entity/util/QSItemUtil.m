@@ -40,6 +40,17 @@
     
     return m;
 }
+
++ (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict
+{
+    NSArray* imageUrls = [self getImagesUrl:itemDict];
+    if (imageUrls && imageUrls.count ) {
+        return imageUrls[0];
+    } else {
+        return nil;
+    }
+}
+
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
 {
     NSArray* array = itemDict[@"images"];

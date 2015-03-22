@@ -10,6 +10,8 @@
 #import "QSNetworkEngine+Protect.h"
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
+#import "QSUserManager.h"
+#import "QSCommonUtil.h"
 
 
 #define PATH_TRADE_CREATE @"trade/create"
@@ -17,11 +19,11 @@
 
 @implementation QSNetworkEngine(TradeService)
 
-- (MKNetworkOperation*)createTradeTotalFee:(long)totalFee
+- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                   quantity:(int)quantity
-                                     price:(long)price
+                                     price:(double)price
                                       item:(NSDictionary*)item
-                                       sku:(NSString*)sku
+                                       sku:(NSNumber*)sku
                               receiverUuid:(NSString*)uuid
                                  onSucceed:(VoidBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
@@ -40,7 +42,7 @@
                              onError:errorBlock];
 }
 
-- (MKNetworkOperation*)createTradeTotalFee:(long)totalFee
+- (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                 orderArray:(NSArray*)orderArray
                                  onSucceed:(VoidBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
@@ -61,6 +63,15 @@
                     errorBlock(error);
                 }
             }];
+}
+
+- (MKNetworkOperation*)queryOrderListPage:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock
+{
+    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
+    NSString* userId = [QSCommonUtil getIdOrEmptyStr:userInfo];
+    return [self queryTradeCreatedBy:userId page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 - (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
