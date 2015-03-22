@@ -57,6 +57,10 @@ _getStatusName = function(status) {
         case 7:
             return "退货中";
         case 8:
+            return "退款中";
+        case 9:
             return "退款成功";
+        case 10:
+            return "退款失败";
     }
 };
