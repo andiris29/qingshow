@@ -12,6 +12,6 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.selectionStyle = UITableViewCellSelectionStyleDefault;
+//    self.selectionStyle = UITableViewCellSelectionStyleDefault;
 }
 @end

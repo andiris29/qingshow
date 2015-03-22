@@ -32,7 +32,7 @@
 {
     self.nameLabel.text = [QSReceiverUtil getName:dict];
     self.phoneLabel.text = [QSReceiverUtil getPhone:dict];
-    self.addressLabel.text = [QSReceiverUtil getAddress:dict];
+    self.addressLabel.text = [NSString stringWithFormat:@"%@ %@", [QSReceiverUtil getProvince:dict], [QSReceiverUtil getAddress:dict]];
 }
 #pragma mark - IBAction
 - (IBAction)editBtnPressed:(id)sender

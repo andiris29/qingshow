@@ -10,6 +10,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSReceiverUtil.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSU11ReceiverEditingViewController ()
 
@@ -17,10 +18,16 @@
 @property (strong, nonatomic) NSArray* textFieldArray;
 
 @property (strong, nonatomic) NSDictionary* locationDict;
+@property (strong, nonatomic) NSString* selectionLocation;
 
 @end
 
 @implementation QSU11ReceiverEditingViewController
+- (void)setSelectionLocation:(NSString *)selectionLocation
+{
+    _selectionLocation = selectionLocation;
+    self.localLabel.text = _selectionLocation;
+}
 
 #pragma mark - Init
 - (instancetype)initWithDict:(NSDictionary*)dict
@@ -61,6 +68,7 @@
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         cell.layoutMargins = UIEdgeInsetsZero;
     }
+    
     return self.cellArray[indexPath.row];
 }
 
@@ -69,7 +77,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
     if (cell == self.locationCell) {
-#warning TODO select location
+        QSProvinceSelectionTableViewController* vc = [[QSProvinceSelectionTableViewController alloc] init];
+        vc.delegate = self;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -110,6 +120,8 @@
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(didSelectSaveBtn)];
     item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
+    [self hideNaviBackBtnTitle];
+    
 }
 
 - (void)hideKeyboard
@@ -149,11 +161,10 @@
         uuid = [QSReceiverUtil getUuid:self.locationDict];
     }
     
-#warning TODO adjust province
     [SHARE_NW_ENGINE saveReceiver:uuid
                              name:self.nameTextField.text
                             phone:self.phoneTextField.text
-                         province:@"上海"
+                         province:self.selectionLocation
                           address:self.detailLocationTextField.text
                         isDefault:NO
                         onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
@@ -168,5 +179,11 @@
 - (void)popBack
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - QSProvinceSelectionTableViewControllerDelegate
+- (void)provinceSelectionVc:(QSProvinceSelectionTableViewController*)vc didSelectionProvince:(NSString*)province city:(NSString*)city
+{
+    self.selectionLocation = [NSString stringWithFormat:@"%@ %@", province, city];
 }
 @end

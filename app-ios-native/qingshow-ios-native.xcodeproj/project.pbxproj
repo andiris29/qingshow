@@ -196,6 +196,8 @@
 		EFE419F41A407AEE005175BB /* QSS03ItemShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */; };
 		EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */; };
 		EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */; };
+		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
+		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
 		EFEC5BD11AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEC5BD01AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m */; };
 		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
@@ -578,6 +580,9 @@
 		EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemShopDetailViewController.xib; sourceTree = "<group>"; };
 		EFE419F71A409A9F005175BB /* QSAllItemImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAllItemImageScrollView.h; sourceTree = "<group>"; };
 		EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAllItemImageScrollView.m; sourceTree = "<group>"; };
+		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
+		EFEBAAE61ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSProvinceSelectionTableViewController.h; sourceTree = "<group>"; };
+		EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProvinceSelectionTableViewController.m; sourceTree = "<group>"; };
 		EFEC5BCF1AB1FBA300F8FD18 /* QSOrderListTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSOrderListTableViewProvider.h; sourceTree = "<group>"; };
 		EFEC5BD01AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSOrderListTableViewProvider.m; sourceTree = "<group>"; };
 		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
@@ -864,6 +869,7 @@
 		EF7826A41A4EB4F200C69460 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				EFEBAAE31ABEB0000000FEEE /* location.plist */,
 				EF7826A51A4EB4F200C69460 /* user_bg_default.png */,
 				EF7826A61A4EB4F200C69460 /* user_head_default.png */,
 			);
@@ -1481,6 +1487,8 @@
 				EFD28CFA1AB41CBE00991ADD /* QSU12RefundViewController.h */,
 				EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */,
 				EFD28CFC1AB41CBE00991ADD /* QSU12RefundViewController.xib */,
+				EFEBAAE61ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.h */,
+				EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */,
 			);
 			path = setting;
 			sourceTree = "<group>";
@@ -1754,6 +1762,7 @@
 				82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */,
 				EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */,
 				EF1729311A1CE50F001819E3 /* QSSectionTextButton.xib in Resources */,
+				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
 				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
 				EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */,
@@ -1876,6 +1885,7 @@
 				EF59EDFE1A74FAEE00D639FB /* QSModelListTableViewProvider.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,
+				EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */,
 				EFA0F90B1AB89C3200E52F0B /* QSTaobaoInfoUtil.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,
 				EF2A41601A5D91BF003266E0 /* QSItemImageTableViewCell.m in Sources */,

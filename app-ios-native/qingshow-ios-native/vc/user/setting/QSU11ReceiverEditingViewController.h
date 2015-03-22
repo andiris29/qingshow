@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSProvinceSelectionTableViewController.h"
 
-@interface QSU11ReceiverEditingViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface QSU11ReceiverEditingViewController : UIViewController<UITableViewDataSource, UITableViewDelegate, QSProvinceSelectionTableViewControllerDelegate>
 
 #pragma mark - Cell
 @property (strong, nonatomic) IBOutlet UITableViewCell *nameCell;
