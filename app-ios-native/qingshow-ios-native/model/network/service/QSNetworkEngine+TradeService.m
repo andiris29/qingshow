@@ -48,7 +48,7 @@
     return [self startOperationWithPath:PATH_TRADE_CREATE
                                  method:@"POST"
                                paramers:@{ @"totalFee" : @(totalFee),
-                                           @"order" : orderArray}
+                                           @"orders" : orderArray}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
