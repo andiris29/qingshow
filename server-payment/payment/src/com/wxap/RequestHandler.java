@@ -7,9 +7,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.math.NumberUtils;
+
+import com.focosee.qingshow.bean.AccessToken;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wxap.client.TenpayHttpClient;
@@ -40,6 +45,8 @@ public class RequestHandler {
 	private String gateUrl;
 	/** 查询支付通知网关URL */
 	private String notifyUrl;
+	/** 订单查询URL */
+	private String orderQueryUrl;
 	/** 商户参数 */
 	private String appid;
 	private String appkey;
@@ -77,6 +84,8 @@ public class RequestHandler {
 		gateUrl = "https://api.weixin.qq.com/pay/genprepay";
 		// 验证notify支付订单网关
 		notifyUrl = "https://gw.tenpay.com/gateway/simpleverifynotifyid.xml";
+		// 订单查询网关
+		this.orderQueryUrl = "https://api.weixin.qq.com/pay/orderquery";
 	}
 
 	/**
@@ -133,7 +142,7 @@ public class RequestHandler {
 	/**
 	 * 获取TOKEN，一天最多获取200次，需要所有用户共享值
 	 */
-	public String GetToken() {
+	public AccessToken GetToken() {
 		String requestUrl = tokenUrl + "?grant_type=client_credential&appid="
 				+ appid + "&secret=" + appsecret;
 		TenpayHttpClient httpClient = new TenpayHttpClient();
@@ -151,7 +160,10 @@ public class RequestHandler {
 				try {
 					if (map.containsKey("access_token")) {
 						Token = map.get("access_token").toString();
-						return this.Token;
+						AccessToken token = new AccessToken();
+						token.setAccessToken(Token);
+						token.setExpires(NumberUtils.toInt(map.get("expires_in").toString(), 0));
+						return token;
 					}
 				} catch (Exception e) {
 					// 获取token失败
@@ -160,7 +172,7 @@ public class RequestHandler {
 			}
 
 		}
-		return "";
+		return null;
 
 	}
 
@@ -291,6 +303,47 @@ public class RequestHandler {
 		}
 		return prepayid;
 	}
+	
+	public Map<String, Object> sendOrderQuery(SortedMap packageParams) {
+	 // 转换成json
+        Gson gson = new Gson();
+        /* String postData =gson.toJson(packageParams); */
+        String postData = "{";
+        Set es = packageParams.entrySet();
+        Iterator it = es.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = (String) entry.getKey();
+            String v = (String) entry.getValue();
+            if (k != "appkey") {
+                if (postData.length() > 1)
+                    postData += ",";
+                postData += "\"" + k + "\":\"" + v + "\"";
+            }
+        }
+        postData += "}";
+        String requestUrl = this.orderQueryUrl + "?access_token=" + this.Token;
+        System.out.println("post url=" + requestUrl);
+        System.out.println("post data=" + postData);
+        TenpayHttpClient httpClient = new TenpayHttpClient();
+        httpClient.setReqContent(requestUrl);
+        String resContent = "";
+        Map<String, Object> queryResult = null;
+        if (httpClient.callHttpPost(requestUrl, postData)) {
+            resContent = httpClient.getResContent();
+            Map<String, Object> map = gson.fromJson(resContent,
+                    new TypeToken<Map<String, Object>>() {
+                    }.getType());
+            if ("0".equals(map.get("errcode"))) {
+                queryResult = (Map<String, Object>) map.get("order_info");
+            } else {
+                System.out.println("get token err ,info =" + map.get("errmsg"));
+            }
+            // 设置debug info
+            System.out.println("res json=" + resContent);
+        }
+        return queryResult;
+	}
 
 	/**
 	 * 创建package签名
@@ -337,5 +390,21 @@ public class RequestHandler {
 	public String getKey() {
 		return key;
 	}
+
+    public HttpServletRequest getRequest() {
+        return request;
+    }
+
+    public void setRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public HttpServletResponse getResponse() {
+        return response;
+    }
+
+    public void setResponse(HttpServletResponse response) {
+        this.response = response;
+    }
 
 }
