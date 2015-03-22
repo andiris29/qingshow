@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.focosee.qingshow.widget.PageIndicator;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.LinkedList;
 

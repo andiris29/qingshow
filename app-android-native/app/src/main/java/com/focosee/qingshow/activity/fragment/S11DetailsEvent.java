@@ -1,4 +1,4 @@
-package com.focosee.qingshow.fragment;
+package com.focosee.qingshow.activity.fragment;
 
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 
@@ -14,7 +14,6 @@ public class S11DetailsEvent {
         this.order = order;
         this.exists = exists;
     }
-
     public MongoOrder getOrder() {
         return order;
     }

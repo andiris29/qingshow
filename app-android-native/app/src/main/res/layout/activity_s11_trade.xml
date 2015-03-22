@@ -60,7 +60,7 @@
 
             <fragment
                 android:id="@+id/s11_details"
-                android:name="com.focosee.qingshow.fragment.S11DetailsFragment"
+                android:name="com.focosee.qingshow.activity.fragment.S11DetailsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -68,7 +68,7 @@
 
             <fragment
                 android:id="@+id/s11_receipt"
-                android:name="com.focosee.qingshow.fragment.S11ReceiptFragment"
+                android:name="com.focosee.qingshow.activity.fragment.S11ReceiptFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -76,7 +76,7 @@
 
             <fragment
                 android:id="@+id/s11_payment"
-                android:name="com.focosee.qingshow.fragment.S11PaymentFragment"
+                android:name="com.focosee.qingshow.activity.fragment.S11PaymentFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

@@ -1,4 +1,4 @@
-package com.focosee.qingshow.fragment;
+package com.focosee.qingshow.activity.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U10AddressListActivity;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 import de.greenrobot.event.EventBus;
@@ -63,6 +64,9 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s11_receipt_manage:
+                if(null == QSModel.INSTANCE.getUser()){
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
                 intent.putExtra(TO_U10,TO_U10);
                 startActivity(intent);

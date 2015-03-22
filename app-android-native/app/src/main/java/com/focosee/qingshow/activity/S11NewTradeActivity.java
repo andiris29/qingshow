@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.focosee.qingshow.fragment.S11DetailsEvent;
-import com.focosee.qingshow.fragment.S11DetailsFragment;
-import com.focosee.qingshow.fragment.S11PaymentFragment;
-import com.focosee.qingshow.fragment.S11ReceiptFragment;
+import com.focosee.qingshow.activity.fragment.S11DetailsEvent;
+import com.focosee.qingshow.activity.fragment.S11DetailsFragment;
+import com.focosee.qingshow.activity.fragment.S11PaymentFragment;
+import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserReceiverCommand;

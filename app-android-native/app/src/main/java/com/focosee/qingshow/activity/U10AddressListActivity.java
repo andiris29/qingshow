@@ -38,7 +38,6 @@ public class U10AddressListActivity extends BaseActivity {
             }
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

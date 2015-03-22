@@ -23,7 +23,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.CityPicker;
-import com.focosee.qingshow.widget.DialogCityPicker;
 
 import org.json.JSONObject;
 

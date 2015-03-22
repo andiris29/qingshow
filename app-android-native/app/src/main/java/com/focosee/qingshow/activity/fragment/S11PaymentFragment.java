@@ -1,4 +1,4 @@
-package com.focosee.qingshow.fragment;
+package com.focosee.qingshow.activity.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package com.focosee.qingshow.fragment;
+package com.focosee.qingshow.activity.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -171,7 +171,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                     showReference.setTextColor(Color.BLACK);
                     reference.setVisibility(View.GONE);
                 } else {
-                    showReference.setTextColor(R.color.hint_text_color);
+                    showReference.setTextColor(getResources().getColor(R.color.hint_text_color));
                     reference.setVisibility(View.VISIBLE);
                 }
             }
