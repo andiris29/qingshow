@@ -48,4 +48,8 @@
                            isDefault:(BOOL)isDefault
                            onSuccess:(void (^)(NSDictionary *people, NSString* uuid, NSDictionary *metadata))succeedBlock
                              onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
+                            onSuccess:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end

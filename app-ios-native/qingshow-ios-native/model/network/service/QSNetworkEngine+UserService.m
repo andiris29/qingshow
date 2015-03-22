@@ -9,6 +9,7 @@
 #import "QSNetworkEngine+UserService.h"
 #import "QSUserManager.h"
 #import "QSNetworkEngine+Protect.h"
+#import "NSDictionary+QSExtension.h"
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
@@ -19,6 +20,7 @@
 #define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
 #define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
+#define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
 
 
 @implementation QSNetworkEngine(UserService)
@@ -139,6 +141,7 @@
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary* retDict = completeOperation.responseJSON;
+                retDict = [retDict deepMutableCopy];
                 manager.fIsLogined = YES;
                 manager.userInfo = retDict[@"data"][@"people"];
                 if (succeedBlock) {
@@ -243,4 +246,29 @@
             }
             ];
 }
+
+- (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
+                            onSuccess:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_USER_REMOVE_RECEIVER
+                                 method:@"POST"
+                               paramers:@{
+                                   @"uuid" : receiver[@"uuid"]
+                                   }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }
+            ];
+}
+
+
+
 @end

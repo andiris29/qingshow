@@ -17,6 +17,7 @@
 
 @property (strong, nonatomic) NSArray* locationArray;
 
+@property (strong, nonatomic) MKNetworkOperation* removeOperation;
 @end
 
 @implementation QSU10UserLocationListViewController
@@ -96,7 +97,23 @@
 }
 - (void)didClickDeleteButtonOfCell:(QSUserLocationTableViewCell*)cell
 {
-
+    if (self.removeOperation) {
+        return;
+    }
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* locationDict = [self locationDictForCell:cell];
+    self.removeOperation =
+    [SHARE_NW_ENGINE removeReceiver:locationDict onSuccess:^{
+        self.removeOperation = nil;
+        if ([self.locationArray isKindOfClass:[NSMutableArray class]]) {
+            NSMutableArray* m = (NSMutableArray*)self.locationArray;
+            [m removeObject:locationDict];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    } onError:^(NSError *error) {
+        self.removeOperation = nil;
+        [self showErrorHudWithError:error];
+    }];
 }
 - (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell
 {
