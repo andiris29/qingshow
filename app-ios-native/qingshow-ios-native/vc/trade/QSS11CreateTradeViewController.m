@@ -16,6 +16,7 @@
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSS11CreateTradeViewController ()
 
@@ -100,6 +101,8 @@
     if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
         self.tableView.layoutMargins = UIEdgeInsetsZero;
     }
+    
+    [self hideNaviBackBtnTitle];
 }
 
 - (void)configCellArray
