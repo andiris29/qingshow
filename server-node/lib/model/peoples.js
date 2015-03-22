@@ -38,6 +38,14 @@ peopleSchema = Schema({
     modelInfo : {
         order : Number
     },
+    receivers : [{
+        uuid: String,
+        name : String,
+        phone : String,
+        province : String,
+        address : String,
+        isDefault : Boolean 
+    }],
     create : {
         type : Date,
         'default' : Date.now
