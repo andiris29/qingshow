@@ -20,8 +20,4 @@
     self.locationBtn.layer.cornerRadius = 4.f;
 }
 
-- (IBAction)locationBtnPressed:(id)sender
-{
-
-}
 @end

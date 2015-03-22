@@ -34,6 +34,8 @@
 @property (strong, nonatomic) NSArray* totalPriceCellArray;
 
 @property (strong, nonatomic) NSArray* headerArray;
+
+@property (strong, nonatomic) NSDictionary* selectedReceiver;
 @end
 
 @implementation QSS11CreateTradeViewController
@@ -89,6 +91,8 @@
         view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
         [headerArray addObject:view];
     }
+    self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
+    self.view.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     
     if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
         self.tableView.separatorInset = UIEdgeInsetsZero;
@@ -159,7 +163,12 @@
 {
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
     cell.delegate = self;
+//    if ([self.receiverInfoCellArray indexOfObject:cell] != NSNotFound) {
+//        [cell bindWithDict:self.selectedReceiver];
+//    } else {
     [cell bindWithDict:self.itemDict];
+//    }
+
     return cell;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -228,6 +237,8 @@
      }];
 }
 
+
+
 #pragma mark - QSCreateTradeTableViewCellBaseDelegate
 - (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell
 {
@@ -259,5 +270,24 @@
     
     NSString* price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:[QSItemUtil getTaobaoInfo:self.itemDict] quanitty:[self.itemInfoQuantityCell getInputData]];
     [self.totalCell updateWithPrice:price];
+}
+
+#pragma mark - QSU10ReceiverListViewControllerDelegate
+- (IBAction)receiverManageBtnPressed:(id)sender {
+    QSU10ReceiverListViewController* vc = [[QSU10ReceiverListViewController alloc] init];
+    vc.delegate = self;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)receiverListVc:(QSU10ReceiverListViewController*)vc didSelectReceiver:(NSDictionary*)receiver
+{
+    self.selectedReceiver = receiver;
+    [self bindWithReceiver:self.selectedReceiver];
+}
+- (void)bindWithReceiver:(NSDictionary*)r
+{
+    self.receiverInfoNameCell.textField.text = [QSReceiverUtil getName:r];
+    self.receiverInfoPhoneCell.textField.text = [QSReceiverUtil getPhone:r];
+    self.receiverInfoDetailLocationCell.textField.text = [QSReceiverUtil getAddress:r];
+    self.receiverInfoLocationCell.label.text = [QSReceiverUtil getProvince:r];
 }
 @end

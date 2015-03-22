@@ -78,8 +78,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.navigationItem.title = @"人气达人";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
 }
 
 #pragma mark - QSModelListTableViewProviderDelegate

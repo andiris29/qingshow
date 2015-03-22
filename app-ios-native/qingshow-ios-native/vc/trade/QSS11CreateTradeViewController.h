@@ -12,9 +12,12 @@
 #import "QSCreateTradeItemInfoColorCell.h"
 #import "QSCreateTradeItemInfoSizeCell.h"
 #import "QSCreateTradeItemInfoTitleCell.h"
+#import "QSU10ReceiverListViewController.h"
+#import "QSCreateTradeReceiverInfoTextCell.h"
+#import "QSCreateTradeReceiverInfoLocationCell.h"
 #import "QSTotalPriceCell.h"
 
-@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate>
+@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSU10ReceiverListViewControllerDelegate>
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoTitleCell *itemInfoTitleCell;
@@ -24,10 +27,10 @@
 
 #pragma mark - Receiver Info Cell
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *receiverInfoTitleCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *receiverInfoNameCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *receiverInfoPhoneCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *receiverInfoLocationCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *receiverInfoDetailLocationCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradeReceiverInfoTextCell *receiverInfoNameCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradeReceiverInfoTextCell *receiverInfoPhoneCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradeReceiverInfoLocationCell *receiverInfoLocationCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradeReceiverInfoTextCell *receiverInfoDetailLocationCell;
 
 #pragma mark - Pay Info Cell
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoTitleCell;
@@ -48,5 +51,6 @@
 
 #pragma mark - IBAction
 - (IBAction)submitButtonPressed:(id)sender;
+- (IBAction)receiverManageBtnPressed:(id)sender;
 
 @end

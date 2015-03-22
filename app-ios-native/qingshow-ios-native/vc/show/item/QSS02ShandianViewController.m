@@ -13,6 +13,7 @@
 #import "QSItemUtil.h"
 #import "QSS11CreateTradeViewController.h"
 #import "QSS10ItemDetailVideoViewController.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"S02 - 闪点推荐"
 
@@ -61,8 +62,7 @@
 - (void)configView
 {
     self.title = @"闪点推荐";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
     self.navigationController.navigationBarHidden = NO;
     
 }

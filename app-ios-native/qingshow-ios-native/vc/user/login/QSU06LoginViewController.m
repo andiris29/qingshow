@@ -13,6 +13,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSU01UserDetailViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"U06 - 登录"
 
@@ -51,8 +52,7 @@
     // Navibar
     self.navigationItem.title = @"登陆";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
     
 //    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"注册"
 //                                                               style:UIBarButtonItemStylePlain

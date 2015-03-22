@@ -9,7 +9,7 @@
 #import "QSU08PasswordViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
-
+#import "UIViewController+QSExtension.h"
 #define PAGE_ID @"U08 - 更改密码"
 
 @interface QSU08PasswordViewController ()
@@ -23,9 +23,7 @@
     
     // Initialize Navigation
     self.navigationItem.title = @"设置";
-    self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
     
     UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
                                                                style:UIBarButtonItemStylePlain

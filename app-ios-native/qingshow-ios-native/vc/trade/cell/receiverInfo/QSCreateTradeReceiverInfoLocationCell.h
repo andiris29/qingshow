@@ -10,4 +10,6 @@
 
 @interface QSCreateTradeReceiverInfoLocationCell : QSCreateTradeHeigh46Cell
 
+@property (strong, nonatomic) IBOutlet UILabel* label;
+
 @end

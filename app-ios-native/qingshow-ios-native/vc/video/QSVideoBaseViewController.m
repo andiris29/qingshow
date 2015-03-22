@@ -8,6 +8,7 @@
 
 
 #import "QSVideoBaseViewController.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSVideoBaseViewController ()
 
@@ -33,8 +34,7 @@
     self.imageScrollView.delegate = self;
     [self.scrollViewContainer addSubview:self.imageScrollView];
 
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
 
 }
 

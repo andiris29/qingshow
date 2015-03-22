@@ -11,6 +11,7 @@
 #import "QSU07RegisterViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+Utility.h"
+#import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
 
 #define PAGE_ID @"U07 - 注册"
@@ -57,8 +58,8 @@
     // Navibar
     self.navigationItem.title = @"注册";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
+    
     // Goto Login
     UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStyleDone target:self action:@selector(login)];
     self.navigationItem.rightBarButtonItem = loginButton;

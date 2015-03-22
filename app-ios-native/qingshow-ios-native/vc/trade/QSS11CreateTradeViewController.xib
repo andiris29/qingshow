@@ -248,7 +248,7 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="locationBtnPressed:" destination="15S-S2-52n" eventType="touchUpInside" id="GY2-h5-vxy"/>
+                            <action selector="receiverManageBtnPressed:" destination="-1" eventType="touchUpInside" id="UaO-Bb-P6P"/>
                         </connections>
                     </button>
                 </subviews>
@@ -318,9 +318,18 @@
                         <color key="textColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVZ-z8-mbn">
+                        <rect key="frame" x="68" y="16" width="245" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="1412.5" y="522"/>
+            <connections>
+                <outlet property="label" destination="aVZ-z8-mbn" id="6dT-ln-4m5"/>
+            </connections>
+            <point key="canvasLocation" x="1412.5" y="521"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Px1-O4-CeG" customClass="QSCreateTradeReceiverInfoTextCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>

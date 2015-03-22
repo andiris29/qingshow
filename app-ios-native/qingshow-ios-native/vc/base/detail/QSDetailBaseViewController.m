@@ -59,8 +59,7 @@
     [super viewDidLoad];
     [self _configView];
     self.currentSection = 0;
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
     self.backPreTopCon = self.backBtnTopConstrain.constant;
     self.canScrollBadgeViewUp = YES;
     

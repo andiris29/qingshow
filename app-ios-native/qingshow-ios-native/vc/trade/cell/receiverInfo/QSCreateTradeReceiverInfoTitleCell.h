@@ -12,6 +12,5 @@
 
 @property (strong, nonatomic) IBOutlet UIButton* locationBtn;
 
-- (IBAction)locationBtnPressed:(id)sender;
 
 @end

@@ -10,6 +10,7 @@
 #import "QSU12RefundViewController.h"
 #import "QSNetworkKit.h"
 #import "QSOrderListHeaderView.h"
+#import "UIViewController+QSExtension.h"
 @interface QSU09OrderListViewController ()
 
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
@@ -56,8 +57,7 @@
     self.tableView.backgroundColor = [UIColor colorWithRed:204.f/255.f green:204.f/255.f blue:204.f/255.f alpha:1.f];
     [self.tableView reloadData];
     
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
 }
 - (void)configProvider
 {
