@@ -243,7 +243,7 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VzH-kY-1fb">
                         <rect key="frame" x="248" y="6" width="65" height="27"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <state key="normal" title="保存地址">
+                        <state key="normal" title="管理地址">
                             <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -476,21 +476,32 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yOL-GW-vcb" id="gfM-cP-QO9">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="应付金额:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7o-fA-8q4">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="应付金额:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7o-fA-8q4">
                         <rect key="frame" x="8" y="22" width="71" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Z3S-Ap-hjz"/>
+                            <constraint firstAttribute="width" constant="71" id="e8j-ve-axB"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16.5"/>
                         <color key="textColor" red="0.10588235294117647" green="0.10588235294117647" blue="0.10588235294117647" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYb-S9-b2A">
-                        <rect key="frame" x="87" y="22" width="71" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CYb-S9-b2A">
+                        <rect key="frame" x="87" y="23" width="128" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="DDC-Lu-yZw"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16.5"/>
                         <color key="textColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hk3-Fr-aqd">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hk3-Fr-aqd">
                         <rect key="frame" x="223" y="17" width="90" height="30"/>
                         <color key="backgroundColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="D1D-gr-z4A"/>
+                            <constraint firstAttribute="width" constant="90" id="YvQ-Nj-sOs"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <state key="normal" title="确认并付款">
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -501,12 +512,21 @@
                         </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="Hk3-Fr-aqd" firstAttribute="leading" secondItem="CYb-S9-b2A" secondAttribute="trailing" constant="8" id="336-SF-b2n"/>
+                    <constraint firstItem="A7o-fA-8q4" firstAttribute="top" secondItem="gfM-cP-QO9" secondAttribute="top" constant="22" id="4eX-ur-fOk"/>
+                    <constraint firstItem="A7o-fA-8q4" firstAttribute="leading" secondItem="gfM-cP-QO9" secondAttribute="leading" constant="8" id="Irb-oh-0hU"/>
+                    <constraint firstItem="CYb-S9-b2A" firstAttribute="leading" secondItem="A7o-fA-8q4" secondAttribute="trailing" constant="8" id="bjb-Oz-C73"/>
+                    <constraint firstItem="CYb-S9-b2A" firstAttribute="top" secondItem="gfM-cP-QO9" secondAttribute="top" constant="23" id="iAS-mm-3fd"/>
+                    <constraint firstItem="Hk3-Fr-aqd" firstAttribute="top" secondItem="gfM-cP-QO9" secondAttribute="top" constant="17" id="q1k-t0-BN0"/>
+                    <constraint firstAttribute="trailing" secondItem="Hk3-Fr-aqd" secondAttribute="trailing" constant="8" id="wUu-kI-moD"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="priceLabel" destination="CYb-S9-b2A" id="eCO-gt-827"/>
                 <outlet property="submitBtn" destination="Hk3-Fr-aqd" id="7kN-5a-iPs"/>
             </connections>
-            <point key="canvasLocation" x="2194.5" y="160"/>
+            <point key="canvasLocation" x="2194.5" y="158.5"/>
         </tableViewCell>
     </objects>
     <resources>

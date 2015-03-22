@@ -30,6 +30,8 @@
 
 @property (weak, nonatomic) NSObject<QSUserLocationTableViewCellDelegate>* delegate;
 
+@property (assign, nonatomic) BOOL isSelectedReceiver;
+
 - (IBAction)editBtnPressed:(id)sender;
 - (IBAction)deleteBtnPressed:(id)sender;
 - (IBAction)selectedIndicatorPressed:(id)sender;

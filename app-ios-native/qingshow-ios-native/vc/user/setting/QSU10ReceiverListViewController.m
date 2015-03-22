@@ -6,26 +6,26 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSU10UserLocationListViewController.h"
-#import "QSU11LocationEditingViewController.h"
+#import "QSU10ReceiverListViewController.h"
+#import "QSU11ReceiverEditingViewController.h"
 #import "QSUserManager.h"
 #import "QSPeopleUtil.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 
-@interface QSU10UserLocationListViewController ()
+@interface QSU10ReceiverListViewController ()
 
-@property (strong, nonatomic) NSArray* locationArray;
-
+@property (strong, nonatomic) NSArray* receiverArray;
+@property (strong, nonatomic) NSDictionary* selectedRecevier;
 @property (strong, nonatomic) MKNetworkOperation* removeOperation;
 @end
 
-@implementation QSU10UserLocationListViewController
+@implementation QSU10ReceiverListViewController
 
 #pragma mark - Init
 - (instancetype)init
 {
-    self = [super initWithNibName:@"QSU10UserLocationListViewController" bundle:nil];
+    self = [super initWithNibName:@"QSU10ReceiverListViewController" bundle:nil];
     if (self) {
         [self updateLocationList];
     }
@@ -34,7 +34,7 @@
 
 - (void)updateLocationList
 {
-    self.locationArray = [QSPeopleUtil getReceiverList:[QSUserManager shareUserManager].userInfo];
+    self.receiverArray = [QSPeopleUtil getReceiverList:[QSUserManager shareUserManager].userInfo];
 }
 
 #pragma mark - Life Cycle
@@ -70,15 +70,16 @@
 #pragma mark - UITableView Datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.locationArray.count;
+    return self.receiverArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSUserLocationTableViewCell* cell = [self.tableView dequeueReusableCellWithIdentifier:QSUserLocationTableViewCellIdentifier forIndexPath:indexPath];
     cell.delegate = self;
-    NSDictionary* dict = [self locationDictForIndexPath:indexPath];
+    NSDictionary* dict = [self receiverDictForIndexPath:indexPath];
     [cell bindWithDict:dict];
+    cell.isSelectedReceiver = self.selectedRecevier == dict;
     return cell;
 }
 
@@ -88,11 +89,22 @@
     return QSUserLocationTableViewCellHeight;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary* receiver = [self receiverDictForIndexPath:indexPath];
+    self.selectedRecevier = receiver;
+    [self.tableView reloadData];
+    if ([self.delegate respondsToSelector:@selector(receiverListVc:didSelectReceiver:)]) {
+        [self.delegate receiverListVc:self didSelectReceiver:receiver];
+    }
+}
+
 #pragma mark - QSUserLocationTableViewCellDelegate
 - (void)didClickEditButtonOfCell:(QSUserLocationTableViewCell*)cell
 {
-    NSDictionary* dict = [self locationDictForCell:cell];
-    UIViewController* vc = [[QSU11LocationEditingViewController alloc] initWithDict:dict];
+    NSDictionary* dict = [self receiverDictForCell:cell];
+    UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:dict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didClickDeleteButtonOfCell:(QSUserLocationTableViewCell*)cell
@@ -101,12 +113,12 @@
         return;
     }
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-    NSDictionary* locationDict = [self locationDictForCell:cell];
+    NSDictionary* locationDict = [self receiverDictForCell:cell];
     self.removeOperation =
     [SHARE_NW_ENGINE removeReceiver:locationDict onSuccess:^{
         self.removeOperation = nil;
-        if ([self.locationArray isKindOfClass:[NSMutableArray class]]) {
-            NSMutableArray* m = (NSMutableArray*)self.locationArray;
+        if ([self.receiverArray isKindOfClass:[NSMutableArray class]]) {
+            NSMutableArray* m = (NSMutableArray*)self.receiverArray;
             [m removeObject:locationDict];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
@@ -117,29 +129,29 @@
 }
 - (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell
 {
-    UIViewController* vc = [[QSU11LocationEditingViewController alloc] initWithDict:[self locationDictForCell:cell]];
+    UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:[self receiverDictForCell:cell]];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Private
 - (void)newLocationBtnPressed
 {
-    UIViewController* vc = [[QSU11LocationEditingViewController alloc] initWithDict:nil];
+    UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (NSDictionary*)locationDictForIndexPath:(NSIndexPath*)indexPath
+- (NSDictionary*)receiverDictForIndexPath:(NSIndexPath*)indexPath
 {
     NSInteger row = indexPath.row;
-    if (row < self.locationArray.count) {
-        return self.locationArray[row];
+    if (row < self.receiverArray.count) {
+        return self.receiverArray[row];
     } else {
         return nil;
     }
 }
 
-- (NSDictionary*)locationDictForCell:(UITableViewCell*)cell
+- (NSDictionary*)receiverDictForCell:(UITableViewCell*)cell
 {
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-    return [self locationDictForIndexPath:indexPath];
+    return [self receiverDictForIndexPath:indexPath];
 }
 @end

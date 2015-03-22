@@ -13,12 +13,19 @@
 - (void)awakeFromNib {
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    _isSelectedReceiver = NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setIsSelectedReceiver:(BOOL)isSelectedReceiver
+{
+    _isSelectedReceiver = isSelectedReceiver;
+    self.selectedIndicator.highlighted = _isSelectedReceiver;
 }
 
 - (void)bindWithDict:(NSDictionary*)dict

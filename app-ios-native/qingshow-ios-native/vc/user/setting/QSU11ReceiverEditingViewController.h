@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU11LocationEditingViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
+@interface QSU11ReceiverEditingViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 #pragma mark - Cell
 @property (strong, nonatomic) IBOutlet UITableViewCell *nameCell;

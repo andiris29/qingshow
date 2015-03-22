@@ -10,7 +10,7 @@
 #import "QSU04EmailViewController.h"
 #import "QSU08PasswordViewController.h"
 #import "QSU09OrderListViewController.h"
-#import "QSU10UserLocationListViewController.h"
+#import "QSU10ReceiverListViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
@@ -164,7 +164,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 vc = [[QSU09OrderListViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
             } else if (indexPath.row == 1) {
-                vc = [[QSU10UserLocationListViewController alloc] init];
+                vc = [[QSU10ReceiverListViewController alloc] init];
                 [self.navigationController pushViewController:vc animated:YES];
             }
             break;

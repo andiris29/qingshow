@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSU11LocationEditingViewController.h"
+#import "QSU11ReceiverEditingViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSReceiverUtil.h"
 
-@interface QSU11LocationEditingViewController ()
+@interface QSU11ReceiverEditingViewController ()
 
 @property (strong, nonatomic) NSArray* cellArray;
 @property (strong, nonatomic) NSArray* textFieldArray;
@@ -20,12 +20,12 @@
 
 @end
 
-@implementation QSU11LocationEditingViewController
+@implementation QSU11ReceiverEditingViewController
 
 #pragma mark - Init
 - (instancetype)initWithDict:(NSDictionary*)dict
 {
-    self = [super initWithNibName:@"QSU11LocationEditingViewController" bundle:nil];
+    self = [super initWithNibName:@"QSU11ReceiverEditingViewController" bundle:nil];
     if (self) {
         self.locationDict = dict;
     }
