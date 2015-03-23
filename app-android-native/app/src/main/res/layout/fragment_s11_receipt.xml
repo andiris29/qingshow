@@ -27,6 +27,7 @@
                 android:textSize="@dimen/text_size" />
 
             <ImageView
+                android:paddingRight="-15dp"
                 android:id="@+id/s11_receipt_manage"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
