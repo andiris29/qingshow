@@ -1,10 +1,12 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,12 +48,12 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
-    private ImageView submit;
+    private Button submit;
     private TextView priceTV;
-    private View dialog;
     private S11DetailsFragment detailsFragment;
     private S11PaymentFragment paymentFragment;
     private S11ReceiptFragment receiptFragment;
+    private View dialog;
 
     private MongoPeople.Receiver receiver;
 
@@ -80,16 +82,16 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     private void init() {
 
         priceTV = (TextView) findViewById(R.id.s11_paynum);
-        submit = (ImageView) findViewById(R.id.s11_submit_button);
-        dialog = LayoutInflater.from(S11NewTradeActivity.this).inflate(R.layout.dialog_trade_success, null);
+        submit = (Button) findViewById(R.id.s11_submit_button);
+        dialog = LayoutInflater.from(this).inflate(R.layout.dialog_trade_success,null);
 
         detailsFragment = (S11DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.s11_details);
         receiptFragment = (S11ReceiptFragment) getSupportFragmentManager().findFragmentById(R.id.s11_receipt);
         paymentFragment = (S11PaymentFragment) getSupportFragmentManager().findFragmentById(R.id.s11_payment);
 
-        submit.setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_continue).setOnClickListener(this);
         dialog.findViewById(R.id.s11_dialog_list).setOnClickListener(this);
+        submit.setOnClickListener(this);
     }
 
     @Override
@@ -110,7 +112,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             case R.id.s11_dialog_list:
                 startActivity(new Intent(this, U09TradeListActivity.class));
                 finish();
-                break;
             default:
                 break;
         }
@@ -123,17 +124,17 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void onEventMainThread(S11DetailsEvent event) {
-        setAllow(event.isExists(),event.getOrder());
+        setAllow(event.isExists(), event.getOrder());
     }
 
-    private void setAllow(boolean allow,MongoOrder order){
+    private void setAllow(boolean allow, MongoOrder order) {
         if (allow) {
-            submit.setBackgroundResource(R.drawable.s11_submit);
+            submit.setBackgroundResource(R.drawable.submit_button);
             submit.setClickable(true);
             this.order = order;
-            priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.price)));
+            priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.price * order.quantity)));
         } else {
-            submit.setBackgroundResource(R.drawable.s11_submit_off);
+            submit.setBackgroundColor(R.color.hint_text_color);
             submit.setClickable(false);
             priceTV.setText("商品暂无");
         }
@@ -146,6 +147,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void submitTrade() {
+        submit.setClickable(false);
         receiver = receiptFragment.getReceiver();
 
         Map<String, String> params = new HashMap<String, String>();
@@ -195,11 +197,18 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                     ErrorHandler.handle(S11NewTradeActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                new MaterialDialog(S11NewTradeActivity.this).setView(dialog).show();
+                alertDialog("订单号" + "13123123123");
+                submit.setClickable(true);
             }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+
+    private void alertDialog(String msg) {
+        ((TextView)dialog.findViewById(R.id.s11_dialog_msg)).setText(msg);
+        new MaterialDialog(this).setContentView(dialog).show();
     }
 
 }

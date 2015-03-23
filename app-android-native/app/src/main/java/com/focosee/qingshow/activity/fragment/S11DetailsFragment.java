@@ -3,7 +3,6 @@ package com.focosee.qingshow.activity.fragment;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -23,6 +22,7 @@ import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
 import com.focosee.qingshow.util.sku.SkuUtil;
+import com.focosee.qingshow.widget.drawable.RoundBitmapDrawable;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.focosee.qingshow.widget.flow.FlowRadioImgeView;
@@ -164,6 +164,12 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText(itemEntity.taobaoInfo.getMaxPrice());
         }
 
+        if (TextUtils.isEmpty(itemEntity.sizeExplanation)) {
+            showReference.setVisibility(View.GONE);
+        } else {
+            ImageLoader.getInstance().displayImage(itemEntity.sizeExplanation, reference);
+        }
+
         showReference.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,6 +191,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             return;
         }
         if (sizes.isEmpty()) {
+            rootView.findViewById(R.id.s11_details_size_line).setVisibility(View.GONE);
             rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
             return;
         }
@@ -200,6 +207,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             sizeItem.setBackgroundResource(R.drawable.s11_size_item_bg);
             sizeItem.setTextColor(getResources().getColor(R.color.black));
             sizeItem.setGravity(Gravity.CENTER);
+            sizeItem.setTextSize(13);
 
             if (!TextUtils.isEmpty(size.getName())) {
                 sizeItem.setText(size.getName());
@@ -219,6 +227,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         }
 
         if (0 == sizeGroup.getChildCount()) {
+            rootView.findViewById(R.id.s11_details_size_line).setVisibility(View.GONE);
             rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
             return;
         }
@@ -243,6 +252,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             return;
         }
         if (colors.isEmpty()) {
+            rootView.findViewById(R.id.s11_details_color_line).setVisibility(View.GONE);
             rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
             return;
         }
@@ -252,7 +262,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         final ArrayList<Prop> colorList = new ArrayList<Prop>();
 
         for (SkuColor color : colors) {
-            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(150, 150);
+            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(130, 130);
             itemParams.setMargins(10, 10, 10, 10);
             final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
 
@@ -266,7 +276,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        colorItem.setBackgroundDrawable(new BitmapDrawable(null, loadedImage));
+                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, 20, 20));
                     }
                 });
 
@@ -277,23 +287,24 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                 ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
                         ViewGroup.MarginLayoutParams.WRAP_CONTENT);
                 params.setMargins(10, 10, 10, 10);
-                FlowRadioButton sizeItem = new FlowRadioButton(getActivity());
-                sizeItem.setBackgroundResource(R.drawable.s11_size_item_bg);
-                sizeItem.setTextColor(getResources().getColor(R.color.black));
-                sizeItem.setGravity(Gravity.CENTER);
+                FlowRadioButton item = new FlowRadioButton(getActivity());
+                item.setBackgroundResource(R.drawable.s11_size_item_bg);
+                item.setTextColor(getResources().getColor(R.color.black));
+                item.setTextSize(13);
+                item.setGravity(Gravity.CENTER);
                 if (!TextUtils.isEmpty(color.prop.getName())) {
-                    sizeItem.setText(color.prop.getName());
+                    item.setText(color.prop.getName());
                 } else {
-                    sizeItem.setText(color.prop.getPropValue() != null ?
+                    item.setText(color.prop.getPropValue() != null ?
                             color.prop.getPropValue() : "");
                 }
-                itemGroup.addView(sizeItem, params);
+                itemGroup.addView(item, params);
                 colorList.add(color.prop);
                 i++;
             }
 
             if (i == 1) {
-                ((IRadioViewHelper)itemGroup.getChildAt(0)).setChecked(true);
+                ((IRadioViewHelper) itemGroup.getChildAt(0)).setChecked(true);
                 myPropList.add(color.prop);
                 onSecletChanged();
             }
@@ -313,6 +324,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         });
 
         if (0 == itemGroup.getChildCount()) {
+            rootView.findViewById(R.id.s11_details_color_line).setVisibility(View.GONE);
             rootView.findViewById(R.id.s11_details_color).setVisibility(View.GONE);
             return;
         }
@@ -322,6 +334,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v == addButton) {
+            if (num == 9) return;
             num++;
             numView.setText(num + "");
         }

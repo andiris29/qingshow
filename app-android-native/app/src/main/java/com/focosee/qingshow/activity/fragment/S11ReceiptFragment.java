@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,26 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
         addressView = (EditText) rootView.findViewById(R.id.s11_receipt_address);
 
         rootView.findViewById(R.id.s11_receipt_manage).setOnClickListener(this);
+        initDefaultReceiver();
 
+
+    }
+
+    private void initDefaultReceiver(){
+        if(null != QSModel.INSTANCE.getUser()){
+            MongoPeople.Receiver defaultReceiver = null;
+            for (MongoPeople.Receiver receiver : QSModel.INSTANCE.getUser().receivers) {
+                if(receiver.isDefault){
+                    defaultReceiver = receiver;
+                }
+            }
+            if (null != defaultReceiver){
+                nameView.setText(defaultReceiver.name);
+                phoneView.setText(defaultReceiver.phone);
+                addressView.setText(defaultReceiver.address);
+                provinceStr = defaultReceiver.province;
+            }
+        }
     }
 
     public MongoPeople.Receiver getReceiver(){
@@ -51,11 +71,10 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
             MongoPeople people = new MongoPeople();
             receiver = people.new Receiver();
         }
-
-        receiver.name = nameView.getText().toString();
-        receiver.phone = phoneView.getText().toString();
-        receiver.address = addressView.getText().toString();
-        receiver.province = provinceStr;
+        if (nameView.getText() != null && !nameView.getText().toString().isEmpty()) receiver.name = nameView.getText().toString();
+        if (phoneView.getText() != null && !phoneView.getText().toString().isEmpty()) receiver.phone = phoneView.getText().toString();
+        if (addressView.getText() != null && !addressView.getText().toString().isEmpty()) receiver.address = addressView.getText().toString();
+        if(!TextUtils.isEmpty(provinceStr)) receiver.province = provinceStr;
 
         return receiver;
     }

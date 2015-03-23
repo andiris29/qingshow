@@ -31,12 +31,15 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
-    private RelativeLayout info;
-    private LinearLayout infoButton;
+
     private ViewPager viewPager;
     private TextView description;
     private TextView price;
     private PageIndicator pageIndicator;
+
+    private RelativeLayout videoLayout;
+    private RelativeLayout info;
+    private LinearLayout infoButton;
     private VideoView videoView;
 
     private MongoItem itemEntity;
@@ -48,10 +51,12 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s10_item_detail);
         itemEntity = (MongoItem) getIntent().getExtras().getSerializable(INPUT_ITEM_ENTITY);
+        Log.i("tag",itemEntity._id);
         init();
     }
 
     private void init() {
+        videoLayout = (RelativeLayout) findViewById(R.id.s10_video);
         infoButton = (LinearLayout) findViewById(R.id.s10_info_button);
         info = (RelativeLayout) findViewById(R.id.s10_info);
         viewPager = (ViewPager) findViewById(R.id.s10_item_viewpager);
@@ -69,7 +74,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
         description.setText(itemEntity.name);
         price.setText(itemEntity.getPrice());
-
+        configVideo();
     }
 
 
@@ -93,25 +98,49 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.s10_watch:
-                if(TextUtils.isEmpty(itemEntity.video)){
-                    break;
-                }
                 startVideo();
+                break;
+            case R.id.s10_video_play:
+                if(videoView.isPlaying()){
+                    videoView.pause();
+                    v.setBackgroundResource(R.drawable.s03_play_btn);
+                }else {
+                    videoView.start();
+                    v.setBackgroundResource(R.drawable.s03_pause_btn);
+                }
+                break;
+            case R.id.s10_video_back_btn:
+                videoView.pause();
+                videoLayout.setVisibility(View.GONE);
+                info.setVisibility(View.VISIBLE);
+                infoButton.setVisibility(View.VISIBLE);
                 break;
         }
     }
 
-    private void startVideo(){
-        if(isFirstPlay){
-            videoView.setVideoPath(itemEntity.video);
-            videoView.requestFocus();
-            isFirstPlay = false;
+    private void configVideo(){
+        if (TextUtils.isEmpty(itemEntity.video)) {
+            return;
         }
+        videoView.setVideoPath(itemEntity.video);
+        videoView.requestFocus();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(isFirstPlay){
+                    videoView.seekTo(1);
+                    isFirstPlay = false;
+                }
+            }
+        }).start();
+    }
 
-        videoView.setVisibility(View.VISIBLE);
+    private void startVideo(){
+        configVideo();
         info.setVisibility(View.GONE);
         infoButton.setVisibility(View.GONE);
-        videoView.start();
+        videoLayout.setVisibility(View.VISIBLE);
+
     }
 
     private class ItemImgViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
@@ -169,6 +198,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageView.setTag(imgInfo);
+                imageView.setPadding(0, -16, 0, 0);
                 _mImgViewS[index] = imageView;
                 index++;
             }

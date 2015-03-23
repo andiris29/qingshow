@@ -22,6 +22,7 @@
     <color name="transparent">#0000</color>
 
     <color name="master">#a91a4e</color>
+    <color name="dialog">#11000000</color>
 
     <color name="gray_background">#CCCCCC</color>
 </resources>

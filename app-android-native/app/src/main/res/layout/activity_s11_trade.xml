@@ -117,14 +117,17 @@
             android:textColor="@color/master"
             android:textSize="@dimen/text_title_size" />
 
-        <ImageView
+        <Button
+            android:background="@drawable/submit_button"
             android:id="@+id/s11_submit_button"
             android:layout_width="130dp"
-            android:layout_height="wrap_content"
+            android:layout_height="260dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
-            android:background="@drawable/s11_submit" />
+            android:text="确认并付款"
+            android:textColor="@color/white"
+            android:textSize="18dp"/>
 
     </RelativeLayout>
 </LinearLayout>

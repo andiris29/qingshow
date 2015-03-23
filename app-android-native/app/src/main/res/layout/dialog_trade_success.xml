@@ -2,37 +2,49 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:layout_gravity="center">
     <TextView
+        android:padding="10dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="订单支付成功"
-        android:textSize="@dimen/text_title_size"/>
-
+        android:layout_height="wrap_content"
+        android:text="订单已支付成功"
+        android:textSize="20dp"/>
+    <TextView
+        android:id="@+id/s11_dialog_msg"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="订单号："/>
     <LinearLayout
-        android:paddingTop="20dp"
+        android:layout_gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="horizontal">
         <TextView
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:id="@+id/s11_dialog_continue"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="20dp"
+            android:textColor="#2F8BF7"
             android:text="继续逛逛"/>
         <TextView
-            android:paddingTop="10dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
             android:id="@+id/s11_dialog_list"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="20dp"
+            android:textColor="#2F8BF7"
             android:text="查看订单"/>
         
         </LinearLayout>

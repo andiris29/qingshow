@@ -27,6 +27,7 @@ public class MongoItem implements Serializable {
     public String source;
     public String price;
     public String video;
+    public String sizeExplanation;
 
     public MongoBrand brandRef;
     public BrandDiscountInfo brandDiscountInfo;

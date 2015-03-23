@@ -26,13 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="微信支付"
-            android:textSize="18dp"/>
+            android:textSize="@dimen/text_size"/>
         <TextView
             android:id="@+id/s11_paymet_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="操作简单易用，支持大额支付"
-            android:textSize="@dimen/text_size"
+            android:textSize="@dimen/text_size_small"
             android:textColor="#9e9e9e"/>
     </LinearLayout>
 

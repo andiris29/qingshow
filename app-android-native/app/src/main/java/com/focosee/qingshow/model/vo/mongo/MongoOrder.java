@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class MongoOrder implements Serializable{
     public int quantity;
-    public Number price;
+    public double price;
     public MongoItem itemSnapshot;
     public String selectedItemSkuId;
     public String selectedPeopleReceiverUuid;
