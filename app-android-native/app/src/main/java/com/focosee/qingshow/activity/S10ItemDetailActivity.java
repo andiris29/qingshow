@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -28,12 +31,17 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
     public static final String INPUT_ITEM_ENTITY = "INPUT_ITEM_ENTITY";
 
+    private RelativeLayout info;
+    private LinearLayout infoButton;
     private ViewPager viewPager;
     private TextView description;
     private TextView price;
     private PageIndicator pageIndicator;
+    private VideoView videoView;
 
     private MongoItem itemEntity;
+
+    private boolean isFirstPlay = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +52,13 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private void init() {
+        infoButton = (LinearLayout) findViewById(R.id.s10_info_button);
+        info = (RelativeLayout) findViewById(R.id.s10_info);
         viewPager = (ViewPager) findViewById(R.id.s10_item_viewpager);
         description = (TextView) findViewById(R.id.s10_item_description);
         price = (TextView) findViewById(R.id.s10_item_price);
         pageIndicator = (PageIndicator) findViewById(R.id.s10_page_indicator);
+        videoView = (VideoView) findViewById(R.id.s10_video_view);
 
         ItemImgViewPagerAdapter viewPagerAdapter = new ItemImgViewPagerAdapter(itemEntity.images, this);
         viewPager.setAdapter(viewPagerAdapter);
@@ -81,7 +92,26 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.s10_back_btn:
                 finish();
                 break;
+            case R.id.s10_watch:
+                if(TextUtils.isEmpty(itemEntity.video)){
+                    break;
+                }
+                startVideo();
+                break;
         }
+    }
+
+    private void startVideo(){
+        if(isFirstPlay){
+            videoView.setVideoPath(itemEntity.video);
+            videoView.requestFocus();
+            isFirstPlay = false;
+        }
+
+        videoView.setVisibility(View.VISIBLE);
+        info.setVisibility(View.GONE);
+        infoButton.setVisibility(View.GONE);
+        videoView.start();
     }
 
     private class ItemImgViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {

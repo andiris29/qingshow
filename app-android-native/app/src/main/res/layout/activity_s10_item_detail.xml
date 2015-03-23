@@ -5,7 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.focosee.qingshow.widget.MFullScreenVideoView
+        android:id="@+id/s10_video_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
     <RelativeLayout
+        android:id="@+id/s10_info"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11">
@@ -36,9 +43,9 @@
 
             <com.focosee.qingshow.widget.PageIndicator
                 android:id="@+id/s10_page_indicator"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/s10_item_description"
@@ -63,6 +70,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/s10_info_button"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
@@ -73,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="onClick"
             android:src="@drawable/s10_watch" />
 
         <ImageView
