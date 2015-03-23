@@ -24,9 +24,11 @@ import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.TradeParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.StringUtil;
 
 import org.json.JSONArray;
@@ -197,7 +199,8 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                     ErrorHandler.handle(S11NewTradeActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                alertDialog("订单号" + "13123123123");
+                MongoTrade trade = TradeParser.parse(response);
+                alertDialog("订单号：" + trade._id);
                 submit.setClickable(true);
             }
         });
