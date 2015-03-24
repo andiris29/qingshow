@@ -14,7 +14,7 @@ import com.focosee.qingshow.R;
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
- * Created by Administrator on 2015/3/20.
+ * Created by Chenhr on 2015/3/20.
  */
 public class DialogCityPicker{
 

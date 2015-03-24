@@ -91,6 +91,7 @@
             android:textSize="20dp"
             android:background="@null"
             android:layout_marginLeft="10dp"
+            android:maxLength="11"
             android:hint="@string/consignee_phone_num"
             android:inputType="phone"
             android:textColor="@color/p01_text_color_model_height"

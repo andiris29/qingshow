@@ -182,17 +182,17 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         }
 
         //test
-//        viewHolder.applyReturn.setVisibility(View.VISIBLE);
-//        viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, U12ReturnActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
-//                intent.putExtras(bundle);
-//                context.startActivity(intent);
-//            }
-//        });
+        viewHolder.applyReturn.setVisibility(View.VISIBLE);
+        viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, U12ReturnActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
 
     }
     //获取数据的数量

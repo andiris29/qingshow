@@ -178,6 +178,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             consigeeNameET.setText(receiver.name);
             consigeePhoneET.setText(receiver.phone);
             if(!"".equals(receiver.province) && null != receiver.province){
+                consigeeAreaTV.setTag(receiver.province);
                 consigeeAreaTV.setText(receiver.province);
             }
             consigeeDetailAreaET.setText(receiver.address);
