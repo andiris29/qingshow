@@ -50,11 +50,44 @@
     return dict[@"address"];
 }
 
-+ (NSString*)getDefault:(NSDictionary*)dict
++ (BOOL)getIsDefault:(NSDictionary*)dict
 {
     if (![QSCommonUtil checkIsDict:dict]) {
-        return @"";
+        return NO;
     }
-    return dict[@"default"];
+    NSNumber* f = dict[@"isDefault"];
+    return f.boolValue;
+}
++ (void)setReceiver:(NSDictionary*)receiver isDefault:(BOOL)isDefault
+{
+    if (![QSCommonUtil checkIsDict:receiver]) {
+        return;
+    }
+    
+    if ([receiver isKindOfClass:[NSMutableDictionary class]]) {
+        [(NSMutableDictionary*)receiver setValue:@(isDefault) forKey:@"isDefault"];
+    }
+}
+
++ (NSDictionary*)getDefaultReceiver:(NSArray*)receivers
+{
+    for (NSDictionary* dict in receivers) {
+        if ([self getIsDefault:dict]) {
+            return dict;
+        }
+    }
+    if (receivers.count) {
+        return receivers[0];
+    }
+    
+    return nil;
+}
+
++ (void)setDefaultReceiver:(NSDictionary*)receiver ofReceivers:(NSArray*)receiverList
+{
+    for (NSDictionary* dict in receiverList) {
+        BOOL isDefault = [[self getUuid:dict] isEqualToString:[self getUuid:receiver]];
+        [self setReceiver:dict isDefault:isDefault];
+    }
 }
 @end

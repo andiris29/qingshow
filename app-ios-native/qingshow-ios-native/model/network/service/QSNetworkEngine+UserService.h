@@ -49,6 +49,10 @@
                            onSuccess:(void (^)(NSDictionary *people, NSString* uuid, NSDictionary *metadata))succeedBlock
                              onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation*)setDefaultReceiver:(NSDictionary*)receiverDict
+                                onSuccess:(VoidBlock)successBlock
+                                  onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
                             onSuccess:(VoidBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
