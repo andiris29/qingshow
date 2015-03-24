@@ -136,6 +136,9 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private void startVideo(){
+        if (TextUtils.isEmpty(itemEntity.video)) {
+            return;
+        }
         configVideo();
         info.setVisibility(View.GONE);
         infoButton.setVisibility(View.GONE);
