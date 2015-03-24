@@ -12,6 +12,7 @@ var TradeHelper = require('../helpers/TradeHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 
 var ServerError = require('../server-error');
+var Http = require('http');
 
 var trade = module.exports;
 
@@ -41,6 +42,9 @@ trade.create = {
                 });
             });
             trade.totalFee = req.body.totalFee;
+            if (req.body['pay']['weixin'] != null) {
+                trade.pay = req.body.pay;
+            }
             trade.save(function(err) {
                 callback(err, trade);
             });
@@ -61,8 +65,39 @@ trade.create = {
         },
         function(trade, relationship, callback) {
             if (trade.pay && trade.pay.weixin) {
-                // TODO Communicate to payment to get prepayid for weixin
-                callback(null, trade, relationship);
+                // Communicate to payment to get prepayid for weixin
+                var orderName = '';
+                trade.orders.forEach(function(element) {
+                    orderName += element.itemSnapshot.name + ',';
+                });
+                if (orderName.length > 0) {
+                    orderName = orderName.substring(0, orderName.length - 1);
+                }
+                var options = {
+                  host: 'localhost',
+                  port: '80',
+                  path: '/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + orderName,
+                  method: 'GET'
+                };
+
+                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + orderName;
+                http.get(url, function(response) {
+                    response.setEncoding('utf8');
+                    response.on('data', function (chunk) {
+                        var jsonObject = JSON.parse(data);
+                        if (!jsonObject.metadata) {
+                            callback(jsonObject.metadata, trade, relationship);
+                        } else {
+                            trade.pay.weixin['prepayid'] = jsonObject.data.prepayid;
+                            trade.save(function(err) {
+                                callback(err, trade, relationship);
+                            });
+                        }
+                    });
+
+                }).on('error', function(error) {
+                    callback(error.message, trade, relationship);
+                });
             } else {
                 callback(null, trade, relationship);
             }
