@@ -75,7 +75,7 @@ public class U10AddressListActivity extends BaseActivity {
         mAdapter = new U10AddressListAdapter(this);
         mAdapter.resetData(people.receivers);
         addresslist.setAdapter(mAdapter);
-        addresslist.addItemDecoration(mAdapter.getItemDecoration(20));
+        addresslist.addItemDecoration(mAdapter.getItemDecoration(10, 1));
 
         registerReceiver(receiver, new IntentFilter(U11AddressEditFragment.ASK_REFRESH));
 

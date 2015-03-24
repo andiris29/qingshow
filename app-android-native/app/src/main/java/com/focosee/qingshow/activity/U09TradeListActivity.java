@@ -1,9 +1,11 @@
 package com.focosee.qingshow.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import com.android.volley.Response;
 import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
@@ -59,7 +61,12 @@ public class U09TradeListActivity extends BaseActivity{
 
 //创建默认的线性LayoutManager
         mLayoutManager = new LinearLayoutManager(this);
+//        mLayoutManager.addView(findViewById(R.id.U09_head_layout));
         tradelist.setLayoutManager(mLayoutManager);
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View headerPlaceHolder = inflater.inflate(R.layout.head_trade_list, null, false);
+//        mLayoutManager.addView(headerPlaceHolder, 0);
+
 //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         tradelist.setHasFixedSize(true);
 //创建并设置Adapter
@@ -71,7 +78,8 @@ public class U09TradeListActivity extends BaseActivity{
             }
         });
         tradelist.setAdapter(mAdapter);
-        tradelist.addItemDecoration(mAdapter.getItemDecoration(20));
+//        tradelist.addView(headerPlaceHolder);
+        tradelist.addItemDecoration(mAdapter.getItemDecoration(10));
 
         tradelist.setOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
             @Override
@@ -79,6 +87,7 @@ public class U09TradeListActivity extends BaseActivity{
                 doLoadMore();
             }
         });
+
 
         doRefresh();
 

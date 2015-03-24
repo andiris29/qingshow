@@ -39,6 +39,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by 华榕 on 2015/3/11.
  */
@@ -244,6 +246,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
+
                 UserCommand.refresh(new Callback() {
                     @Override
                     public void onComplete() {
@@ -252,6 +255,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 });
                 Gson gson = new Gson();
                 receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>(){}.getType());
+                EventBus.getDefault().post(receiver);
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
             }
         });

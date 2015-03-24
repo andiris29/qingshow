@@ -43,6 +43,9 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapter.ViewHolder>{
 
+    private final int TYPE_HEAD = 0;
+    private final int TYPE_ITEM = 1;
+
     private Context context;
     private OnViewHolderListener onViewHolderListener;
 
@@ -52,20 +55,30 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     }
     //创建新View，被LayoutManager所调用
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trade_list,viewGroup,false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+
+        if(viewType == TYPE_HEAD) {
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.head_trade_list, viewGroup, false);
+            return new ViewHolder(view, TYPE_HEAD);
+        }else{
+            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trade_list, viewGroup, false);
+            return new ViewHolder(view, TYPE_ITEM);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_HEAD : TYPE_ITEM;
     }
 
     //将数据与界面进行绑定的操作
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if(null == datas.get(i))return;
-        final MongoTrade trade = datas.get(i);
-
-        final int position = i;
+        if(i == 0)return;
+        final int position = i - 1;
+        if(null == datas.get(position))return;
+        final MongoTrade trade = datas.get(position);
 
         viewHolder.tradeNo.setText(null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
         if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
@@ -166,10 +179,6 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                     context.startActivity(intent);
                 }
             });
-
-
-
-
         }
         //交易成功，交易自动关闭
 
@@ -198,7 +207,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     //获取数据的数量
     @Override
     public int getItemCount() {
-        return null == datas ? 0 : datas.size();
+        return null == datas ? 1 : datas.size() + 1;
     }
 
     public void setOnViewHolderListener(OnViewHolderListener onViewHolderListener){
@@ -261,7 +270,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     }
 
     //自定义的ViewHolder，持有每个Item的的所有界面元素
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tradeNo;
         public TextView tradeStatus;
         public ImageView image;
@@ -276,8 +285,15 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         public RelativeLayout tradingLayout;
         public Button applyReturn;
         public Button applyReceive;
-        public ViewHolder(View view){
+        public ViewHolder instance;
+        public ViewHolder(View view, int type){
             super(view);
+            if(1 == type){
+                getItemViewHolder(view);
+            }
+        }
+
+        public void getItemViewHolder(View view){
             tradeNo = (TextView) view.findViewById(R.id.item_tradelist_num);
             tradeStatus = (TextView) view.findViewById(R.id.item_tradelist_status);
             image = (ImageView) view.findViewById(R.id.item_tradelist_image);
@@ -318,8 +334,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             outRect.bottom = space;
 
             // Add top margin only for the first item to avoid double space between items
-            if(parent.getChildPosition(view) == 0)
-                outRect.top = space;
+//            if(parent.getChildPosition(view) == 0)
+//                outRect.top = space;
         }
     }
 

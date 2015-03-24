@@ -242,15 +242,18 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         return 0;
     }
 
-    public SpacesItemDecoration getItemDecoration(int space) {
-        return new SpacesItemDecoration(space);
+    public SpacesItemDecoration getItemDecoration(int space, int headSpace) {
+        return new SpacesItemDecoration(space, headSpace);
     }
 
     public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
+        private int headSpace;
 
-        public SpacesItemDecoration(int space) {
+        public SpacesItemDecoration(int space, int headSpace) {
+
             this.space = space;
+            this.headSpace = headSpace;
         }
 
         @Override
@@ -261,7 +264,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
             // Add top margin only for the first item to avoid double space between items
             if (parent.getChildPosition(view) == 0)
-                outRect.top = space;
+                outRect.top = headSpace;
         }
     }
 
