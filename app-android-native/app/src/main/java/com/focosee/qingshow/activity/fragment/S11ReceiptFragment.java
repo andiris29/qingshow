@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.widget.DialogCityPicker;
 
 import de.greenrobot.event.EventBus;
 
@@ -25,6 +28,8 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
     private EditText nameView;
     private EditText phoneView;
     private EditText addressView;
+    private TextView provinceView;
+
     private String provinceStr = "上海市普陀区";
     private MongoPeople.Receiver receiver;
     public static final String TO_U10 = "TO_U10";
@@ -41,10 +46,11 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
         nameView = (EditText) rootView.findViewById(R.id.s11_receipt_name);
         phoneView = (EditText) rootView.findViewById(R.id.s11_receipt_phone);
         addressView = (EditText) rootView.findViewById(R.id.s11_receipt_address);
+        provinceView = (TextView) rootView.findViewById(R.id.s11_receipt_province);
 
         rootView.findViewById(R.id.s11_receipt_manage).setOnClickListener(this);
+        provinceView.setOnClickListener(this);
         initDefaultReceiver();
-
 
     }
 
@@ -90,11 +96,27 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
                 intent.putExtra(TO_U10,TO_U10);
                 startActivity(intent);
                 break;
+            case R.id.s11_receipt_province:
+                final DialogCityPicker dialogCityPicker = new DialogCityPicker(getActivity());
+                dialogCityPicker.setOnClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        provinceStr = dialogCityPicker.getValue();
+                        provinceView.setText(provinceStr);
+                    }
+                });
+                dialogCityPicker.show();
+                break;
         }
     }
 
     public void onEventMainThread(MongoPeople.Receiver receiver){
         this.receiver = receiver;
+        nameView.setText(receiver.name);
+        phoneView.setText(receiver.phone);
+        addressView.setText(receiver.address);
+        provinceStr = receiver.province;
     }
 
     @Override
