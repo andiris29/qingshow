@@ -42,7 +42,6 @@ import me.drakeet.materialdialog.MaterialDialog;
  */
 public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAdapter.ViewHolder> {
 
-
     private Context context;
     private int default_posion = 0;
     private MongoPeople people;
@@ -96,6 +95,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                 final MaterialDialog dialog = new MaterialDialog(context);
                 View view = LayoutInflater.from(context).inflate(R.layout.dialog_trade_success, null);
                 ((TextView) view.findViewById(R.id.dialog_title)).setText("确定删除？");
+                view.findViewById(R.id.s11_dialog_msg).setVisibility(View.GONE);
                 TextView cancel = (TextView) view.findViewById(R.id.s11_dialog_continue);
                 cancel.setText(context.getResources().getString(R.string.cancel));
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +123,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             public void onClick(View v) {
                 if (context instanceof U10AddressListActivity) {
                     if (S11ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
-                        EventBus.getDefault().post(datas.get(default_posion));
+                        EventBus.getDefault().post(datas.get(position));
                         ((U10AddressListActivity) context).finish();
                         return;
                     }
@@ -211,7 +211,6 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
     public void resetData(LinkedList<MongoPeople.Receiver> datas) {
         this.datas = datas;
     }
-
 
     public void delReceiver(String uuid) {
 

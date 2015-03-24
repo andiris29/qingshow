@@ -21,6 +21,7 @@ import com.focosee.qingshow.model.ReturnInformationModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.FileUtil;
 import com.focosee.qingshow.widget.DatePickerFragment;
+import com.focosee.qingshow.widget.DialogCityPicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.timessquare.CalendarPickerView;
