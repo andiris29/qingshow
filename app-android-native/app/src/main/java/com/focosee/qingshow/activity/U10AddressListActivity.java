@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
 import com.focosee.qingshow.activity.fragment.U11AddressEditFragment;
 import com.focosee.qingshow.adapter.U10AddressListAdapter;
 import com.focosee.qingshow.model.QSModel;
@@ -31,10 +32,7 @@ public class U10AddressListActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if(U11AddressEditFragment.ASK_REFRESH.equals(intent.getAction())){
-                people = QSModel.INSTANCE.getUser();
-                mAdapter.resetData(people.receivers);
-                mAdapter.notifyDataSetChanged();
-                System.out.println("it's in");
+                refresh();
             }
         }
     };
@@ -46,7 +44,7 @@ public class U10AddressListActivity extends BaseActivity {
 
         Intent intent = getIntent();
 
-//        fromWhere = intent.getStringExtra();
+        fromWhere = intent.getStringExtra(S11ReceiptFragment.TO_U10);
 
         people = QSModel.INSTANCE.getUser();
         if(null == people){
@@ -78,15 +76,15 @@ public class U10AddressListActivity extends BaseActivity {
         mAdapter.resetData(people.receivers);
         addresslist.setAdapter(mAdapter);
         addresslist.addItemDecoration(mAdapter.getItemDecoration(20));
-        addresslist.setOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
-            @Override
-            public void onLoadMore(int current_page) {
-//                Toast.makeText(U10AddressListActivity.this, "loadMore", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         registerReceiver(receiver, new IntentFilter(U11AddressEditFragment.ASK_REFRESH));
 
+    }
+
+    public void refresh(){
+        people = QSModel.INSTANCE.getUser();
+        mAdapter.resetData(people.receivers);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

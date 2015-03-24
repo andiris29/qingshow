@@ -1,8 +1,5 @@
 package com.focosee.qingshow.model.vo.mongo;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -32,7 +29,7 @@ public class MongoTrade implements Serializable {
         public String trackingID;
     }
 
-    public class Returnlogistic implements Serializable{
+    public class Returnlogistic implements Serializable {
         public String company;
         public String trackingID;
     }

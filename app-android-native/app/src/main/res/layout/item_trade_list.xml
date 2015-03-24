@@ -2,36 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="250dp"
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="0dp"
+            android:id="@+id/item_tradeno_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="3"
             android:singleLine="true"
+            android:layout_alignParentLeft="true"
             android:text="@string/trade_num_text"
             android:textColor="@color/pink"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/item_tradelist_num"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/item_tradeno_text"
             android:layout_weight="4"
+            android:layout_marginLeft="5dp"
             android:singleLine="true"
             android:text="12345678"
             android:textColor="@color/pink"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size" />
 
         <View
             android:layout_width="0dp"
@@ -39,41 +42,43 @@
             android:layout_weight="2" />
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:singleLine="true"
+            android:layout_toLeftOf="@+id/item_tradelist_status"
+            android:layout_marginRight="5dp"
             android:text="@string/trade_type_text"
             android:textColor="@color/pink"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size" />
 
         <TextView
             android:id="@+id/item_tradelist_status"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
             android:layout_weight="4"
             android:singleLine="true"
             android:text="交易完成"
             android:textColor="@color/pink"
-            android:textSize="@dimen/text_size_small" />
-    </LinearLayout>
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:background="@color/darker_gray" />
+        android:background="@color/p01_text_color_model_height" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:gravity="center"
             android:orientation="horizontal"
             android:paddingBottom="20dp"
@@ -89,24 +94,24 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="4"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/item_tradelist_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
                     android:text="秋冬新款" />
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="60dp"
-                    android:paddingTop="20dp">
+                    android:layout_height="fill_parent">
                     <TextView
                     android:id="@+id/item_tradelist_color_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                        android:textColor="@color/p01_text_color_model_height"
+                    android:textColor="@color/p01_text_color_model_height"
                     android:text="@string/trade_color"/>
                     <TextView
                         android:id="@+id/item_tradelist_color"
@@ -118,40 +123,48 @@
                         android:layout_toRightOf="@+id/item_tradelist_color_left"
                         android:text="黑"/>
                     <TextView
-
+                        android:id="@+id/item_tradelist_price_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toLeftOf="@+id/item_tradelist_price"
                         android:textColor="@color/p01_text_color_model_height"
-                        android:text="@string/trade_price"/>
+                        android:text="@string/trade_price"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="38dp"
+                        android:layout_toRightOf="@+id/item_tradelist_color" />
                     <TextView
                         android:id="@+id/item_tradelist_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
                         android:textColor="@color/p01_text_color_model_height"
-                        android:text="￥350.00"/>
+                        android:text="￥350.00"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/item_tradelist_price_text" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/item_tradelist_quantity"
                         android:textColor="@color/p01_text_color_model_height"
-                        android:text="@string/trade_count"/>
+                        android:text="@string/trade_count"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/item_tradelist_color"
+                        android:layout_marginLeft="38dp"
+                        android:id="@+id/textView" />
                     <TextView
                         android:id="@+id/item_tradelist_quantity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:textColor="@color/p01_text_color_model_height"
-                        android:text="1件"/>
+                        android:layout_toRightOf="@+id/textView"
+                        android:text="1件"
+                        android:layout_alignTop="@+id/textView"
+                        android:layout_marginLeft="5dp"
+                        android:layout_centerHorizontal="true" />
                     <TextView
                         android:id="@+id/item_tradelist_measurement_left"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/p01_text_color_model_height"
+                        android:layout_centerVertical="true"
                         android:text="@string/trade_measurement"/>
                     <TextView
                         android:id="@+id/item_tradelist_measurement"
@@ -160,6 +173,7 @@
                         android:textColor="@color/p01_text_color_model_height"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/item_tradelist_measurement_left"
+                        android:layout_centerVertical="true"
                         android:text="S"/>
                     </RelativeLayout>
             </LinearLayout>
@@ -170,7 +184,6 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/item_tradelist_finish"
@@ -187,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/trade_create_date"
                     android:layout_marginBottom="10dp"
-                    />
+                    android:textColor="@color/p01_text_color_model_height" />
                 <TextView
                     android:id="@+id/item_tradelist_createTime"
                     android:layout_width="wrap_content"
@@ -195,7 +208,7 @@
                     android:text="2015-3-1"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
-                    />
+                    android:textColor="@color/p01_text_color_model_height" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -204,31 +217,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/trade_finish_date"
-                />
+                android:textColor="@color/p01_text_color_model_height" />
                 <TextView
                     android:id="@+id/item_tradelist_finishTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="2015-3-1"
-                    />
+                    android:textColor="@color/p01_text_color_model_height" />
             </LinearLayout>
             </LinearLayout>
             <RelativeLayout
                 android:id="@+id/item_tradelist_trading"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible">
+                android:gravity="center_vertical"
+                android:visibility="gone">
                 
                 <Button
                     android:id="@+id/item_tradelist_applyreturn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
                     android:background="@drawable/tradelist_btn"
+                    android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
                     android:textColor="@color/master"
                     android:visibility="gone"
-                    android:text="@string/apply_return_activity_trade"/>
+                    android:text="@string/apply_return_activity_trade"
+                    android:layout_alignParentBottom="true"/>
                 <Button
                     android:id="@+id/item_tradelist_applyreceive"
                     android:layout_width="wrap_content"
@@ -236,11 +251,10 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/tradelist_btn"
+                    android:layout_alignParentBottom="true"
                     android:textColor="@color/master"
                     android:visibility="gone"
                     android:text="@string/comfirm_receive_activity_trade"/>
-                
-                
                 </RelativeLayout>
             
 

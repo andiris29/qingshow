@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RemoteControlClient;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +22,17 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
+import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.CityPicker;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -32,7 +42,7 @@ import java.util.Map;
 /**
  * Created by 华榕 on 2015/3/11.
  */
-public class U11AddressEditFragment extends Fragment implements View.OnFocusChangeListener, TextView.OnEditorActionListener {
+public class U11AddressEditFragment extends Fragment implements View.OnFocusChangeListener {
 
     private final String NAME_STR = "name";
     private final String PHONE_STR = "phone";
@@ -45,9 +55,9 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
         AREA
     }
 
-    private final String MPREFERENCES = "mPreferences";
+//    private final String MPREFERENCES = "mPreferences";
 
-    private SharedPreferences preferences;
+//    private SharedPreferences preferences;
     private EditText consigeeNameET;
     private EditText consigeePhoneET;
     private TextView consigeeAreaTV;
@@ -74,7 +84,7 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
         receiver = (MongoPeople.Receiver) getActivity().getIntent().getSerializableExtra("receiver");
 
-        preferences = getActivity().getSharedPreferences(MPREFERENCES,Context.MODE_PRIVATE);
+//        preferences = getActivity().getSharedPreferences(MPREFERENCES,Context.MODE_PRIVATE);
 
         if(null != getArguments()){
             id = getArguments().getString("id");
@@ -171,128 +181,143 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 consigeeAreaTV.setText(receiver.province);
             }
             consigeeDetailAreaET.setText(receiver.address);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(NAME_STR, consigeeNameET.getText().toString());
-            editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
-            editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
-            editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
+//            SharedPreferences.Editor editor = preferences.edit();
+//            editor.putString(NAME_STR, consigeeNameET.getText().toString());
+//            editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
+//            editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
+//            editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
             return;
         }
-
-        if(preferences.contains(NAME_STR))
-            consigeeNameET.setText(preferences.getString(NAME_STR,""));
-        if(preferences.contains(PHONE_STR))
-            consigeePhoneET.setText(preferences.getString(PHONE_STR, ""));
-        if(preferences.contains(PROVINCE_STR)) {
-            consigeeAreaTV.setText(preferences.getString(PROVINCE_STR, ""));
-        }
-//        if(preferences.contains("province_code"))
-//            consigeeAreaTV.setTag(preferences.getString("province_code",""));
-        if(preferences.contains(ADDRESS_STR))
-            consigeeDetailAreaET.setText(preferences.getString(ADDRESS_STR,""));
+//
+//        if(preferences.contains(NAME_STR))
+//            consigeeNameET.setText(preferences.getString(NAME_STR,""));
+//        if(preferences.contains(PHONE_STR))
+//            consigeePhoneET.setText(preferences.getString(PHONE_STR, ""));
+//        if(preferences.contains(PROVINCE_STR)) {
+//            consigeeAreaTV.setText(preferences.getString(PROVINCE_STR, ""));
+//        }
+////        if(preferences.contains("province_code"))
+////            consigeeAreaTV.setTag(preferences.getString("province_code",""));
+//        if(preferences.contains(ADDRESS_STR))
+//            consigeeDetailAreaET.setText(preferences.getString(ADDRESS_STR,""));
     }
 
     private void commitForm(){
 
-        Map<String, String> params = new HashMap<String, String>();
+        final Map<String, String> params = new HashMap<String, String>();
         if(null != receiver){//编辑页面
             params.put("uuid", receiver.uuid);
         }
         if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()))
             params.put(NAME_STR, consigeeNameET.getText().toString());
-        if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText().toString()))
+        else {
+            Toast.makeText(getActivity(), "请填写收货人姓名", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(consigeePhoneET.getText().length() == 11)
             params.put(PHONE_STR, consigeePhoneET.getText().toString());
+        else {
+            Toast.makeText(getActivity(), "请正确填写收货人电话", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(null != consigeeAreaTV.getTag())
             params.put(PROVINCE_STR, consigeeAreaTV.getTag().toString());
+        else {
+            Toast.makeText(getActivity(), "请选择所在区域", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText().toString()))
             params.put(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
+        else {
+            Toast.makeText(getActivity(), "请填写详细地址", Toast.LENGTH_SHORT).show();
+            return;
+        }
         UserReceiverCommand.saveReceiver(params, new Callback() {
             @Override
             public void onError(int errorCode) {
                 ErrorHandler.handle(getActivity(), errorCode);
             }
-
             @Override
             public void onComplete(JSONObject response) {
-                super.onComplete(response);
-                UserCommand.refresh(new Callback(){
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    return;
+                }
+                UserCommand.refresh(new Callback() {
                     @Override
                     public void onComplete() {
                         getActivity().sendBroadcast(new Intent(ASK_REFRESH));
                     }
                 });
+                Gson gson = new Gson();
+                receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>(){}.getType());
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
-                isSaved = true;
             }
         });
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        SharedPreferences.Editor editor = preferences.edit();
-        //name
-        if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText()) || !preferences.contains(NAME_STR)) {
-            editor.putString(NAME_STR, consigeeNameET.getText().toString());
-            isSaved = false;
-        }
-        if(preferences.contains(NAME_STR)){
-            if(!preferences.getString(NAME_STR, "").equals(consigeeNameET.getText().toString())){
-                editor.putString(NAME_STR, consigeeNameET.getText().toString());
-                isSaved = false;
-            }
-        }
-        //phone
-        if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText()) || !preferences.contains(PHONE_STR)) {
-            editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
-            isSaved = false;
-        }
-        if(preferences.contains(PHONE_STR)){
-            if(!preferences.getString(PHONE_STR, "").equals(consigeePhoneET.getText().toString())){
-                editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
-                isSaved = false;
-            }
-        }
-        //province
-        if(null != consigeeAreaTV.getText() && !"".equals(consigeeAreaTV.getText()) || !preferences.contains(PROVINCE_STR)) {
-            editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
-            isSaved = false;
-        }
-        if(preferences.contains(PROVINCE_STR)){
-            if(!preferences.getString(PROVINCE_STR, "").equals(consigeeAreaTV.getText().toString())){
-                editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
-                isSaved = false;
-            }
-        }
-        //address
-        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText()) || !preferences.contains(ADDRESS_STR)) {
-            editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
-            isSaved = false;
-        }
-        if(preferences.contains(ADDRESS_STR)){
-            if(!preferences.getString(ADDRESS_STR, "").equals(consigeeDetailAreaET.getText().toString())){
-                editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
-                isSaved = false;
-            }
-        }
-        if(isSaved){
-            editor.clear();
-        }
-        editor.commit();
-    }
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        SharedPreferences.Editor editor = preferences.edit();
+//        //name
+//        if((null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText())) && !preferences.contains(NAME_STR)) {
+//            editor.putString(NAME_STR, consigeeNameET.getText().toString());
+//            isSaved = false;
+//        }
+//        if(preferences.contains(NAME_STR)){
+//            if(!preferences.getString(NAME_STR, "").equals(consigeeNameET.getText().toString())){
+//                editor.putString(NAME_STR, consigeeNameET.getText().toString());
+//                isSaved = false;
+//            }
+//        }
+//        //phone
+//        if(null != consigeePhoneET.getText() && !"".equals(consigeePhoneET.getText()) && !preferences.contains(PHONE_STR)) {
+//            editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
+//            isSaved = false;
+//        }
+//        if(preferences.contains(PHONE_STR)){
+//            if(!preferences.getString(PHONE_STR, "").equals(consigeePhoneET.getText().toString())){
+//                editor.putString(PHONE_STR, consigeePhoneET.getText().toString());
+//                isSaved = false;
+//            }
+//        }
+//        //province
+//        if(null != consigeeAreaTV.getText() && !"".equals(consigeeAreaTV.getText()) && !preferences.contains(PROVINCE_STR)) {
+//            editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
+//            isSaved = false;
+//        }
+//        if(preferences.contains(PROVINCE_STR)){
+//            if(!preferences.getString(PROVINCE_STR, "").equals(consigeeAreaTV.getText().toString())){
+//                editor.putString(PROVINCE_STR, consigeeAreaTV.getText().toString());
+//                isSaved = false;
+//            }
+//        }
+//        //address
+//        if(null != consigeeDetailAreaET.getText() && !"".equals(consigeeDetailAreaET.getText()) && !preferences.contains(ADDRESS_STR)) {
+//            editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
+//            isSaved = false;
+//        }
+//        if(preferences.contains(ADDRESS_STR)){
+//            if(!preferences.getString(ADDRESS_STR, "").equals(consigeeDetailAreaET.getText().toString())){
+//                editor.putString(ADDRESS_STR, consigeeDetailAreaET.getText().toString());
+//                isSaved = false;
+//            }
+//        }
+//        if(isSaved){
+//            editor.clear();
+//        }
+//        editor.commit();
+//    }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+//        commitForm();
+
         if(!(ViewName.AREA == v.getTag() && hasFocus)){
 //            cityPicker.setVisibility(View.INVISIBLE);
 
 //            consigeeAreaTV.setTextColor(getResources().getColor(R.color.p01_text_color_model_height));
         }
-    }
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-        return false;
     }
 }

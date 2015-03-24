@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import org.json.JSONObject;
 import java.util.LinkedList;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Administrator on 2015/3/13.
  */
@@ -30,6 +33,7 @@ public class U09TradeListActivity extends BaseActivity{
     private LinearLayoutManager mLayoutManager;
     private MongoPeople people;
     private int currentPageNo = 1;
+    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,20 @@ public class U09TradeListActivity extends BaseActivity{
 
         doRefresh();
 
+        eventBus = new EventBus();
+        eventBus.register(this);
+
+    }
+
+    public void onEventMainThread(LinkedList<MongoTrade> event) {
+        mAdapter.resetDatas(event);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
     public void doRefresh(){
@@ -85,28 +103,31 @@ public class U09TradeListActivity extends BaseActivity{
     }
 
     public void doLoadMore(){
-        getTradeFromNet(currentPageNo + 1, 10);
+        getTradeFromNet(currentPageNo, 10);
     }
 
     private void getTradeFromNet(int pageNo, int pageSize){
 
-        System.out.println(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize));
+        final ProgressDialog progressDialog = new ProgressDialog(U09TradeListActivity.this);
+        progressDialog.show();
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
+                    progressDialog.dismiss();
                     return;
                 }
                 LinkedList<MongoTrade> tradeList = TradeParser.parseQuery(response);
                 if(currentPageNo == 1){
                     mAdapter.resetDatas(tradeList);
                 } else {
-                    currentPageNo++;
                     mAdapter.addDatas(tradeList);
                 }
+                currentPageNo++;
                 mAdapter.notifyDataSetChanged();
+                progressDialog.dismiss();
             }
         });
 

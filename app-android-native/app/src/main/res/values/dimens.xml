@@ -33,5 +33,5 @@
     <dimen name="right_btn_list_height">40dp</dimen>
 
     <!-- return -->
-    <dimen name="item_height_activity_return">30dp</dimen>"
+    <dimen name="item_height_activity_return">40dp</dimen>"
 </resources>

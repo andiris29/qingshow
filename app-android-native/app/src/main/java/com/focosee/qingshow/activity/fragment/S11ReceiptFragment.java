@@ -27,7 +27,7 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
     private EditText addressView;
     private String provinceStr = "上海市普陀区";
     private MongoPeople.Receiver receiver;
-    private static final String TO_U10 = "TO_U10";
+    public static final String TO_U10 = "TO_U10";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

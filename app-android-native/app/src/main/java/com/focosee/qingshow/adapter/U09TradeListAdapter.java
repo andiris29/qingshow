@@ -3,6 +3,7 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
@@ -65,7 +65,9 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         if(null == datas.get(i))return;
         final MongoTrade trade = datas.get(i);
 
-        viewHolder.tradeNo.setText(null == trade._id ? "" : trade._id);
+        final int position = i;
+
+        viewHolder.tradeNo.setText(null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
         if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
             viewHolder.tradeStatus.setText(StatusCode.statusArrays[trade.status]);
         }
@@ -79,16 +81,18 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 }
             }
             ArrayList<Prop> props = SkuUtil.filter(mSku);
+            String color = "";
+            String measurement = "";
             for (Prop prop : props) {
-                if(prop.getPropId().equals(SkuUtil.KEY.COLOR)){
-                    viewHolder.color.setText(prop.getName());
+                if(SkuUtil.KEY.COLOR.id.equals(prop.getPropId())){
+                    color = prop.getName();
                 }
-
-                if(prop.getPropId().equals(SkuUtil.KEY.SIZE_1) || prop.getPropId().equals(SkuUtil.KEY.SIZE_2) || prop.getPropId().equals(SkuUtil.KEY.SIZE_3)){
-                    viewHolder.measurement.setText(prop.getName());
+                if(SkuUtil.KEY.SIZE_1.id.equals(prop.getPropId()) || SkuUtil.KEY.SIZE_2.id.equals(prop.getPropId()) || SkuUtil.KEY.SIZE_3.id.equals(prop.getPropId())){
+                    measurement = prop.getName();
                 }
             }
-
+            viewHolder.color.setText(color);
+            viewHolder.measurement.setText(measurement);
             viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
             viewHolder.price.setText(String.valueOf(trade.orders.get(0).price));
             ImageLoader.getInstance().displayImage(trade.orders.get(0).itemSnapshot.imageMetadata.url, viewHolder.image, AppUtil.getPortraitDisplayOptions());
@@ -98,6 +102,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         }
         //等待买家付款
         if(trade.status == 0){
+            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
             viewHolder.applyReceive.setText(context.getResources().getString(R.string.pay_activity_trade));
             viewHolder.applyReceive.setVisibility(View.VISIBLE);
             viewHolder.applyReceive.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +127,6 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 @Override
                 public void onClick(View v) {
                     final MaterialDialog dialog = new MaterialDialog(context);
-
                     LayoutInflater layoutInflater = LayoutInflater.from(context);
                     View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
                     dialog.setContentView(view);
@@ -147,8 +151,28 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 }
             });
         }
+
+        //买家已签收
+        if(trade.status == 4){
+            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+            viewHolder.applyReturn.setVisibility(View.VISIBLE);
+            viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, U12ReturnActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
+
+
+
+
+        }
         //交易成功，交易自动关闭
-        viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+
 //        viewHolder.finishLayout.setVisibility(View.GONE);
         viewHolder.creatTime.setText(trade.create.toString());
         if(trade.status == 5){
@@ -156,6 +180,20 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             viewHolder.finishLayout.setVisibility(View.GONE);
             viewHolder.creatTime.setText(trade.create.toString());
         }
+
+        //test
+//        viewHolder.applyReturn.setVisibility(View.VISIBLE);
+//        viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, U12ReturnActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
+//                intent.putExtras(bundle);
+//                context.startActivity(intent);
+//            }
+//        });
+
     }
     //获取数据的数量
     @Override

@@ -5,45 +5,44 @@
     android:layout_height="match_parent"
     android:background="@color/gray_background"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/S08_title_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@drawable/bg_titlebar"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
-
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
         <ImageView
             android:id="@+id/person_activity_back_image_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:padding="10dp"
-            android:background="#00000000"
             android:layout_weight="1"
+            android:background="#00000000"
+            android:padding="10dp"
             android:src="@drawable/btn_back_default" />
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
+            android:layout_weight="5"
             android:gravity="center"
             android:text="订单管理"
             android:textColor="#454545"
             android:textSize="@dimen/text_size"
-            android:layout_weight="5"
             android:textStyle="bold" />
-
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
         android:layout_marginTop="5dp"
+        android:layout_weight="3"
         android:orientation="vertical">
 
         <LinearLayout
@@ -56,136 +55,128 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:background="@color/white"
+                android:paddingBottom="10dp"
                 android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="8"
-                    android:layout_marginTop="5dp"
-                    android:src="@drawable/trade_p1"/>
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="8"
+                        android:src="@drawable/trade_p1" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="@color/pink"
-                        android:text="@string/service_describe1"/>
+                        android:text="@string/service_describe1"
+                        android:textColor="@color/pink" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="8"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/trade_p2"/>
+                        android:layout_weight="8"
+                        android:src="@drawable/trade_p2" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="@color/pink"
-                        android:text="@string/service_describe2"/>
+                        android:text="@string/service_describe2"
+                        android:textColor="@color/pink" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="8"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/trade_p3"/>
+                        android:layout_weight="8"
+                        android:src="@drawable/trade_p3" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="@color/pink"
-                        android:text="@string/service_describe3"/>
+                        android:text="@string/service_describe3"
+                        android:textColor="@color/pink" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:layout_weight="8"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/trade_p4"/>
+                        android:layout_weight="8"
+                        android:src="@drawable/trade_p4" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="@color/pink"
-                        android:text="@string/service_describe4"/>
+                        android:text="@string/service_describe4"
+                        android:textColor="@color/pink" />
                 </LinearLayout>
+            </LinearLayout>
 
-
-                
-
-                </LinearLayout>
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_trade_service_phone"
                 android:gravity="center">
+
                 <TextView
                     android:id="@+id/service_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:textColor="@color/white"
-                    android:textSize="15dp"
                     android:gravity="center"
-                    android:text="@string/service_text"/>
+                    android:text="@string/service_text"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent"
-                    android:textColor="@color/white"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/service_textView"
                     android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:textSize="20dp"
-                    android:text="@string/service_phone_number"/>
-
-                </RelativeLayout>
-
-
-            </LinearLayout>
-
-
-
-
-
+                    android:text="@string/service_phone_number"
+                    android:textColor="@color/white"
+                    android:textSize="20dp" />
+            </RelativeLayout>
         </LinearLayout>
-    <LinearLayout
+    </LinearLayout>
+
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="10"
+        android:gravity="center"
+        >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/person_activity_tradelist_recycleview"
-            android:scrollbars="none"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+    </RelativeLayout>
 </LinearLayout>

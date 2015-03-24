@@ -12,6 +12,9 @@
     <string name="choose_picture_activity_settings">选择图片</string>
     <string name="personal_picture_activity_settings">个人头像</string>
     <string name="background_picture_activity_settings">背景图像</string>
+    <string name="manage_activity_settings">管理</string>
+    <string name="trade_manage_activity_settings">订单管理</string>
+    <string name="receiver_manage_activity_settings">收货地址管理</string>
     <string name="information_activity_settings">基本信息</string>
     <string name="name_activity_settings">昵称</string>
     <string name="sex_activity_settings">性别</string>
@@ -88,6 +91,7 @@
     <string name="info_expressNO_activity_return">货运单号:</string>
     <string name="info_expressDate_activity_return">寄出日期:</string>
     <string name="sure_btn_activity_return">申请退货</string>
+    <string name="toast_activity_return">退货请求已发送</string>
 
     <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>
