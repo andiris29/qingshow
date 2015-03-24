@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlRootElement(name = "Xml")
+@Deprecated
 public class WeChatNotifyPostData {
 
     @XmlElement(name = "OpenId")

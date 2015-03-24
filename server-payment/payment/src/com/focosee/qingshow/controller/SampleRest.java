@@ -16,12 +16,14 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.focosee.qingshow.bean.AlipayCallbackEntity;
 import com.focosee.qingshow.bean.WeChatNotifyPostData;
 import com.wxap.util.XMLUtil;
 
@@ -50,7 +52,6 @@ public class SampleRest {
         logger.info(myProperties.get("weixin.app_id"));
         logger.info(request.getRemoteAddr());
         logger.info(response.getCharacterEncoding());
-        
         return new ResponseEntity<>(returnMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
@@ -67,5 +68,19 @@ public class SampleRest {
         }
         logger.info(xmlData);
         return "ok";
+    }
+    
+    
+    @RequestMapping(value = "/test2", method = RequestMethod.POST)
+    public String postData2(@RequestParam(value="name", defaultValue="World") String name, @ModelAttribute AlipayCallbackEntity entity, HttpServletRequest request) {
+        logger.info(entity.getBody());
+        Map m = request.getParameterMap();
+        Iterator it = m.keySet().iterator();
+        while (it.hasNext()) {
+            String k = (String) it.next();
+            String v = ((String[]) m.get(k))[0];
+            logger.info("Request[" + k + "]=" + v);
+        }
+        return "OK";
     }
 }

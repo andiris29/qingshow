@@ -1,12 +1,13 @@
 package com.wxap.util;
 
-import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
 
 /*
 '============================================================================
@@ -16,7 +17,8 @@ import java.util.SortedMap;
 '============================================================================
 '*/
 public class Sha1Util {
-
+    private static final Logger log = Logger.getLogger(Sha1Util.class);
+    
     public static String getNonceStr() {
         Random random = new Random();
         return MD5Util.MD5Encode(String.valueOf(random.nextInt(10000)), "UTF-8");
@@ -37,7 +39,7 @@ public class Sha1Util {
             //要采用URLENCODER的原始值！
         }
         String params = sb.substring(0, sb.lastIndexOf("&"));
-        System.out.println("sha1 sb:" + params);
+        log.debug("sha1 sb:" + params);
         return getSha1(params);
     }
     //Sha1签名

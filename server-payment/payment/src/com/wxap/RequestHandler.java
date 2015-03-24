@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
 
 import com.focosee.qingshow.bean.AccessToken;
 import com.google.gson.Gson;
@@ -65,6 +66,8 @@ public class RequestHandler {
 	private HttpServletRequest request;
 
 	private HttpServletResponse response;
+	
+	private static final Logger log = Logger.getLogger(RequestHandler.class);
 
 	/**
 	 * 初始构造函数。
@@ -167,7 +170,7 @@ public class RequestHandler {
 					}
 				} catch (Exception e) {
 					// 获取token失败
-					System.out.println("失败:" + map.get("errmsg"));
+					log.debug("失败:" + map.get("errmsg"));
 				}
 			}
 
@@ -198,10 +201,10 @@ public class RequestHandler {
 					// 更新application值
 					Token = map.get("access_token");
 				} else {
-					System.out.println("get token err ,info ="
+					log.debug("get token err ,info ="
 							+ map.get("errmsg"));
 				}
-				System.out.println("res json=" + resContent);
+				log.debug("res json=" + resContent);
 			}
 
 		} catch (Exception e) {
@@ -232,7 +235,7 @@ public class RequestHandler {
 
 		// 去掉最后一个&
 		String packageValue = sb.append("sign=" + sign).toString();
-		System.out.println("packageValue=" + packageValue);
+		log.debug("packageValue=" + packageValue);
 		return packageValue;
 	}
 
@@ -253,7 +256,7 @@ public class RequestHandler {
 			}
 		}
 		sb.append("key=" + this.getKey());
-		System.out.println("md5 sb:" + sb);
+		log.debug("md5 sb:" + sb);
 		String sign = MD5Util.MD5Encode(sb.toString(), this.charset)
 				.toUpperCase();
 
@@ -283,8 +286,8 @@ public class RequestHandler {
 		postData += "}";
 		// 设置链接参数
 		String requestUrl = this.gateUrl + "?access_token=" + this.Token;
-		System.out.println("post url=" + requestUrl);
-		System.out.println("post data=" + postData);
+		log.debug("post url=" + requestUrl);
+		log.debug("post data=" + postData);
 		TenpayHttpClient httpClient = new TenpayHttpClient();
 		httpClient.setReqContent(requestUrl);
 		String resContent = "";
@@ -296,10 +299,10 @@ public class RequestHandler {
 			if ("0".equals(map.get("errcode"))) {
 				prepayid = map.get("prepayid");
 			} else {
-				System.out.println("get token err ,info =" + map.get("errmsg"));
+				log.debug("get token err ,info =" + map.get("errmsg"));
 			}
 			// 设置debug info
-			System.out.println("res json=" + resContent);
+			log.debug("res json=" + resContent);
 		}
 		return prepayid;
 	}
@@ -323,8 +326,8 @@ public class RequestHandler {
         }
         postData += "}";
         String requestUrl = this.orderQueryUrl + "?access_token=" + this.Token;
-        System.out.println("post url=" + requestUrl);
-        System.out.println("post data=" + postData);
+        log.debug("post url=" + requestUrl);
+        log.debug("post data=" + postData);
         TenpayHttpClient httpClient = new TenpayHttpClient();
         httpClient.setReqContent(requestUrl);
         String resContent = "";
@@ -337,10 +340,10 @@ public class RequestHandler {
             if ("0".equals(map.get("errcode"))) {
                 queryResult = (Map<String, Object>) map.get("order_info");
             } else {
-                System.out.println("get token err ,info =" + map.get("errmsg"));
+                log.debug("get token err ,info =" + map.get("errmsg"));
             }
             // 设置debug info
-            System.out.println("res json=" + resContent);
+            log.debug("res json=" + resContent);
         }
         return queryResult;
 	}
