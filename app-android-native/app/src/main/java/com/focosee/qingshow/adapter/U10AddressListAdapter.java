@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
@@ -27,6 +28,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -36,34 +38,36 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAdapter.ViewHolder>{
+public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAdapter.ViewHolder> {
+
 
     private Context context;
     private int default_posion = 0;
     private MongoPeople people;
     public LinkedList<MongoPeople.Receiver> datas = null;
+
     public U10AddressListAdapter(Context context) {
         this.context = context;
         people = QSModel.INSTANCE.getUser();
     }
+
     //创建新View，被LayoutManager所调用
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_addreslist,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_addreslist, viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
         return vh;
     }
-    //将数据与界面进行绑定的操作
-    @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
+    @Override
+    public void onBindViewHolder(U10AddressListAdapter.ViewHolder viewHolder, int i) {
         final int position = i;
 
         viewHolder.nameTV.setText(null == datas.get(i).name ? "" : datas.get(i).name);
         viewHolder.phoneTV.setText(null == datas.get(i).phone ? "" : datas.get(i).phone);
         viewHolder.addressTV.setText((null == datas.get(i).province ? "" : datas.get(i).province)
                 + (null == datas.get(i).address ? "" : datas.get(i).address));
-        if(datas.get(i).isDefault){
+        if (datas.get(i).isDefault) {
             viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment_hover);
             default_posion = i;
         } else {
@@ -73,128 +77,109 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(context, U11EditAddressActivity.class);
-            intent.putExtra("receiver", datas.get(position));
-            context.startActivity(intent);
+                Intent intent = new Intent(context, U11EditAddressActivity.class);
+                intent.putExtra("receiver", datas.get(position));
+                context.startActivity(intent);
             }
         });
 
         viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            delReceiver(datas.get(position).uuid);
+                delReceiver(datas.get(position).uuid);
             }
         });
 
         viewHolder.chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            if(position == default_posion)return;
-<<<<<<< Updated upstream
-
-            if(default_posion != Integer.MAX_VALUE){
-                datas.get(default_posion).isDefault = false;
-            }
-
-            datas.get(position).isDefault = true;
-
-            Gson gson = new Gson();
-            gson.toJson(datas.get(position));
-
-            JSONObject jsonObject = null;
-
-            try{
-                jsonObject = new JSONObject(new Gson().toJson(datas.get(position)));
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
-=======
-
-            if(default_posion != Integer.MAX_VALUE){
-                datas.get(default_posion).isDefault = false;
-            }
-
-            datas.get(position).isDefault = true;
-
-            Map params1 = new HashMap();
-            params1.put("uuid", datas.get(position).uuid);
-            params1.put("name", datas.get(position).name);
-            params1.put("phone", datas.get(position).phone);
-            params1.put("province", datas.get(position).province);
-            params1.put("address", datas.get(position).address);
-            params1.put("isDefault", datas.get(position).isDefault);
-
-            QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params1), new Response.Listener<JSONObject>() {
->>>>>>> Stashed changes
-                @Override
-                public void onResponse(JSONObject response) {
-                    if(MetadataParser.hasError(response)){
-                        ErrorHandler.handle(context,MetadataParser.getError(response));
+                if (context instanceof U10AddressListActivity) {
+                    if (!"".equals(((U10AddressListActivity) context).fromWhere)) {
+                        EventBus.getDefault().post(datas.get(default_posion));
+                        ((U10AddressListActivity) context).finish();
+                        return;
                     }
-                    notifyDataSetChanged();
                 }
-            });
 
-<<<<<<< Updated upstream
-            try{
-                jsonObject = new JSONObject(new Gson().toJson(datas.get(default_posion)));
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+                if (position == default_posion) return;
 
-            QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
-=======
-            Map params2 = new HashMap();
-            params2.put("uuid", datas.get(default_posion).uuid);
-            params2.put("name", datas.get(default_posion).name);
-            params2.put("phone", datas.get(default_posion).phone);
-            params2.put("province", datas.get(default_posion).province);
-            params2.put("address", datas.get(default_posion).address);
-            params2.put("isDefault", datas.get(default_posion).isDefault);
+                if (default_posion != Integer.MAX_VALUE) {
+                    datas.get(default_posion).isDefault = false;
+                }
 
-            QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params2), new Response.Listener<JSONObject>() {
->>>>>>> Stashed changes
-                @Override
-                public void onResponse(JSONObject response) {
-                    if(MetadataParser.hasError(response)){
-                        ErrorHandler.handle(context,MetadataParser.getError(response));
+                datas.get(position).isDefault = true;
+
+                Gson gson = new Gson();
+                gson.toJson(datas.get(position));
+
+                JSONObject jsonObject = null;
+
+                try {
+                    jsonObject = new JSONObject(new Gson().toJson(datas.get(position)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Map params1 = new HashMap();
+                params1.put("uuid",datas.get(position).uuid);
+                params1.put("name",datas.get(position).name);
+                params1.put("phone",datas.get(position).phone);
+                params1.put("province",datas.get(position).province);
+                params1.put("address",datas.get(position).address);
+                params1.put("isDefault",datas.get(position).isDefault);
+
+                QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if (MetadataParser.hasError(response)) {
+                            ErrorHandler.handle(context, MetadataParser.getError(response));
+                            return;
+                        }
+                        notifyDataSetChanged();
                     }
-                    default_posion = position;
-                    notifyDataSetChanged();
-                }
-            });
+                });
 
-            RequestQueueManager.INSTANCE.getQueue().add(jor1);
-            RequestQueueManager.INSTANCE.getQueue().add(jor2);
-<<<<<<< Updated upstream
+                Map params2 = new HashMap();
+                params2.put("uuid",datas.get(default_posion).uuid);
+                params2.put("name",datas.get(default_posion).name);
+                params2.put("phone",datas.get(default_posion).phone);
+                params2.put("province",datas.get(default_posion).province);
+                params2.put("address",datas.get(default_posion).address);
+                params2.put("isDefault",datas.get(default_posion).isDefault);
 
-            if(context instanceof U10AddressListActivity){
-                if(!"".equals(((U10AddressListActivity)context).fromWhere)){
-                    EventBus.getDefault().post(datas.get(default_posion));
-                    ((U10AddressListActivity)context).finish();
-                }
-            }
-=======
->>>>>>> Stashed changes
+                QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params2), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if (MetadataParser.hasError(response)) {
+                            ErrorHandler.handle(context, MetadataParser.getError(response));
+                            return;
+                        }
+                        default_posion = position;
+                        notifyDataSetChanged();
+                    }
+                });
+
+                RequestQueueManager.INSTANCE.getQueue().add(jor1);
+
+                RequestQueueManager.INSTANCE.getQueue().add(jor2);
+
             }
         });
-
     }
+
     //获取数据的数量
     @Override
     public int getItemCount() {
         return null == datas ? 0 : datas.size();
     }
 
-    public void resetData(LinkedList<MongoPeople.Receiver> datas){
+    public void resetData(LinkedList<MongoPeople.Receiver> datas) {
         this.datas = datas;
     }
 
 
-    public void delReceiver(String uuid){
+    public void delReceiver(String uuid) {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("uuid", uuid);
@@ -203,7 +188,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                     return;
                 }
@@ -216,31 +201,14 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         RequestQueueManager.INSTANCE.getQueue().add(jor);
     }
 
-    //自定义的ViewHolder，持有每个Item的的所有界面元素
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView chooseBtn;
-        public LinearLayout delLayout;
-        public LinearLayout editLayout;
-        public TextView nameTV;
-        public TextView phoneTV;
-        public TextView addressTV;
-        public ViewHolder(View view){
-            super(view);
-            chooseBtn = (ImageView) view.findViewById(R.id.item_addresslist_choose_btn);
-            delLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_del_layout);
-            editLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_edit_layout);
-            nameTV = (TextView) view.findViewById(R.id.item_addresslist_name);
-            phoneTV = (TextView) view.findViewById(R.id.item_addresslist_phone);
-            addressTV = (TextView) view.findViewById(R.id.item_addresslist_address);
-        }
-    }
+
 
     @Override
     public long getItemId(int position) {
         return 0;
     }
 
-    public SpacesItemDecoration getItemDecoration(int space){
+    public SpacesItemDecoration getItemDecoration(int space) {
         return new SpacesItemDecoration(space);
     }
 
@@ -258,8 +226,29 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             outRect.bottom = space;
 
             // Add top margin only for the first item to avoid double space between items
-            if(parent.getChildPosition(view) == 0)
+            if (parent.getChildPosition(view) == 0)
                 outRect.top = space;
         }
     }
+
+    //自定义的ViewHolder，持有每个Item的的所有界面元素
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public ImageView chooseBtn;
+        public LinearLayout delLayout;
+        public LinearLayout editLayout;
+        public TextView nameTV;
+        public TextView phoneTV;
+        public TextView addressTV;
+
+        public ViewHolder(View view) {
+            super(view);
+            chooseBtn = (ImageView) view.findViewById(R.id.item_addresslist_choose_btn);
+            delLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_del_layout);
+            editLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_edit_layout);
+            nameTV = (TextView) view.findViewById(R.id.item_addresslist_name);
+            phoneTV = (TextView) view.findViewById(R.id.item_addresslist_phone);
+            addressTV = (TextView) view.findViewById(R.id.item_addresslist_address);
+        }
+    }
 }
+

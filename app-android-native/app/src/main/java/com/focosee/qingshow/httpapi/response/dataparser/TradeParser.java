@@ -14,7 +14,6 @@ import java.util.LinkedList;
 public class TradeParser {
     public static LinkedList<MongoTrade> parseQuery(JSONObject response) {
         try {
-<<<<<<< Updated upstream
             String trades = response.getJSONObject("data").getJSONArray("trades").toString();
             Gson gson = QSGsonFactory.create();
             return gson.fromJson(trades, new TypeToken<LinkedList<MongoTrade>>() {
@@ -27,9 +26,6 @@ public class TradeParser {
     public static MongoTrade parse(JSONObject response) {
         try {
             String trade = response.getJSONObject("data").getJSONObject("trade").toString();
-=======
-            String shows = response.getJSONObject("data").getJSONArray("trades").toString();
->>>>>>> Stashed changes
             Gson gson = QSGsonFactory.create();
             return gson.fromJson(trade, new TypeToken<MongoTrade>() {
             }.getType());

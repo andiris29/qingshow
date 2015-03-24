@@ -16,32 +16,28 @@ public class MongoTrade implements Serializable {
     public Number totalFee;
     public int status;
     public GregorianCalendar create;
-<<<<<<< Updated upstream
     public LinkedList<MongoOrder> orders;
-=======
-//    public LinkedList<MongoOrder> orders;
->>>>>>> Stashed changes
-//    public TaobaoInfo taobaoInfo;
+    public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
     public LinkedList<StatusLog> statusLogs;
 
-    public class TaobaoInfo{
+    public class TaobaoInfo implements Serializable{
         public String userNick;
         public String tradeID;
     }
 
-    public class Logistic{
+    public class Logistic implements Serializable{
         public String company;
         public String trackingID;
     }
 
-    public class Returnlogistic{
+    public class Returnlogistic implements Serializable{
         public String company;
         public String trackingID;
     }
 
-    public class StatusLog {
+    public class StatusLog implements Serializable{
         public GregorianCalendar update;
         public String _id;
         public String peopleRef;
