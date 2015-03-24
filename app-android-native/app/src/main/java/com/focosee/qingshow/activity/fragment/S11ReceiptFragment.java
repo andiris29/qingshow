@@ -117,6 +117,7 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
         phoneView.setText(receiver.phone);
         addressView.setText(receiver.address);
         provinceStr = receiver.province;
+        provinceView.setText(provinceStr);
     }
 
     @Override
