@@ -91,6 +91,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             public void onClick(View v) {
 
             if(position == default_posion)return;
+<<<<<<< Updated upstream
 
             if(default_posion != Integer.MAX_VALUE){
                 datas.get(default_posion).isDefault = false;
@@ -110,6 +111,24 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             }
 
             QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
+=======
+
+            if(default_posion != Integer.MAX_VALUE){
+                datas.get(default_posion).isDefault = false;
+            }
+
+            datas.get(position).isDefault = true;
+
+            Map params1 = new HashMap();
+            params1.put("uuid", datas.get(position).uuid);
+            params1.put("name", datas.get(position).name);
+            params1.put("phone", datas.get(position).phone);
+            params1.put("province", datas.get(position).province);
+            params1.put("address", datas.get(position).address);
+            params1.put("isDefault", datas.get(position).isDefault);
+
+            QSJsonObjectRequest jor1 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params1), new Response.Listener<JSONObject>() {
+>>>>>>> Stashed changes
                 @Override
                 public void onResponse(JSONObject response) {
                     if(MetadataParser.hasError(response)){
@@ -119,6 +138,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                 }
             });
 
+<<<<<<< Updated upstream
             try{
                 jsonObject = new JSONObject(new Gson().toJson(datas.get(default_posion)));
             }catch (Exception e){
@@ -126,6 +146,17 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
             }
 
             QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), jsonObject, new Response.Listener<JSONObject>() {
+=======
+            Map params2 = new HashMap();
+            params2.put("uuid", datas.get(default_posion).uuid);
+            params2.put("name", datas.get(default_posion).name);
+            params2.put("phone", datas.get(default_posion).phone);
+            params2.put("province", datas.get(default_posion).province);
+            params2.put("address", datas.get(default_posion).address);
+            params2.put("isDefault", datas.get(default_posion).isDefault);
+
+            QSJsonObjectRequest jor2 = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserSaveReceiverApi(), new JSONObject(params2), new Response.Listener<JSONObject>() {
+>>>>>>> Stashed changes
                 @Override
                 public void onResponse(JSONObject response) {
                     if(MetadataParser.hasError(response)){
@@ -138,6 +169,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
             RequestQueueManager.INSTANCE.getQueue().add(jor1);
             RequestQueueManager.INSTANCE.getQueue().add(jor2);
+<<<<<<< Updated upstream
 
             if(context instanceof U10AddressListActivity){
                 if(!"".equals(((U10AddressListActivity)context).fromWhere)){
@@ -145,6 +177,8 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                     ((U10AddressListActivity)context).finish();
                 }
             }
+=======
+>>>>>>> Stashed changes
             }
         });
 

@@ -26,7 +26,11 @@ public class UTCDeserializer implements JsonDeserializer<GregorianCalendar> {
                                          JsonDeserializationContext jsonDeserializationContext) {
         try {
             return TimeUtil.parseUTC(getNullAsEmptyString(jsonElement));
+<<<<<<< Updated upstream
         } catch (Exception e) {
+=======
+        } catch (ParseException e) {
+>>>>>>> Stashed changes
             return null;
         }
     }

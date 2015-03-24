@@ -70,6 +70,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             viewHolder.tradeStatus.setText(StatusCode.statusArrays[trade.status]);
         }
         try {
+<<<<<<< Updated upstream
             viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
             LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
             MongoItem.TaoBaoInfo.SKU mSku = null;
@@ -101,6 +102,25 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             });
         }
 
+=======
+//            ImageLoader.getInstance().displayImage(trade.orders.get(0).itemSnapshot.imageMetadata.url, viewHolder.image, AppUtil.getPortraitDisplayOptions());
+//            viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+//            LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
+//            MongoItem.TaoBaoInfo.SKU mSku = null;
+//            for (MongoItem.TaoBaoInfo.SKU sku : skus) {
+//                if(trade.orders.get(0).selectedItemSkuId.equals(sku.sku_id)){
+//                    mSku = sku;
+//                }
+//            }
+//            ArrayList<Prop> props = SkuUtil.filter(mSku);
+////            viewHolder.color.setText(trade.orders.get(0).itemSnapshot);
+//            viewHolder.measurement.setText(props.get(0).getPropValue());
+//            viewHolder.quantity.setText(trade.orders.get(0).quantity);
+//            viewHolder.price.setText(trade.orders.get(0).price);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+>>>>>>> Stashed changes
         //卖家已发货
         if(trade.status == 3){
 //            viewHolder.tradingLayout.setVisibility(View.GONE);
@@ -142,15 +162,25 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             });
         }
         //交易成功，交易自动关闭
+<<<<<<< Updated upstream
         viewHolder.tradingLayout.setVisibility(View.VISIBLE);
 //        viewHolder.finishLayout.setVisibility(View.GONE);
         viewHolder.creatTime.setText(trade.create.toString());
         if(trade.status == 5){
+=======
+        if(trade.status == 5){
+            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+            viewHolder.finishLayout.setVisibility(View.GONE);
+            viewHolder.creatTime.setText(trade.create.toString());
+>>>>>>> Stashed changes
 //            viewHolder.finishTime.setText();
         }
 
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     }
     //获取数据的数量
     @Override

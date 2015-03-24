@@ -16,7 +16,11 @@ public class MongoTrade implements Serializable {
     public Number totalFee;
     public int status;
     public GregorianCalendar create;
+<<<<<<< Updated upstream
     public LinkedList<MongoOrder> orders;
+=======
+//    public LinkedList<MongoOrder> orders;
+>>>>>>> Stashed changes
 //    public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
