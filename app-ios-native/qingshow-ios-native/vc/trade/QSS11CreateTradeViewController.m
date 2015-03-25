@@ -59,9 +59,17 @@
 
     [self configCellArray];
     [self configView];
-    
     [self updateAllCell];
+    [self receiverConfig];
 }
+- (void)receiverConfig
+{
+    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
+    NSArray* receivers = [QSPeopleUtil getReceiverList:userInfo];
+    NSDictionary* defaultReceiver = [QSReceiverUtil getDefaultReceiver:receivers];
+    [self bindWithReceiver:defaultReceiver];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -123,8 +131,9 @@
     
     self.payWayCellArray = @[self.payInfoTitleCell,
                              self.payInfoWechatCell,
-                             self.payInfoAllipayCell,
-                             self.payInfoBandCell];
+                             self.payInfoAlipayCell
+//                             ,self.payInfoBankCell
+                             ];
     self.totalPriceCellArray = @[self.totalCell];
     
     self.cellGroupArray =
@@ -271,7 +280,7 @@
                             receiverUuid:uuid
                                onSucceed:^
      {
-         if (self.payInfoAllipayCell.isSelect) {
+         if (self.payInfoAlipayCell.isSelect) {
              [SHARE_PAYMENT_SERVICE testAlipay];
          }
          [self showTextHud:@"success"];

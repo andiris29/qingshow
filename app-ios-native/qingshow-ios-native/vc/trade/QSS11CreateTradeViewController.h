@@ -36,8 +36,8 @@
 #pragma mark - Pay Info Cell
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoTitleCell;
 @property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoWechatCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoAllipayCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoBandCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoAlipayCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoBankCell;
 
 
 #pragma mark - Total Cell
