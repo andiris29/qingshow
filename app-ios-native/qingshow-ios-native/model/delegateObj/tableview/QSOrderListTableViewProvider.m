@@ -47,12 +47,6 @@
         [self.delegate didClickRefundBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickLogisticBtnForCell:(QSOrderListTableViewCell*)cell
-{
-    if ([self.delegate respondsToSelector:@selector(didClickLogisticBtnOfOrder:)]) {
-        [self.delegate didClickLogisticBtnOfOrder:[self orderForCell:cell]];
-    }
-}
 - (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell
 {
     if ([self.delegate respondsToSelector:@selector(didClickSubmitBtnOfOrder:)]) {

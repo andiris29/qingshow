@@ -22,6 +22,10 @@
     
     if (self) {
         self.orderDict = orderDict;
+
+        if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
     }
     
     return self;
@@ -33,7 +37,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"退货方式";
-    
+    self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
+//    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
 }
 
 - (void)didReceiveMemoryWarning {

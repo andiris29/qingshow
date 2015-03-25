@@ -21,7 +21,6 @@
 - (void)awakeFromNib {
     // Initialization code
     [self configBtn:self.refundButton];
-    [self configBtn:self.logisticButton];
     [self configBtn:self.submitButton];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
@@ -96,7 +95,6 @@
     self.dateStartTextLabel.hidden = fHiddenLabel;
     self.submitButton.hidden = !fHiddenLabel;
     self.refundButton.hidden = !fHiddenLabel;
-    self.logisticButton.hidden = !fHiddenLabel;
 }
 
 #pragma mark - IBAction
@@ -104,12 +102,6 @@
 {
     if ([self.delegate respondsToSelector:@selector(didClickRefundBtnForCell:)]) {
         [self.delegate didClickRefundBtnForCell:self];
-    }
-}
-- (IBAction)logisticBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(didClickLogisticBtnForCell:)]) {
-        [self.delegate didClickLogisticBtnForCell:self];
     }
 }
 - (IBAction)submitBtnPressed:(id)sender

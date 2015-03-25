@@ -11,5 +11,6 @@
 @interface QSU12RefundViewController : UIViewController
 
 - (instancetype)initWithDict:(NSDictionary*)orderDict;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthCon;
 
 @end
