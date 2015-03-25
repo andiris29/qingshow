@@ -15,6 +15,7 @@
 #import "QSU10ReceiverListViewController.h"
 #import "QSCreateTradeReceiverInfoTextCell.h"
 #import "QSCreateTradeReceiverInfoLocationCell.h"
+#import "QSCreateTradePayInfoSelectCell.h"
 #import "QSTotalPriceCell.h"
 
 @interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSU10ReceiverListViewControllerDelegate>
@@ -34,9 +35,9 @@
 
 #pragma mark - Pay Info Cell
 @property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoTitleCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoWechatCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoAllipayCell;
-@property (strong, nonatomic) IBOutlet QSCreateTradeTableViewCellBase *payInfoBandCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoWechatCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoAllipayCell;
+@property (strong, nonatomic) IBOutlet QSCreateTradePayInfoSelectCell *payInfoBandCell;
 
 
 #pragma mark - Total Cell

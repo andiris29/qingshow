@@ -17,6 +17,7 @@
 #import "QSPeopleUtil.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
+#import "QSPaymentService.h"
 
 @interface QSS11CreateTradeViewController ()
 
@@ -270,6 +271,9 @@
                             receiverUuid:uuid
                                onSucceed:^
      {
+         if (self.payInfoAllipayCell.isSelect) {
+             [SHARE_PAYMENT_SERVICE testAlipay];
+         }
          [self showTextHud:@"success"];
      }
                                  onError:^(NSError *error)

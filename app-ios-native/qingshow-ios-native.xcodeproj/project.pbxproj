@@ -53,6 +53,8 @@
 		EF30133D1AC3174000568D92 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30132E1AC3174000568D92 /* openssl_wrapper.m */; };
 		EF30133E1AC3174000568D92 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013301AC3174000568D92 /* RSADataSigner.m */; };
 		EF30133F1AC3174000568D92 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013321AC3174000568D92 /* RSADataVerifier.m */; };
+		EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013451AC31AFC00568D92 /* QSPaymentService.m */; };
+		EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013481AC31BD700568D92 /* AlipayOrder.m */; };
 		EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD731A871512003CBBEE /* QSImageNameUtil.m */; };
 		EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD771A87153F003CBBEE /* QSDateUtil.m */; };
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
@@ -422,6 +424,10 @@
 		EF3013301AC3174000568D92 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		EF3013311AC3174000568D92 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		EF3013321AC3174000568D92 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
+		EF3013441AC31AFC00568D92 /* QSPaymentService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPaymentService.h; sourceTree = "<group>"; };
+		EF3013451AC31AFC00568D92 /* QSPaymentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPaymentService.m; sourceTree = "<group>"; };
+		EF3013471AC31BD700568D92 /* AlipayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayOrder.h; sourceTree = "<group>"; };
+		EF3013481AC31BD700568D92 /* AlipayOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlipayOrder.m; sourceTree = "<group>"; };
 		EF36BD721A871512003CBBEE /* QSImageNameUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSImageNameUtil.h; sourceTree = "<group>"; };
 		EF36BD731A871512003CBBEE /* QSImageNameUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageNameUtil.m; sourceTree = "<group>"; };
 		EF36BD761A87153F003CBBEE /* QSDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDateUtil.h; sourceTree = "<group>"; };
@@ -1028,6 +1034,17 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
+		EF3013421AC31AE500568D92 /* payment */ = {
+			isa = PBXGroup;
+			children = (
+				EF3013471AC31BD700568D92 /* AlipayOrder.h */,
+				EF3013481AC31BD700568D92 /* AlipayOrder.m */,
+				EF3013441AC31AFC00568D92 /* QSPaymentService.h */,
+				EF3013451AC31AFC00568D92 /* QSPaymentService.m */,
+			);
+			path = payment;
+			sourceTree = "<group>";
+		};
 		EF3D05671A0BC62100175E1D /* provider */ = {
 			isa = PBXGroup;
 			children = (
@@ -1380,6 +1397,7 @@
 		EF9A74461A02A87900095F07 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				EF3013421AC31AE500568D92 /* payment */,
 				EFAB90BE1A20F87B00C69E42 /* entity */,
 				EFAB90881A2073AA00C69E42 /* beans */,
 				EFD0B7EC1A1A4F7E00BCDFBA /* user */,
@@ -2183,6 +2201,7 @@
 				EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */,
 				EFF89E041A13A4AD004E6C55 /* QSP03BrandListViewController.m in Sources */,
 				EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */,
+				EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */,
 				EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */,
@@ -2210,6 +2229,7 @@
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
 				EF1A592C1A06763000001AE0 /* QSS01RootViewController.m in Sources */,
+				EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */,
 				EF59EDF91A74FAEE00D639FB /* QSShowCollectionViewProvider.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				826423361A11281A00D3F6BF /* QSU06LoginViewController.m in Sources */,
