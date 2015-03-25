@@ -162,7 +162,9 @@ trade.statusTo = {
             // update trade
             var newStatus = param.status;
             if (newStatus == 1) {
-                // TODO Save the parameters from payment server.
+                // Save the parameters from payment server.
+                // handle at callback interface
+                callback(ServerError.TradeStatusChangeError);
             } else if (newStatus == 2) {
                 trade.agent = trade.agent || {};
                 trade.agent.taobaoUserNick = param['agent']['taobaoUserNick'];
@@ -174,14 +176,19 @@ trade.statusTo = {
             } else if (newStatus == 4) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.receiptDate = param['logistic']['receiptDate'];
+            } else if (newStatus == 5) {
+                // handle at callback interface
+                callback(ServerError.TradeStatusChangeError);
             } else if (newStatus == 7) {
                 trade.returnLogistic = trade.returnLogistic || {};
                 trade.returnLogistic.company = param['returnLogistic']['company'];
                 trade.returnLogistic.trackingId = param['returnLogistic']['trackingId'];
             } else if (newStatus == 8) {
-                // TODO Communicate with payment server to request refund.
+                // TODO Communicate with payment server to request refund. [weixin]
             } else if (newStatus == 9) {
-                // TODO Save the parameters from payment server.
+                // Save the parameters from payment server.
+                // handle at callback interface
+                callback(ServerError.TradeStatusChangeError);
             } else if (newStatus == 10) {
                 // TODO Save the parameters from payment server.
             }
@@ -228,3 +235,78 @@ trade.queryCreatedBy = {
     }
 };
 
+trade.alipayCallback = {
+    'method' : 'post',
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            // get trade
+            Trade.findOne({
+                '_id' : RequestHelper.parseId(req.body.out_trade _no);
+            }).exec(function(error, trade) {
+                if (!error && !trade) {
+                    callback(ServerError.TradeNotExist);
+                }
+                if (error) {
+                    callback(error);
+                } else {
+                    callback(null, trade);
+                }
+            });
+        },
+        function(trade, callback) {
+            // Validate status
+            var valid = _statusValidationMap[param.status];
+            if (valid && valid.indexOf(trade.status) !== -1) {
+                callback(null, trade);
+            } else {
+                callback(ServerError.TradeStatusChangeError);
+            }
+        },
+        function(trade, callback){
+            var newStatus = param.status;
+            if (newStatus != 1 || newStatus != 5 || newStatus !=9 ) {
+                callback(ServerError.TradeStatusChangeError);
+            }
+            trade.pay.alipay['trade_no'] = req.body['trade_no'];
+            trade.pay.alipay['trade_status'] = req.body['trade_status'];
+            trade.pay.alipay['total_fee'] = req.body['total_fee'];
+            trade.pay.alipay['refund_status'] = req.body['refund_status'];
+            trade.pay.alipay['gmt_refund'] = req.body['gmt_refund'];
+            trade.pay.alipay['seller_id'] = req.body['seller_id'];
+            trade.pay.alipay['seller_email'] = req.body['seller_email'];
+            trade.pay.alipay['buyer_id'] = req.body['buyer_id'];
+            trade.pay.alipay['buyer_email'] = req.body['buyer_email'];
+
+            trade.pay.alipay.notifyLogs = trade.pay.alipay.notifyLogs || [];
+            trade.pay.alipay.notifyLogs.push({
+                'notify_type' : req.body['notify_type'],
+                'notify_id' : req.body['notify_id'],
+                'trade_status' : req.body['trade_status'],
+                'refund_status' : req.body['refund_status'],
+                'date' : Date.now
+            });
+            trade.save(function(error, trade) {
+                callback(null, trade)
+            });
+        },
+        function(trade, callback) {
+            // update status
+            var newStatus = param.status;
+            TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
+                callback(err, trade);
+            });
+        },
+        function(trade, callback) {
+            // Send notification mail
+            TradeHelper.notify(trade, function(err, info) {
+                callback(err, trade);
+            });
+        }],
+        function(error, trade) {
+            ResponseHelper.response(res, error, {
+                'trade' : trade
+            });
+        });
+    }
+};
