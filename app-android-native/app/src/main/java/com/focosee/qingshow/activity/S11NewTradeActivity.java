@@ -136,7 +136,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             this.order = order;
             priceTV.setText(StringUtil.FormatPrice(String.valueOf(order.price * order.quantity)));
         } else {
-            submit.setBackgroundColor(R.color.hint_text_color);
+            submit.setBackgroundColor(getResources().getColor(R.color.hint_text_color));
             submit.setClickable(false);
             priceTV.setText("商品暂无");
         }
@@ -153,7 +153,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         receiver = receiptFragment.getReceiver();
 
         Map<String, String> params = new HashMap<String, String>();
-        if (!TextUtils.isEmpty(receiver.uuid)) params.put("uuid", receiver.uuid);
         if (!TextUtils.isEmpty(receiver.name)) params.put("name", receiver.name);
         if (!TextUtils.isEmpty(receiver.phone)) params.put("phone", receiver.phone);
         if (!TextUtils.isEmpty(receiver.province)) params.put("province", receiver.province);
