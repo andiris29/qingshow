@@ -155,14 +155,6 @@
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
     </LinearLayout>
-    <com.focosee.qingshow.widget.CityPicker
-        android:id="@+id/U11_citypicker"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:background="@drawable/item_shadow"
-        android:gravity="center" >
-    </com.focosee.qingshow.widget.CityPicker>
     </LinearLayout>
 
 </LinearLayout>

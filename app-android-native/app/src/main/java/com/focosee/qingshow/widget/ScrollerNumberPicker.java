@@ -168,10 +168,10 @@ public class ScrollerNumberPicker extends View {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		controlWidth = getWidth();
+		controlWidth = MeasureSpec.getSize(widthMeasureSpec);
 		if (controlWidth != 0) {
-			setMeasuredDimension(getWidth(), itemNumber * unitHeight);
-			controlWidth = getWidth();
+			setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), itemNumber * unitHeight);
+			controlWidth = MeasureSpec.getSize(widthMeasureSpec);
 		}
 
 	}
@@ -650,6 +650,7 @@ public class ScrollerNumberPicker extends View {
 				textPaint.setColor(normalColor);
 				textPaint.setTextSize(normalFont);
 			}
+
 
 			// 返回包围整个字符串的最小的一个Rect区域
 			textPaint.getTextBounds(itemText, 0, itemText.length(), textRect);

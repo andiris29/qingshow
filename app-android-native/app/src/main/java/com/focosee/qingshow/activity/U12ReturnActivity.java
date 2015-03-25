@@ -20,6 +20,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.ReturnInformationModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.FileUtil;
+import com.focosee.qingshow.widget.CityPickerFragment;
 import com.focosee.qingshow.widget.DatePickerFragment;
 import com.focosee.qingshow.widget.DialogCityPicker;
 import com.google.gson.Gson;
@@ -61,6 +62,13 @@ public class U12ReturnActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_return);
+
+        findViewById(R.id.return_back_image_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         trade = (MongoTrade) getIntent().getSerializableExtra(TRADE_ENTITY);
 

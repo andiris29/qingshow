@@ -122,10 +122,17 @@ public class CityPicker extends LinearLayout {
 		}
 	}
 
-	@Override
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		LayoutInflater.from(getContext()).inflate(R.layout.city_picker, this);
+        System.out.println("cityPickerWidth:" + getWidth()+",,,," + getMeasuredWidth());
+
 		citycodeUtil = CitycodeUtil.getSingleton();
 		// 获取控件引用
 		provincePicker = (ScrollerNumberPicker) findViewById(R.id.province);
@@ -145,11 +152,9 @@ public class CityPicker extends LinearLayout {
 			@Override
 			public void endSelect(int id, String text) {
 				// TODO Auto-generated method stub
-				System.out.println("id-->" + id + "text----->" + text);
 				if (text.equals("") || text == null)
 					return;
 				if (tempProvinceIndex != id) {
-					System.out.println("endselect");
 					String selectDay = cityPicker.getSelectedText();
 					if (selectDay == null || selectDay.equals(""))
 						return;
