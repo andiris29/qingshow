@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.focosee.qingshow.bean.AlipayCallbackEntity;
+import com.focosee.qingshow.bean.ResponseJsonEntity;
 import com.focosee.qingshow.bean.WeChatNotifyPostData;
 import com.wxap.util.XMLUtil;
 
@@ -52,11 +54,12 @@ public class SampleRest {
         logger.info(myProperties.get("weixin.app_id"));
         logger.info(request.getRemoteAddr());
         logger.info(response.getCharacterEncoding());
+        
         return new ResponseEntity<>(returnMap, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String postData(@RequestParam(value="name", defaultValue="World") String name, 
+    public Object postData(@RequestParam(value="name", defaultValue="World") String name, 
             @RequestBody String xmlData, HttpServletRequest request, HttpServletResponse response) {
         logger.info(name);
         Map m = request.getParameterMap();
@@ -67,7 +70,13 @@ public class SampleRest {
             logger.info("Request[" + k + "]=" + v);
         }
         logger.info(xmlData);
-        return "ok";
+        RestTemplate restClient = new RestTemplate();
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("id", "admin");
+//        map.put("password", "admin");
+        
+        ResponseJsonEntity returnJson = restClient.postForObject("http://localhost:30001/services/user/login", map, ResponseJsonEntity.class);
+        return returnJson;
     }
     
     

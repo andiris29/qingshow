@@ -2,17 +2,17 @@ package com.focosee.qingshow.bean;
 
 public class Metadata {
     private int error;
-    private String message;
+    private Object devInfo;
     public int getError() {
         return error;
     }
     public void setError(int error) {
         this.error = error;
     }
-    public String getMessage() {
-        return message;
+    public Object getDevInfo() {
+        return devInfo;
     }
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessage(Object message) {
+        this.devInfo = message;
     }
 }

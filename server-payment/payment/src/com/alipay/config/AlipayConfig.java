@@ -25,13 +25,12 @@ public class AlipayConfig {
 	
 	//↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	// 合作身份者ID，以2088开头由16位纯数字组成的字符串
-	public static String partner = "";
+	public static String partner = "2088301244798510";
 	// 商户的私钥
-	public static String private_key = "";
-	
+	public static String private_key = "MIICXAIBAAKBgQDB/r4VcnLMRYodfK0vh8i37fL+VggeLnAhn7vxEvR1vOwxnaNXwjMJYk9abLe3YUPyeBTC07IXMlrjFakw367vNqj+E6vJUA1y4np6VQLbcl7wejyH4aOEe4ytrOabCVC2XsZ+BPfQoH6KtVWDghVN+18D4fD7FWYLYhCmgkNVrQIDAQABAoGAATdyw7mrBKLvAc5VW7XzSUwBuRybAm1yIJPa3uEqjU55ALqnWpaKMWXfb4a9BDZk8bFVF/+x3zlenov1Oqw8cZrOy2lNt30mBZ49rGZXHF5UDKndxIhyYQFX+h4/8+2VqFM0acjK5gjU6on9kEiBz5gONnXdU7mtO3gUUmrs7PUCQQDpmXUiPU82fRn4F71S66JsyREbVGjl3nPJQukZ+UJJWUHvLjnK0YSmNRr1692QVw6cLRzO3UzB8B41Zc7YKd/PAkEA1JkNjbFA4S/ymdqNqVMzJHf61FxZZlXpoNva2yLNg85m0YxwUqOaAStOyy7th8vjRSedhxAy/sbPFSDg2ng1wwJACs+QTTJbLSFjB0lJ+MFw9enkQciJRkIiR6kyEoKnn69izsfr4sgJhIumoMT2rwxoX6/yylwRhlQvgbcheH2PnwJBAKET4dAEh+rWgFKP5Btx/WLZQQPbgKTn3R7S1UyJXvtJzF9ir8v9Rvcxz/5kbPYhxe2kqVcnL+wXx9jzU0pUIC8CQDGei23BahmXvkNPF07JwGIoikoNZyUQZyd/NKpPiwMJTnyYrjp/rZEkwEUz5z3yJGLsuauqInWZDxyx32BUpUM=";	
 	// 支付宝的公钥，无需修改该值
 	public static String ali_public_key  = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
-
+	                                        
 	//↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 	
 
