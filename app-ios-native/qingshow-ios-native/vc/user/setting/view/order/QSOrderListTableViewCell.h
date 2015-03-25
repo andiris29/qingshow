@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {
 
 @interface QSOrderListTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel* orderIdLabel;
+//@property (weak, nonatomic) IBOutlet UILabel* orderIdLabel;
 @property (weak, nonatomic) IBOutlet UILabel* stateLabel;
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView* itemImgView;

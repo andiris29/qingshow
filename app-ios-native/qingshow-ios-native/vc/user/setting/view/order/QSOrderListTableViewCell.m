@@ -51,7 +51,7 @@
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
     
-    self.orderIdLabel.text = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+//    self.orderIdLabel.text = [QSCommonUtil getIdOrEmptyStr:tradeDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
