@@ -218,6 +218,10 @@
 }
 
 - (IBAction)submitButtonPressed:(id)sender {
+    if (![self checkFullInfo]) {
+        [self showErrorHudWithText:@"请填写完整信息"];
+        return;
+    }
     if ([self checkNewReceiver]) {
         [SHARE_NW_ENGINE saveReceiver:nil name:self.receiverInfoNameCell.textField.text phone:self.receiverInfoPhoneCell.textField.text province:self.receiverInfoLocationCell.label.text address:self.receiverInfoDetailLocationCell.textField.text isDefault:YES onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata) {
             [self submitOrderWithReceiver:uuid];
@@ -237,6 +241,11 @@
             ![[QSReceiverUtil getPhone:self.selectedReceiver] isEqualToString:self.receiverInfoPhoneCell.textField.text] ||
             ![[QSReceiverUtil getProvince:self.selectedReceiver] isEqualToString:self.receiverInfoLocationCell.label.text]||
             ![[QSReceiverUtil getAddress:self.selectedReceiver] isEqualToString:self.receiverInfoDetailLocationCell.textField.text];
+}
+- (BOOL)checkFullInfo
+{
+#warning TODO 检查input是否完整
+    return YES;
 }
 
 
