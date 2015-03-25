@@ -15,6 +15,9 @@
 + (NSString*)getPhone:(NSDictionary*)dict;
 + (NSString*)getProvince:(NSDictionary*)dict;
 + (NSString*)getAddress:(NSDictionary*)dict;
-+ (NSString*)getDefault:(NSDictionary*)dict;
++ (BOOL)getIsDefault:(NSDictionary*)dict;
++ (void)setReceiver:(NSDictionary*)receiver isDefault:(BOOL)isDefault;
++ (NSDictionary*)getDefaultReceiver:(NSArray*)receivers;
++ (void)setDefaultReceiver:(NSDictionary*)receiver ofReceivers:(NSArray*)receiverList;
 
 @end

@@ -218,6 +218,30 @@
 }
 
 - (IBAction)submitButtonPressed:(id)sender {
+    if ([self checkNewReceiver]) {
+        [SHARE_NW_ENGINE saveReceiver:nil name:self.receiverInfoNameCell.textField.text phone:self.receiverInfoPhoneCell.textField.text province:self.receiverInfoLocationCell.label.text address:self.receiverInfoDetailLocationCell.textField.text isDefault:YES onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata) {
+            [self submitOrderWithReceiver:uuid];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    } else {
+        [self submitOrderWithReceiver:[QSReceiverUtil getUuid:self.selectedReceiver]];
+    }
+}
+- (BOOL)checkNewReceiver
+{
+    if (!self.selectedReceiver) {
+        return YES;
+    }
+    return ![[QSReceiverUtil getName:self.selectedReceiver] isEqualToString:self.receiverInfoNameCell.textField.text] ||
+            ![[QSReceiverUtil getPhone:self.selectedReceiver] isEqualToString:self.receiverInfoPhoneCell.textField.text] ||
+            ![[QSReceiverUtil getProvince:self.selectedReceiver] isEqualToString:self.receiverInfoLocationCell.label.text]||
+            ![[QSReceiverUtil getAddress:self.selectedReceiver] isEqualToString:self.receiverInfoDetailLocationCell.textField.text];
+}
+
+
+- (void)submitOrderWithReceiver:(NSString*)uuid
+{
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
     NSString* sizeSku = [self.itemInfoSizeCell getInputData];
     NSString* colorSku = [self.itemInfoColorCell getInputData];
@@ -234,7 +258,7 @@
                                    price:price.doubleValue
                                     item:self.itemDict
                                      sku:sku
-                            receiverUuid:[QSReceiverUtil getUuid:self.selectedReceiver]
+                            receiverUuid:uuid
                                onSucceed:^
      {
          [self showTextHud:@"success"];

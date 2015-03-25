@@ -13,6 +13,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
+#import "QSReceiverUtil.h"
 
 
 @interface QSU10ReceiverListViewController ()
@@ -37,6 +38,7 @@
 - (void)updateLocationList
 {
     self.receiverArray = [QSPeopleUtil getReceiverList:[QSUserManager shareUserManager].userInfo];
+    self.selectedRecevier = [QSReceiverUtil getDefaultReceiver:self.receiverArray];
 }
 
 #pragma mark - Life Cycle
@@ -96,6 +98,12 @@
     NSDictionary* receiver = [self receiverDictForIndexPath:indexPath];
     self.selectedRecevier = receiver;
     [self.tableView reloadData];
+    [SHARE_NW_ENGINE setDefaultReceiver:self.selectedRecevier onSuccess:^{
+        [QSReceiverUtil setDefaultReceiver:receiver ofReceivers:self.receiverArray];
+    } onError:^(NSError *error) {
+        
+    }];
+    
     if ([self.delegate respondsToSelector:@selector(receiverListVc:didSelectReceiver:)]) {
         [self.delegate receiverListVc:self didSelectReceiver:receiver];
     }

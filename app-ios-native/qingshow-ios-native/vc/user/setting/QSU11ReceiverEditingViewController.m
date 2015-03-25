@@ -157,8 +157,10 @@
     
     [self hideKeyboard];
     NSString* uuid = nil;
+    BOOL isDefault = YES;
     if (self.locationDict) {
         uuid = [QSReceiverUtil getUuid:self.locationDict];
+        isDefault = NO;
     }
     
     [SHARE_NW_ENGINE saveReceiver:uuid
@@ -166,7 +168,7 @@
                             phone:self.phoneTextField.text
                          province:self.selectionLocation
                           address:self.detailLocationTextField.text
-                        isDefault:NO
+                        isDefault:isDefault
                         onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata)
     {
         [self showTextHud:@"保存成功"];

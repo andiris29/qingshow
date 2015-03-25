@@ -10,6 +10,7 @@
 #import "QSUserManager.h"
 #import "QSNetworkEngine+Protect.h"
 #import "NSDictionary+QSExtension.h"
+#import "QSReceiverUtil.h"
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
@@ -207,6 +208,28 @@
             ];
 }
 
+- (MKNetworkOperation*)setDefaultReceiver:(NSDictionary*)receiverDict
+                                onSuccess:(VoidBlock)successBlock
+                                  onError:(ErrorBlock)errorBlock
+{
+    NSMutableDictionary* paramDict = [receiverDict mutableCopy];
+    [QSReceiverUtil setReceiver:paramDict isDefault:YES];
+    return [self startOperationWithPath:PATH_USER_SAVE_RECEIVER
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (successBlock) {
+                    successBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
 
 - (MKNetworkOperation *)saveReceiver:(NSString*)uuid
                                 name:(NSString*)name
