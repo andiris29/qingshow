@@ -17,14 +17,14 @@
 @protocol QSOrderListTableViewCellDelegate <NSObject>
 
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
-- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
-
+//- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
 @end
 
-typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {
-    QSOrderListTableViewCellTypeComplete,
-    QSOrderListTableViewCellTypeWaiting
-};
+//typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {
+//    QSOrderListTableViewCellTypeComplete,
+//    QSOrderListTableViewCellTypeWaiting
+//};
 
 @interface QSOrderListTableViewCell : UITableViewCell
 
@@ -43,12 +43,12 @@ typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {
 @property (weak, nonatomic) IBOutlet UILabel* dateEndTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* dateEndLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton* refundButton;
+//@property (weak, nonatomic) IBOutlet UIButton* refundButton;
 @property (weak, nonatomic) IBOutlet UIButton* submitButton;
 
-@property (assign, nonatomic) QSOrderListTableViewCellType type;
+//@property (assign, nonatomic) QSOrderListTableViewCellType type;
 
-- (IBAction)refundBtnPressed:(id)sender;
+//- (IBAction)refundBtnPressed:(id)sender;
 - (IBAction)submitBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;

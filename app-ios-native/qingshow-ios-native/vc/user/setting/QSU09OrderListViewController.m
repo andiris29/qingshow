@@ -77,8 +77,13 @@
     UIViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict
-{
+//- (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict
+//{
+//
+//}
 
+- (void)didClickPayBtnOfOrder:(NSDictionary *)orderDict
+{
+    NSLog(@"pay");
 }
 @end

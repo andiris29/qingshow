@@ -145,18 +145,6 @@
                         <color key="textColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WH7-gn-mfr">
-                        <rect key="frame" x="172" y="123" width="65" height="27"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <state key="normal" title="申请退货">
-                            <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="refundBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ReK-qE-6QZ"/>
-                        </connections>
-                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -168,7 +156,6 @@
                 <outlet property="itemImgView" destination="v5b-Zo-lnU" id="YEc-dC-beU"/>
                 <outlet property="priceLabel" destination="4Zo-1X-lqA" id="YRp-fr-X36"/>
                 <outlet property="quantityLabel" destination="1xK-R1-Ulq" id="70D-MN-7Xm"/>
-                <outlet property="refundButton" destination="WH7-gn-mfr" id="Idf-6A-n4A"/>
                 <outlet property="sizeLabel" destination="4ba-04-Wqp" id="dAt-xj-GZw"/>
                 <outlet property="stateLabel" destination="jzB-mS-e1C" id="FeN-eI-V8h"/>
                 <outlet property="submitButton" destination="P7z-TR-0Y4" id="zEO-oD-Pzw"/>

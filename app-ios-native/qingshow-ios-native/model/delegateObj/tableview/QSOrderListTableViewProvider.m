@@ -47,13 +47,13 @@
         [self.delegate didClickRefundBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell
+
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
 {
-    if ([self.delegate respondsToSelector:@selector(didClickSubmitBtnOfOrder:)]) {
-        [self.delegate didClickSubmitBtnOfOrder:[self orderForCell:cell]];
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
+        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
     }
 }
-
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {
