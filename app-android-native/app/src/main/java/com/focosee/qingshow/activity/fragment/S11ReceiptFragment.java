@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -15,6 +17,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U10AddressListActivity;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.widget.CityPicker;
 import com.focosee.qingshow.widget.DialogCityPicker;
 
 import de.greenrobot.event.EventBus;
@@ -97,16 +100,15 @@ public class S11ReceiptFragment extends Fragment implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.s11_receipt_province:
-                final DialogCityPicker dialogCityPicker = new DialogCityPicker(getActivity());
-                dialogCityPicker.setOnClickListener(new DialogInterface.OnClickListener() {
+                final CityPickerFragment cityPickerFragment = new CityPickerFragment();
+                cityPickerFragment.setOnSelectedListener(new CityPicker.OnSelectingListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        provinceStr = dialogCityPicker.getValue();
+                    public void selected(boolean selected) {
+                        provinceStr = cityPickerFragment.getValue();
                         provinceView.setText(provinceStr);
                     }
                 });
-                dialogCityPicker.show();
+                cityPickerFragment.show(getFragmentManager(), "S11", getActivity());
                 break;
         }
     }

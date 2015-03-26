@@ -30,7 +30,7 @@ public class U11EditAddressActivity extends BaseActivity {
             fragment.setArguments(bundle);
         }
 
-        getFragmentManager().beginTransaction().replace(R.id.address_fragment, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.address_fragment, fragment).commit();
 
     }
 

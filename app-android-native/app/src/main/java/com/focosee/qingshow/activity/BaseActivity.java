@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,10 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 import com.focosee.qingshow.util.AppUtil;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Administrator on 2015/2/5.
