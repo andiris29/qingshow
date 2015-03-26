@@ -48,6 +48,8 @@ public class RequestHandler {
 	private String notifyUrl;
 	/** 订单查询URL */
 	private String orderQueryUrl;
+	/** 发货通知网关URL */
+	private String deliverNotifyUrl;
 	/** 商户参数 */
 	private String appid;
 	private String appkey;
@@ -306,6 +308,23 @@ public class RequestHandler {
 		}
 		return prepayid;
 	}
+	
+	public Map<String, String> sendDeliverNotify(SortedMap<String, String> params) {
+	    Gson gson = new Gson();
+	    String requestUrl = this.deliverNotifyUrl + "?access_token=" + this.Token;
+	    TenpayHttpClient httpClient = new TenpayHttpClient();
+	    httpClient.setReqContent(requestUrl);
+	    String resContent = "";
+	    String postJson = gson.toJson(params, new TypeToken<SortedMap<String, String>>(){}.getType());
+	    Map<String, String> queryResult = null;
+	    if (httpClient.callHttpPost(requestUrl, postJson)) {
+	        resContent = httpClient.getResContent();
+	        log.debug("/delivernotify[response json]=" + resContent);
+	        queryResult = gson.fromJson(resContent, new TypeToken<Map<String, String>>() {}.getType());
+	    }
+	    return queryResult;
+	}
+	
 	
 	public Map<String, Object> sendOrderQuery(SortedMap packageParams) {
 	 // 转换成json

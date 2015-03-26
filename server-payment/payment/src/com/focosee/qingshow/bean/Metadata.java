@@ -12,7 +12,7 @@ public class Metadata {
     public Object getDevInfo() {
         return devInfo;
     }
-    public void setMessage(Object message) {
+    public void setDevInfo(Object message) {
         this.devInfo = message;
     }
 }

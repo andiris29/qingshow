@@ -73,18 +73,12 @@ trade.create = {
                 if (orderName.length > 0) {
                     orderName = orderName.substring(0, orderName.length - 1);
                 }
-                var options = {
-                  host: 'localhost',
-                  port: '80',
-                  path: '/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + orderName,
-                  method: 'GET'
-                };
 
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + orderName;
                 http.get(url, function(response) {
                     response.setEncoding('utf8');
                     response.on('data', function (chunk) {
-                        var jsonObject = JSON.parse(data);
+                        var jsonObject = JSON.parse(chunk);
                         if (!jsonObject.metadata) {
                             callback(jsonObject.metadata, trade, relationship);
                         } else {
@@ -173,6 +167,29 @@ trade.statusTo = {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.company = param['logistic']['company'];
                 trade.logistic.trackingId = param['logistic']['trackingId'];
+                // when use wechat pay, send deliver notify to wechat pay server
+                if (trade.pay.weixin.prepayid  != null) {
+                    var payInfo = trade.pay.weixin;
+                    var url = 'http://localhost:8080/payment/wechat/deliverNotify?openid=' + payInfo.OpenId + '&transid=' + payInfo.transaction_id + '&out_trade_no=' + trade._id + '&deliver_status=1&deliver_msg=OK';
+                    http.get(url, function(response) {
+                        response.setEncoding('utf8');
+                        response.on('data', function(chunk) {
+                            var jsonObject = JSON.parse(chunk);
+                            if (!jsonObject.metadata) {
+                                callback(jsonObject.metadata, trade);
+                                return;
+                            } else {
+                                if (jsonObject.data.errcode != '0') {
+                                    callback(jsonObject.data.errmsg, trade);
+                                    return;
+                                } 
+                            }
+                        });
+                    }).on('error', function(error) {
+                        callback(error, trade);
+                        return;
+                    })；
+                }
             } else if (newStatus == 4) {
                 trade.logistic = trade.logistic || {};
                 trade.logistic.receiptDate = param['logistic']['receiptDate'];
@@ -216,6 +233,8 @@ trade.statusTo = {
             TradeHelper.notify(trade, function(err, info) {
                 callback(err, trade);
             });
+        },
+        function(trade, callback) {
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
