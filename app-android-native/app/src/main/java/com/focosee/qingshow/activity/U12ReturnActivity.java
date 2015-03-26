@@ -1,9 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,9 +18,6 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.ReturnInformationModel;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.FileUtil;
-import com.focosee.qingshow.widget.CityPickerFragment;
-import com.focosee.qingshow.widget.DatePickerFragment;
-import com.focosee.qingshow.widget.DialogCityPicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.timessquare.CalendarPickerView;
@@ -34,8 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.SimpleTimeZone;
-import java.util.logging.SimpleFormatter;
 
 import de.greenrobot.event.EventBus;
 

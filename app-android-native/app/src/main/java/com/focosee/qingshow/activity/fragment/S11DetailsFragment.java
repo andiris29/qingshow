@@ -262,7 +262,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         final ArrayList<Prop> colorList = new ArrayList<Prop>();
 
         for (SkuColor color : colors) {
-            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(130, 130);
+            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(100, 100);
             itemParams.setMargins(10, 10, 10, 10);
             final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
 
