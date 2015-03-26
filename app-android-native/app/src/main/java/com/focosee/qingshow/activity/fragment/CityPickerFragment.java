@@ -20,7 +20,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.widget.CityPicker;
 
@@ -30,10 +29,7 @@ import com.focosee.qingshow.widget.CityPicker;
 public class CityPickerFragment extends Fragment implements View.OnClickListener {
 
     private static final String ARG_CANCEL_BUTTON_TITLE = "cancel_button_title";
-    private static final String ARG_OTHER_BUTTON_TITLES = "other_button_titles";
     private static final String ARG_CANCELABLE_ONTOUCHOUTSIDE = "cancelable_ontouchoutside";
-    private static final int CANCEL_BUTTON_ID = 100;
-    private static final int BG_VIEW_ID = 10;
     private static final int TRANSLATE_DURATION = 200;
     private static final int ALPHA_DURATION = 300;
 
@@ -43,8 +39,6 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
     private View mBg;
     private boolean mDismissed = true;
     private CityPicker cityPicker;
-    private Button confirm;
-    private Button cancel;
     private String confirmButtonTitle = "确定";
     private CityPicker.OnSelectingListener onSelectingListener;
 
@@ -53,8 +47,7 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
             return null;
         }
         CityPickerFragment cityPickerFragment = (CityPickerFragment) Fragment.instantiate(
-                context, CityPickerFragment.class.getName(), prepareArguments());
-//        actionSheet.setActionSheetListener(mListener);
+                context, CityPickerFragment.class.getName(), null);
         mDismissed = false;
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(this, tag);
@@ -97,7 +90,7 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
         mBg.startAnimation(createAlphaInAnimation());
         mPanel.startAnimation(createTranslationInAnimation());
 
-        return view;
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     public String getValue(){
@@ -108,20 +101,6 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
         return cityPicker;
     }
 
-    public void setConfirmOnClickListener(View.OnClickListener onClickListener){
-        confirm.setOnClickListener(onClickListener);
-    }
-
-    public void setCancelOnClickListener(View.OnClickListener onClickListener){
-        cancel.setOnClickListener(onClickListener);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//        cityPicker.setVisibility(View.VISIBLE);
-    }
-
     private View createView() {
         FrameLayout parent = new FrameLayout(getActivity());
         parent.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -130,7 +109,6 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
         mBg.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         mBg.setBackgroundColor(Color.argb(136, 0, 0, 0));
-        mBg.setId(BG_VIEW_ID);
         mBg.setOnClickListener(this);
 
         mPanel = new LinearLayout(getActivity());
@@ -155,9 +133,6 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
                 mGroup.removeView(mView);
             }
         }, ALPHA_DURATION);
-//        if (mListener != null) {
-//            mListener.onDismiss(this, isCancel);
-//        }
         super.onDestroyView();
     }
 
@@ -166,19 +141,6 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
         if(null != cityPicker) {
             cityPicker.setOnSelectingListener(this.onSelectingListener);
         }
-    }
-
-    public void setConfirmButtonTitle(String confirmButtonTitle){
-        this.confirmButtonTitle = confirmButtonTitle;
-    }
-//
-    public Bundle prepareArguments() {
-        Bundle bundle = new Bundle();
-        bundle.putString(ARG_CANCEL_BUTTON_TITLE, confirmButtonTitle);
-//        bundle.putStringArray(ARG_OTHER_BUTTON_TITLES, mOtherButtonTitles);
-//        bundle.putBoolean(ARG_CANCELABLE_ONTOUCHOUTSIDE,
-//                mCancelableOnTouchOutside);
-        return bundle;
     }
 
     private Animation createTranslationInAnimation() {
@@ -211,10 +173,6 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
         return an;
     }
 
-    private boolean getCancelableOnTouchOutside() {
-        return getArguments().getBoolean(ARG_CANCELABLE_ONTOUCHOUTSIDE);
-    }
-
     public void dismiss() {
         if (mDismissed) {
             return;
@@ -228,19 +186,7 @@ public class CityPickerFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-//        if (v.getId() == BG_VIEW_ID && !getCancelableOnTouchOutside()) {
-//            return;
-//        }
         dismiss();
-//        if (v.getId() != CANCEL_BUTTON_ID && v.getId() != BG_VIEW_ID) {
-////            if (mListener != null) {
-////                mListener.onOtherButtonClick(this, v.getId() - CANCEL_BUTTON_ID
-////                        - 1);
-////            }
-////            isCancel = false;
-//        }
     }
-
-
 
 }
