@@ -30,6 +30,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
+import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -99,15 +100,26 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             for (Prop prop : props) {
                 if(SkuUtil.KEY.COLOR.id.equals(prop.getPropId())){
                     color = prop.getName();
+                    continue;
                 }
                 if(SkuUtil.KEY.SIZE_1.id.equals(prop.getPropId()) || SkuUtil.KEY.SIZE_2.id.equals(prop.getPropId()) || SkuUtil.KEY.SIZE_3.id.equals(prop.getPropId())){
                     measurement = prop.getName();
+                    continue;
                 }
+
+            }
+            {
+//                TextView label = new TextView(context);
+//                viewHolder.skuLayout.addView(label);
+//                TextView value = new TextView(context);
+//                value.setText(prop.getName());
+//                viewHolder.skuLayout.addView(value);
             }
             viewHolder.color.setText(color);
             viewHolder.measurement.setText(measurement);
             viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
-            viewHolder.price.setText(String.valueOf(trade.orders.get(0).price));
+            viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
+            viewHolder.image.setOriginWidth(trade.orders.get(0).itemSnapshot.imageMetadata.width);
             ImageLoader.getInstance().displayImage(trade.orders.get(0).itemSnapshot.imageMetadata.url, viewHolder.image, AppUtil.getPortraitDisplayOptions());
             viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){
@@ -165,8 +177,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             });
         }
 
-        //买家已签收
-        if(trade.status == 4){
+        //显示申请退货
+        if(trade .status == 1 || trade .status == 2 || trade .status == 3 || trade.status == 4){
             viewHolder.tradingLayout.setVisibility(View.VISIBLE);
             viewHolder.applyReturn.setVisibility(View.VISIBLE);
             viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
@@ -191,17 +203,17 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         }
 
         //test
-        viewHolder.applyReturn.setVisibility(View.VISIBLE);
-        viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, U12ReturnActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            }
-        });
+//        viewHolder.applyReturn.setVisibility(View.VISIBLE);
+//        viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, U12ReturnActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
+//                intent.putExtras(bundle);
+//                context.startActivity(intent);
+//            }
+//        });
 
     }
     //获取数据的数量
@@ -273,7 +285,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tradeNo;
         public TextView tradeStatus;
-        public ImageView image;
+        public MImageView_OriginSize image;
         public TextView description;
         public TextView measurement;
         public TextView quantity;
@@ -281,6 +293,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         public TextView price;
         public TextView creatTime;
         public TextView finishTime;
+        public LinearLayout skuLayout;
         public LinearLayout finishLayout;
         public RelativeLayout tradingLayout;
         public Button applyReturn;
@@ -296,7 +309,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         public void getItemViewHolder(View view){
             tradeNo = (TextView) view.findViewById(R.id.item_tradelist_num);
             tradeStatus = (TextView) view.findViewById(R.id.item_tradelist_status);
-            image = (ImageView) view.findViewById(R.id.item_tradelist_image);
+            image = (MImageView_OriginSize) view.findViewById(R.id.item_tradelist_image);
             description = (TextView) view.findViewById(R.id.item_tradelist_description);
             measurement = (TextView) view.findViewById(R.id.item_tradelist_measurement);
             quantity = (TextView) view.findViewById(R.id.item_tradelist_quantity);
@@ -304,6 +317,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             price = (TextView) view.findViewById(R.id.item_tradelist_price);
             creatTime = (TextView) view.findViewById(R.id.item_tradelist_createTime);
             finishTime = (TextView) view.findViewById(R.id.item_tradelist_finishTime);
+            skuLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_sku);
             finishLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_finish);
             tradingLayout = (RelativeLayout) view.findViewById(R.id.item_tradelist_trading);
             applyReturn = (Button) view.findViewById(R.id.item_tradelist_applyreturn);
