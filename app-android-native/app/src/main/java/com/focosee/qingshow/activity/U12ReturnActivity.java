@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -21,15 +20,12 @@ import com.focosee.qingshow.util.FileUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.timessquare.CalendarPickerView;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import de.greenrobot.event.EventBus;
 
 /**

@@ -141,7 +141,6 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
             }
         });
 
-
         area_layout.setTag(ViewName.AREA);
 
         setData();
@@ -162,9 +161,10 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
 
     private void commitForm(){
 
-        final Map<String, String> params = new HashMap<String, String>();
+        final Map params = new HashMap();
         if(null != receiver){//编辑页面
             params.put("uuid", receiver.uuid);
+            params.put("isDefault", receiver.isDefault);
         }
         if(null != consigeeNameET.getText() && !"".equals(consigeeNameET.getText().toString()))
             params.put(NAME_STR, consigeeNameET.getText().toString());
@@ -212,18 +212,14 @@ public class U11AddressEditFragment extends Fragment implements View.OnFocusChan
                 receiver = gson.fromJson(gson.toJson(params), new TypeToken<MongoPeople.Receiver>(){}.getType());
                 EventBus.getDefault().post(receiver);
                 Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
         });
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-//        commitForm();
-
         if(!(ViewName.AREA == v.getTag() && hasFocus)){
-//            cityPicker.setVisibility(View.INVISIBLE);
-
-//            consigeeAreaTV.setTextColor(getResources().getColor(R.color.p01_text_color_model_height));
         }
     }
 }

@@ -17,6 +17,8 @@ import com.focosee.qingshow.adapter.U10AddressListAdapter;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Administrator on 2015/3/16.
  */

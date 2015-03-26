@@ -73,6 +73,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/item_addresslist_content"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
@@ -123,12 +124,23 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/address_activity_addresslist"
+                android:textSize="@dimen/text_size" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/item_addresslist_province"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="上海市普陀区"
                 android:textSize="@dimen/text_size" />
 
             <TextView
@@ -136,8 +148,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="上海市普陀区中山北路2438号13楼B座"
+                android:text="中山北路2438号13楼B座"
                 android:textSize="@dimen/text_size" />
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -68,7 +68,7 @@
             android:hint="@string/consignee_name"
             android:layout_marginLeft="10dp"
             android:textColor="@color/p01_text_color_model_height"
-            android:textColorHint="@color/gray_background"
+            android:textColorHint="@color/hint_text_color"
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
         </LinearLayout>
@@ -95,7 +95,7 @@
             android:hint="@string/consignee_phone_num"
             android:inputType="phone"
             android:textColor="@color/p01_text_color_model_height"
-            android:textColorHint="@color/gray_background"
+            android:textColorHint="@color/hint_text_color"
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
     </LinearLayout>
@@ -151,7 +151,7 @@
             android:layout_marginLeft="10dp"
             android:hint="@string/consignee_detail_address"
             android:textColor="@color/p01_text_color_model_height"
-            android:textColorHint="@color/gray_background"
+            android:textColorHint="@color/hint_text_color"
             android:layout_marginRight="@dimen/margin_right_activity_settings" />
 
     </LinearLayout>

@@ -84,6 +84,7 @@
             android:name="com.focosee.qingshow.activity.U12ReturnActivity"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
         <activity

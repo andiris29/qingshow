@@ -27,6 +27,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.google.gson.Gson;
+import com.orhanobut.dialogplus.DialogPlus;
 
 import org.json.JSONObject;
 
@@ -71,14 +72,27 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
 
         viewHolder.nameTV.setText(null == datas.get(position).name ? "" : datas.get(position).name);
         viewHolder.phoneTV.setText(null == datas.get(position).phone ? "" : datas.get(position).phone);
-        viewHolder.addressTV.setText((null == datas.get(position).province ? "" : datas.get(position).province)
-                + (null == datas.get(position).address ? "" : datas.get(position).address));
+        viewHolder.provinceTV.setText(null == datas.get(position).province ? "" : datas.get(position).province);
+        viewHolder.addressTV.setText(null == datas.get(position).address ? "" : datas.get(position).address);
         if (datas.get(position).isDefault) {
             viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment_hover);
             default_posion = position;
         } else {
             viewHolder.chooseBtn.setImageResource(R.drawable.s11_payment);
         }
+        if (context instanceof U10AddressListActivity) {
+            if (S11ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
+                viewHolder.contentLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EventBus.getDefault().post(datas.get(position));
+                        ((U10AddressListActivity) context).finish();
+                    }
+                });
+
+            }
+        }
+
 
         viewHolder.editLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +106,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog dialog = new MaterialDialog(context);
+                final DialogPlus.Builder builder = new DialogPlus.Builder(context);
                 View view = LayoutInflater.from(context).inflate(R.layout.dialog_trade_success, null);
                 ((TextView) view.findViewById(R.id.dialog_title)).setText("确定删除？");
                 view.findViewById(R.id.s11_dialog_msg).setVisibility(View.GONE);
@@ -101,7 +115,7 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        dialog.dismiss();
+//                        dialog.dismiss();
                     }
                 });
                 TextView confirm = (TextView) view.findViewById(R.id.s11_dialog_list);
@@ -110,24 +124,18 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                     @Override
                     public void onClick(View v) {
                         delReceiver(datas.get(position).uuid);
-                        dialog.dismiss();
+//                        dialog.dismiss();
                     }
                 });
-                dialog.setView(view);
-                dialog.show();
+//                dialog.setView(view);
+//                dialog.show();
+//                dialog.create();
             }
         });
 
         viewHolder.chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (context instanceof U10AddressListActivity) {
-                    if (S11ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
-                        EventBus.getDefault().post(datas.get(position));
-                        ((U10AddressListActivity) context).finish();
-                        return;
-                    }
-                }
 
                 if (position == default_posion) return;
 
@@ -191,13 +199,6 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
                 RequestQueueManager.INSTANCE.getQueue().add(jor1);
 
                 RequestQueueManager.INSTANCE.getQueue().add(jor2);
-
-                if (context instanceof U10AddressListActivity) {
-                    if (S11ReceiptFragment.TO_U10.equals(((U10AddressListActivity) context).fromWhere)) {
-                        EventBus.getDefault().post(datas.get(default_posion));
-                        ((U10AddressListActivity) context).finish();
-                    }
-                }
             }
         });
     }
@@ -271,19 +272,23 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
     //自定义的ViewHolder，持有每个Item的的所有界面元素
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView chooseBtn;
+        public LinearLayout contentLayout;
         public LinearLayout delLayout;
         public LinearLayout editLayout;
         public TextView nameTV;
         public TextView phoneTV;
+        public TextView provinceTV;
         public TextView addressTV;
 
         public ViewHolder(View view) {
             super(view);
             chooseBtn = (ImageView) view.findViewById(R.id.item_addresslist_choose_btn);
+            contentLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_content);
             delLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_del_layout);
             editLayout = (LinearLayout) view.findViewById(R.id.item_addresslist_edit_layout);
             nameTV = (TextView) view.findViewById(R.id.item_addresslist_name);
             phoneTV = (TextView) view.findViewById(R.id.item_addresslist_phone);
+            provinceTV = (TextView) view.findViewById(R.id.item_addresslist_province);
             addressTV = (TextView) view.findViewById(R.id.item_addresslist_address);
         }
     }
