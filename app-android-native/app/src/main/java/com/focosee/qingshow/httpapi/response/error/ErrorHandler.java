@@ -38,7 +38,7 @@ public class ErrorHandler {
                 Toast.makeText(context, "出错了，请重试", Toast.LENGTH_SHORT).show();
                 break;
             case ErrorCode.PagingNotExist:
-                Toast.makeText(context, "页面不存在", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "没有更多数据了", Toast.LENGTH_SHORT).show();
                 break;
             case ErrorCode.EmailAlreadyExist:
                 Toast.makeText(context, "账号已存在", Toast.LENGTH_SHORT).show();
