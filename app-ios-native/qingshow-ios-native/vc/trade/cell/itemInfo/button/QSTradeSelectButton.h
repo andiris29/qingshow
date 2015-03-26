@@ -23,5 +23,5 @@ typedef NS_ENUM(NSInteger, QSTradeSelectButtonType) {
 
 
 + (CGFloat)getWidthWithText:(NSString*)text;
-
++ (CGSize)getSizeOfImgBtn;
 @end

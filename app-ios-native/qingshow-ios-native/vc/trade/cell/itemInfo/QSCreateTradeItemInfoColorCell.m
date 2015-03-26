@@ -50,12 +50,18 @@
     __block float currentOriginY = BASE_Y;
     
     [self.skusArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString* sizeProp = (NSString*)obj;
-        NSString* sizeName = [QSTaobaoInfoUtil getNameOfProperty:sizeProp taobaoInfo:taobaoInfo];
+        NSString* colorProp = (NSString*)obj;
+        NSString* colorName = [QSTaobaoInfoUtil getNameOfProperty:colorProp taobaoInfo:taobaoInfo];
+        NSURL* imgUrl = [QSTaobaoInfoUtil getThumbnailUrlOfProperty:colorProp taobaoInfo:taobaoInfo];
         
         QSTradeSelectButton* btn = [[QSTradeSelectButton alloc] init];
         [self.btnArray addObject:btn];
-        btn.text = sizeName;
+        if (imgUrl) {
+            btn.imageUrl = imgUrl;
+        } else {
+            btn.text = colorName;
+        }
+
         [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
         
         if (currentOriginX + btn.frame.size.width + MARGIN_X > screenWidth) {
@@ -79,15 +85,21 @@
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:dict];
     NSArray* colorArray = [QSTaobaoInfoUtil getColorSkus:taobaoInfo];
     float screenWidth = [UIScreen mainScreen].bounds.size.width;
-    
+
     __block float currentOriginX = BASE_X;
     __block float currentOriginY = BASE_Y;
     
     [colorArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString* colorProp = (NSString*)obj;
         NSString* colorName = [QSTaobaoInfoUtil getNameOfProperty:colorProp taobaoInfo:taobaoInfo];
-        
-        float btnWidth = [QSTradeSelectButton getWidthWithText:colorName];
+        NSURL* imgUrl = [QSTaobaoInfoUtil getThumbnailUrlOfProperty:colorProp taobaoInfo:taobaoInfo];
+        float btnWidth = 0.f;
+        if (imgUrl) {
+            btnWidth = [QSTradeSelectButton getSizeOfImgBtn].width;
+        } else {
+            btnWidth = [QSTradeSelectButton getWidthWithText:colorName];
+        }
+
         
         if (currentOriginX + btnWidth + MARGIN_X > screenWidth) {
             currentOriginX = BASE_X;
