@@ -19,7 +19,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
-import com.focosee.qingshow.widget.PageIndicator;
+import com.focosee.qingshow.widget.indicator.PageIndicator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.LinkedList;

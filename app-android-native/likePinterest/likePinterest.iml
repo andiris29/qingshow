@@ -82,7 +82,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 8 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 8 Platform (3)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="com.lurencun.common-v1.5.6-with-src" level="project" />
   </component>
