@@ -104,9 +104,6 @@ public class PaymentRadio extends RelativeLayout {
     }
 
     public String getPaymentMode() {
-        if(paymentMode == null){
-            return "";
-        }
         return paymentMode;
     }
 }

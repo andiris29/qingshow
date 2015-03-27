@@ -47,7 +47,7 @@
                 payment:checked="@drawable/s11_payment_hover"
                 payment:info_text="操作简单易用，支持大额支付"
                 payment:logo_res="@drawable/weixin"
-                payment:mode="weixin"
+                payment:mode="@string/weixin"
                 payment:name_text="微信支付" />
 
             <View
@@ -62,7 +62,7 @@
                 payment:checked="@drawable/s11_payment_hover"
                 payment:info_text="使用支付宝账户支付"
                 payment:logo_res="@drawable/alipay"
-                payment:mode="alipay"
+                payment:mode="@string/alipay"
                 payment:name_text="支付宝" />
 
         </com.focosee.qingshow.widget.PaymentGroup>

@@ -1,24 +1,29 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.S11DetailsEvent;
 import com.focosee.qingshow.activity.fragment.S11DetailsFragment;
 import com.focosee.qingshow.activity.fragment.S11PaymentFragment;
 import com.focosee.qingshow.activity.fragment.S11ReceiptFragment;
-import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.PayCommand;
+import com.focosee.qingshow.command.TradeRefreshCommand;
 import com.focosee.qingshow.command.UserReceiverCommand;
+import com.focosee.qingshow.constants.config.PaymentConfig;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.gson.QSGsonFactory;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -41,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 
 import de.greenrobot.event.EventBus;
-import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2015/3/11.
@@ -79,6 +83,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
         init();
         initOrder();
+
     }
 
     private void init() {
@@ -177,7 +182,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void createTrade() {
-
         params = new HashMap();
         params.put("totalFee", order.price);
 
@@ -199,7 +203,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 MongoTrade trade = TradeParser.parse(response);
-                alertDialog("订单号：" + trade._id);
+                pay(trade);
                 submit.setClickable(true);
             }
         });
@@ -208,9 +212,31 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-    private void alertDialog(String msg) {
-        ((TextView)dialog.findViewById(R.id.s11_dialog_msg)).setText(msg);
-        new MaterialDialog(this).setContentView(dialog).show();
+    private void pay(final MongoTrade trade) {
+        String paymentMode = paymentFragment.getPaymentMode();
+
+        if(paymentMode.equals(getResources().getString(R.string.alipay))){
+            PayCommand.alipay(trade,S11NewTradeActivity.this,new Callback(){
+                @Override
+                public void onComplete() {
+                    TradeRefreshCommand.refresh(trade._id,new Callback(){
+                        @Override
+                        public void onComplete(int result) {
+                            Toast.makeText(getApplicationContext(),"" + result,Toast.LENGTH_LONG);
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onError() {
+                }
+            });
+        }
     }
 
 }

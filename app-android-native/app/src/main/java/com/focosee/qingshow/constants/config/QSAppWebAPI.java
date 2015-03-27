@@ -63,43 +63,50 @@ public class QSAppWebAPI {
 
     private static final String USER_UPDATEPORTRAIT = HOST_NAME + "/user/updatePortrait";
     private static final String USER_UPDATEBACKGROUND = HOST_NAME + "/user/updateBackground";
-        private static final String ITEM_RANDOM = HOST_NAME +"/itemFeeding/random";
+    private static final String ITEM_RANDOM = HOST_NAME + "/itemFeeding/random";
 
     private static final String TRADE_CREATE_API = HOST_NAME + "/trade/create";
     private static final String TRADE_QUERY_API = HOST_NAME + "/trade/queryCreatedBy";
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
+    private static final String TRADE_REFRESH = HOST_NAME + "/trade/refreshPaymentStatus";
 
-    public static String getUserRemoveReceiverApi(){
+    public static String getTradeRefreshApi() {
+        return TRADE_REFRESH;
+    }
+
+    public static String getUserRemoveReceiverApi() {
         return USER_REMOVE_RECEIVER_API;
     }
 
-    public static String getTradeCreateApi(){return TRADE_CREATE_API;}
+    public static String getTradeCreateApi() {
+        return TRADE_CREATE_API;
+    }
 
-    public static String getUserSaveReceiverApi(){
+    public static String getUserSaveReceiverApi() {
         return USER_SAVE_RECEIVER_API;
     }
 
-    public static String getTradeStatustoApi(){
+    public static String getTradeStatustoApi() {
         return TRADE_STATUSTO_API;
     }
 
-    public static String getTradeQueryApi(String _id, int pageNo, int pageSize){
+    public static String getTradeQueryApi(String _id, int pageNo, int pageSize) {
         return TRADE_QUERY_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getBrandFollowApi(){
+    public static String getBrandFollowApi() {
         return BRAND_FOLLOW_API;
     }
 
-    public static String getBrandUnfollowApi(){
+    public static String getBrandUnfollowApi() {
         return BRAND_UNFOLLOW_API;
     }
 
-    public static String getBrandFollowersApi(String _id, int pageNo){
+    public static String getBrandFollowersApi(String _id, int pageNo) {
         return BRAND_FOLLOWERS_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=10";
     }
 
-    public static String getBrandQueryApi(String _ids){
+    public static String getBrandQueryApi(String _ids) {
         return BRAND_QUERY_API + "?_ids=" + _ids;
     }
 
@@ -119,7 +126,7 @@ public class QSAppWebAPI {
         return PREVIEW_TREND_LIKE_API;
     }
 
-    public static String getPreviewTrendUnLikeApi(){
+    public static String getPreviewTrendUnLikeApi() {
         return PREVIEW_TREND_UNLIKE_API;
     }
 
@@ -131,7 +138,7 @@ public class QSAppWebAPI {
         return SHOW_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getShowHotApi(int pageIndex, int pageSize){
+    public static String getShowHotApi(int pageIndex, int pageSize) {
         return HOST_NAME + SHOW_LIST_CATEGORY_API[1] + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
@@ -226,16 +233,16 @@ public class QSAppWebAPI {
         return BRAND_SHOW_API + "?_id=" + brandId + "&pageNo=" + pageNo + "&paegSize=10";
     }
 
-    public static String getitemRandomApi(int pageIndex, int pageSize){
+    public static String getitemRandomApi(int pageIndex, int pageSize) {
 
-        return ITEM_RANDOM + "?pageNo=" +String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
+        return ITEM_RANDOM + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getUserUpdatebackground(){
+    public static String getUserUpdatebackground() {
         return USER_UPDATEBACKGROUND;
     }
 
-    public static String getUserUpdateportrait(){
+    public static String getUserUpdateportrait() {
         return USER_UPDATEPORTRAIT;
     }
 }

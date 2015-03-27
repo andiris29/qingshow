@@ -14,6 +14,10 @@ public class Callback {
 
     }
 
+    public void onComplete(int result) {
+
+    }
+
     public void onError() {
 
     }
