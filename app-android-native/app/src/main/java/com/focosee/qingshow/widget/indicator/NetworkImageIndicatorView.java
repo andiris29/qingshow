@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
-import com.focosee.qingshow.widget.indicator.ImageIndicatorView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;

@@ -32,6 +32,7 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.indicator.PageIndicator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -104,10 +105,8 @@ public class S08TrendListAdapter extends BaseAdapter {
             holderView.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.s08_relative_layout);
 
             holderView.viewPager = (ViewPager) convertView.findViewById(R.id.s08_viewPager);
-            holderView.viewGroup = (LinearLayout) convertView.findViewById(R.id.s08_viewGroup);
-            holderView.nameTextView = (TextView) convertView.findViewById(R.id.S08_item_name);
+            holderView.pageIndicator = (PageIndicator) convertView.findViewById(R.id.s08_viewGroup);
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
-            holderView.priceTextView = (TextView) convertView.findViewById(R.id.S08_item_price);
 
             holderView.shareImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_share_btn);
             holderView.likeImageButton = (ImageButton) convertView.findViewById(R.id.S08_item_like_btn);
@@ -133,6 +132,8 @@ public class S08TrendListAdapter extends BaseAdapter {
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
                 this.itemHeight));
 
+        holderView.pageIndicator.setCount(data.get(position).images.size());
+        holderView.pageIndicator.setIndex(1);
         //设置Adapter
         MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView);
         holderView.viewPager.setAdapter(mViewPagerAdapter);
@@ -266,10 +267,8 @@ public class S08TrendListAdapter extends BaseAdapter {
         public MPullRefreshListView listView;
 
         public ViewPager viewPager;
-        public LinearLayout viewGroup;
-        public TextView nameTextView;
+        public PageIndicator pageIndicator;
         public TextView descriptionTextView;
-        public TextView priceTextView;
 
         public ImageButton shareImageButton;
         public ImageButton likeImageButton;
@@ -290,23 +289,17 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         private List<MongoPreview.Image> Images;
         private HolderView holderView;
-        private LinearLayout _mViewGroup;
         /**
          * 装点点的ImageView数组
          */
-        private ImageView[] tips;
-
         public MViewPagerAdapter(int position, HolderView holderView) {
             this.holderView = holderView;
-            this._mViewGroup = holderView.viewGroup;
             this.mPosition = position;
             this.Images = data.get(mPosition).images;
             this.imgSize = Images.size();
             Log.d(TAG, "图片数：" + this.imgSize);
             this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
             _mImgViewS = new ImageView[this.imgSize];
-
-            initTips();
             initMImageViews(this.imgSize);
 
 
@@ -370,51 +363,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         @Override
         public void onPageSelected(int arg0) {
 
-            setImageBackground(arg0);
-
             MongoPreview.Image Image = this.Images.get(arg0 % this.imgSize);
-            // TODO Remove nameTextView & priceTextView, then support newline in descriptionTextView
-            holderView.nameTextView.setText("");
+            holderView.pageIndicator.setIndex(arg0 % this.imgSize + 1);
             holderView.descriptionTextView.setText(Image.description);
-            holderView.priceTextView.setText("");
-        }
-
-        private void initTips() {
-            tips = new ImageView[this.imgSize];
-            _mViewGroup.removeAllViews();
-            for (int i = 0; i < tips.length; i++) {
-                ImageView imageView_tips = new ImageView(context);
-                imageView_tips.setLayoutParams(new LinearLayout.LayoutParams(10, 10));
-                tips[i] = imageView_tips;
-                if (i == 0) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                layoutParams.leftMargin = 5;
-                layoutParams.rightMargin = 5;
-                _mViewGroup.addView(imageView_tips, layoutParams);
-            }
-        }
-
-        /**
-         * 设置选中的tip的背景
-         *
-         * @param selectItems
-         */
-        private void setImageBackground(int selectItems) {
-
-
-            for (int i = 0; i < tips.length; i++) {
-                if (i == (selectItems % this.imgSize)) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-            }
         }
 
 
