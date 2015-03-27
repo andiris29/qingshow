@@ -1,6 +1,7 @@
 package com.focosee.qingshow.controller;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +11,9 @@ import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.focosee.qingshow.bean.AccessToken;
 import com.focosee.qingshow.bean.Metadata;
 import com.focosee.qingshow.bean.ResponseJsonEntity;
+import com.focosee.qingshow.bean.WeChatNotifyPostData;
 import com.focosee.qingshow.util.ServerError;
 import com.focosee.qingshow.util.ServletHelper;
 import com.wxap.RequestHandler;
@@ -74,7 +80,6 @@ public class WeChatPaymentController {
     @Value("${setting['weixin.parent_key']}")
     private String parentKey;
     
-    
     /**
      * 财付通商户身份的标识
      */
@@ -83,6 +88,9 @@ public class WeChatPaymentController {
     
     @Value("${setting['weixin.notify_url']}")
     private String notifyUrl;
+    
+    @Value("$setting['qingshow.appserver.wechat.callback']")
+    private String appServerCallbackUrl;
     
     /**
      * WeChatOpenPlatform's API SDK
@@ -271,8 +279,26 @@ public class WeChatPaymentController {
         if (resHandler.isTenpaySign() != true) {
             return FAIL;
         }
-
         
+        WeChatNotifyPostData postDataBean = new WeChatNotifyPostData();
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(WeChatNotifyPostData.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            postDataBean = (WeChatNotifyPostData) jaxbUnmarshaller.unmarshal(new StringReader(postData));
+        } catch (JAXBException e) {
+            log.error("parse postData Xml String error.", e);
+            return FAIL;
+        }
+        
+        RestTemplate restClient = new RestTemplate();
+        // status -> pay success
+        params.put("status", "1");
+        params.put("AppId", postDataBean.getAppId());
+        params.put("OpenId", postDataBean.getOpenId());
+        ResponseJsonEntity appRes = restClient.postForObject(appServerCallbackUrl, params, ResponseJsonEntity.class);
+        if (appRes.getData() == null) {
+            return FAIL;
+        }
         return SUCCESS;
     }
     
