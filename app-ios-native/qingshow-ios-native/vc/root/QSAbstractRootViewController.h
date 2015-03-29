@@ -11,7 +11,7 @@
 
 @interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate>
 
-- (instancetype)init;
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (void)hideMenu;
 
 @end

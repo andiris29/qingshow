@@ -41,7 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configDelegateObj];
+    [self configProvider];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -60,7 +60,7 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark - Network
-- (void)configDelegateObj
+- (void)configProvider
 {
     self.delegateObj = [[QSShowCollectionViewProvider alloc] init];
     self.delegateObj.delegate = self;

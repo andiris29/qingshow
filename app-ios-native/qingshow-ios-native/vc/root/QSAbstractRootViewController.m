@@ -37,9 +37,9 @@
 
 @implementation QSAbstractRootViewController
 
-- (instancetype)init
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super init];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
     }
