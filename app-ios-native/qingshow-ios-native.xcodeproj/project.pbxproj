@@ -69,6 +69,10 @@
 		EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */; };
 		EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */; };
 		EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */; };
+		EF4985911AC867D000F70811 /* QSTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49858F1AC867D000F70811 /* QSTopicTableViewCell.m */; };
+		EF4985921AC867D000F70811 /* QSTopicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4985901AC867D000F70811 /* QSTopicTableViewCell.xib */; };
+		EF4985951AC8720B00F70811 /* QSTopicTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985941AC8720B00F70811 /* QSTopicTableViewProvider.m */; };
+		EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */; };
 		EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D509D1A176AEC001E179B /* QSP02ModelDetailViewController.xib */; };
 		EF4D50A31A177158001E179B /* QSP04BrandDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4D50A21A177158001E179B /* QSP04BrandDetailViewController.m */; };
 		EF4D50A51A177174001E179B /* QSP04BrandDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D50A41A177174001E179B /* QSP04BrandDetailViewController.xib */; };
@@ -452,6 +456,13 @@
 		EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemCollectionViewCell.xib; sourceTree = "<group>"; };
 		EF49036E1A7E842000A848B4 /* QSItemCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemCollectionViewProvider.h; sourceTree = "<group>"; };
 		EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewProvider.m; sourceTree = "<group>"; };
+		EF49858E1AC867D000F70811 /* QSTopicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTopicTableViewCell.h; sourceTree = "<group>"; };
+		EF49858F1AC867D000F70811 /* QSTopicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTopicTableViewCell.m; sourceTree = "<group>"; };
+		EF4985901AC867D000F70811 /* QSTopicTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTopicTableViewCell.xib; sourceTree = "<group>"; };
+		EF4985931AC8720B00F70811 /* QSTopicTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTopicTableViewProvider.h; sourceTree = "<group>"; };
+		EF4985941AC8720B00F70811 /* QSTopicTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTopicTableViewProvider.m; sourceTree = "<group>"; };
+		EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractRootViewController.h; sourceTree = "<group>"; };
+		EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractRootViewController.m; sourceTree = "<group>"; };
 		EF4D509D1A176AEC001E179B /* QSP02ModelDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSP02ModelDetailViewController.xib; sourceTree = "<group>"; };
 		EF4D50A11A177158001E179B /* QSP04BrandDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP04BrandDetailViewController.h; sourceTree = "<group>"; };
 		EF4D50A21A177158001E179B /* QSP04BrandDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP04BrandDetailViewController.m; sourceTree = "<group>"; };
@@ -853,6 +864,8 @@
 		EF1A591A1A06761800001AE0 /* root */ = {
 			isa = PBXGroup;
 			children = (
+				EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */,
+				EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */,
 				EF1A592A1A06763000001AE0 /* QSS01RootViewController.h */,
 				EF1A592B1A06763000001AE0 /* QSS01RootViewController.m */,
 				EF140A6A1A09254C00E3C4D4 /* QSS01RootViewController.xib */,
@@ -1067,6 +1080,16 @@
 			path = label;
 			sourceTree = "<group>";
 		};
+		EF49858C1AC8676B00F70811 /* topic */ = {
+			isa = PBXGroup;
+			children = (
+				EF49858E1AC867D000F70811 /* QSTopicTableViewCell.h */,
+				EF49858F1AC867D000F70811 /* QSTopicTableViewCell.m */,
+				EF4985901AC867D000F70811 /* QSTopicTableViewCell.xib */,
+			);
+			path = topic;
+			sourceTree = "<group>";
+		};
 		EF4D50A01A1770F7001E179B /* detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1120,6 +1143,8 @@
 				EF59EDF51A74FAEE00D639FB /* QSModelListTableViewProvider.m */,
 				EFEC5BCF1AB1FBA300F8FD18 /* QSOrderListTableViewProvider.h */,
 				EFEC5BD01AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m */,
+				EF4985931AC8720B00F70811 /* QSTopicTableViewProvider.h */,
+				EF4985941AC8720B00F70811 /* QSTopicTableViewProvider.m */,
 			);
 			path = tableview;
 			sourceTree = "<group>";
@@ -1642,6 +1667,7 @@
 		EFC7ADA51A10E2130078D1F9 /* show */ = {
 			isa = PBXGroup;
 			children = (
+				EF49858C1AC8676B00F70811 /* topic */,
 				EFF5B9061A3F2F220048E634 /* item */,
 				EF4D50A61A177B31001E179B /* list */,
 				EFA618A81A125EA200560699 /* comment */,
@@ -2016,6 +2042,7 @@
 				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
+				EF4985921AC867D000F70811 /* QSTopicTableViewCell.xib in Resources */,
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
 				EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
@@ -2144,6 +2171,7 @@
 				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
 				EF30133D1AC3174000568D92 /* openssl_wrapper.m in Sources */,
+				EF4985951AC8720B00F70811 /* QSTopicTableViewProvider.m in Sources */,
 				EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */,
 				EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */,
 				EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */,
@@ -2225,6 +2253,7 @@
 				EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */,
 				EF4D50A31A177158001E179B /* QSP04BrandDetailViewController.m in Sources */,
 				EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */,
+				EF4985911AC867D000F70811 /* QSTopicTableViewCell.m in Sources */,
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
@@ -2242,6 +2271,7 @@
 				EFA98A7F1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m in Sources */,
 				EF9C95301A0FC3A9006A0AE3 /* QSError.m in Sources */,
 				EF810F761AB601F60079BA76 /* QSCreateTradeReceiverInfoLocationCell.m in Sources */,
+				EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */,
 				EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */,
 				EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */,
 				EF59EDF81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m in Sources */,
