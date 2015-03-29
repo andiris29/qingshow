@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.0-snapshot-2</string>
+	<string>2.0.0-snapshot-3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -42,19 +42,19 @@
 				<string>wx75cf44d922f47721</string>
 			</array>
 		</dict>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLName</key>
-            <string>com.focosee.chingshow.alipay</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>alipay2088301244798510</string>
-            </array>
-        </dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.focosee.chingshow.alipay</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>alipay2088301244798510</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>28</string>
+	<string>29</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
