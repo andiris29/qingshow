@@ -4,6 +4,7 @@ var async = require('async'), _ = require('underscore');
 var Show = require('../../model/shows');
 var ShowChosen = require('../../model/showChosens');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var Topic = require('../../model/topics');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
@@ -202,3 +203,44 @@ feeding.studio = {
         });
     }
 };
+
+feeding.byTopic = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, callback) {
+            var returnTopic;
+            async.waterfall([
+            function(callback) {
+                // Query topic
+                Topic.findOne({
+                    '_id' : RequestHelper.parseId(req.body._id),
+                    'active' : true
+                }).exec(function(err, topic) {
+                    if (err) {
+                        callback(ServerError.fromDescription(err));
+                    } else if (!topic) {
+                        callback(ServerError.fromCode(ServerError.ShowNotExist));
+                    } else {
+                        returnTopic = topic; 
+                        callback(null, topic.showRefs.length);
+                    }
+                });
+            },
+            function(count, callback) {
+                // Query shows
+                var skip = (qsParam.pageNo - 1) * qsParam.pageSize;
+                returnTopic = new Topic({
+                    'active' : true,
+                    'showRefs' : returnTopic.showRefs.filter(function(show, index) {
+                        return index >= skip && index < skip + qsParam.pageSize;
+                    })
+                });
+                Topic.populate(returnTopic, {
+                    'path' : 'showRefs'
+                }, function(err, topic) {
+                    callback(error, topic.showRefs, count);
+                });
+            }], callback);
+        }, null);
+    }
+}

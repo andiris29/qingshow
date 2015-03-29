@@ -32,6 +32,7 @@ import com.focosee.qingshow.bean.ResponseJsonEntity;
 import com.focosee.qingshow.bean.WeChatNotifyPostData;
 import com.focosee.qingshow.util.ServerError;
 import com.focosee.qingshow.util.ServletHelper;
+import com.google.gson.Gson;
 import com.wxap.RequestHandler;
 import com.wxap.ResponseHandler;
 import com.wxap.util.Sha1Util;
@@ -58,38 +59,38 @@ public class WeChatPaymentController {
     /**
      * 标识申请的应用
      */
-    @Value("${setting['weixin.app_id']}")
+    @Value("#{setting['weixin.app_id']}")
     private String appId;
 
     /**
      * API 的权限获取所需密钥 Key。
      */
-    @Value("${setting['weixin.app_secret']}")
+    @Value("#{setting['weixin.app_secret']}")
     private String appSecret;
 
     /**
      * 支付请求中用于加密的密钥 Key,可验证商户唯一身份, PaySignKey 对应
      * 于支付场景中的 appKey 值。
      */
-    @Value("${setting['weixin.app_key']}")
+    @Value("#{setting['weixin.app_key']}")
     private String appKey;
 
     /**
      * 财付通商户权限密钥 Key
      */
-    @Value("${setting['weixin.parent_key']}")
+    @Value("#{setting['weixin.parent_key']}")
     private String parentKey;
     
     /**
      * 财付通商户身份的标识
      */
-    @Value("${setting['weixin.parent_id']}")
+    @Value("#{setting['weixin.parent_id']}")
     private String parentId;
     
-    @Value("${setting['weixin.notify_url']}")
+    @Value("#{setting['weixin.notify_url']}")
     private String notifyUrl;
     
-    @Value("$setting['qingshow.appserver.wechat.callback']")
+    @Value("#{setting['qingshow.appserver.wechat.callback']}")
     private String appServerCallbackUrl;
     
     /**
@@ -296,7 +297,9 @@ public class WeChatPaymentController {
         params.put("AppId", postDataBean.getAppId());
         params.put("OpenId", postDataBean.getOpenId());
         ResponseJsonEntity appRes = restClient.postForObject(appServerCallbackUrl, params, ResponseJsonEntity.class);
-        if (appRes.getData() == null) {
+        Gson gson = new Gson();
+        log.debug("app-server return:" + gson.toJson(appRes));
+        if ((appRes.getData() == null) || ((appRes.getMetadata() !=null) && StringUtils.isNotEmpty(appRes.getMetadata().getError()))) {
             return FAIL;
         }
         return SUCCESS;

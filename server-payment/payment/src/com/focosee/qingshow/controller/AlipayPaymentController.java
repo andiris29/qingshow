@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import com.alipay.util.AlipayNotify;
 import com.focosee.qingshow.bean.AlipayCallbackEntity;
 import com.focosee.qingshow.bean.ResponseJsonEntity;
+import com.google.gson.Gson;
 
 @RestController
 @RequestMapping("/alipay")
@@ -37,7 +38,7 @@ public class AlipayPaymentController {
     
     private static final String REFUND_SUCCESS = "REFUND_SUCCESS";
     
-    @Value("$setting['qingshow.appserver.alipay.callback']")
+    @Value("#{setting['qingshow.appserver.alipay.callback']}")
     private String appServerCallbackUrl;
     
     @RequestMapping(value = "/callback", method = RequestMethod.POST)
@@ -60,14 +61,15 @@ public class AlipayPaymentController {
             log.debug("request[" + name + "]=" + valueStr);
             params.put(name, valueStr);
         }
-
+        
+        log.debug("verify request source is alipay!");
         if (!AlipayNotify.verify(params)) {
             return FAIL;
         }
         
         log.debug("alipay TradeStatus=" + entity.getTrade_status());
         log.debug("alipay RefundStatus=" + StringUtils.trimToNull(entity.getRefund_status()));
-        
+        log.debug("qingshow-appserver-callback-url:" + appServerCallbackUrl);
         RestTemplate restClient = new RestTemplate();
         
         // ////////////////////////////////////////////////////////////////////////////////////////
@@ -76,17 +78,19 @@ public class AlipayPaymentController {
         if (entity.getTrade_status().equals(TRADE_FINISHED)) {            
             params.put("status", "5");
             ResponseJsonEntity appRes = restClient.postForObject(appServerCallbackUrl, params, ResponseJsonEntity.class);
-            if (appRes.getData() == null) {
+            Gson gson = new Gson();
+            log.debug("app-server return:" + gson.toJson(appRes));
+            if ((appRes.getData() == null) || ((appRes.getMetadata() !=null) && StringUtils.isNotEmpty(appRes.getMetadata().getError()))) {
                 return FAIL;
             }
-            return SUCCESS;
         } else if (entity.getTrade_status().equals(TRADE_SUCCESS)) {
             params.put("status", "1");
             ResponseJsonEntity appRes = restClient.postForObject(appServerCallbackUrl, params, ResponseJsonEntity.class);
-            if (appRes.getData() == null) {
+            Gson gson = new Gson();
+            log.debug("app-server return:" + gson.toJson(appRes));
+            if ((appRes.getData() == null) || ((appRes.getMetadata() !=null) && StringUtils.isNotEmpty(appRes.getMetadata().getError()))) {
                 return FAIL;
             }
-            return SUCCESS;
         } else if (entity.getTrade_status().equals(WAIT_BUYER_PAY)) {
             // 该状态不处理
         } else if (entity.getTrade_status().equals(TRADE_CLOSED)) {
@@ -94,10 +98,11 @@ public class AlipayPaymentController {
                 // 全额退款情况
                 params.put("status", "9");
                 ResponseJsonEntity appRes = restClient.postForObject(appServerCallbackUrl, params, ResponseJsonEntity.class);
-                if (appRes.getData() == null) {
+                Gson gson = new Gson();
+                log.debug("app-server return:" + gson.toJson(appRes));
+                if ((appRes.getData() == null) || ((appRes.getMetadata() !=null) && StringUtils.isNotEmpty(appRes.getMetadata().getError()))) {
                     return FAIL;
                 }
-                return SUCCESS;
             }
         }
 

@@ -12,7 +12,7 @@ var TradeHelper = require('../helpers/TradeHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 
 var ServerError = require('../server-error');
-var Http = require('http');
+var http = require('http');
 
 var trade = module.exports;
 
@@ -42,7 +42,7 @@ trade.create = {
                 });
             });
             trade.totalFee = req.body.totalFee;
-            if (req.body['pay']['weixin'] != null) {
+            if (req.body['pay'] && req.body['pay']['weixin']) {
                 trade.pay = req.body.pay;
             }
             trade.save(function(err) {
@@ -64,7 +64,7 @@ trade.create = {
             });
         },
         function(trade, relationship, callback) {
-            if (trade.pay && trade.pay.weixin) {
+            if (req.body.pay && req.body.pay['weixin']) {
                 // Communicate to payment to get prepayid for weixin
                 var orderName = '';
                 trade.orders.forEach(function(element) {
@@ -187,8 +187,7 @@ trade.statusTo = {
                         });
                     }).on('error', function(error) {
                         callback(error, trade);
-                        return;
-                    })；
+                    });
                 }
             } else if (newStatus == 4) {
                 trade.logistic = trade.logistic || {};
@@ -261,7 +260,7 @@ trade.alipayCallback = {
         function(callback) {
             // get trade
             Trade.findOne({
-                '_id' : RequestHelper.parseId(req.body.out_trade _no);
+                '_id' : RequestHelper.parseId(req.body.out_trade_no)
             }).exec(function(error, trade) {
                 if (!error && !trade) {
                     callback(ServerError.TradeNotExist);
@@ -283,7 +282,7 @@ trade.alipayCallback = {
         },
         function(trade, callback){
             var newStatus = req.body.status;
-            if (newStatus != 1 || newStatus != 5 || newStatus !=9 ) {
+            if (newStatus != 1 && newStatus != 5 && newStatus !=9 ) {
                 callback(ServerError.TradeStatusChangeError);
             }
             trade.pay.alipay['trade_no'] = req.body['trade_no'];
@@ -302,7 +301,7 @@ trade.alipayCallback = {
                 'notify_id' : req.body['notify_id'],
                 'trade_status' : req.body['trade_status'],
                 'refund_status' : req.body['refund_status'],
-                'date' : Date.now
+                //'date' : Date.now
             });
             trade.save(function(error, trade) {
                 callback(error, trade)
@@ -310,7 +309,7 @@ trade.alipayCallback = {
         },
         function(trade, callback) {
             // update status
-            var newStatus = param.status;
+            var newStatus = req.body.status;
             TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
                 callback(err, trade);
             });
@@ -335,7 +334,7 @@ trade.wechatCallback = {
         async.waterfall([
         function(callback) {
             Trade.findOne({
-                '_id' : RequestHelper.parseId(req.body.out_trade_no);
+                '_id' : RequestHelper.parseId(req.body.out_trade_no)
             }).exec(function(error, trade) {
                 if (!error && !trade) {
                     callback(ServerError.TradeNotExist);
@@ -381,15 +380,15 @@ trade.wechatCallback = {
             trade.pay.weixin.notifyLogs.push({
                 'notify_id' : req.body['notify_id'],
                 'trade_state' : req.body['trade_state'],
-                'date' : Date.now
+                //'date' : Date.now
             });
             trade.save(function(error, trade) {
                 callback(error, trade);
             });
-        }
+        },
         function(trade, callback) {
             // update status
-            var newStatus = param.status;
+            var newStatus = req.body.status;
             TradeHelper.updateStatus(trade, newStatus, null, function(err, trade) {
                 callback(err, trade);
             });
@@ -416,7 +415,7 @@ trade.refreshPaymentStatus = {
         function(callback) {
             // get trade
             Trade.findOne({
-                '_id' : RequestHelper.parseId(req.body._id);
+                '_id' : RequestHelper.parseId(req.body._id)
             }).exec(function(error, trade) {
                 if (!error && !trade) {
                     callback(ServerError.TradeNotExist);

@@ -34,7 +34,7 @@ import com.wxap.util.XMLUtil;
 @RequestMapping("/sample")
 public class SampleRest {
     private final static Logger logger = Logger.getLogger(SampleRest.class);
-    @Value("${setting['weixin.app_id']}")
+    @Value("#{setting['weixin.app_id']}")
     private String appid;
     
     @Resource(name="setting")
@@ -43,6 +43,10 @@ public class SampleRest {
  
     @Value("${jdbc.url}")
     private String jdbcUrl;
+    
+
+    @Value("#{setting['qingshow.appserver.alipay.callback']}")
+    private String appServerCallbackUrl;
     
     
     @RequestMapping(value = "/hello", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,12 +1,12 @@
 package com.focosee.qingshow.util;
 
 public class ServerError {
-    public static final int ERROR_GET_TOKEN_FAIL_CD = 9001;
-    public static final int ERROR_GENERATE_PREPAY_PACKAGE_CD = 9002;
-    public static final int ERROR_SIGN_PREPAY_PACKAGE_CD = 9003;
-    public static final int ERROR_GET_PREPAY_FAIL_CD = 9004;
-    public static final int ERROR_QUERY_ORDER_FAIL_CD = 9005;
-    public static final int ERROR_DELIVER_FAILURE_CD = 9006;
+    public static final String ERROR_GET_TOKEN_FAIL_CD = "9001";
+    public static final String ERROR_GENERATE_PREPAY_PACKAGE_CD = "9002";
+    public static final String ERROR_SIGN_PREPAY_PACKAGE_CD = "9003";
+    public static final String ERROR_GET_PREPAY_FAIL_CD = "9004";
+    public static final String ERROR_QUERY_ORDER_FAIL_CD = "9005";
+    public static final String ERROR_DELIVER_FAILURE_CD = "9006";
     
     
     public static final String ERROR_GET_TOKEN_FAIL_MSG = "get access token failure.";

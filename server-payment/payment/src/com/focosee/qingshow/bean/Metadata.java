@@ -1,12 +1,12 @@
 package com.focosee.qingshow.bean;
 
 public class Metadata {
-    private int error;
+    private String error;
     private Object devInfo;
-    public int getError() {
+    public String getError() {
         return error;
     }
-    public void setError(int error) {
+    public void setError(String error) {
         this.error = error;
     }
     public Object getDevInfo() {

@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.alipay.config.AlipayConfig;
 import com.alipay.sign.RSA;
 
@@ -29,6 +31,7 @@ public class AlipayNotify {
      */
     private static final String HTTPS_VERIFY_URL = "https://mapi.alipay.com/gateway.do?service=notify_verify&";
 
+    private static final Logger log = Logger.getLogger(AlipayNotify.class);
     /**
      * 验证消息是否是支付宝发出的合法消息
      * @param params 通知返回来的参数数组
@@ -42,6 +45,7 @@ public class AlipayNotify {
     	String responseTxt = "true";
 		if(params.get("notify_id") != null) {
 			String notify_id = params.get("notify_id");
+			log.debug("verify notify_id");
 			responseTxt = verifyResponse(notify_id);
 		}
 	    String sign = "";
@@ -49,9 +53,9 @@ public class AlipayNotify {
 	    boolean isSign = getSignVeryfy(params, sign);
 
         //写日志记录（若要调试，请取消下面两行注释）
-        //String sWord = "responseTxt=" + responseTxt + "\n isSign=" + isSign + "\n 返回回来的参数：" + AlipayCore.createLinkString(params);
+        String sWord = "responseTxt=" + responseTxt + "\n isSign=" + isSign + "\n 返回回来的参数：" + AlipayCore.createLinkString(params);
 	    //AlipayCore.logResult(sWord);
-
+        log.debug(sWord);
         if (isSign && responseTxt.equals("true")) {
             return true;
         } else {
