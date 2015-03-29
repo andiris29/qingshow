@@ -12,9 +12,8 @@
 @protocol QSOrderListTableViewProviderDelegate <NSObject>
 
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict;
-- (void)didClickLogisticBtnOfOrder:(NSDictionary*)orderDict;
 - (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict;
-
+- (void)didClickPayBtnOfOrder:(NSDictionary*)orderDict;
 @end
 
 @interface QSOrderListTableViewProvider : QSTableViewBasicProvider <QSOrderListTableViewCellDelegate>

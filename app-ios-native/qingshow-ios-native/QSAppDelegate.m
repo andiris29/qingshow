@@ -13,6 +13,7 @@
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
 #import "MobClick.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 
 @interface QSAppDelegate ()
@@ -82,10 +83,21 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    if ([[url absoluteString] hasPrefix:kWeiboAppKey]) {
+    NSString* urlStr = [url absoluteString];
+    if ([urlStr hasPrefix:kWeiboAppKey]) {
         return [WeiboSDK handleOpenURL:url delegate:self];
-    } else if ([[url absoluteString] hasPrefix:kWechatAppID]) {
+    } else if ([urlStr hasPrefix:kWechatAppID]) {
         return [WXApi handleOpenURL:url delegate:self];
+    } else if ([urlStr hasPrefix:@"alipay"]) {
+        if ([url.host isEqualToString:@"safepay"]) {
+            
+            [[AlipaySDK defaultService] processAuth_V2Result:url
+                                             standbyCallback:^(NSDictionary *resultDic) {
+                                                 NSLog(@"result = %@",resultDic);
+                                                 NSString *resultStr = resultDic[@"result"];
+                                             }];
+            
+        }
     }
     return YES;
 

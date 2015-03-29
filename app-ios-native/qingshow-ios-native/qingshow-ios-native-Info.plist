@@ -36,12 +36,22 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.focosee.chingshow.weichart</string>
+			<string>com.focosee.chingshow.wechat</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wx75cf44d922f47721</string>
 			</array>
 		</dict>
+        <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
+            <key>CFBundleURLName</key>
+            <string>com.focosee.chingshow.alipay</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>alipay2088301244798510</string>
+            </array>
+        </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>28</string>

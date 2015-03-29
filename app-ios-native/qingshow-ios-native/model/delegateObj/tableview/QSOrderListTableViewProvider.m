@@ -47,19 +47,13 @@
         [self.delegate didClickRefundBtnOfOrder:[self orderForCell:cell]];
     }
 }
-- (void)didClickLogisticBtnForCell:(QSOrderListTableViewCell*)cell
-{
-    if ([self.delegate respondsToSelector:@selector(didClickLogisticBtnOfOrder:)]) {
-        [self.delegate didClickLogisticBtnOfOrder:[self orderForCell:cell]];
-    }
-}
-- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell
-{
-    if ([self.delegate respondsToSelector:@selector(didClickSubmitBtnOfOrder:)]) {
-        [self.delegate didClickSubmitBtnOfOrder:[self orderForCell:cell]];
-    }
-}
 
+- (void)didClickPayBtnForCell:(QSOrderListTableViewCell *)cell
+{
+    if ([self.delegate respondsToSelector:@selector(didClickPayBtnOfOrder:)]) {
+        [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
+    }
+}
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {

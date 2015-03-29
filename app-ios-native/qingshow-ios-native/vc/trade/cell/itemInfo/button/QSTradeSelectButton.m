@@ -22,7 +22,7 @@
 
 @property (strong, nonatomic) UILabel* label;
 @property (strong, nonatomic) UIImageView* imageView;
-
+@property (strong, nonatomic) UIImageView* checkMarkImgView; //TODO
 @end
 
 @implementation QSTradeSelectButton
@@ -87,7 +87,12 @@
             self.label.textColor = COLOR_DARK_GRAY;
         }
     } else if (_type == QSTradeSelectButtonTypeImage) {
-        self.layer.borderColor = [UIColor clearColor].CGColor;
+        if (self.isSelected) {
+            self.layer.borderColor = COLOR_PURPLE.CGColor;
+        } else {
+            self.layer.borderColor = [UIColor clearColor].CGColor;
+        }
+
         self.backgroundColor = [UIColor clearColor];
     }
 }
@@ -117,7 +122,12 @@
     _imageUrl = imageUrl;
     self.type = QSTradeSelectButtonTypeImage;
     [self.imageView setImageFromURL:imageUrl];
+    
+    CGRect rect = self.frame;
+    rect.size = [QSTradeSelectButton getSizeOfImgBtn];
+    self.frame = rect;
 }
+
 
 + (CGFloat)getWidthWithText:(NSString*)text
 {
@@ -125,5 +135,9 @@
     float baseWidth = [QSLayoutUtil sizeForString:text withMaxWidth:INFINITY height:baseHeigh font:TEXT_FONT].width;
     float width = baseWidth + 2 * PADDING_WIDTH;
     return width < MIN_WIDTH ? MIN_WIDTH : width;
+}
++ (CGSize)getSizeOfImgBtn
+{
+    return CGSizeMake(38.f, 38.f);
 }
 @end

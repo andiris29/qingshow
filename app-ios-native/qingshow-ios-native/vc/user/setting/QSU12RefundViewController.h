@@ -11,5 +11,17 @@
 @interface QSU12RefundViewController : UIViewController
 
 - (instancetype)initWithDict:(NSDictionary*)orderDict;
+//@property (strong, nonatomic) UIScrollView* view;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *widthCon;
+
+@property (weak, nonatomic) IBOutlet UITextField *companyTextField;
+@property (weak, nonatomic) IBOutlet UITextField *expressOrderTextField;
+@property (weak, nonatomic) IBOutlet UILabel *sendDateTextField;
+
+@property (weak, nonatomic) IBOutlet UIButton *submitBtn;
+- (IBAction)submitBtnPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollVIew;
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+- (IBAction)pickerValueChanged:(UIDatePicker *)sender;
 
 @end

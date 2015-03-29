@@ -53,8 +53,23 @@
     {
         return nil;
     }
-
 }
++ (NSString*)buildDateStringFromDate:(NSDate*)date
+{
+    if (date)
+    {
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString* currentDateStr = [dateFormatter stringFromDate:date];
+        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        return currentDateStr;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
 + (NSString*)getTime:(NSDate*)date
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
