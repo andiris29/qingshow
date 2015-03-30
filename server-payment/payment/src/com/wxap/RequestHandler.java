@@ -152,6 +152,7 @@ public class RequestHandler {
 				+ appid + "&secret=" + appsecret;
 		TenpayHttpClient httpClient = new TenpayHttpClient();
 		httpClient.setReqContent(requestUrl);
+		log.debug("get token url:" + requestUrl);
 		if (httpClient.call()) {
 			String res = httpClient.getResContent();
 			Gson gson = new Gson();
@@ -175,7 +176,8 @@ public class RequestHandler {
 					log.debug("失败:" + map.get("errmsg"));
 				}
 			}
-
+		} else {
+		    log.debug("get token error : " + httpClient.getErrInfo());
 		}
 		return null;
 

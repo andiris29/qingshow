@@ -270,6 +270,8 @@ public class WeChatPaymentController {
             log.debug("request[" + name + "]=" + valueStr);
             params.put(name, valueStr);
         }
+        
+        log.debug("requst body:" + postData);
 
         //创建支付应答对象
         ResponseHandler resHandler = new ResponseHandler(request, response);
@@ -278,6 +280,7 @@ public class WeChatPaymentController {
         
         //通知签名验证失败
         if (resHandler.isTenpaySign() != true) {
+            log.debug("valid tenpay sign fail. debug info:" + resHandler.getDebugInfo());
             return FAIL;
         }
         

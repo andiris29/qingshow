@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author qusheng
  *
  */
-@XmlRootElement
+@XmlRootElement(name = "xml")
 public class WeChatNotifyPostData {
 
     private String openId;
