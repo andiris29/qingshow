@@ -6,6 +6,7 @@ var Topic = require('../../model/topics');
 
 //util
 var RequestHelper = require('../helpers/RequestHelper');
+var ResponseHelper = require('../helpers/ResponseHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
 

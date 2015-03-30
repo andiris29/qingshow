@@ -213,7 +213,7 @@ feeding.byTopic = {
             function(callback) {
                 // Query topic
                 Topic.findOne({
-                    '_id' : RequestHelper.parseId(req.body._id),
+                    '_id' : RequestHelper.parseId(qsParam._id),
                     'active' : true
                 }).exec(function(err, topic) {
                     if (err) {
@@ -238,9 +238,9 @@ feeding.byTopic = {
                 Topic.populate(returnTopic, {
                     'path' : 'showRefs'
                 }, function(err, topic) {
-                    callback(error, topic.showRefs, count);
+                    callback(err, topic.showRefs, count);
                 });
             }], callback);
         }, null);
     }
-}
+};
