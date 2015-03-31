@@ -9,6 +9,7 @@
 #import "QSAppDelegate.h"
 #import "QSNetworkEngine.h"
 #import "QSS01RootViewController.h"
+#import "QSS12TopicViewController.h"
 
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
@@ -42,7 +43,9 @@
     [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    QSS01RootViewController* vc = [[QSS01RootViewController alloc] init];
+//    UIViewController* vc = [[QSS01RootViewController alloc] init];
+    UIViewController* vc = [[QSS12TopicViewController alloc] init];
+    
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;

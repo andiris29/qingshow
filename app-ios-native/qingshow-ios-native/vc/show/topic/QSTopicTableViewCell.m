@@ -7,6 +7,8 @@
 //
 
 #import "QSTopicTableViewCell.h"
+#import "QSTopicUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
 
 @implementation QSTopicTableViewCell
 
@@ -23,6 +25,9 @@
 
 - (void)bindWithDict:(NSDictionary*)dict
 {
-
+    self.titleLabel.text = [QSTopicUtil getTitle:dict];
+    self.subtitleLabel.text = [QSTopicUtil getSubTitle:dict];
+    self.numberLabel.text = [QSTopicUtil getShowNumberDesc:dict];
+    [self.imgView setImageFromURL:[QSTopicUtil getCoverUrl:dict]];
 }
 @end
