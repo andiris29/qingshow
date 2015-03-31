@@ -32,6 +32,12 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
+
+        <activity
+            android:name="com.focosee.qingshow.activity.S12TopicListActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
         <activity
             android:name="com.focosee.qingshow.activity.S10ItemDetailActivity"
             android:screenOrientation="portrait"

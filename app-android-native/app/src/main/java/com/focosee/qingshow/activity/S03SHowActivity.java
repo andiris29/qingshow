@@ -23,6 +23,7 @@ import android.widget.VideoView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -110,7 +111,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
     private TextView itemTextView;
     private SharePopupWindow sharePopupWindow;
 
-    private IWXAPI wxApi;
 
     private IWeiboShareAPI mWeiboShareAPI;
 
@@ -213,8 +213,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         playImageButton = (ImageView) findViewById(R.id.S03_video_start_btn);
         beforeLayout = (RelativeLayout) findViewById(R.id.S03_before_video_without_back);
 
-        wxApi = WXAPIFactory.createWXAPI(this, ShareConfig.WX_APP_KEY, true);
-        wxApi.registerApp(ShareConfig.WX_APP_KEY);
 
 
        // mSsoHandler = new SsoHandler(this, mAuthInfo);
@@ -531,7 +529,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         super.onNewIntent(intent);
 
         setIntent(intent);
-        wxApi.handleIntent(intent, this);
+        QSApplication.instance().getWxApi().handleIntent(intent, this);
         mWeiboShareAPI.handleWeiboResponse(intent,this);
     }
 
@@ -614,7 +612,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler 
         req.message = msg;
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
         UmengCountUtil.countShareShow(this,"weixin");
-        wxApi.sendReq(req);
+        QSApplication.instance().getWxApi().sendReq(req);
     }
 
 

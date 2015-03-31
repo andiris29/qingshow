@@ -70,6 +70,12 @@ public class QSAppWebAPI {
     private static final String TRADE_STATUSTO_API = HOST_NAME + "/trade/statusTo";
     private static final String TRADE_REFRESH = HOST_NAME + "/trade/refreshPaymentStatus";
 
+    private static final String TOPIC_LIST_API = HOST_NAME + "/topic/query";
+
+    public static String getTopicListApi() {
+        return TOPIC_LIST_API;
+    }
+
     public static String getTradeRefreshApi() {
         return TRADE_REFRESH;
     }

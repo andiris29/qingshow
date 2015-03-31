@@ -191,6 +191,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
         try {
             JSONArray array = new JSONArray(QSGsonFactory.create().toJson(orders));
             params.put("orders", array);
+            params.put("pay","");
         } catch (JSONException e) {
             e.printStackTrace();
         }

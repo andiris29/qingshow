@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import confirmdialog.chen.org.confirmdialog.R;
+import com.focosee.qingshow.R;
 
 
 /**

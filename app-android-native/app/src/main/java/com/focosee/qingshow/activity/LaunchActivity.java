@@ -33,7 +33,7 @@ public class LaunchActivity extends BaseActivity{
             public void onComplete() {
                 super.onComplete();
                 // Bootstrap
-                Intent mainIntent = new Intent(LaunchActivity.this, S01HomeActivity.class);
+                Intent mainIntent = new Intent(LaunchActivity.this, S12TopicListActivity.class);
                 LaunchActivity.this.startActivity(mainIntent);
                 LaunchActivity.this.finish();
             }
@@ -41,7 +41,7 @@ public class LaunchActivity extends BaseActivity{
             @Override
             public void onError() {
                 super.onError();
-                Intent mainIntent = new Intent(LaunchActivity.this, S01HomeActivity.class);
+                Intent mainIntent = new Intent(LaunchActivity.this, S12TopicListActivity.class);
                 LaunchActivity.this.startActivity(mainIntent);
                 LaunchActivity.this.finish();
             }
