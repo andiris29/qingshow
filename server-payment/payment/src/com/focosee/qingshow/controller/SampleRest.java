@@ -26,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.focosee.qingshow.bean.AlipayCallbackEntity;
 import com.focosee.qingshow.bean.ResponseJsonEntity;
-import com.focosee.qingshow.bean.WeChatNotifyPostData;
 import com.wxap.util.XMLUtil;
 
 

@@ -347,26 +347,27 @@ trade.wechatCallback = {
         },
         function(trade, callback) {
             // Validate status
-            var valid = _statusValidationMap[req.body.status];
+            var newStatus = 1;
+            var valid = _statusValidationMap[newStatus];
             if (valid && valid.indexOf(trade.status) !== -1) {
-                callback(null, trade);
+                callback(null, trade, newStatus);
             } else {
-                callback(ServerError.TradeStatusChangeError);
+                // handled trade
+                callback("pass", trade);
             }
         },
-        function(trade, callback) {
-            var newStatus = req.body.status;
+        function(trade, newStatus, callback) {
             if (newStatus != 1) {
                 callback(ServerError.TradeStatusChangeError);
                 return;
             }
-            trade.pay.weixin['trade_mode'] = req.body['trade_mode'];
-            trade.pay.weixin['partner'] = req.body['partner'];
+            trade.pay.weixin['trade_mode'] = req.body['trade_type'];
+            trade.pay.weixin['partner'] = req.body['mch_id'];
             trade.pay.weixin['total_fee'] = req.body['total_fee'];
             trade.pay.weixin['transaction_id'] = req.body['transaction_id'];
             trade.pay.weixin['time_end'] = req.body['time_end'];
-            trade.pay.weixin['AppId'] = req.body['AppId'];
-            trade.pay.weixin['OpenId'] = req.body['OpenId'];
+            trade.pay.weixin['appId'] = req.body['appid'];
+            trade.pay.weixin['openId'] = req.body['openid'];
             //trade.pay.weixin[''] = req.body['trade_status'];
             //trade.pay.weixin[''] = req.body['bank_type'];
             //trade.pay.weixin[''] = req.body['bank_billno'];
@@ -378,8 +379,7 @@ trade.wechatCallback = {
             //trade.pay.weixin[''] = req.body['discount'];
             trade.pay.weixin.notifyLogs = trade.pay.weixin.notifyLogs || [];
             trade.pay.weixin.notifyLogs.push({
-                'notify_id' : req.body['notify_id'],
-                'trade_state' : req.body['trade_state'],
+                //'trade_state' : req.body['trade_state'],
                 //'date' : Date.now
             });
             trade.save(function(error, trade) {
@@ -400,6 +400,9 @@ trade.wechatCallback = {
             });
         }],
         function(error, trade) {
+            if (error == "pass") {
+                error == null;
+            }
             ResponseHelper.response(res, error, {
                 'trade' : trade
             });
@@ -439,18 +442,15 @@ trade.refreshPaymentStatus = {
                         if (jsonObject.metadata) {
                             callback(jsonObject.metadata, trade);
                         } else {
-                            if (jsonObject.data.errcode != '0') {
-                                callback(jsonObject.data.errmsg, trade);
-                                return;
-                            }
-                            var orderInfo = jsonObject.data.order_info;
-                            trade.pay.weixin['trade_mode'] = orderInfo['trade_mode'];
-                            trade.pay.weixin['partner'] = orderInfo['partner'];
+                            var orderInfo = jsonObject.data;
+                            trade.pay.weixin['trade_mode'] = orderInfo['trade_type'];
+                            trade.pay.weixin['partner'] = orderInfo['mch_id'];
                             trade.pay.weixin['total_fee'] = orderInfo['total_fee'];
+                            trade.pay.weixin['fee_type'] = orderInfo['fee_type'];
                             trade.pay.weixin['transaction_id'] = orderInfo['transaction_id'];
                             trade.pay.weixin['time_end'] = orderInfo['time_end'];
-                            trade.pay.weixin['AppId'] = orderInfo['AppId'];
-                            trade.pay.weixin['OpenId'] = orderInfo['OpenId'];
+                            //trade.pay.weixin['AppId'] = orderInfo['appid'];
+                            trade.pay.weixin['OpenId'] = orderInfo['openId'];
                             
                             trade.pay.weixin.notifyLogs = trade.pay.weixin.notifyLogs || [];
                             if (trade.pay.weixin.notifyLogs.length > 0) {
