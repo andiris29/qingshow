@@ -65,8 +65,9 @@ public class QSApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-    public IWXAPI getWxApi(){
+    public IWXAPI getWxApi() {
         return wxApi;
+    }
 
     public static Point getScreenSize(Context context){
         Display display = ((BaseActivity)context).getWindowManager().getDefaultDisplay();

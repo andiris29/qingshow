@@ -376,8 +376,9 @@ public class S01HomeActivity extends BaseActivity {
         ((ImageView) findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+//                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
+//                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+                Intent intent = new Intent(S01HomeActivity.this, S13TopicActivity.class);
                 startActivity(intent);
                 closeMenu();
             }

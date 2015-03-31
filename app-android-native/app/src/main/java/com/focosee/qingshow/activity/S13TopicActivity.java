@@ -12,9 +12,11 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.model.vo.mongo.MongoTopic;
 
 import org.json.JSONObject;
 
@@ -25,17 +27,21 @@ import java.util.LinkedList;
  */
 public class S13TopicActivity extends BaseActivity {
 
+    public static final String KEY = "ENTITY";
+
     private RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private S13TopicAdapter mAdapter;
     private int _currentPageNo = 1;
-    private String _id;
+    private MongoTopic topic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_s13_topic);
+
+        topic = (MongoTopic)getIntent().getSerializableExtra(KEY);
         recyclerView = (RecyclerView) findViewById(R.id.s13_recyclerview);
 
         layoutManager = new GridLayoutManager(this, 2);
@@ -44,14 +50,11 @@ public class S13TopicActivity extends BaseActivity {
             @Override
             public int getSpanSize(int i) {
 
-                if(i == 0){
-                    return 1;
-                }
-                return 2;
+                return i == 0 ? 2 : 1;
             }
         });
 
-        mAdapter = new S13TopicAdapter(this);
+        mAdapter = new S13TopicAdapter(this, topic);
 
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -72,15 +75,15 @@ public class S13TopicActivity extends BaseActivity {
 
     public void doRefresh(){
 
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingTopicApi(_id, 1, 10), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingTopicApi(topic._id, 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(S13TopicActivity.this, MetadataParser.getError(response));
                     return;
                 }
-
-                LinkedList<MongoShow> datas = ShowParser.parseQuery(response);
+                System.out.println("response:" + response);
+                LinkedList<MongoShow> datas = FeedingParser.parse(response);
 
                 mAdapter.resetDatas(datas);
                 mAdapter.notifyDataSetChanged();
@@ -92,7 +95,7 @@ public class S13TopicActivity extends BaseActivity {
 
     public void doLoadMore(){
 
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingTopicApi(_id, _currentPageNo + 1, 10), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingTopicApi(topic._id, _currentPageNo + 1, 10), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){

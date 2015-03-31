@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    <com.focosee.qingshow.widget.MImageView_OriginSize
-        android:id="@+id/item_s13_video_image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:src="@drawable/s13_item"
-        android:layout_gravity="center"
-        android:scaleType="fitCenter"></com.focosee.qingshow.widget.MImageView_OriginSize>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:background="@color/white"
+            android:id="@+id/item_s13_video_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="9"
+            fresco:actualImageScaleType="fitXY"
+            fresco:placeholderImage="@drawable/bg_pic" />
     </LinearLayout>
 
     <ImageView

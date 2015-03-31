@@ -71,10 +71,12 @@ public class QSAppWebAPI {
     private static final String TRADE_REFRESH = HOST_NAME + "/trade/refreshPaymentStatus";
 
     private static final String TOPIC_LIST_API = HOST_NAME + "/topic/query";
+    private static final String FEEDING_TOPIC_API = HOST_NAME + "/feeding/byTopic";
 
     public static String getTopicListApi() {
         return TOPIC_LIST_API;
-    private static final String FEEDING_TOPIC_API = HOST_NAME + "/feeding/byTopic";
+    }
+
 
     public static final String getFeedingTopicApi(String _id, int pageNo, int pageSize){
         return FEEDING_TOPIC_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
