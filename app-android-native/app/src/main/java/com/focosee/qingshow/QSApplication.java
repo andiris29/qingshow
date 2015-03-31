@@ -1,9 +1,13 @@
 package com.focosee.qingshow;
 
 import android.app.Application;
+import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
+import com.focosee.qingshow.activity.BaseActivity;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -63,6 +67,12 @@ public class QSApplication extends Application {
 
     public IWXAPI getWxApi(){
         return wxApi;
+
+    public static Point getScreenSize(Context context){
+        Display display = ((BaseActivity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
     }
 }
 

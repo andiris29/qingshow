@@ -247,35 +247,35 @@
                     android:layout_height="1px"
                     android:background="@color/p01_text_color_model_height" />
 
-                <LinearLayout
-                    android:id="@+id/returnDate_layout_return_activity"
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/item_height_activity_return"
-                    android:gravity="center_vertical">
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/returnDate_layout_return_activity"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="@dimen/item_height_activity_return"-->
+                    <!--android:gravity="center_vertical">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/info_expressDate_activity_return"
-                        android:textColor="@color/darker_gray"
-                        android:textSize="@dimen/text_size" />
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/info_expressDate_activity_return"-->
+                        <!--android:textColor="@color/darker_gray"-->
+                        <!--android:textSize="@dimen/text_size" />-->
 
-                    <TextView
-                        android:id="@+id/returnDate__return_activity"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:hint="请选择日期"
-                        android:textColorHint="@color/hint_text_color"
-                        android:textColor="@color/darker_gray"
-                        android:textSize="@dimen/text_size" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/returnDate__return_activity"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="10dp"-->
+                        <!--android:hint="请选择日期"-->
+                        <!--android:textColorHint="@color/hint_text_color"-->
+                        <!--android:textColor="@color/darker_gray"-->
+                        <!--android:textSize="@dimen/text_size" />-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
 
-                <View
-                    android:layout_width="fill_parent"
-                    android:layout_height="1px"
-                    android:background="@color/p01_text_color_model_height" />
+                <!--<View-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="1px"-->
+                    <!--android:background="@color/p01_text_color_model_height" />-->
 
 
             </LinearLayout>

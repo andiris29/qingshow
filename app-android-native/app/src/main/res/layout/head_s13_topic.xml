@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/RelativeLayout_height_activity_model">
+    <com.focosee.qingshow.widget.MImageView_OriginSize
+        android:id="@+id/s13_head_background"
+        android:layout_width="fill_parent"
+        android:src="@drawable/user_bg_default"
+        android:scaleType="fitXY"
+        android:layout_height="@dimen/RelativeLayout_height_activity_model"/>
+
+    <ImageButton
+        android:id="@+id/s13_head_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/s03_back_btn"/>
+
+
+</RelativeLayout>

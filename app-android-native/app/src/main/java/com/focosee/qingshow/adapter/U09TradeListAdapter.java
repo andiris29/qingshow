@@ -97,6 +97,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             ArrayList<Prop> props = SkuUtil.filter(mSku);
             String color = "";
             String measurement = "";
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0, 0, 5, 0);
             for (Prop prop : props) {
                 if(SkuUtil.KEY.COLOR.id.equals(prop.getPropId())){
                     color = prop.getName();
@@ -106,15 +108,18 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                     measurement = prop.getName();
                     continue;
                 }
+                //其他sku名称
+                {
+                    TextView label = new TextView(context);
+                    label.setText(prop.getPropId());
+                    viewHolder.skuLayout.addView(label);
+                    TextView value = new TextView(context);
+                    value.setLayoutParams(params);
+                    value.setText(prop.getName());
+                    viewHolder.skuLayout.addView(value);
+                }
+            }
 
-            }
-            {
-//                TextView label = new TextView(context);
-//                viewHolder.skuLayout.addView(label);
-//                TextView value = new TextView(context);
-//                value.setText(prop.getName());
-//                viewHolder.skuLayout.addView(value);
-            }
             viewHolder.color.setText(color);
             viewHolder.measurement.setText(measurement);
             viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
@@ -195,7 +200,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         //交易成功，交易自动关闭
 
 //        viewHolder.finishLayout.setVisibility(View.GONE);
-        viewHolder.creatTime.setText(trade.create.toString());
+//        viewHolder.creatTime.setText(trade.create.toString());
         if(trade.status == 5){
             viewHolder.tradingLayout.setVisibility(View.VISIBLE);
             viewHolder.finishLayout.setVisibility(View.GONE);

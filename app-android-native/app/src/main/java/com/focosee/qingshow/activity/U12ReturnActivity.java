@@ -73,35 +73,35 @@ public class U12ReturnActivity extends BaseActivity{
 
         company = (EditText) findViewById(R.id.company_return_activity);
         returnNo = (EditText) findViewById(R.id.returnNumber__return_activity);
-        returnDate = (TextView) findViewById(R.id.returnDate__return_activity);
+//        returnDate = (TextView) findViewById(R.id.returnDate__return_activity);
         calendarPickerView = (CalendarPickerView) findViewById(R.id.calendar_view_return_activity);
-        findViewById(R.id.returnDate_layout_return_activity).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calendarPickerView.setVisibility(View.VISIBLE);
-                Calendar nextYear = Calendar.getInstance();
-                nextYear.add(Calendar.YEAR, 1);
-                CalendarPickerView calendar = (CalendarPickerView) findViewById(R.id.calendar_view_return_activity);
-                Date today = new Date();
-                Date minDay = new Date();
-                minDay.setTime(today.getTime() - 4 * weekTime);
-                calendar.init(minDay, nextYear.getTime())
-                        .withSelectedDate(today);
-                calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
-                    @Override
-                    public void onDateSelected(Date date) {
-                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                        returnDate.setText(dateFormat.format(date));
-                        calendarPickerView.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onDateUnselected(Date date) {
-
-                    }
-                });
-            }
-        });
+//        findViewById(R.id.returnDate_layout_return_activity).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                calendarPickerView.setVisibility(View.VISIBLE);
+//                Calendar nextYear = Calendar.getInstance();
+//                nextYear.add(Calendar.YEAR, 1);
+//                CalendarPickerView calendar = (CalendarPickerView) findViewById(R.id.calendar_view_return_activity);
+//                Date today = new Date();
+//                Date minDay = new Date();
+//                minDay.setTime(today.getTime() - 4 * weekTime);
+//                calendar.init(minDay, nextYear.getTime())
+//                        .withSelectedDate(today);
+//                calendar.setOnDateSelectedListener(new CalendarPickerView.OnDateSelectedListener() {
+//                    @Override
+//                    public void onDateSelected(Date date) {
+//                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                        returnDate.setText(dateFormat.format(date));
+//                        calendarPickerView.setVisibility(View.GONE);
+//                    }
+//
+//                    @Override
+//                    public void onDateUnselected(Date date) {
+//
+//                    }
+//                });
+//            }
+//        });
 
         applyReturnBtn = (TextView) findViewById(R.id.apply_return_btn_return_activity);
 

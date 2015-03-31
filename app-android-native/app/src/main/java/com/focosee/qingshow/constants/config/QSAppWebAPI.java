@@ -74,6 +74,10 @@ public class QSAppWebAPI {
 
     public static String getTopicListApi() {
         return TOPIC_LIST_API;
+    private static final String FEEDING_TOPIC_API = HOST_NAME + "/feeding/byTopic";
+
+    public static final String getFeedingTopicApi(String _id, int pageNo, int pageSize){
+        return FEEDING_TOPIC_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getTradeRefreshApi() {
