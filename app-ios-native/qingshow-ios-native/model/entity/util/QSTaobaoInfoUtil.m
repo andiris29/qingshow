@@ -137,19 +137,8 @@
     return @"";
 }
 
-+ (NSDictionary*)findSkusOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary*)taobaoInfo
++ (NSDictionary*)findSkusOfProps:(NSArray*)array taobaoInfo:(NSDictionary*)taobaoInfo
 {
-    NSMutableArray* array = [@[] mutableCopy];
-    if (sizeSku) {
-        [array addObject:sizeSku];
-    }
-    if (colorSku) {
-        [array addObject:colorSku];
-    }
-    if (!array.count) {
-        return nil;
-    }
-    
     NSArray* skus = [self getSkusArray:taobaoInfo];
     for (NSDictionary* sku in skus) {
         NSString* property = sku[@"properties"];
@@ -169,6 +158,21 @@
         
     }
     return nil;
+}
+
++ (NSDictionary*)findSkusOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary*)taobaoInfo
+{
+    NSMutableArray* array = [@[] mutableCopy];
+    if (sizeSku) {
+        [array addObject:sizeSku];
+    }
+    if (colorSku) {
+        [array addObject:colorSku];
+    }
+    if (!array.count) {
+        return nil;
+    }
+    return [self findSkusOfProps:array taobaoInfo:taobaoInfo];
 }
 
 #pragma mark - Public;

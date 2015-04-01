@@ -31,14 +31,16 @@
     return s_paymentService;
 }
 
-- (void)testAlipay
+- (void)payWithAliPayTradeId:(NSString*)tradeId productName:(NSString*)productName
+//- (void)testAlipay
 {
     AlipayOrder* order = [[AlipayOrder alloc] init];
     order.partner = ALIPAY_PARTNER;
     order.seller = ALIPAY_SELLER;
-    order.tradeNO = [self generateTradeNO];
-    order.productName = @"testProductName";
-    order.productDescription = @"testDesc";
+    order.tradeNO = tradeId;
+    //item name
+    order.productName = productName;
+    order.productDescription = @"desc";
     order.amount = @"0.01";
     order.notifyURL = ALIPAY_NOTIFY_URL;
     order.service = @"mobile.securitypay.pay";
@@ -58,23 +60,6 @@
             NSLog(@"reslut = %@",resultDic);
         }];
     }
-    
 }
 
-- (NSString *)generateTradeNO
-{
-#warning TODO get trade no from server
-    static int kNumber = 15;
-    
-    NSString *sourceStr = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    NSMutableString *resultStr = [[NSMutableString alloc] init];
-    srand(time(0));
-    for (int i = 0; i < kNumber; i++)
-    {
-        unsigned index = rand() % [sourceStr length];
-        NSString *oneStr = [sourceStr substringWithRange:NSMakeRange(index, 1)];
-        [resultStr appendString:oneStr];
-    }
-    return resultStr;
-}
 @end

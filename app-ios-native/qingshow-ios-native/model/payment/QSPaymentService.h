@@ -13,5 +13,5 @@
 
 + (QSPaymentService*)shareService;
 
-- (void)testAlipay;
+- (void)payWithAliPayTradeId:(NSString*)tradeId productName:(NSString*)productName;
 @end

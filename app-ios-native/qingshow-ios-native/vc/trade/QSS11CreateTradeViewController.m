@@ -11,10 +11,15 @@
 #import "QSCreateTradePayInfoSelectCell.h"
 #import "QSTaobaoInfoUtil.h"
 #import "QSItemUtil.h"
-#import "QSNetworkKit.h"
-#import "QSUserManager.h"
 #import "QSReceiverUtil.h"
 #import "QSPeopleUtil.h"
+#import "QSTradeUtil.h"
+#import "QSCommonUtil.h"
+#import "QSOrderUtil.h"
+
+#import "QSNetworkKit.h"
+#import "QSUserManager.h"
+
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
@@ -278,10 +283,19 @@
                                     item:self.itemDict
                                      sku:sku
                             receiverUuid:uuid
-                               onSucceed:^
+                               onSucceed:^(NSDictionary* tradeDict)
      {
+         NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+         NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
+         NSMutableString* names = [@"" mutableCopy];
+         for (NSDictionary* orderDict in orderArray) {
+             NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+             [names appendString:[QSItemUtil getItemName:itemDict]];
+         }
+         
          if (self.payInfoAlipayCell.isSelect) {
-             [SHARE_PAYMENT_SERVICE testAlipay];
+             [SHARE_PAYMENT_SERVICE payWithAliPayTradeId:tradeId productName:names];
+//             [SHARE_PAYMENT_SERVICE testAlipay];
          }
          [self showTextHud:@"success"];
      }

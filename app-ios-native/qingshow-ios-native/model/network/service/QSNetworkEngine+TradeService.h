@@ -17,12 +17,12 @@
                                       item:(NSDictionary*)item
                                        sku:(NSNumber*)sku
                               receiverUuid:(NSString*)uuid
-                                 onSucceed:(VoidBlock)succeedBlock
+                                 onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                 orderArray:(NSArray*)orderArray
-                                 onSucceed:(VoidBlock)succeedBlock
+                                 onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId

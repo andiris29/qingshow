@@ -25,7 +25,7 @@
                                       item:(NSDictionary*)item
                                        sku:(NSNumber*)sku
                               receiverUuid:(NSString*)uuid
-                                 onSucceed:(VoidBlock)succeedBlock
+                                 onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
     return [self createTradeTotalFee:totalFee
@@ -44,7 +44,7 @@
 
 - (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                 orderArray:(NSArray*)orderArray
-                                 onSucceed:(VoidBlock)succeedBlock
+                                 onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_TRADE_CREATE
@@ -54,7 +54,8 @@
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {
-                    succeedBlock();
+                    NSDictionary* retDict = completedOperation.responseJSON;
+                    succeedBlock(retDict[@"data"][@"trade"]);
                 }
             }
                                 onError:^(MKNetworkOperation *completedOperation, NSError *error)
