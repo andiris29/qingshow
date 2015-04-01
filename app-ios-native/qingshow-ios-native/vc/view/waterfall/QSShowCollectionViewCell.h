@@ -15,8 +15,16 @@
 @optional
 - (void)peoplePressed:(QSShowCollectionViewCell*)cell;
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell;
+- (void)playBtnPressed:(QSShowCollectionViewCell*)cell;
 
 @end
+
+typedef NS_ENUM(NSUInteger, QSShowCollectionViewCellType)
+{
+    QSShowCollectionViewCellTypeNormal,
+    QSShowCollectionViewCellTypeTopic
+};
+
 
 @interface QSShowCollectionViewCell : UICollectionViewCell
 
@@ -28,8 +36,10 @@
 @property (strong, nonatomic) IBOutlet UIButton* favorButton;
 @property (strong, nonatomic) IBOutlet UIImageView *shadowImageView;
 @property (strong, nonatomic) IBOutlet UIView* modelTapView;
+@property (strong, nonatomic) IBOutlet UIButton* playBtn;
 - (IBAction)favorBtnPressed:(id)sender;
 
+@property (assign, nonatomic) QSShowCollectionViewCellType type;
 @property (weak, nonatomic) NSObject<QSShowCollectionViewCellDelegate>* delegate;
 
 //Show
@@ -40,4 +50,5 @@
 + (CGSize)getSizeWithData:(NSDictionary*)showData;
 //IBAction
 - (void)peopleTap:(id)sender;
+- (IBAction)playBtnPressed:(id)sender;
 @end

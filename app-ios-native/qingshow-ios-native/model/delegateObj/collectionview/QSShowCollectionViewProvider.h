@@ -18,21 +18,24 @@
 - (void)didClickShow:(NSDictionary*)showDict;
 - (void)addFavorShow:(NSDictionary*)showDict;
 - (void)didClickPeople:(NSDictionary*)peopleDict;
+- (void)didClickPlayButtonOfShow:(NSDictionary*)showDict;
 
 @end
 
 typedef NS_ENUM(NSInteger, QSShowDelegateObjType) {
     QSShowWaterfallDelegateObjTypeWithoutDate = 0,
     QSShowWaterfallDelegateObjTypeWithDate = 1
-
 };
+
 
 @interface QSShowCollectionViewProvider : QSWaterfallBasicProvider< QSShowCollectionViewCellDelegate>
 
 @property (assign, nonatomic) QSShowDelegateObjType type;
+@property (assign, nonatomic) QSShowCollectionViewCellType cellType;
+
 @property (weak, nonatomic) NSObject<QSShowProviderDelegate>* delegate;
 
 - (void)updateShow:(NSDictionary*)showDict;
-
+- (id)init;
 
 @end

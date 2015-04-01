@@ -15,6 +15,15 @@
 @end
 
 @implementation QSShowCollectionViewProvider
+#pragma mark - Init
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.cellType = QSShowCollectionViewCellTypeNormal;
+    }
+    return self;
+}
 
 #pragma mark - Cell
 - (void)registerCell
@@ -118,14 +127,13 @@
     } else {
         QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSShowCollectionViewCell" forIndexPath:indexPath];
         cell.delegate = self;
+        cell.type = self.cellType;
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
         [cell bindData:dict];
         
         return cell;
     }
 }
-
-
 
 #pragma QSShowCollectionViewCellDelegate
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell
@@ -145,6 +153,15 @@
     self.clickedData = showDict;
     if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
         [self.delegate didClickPeople:[QSShowUtil getPeopleFromShow:showDict]];
+    }
+}
+- (void)playBtnPressed:(QSShowCollectionViewCell *)cell
+{
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
+    self.clickedData = showDict;
+    if ([self.delegate respondsToSelector:@selector(didClickPlayButtonOfShow:)]) {
+        [self.delegate didClickPlayButtonOfShow:showDict];
     }
 }
 

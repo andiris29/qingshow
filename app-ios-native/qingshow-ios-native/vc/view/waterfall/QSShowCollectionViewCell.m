@@ -31,10 +31,37 @@
 @property (assign, nonatomic) float favorButtonBaseY;
 @property (assign, nonatomic) float shadowBaseY;
 @property (assign, nonatomic) float modelTapViewBaseY;
+@property (assign, nonatomic) float playButtonBaseY;
 @end
 
 
 @implementation QSShowCollectionViewCell
+
+#pragma mark - type
+- (void)setType:(QSShowCollectionViewCellType)type
+{
+    if (_type == type) {
+        return;
+    }
+    _type = type;
+    [self updateViewForType];
+}
+- (void)updateViewForType
+{
+    if (self.type == QSShowCollectionViewCellTypeNormal) {
+        self.playBtn.hidden = YES;
+        self.nameLabel.hidden = NO;
+        self.statusLabel.hidden = NO;
+        self.favorButton.hidden = NO;
+        self.modelTapView.hidden = NO;
+    } else if (self.type == QSShowCollectionViewCellTypeTopic) {
+        self.playBtn.hidden = NO;
+        self.nameLabel.hidden = YES;
+        self.statusLabel.hidden = YES;
+        self.favorButton.hidden = YES;
+        self.modelTapView.hidden = YES;
+    }
+}
 
 #pragma mark - Life Cycle
 - (void)awakeFromNib
@@ -49,6 +76,8 @@
     self.headIconImageView.layer.borderWidth = 1.f;
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
     [self.modelTapView addGestureRecognizer:ges];
+    self.type = QSShowCollectionViewCellTypeNormal;
+    [self updateViewForType];
 }
 
 #pragma mark - Data
@@ -80,6 +109,7 @@
     self.favorButtonBaseY = self.favorButton.frame.origin.y - baseHeight;
     self.shadowBaseY = self.shadowImageView.frame.origin.y - baseHeight;
     self.modelTapViewBaseY = self.modelTapView.frame.origin.y - baseHeight;
+    self.playButtonBaseY = self.playBtn.frame.origin.y - baseHeight;
 }
 - (void)updateLayoutWithData:(NSDictionary*)showData
 {
@@ -96,6 +126,7 @@
     [self updateViewFrame:self.favorButton withBase:self.favorButtonBaseY imageHeight:height];
     [self updateViewFrame:self.shadowImageView withBase:self.shadowBaseY imageHeight:height];
     [self updateViewFrame:self.modelTapView withBase:self.modelTapViewBaseY imageHeight:height];
+    [self updateViewFrame:self.playBtn withBase:self.playButtonBaseY imageHeight:height];
 }
 
 - (void)updateViewFrame:(UIView*)view withBase:(float)base imageHeight:(float)imgHeight
@@ -145,6 +176,12 @@
 {
     if ([self.delegate respondsToSelector:@selector(favorBtnPressed:)]) {
         [self.delegate favorBtnPressed:self];
+    }
+}
+- (IBAction)playBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(playBtnPressed:)]) {
+        [self.delegate playBtnPressed:self];
     }
 }
 @end

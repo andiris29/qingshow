@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSShowCollectionViewCell"/>
@@ -64,6 +64,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6Ix-l7-LVS">
+                        <rect key="frame" x="110" y="160" width="38" height="38"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <state key="normal" image="s03_play_btn">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="playBtnPressed:" destination="UiH-51-z6X" eventType="touchUpInside" id="ayC-hC-LC0"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
@@ -77,6 +87,7 @@
                 <outlet property="modelTapView" destination="WIj-yg-cS9" id="PY3-Ff-BTF"/>
                 <outlet property="nameLabel" destination="buo-TK-mWn" id="eoa-Ua-dLp"/>
                 <outlet property="photoImageView" destination="0gK-JO-VWd" id="tHJ-LT-U11"/>
+                <outlet property="playBtn" destination="6Ix-l7-LVS" id="j0f-48-kFb"/>
                 <outlet property="shadowImageView" destination="GqN-UH-Itk" id="ruY-ZE-0XP"/>
                 <outlet property="statusLabel" destination="XEZ-XA-4md" id="Lo9-fE-mSX"/>
             </connections>
@@ -87,6 +98,7 @@
         <image name="root_cell_icon_notice" width="10" height="10"/>
         <image name="root_cell_icon_notice_hover" width="10" height="10"/>
         <image name="root_cell_placehold_image1" width="84" height="112"/>
+        <image name="s03_play_btn" width="38" height="38"/>
         <image name="show_collection_view_shadow" width="158" height="94"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
