@@ -81,6 +81,7 @@ public class S08TrendActivity extends BaseActivity {
         adapter = new S08TrendListAdapter(this, new LinkedList<MongoPreview>(), getScreenSize(), ImageLoader.getInstance());
         listView.setAdapter(adapter);
         listView.setSmoothScrollbarEnabled(false);
+        listView.setSmoothScrollbarEnabled(false);
 
         mPullRefreshListView.setPullRefreshEnabled(true);
         mPullRefreshListView.setPullLoadEnabled(true);

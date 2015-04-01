@@ -3,8 +3,10 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -37,10 +40,12 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 
 public class S08TrendListAdapter extends BaseAdapter {
@@ -55,6 +60,7 @@ public class S08TrendListAdapter extends BaseAdapter {
     private Context context;
     private List<MongoPreview> data;
     private ImageLoader imageLoader;
+    private ArrayList<SimpleDraweeView[]> imageAll = new ArrayList<SimpleDraweeView[]>();
 
     public S08TrendListAdapter(Context context, LinkedList<MongoPreview> trendEntities, Point screenSize, ImageLoader imageLoader) {
         this.context = context;
@@ -93,8 +99,6 @@ public class S08TrendListAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
-        RelativeLayout.LayoutParams params_rLayout;
-
         final HolderView holderView;
 
         if (null == convertView) {
@@ -126,21 +130,21 @@ public class S08TrendListAdapter extends BaseAdapter {
         }
         int item_width = holderView.viewPager.getLayoutParams().width;
 
-        //如何图片高度小于最小高度，则设为最小高度
-        params_rLayout = new RelativeLayout.LayoutParams(item_width
-                , this.itemHeight);
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
                 this.itemHeight));
 
         holderView.pageIndicator.setCount(data.get(position).images.size());
         holderView.pageIndicator.setIndex(1);
+
+        //初始化image
+        initItemImages(position);
+
         //设置Adapter
         MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView);
         holderView.viewPager.setAdapter(mViewPagerAdapter);
         //设置监听，主要是设置点点的背景
         holderView.viewPager.setOnPageChangeListener(mViewPagerAdapter);
         //设置ViewPager的默认项, 设置为长度的100倍，这样子开始就能往左滑动
-        holderView.viewPager.setOffscreenPageLimit(1);
         holderView.viewPager.setCurrentItem(data.get(position).images.size() * 3);
         //分享
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +170,7 @@ public class S08TrendListAdapter extends BaseAdapter {
         });
         //点赞
         holderView.likeTextView.setText(String.valueOf(data.get(position).numLike));
-        Log.i("tag",data.get(position).getIsLikeByCurrentUser() + "");
+
         if (!data.get(position).getIsLikeByCurrentUser()) {
             holderView.likeImageButton.setBackgroundResource(R.drawable.s03_like_btn);
         } else {
@@ -197,8 +201,6 @@ public class S08TrendListAdapter extends BaseAdapter {
         else {
             api = QSAppWebAPI.getPreviewTrendLikeApi();
         }
-        Log.i("tag",api);
-
 
         Map<String, String> likeData = new HashMap<String, String>();
         likeData.put("_id", data.get(position).get_id());
@@ -237,13 +239,11 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     private void showMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-        Log.i(context.getPackageName(), message);
     }
 
     private void handleResponseError(JSONObject response) {
         try {
             int errorCode = MetadataParser.getError(response);
-            //String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
             String errorMessage = "";
             switch (errorCode) {
                 case 1012:
@@ -262,9 +262,33 @@ public class S08TrendListAdapter extends BaseAdapter {
         }
     }
 
+    private void initItemImages(int mPosition){
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT
+                , itemHeight);
+        SimpleDraweeView[] _mImgViewS = new SimpleDraweeView[data.get(mPosition).images.size()];
+        for (int i = 0; i < data.get(mPosition).images.size(); i++) {
+            final MongoPreview.Image imgInfo = data.get(mPosition).images.get(i);
+//                ImageView imageView = new ImageView(context);
+            SimpleDraweeView simpleDraweeView = new SimpleDraweeView(context);
+            simpleDraweeView.setImageResource(R.drawable.root_cell_placehold_image1);
+            simpleDraweeView.setTag(imgInfo);
+            simpleDraweeView.setLayoutParams(params);
+            simpleDraweeView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            simpleDraweeView.setImageURI(Uri.parse(ImgUtil.imgTo2x(imgInfo.url)));
+//                imageView.setLayoutParams(params);
+//                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//                imageView.setTag(imgInfo);
+//                _mImgViewS[i] = imageView;
+
+            _mImgViewS[i] = simpleDraweeView;
+
+        }
+
+        imageAll.add(mPosition, _mImgViewS);
+    }
+
     class HolderView {
         public RelativeLayout relativeLayout;
-        public MPullRefreshListView listView;
 
         public ViewPager viewPager;
         public PageIndicator pageIndicator;
@@ -279,13 +303,11 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     public class MViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
-        private final String TAG = "MViewPagerAdapter";
-
         private int imgSize;
 
         private int mPosition;
 
-        private ImageView[] _mImgViewS;
+        private SimpleDraweeView[] _mImgViewS;
 
         private List<MongoPreview.Image> Images;
         private HolderView holderView;
@@ -297,10 +319,9 @@ public class S08TrendListAdapter extends BaseAdapter {
             this.mPosition = position;
             this.Images = data.get(mPosition).images;
             this.imgSize = Images.size();
-            Log.d(TAG, "图片数：" + this.imgSize);
             this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
-            _mImgViewS = new ImageView[this.imgSize];
-            initMImageViews(this.imgSize);
+            _mImgViewS = new SimpleDraweeView[this.imgSize];
+//            initMImageViews(this.imgSize);
 
 
         }
@@ -317,8 +338,10 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(_mImgViewS[position % _mImgViewS.length]);
+//            container.removeView(_mImgViewS[position % _mImgViewS.length]);
+            container.removeView(imageAll.get(mPosition)[position % imageAll.get(mPosition).length]);
         }
+
 
         /**
          * 载入图片进去，用当前的position 除以 图片数组长度取余数是关键
@@ -326,13 +349,21 @@ public class S08TrendListAdapter extends BaseAdapter {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
-            ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
-            MongoPreview.Image imgInfo = (MongoPreview.Image) imageView.getTag();
+//            ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
+//            MongoPreview.Image imgInfo = (MongoPreview.Image) imageView.getTag();
+//
+//            imageLoader.displayImage(ImgUtil.imgTo2x(imgInfo.url), imageView, AppUtil.getShowDisplayOptions());
+//            container.addView(imageView, 0);
 
-            imageLoader.displayImage(ImgUtil.imgTo2x(imgInfo.url), imageView, AppUtil.getShowDisplayOptions());
-            container.addView(imageView, 0);
+//            return imageView;
 
-            return imageView;
+            SimpleDraweeView simpleDraweeView = imageAll.get(mPosition)[position % imageAll.get(mPosition).length];
+//            MongoPreview.Image imgInfo = (MongoPreview.Image) simpleDraweeView.getTag();
+            //simpleDraweeView.setImageURI(Uri.parse(ImgUtil.imgTo2x(imgInfo.url)));
+            if(null == simpleDraweeView.getParent()){
+                container.addView(simpleDraweeView, 0);
+            }
+            return simpleDraweeView;
         }
 
         private void initMImageViews(int size) {
@@ -340,12 +371,19 @@ public class S08TrendListAdapter extends BaseAdapter {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT
                     , itemHeight);
             for (int i = 0; i < size; i++) {
-                ImageView imageView = new ImageView(context);
                 MongoPreview.Image imgInfo = this.Images.get(i);
-                imageView.setLayoutParams(params);
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                imageView.setTag(imgInfo);
-                _mImgViewS[i] = imageView;
+//                ImageView imageView = new ImageView(context);
+                SimpleDraweeView simpleDraweeView = new SimpleDraweeView(context);
+                simpleDraweeView.setTag(imgInfo);
+                simpleDraweeView.setLayoutParams(params);
+                simpleDraweeView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                simpleDraweeView.setImageURI(Uri.parse(ImgUtil.imgTo2x(imgInfo.url)));
+//                imageView.setLayoutParams(params);
+//                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//                imageView.setTag(imgInfo);
+//                _mImgViewS[i] = imageView;
+
+                _mImgViewS[i] = simpleDraweeView;
 
             }
 

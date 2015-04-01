@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:background="@color/white"
@@ -86,13 +86,14 @@
             android:orientation="horizontal"
             android:paddingTop="20dp">
 
-            <com.focosee.qingshow.widget.MImageView_OriginSize
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_tradelist_image"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_marginLeft="0dp"
                 android:scaleType="fitStart"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                fresco:placeholderImage="@drawable/user_bg_default" />
 
             <LinearLayout
                 android:layout_width="0dp"
