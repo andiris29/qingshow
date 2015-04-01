@@ -10,13 +10,18 @@
 #import "AlipayOrder.h"
 #import "APAuthV2Info.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
 #import "DataSigner.h"
+#import "QSSharePlatformConst.h"
 
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
 #define ALIPAY_PRIVATE_KEY @"MIICXAIBAAKBgQDB/r4VcnLMRYodfK0vh8i37fL+VggeLnAhn7vxEvR1vOwxnaNXwjMJYk9abLe3YUPyeBTC07IXMlrjFakw367vNqj+E6vJUA1y4np6VQLbcl7wejyH4aOEe4ytrOabCVC2XsZ+BPfQoH6KtVWDghVN+18D4fD7FWYLYhCmgkNVrQIDAQABAoGAATdyw7mrBKLvAc5VW7XzSUwBuRybAm1yIJPa3uEqjU55ALqnWpaKMWXfb4a9BDZk8bFVF/+x3zlenov1Oqw8cZrOy2lNt30mBZ49rGZXHF5UDKndxIhyYQFX+h4/8+2VqFM0acjK5gjU6on9kEiBz5gONnXdU7mtO3gUUmrs7PUCQQDpmXUiPU82fRn4F71S66JsyREbVGjl3nPJQukZ+UJJWUHvLjnK0YSmNRr1692QVw6cLRzO3UzB8B41Zc7YKd/PAkEA1JkNjbFA4S/ymdqNqVMzJHf61FxZZlXpoNva2yLNg85m0YxwUqOaAStOyy7th8vjRSedhxAy/sbPFSDg2ng1wwJACs+QTTJbLSFjB0lJ+MFw9enkQciJRkIiR6kyEoKnn69izsfr4sgJhIumoMT2rwxoX6/yylwRhlQvgbcheH2PnwJBAKET4dAEh+rWgFKP5Btx/WLZQQPbgKTn3R7S1UyJXvtJzF9ir8v9Rvcxz/5kbPYhxe2kqVcnL+wXx9jzU0pUIC8CQDGei23BahmXvkNPF07JwGIoikoNZyUQZyd/NKpPiwMJTnyYrjp/rZEkwEUz5z3yJGLsuauqInWZDxyx32BUpUM="
 #define ALIPAY_NOTIFY_URL @"http://chingshow.com/payment/alipay/callback"
 #define ALIPAY_URL_SCHEMA @"alipay2088301244798510"
+
+#define WECHAT_SIGN_KEY @"1qaz2wsx3edc4rfv1234qwerasdfzxcv"
+#define WECHAT_PARTNER_ID @"1234859302"
 
 @implementation QSPaymentService
 
@@ -31,8 +36,8 @@
     return s_paymentService;
 }
 
-- (void)payWithAliPayTradeId:(NSString*)tradeId productName:(NSString*)productName
-//- (void)testAlipay
+- (void)payWithAliPayTradeId:(NSString*)tradeId
+                 productName:(NSString*)productName
 {
     AlipayOrder* order = [[AlipayOrder alloc] init];
     order.partner = ALIPAY_PARTNER;
@@ -62,4 +67,22 @@
     }
 }
 
+- (void)payWithWechatPrepayId:(NSString*)prepayId
+                  productName:(NSString*)productName;
+{
+    PayReq *request = [[PayReq alloc] init];
+    request.partnerId = WECHAT_PARTNER_ID;
+    request.prepayId= prepayId;
+    request.package = @"Sign=WXpay";
+    request.nonceStr= @(random()).stringValue;
+    request.timeStamp= [[NSDate date] timeIntervalSince1970];
+    request.sign= [NSString stringWithFormat:@"appid=%@&noncestr=%@&package=Sign=WXPay&partnerid=%@&prepayid=%@&timestamp=%ld&key=%@",kWechatAppID, request.nonceStr, request.partnerId, request.prepayId, request.timeStamp, WECHAT_SIGN_KEY];
+    [WXApi safeSendReq:request];
+}
+
 @end
+
+
+
+
+

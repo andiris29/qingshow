@@ -238,7 +238,13 @@
         return;
     }
     if ([self checkNewReceiver]) {
-        [SHARE_NW_ENGINE saveReceiver:nil name:self.receiverInfoNameCell.textField.text phone:self.receiverInfoPhoneCell.textField.text province:self.receiverInfoLocationCell.label.text address:self.receiverInfoDetailLocationCell.textField.text isDefault:YES onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata) {
+        [SHARE_NW_ENGINE saveReceiver:nil
+                                 name:self.receiverInfoNameCell.textField.text
+                                phone:self.receiverInfoPhoneCell.textField.text
+                             province:self.receiverInfoLocationCell.label.text
+                              address:self.receiverInfoDetailLocationCell.textField.text
+                            isDefault:YES
+                            onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata) {
             [self submitOrderWithReceiver:uuid];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
@@ -271,11 +277,20 @@
     NSString* colorSku = [self.itemInfoColorCell getInputData];
     NSNumber* quantity = [self.itemInfoQuantityCell getInputData];
     
+    PaymentType paymentType = 0;
+    if (self.payInfoAlipayCell.isSelect) {
+        paymentType = PaymentTypeAlipay;
+    } else if (self.payInfoWechatCell.isSelect) {
+        paymentType = PaymentTypeWechat;
+    }
     
     NSNumber* sku = [QSTaobaoInfoUtil getSkuOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    NSString* price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:@1];
-    NSString* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
-    [self.totalCell updateWithPrice:totalPrice];
+    NSNumber* price = [QSTaobaoInfoUtil getPromoPriceNumOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:@1];
+    
+    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceNumOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
+    
+    NSString* totalPriceStr = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
+    [self.totalCell updateWithPrice:totalPriceStr];
     
     [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
                                 quantity:quantity.intValue
@@ -283,6 +298,7 @@
                                     item:self.itemDict
                                      sku:sku
                             receiverUuid:uuid
+                                    type:paymentType
                                onSucceed:^(NSDictionary* tradeDict)
      {
          NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
@@ -293,9 +309,8 @@
              [names appendString:[QSItemUtil getItemName:itemDict]];
          }
          
-         if (self.payInfoAlipayCell.isSelect) {
+         if (paymentType == PaymentTypeAlipay) {
              [SHARE_PAYMENT_SERVICE payWithAliPayTradeId:tradeId productName:names];
-//             [SHARE_PAYMENT_SERVICE testAlipay];
          }
          [self showTextHud:@"success"];
      }

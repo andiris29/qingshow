@@ -285,13 +285,19 @@
 
 + (NSString*)getPromoPriceOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo quanitty:(NSNumber*)quantity
 {
+
+    NSNumber* p = [self getPromoPriceNumOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:quantity];
+    
+    return [NSString stringWithFormat:@"￥%.2f",(p.doubleValue * quantity.intValue)];
+}
++ (NSNumber*)getPromoPriceNumOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo quanitty:(NSNumber*)quantity
+{
     NSDictionary* sku = [self findSkusOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
     if (!sku) {
         return nil;
     }
     NSNumber* p = sku[@"promo_price"];
-    
-    return [NSString stringWithFormat:@"￥%.2f",(p.doubleValue * quantity.intValue)];
+    return p;
 }
 
 + (NSString*)getPromoPriceOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary *)taobaoInfo

@@ -11,6 +11,10 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "QSS03ShowDetailViewController.h"
+#import "QSNetworkKit.h"
+#import "QSTopicUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+
 
 @interface QSS13TopicDetailViewController ()
 @property (strong, nonatomic) NSDictionary* topicDict;
@@ -23,7 +27,7 @@
 {
     self = [super initWithNibName:@"QSS13TopicDetailViewController" bundle:nil];
     if (self) {
-        
+        self.topicDict = topicDict;
     }
     return self;
 }
@@ -35,6 +39,11 @@
     [self disableAutoAdjustScrollViewInset];
     self.collectionView.contentInset = UIEdgeInsetsMake(200.f, 0, 0, 0);
     [self configProvider];
+    
+    self.titleLabel.text = [QSTopicUtil getTitle:self.topicDict];
+    self.numberLabel.text = [QSTopicUtil getShowNumberDesc:self.topicDict];
+    [self.imageView setImageFromURL:[QSTopicUtil getCoverUrl:self.topicDict]];
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -61,7 +70,14 @@
 #pragma mark - QSShowProviderDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-#warning TODO move header
+    CGFloat top = - (scrollView.contentInset.top + scrollView.contentOffset.y);
+    if (top >= 0) {
+        top = 0;
+    } else if (top < -200) {
+        top = -200;
+    }
+    self.topConstraint.constant = top;
+    [self.view layoutIfNeeded];
 }
 
 - (void)didClickShow:(NSDictionary*)showDict
@@ -80,20 +96,12 @@
 {
     self.provider = [[QSShowCollectionViewProvider alloc] init];
     self.provider.delegate = self;
-    self.provider.type = QSShowWaterfallDelegateObjTypeWithDate;
+    self.provider.type = QSShowWaterfallDelegateObjTypeWithoutDate;
     self.provider.cellType = QSShowCollectionViewCellTypeTopic;
     [self.provider bindWithCollectionView:self.collectionView];
     __weak QSS13TopicDetailViewController* weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getChosenFeedingType:0 page:page onSucceed:succeedBlock onError:^(NSError *error) {
-            if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1009) {
-                UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"未连接网络或信号不好" message:nil delegate:weakSelf cancelButtonTitle:@"确定" otherButtonTitles: nil];
-                [a show];
-            } else {
-                errorBlock(error);
-            }
-            
-        }];
+        return [SHARE_NW_ENGINE feedingByTopic:weakSelf.topicDict page:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.provider fetchDataOfPage:1];
 }

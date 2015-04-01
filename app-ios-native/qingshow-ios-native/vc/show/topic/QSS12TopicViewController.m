@@ -7,6 +7,7 @@
 //
 
 #import "QSS12TopicViewController.h"
+#import "QSS13TopicDetailViewController.h"
 #import "QSNetworkKit.h"
 
 @interface QSS12TopicViewController ()
@@ -80,6 +81,7 @@
 
 - (void)didClickTopic:(NSDictionary*)topicDict
 {
-#warning TODO
+    UIViewController* vc = [[QSS13TopicDetailViewController alloc] initWithTopic:topicDict];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

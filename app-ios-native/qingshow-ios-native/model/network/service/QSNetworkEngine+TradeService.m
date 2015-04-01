@@ -25,8 +25,9 @@
                                       item:(NSDictionary*)item
                                        sku:(NSNumber*)sku
                               receiverUuid:(NSString*)uuid
+                                      type:(PaymentType)paymentType
                                  onSucceed:(DicBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
+                                   onError:(ErrorBlock)errorBlock;
 {
     return [self createTradeTotalFee:totalFee
                           orderArray:@[
@@ -38,19 +39,32 @@
                                            @"selectedPeopleReceiverUuid" : uuid
                                            }
                                        ]
+                                type:paymentType
                            onSucceed:succeedBlock
                              onError:errorBlock];
 }
 
 - (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                 orderArray:(NSArray*)orderArray
+                                      type:(PaymentType)paymentType
                                  onSucceed:(DicBlock)succeedBlock
-                                   onError:(ErrorBlock)errorBlock
+                                   onError:(ErrorBlock)errorBlock;
 {
+    
+    NSDictionary* payTypeDict = @{};
+    if (paymentType == PaymentTypeWechat) {
+        payTypeDict = @{@"weixin" : @{@"prepayId" : [NSNull null]}};
+    } else if (paymentType == PaymentTypeAlipay) {
+        payTypeDict = @{@"alipay" : [NSNull null]};
+    }
+    
     return [self startOperationWithPath:PATH_TRADE_CREATE
                                  method:@"POST"
                                paramers:@{ @"totalFee" : @(totalFee),
-                                           @"orders" : orderArray}
+                                           @"orders" : orderArray,
+                                           @"pay": payTypeDict
+                                           }
+            
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 if (succeedBlock) {

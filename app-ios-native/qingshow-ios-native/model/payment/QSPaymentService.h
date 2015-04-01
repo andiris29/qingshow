@@ -13,5 +13,9 @@
 
 + (QSPaymentService*)shareService;
 
-- (void)payWithAliPayTradeId:(NSString*)tradeId productName:(NSString*)productName;
+- (void)payWithAliPayTradeId:(NSString*)tradeId
+                 productName:(NSString*)productName;
+- (void)payWithWechatTradeId:(NSString*)tradeId
+                    prepayId:(NSString*)prepayId
+                 productName:(NSString*)productName;
 @end

@@ -54,12 +54,16 @@
         self.statusLabel.hidden = NO;
         self.favorButton.hidden = NO;
         self.modelTapView.hidden = NO;
+        self.headIconImageView.hidden = NO;
+        self.favorNumberLabel.hidden = NO;
     } else if (self.type == QSShowCollectionViewCellTypeTopic) {
         self.playBtn.hidden = NO;
         self.nameLabel.hidden = YES;
         self.statusLabel.hidden = YES;
         self.favorButton.hidden = YES;
         self.modelTapView.hidden = YES;
+        self.headIconImageView.hidden = YES;
+        self.favorNumberLabel.hidden = YES;
     }
 }
 

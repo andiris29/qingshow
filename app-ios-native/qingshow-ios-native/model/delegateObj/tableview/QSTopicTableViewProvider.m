@@ -29,7 +29,13 @@
 {
     return 283.f;
 }
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSDictionary* dict = [self topicForIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(didClickTopic:)]) {
+        [self.delegate didClickTopic:dict];
+    }
+}
 #pragma mark - Private
 - (NSDictionary*)topicForCell:(UITableViewCell*)cell
 {

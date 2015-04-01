@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
+typedef NS_ENUM(NSUInteger, PaymentType) {
+    PaymentTypeAlipay,
+    PaymentTypeWechat
+};
 
 @interface QSNetworkEngine(TradeService)
 
@@ -17,11 +21,13 @@
                                       item:(NSDictionary*)item
                                        sku:(NSNumber*)sku
                               receiverUuid:(NSString*)uuid
+                                      type:(PaymentType)paymentType
                                  onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                 orderArray:(NSArray*)orderArray
+                                      type:(PaymentType)paymentType
                                  onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
 

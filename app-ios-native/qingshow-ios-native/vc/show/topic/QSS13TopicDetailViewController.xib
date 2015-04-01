@@ -32,7 +32,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hKh-gl-4Rz">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1AC-EK-x0r">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1AC-EK-x0r">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a23-xK-wub">
@@ -69,7 +69,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcs-8k-qkB">
-                            <rect key="frame" x="8" y="8" width="36" height="36"/>
+                            <rect key="frame" x="8" y="15" width="36" height="36"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="Q5L-No-5Hg"/>
                                 <constraint firstAttribute="width" constant="36" id="xXp-8X-F8y"/>
@@ -91,7 +91,7 @@
                         <constraint firstAttribute="height" constant="200" id="Tq9-Qj-wsz"/>
                         <constraint firstItem="1AC-EK-x0r" firstAttribute="top" secondItem="hKh-gl-4Rz" secondAttribute="top" id="WCP-0l-X49"/>
                         <constraint firstAttribute="trailing" secondItem="1AC-EK-x0r" secondAttribute="trailing" id="c6c-Qn-6go"/>
-                        <constraint firstItem="hcs-8k-qkB" firstAttribute="top" secondItem="hKh-gl-4Rz" secondAttribute="top" constant="8" id="cy0-s6-Aa5"/>
+                        <constraint firstItem="hcs-8k-qkB" firstAttribute="top" secondItem="hKh-gl-4Rz" secondAttribute="top" constant="15" id="cy0-s6-Aa5"/>
                         <constraint firstAttribute="bottom" secondItem="1AC-EK-x0r" secondAttribute="bottom" id="kv1-hX-UIg"/>
                         <constraint firstItem="1AC-EK-x0r" firstAttribute="leading" secondItem="hKh-gl-4Rz" secondAttribute="leading" id="ua7-Kz-JIu"/>
                     </constraints>
