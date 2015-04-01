@@ -13,6 +13,7 @@
 #import "WXApi.h"
 #import "DataSigner.h"
 #import "QSSharePlatformConst.h"
+#import "NSString+MKNetworkKitAdditions.h"
 
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
@@ -73,11 +74,13 @@
     PayReq *request = [[PayReq alloc] init];
     request.partnerId = WECHAT_PARTNER_ID;
     request.prepayId= prepayId;
-    request.package = @"Sign=WXpay";
+    request.package = @"Sign=WXPay";
     request.nonceStr= @(random()).stringValue;
     request.timeStamp= [[NSDate date] timeIntervalSince1970];
-    request.sign= [NSString stringWithFormat:@"appid=%@&noncestr=%@&package=Sign=WXPay&partnerid=%@&prepayid=%@&timestamp=%ld&key=%@",kWechatAppID, request.nonceStr, request.partnerId, request.prepayId, request.timeStamp, WECHAT_SIGN_KEY];
-    [WXApi safeSendReq:request];
+    NSString* str = [NSString stringWithFormat:@"appid=%@&noncestr=%@&package=Sign=WXPay&partnerid=%@&prepayid=%@&timestamp=%ld&key=%@",kWechatAppID, request.nonceStr, request.partnerId, request.prepayId, request.timeStamp, WECHAT_SIGN_KEY];
+    request.sign= [[str md5] uppercaseString];
+
+    [WXApi sendReq:request];
 }
 
 @end

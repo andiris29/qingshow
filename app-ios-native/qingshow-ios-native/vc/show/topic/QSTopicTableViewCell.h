@@ -14,10 +14,10 @@
 
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property (strong, nonatomic) IBOutlet UILabel* subtitleLabel;
-@property (strong, nonatomic) IBOutlet UILabel* tagLabel;
-@property (strong, nonatomic) IBOutlet UILabel* numberLabel;
+//@property (strong, nonatomic) IBOutlet UILabel* tagLabel;
+//@property (strong, nonatomic) IBOutlet UILabel* numberLabel;
 @property (strong, nonatomic) IBOutlet UIImageView* imgView;
-@property (strong, nonatomic) IBOutlet UIView* tagBgView;
+//@property (strong, nonatomic) IBOutlet UIView* tagBgView;
 @property (strong, nonatomic) IBOutlet UIButton* likeBtn;
 
 - (void)bindWithDict:(NSDictionary*)dict;

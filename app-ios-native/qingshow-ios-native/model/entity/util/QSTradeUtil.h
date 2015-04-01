@@ -13,4 +13,5 @@
 + (NSString*)getCreateDateDesc:(NSDictionary*)dict;
 + (NSNumber*)getStatus:(NSDictionary*)dict;
 + (NSString*)getStatusDesc:(NSDictionary*)dict;
++ (NSString*)getWechatPrepayId:(NSDictionary*)dict;
 @end

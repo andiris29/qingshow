@@ -27,7 +27,6 @@
 {
     self.titleLabel.text = [QSTopicUtil getTitle:dict];
     self.subtitleLabel.text = [QSTopicUtil getSubTitle:dict];
-    self.numberLabel.text = [QSTopicUtil getShowNumberDesc:dict];
     [self.imgView setImageFromURL:[QSTopicUtil getCoverUrl:dict]];
 }
 @end

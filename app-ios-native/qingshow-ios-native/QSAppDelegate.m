@@ -193,4 +193,14 @@
     }];
     
 }
+
+-(void) onReq:(BaseReq*)req
+{
+
+}
+
+-(void) onResp:(BaseResp*)resp
+{
+    
+}
 @end

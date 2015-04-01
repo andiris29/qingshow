@@ -15,7 +15,6 @@
 
 - (void)payWithAliPayTradeId:(NSString*)tradeId
                  productName:(NSString*)productName;
-- (void)payWithWechatTradeId:(NSString*)tradeId
-                    prepayId:(NSString*)prepayId
-                 productName:(NSString*)productName;
+- (void)payWithWechatPrepayId:(NSString*)prepayId
+                  productName:(NSString*)productName;
 @end

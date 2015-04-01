@@ -292,6 +292,9 @@
     NSString* totalPriceStr = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
     [self.totalCell updateWithPrice:totalPriceStr];
     
+    totalPrice = @(0.1f);
+    quantity = @1;
+    price = @(0.1f);
     [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
                                 quantity:quantity.intValue
                                    price:price.doubleValue
@@ -311,7 +314,11 @@
          
          if (paymentType == PaymentTypeAlipay) {
              [SHARE_PAYMENT_SERVICE payWithAliPayTradeId:tradeId productName:names];
+         } else if (paymentType == PaymentTypeWechat) {
+             NSString* prepayid = [QSTradeUtil getWechatPrepayId:tradeDict];
+             [SHARE_PAYMENT_SERVICE payWithWechatPrepayId:prepayid productName:names];
          }
+         
          [self showTextHud:@"success"];
      }
                                  onError:^(NSError *error)

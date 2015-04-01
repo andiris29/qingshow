@@ -52,4 +52,11 @@
                                ];
     return statusStrArray[status.integerValue];
 }
++ (NSString*)getWechatPrepayId:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    return dict[@"pay"][@"weixin"][@"prepayid"];
+}
 @end
