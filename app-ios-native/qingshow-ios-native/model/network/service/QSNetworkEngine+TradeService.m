@@ -16,9 +16,12 @@
 
 #define PATH_TRADE_CREATE @"trade/create"
 #define PATH_TRADE_QUERY_CREATED_BY @"trade/queryCreatedBy"
+#define PATH_TRADE_REFRESH_PAYMENT_STATUS @"trade/refreshPaymentStatus"
+#define PAHT_TRADE_STATUS_TO @"trade/statusTo"
 
 @implementation QSNetworkEngine(TradeService)
 
+#pragma mark - Create
 - (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                   quantity:(int)quantity
                                      price:(double)price
@@ -80,6 +83,7 @@
             }];
 }
 
+#pragma mark - Query
 - (MKNetworkOperation*)queryOrderListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
@@ -101,8 +105,8 @@
                                           @"pageSize" : @10 }
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
-                NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
+                    NSDictionary* retDict = completedOperation.responseJSON;
                     NSArray* trades = retDict[@"data"][@"trades"];
                     succeedBlock([trades deepMutableCopy], retDict[@"metadata"]);
                 }
@@ -115,4 +119,43 @@
             }];
 }
 
+- (MKNetworkOperation*)refreshTradePaymentStatus:(NSDictionary*)tradeDict
+                                       onSucceed:(DicBlock)succeedBlock
+                                         onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_TRADE_REFRESH_PAYMENT_STATUS method:@"POST" paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            NSDictionary* retDict = completedOperation.responseJSON;
+            succeedBlock(retDict[@"data"][@"trade"]);
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+- (MKNetworkOperation*)changeTrade:(NSDictionary*)tradeDict
+                            status:(int)status
+                         onSucceed:(VoidBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PAHT_TRADE_STATUS_TO
+                                 method:@"POST"
+                               paramers:@{
+                                          @"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict],
+                                          @"status" : @(status)}
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    succeedBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
 @end

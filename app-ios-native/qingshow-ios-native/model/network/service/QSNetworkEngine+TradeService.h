@@ -15,6 +15,7 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
 
 @interface QSNetworkEngine(TradeService)
 
+#pragma mark - Create
 - (MKNetworkOperation*)createTradeTotalFee:(double)totalFee
                                   quantity:(int)quantity
                                      price:(double)price
@@ -30,7 +31,7 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
                                       type:(PaymentType)paymentType
                                  onSucceed:(DicBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock;
-
+#pragma mark - Query
 - (MKNetworkOperation*)queryTradeCreatedBy:(NSString*)peopleId
                                       page:(int)page
                                  onSucceed:(ArraySuccessBlock)succeedBlock
@@ -39,4 +40,13 @@ typedef NS_ENUM(NSUInteger, PaymentType) {
 - (MKNetworkOperation*)queryOrderListPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)refreshTradePaymentStatus:(NSDictionary*)tradeDict
+                                       onSucceed:(DicBlock)succeedBlock
+                                         onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)changeTrade:(NSDictionary*)tradeDict
+                            status:(int)status
+                               onSucceed:(VoidBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock;
 @end
