@@ -23,7 +23,7 @@
 
 @interface QSS01RootViewController ()
 
-@property (strong, nonatomic) QSShowCollectionViewProvider* delegateObj;
+@property (strong, nonatomic) QSShowCollectionViewProvider* provider;
 
 @end
 
@@ -46,7 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.delegateObj refreshClickedData];
+    [self.provider refreshClickedData];
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -62,12 +62,13 @@
 #pragma mark - Network
 - (void)configProvider
 {
-    self.delegateObj = [[QSShowCollectionViewProvider alloc] init];
-    self.delegateObj.delegate = self;
-    self.delegateObj.type = QSShowWaterfallDelegateObjTypeWithDate;
-    [self.delegateObj bindWithCollectionView:self.collectionView];
+    self.provider = [[QSShowCollectionViewProvider alloc] init];
+    self.provider.delegate = self;
+    self.provider.type = QSShowWaterfallDelegateObjTypeWithDate;
+    self.provider.cellType = QSShowCollectionViewCellTypeNormal;
+    [self.provider bindWithCollectionView:self.collectionView];
     __weak QSS01RootViewController* weakSelf = self;
-    self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+    self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getChosenFeedingType:0 page:page onSucceed:succeedBlock onError:^(NSError *error) {
             if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == -1009) {
                 UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"未连接网络或信号不好" message:nil delegate:weakSelf cancelButtonTitle:@"确定" otherButtonTitles: nil];
@@ -78,7 +79,7 @@
 
         }];
     };
-    [self.delegateObj fetchDataOfPage:1];
+    [self.provider fetchDataOfPage:1];
 }
 
 #pragma mark - QSWaterFallCollectionViewCellDelegate
@@ -87,14 +88,14 @@
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
             [self showSuccessHudWithText:@"取消喜欢成功"];
-            [self.delegateObj updateShow:showDict];
+            [self.provider updateShow:showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
             [self showSuccessHudWithText:@"喜欢成功"];
-            [self.delegateObj updateShow:showDict];
+            [self.provider updateShow:showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
@@ -148,6 +149,6 @@
 #pragma mark - AlertView
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self.delegateObj reloadData];
+    [self.provider reloadData];
 }
 @end

@@ -78,4 +78,12 @@ static char alertDelegateObjKey;
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
     [[self navigationItem] setBackBarButtonItem:backButton];
 }
+- (void)disableAutoAdjustScrollViewInset
+{
+    if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)])
+    {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
+}
 @end

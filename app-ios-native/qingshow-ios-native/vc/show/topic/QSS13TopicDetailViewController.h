@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSShowCollectionViewProvider.h"
 
-@interface QSS13TopicDetailViewController : UIViewController
+@interface QSS13TopicDetailViewController : UIViewController <QSShowProviderDelegate>
 
 - (IBAction)backBtnPressed:(id)sender;
 
