@@ -10,16 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.model.vo.mongo.MongoTopic;
-import com.focosee.qingshow.widget.MImageView_OriginSize;
-
 import java.util.LinkedList;
-
 import de.greenrobot.event.EventBus;
 
 /**
@@ -82,7 +78,7 @@ public class S13TopicAdapter extends RecyclerView.Adapter {
         if(viewHolder instanceof ItemViewHolder){
             ItemViewHolder itemViewHolder = (ItemViewHolder)viewHolder;
             itemViewHolder.background.setImageURI(Uri.parse(datas.get(position).getHorizontalCover()));
-            itemViewHolder.background.setAspectRatio(1.3f);
+            itemViewHolder.background.setAspectRatio((float)datas.get(position).horizontalCoverMetadata.width / datas.get(position).horizontalCoverMetadata.height);
             itemViewHolder.playBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -94,8 +90,6 @@ public class S13TopicAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-
-
 
     }
 
