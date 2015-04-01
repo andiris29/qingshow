@@ -16,7 +16,7 @@
 #define MARGIN_X 10.f
 #define BASE_Y 15.f
 #define BTN_HEIGHT 27.f
-#define DELTA_Y 30.f
+#define DELTA_Y 40.f
 
 @interface QSCreateTradeItemInfoColorCell ()
 

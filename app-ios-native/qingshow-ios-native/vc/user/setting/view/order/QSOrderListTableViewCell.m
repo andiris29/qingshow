@@ -129,9 +129,6 @@
     } else if (status > 0 && status < 5) {
         [self refundBtnPressed:sender];
     }
-//    if ([self.delegate respondsToSelector:@selector(didClickSubmitBtnForCell:)]) {
-//        [self.delegate didClickSubmitBtnForCell:self];
-//    }
 }
 - (void)payBtnPressed
 {
