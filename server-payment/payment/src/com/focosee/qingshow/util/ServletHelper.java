@@ -16,22 +16,27 @@ public class ServletHelper {
         String ip = "";
         try {
             ip = request.getHeader("x-forwarded-for");
+            log.debug("x-forwarded-for :" + ip);
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getHeader("Proxy-Client-IP");
+                log.debug("Proxy-Client-IP :" + ip);
             }
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getHeader("WL-Proxy-Client-IP");
-            }
+                log.debug("WL-Proxy-Client-IP :" + ip);
+                }
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_CLIENT_IP");
+                log.debug("HTTP_CLIENT_IP :" + ip);
             }
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+                log.debug("HTTP_X_FORWARDED_FORr :" + ip);
             }
             if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
+                log.debug("getRemoteAddr :" + ip);
             }
-
         } catch (Exception ex) {
             log.error(ex);
         }

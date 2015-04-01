@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -28,7 +29,6 @@ import com.focosee.qingshow.tencent.service.CallbackResBean;
 import com.focosee.qingshow.tencent.service.PayQueryService;
 import com.focosee.qingshow.tencent.service.UnifiedOrderService;
 import com.focosee.qingshow.util.ServerError;
-import com.focosee.qingshow.util.ServletHelper;
 import com.google.gson.Gson;
 
 /**
@@ -70,6 +70,7 @@ public class WeChatPaymentController {
     public Object handlePrePay(@RequestParam(value = "id", required = true) String id,
             @RequestParam(value = "totalFee", required = true) String totalFee,
             @RequestParam(value = "orderName", required = true) String orderName,
+            @RequestParam(value= "clientIp", required = true) String clientIp,
             HttpServletRequest request,
             HttpServletResponse response) {
         
@@ -82,8 +83,11 @@ public class WeChatPaymentController {
             bean.setOut_trade_no(id);
             bean.setBody(orderName);
             bean.setFee_type("CNY");
-            bean.setTotal_fee(StringUtils.remove(totalFee, "."));
-            bean.setSpbill_create_ip(ServletHelper.getIpAddr(request));
+            double totalFeeOriginal = NumberUtils.toDouble(totalFee, 0);
+            totalFeeOriginal *= 100;
+            int totalFeeFeng = NumberUtils.createBigDecimal(String.valueOf(totalFeeOriginal)).intValue();
+            bean.setTotal_fee(String.valueOf(totalFeeFeng));
+            bean.setSpbill_create_ip(clientIp);
             bean.setNotify_url(this.notifyUrl);
             bean.setTrade_type("APP");
             bean.sign();
@@ -131,7 +135,7 @@ public class WeChatPaymentController {
             HttpServletRequest request, HttpServletResponse response) {
         
         log.info("wechat callback start");        
-        
+        log.debug(postData);
         CallbackReqBean reqBean = (CallbackReqBean) Util.getObjectFromXML(postData, CallbackReqBean.class);
         CallbackResBean resBean = new CallbackResBean();
         Map<String, Object> params = reqBean.toMap();
@@ -143,12 +147,14 @@ public class WeChatPaymentController {
         if ((appRes.getData() == null) || ((appRes.getMetadata() !=null) && StringUtils.isNotEmpty(appRes.getMetadata().getError()))) {
             resBean.setReturn_code(FAIL);
             resBean.setReturn_msg(appRes.getMetadata().getError());
+            log.debug("callback return:" + resBean.toString());
             return resBean.toString();
         }
         
         
         resBean.setReturn_code(SUCCESS);
         resBean.setReturn_msg("OK");
+        log.debug("callback return:" + resBean.toString());
         return resBean.toString();
     }
     

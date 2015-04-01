@@ -67,9 +67,9 @@ public class Signature {
         }
         String result = sb.toString();
         result += "key=" + Configure.getKey();
-        //log.debug("Sign Before MD5:" + result);
+        log.debug("Sign Before MD5:" + result);
         result = MD5.MD5Encode(result).toUpperCase();
-        //log.debug("Sign Result:" + result);
+        log.debug("Sign Result:" + result);
         return result;
     }
 
