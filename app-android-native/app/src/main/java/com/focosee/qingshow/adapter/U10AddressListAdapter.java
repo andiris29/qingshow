@@ -26,6 +26,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.widget.ConfirmDialog;
 import com.google.gson.Gson;
 import com.orhanobut.dialogplus.DialogPlus;
 
@@ -106,30 +107,19 @@ public class U10AddressListAdapter extends RecyclerView.Adapter<U10AddressListAd
         viewHolder.delLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final DialogPlus.Builder builder = new DialogPlus.Builder(context);
-                View view = LayoutInflater.from(context).inflate(R.layout.dialog_trade_success, null);
-                ((TextView) view.findViewById(R.id.dialog_title)).setText("确定删除？");
-                view.findViewById(R.id.s11_dialog_msg).setVisibility(View.GONE);
-                TextView cancel = (TextView) view.findViewById(R.id.s11_dialog_continue);
-                cancel.setText(context.getResources().getString(R.string.cancel));
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        dialog.dismiss();
-                    }
-                });
-                TextView confirm = (TextView) view.findViewById(R.id.s11_dialog_list);
-                confirm.setText(context.getResources().getString(R.string.confirm));
-                confirm.setOnClickListener(new View.OnClickListener() {
+
+                final ConfirmDialog dialog = new ConfirmDialog();
+
+                dialog.setTitle("确认删除？");
+                dialog.setConfirm("确定", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         delReceiver(datas.get(position).uuid);
-//                        dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
-//                dialog.setView(view);
-//                dialog.show();
-//                dialog.create();
+
+                dialog.show(((U10AddressListActivity)context).getSupportFragmentManager());
             }
         });
 

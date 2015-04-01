@@ -28,6 +28,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
@@ -80,8 +81,10 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         final int position = i - 1;
         if(null == datas.get(position))return;
         final MongoTrade trade = datas.get(position);
+        if(null == trade)return;
 
         viewHolder.tradeNo.setText(null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
+        viewHolder.creatTime.setText(TimeUtil.parseDateString(trade.create));
         if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
             viewHolder.tradeStatus.setText(StatusCode.statusArrays[trade.status]);
         }
@@ -201,10 +204,10 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 
 //        viewHolder.finishLayout.setVisibility(View.GONE);
 //        viewHolder.creatTime.setText(trade.create.toString());
-        if(trade.status == 5){
-            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+
+        if(trade.status == 5 || trade.status == 9){
             viewHolder.finishLayout.setVisibility(View.GONE);
-            viewHolder.creatTime.setText(trade.create.toString());
+//            viewHolder.creatTime.setText(trade.create.toString());
         }
 
         //test
@@ -323,7 +326,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             creatTime = (TextView) view.findViewById(R.id.item_tradelist_createTime);
             finishTime = (TextView) view.findViewById(R.id.item_tradelist_finishTime);
             skuLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_sku);
-            finishLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_finish);
+            finishLayout = (LinearLayout) view.findViewById(R.id.item_trade_finishTime_layout);
             tradingLayout = (RelativeLayout) view.findViewById(R.id.item_tradelist_trading);
             applyReturn = (Button) view.findViewById(R.id.item_tradelist_applyreturn);
             applyReceive = (Button) view.findViewById(R.id.item_tradelist_applyreceive);

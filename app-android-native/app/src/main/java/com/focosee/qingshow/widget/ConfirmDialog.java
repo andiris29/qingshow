@@ -31,8 +31,8 @@ public class ConfirmDialog extends Fragment implements View.OnClickListener{
     private TextView cancel;
 
     private String titleStr;
-    private String confirmStr;
-    private String cancelStr;
+    private String confirmStr = "确定";
+    private String cancelStr = "取消";
 
     private View.OnClickListener confirmOnClickListener;
     public View.OnClickListener cancelOnClickListener = new View.OnClickListener() {
