@@ -44,6 +44,7 @@
         self.refreshOperation = nil;
         self.currentPage = 1;
         self.hasRefreshControl = YES;
+        self.hasPaging = YES;
     }
     return self;
 }
@@ -150,7 +151,7 @@
         return;
     }
     
-    if (scrollView.contentOffset.y + scrollView.frame.size.height * 3 >= scrollView.contentSize.height) {
+    if (self.hasPaging && scrollView.contentOffset.y + scrollView.frame.size.height * 3 >= scrollView.contentSize.height) {
         self.loadMoreOperation = [self fetchDataOfPage:self.currentPage + 1 completion:^{
             self.currentPage++;
             self.loadMoreOperation = nil;

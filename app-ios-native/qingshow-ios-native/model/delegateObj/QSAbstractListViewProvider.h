@@ -30,6 +30,7 @@
 @property (weak, nonatomic) NSObject<QSAbstractScrollProviderDelegate>* delegate;
 
 @property (assign, nonatomic) BOOL hasRefreshControl;
+@property (assign, nonatomic) BOOL hasPaging;
 
 @property (strong, nonatomic) NSArray* additionalResult;
 

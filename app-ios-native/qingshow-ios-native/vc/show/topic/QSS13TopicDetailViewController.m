@@ -98,6 +98,7 @@
     self.provider.delegate = self;
     self.provider.type = QSShowWaterfallDelegateObjTypeWithoutDate;
     self.provider.cellType = QSShowCollectionViewCellTypeTopic;
+    self.provider.hasRefreshControl = NO;
     [self.provider bindWithCollectionView:self.collectionView];
     __weak QSS13TopicDetailViewController* weakSelf = self;
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){

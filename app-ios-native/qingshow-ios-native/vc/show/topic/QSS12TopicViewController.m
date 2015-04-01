@@ -55,6 +55,7 @@
 {
     __weak QSS12TopicViewController* weakSelf = self;
     self.provider = [[QSTopicTableViewProvider alloc] init];
+    self.provider.hasPaging = NO;
     self.provider.delegate = self;
     [self.provider bindWithTableView:self.tableView];
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
