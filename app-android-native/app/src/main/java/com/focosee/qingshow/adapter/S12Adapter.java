@@ -24,8 +24,6 @@ import java.util.LinkedList;
  */
 public class S12Adapter extends AbsWaterfallAdapter<MongoTopic> {
 
-    private LinkedList<MongoTopic> datas;
-
 
     public S12Adapter(Context context) {
         this(context,0, null);

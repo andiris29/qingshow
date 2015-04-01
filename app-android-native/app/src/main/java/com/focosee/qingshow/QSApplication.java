@@ -35,7 +35,7 @@ public class QSApplication extends Application {
     public void onCreate() {
         super.onCreate();
         _instance = this;
-        wxApi = WXAPIFactory.createWXAPI(this, ShareConfig.WX_APP_KEY, true);
+        wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.WX_APP_KEY);
         wxApi.registerApp(ShareConfig.WX_APP_KEY);
         Fresco.initialize(getApplicationContext());
         configImageLoader();

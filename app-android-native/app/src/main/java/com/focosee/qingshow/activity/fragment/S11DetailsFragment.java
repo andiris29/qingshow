@@ -121,7 +121,8 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
             order = new MongoOrder();
             order.quantity = num;
             order.itemSnapshot = itemEntity;
-            order.price = Double.parseDouble(sku.promo_price);
+//            order.price = Double.parseDouble(sku.promo_price);
+            order.price = 0.01;
             order.selectedItemSkuId = sku.sku_id;
 
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText(StringUtil.FormatPrice(sku.promo_price));

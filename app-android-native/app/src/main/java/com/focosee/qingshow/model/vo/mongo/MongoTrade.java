@@ -17,7 +17,17 @@ public class MongoTrade implements Serializable {
     public TaobaoInfo taobaoInfo;
     public Logistic logistic;
     public Returnlogistic returnlogistic;
-    public LinkedList<StatusLog> statusLogs;
+    public Pay pay;
+
+    public class Pay implements Serializable{
+
+        public Weixin weixin;
+
+        public class Weixin{
+            public String prepayid;
+        }
+
+    }
 
     public class TaobaoInfo implements Serializable{
         public String userNick;

@@ -203,6 +203,7 @@
             android:screenOrientation="behind" >
         </activity>
 
+
         <activity android:name=".activity.G01WebViewActivity"/>
 
         <meta-data android:value="54d34711fd98c533bd000c87" android:name="UMENG_APPKEY"></meta-data>

@@ -1,5 +1,7 @@
 package com.focosee.qingshow.command;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -25,11 +27,14 @@ public class TradeRefreshCommand {
 
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
+
+                if (MetadataParser.hasError(response)) {
                     callback.onError(MetadataParser.getError(response));
                 }
                 MongoTrade trade = TradeParser.parse(response);
-                if(null != trade) callback.onComplete(trade.status);
+                if (null != trade) {
+                    callback.onComplete(trade.status);
+                }
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);

@@ -2,34 +2,30 @@ package com.focosee.qingshow.command;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
-import com.android.volley.Request;
-import com.android.volley.Response;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.constants.config.PaymentConfig;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.util.MD5;
 import com.focosee.qingshow.util.payment.Alipay.AlipayUtil;
 import com.focosee.qingshow.util.payment.Alipay.SignUtils;
-
-import org.json.JSONObject;
+import com.tencent.mm.sdk.modelpay.PayReq;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
-/**
- * Created by Administrator on 2015/3/25.
- */
 public class PayCommand {
 
 
@@ -71,4 +67,54 @@ public class PayCommand {
         payThread.start();
 
     }
+
+    public static void weixin(final MongoTrade trade){
+        String nonceStr = genOutTradNo();
+        PayReq request = new PayReq();
+        request.appId = ShareConfig.WX_APP_KEY;
+        request.partnerId = PaymentConfig.WEIXIN_PARTNER;
+        request.prepayId = trade.pay.weixin.prepayid;
+        request.nonceStr = nonceStr;
+        request.timeStamp =String.valueOf(System.currentTimeMillis()/1000);
+        request.packageValue = "Sign=WXpay";
+
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        map.put("appid",request.appId);
+        map.put("partnerid",request.partnerId);
+        map.put("prepayid",request.prepayId);
+        map.put("noncestr",request.nonceStr);
+        map.put("timestamp",request.timeStamp);
+        map.put("package",request.packageValue);
+
+        request.sign = getSign(map);
+
+        boolean b= QSApplication.instance().getWxApi().sendReq(request);
+        Log.i("tag",b + "~~~~~~~~");
+    }
+
+    public static String getSign(Map<String,Object> map){
+        ArrayList<String> list = new ArrayList<String>();
+        for(Map.Entry<String,Object> entry:map.entrySet()){
+            if(entry.getValue()!=""){
+                list.add(entry.getKey() + "=" + entry.getValue() + "&");
+            }
+        }
+        int size = list.size();
+        String [] arrayToSort = list.toArray(new String[size]);
+        Arrays.sort(arrayToSort, String.CASE_INSENSITIVE_ORDER);
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < size; i ++) {
+            sb.append(arrayToSort[i]);
+        }
+        String result = sb.toString();
+        result += "key=" + "1qaz2wsx3edc4rfv1234qwerasdfzxcv";
+        result = MD5.MD5Encode(result).toUpperCase();
+        return result;
+    }
+
+    public static String genOutTradNo() {
+        Random random = new Random();
+        return MD5.MD5Encode(String.valueOf(random.nextInt(10000)));
+    }
+
 }
