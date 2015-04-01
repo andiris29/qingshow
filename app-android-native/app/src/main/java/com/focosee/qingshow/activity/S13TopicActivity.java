@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.util.LinkedList;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Administrator on 2015/3/31.
  */
@@ -67,10 +69,18 @@ public class S13TopicActivity extends BaseActivity {
         });
 
         doRefresh();
+
+        EventBus.getDefault().register(this);
     }
 
     public void onEventMainThread(String event) {
         if(S13TopicAdapter.ASK_FINISH.equals(event))finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     public void doRefresh(){

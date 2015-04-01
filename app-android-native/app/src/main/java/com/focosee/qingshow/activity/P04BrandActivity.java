@@ -23,7 +23,8 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U01BrandFragment;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.adapter.HotWaterfallAdapter;
-import com.focosee.qingshow.adapter.P02ModelFollowPeopleListAdapter;
+import com.focosee.qingshow.adapter.ModelListAdapter_HasBrandHeadRelativeLayout;
+import com.focosee.qingshow.adapter.ModelListAdapter_HasPersonalHeadRelativeLayout;
 import com.focosee.qingshow.adapter.P04BrandItemListAdapter;
 import com.focosee.qingshow.adapter.P04BrandViewPagerAdapter;
 import com.focosee.qingshow.command.UserCommand;
@@ -95,7 +96,7 @@ public class P04BrandActivity extends BaseActivity{
     private P04BrandItemListAdapter newestBrandItemListAdapter;
     private P04BrandItemListAdapter discountBrandItemListAdapter;
     private HotWaterfallAdapter showBrandItemListAdapter;
-    private P02ModelFollowPeopleListAdapter fansListAdapter;
+    private ModelListAdapter_HasBrandHeadRelativeLayout fansListAdapter;
 
     private ArrayList<View> pagerViewList;
 
@@ -482,10 +483,11 @@ public class P04BrandActivity extends BaseActivity{
 
     private void configFansListPage() {
         fansPullRefreshListView = (MPullRefreshListView) pagerViewList.get(3).findViewById(R.id.pager_P02_item_list);
+        fansPullRefreshListView.setOnScrollListener(headScrollAdapter);
         fansListView = fansPullRefreshListView.getRefreshableView();
-        fansListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
+        fansListView.setOnTouchListener(headScrollAdapter);
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
-        fansListAdapter = new P02ModelFollowPeopleListAdapter(this, followerPeopleList);
+        fansListAdapter = new ModelListAdapter_HasBrandHeadRelativeLayout(this, followerPeopleList, ImageLoader.getInstance());
 
         fansListView.setAdapter(fansListAdapter);
         fansPullRefreshListView.setScrollLoadEnabled(true);
@@ -545,7 +547,6 @@ public class P04BrandActivity extends BaseActivity{
 
 
     private void doNewestRefreshDataTask() {
-        Log.d(TAG, "news:"+QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), "1"));
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, QSAppWebAPI.getBrandMatchApi(String.valueOf(brandEntity.get_id()), "1"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

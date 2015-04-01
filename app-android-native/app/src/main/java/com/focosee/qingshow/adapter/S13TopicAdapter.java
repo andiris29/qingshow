@@ -10,7 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -36,6 +40,9 @@ public class S13TopicAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+
+        if(position % 2 == 0 && position != 0) return 2;
+
         return position == 0 ? 0 : 1;
     }
 
@@ -48,9 +55,20 @@ public class S13TopicAdapter extends RecyclerView.Adapter {
             return headViewHolder;
         }
 
+
         View view = LayoutInflater.from(context).inflate(R.layout.item_s13_video, null);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        if(i == 1){
+            params.setMargins(4, 2, 2, 2);
+        }
+
+        if(i == 2){
+            params.setMargins(2, 2, 4, 2);
+        }
+        view.setLayoutParams(params);
         ItemViewHolder itemViewHolder = new ItemViewHolder(view);
         return itemViewHolder;
+
     }
 
     @Override
@@ -66,8 +84,10 @@ public class S13TopicAdapter extends RecyclerView.Adapter {
                     }
                 });
 
+//                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams();
+//                headViewHolder.background.setLayoutParams(params);
                 headViewHolder.background.setImageURI(Uri.parse(topic.horizontalCover));
-                headViewHolder.background.setAspectRatio(1.3f);
+                headViewHolder.background.setAspectRatio((float)QSApplication.getScreenSize(context).x/(QSApplication.getScreenSize(context).y / 3));
 
             }
             return;
