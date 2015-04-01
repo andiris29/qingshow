@@ -94,7 +94,7 @@ public class WeChatPaymentController {
                 log.error("generate prepay_id failure. reason:" + responseBody.getReturn_msg());
                 Metadata metadata = new Metadata();
                 metadata.setError(ServerError.ERROR_GET_PREPAY_FAIL_CD);
-                metadata.setDevInfo(ServerError.ERROR_GET_PREPAY_FAIL_MSG);
+                metadata.setDevInfo(responseBody.getReturn_msg());
                 returnEntity.setMetadata(metadata);
                 return returnEntity;
             } 
@@ -181,7 +181,7 @@ public class WeChatPaymentController {
                 return returnEntity;
             }
             if (SUCCESS.compareTo(bean.getResult_code()) != 0) {
-                log.error("generate prepay_id error. err_code:[" + bean.getErr_code() + "],err_msg:[" + bean.getErr_code_des() + "]");
+                log.error("generate order error. err_code:[" + bean.getErr_code() + "],err_msg:[" + bean.getErr_code_des() + "]");
                 Metadata metadata = new Metadata();
                 metadata.setError(ServerError.ERROR_GET_PREPAY_FAIL_CD);
                 metadata.setDevInfo(bean.getErr_code() + "/" + bean.getErr_code_des());
