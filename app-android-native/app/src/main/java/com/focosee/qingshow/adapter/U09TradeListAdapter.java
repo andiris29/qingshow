@@ -3,6 +3,7 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
@@ -28,6 +30,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
@@ -80,8 +83,10 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         final int position = i - 1;
         if(null == datas.get(position))return;
         final MongoTrade trade = datas.get(position);
+        if(null == trade)return;
 
         viewHolder.tradeNo.setText(null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
+        viewHolder.creatTime.setText(TimeUtil.parseDateString(trade.create));
         if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
             viewHolder.tradeStatus.setText(StatusCode.statusArrays[trade.status]);
         }
@@ -124,8 +129,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             viewHolder.measurement.setText(measurement);
             viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
             viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
-            viewHolder.image.setOriginWidth(trade.orders.get(0).itemSnapshot.imageMetadata.width);
-            ImageLoader.getInstance().displayImage(trade.orders.get(0).itemSnapshot.imageMetadata.url, viewHolder.image, AppUtil.getPortraitDisplayOptions());
+            viewHolder.image.setImageURI(Uri.parse(trade.orders.get(0).itemSnapshot.imageMetadata.url));
+            viewHolder.image.setAspectRatio(trade.orders.get(0).itemSnapshot.imageMetadata.width / trade.orders.get(0).itemSnapshot.imageMetadata.height);
             viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){
             e.printStackTrace();
@@ -201,10 +206,10 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 
 //        viewHolder.finishLayout.setVisibility(View.GONE);
 //        viewHolder.creatTime.setText(trade.create.toString());
-        if(trade.status == 5){
-            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+
+        if(trade.status == 5 || trade.status == 9){
             viewHolder.finishLayout.setVisibility(View.GONE);
-            viewHolder.creatTime.setText(trade.create.toString());
+//            viewHolder.creatTime.setText(trade.create.toString());
         }
 
         //test
@@ -290,7 +295,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tradeNo;
         public TextView tradeStatus;
-        public MImageView_OriginSize image;
+        public SimpleDraweeView image;
         public TextView description;
         public TextView measurement;
         public TextView quantity;
@@ -314,7 +319,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         public void getItemViewHolder(View view){
             tradeNo = (TextView) view.findViewById(R.id.item_tradelist_num);
             tradeStatus = (TextView) view.findViewById(R.id.item_tradelist_status);
-            image = (MImageView_OriginSize) view.findViewById(R.id.item_tradelist_image);
+            image = (SimpleDraweeView) view.findViewById(R.id.item_tradelist_image);
             description = (TextView) view.findViewById(R.id.item_tradelist_description);
             measurement = (TextView) view.findViewById(R.id.item_tradelist_measurement);
             quantity = (TextView) view.findViewById(R.id.item_tradelist_quantity);
@@ -323,7 +328,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             creatTime = (TextView) view.findViewById(R.id.item_tradelist_createTime);
             finishTime = (TextView) view.findViewById(R.id.item_tradelist_finishTime);
             skuLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_sku);
-            finishLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_finish);
+            finishLayout = (LinearLayout) view.findViewById(R.id.item_trade_finishTime_layout);
             tradingLayout = (RelativeLayout) view.findViewById(R.id.item_tradelist_trading);
             applyReturn = (Button) view.findViewById(R.id.item_tradelist_applyreturn);
             applyReceive = (Button) view.findViewById(R.id.item_tradelist_applyreceive);

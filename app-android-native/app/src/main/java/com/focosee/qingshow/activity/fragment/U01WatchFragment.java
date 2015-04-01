@@ -21,7 +21,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.adapter.HeadScrollAdapter;
-import com.focosee.qingshow.adapter.P01ModelListAdapter;
+import com.focosee.qingshow.adapter.ModelListAdapter_HasPersonalHeadRelativeLayout;
 import com.focosee.qingshow.constants.code.RolesCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -46,7 +46,7 @@ public class U01WatchFragment extends Fragment{
     public static String ACTION_MESSAGE = "refresh_U01WatchFragment";
     public ListView followerListView;
     public MPullRefreshListView followerPullRefreshListView;
-    private P01ModelListAdapter followerPeopleListAdapter;
+    private ModelListAdapter_HasPersonalHeadRelativeLayout followerPeopleListAdapter;
     private boolean noMoreData = false;
 
     private int pageIndex = 1;
@@ -107,12 +107,11 @@ public class U01WatchFragment extends Fragment{
         View view = inflater.inflate(R.layout.activity_personal_pager_watch, container, false);
         headScrollAdapter = new HeadScrollAdapter(((U01PersonalActivity) getActivity()).headRelativeLayout, getActivity());
         followerPullRefreshListView = (MPullRefreshListView) view.findViewById(R.id.pager_P02_item_list);
-//        followerPullRefreshListView.setOnScrollListener(headScrollAdapter);
+        followerPullRefreshListView.setOnScrollListener(headScrollAdapter);
         followerListView = followerPullRefreshListView.getRefreshableView();
-//        followerListView.setOnTouchListener(headScrollAdapter);
-        followerListView.setPadding(0, headScrollAdapter.headHeight, 0, 0);
+        followerListView.setOnTouchListener(headScrollAdapter);
         ArrayList<MongoPeople> followerPeopleList = new ArrayList<MongoPeople>();
-        followerPeopleListAdapter = new P01ModelListAdapter(getActivity(), followerPeopleList, ImageLoader.getInstance(), U01PersonalActivity.peopleType);
+        followerPeopleListAdapter = new ModelListAdapter_HasPersonalHeadRelativeLayout(getActivity(), followerPeopleList, ImageLoader.getInstance(), U01PersonalActivity.peopleType);
         followerPeopleListAdapter.setU01PersonActivity((U01PersonalActivity)getActivity());
         followerListView.setAdapter(followerPeopleListAdapter);
         followerPullRefreshListView.setScrollLoadEnabled(true);

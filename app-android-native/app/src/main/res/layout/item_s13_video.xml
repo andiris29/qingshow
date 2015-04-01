@@ -16,24 +16,27 @@
             fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@drawable/bg_pic" />
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/item_s13_shadow"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="110dp"
         android:layout_alignParentBottom="true"
-        android:adjustViewBounds="true"
-        android:background="@drawable/show_bottom_shadow"/>
+        android:orientation="vertical"
+        android:background="@drawable/show_bottom_shadow"
+        android:gravity="bottom|right">
+        <ImageView
+            android:id="@+id/item_s13_play_btn"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/s03_play_btn"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"/>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"/>
+    </LinearLayout>
 
-    <ImageView
-        android:id="@+id/item_s13_play_btn"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:src="@drawable/s03_play_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"/>
+
 
 
 </RelativeLayout>
