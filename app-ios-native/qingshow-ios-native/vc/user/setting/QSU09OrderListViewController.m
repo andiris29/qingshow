@@ -11,6 +11,8 @@
 #import "QSNetworkKit.h"
 #import "QSOrderListHeaderView.h"
 #import "UIViewController+QSExtension.h"
+#import "QSPaymentService.h"
+
 @interface QSU09OrderListViewController ()
 
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
@@ -77,13 +79,9 @@
     UIViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
-//- (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict
-//{
-//
-//}
 
 - (void)didClickPayBtnOfOrder:(NSDictionary *)orderDict
 {
-    NSLog(@"pay");
+    [SHARE_PAYMENT_SERVICE payForTrade:orderDict];
 }
 @end

@@ -14,6 +14,10 @@
 #import "DataSigner.h"
 #import "QSSharePlatformConst.h"
 #import "NSString+MKNetworkKitAdditions.h"
+#import "QSTradeUtil.h"
+#import "QSOrderUtil.h"
+#import "QSCommonUtil.h"
+#import "QSItemUtil.h"
 
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
@@ -35,6 +39,29 @@
         
     });
     return s_paymentService;
+}
+
+- (void)payForTrade:(NSDictionary*)tradeDict
+{
+    NSString* prepayId = [QSTradeUtil getWechatPrepayId:tradeDict];
+    
+    
+    NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
+    NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
+    NSMutableString* names = [@"" mutableCopy];
+    for (NSDictionary* orderDict in orderArray) {
+        NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
+        [names appendString:[QSItemUtil getItemName:itemDict]];
+    }
+    
+    if (prepayId && prepayId.length) {
+        //Pay with Wechat
+        [self payWithWechatPrepayId:prepayId productName:names];
+
+    } else {
+        //Pay with Alipay
+        [self payWithAliPayTradeId:tradeId productName:names];
+    }
 }
 
 - (void)payWithAliPayTradeId:(NSString*)tradeId

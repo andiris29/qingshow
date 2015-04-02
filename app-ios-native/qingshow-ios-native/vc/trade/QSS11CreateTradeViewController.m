@@ -43,6 +43,9 @@
 @property (strong, nonatomic) NSArray* headerArray;
 
 @property (strong, nonatomic) NSDictionary* selectedReceiver;
+
+@property (strong, nonatomic) MKNetworkOperation* createTradeOp;
+@property (strong, nonatomic) MKNetworkOperation* saveReceiverOp;
 @end
 
 @implementation QSS11CreateTradeViewController
@@ -238,6 +241,10 @@
         return;
     }
     if ([self checkNewReceiver]) {
+        if (self.saveReceiverOp ) {
+            return;
+        }
+        self.saveReceiverOp =
         [SHARE_NW_ENGINE saveReceiver:nil
                                  name:self.receiverInfoNameCell.textField.text
                                 phone:self.receiverInfoPhoneCell.textField.text
@@ -245,10 +252,12 @@
                               address:self.receiverInfoDetailLocationCell.textField.text
                             isDefault:YES
                             onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata) {
-            [self submitOrderWithReceiver:uuid];
-        } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
-        }];
+                                [self submitOrderWithReceiver:uuid];
+                                self.saveReceiverOp = nil;
+                            } onError:^(NSError *error) {
+                                [self showErrorHudWithError:error];
+                                self.saveReceiverOp = nil;
+                            }];
     } else {
         [self submitOrderWithReceiver:[QSReceiverUtil getUuid:self.selectedReceiver]];
     }
@@ -272,6 +281,9 @@
 
 - (void)submitOrderWithReceiver:(NSString*)uuid
 {
+    if (self.createTradeOp) {
+        return;
+    }
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
     NSString* sizeSku = [self.itemInfoSizeCell getInputData];
     NSString* colorSku = [self.itemInfoColorCell getInputData];
@@ -295,6 +307,7 @@
     totalPrice = @(0.1f);
     quantity = @1;
     price = @(0.1f);
+    self.createTradeOp =
     [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
                                 quantity:quantity.intValue
                                    price:price.doubleValue
@@ -304,26 +317,16 @@
                                     type:paymentType
                                onSucceed:^(NSDictionary* tradeDict)
      {
-         NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
-         NSArray* orderArray = [QSTradeUtil getOrderArray:tradeDict];
-         NSMutableString* names = [@"" mutableCopy];
-         for (NSDictionary* orderDict in orderArray) {
-             NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
-             [names appendString:[QSItemUtil getItemName:itemDict]];
-         }
-         
-         if (paymentType == PaymentTypeAlipay) {
-             [SHARE_PAYMENT_SERVICE payWithAliPayTradeId:tradeId productName:names];
-         } else if (paymentType == PaymentTypeWechat) {
-             NSString* prepayid = [QSTradeUtil getWechatPrepayId:tradeDict];
-             [SHARE_PAYMENT_SERVICE payWithWechatPrepayId:prepayid productName:names];
-         }
+         [SHARE_PAYMENT_SERVICE payForTrade:tradeDict];
+#warning TODO use callback func
          
          [self showTextHud:@"success"];
+         self.createTradeOp = nil;
      }
                                  onError:^(NSError *error)
      {
          [self showErrorHudWithError:error];
+         self.createTradeOp = nil;
      }];
 }
 

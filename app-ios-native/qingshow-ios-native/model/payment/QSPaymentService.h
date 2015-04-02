@@ -13,6 +13,8 @@
 
 + (QSPaymentService*)shareService;
 
+- (void)payForTrade:(NSDictionary*)tradeDict;
+
 - (void)payWithAliPayTradeId:(NSString*)tradeId
                  productName:(NSString*)productName;
 - (void)payWithWechatPrepayId:(NSString*)prepayId
