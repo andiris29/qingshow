@@ -117,15 +117,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             case R.id.s11_submit_button:
                 submitTrade();
                 break;
-            case R.id.s11_dialog_continue:
-                Intent intent = new Intent(this, S02ShowClassify.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
-                startActivity(intent);
-                finish();
-                break;
-            case R.id.s11_dialog_list:
-                startActivity(new Intent(this, U09TradeListActivity.class));
-                finish();
             default:
                 break;
         }
@@ -240,15 +231,13 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                     TradeRefreshCommand.refresh(trade._id, new Callback() {
                         @Override
                         public void onComplete(int result) {
-                            ConfirmDialog dialog = new ConfirmDialog();
-                            dialog.setTitle(StatusCode.statusArrays[result]);
-                            dialog.show(getSupportFragmentManager());
-                            Toast.makeText(getApplicationContext(), "" + result, Toast.LENGTH_LONG).show();
+                            showPayStatus(result);
                         }
 
                         @Override
                         public void onError(int errorCode) {
                             Log.i("tag", errorCode + "");
+                            ErrorHandler.handle(S11NewTradeActivity.this,errorCode);
                         }
                     });
                 }
@@ -265,6 +254,28 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    private void showPayStatus(int status){
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.setTitle(StatusCode.statusArrays[status]);
+        dialog.setCancel("继续逛逛", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(S11NewTradeActivity.this, S02ShowClassify.class);
+                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
+                startActivity(intent);
+                finish();
+            }
+        });
+        dialog.setConfirm("查看订单",new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(S11NewTradeActivity.this, U09TradeListActivity.class));
+                finish();
+            }
+        });
+        dialog.show(getSupportFragmentManager());
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -278,6 +289,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+
     @Override
     public void onResp(BaseResp resp) {
         Log.i("tag",resp.toString());
@@ -286,9 +298,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                 TradeRefreshCommand.refresh(trade._id, new Callback() {
                     @Override
                     public void onComplete(int result) {
-                        ConfirmDialog dialog = new ConfirmDialog();
-                        dialog.setTitle(StatusCode.statusArrays[result]);
-                        dialog.show(getSupportFragmentManager());
+                        showPayStatus(result);
                     }
 
                     @Override
