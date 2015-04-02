@@ -42,7 +42,7 @@
     
     self.titleLabel.text = [QSTopicUtil getTitle:self.topicDict];
     self.numberLabel.text = [QSTopicUtil getShowNumberDesc:self.topicDict];
-    [self.imageView setImageFromURL:[QSTopicUtil getCoverUrl:self.topicDict]];
+    [self.imageView setImageFromURL:[QSTopicUtil getHorizontalCoverUrl:self.topicDict]];
     
 }
 - (void)viewWillAppear:(BOOL)animated
