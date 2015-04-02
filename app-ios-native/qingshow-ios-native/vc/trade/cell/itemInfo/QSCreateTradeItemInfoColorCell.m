@@ -15,8 +15,9 @@
 #define BASE_X 85.f
 #define MARGIN_X 10.f
 #define BASE_Y 15.f
-#define BTN_HEIGHT 27.f
-#define DELTA_Y 40.f
+#define MARGIN_Y 5.f
+#define TEXT_BTN_HEIGHT 26.f
+#define IMG_BTN_HEIGHT 38.f
 
 @interface QSCreateTradeItemInfoColorCell ()
 
@@ -25,13 +26,6 @@
 
 @implementation QSCreateTradeItemInfoColorCell
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 - (void)bindWithDict:(NSDictionary*)dict
 {
     if (self.btnArray) {
@@ -49,33 +43,36 @@
     __block float currentOriginX = BASE_X;
     __block float currentOriginY = BASE_Y;
     
-    [self.skusArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSString* colorProp = (NSString*)obj;
+    [self.skusArray enumerateObjectsUsingBlock:^(NSString* colorProp, NSUInteger idx, BOOL *stop) {
         NSString* colorName = [QSTaobaoInfoUtil getNameOfProperty:colorProp taobaoInfo:taobaoInfo];
         NSURL* imgUrl = [QSTaobaoInfoUtil getThumbnailUrlOfProperty:colorProp taobaoInfo:taobaoInfo];
         
         QSTradeSelectButton* btn = [[QSTradeSelectButton alloc] init];
         [self.btnArray addObject:btn];
+        
+        float btnHeight = 0.f;
+        float btnWidth = 0.f;
         if (imgUrl) {
             btn.imageUrl = imgUrl;
+            btnHeight = IMG_BTN_HEIGHT;
+            btnWidth = IMG_BTN_HEIGHT;
         } else {
             btn.text = colorName;
+            btnHeight = TEXT_BTN_HEIGHT;
+            btnWidth = btn.frame.size.width;
         }
 
         [btn addTarget:self action:@selector(btnPressed:) forControlEvents:UIControlEventTouchUpInside];
         
-        if (currentOriginX + btn.frame.size.width + MARGIN_X > screenWidth) {
+        if (currentOriginX + btnWidth + MARGIN_X > screenWidth) {
             currentOriginX = BASE_X;
-            currentOriginY = currentOriginY + DELTA_Y;
+            currentOriginY = currentOriginY + MARGIN_Y + btnHeight;
         }
         
-        CGRect rect = btn.frame;
-        rect.origin = CGPointMake(currentOriginX, currentOriginY);
-        btn.frame = rect;
-        
+        btn.frame = CGRectMake(currentOriginX, currentOriginY, btnWidth, btnHeight);
         
         [self.contentView addSubview:btn];
-        currentOriginX += btn.frame.size.width + MARGIN_X;
+        currentOriginX += btnWidth + MARGIN_X;
         
     }];
 }
@@ -89,26 +86,30 @@
     __block float currentOriginX = BASE_X;
     __block float currentOriginY = BASE_Y;
     
+    __block float btnHeight = 0.f;
     [colorArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSString* colorProp = (NSString*)obj;
         NSString* colorName = [QSTaobaoInfoUtil getNameOfProperty:colorProp taobaoInfo:taobaoInfo];
         NSURL* imgUrl = [QSTaobaoInfoUtil getThumbnailUrlOfProperty:colorProp taobaoInfo:taobaoInfo];
         float btnWidth = 0.f;
+        btnHeight = 0.f;
         if (imgUrl) {
+            btnHeight = IMG_BTN_HEIGHT;
             btnWidth = [QSTradeSelectButton getSizeOfImgBtn].width;
         } else {
+            btnHeight = TEXT_BTN_HEIGHT;
             btnWidth = [QSTradeSelectButton getWidthWithText:colorName];
         }
 
         
         if (currentOriginX + btnWidth + MARGIN_X > screenWidth) {
             currentOriginX = BASE_X;
-            currentOriginY = currentOriginY + DELTA_Y;
+            currentOriginY = currentOriginY + MARGIN_Y + btnHeight;
         }
         currentOriginX += btnWidth + MARGIN_X;
         
     }];
-    return currentOriginY + BTN_HEIGHT + BASE_Y;
+    return currentOriginY + btnHeight + BASE_Y;
 }
 
 - (void)updateWithSizeSelected:(NSString*)sku item:(NSDictionary*)itemDict

@@ -124,12 +124,24 @@
 
 - (void)configCellArray
 {
-
-    self.itemInfoCellArray = @[
-                               self.itemInfoTitleCell,
-                               self.itemInfoColorCell,
-                               self.itemInfoSizeCell,
-                               self.itemInfoQuantityCell];
+    NSMutableArray* array = [@[] mutableCopy];
+    [array addObject:self.itemInfoTitleCell];
+    
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
+    if ([QSTaobaoInfoUtil hasColorSku:taobaoInfo]) {
+        [array addObject:self.itemInfoColorCell];
+    } else {
+        self.itemInfoColorCell = nil;
+    }
+    
+    if ([QSTaobaoInfoUtil hasSizeSku:taobaoInfo]) {
+        [array addObject:self.itemInfoSizeCell];
+    } else {
+        self.itemInfoSizeCell = nil;
+    }
+    
+    [array addObject:self.itemInfoQuantityCell];
+    self.itemInfoCellArray = array;
     
     self.receiverInfoCellArray = @[self.receiverInfoTitleCell,
                                    self.receiverInfoNameCell,
