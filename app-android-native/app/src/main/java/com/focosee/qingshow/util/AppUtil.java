@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.util.TypedValue;
 import android.view.Display;
 
 import com.focosee.qingshow.R;
@@ -93,5 +94,9 @@ public class AppUtil {
         if (cwjManager.getActiveNetworkInfo() != null)
             flag = cwjManager.getActiveNetworkInfo().isAvailable();
         return flag;
+    }
+
+    public static float transformToDip(float i,Context context){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,i,context.getResources().getDisplayMetrics());
     }
 }

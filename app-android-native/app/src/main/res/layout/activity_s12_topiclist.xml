@@ -1,5 +1,4 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/s12_sliding_layout"
     android:layout_width="match_parent"
@@ -10,8 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:id="@+id/s01_FrameLa_right">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -32,11 +30,11 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:onClick="onClick"
                         android:id="@+id/s12_menu_button"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center_vertical"
+                        android:onClick="onClick"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -48,19 +46,19 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:onClick="onClick"
                         android:id="@+id/s12_logo"
                         android:layout_width="fill_parent"
                         android:layout_height="25dp"
                         android:layout_weight="1"
+                        android:onClick="onClick"
                         android:scaleType="fitCenter"
                         android:src="@drawable/nav_btn_image_logo" />
 
                     <ImageView
-                        android:onClick="onClick"
                         android:id="@+id/s12_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="onClick"
                         android:paddingRight="10dp"
                         android:src="@drawable/nav_account_btn" />
 
@@ -72,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/S01_navigation"
                     android:layout_weight="1"
-                    android:cacheColorHint="#00000000"
+                    android:background="@color/home_gray_background"
                     android:minHeight="20dp" />
             </LinearLayout>
 

@@ -152,7 +152,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void submitTrade() {
-        submit.setClickable(false);
+        submit.setEnabled(false);
         receiver = receiptFragment.getReceiver();
 
         Map<String, String> params = new HashMap<String, String>();
@@ -213,7 +213,6 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                 }
                 trade = TradeParser.parse(response);
                 pay(trade);
-                submit.setClickable(true);
             }
         });
 
@@ -274,6 +273,8 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
             }
         });
         dialog.show(getSupportFragmentManager());
+        submit.setEnabled(true);
+
     }
 
     @Override

@@ -81,6 +81,7 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
         right = (LinearLayout) findViewById(R.id.s12_show_relative);
         pullRefreshView = (MPullRefreshListView) findViewById(R.id.s12_waterfall_content);
         refreshView = pullRefreshView.getRefreshableView();
+        refreshView.setDividerHeight(0);
 
         adapter = new S12Adapter(this);
         refreshView.setAdapter(adapter);

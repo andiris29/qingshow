@@ -20,10 +20,10 @@ public class RoundBitmapDrawable extends Drawable {
     private int height;
 
     private RectF rectF;
-    private int rx;
-    private int ry;
+    private float rx;
+    private float ry;
 
-    public RoundBitmapDrawable(Bitmap bitmap, int rx, int ry) {
+    public RoundBitmapDrawable(Bitmap bitmap, float rx, float ry) {
         this.bitmap = bitmap;
         this.rx = rx;
         this.ry = ry;

@@ -19,6 +19,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S11NewTradeActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuColor;
@@ -264,8 +265,8 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         final ArrayList<Prop> colorList = new ArrayList<Prop>();
 
         for (SkuColor color : colors) {
-            int imgWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getResources().getDisplayMetrics());
-            int imgHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,35,getResources().getDisplayMetrics());
+            int imgWidth = (int) AppUtil.transformToDip(35,getActivity());
+            int imgHeight = (int) AppUtil.transformToDip(35,getActivity());
             ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(imgWidth, imgHeight);
             itemParams.setMargins(10, 10, 10, 10);
             final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
@@ -280,7 +281,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, 20, 20));
+                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, AppUtil.transformToDip(5,getActivity()), AppUtil.transformToDip(5,getActivity())));
                     }
                 });
 

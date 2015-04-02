@@ -25,4 +25,6 @@
     <color name="dialog">#11000000</color>
 
     <color name="gray_background">#CCCCCC</color>
+    <color name="home_gray_background">#ffe6e6e6</color>
+
 </resources>

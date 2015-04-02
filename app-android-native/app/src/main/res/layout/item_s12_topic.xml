@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:background="@color/white"
         android:id="@+id/s12_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="9"
+        android:background="@color/white"
         fresco:actualImageScaleType="fitXY"
         fresco:placeholderImage="@drawable/bg_pic" />
 
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
         android:layout_weight="2"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <TextView
-            android:paddingLeft="10dp"
             android:id="@+id/s12_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="粗存必备"/>
+            android:paddingLeft="10dp" />
+
         <TextView
-            android:paddingLeft="10dp"
-            android:layout_marginTop="5dp"
             android:id="@+id/s12_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="初春必备精选"/>
-
+            android:layout_marginTop="5dp"
+            android:paddingLeft="10dp" />
     </LinearLayout>
 
 </LinearLayout>
