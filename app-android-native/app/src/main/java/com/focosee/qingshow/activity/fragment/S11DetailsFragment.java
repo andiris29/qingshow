@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -263,7 +264,9 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         final ArrayList<Prop> colorList = new ArrayList<Prop>();
 
         for (SkuColor color : colors) {
-            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(100, 100);
+            int imgWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 35, getResources().getDisplayMetrics());
+            int imgHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,35,getResources().getDisplayMetrics());
+            ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(imgWidth, imgHeight);
             itemParams.setMargins(10, 10, 10, 10);
             final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
 
