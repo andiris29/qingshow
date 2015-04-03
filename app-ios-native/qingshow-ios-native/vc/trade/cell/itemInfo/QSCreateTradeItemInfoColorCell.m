@@ -21,7 +21,6 @@
 
 @interface QSCreateTradeItemInfoColorCell ()
 
-
 @end
 
 @implementation QSCreateTradeItemInfoColorCell

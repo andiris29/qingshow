@@ -31,5 +31,7 @@
 
 + (NSDictionary*)getTaobaoInfo:(NSDictionary*)item;
 
++ (NSURL*)getSizeExplanation:(NSDictionary*)item;
+
 //+ (CGFloat)getHeight:(NSDictionary*)itemDict;
 @end

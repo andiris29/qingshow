@@ -324,4 +324,16 @@
     }
     return itemDict[@"taobaoInfo"];
 }
+
++ (NSURL*)getSizeExplanation:(NSDictionary*)item
+{
+    if (![QSCommonUtil checkIsDict:item]) {
+        return nil;
+    }
+    NSString* e = item[@"sizeExplanation"];
+    if (![QSCommonUtil checkIsNil:e]) {
+        return [NSURL URLWithString:e];
+    }
+    return nil;
+}
 @end
