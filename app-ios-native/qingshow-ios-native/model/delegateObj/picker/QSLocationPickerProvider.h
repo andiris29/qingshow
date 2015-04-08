@@ -8,8 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+@class QSLocationPickerProvider;
+
+@protocol QSLocationPickerProviderDelegate <NSObject>
+
+@optional
+- (void)locationValueChange:(QSLocationPickerProvider*)provider;
+
+@end
+
 @interface QSLocationPickerProvider : NSObject <UIPickerViewDataSource, UIPickerViewDelegate>
 
 - (id)initWithPicker:(UIPickerView*)picker;
+
+- (void)bindWithValue:(NSString*)value;
+- (NSString*)getSelectedValue;
+
+@property (weak, nonatomic) NSObject<QSLocationPickerProviderDelegate>* delegate;
 
 @end

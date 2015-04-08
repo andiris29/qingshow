@@ -33,7 +33,7 @@
                         <outlet property="delegate" destination="-1" id="B8j-qX-VmK"/>
                     </connections>
                 </tableView>
-                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJ2-wl-48o">
+                <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJ2-wl-48o">
                     <rect key="frame" x="0.0" y="342" width="320" height="162"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -122,7 +122,7 @@
             </tableViewCellContentView>
             <point key="canvasLocation" x="756" y="299"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bOC-rA-X5j">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="bOC-rA-X5j">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bOC-rA-X5j" id="LAy-ra-FqD">
@@ -145,7 +145,7 @@
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9h-hZ-RGx">
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9h-hZ-RGx">
                         <rect key="frame" x="304" y="14" width="8" height="15"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="672-Oz-vuR"/>

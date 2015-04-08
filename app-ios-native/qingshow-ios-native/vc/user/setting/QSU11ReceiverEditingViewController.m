@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSReceiverUtil.h"
 #import "UIViewController+QSExtension.h"
-#import "QSLocationPickerProvider.h"
+
 
 @interface QSU11ReceiverEditingViewController ()
 
@@ -45,8 +45,9 @@
     [super viewDidLoad];
     [self configView];
     [self configBarBtn];
-    [self bindWithDict:self.locationDict];
     self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
+    self.pickerProvider.delegate = self;
+    [self bindWithDict:self.locationDict];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,16 +80,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
     if (cell == self.locationCell) {
-        QSProvinceSelectionTableViewController* vc = [[QSProvinceSelectionTableViewController alloc] init];
-        vc.delegate = self;
-        [self.navigationController pushViewController:vc animated:YES];
+        [self showPicker];
+        [self hideKeyboard];
     }
 }
 
 #pragma mark - ScrollView
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self hideKeyboard];
+    [self hideKeyboardAndPicker];
 }
 
 #pragma mark - Private
@@ -126,9 +126,13 @@
     
 }
 
+- (void)hideKeyboardAndPicker
+{
+    [self hideKeyboard];
+    [self hidePicker];
+}
 - (void)hideKeyboard
 {
-
     for (UITextField* t in self.textFieldArray) {
         [t resignFirstResponder];
     }
@@ -145,6 +149,7 @@
     self.nameTextField.text = [QSReceiverUtil getName:dict];
     self.phoneTextField.text = [QSReceiverUtil getPhone:dict];
     self.localLabel.text = [QSReceiverUtil getProvince:dict];
+    [self.pickerProvider bindWithValue:self.localLabel.text];
     self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
 
@@ -157,7 +162,7 @@
         return;
     }
     
-    [self hideKeyboard];
+    [self hideKeyboardAndPicker];
     NSString* uuid = nil;
     BOOL isDefault = YES;
     if (self.locationDict) {
@@ -189,5 +194,34 @@
 - (void)provinceSelectionVc:(QSProvinceSelectionTableViewController*)vc didSelectionProvince:(NSString*)province city:(NSString*)city
 {
     self.selectionLocation = [NSString stringWithFormat:@"%@ %@", province, city];
+}
+
+
+- (void)showPicker
+{
+    if (!self.provincePicker.hidden) {
+        return;
+    }
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromTop;
+    [self.provincePicker.layer addAnimation:tran forKey:@"show"];
+    self.provincePicker.hidden = NO;
+}
+- (void)hidePicker
+{
+    if (self.provincePicker.hidden) {
+        return;
+    }
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromBottom;
+    [self.provincePicker.layer addAnimation:tran forKey:@"hide"];
+    self.provincePicker.hidden = YES;
+}
+
+- (void)locationValueChange:(QSLocationPickerProvider*)provider
+{
+    self.selectionLocation = [provider getSelectedValue];
 }
 @end

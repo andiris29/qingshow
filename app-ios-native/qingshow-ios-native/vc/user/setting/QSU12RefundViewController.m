@@ -144,7 +144,6 @@
     tran.subtype = kCATransitionFromBottom;
     [self.datePicker.layer addAnimation:tran forKey:@"hide"];
     self.datePicker.hidden = YES;
-    
 }
 - (void)setCurrentSelectedDate:(NSDate*)date
 {

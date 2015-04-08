@@ -73,40 +73,92 @@
     return 0;
 }
 
-//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
-//{
-//    NSString* str = nil;
-//    switch (component) {
-//        case 0:{
-//            NSString* code = self.provinceCodeArray[row];
-//            str = self.provinceDict[code];
-//            break;
-//        }
-//        case 1:{
-//            str = self.cityArray[row][0];
-//            break;
-//        }
-//        case 2:{
-//            str = self.districtArray[row][0];
-//            break;
-//        }
-//        default:
-//            str = @"";
-//            break;
-//    }
-//    return str;
-//}
-
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+- (void)bindWithValue:(NSString*)value
 {
-    UILabel* label = nil;
-    if (view) {
-        label = (UILabel*)view;
-    } else {
-        label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:9.f];
-        label.textAlignment = NSTextAlignmentCenter;
+    NSArray* comps = [value componentsSeparatedByString:@" "];
+    for (int i = 0; i < comps.count; i++) {
+        NSString* comp = comps[i];
+        switch (i) {
+            case 0:
+            {
+                [self bindProvince:comp];
+                break;
+            }
+            case 1:
+            {
+                [self bindCity:comp];
+                break;
+            }
+            case 2:
+            {
+                [self bindDistrict:comp];
+                break;
+            }
+        }
     }
+}
+
+- (void)bindProvince:(NSString*)province
+{
+    int i = 0;
+    for (i = 0; i < self.provinceCodeArray.count; i++) {
+        NSString* code = self.provinceCodeArray[i];
+        NSString* prov = self.provinceDict[code];
+        if ([province isEqualToString:prov]) {
+            break;
+        }
+    }
+    if (i >= self.provinceCodeArray.count) {
+        i = 0;
+    }
+    [self.picker selectRow:i inComponent:0 animated:NO];
+    [self updateCityAndDistrictDatasource];
+}
+- (void)bindCity:(NSString*)city
+{
+    int i = 0;
+    for (i = 0; i < self.cityArray.count; i++) {
+        NSArray* cityInfo = self.cityArray[i];
+        NSString* cityName = cityInfo[0];
+        if ([cityName isEqualToString:city]) {
+            break;
+        }
+    }
+    if (i >= self.cityArray.count){
+        i = 0;
+    }
+    [self.picker selectRow:i inComponent:1 animated:NO];
+    [self updateDistrictDatasource];
+}
+- (void)bindDistrict:(NSString*)dis{
+    int i = 0;
+    for (i = 0; i < self.districtArray.count; i++) {
+        NSArray* disInfo = self.districtArray[i];
+        NSString* disName = disInfo[0];
+        if ([disName isEqualToString:dis]) {
+            break;
+        }
+    }
+    if (i >= self.districtArray.count){
+        i = 0;
+    }
+    [self.picker selectRow:i inComponent:2 animated:NO];
+}
+
+- (NSString*)getSelectedValue
+{
+    NSMutableString* str = [@"" mutableCopy];
+    for (int i = 0; i < 3; i++) {
+        int row = [self.picker selectedRowInComponent:i];
+        NSString* v = [self valueForRow:row forComponent:i];
+        [str appendString:v];
+        [str appendString:@" "];
+    }
+    return str;
+}
+
+- (NSString*)valueForRow:(NSInteger)row forComponent:(NSInteger)component
+{
     NSString* str = nil;
     switch (component) {
         case 0:{
@@ -126,6 +178,20 @@
             str = @"";
             break;
     }
+    return str;
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+    UILabel* label = nil;
+    if (view) {
+        label = (UILabel*)view;
+    } else {
+        label = [[UILabel alloc] init];
+        label.font = [UIFont systemFontOfSize:9.f];
+        label.textAlignment = NSTextAlignmentCenter;
+    }
+    NSString* str = [self valueForRow:row forComponent:component];
     label.text = str;
     return label;
 }
@@ -142,6 +208,11 @@
     } else if (component == 1) {
         [self updateDistrictDatasource];
     }
+    
+    if ([self.delegate respondsToSelector:@selector(locationValueChange:)]) {
+        [self.delegate locationValueChange:self];
+    }
+
 }
 
 - (void)updateCityAndDistrictDatasource
