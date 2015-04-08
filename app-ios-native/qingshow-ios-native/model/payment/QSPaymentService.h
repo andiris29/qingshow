@@ -7,13 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QSBlock.h"
+
 #define SHARE_PAYMENT_SERVICE [QSPaymentService shareService]
 
 @interface QSPaymentService : NSObject
 
 + (QSPaymentService*)shareService;
 
-- (void)payForTrade:(NSDictionary*)tradeDict;
+- (void)payForTrade:(NSDictionary *)tradeDict
+          onSuccess:(VoidBlock)succeedBlock
+            onError:(ErrorBlock)errorBlock;
 
 - (void)payWithAliPayTradeId:(NSString*)tradeId
                  productName:(NSString*)productName;

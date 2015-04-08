@@ -12,6 +12,7 @@
 #import "QSOrderListHeaderView.h"
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU09OrderListViewController ()
 
@@ -82,6 +83,13 @@
 
 - (void)didClickPayBtnOfOrder:(NSDictionary *)orderDict
 {
-    [SHARE_PAYMENT_SERVICE payForTrade:orderDict];
+    __weak QSU09OrderListViewController* weakSelf = self;
+    [SHARE_PAYMENT_SERVICE payForTrade:orderDict
+                             onSuccess:^{
+                                 [weakSelf showTextHud:@"支付成功"];
+                             }
+                               onError:^(NSError *error) {
+                                   [weakSelf showErrorHudWithText:@"支付失败"];
+                               }];
 }
 @end

@@ -15,6 +15,7 @@
 #import "QSUserManager.h"
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "QSPaymentConst.h"
 
 
 @interface QSAppDelegate ()
@@ -94,11 +95,19 @@
     } else if ([urlStr hasPrefix:@"alipay"]) {
         if ([url.host isEqualToString:@"safepay"]) {
             
-            [[AlipaySDK defaultService] processAuth_V2Result:url
-                                             standbyCallback:^(NSDictionary *resultDic) {
-                                                 NSLog(@"result = %@",resultDic);
-                                                 NSString *resultStr = resultDic[@"result"];
-                                             }];
+            [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+                NSNumber* resultStatus = resultDic[@"resultStatus"];
+                if (resultStatus.intValue == kAlipayPaymentSuccessCode) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
+                } else {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+                }
+            }];
+//            [[AlipaySDK defaultService] processAuth_V2Result:url
+//                                             standbyCallback:^(NSDictionary *resultDic) {
+//                                                 NSLog(@"result = %@",resultDic);
+//                                                 NSString *resultStr = resultDic[@"result"];
+//                                             }];
             
         }
     }
@@ -127,24 +136,6 @@
     if ([response isKindOfClass:WBSendMessageToWeiboResponse.class])
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboSendMessageResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
-//        NSString *title = NSLocalizedString(@"发送结果", nil);
-//        NSString *message = [NSString stringWithFormat:@"%@: %d\n%@: %@\n%@: %@", NSLocalizedString(@"响应状态", nil), (int)response.statusCode, NSLocalizedString(@"响应UserInfo数据", nil), response.userInfo, NSLocalizedString(@"原请求UserInfo数据", nil),response.requestUserInfo];
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-//                                                        message:message
-//                                                       delegate:nil
-//                                              cancelButtonTitle:NSLocalizedString(@"确定", nil)
-//                                              otherButtonTitles:nil];
-//        WBSendMessageToWeiboResponse* sendMessageToWeiboResponse = (WBSendMessageToWeiboResponse*)response;
-//        NSString* accessToken = [sendMessageToWeiboResponse.authResponse accessToken];
-//        if (accessToken)
-//        {
-//            self.wbtoken = accessToken;
-//        }
-//        NSString* userID = [sendMessageToWeiboResponse.authResponse userID];
-//        if (userID) {
-//            self.wbCurrentUserID = userID;
-//        }
-//        [alert show];
     }
     else if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
@@ -201,6 +192,10 @@
 
 -(void) onResp:(BaseResp*)resp
 {
-    
+    if (resp.errCode == kWechatPaymentSuccessCode) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+    }
 }
 @end

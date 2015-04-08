@@ -369,9 +369,10 @@
     NSString* totalPriceStr = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
     [self.totalCell updateWithPrice:totalPriceStr];
     
-    totalPrice = @(0.1f);
+    totalPrice = @(0.01f);
     quantity = @1;
-    price = @(0.1f);
+    price = @(0.01f);
+    __weak QSS11CreateTradeViewController* weakSelf = self;
     self.createTradeOp =
     [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
                                 quantity:quantity.intValue
@@ -382,10 +383,13 @@
                                     type:paymentType
                                onSucceed:^(NSDictionary* tradeDict)
      {
-         [SHARE_PAYMENT_SERVICE payForTrade:tradeDict];
-#warning TODO use callback func
-         
-         [self showTextHud:@"success"];
+         [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
+                                  onSuccess:^{
+                                      [weakSelf showTextHud:@"支付成功"];
+                                  }
+                                    onError:^(NSError *error) {
+                                        [weakSelf showErrorHudWithText:@"支付失败"];
+                                    }];
          self.createTradeOp = nil;
      }
                                  onError:^(NSError *error)

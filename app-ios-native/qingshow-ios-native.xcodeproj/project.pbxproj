@@ -679,6 +679,7 @@
 		EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFeedingCategory.m; sourceTree = "<group>"; };
 		EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleUtil.h; sourceTree = "<group>"; };
 		EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPeopleUtil.m; sourceTree = "<group>"; };
+		EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSPaymentConst.h; sourceTree = "<group>"; };
 		EFB31A511A4FB95C00257BC9 /* QSPreviewUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPreviewUtil.h; sourceTree = "<group>"; };
 		EFB31A521A4FB95C00257BC9 /* QSPreviewUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPreviewUtil.m; sourceTree = "<group>"; };
 		EFBA0B611A2387090014A05B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -1514,6 +1515,7 @@
 				EF8FD0551A064D470081F8EB /* ServerPath.h */,
 				EF8FD0561A064DC30081F8EB /* PupblicResource.h */,
 				EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */,
+				EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */,
 			);
 			path = type;
 			sourceTree = "<group>";

@@ -18,6 +18,8 @@
 #import "QSOrderUtil.h"
 #import "QSCommonUtil.h"
 #import "QSItemUtil.h"
+#import "QSPaymentConst.h"
+
 
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
@@ -28,6 +30,13 @@
 #define WECHAT_SIGN_KEY @"1qaz2wsx3edc4rfv1234qwerasdfzxcv"
 #define WECHAT_PARTNER_ID @"1234859302"
 
+@interface QSPaymentService ()
+
+@property (strong, nonatomic) VoidBlock succeedBlock;
+@property (strong, nonatomic) ErrorBlock errorBlock;
+
+@end
+
 @implementation QSPaymentService
 
 + (QSPaymentService*)shareService
@@ -36,13 +45,20 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_paymentService = [[QSPaymentService alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:s_paymentService selector:@selector(invokePaymentSuccessCallback:) name:kPaymentSuccessNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:s_paymentService selector:@selector(invokePaymentFailCallback:) name:kPaymentFailNotification object:nil];
         
     });
     return s_paymentService;
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict
+          onSuccess:(VoidBlock)succeedBlock
+            onError:(ErrorBlock)errorBlock
 {
+    self.succeedBlock = succeedBlock;
+    self.errorBlock = errorBlock;
+    
     NSString* prepayId = [QSTradeUtil getWechatPrepayId:tradeDict];
     
     
@@ -90,7 +106,12 @@
                        orderSpec, signedString, @"RSA"];
         
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:ALIPAY_URL_SCHEMA callback:^(NSDictionary *resultDic) {
-            NSLog(@"reslut = %@",resultDic);
+            NSNumber* resultStatus = resultDic[@"resultStatus"];
+            if (resultStatus.intValue == kAlipayPaymentSuccessCode) {
+                [self invokePaymentSuccessCallback:nil];
+            } else {
+                [self invokePaymentFailCallback:nil];
+            }
         }];
     }
 }
@@ -105,9 +126,30 @@
     request.nonceStr= @(random()).stringValue;
     request.timeStamp= [[NSDate date] timeIntervalSince1970];
     NSString* str = [NSString stringWithFormat:@"appid=%@&noncestr=%@&package=Sign=WXPay&partnerid=%@&prepayid=%@&timestamp=%ld&key=%@",kWechatAppID, request.nonceStr, request.partnerId, request.prepayId, request.timeStamp, WECHAT_SIGN_KEY];
-    request.sign= [[str md5] uppercaseString];
+    request.sign = [[str md5] uppercaseString];
 
     [WXApi sendReq:request];
+}
+
+- (void)invokePaymentSuccessCallback:(NSNotification*)notification
+{
+    if (self.succeedBlock) {
+        self.succeedBlock();
+        self.succeedBlock = nil;
+    }
+}
+
+- (void)invokePaymentFailCallback:(NSNotification*)notification
+{
+    if (self.errorBlock) {
+        self.errorBlock(nil);
+        self.errorBlock = nil;
+    }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
