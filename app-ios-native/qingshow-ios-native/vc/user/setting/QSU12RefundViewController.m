@@ -9,6 +9,8 @@
 #import "QSU12RefundViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSDateUtil.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU12RefundViewController ()
 
@@ -113,7 +115,22 @@
 }
 
 - (IBAction)submitBtnPressed:(id)sender {
+    __weak QSU12RefundViewController* weakSelf = self;
     [self hideKeyboardAndPicker];
+    [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:6 onSucceed:^{
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
+            [self showTextHud:@"退款成功"];
+            [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
+}
+- (void)popBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Picker
