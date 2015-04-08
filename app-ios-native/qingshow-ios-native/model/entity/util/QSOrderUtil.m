@@ -22,7 +22,7 @@
         return nil;
     }
     NSNumber* num = dict[@"price"];
-    return num.stringValue;
+    return [NSString stringWithFormat:@"%.2f", num.doubleValue];
 }
 + (NSString*)getQuantityDesc:(NSDictionary*)dict
 {

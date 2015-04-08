@@ -78,8 +78,10 @@
     NSArray* skus = [self getSkusArray:taobaoInfo];
     for (NSDictionary* sku in skus) {
         NSString* rSkuId = sku[@"sku_id"];
-        
-        if ([rSkuId isEqual:skuId]) {
+        if ([rSkuId respondsToSelector:@selector(stringValue)]) {
+            rSkuId =  ((NSNumber*)rSkuId).stringValue;
+        }
+        if ([skuId isEqualToString:rSkuId]) {
             return sku;
         }
     }

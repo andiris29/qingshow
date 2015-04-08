@@ -19,6 +19,7 @@
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
 
+@property (assign, nonatomic) float skuLabelBaseY;
 @end
 
 @implementation QSOrderListTableViewCell
@@ -29,6 +30,7 @@
 //    [self configBtn:self.refundButton];
     [self configBtn:self.submitButton];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y;
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -48,6 +50,7 @@
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
 {
+
     self.tradeDict = tradeDict;
     NSArray* orderList = [QSTradeUtil getOrderArray:tradeDict];
     NSDictionary* orderDict = nil;
@@ -67,9 +70,38 @@
 
     NSString* sku = [QSOrderUtil getSkuId:orderDict];
     NSDictionary* skuDict = [QSTaobaoInfoUtil findSkusWithSkuId:sku taobaoInfo:taobaoInfo];
+
+    float height = self.skuLabelBaseY;
+
+    NSString* size = [QSTaobaoInfoUtil getSizeOfSku:skuDict];
+    if (size && size.length) {
+        self.sizeLabel.text = size;
+        self.sizeTextLabel.hidden = NO;
+        self.sizeLabel.hidden = NO;
+        [self updateView:self.sizeTextLabel y:height];
+        [self updateView:self.sizeLabel y:height];
+        height += 20;
+    } else {
+        self.sizeTextLabel.hidden = YES;
+        self.sizeLabel.hidden = YES;
+    }
     
-    self.sizeLabel.text = [QSTaobaoInfoUtil getSizeOfSku:skuDict];
-    self.colorLabel.text = [QSTaobaoInfoUtil getColorOfSku:skuDict];
+    NSString* color = [QSTaobaoInfoUtil getColorOfSku:skuDict];
+    if (color && color.length) {
+        self.colorLabel.text = color;
+        self.colorTextLabel.hidden = NO;
+        self.colorLabel.hidden = NO;
+        [self updateView:self.colorTextLabel y:height];
+        [self updateView:self.colorLabel y:height];
+        height += 20;
+    } else {
+        self.colorTextLabel.hidden = YES;
+        self.colorLabel.hidden = YES;
+    }
+    
+    for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
+        [self updateView:view y:height];
+    }
     
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
     if (status.intValue == 0) {
@@ -82,6 +114,13 @@
         self.submitButton.hidden = YES;
     }
 }
+- (void)updateView:(UIView*)view y:(float)y
+{
+    CGRect rect = view.frame;
+    rect.origin.y = y;
+    view.frame = rect;
+}
+
 #pragma mark - Getter And Setter
 //- (void)setType:(QSOrderListTableViewCellType)type
 //{

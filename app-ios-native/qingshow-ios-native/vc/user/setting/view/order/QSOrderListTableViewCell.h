@@ -34,9 +34,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView* itemImgView;
 
 @property (weak, nonatomic) IBOutlet UILabel* sizeLabel;
+@property (weak, nonatomic) IBOutlet UILabel* sizeTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* quantityLabel;
+@property (weak, nonatomic) IBOutlet UILabel* quantityTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* colorLabel;
+@property (weak, nonatomic) IBOutlet UILabel* colorTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel* priceTextLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel* dateStartTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel* dateStartLabel;
