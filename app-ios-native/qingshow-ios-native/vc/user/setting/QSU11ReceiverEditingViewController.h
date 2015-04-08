@@ -28,5 +28,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 - (instancetype)initWithDict:(NSDictionary*)dict;
+@property (weak, nonatomic) IBOutlet UIPickerView *provincePicker;
 
 @end

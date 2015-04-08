@@ -139,6 +139,8 @@
 		EF87FDD51A45A7A8003A6050 /* QSBrandTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF87FDD41A45A7A8003A6050 /* QSBrandTableViewHeaderView.xib */; };
 		EF87FDD81A45BE06003A6050 /* QSBrandTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF87FDD71A45BE06003A6050 /* QSBrandTitleView.m */; };
 		EF87FDDA1A45BE15003A6050 /* QSBrandTitleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF87FDD91A45BE15003A6050 /* QSBrandTitleView.xib */; };
+		EF88D08E1ACEF90C002C4963 /* area.json in Resources */ = {isa = PBXBuildFile; fileRef = EF88D08D1ACEF90C002C4963 /* area.json */; };
+		EF88D0911ACEF91C002C4963 /* QSLocationPickerProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF88D0901ACEF91C002C4963 /* QSLocationPickerProvider.m */; };
 		EF8AB6631A07D21D00372538 /* QSP01ModelListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */; };
 		EF8AB6681A07D26F00372538 /* QSModelListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8AB6661A07D26F00372538 /* QSModelListTableViewCell.m */; };
 		EF8AB6691A07D26F00372538 /* QSModelListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8AB6671A07D26F00372538 /* QSModelListTableViewCell.xib */; };
@@ -585,6 +587,9 @@
 		EF87FDD61A45BE06003A6050 /* QSBrandTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBrandTitleView.h; sourceTree = "<group>"; };
 		EF87FDD71A45BE06003A6050 /* QSBrandTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBrandTitleView.m; sourceTree = "<group>"; };
 		EF87FDD91A45BE15003A6050 /* QSBrandTitleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBrandTitleView.xib; sourceTree = "<group>"; };
+		EF88D08D1ACEF90C002C4963 /* area.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = area.json; sourceTree = "<group>"; };
+		EF88D08F1ACEF91C002C4963 /* QSLocationPickerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSLocationPickerProvider.h; sourceTree = "<group>"; };
+		EF88D0901ACEF91C002C4963 /* QSLocationPickerProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSLocationPickerProvider.m; sourceTree = "<group>"; };
 		EF8AB6611A07D21D00372538 /* QSP01ModelListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSP01ModelListViewController.h; sourceTree = "<group>"; };
 		EF8AB6621A07D21D00372538 /* QSP01ModelListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSP01ModelListViewController.m; sourceTree = "<group>"; };
 		EF8AB6651A07D26F00372538 /* QSModelListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSModelListTableViewCell.h; sourceTree = "<group>"; };
@@ -1080,6 +1085,7 @@
 		EF3D05671A0BC62100175E1D /* provider */ = {
 			isa = PBXGroup;
 			children = (
+				EF88D08B1ACEF906002C4963 /* picker */,
 				EF59EDE61A74FAEE00D639FB /* collectionview */,
 				EF59EDED1A74FAEE00D639FB /* tableview */,
 				EF59EDDF1A74CC9C00D639FB /* QSAbstractListViewProvider.h */,
@@ -1177,6 +1183,7 @@
 		EF7826A41A4EB4F200C69460 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				EF88D08D1ACEF90C002C4963 /* area.json */,
 				EFEBAAE31ABEB0000000FEEE /* location.plist */,
 				EF7826A51A4EB4F200C69460 /* user_bg_default.png */,
 				EF7826A61A4EB4F200C69460 /* user_head_default.png */,
@@ -1328,6 +1335,15 @@
 				EF810F7B1AB602760079BA76 /* QSTotalPriceCell.m */,
 			);
 			path = totalPrice;
+			sourceTree = "<group>";
+		};
+		EF88D08B1ACEF906002C4963 /* picker */ = {
+			isa = PBXGroup;
+			children = (
+				EF88D08F1ACEF91C002C4963 /* QSLocationPickerProvider.h */,
+				EF88D0901ACEF91C002C4963 /* QSLocationPickerProvider.m */,
+			);
+			path = picker;
 			sourceTree = "<group>";
 		};
 		EF8AB6561A07D0EE00372538 /* model */ = {
@@ -2078,6 +2094,7 @@
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
 				EFC543691A1750AD001B2C49 /* QSSectionNumberTextButton.xib in Resources */,
 				EF7826A81A4EB4F200C69460 /* user_head_default.png in Resources */,
+				EF88D08E1ACEF90C002C4963 /* area.json in Resources */,
 				EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */,
 				82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */,
@@ -2172,6 +2189,7 @@
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
+				EF88D0911ACEF91C002C4963 /* QSLocationPickerProvider.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
 				EF59EDFC1A74FAEE00D639FB /* QSCommentListTableViewProvider.m in Sources */,
 				EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */,

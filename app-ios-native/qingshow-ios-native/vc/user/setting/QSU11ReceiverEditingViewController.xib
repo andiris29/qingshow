@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU11ReceiverEditingViewController">
@@ -15,6 +15,7 @@
                 <outlet property="nameTextField" destination="SNa-Is-QgS" id="c0J-n7-Vog"/>
                 <outlet property="phoneCell" destination="EMf-Bh-IAA" id="BcI-HS-9wN"/>
                 <outlet property="phoneTextField" destination="tZO-Fm-eg9" id="VxW-wL-l2Z"/>
+                <outlet property="provincePicker" destination="SJ2-wl-48o" id="VTo-kq-KOV"/>
                 <outlet property="tableView" destination="UHO-ej-brT" id="bjd-5D-ssN"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -32,13 +33,23 @@
                         <outlet property="delegate" destination="-1" id="B8j-qX-VmK"/>
                     </connections>
                 </tableView>
+                <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SJ2-wl-48o">
+                    <rect key="frame" x="0.0" y="342" width="320" height="162"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="162" id="yex-tb-hIh"/>
+                    </constraints>
+                </pickerView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="UHO-ej-brT" secondAttribute="trailing" id="AcH-nS-Ucu"/>
+                <constraint firstAttribute="bottom" secondItem="SJ2-wl-48o" secondAttribute="bottom" id="D5d-fH-0Gj"/>
+                <constraint firstItem="SJ2-wl-48o" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="N7J-M1-1lp"/>
                 <constraint firstItem="UHO-ej-brT" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="SXH-1p-M6u"/>
                 <constraint firstItem="UHO-ej-brT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dGV-cM-MMu"/>
                 <constraint firstAttribute="bottom" secondItem="UHO-ej-brT" secondAttribute="bottom" id="dxS-8J-Grk"/>
+                <constraint firstAttribute="trailing" secondItem="SJ2-wl-48o" secondAttribute="trailing" id="gMt-I4-XG3"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="351" y="320"/>

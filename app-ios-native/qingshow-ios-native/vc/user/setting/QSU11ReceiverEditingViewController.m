@@ -11,6 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSReceiverUtil.h"
 #import "UIViewController+QSExtension.h"
+#import "QSLocationPickerProvider.h"
 
 @interface QSU11ReceiverEditingViewController ()
 
@@ -19,7 +20,7 @@
 
 @property (strong, nonatomic) NSDictionary* locationDict;
 @property (strong, nonatomic) NSString* selectionLocation;
-
+@property (strong, nonatomic) QSLocationPickerProvider* pickerProvider;
 @end
 
 @implementation QSU11ReceiverEditingViewController
@@ -45,6 +46,7 @@
     [self configView];
     [self configBarBtn];
     [self bindWithDict:self.locationDict];
+    self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
 }
 
 - (void)didReceiveMemoryWarning {
