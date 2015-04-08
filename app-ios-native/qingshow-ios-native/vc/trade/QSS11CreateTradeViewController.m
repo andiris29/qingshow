@@ -23,14 +23,13 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
+#import "QSU09OrderListViewController.h"
 
 @interface QSS11CreateTradeViewController ()
 
 @property (strong, nonatomic) NSDictionary* itemDict;
 
-
 @property (strong, nonatomic) NSArray* cellGroupArray;
-
 
 @property (strong, nonatomic) NSArray* itemInfoCellArray;
 
@@ -385,7 +384,8 @@
      {
          [SHARE_PAYMENT_SERVICE payForTrade:tradeDict
                                   onSuccess:^{
-                                      [weakSelf showTextHud:@"支付成功"];
+                                      UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"支付成功" message:nil delegate:weakSelf cancelButtonTitle:nil otherButtonTitles:@"继续逛逛", @"查看订单", nil];
+                                      [alertView show];
                                   }
                                     onError:^(NSError *error) {
                                         [weakSelf showErrorHudWithText:@"支付失败"];
@@ -509,5 +509,18 @@
 - (void)scrollToBottom:(float)keyboardHeight
 {
     [self.tableView setContentOffset:CGPointMake(0, keyboardHeight) animated:YES];
+}
+
+#pragma mark - UIAlertView Delegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        //继续逛逛
+        [self.navigationController popViewControllerAnimated:YES];
+    } else if (buttonIndex == 1) {
+        //查看订单
+        UIViewController* vc = [[QSU09OrderListViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 @end

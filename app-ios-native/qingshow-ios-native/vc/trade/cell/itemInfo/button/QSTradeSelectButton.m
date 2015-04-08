@@ -48,6 +48,11 @@
         self.userInteractionEnabled = YES;
         UIGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClick)];
         [self addGestureRecognizer:ges];
+        
+        self.checkMarkImgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"create_trade_btn_checkmark"]];
+        [self addSubview:self.checkMarkImgView];
+        [self.checkMarkImgView sizeToFit];
+        self.checkMarkImgView.hidden = YES;
     }
     return self;
 }
@@ -67,6 +72,10 @@
 {
     self.label.frame = self.bounds;
     self.imageView.frame = self.bounds;
+    CGRect rect = self.checkMarkImgView.frame;
+    rect.origin.x = self.frame.size.width - rect.size.width;
+    rect.origin.y = self.frame.size.height - rect.size.height;
+    self.checkMarkImgView.frame = rect;
 }
 #pragma mark - Getter And Setter
 - (void)updateColor
@@ -76,6 +85,7 @@
         return;
     }
     if (_type == QSTradeSelectButtonTypeText) {
+        self.checkMarkImgView.hidden = YES;
         if (self.isSelected) {
             
             self.backgroundColor = COLOR_PURPLE;
@@ -89,8 +99,10 @@
     } else if (_type == QSTradeSelectButtonTypeImage) {
         if (self.isSelected) {
             self.layer.borderColor = COLOR_PURPLE.CGColor;
+            self.checkMarkImgView.hidden = NO;
         } else {
             self.layer.borderColor = [UIColor clearColor].CGColor;
+            self.checkMarkImgView.hidden = YES;
         }
 
         self.backgroundColor = [UIColor clearColor];
