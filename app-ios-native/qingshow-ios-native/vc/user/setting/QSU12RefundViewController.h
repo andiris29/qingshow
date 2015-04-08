@@ -20,7 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
 - (IBAction)submitBtnPressed:(id)sender;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollVIew;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 - (IBAction)pickerValueChanged:(UIDatePicker *)sender;
 

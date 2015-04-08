@@ -41,7 +41,7 @@
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
 //    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
-    [self.scrollVIew addGestureRecognizer:ges];
+    [self.scrollView addGestureRecognizer:ges];
     [self setCurrentSelectedDate:[NSDate date]];
     
     UITapGestureRecognizer* tapDate = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTextField)];
@@ -87,14 +87,14 @@
     }
     [self hidePicker];
     [UIView animateWithDuration:0.5f animations:^{
-        self.scrollVIew.contentInset = UIEdgeInsetsZero;
+        self.scrollView.contentInset = UIEdgeInsetsZero;
     }];
 
 }
 #pragma mark - Keyboard
 - (void)configContentInset:(float)height
 {
-    self.scrollVIew.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
     [self scrollToBottom:height];
 }
 - (void)keyboardWillShow:(NSNotification *)notif {
@@ -103,13 +103,13 @@
 
 - (void)keyboardWillHide:(NSNotification *)notif {
     [UIView animateWithDuration:0.5f animations:^{
-        self.scrollVIew.contentInset = UIEdgeInsetsZero;
+        self.scrollView.contentInset = UIEdgeInsetsZero;
     }];
 }
 
 - (void)scrollToBottom:(float)keyboardHeight
 {
-    [self.scrollVIew setContentOffset:CGPointMake(0, keyboardHeight) animated:YES];
+    [self.scrollView setContentOffset:CGPointMake(0, keyboardHeight) animated:YES];
 }
 
 - (IBAction)submitBtnPressed:(id)sender {
