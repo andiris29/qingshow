@@ -21,4 +21,8 @@
 {
     [self.textField resignFirstResponder];
 }
+- (id)getInputData
+{
+    return self.textField.text;
+}
 @end

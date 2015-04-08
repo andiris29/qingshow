@@ -14,4 +14,8 @@
     [super awakeFromNib];
 //    self.selectionStyle = UITableViewCellSelectionStyleDefault;
 }
+- (id)getInputData
+{
+    return self.label.text;
+}
 @end

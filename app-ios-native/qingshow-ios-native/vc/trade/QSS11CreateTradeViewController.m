@@ -296,10 +296,10 @@
         }
         self.saveReceiverOp =
         [SHARE_NW_ENGINE saveReceiver:nil
-                                 name:self.receiverInfoNameCell.textField.text
-                                phone:self.receiverInfoPhoneCell.textField.text
-                             province:self.receiverInfoLocationCell.label.text
-                              address:self.receiverInfoDetailLocationCell.textField.text
+                                 name:self.receiverInfoNameCell.getInputData
+                                phone:self.receiverInfoPhoneCell.getInputData
+                             province:self.receiverInfoLocationCell.getInputData
+                              address:self.receiverInfoDetailLocationCell.getInputData
                             isDefault:YES
                             onSuccess:^(NSDictionary *people, NSString *uuid, NSDictionary *metadata) {
                                 [self submitOrderWithReceiver:uuid];
@@ -324,7 +324,22 @@
 }
 - (BOOL)checkFullInfo
 {
-#warning TODO 检查input是否完整
+    if (self.itemInfoColorCell && !self.itemInfoColorCell.getInputData) {
+        return NO;
+    }
+    if (self.itemInfoSizeCell && !self.itemInfoSizeCell.getInputData) {
+        return NO;
+    }
+    if (!self.receiverInfoNameCell.getInputData ||
+        !self.receiverInfoPhoneCell.getInputData ||
+        !self.receiverInfoLocationCell.getInputData ||
+        !self.receiverInfoDetailLocationCell.getInputData) {
+        return NO;
+    }
+    
+    if (!self.payInfoAlipayCell.isSelect && !self.payInfoWechatCell.isSelect) {
+        return NO;
+    }
     return YES;
 }
 
