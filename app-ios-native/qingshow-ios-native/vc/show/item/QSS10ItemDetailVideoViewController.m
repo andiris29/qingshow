@@ -70,6 +70,12 @@
         [self.priceLabel sizeToFit];
         [self.priceAfterDiscountLabel sizeToFit];
     }
+    if ([QSItemUtil getVideoPath:itemDict]) {
+        self.playBtn.hidden = NO;
+    } else {
+        self.playBtn.hidden = YES;
+    }
+    
 }
 
 #pragma mark - Override
@@ -80,7 +86,8 @@
 }
 - (NSString*)generateVideoPath
 {
-    return @"http://trial01.focosee.com/demo6/1211a50300.mp4";
+    return [QSItemUtil getVideoPath:self.itemDict];
+//    return @"http://trial01.focosee.com/demo6/1211a50300.mp4";
 }
 
 #pragma mark Btn

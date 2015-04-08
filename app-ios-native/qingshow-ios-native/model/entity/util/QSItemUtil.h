@@ -32,6 +32,7 @@
 + (NSDictionary*)getTaobaoInfo:(NSDictionary*)item;
 
 + (NSURL*)getSizeExplanation:(NSDictionary*)item;
++ (NSString*)getVideoPath:(NSDictionary*)item;
 
 //+ (CGFloat)getHeight:(NSDictionary*)itemDict;
 @end

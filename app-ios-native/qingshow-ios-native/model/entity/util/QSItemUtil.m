@@ -336,4 +336,17 @@
     }
     return nil;
 }
+
++ (NSString*)getVideoPath:(NSDictionary*)item
+{
+    if (![QSCommonUtil checkIsDict:item]) {
+        return nil;
+    }
+    NSString* path = item[@"video"];
+    if ([QSCommonUtil checkIsNil:path]) {
+        return nil;
+    } else {
+        return path;
+    }
+}
 @end
