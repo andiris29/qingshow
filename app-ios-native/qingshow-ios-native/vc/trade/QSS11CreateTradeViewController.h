@@ -17,8 +17,9 @@
 #import "QSCreateTradeReceiverInfoLocationCell.h"
 #import "QSCreateTradePayInfoSelectCell.h"
 #import "QSTotalPriceCell.h"
+#import "QSLocationPickerProvider.h"
 
-@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSU10ReceiverListViewControllerDelegate>
+@interface QSS11CreateTradeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSCreateTradeTableViewCellBaseDelegate, QSU10ReceiverListViewControllerDelegate, QSLocationPickerProviderDelegate>
 
 #pragma mark - Item Info Cells
 @property (strong, nonatomic) IBOutlet QSCreateTradeItemInfoTitleCell *itemInfoTitleCell;
@@ -45,6 +46,7 @@
 
 #pragma mark - 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIPickerView *locationPicker;
 
 
 #pragma mark - Init

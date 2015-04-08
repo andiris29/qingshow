@@ -46,6 +46,11 @@
 
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
 @property (strong, nonatomic) MKNetworkOperation* saveReceiverOp;
+
+@property (strong, nonatomic) QSLocationPickerProvider* locationProvider;
+
+@property (assign, nonatomic) BOOL isShowKeyboard;
+
 @end
 
 @implementation QSS11CreateTradeViewController
@@ -56,6 +61,7 @@
     self = [super initWithNibName:@"QSS11CreateTradeViewController" bundle:nil];
     if (self) {
         self.itemDict = dict;
+        self.isShowKeyboard = NO;
     }
     return self;
 }
@@ -64,11 +70,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
+    self.locationProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.locationPicker];
     [self configCellArray];
     [self configView];
     [self updateAllCell];
     [self receiverConfig];
+    
 }
 - (void)receiverConfig
 {
@@ -83,6 +90,21 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -175,7 +197,17 @@
     return cell;
 }
 
-- (void)hidekeyboard
+- (void)hidekeyboardAndPicker
+{
+    if (!self.isShowKeyboard && self.locationPicker.hidden) {
+        return;
+    }
+    [self hideKeyboard];
+    [self hidePicker];
+    [self configContentInset:0];
+}
+
+- (void)hideKeyboard
 {
     for (NSArray* a in self.cellGroupArray) {
         for (QSCreateTradeTableViewCellBase* c in a) {
@@ -238,14 +270,20 @@
             }
         }
     }
+    if (cell == self.receiverInfoLocationCell) {
+        [self showPicker];
+    }
+    if (![self.receiverInfoCellArray containsObject:cell] || cell == self.receiverInfoTitleCell) {
+        [self hidekeyboardAndPicker];
+    }
     
 }
 
 #pragma mark - UIScrollView Delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self hidekeyboard];
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    [self hidekeyboardAndPicker];
+//}
 
 - (IBAction)submitButtonPressed:(id)sender {
     if (![self checkFullInfo]) {
@@ -394,5 +432,63 @@
     self.receiverInfoPhoneCell.textField.text = [QSReceiverUtil getPhone:r];
     self.receiverInfoDetailLocationCell.textField.text = [QSReceiverUtil getAddress:r];
     self.receiverInfoLocationCell.label.text = [QSReceiverUtil getProvince:r];
+
+}
+
+#pragma mark - Location Picker
+- (void)showPicker
+{
+    if (!self.locationPicker.hidden) {
+        return;
+    }
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromTop;
+    [self.locationPicker.layer addAnimation:tran forKey:@"show"];
+    self.locationPicker.hidden = NO;
+    [self configContentInset:100];
+    [self hideKeyboard];
+}
+- (void)hidePicker
+{
+    if (self.locationPicker.hidden) {
+        return;
+    }
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromBottom;
+    [self.locationPicker.layer addAnimation:tran forKey:@"hide"];
+    self.locationPicker.hidden = YES;
+
+}
+
+#pragma mark - QSLocationPickerProviderDelegate
+- (void)locationValueChange:(QSLocationPickerProvider*)provider
+{
+    self.receiverInfoLocationCell.label.text = [provider getSelectedValue];
+}
+
+#pragma mark - Keyboard
+- (void)configContentInset:(float)height
+{
+
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
+    [self scrollToBottom:height];
+}
+
+- (void)keyboardWillShow:(NSNotification *)notif {
+    self.isShowKeyboard = YES;
+    [self configContentInset:300.f];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notif {
+    self.isShowKeyboard = NO;
+//    [UIView animateWithDuration:0.5f animations:^{
+//        self.tableView.contentInset = UIEdgeInsetsZero;
+//    }];
+}
+- (void)scrollToBottom:(float)keyboardHeight
+{
+    [self.tableView setContentOffset:CGPointMake(0, keyboardHeight) animated:YES];
 }
 @end
