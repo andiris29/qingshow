@@ -11,6 +11,7 @@
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
 #import "UILabelStrikeThrough.h"
+#define PAGE_ID @"S10 - 商品详细"
 
 @interface QSS10ItemDetailVideoViewController ()
 
@@ -41,6 +42,18 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 #pragma mark - IBAction

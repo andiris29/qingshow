@@ -9,7 +9,7 @@
 #import "QSS12TopicViewController.h"
 #import "QSS13TopicDetailViewController.h"
 #import "QSNetworkKit.h"
-
+#define PAGE_ID @"S12"
 @interface QSS12TopicViewController ()
 
 @property (strong, nonatomic) QSTopicTableViewProvider* provider;
@@ -36,12 +36,13 @@
 {
     [super viewWillAppear:animated];
     [self.provider refreshClickedData];
-#warning TODO MobClick
+    [MobClick beginLogPageView:PAGE_ID];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 

@@ -14,6 +14,7 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSReceiverUtil.h"
+#define PAGE_ID @"U10 - 收获地址一览"
 
 
 @interface QSU10ReceiverListViewController ()
@@ -63,6 +64,13 @@
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
     }];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

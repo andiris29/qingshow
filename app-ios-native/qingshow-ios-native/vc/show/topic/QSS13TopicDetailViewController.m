@@ -14,7 +14,7 @@
 #import "QSNetworkKit.h"
 #import "QSTopicUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#define PAGE_ID @"S13"
 
 @interface QSS13TopicDetailViewController ()
 @property (strong, nonatomic) NSDictionary* topicDict;
@@ -49,11 +49,13 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [MobClick beginLogPageView:PAGE_ID];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

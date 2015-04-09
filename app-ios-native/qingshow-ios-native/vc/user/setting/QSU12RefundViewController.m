@@ -11,6 +11,7 @@
 #import "QSDateUtil.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
+#define PAGE_ID @"U12 - 申请退货"
 
 @interface QSU12RefundViewController ()
 
@@ -66,11 +67,13 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

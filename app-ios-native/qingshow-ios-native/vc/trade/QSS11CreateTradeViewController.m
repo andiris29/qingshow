@@ -24,6 +24,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSPaymentService.h"
 #import "QSU09OrderListViewController.h"
+#define PAGE_ID @"S11 - 交易生成"
 
 @interface QSS11CreateTradeViewController ()
 
@@ -98,12 +99,14 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    [MobClick beginLogPageView:PAGE_ID];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

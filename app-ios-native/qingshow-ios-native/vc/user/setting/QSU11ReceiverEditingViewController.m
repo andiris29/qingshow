@@ -11,7 +11,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSReceiverUtil.h"
 #import "UIViewController+QSExtension.h"
-
+#define PAGE_ID @"U11 - 编辑收获地址"
 
 @interface QSU11ReceiverEditingViewController ()
 
@@ -48,6 +48,18 @@
     self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
     self.pickerProvider.delegate = self;
     [self bindWithDict:self.locationDict];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {

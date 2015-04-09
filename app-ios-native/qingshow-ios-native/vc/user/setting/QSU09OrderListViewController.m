@@ -14,6 +14,8 @@
 #import "QSPaymentService.h"
 #import "UIViewController+ShowHud.h"
 
+#define PAGE_ID @"U09 - 交易一览"
+
 @interface QSU09OrderListViewController ()
 
 @property (strong, nonatomic) QSOrderListTableViewProvider* provider;
@@ -43,7 +45,12 @@
 {
     [super viewWillAppear:animated];
     [self.provider refreshClickedData];
-    //TODO MOB
+    [MobClick beginLogPageView:PAGE_ID];
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {
