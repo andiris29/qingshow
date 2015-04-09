@@ -70,11 +70,7 @@
         [self.priceLabel sizeToFit];
         [self.priceAfterDiscountLabel sizeToFit];
     }
-    if ([QSItemUtil getVideoPath:itemDict]) {
-        self.playBtn.hidden = NO;
-    } else {
-        self.playBtn.hidden = YES;
-    }
+    
     
 }
 
@@ -101,7 +97,12 @@
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
     [self setBtnsHiddenExceptBackAndPlay:hidden];
-    self.playBtn.hidden = hidden;
+    NSString* videoPath = [QSItemUtil getVideoPath:self.itemDict];
+    if (videoPath) {
+        self.playBtn.hidden = hidden;
+    } else {
+        self.playBtn.hidden = YES;
+    }
 }
 - (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
 {
