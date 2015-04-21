@@ -127,6 +127,79 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/manageRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/category_bg_activity_settings">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:text="@string/manage_activity_settings"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/tradelistRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_activity_settings"
+            android:background="#ffffff"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/u02_tradelist_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:text="@string/title_name_activity_trade"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:background="@drawable/icon_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <RelativeLayout
+            android:id="@+id/addresslist_RelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height_activity_settings"
+            android:background="#ffffff"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/u02_addresslist_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_left_activity_settings"
+                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:text="@string/title_name_activity_addresslist"
+                android:textSize="@dimen/text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_right_activity_settings"
+                android:background="@drawable/icon_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line_activity_settings" />
+
+        <RelativeLayout
             android:id="@+id/baseRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -171,7 +244,7 @@
                 android:background="@null"
                 android:hint="请填写姓名"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
         </RelativeLayout>
 
         <View
@@ -243,7 +316,7 @@
                 android:clickable="false"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
 
         </RelativeLayout>
         <!--<DatePicker-->
@@ -284,7 +357,7 @@
                 android:hint="请填写身高"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
         </RelativeLayout>
 
         <View
@@ -475,7 +548,7 @@
                 android:background="@null"
                 android:hint="请填写喜欢的品牌"
                 android:singleLine="true"
-                android:textColorHint="#C7C7CD" />
+                android:textColorHint="@color/hint_text_color" />
         </RelativeLayout>
 
         <View
@@ -514,7 +587,7 @@
 
             <TextView
                 android:id="@+id/u02_change_pw_text"
-                android:layout_width="75dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_left_activity_settings"
                 android:layout_marginRight="@dimen/margin_right_activity_settings"
@@ -533,6 +606,8 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/line_activity_settings" />
+
+
 
         <RelativeLayout
             android:id="@+id/changeEmailRelativeLayout"

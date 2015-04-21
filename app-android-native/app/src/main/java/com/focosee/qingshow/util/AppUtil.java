@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.util.TypedValue;
 import android.view.Display;
 
 import com.focosee.qingshow.R;
@@ -101,5 +102,9 @@ public class AppUtil {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+    
+    public static float transformToDip(float i,Context context){
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,i,context.getResources().getDisplayMetrics());
     }
 }

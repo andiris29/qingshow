@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.P04BrandActivity;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
@@ -79,7 +81,7 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
 
 
         position--;
-        final MongoItem showInfo = _data.get(position);
+        final MongoItem itemInfo = _data.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflator = LayoutInflater.from(parent.getContext());
             convertView = layoutInflator.inflate(_resourceId, null);
@@ -92,22 +94,24 @@ public class S02ItemRandomAdapter extends AbsWaterfallAdapter<MongoItem> {
         holder = (ItemViewHolder) convertView.getTag();
         holder.priceTV.setText("");
         holder.sorcePriceTV.setText("");
-        holder.showIV.setOriginWidth(showInfo.imageMetadata.width);
-        holder.showIV.setOriginHeight(showInfo.imageMetadata.height);
+        holder.showIV.setOriginWidth(itemInfo.imageMetadata.width);
+        holder.showIV.setOriginHeight(itemInfo.imageMetadata.height);
 
-        _mImageFetcher.displayImage(showInfo.imageMetadata.url, holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
+        _mImageFetcher.displayImage(itemInfo.imageMetadata.url, holder.showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
 
-        holder.priceTV.setText(showInfo.getPrice());
-        if (null != showInfo.taobaoInfo.getMinPromoPrice()) {
-            holder.sorcePriceTV.setText(showInfo.getSourcePrice());
+        holder.priceTV.setText(itemInfo.getPrice());
+        if (null != itemInfo.taobaoInfo.getMinPromoPrice()) {
+            holder.sorcePriceTV.setText(itemInfo.getSourcePrice());
             holder.sorcePriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         holder.showIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, P04BrandActivity.class);
-                intent.putExtra(P04BrandActivity.INPUT_ITEM, showInfo);
+                Intent intent = new Intent(context, S10ItemDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY,itemInfo);
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });

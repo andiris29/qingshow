@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/s10_info"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11">
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/s10_item_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+            android:id="@+id/s10_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/s03_back_btn"
+            android:onClick="onClick" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/s10_info_bg"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.focosee.qingshow.widget.indicator.PageIndicator
+                android:id="@+id/s10_page_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/s10_item_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="25dp"
+                    android:text=""
+                    android:textColor="#ffffff" />
+
+                <TextView
+                    android:id="@+id/s10_item_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="5dp"
+                    android:text=""
+                    android:textColor="#ffffff" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/s10_info_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:background="@color/black"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/s10_watch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:src="@drawable/s10_watch" />
+
+        <ImageView
+            android:id="@+id/s10_bay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:src="@drawable/s10_bay" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/s10_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.focosee.qingshow.widget.MFullScreenVideoView
+            android:id="@+id/s10_video_view"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <ImageButton
+            android:id="@+id/s10_video_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/s03_back_btn"
+            android:onClick="onClick" />
+
+        <ImageView
+            android:onClick="onClick"
+            android:id="@+id/s10_video_play"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="25dp"
+            android:scaleType="centerInside"
+            android:background="@drawable/s03_play_btn" />
+
+    </RelativeLayout>
+
+</LinearLayout>

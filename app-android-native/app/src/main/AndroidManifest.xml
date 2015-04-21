@@ -32,6 +32,29 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
+
+        <activity
+            android:name="com.focosee.qingshow.activity.S12TopicListActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.S13TopicActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.S10ItemDetailActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+
+        <activity
+            android:name="com.focosee.qingshow.activity.S11NewTradeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
         <activity
             android:name="com.focosee.qingshow.activity.U07RegisterActivity"
             android:label="@string/title_activity_register"
@@ -48,6 +71,31 @@
             android:name="com.focosee.qingshow.activity.U01PersonalActivity"
             android:label="@string/title_activity_personal"
             android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.U09TradeListActivity"
+            android:label="@string/title_name_activity_trade"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.U10AddressListActivity"
+            android:label="@string/title_activity_addresslist"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.U11EditAddressActivity"
+            android:label="@string/title_activity_address"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name="com.focosee.qingshow.activity.U12ReturnActivity"
+            android:label="@string/title_activity_return"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:configChanges="keyboardHidden|orientation" >
         </activity>
         <activity
@@ -140,21 +188,22 @@
             android:exported="false" >
         </activity>
 
-        <!--微信分享回调 -->
-        <!--<activity-->
-            <!--android:name=".wxapi.WXEntryActivity"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:exported="true"-->
-            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
 
-        <!--&lt;!&ndash;易信分享回调 &ndash;&gt;-->
-        <!--<activity-->
-            <!--android:name=".yxapi.YXEntryActivity"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:exported="true"-->
-            <!--android:screenOrientation="portrait" />-->
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+
+
         <activity android:name=".activity.G01WebViewActivity"
             android:screenOrientation="portrait"/>
 

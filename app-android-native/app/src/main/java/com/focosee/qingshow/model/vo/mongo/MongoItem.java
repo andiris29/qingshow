@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 
+import static com.focosee.qingshow.util.StringUtil.FormatPrice;
+
 /**
  * Created by i068020 on 2/8/15.
  */
@@ -24,19 +26,16 @@ public class MongoItem implements Serializable {
     public ImageMetadata imageMetadata;
     public String source;
     public String price;
+    public String video;
+    public String sizeExplanation;
 
     public MongoBrand brandRef;
-    public BrandNewInfo brandNewInfo;
     public BrandDiscountInfo brandDiscountInfo;
     public TaoBaoInfo taobaoInfo;
 
     public class Image implements Serializable {
         public String url;
         public String description;
-    }
-
-    public class BrandNewInfo implements Serializable {
-        public int order;
     }
 
     public class BrandDiscountInfo implements Serializable {
@@ -52,7 +51,7 @@ public class MongoItem implements Serializable {
         public String top_num_iid;
         public LinkedList<SKU> skus;
 
-        private class SKU implements Serializable{
+        public class SKU implements Serializable{
 
             public String stock;
             public String promo_price;
@@ -145,10 +144,6 @@ public class MongoItem implements Serializable {
                 return FormatPrice(maxPrice);
             }
             return FormatPrice(minPrice) +"-"+ new DecimalFormat("0.00").format(new BigDecimal(maxPrice));
-        }
-
-        public String  FormatPrice(String price){
-            return "￥" + new DecimalFormat("0.00").format(new BigDecimal(price));
         }
 
     }

@@ -3,8 +3,10 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S04CommentActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -32,14 +35,17 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
+import com.focosee.qingshow.widget.indicator.PageIndicator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 
 public class S08TrendListAdapter extends BaseAdapter {
@@ -54,6 +60,7 @@ public class S08TrendListAdapter extends BaseAdapter {
     private Context context;
     private List<MongoPreview> data;
     private ImageLoader imageLoader;
+    private ArrayList<SimpleDraweeView[]> imageAll = new ArrayList<SimpleDraweeView[]>();
 
     public S08TrendListAdapter(Context context, LinkedList<MongoPreview> trendEntities, Point screenSize, ImageLoader imageLoader) {
         this.context = context;
@@ -92,8 +99,6 @@ public class S08TrendListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        RelativeLayout.LayoutParams params_rLayout;
-
         final HolderView holderView;
 
         final int final_position = position;
@@ -105,10 +110,8 @@ public class S08TrendListAdapter extends BaseAdapter {
             holderView.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.s08_relative_layout);
 
             holderView.viewPager = (ViewPager) convertView.findViewById(R.id.s08_viewPager);
-            holderView.viewGroup = (LinearLayout) convertView.findViewById(R.id.s08_viewGroup);
-            holderView.nameTextView = (TextView) convertView.findViewById(R.id.S08_item_name);
+            holderView.pageIndicator = (PageIndicator) convertView.findViewById(R.id.s08_viewGroup);
             holderView.descriptionTextView = (TextView) convertView.findViewById(R.id.S08_item_description);
-            holderView.priceTextView = (TextView) convertView.findViewById(R.id.S08_item_price);
 
             holderView.shareImageButton = (ImageView) convertView.findViewById(R.id.S08_item_share_btn);
             holderView.likeImageButton = (ImageView) convertView.findViewById(R.id.S08_item_like_btn);
@@ -128,11 +131,14 @@ public class S08TrendListAdapter extends BaseAdapter {
         }
         int item_width = holderView.viewPager.getLayoutParams().width;
 
-        //如何图片高度小于最小高度，则设为最小高度
-        params_rLayout = new RelativeLayout.LayoutParams(item_width
-                , this.itemHeight);
         convertView.setLayoutParams(new AbsListView.LayoutParams(item_width,
                 this.itemHeight));
+
+        holderView.pageIndicator.setCount(data.get(position).images.size());
+        holderView.pageIndicator.setIndex(1);
+
+        //初始化image
+        initItemImages(position);
 
         //设置Adapter
         MViewPagerAdapter mViewPagerAdapter = new MViewPagerAdapter(position, holderView);
@@ -140,7 +146,6 @@ public class S08TrendListAdapter extends BaseAdapter {
         //设置监听，主要是设置点点的背景
         holderView.viewPager.setOnPageChangeListener(mViewPagerAdapter);
         //设置ViewPager的默认项, 设置为长度的100倍，这样子开始就能往左滑动
-        holderView.viewPager.setOffscreenPageLimit(1);
         holderView.viewPager.setCurrentItem(data.get(position).images.size() * 3);
         //分享
         holderView.shareImageButton.setOnClickListener(new View.OnClickListener() {
@@ -256,14 +261,37 @@ public class S08TrendListAdapter extends BaseAdapter {
         }
     }
 
+    private void initItemImages(int mPosition){
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT
+                , itemHeight);
+        SimpleDraweeView[] _mImgViewS = new SimpleDraweeView[data.get(mPosition).images.size()];
+        for (int i = 0; i < data.get(mPosition).images.size(); i++) {
+            final MongoPreview.Image imgInfo = data.get(mPosition).images.get(i);
+//                ImageView imageView = new ImageView(context);
+            SimpleDraweeView simpleDraweeView = new SimpleDraweeView(context);
+            simpleDraweeView.setImageResource(R.drawable.root_cell_placehold_image1);
+            simpleDraweeView.setTag(imgInfo);
+            simpleDraweeView.setLayoutParams(params);
+            simpleDraweeView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            simpleDraweeView.setImageURI(Uri.parse(ImgUtil.imgTo2x(imgInfo.url)));
+//                imageView.setLayoutParams(params);
+//                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//                imageView.setTag(imgInfo);
+//                _mImgViewS[i] = imageView;
+
+            _mImgViewS[i] = simpleDraweeView;
+
+        }
+
+        imageAll.add(mPosition, _mImgViewS);
+    }
+
     class HolderView {
         public RelativeLayout relativeLayout;
 
         public ViewPager viewPager;
-        public LinearLayout viewGroup;
-        public TextView nameTextView;
+        public PageIndicator pageIndicator;
         public TextView descriptionTextView;
-        public TextView priceTextView;
 
         public ImageView shareImageButton;
         public ImageView likeImageButton;
@@ -274,34 +302,25 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     public class MViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
-        private final String TAG = "MViewPagerAdapter";
-
         private int imgSize;
 
         private int mPosition;
 
-        private ImageView[] _mImgViewS;
+        private SimpleDraweeView[] _mImgViewS;
 
         private List<MongoPreview.Image> Images;
         private HolderView holderView;
-        private LinearLayout _mViewGroup;
         /**
          * 装点点的ImageView数组
          */
-        private ImageView[] tips;
-
         public MViewPagerAdapter(int position, HolderView holderView) {
             this.holderView = holderView;
-            this._mViewGroup = holderView.viewGroup;
             this.mPosition = position;
             this.Images = data.get(mPosition).images;
             this.imgSize = Images.size();
-            Log.d(TAG, "图片数：" + this.imgSize);
             this.imgSize = (this.imgSize <= 0 ? 1 : this.imgSize);
-            _mImgViewS = new ImageView[this.imgSize];
-
-            initTips();
-            initMImageViews(this.imgSize);
+            _mImgViewS = new SimpleDraweeView[this.imgSize];
+//            initMImageViews(this.imgSize);
 
 
         }
@@ -318,8 +337,10 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(_mImgViewS[position % _mImgViewS.length]);
+//            container.removeView(_mImgViewS[position % _mImgViewS.length]);
+            container.removeView(imageAll.get(mPosition)[position % imageAll.get(mPosition).length]);
         }
+
 
         /**
          * 载入图片进去，用当前的position 除以 图片数组长度取余数是关键
@@ -327,13 +348,21 @@ public class S08TrendListAdapter extends BaseAdapter {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
-            ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
-            MongoPreview.Image imgInfo = (MongoPreview.Image) imageView.getTag();
+//            ImageView imageView = _mImgViewS[position % this._mImgViewS.length];
+//            MongoPreview.Image imgInfo = (MongoPreview.Image) imageView.getTag();
+//
+//            imageLoader.displayImage(ImgUtil.imgTo2x(imgInfo.url), imageView, AppUtil.getShowDisplayOptions());
+//            container.addView(imageView, 0);
 
-            imageLoader.displayImage(ImgUtil.imgTo2x(imgInfo.url), imageView, AppUtil.getShowDisplayOptions());
-            container.addView(imageView, 0);
+//            return imageView;
 
-            return imageView;
+            SimpleDraweeView simpleDraweeView = imageAll.get(mPosition)[position % imageAll.get(mPosition).length];
+//            MongoPreview.Image imgInfo = (MongoPreview.Image) simpleDraweeView.getTag();
+            //simpleDraweeView.setImageURI(Uri.parse(ImgUtil.imgTo2x(imgInfo.url)));
+            if(null == simpleDraweeView.getParent()){
+                container.addView(simpleDraweeView, 0);
+            }
+            return simpleDraweeView;
         }
 
         private void initMImageViews(int size) {
@@ -341,12 +370,19 @@ public class S08TrendListAdapter extends BaseAdapter {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT
                     , itemHeight);
             for (int i = 0; i < size; i++) {
-                ImageView imageView = new ImageView(context);
                 MongoPreview.Image imgInfo = this.Images.get(i);
-                imageView.setLayoutParams(params);
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                imageView.setTag(imgInfo);
-                _mImgViewS[i] = imageView;
+//                ImageView imageView = new ImageView(context);
+                SimpleDraweeView simpleDraweeView = new SimpleDraweeView(context);
+                simpleDraweeView.setTag(imgInfo);
+                simpleDraweeView.setLayoutParams(params);
+                simpleDraweeView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                simpleDraweeView.setImageURI(Uri.parse(ImgUtil.imgTo2x(imgInfo.url)));
+//                imageView.setLayoutParams(params);
+//                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+//                imageView.setTag(imgInfo);
+//                _mImgViewS[i] = imageView;
+
+                _mImgViewS[i] = simpleDraweeView;
 
             }
 
@@ -364,50 +400,9 @@ public class S08TrendListAdapter extends BaseAdapter {
         @Override
         public void onPageSelected(int arg0) {
 
-            setImageBackground(arg0);
-
             MongoPreview.Image Image = this.Images.get(arg0 % this.imgSize);
-            holderView.nameTextView.setText("");
+            holderView.pageIndicator.setIndex(arg0 % this.imgSize + 1);
             holderView.descriptionTextView.setText(Image.description);
-            holderView.priceTextView.setText("");
-        }
-
-        private void initTips() {
-            tips = new ImageView[this.imgSize];
-            _mViewGroup.removeAllViews();
-            for (int i = 0; i < tips.length; i++) {
-                ImageView imageView_tips = new ImageView(context);
-                imageView_tips.setLayoutParams(new LinearLayout.LayoutParams(10, 10));
-                tips[i] = imageView_tips;
-                if (i == 0) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                layoutParams.leftMargin = 5;
-                layoutParams.rightMargin = 5;
-                _mViewGroup.addView(imageView_tips, layoutParams);
-            }
-        }
-
-        /**
-         * 设置选中的tip的背景
-         *
-         * @param selectItems
-         */
-        private void setImageBackground(int selectItems) {
-
-
-            for (int i = 0; i < tips.length; i++) {
-                if (i == (selectItems % this.imgSize)) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-            }
         }
 
 

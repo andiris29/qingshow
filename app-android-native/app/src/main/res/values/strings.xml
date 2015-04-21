@@ -12,6 +12,9 @@
     <string name="choose_picture_activity_settings">选择图片</string>
     <string name="personal_picture_activity_settings">个人头像</string>
     <string name="background_picture_activity_settings">背景图像</string>
+    <string name="manage_activity_settings">管理</string>
+    <string name="trade_manage_activity_settings">订单管理</string>
+    <string name="receiver_manage_activity_settings">收货地址管理</string>
     <string name="information_activity_settings">基本信息</string>
     <string name="name_activity_settings">昵称</string>
     <string name="sex_activity_settings">性别</string>
@@ -58,6 +61,38 @@
     <string name="title_activity_personal">PersonalActivity</string>
     <string name="settings_activity_personal">设置</string>
 
+    <!-- EditAddress Activity -->
+    <string name="title_name_activity_addaddress">新增地址</string>
+    <string name="title_name_activity_editaddress">编辑地址</string>
+    <string name="title_activity_address">AddressActivity</string>
+    <string name="save_btn_activity_address">保存</string>
+    <string name="consignee_name">收货人姓名</string>
+    <string name="consignee_phone_num">收货人电话</string>
+    <string name="consignee_area">所在区域</string>
+    <string name="consignee_detail_address">详细地址</string>
+
+    <!-- Addresslist Activity -->
+    <string name="title_activity_addresslist">AddressActivity</string>
+    <string name="title_name_activity_addresslist">收货地址管理</string>
+    <string name="name_activity_addresslist">姓名:</string>
+    <string name="phone_activity_addresslist">电话:</string>
+    <string name="address_activity_addresslist">地址:</string>
+    <string name="choose_address_please">请选择收货地址</string>
+
+    <!-- Return Activity -->
+    <string name="title_activity_return">ReturnActivity</string>
+    <string name="title_name_activity_return">退货方式</string>
+    <string name="address_activity_return">退货地址:</string>
+    <string name="receiver_activity_return">退货收件人:</string>
+    <string name="phone_activity_return">联系电话:</string>
+    <string name="matters_activity_return">*退货注意事项:</string>
+    <string name="info_title_activity_return">填写退货信息</string>
+    <string name="info_expressage_activity_return">货运公司:</string>
+    <string name="info_expressNO_activity_return">货运单号:</string>
+    <string name="info_expressDate_activity_return">寄出日期:</string>
+    <string name="sure_btn_activity_return">申请退货</string>
+    <string name="toast_activity_return">退货请求已发送</string>
+
     <!-- Others -->
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_activity_s01_home">倾秀</string>
@@ -73,6 +108,8 @@
     <string name="confirm">确定</string>
     <string name="cancels">取消</string>
     <string name="dismiss">隐藏</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
     <string name="title_activity_p04_brand">P04BrandActivity</string>
     <string name="title_activity_p02_model">P02ModelActivity</string>
     <string name="title_activity_item">ItemActivity</string>
@@ -90,4 +127,29 @@
     <string name="need_login">请先登录</string>
     <string name="check_wifi">请检查网络</string>
     <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
+
+    <!-- trade -->
+    <string name="title_name_activity_trade">订单管理</string>
+    <string name="apply_return_activity_trade">申请退货</string>
+    <string name="comfirm_receive_activity_trade">确认收货</string>
+    <string name="service_text">客服热线:</string>
+    <string name="service_phone_number">4008-123-655</string>
+    <string name="service_describe1">7天退货</string>
+    <string name="service_describe2">极速发货</string>
+    <string name="service_describe3">全场免运</string>
+    <string name="service_describe4">品质保证</string>
+    <string name="trade_num_text">订单号:</string>
+    <string name="trade_type_text">订单状态:</string>
+    <string name="trade_measurement">尺码:</string>
+    <string name="trade_count">数量:</string>
+    <string name="trade_color">颜色:</string>
+    <string name="trade_price">价格:</string>
+    <string name="trade_create_date">订单生成日期:</string>
+    <string name="trade_finish_date">订单完成日期:</string>
+    <string name="pay_activity_trade">付款</string>
+    <string name="pay_please">请确认付款</string>
+
+    <!-- dialog -->
+    <string name="dialog_comfirm">确认</string>
+    <string name="dialog_cancel">取消</string>
 </resources>

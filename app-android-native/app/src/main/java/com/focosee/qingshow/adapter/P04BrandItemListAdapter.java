@@ -24,6 +24,7 @@ import com.focosee.qingshow.activity.G01WebViewActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
+import com.focosee.qingshow.widget.indicator.PageIndicator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -93,7 +94,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
             viewHolder = new ItemViewHolder();
             //viewHolder.image = (ViewPager)convertView.findViewById(R.id.item_p04_item_image);
-            viewHolder.viewGroup = (LinearLayout) convertView.findViewById(R.id.item_p04_item_viewGroup);
+            viewHolder.pageIndicator = (PageIndicator) convertView.findViewById(R.id.item_p04_item_viewGroup);
             viewHolder.discount = (TextView) convertView.findViewById(R.id.item_p04_item_discount);
             viewHolder.description = (TextView) convertView.findViewById(R.id.item_p04_item_description);
             viewHolder.price = (TextView) convertView.findViewById(R.id.item_p04_item_price);
@@ -110,6 +111,8 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         }
 
         viewHolder.viewPager = (ViewPager) convertView.findViewById(R.id.item_p04_item_viewPager);
+        viewHolder.pageIndicator.setCount(itemList.get(position).images.size());
+        viewHolder.pageIndicator.setIndex(1);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 itemHeight);
@@ -145,7 +148,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
         //if(null != itemList.get(position).images) {
         if(null != itemList.get(position).images && itemList.get(position).images.size() != 0) {
-            P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images, viewHolder);
+            P04ViewPagerAdapter mViewPagerAdapter = new P04ViewPagerAdapter(itemList.get(position).images,viewHolder);
             viewHolder.viewPager.setAdapter(mViewPagerAdapter);
             viewHolder.viewPager.setOnPageChangeListener(mViewPagerAdapter);
             viewHolder.viewPager.setOffscreenPageLimit(1);
@@ -170,7 +173,7 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         public TextView price;
         public TextView sourcePrice;
         public ImageButton detailButton;
-        public LinearLayout viewGroup;
+        public PageIndicator pageIndicator;
     }
 
 
@@ -179,21 +182,13 @@ public class P04BrandItemListAdapter extends BaseAdapter {
         private LinkedList<MongoItem.Image> images;
         private ImageView[] _mImgViewS;
         private int imgSize;
-        private LinearLayout _mViewGroup;
         private ItemViewHolder viewHolder;
-        /**
-         * 装点点的ImageView数组
-         */
-        private ImageView[] tips;
 
-        public P04ViewPagerAdapter(LinkedList<MongoItem.Image> images, ItemViewHolder viewHolder){
-            this.viewHolder = viewHolder;
-            _mViewGroup = viewHolder.viewGroup;
+        public P04ViewPagerAdapter(LinkedList<MongoItem.Image> images,ItemViewHolder viewHolder) {
             this.images = images;
             this.imgSize = images.size() == 0 ? 1 : images.size();
-
+            this.viewHolder = viewHolder;
             initImageViewList();
-            initTips();
         }
 
         @Override
@@ -211,78 +206,38 @@ public class P04BrandItemListAdapter extends BaseAdapter {
             container.removeView(_mImgViewS[position % this.imgSize]);
         }
 
-        /**
-         * 载入图片进去，用当前的position 除以 图片数组长度取余数是关键
-         */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
 
             ImageView imageView = _mImgViewS[position % this.imgSize];
-            MongoItem.Image imgInfo = (MongoItem.Image)imageView.getTag();
+            MongoItem.Image imgInfo = (MongoItem.Image) imageView.getTag();
 
             ImageLoader.getInstance().displayImage(imgInfo.url, imageView, AppUtil.getShowDisplayOptions());
             container.addView(imageView, 0);
-            Log.d(TAG, imgInfo.url);
 
             return imageView;
         }
 
-        private void initTips(){
-            tips = new ImageView[this.imgSize];
-            _mViewGroup.removeAllViews();
-            for (int i = 0; i < tips.length; i++) {
-                ImageView imageView_tips = new ImageView(context);
-                imageView_tips.setLayoutParams(new LinearLayout.LayoutParams(10, 10));
-                tips[i] = imageView_tips;
-                if (i == 0) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
 
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT));
-                layoutParams.leftMargin = 5;
-                layoutParams.rightMargin = 5;
-                _mViewGroup.addView(imageView_tips, layoutParams);
-            }
-        }
-
-        private void initImageViewList(){
+        private void initImageViewList() {
             _mImgViewS = new ImageView[this.imgSize];
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                    , itemHeight);
+                    , ViewGroup.LayoutParams.MATCH_PARENT);
 
             int index = 0;
 
-            for(MongoItem.Image imgInfo : images){
+            for (MongoItem.Image imgInfo : images) {
 
                 MImageView_OriginSize imageView = new MImageView_OriginSize(context);
                 imageView.setLayoutParams(params);
                 imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 imageView.setTag(imgInfo);
+                imageView.setPadding(0, -16, 0, 0);
                 _mImgViewS[index] = imageView;
                 index++;
             }
 
 
-        }
-
-        /**
-         * 设置选中的tip的背景
-         *
-         * @param selectItems
-         */
-        private void setImageBackground(int selectItems) {
-
-
-            for (int i = 0; i < tips.length; i++) {
-                if (i == (selectItems % this.imgSize)) {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator_focus);
-                } else {
-                    tips[i].setBackgroundResource(R.drawable.image_indicator);
-                }
-            }
         }
 
         @Override
@@ -292,10 +247,8 @@ public class P04BrandItemListAdapter extends BaseAdapter {
 
         @Override
         public void onPageSelected(int position) {
-            setImageBackground(position);
-            //this.viewHolder.detailButton.setTag(position % this.imgSize);
-            this.viewHolder.description.setText(((MongoItem.Image) _mImgViewS[position % this.imgSize].getTag()).description);
-            Log.d(TAG, "description" + ((MongoItem.Image)_mImgViewS[position % this.imgSize].getTag()).description);
+            viewHolder.pageIndicator.setIndex(position % this.imgSize + 1);
+            viewHolder.description.setText(((MongoItem.Image) _mImgViewS[position % this.imgSize].getTag()).description);
         }
 
         @Override

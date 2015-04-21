@@ -18,6 +18,12 @@ public class TimeUtil {
         return calendar;
     }
 
+    public static String parseDateString(GregorianCalendar calendar){
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(calendar.getTime());
+    }
+
     public static String formatWeekInfo(int dayOfWeek) {
         String result;
         switch (dayOfWeek) {

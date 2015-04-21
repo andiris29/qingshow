@@ -1,10 +1,8 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -16,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,19 +24,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.HomeViewHolder;
 import com.focosee.qingshow.adapter.HomeWaterfallAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -49,7 +44,9 @@ import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.huewu.pla.lib.internal.PLA_AdapterView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
+
 import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -63,7 +60,6 @@ public class S01HomeActivity extends BaseActivity {
     public static String ACTION_MESSAGE = "S01HomeActivity_actionMessage";
     private boolean isFirstFocus_activity = true;
     private final static String S01_TAG = "S01HomeActivity";
-    private LinearLayout _popView;
     //抽屉对象
     private RelativeLayout _mFrmRight;
     private RelativeLayout _mFrmLeft;
@@ -103,7 +99,7 @@ public class S01HomeActivity extends BaseActivity {
                 if(position >= _adapter.getCount())return;
                 System.out.println("postion_S01:" + position);
                 MongoShow showEntity = _adapter.getItemDataAtIndex(position);
-                if(!showEntity.getShowIsFollowedByCurrentUser())
+                if (!showEntity.getShowIsFollowedByCurrentUser())
                     _adapter.getItemDataAtIndex(position).numLike = showEntity.numLike + 1;
                 _adapter.getItemDataAtIndex(position).setLikedByCurrentUser(!showEntity.getShowIsFollowedByCurrentUser());
                 _adapter.notifyDataSetChanged();
@@ -155,35 +151,35 @@ public class S01HomeActivity extends BaseActivity {
 
         });
         _wfPullRefreshView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-                    final ImageLoader imageLoader = ImageLoader.getInstance();
-                    Timer timer = new Timer(true);
-                    switch (scrollState) {
-                        case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                            timer.cancel();
-                            imageLoader.resume();
-                            break;
-                        case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                            // 启动一个timer，500ms
-                            imageLoader.pause();
-                            timer.schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    imageLoader.resume();
-                                }
-                            },500);
-                            break;
-                        case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                            imageLoader.pause();
-                            timer.cancel();
-                            break;
-                    }
+            @Override
+            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+                final ImageLoader imageLoader = ImageLoader.getInstance();
+                Timer timer = new Timer(true);
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        timer.cancel();
+                        imageLoader.resume();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        // 启动一个timer，500ms
+                        imageLoader.pause();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                imageLoader.resume();
+                            }
+                        }, 500);
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        imageLoader.pause();
+                        timer.cancel();
+                        break;
                 }
+            }
 
-                @Override
-                public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                }
+            @Override
+            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
 
         });
         _wfListView.setOnItemClickListener(new PLA_AdapterView.OnItemClickListener() {
@@ -314,7 +310,7 @@ public class S01HomeActivity extends BaseActivity {
                     _wfPullRefreshView.onPullUpRefreshComplete();
                     Toast.makeText(getApplication(), "已经是最后一页了", Toast.LENGTH_SHORT).show();
                     _wfPullRefreshView.setHasMoreData(false);
-                }else{
+                } else {
                     LinkedList<MongoShow> results = FeedingParser.parse(response);
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
@@ -390,8 +386,9 @@ public class S01HomeActivity extends BaseActivity {
         ((ImageView) findViewById(R.id.S01_nav_icon_people)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+//                Intent intent = new Intent(S01HomeActivity.this, P01ModelListActivity.class);
+//                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+                Intent intent = new Intent(S01HomeActivity.this, S13TopicActivity.class);
                 startActivity(intent);
                 closeMenu();
             }
@@ -416,7 +413,6 @@ public class S01HomeActivity extends BaseActivity {
             }
         });
 
-        _popView = (LinearLayout) findViewById(R.id.S01_pop_menu);
 
         findViewById(R.id.S01_title_menu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -446,10 +442,10 @@ public class S01HomeActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
-            if (isMenuOpened())closeMenu();
+            if (isMenuOpened()) closeMenu();
             else openMenu();
         }
-            return true;
+        return true;
     }
 
     private void initShowVerison() {
@@ -457,7 +453,7 @@ public class S01HomeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ++count;
-                if(null != timerTask){
+                if (null != timerTask) {
                     timerTask.cancel();
                 }
                 timerTask = new TimerTask() {
@@ -469,11 +465,11 @@ public class S01HomeActivity extends BaseActivity {
                 timer.schedule(timerTask, time / 5);
                 String version = "";
                 try {
-                    version = getPackageManager().getPackageInfo(getPackageName(),0).versionName;
+                    version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
-                if(count == 5)
+                if (count == 5)
                     QSComponent.showDialag(S01HomeActivity.this, "当前版本是：" + version);
             }
         });

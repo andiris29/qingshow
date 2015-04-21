@@ -28,8 +28,7 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/S03_before_video_view_button">
 
-                <com.allthelucky.common.view.network.NetworkImageIndicatorView
-                    android:id="@+id/S03_image_indicator"
+                <com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView                 android:id="@+id/S03_image_indicator"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"/>
                 <ImageView

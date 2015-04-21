@@ -35,4 +35,38 @@
         <attr name="border_inside_color" format="color"/>
     </declare-styleable>
 
+
+    <declare-styleable name="counter">
+        <attr name="add_button_bg" format="color|reference"/>
+        <attr name="cut_button_bg" format="color|reference"/>
+        <attr name="num_text_color" format="color|reference"/>
+        <attr name="num_text" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="payment">
+        <attr name="logo_res" format="reference"/>
+        <attr name="name_text" format="string"/>
+        <attr name="info_text" format="string"/>
+        <attr name="checked" format="color|reference"/>
+        <attr name="button_res" format="color|reference"/>
+        <attr name="mode" format="string"/>
+    </declare-styleable>
+
+
+
+    <declare-styleable name="NumberPicker">
+        <attr name="normalTextColor" format="color" />
+        <attr name="normalTextSize" format="dimension" />
+        <attr name="selecredTextColor" format="color" />
+        <attr name="selecredTextSize" format="dimension" />
+        <attr name="unitHight" format="dimension" />
+        <attr name="itemNumber" format="integer"/>
+        <attr name="lineColor" format="color" />
+        <attr name="maskHight" format="dimension"/>
+        <attr name="noEmpty" format="boolean"/>
+        <attr name="isEnable" format="boolean"/>
+    </declare-styleable>
+
+
+>>>>>>> Stashed changes
 </resources>

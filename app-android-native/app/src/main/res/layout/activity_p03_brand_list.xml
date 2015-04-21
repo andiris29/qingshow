@@ -22,6 +22,7 @@
             android:background="#00000000"
             android:src="@drawable/btn_back_default" />
 
+<<<<<<< HEAD
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -52,8 +53,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshListView>
 
+=======
+>>>>>>> origin/feat-2.0_android
     <LinearLayout
         android:id="@+id/P03_brand_list_tab_control"
+        android:layout_below="@+id/P03_brand_list_navigation"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -61,8 +65,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:background="#e5e5e5"
-        android:visibility="gone">
+        android:background="#e5e5e5">
 
         <Button
             android:id="@+id/P03_brand_list_online_button"
@@ -84,7 +87,17 @@
             android:textColor="#000000"
             android:layout_marginLeft="5dp"/>
 
+<<<<<<< HEAD
     </LinearLayout>
     </RelativeLayout>
+=======
+        </LinearLayout>
+
+    <com.focosee.qingshow.widget.MPullRefreshListView
+        android:id="@+id/P03_brand_list_list_view"
+        android:layout_below="@+id/P03_brand_list_tab_control"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></com.focosee.qingshow.widget.MPullRefreshListView>
+>>>>>>> origin/feat-2.0_android
 
 </LinearLayout>

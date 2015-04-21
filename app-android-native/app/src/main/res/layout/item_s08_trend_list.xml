@@ -11,14 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <com.focosee.qingshow.widget.indicator.PageIndicator
         android:id="@+id/s08_viewGroup"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="100dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"></LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
 
     <LinearLayout
         android:id="@+id/S08_item_anchor_point"
@@ -38,25 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:paddingRight="20dp"
+            android:layout_marginBottom="30dp"
             android:text=""
             android:singleLine="false"
-            android:textColor="#ffffffff" />
-
-        <TextView
-            android:id="@+id/S08_item_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:paddingRight="20dp"
-            android:text=""
-            android:textColor="#ffffffff" />
-
-        <TextView
-            android:id="@+id/S08_item_price"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text=""
             android:textColor="#ffffffff" />
 
     </LinearLayout>

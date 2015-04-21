@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,15 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.support.v4.app.FragmentActivity;
 
 import com.focosee.qingshow.util.AppUtil;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by Administrator on 2015/2/5.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends FragmentActivity {
 
     public static String NOTNET = "not_net";
 

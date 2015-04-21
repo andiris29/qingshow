@@ -2,6 +2,7 @@
 <resources>
     <!-- Settings Activity -->
     <item name="line_activity_settings" type="color">#DFE3E6</item>
+    <item name="text_color" type="color">#DFE3E6</item>
     <item name="bg_activity_settings" type="color">#01ffffff</item>
     <item name="title_activity" type="color">#ffffffff</item>
     <color name="category_bg_activity_settings">#F2F2F2</color>
@@ -10,6 +11,8 @@
     <color name="background_color">#f0f0f0</color>
     <color name="darker_gray">#424242</color>
     <color name="red_text_color">#a91a4e</color>
+    <color name="hint_text_color">#C7C7CD</color>
+    <color name="pink">#a91a4e</color>
     <!-- personal -->
     <color name="indicator_bg_default_activity_personal">#88000000</color>
     <color name="indicator_bg_chosen_activity_personal">#88ffffff</color>
@@ -19,4 +22,11 @@
 
     <color name="transparent">#0000</color>
     <color name="left_menu_text_color">#E2E2E2</color>
+
+    <color name="master">#a91a4e</color>
+    <color name="dialog">#11000000</color>
+
+    <color name="gray_background">#CCCCCC</color>
+    <color name="home_gray_background">#ffe6e6e6</color>
+
 </resources>

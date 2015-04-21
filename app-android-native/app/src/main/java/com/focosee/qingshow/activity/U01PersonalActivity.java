@@ -17,21 +17,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U01BrandFragment;
+import com.focosee.qingshow.activity.fragment.U01CollectionFragment;
+import com.focosee.qingshow.activity.fragment.U01RecommendFragment;
+import com.focosee.qingshow.activity.fragment.U01WatchFragment;
 import com.focosee.qingshow.constants.code.PeopleTypeInU01PersonalActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.widget.MRoundImageView;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 
 
 public class U01PersonalActivity extends FragmentActivity{
+
     private static final String TAG = "U01PersonalActivity";
     public static final String U01PERSONALACTIVITY_PEOPLE = "U01PersonalActivity_people";
     public static final String BACKTHEPOSIONONE = "back the position one";
     private static final int PAGER_NUM = 4;
+    private static final String PEOPLE_KEY = "people_key_outstate";
 
     public static final String LOGOUT_ACTOIN = "logout_action";
     public static final String USER_UPDATE = "user_update";
@@ -348,4 +353,14 @@ public class U01PersonalActivity extends FragmentActivity{
         super.onDestroy();
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        people = QSModel.INSTANCE.getUser();
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
 }

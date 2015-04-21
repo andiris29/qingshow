@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.Adapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.huewu.pla.lib.internal.PLA_AbsListView;

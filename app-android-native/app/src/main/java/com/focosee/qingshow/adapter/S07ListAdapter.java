@@ -87,6 +87,7 @@ public class S07ListAdapter extends BaseAdapter {
         }
 
         holderView = (HolderView) convertView.getTag();
+        holderView.priceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_price);
 
         holderView.name.setText(data.get(position).getItemName());
         holderView.category.setText(data.get(position).getItemCategory());
@@ -110,7 +111,9 @@ public class S07ListAdapter extends BaseAdapter {
                 holderView.originPriceTV.setText(data.get(position).getSourcePrice());
                 holderView.originPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             }
-            holderView.priceTV.setText(data.get(position).getPrice());
+            if(data.get(position).getPrice() != null){
+                holderView.priceTV.setText(data.get(position).getPrice());
+            }
         }
 
         return convertView;

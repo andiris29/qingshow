@@ -7,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.android.volley.Response;
@@ -35,9 +34,9 @@ public class P03BrandListActivity extends BaseActivity {
 
     public static String ACTION_REFRESH = "refresh_P03BrandListActivity";
 
-    public MPullRefreshListView pullRefreshListView;
+    private MPullRefreshListView pullRefreshListView;
     private ListView listView;
-    public int brandType = 0;
+    private int brandType = 0;
     private int pageIndex = 1;
 
     private P03BrandListAdapter adapter;
@@ -61,6 +60,23 @@ public class P03BrandListActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                brandType = 0;
+                pullRefreshListView.getRefreshableView().setSelection(0);
+                refreshData();
+            }
+        });
+        findViewById(R.id.P03_brand_list_offline_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                brandType = 1;
+                pullRefreshListView.getRefreshableView().setSelection(0);
+                refreshData();
+            }
+        });
+
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P03_brand_list_list_view);
         listView = pullRefreshListView.getRefreshableView();
 
@@ -68,7 +84,7 @@ public class P03BrandListActivity extends BaseActivity {
         pullRefreshListView.setPullLoadEnabled(true);
         pullRefreshListView.setScrollLoadEnabled(true);
 
-        adapter = new P03BrandListAdapter(this, new ArrayList<MongoBrand>(), ImageLoader.getInstance(), (LinearLayout)findViewById(R.id.P03_brand_list_tab_control));
+        adapter = new P03BrandListAdapter(this, new ArrayList<MongoBrand>(), ImageLoader.getInstance());
 
         listView.setAdapter(adapter);
         pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -117,7 +133,7 @@ public class P03BrandListActivity extends BaseActivity {
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
-    public void refreshData() {
+    private void refreshData() {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getBrandListApi(String.valueOf(brandType),"1"),null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

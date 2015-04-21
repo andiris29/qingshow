@@ -1,7 +1,13 @@
 package com.focosee.qingshow;
 
 import android.app.Application;
+import android.content.Context;
+import android.graphics.Point;
+import android.view.Display;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.focosee.qingshow.constants.config.ShareConfig;
+import com.focosee.qingshow.activity.BaseActivity;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -11,11 +17,15 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.io.File;
 
 public class QSApplication extends Application {
     private static QSApplication _instance;
+    private IWXAPI wxApi;
+
 
     public static QSApplication instance() {
         return _instance;
@@ -24,9 +34,10 @@ public class QSApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         _instance = this;
-
+        wxApi = WXAPIFactory.createWXAPI(getApplicationContext(), ShareConfig.WX_APP_KEY);
+        wxApi.registerApp(ShareConfig.WX_APP_KEY);
+        Fresco.initialize(getApplicationContext());
         configImageLoader();
     }
 
@@ -53,4 +64,16 @@ public class QSApplication extends Application {
                 .build();
         ImageLoader.getInstance().init(config);
     }
+
+    public IWXAPI getWxApi() {
+        return wxApi;
+    }
+
+    public static Point getScreenSize(Context context){
+        Display display = ((BaseActivity)context).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
 }
+

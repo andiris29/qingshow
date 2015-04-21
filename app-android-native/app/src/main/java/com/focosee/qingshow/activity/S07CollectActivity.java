@@ -64,11 +64,8 @@ public class S07CollectActivity extends BaseActivity {
                     QSComponent.showDialag(S07CollectActivity.this, getResources().getString(R.string.brand_not_exist));
                     return;
                 }
-                Intent intent1 = new Intent(S07CollectActivity.this, P04BrandActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putSerializable(P04BrandActivity.INPUT_ITEM, items.get(position));
-                intent1.putExtras(bundle1);
-                startActivity(intent1);
+                Intent intent = new Intent(S07CollectActivity.this, S10ItemDetailActivity.class);
+                startActivity(intent);
 
             }
         });
