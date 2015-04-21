@@ -87,18 +87,23 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 var skuInfo = Hub.config.get('sku');
                 var skuMap = skuInfo.valItemInfo.skuMap;
                 var propertyMap = _parseTaobaoPropertyMap($);
-                var skus = _generateSkus(webSkus, skuMap, propertyMap);
+                if (!propertyMap || !Object.keys(propertyMap).length) {
+                    callback(null, {});
+                } else {
+                    var skus = _generateSkus(webSkus, skuMap, propertyMap);
 
-                var top_title = $('.tb-main-title').attr('data-title');
-                var nick = $('.tb-seller-name').attr('title');
+                    var top_title = $('.tb-main-title').attr('data-title');
+                    var nick = $('.tb-seller-name').attr('title');
 
-                var taobaoInfo = {};
-                taobaoInfo.skus = skus;
-                taobaoInfo.top_num_iid = URLParser.getIidFromSource(source);
-                taobaoInfo.top_title = top_title;
-                taobaoInfo.nick = nick;
+                    var taobaoInfo = {};
+                    taobaoInfo.skus = skus;
+                    taobaoInfo.top_num_iid = URLParser.getIidFromSource(source);
+                    taobaoInfo.top_title = top_title;
+                    taobaoInfo.nick = nick;
 
-                callback(null, taobaoInfo);
+                    callback(null, taobaoInfo);
+                }
+
             } catch (e) {
                 console.log(e);
                 callback(e);
@@ -143,23 +148,28 @@ var _parseTmallWebPage = function (source, webSkus, callback) {
                 var skuMap = itemInfo.skuMap;
 
                 var propertyMap = _parseTmallPropertyMap($);
-                var skus = _generateSkus(webSkus, skuMap, propertyMap);
+                if (!propertyMap || !Object.keys(propertyMap).length) {
+                    //Item已下架
+                    callback(null, {});
+                } else {
+                    var skus = _generateSkus(webSkus, skuMap, propertyMap);
 
-                var title = null;
-                $('meta').each(function () {
-                    var i = cheerio(this);
-                    if (i.attr('name') === 'keywords') {
-                        title = i.attr('content');
-                    }
-                });
+                    var title = null;
+                    $('meta').each(function () {
+                        var i = cheerio(this);
+                        if (i.attr('name') === 'keywords') {
+                            title = i.attr('content');
+                        }
+                    });
 
-                var nick = $('.slogo-shopname').text();
-                var taobaoInfo = {};
-                taobaoInfo.skus = skus;
-                taobaoInfo.top_title = title;
-                taobaoInfo.top_nick = nick;
-                taobaoInfo.top_num_iid = URLParser.getIidFromSource(source);
-                callback(null, taobaoInfo);
+                    var nick = $('.slogo-shopname').text();
+                    var taobaoInfo = {};
+                    taobaoInfo.skus = skus;
+                    taobaoInfo.top_title = title;
+                    taobaoInfo.top_nick = nick;
+                    taobaoInfo.top_num_iid = URLParser.getIidFromSource(source);
+                    callback(null, taobaoInfo);
+                }
             };
             if(tshopSetupScript) {
                 try {
@@ -327,7 +337,7 @@ var _parsePropertiesName = function (propertiesStr, propertyMap) {
     var proNameArray = [];
     propertiesStr.split(';').forEach(function (prop) {
         if (prop && prop.length && propertyMap[prop]) {
-            var value = propertyMap[prop].properties_name;
+            var value = propertyMap[prop].properties_name || propertyMap[prop];
             if (typeof value == 'string' && value.length) {
                 proNameArray.push(value);
             }

@@ -21,14 +21,6 @@
 			expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	<context:property-placeholder location="classpath*:setting.properties"/> 
-	<bean id="propertyConfigurer"
-		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>classpath:jdbc.properties</value>
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="setting"
 	   class="org.springframework.beans.factory.config.PropertiesFactoryBean">
