@@ -13,8 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="9"
-            fresco:actualImageScaleType="fitXY"
-            fresco:placeholderImage="@drawable/bg_pic" />
+            fresco:actualImageScaleType="fitXY" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"

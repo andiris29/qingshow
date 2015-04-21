@@ -35,6 +35,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.FeedingParser;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.widget.MPullRefreshMultiColumnListView;
@@ -70,7 +71,7 @@ public class S01HomeActivity extends BaseActivity {
     private MultiColumnListView _wfListView;
     private HomeWaterfallAdapter _adapter;
     private int _currentPageIndex = 1;
-    private LinearLayout relativeLayout_right_fragment;
+    private RelativeLayout relativeLayout_right_fragment;
 
     private ImageView _blurImage;
     private ImageView _accountImage;
@@ -117,7 +118,7 @@ public class S01HomeActivity extends BaseActivity {
 
         initMenu();
 
-        relativeLayout_right_fragment = (LinearLayout) findViewById(R.id.s01_show_relative);
+        relativeLayout_right_fragment = (RelativeLayout) findViewById(R.id.s01_show_relative);
 
         _blurImage = (ImageView) findViewById(R.id.s01_switch_right_background);
         _mFrmRight = (RelativeLayout) findViewById(R.id.s01_FrameLa_right);

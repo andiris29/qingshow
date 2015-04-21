@@ -9,8 +9,7 @@
         android:id="@+id/s13_head_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="9"
-        fresco:placeholderImage="@drawable/bg_pic" />
+        android:layout_weight="9" />
 
     <ImageButton
         android:id="@+id/s13_head_back_btn"
