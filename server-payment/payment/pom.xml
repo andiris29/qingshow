@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>qingshow</groupId>
+	<artifactId>payment</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<mirrors>
+		<mirror>
+			<id>repo2</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Human Readable Name for this Mirror.</name>
+			<url>http://repo2.maven.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>net-cn</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Human Readable Name for this Mirror.</name>
+			<url>http://maven.net.cn/content/groups/public/</url>
+		</mirror>
+		<mirror>
+			<id>ui</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Human Readable Name for this Mirror.</name>
+			<url>http://uk.maven.org/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>ibiblio</id>
+			<mirrorOf>central</mirrorOf>
+			<name>Human Readable Name for this Mirror.</name>
+			<url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+		</mirror>
+		<mirror>
+			<id>jboss-public-repository-group</id>
+			<mirrorOf>central</mirrorOf>
+			<name>JBoss Public Repository Group</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public</url>
+		</mirror>
+	</mirrors>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>4.1.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>4.1.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>4.1.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.3.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<warSourceDirectory>WebContent</warSourceDirectory>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

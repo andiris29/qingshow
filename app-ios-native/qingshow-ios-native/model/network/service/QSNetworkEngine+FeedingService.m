@@ -21,6 +21,7 @@
 #define PATH_FEEDING_RECOMMENDATION @"feeding/recommendation"
 #define PATH_FEEDING_BY_BRAND @"feeding/byBrand"
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
+#define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
 
 
 
@@ -144,4 +145,11 @@
     return [self getFeedingPath:PATH_FEEDING_BY_BRAND_DISCOUNT otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:brandDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
+- (MKNetworkOperation*)feedingByTopic:(NSDictionary*)topicDic
+                                 page:(int)page
+                            onSucceed:(ArraySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self getFeedingPath:PATH_FEEDING_BY_TOPIC otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:topicDic]} page:page onSucceed:succeedBlock onError:errorBlock];
+}
 @end

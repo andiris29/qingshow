@@ -22,6 +22,7 @@
     p[@"version"] = version;
     op = [self operationWithPath:path params:p httpMethod:method ];
     [op addCompletionHandler:succeedBlock errorHandler:errorBlock];
+    op.postDataEncoding = MKNKPostDataEncodingTypeJSON;
     [self enqueueOperation:op];
     return op;
 }

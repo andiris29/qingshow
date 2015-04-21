@@ -8,6 +8,7 @@
 
 #import "QSU04EmailViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+QSExtension.h"
 #import "QSUserManager.h"
 
 #define PAGE_ID @"U04 - 邮箱设置"
@@ -24,8 +25,7 @@
     // Initialize Navigation
     self.navigationItem.title = @"设置";
     self.navigationItem.backBarButtonItem.title = @"";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
     
     UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
                                                                style:UIBarButtonItemStylePlain

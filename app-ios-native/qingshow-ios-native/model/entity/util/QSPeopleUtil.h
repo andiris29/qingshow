@@ -41,4 +41,6 @@
 + (void)setPeople:(NSDictionary*)peopleDict isFollowed:(BOOL)isFollowed;
 
 + (BOOL)isPeople:(NSDictionary*)l equalToPeople:(NSDictionary*)r;
+
++ (NSArray*)getReceiverList:(NSDictionary*)dict;
 @end

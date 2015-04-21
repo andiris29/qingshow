@@ -39,3 +39,8 @@ admin-tools/imgResizer/out
 
 #app-web
 app-web/bin
+
+#server-pay
+server-pay/payment/build/
+server-pay/payment/target/
+

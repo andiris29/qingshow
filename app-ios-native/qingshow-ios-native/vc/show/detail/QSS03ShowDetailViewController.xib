@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -17,9 +17,10 @@
                 <outlet property="itemBtn" destination="Kom-JN-rRb" id="Pf0-eD-xFv"/>
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
                 <outlet property="nameLabel" destination="5ZK-Pn-HBq" id="v3R-sU-4yo"/>
+                <outlet property="pauseBtn" destination="DXm-AO-FLL" id="PLW-Vz-DQv"/>
                 <outlet property="playBtn" destination="4rz-ET-nsL" id="ium-ia-lNo"/>
+                <outlet property="scrollViewContainer" destination="Rzs-4O-hfv" id="pTH-la-QN4"/>
                 <outlet property="shareBtn" destination="1sR-pr-gUL" id="Z3n-9V-5n1"/>
-                <outlet property="showContainer" destination="Rzs-4O-hfv" id="IFv-V1-6zA"/>
                 <outlet property="videoContainerView" destination="5Fn-9j-ahl" id="xg0-iQ-TbL"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -90,7 +91,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="playBtnPressed:" destination="-1" eventType="touchUpInside" id="5Pc-Rz-1D3"/>
+                        <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="fta-h5-T8J"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hMW-Uu-LLo">
@@ -167,6 +168,16 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DXm-AO-FLL">
+                    <rect key="frame" x="270" y="505" width="38" height="38"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <state key="normal" image="s03_pause_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="Upi-BR-alS"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -185,6 +196,7 @@
         <image name="s03_like_btn" width="40" height="36"/>
         <image name="s03_line" width="36" height="6"/>
         <image name="s03_model_shadow" width="320" height="92"/>
+        <image name="s03_pause_btn" width="38" height="38"/>
         <image name="s03_play_btn" width="38" height="38"/>
         <image name="s03_share_btn" width="38" height="28"/>
     </resources>

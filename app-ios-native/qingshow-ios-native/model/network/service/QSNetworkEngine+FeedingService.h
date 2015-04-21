@@ -40,4 +40,8 @@
                                          page:(int)page
                                     onSucceed:(ArraySuccessBlock)succeedBlock
                                       onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)feedingByTopic:(NSDictionary*)topicDic
+                                 page:(int)page
+                            onSucceed:(ArraySuccessBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end

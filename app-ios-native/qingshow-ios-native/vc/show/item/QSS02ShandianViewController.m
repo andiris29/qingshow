@@ -11,6 +11,9 @@
 #import "QSNetworkKit.h"
 #import "QSP04BrandDetailViewController.h"
 #import "QSItemUtil.h"
+#import "QSS11CreateTradeViewController.h"
+#import "QSS10ItemDetailVideoViewController.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"S02 - 闪点推荐"
 
@@ -59,8 +62,7 @@
 - (void)configView
 {
     self.title = @"闪点推荐";
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
     self.navigationController.navigationBarHidden = NO;
     
 }
@@ -78,6 +80,10 @@
 #pragma mark -
 - (void)didClickItem:(NSDictionary*)itemDict
 {
+    UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
+//    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:itemDict];
+    [self.navigationController pushViewController:vc animated:YES];
+    /*
     NSDictionary* brandDict = nil;
     id brand = [QSItemUtil getBrand:itemDict];
     if ([brand isKindOfClass:[NSDictionary class]]) {
@@ -88,5 +94,6 @@
 
     QSP04BrandDetailViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
+     */
 }
 @end

@@ -9,6 +9,7 @@
 #import "QSP03BrandListViewController.h"
 #import "QSP04BrandDetailViewController.h"
 #import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
 
 #import "QSBrandTitleView.h"
 
@@ -39,8 +40,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self configDelegateObj];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
-    [[self navigationItem] setBackBarButtonItem:backButton];
+    [self hideNaviBackBtnTitle];
+    
     self.headerView = [QSBrandTableViewHeaderView generateView];
     self.headerView.delegate = self;
     self.tableView.tableHeaderView = self.headerView;

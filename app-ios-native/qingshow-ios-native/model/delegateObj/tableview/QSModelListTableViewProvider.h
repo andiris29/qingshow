@@ -28,4 +28,5 @@ typedef NS_ENUM(NSInteger, QSModelListTableViewDelegateObjType) {
 
 @property (weak, nonatomic) NSObject<QSModelListTableViewProviderDelegate>* delegate;
 @property (assign ,nonatomic) QSModelListTableViewDelegateObjType type;
+
 @end

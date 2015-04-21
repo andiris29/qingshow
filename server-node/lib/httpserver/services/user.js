@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var uuid = require('node-uuid');
 
 var People = require('../../model/peoples');
 
@@ -25,7 +26,7 @@ var _decrypt = function(string) {
     return dec;
 };
 
-var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground;
+var _get, _login, _logout, _update, _register, _updatePortrait, _updateBackground, _saveReceiver, _removeReceiver;
 _get = function(req, res) {
     async.waterfall([
     function(callback) {
@@ -246,6 +247,80 @@ _updateBackground = function(req, res) {
     _upload(req, res, 'background');
 };
 
+_saveReceiver = function(req, res) {
+    var param = req.body;
+    async.waterfall([function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }, function(error, people) {
+            if (!error && !people) {
+                callback(ServerError.PeopleNotExist);
+            } else {
+                callback(error, people);
+            }
+        });
+    }, function(people, callback) {
+        var receiver = {};
+        for(var element in param) {
+            receiver[element] = param[element];
+        }
+        if (!receiver.isDefault) {
+            receiver.isDefault = false;
+        }
+        if (people.receivers == null || people.receivers.length == 0) {
+            people.receivers = [];
+            receiver.isDefault = true;
+            if (!receiver.uuid) {
+                receiver.uuid = uuid.v1();
+            }
+            people.receivers.push(receiver);
+        } else {
+            var hit = -1;
+            // find index
+            for (var i = 0; i < people.receivers.length; i++) {
+                var element = people.receivers[i];
+                if (!receiver.uuid) {
+                    if (element.name == receiver.name && element.phone == receiver.phone && element.province == receiver.province && element.address == receiver.address) {
+                        hit = i;
+                        break;
+                    }
+                } else {
+                    if (element.uuid == receiver.uuid) {
+                        hit = i;
+                        break;
+                    }
+                }
+            }
+
+            if (receiver.isDefault) {
+                for (var i = 0; i < people.receivers.length; i++) {
+                    people.receivers[i].isDefault = false;
+                }
+            }
+
+            if (!receiver.uuid) {
+                receiver.uuid = uuid.v1();
+            }
+            if (hit == -1) {
+                people.receivers.push(receiver);
+            } else {
+                for(var field in receiver) {
+                    people.receivers[hit].set(field, receiver[field]);
+                }
+            }
+        }
+
+        people.save(function(error, people) {
+            callback(error, people, receiver.uuid);
+        });
+    }], function(error, people, nowUuid) {
+        ResponseHelper.response(res, error, {
+            'people' : people,
+            'receiverUuid' : nowUuid 
+        });
+    });
+};
+
 var _upload = function(req, res, keyword) {
     var formidable = require('formidable');
     var path = require('path');
@@ -282,6 +357,46 @@ var _upload = function(req, res, keyword) {
     return;
 };
 
+_removeReceiver = function(req, res) {
+    var param = req.body;
+    async.waterfall([function(callback) {
+        People.findOne({
+            '_id' : req.qsCurrentUserId
+        }).exec(function(error, people) {
+            if (!error && !people) {
+                callback(ServerError.PeopleNotExist);
+            } else {
+                callback(error, people);
+            }
+        });
+    }, function(people, callback) {
+        var receivers = people.receivers;
+        var index = -1;
+        var isDefault = false;
+        if (receivers != null) {
+            for(var i = 0; i < receivers.length; i++) {
+                if (receivers[i].uuid == param.uuid) {
+                    index = i;
+                    isDefault = receivers[i].isDefault;
+                    break;
+                }
+            }
+
+            if (index > -1) {
+                people.receivers.splice(index, 1);
+                if (isDefault && people.receivers.length > 0) {
+                    people.receivers[0].isDefault = true;
+                }
+            }
+        }
+        people.save(callback);
+    }], function(error, people) {
+        ResponseHelper.response(res, error, {
+            'people' : people
+        });
+    });
+};
+
 module.exports = {
     'get' : {
         method : 'get',
@@ -314,6 +429,16 @@ module.exports = {
     'updateBackground' : {
         method : 'post',
         func : _updateBackground,
+        permissionValidators : ['loginValidator']
+    },
+    'saveReceiver' : {
+        method : 'post',
+        func : _saveReceiver,
+        permissionValidators : ['loginValidator']
+    },
+    'removeReceiver' : {
+        method : 'post',
+        func : _removeReceiver,
         permissionValidators : ['loginValidator']
     }
 };

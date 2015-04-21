@@ -9,6 +9,8 @@
 #import "QSNetworkEngine+UserService.h"
 #import "QSUserManager.h"
 #import "QSNetworkEngine+Protect.h"
+#import "NSDictionary+QSExtension.h"
+#import "QSReceiverUtil.h"
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
@@ -18,6 +20,8 @@
 #define PATH_USER_UPDATE @"user/update"
 #define PATH_USER_UPDATE_PORTRAIT @"user/updatePortrait"
 #define PATH_USER_UPDATE_BACKGROUND @"user/updateBackground"
+#define PATH_USER_SAVE_RECEIVER @"user/saveReceiver"
+#define PATH_USER_REMOVE_RECEIVER @"user/removeReceiver"
 
 
 @implementation QSNetworkEngine(UserService)
@@ -138,6 +142,7 @@
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary* retDict = completeOperation.responseJSON;
+                retDict = [retDict deepMutableCopy];
                 manager.fIsLogined = YES;
                 manager.userInfo = retDict[@"data"][@"people"];
                 if (succeedBlock) {
@@ -202,6 +207,91 @@
             }
             ];
 }
+
+- (MKNetworkOperation*)setDefaultReceiver:(NSDictionary*)receiverDict
+                                onSuccess:(VoidBlock)successBlock
+                                  onError:(ErrorBlock)errorBlock
+{
+    NSMutableDictionary* paramDict = [receiverDict mutableCopy];
+    [QSReceiverUtil setReceiver:paramDict isDefault:YES];
+    return [self startOperationWithPath:PATH_USER_SAVE_RECEIVER
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (successBlock) {
+                    successBlock();
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation *)saveReceiver:(NSString*)uuid
+                                name:(NSString*)name
+                               phone:(NSString*)phone
+                            province:(NSString*)province
+                             address:(NSString*)address
+                           isDefault:(BOOL)isDefault
+                           onSuccess:(void (^)(NSDictionary *people, NSString* uuid, NSDictionary *metadata))succeedBlock
+                             onError:(ErrorBlock)errorBlock
+{
+    NSMutableDictionary* paramDict = [@{
+                                        @"name" : name,
+                                        @"phone" : phone,
+                                        @"province" : province,
+                                        @"address" : address,
+                                        @"isDefault" : @(isDefault)
+                                        } mutableCopy];
+    if (uuid) {
+        paramDict[@"uuid"] = uuid;
+    }
+    
+    return [self startOperationWithPath:PATH_USER_SAVE_RECEIVER
+                                 method:@"POST"
+                               paramers:paramDict
+                            onSucceeded:
+            ^(MKNetworkOperation *completeOperation) {
+                NSDictionary *retDict = completeOperation.responseJSON;
+                if (succeedBlock) {
+                    succeedBlock(retDict[@"data"][@"people"], retDict[@"data"][@"receiverUuid"], retDict[@"metadata"]);
+                }
+            }
+                                onError:
+            ^(MKNetworkOperation *completedOperation, NSError *error) {
+                if(errorBlock) {
+                    errorBlock(error);
+                }
+            }
+            ];
+}
+
+- (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
+                            onSuccess:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_USER_REMOVE_RECEIVER
+                                 method:@"POST"
+                               paramers:@{
+                                   @"uuid" : receiver[@"uuid"]
+                                   }
+                            onSucceeded:^(MKNetworkOperation *completedOperation) {
+                                if (succeedBlock) {
+                                    succeedBlock();
+                                }
+                            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+                                    if (errorBlock) {
+                                        errorBlock(error);
+                                    }
+                                }
+            ];
+}
+
 
 
 @end

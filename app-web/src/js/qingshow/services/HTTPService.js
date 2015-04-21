@@ -20,7 +20,7 @@ define([
 
     HTTPService.request = function(path, data, callback) {
         // Handle optional parameters
-        if (arguments.length === 2) {
+        if (arguments.length === 2 && arguments[1] instanceof Function) {
             callback = data;
             data = null;
         }

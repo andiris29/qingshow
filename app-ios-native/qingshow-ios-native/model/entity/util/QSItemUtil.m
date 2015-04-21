@@ -40,6 +40,17 @@
     
     return m;
 }
+
++ (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict
+{
+    NSArray* imageUrls = [self getImagesUrl:itemDict];
+    if (imageUrls && imageUrls.count ) {
+        return imageUrls[0];
+    } else {
+        return nil;
+    }
+}
+
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
 {
     NSArray* array = itemDict[@"images"];
@@ -246,8 +257,6 @@
     NSDictionary* maxSku = [sortedSkus lastObject];
     NSNumber* maxPrice = maxSku[@"price"];
     if ([self hasDiscountInfo:itemDict]) {
-        return [NSString stringWithFormat:@"￥%.2f-%.2f", minPrice.doubleValue, maxPrice.doubleValue];
-        //min(skus[i].price) + ' - ' + max(skus[i].price)
         if (sortedSkus.count == 1 || (ABS(maxPrice.doubleValue - minPrice.doubleValue)) < 0.01) {
             return [NSString stringWithFormat:@"￥%.2f", (minPrice.doubleValue - 0.01)];
         } else {
@@ -308,19 +317,36 @@
      */
 }
 
-//+ (NSDictionary*)getImageMetaData:(NSDictionary*)itemDict
-//{
-//    return itemDict[@"imageMetadata"];
-//}
-//
-//+ (CGFloat)getHeight:(NSDictionary*)itemDict
-//{
-//    NSDictionary* m = [self getImageMetaData:itemDict];
-//    return ((NSNumber*)m[@"height"]).floatValue;
-//}
-//+ (CGFloat)getWidth:(NSDictionary*)itemDict
-//{
-//    NSDictionary* m = [self getImageMetaData:itemDict];
-//    return ((NSNumber*)m[@"width"]).floatValue;
-//}
++ (NSDictionary*)getTaobaoInfo:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    return itemDict[@"taobaoInfo"];
+}
+
++ (NSURL*)getSizeExplanation:(NSDictionary*)item
+{
+    if (![QSCommonUtil checkIsDict:item]) {
+        return nil;
+    }
+    NSString* e = item[@"sizeExplanation"];
+    if (![QSCommonUtil checkIsNil:e]) {
+        return [NSURL URLWithString:e];
+    }
+    return nil;
+}
+
++ (NSString*)getVideoPath:(NSDictionary*)item
+{
+    if (![QSCommonUtil checkIsDict:item]) {
+        return nil;
+    }
+    NSString* path = item[@"video"];
+    if ([QSCommonUtil checkIsNil:path]) {
+        return nil;
+    } else {
+        return path;
+    }
+}
 @end

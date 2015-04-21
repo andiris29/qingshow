@@ -13,4 +13,6 @@
 - (void)handleError:(NSError*)error;
 - (void)showPeopleDetailViewControl:(NSDictionary*)peopleDict;
 - (UIViewController*)generateDetailViewControlOfPeople:(NSDictionary*)peopleDict;
+- (void)hideNaviBackBtnTitle;
+- (void)disableAutoAdjustScrollViewInset;
 @end

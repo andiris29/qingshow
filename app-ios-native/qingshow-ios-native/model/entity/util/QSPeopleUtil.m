@@ -380,4 +380,12 @@
     }
     return hairTypeArray[hairType.intValue];
 }
+
++ (NSArray*)getReceiverList:(NSDictionary*)dict
+{
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    return dict[@"receivers"];
+}
 @end

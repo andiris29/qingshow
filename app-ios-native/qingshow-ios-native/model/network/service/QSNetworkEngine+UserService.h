@@ -39,4 +39,21 @@
 
 - (MKNetworkOperation *)getLoginUserOnSucced:(EntitySuccessBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation *)saveReceiver:(NSString*)uuid
+                                name:(NSString*)name
+                               phone:(NSString*)phone
+                            province:(NSString*)province
+                             address:(NSString*)address
+                           isDefault:(BOOL)isDefault
+                           onSuccess:(void (^)(NSDictionary *people, NSString* uuid, NSDictionary *metadata))succeedBlock
+                             onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)setDefaultReceiver:(NSDictionary*)receiverDict
+                                onSuccess:(VoidBlock)successBlock
+                                  onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)removeReceiver:(NSDictionary*)receiver
+                            onSuccess:(VoidBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 @end

@@ -9,6 +9,8 @@
 #import "QSU02UserSettingViewController.h"
 #import "QSU04EmailViewController.h"
 #import "QSU08PasswordViewController.h"
+#import "QSU09OrderListViewController.h"
+#import "QSU10ReceiverListViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
@@ -124,6 +126,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:
+        {
             // 选择section
             _uploadImageType = indexPath.row;
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -153,7 +156,21 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
             }
             break;
+        }
         case 1:
+        {
+            UIViewController* vc = nil;
+            if (indexPath.row == 0) {
+                vc = [[QSU09OrderListViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else if (indexPath.row == 1) {
+                vc = [[QSU10ReceiverListViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            break;
+        }
+        case 2:
+        {
             // 基本section
             if (indexPath.row == 1) {
                 // GOTO Gender
@@ -172,7 +189,9 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             }
             
             break;
-        case 2:
+        }
+        case 3:
+        {
             // 其他section
             if (indexPath.row == 0) {
                 // Change Password
@@ -188,13 +207,16 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 NSLog(@"Nothing");
             }
             break;
+        }
         default:
+        {
             break;
+        }
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 3) {
         return 100.0f;
     }
     
@@ -202,7 +224,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == 2) {
+    if (section == 3) {
         UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
         UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
         [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
@@ -294,7 +316,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             // refresh local login user's data
             [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
             [self refreshImage];
-            //[self.navigationController popToViewController:self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2] animated:YES];
         } else {
             [self showErrorHudWithText:@"上传失败"];
         }
@@ -309,8 +330,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     // Convert UIImage to NSData
     NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
     // write NSData to sandbox
-    //    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"uploadImage"];
-    //    [imageData writeToFile:fullPath atomically:NO];
     if (_uploadImageType == UPLOAD_PORTRAIT) {
         [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
     } else {
@@ -329,18 +348,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     self.navigationItem.title = @"设置";
     self.navigationItem.backBarButtonItem.title = @"";
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:nil action:nil];
-//    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"s03_back_btn"] style:UIBarButtonItemStylePlain target:self action:nil];
     
     [[self navigationItem] setBackBarButtonItem:backButton];
-//    [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"s03_back_btn"]];
-//    [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"s03_back_btn"]];
-    
-//    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"保存"
-//                                                               style:UIBarButtonItemStylePlain
-//                                                              target:self
-//                                                              action:@selector(actionSave)];
-//    
-//    [[self navigationItem] setRightBarButtonItem:btnSave];
 }
 
 - (void)loadUserSetting {

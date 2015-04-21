@@ -16,4 +16,6 @@
 + (NSString*)getMYD:(NSDate*)date;
 + (NSString*)getWeek:(NSDate*)date;
 
++ (NSString*)buildDateStringFromDate:(NSDate*)date;
+
 @end
