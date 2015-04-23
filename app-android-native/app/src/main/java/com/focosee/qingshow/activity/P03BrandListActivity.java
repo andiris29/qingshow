@@ -7,11 +7,14 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.HeadScrollAdapter;
 import com.focosee.qingshow.adapter.P03BrandListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
@@ -35,11 +38,14 @@ public class P03BrandListActivity extends BaseActivity {
     public static String ACTION_REFRESH = "refresh_P03BrandListActivity";
 
     private MPullRefreshListView pullRefreshListView;
+    private RelativeLayout headRelativeLayout;
     private ListView listView;
     private int brandType = 0;
     private int pageIndex = 1;
 
+
     private P03BrandListAdapter adapter;
+//    private HeadScrollAdapter headScrollAdapter;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -53,6 +59,10 @@ public class P03BrandListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p03_brand_list);
 
+        headRelativeLayout = (RelativeLayout) findViewById(R.id.P03_brand_list_tab_control);
+
+//        headScrollAdapter = new HeadScrollAdapter(headRelativeLayout, this);
+
         findViewById(R.id.P03_back_image_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,25 +70,23 @@ public class P03BrandListActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                brandType = 0;
-                pullRefreshListView.getRefreshableView().setSelection(0);
-                refreshData();
-            }
-        });
-        findViewById(R.id.P03_brand_list_offline_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                brandType = 1;
-                pullRefreshListView.getRefreshableView().setSelection(0);
-                refreshData();
-            }
-        });
+//        findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                chooseOnlineOroffLine(0);
+//            }
+//        });
+//        findViewById(R.id.P03_brand_list_offline_button).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                chooseOnlineOroffLine(1);
+//            }
+//        });
 
         pullRefreshListView = (MPullRefreshListView) findViewById(R.id.P03_brand_list_list_view);
+//        pullRefreshListView.setOnScrollListener(headScrollAdapter);
         listView = pullRefreshListView.getRefreshableView();
+//        listView.setOnTouchListener(headScrollAdapter);
 
         pullRefreshListView.setPullRefreshEnabled(true);
         pullRefreshListView.setPullLoadEnabled(true);
@@ -100,6 +108,12 @@ public class P03BrandListActivity extends BaseActivity {
         });
         pullRefreshListView.doPullRefreshing(true, 0);
         registerReceiver(receiver, new IntentFilter(P03BrandListActivity.ACTION_REFRESH));
+    }
+
+    public void chooseOnlineOroffLine(int brandType){
+        this.brandType = brandType;
+        pullRefreshListView.getRefreshableView().setSelection(0);
+        refreshData();
     }
 
     @Override
