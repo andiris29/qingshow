@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.P03BrandListActivity;
 import com.focosee.qingshow.activity.P04BrandActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoBrand;
 import com.focosee.qingshow.util.AppUtil;
@@ -20,7 +22,6 @@ import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
 import java.util.ArrayList;
 
 class P03BrandHolderView {
@@ -48,12 +49,12 @@ public class P03BrandListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return (null != data) ? data.size() : 0;
+        return (null != data) ? data.size() + 1: 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return data.get(position - 1);
     }
 
     @Override
@@ -62,8 +63,45 @@ public class P03BrandListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public int getViewTypeCount() {
+        return 2;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? 0:1;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        if(position == 0){
+            RelativeLayout headlayout;
+            if(null == convertView){
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                convertView = layoutInflater.inflate(R.layout.activity_p03_head, null);
+                headlayout = (RelativeLayout)convertView.findViewById(R.id.P03_brand_list_tab_control);
+                convertView.findViewById(R.id.P03_brand_list_online_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((P03BrandListActivity)context).chooseOnlineOroffLine(0);
+                    }
+                });
+                convertView.findViewById(R.id.P03_brand_list_offline_button).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((P03BrandListActivity)context).chooseOnlineOroffLine(1);
+                    }
+                });
+                convertView.setTag(headlayout);
+            }
+            return convertView;
+        }
+
         P03BrandHolderView holderView;
+
+        final int final_position = position-1;
+        position--;
         if (null == convertView) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             convertView = layoutInflater.inflate(R.layout.item_brandlist, null);
@@ -90,7 +128,7 @@ public class P03BrandListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent  = new Intent(context, P04BrandActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, data.get(position));
+                bundle.putSerializable(P04BrandActivity.INPUT_BRAND, data.get(final_position));
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }
