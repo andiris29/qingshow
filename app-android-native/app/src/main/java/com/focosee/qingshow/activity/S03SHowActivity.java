@@ -70,6 +70,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,6 +80,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Handler;
 
 public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response {
 
@@ -87,6 +89,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
     public static String ACTION_MESSAGE = "";//动态变化的
     public final String TAG = "S03SHowActivity";
+    private static final int shareMsgShowTime = 2000;//分享优惠显示时间
     private int position;
 
     private String showId;
@@ -206,6 +209,15 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
+
+        final TextView shareMsgTextView = (TextView)findViewById(R.id.S03_share_msg);
+
+        shareMsgTextView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                shareMsgTextView.setVisibility(View.GONE);
+            }
+        }, shareMsgShowTime);
 
 
         likedImageButton = (ImageView) findViewById(R.id.S03_like_btn);
@@ -362,9 +374,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         modelImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
-                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity.modelRef);
-                S03SHowActivity.this.startActivity(intent);
+//                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
+//                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity.modelRef);
+//                S03SHowActivity.this.startActivity(intent);
 
             }
         });

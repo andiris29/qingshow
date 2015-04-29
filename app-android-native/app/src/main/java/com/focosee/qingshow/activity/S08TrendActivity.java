@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
@@ -49,22 +51,7 @@ public class S08TrendActivity extends BaseActivity {
     private int _currentPageIndex = 1;
     private ImageView _backImageBtn;
 
-
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
-
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (S04CommentActivity.COMMENT_NUM_CHANGE.equals(intent.getAction())) {
-                int position = intent.getIntExtra("position", 0);
-                int numComments = adapter.getData().get(position).getNumComments();
-                adapter.getData().get(position).__context.numComments = numComments + intent.getIntExtra("value", 0);
-                System.out.println("value:"+numComments + intent.getIntExtra("value", 0) + "");
-                System.out.println("position:"+ position);
-                adapter.notifyDataSetChanged();
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +61,9 @@ public class S08TrendActivity extends BaseActivity {
         mPullRefreshListView = (MPullRefreshListView) findViewById(R.id.S08_content_list_view);
         listView = mPullRefreshListView.getRefreshableView();
 
-        _backImageBtn = (ImageView) findViewById(R.id.S08_back_image_button);
+        ((TextView)findViewById(R.id.title)).setText(R.string.s08_title);
+
+        _backImageBtn = (ImageView) findViewById(R.id.left_btn);
         _backImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +71,7 @@ public class S08TrendActivity extends BaseActivity {
             }
         });
 
-        adapter = new S08TrendListAdapter(this, new LinkedList<MongoPreview>(), AppUtil.getScreenSize(this), ImageLoader.getInstance());
+        adapter = new S08TrendListAdapter(this);
         listView.setAdapter(adapter);
         listView.setSmoothScrollbarEnabled(false);
         listView.setSmoothScrollbarEnabled(false);
@@ -101,8 +90,13 @@ public class S08TrendActivity extends BaseActivity {
                 doGetMoreTask();
             }
         });
-        mPullRefreshListView.doPullRefreshing(true, 500);
-        registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(S08TrendActivity.this, S14FashionMsgActivity.class));
+            }
+        });
+//        mPullRefreshListView.doPullRefreshing(true, 500);
     }
 
     @Override
@@ -145,10 +139,10 @@ public class S08TrendActivity extends BaseActivity {
                 }
                 LinkedList<MongoPreview> results = PreviewParser.parseFeed(response);
                 if (_tRefreshSign) {
-                    adapter.resetData(results);
+//                    adapter.resetData(results);
                     _currentPageIndex = 1;
                 } else {
-                    adapter.addItemLast(results);
+//                    adapter.addItemLast(results);
                     _currentPageIndex++;
                 }
                 adapter.notifyDataSetChanged();
@@ -159,13 +153,6 @@ public class S08TrendActivity extends BaseActivity {
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jor);
-    }
-
-    private Point getScreenSize() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
     }
 
     @Override
@@ -182,9 +169,4 @@ public class S08TrendActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(receiver);
-        super.onDestroy();
-    }
 }

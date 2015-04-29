@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
@@ -18,13 +16,10 @@ import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
 import org.json.JSONObject;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 
 class ClassifyViewHolder extends AbsViewHolder {
     MImageView_OriginSize showIV;
@@ -94,9 +89,9 @@ public class ClassifyWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
         holder.shadowIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, P02ModelActivity.class);
-                intent.putExtra(P02ModelActivity.INPUT_MODEL, showInfo.getModelRef());
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, P02ModelActivity.class);
+//                intent.putExtra(P02ModelActivity.INPUT_MODEL, showInfo.getModelRef());
+//                context.startActivity(intent);
             }
         });
 

@@ -300,7 +300,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
         clickCommentIndex = commentIndex;
         viewMainPageIntent = new Intent();
-        viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
+//        viewMainPageIntent.putExtra(P02ModelActivity.INPUT_MODEL, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
         viewMainPageIntent.putExtra(U01PersonalActivity.U01PERSONALACTIVITY_PEOPLE, adapter.getCommentAtIndex(commentIndex).getAuthorRef());
 
         if (null != userId && userId.equals(commentUserId)) {
@@ -326,17 +326,17 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     public void onOtherButtonClick(ActionSheet actionSheet, int index) {
         switch (index) {
             case 0:
-                if(null != adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef()){
-                    int[] roles = adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef().getRoles();
-
-                    for(int role : roles){
-                        if(role == RolesCode.MODEL.getIndex()){
-                            viewMainPageIntent.setClass(S04CommentActivity.this, P02ModelActivity.class);
-                            startActivity(viewMainPageIntent);
-                            return;
-                        }
-                    }
-                }
+//                if(null != adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef()){
+//                    int[] roles = adapter.getCommentAtIndex(clickCommentIndex).getAuthorRef().getRoles();
+//
+//                    for(int role : roles){
+//                        if(role == RolesCode.MODEL.getIndex()){
+//                            viewMainPageIntent.setClass(S04CommentActivity.this, P02ModelActivity.class);
+//                            startActivity(viewMainPageIntent);
+//                            return;
+//                        }
+//                    }
+//                }
                 viewMainPageIntent.setClass(S04CommentActivity.this, U01PersonalActivity.class);
                 U01PersonalActivity.peopleType = PeopleTypeInU01PersonalActivity.OTHERS.getIndex();
                 startActivity(viewMainPageIntent);

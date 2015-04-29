@@ -1,7 +1,6 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
@@ -19,9 +16,7 @@ import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
 import org.json.JSONObject;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -121,9 +116,9 @@ public class ClassifyWaterfallAdapter_HasHeadRelativeLayout extends AbsWaterfall
         holder.shadowIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, P02ModelActivity.class);
-                intent.putExtra(P02ModelActivity.INPUT_MODEL, showInfo.getModelRef());
-                context.startActivity(intent);
+//                Intent intent = new Intent(context, P02ModelActivity.class);
+//                intent.putExtra(P02ModelActivity.INPUT_MODEL, showInfo.getModelRef());
+//                context.startActivity(intent);
             }
         });
 

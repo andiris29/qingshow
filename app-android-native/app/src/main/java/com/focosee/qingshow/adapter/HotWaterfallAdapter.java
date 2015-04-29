@@ -3,23 +3,18 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.activity.S02ShowClassify;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
 import org.json.JSONObject;
-
 
 public class HotWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
@@ -62,11 +57,11 @@ public class HotWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
         holder.shadowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(_context, P02ModelActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ( _data.get(final_position)).getModelRef());
-                intent.putExtras(bundle);
-                _context.startActivity(intent);
+//                Intent intent = new Intent(_context, P02ModelActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, ( _data.get(final_position)).getModelRef());
+//                intent.putExtras(bundle);
+//                _context.startActivity(intent);
             }
         });
 

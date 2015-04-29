@@ -2,36 +2,23 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.P02ModelActivity;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.AppUtil;
-import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+
 public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
 
     private String updateTimeString = "15:00更新";
@@ -102,11 +89,11 @@ public class HomeWaterfallAdapter extends AbsWaterfallAdapter<MongoShow> {
         holder.shadowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(_context, P02ModelActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, (_data.get(final_position)).getModelRef());
-                intent.putExtras(bundle);
-                _context.startActivity(intent);
+//                Intent intent = new Intent(_context, P02ModelActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(P02ModelActivity.INPUT_MODEL, (_data.get(final_position)).getModelRef());
+//                intent.putExtras(bundle);
+//                _context.startActivity(intent);
             }
         });
 

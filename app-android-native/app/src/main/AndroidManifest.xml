@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow">
+    package="com.focosee.qingshow" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:name=".QSApplication"
         android:allowBackup="true"
+        android:configChanges="orientation|keyboardHidden"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:configChanges="orientation|keyboardHidden"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
 
         <activity
@@ -41,168 +43,125 @@
         </activity>
 
         <activity
-            android:name="com.focosee.qingshow.activity.U02SettingsActivity"
+            android:name=".activity.U02SettingsActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-
-        <activity
-            android:name="com.focosee.qingshow.activity.S12TopicListActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S13TopicActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:name=".activity.S10ItemDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S10ItemDetailActivity"
+            android:name=".activity.S11NewTradeActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-
-        <activity
-            android:name="com.focosee.qingshow.activity.S11NewTradeActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:configChanges="keyboardHidden|orientation" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U07RegisterActivity"
+            android:name=".activity.U07RegisterActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_register"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U06LoginActivity"
+            android:name=".activity.U06LoginActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U01PersonalActivity"
+            android:name=".activity.U01PersonalActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_personal"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U09TradeListActivity"
+            android:name=".activity.U09TradeListActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_name_activity_trade"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U10AddressListActivity"
+            android:name=".activity.U10AddressListActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_addresslist"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U11EditAddressActivity"
+            android:name=".activity.U11EditAddressActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_address"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.U12ReturnActivity"
+            android:name=".activity.U12ReturnActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:configChanges="keyboardHidden|orientation" >
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S01HomeActivity"
-            android:label="@string/title_activity_s01_home"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-        <activity
-            android:name="com.focosee.qingshow.activity.S03SHowActivity"
+            android:name=".activity.S03SHowActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S02ShowClassify"
+            android:name=".activity.S02ShowClassify"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s02_show_classify"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S04CommentActivity"
+            android:name=".activity.S04CommentActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s04_comment"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.P03BrandListActivity"
-            android:label="@string/title_activity_p03_brand_list"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-        <activity
-            android:name="com.focosee.qingshow.activity.P01ModelListActivity"
-            android:label="@string/title_activity_p01_model_list"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-        <activity
-            android:name="com.focosee.qingshow.activity.P04BrandActivity"
-            android:label="@string/title_activity_p04_brand"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-        <activity
-            android:name="com.focosee.qingshow.activity.P02ModelActivity"
-            android:label="@string/title_activity_p02_model"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
-        </activity>
-        <activity
-            android:name="com.focosee.qingshow.activity.S07CollectActivity"
+            android:name=".activity.S07CollectActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s07_collect"
-            android:theme="@style/Transparent"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:theme="@style/Transparent" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S05ItemActivity"
+            android:name=".activity.S05ItemActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s05_item"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.S08TrendActivity"
+            android:name=".activity.S08TrendActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s08_trend"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.focosee.qingshow.activity.LaunchActivity"
+            android:name=".activity.LaunchActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" >
         </activity>
-
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -210,7 +169,6 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
-
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -218,16 +176,27 @@
             android:screenOrientation="behind" >
         </activity>
 
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="54d34711fd98c533bd000c87" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="native" />
 
 
-        <activity android:name=".activity.G01WebViewActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.S12TopicListActivity"
+            android:label="S12TopicListActivity">
+        </activity>
 
-        <activity android:name=".activity.G02SplashActivity"
-            android:screenOrientation="behind"/>
+        <activity
+            android:name=".activity.S14FashionMsgActivity"
+            android:label="@string/title_activity_s14_fashion_msg" >
+        </activity>
+        <activity
+            android:name=".activity.G02WelcomeActivity"
+            android:label="@string/title_activity_g02_welcome" >
+        </activity>
 
-        <meta-data android:value="54d34711fd98c533bd000c87" android:name="UMENG_APPKEY"></meta-data>
-        <meta-data android:value="native" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>
