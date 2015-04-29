@@ -25,6 +25,21 @@
         android:label="@string/app_name"
         android:configChanges="orientation|keyboardHidden"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
+
+        <activity
+            android:name="com.focosee.qingshow.activity.U01UserActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" />
+
+
+        <activity
+            android:name="com.focosee.qingshow.activity.S16PersonalizeActivity"
+            android:label="@string/title_activity_settings"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+
         <activity
             android:name="com.focosee.qingshow.activity.U02SettingsActivity"
             android:label="@string/title_activity_settings"
@@ -204,8 +219,12 @@
         </activity>
 
 
+
         <activity android:name=".activity.G01WebViewActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.G02SplashActivity"
+            android:screenOrientation="behind"/>
 
         <meta-data android:value="54d34711fd98c533bd000c87" android:name="UMENG_APPKEY"></meta-data>
         <meta-data android:value="native" android:name="UMENG_CHANNEL"/>

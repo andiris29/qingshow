@@ -25,8 +25,12 @@
 
     <color name="master">#a91a4e</color>
     <color name="dialog">#11000000</color>
-
+    <color name="tab_check">#88a91a4e</color>
+    <color name="tab_uncheck">#88000000</color>
+    
     <color name="gray_background">#CCCCCC</color>
     <color name="home_gray_background">#ffe6e6e6</color>
+    
+    <color name="mask_layer">#8f000000</color>
 
 </resources>

@@ -21,7 +21,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Administrator on 2015/4/29.
  */
-public class U01RecommendFragment extends Fragment {
+public class U01FavoriteFragment extends Fragment {
 
     private RecyclerPullToRefreshView pullToRefreshView;
     private RecyclerView recyclerView;
@@ -49,7 +49,7 @@ public class U01RecommendFragment extends Fragment {
             }
         });
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new U01PushAdapter(list, getActivity(), R.layout.item_u01_push, R.layout.item_u01_loading));
+        recyclerView.setAdapter(new U01PushAdapter(list, getActivity(), R.layout.item_u01_push, R.layout.item_u01_nonehead));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -63,12 +63,13 @@ public class U01RecommendFragment extends Fragment {
 
     }
 
+
     private void initData() {
         list = new ArrayList<Bean>();
 
         for (int i = 0; i < 20; i++) {
 
-            if (i % 2 != 0) {
+            if (i % 2 == 0) {
                 Bean b = new Bean();
                 b.url = "http://trial01.focosee.com/demo6/1107a50100.jpg";
                 b.text = "123";

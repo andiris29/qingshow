@@ -42,5 +42,7 @@
     <dimen name="right_btn_list_marginBottom">6dp</dimen>
 
     <!-- return -->
-    <dimen name="item_height_activity_return">40dp</dimen>"
+    <dimen name="item_height_activity_return">40dp</dimen>
+    
+    <dimen name="master_radius">5dp</dimen>
 </resources>

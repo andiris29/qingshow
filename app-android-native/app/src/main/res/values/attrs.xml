@@ -52,6 +52,10 @@
         <attr name="mode" format="string"/>
     </declare-styleable>
 
+    <declare-styleable name="tabView">
+        <attr name="check_color" format="color|reference"/>
+        <attr name="uncheck_color" format="color|reference"/>
+    </declare-styleable>
 
 
     <declare-styleable name="NumberPicker">
