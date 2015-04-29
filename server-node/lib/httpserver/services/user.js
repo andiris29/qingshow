@@ -134,8 +134,8 @@ _register = function(req, res) {
         ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
-    People.findOne({
-        'userInfo.id' : id
+    People.find({
+        $or: [{'userInfo.id' : id}, {'nickname': nickname}]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
