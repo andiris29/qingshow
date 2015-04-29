@@ -97,6 +97,7 @@
     }];
     
     [MobClick beginLogPageView:PAGE_ID];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated

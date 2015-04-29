@@ -80,7 +80,8 @@
     CALayer *bottomBorder = [CALayer layer];
     bottomBorder.borderWidth = 1.0f;
     bottomBorder.frame = CGRectMake(0, layer.frame.size.height - 1, layer.frame.size.width, 1);
-    [bottomBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
+//    [bottomBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
+    bottomBorder.borderColor = [UIColor redColor].CGColor;
     [layer addSublayer:bottomBorder];
 
     // 登陆

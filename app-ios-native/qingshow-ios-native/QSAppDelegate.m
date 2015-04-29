@@ -9,13 +9,13 @@
 #import "QSAppDelegate.h"
 #import "QSNetworkEngine.h"
 #import "QSS01RootViewController.h"
-#import "QSS12TopicViewController.h"
 
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "QSPaymentConst.h"
+#import "QSS15TopicViewController.h"
 
 
 @interface QSAppDelegate ()
@@ -45,7 +45,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    UIViewController* vc = [[QSS01RootViewController alloc] init];
-    UIViewController* vc = [[QSS12TopicViewController alloc] init];
+    UIViewController* vc = [[QSS15TopicViewController alloc] init];
     
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;

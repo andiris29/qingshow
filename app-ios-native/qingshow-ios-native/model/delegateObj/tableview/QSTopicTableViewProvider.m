@@ -7,19 +7,19 @@
 //
 
 #import "QSTopicTableViewProvider.h"
-#import "QSTopicTableViewCell.h"
+#import "QSS15TopicTableViewCell.h"
 
 @implementation QSTopicTableViewProvider
 #pragma mark - Override
 - (void)registerCell
 {
-    [self.view registerNib:[UINib nibWithNibName:@"QSTopicTableViewCell" bundle:nil] forCellReuseIdentifier:TOPIC_TALBE_VIEW_CELL_IDENTIFIER];
+    [self.view registerNib:[UINib nibWithNibName:@"QSS15TopicTableViewCell" bundle:nil] forCellReuseIdentifier:TOPIC_TALBE_VIEW_CELL_IDENTIFIER];
 }
 
 #pragma mark - Table View
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSTopicTableViewCell* cell = (QSTopicTableViewCell*)[tableView dequeueReusableCellWithIdentifier:TOPIC_TALBE_VIEW_CELL_IDENTIFIER forIndexPath:indexPath];
+    QSS15TopicTableViewCell* cell = (QSS15TopicTableViewCell*)[tableView dequeueReusableCellWithIdentifier:TOPIC_TALBE_VIEW_CELL_IDENTIFIER forIndexPath:indexPath];
 //    cell.delegate = self;
     [cell bindWithDict:[self topicForIndexPath:indexPath]];
     return cell;

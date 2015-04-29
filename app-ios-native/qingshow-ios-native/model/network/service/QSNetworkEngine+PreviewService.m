@@ -37,6 +37,7 @@
                                paramers:param
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
+               // NSLog(@"#########%@<<<<<<<<<<<", [completedOperation responseString]);
                 NSDictionary* retDict = completedOperation.responseJSON;
                 if (succeedBlock) {
                     NSArray* shows = retDict[@"data"][@"previews"];

@@ -19,6 +19,7 @@
     return [self startOperationWithPath:URL_TOPIC_QUERY method:@"GET" paramers:@{@"pageNo": @(page), @"pageSize" : @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
         if (succeedBlock) {
             NSDictionary* retDict = completedOperation.responseJSON;
+
             succeedBlock(([(NSArray*)retDict[@"data"][@"topics"] deepMutableCopy]), retDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {

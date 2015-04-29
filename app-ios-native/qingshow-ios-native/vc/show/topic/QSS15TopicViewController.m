@@ -1,33 +1,32 @@
 //
-//  QSS12TopicViewController.m
+//  QSS15TopicViewController.m
 //  qingshow-ios-native
 //
-//  Created by wxy325 on 3/30/15.
-//  Copyright (c) 2015 QS. All rights reserved.
+//  Created by ching show on 15/4/28.
+//  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSS12TopicViewController.h"
+#import "QSS15TopicViewController.h"
 #import "QSS13TopicDetailViewController.h"
 #import "QSNetworkKit.h"
-#define PAGE_ID @"S12"
-@interface QSS12TopicViewController ()
+#define PAGE_ID @"S15"
 
-@property (strong, nonatomic) QSTopicTableViewProvider* provider;
+@interface QSS15TopicViewController ()
+
+@property (strong, nonatomic)QSTopicTableViewProvider *provider;
 
 @end
 
-@implementation QSS12TopicViewController
+@implementation QSS15TopicViewController
 
 - (instancetype)init
 {
-    self = [super initWithNibName:@"QSS12TopicViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS15TopicViewController" bundle:nil];
     if (self) {
         
     }
     return self;
 }
-
-#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self configProvider];
@@ -48,13 +47,13 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-
+    
 }
 
 #pragma mark - Private
 - (void)configProvider
 {
-    __weak QSS12TopicViewController* weakSelf = self;
+    __weak QSS15TopicViewController* weakSelf = self;
     self.provider = [[QSTopicTableViewProvider alloc] init];
     self.provider.hasPaging = NO;
     self.provider.delegate = self;
@@ -86,4 +85,6 @@
     UIViewController* vc = [[QSS13TopicDetailViewController alloc] initWithTopic:topicDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
 @end

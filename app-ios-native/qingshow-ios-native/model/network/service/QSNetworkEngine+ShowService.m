@@ -28,6 +28,7 @@
                                onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+      
         if (succeedBlock) {
             if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
             {

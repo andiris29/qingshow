@@ -66,10 +66,11 @@
 - (void)awakeFromNib
 {
 
-    NSArray* typeArray = @[@1, @9, @8, @2, @3];   //1,9,8,2,3
+   // NSArray* typeArray = @[@1, @9, @8, @2, @3];   //1,9,8,2,3
+    NSArray *typeArray = @[@1, @9, @8, @2];
     self.itemArray = [@[] mutableCopy];
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         NSNumber* typeNum = typeArray[i];
         QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:typeNum.intValue];
         item.delegate = self;
@@ -95,7 +96,7 @@
     float deltaY = (size.height - (QSRootMenuItemHeight * self.itemArray.count)) / 2;
     float originX = (self.containerView.frame.size.width - QSRootMenuItemWidth) / 2;
     
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         QSRootMenuItem* item = self.itemArray[i];
         CGRect frame = item.frame;
         frame.origin.x = originX;
