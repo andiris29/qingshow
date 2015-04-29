@@ -75,9 +75,9 @@ public class U07RegisterActivity extends BaseActivity {
         accountEditText = (EditText) findViewById(R.id.accountEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         confirmEditText = (EditText) findViewById(R.id.confirmEditText);
-        sexRadioGroup = (RadioGroup) findViewById(R.id.sexRadioGroup);
-        clothesSizeRadioGroup = (RadioGroup) findViewById(R.id.clothesSizeRadioGroup);
-        shoesSizeRadioGroup = (RadioGroup) findViewById(R.id.shoesSizeRadioGroup);
+//        sexRadioGroup = (RadioGroup) findViewById(R.id.sexRadioGroup);
+//        clothesSizeRadioGroup = (RadioGroup) findViewById(R.id.clothesSizeRadioGroup);
+//        shoesSizeRadioGroup = (RadioGroup) findViewById(R.id.shoesSizeRadioGroup);
 
         ImageView backImageView = (ImageView) findViewById(R.id.backImageView);
         backImageView.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +167,9 @@ public class U07RegisterActivity extends BaseActivity {
         int whichChecked = sexRadioGroup.getCheckedRadioButtonId();
         int result = -1;
         switch (whichChecked) {
-            case R.id.femaleRadioButton:
-                result = 0;
-                break;
+//            case R.id.femaleRadioButton:
+//                result = 0;
+//                break;
             case R.id.maleButton:
                 result = 1;
                 break;
@@ -182,77 +182,77 @@ public class U07RegisterActivity extends BaseActivity {
     private int getClothesSizeRadioButtonVal() {
         int whichChecked = clothesSizeRadioGroup.getCheckedRadioButtonId();
         int result = -1;
-        switch (whichChecked) {
-            case R.id.xxsSizeRadioButton:
-                result = 0;
-                break;
-            case R.id.xsSizeRadioButton:
-                result = 1;
-                break;
-            case R.id.sSizeRadioButton:
-                result = 2;
-                break;
-            case R.id.mSizeRadioButton:
-                result = 3;
-                break;
-            case R.id.lSizeRadioButton:
-                result = 4;
-                break;
-            case R.id.xlSizeRadioButton:
-                result = 5;
-                break;
-            case R.id.xxlSizeRadioButton:
-                result = 6;
-                break;
-            case R.id.xxxlSizeRadioButton:
-                result = 7;
-                break;
-            default:
-                break;
-        }
+//        switch (whichChecked) {
+//            case R.id.xxsSizeRadioButton:
+//                result = 0;
+//                break;
+//            case R.id.xsSizeRadioButton:
+//                result = 1;
+//                break;
+//            case R.id.sSizeRadioButton:
+//                result = 2;
+//                break;
+//            case R.id.mSizeRadioButton:
+//                result = 3;
+//                break;
+//            case R.id.lSizeRadioButton:
+//                result = 4;
+//                break;
+//            case R.id.xlSizeRadioButton:
+//                result = 5;
+//                break;
+//            case R.id.xxlSizeRadioButton:
+//                result = 6;
+//                break;
+//            case R.id.xxxlSizeRadioButton:
+//                result = 7;
+//                break;
+//            default:
+//                break;
+//        }
         return result;
     }
 
     private int getShoesSizeRadioButtonVal() {
         int whichChecked = shoesSizeRadioGroup.getCheckedRadioButtonId();
         int result = -1;
-        switch (whichChecked) {
-            case R.id.size34RadioButton:
-                result = 0;
-                break;
-            case R.id.size35RadioButton:
-                result = 1;
-                break;
-            case R.id.size36RadioButton:
-                result = 2;
-                break;
-            case R.id.size37RadioButton:
-                result = 3;
-                break;
-            case R.id.size38RadioButton:
-                result = 4;
-                break;
-            case R.id.size39RadioButton:
-                result = 5;
-                break;
-            case R.id.size40RadioButton:
-                result = 6;
-                break;
-            case R.id.size41RadioButton:
-                result = 7;
-                break;
-            case R.id.size42RadioButton:
-                result = 8;
-                break;
-            case R.id.size43RadioButton:
-                result = 9;
-                break;
-            case R.id.size44RadioButton:
-                result = 10;
-                break;
-            default:
-                break;
-        }
+//        switch (whichChecked) {
+//            case R.id.size34RadioButton:
+//                result = 0;
+//                break;
+//            case R.id.size35RadioButton:
+//                result = 1;
+//                break;
+//            case R.id.size36RadioButton:
+//                result = 2;
+//                break;
+//            case R.id.size37RadioButton:
+//                result = 3;
+//                break;
+//            case R.id.size38RadioButton:
+//                result = 4;
+//                break;
+//            case R.id.size39RadioButton:
+//                result = 5;
+//                break;
+//            case R.id.size40RadioButton:
+//                result = 6;
+//                break;
+//            case R.id.size41RadioButton:
+//                result = 7;
+//                break;
+//            case R.id.size42RadioButton:
+//                result = 8;
+//                break;
+//            case R.id.size43RadioButton:
+//                result = 9;
+//                break;
+//            case R.id.size44RadioButton:
+//                result = 10;
+//                break;
+//            default:
+//                break;
+//        }
         return result;
     }
 

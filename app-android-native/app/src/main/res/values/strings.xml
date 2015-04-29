@@ -26,7 +26,7 @@
     <string name="height_activity_settings">身高</string>
     <string name="weight_activity_settings">体重</string>
     <string name="bodyType_activity_settings">体型</string>
-    <string name="wearStyle_activity_settings">穿衣风格</string>
+    <string name="dressStyle_activity_settings">穿衣风格</string>
     <string name="effect_activity_settings">搭配效果</string>
     <string name="hair_activity_settings">发型</string>
     <string name="brand_activity_settings">品牌</string>
@@ -48,11 +48,15 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="register_activity_register">注册</string>
     <string name="account_activity_register">账号</string>
-    <string name="account_hint_activity_register">请输入邮箱或手机号码</string>
+    <string name="account_hint_activity_register">输入昵称</string>
     <string name="password_activity_register">密码</string>
-    <string name="password_hint_activity_register">英文数字8–12字符</string>
-    <string name="confirm_activity_register">密码确认</string>
-    <string name="submit_activity_register">提交</string>
+    <string name="password_hint_activity_register">输入密码</string>
+    <string name="confirm_activity_register">再次输入密码</string>
+    <string name="submit_activity_register">注册倾秀账号</string>
+    <string name="phone_email_activity_register">输入邮箱或手机号码</string>
+    <string name="or_activity_register">or</string>
+    <string name="weixin_login_activity_register">微信登入</string>
+    <string name="weibologin_activity_register">微博登入</string>
 
     <!-- Login Activity -->
     <string name="title_activity_login">LoginActivity</string>
@@ -62,7 +66,7 @@
     <string name="account_activity_login">账号</string>
     <string name="password_activity_login">密码</string>
     <string name="password_hint_activity_login">输入密码</string>
-    <string name="login_activity_login">登陆倾秀</string>
+    <string name="login_activity_login">登陆账户</string>
 
     <!-- Personal Activity -->
     <string name="title_activity_personal">PersonalActivity</string>

@@ -1,0 +1,45 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.focosee.qingshow.activity.G02WelcomeActivity">
+
+
+
+    <LinearLayout
+        android:id="@+id/g02_point_onthebotton"
+        android:layout_width="135dp"
+        android:layout_height="35dp"
+        android:background="@color/red_text_color"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/g02_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/g02_point_onthebotton"
+        android:layout_toLeftOf="@+id/g02_dump"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:text=">"/>
+    <TextView
+        android:id="@+id/g02_dump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/g02_point_onthebotton"
+        android:layout_alignBottom="@+id/g02_point_onthebotton"
+        android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/white"
+        android:text="跳过"/>
+
+
+
+</RelativeLayout>

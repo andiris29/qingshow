@@ -52,7 +52,6 @@ public class U06LoginActivity extends BaseActivity {
 
         context = getApplicationContext();
 
-        TextView registerTextView;
         Button submitButton;
 
         submitButton = (Button) findViewById(R.id.submitButton);
