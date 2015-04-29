@@ -42,5 +42,9 @@
     <dimen name="right_btn_list_marginBottom">6dp</dimen>
 
     <!-- return -->
-    <dimen name="item_height_activity_return">40dp</dimen>"
+    <dimen name="item_height_activity_return">40dp</dimen>
+
+    <!-- guide page -->
+    <dimen name="guide_page_textSize">40sp</dimen>
+    <dimen name="guide_page_textSize_small">20sp</dimen>
 </resources>
