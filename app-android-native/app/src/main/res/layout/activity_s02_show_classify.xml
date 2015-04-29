@@ -4,44 +4,10 @@
     tools:context="com.focosee.qingshow.activity.S02ShowClassify"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/S02_title_relative_layout"
-        android:layout_width="match_parent"
+    <include layout="@layout/title"
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="12"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_titlebar">
-
-        <ImageView
-            android:id="@+id/S02_back_image_button"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:padding="10dp"
-            android:layout_weight="5"
-            android:background="#00000000"
-            android:src="@drawable/btn_back_default" />
-
-        <TextView
-            android:id="@+id/S02_title_tv"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_centerInParent="true"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="闪点推荐"
-            android:textColor="#454545"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="5"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textColor="#454545"
-            android:textSize="@dimen/text_size" />
-    </LinearLayout>
+        android:layout_weight="12"/>
 
 
     <com.focosee.qingshow.widget.MPullRefreshMultiColumnListView

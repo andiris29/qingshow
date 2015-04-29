@@ -6,9 +6,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- title -->
+    <string name="s08_title">时尚情报</string>
+
     <!-- Settings Activity -->
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="settings_activity_settings">设置</string>
+    <string name="settings_activity_settings">个人设置</string>
     <string name="choose_picture_activity_settings">选择图片</string>
     <string name="personal_picture_activity_settings">个人头像</string>
     <string name="background_picture_activity_settings">背景图像</string>
@@ -17,10 +20,14 @@
     <string name="receiver_manage_activity_settings">收货地址管理</string>
     <string name="information_activity_settings">基本信息</string>
     <string name="name_activity_settings">昵称</string>
+    <string name="age_activity_settings">年龄</string>
     <string name="sex_activity_settings">性别</string>
-    <string name="age_activity_settings">生日</string>
+    <string name="birth_activity_settings">生日</string>
     <string name="height_activity_settings">身高</string>
     <string name="weight_activity_settings">体重</string>
+    <string name="bodyType_activity_settings">体型</string>
+    <string name="wearStyle_activity_settings">穿衣风格</string>
+    <string name="effect_activity_settings">搭配效果</string>
     <string name="hair_activity_settings">发型</string>
     <string name="brand_activity_settings">品牌</string>
     <string name="ref_activity_settings">></string>
@@ -122,6 +129,9 @@
     <string name="menu_open">open</string>
     <string name="menu_close">close</string>
 
+    <!-- s02 -->
+    <string name="s02_title_name">潮流单品</string>
+
     <!-- comm -->
     <string name="no_more_data">没有更多数据了！</string>
     <string name="need_login">请先登录</string>
@@ -152,4 +162,6 @@
     <!-- dialog -->
     <string name="dialog_comfirm">确认</string>
     <string name="dialog_cancel">取消</string>
+    <string name="title_activity_s14_fashion_msg">S14FashionMsgActivity</string>
+    <string name="title_activity_g02_welcome">G02WelcomeActivity</string>
 </resources>

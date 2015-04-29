@@ -105,37 +105,37 @@ public class ModelListAdapter_HasModelHeadRelativeLayout extends BaseAdapter {
 
         position--;
 
-        P01ModelHolderView holderView;
-        if (null == convertView) {
-            LayoutInflater inflater = LayoutInflater.from(this.context);
-            convertView = inflater.inflate(R.layout.item_modellist, null);
-            holderView = new P01ModelHolderView();
-            holderView.modelImageView = (ImageView) convertView.findViewById(R.id.item_model_image);
-            holderView.nameTextView = (TextView) convertView.findViewById(R.id.item_model_name);
-            holderView.heightTextView = (TextView) convertView.findViewById(R.id.item_model_height);
-            holderView.weightTextView = (TextView) convertView.findViewById(R.id.item_model_weight);
-            holderView.clothNumberTextView = (TextView) convertView.findViewById(R.id.item_model_cloth_number);
-            holderView.likeNumberTextView = (TextView) convertView.findViewById(R.id.item_model_like_number);
-            holderView.followButton = (Button) convertView.findViewById(R.id.item_model_follow);
-
-            convertView.setTag(holderView);
-        }
-        holderView = (P01ModelHolderView) convertView.getTag();
-
-        this.imageLoader.displayImage(this.data.get(position).getPortrait(), holderView.modelImageView, AppUtil.getPortraitDisplayOptions());
-        holderView.nameTextView.setText(this.data.get(position).getName());
-        holderView.heightTextView.setText(this.data.get(position).getHeight() + this.data.get(position).getWeight());
-        //holderView.weightTextView.setText(this.data.get(position).getWeight());
-        holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
-        holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
-        holderView.followButton.setTag(String.valueOf(position));
-        int[] roles = data.get(position).getRoles();
-        if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
-            holderView.followButton.setBackgroundResource(R.drawable.people_list_unfollow);
-        } else {
-            holderView.followButton.setBackgroundResource(R.drawable.people_list_follow);
-        }
-        holderView.followButton.setOnClickListener(followButtonOnClickListener);
+//        P01ModelHolderView holderView;
+//        if (null == convertView) {
+//            LayoutInflater inflater = LayoutInflater.from(this.context);
+//            convertView = inflater.inflate(R.layout.item_modellist, null);
+//            holderView = new P01ModelHolderView();
+//            holderView.modelImageView = (ImageView) convertView.findViewById(R.id.item_model_image);
+//            holderView.nameTextView = (TextView) convertView.findViewById(R.id.item_model_name);
+//            holderView.heightTextView = (TextView) convertView.findViewById(R.id.item_model_height);
+//            holderView.weightTextView = (TextView) convertView.findViewById(R.id.item_model_weight);
+//            holderView.clothNumberTextView = (TextView) convertView.findViewById(R.id.item_model_cloth_number);
+//            holderView.likeNumberTextView = (TextView) convertView.findViewById(R.id.item_model_like_number);
+//            holderView.followButton = (Button) convertView.findViewById(R.id.item_model_follow);
+//
+//            convertView.setTag(holderView);
+//        }
+//        holderView = (P01ModelHolderView) convertView.getTag();
+//
+//        this.imageLoader.displayImage(this.data.get(position).getPortrait(), holderView.modelImageView, AppUtil.getPortraitDisplayOptions());
+//        holderView.nameTextView.setText(this.data.get(position).getName());
+//        holderView.heightTextView.setText(this.data.get(position).getHeight() + this.data.get(position).getWeight());
+//        //holderView.weightTextView.setText(this.data.get(position).getWeight());
+//        holderView.clothNumberTextView.setText(String.valueOf(this.data.get(position).getNumberShows()));
+//        holderView.likeNumberTextView.setText(String.valueOf(this.data.get(position).getNumberFollowers()));
+//        holderView.followButton.setTag(String.valueOf(position));
+//        int[] roles = data.get(position).getRoles();
+//        if (this.data.get(position).getModelIsFollowedByCurrentUser()) {
+//            holderView.followButton.setBackgroundResource(R.drawable.people_list_unfollow);
+//        } else {
+//            holderView.followButton.setBackgroundResource(R.drawable.people_list_follow);
+//        }
+//        holderView.followButton.setOnClickListener(followButtonOnClickListener);
 
         return convertView;
     }

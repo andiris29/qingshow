@@ -1,70 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="1dp">
-
-    <LinearLayout
+    android:orientation="vertical">
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_randomlist_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.focosee.qingshow.widget.MImageView_OriginSize
-            android:id="@+id/item_p02_random_image"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
-            android:scaleType="fitCenter"></com.focosee.qingshow.widget.MImageView_OriginSize>
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        fresco:placeholderImage="@drawable/splash_image"/>
     <ImageView
+        android:id="@+id/shadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:adjustViewBounds="true"
-        android:background="@drawable/show_bottom_shadow" />
+        android:src="@drawable/s03_model_shadow"
+        android:layout_alignParentBottom="true"/>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:gravity="center_vertical">
+    <ImageView
+        android:id="@+id/like_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/s03_like_btn"
+        android:layout_above="@+id/shadow"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        />
 
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="10dp">
+    <TextView
+        android:id="@+id/item_randomlist_likeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/like_image"
+        android:layout_alignLeft="@+id/like_image"
+        android:layout_alignRight="@+id/like_image"
+        android:layout_alignBottom="@+id/like_image"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        android:text="156"/>
 
-            <LinearLayout
-                android:id="@+id/item_show_love_ll"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignBottom="@+id/item_show_center_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/item_show_center_content"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
+    <TextView
+        android:id="@+id/item_randomlist_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
+        android:textColor="@color/white"
+        android:layout_alignBottom="@+id/shadow"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:text="条纹吊带衫"/>
+    
+    <TextView
+        android:id="@+id/item_randomlist_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        android:layout_alignTop="@+id/item_randomlist_describe"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:text="￥260.00"/>
 
-                <TextView
-                    android:layout_gravity="right"
-                    android:id="@+id/item_s02_source_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    />
-                <TextView
-                    android:layout_gravity="right"
-                    android:id="@+id/item_s02_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
-                    />
-            </LinearLayout>
-
-        </RelativeLayout>
-
-    </RelativeLayout>
 </RelativeLayout>

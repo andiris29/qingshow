@@ -374,9 +374,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         modelImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
-                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity.modelRef);
-                S03SHowActivity.this.startActivity(intent);
+//                Intent intent = new Intent(S03SHowActivity.this, P02ModelActivity.class);
+//                intent.putExtra(P02ModelActivity.INPUT_MODEL, showDetailEntity.modelRef);
+//                S03SHowActivity.this.startActivity(intent);
 
             }
         });

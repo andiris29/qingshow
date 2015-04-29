@@ -1,15 +1,11 @@
 package com.focosee.qingshow.httpapi.request;
 
-import android.content.Context;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.httpapi.response.error.QSResponseErrorListener;
-
 import org.json.JSONObject;
-
 import java.util.Map;
 
 public class QSJsonObjectRequest extends JsonObjectRequest {

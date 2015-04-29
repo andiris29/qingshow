@@ -29,6 +29,8 @@ import com.huewu.pla.lib.internal.PLA_AbsListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -79,25 +81,30 @@ public class S02ShowClassify extends BaseActivity {
 
         _pullRefreshListView = (MPullRefreshMultiColumnListView) findViewById(R.id.S02_waterfall_content);
 
-        ((TextView)findViewById(R.id.S02_title_tv)).setText(ShowClassifyConfig.getTitle(classifyMod));
-        findViewById(R.id.S02_back_image_button).setOnClickListener(new View.OnClickListener() {
+        ((TextView)findViewById(R.id.title)).setText(R.string.s02_title_name);
+        findViewById(R.id.left_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 S02ShowClassify.this.finish();
             }
         });
 
+//        ((TextView)findViewById(R.id.title)).setText(R.string.s02_title_name);
+
         _waterfallListView = _pullRefreshListView.getRefreshableView();
 
-        switch (classifyMod){
-            case 0:
-                _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
-                _pullRefreshListView.setmFooterLayout(null);
-                break;
-            case 1:
-                _adapter = new HotWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
-                break;
-        }
+        _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
+        _pullRefreshListView.setmFooterLayout(null);
+
+//        switch (classifyMod){
+//            case 0:
+//                _adapter = new S02ItemRandomAdapter(this, R.layout.item_randomlist, ImageLoader.getInstance());
+//                _pullRefreshListView.setmFooterLayout(null);
+//                break;
+//            case 1:
+//                _adapter = new HotWaterfallAdapter(this, R.layout.item_showlist, ImageLoader.getInstance());
+//                break;
+//        }
 
         _waterfallListView.setAdapter(_adapter);
 

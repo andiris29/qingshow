@@ -289,24 +289,24 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent);
                 closeMenu();
                 break;
-            case R.id.s12_nav_icon_people:
-                intent = new Intent(S12TopicListActivity.this, P01ModelListActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
-                startActivity(intent);
-                closeMenu();
-                break;
+//            case R.id.s12_nav_icon_people:
+//                intent = new Intent(S12TopicListActivity.this, P01ModelListActivity.class);
+//                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
+//                startActivity(intent);
+//                closeMenu();
+//                break;
             case R.id.s12_nav_icon_design:
                 intent = new Intent(S12TopicListActivity.this, S08TrendActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
                 startActivity(intent);
                 closeMenu();
                 break;
-            case R.id.s12_nav_icon_brand:
-                intent = new Intent(S12TopicListActivity.this, P03BrandListActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
-                startActivity(intent);
-                closeMenu();
-                break;
+//            case R.id.s12_nav_icon_brand:
+//                intent = new Intent(S12TopicListActivity.this, P03BrandListActivity.class);
+//                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
+//                startActivity(intent);
+//                closeMenu();
+//                break;
             case R.id.s12_logo:
                 showVerison();
                 break;
