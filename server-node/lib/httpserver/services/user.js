@@ -128,6 +128,7 @@ _register = function(req, res) {
     param = req.body;
     id = param.id;
     password = param.password;
+    var nickname = param.nickname;
     //TODO validate id and password
     if (!id || !password || !id.length || !password.length) {
         ResponseHelper.response(res, ServerError.NotEnoughParam);
@@ -147,6 +148,7 @@ _register = function(req, res) {
         });
 
         var people = new People({
+            nickname: nickname,
             userInfo : {
                 id : id,
                 encryptedPassword : _encrypt(password)

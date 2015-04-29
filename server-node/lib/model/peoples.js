@@ -7,6 +7,7 @@ var peopleSchema;
 peopleSchema = Schema({
     __context : Object,
     roles : [Number], //user 0 model 1
+    nickname: String,
     name : String,
     assetsRoot : String,
     portrait : String,
