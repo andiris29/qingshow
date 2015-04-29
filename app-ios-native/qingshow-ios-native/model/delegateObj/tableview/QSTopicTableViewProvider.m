@@ -32,10 +32,21 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary* dict = [self topicForIndexPath:indexPath];
-    if ([self.delegate respondsToSelector:@selector(didClickTopic:)]) {
-        [self.delegate didClickTopic:dict];
+    if (indexPath.row % 2 == 0) {
+        
+        if ([self.delegate respondsToSelector:@selector(didClickTopic:)]) {
+            [self.delegate didClickTopic:dict];
+        }
+
+    }else {
+       // NSDictionary* dict = [self topicForIndexPath:indexPath];
+        if ([self.delegate respondsToSelector:@selector(didClick_1Topic:)]) {
+            [self.delegate didClick_1Topic:dict];
+        }
+  
+        
     }
-}
+    }
 #pragma mark - Private
 - (NSDictionary*)topicForCell:(UITableViewCell*)cell
 {

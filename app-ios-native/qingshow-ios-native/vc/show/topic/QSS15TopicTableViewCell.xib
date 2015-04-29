@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="333" height="204"/>
                         <color key="backgroundColor" red="1" green="0.9299883215341016" blue="0.20607193848481586" alpha="1" colorSpace="calibratedRGB"/>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-md-MeX">
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ua8-md-MeX">
                         <rect key="frame" x="276" y="141" width="30" height="24"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="30" id="S3Y-zC-s3v"/>

@@ -8,6 +8,7 @@
 
 #import "QSS15TopicViewController.h"
 #import "QSS13TopicDetailViewController.h"
+#import "QSS03ShowDetailViewController.h"
 #import "QSNetworkKit.h"
 #define PAGE_ID @"S15"
 
@@ -82,9 +83,12 @@
 
 - (void)didClickTopic:(NSDictionary*)topicDict
 {
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:topicDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)didClick_1Topic:(NSDictionary *)topicDict{
     UIViewController* vc = [[QSS13TopicDetailViewController alloc] initWithTopic:topicDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
 
 @end

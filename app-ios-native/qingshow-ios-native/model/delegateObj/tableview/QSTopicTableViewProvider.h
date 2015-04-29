@@ -13,6 +13,7 @@
 @protocol QSTopicTableViewProviderDelegate <NSObject>
 
 - (void)didClickTopic:(NSDictionary*)topicDict;
+- (void)didClick_1Topic:(NSDictionary *)topicDict;
 
 @end
 
