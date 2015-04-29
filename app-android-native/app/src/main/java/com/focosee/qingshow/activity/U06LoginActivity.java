@@ -97,7 +97,8 @@ public class U06LoginActivity extends BaseActivity {
                                     }
                                 } else {
                                     QSModel.INSTANCE.setUser(user);
-                                    Intent intent = new Intent(U06LoginActivity.this, U01PersonalActivity.class);
+
+                                    Intent intent = new Intent(U06LoginActivity.this, U01UserActivity.class);
                                     startActivity(intent);
                                     sendBroadcast(new Intent(LOGIN_SUCCESS));
                                     finish();

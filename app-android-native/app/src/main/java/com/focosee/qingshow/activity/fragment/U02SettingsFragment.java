@@ -22,7 +22,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.activity.U01PersonalActivity;
 import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U10AddressListActivity;
@@ -127,7 +126,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                 Toast.makeText(context, "已退出登录", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
-                getActivity().sendBroadcast(new Intent(U01PersonalActivity.LOGOUT_ACTOIN));
                 getActivity().finish();
                 QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
                         new Response.Listener<String>() {
@@ -246,7 +244,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {
                     getUser();
-                    context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
                 }
                 if (type == TYPE_PORTRAIT) {
                     ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getPortraitDisplayOptions());
@@ -409,7 +406,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             @Override
             public void onComplete() {
                 super.onComplete();
-                context.sendBroadcast(new Intent(U01PersonalActivity.USER_UPDATE));
             }
 
             @Override

@@ -320,7 +320,7 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
             case R.id.s12_user:
                 intent = new Intent(S12TopicListActivity.this,
                         (QSModel.INSTANCE.loggedin())
-                                ? U01PersonalActivity.class : U07RegisterActivity.class);
+                                ? U01UserActivity.class : U07RegisterActivity.class);
 
                 startActivity(intent);
                 break;

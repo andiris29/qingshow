@@ -73,12 +73,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".activity.U01PersonalActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_personal"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name=".activity.U09TradeListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_name_activity_trade"
