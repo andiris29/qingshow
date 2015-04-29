@@ -38,7 +38,7 @@ _savePeople = function(req, res) {
             people.userInfo['password'] = _encrypt(password);
         }
 
-        ['name', 'portrait', 'gender'].forEach(function(field) {
+        ['name', 'portrait'].forEach(function(field) {
             if (param[field]) {
                 people.set(field, param[field]);
             }
@@ -48,7 +48,7 @@ _savePeople = function(req, res) {
                 people.set(field, parseFloat(param[field]));
             }
         });
-        ['roles', 'hairTypes'].forEach(function(field) {
+        ['roles'].forEach(function(field) {
             if (req.body[field]) {
                 people.set(field, RequestHelper.parseArray(param[field]));
             }

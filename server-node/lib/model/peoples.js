@@ -14,11 +14,6 @@ peopleSchema = Schema({
     height : Number,
     weight : Number,
     birthday : Date,
-    gender : Number,
-    hairType : Number,
-    shoeSize : Number,
-    clothingSize : Number,
-    favoriteBrand : String,
     userInfo : {
         id : String,
         password : {
