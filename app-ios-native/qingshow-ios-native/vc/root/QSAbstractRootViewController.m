@@ -25,6 +25,8 @@
 #import "QSS02CategoryViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
+#pragma mark - doupei
+#import "QSS08FashionViewController.h"
 
 #pragma mark - doupei
 #import "QSU01PersonViewController.h"
@@ -157,8 +159,10 @@
         }
         case 8:
         {
-            UIViewController* vc = [[QSS08PreviewViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
+//            UIViewController* vc = [[QSS08PreviewViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+            UIViewController *vc = [[QSS08FashionViewController alloc] init];
+            [self.navigationController  pushViewController:vc animated:YES];
             break;
         }
         default:

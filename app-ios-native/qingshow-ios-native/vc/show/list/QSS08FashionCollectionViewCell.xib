@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="QSS08FashionCollectionViewCell" id="gTV-IL-0wX" customClass="QSS08FashionCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="365" height="300"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="365" height="300"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Iac-yR-fuH">
+                        <rect key="frame" x="0.0" y="0.0" width="365" height="300"/>
+                        <color key="backgroundColor" red="0.26915507570000002" green="0.30408352640000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="初春必看单品精选初春必看单品精选" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xVu-zc-8Pu">
+                        <rect key="frame" x="20" y="259" width="265" height="21"/>
+                        <color key="backgroundColor" red="1" green="0.15615795660000001" blue="0.1366413296" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="WlF-bd-428"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5cY-oZ-n9q">
+                        <rect key="frame" x="305" y="259" width="20" height="21"/>
+                        <color key="backgroundColor" red="0.334929541" green="1" blue="0.38569904719999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="iuD-61-V4X"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="5cY-oZ-n9q" firstAttribute="leading" secondItem="xVu-zc-8Pu" secondAttribute="trailing" constant="20" id="4Sa-1g-6iC"/>
+                <constraint firstAttribute="bottom" secondItem="Iac-yR-fuH" secondAttribute="bottom" id="9hf-oj-osY"/>
+                <constraint firstItem="xVu-zc-8Pu" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="IQb-Ns-whX"/>
+                <constraint firstAttribute="trailing" secondItem="5cY-oZ-n9q" secondAttribute="trailing" constant="40" id="MOt-3R-fHj"/>
+                <constraint firstItem="Iac-yR-fuH" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="U3s-0d-xMp"/>
+                <constraint firstItem="Iac-yR-fuH" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="eG3-JS-Srr"/>
+                <constraint firstItem="xVu-zc-8Pu" firstAttribute="top" secondItem="5cY-oZ-n9q" secondAttribute="top" id="o9i-VU-0zV"/>
+                <constraint firstItem="xVu-zc-8Pu" firstAttribute="height" secondItem="5cY-oZ-n9q" secondAttribute="height" id="pQh-ZE-agk"/>
+                <constraint firstAttribute="trailing" secondItem="Iac-yR-fuH" secondAttribute="trailing" id="sMr-Vv-Rl9"/>
+                <constraint firstAttribute="bottom" secondItem="xVu-zc-8Pu" secondAttribute="bottom" constant="20" id="sVc-ba-r4W"/>
+            </constraints>
+            <size key="customSize" width="365" height="300"/>
+            <connections>
+                <outlet property="arrowsImage" destination="5cY-oZ-n9q" id="k7y-VT-YMZ"/>
+                <outlet property="backdropImage" destination="Iac-yR-fuH" id="8qX-jX-O6G"/>
+                <outlet property="titleLabel" destination="xVu-zc-8Pu" id="YR5-7d-a86"/>
+            </connections>
+            <point key="canvasLocation" x="397.5" y="234"/>
+        </collectionViewCell>
+    </objects>
+</document>
