@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/nameRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/name_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/nameTextView"
+            android:background="@null"
+            android:hint="请填写姓名"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="@color/hint_text_color" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/ageRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/ageTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/age_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/ageEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/ageTextView"
+            android:background="@null"
+            android:hint="请填写年龄"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="@color/hint_text_color" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/heightRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/heightTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/height_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/heightEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/heightTextView"
+            android:background="@null"
+            android:hint="请填写身高"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="@color/hint_text_color" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/weightRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/weightTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/weight_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/weightEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/weightTextView"
+            android:background="@null"
+            android:hint="请填写体重"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/bodyTypeRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/bodyTypeLabel"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/bodyType_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/bodyTypeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/bodyTypeLabel"
+            android:background="@null"
+            android:hint="请选择体型"
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/dressStyleEelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/dressStyleEextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/dressStyle_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/dressStyleEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:hint="请填选择穿衣风格"
+            android:textSize="@dimen/text_size"
+            android:layout_toRightOf="@+id/dressStyleEextView"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/effectEelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/effectEextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/effect_activity_settings"
+            android:textSize="@dimen/text_size" />
+        <TextView
+            android:id="@+id/effectEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:hint="请填选择搭配效果"
+            android:textColorHint="#C7C7CD"
+            android:textSize="@dimen/text_size"
+            android:layout_toRightOf="@id/effectEextView"/>
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/sexRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff">
+
+        <TextView
+            android:id="@+id/sexLabel"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/sex_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <TextView
+            android:id="@+id/sexTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/sexLabel"
+            android:background="@null"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD"
+            android:hint="请选择性别"/>
+    </RelativeLayout>
+</LinearLayout>

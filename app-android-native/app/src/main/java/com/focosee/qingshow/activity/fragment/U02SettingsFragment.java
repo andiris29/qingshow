@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity.fragment;
 
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -51,9 +49,6 @@ import java.util.Map;
 public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
     private static final String[] sexArgs = {"男", "女"};
-    private static final String[] hairArgs = {"所有", "长发", "超长发", "中长发", "短发"};
-    private static final String[] shoesSize = {"34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44"};
-    private static final String[] clothesSize = {"XXS", "XS", "S", "M", "L", "XL", "XXL", "3XL"};
     private static final String[] bodyTypeArgs = {"A型", "H型", "V型", "X型"};
     private static final String[] dressStyles = {"日韩系", "欧美系"};
     private static final String[] expectations = {"显瘦", "显高", "显身材", "遮臀部", "遮肚腩", "遮手臂"};
@@ -61,9 +56,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
     private static final String TAG_SEX = "sex";
     private static final String TAG_DRESSSTYLE = "dressStyle";
     private static final String TAG_EXPECTATIONS = "expectations";
-    private static final String TAG_HAIR = "hair";
-    private static final String TAG_SHOESIZE = "shoeSize";
-    private static final String TAG_CLOTHESSIZE = "clothSize";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
 
@@ -72,37 +64,26 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
 
     private RelativeLayout personalRelativeLayout;
     private RelativeLayout backgroundRelativeLayout;
-    private RelativeLayout birthRelativeLayout;
     private RelativeLayout sexRelativeLayout;
     private RelativeLayout bodyTypeRelativeLayout;
-    private RelativeLayout hairRelativeLayout;
     private RelativeLayout changePasswordRelativeLayout;
-    private RelativeLayout changeEmailRelativeLayout;
-    private RelativeLayout informRelativeLayout;
-    private RelativeLayout rulesRelativeLayout;
-    private RelativeLayout helpRelativeLayout;
-    private RelativeLayout aboutVIPRelativeLayout;
     private RelativeLayout tradeRelativeLayout;
     private RelativeLayout addresslistRelativeLayout;
+    private RelativeLayout dressStyleRelativeLayout;
+    private RelativeLayout effectRelativeLayout;
 
     private ImageView portraitImageView;
     private ImageView backgroundImageView;
 
     private EditText nameEditText;
     private TextView sexTextView;
-    private EditText birthEditText;
     private EditText heightEditText;
     private EditText weightEditText;
     private TextView bodyTypeTextView;
-    private TextView wearStyleEditText;
+    private TextView dressStyleEditText;
     private TextView effectEditText;
-    private EditText hairTextView;
-    private EditText shoesSizeEditText;
-    private EditText clothesSizeEditText;
-    private TextView favoriteBrandText;
     private TextView changePwText;
     public static U02SettingsFragment instance;
-    private float textWidth;
 
     private MongoPeople people;
 
@@ -180,18 +161,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         portraitImageView = (ImageView) view.findViewById(R.id.portraitImageView);
         backgroundImageView = (ImageView) view.findViewById(R.id.backgroundImageView);
 
-//        shoesSizeEditText = (EditText) view.findViewById(R.id.shoesSizeEditText);
-//        shoesSizeEditText.setOnFocusChangeListener(this);
-//        clothesSizeEditText = (EditText) view.findViewById(R.id.clothesSizeEditText);
-//        clothesSizeEditText.setOnFocusChangeListener(this);
-
         nameEditText = (EditText) view.findViewById(R.id.nameEditText);
         nameEditText.setOnFocusChangeListener(this);
 
         sexTextView = (TextView) view.findViewById(R.id.sexTextView);
-
-//        birthEditText = (EditText) view.findViewById(R.id.birthDayEditText);
-//        birthEditText.setOnFocusChangeListener(this);
 
         heightEditText = (EditText) view.findViewById(R.id.heightEditText);
         heightEditText.setOnFocusChangeListener(this);
@@ -202,19 +175,13 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         bodyTypeTextView = (TextView) view.findViewById(R.id.bodyTypeTextView);
 //        bodyTypeTextView.setOnFocusChangeListener(this);
 
-        wearStyleEditText = (TextView) view.findViewById(R.id.wearStyleEditText);
-//        wearStyleEditText.setOnFocusChangeListener(this);
+        dressStyleEditText = (TextView) view.findViewById(R.id.dressStyleEditText);
+//        dressStyleEditText.setOnFocusChangeListener(this);
 
         effectEditText = (TextView) view.findViewById(R.id.effectEditText);
 //        effectEditText.setOnFocusChangeListener(this);
 
-//        hairTextView = (EditText) view.findViewById(R.id.hairTextView);
-
-        favoriteBrandText = (TextView) view.findViewById(R.id.brandTextView);
-
         changePwText = (TextView) view.findViewById(R.id.u02_change_pw_text);
-
-        textWidth = changePwText.getPaint().measureText(changePwText.getText().toString());
 
     }
 
@@ -302,7 +269,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         File file = new File(imgUri);
         multipartEntity.addFilePart("image", file);
         multipartEntity.addStringPart("filename", file.getName());
-
 
 // 构建请求队列
 // 将请求添加到队列中
@@ -415,8 +381,8 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         }
 
         if (TAG_DRESSSTYLE.equals(String.valueOf(actionSheet.getTag()))) {
-            wearStyleEditText.setText(dressStyles[index]);
-            wearStyleEditText.setTag(index);
+            dressStyleEditText.setText(dressStyles[index]);
+            dressStyleEditText.setTag(index);
         }
 
         if (TAG_EXPECTATIONS.equals(String.valueOf(actionSheet.getTag()))) {
@@ -431,14 +397,10 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
         Map<String, String> params = new HashMap<String, String>();
         if (nameEditText != null && !nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
-//        if (birthEditText != null && !birthEditText.getText().toString().equals(""))
-//            params.put("birthday", birthEditText.getText().toString());
         if (heightEditText != null && !heightEditText.getText().toString().equals(""))
             params.put("height", heightEditText.getText().toString());
         if (weightEditText != null && !weightEditText.getText().toString().equals(""))
             params.put("weight", weightEditText.getText().toString());
-//        if (shoesSizeEditText != null && !shoesSizeEditText.getText().toString().equals(""))
-//            params.put("shoeSize", shoesSizeEditText.getText().toString());
         if (null != sexTextView.getTag()) {
             params.put("gender", sexTextView.getTag().toString());
         }
@@ -512,10 +474,6 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             }
         });
 
-        
-
-
-
         changePasswordRelativeLayout = (RelativeLayout) view.findViewById(R.id.changePasswordRelativeLayout);
         changePasswordRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -539,6 +497,24 @@ public class U02SettingsFragment extends Fragment implements View.OnFocusChangeL
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), U10AddressListActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        dressStyleRelativeLayout = (RelativeLayout) view.findViewById(R.id.dressStyleEelativeLayout);
+        dressStyleRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_DRESSSTYLE);
+            }
+        });
+
+        effectRelativeLayout = (RelativeLayout) view.findViewById(R.id.effectEelativeLayout);
+        effectRelativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().setTheme(R.style.ActionSheetStyleIOS7);
+                showActionSheet(TAG_EXPECTATIONS);
             }
         });
     }
