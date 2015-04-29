@@ -11,6 +11,8 @@
 #import "QSShowUtil.h"
 #import "NSMutableDictionary+QSExtension.h"
 #import "QSError.h"
+#import "QSCommonUtil.h"
+
 //Query
 #define PATH_QUERY_SHOW @"show/query"
 //Comment
@@ -21,13 +23,15 @@
 #define PATH_SHOW_LIKE @"show/like"
 #define PATH_SHOW_UNLIKE @"show/unlike"
 
+
 @implementation QSNetworkEngine(ShowService)
 #pragma mark - Query
 - (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
                              onSucceed:(DicBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : [QSCommonUtil getIdOrEmptyStr:showDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
       
         if (succeedBlock) {
             if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])

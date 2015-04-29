@@ -24,6 +24,7 @@ static NSString *Indentifier = @"QSS08FashionCollectionViewCell";
     [super viewDidLoad];
     self.title = @"时尚情报";
     // Do any additional setup after loading the view from its nib.
+#warning TODO Move To FashionCollectionViewProvider
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     [self.collectionView registerNib:[UINib nibWithNibName:@"QSS08FashionCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:Indentifier];
@@ -53,6 +54,7 @@ static NSString *Indentifier = @"QSS08FashionCollectionViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row % 2 == 0) {
         QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] init];
+#warning Use initWithShowDict
 //        QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:<#(NSDictionary *)#>]
         [self.navigationController pushViewController:vc animated:YES];
         
