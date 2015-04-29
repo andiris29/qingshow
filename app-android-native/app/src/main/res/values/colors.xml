@@ -23,6 +23,9 @@
     <color name="transparent">#0000</color>
     <color name="left_menu_text_color">#E2E2E2</color>
 
+    <color name="green_btn">#22AC38</color>
+    <color name="yellow_btn">#EB6100</color>
+
     <color name="master">#a91a4e</color>
     <color name="dialog">#11000000</color>
 
