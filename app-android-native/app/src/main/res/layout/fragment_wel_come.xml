@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.focosee.qingshow.activity.fragment.WelComeFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/g02_backgroud"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/guide_page1_bg"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/indicator_bg_default_activity_personal"/>
+    <View
+        android:id="@+id/g02_reference"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/guide_page_frame"
+        android:layout_alignBottom="@+id/g02_reference"
+        android:layout_marginBottom="-50dp"
+        android:orientation="vertical"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/g02_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/guide_page_textSize"
+            android:textColor="@color/white"
+            android:text="倾秀"
+            android:layout_marginTop="40dp"/>
+
+        <TextView
+            android:id="@+id/g02_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/guide_page_textSize_small"
+            android:textColor="@color/white"
+            android:paddingTop="20dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginBottom="50dp"
+            android:gravity="center"
+            android:text="一个为你独家定制的服装搭配应用平台"/>
+
+
+    </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>
