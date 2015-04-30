@@ -12,7 +12,7 @@ public class S14FashionMsgActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_s14_fashion_msg);
+        setContentView(R.layout.activity_s14_fashion_msg_pictures);
         findViewById(R.id.s14_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
