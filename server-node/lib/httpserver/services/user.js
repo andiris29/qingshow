@@ -73,12 +73,16 @@ _get = function(req, res) {
 };
 
 _login = function(req, res) {
-    var param, id, password;
+    var param, idOrNickName, password;
     param = req.body;
-    id = param.id || '';
+    idOrNickName = param.idOrNickName || '';
     password = param.password || '';
     People.findOne({
-        "userInfo.id" : id,
+        "$or" : [{
+            "userInfo.id" : idOrNickName
+        }, {
+            "nickname" : idOrNickName
+        }],
         "$or" : [{
             "userInfo.password" : password
         }, {
@@ -135,7 +139,7 @@ _register = function(req, res) {
         return;
     }
     People.find({
-        $or: [{'userInfo.id' : id}, {'nickname': nickname}]
+        '$or': [{'userInfo.id' : id}, {'nickname': nickname}]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
