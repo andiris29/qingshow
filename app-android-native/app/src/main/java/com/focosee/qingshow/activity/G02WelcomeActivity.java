@@ -4,56 +4,73 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
-import com.focosee.qingshow.widget.MVerticalViewPager;
 
-public class G02WelcomeActivity extends Activity implements ViewPager.OnPageChangeListener {
+public class G02WelcomeActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
 
+    private final int indicatorCount = 3;
     private ViewPager mViewPager;
     private View view;
+    private LinearLayout indicatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewPager = new ViewPager(this);
-        setContentView(mViewPager);
 
-        view = LayoutInflater.from(this).inflate(R.layout.activity_g02_welcome, null);
+        setContentView(R.layout.activity_g02_welcome);
 
-        view.findViewById(R.id.g02_go).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.g02_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(G02WelcomeActivity.this, S12TopicListActivity.class));
+                startActivity(new Intent(G02WelcomeActivity.this, S12TopicListActivity.class));
             }
         });
 
-        view.findViewById(R.id.g02_dump).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.g02_dump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(G02WelcomeActivity.this, S12TopicListActivity.class));
+                startActivity(new Intent(G02WelcomeActivity.this, S12TopicListActivity.class));
             }
         });
 
 
+        mViewPager = (ViewPager) findViewById(R.id.g02_viewpager);
 
+        mViewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOnPageChangeListener(this);
 
-//        mViewPager.setAdapter(new ViewPagerAdapter());
-//
-//        mViewPager.setCurrentItem(0);
+        mViewPager.setCurrentItem(0);
 
+        indicatorLayout = (LinearLayout)findViewById(R.id.g02_point_onthebotton);
+
+        initIndicator();
+
+    }
+
+    private void initIndicator(){
+
+        for (int i = 0; i < indicatorCount; i++) {
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, 25);
+            params.setMargins(5, 0, 5, 0);
+            params.weight = 1;
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(params);
+            indicatorLayout.addView(imageView);
+
+        }
     }
 
     @Override
@@ -80,7 +97,12 @@ public class G02WelcomeActivity extends Activity implements ViewPager.OnPageChan
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        for (int i = 0; i < indicatorLayout.getChildCount(); i++) {
+            if(i == position )
+                ((ImageView)indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_white);
+            else
+                ((ImageView)indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_transparent);
+        }
     }
 
     @Override
@@ -97,8 +119,8 @@ public class G02WelcomeActivity extends Activity implements ViewPager.OnPageChan
 
         private final int count = 3;
 
-        private final String[] titleArgs = {"倾秀", "�����Ĵ���", "���Ի�����"};
-        private final String[] describeArgs = {"һ��Ϊ����Ҷ��Ƶķ�װ����Ӧ��ƽ̨", "��ʹû��Ů������Ҳ������Ů��ķ緶", "ÿ�����ͺ�����Ĵ�����������Ѷ"};
+        private final int[] titleArgs = {R.string.guide_pager1_title, R.string.guide_pager2_title, R.string.guide_pager3_title};
+        private final int[] describeArgs = {R.string.guide_pager1_describe, R.string.guide_pager2_describe, R.string.guide_pager3_describe};
         private final int[] backgroundArgs = {R.drawable.guide_page1_bg, R.drawable.guide_page2_bg, R.drawable.guide_page3_bg};
         private View[] views;
 
@@ -113,38 +135,13 @@ public class G02WelcomeActivity extends Activity implements ViewPager.OnPageChan
             return count;
         }
 
-        @Override        public boolean isViewFromObject(View view, Object object) {
-            return false;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            if(null == views[position % count]) return;
-            container.removeView(views[position % count]);
-        }
-
         @Override
         public Fragment getItem(int position) {
 
-//            WelComeFragment fragment = WelComeFragment.newInstance();
+            WelComeFragment fragment = WelComeFragment.newInstance(titleArgs[position], describeArgs[position], backgroundArgs[position]);
 
-            return null;
+            return fragment;
         }
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-
-            if(null != views[0]){
-                container.addView(views[position % count]);
-                return views[position % count];
-            }
-
-            ((TextView) view.findViewById(R.id.g02_title)).setText(titleArgs[position % count]);
-            ((TextView) view.findViewById(R.id.g02_describe)).setText(describeArgs[position % count]);
-            ((ImageView) view.findViewById(R.id.g02_backgroud)).setImageResource(backgroundArgs[position % count]);
-            container.addView(view);
-
-            return view;
-        }
     }
 }

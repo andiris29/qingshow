@@ -1,11 +1,9 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.WindowManager;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -33,20 +31,21 @@ public class LaunchActivity extends BaseActivity{
             public void onComplete() {
                 super.onComplete();
                 // Bootstrap
-                Intent mainIntent = new Intent(LaunchActivity.this, S12TopicListActivity.class);
-                LaunchActivity.this.startActivity(mainIntent);
-                LaunchActivity.this.finish();
+                jump();
             }
 
             @Override
             public void onError() {
                 super.onError();
-                Intent mainIntent = new Intent(LaunchActivity.this, S12TopicListActivity.class);
-                LaunchActivity.this.startActivity(mainIntent);
-                LaunchActivity.this.finish();
+                jump();
             }
         });
+    }
 
+    public void jump(){
+        Intent mainIntent = new Intent(LaunchActivity.this, G02WelcomeActivity.class);
+        LaunchActivity.this.startActivity(mainIntent);
+        LaunchActivity.this.finish();
     }
 
     @Override
