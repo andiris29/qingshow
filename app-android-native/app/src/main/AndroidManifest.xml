@@ -29,6 +29,11 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" >
 
         <activity
+            android:name="com.focosee.qingshow.activity.S17TopShowsActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation" />
+
+        <activity
             android:name="com.focosee.qingshow.activity.U01UserActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation" />

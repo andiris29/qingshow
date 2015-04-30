@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentActivity;
 
 import com.focosee.qingshow.util.AppUtil;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2015/2/5.
  */
@@ -41,6 +43,8 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerReceiver(netReceiver, new IntentFilter(NOTNET));
+        ButterKnife.inject(this);
+        getWindow().setBackgroundDrawable(null);
     }
 
     @Override

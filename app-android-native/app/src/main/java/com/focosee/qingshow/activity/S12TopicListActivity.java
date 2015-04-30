@@ -284,7 +284,7 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
                 closeMenu();
                 break;
             case R.id.s12_nav_icon_match:
-                intent = new Intent(S12TopicListActivity.this, S02ShowClassify.class);
+                intent = new Intent(S12TopicListActivity.this, S17TopShowsActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
                 startActivity(intent);
                 closeMenu();
