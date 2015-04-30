@@ -170,12 +170,6 @@
     <string name="dialog_cancel">取消</string>
     <string name="title_activity_s14_fashion_msg">S14FashionMsgActivity</string>
     <string name="title_activity_g02_welcome">G02WelcomeActivity</string>
-
-<<<<<<< Updated upstream
-
-
-=======
-    <!-- guide pager-->
     <string name="guide_pager1_title">倾秀</string>
     <string name="guide_pager2_title">潮流的搭配</string>
     <string name="guide_pager3_title">个性化推送</string>
@@ -183,5 +177,4 @@
     <string name="guide_pager1_describe">一个为你独家定制的服装搭配应用平台</string>
     <string name="guide_pager2_describe">即使没有女神的身材也可以有女神的风范</string>
     <string name="guide_pager3_describe">每天推送适合你的搭配和最潮流的资讯</string>
->>>>>>> Stashed changes
 </resources>
