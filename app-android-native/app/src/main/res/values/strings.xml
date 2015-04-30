@@ -133,8 +133,10 @@
     <string name="menu_open">open</string>
     <string name="menu_close">close</string>
 
-    <!-- s02 -->
+    <!-- title -->
     <string name="s02_title_name">潮流单品</string>
+    <string name="s17_title_name">美搭榜单</string>
+
 
     <!-- comm -->
     <string name="no_more_data">没有更多数据了！</string>
@@ -168,5 +170,7 @@
     <string name="dialog_cancel">取消</string>
     <string name="title_activity_s14_fashion_msg">S14FashionMsgActivity</string>
     <string name="title_activity_g02_welcome">G02WelcomeActivity</string>
+
+
 
 </resources>

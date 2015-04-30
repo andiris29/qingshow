@@ -38,9 +38,9 @@
 
     <!--topShows-->
     <color name="top_one">#804eced6</color>
-    <color name="top_tow">#ff77a8</color>
-    <color name="top_three">#4e78d6</color>
-    <color name="top_for">#ebbd4e</color>
-    <color name="top_frive">#6edfb6</color>
+    <color name="top_tow">#80ff77a8</color>
+    <color name="top_three">#804e78d6</color>
+    <color name="top_for">#80ebbd4e</color>
+    <color name="top_frive">#806edfb6</color>
     
 </resources>

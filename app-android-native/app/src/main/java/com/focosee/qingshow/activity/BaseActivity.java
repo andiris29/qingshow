@@ -43,7 +43,6 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerReceiver(netReceiver, new IntentFilter(NOTNET));
-        ButterKnife.inject(this);
         getWindow().setBackgroundDrawable(null);
     }
 

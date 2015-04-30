@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -47,7 +48,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
         return this.setImgeByUrl(id, url, 0);
     }
 
-    public AbsViewHolder setImgeByUrl(int id,String url,int ratdio){
+    public AbsViewHolder setImgeByUrl(int id,String url,float ratdio){
         View view;
         SimpleDraweeView draweeView;
         if(null != (view = getView(id))){
@@ -56,6 +57,16 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
             if (ratdio != 0){
                 draweeView.setAspectRatio(ratdio);
             }
+        }
+        return this;
+    }
+
+    public AbsViewHolder setImgeByRes(int id,int res){
+        View view;
+        ImageView imageView;
+        if(null != (view = getView(id))){
+            imageView = (ImageView) view;
+            imageView.setImageResource(res);
         }
         return this;
     }
