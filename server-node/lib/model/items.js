@@ -28,6 +28,7 @@ itemSchema = Schema({
         price : Number,
         order : Number
     },
+    numLike : Number,
     create : {
         type : Date,
         'default' : Date.now
