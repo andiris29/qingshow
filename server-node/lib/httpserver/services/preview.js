@@ -3,7 +3,7 @@ var async = require('async');
 //model
 var Preview = require('../../model/previews');
 var People = require('../../model/peoples');
-var PreviewComment = require('../../model/previewComments');
+//var PreviewComment = require('../../model/previewComments');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 var PreviewChosen = require('../../model/previewChosens');
 //util

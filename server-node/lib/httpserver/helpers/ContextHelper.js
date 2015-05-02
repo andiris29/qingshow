@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 // Models
 var ShowComments = require('../../model/showComments');
-var PreviewComments = require('../../model/previewComments');
+//var PreviewComments = require('../../model/previewComments');
 var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');

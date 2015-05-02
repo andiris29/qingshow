@@ -4,7 +4,7 @@ var async = require('async'), _ = require('underscore');
 var Show = require('../../model/shows');
 var ShowChosen = require('../../model/showChosens');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
-var Topic = require('../../model/topics');
+//var Topic = require('../../model/topics');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
