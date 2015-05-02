@@ -19,7 +19,20 @@ previewSchema = mongoose.Schema({
     create : {
         type : Date,
         'default' : Date.now
-    }
+    },
+    cover : String,
+    coverMetadata : {
+        url : String,
+        width : Number,
+        height : Number
+    },
+    video : String,
+    poster : String,
+    posterMetadata : {
+        url : String,
+        width : Number,
+        height : Number
+    },
 });
 
 var Preview = mongoose.model('previews', previewSchema);

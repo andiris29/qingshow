@@ -5,7 +5,6 @@ var Preview = require('../../model/previews');
 var People = require('../../model/peoples');
 //var PreviewComment = require('../../model/previewComments');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
-var PreviewChosen = require('../../model/previewChosens');
 //util
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
@@ -16,61 +15,6 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ServerError = require('../server-error');
 
 var preview = module.exports;
-
-preview.feed = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            // querier
-            async.waterfall([
-            function(callback) {
-                // Query chosen
-                PreviewChosen.find().where('activateTime').lte(Date.now()).sort({
-                    'activateTime' : 1
-                }).limit(1).exec(function(err, chosens) {
-                    if (err) {
-                        callback(ServerError.fromDescription(err));
-                    } else if (!chosens || !chosens.length) {
-                        callback(ServerError.fromCode(ServerError.PreviewNotExist));
-                    } else {
-                        chosen = chosens[0];
-                        callback(null, chosen.previewRefs.length);
-                    }
-                });
-            },
-            function(count, callback) {
-                // Query previews
-                var skip = (qsParam.pageNo - 1) * qsParam.pageSize;
-                chosen = new PreviewChosen({
-                    'activateTime' : chosen.activateTime,
-                    'previewRefs' : chosen.previewRefs.filter(function(preview, index) {
-                        return index >= skip && index < skip + qsParam.pageSize;
-                    })
-                });
-                PreviewChosen.populate(chosen, {
-                    'path' : 'previewRefs'
-                }, function(err, chosen) {
-                    callback(err, chosen.previewRefs, count);
-                });
-            }], callback);
-        }, function(models) {
-            // responseDataBuilder
-            return {
-                'previews' : models
-            };
-        }, {
-            'afterQuery' : function(qsParam, currentPageModels, numTotal, callback) {
-                async.series([
-                function(callback) {
-                    MongoHelper.updateCoverMetaData(currentPageModels, callback);
-                },
-                function(callback) {
-                    ContextHelper.appendPreviewContext(req.qsCurrentUserId, currentPageModels, callback);
-                }], callback);
-            }
-        });
-    }
-};
 
 preview.like = {
     'method' : 'post',

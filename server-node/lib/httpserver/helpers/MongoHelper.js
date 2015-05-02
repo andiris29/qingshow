@@ -96,6 +96,9 @@ MongoHelper.updateCoverMetaData = function(models, callback) {
             },
             function(callback) {
                 ImageUtils.createOrUpdateMetadata(model, model.horizontalCover, 'horizontalCoverMetadata', callback);
+            },
+            function (callback) {
+                ImageUtils.createOrUpdateMetadata(model, model.poster, 'posterMetadata', callback);
             }], function(err, results) {
                 // Ignore error
                 callback();
