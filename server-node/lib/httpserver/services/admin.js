@@ -4,7 +4,6 @@ var async = require('async');
 var People = require('../../model/peoples');
 var Show = require('../../model/shows');
 var Item = require('../../model/items');
-var ShowChosen = require('../../model/showChosens');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -20,7 +19,7 @@ var _encrypt = function(string) {
     return enc;
 };
 
-var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById, _saveShowChosen, _removeShowChosenById, _removeModelById, _saveModel;
+var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById, _removeModelById, _saveModel;
 
 _savePeople = function(req, res) {
 
@@ -175,36 +174,6 @@ _removeShowById = function(req, res) {
     _removeModelById(Show, 'show', req, res);
 };
 
-_saveShowChosen = function(req, res) {
-    _saveModel(ShowChosen, 'showChosen', req, res, function(req, res) {
-        var param = req.body;
-        var chosen = new ShowChosen();
-        ['showRefs'].forEach(function(field) {
-            if (param[field]) {
-                chosen.set(field, RequestHelper.parseIds(param[field]));
-            }
-        });
-
-        ['type'].forEach(function(field) {
-            if (param[field]) {
-                chosen.set(field, parseFloat(param[field]));
-            }
-        });
-
-        ['activateTime'].forEach(function(field) {
-            if (param[field]) {
-                chosen.set(field, Date.parse(param[field]));
-            }
-        });
-
-        return chosen;
-    });
-};
-
-_removeShowChosenById = function(req, res) {
-    _removeModelById(ShowChosen, 'chosen', req, res);
-};
-
 _removeModelById = function(Model, name, req, res) {
     async.waterfall([
     function(callback) {
@@ -298,16 +267,6 @@ module.exports = {
     'removeShowById' : {
         method : 'post',
         func : _removeShowById,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'saveShowChosen' : {
-        method : 'post',
-        func : _saveShowChosen,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'removeShowChosenById' : {
-        method : 'post',
-        func : _removeShowChosenById,
         permissionValidators : ['loginValidator', 'adminValidator']
     }
 };
