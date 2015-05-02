@@ -21,13 +21,6 @@ itemSchema = Schema({
         type : Schema.Types.ObjectId,
         ref : 'brands'
     },
-    brandNewInfo : {
-        order : Number
-    },
-    brandDiscountInfo : {
-        price : Number,
-        order : Number
-    },
     numLike : Number,
     create : {
         type : Date,

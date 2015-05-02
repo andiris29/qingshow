@@ -6,7 +6,6 @@ var ShowComments = require('../../model/showComments');
 var Show = require('../../model/shows');
 var People = require('../../model/peoples');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
-var RPeopleFollowBrand = require('../../model/rPeopleFollowBrand');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 
@@ -26,10 +25,6 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
     // __context.numShows
     var numShows = function(callback) {
         _numAssociated(peoples, Show, 'modelRef', 'numShows', callback);
-    };
-    // __context.numFollowBrands
-    var numFollowBrands = function(callback) {
-        _numAssociated(peoples, RPeopleFollowBrand, 'initiatorRef', 'numFollowBrands', callback);
     };
     // __context.numFollowPeoples
     var numFollowPeoples = function(callback) {
@@ -65,18 +60,6 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     };
     async.parallel([numComments, likedByCurrentUser, followedByCurrentUser], function(err) {
         callback(null, shows);
-    });
-};
-
-ContextHelper.appendBrandContext = function(qsCurrentUserId, brands, callback) {
-    brands = _prepare(brands);
-    // __context.followedByCurrentUser
-    var followedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleFollowBrand, qsCurrentUserId, brands, 'followedByCurrentUser', callback);
-    };
-
-    async.parallel([followedByCurrentUser], function(err) {
-        callback(null, brands);
     });
 };
 

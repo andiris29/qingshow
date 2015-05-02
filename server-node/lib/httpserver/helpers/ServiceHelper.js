@@ -78,18 +78,6 @@ ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, asp
     });
 };
 
-ServiceHelper.queryRelatedBrands = function(req, res, RModel, fields) {
-    _queryRelated(req, res, RModel, fields, function(peoples) {
-        return {
-            'brands' : peoples
-        };
-    }, {
-        'afterQuery' : function(qsParam, brands, numTotal, callback) {
-            ContextHelper.appendBrandContext(req.qsCurrentUserId, brands, callback);
-        }
-    });
-};
-
 ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     _queryRelated(req, res, RModel, fields, function(peoples) {
         return {
