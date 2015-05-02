@@ -70,13 +70,6 @@ _saveItem = function(req, res) {
                 width : ( param.imageMetadataWidth ? RequestHelper.parseNumber(param.imageMetadataWidth) : 0),
                 height : ( param.imageMetadataHeight ? RequestHelper.parseNumber(param.imageMetadataHeight) : 0)
             },
-            brandNewInfo : {
-                order: (param.brandNewInfoOrder ? RequestHelper.parseNumber(param.brandNewInfoOrder) : 0)
-            },
-            brandDiscountInfo : {
-                price: (param.brandDiscountInfoPrice ? RequestHelper.parseNumber(param.brandDiscountInfoPrice) : 0),
-                order: (param.brandDiscountInfoOrder ? RequestHelper.parseNumber(param.brandDiscountInfoOrder) : 0)
-            },
             images: []
         });
 
