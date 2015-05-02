@@ -4,6 +4,6 @@ if (db.showChosens) {
     db.showChosens.drop();
 }
 
-if（db.brands) {
+if (db.brands) {
 	db.brands.update({}, { "$unset" : { "type" : true}}, false, true);
 }

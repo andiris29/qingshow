@@ -3,9 +3,6 @@ var async = require('async');
 // Models
 var ShowComments = require('../../model/showComments');
 //var PreviewComments = require('../../model/previewComments');
-var Show = require('../../model/shows');
-var People = require('../../model/peoples');
-var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 
@@ -16,29 +13,6 @@ var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
  */
 var ContextHelper = module.exports;
 
-ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback) {
-    peoples = _prepare(peoples);
-    // __context.followedByCurrentUser
-    var followedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
-    };
-    // __context.numShows
-    var numShows = function(callback) {
-        _numAssociated(peoples, Show, 'modelRef', 'numShows', callback);
-    };
-    // __context.numFollowPeoples
-    var numFollowPeoples = function(callback) {
-        _numAssociated(peoples, RPeopleFollowPeople, 'initiatorRef', 'numFollowPeoples', callback);
-    };
-    // __context.numFollowers
-    var numFollowers = function(callback) {
-        _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
-    };
-
-    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
-        callback(null, peoples);
-    });
-};
 
 ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     shows = _prepare(shows);
@@ -51,14 +25,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
     };
     // modedRef.__context.followedByCurrentUser
-    var followedByCurrentUser = function(callback) {
-        var peoples = shows.map(function(show) {
-            return show.modelRef;
-        });
-        peoples = _prepare(peoples);
-        _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
-    };
-    async.parallel([numComments, likedByCurrentUser, followedByCurrentUser], function(err) {
+    async.parallel([numComments, likedByCurrentUser], function (err) {
         callback(null, shows);
     });
 };

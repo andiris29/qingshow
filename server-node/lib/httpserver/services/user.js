@@ -186,17 +186,6 @@ _update = function(req, res) {
     var qsParam;
     async.waterfall([
     function(callback) {
-        try {
-            qsParam = RequestHelper.parse(req.body, {
-                'birthday' : RequestHelper.parseDate
-            });
-        } catch(err) {
-            callback(err);
-            return;
-        }
-        callback();
-    },
-    function(callback) {
         People.findOne({
             '_id' : req.qsCurrentUserId
         }, function(err, people) {
