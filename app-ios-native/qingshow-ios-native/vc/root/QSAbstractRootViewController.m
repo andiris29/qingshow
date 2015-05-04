@@ -31,6 +31,7 @@
 
 #pragma mark - doupei
 #import "QSU01PersonViewController.h"
+#import "QSS17TopShowsViewController.h"
 
 
 @interface QSAbstractRootViewController ()
@@ -161,7 +162,9 @@
         }
         case 9:
         {
-            UIViewController* vc = [[QSP03BrandListViewController alloc] init];
+//            UIViewController* vc = [[QSP03BrandListViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+            UIViewController *vc = [[QSS17TopShowsViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
