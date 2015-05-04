@@ -106,7 +106,7 @@
                 <constraint firstAttribute="centerX" secondItem="vjH-uw-uSo" secondAttribute="centerX" id="vq1-nE-xYG"/>
                 <constraint firstItem="Uzw-R3-lQr" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="wBb-o5-trw"/>
             </constraints>
-            <point key="canvasLocation" x="511" y="392"/>
+            <point key="canvasLocation" x="279" y="90"/>
         </view>
         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="1wY-4P-tpd">
             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>

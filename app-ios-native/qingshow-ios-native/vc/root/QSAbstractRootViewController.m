@@ -12,7 +12,7 @@
 #import "UIView+ScreenShot.h"
 #import "UIViewController+QSExtension.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSS02ShandianViewController.h"
+#import "QSS02ItemFeedingViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
@@ -27,6 +27,7 @@
 #import "QSUserManager.h"
 #pragma mark - doupei
 #import "QSS08FashionViewController.h"
+#import "QSS02ItemFeedingViewController.h"
 
 #pragma mark - doupei
 #import "QSU01PersonViewController.h"
@@ -139,6 +140,13 @@
             
             break;
         }
+        case 2:
+        {
+            UIViewController *vc = [[QSS08FashionViewController alloc] init];
+            [self.navigationController  pushViewController:vc animated:YES];
+            break;
+
+        }
         case 3:
         {
             UIViewController* vc = [[QSP01ModelListViewController alloc] init];
@@ -159,10 +167,11 @@
         }
         case 8:
         {
-//            UIViewController* vc = [[QSS08PreviewViewController alloc] init];
-//            [self.navigationController pushViewController:vc animated:YES];
-            UIViewController *vc = [[QSS08FashionViewController alloc] init];
-            [self.navigationController  pushViewController:vc animated:YES];
+
+//    UIViewController* vc = [[QSS02ShandianViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
+    UIViewController *vc = [[QSS02ItemFeedingViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         default:

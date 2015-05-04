@@ -40,8 +40,8 @@
 
     }else {
        // NSDictionary* dict = [self topicForIndexPath:indexPath];
-        if ([self.delegate respondsToSelector:@selector(didClick_1Topic:)]) {
-            [self.delegate didClick_1Topic:dict];
+        if ([self.delegate respondsToSelector:@selector(didClickTopic:)]) {
+            [self.delegate didClickTopic:dict];
         }
   
         

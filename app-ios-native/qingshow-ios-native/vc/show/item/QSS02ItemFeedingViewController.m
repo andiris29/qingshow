@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSS02ShandianViewController.h"
+#import "QSS02ItemFeedingViewController.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSNetworkKit.h"
 #import "QSP04BrandDetailViewController.h"
@@ -15,15 +15,15 @@
 #import "QSS10ItemDetailVideoViewController.h"
 #import "UIViewController+QSExtension.h"
 
-#define PAGE_ID @"S02 - 闪点推荐"
+#define PAGE_ID @"S02 - 潮流单品"
 
-@interface QSS02ShandianViewController ()
+@interface QSS02ItemFeedingViewController ()
 
 @property (strong, nonatomic) QSItemCollectionViewProvider* itemProvider;
 
 @end
 
-@implementation QSS02ShandianViewController
+@implementation QSS02ItemFeedingViewController
 #pragma mark - Init
 - (instancetype)init
 {
@@ -61,7 +61,7 @@
 #pragma mark -
 - (void)configView
 {
-    self.title = @"闪点推荐";
+    self.title = @"潮流单品";
     [self hideNaviBackBtnTitle];
     self.navigationController.navigationBarHidden = NO;
     

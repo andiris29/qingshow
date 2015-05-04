@@ -8,13 +8,11 @@
 
 #import "QSS08FashionViewController.h"
 #import "QSS08FashionCollectionViewCell.h"
-#import "QSS13TopicDetailViewController.h"
-#import "QSS03ShowDetailViewController.h"
-static NSString *Indentifier = @"QSS08FashionCollectionViewCell";
-
+static NSString *Indentifier = @"QSS08FashionCollectionViewCellIdentifier";
 @interface QSS08FashionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong)QSS08FashionCollectionViewCell *QSS08Cell;
+@property (nonatomic, strong)QSFashionCollectionViewProvider *provider;
 
 @end
 
@@ -24,10 +22,10 @@ static NSString *Indentifier = @"QSS08FashionCollectionViewCell";
     [super viewDidLoad];
     self.title = @"时尚情报";
     // Do any additional setup after loading the view from its nib.
-#warning TODO Move To FashionCollectionViewProvider
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
     [self.collectionView registerNib:[UINib nibWithNibName:@"QSS08FashionCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:Indentifier];
+    
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -52,20 +50,6 @@ static NSString *Indentifier = @"QSS08FashionCollectionViewCell";
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row % 2 == 0) {
-        QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] init];
-#warning Use initWithShowDict
-//        QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc] initWithShow:<#(NSDictionary *)#>]
-        [self.navigationController pushViewController:vc animated:YES];
-        
-    }else {
-        UIViewController *vc = [[QSS13TopicDetailViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*

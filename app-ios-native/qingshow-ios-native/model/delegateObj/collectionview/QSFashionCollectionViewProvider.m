@@ -8,24 +8,22 @@
 
 #import "QSFashionCollectionViewProvider.h"
 
+#import "QSS08FashionCollectionViewCell.h"
+
 @implementation QSFashionCollectionViewProvider
 #pragma mark - Method To Be Override
 - (void)registerCell
 {
-    return;
+    return [self.view registerNib:[UINib nibWithNibName:@"QSS08FashionCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:FASHION_COLLECTION_VIEW_INDENTIFIER];
 }
 
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return nil;
-}
 
 #pragma mark - Init
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
 #warning TODO Return Size Of Cell
-    return CGSizeZero;
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width - 10, 200);
 }
 
 - (void)dealloc
@@ -58,7 +56,19 @@
     [self addRefreshControl];
     
 }
-
+//-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//   // [self bindWithCollectionView:collectionViews];
+//    QSS08FashionCollectionViewCell *cell = (QSS08FashionCollectionViewCell *)[collectionViews dequeueReusableCellWithReuseIdentifier:FASHION_COLLECTION_VIEW_INDENTIFIER forIndexPath:indexPath];
+//    
+//    return cell;
+//}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    QSS08FashionCollectionViewCell *cell = (QSS08FashionCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:FASHION_COLLECTION_VIEW_INDENTIFIER forIndexPath:indexPath];
+    
+    return cell;
+}
 
 //#pragma mark - Network
 //- (MKNetworkOperation*)fetchDataOfPage:(int)page completion:(VoidBlock)block
@@ -96,13 +106,32 @@
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    //[collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    NSDictionary *dict = [self topicForIndexPath:indexPath];
+    if ([self.delegate respondsToSelector:@selector(didClickShow:)]) {
+        [self.delegate didClickShow:dict];
+    }
 }
 
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.resultArray.count;
+    //return self.resultArray.count;
+    return 10;
+}
+- (NSDictionary*)topicForCell:(UICollectionViewCell*)cell
+{
+    return [self topicForIndexPath:[self.view indexPathForCell:cell]];
+}
+
+- (NSDictionary*)topicForIndexPath:(NSIndexPath*)indexPath
+{
+    NSInteger row = indexPath.row;
+    if (row < self.resultArray.count) {
+        return self.resultArray[row];
+    } else {
+        return nil;
+    }
 }
 
 @end
