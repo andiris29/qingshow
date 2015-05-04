@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,9 @@ public class S14FashionMsgActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getIntent().getIntExtra("position", 0) % 2 ==0 ){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
         setContentView(R.layout.activity_s14_fashion_msg_pictures);
         findViewById(R.id.s14_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
