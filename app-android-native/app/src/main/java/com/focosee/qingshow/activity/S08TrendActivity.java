@@ -93,7 +93,10 @@ public class S08TrendActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(S08TrendActivity.this, S14FashionMsgActivity.class));
+
+                Intent intent = new Intent(S08TrendActivity.this, S14FashionMsgActivity.class);
+                intent.putExtra("position", position);
+                startActivity(intent);
             }
         });
 //        mPullRefreshListView.doPullRefreshing(true, 500);

@@ -189,7 +189,9 @@
 
         <activity
             android:name=".activity.S14FashionMsgActivity"
-            android:label="@string/title_activity_s14_fashion_msg" >
+            android:label="@string/title_activity_s14_fashion_msg"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation">
         </activity>
         <activity
             android:name=".activity.G02WelcomeActivity"
