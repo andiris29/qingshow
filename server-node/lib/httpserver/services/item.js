@@ -83,7 +83,7 @@ item.unlike = {
                 }
             }, function(err, numUpdated) {
                 callback(err);
-            }
+            });
         }], function(err) {
             ResponseHelper.response(res, err);
         });
