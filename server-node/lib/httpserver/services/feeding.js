@@ -3,7 +3,6 @@ var async = require('async'), _ = require('underscore');
 //model
 var Show = require('../../model/shows');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
-//var Topic = require('../../model/topics');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');

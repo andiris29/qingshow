@@ -2,12 +2,8 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var Preview = require('../../model/previews');
-var People = require('../../model/peoples');
-//var PreviewComment = require('../../model/previewComments');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 //util
-var MongoHelper = require('../helpers/MongoHelper');
-var ContextHelper = require('../helpers/ContextHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');

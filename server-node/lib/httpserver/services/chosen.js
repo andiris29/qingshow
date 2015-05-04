@@ -2,13 +2,7 @@ var chosen = module.exports;
 var async = require('async');
 var Chosens = require('../../model/chosens');
 var ServiceHelper = require('../helpers/ServiceHelper');
-var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
-var ContextHelper = require('../helpers/ContextHelper');
-
-var Shows = require('../../model/shows');
-var Items = require('../../model/items');
-var Previews = require('../../model/previews');
 
 chosen.feed = {
     'method' : 'get',
