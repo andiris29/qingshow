@@ -30,6 +30,9 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 
 @interface QSBigImageTableViewCell : UITableViewCell <QSImageScrollViewBaseDelegate>
 
+
+@property (weak, nonatomic) IBOutlet UIView* dateContainer;
+
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
 @property (weak, nonatomic) IBOutlet UIView* modelContainer;
 @property (weak, nonatomic) IBOutlet UIView* btnsContainer;

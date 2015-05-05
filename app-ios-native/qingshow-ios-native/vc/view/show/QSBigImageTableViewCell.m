@@ -14,12 +14,16 @@
 #import "QSPreviewUtil.h"
 #import "QSBrandUtil.h"
 #import "QSImageNameUtil.h"
+#import "QSBigImageDateView.h"
 
 
 @interface QSBigImageTableViewCell ()
 
+#warning TODO remove single image scroll view
 @property (strong, nonatomic) QSSingleImageScrollView* singleImageScrollView;
 @property (weak, nonatomic) NSDictionary* dataDict;
+
+@property (strong, nonatomic) QSBigImageDateView* dateView;
 @end
 
 @implementation QSBigImageTableViewCell
@@ -54,7 +58,8 @@
 }
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
-
+    self.dateView = [QSBigImageDateView makeView];
+    [self.dateContainer addSubview:self.dateView];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
