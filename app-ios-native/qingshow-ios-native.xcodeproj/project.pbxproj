@@ -29,10 +29,14 @@
 		A77BD64A1AF7448400D446F7 /* QSS15TopicTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77BD6481AF7448400D446F7 /* QSS15TopicTableViewCell.xib */; };
 		A77BD6671AF7879000D446F7 /* QSS17TopShowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A77BD6621AF7879000D446F7 /* QSS17TopShowsViewController.m */; };
 		A77BD6681AF7879000D446F7 /* QSS17TopShowsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77BD6631AF7879000D446F7 /* QSS17TopShowsViewController.xib */; };
-		A77BD6691AF7879000D446F7 /* QSS17TopShow_1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = A77BD6651AF7879000D446F7 /* QSS17TopShow_1Cell.m */; };
-		A77BD66A1AF7879000D446F7 /* QSS17TopShow_1Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77BD6661AF7879000D446F7 /* QSS17TopShow_1Cell.xib */; };
 		A7979DB91AEF9A4900AAAC5A /* QSS15TopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7979DB71AEF9A4900AAAC5A /* QSS15TopicViewController.m */; };
 		A7979DBA1AEF9A4900AAAC5A /* QSS15TopicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7979DB81AEF9A4900AAAC5A /* QSS15TopicViewController.xib */; };
+		A7F852761AF85908002EC71D /* QSS17TopShow_2Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F852741AF85908002EC71D /* QSS17TopShow_2Cell.m */; };
+		A7F852771AF85908002EC71D /* QSS17TopShow_2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F852751AF85908002EC71D /* QSS17TopShow_2Cell.xib */; };
+		A7F8527C1AF85A39002EC71D /* QSS17TopShow_1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F8527A1AF85A39002EC71D /* QSS17TopShow_1Cell.m */; };
+		A7F8527D1AF85A39002EC71D /* QSS17TopShow_1Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F8527B1AF85A39002EC71D /* QSS17TopShow_1Cell.xib */; };
+		A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */; };
+		A7F852991AF8D559002EC71D /* QSU13PersonalizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */; };
 		EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */; };
 		EF11D5A11ACAF6C200BBA419 /* QSTopicUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF11D5A01ACAF6C200BBA419 /* QSTopicUtil.m */; };
 		EF11D5A51ACAFC2100BBA419 /* QSS13TopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF11D5A31ACAFC2100BBA419 /* QSS13TopicDetailViewController.m */; };
@@ -322,12 +326,18 @@
 		A77BD6611AF7879000D446F7 /* QSS17TopShowsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS17TopShowsViewController.h; sourceTree = "<group>"; };
 		A77BD6621AF7879000D446F7 /* QSS17TopShowsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS17TopShowsViewController.m; sourceTree = "<group>"; };
 		A77BD6631AF7879000D446F7 /* QSS17TopShowsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS17TopShowsViewController.xib; sourceTree = "<group>"; };
-		A77BD6641AF7879000D446F7 /* QSS17TopShow_1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS17TopShow_1Cell.h; sourceTree = "<group>"; };
-		A77BD6651AF7879000D446F7 /* QSS17TopShow_1Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS17TopShow_1Cell.m; sourceTree = "<group>"; };
-		A77BD6661AF7879000D446F7 /* QSS17TopShow_1Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS17TopShow_1Cell.xib; sourceTree = "<group>"; };
 		A7979DB61AEF9A4900AAAC5A /* QSS15TopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS15TopicViewController.h; sourceTree = "<group>"; };
 		A7979DB71AEF9A4900AAAC5A /* QSS15TopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS15TopicViewController.m; sourceTree = "<group>"; };
 		A7979DB81AEF9A4900AAAC5A /* QSS15TopicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS15TopicViewController.xib; sourceTree = "<group>"; };
+		A7F852731AF85908002EC71D /* QSS17TopShow_2Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSS17TopShow_2Cell.h; path = ../QSS17TopShow_2Cell.h; sourceTree = "<group>"; };
+		A7F852741AF85908002EC71D /* QSS17TopShow_2Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSS17TopShow_2Cell.m; path = ../QSS17TopShow_2Cell.m; sourceTree = "<group>"; };
+		A7F852751AF85908002EC71D /* QSS17TopShow_2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS17TopShow_2Cell.xib; path = ../QSS17TopShow_2Cell.xib; sourceTree = "<group>"; };
+		A7F852791AF85A39002EC71D /* QSS17TopShow_1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSS17TopShow_1Cell.h; path = ../QSS17TopShow_1Cell.h; sourceTree = "<group>"; };
+		A7F8527A1AF85A39002EC71D /* QSS17TopShow_1Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QSS17TopShow_1Cell.m; path = ../QSS17TopShow_1Cell.m; sourceTree = "<group>"; };
+		A7F8527B1AF85A39002EC71D /* QSS17TopShow_1Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS17TopShow_1Cell.xib; path = ../QSS17TopShow_1Cell.xib; sourceTree = "<group>"; };
+		A7F852951AF8D559002EC71D /* QSU13PersonalizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU13PersonalizeViewController.h; sourceTree = "<group>"; };
+		A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU13PersonalizeViewController.m; sourceTree = "<group>"; };
+		A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU13PersonalizeViewController.xib; sourceTree = "<group>"; };
 		EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		EF05E9421A7928DC00A58F72 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		EF05E9431A7928DC00A58F72 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -895,6 +905,9 @@
 				EF1729281A1CDCF1001819E3 /* QSU01UserDetailViewController.h */,
 				EF1729291A1CDCF1001819E3 /* QSU01UserDetailViewController.m */,
 				EF17292B1A1CDD36001819E3 /* QSU01UserDetailViewController.xib */,
+				A7F852951AF8D559002EC71D /* QSU13PersonalizeViewController.h */,
+				A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */,
+				A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */,
 			);
 			path = info;
 			sourceTree = "<group>";
@@ -1983,9 +1996,6 @@
 				A77BD6611AF7879000D446F7 /* QSS17TopShowsViewController.h */,
 				A77BD6621AF7879000D446F7 /* QSS17TopShowsViewController.m */,
 				A77BD6631AF7879000D446F7 /* QSS17TopShowsViewController.xib */,
-				A77BD6641AF7879000D446F7 /* QSS17TopShow_1Cell.h */,
-				A77BD6651AF7879000D446F7 /* QSS17TopShow_1Cell.m */,
-				A77BD6661AF7879000D446F7 /* QSS17TopShow_1Cell.xib */,
 			);
 			path = item;
 			sourceTree = "<group>";
@@ -2002,6 +2012,12 @@
 				EF2A415D1A5D91BF003266E0 /* QSItemImageTableViewCell.h */,
 				EF2A415E1A5D91BF003266E0 /* QSItemImageTableViewCell.m */,
 				EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */,
+				A7F852791AF85A39002EC71D /* QSS17TopShow_1Cell.h */,
+				A7F8527A1AF85A39002EC71D /* QSS17TopShow_1Cell.m */,
+				A7F8527B1AF85A39002EC71D /* QSS17TopShow_1Cell.xib */,
+				A7F852731AF85908002EC71D /* QSS17TopShow_2Cell.h */,
+				A7F852741AF85908002EC71D /* QSS17TopShow_2Cell.m */,
+				A7F852751AF85908002EC71D /* QSS17TopShow_2Cell.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -2158,9 +2174,9 @@
 				82F4E2721A165B98007A90B4 /* QSU07RegisterViewController.xib in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				EF65677B1A47129D00B66E21 /* QSS08PreviewViewController.xib in Resources */,
+				A7F852771AF85908002EC71D /* QSS17TopShow_2Cell.xib in Resources */,
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
 				A7979DBA1AEF9A4900AAAC5A /* QSS15TopicViewController.xib in Resources */,
-				A77BD66A1AF7879000D446F7 /* QSS17TopShow_1Cell.xib in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
 				EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */,
@@ -2195,8 +2211,10 @@
 				EF4D509E1A176AEC001E179B /* QSP02ModelDetailViewController.xib in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EF87FDDA1A45BE15003A6050 /* QSBrandTitleView.xib in Resources */,
+				A7F8527D1AF85A39002EC71D /* QSS17TopShow_1Cell.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */,
+				A7F852991AF8D559002EC71D /* QSU13PersonalizeViewController.xib in Resources */,
 				EFA0F9061AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib in Resources */,
 				A74E205A1AF0C5F90060BAB6 /* QSS08FashionViewController.xib in Resources */,
 				EFFE672E1A0676CB001F4CA1 /* QSRootMenuView.xib in Resources */,
@@ -2229,6 +2247,7 @@
 				EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */,
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				82F4E2711A165B98007A90B4 /* QSU07RegisterViewController.m in Sources */,
+				A7F852761AF85908002EC71D /* QSS17TopShow_2Cell.m in Sources */,
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
 				EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */,
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
@@ -2311,8 +2330,10 @@
 				EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */,
 				A74E205F1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m in Sources */,
 				EF65677A1A47129D00B66E21 /* QSS08PreviewViewController.m in Sources */,
+				A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */,
 				EFA98A821A38923300A8BFC7 /* QSCommonUtil.m in Sources */,
 				EF1A59271A06761800001AE0 /* QSShowCollectionViewCell.m in Sources */,
+				A7F8527C1AF85A39002EC71D /* QSS17TopShow_1Cell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
 				EFA0F9051AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m in Sources */,
 				82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */,
@@ -2352,7 +2373,6 @@
 				EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */,
 				EF30133F1AC3174000568D92 /* RSADataVerifier.m in Sources */,
 				EF17292A1A1CDCF1001819E3 /* QSU01UserDetailViewController.m in Sources */,
-				A77BD6691AF7879000D446F7 /* QSS17TopShow_1Cell.m in Sources */,
 				EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
 				EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */,

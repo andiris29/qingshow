@@ -23,11 +23,11 @@
                                 <color key="backgroundColor" red="1" green="0.92998832149999999" blue="0.2060719385" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j6y-RU-41L">
-                                <rect key="frame" x="347" y="189" width="40" height="42"/>
+                                <rect key="frame" x="347" y="191" width="40" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.15615795660000001" blue="0.1366413296" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="d05-Un-Oqy"/>
-                                    <constraint firstAttribute="height" constant="42" id="tRb-jZ-rFv"/>
+                                    <constraint firstAttribute="height" constant="40" id="tRb-jZ-rFv"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ahh-Ur-JTR">
@@ -44,13 +44,13 @@
                                     <constraint firstAttribute="height" constant="35" id="LkX-61-anO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="34"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="138" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5nr-UN-Wpe">
-                                <rect key="frame" x="345" y="187" width="40" height="42"/>
+                                <rect key="frame" x="345" y="189" width="40" height="40"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -94,7 +94,7 @@
                             <constraint firstAttribute="width" constant="42" id="u7n-vU-G3j"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                         <variation key="default">
                             <mask key="constraints">
@@ -150,7 +150,10 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="YAndMLabel" destination="mpW-1e-jyn" id="fj6-QG-V7l"/>
                 <outlet property="bacImage" destination="z34-IO-vx3" id="L82-mu-aSm"/>
+                <outlet property="dayLabel" destination="7GT-lH-Vpl" id="SOI-Sd-bPd"/>
+                <outlet property="lineView" destination="E9b-V9-XvI" id="j2g-mh-v49"/>
                 <outlet property="samImage" destination="j6y-RU-41L" id="ZGk-Dr-Kg3"/>
                 <outlet property="samLabel" destination="5nr-UN-Wpe" id="72f-ST-sSn"/>
                 <outlet property="topImage" destination="ahh-Ur-JTR" id="Idb-iX-v42"/>

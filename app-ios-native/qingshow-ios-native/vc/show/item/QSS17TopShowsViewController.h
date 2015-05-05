@@ -10,5 +10,5 @@
 
 @interface QSS17TopShowsViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+//- (id)bindWithDic:(NSDictionary *)TopShowSDic;
 @end

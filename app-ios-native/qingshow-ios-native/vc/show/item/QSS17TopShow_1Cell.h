@@ -13,5 +13,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *bacImage;
 @property (weak, nonatomic) IBOutlet UIImageView *samImage;
 @property (weak, nonatomic) IBOutlet UILabel *samLabel;
+@property (weak, nonatomic) IBOutlet UILabel *dayLabel;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (weak, nonatomic) IBOutlet UILabel *YAndMLabel;
 
 @end
