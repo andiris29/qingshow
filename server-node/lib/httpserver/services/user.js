@@ -144,7 +144,7 @@ _register = function(req, res) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
-        } else if (people) {
+        } else if (people.length > 0) {
             ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
