@@ -111,6 +111,7 @@
 		EF59EDFE1A74FAEE00D639FB /* QSModelListTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDF51A74FAEE00D639FB /* QSModelListTableViewProvider.m */; };
 		EF59EDFF1A74FAEE00D639FB /* QSTableViewBasicProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDF71A74FAEE00D639FB /* QSTableViewBasicProvider.m */; };
 		EF610EF41AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF610EF31AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m */; };
+		EF610EF81AF9335F00B7DFB3 /* QSChosenUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF610EF71AF9335F00B7DFB3 /* QSChosenUtil.m */; };
 		EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567741A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib */; };
 		EF65677A1A47129D00B66E21 /* QSS08PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF6567781A47129D00B66E21 /* QSS08PreviewViewController.m */; };
 		EF65677B1A47129D00B66E21 /* QSS08PreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF6567791A47129D00B66E21 /* QSS08PreviewViewController.xib */; };
@@ -554,6 +555,8 @@
 		EF59EDF71A74FAEE00D639FB /* QSTableViewBasicProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTableViewBasicProvider.m; sourceTree = "<group>"; };
 		EF610EF21AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "QSNetworkEngine+ChosenService.h"; path = "qingshow-ios-native/model/network/QSNetworkEngine+ChosenService.h"; sourceTree = SOURCE_ROOT; };
 		EF610EF31AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "QSNetworkEngine+ChosenService.m"; path = "qingshow-ios-native/model/network/QSNetworkEngine+ChosenService.m"; sourceTree = SOURCE_ROOT; };
+		EF610EF61AF9335F00B7DFB3 /* QSChosenUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSChosenUtil.h; sourceTree = "<group>"; };
+		EF610EF71AF9335F00B7DFB3 /* QSChosenUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSChosenUtil.m; sourceTree = "<group>"; };
 		EF6567741A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBigImageFashionTableViewCell.xib; sourceTree = "<group>"; };
 		EF6567771A47129D00B66E21 /* QSS08PreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS08PreviewViewController.h; sourceTree = "<group>"; };
 		EF6567781A47129D00B66E21 /* QSS08PreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS08PreviewViewController.m; sourceTree = "<group>"; };
@@ -1712,6 +1715,8 @@
 				EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */,
 				EF11D59F1ACAF6C200BBA419 /* QSTopicUtil.h */,
 				EF11D5A01ACAF6C200BBA419 /* QSTopicUtil.m */,
+				EF610EF61AF9335F00B7DFB3 /* QSChosenUtil.h */,
+				EF610EF71AF9335F00B7DFB3 /* QSChosenUtil.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -2303,6 +2308,7 @@
 				EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */,
 				EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */,
 				A77BD6491AF7448400D446F7 /* QSS15TopicTableViewCell.m in Sources */,
+				EF610EF81AF9335F00B7DFB3 /* QSChosenUtil.m in Sources */,
 				EF3013381AC3174000568D92 /* base64.m in Sources */,
 				EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */,
 				EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m in Sources */,
