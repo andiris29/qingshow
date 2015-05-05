@@ -45,7 +45,7 @@ item.like = {
                 }
             }, function(err, numUpdated) {
                 callback(err);
-            }
+            });
         }], function(err) {
             ResponseHelper.response(res, err);
         });
