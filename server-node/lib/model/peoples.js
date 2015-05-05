@@ -6,19 +6,16 @@ var Schema = mongoose.Schema;
 var peopleSchema;
 peopleSchema = Schema({
     __context : Object,
-    roles : [Number], //user 0 model 1
-    name : String,
+    nickname: String,
     assetsRoot : String,
     portrait : String,
     background : String,
     height : Number,
     weight : Number,
-    birthday : Date,
-    gender : Number,
-    hairType : Number,
-    shoeSize : Number,
-    clothingSize : Number,
-    favoriteBrand : String,
+    age : Number,
+    bodyType : Number,
+    dressStyle : Number,
+    expectations : Number, 
     userInfo : {
         id : String,
         password : {
@@ -35,16 +32,13 @@ peopleSchema = Schema({
             'default' : Date.now
         }
     },
-    modelInfo : {
-        order : Number
-    },
     receivers : [{
         uuid: String,
         name : String,
         phone : String,
         province : String,
         address : String,
-        isDefault : Boolean 
+        isDefault : Boolean
     }],
     create : {
         type : Date,

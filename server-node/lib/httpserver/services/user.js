@@ -73,12 +73,16 @@ _get = function(req, res) {
 };
 
 _login = function(req, res) {
-    var param, id, password;
+    var param, idOrNickName, password;
     param = req.body;
-    id = param.id || '';
+    idOrNickName = param.idOrNickName || '';
     password = param.password || '';
     People.findOne({
-        "userInfo.id" : id,
+        "$or" : [{
+            "userInfo.id" : idOrNickName
+        }, {
+            "nickname" : idOrNickName
+        }],
         "$or" : [{
             "userInfo.password" : password
         }, {
@@ -128,18 +132,19 @@ _register = function(req, res) {
     param = req.body;
     id = param.id;
     password = param.password;
+    var nickname = param.nickname;
     //TODO validate id and password
-    if (!id || !password || !id.length || !password.length) {
+    if (!id || !password || !id.length || !password.length || !nickname) {
         ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
-    People.findOne({
-        'userInfo.id' : id
+    People.find({
+        '$or': [{'userInfo.id' : id}, {'nickname': nickname}]
     }, function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
-        } else if (people) {
+        } else if (people.length > 0) {
             ResponseHelper.response(res, ServerError.EmailAlreadyExist);
             return;
         }
@@ -147,6 +152,7 @@ _register = function(req, res) {
         });
 
         var people = new People({
+            nickname: nickname,
             userInfo : {
                 id : id,
                 encryptedPassword : _encrypt(password)
@@ -178,18 +184,8 @@ _register = function(req, res) {
 
 _update = function(req, res) {
     var qsParam;
+    qsParam = req.body;
     async.waterfall([
-    function(callback) {
-        try {
-            qsParam = RequestHelper.parse(req.body, {
-                'birthday' : RequestHelper.parseDate
-            });
-        } catch(err) {
-            callback(err);
-            return;
-        }
-        callback();
-    },
     function(callback) {
         People.findOne({
             '_id' : req.qsCurrentUserId

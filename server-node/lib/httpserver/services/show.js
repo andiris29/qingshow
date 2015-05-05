@@ -4,6 +4,7 @@ var async = require('async');
 var Show = require('../../model/shows');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var RPeopleShareShow = require('../../model/rPeopleShareShow');
 //util
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
@@ -216,5 +217,33 @@ show.deleteComment = {
         }], function(err) {
             ResponseHelper.response(res, err);
         });
+    }
+};
+
+show.share= {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var targetRef, initiatorRef;
+        async.waterfall([
+        function(callback) {
+            try {
+                var param = req.body;
+                targetRef = RequestHelper.parseId(param._id);
+                initiatorRef = req.qsCurrentUserId;
+            } catch (err) {
+                callback(err);
+            }
+            callback();
+        },
+        function(callback) {
+            // Like
+            RelationshipHelper.create(RPeopleShareShow, initiatorRef, targetRef, function(err, relationship) {
+                callback(err);
+            });
+        }], function(err) {
+            ResponseHelper.response(res, err);
+        });
+
     }
 };

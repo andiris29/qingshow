@@ -5,7 +5,6 @@ var brandSchema;
 brandSchema = Schema({
     __context : Object,
     name : String,
-    type : Number,
     logo : String,
     background : String,
     cover : String,

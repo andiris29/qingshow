@@ -5,8 +5,6 @@ var People = require('../../model/peoples');
 var ServerError = require('../server-error');
 var ContextHelper = require('../helpers/ContextHelper');
 
-var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
-
 module.exports.create = function(Model, initiatorRef, targetRef, callback) {
     async.waterfall([
     function(callbck) {
