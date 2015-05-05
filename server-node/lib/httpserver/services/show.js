@@ -238,7 +238,7 @@ show.share= {
         },
         function(callback) {
             // Like
-            RelationshipHelper.create(rPeopleShareShow, initiatorRef, targetRef, function(err, relationship) {
+            RelationshipHelper.create(RPeopleShareShow, initiatorRef, targetRef, function(err, relationship) {
                 callback(err);
             });
         }], function(err) {
