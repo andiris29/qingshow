@@ -25,14 +25,10 @@
 #import "QSS02CategoryViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
-#pragma mark - doupei
 #import "QSS08FashionViewController.h"
 #import "QSS02ItemFeedingViewController.h"
 
-#pragma mark - doupei
-#import "QSU01PersonViewController.h"
 #import "QSS17TopShowsViewController.h"
-
 
 @interface QSAbstractRootViewController ()
 
@@ -134,11 +130,9 @@
     switch (type) {
         case 1:
         {
+#warning TODO
 //            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
 //            [self.navigationController pushViewController:vc animated:YES];
-            UIViewController *vc = [[QSU01PersonViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            
             break;
         }
         case 2:

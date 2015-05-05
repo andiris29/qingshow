@@ -13,8 +13,6 @@
 @protocol QSTopicTableViewProviderDelegate <NSObject>
 
 - (void)didClickTopic:(NSDictionary*)topicDict;
-#warning TODO Remove didClick_1Topic or merge it with didClickTopic
-- (void)didClick_1Topic:(NSDictionary *)topicDict;
 
 @end
 
