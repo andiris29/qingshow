@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QSNetworkENgine.h"
+#import "QSNetworkEngine.h"
 
 
 @interface QSNetworkEngine(PreviewService)
