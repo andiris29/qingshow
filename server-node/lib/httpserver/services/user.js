@@ -134,7 +134,7 @@ _register = function(req, res) {
     password = param.password;
     var nickname = param.nickname;
     //TODO validate id and password
-    if (!id || !password || !id.length || !password.length) {
+    if (!id || !password || !id.length || !password.length || !nickname) {
         ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
@@ -184,6 +184,7 @@ _register = function(req, res) {
 
 _update = function(req, res) {
     var qsParam;
+    qsParam = req.body;
     async.waterfall([
     function(callback) {
         People.findOne({
