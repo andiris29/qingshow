@@ -8,7 +8,6 @@
 
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSP04BrandDetailViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
@@ -27,7 +26,6 @@
 #pragma mark Delegate Obj
 @property (strong, nonatomic) QSShowCollectionViewProvider* likedDelegate;
 @property (strong, nonatomic) QSShowCollectionViewProvider* recommendationDelegate;
-@property (strong, nonatomic) QSModelListTableViewProvider* followingDelegate;
 @property (strong, nonatomic) QSBigImageTableViewProvider* likedBrandDelegate;
 @property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
@@ -62,11 +60,11 @@
     self.recommendationDelegate = [[QSShowCollectionViewProvider alloc] init];
     self.recommendationDelegate.delegate = self;
     self.recommendationDelegate.hasRefreshControl = NO;
-    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
-    self.followingDelegate.delegate = self;
-    self.followingDelegate.hasRefreshControl = NO;
+//    self.followingDelegate = [[QSModelListTableViewProvider alloc] init];
+//    self.followingDelegate.delegate = self;
+//    self.followingDelegate.hasRefreshControl = NO;
     self.likedBrandDelegate = [[QSBigImageTableViewProvider alloc] init];
-    self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
+//    self.likedBrandDelegate.type= QSBigImageTableViewCellTypeBrand;
     self.likedBrandDelegate.hasRefreshControl = NO;
     self.likedBrandDelegate.delegate = self;
 }
@@ -93,7 +91,7 @@
     
     [self.likedDelegate refreshClickedData];
     [self.recommendationDelegate refreshClickedData];
-    [self.followingDelegate refreshClickedData];
+//    [self.followingDelegate refreshClickedData];
     [self.likedBrandDelegate refreshClickedData];
     [MobClick beginLogPageView:PAGE_ID];
 }
@@ -102,7 +100,7 @@
     [super viewDidAppear:animated];
     [self.likedDelegate fetchDataOfPage:1];
     [self.recommendationDelegate fetchDataOfPage:1];
-    [self.followingDelegate fetchDataOfPage:1];
+//    [self.followingDelegate fetchDataOfPage:1];
     [self.likedBrandDelegate fetchDataOfPage:1];
     [MobClick endLogPageView:PAGE_ID];
 }
@@ -159,28 +157,7 @@
     };
     self.recommendationDelegate.delegate = self;
     [self.recommendationDelegate reloadData];
-    
-    //following table view
-    [self.followingDelegate bindWithTableView:self.followingTableView];
-    self.followingDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            [weakSelf.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:metadata] atIndex:2];
-            succeedBlock(array, metadata);
-        } onError:^(NSError* e){
-            if (page == 1) {
-                [weakSelf.badgeView.btnGroup setNumber:@"0" atIndex:2];
-            }
-            errorBlock(e);
-        }];
-    };
-    if (self.fShowAccountBtn) {
-        self.followingDelegate.filterBlock = ^BOOL(id obj){
-            return [QSPeopleUtil  getPeopleIsFollowed:obj];
-        };
-    }
 
-    self.followingDelegate.delegate = self;
-    [self.followingDelegate reloadData];
     //Like brand tableVIew
     [self.likedBrandDelegate bindWithTableView:self.likeBrandTableView];
     self.likedBrandDelegate.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -249,31 +226,8 @@
 
 }
 
-- (void)followBtnPressed:(NSDictionary*)model
-{
-    [SHARE_NW_ENGINE handleFollowModel:model onSucceed:^(BOOL fFollow) {
-        if (fFollow) {
-            [self showTextHud:@"关注成功"];
-            [self.followingDelegate refreshData:model];
-        }
-        else {
-            if (self.fShowAccountBtn) {
-                [self.followingDelegate removeData:model withAnimation:YES];
-            } else {
-                [self.followingDelegate refreshData:model];
-            }
-            [self showTextHud:@"取消关注成功"];
-            [self.badgeView.btnGroup setNumber:[QSMetadataUtil getNumberTotalDesc:self.followingDelegate.metadataDict] atIndex:2];
-        }
-    } onError:^(NSError *error) {
-        [self showErrorHudWithText:@"error"];
-    }];
-}
 - (void)clickDetailOfDict:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
 {
-    if (type == QSBigImageTableViewCellTypeBrand) {
-        UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:dict];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    
 }
 @end

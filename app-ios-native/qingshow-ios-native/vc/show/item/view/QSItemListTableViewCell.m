@@ -29,16 +29,6 @@
     self.typeLabel.text = [QSItemUtil getItemTypeName:itemDict];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
     self.priceLabel.text = [QSItemUtil getPrice:itemDict];
-    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
-    if (brandDict) {
-        NSURL* url = [QSBrandUtil getBrandLogoUrl:brandDict];
-        if (url) {
-            [self.iconImgView setImageFromURL:url];
-        }
-
-    } else {
-        self.iconImgView.image = nil;
-    }
 }
 
 @end

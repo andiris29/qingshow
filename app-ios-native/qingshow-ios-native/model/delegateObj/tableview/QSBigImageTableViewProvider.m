@@ -25,8 +25,6 @@
     QSBigImageTableViewCell* cell = nil;
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
-    } else if (self.type == QSBigImageTableViewCellTypeBrand) {
-        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     } else {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     }
@@ -46,8 +44,6 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         return [QSBigImageTableViewCell getHeightWithPreview:dict];
-    } else if (self.type == QSBigImageTableViewCellTypeBrand) {
-        return [QSBigImageTableViewCell getHeightWithBrand:dict];
     } else {
         return [QSBigImageTableViewCell getHeightWithShow:dict];
     }

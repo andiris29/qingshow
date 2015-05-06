@@ -146,15 +146,6 @@
     }
 }
 
-- (void)peoplePressed:(QSShowCollectionViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
-    self.clickedData = showDict;
-    if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
-        [self.delegate didClickPeople:[QSShowUtil getPeopleFromShow:showDict]];
-    }
-}
 - (void)playBtnPressed:(QSShowCollectionViewCell *)cell
 {
     NSIndexPath* indexPath = [self.view indexPathForCell:cell];

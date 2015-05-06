@@ -25,7 +25,6 @@
 + (NSString*)getPrice:(NSDictionary*)item;
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict;
 
-+ (NSDictionary*)getBrand:(NSDictionary*)item;
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
 

@@ -17,9 +17,6 @@
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
 #import "QSS06CompareViewController.h"
-#import "QSP01ModelListViewController.h"
-#import "QSP02ModelDetailViewController.h"
-#import "QSP03BrandListViewController.h"
 #import "QSS08PreviewViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSS02CategoryViewController.h"
@@ -144,9 +141,10 @@
         }
         case 3:
         {
-            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
+#warning TODO remove
+//            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+//            break;
         }
         case 4:
         {

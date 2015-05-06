@@ -15,7 +15,6 @@
 + (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
 + (NSArray*)getItems:(NSDictionary*)showDict;
-+ (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict;
 + (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict;
 //+ (float)getCoverHeight:(NSDictionary*)showDict;
 //+ (float)getCoverWidth:(NSDictionary*)showDict;

@@ -13,7 +13,7 @@
 @protocol QSShowCollectionViewCellDelegate
 
 @optional
-- (void)peoplePressed:(QSShowCollectionViewCell*)cell;
+
 - (void)favorBtnPressed:(QSShowCollectionViewCell*)cell;
 - (void)playBtnPressed:(QSShowCollectionViewCell*)cell;
 

@@ -41,17 +41,12 @@
             break;
         }
     }
-    if (_type == QSBigImageTableViewCellTypeBrand) {
-        self.iconImgView.layer.cornerRadius = 0.f;
-        self.iconImgView.layer.masksToBounds = YES;
-        self.iconImgView.layer.borderColor = [UIColor clearColor].CGColor;
-        self.iconImgView.layer.borderWidth = 0.f;
-    } else {
-        self.iconImgView.layer.cornerRadius = self.iconImgView.bounds.size.height / 2;
-        self.iconImgView.layer.masksToBounds = YES;
-        self.iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
-        self.iconImgView.layer.borderWidth = 1.f;
-    }
+
+    self.iconImgView.layer.cornerRadius = self.iconImgView.bounds.size.height / 2;
+    self.iconImgView.layer.masksToBounds = YES;
+    self.iconImgView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.iconImgView.layer.borderWidth = 1.f;
+
 }
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
@@ -131,9 +126,7 @@
 - (void)bindWithDict:(NSDictionary*)dict
 {
     self.dataDict = dict;
-    if (self.type == QSBigImageTableViewCellTypeBrand) {
-        [self bindWithBrand:dict];
-    } else if (self.type == QSBigImageTableViewCellTypeFashion) {
+    if (self.type == QSBigImageTableViewCellTypeFashion) {
         [self bindWithPreview:dict];
     } else {
         [self bindWithShow:dict];
@@ -158,11 +151,10 @@
     [self resizeWithHeight:height];
 
     //Data Binding
-    NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showDict];
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     
-    self.label1.text = [QSPeopleUtil getName:modelDict];
-    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
+//    self.label1.text = [QSPeopleUtil getName:modelDict];
+//    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
 
 }
 - (void)bindWithBrand:(NSDictionary*)brandDict

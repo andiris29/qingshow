@@ -14,9 +14,6 @@
 @optional
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
 
-- (void)clickCommentOfDict:(NSDictionary*)dict;
-- (void)clickShareOfDict:(NSDictionary*)dict;
-- (void)clickLikeOfDict:(NSDictionary*)dict;
 - (void)clickDetailOfDict:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
 
 @end

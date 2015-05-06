@@ -8,7 +8,6 @@
 
 #import "QSS02CategoryViewController.h"
 #import "QSS03ShowDetailViewController.h"
-#import "QSP02ModelDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
