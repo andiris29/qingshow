@@ -17,4 +17,6 @@
 
 @property (strong, nonatomic) NSString* weiboAccessToken;
 @property (strong, nonatomic) NSString* weiboUserId;
+
+@property (strong, nonatomic) NSDate* lastClickMenuDate;
 @end
