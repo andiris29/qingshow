@@ -27,4 +27,5 @@
 + (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index;
 + (NSString*)getImagesPriceDesc:(NSDictionary*)previewDict atIndex:(int)index;
 + (NSString*)getImagesBrandDesc:(NSDictionary*)previewDict atIndex:(int)index;
+
 @end

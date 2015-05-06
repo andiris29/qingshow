@@ -13,6 +13,7 @@
 + (NSURL*)getCoverUrl:(NSDictionary*)itemDict;
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
 + (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
++ (NSDictionary*)getImageMetadata:(NSDictionary*)itemDict;
 //+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict;
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;

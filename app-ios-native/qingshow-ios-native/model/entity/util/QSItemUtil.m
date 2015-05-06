@@ -50,6 +50,13 @@
         return nil;
     }
 }
++ (NSDictionary*)getImageMetadata:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    return itemDict[@"imageMetadata"];
+}
 
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
 {

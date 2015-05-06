@@ -15,11 +15,12 @@
 #import "QSBrandUtil.h"
 #import "QSImageNameUtil.h"
 #import "QSBigImageDateView.h"
+#import "QSChosenUtil.h"
+#import "QSItemUtil.h"
 
 
 @interface QSBigImageTableViewCell ()
 
-#warning TODO remove single image scroll view
 @property (weak, nonatomic) NSDictionary* dataDict;
 
 @property (strong, nonatomic) QSBigImageDateView* dateView;
@@ -60,6 +61,20 @@
     // Configure the view for the selected state
 }
 #pragma mark - Static
++ (CGFloat)getHeightWithChosen:(NSDictionary*)chosen
+{
+    QSChosenRefType type = [QSChosenUtil getChosenRefType:chosen];
+    NSDictionary* ref = [QSChosenUtil getRef:chosen];
+    if (type == QSChosenRefTypeShow) {
+        return [self getHeightWithShow:ref];
+    } else if (type == QSChosenRefTypePreview) {
+        return [self getHeightWithPreview:ref];
+    } else if (type == QSChosenRefTypeItem) {
+        return [self getHeightWithItem:ref];
+    }
+    return 0;
+}
+
 + (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict
 {
     NSDictionary* coverMetadata = nil;
@@ -102,6 +117,27 @@
     height = height * iniWidth / width;
     return height;
 }
+
++ (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
+{
+    NSDictionary* coverMetadata = nil;
+    coverMetadata = [QSItemUtil getImageMetadata:itemDict];
+    
+    float iniWidth = [UIScreen mainScreen].bounds.size.width;
+    
+    float height = 92;
+    float width = iniWidth;
+    //212 158
+    if (coverMetadata && coverMetadata[@"height"]) {
+        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
+    }
+    if (coverMetadata && coverMetadata[@"width"]) {
+        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
+    }
+    height = height * iniWidth / width;
+    return height;
+}
+
 + (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
 {
     NSDictionary* coverMetadata = brandDict[@"coverMetadata"];
@@ -118,8 +154,6 @@
     }
     height = height * iniWidth / width;
     return height;
-    
-//    return [UIScreen mainScreen].bounds.size.width;
 }
 
 #pragma mark - Bind
@@ -128,10 +162,67 @@
     self.dataDict = dict;
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         [self bindWithPreview:dict];
-    } else {
+    } else if (self.type == QSBigImageTableViewCellChosen) {
+        [self bindWithChosen:dict];
+    }else {
         [self bindWithShow:dict];
     }
 }
+- (void)bindWithChosen:(NSDictionary*)dict
+{
+    QSChosenRefType type = [QSChosenUtil getChosenRefType:dict];
+    NSDictionary* ref = [QSChosenUtil getRef:dict];
+    if (type == QSChosenRefTypeShow) {
+        [self bindWithShow:ref];
+    } else if (type == QSChosenRefTypePreview) {
+        [self bindWithPreview:ref];
+    } else if (type == QSChosenRefTypeItem) {
+        [self bindWIthItem:ref];
+    }
+
+}
+
+
+
+- (void)bindWithShow:(NSDictionary*)showDict
+{
+    float height = [QSBigImageTableViewCell getHeightWithShow:showDict];
+    [self resizeWithHeight:height];
+
+    //Data Binding
+    [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+#warning TODO label1
+//    self.label1.text = [QSPeopleUtil getName:modelDict];
+//    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
+
+}
+- (void)bindWIthItem:(NSDictionary*)itemDict
+{
+    float height = [QSBigImageTableViewCell getHeightWithItem:itemDict];
+    [self resizeWithHeight:height];
+    [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
+#warning TODO label1
+    ;
+}
+- (void)bindWithBrand:(NSDictionary*)brandDict
+{
+#warning TODO remove
+    float height = [QSBigImageTableViewCell getHeightWithBrand:brandDict];
+    [self resizeWithHeight:height];
+    
+    self.label1.text = [QSBrandUtil getBrandName:brandDict];
+    [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSBrandUtil getBrandCoverUrl:brandDict]]];
+}
+
+- (void)bindWithPreview:(NSDictionary*)previewDict
+{
+    float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
+    [self resizeWithHeight:height];
+    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getCoverUrl:previewDict]]];
+#warning TODO label1
+}
+
 
 - (void)resizeWithHeight:(float)height
 {
@@ -145,35 +236,6 @@
     self.modelContainer.frame = rect;
 }
 
-- (void)bindWithShow:(NSDictionary*)showDict
-{
-    float height = [QSBigImageTableViewCell getHeightWithShow:showDict];
-    [self resizeWithHeight:height];
-
-    //Data Binding
-    [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    
-//    self.label1.text = [QSPeopleUtil getName:modelDict];
-//    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
-
-}
-- (void)bindWithBrand:(NSDictionary*)brandDict
-{
-    float height = [QSBigImageTableViewCell getHeightWithBrand:brandDict];
-    [self resizeWithHeight:height];
-    
-    self.label1.text = [QSBrandUtil getBrandName:brandDict];
-    [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSBrandUtil getBrandCoverUrl:brandDict]]];
-}
-
-- (void)bindWithPreview:(NSDictionary*)previewDict
-{
-#warning TODO adjust binding for new preview layout
-    float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
-    [self resizeWithHeight:height];
-    
-}
 #pragma mark - IBAction
 
 //- (IBAction)detailBtnPressed:(id)sender

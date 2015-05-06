@@ -44,6 +44,8 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         return [QSBigImageTableViewCell getHeightWithPreview:dict];
+    } else if (self.type == QSBigImageTableViewCellChosen) {
+        return [QSBigImageTableViewCell getHeightWithChosen:dict];
     } else {
         return [QSBigImageTableViewCell getHeightWithShow:dict];
     }
