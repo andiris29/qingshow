@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U13PersonalizeFragment;
 import com.focosee.qingshow.adapter.S12Adapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -273,6 +276,14 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
         return true;
     }
 
+    public void showPersonalize(){
+        Log.i("tag","show");
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.u13,new U13PersonalizeFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -308,7 +319,8 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
 //                closeMenu();
 //                break;
             case R.id.s12_logo:
-                showVerison();
+                showPersonalize();
+//                showVerison();
                 break;
             case R.id.s12_menu_button:
                 if (isMenuOpened()) {

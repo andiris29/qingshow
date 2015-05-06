@@ -43,4 +43,6 @@
     <color name="top_for">#80ebbd4e</color>
     <color name="top_frive">#806edfb6</color>
     
+    <color name="seekbar_bg">#c3c3c3</color>
+    
 </resources>
