@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU01UserDetailViewController">
@@ -11,8 +11,6 @@
                 <outlet property="backBtnTopConstrain" destination="DTe-9u-7lB" id="4Fn-1Z-TKD"/>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
-                <outlet property="followingTableView" destination="286-iQ-Nv4" id="J7W-Hk-scu"/>
-                <outlet property="likeBrandTableView" destination="cRH-Zi-CTk" id="BpW-PO-qlD"/>
                 <outlet property="likedCollectionView" destination="DrY-X6-QFu" id="UT3-Bf-Wl1"/>
                 <outlet property="recommendationCollectionView" destination="3Ou-E8-rc6" id="ygN-jh-oCs"/>
                 <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
@@ -27,10 +25,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVA-uB-yhC">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cRH-Zi-CTk">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </tableView>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DrY-X6-QFu">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -51,28 +45,16 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
-                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="286-iQ-Nv4">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </tableView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="286-iQ-Nv4" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="3MV-b5-MYt"/>
                         <constraint firstAttribute="trailing" secondItem="3Ou-E8-rc6" secondAttribute="trailing" id="3UK-xF-1Z0"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Ix9-jJ-DGi"/>
                         <constraint firstAttribute="bottom" secondItem="DrY-X6-QFu" secondAttribute="bottom" id="LP0-8m-16x"/>
                         <constraint firstItem="3Ou-E8-rc6" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Mva-8b-SZ5"/>
-                        <constraint firstAttribute="bottom" secondItem="cRH-Zi-CTk" secondAttribute="bottom" id="Q5Z-IP-jRg"/>
-                        <constraint firstAttribute="trailing" secondItem="cRH-Zi-CTk" secondAttribute="trailing" id="Rh3-LQ-SxW"/>
-                        <constraint firstItem="cRH-Zi-CTk" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="TKk-Xc-USD"/>
                         <constraint firstItem="3Ou-E8-rc6" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Wnz-mt-ErJ"/>
-                        <constraint firstItem="286-iQ-Nv4" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Wzr-lo-xqE"/>
-                        <constraint firstAttribute="trailing" secondItem="286-iQ-Nv4" secondAttribute="trailing" id="XDW-FZ-oro"/>
-                        <constraint firstItem="cRH-Zi-CTk" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="XvM-TD-IN4"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2a-2R-OyG"/>
                         <constraint firstAttribute="bottom" secondItem="3Ou-E8-rc6" secondAttribute="bottom" id="raw-GU-h2y"/>
-                        <constraint firstAttribute="bottom" secondItem="286-iQ-Nv4" secondAttribute="bottom" id="yrk-Jf-hD4"/>
                         <constraint firstAttribute="trailing" secondItem="DrY-X6-QFu" secondAttribute="trailing" id="z1p-nF-Kpg"/>
                     </constraints>
                 </view>

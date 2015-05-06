@@ -18,8 +18,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *roleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
 
@@ -54,13 +52,6 @@
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
 }
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    CGRect rect = self.statusLabel.frame;
-    rect.origin.x = self.nameLabel.frame.origin.x + self.nameLabel.frame.size.width + 20;
-    self.statusLabel.frame = rect;
-}
 
 - (void)updateView
 {
@@ -80,9 +71,6 @@
     self.iconImageView.layer.masksToBounds = YES;
     
     self.nameLabel.text = [QSPeopleUtil getName:peopleDict];
-    self.roleLabel.text = [QSPeopleUtil getJobDesc:peopleDict];
-    self.statusLabel.text = [QSPeopleUtil getDetailDesc:peopleDict];
-
     
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];
@@ -91,8 +79,6 @@
         QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
         [f setFollowed:[QSPeopleUtil getPeopleIsFollowed:peopleDict]];
     }
-
-    self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
 }
 - (void)bindWithBrandDict:(NSDictionary*)brandDict
 {
@@ -102,8 +88,6 @@
     [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
     [self.backgroundImageView setImageFromURL:[QSBrandUtil getBrandBgUrl:brandDict] placeHolderImage:nil animation:YES];
     self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
-    self.roleLabel.text = @"";
-    self.statusLabel.text = @"";
     if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
         QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
         
