@@ -26,13 +26,6 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Dv-WV-1Y7">
-                                <rect key="frame" x="60" y="54" width="191" height="14"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e69-Lb-8dl">
                                 <rect key="frame" x="60" y="32" width="191" height="14"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -44,16 +37,6 @@
                                 <rect key="frame" x="8" y="24" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IUr-3p-0KU">
-                                <rect key="frame" x="275" y="33" width="36" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="show_cell_detail">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="detailBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="l2k-Ph-dxf"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -66,11 +49,9 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateContainer" destination="eGf-3r-DIs" id="ItO-Yl-KaW"/>
-                <outlet property="detailBtn" destination="IUr-3p-0KU" id="NVy-Xj-1zx"/>
                 <outlet property="iconImgView" destination="E1X-t2-uw7" id="f2v-0E-dgx"/>
                 <outlet property="imgView" destination="dfK-fC-zBz" id="7Za-nh-pbd"/>
                 <outlet property="label1" destination="e69-Lb-8dl" id="1zu-WE-o6r"/>
-                <outlet property="label2" destination="0Dv-WV-1Y7" id="Bg8-Cc-Ubl"/>
                 <outlet property="modelContainer" destination="pSo-S3-icb" id="gzd-21-TeX"/>
             </connections>
             <point key="canvasLocation" x="534" y="435.5"/>
@@ -78,7 +59,6 @@
     </objects>
     <resources>
         <image name="s03_model_shadow" width="320" height="92"/>
-        <image name="show_cell_detail" width="26" height="26"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

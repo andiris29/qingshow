@@ -20,7 +20,6 @@
 @interface QSBigImageTableViewCell ()
 
 #warning TODO remove single image scroll view
-@property (strong, nonatomic) QSSingleImageScrollView* singleImageScrollView;
 @property (weak, nonatomic) NSDictionary* dataDict;
 
 @property (strong, nonatomic) QSBigImageDateView* dateView;
@@ -33,13 +32,11 @@
     switch (_type) {
         case QSBigImageTableViewCellTypeModelEmpty: {
             self.label1.hidden = YES;
-            self.label2.hidden = YES;
             self.iconImgView.hidden = YES;
             break;
         }
         default: {
             self.label1.hidden = NO;
-            self.label2.hidden = NO;
             self.iconImgView.hidden = NO;
             break;
         }
@@ -149,19 +146,10 @@
     CGRect rect = self.imgView.frame;
     rect.size.height = height;
     self.imgView.frame = rect;
-    if (self.singleImageScrollView) {
-        self.singleImageScrollView.frame = rect;
-    }
     
     rect = self.modelContainer.frame;
     rect.origin.y = height - rect.size.height;
     self.modelContainer.frame = rect;
-    
-    if (self.btnsContainer) {
-        CGRect btnsRect = self.btnsContainer.frame;
-        btnsRect.origin.y = height - rect.size.height - btnsRect.size.height - 20;
-        self.btnsContainer.frame = btnsRect;
-    }
 }
 
 - (void)bindWithShow:(NSDictionary*)showDict
@@ -174,7 +162,6 @@
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     
     self.label1.text = [QSPeopleUtil getName:modelDict];
-    self.label2.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
 
 }
@@ -184,75 +171,24 @@
     [self resizeWithHeight:height];
     
     self.label1.text = [QSBrandUtil getBrandName:brandDict];
-    self.label2.text = [QSBrandUtil getBrandShopAddress:brandDict];
     [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
     [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSBrandUtil getBrandCoverUrl:brandDict]]];
 }
 
 - (void)bindWithPreview:(NSDictionary*)previewDict
 {
-    if (!self.singleImageScrollView) {
-        self.singleImageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.imgView.frame];
-        self.singleImageScrollView.pageControlOffsetY = 20.f;
-        self.singleImageScrollView.delegate = self;
-        self.singleImageScrollView.enableLazyLoad = YES;
-        self.imgView.hidden = YES;
-        [self.contentView insertSubview:self.singleImageScrollView belowSubview:self.modelContainer];
-    }
+#warning TODO adjust binding for new preview layout
     float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
     [self resizeWithHeight:height];
     
-//    self.label1.text = [QSPreviewUtil getImagesBrandDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-    self.label1.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-//    self.label3.text = [QSPreviewUtil getImagesPriceDesc:previewDict atIndex:(int)self.singleImageScrollView.pageControl.currentPage];
-//    self.label2.text = [QSPreviewUtil getNameDesc:previewDict];
-//    self.label3.text = [QSPreviewUtil getPriceDesc:previewDict];
-    
-    [self.likeBtn setTitle:[QSPreviewUtil getNumLikeDesc:previewDict] forState:UIControlStateNormal];
-    [self.commentBtn setTitle:[QSPreviewUtil getNumCommentDesc:previewDict] forState:UIControlStateNormal];
-//    [self.imgView setImageFromURL:[QSPreviewUtil getCoverUrl:previewDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-    
-    self.singleImageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSPreviewUtil getImagesUrl:previewDict]];
-    
-    [self.likeBtn setHighlighted:[QSPreviewUtil getIsLike:previewDict]];
 }
 #pragma mark - IBAction
-- (IBAction)commentBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickCommentBtn:)]) {
-        [self.delegate clickCommentBtn:self];
-    }
-}
-- (IBAction)likeBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickLikeBtn:)]) {
-        [self.delegate clickLikeBtn:self];
-    }
-}
-- (IBAction)shareBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickShareBtn:)]) {
-        [self.delegate clickShareBtn:self];
-    }
-}
-- (void)imageScrollView:(QSImageScrollViewBase*)view didChangeToPage:(int)page
-{
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-//        self.label1.text = [QSPreviewUtil getImagesBrandDesc:self.dataDict atIndex:page];
-        self.label1.text = [QSPreviewUtil getImagesDesc:self.dataDict atIndex:page];
-//        self.label3.text = [QSPreviewUtil getImagesPriceDesc:self.dataDict atIndex:page];
-    }
-}
 
-- (IBAction)detailBtnPressed:(id)sender
-{
-    if ([self.delegate respondsToSelector:@selector(clickDetailBtn:)]) {
-        [self.delegate clickDetailBtn:self];
-    }
-}
+//- (IBAction)detailBtnPressed:(id)sender
+//{
+//    if ([self.delegate respondsToSelector:@selector(clickDetailBtn:)]) {
+//        [self.delegate clickDetailBtn:self];
+//    }
+//}
 
-- (void)loadAllImages
-{
-    [self.singleImageScrollView loadAllImages];
-}
 @end

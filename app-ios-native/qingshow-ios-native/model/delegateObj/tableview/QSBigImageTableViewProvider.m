@@ -9,6 +9,7 @@
 #import "QSBigImageTableViewProvider.h"
 
 @implementation QSBigImageTableViewProvider
+@dynamic delegate;
 
 #pragma mark - Override
 
@@ -73,31 +74,6 @@
 }
 
 #pragma mark - QSBigImageTableViewCellDelegate
-- (void)clickCommentBtn:(QSBigImageTableViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* dict = self.resultArray[indexPath.row];
-    self.clickedData = dict;
-    if ([self.delegate respondsToSelector:@selector(clickCommentOfDict:)]) {
-        [self.delegate clickCommentOfDict:dict];
-    }
-}
-- (void)clickLikeBtn:(QSBigImageTableViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* dict = self.resultArray[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(clickLikeOfDict:)]) {
-        [self.delegate clickLikeOfDict:dict];
-    }
-}
-- (void)clickShareBtn:(QSBigImageTableViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* dict = self.resultArray[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(clickShareOfDict:)]) {
-        [self.delegate clickShareOfDict:dict];
-    }
-}
 - (void)rebindData:(NSDictionary*)dict
 {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:dict] inSection:0];
@@ -113,29 +89,4 @@
     }
 }
 
-
-#pragma mark - ScrollView
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-        if (!decelerate) {
-            [self loadVisibleImage];
-        }
-    }
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [super scrollViewDidEndDecelerating:scrollView];
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-        [self loadVisibleImage];
-    }
-}
-- (void)loadVisibleImage
-{
-    NSArray* cells = [self.view visibleCells];
-    for (QSBigImageTableViewCell* cell in cells) {
-        [cell loadAllImages];
-    }
-}
 @end
