@@ -15,6 +15,7 @@
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
 
 - (void)clickDetailOfDict:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
+- (void)clickLikeOfDict:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type;
 
 @end
 

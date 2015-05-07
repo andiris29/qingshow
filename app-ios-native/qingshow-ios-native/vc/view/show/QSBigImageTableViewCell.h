@@ -21,11 +21,8 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 @protocol QSBigImageTableViewCellDelegate <NSObject>
 
 @optional
-//- (void)clickCommentBtn:(QSBigImageTableViewCell*)cell;
-//- (void)clickLikeBtn:(QSBigImageTableViewCell*)cell;
-//- (void)clickShareBtn:(QSBigImageTableViewCell*)cell;
-//- (void)clickDetailBtn:(QSBigImageTableViewCell*)cell;
-
+- (void)clickLikeBtn:(QSBigImageTableViewCell*)cell;
+- (void)clickDetailBtn:(QSBigImageTableViewCell*)cell;
 @end
 
 @interface QSBigImageTableViewCell : UITableViewCell
@@ -37,6 +34,7 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 @property (weak, nonatomic) IBOutlet UIView* modelContainer;
 @property (weak, nonatomic) IBOutlet UIImageView* iconImgView;
 @property (weak, nonatomic) IBOutlet UILabel* label1;
+@property (weak, nonatomic) IBOutlet UIButton* likeButton;
 
 @property (weak, nonatomic) NSObject<QSBigImageTableViewCellDelegate>* delegate;
 
@@ -48,5 +46,7 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 + (CGFloat)getHeightWithChosen:(NSDictionary*)chosen;
 
 - (void)bindWithDict:(NSDictionary*)showDict;
+
+- (IBAction)likeBtnPressed:(id)sender;
 
 @end

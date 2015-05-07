@@ -7,8 +7,9 @@
 //
 
 #import "QSAbstractRootViewController.h"
+#import "QSBigImageTableViewProvider.h"
 
-@interface QSS15ChosenViewController : QSAbstractRootViewController
+@interface QSS15ChosenViewController : QSAbstractRootViewController <QSBigImageTableViewProviderDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

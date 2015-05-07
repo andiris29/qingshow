@@ -9,9 +9,8 @@
 #define PAGE_ID @"S15"
 
 #import "QSS15ChosenViewController.h"
-#import "QSBigImageTableViewProvider.h"
 #import "QSNetworkKit.h"
-
+#import "QSChosenUtil.h"
 
 @interface QSS15ChosenViewController ()
 
@@ -74,5 +73,17 @@
         }];
     };
     [self.provider fetchDataOfPage:1];
+}
+
+#pragma mark - QSBigImageTableViewProviderDelegate
+#warning TODO
+- (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
+{
+    
+}
+
+- (void)clickLikeOfDict:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
+{
+
 }
 @end

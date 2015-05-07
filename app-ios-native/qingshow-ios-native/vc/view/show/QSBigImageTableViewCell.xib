@@ -37,6 +37,25 @@
                                 <rect key="frame" x="8" y="16" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qxg-Jy-l6E">
+                                <rect key="frame" x="272" y="28" width="40" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="2"/>
+                                <state key="normal" title="11" backgroundImage="s03_like_btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="selected" backgroundImage="s03_like_btn_hover">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="s03_like_btn_hover">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="likeBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EWh-N1-0r5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
@@ -52,12 +71,15 @@
                 <outlet property="iconImgView" destination="E1X-t2-uw7" id="f2v-0E-dgx"/>
                 <outlet property="imgView" destination="dfK-fC-zBz" id="7Za-nh-pbd"/>
                 <outlet property="label1" destination="e69-Lb-8dl" id="1zu-WE-o6r"/>
+                <outlet property="likeButton" destination="Qxg-Jy-l6E" id="0QQ-Pc-YWd"/>
                 <outlet property="modelContainer" destination="pSo-S3-icb" id="gzd-21-TeX"/>
             </connections>
             <point key="canvasLocation" x="534" y="435.5"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="s03_like_btn" width="40" height="36"/>
+        <image name="s03_like_btn_hover" width="40" height="36"/>
         <image name="s03_model_shadow" width="320" height="92"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

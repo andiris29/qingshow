@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 QS. All rights reserved.
 //
 
+#define TEXT_COLOR_NORMAL [UIColor whiteColor]
+#define TEXT_COLOR_SELECTED [UIColor redColor]
+
 #import "QSBigImageTableViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
@@ -29,6 +32,7 @@
 @implementation QSBigImageTableViewCell
 - (void)setType:(QSBigImageTableViewCellType)type
 {
+    
     _type = type;
     switch (_type) {
         case QSBigImageTableViewCellTypeModelEmpty: {
@@ -49,6 +53,7 @@
     self.iconImgView.layer.borderWidth = 1.f;
 
 }
+
 #pragma mark - Life Cycle
 - (void)awakeFromNib {
     self.dateView = [QSBigImageDateView makeView];
@@ -75,11 +80,7 @@
     return 0;
 }
 
-+ (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict
-{
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = [QSPreviewUtil getCoverMetadata:previewDict];
-    
++ (CGFloat)getHeightWithImageMetadata:(NSDictionary*)coverMetadata {
     float iniWidth = [UIScreen mainScreen].bounds.size.width;
     
     float height = 92;
@@ -93,6 +94,13 @@
     }
     height = height * iniWidth / width;
     return height;
+}
+
++ (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict
+{
+    NSDictionary* coverMetadata = nil;
+    coverMetadata = [QSPreviewUtil getCoverMetadata:previewDict];
+    return [self getHeightWithImageMetadata:coverMetadata];
 }
 
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict
@@ -102,58 +110,20 @@
     if (!coverMetadata || [coverMetadata isKindOfClass:[NSNull class]]) {
         coverMetadata = showDict[@"coverMetadata"];
     }
-
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = 92;
-    float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
+    return [self getHeightWithImageMetadata:coverMetadata];
 }
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
     NSDictionary* coverMetadata = nil;
     coverMetadata = [QSItemUtil getImageMetadata:itemDict];
-    
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = 92;
-    float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
+    return [self getHeightWithImageMetadata:coverMetadata];
 }
 
 + (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
 {
     NSDictionary* coverMetadata = brandDict[@"coverMetadata"];
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = iniWidth;
-    float width = iniWidth;
-    //1:1
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
+    return [self getHeightWithImageMetadata:coverMetadata];
 }
 
 #pragma mark - Bind
@@ -182,8 +152,6 @@
 
 }
 
-
-
 - (void)bindWithShow:(NSDictionary*)showDict
 {
     float height = [QSBigImageTableViewCell getHeightWithShow:showDict];
@@ -191,7 +159,7 @@
 
     //Data Binding
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-#warning TODO label1
+#warning TODO label1, like btn
 //    self.label1.text = [QSPeopleUtil getName:modelDict];
 //    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
 
@@ -238,11 +206,16 @@
 
 #pragma mark - IBAction
 
-//- (IBAction)detailBtnPressed:(id)sender
-//{
-//    if ([self.delegate respondsToSelector:@selector(clickDetailBtn:)]) {
-//        [self.delegate clickDetailBtn:self];
-//    }
-//}
-
+- (IBAction)detailBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(clickDetailBtn:)]) {
+        [self.delegate clickDetailBtn:self];
+    }
+}
+- (IBAction)likeBtnPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(clickLikeBtn:)]) {
+        [self.delegate clickLikeBtn:self];
+    }
+}
 @end
