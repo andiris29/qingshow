@@ -11,7 +11,7 @@ chosen.feed = {
             async.waterfall([
                 function (callback) {
                     var type = qsParam.type || 0;
-                    MongoHelper.queryPaging(Chosens.find({'type' : type}).sort({'order' : 1}), Chosens.find({'type' : type}), qsParam.pageNo, qsParam.pageSize, callback);
+                    MongoHelper.queryPaging(Chosens.find({'type' : type}).sort('-date order'), Chosens.find({'type' : type}), qsParam.pageNo, qsParam.pageSize, callback);
                 }, function (resultChosens, count, callback) {
                     var tasks = [];
                     resultChosens.forEach(function (resultChosen) {
