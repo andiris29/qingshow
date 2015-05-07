@@ -16,7 +16,6 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
-#import "QSS06CompareViewController.h"
 #import "QSS08PreviewViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSS02CategoryViewController.h"
@@ -178,9 +177,10 @@
         }
         case 4:
         {
-            UIViewController* vc = [[QSS06CompareViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
+#warning TODO remove
+//            UIViewController* vc = [[QSS06CompareViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+//            break;
         }
         case 9:
         {

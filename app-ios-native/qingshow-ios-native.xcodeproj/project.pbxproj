@@ -210,10 +210,6 @@
 		EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */; };
 		EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */; };
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
-		EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7F51A1A587800BCDFBA /* QSS06CompareViewController.m */; };
-		EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7F61A1A587800BCDFBA /* QSS06CompareViewController.xib */; };
-		EFD0B7FC1A1A5C0500BCDFBA /* QSCompareTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */; };
-		EFD0B7FD1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */; };
 		EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CF51AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m */; };
 		EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */; };
 		EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CFB1AB41CBE00991ADD /* QSU12RefundViewController.m */; };
@@ -707,12 +703,6 @@
 		EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemContainerView.xib; sourceTree = "<group>"; };
 		EFD0B7EE1A1A4FC500BCDFBA /* QSUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserManager.h; sourceTree = "<group>"; };
 		EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserManager.m; sourceTree = "<group>"; };
-		EFD0B7F41A1A587800BCDFBA /* QSS06CompareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS06CompareViewController.h; sourceTree = "<group>"; };
-		EFD0B7F51A1A587800BCDFBA /* QSS06CompareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS06CompareViewController.m; sourceTree = "<group>"; };
-		EFD0B7F61A1A587800BCDFBA /* QSS06CompareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS06CompareViewController.xib; sourceTree = "<group>"; };
-		EFD0B7F91A1A5C0500BCDFBA /* QSCompareTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCompareTableViewCell.h; sourceTree = "<group>"; };
-		EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCompareTableViewCell.m; sourceTree = "<group>"; };
-		EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCompareTableViewCell.xib; sourceTree = "<group>"; };
 		EFD28CF41AB3F56C00991ADD /* QSU11ReceiverEditingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU11ReceiverEditingViewController.h; sourceTree = "<group>"; };
 		EFD28CF51AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU11ReceiverEditingViewController.m; sourceTree = "<group>"; };
 		EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU11ReceiverEditingViewController.xib; sourceTree = "<group>"; };
@@ -865,7 +855,6 @@
 				EF9BC1EC1AB7499A00391530 /* video */,
 				EF810F2E1AB5D1460079BA76 /* trade */,
 				EFA1F5521A52E85A00010F79 /* share */,
-				EFD0B7F21A1A586700BCDFBA /* compare */,
 				EFC5434D1A1750AD001B2C49 /* base */,
 				EFF89DF91A13A3B5004E6C55 /* brand */,
 				EFC7ADA51A10E2130078D1F9 /* show */,
@@ -1711,19 +1700,6 @@
 			path = user;
 			sourceTree = "<group>";
 		};
-		EFD0B7F21A1A586700BCDFBA /* compare */ = {
-			isa = PBXGroup;
-			children = (
-				EFD0B7F41A1A587800BCDFBA /* QSS06CompareViewController.h */,
-				EFD0B7F51A1A587800BCDFBA /* QSS06CompareViewController.m */,
-				EFD0B7F61A1A587800BCDFBA /* QSS06CompareViewController.xib */,
-				EFD0B7F91A1A5C0500BCDFBA /* QSCompareTableViewCell.h */,
-				EFD0B7FA1A1A5C0500BCDFBA /* QSCompareTableViewCell.m */,
-				EFD0B7FB1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib */,
-			);
-			path = compare;
-			sourceTree = "<group>";
-		};
 		EFEF03271A30BBC000EC9B48 /* libWeChatSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -2055,7 +2031,6 @@
 				EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */,
 				EF140A6B1A09254C00E3C4D4 /* QSS01RootViewController.xib in Resources */,
 				EF810F341AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib in Resources */,
-				EFD0B7FD1A1A5C0500BCDFBA /* QSCompareTableViewCell.xib in Resources */,
 				82F4E2721A165B98007A90B4 /* QSU07RegisterViewController.xib in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				EF65677B1A47129D00B66E21 /* QSS08PreviewViewController.xib in Resources */,
@@ -2063,7 +2038,6 @@
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
-				EFD0B7F81A1A587800BCDFBA /* QSS06CompareViewController.xib in Resources */,
 				EF3013331AC3174000568D92 /* AlipaySDK.bundle in Resources */,
 				EF78E3521AAF4CB900665EDD /* QSOrderListTableViewCell.xib in Resources */,
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
@@ -2131,7 +2105,6 @@
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
 				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,
-				EFD0B7FC1A1A5C0500BCDFBA /* QSCompareTableViewCell.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
@@ -2163,7 +2136,6 @@
 				EF78E3511AAF4CB900665EDD /* QSOrderListTableViewCell.m in Sources */,
 				EF3013391AC3174000568D92 /* DataSigner.m in Sources */,
 				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
-				EFD0B7F71A1A587800BCDFBA /* QSS06CompareViewController.m in Sources */,
 				A77BD6671AF7879000D446F7 /* QSS17TopShowsViewController.m in Sources */,
 				EF610EF41AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
