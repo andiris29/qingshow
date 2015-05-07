@@ -21,7 +21,6 @@
 #import "QSS02CategoryViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
-#import "QSS08FashionViewController.h"
 #import "QSS02ItemFeedingViewController.h"
 
 #import "QSS17TopShowsViewController.h"
@@ -163,7 +162,7 @@
         }
         case 2:
         {
-            UIViewController *vc = [[QSS08FashionViewController alloc] init];
+            UIViewController *vc = [[QSS08PreviewViewController alloc] init];
             [self.navigationController  pushViewController:vc animated:YES];
             break;
 
