@@ -7,6 +7,7 @@
 //
 
 #import "QSBigImageTableViewProvider.h"
+#import "QSChosenUtil.h"
 
 @implementation QSBigImageTableViewProvider
 @dynamic delegate;
@@ -21,17 +22,18 @@
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSDictionary* dict = self.resultArray[indexPath.row];
     QSBigImageTableViewCell* cell = nil;
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
+    if (self.type == QSBigImageTableViewCellTypeFashion || (self.type == QSBigImageTableViewCellChosen && [QSChosenUtil getChosenRefType:dict] == QSChosenRefTypePreview)) {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
     } else {
+        
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     }
 
     cell.type = self.type;
     cell.delegate = self;
-    NSDictionary* dict = self.resultArray[indexPath.row];
+
     [cell bindWithDict:dict];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

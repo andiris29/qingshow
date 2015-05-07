@@ -19,6 +19,7 @@
 + (NSString*)getCreateDesc:(NSDictionary*)previewDict;
 + (NSString*)getNumCommentDesc:(NSDictionary*)previewDict;
 + (NSArray*)getImagesUrl:(NSDictionary*)previewDict;
++ (NSURL*)getFirstImageUrl:(NSDictionary*)previewDict;
 + (BOOL)getIsLike:(NSDictionary*)previewDict;
 + (void)setIsLike:(BOOL)isLike preview:(NSDictionary*)previewDict;
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)previewDict;
