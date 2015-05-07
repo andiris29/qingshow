@@ -58,7 +58,7 @@
 - (void)configProvider {
     __weak QSS15ChosenViewController* weakSelf = self;
     self.provider = [[QSBigImageTableViewProvider alloc] init];
-    self.provider.type = QSBigImageTableViewCellChosen;
+    self.provider.type = QSBigImageTableViewCellTypeChosen;
 //    self.provider.hasPaging = NO;
 //    self.provider.delegate = self;
     [self.provider bindWithTableView:self.tableView];

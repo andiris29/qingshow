@@ -132,7 +132,7 @@
     self.dataDict = dict;
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         [self bindWithPreview:dict];
-    } else if (self.type == QSBigImageTableViewCellChosen) {
+    } else if (self.type == QSBigImageTableViewCellTypeChosen) {
         [self bindWithChosen:dict];
     }else {
         [self bindWithShow:dict];

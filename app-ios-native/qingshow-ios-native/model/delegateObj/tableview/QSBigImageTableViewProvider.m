@@ -24,7 +24,7 @@
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
     QSBigImageTableViewCell* cell = nil;
-    if (self.type == QSBigImageTableViewCellTypeFashion || (self.type == QSBigImageTableViewCellChosen && [QSChosenUtil getChosenRefType:dict] == QSChosenRefTypePreview)) {
+    if (self.type == QSBigImageTableViewCellTypeFashion || (self.type == QSBigImageTableViewCellTypeChosen && [QSChosenUtil getChosenRefType:dict] == QSChosenRefTypePreview)) {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
     } else {
         
@@ -46,7 +46,7 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         return [QSBigImageTableViewCell getHeightWithPreview:dict];
-    } else if (self.type == QSBigImageTableViewCellChosen) {
+    } else if (self.type == QSBigImageTableViewCellTypeChosen) {
         return [QSBigImageTableViewCell getHeightWithChosen:dict];
     } else {
         return [QSBigImageTableViewCell getHeightWithShow:dict];

@@ -13,7 +13,7 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
     QSBigImageTableViewCellTypeModelEmpty,
 //    QSBigImageTableViewCellTypeBrand,
     QSBigImageTableViewCellTypeFashion,
-    QSBigImageTableViewCellChosen
+    QSBigImageTableViewCellTypeChosen
 };
 
 @class QSBigImageTableViewCell;
