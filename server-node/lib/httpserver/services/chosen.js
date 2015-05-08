@@ -1,6 +1,7 @@
 var chosen = module.exports;
 var async = require('async');
 var Chosens = require('../../model/chosens');
+var Items = require('../../model/items');
 var ServiceHelper = require('../helpers/ServiceHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 
@@ -16,12 +17,27 @@ chosen.feed = {
                     var tasks = [];
                     resultChosens.forEach(function (resultChosen) {
                         var task = function (taskCallback) {
-                            Chosens.populate(resultChosen, {
-                                'path' : 'ref',
-                                'model' : resultChosen.refCollection
-                            }, function (err, c) {
-                                taskCallback();
-                            });
+                            async.waterfall([
+                                function (callback) {
+                                    Chosens.populate(resultChosen, {
+                                        'path' : 'ref',
+                                        'model' : resultChosen.refCollection
+                                    }, callback);
+
+                                }, function (c, callback) {
+                                    if (resultChosen.refCollection === 'items') {
+                                        Items.populate(resultChosen.ref, {
+                                            'path' : 'brandRef',
+                                            'model' : "brands"
+                                        }, callback);
+                                    } else {
+                                        callback();
+                                    }
+                                }],
+                                function (err, c) {
+                                    taskCallback();
+                                }
+                            );
                         };
                         tasks.push(task);
                     });
