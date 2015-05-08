@@ -105,35 +105,35 @@
 //    [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
 //    [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
     
-    [clothesArray addObject:self.xxsButton];
-    [clothesArray addObject:self.xsButton];
-    [clothesArray addObject:self.sButton];
-    [clothesArray addObject:self.mButton];
-    [clothesArray addObject:self.lButton];
-    [clothesArray addObject:self.xlButton];
-    [clothesArray addObject:self.xxlButton];
-    [clothesArray addObject:self.xxxlButton];
-    
-    [shoesArray addObject:self.three4Button];
-    [shoesArray addObject:self.three5Button];
-    [shoesArray addObject:self.three6Button];
-    [shoesArray addObject:self.three7Button];
-    [shoesArray addObject:self.three8Button];
-    [shoesArray addObject:self.three9Button];
-    [shoesArray addObject:self.four0Button];
-    [shoesArray addObject:self.four1Button];
-    [shoesArray addObject:self.four2Button];
-    [shoesArray addObject:self.four3Button];
-    [shoesArray addObject:self.four4Button];
-    
-    [self setSizeStyleBySelectedSize:self.clothingSize buttonArray: clothesArray];
-    [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
-    
-    // tap Setting
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
-    [singleTap setNumberOfTapsRequired:1];
-    [singleTap setNumberOfTouchesRequired:1];
-    [self.contentView addGestureRecognizer:singleTap];
+//    [clothesArray addObject:self.xxsButton];
+//    [clothesArray addObject:self.xsButton];
+//    [clothesArray addObject:self.sButton];
+//    [clothesArray addObject:self.mButton];
+//    [clothesArray addObject:self.lButton];
+//    [clothesArray addObject:self.xlButton];
+//    [clothesArray addObject:self.xxlButton];
+//    [clothesArray addObject:self.xxxlButton];
+//    
+//    [shoesArray addObject:self.three4Button];
+//    [shoesArray addObject:self.three5Button];
+//    [shoesArray addObject:self.three6Button];
+//    [shoesArray addObject:self.three7Button];
+//    [shoesArray addObject:self.three8Button];
+//    [shoesArray addObject:self.three9Button];
+//    [shoesArray addObject:self.four0Button];
+//    [shoesArray addObject:self.four1Button];
+//    [shoesArray addObject:self.four2Button];
+//    [shoesArray addObject:self.four3Button];
+//    [shoesArray addObject:self.four4Button];
+//    
+//    [self setSizeStyleBySelectedSize:self.clothingSize buttonArray: clothesArray];
+//    [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
+//    
+//    // tap Setting
+//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
+//    [singleTap setNumberOfTapsRequired:1];
+//    [singleTap setNumberOfTouchesRequired:1];
+//    [self.contentView addGestureRecognizer:singleTap];
 }
 - (void)dealloc
 {
@@ -330,6 +330,7 @@
 - (void)login{
     [self resignOnTap:nil];
     UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
+    //self.navigationController.navigationBarHidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
