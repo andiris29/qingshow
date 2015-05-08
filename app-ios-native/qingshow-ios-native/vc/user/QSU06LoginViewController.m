@@ -46,12 +46,15 @@
     self.userText.delegate = self;
     self.passwordText.delegate = self;
     
+    
     // View全体
     self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
 
     // Navibar
     self.navigationItem.title = @"登陆";
     self.navigationItem.backBarButtonItem.title = @"";
+    
+    
     [self hideNaviBackBtnTitle];
     
 //    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"注册"
@@ -99,7 +102,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
 }
 
