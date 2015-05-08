@@ -7,8 +7,10 @@
 //
 
 #import "QSBigImageTableViewProvider.h"
+#import "QSChosenUtil.h"
 
 @implementation QSBigImageTableViewProvider
+@dynamic delegate;
 
 #pragma mark - Override
 
@@ -20,19 +22,18 @@
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSDictionary* dict = self.resultArray[indexPath.row];
     QSBigImageTableViewCell* cell = nil;
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
+    if (self.type == QSBigImageTableViewCellTypeFashion || (self.type == QSBigImageTableViewCellTypeChosen && [QSChosenUtil getChosenRefType:dict] == QSChosenRefTypePreview)) {
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
-    } else if (self.type == QSBigImageTableViewCellTypeBrand) {
-        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     } else {
+        
         cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
     }
 
     cell.type = self.type;
     cell.delegate = self;
-    NSDictionary* dict = self.resultArray[indexPath.row];
+
     [cell bindWithDict:dict];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -45,8 +46,8 @@
     NSDictionary* dict = self.resultArray[indexPath.row];
     if (self.type == QSBigImageTableViewCellTypeFashion) {
         return [QSBigImageTableViewCell getHeightWithPreview:dict];
-    } else if (self.type == QSBigImageTableViewCellTypeBrand) {
-        return [QSBigImageTableViewCell getHeightWithBrand:dict];
+    } else if (self.type == QSBigImageTableViewCellTypeChosen) {
+        return [QSBigImageTableViewCell getHeightWithChosen:dict];
     } else {
         return [QSBigImageTableViewCell getHeightWithShow:dict];
     }
@@ -73,31 +74,6 @@
 }
 
 #pragma mark - QSBigImageTableViewCellDelegate
-- (void)clickCommentBtn:(QSBigImageTableViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* dict = self.resultArray[indexPath.row];
-    self.clickedData = dict;
-    if ([self.delegate respondsToSelector:@selector(clickCommentOfDict:)]) {
-        [self.delegate clickCommentOfDict:dict];
-    }
-}
-- (void)clickLikeBtn:(QSBigImageTableViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* dict = self.resultArray[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(clickLikeOfDict:)]) {
-        [self.delegate clickLikeOfDict:dict];
-    }
-}
-- (void)clickShareBtn:(QSBigImageTableViewCell*)cell
-{
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    NSDictionary* dict = self.resultArray[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(clickShareOfDict:)]) {
-        [self.delegate clickShareOfDict:dict];
-    }
-}
 - (void)rebindData:(NSDictionary*)dict
 {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow:[self.resultArray indexOfObject:dict] inSection:0];
@@ -112,30 +88,12 @@
         [self.delegate clickDetailOfDict:dict type:self.type];
     }
 }
-
-
-#pragma mark - ScrollView
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+- (void)clickLikeBtn:(QSBigImageTableViewCell *)cell
 {
-    [super scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-        if (!decelerate) {
-            [self loadVisibleImage];
-        }
-    }
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    [super scrollViewDidEndDecelerating:scrollView];
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-        [self loadVisibleImage];
-    }
-}
-- (void)loadVisibleImage
-{
-    NSArray* cells = [self.view visibleCells];
-    for (QSBigImageTableViewCell* cell in cells) {
-        [cell loadAllImages];
+    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
+    NSDictionary* dict = self.resultArray[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(clickLikeOfDict:type:)]) {
+        [self.delegate clickLikeOfDict:dict type:self.type];
     }
 }
 @end

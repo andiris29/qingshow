@@ -26,9 +26,13 @@
 
 - (id)initWithType:(QSSectionButtonGroupType)type
 {
-    if (type == QSSectionButtonGroupTypeBrand || type == QSSectionButtonGroupTypeU01) {
+#warning only U01 exist
+    if (type == QSSectionButtonGroupTypeBrand) {
         self = [self initWithType:type btnCount:4];
-    } else {
+    } else if (type == QSSectionButtonGroupTypeU01) {
+        self = [self initWithType:type btnCount:2];
+    }
+    else {
         self = [self initWithType:type btnCount:3];
     }
 
@@ -55,7 +59,12 @@
 {
     NSMutableArray* a = [@[] mutableCopy];
     for (int i = 0; i < self.btnCount; i++) {
-        [a addObject:[QSSectionNumberTextButton generateView]];
+        if (self.type == QSSectionButtonGroupTypeU01) {
+            [a addObject:[QSSectionTextButton generateView]];
+        } else {
+            [a addObject:[QSSectionNumberTextButton generateView]];
+        }
+
     }
     self.buttonGroup = a;
     
@@ -112,7 +121,7 @@
         QSSectionButtonBase* btn = self.buttonGroup[i];
         btn.frame = CGRectMake(i * width, 0, width, height);
         UIView* splitter = self.splitterArray[i];
-        splitter.frame = CGRectMake((i + 1) * width - 1, height / 3, 1, height / 3);
+        splitter.frame = CGRectMake((i + 1) * width - 1,0, 1, height);
     }
     self.singleButton.frame = CGRectMake(self.buttonGroup.count * width, 0, width * singleBtnWidthRate, height);
 }
@@ -158,7 +167,10 @@
 - (void)setNumber:(NSString*)numberStr atIndex:(int)index
 {
     QSSectionNumberTextButton* btn = self.buttonGroup[index];
-    btn.numberLabel.text = numberStr;
+    if ([btn respondsToSelector:@selector(numberLabel)]) {
+        btn.numberLabel.text = numberStr;
+    }
+
 }
 - (void)setSelect:(int)index
 {
@@ -166,9 +178,9 @@
         QSSectionButtonBase* btn = self.buttonGroup[i];
         btn.selected = i == index;
     }
-    for (int i = 0; i < self.splitterArray.count; i++) {
-        UIView* splitter = self.splitterArray[i];
-        splitter.hidden = i == index || i == index - 1;
-    }
+//    for (int i = 0; i < self.splitterArray.count; i++) {
+//        UIView* splitter = self.splitterArray[i];
+//        splitter.hidden = i == index || i == index - 1;
+//    }
 }
 @end

@@ -27,7 +27,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7Jo-cd-KJU">
-                                <rect key="frame" x="24" y="26" width="268" height="44"/>
+                                <rect key="frame" x="24" y="26" width="264" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -37,73 +37,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
-                    <view contentMode="scaleToFill" id="Qxi-iR-2UB">
-                        <rect key="frame" x="249" y="4218" width="63" height="176"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="RKZ-Yy-ayo">
-                                <rect key="frame" x="12" y="40" width="40" height="38"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
-                                <state key="normal" title="0" backgroundImage="s03_comment_btn">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="commentBtnPressed:" destination="A3p-62-xd7" eventType="touchUpInside" id="aXI-dR-6dl"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pE9-bA-WZO">
-                                <rect key="frame" x="12" y="100" width="40" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
-                                <state key="normal" title="0" backgroundImage="s03_like_btn">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted" backgroundImage="s03_like_btn_hover"/>
-                                <connections>
-                                    <action selector="likeBtnPressed:" destination="A3p-62-xd7" eventType="touchUpInside" id="bRZ-uM-ml1"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="D6o-Wb-vnz">
-                                <rect key="frame" x="13" y="154" width="38" height="28"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="9"/>
-                                <state key="normal" backgroundImage="s03_share_btn">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="shareBtnPressed:" destination="A3p-62-xd7" eventType="touchUpInside" id="TZ9-V5-Liw"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
-                    <view contentMode="scaleToFill" id="ydh-7P-OMC">
-                        <rect key="frame" x="8" y="8" width="54" height="91"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </view>
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="btnsContainer" destination="Qxi-iR-2UB" id="K0H-aI-AaN"/>
-                <outlet property="commentBtn" destination="RKZ-Yy-ayo" id="gNi-fX-KN6"/>
-                <outlet property="dateContainer" destination="ydh-7P-OMC" id="moX-Iz-ABm"/>
                 <outlet property="imgView" destination="pix-Pb-mKm" id="q3F-ah-be8"/>
                 <outlet property="label1" destination="7Jo-cd-KJU" id="utH-74-J5c"/>
-                <outlet property="likeBtn" destination="pE9-bA-WZO" id="327-re-6DG"/>
                 <outlet property="modelContainer" destination="zqO-qE-QHm" id="sJ7-ZG-XbQ"/>
-                <outlet property="shareBtn" destination="D6o-Wb-vnz" id="1gR-xJ-4zK"/>
             </connections>
             <point key="canvasLocation" x="534" y="369.5"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="s03_comment_btn" width="40" height="38"/>
-        <image name="s03_like_btn" width="40" height="36"/>
-        <image name="s03_like_btn_hover" width="40" height="36"/>
         <image name="s03_model_shadow" width="320" height="92"/>
-        <image name="s03_share_btn" width="38" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

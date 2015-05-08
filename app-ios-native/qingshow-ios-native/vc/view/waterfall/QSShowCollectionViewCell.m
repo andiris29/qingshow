@@ -88,13 +88,6 @@
 - (void)bindData:(NSDictionary*)showData
 {
     [self updateLayoutWithData:showData];
-    
-    NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showData];
-    if (modelDict && [modelDict isKindOfClass:[NSDictionary class]]) {
-        self.nameLabel.text = [QSPeopleUtil getName:modelDict];
-        self.statusLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
-        [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
-    }
 
     [self.photoImageView setImageFromURL:[QSShowUtil getCoverUrl:showData] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.favorNumberLabel.text = [QSShowUtil getNumberLikeDescription:showData];
@@ -170,12 +163,6 @@
 }
 
 #pragma mark - IBAction
-- (IBAction)peopleTap:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(peoplePressed:)]) {
-        [self.delegate peoplePressed:self];
-    }
-}
-
 - (IBAction)favorBtnPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(favorBtnPressed:)]) {

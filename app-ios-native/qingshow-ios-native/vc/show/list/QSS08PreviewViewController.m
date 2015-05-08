@@ -12,7 +12,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 
-#define PAGE_ID @"S08 - 潮流时尚"
+#define PAGE_ID @"S08 - 时尚情报"
 
 @interface QSS08PreviewViewController ()
 
@@ -34,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self configDelegateObj];
-    self.title = @"潮流时尚";
+    self.title = @"时尚情报";
     self.navigationController.navigationBarHidden = NO;
     self.shareVc = [[QSShareViewController alloc] init];
     [self.view addSubview:self.shareVc.view];
@@ -66,10 +66,10 @@
 - (void)configDelegateObj
 {
     self.delegateObj = [[QSBigImageTableViewProvider alloc] init];
-    self.delegateObj.type = QSBigImageTableViewCellTypeFashion;
+    self.delegateObj.type = QSBigImageTableViewCellTypeChosen;
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getPreviewFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE chosenFeedByType:ChosenTypeFashion page:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.delegateObj fetchDataOfPage:1];
     self.delegateObj.delegate = self;

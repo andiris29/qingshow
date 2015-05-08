@@ -50,6 +50,13 @@
         return nil;
     }
 }
++ (NSDictionary*)getImageMetadata:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    return itemDict[@"imageMetadata"];
+}
 
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index
 {
@@ -130,30 +137,6 @@
     } else {
         return @"";
     }
-}
-
-+ (NSDictionary*)getBrand:(NSDictionary*)itemDict
-{
-    if (![QSCommonUtil checkIsDict:itemDict]) {
-        return nil;
-    }
-    NSDictionary* b = itemDict[@"brandRef"];
-    if ([QSCommonUtil checkIsNil:b]) {
-        return b;
-    } else {
-        NSMutableDictionary* mb = [b mutableCopy];
-        [self setBrand:mb forItem:itemDict];
-        return mb;
-    }
-}
-
-+ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
-{
-    if (![item isKindOfClass:[NSMutableDictionary class]]) {
-        return;
-    }
-    NSMutableDictionary* m = (NSMutableDictionary*)item;
-    m[@"brandRef"] = brandDict;
 }
 
 + (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;

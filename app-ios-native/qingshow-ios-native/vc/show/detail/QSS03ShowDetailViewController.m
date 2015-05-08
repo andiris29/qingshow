@@ -8,7 +8,6 @@
 
 #import "QSS03ShowDetailViewController.h"
 #import "QSSingleImageScrollView.h"
-#import "QSP02ModelDetailViewController.h"
 #import "QSS04CommentListViewController.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
@@ -47,11 +46,6 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    
-    self.headIconImageView.layer.cornerRadius = self.headIconImageView.frame.size.width / 2;
-    self.headIconImageView.layer.masksToBounds = YES;
-    self.headIconImageView.layer.borderWidth = 1;
-    self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     
     self.shareVc = [[QSShareViewController alloc] init];
     self.shareVc.delegate = self;
@@ -101,15 +95,8 @@
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
 {
-    //Model
-    NSDictionary* peopleInfo = [QSShowUtil getPeopleFromShow:dict];
-    
-    NSURL* iconUrl = [QSPeopleUtil getHeadIconUrl:peopleInfo];
-    [self.headIconImageView setImageFromURL:iconUrl];
-    
-    self.nameLabel.text = [QSPeopleUtil getName:peopleInfo];
-    self.detailLabel.text = [QSPeopleUtil getDetailDesc:peopleInfo];
-    self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
+#warning TODO people has been removed, adjust content label
+//    self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
     
     //Like Btn
     [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
@@ -172,15 +159,6 @@
             [self handleError:error];
         }];
     }
-}
-
-
-#pragma mark - 
-- (IBAction)didTapModel:(id)sender {
-    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
-    QSP02ModelDetailViewController* vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
 #pragma mark -

@@ -16,16 +16,11 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
-#import "QSS06CompareViewController.h"
-#import "QSP01ModelListViewController.h"
-#import "QSP02ModelDetailViewController.h"
-#import "QSP03BrandListViewController.h"
 #import "QSS08PreviewViewController.h"
 #import "QSU01UserDetailViewController.h"
 #import "QSS02CategoryViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
-#import "QSS08FashionViewController.h"
 #import "QSS02ItemFeedingViewController.h"
 
 #import "QSS17TopShowsViewController.h"
@@ -36,10 +31,32 @@
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (assign, nonatomic) BOOL fIsFirstLoad;
 
+@property (strong, nonatomic) UIBarButtonItem* menuBtn;
+@property (strong, nonatomic) UIBarButtonItem* menuBtnNew;
+
 @end
 
 @implementation QSAbstractRootViewController
+#pragma mark - Getter And Setter
+- (UIBarButtonItem*)menuBtn {
+    if (!_menuBtn) {
+        _menuBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
+    }
+    return _menuBtn;
+}
+- (UIBarButtonItem*)menuBtnNew {
+    if (!_menuBtnNew) {
+        UIImageView* navBtnMenuNewImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu_new"]];
+        UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuButtonPressed)];
+        navBtnMenuNewImageView.userInteractionEnabled = YES;
+        [navBtnMenuNewImageView addGestureRecognizer:ges];
+        _menuBtnNew = [[UIBarButtonItem alloc] initWithCustomView:navBtnMenuNewImageView];;
+    }
+    return _menuBtnNew;
+}
 
+
+#pragma mark - Init
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -48,6 +65,8 @@
     }
     return self;
 }
+
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -104,8 +123,14 @@
     
     self.navigationItem.titleView = titleImageView;
     
-    UIBarButtonItem* menuItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
-    self.navigationItem.leftBarButtonItem = menuItem;
+    
+#warning TODO add date to judge new menu btn
+    NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
+    if (!lastClickMenuDate || [[NSDate date] timeIntervalSinceDate:lastClickMenuDate] >= 24 * 60 * 60) {
+        self.navigationItem.leftBarButtonItem = self.menuBtnNew;
+    } else {
+        self.navigationItem.leftBarButtonItem = self.menuBtn;
+    }
     
     UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_account_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
     self.navigationItem.rightBarButtonItem = rightButtonItem;
@@ -137,22 +162,24 @@
         }
         case 2:
         {
-            UIViewController *vc = [[QSS08FashionViewController alloc] init];
+            UIViewController *vc = [[QSS08PreviewViewController alloc] init];
             [self.navigationController  pushViewController:vc animated:YES];
             break;
 
         }
         case 3:
         {
-            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
+#warning TODO remove
+//            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+//            break;
         }
         case 4:
         {
-            UIViewController* vc = [[QSS06CompareViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
+#warning TODO remove
+//            UIViewController* vc = [[QSS06CompareViewController alloc] init];
+//            [self.navigationController pushViewController:vc animated:YES];
+//            break;
         }
         case 9:
         {
@@ -185,6 +212,9 @@
 #pragma mark - IBAction
 - (void)menuButtonPressed
 {
+    self.navigationItem.leftBarButtonItem = self.menuBtn;
+    [QSUserManager shareUserManager].lastClickMenuDate = [NSDate date];
+    
     __weak QSAbstractRootViewController* weakSelf = self;
     if (self.fIsShowMenu)
     {

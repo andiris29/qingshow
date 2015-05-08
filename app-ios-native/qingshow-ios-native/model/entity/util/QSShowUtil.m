@@ -93,19 +93,6 @@
     return nil;
 }
 
-+ (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict
-{
-    if ([QSCommonUtil checkIsNil:showDict]) {
-        return nil;
-    }
-    if (showDict) {
-        NSDictionary* peopleDict = showDict[@"modelRef"];
-        return peopleDict;
-    }
-    return nil;
-}
-
-
 + (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
@@ -189,17 +176,6 @@
         }
         m[@"likedByCurrentUser"] = @(isLike);
         s[@"__context"] = m;
-    }
-}
-
-+ (void)setPeople:(NSDictionary*)peopleDict show:(NSDictionary*)showDict
-{
-    if ([QSCommonUtil checkIsNil:showDict]) {
-        return;
-    }
-    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
-        s[@"modelRef"] = peopleDict;
     }
 }
 

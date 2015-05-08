@@ -10,7 +10,6 @@
 #import "QSCommentTableViewCell.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-#import "QSP02ModelDetailViewController.h"
 #import "QSShowUtil.h"
 #import "QSCommentUtil.h"
 #import "QSPeopleUtil.h"
@@ -122,18 +121,19 @@
 #pragma mark - QSCommentListTableViewProviderDelegate
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    [self showPeopleDetailViewControl:peopleDict];
+#warning TODO ask?
+//    [self showPeopleDetailViewControl:peopleDict];
 }
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
     NSString* destructiveTitle = nil;
-    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]] || [QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSShowUtil getPeopleFromShow:self.showDict]])
+    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]]/* || [QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSShowUtil getPeopleFromShow:self.showDict]]*/)
     {
         destructiveTitle = @"删除";
     }
     [self.textField resignFirstResponder];
     self.clickIndex = index;
-    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复",*/ @"查看个人主页", nil];
+    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复", @"查看个人主页",*/ nil];
     [sheet showInView:self.view];
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -13,7 +13,6 @@
 #import "QSItemUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-#import "QSP04BrandDetailViewController.h"
 
 #define PAGE_ID @"S07 - 搭配清单"
 
@@ -96,14 +95,11 @@
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     NSDictionary* itemDict = self.itemArray[indexPath.row];
-    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
-    if (itemDict && brandDict) {
-        UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
-        [self.navigationController pushViewController:vc animated:YES];
-    }   
+#warning TODO brand has been removed, adjust
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

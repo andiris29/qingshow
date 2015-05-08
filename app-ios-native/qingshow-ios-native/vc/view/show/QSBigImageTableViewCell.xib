@@ -26,32 +26,34 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="92"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="0Dv-WV-1Y7">
-                                <rect key="frame" x="60" y="54" width="191" height="14"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e69-Lb-8dl">
-                                <rect key="frame" x="60" y="32" width="191" height="14"/>
+                                <rect key="frame" x="76" y="32" width="175" height="14"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="E1X-t2-uw7">
-                                <rect key="frame" x="8" y="24" width="44" height="44"/>
+                                <rect key="frame" x="8" y="16" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="IUr-3p-0KU">
-                                <rect key="frame" x="275" y="33" width="36" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Qxg-Jy-l6E">
+                                <rect key="frame" x="272" y="28" width="40" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="show_cell_detail">
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                                <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="2"/>
+                                <state key="normal" title="11" backgroundImage="s03_like_btn">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="selected" backgroundImage="s03_like_btn_hover">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <state key="highlighted" backgroundImage="s03_like_btn_hover">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
                                 <connections>
-                                    <action selector="detailBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="l2k-Ph-dxf"/>
+                                    <action selector="likeBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EWh-N1-0r5"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -66,19 +68,19 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="dateContainer" destination="eGf-3r-DIs" id="ItO-Yl-KaW"/>
-                <outlet property="detailBtn" destination="IUr-3p-0KU" id="NVy-Xj-1zx"/>
                 <outlet property="iconImgView" destination="E1X-t2-uw7" id="f2v-0E-dgx"/>
                 <outlet property="imgView" destination="dfK-fC-zBz" id="7Za-nh-pbd"/>
                 <outlet property="label1" destination="e69-Lb-8dl" id="1zu-WE-o6r"/>
-                <outlet property="label2" destination="0Dv-WV-1Y7" id="Bg8-Cc-Ubl"/>
+                <outlet property="likeButton" destination="Qxg-Jy-l6E" id="0QQ-Pc-YWd"/>
                 <outlet property="modelContainer" destination="pSo-S3-icb" id="gzd-21-TeX"/>
             </connections>
             <point key="canvasLocation" x="534" y="435.5"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="s03_like_btn" width="40" height="36"/>
+        <image name="s03_like_btn_hover" width="40" height="36"/>
         <image name="s03_model_shadow" width="320" height="92"/>
-        <image name="show_cell_detail" width="26" height="26"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

@@ -9,7 +9,6 @@
 #import "QSS02ItemFeedingViewController.h"
 #import "QSG01ItemWebViewController.h"
 #import "QSNetworkKit.h"
-#import "QSP04BrandDetailViewController.h"
 #import "QSItemUtil.h"
 #import "QSS11CreateTradeViewController.h"
 #import "QSS10ItemDetailVideoViewController.h"
@@ -80,20 +79,9 @@
 #pragma mark -
 - (void)didClickItem:(NSDictionary*)itemDict
 {
+#warning TODO change
     UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
 //    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
-    /*
-    NSDictionary* brandDict = nil;
-    id brand = [QSItemUtil getBrand:itemDict];
-    if ([brand isKindOfClass:[NSDictionary class]]) {
-        brandDict = brand;
-    } else if ([brand isKindOfClass:[NSString class]]) {
-        brandDict = [@{@"_id" : brand} mutableCopy];
-    }
-
-    QSP04BrandDetailViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
-    [self.navigationController pushViewController:vc animated:YES];
-     */
 }
 @end

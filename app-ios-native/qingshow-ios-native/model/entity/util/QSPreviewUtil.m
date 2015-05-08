@@ -82,6 +82,16 @@
     }
     return m;
 }
++ (NSURL*)getFirstImageUrl:(NSDictionary*)previewDict
+{
+    NSArray* arrays = [self getImagesUrl:previewDict];
+    if (arrays.count) {
+        return arrays[0];
+    } else {
+        return nil;
+    }
+}
+
 + (NSDictionary*)getCoverMetadata:(NSDictionary*)previewDict
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
