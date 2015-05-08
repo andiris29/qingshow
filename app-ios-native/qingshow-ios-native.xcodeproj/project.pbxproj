@@ -17,6 +17,7 @@
 		A74E205F1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A74E205D1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m */; };
 		A74E20601AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A74E205E1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib */; };
 		A75D7B401AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D7B3F1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m */; };
+		A76A66411AFC925000AF5559 /* login_backImage.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A66401AFC925000AF5559 /* login_backImage.png */; };
 		A77BD6671AF7879000D446F7 /* QSS17TopShowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A77BD6621AF7879000D446F7 /* QSS17TopShowsViewController.m */; };
 		A77BD6681AF7879000D446F7 /* QSS17TopShowsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A77BD6631AF7879000D446F7 /* QSS17TopShowsViewController.xib */; };
 		A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */; };
@@ -290,6 +291,7 @@
 		A74E205E1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS08FashionCollectionViewCell.xib; sourceTree = "<group>"; };
 		A75D7B3E1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFashionCollectionViewProvider.h; sourceTree = "<group>"; };
 		A75D7B3F1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFashionCollectionViewProvider.m; sourceTree = "<group>"; };
+		A76A66401AFC925000AF5559 /* login_backImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_backImage.png; sourceTree = "<group>"; };
 		A77BD6611AF7879000D446F7 /* QSS17TopShowsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS17TopShowsViewController.h; sourceTree = "<group>"; };
 		A77BD6621AF7879000D446F7 /* QSS17TopShowsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS17TopShowsViewController.m; sourceTree = "<group>"; };
 		A77BD6631AF7879000D446F7 /* QSS17TopShowsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS17TopShowsViewController.xib; sourceTree = "<group>"; };
@@ -1141,6 +1143,7 @@
 		EF7826A41A4EB4F200C69460 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				A76A66401AFC925000AF5559 /* login_backImage.png */,
 				EF88D08D1ACEF90C002C4963 /* area.json */,
 				EFEBAAE31ABEB0000000FEEE /* location.plist */,
 				EF7826A51A4EB4F200C69460 /* user_bg_default.png */,
@@ -2083,6 +2086,7 @@
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EFED34A41AFC739200F08A0D /* QSS17TopShow_2Cell.xib in Resources */,
+				A76A66411AFC925000AF5559 /* login_backImage.png in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
 				EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */,

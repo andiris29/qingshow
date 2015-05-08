@@ -168,7 +168,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="seshi.png" id="kIE-zS-l8M">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_backImage.png" id="kIE-zS-l8M">
                     <rect key="frame" x="0.0" y="-64" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
@@ -183,6 +183,7 @@
         </view>
     </objects>
     <resources>
+        <image name="login_backImage.png" width="640" height="1178"/>
         <image name="login_mailbox" width="37" height="28"/>
         <image name="login_nickname" width="52" height="37"/>
         <image name="seshi.png" width="750" height="1334"/>
