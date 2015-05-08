@@ -1,6 +1,7 @@
 var ServiceHelper = require('../helpers/ServiceHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
+var Items = require('../../model/items');
 var async = require('async');
 
 var itemfeeding = module.exports;
@@ -24,6 +25,10 @@ itemfeeding.like = {
                         items.push(relationship.targetRef);
                     });
                     callback(null, items, count);
+                }, function (items, count, callback) {
+                    Items.populate(currentPageModels, 'brandRef', function () {
+                        callback(null, items, count);
+                    });
                 }
             ], callback);
         }, function (models) {
@@ -35,6 +40,10 @@ itemfeeding.like = {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 //update cover metadata
                 MongoHelper.updateCoverMetaData(currentPageModels, callback);
+            }, 'afterParseRequest' : function(raw) {
+                return {
+                    '_id' : RequestHelper.parseId(raw._id)
+                };
             }
         });
     }
