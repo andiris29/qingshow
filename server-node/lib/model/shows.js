@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 var showSchema;
 showSchema = Schema({
     __context : Object,
+    icon : String,
     cover : String,
     coverMetadata : {
         url : String,
@@ -40,7 +41,16 @@ showSchema = Schema({
     create : {
         type : Date,
         'default' : Date.now
+    },
+    recommend : {
+        group: String,
+        date : {
+            type : Date,
+            'default' : Date.now
+        },
+        description : String
     }
+
 });
 
 var Show = mongoose.model('shows', showSchema);
