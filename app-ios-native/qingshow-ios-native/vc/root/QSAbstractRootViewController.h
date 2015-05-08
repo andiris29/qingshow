@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "QSRootMenuView.h"
+#import "QSG02WelcomeViewController.h"
 
-@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate>
+@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate>
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (void)hideMenu;

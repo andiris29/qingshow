@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
@@ -25,6 +26,7 @@
 
 #import "QSS17TopShowsViewController.h"
 
+
 @interface QSAbstractRootViewController ()
 
 @property (strong, nonatomic) QSRootMenuView* menuView;
@@ -33,6 +35,8 @@
 
 @property (strong, nonatomic) UIBarButtonItem* menuBtn;
 @property (strong, nonatomic) UIBarButtonItem* menuBtnNew;
+
+@property (strong, nonatomic) QSG02WelcomeViewController* welcomeVc;
 
 @end
 
@@ -86,6 +90,9 @@
     }
     
     self.fIsFirstLoad = YES;
+    
+    self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
+    self.welcomeVc.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -93,16 +100,17 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.menuView.hidden = !self.fIsShowMenu;
+    
+    if (self.fIsFirstLoad) {
+        self.fIsFirstLoad = NO;
+        [self.navigationController.view addSubview:self.welcomeVc.view];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self hideMenu];
-    
-    if (self.fIsFirstLoad) {
-        self.fIsFirstLoad = NO;
-    }
     
 }
 
@@ -262,5 +270,15 @@
         }];
         self.fIsShowMenu = NO;
     }
+}
+
+#pragma mark - QSG02WelcomeViewControllerDelegate
+- (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc
+{
+    [UIView animateWithDuration:0.5f animations:^{
+        vc.view.alpha = 0.f;
+    } completion:^(BOOL finished) {
+        [vc.view removeFromSuperview];
+    }];
 }
 @end

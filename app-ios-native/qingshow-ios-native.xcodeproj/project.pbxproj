@@ -220,6 +220,8 @@
 		EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAEE1ABF01FE0000FEEE /* QSOrderUtil.m */; };
 		EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */; };
 		EFEC5BD11AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEC5BD01AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m */; };
+		EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */; };
+		EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */; };
 		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
@@ -718,6 +720,9 @@
 		EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeUtil.m; sourceTree = "<group>"; };
 		EFEC5BCF1AB1FBA300F8FD18 /* QSOrderListTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSOrderListTableViewProvider.h; sourceTree = "<group>"; };
 		EFEC5BD01AB1FBA300F8FD18 /* QSOrderListTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSOrderListTableViewProvider.m; sourceTree = "<group>"; };
+		EFED34831AFC69C000F08A0D /* QSG02WelcomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSG02WelcomeViewController.h; sourceTree = "<group>"; };
+		EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSG02WelcomeViewController.m; sourceTree = "<group>"; };
+		EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSG02WelcomeViewController.xib; sourceTree = "<group>"; };
 		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
 		EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		EFEF03291A30BBC000EC9B48 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -846,6 +851,7 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EFED34811AFC69A000F08A0D /* welcome */,
 				EFC6C3DE1AFA375A00631F14 /* chosen */,
 				EF9BC1EC1AB7499A00391530 /* video */,
 				EF810F2E1AB5D1460079BA76 /* trade */,
@@ -1692,6 +1698,16 @@
 			path = user;
 			sourceTree = "<group>";
 		};
+		EFED34811AFC69A000F08A0D /* welcome */ = {
+			isa = PBXGroup;
+			children = (
+				EFED34831AFC69C000F08A0D /* QSG02WelcomeViewController.h */,
+				EFED34841AFC69C000F08A0D /* QSG02WelcomeViewController.m */,
+				EFED34851AFC69C000F08A0D /* QSG02WelcomeViewController.xib */,
+			);
+			path = welcome;
+			sourceTree = "<group>";
+		};
 		EFEF03271A30BBC000EC9B48 /* libWeChatSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -2048,6 +2064,7 @@
 				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */,
+				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
@@ -2195,6 +2212,7 @@
 				A75D7B401AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m in Sources */,
 				EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */,
 				EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */,
+				EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */,
 				EF30133A1AC3174000568D92 /* DataVerifier.m in Sources */,
 				EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */,
 				EFA1F5681A5305DE00010F79 /* ImageCropperView.m in Sources */,
