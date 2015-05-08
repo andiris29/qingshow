@@ -13,6 +13,7 @@
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "NSArray+QSExtension.h"
+#import "QSDateUtil.h"
 @implementation QSShowUtil
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict
 {
@@ -188,6 +189,29 @@
         NSMutableDictionary* s = (NSMutableDictionary*)showDict;
         long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
         s[@"numLike"] = @(preNumlike + num);
+    }
+}
+
++ (NSDate*)getRecommendDate:(NSDictionary*)showDict
+{
+    if (![QSCommonUtil checkIsDict:showDict]) {
+        return nil;
+    }
+    NSDictionary* rec = showDict[@"recommend"];
+    if (![QSCommonUtil checkIsDict:rec]) {
+        return nil;
+    }
+    id date = rec[@"date"];
+    
+    if ([QSCommonUtil checkIsNil:date]) {
+        return nil;
+    } else {
+        if ([date isKindOfClass:[NSDate class]]) {
+            return date;
+        } else {
+            NSString* dateStr = date;
+            return [QSDateUtil buildDateFromResponseString:dateStr];
+        }
     }
 }
 @end
