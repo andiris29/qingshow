@@ -44,10 +44,7 @@ showSchema = Schema({
     },
     recommend : {
         group: String,
-        date : {
-            type : Date,
-            'default' : Date.now
-        },
+        date : Date,
         description : String
     }
 

@@ -39,6 +39,13 @@ var _feed = function (req, res, querier, aspectInceptions) {
                 function (callback) {
                     // Append context
                     ContextHelper.appendShowContext(req.qsCurrentUserId, currentPageModels, callback);
+                },
+                function (callback) {
+                    if (aspectInceptions.afterQuery) {
+                        aspectInceptions.afterQuery(qsParam, currentPageModels, numTotal, callback);
+                    } else {
+                        callback();
+                    }
                 }], callback);
         },
         'beforeEndResponse' : aspectInceptions.beforeEndResponse
@@ -50,13 +57,16 @@ var feeding = module.exports;
 feeding.recommendation = {
     'method' : 'get',
     'func' : function (req, res) {
-        _feed(req, res, function (qsParam, callback) {
+        _feed(req, res, function (qsParam, outCallback) {
             async.waterfall([
                 function (callback) {
+                    callback();
                     var userid = req.qsCurrentUserId;
-                    Peoples.findOne({'_id' : userid}, callback);
+//                    Peoples.findOne({'_id' : userid}, callback);
                 }, function (people, callback) {
-                    var rate = people.weight / people.height;
+
+//                    var rate = people.weight / people.height;
+                    var rate = 0.27;
                     var type = null;
                     /*
                      * 0.24~0.27属于偏瘦型（A1）
@@ -77,10 +87,17 @@ feeding.recommendation = {
                         'recommend.group' : type
                     };
                     MongoHelper.queryPaging(Show.find(criteria).sort({
-                        // TODO
-                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+                        'recommend.date' : 1
+                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
                 }
-            ], callback);
+            ], outCallback);
+        }, {
+            afterQuery : function (qsParam, currentPageModels, numTotal, callback) {
+                Show.populate(currentPageModels, {
+                    'path' : 'itemRefs',
+                    'model' : "items"
+                }, callback);
+            }
         });
     }
 };
