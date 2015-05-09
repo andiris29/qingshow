@@ -14,7 +14,7 @@
 @protocol QSImageCollectionViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 @optional
-- (void)didClickData:(NSDictionary*)data type:(QSImageCollectionModelType)type provider:(QSImageCollectionViewProvider*)provider;
+- (void)didClickModel:(QSImageCollectionModel*)model provider:(QSImageCollectionViewProvider*)provider;
 
 @end
 

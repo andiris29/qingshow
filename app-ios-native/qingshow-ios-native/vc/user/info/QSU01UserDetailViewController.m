@@ -19,6 +19,7 @@
 #import "UIViewController+ShowHud.h"
 #import "QSBrandUtil.h"
 #import "QSImageCollectionModel.h"
+#import "QSRecommendationDateCellModel.h"
 
 #import "QSDateUtil.h"
 
@@ -73,7 +74,10 @@
             if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
                 m.type = QSImageCollectionModelTypeDate;
-                m.data = [QSShowUtil getRecommendDate:currentModel.data];
+                QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
+                dateModel.date = [QSShowUtil getRecommendDate:currentModel.data];
+                dateModel.desc = [QSShowUtil getRecommentDesc:currentModel.data];
+                m.data = dateModel;
                 [resultArray insertObject:m atIndex:0];
                 continue;
             }
@@ -83,7 +87,10 @@
                 if (curDate && nextDate && ![QSDateUtil date:curDate isTheSameDayWith:nextDate]) {
                     QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
                     m.type = QSImageCollectionModelTypeDate;
-                    m.data = nextDate;
+                    QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
+                    dateModel.date = nextDate;
+                    dateModel.desc = [QSShowUtil getRecommentDesc:nextModel.data];
+                    m.data = dateModel;
                     [resultArray insertObject:m atIndex:i + 1];
                 }
             }
@@ -172,9 +179,7 @@
     //recommendation collectioin view
     [self.recommendationProvider bindWithCollectionView:self.recommendationCollectionView];
     self.recommendationProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-#warning TODO Change api
-//        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
-        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata)
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
         {
             NSMutableArray* mArray = [@[] mutableCopy];
             for (NSDictionary* dict in array) {

@@ -182,6 +182,7 @@
 		EFAA5A361AFD17B3001032F7 /* QSImageCollectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAA5A351AFD17B3001032F7 /* QSImageCollectionModel.m */; };
 		EFAA5A3A1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAA5A381AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m */; };
 		EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAA5A391AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib */; };
+		EFAA5A461AFE8969001032F7 /* QSRecommendationDateCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAA5A451AFE8969001032F7 /* QSRecommendationDateCellModel.m */; };
 		EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */; };
 		EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB90C11A20F88D00C69E42 /* QSPeopleUtil.m */; };
 		EFB31A531A4FB95C00257BC9 /* QSPreviewUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB31A521A4FB95C00257BC9 /* QSPreviewUtil.m */; };
@@ -669,6 +670,8 @@
 		EFAA5A371AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRecommendationDateCollectionViewCell.h; sourceTree = "<group>"; };
 		EFAA5A381AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRecommendationDateCollectionViewCell.m; sourceTree = "<group>"; };
 		EFAA5A391AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSRecommendationDateCollectionViewCell.xib; sourceTree = "<group>"; };
+		EFAA5A441AFE8969001032F7 /* QSRecommendationDateCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRecommendationDateCellModel.h; sourceTree = "<group>"; };
+		EFAA5A451AFE8969001032F7 /* QSRecommendationDateCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRecommendationDateCellModel.m; sourceTree = "<group>"; };
 		EFAB90891A2073C800C69E42 /* QSFeedingCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFeedingCategory.h; sourceTree = "<group>"; };
 		EFAB908A1A20741700C69E42 /* QSFeedingCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFeedingCategory.m; sourceTree = "<group>"; };
 		EFAB90C01A20F88D00C69E42 /* QSPeopleUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleUtil.h; sourceTree = "<group>"; };
@@ -935,6 +938,8 @@
 				EFAA5A371AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.h */,
 				EFAA5A381AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m */,
 				EFAA5A391AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib */,
+				EFAA5A441AFE8969001032F7 /* QSRecommendationDateCellModel.h */,
+				EFAA5A451AFE8969001032F7 /* QSRecommendationDateCellModel.m */,
 			);
 			path = waterfall;
 			sourceTree = "<group>";
@@ -2222,6 +2227,7 @@
 				EFA1F5571A52E88A00010F79 /* QSShareViewController.m in Sources */,
 				EF810F4E1AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.m in Sources */,
 				EFED34A51AFC739200F08A0D /* QSS17TopShow_3Cell.m in Sources */,
+				EFAA5A461AFE8969001032F7 /* QSRecommendationDateCellModel.m in Sources */,
 				EF810F6D1AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m in Sources */,
 				EFAA5A2E1AFD1521001032F7 /* QSImageCollectionViewCell.m in Sources */,
 				EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */,

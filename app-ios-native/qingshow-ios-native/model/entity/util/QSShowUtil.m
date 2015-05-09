@@ -214,4 +214,16 @@
         }
     }
 }
+
++ (NSString*)getRecommentDesc:(NSDictionary*)showDict
+{
+    if (![QSCommonUtil checkIsDict:showDict]) {
+        return nil;
+    }
+    NSDictionary* rec = showDict[@"recommend"];
+    if (![QSCommonUtil checkIsDict:rec]) {
+        return nil;
+    }
+    return rec[@"description"];
+}
 @end

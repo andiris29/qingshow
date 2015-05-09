@@ -10,6 +10,7 @@
 #import "QSRecommendationDateCollectionViewCell.h"
 #import "QSDateUtil.h"
 #import "QSShowUtil.h"
+#import "QSItemUtil.h"
 
 @interface QSImageCollectionViewProvider ()
 @property (strong, nonatomic) QSImageCollectionModel* clickedModel;
@@ -60,8 +61,8 @@
     QSImageCollectionModel* model = self.resultArray[indexPath.row];
     if (model.type != QSImageCollectionModelTypeDate) {
         self.clickedModel = model;
-        if ([self.delegate respondsToSelector:@selector(didClickData:type:provider:)]) {
-            [self.delegate didClickData:model.data type:model.type provider:self];
+        if ([self.delegate respondsToSelector:@selector(didClickModel:provider:)]) {
+            [self.delegate didClickModel:model provider:self];
         }
     }
 }
