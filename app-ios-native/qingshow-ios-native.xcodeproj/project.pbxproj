@@ -224,6 +224,7 @@
 		EFCA01281B00F3F500199BCF /* QSS14PreviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCA01261B00F3F500199BCF /* QSS14PreviewDetailViewController.m */; };
 		EFCA01291B00F3F500199BCF /* QSS14PreviewDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFCA01271B00F3F500199BCF /* QSS14PreviewDetailViewController.xib */; };
 		EFCA01311B00F96F00199BCF /* QSNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCA01301B00F96F00199BCF /* QSNavigationController.m */; };
+		EFCA01341B01042C00199BCF /* QSNetworkEngine+ItemService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCA01331B01042C00199BCF /* QSNetworkEngine+ItemService.m */; };
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
 		EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CF51AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m */; };
 		EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */; };
@@ -749,6 +750,8 @@
 		EFCA01271B00F3F500199BCF /* QSS14PreviewDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS14PreviewDetailViewController.xib; sourceTree = "<group>"; };
 		EFCA012F1B00F96F00199BCF /* QSNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNavigationController.h; sourceTree = "<group>"; };
 		EFCA01301B00F96F00199BCF /* QSNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNavigationController.m; sourceTree = "<group>"; };
+		EFCA01321B01042C00199BCF /* QSNetworkEngine+ItemService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ItemService.h"; sourceTree = "<group>"; };
+		EFCA01331B01042C00199BCF /* QSNetworkEngine+ItemService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ItemService.m"; sourceTree = "<group>"; };
 		EFD0B7EE1A1A4FC500BCDFBA /* QSUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserManager.h; sourceTree = "<group>"; };
 		EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserManager.m; sourceTree = "<group>"; };
 		EFD28CF41AB3F56C00991ADD /* QSU11ReceiverEditingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU11ReceiverEditingViewController.h; sourceTree = "<group>"; };
@@ -1329,6 +1332,8 @@
 				EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */,
 				EF610EF21AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.h */,
 				EF610EF31AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m */,
+				EFCA01321B01042C00199BCF /* QSNetworkEngine+ItemService.h */,
+				EFCA01331B01042C00199BCF /* QSNetworkEngine+ItemService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -2357,6 +2362,7 @@
 				EFED34A51AFC739200F08A0D /* QSS17TopShow_3Cell.m in Sources */,
 				EFAA5A461AFE8969001032F7 /* QSRecommendationDateCellModel.m in Sources */,
 				EF810F6D1AB5FE770079BA76 /* QSCreateTradeItemInfoTitleCell.m in Sources */,
+				EFCA01341B01042C00199BCF /* QSNetworkEngine+ItemService.m in Sources */,
 				EFAA5A2E1AFD1521001032F7 /* QSImageCollectionViewCell.m in Sources */,
 				EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */,
 				EF78E3311AAF3E2300665EDD /* QSU10ReceiverListViewController.m in Sources */,

@@ -131,7 +131,7 @@
         s[@"__context"] = m;
     }
 }
-+ (void)addNumberLike:(long long)num forShow:(NSDictionary*)previewDict
++ (void)addNumberLike:(long long)num forPreview:(NSDictionary*)previewDict
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
         return;

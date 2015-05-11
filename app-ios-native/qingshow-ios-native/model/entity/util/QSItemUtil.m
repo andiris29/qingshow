@@ -288,4 +288,48 @@
     NSMutableDictionary* m = (NSMutableDictionary*)item;
     m[@"brandRef"] = brandDict;
 }
+
++ (BOOL)getIsLike:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return NO;
+    }
+    NSDictionary* context = itemDict[@"__context"];
+    if (context) {
+        return ((NSNumber*)context[@"likedByCurrentUser"]).boolValue;
+    }
+    return NO;
+}
+
++ (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return;
+    }
+    if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)itemDict;
+        NSDictionary* context = itemDict[@"__context"];
+        NSMutableDictionary* m = nil;
+        if ([context isKindOfClass:[NSDictionary class]]) {
+            m = [context mutableCopy];
+        } else
+        {
+            m = [@{} mutableCopy];
+        }
+        m[@"likedByCurrentUser"] = @(isLike);
+        s[@"__context"] = m;
+    }
+}
+
++ (void)addNumberLike:(long long)num forItem:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return;
+    }
+    if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)itemDict;
+        long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
+        s[@"numLike"] = @(preNumlike + num);
+    }
+}
 @end

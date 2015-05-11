@@ -11,6 +11,7 @@
 #import "QSNetworkEngine+Protect.h"
 #import "NSArray+QSExtension.h"
 #import "QSPreviewUtil.h"
+#import "QSError.h"
 
 #define PATH_PREVIEW_FEED @"preview/feed"
 #define PATH_PREVIEW_LIKE @"preview/like"
@@ -58,14 +59,10 @@
     MKNetworkOperation* op = nil;
     if ([QSPreviewUtil getIsLike:previewDict]) {
         op = [self unlikePreview:previewDict onSucceed:^{
-            [QSPreviewUtil setIsLike:NO preview:previewDict];
-            [QSPreviewUtil addNumberLike:-1ll forShow:previewDict];
             succeedBlock(NO);
         } onError:errorBlock];
     } else {
         op = [self likePreview:previewDict onSucceed:^{
-            [QSPreviewUtil setIsLike:YES preview:previewDict];
-            [QSPreviewUtil addNumberLike:1ll forShow:previewDict];
             succeedBlock(YES);
         } onError:errorBlock];
     }
@@ -78,10 +75,19 @@
                            onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_PREVIEW_LIKE method:@"POST" paramers:@{@"_id" : previewDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [QSPreviewUtil setIsLike:YES preview:previewDict];
+        [QSPreviewUtil addNumberLike:1ll forPreview:previewDict];
         if (succeedBlock) {
             succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if ([error isKindOfClass:[QSError class]]) {
+            if (error.code == kQSErrorCodeAlreadyFollow) {
+                [QSPreviewUtil setIsLike:YES preview:previewDict];
+            } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                [QSPreviewUtil setIsLike:NO preview:previewDict];
+            }
+        }
         if (errorBlock) {
             errorBlock(error);
         }
@@ -93,10 +99,19 @@
                            onError:(ErrorBlock)errorBlock
 {
     return [self startOperationWithPath:PATH_PREVIEW_UNLIKE method:@"POST" paramers:@{@"_id" : previewDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        [QSPreviewUtil setIsLike:NO preview:previewDict];
+        [QSPreviewUtil addNumberLike:-1ll forPreview:previewDict];
         if (succeedBlock) {
             succeedBlock();
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if ([error isKindOfClass:[QSError class]]) {
+            if (error.code == kQSErrorCodeAlreadyFollow) {
+                [QSPreviewUtil setIsLike:YES preview:previewDict];
+            } else if (error.code == kQSErrorCodeAlreadyUnfollow) {
+                [QSPreviewUtil setIsLike:NO preview:previewDict];
+            }
+        }
         if (errorBlock) {
             errorBlock(error);
         }

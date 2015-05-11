@@ -28,4 +28,8 @@
 + (NSURL*)getSizeExplanation:(NSDictionary*)item;
 + (NSString*)getVideoPath:(NSDictionary*)item;
 + (NSDictionary*)getBrand:(NSDictionary*)item;
+
++ (BOOL)getIsLike:(NSDictionary*)itemDict;
++ (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict;
++ (void)addNumberLike:(long long)num forItem:(NSDictionary*)itemDict;
 @end

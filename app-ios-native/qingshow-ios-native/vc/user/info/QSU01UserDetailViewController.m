@@ -17,6 +17,8 @@
 #import "QSUserManager.h"
 
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+QSExtension.h"
+
 #import "QSBrandUtil.h"
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
@@ -244,8 +246,23 @@
 }
 
 #pragma mark - QSImageCollectionViewProviderDelegate
-- (void)didClickData:(NSDictionary*)data type:(QSImageCollectionModelType)type provider:(QSImageCollectionViewProvider*)provider
+- (void)didClickModel:(QSImageCollectionModel*)model
+             provider:(QSImageCollectionViewProvider*)provider
 {
-#warning TODO
+
+    switch (model.type) {
+        case QSImageCollectionModelTypeShow:
+        {
+            [self showShowDetailViewController:model.data];
+            break;
+        }
+        case QSImageCollectionModelTypeItem:
+        {
+            [self showItemDetailViewController:model.data];
+            break;
+        }
+        default:
+            break;
+    }
 }
 @end

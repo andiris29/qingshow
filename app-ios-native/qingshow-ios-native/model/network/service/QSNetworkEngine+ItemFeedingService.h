@@ -10,17 +10,7 @@
 #import "QSNetworkEngine.h"
 
 @interface QSNetworkEngine(ItemFeedingService)
-
-- (MKNetworkOperation*)getItemFeedingByBrandNew:(NSDictionary*)brand
-                                           page:(int)page
-                                      onSucceed:(ArraySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getItemFeedingByBrandDiscount:(NSDictionary*)brand
-                                                page:(int)page
-                                           onSucceed:(ArraySuccessBlock)succeedBlock
-                                             onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getItemFeedingRandomPage:(int)page
-                                      onSucceed:(ArraySuccessBlock)successBlock
-                                        onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation*)getItemFeedingLikePage:(int)page
+                                    onSucceed:(ArraySuccessBlock)successBlock
+                                      onError:(ErrorBlock)errorBlock;
 @end
