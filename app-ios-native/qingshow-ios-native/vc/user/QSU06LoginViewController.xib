@@ -18,7 +18,7 @@
             <rect key="frame" x="0.0" y="64" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="wpf-Ue-aeI">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_regAndlogin_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="wpf-Ue-aeI">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </imageView>
@@ -174,10 +174,15 @@
         </view>
     </objects>
     <resources>
+<<<<<<< Updated upstream
         <image name="login_backImage.png" width="640" height="1178"/>
         <image name="user_back_btn" width="65" height="42"/>
         <image name="user_nickname" width="52" height="37"/>
         <image name="user_password" width="37" height="43"/>
+=======
+        <image name="model_detail_back_btn" width="20" height="20"/>
+        <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
+>>>>>>> Stashed changes
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

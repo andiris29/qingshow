@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU13PersonalizeViewController">
             <connections>
+<<<<<<< Updated upstream
                 <outlet property="Abutton" destination="FDQ-4c-yJP" id="UwR-Lq-FS0"/>
                 <outlet property="EAButton" destination="baO-ba-FCo" id="6LG-4T-IUG"/>
                 <outlet property="HButton" destination="gbZ-6D-AK1" id="iK6-Xh-mi2"/>
@@ -28,6 +29,29 @@
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outlet property="weightLabel" destination="hrl-2d-ORS" id="EW2-bE-n5N"/>
                 <outlet property="weightSlider" destination="VOU-vR-sAL" id="dZj-t7-HwP"/>
+=======
+                <outlet property="AButton" destination="FDQ-4c-yJP" id="iVn-tZ-QSU"/>
+                <outlet property="EAButton" destination="baO-ba-FCo" id="lCE-hd-sN1"/>
+                <outlet property="HButton" destination="gbZ-6D-AK1" id="Yyd-A2-wtg"/>
+                <outlet property="JKButton" destination="SL6-Ig-op4" id="zjz-hM-sBy"/>
+                <outlet property="OKButton" destination="7tx-Md-ChX" id="Tzz-Aa-M3p"/>
+                <outlet property="VButton" destination="Pog-nV-Raf" id="SKk-FJ-I7b"/>
+                <outlet property="XButton" destination="avM-Um-cUG" id="K8e-7U-5tj"/>
+                <outlet property="ageLabel" destination="Xt6-ke-160" id="X8w-gJ-JEI"/>
+                <outlet property="ageSlider" destination="55Q-Cc-7fT" id="1Of-9w-oQe"/>
+                <outlet property="armButton" destination="53g-bb-bwQ" id="8Nl-2T-X6a"/>
+                <outlet property="bellyButton" destination="Tsw-3e-YCt" id="nsP-z0-gcs"/>
+                <outlet property="figureButton" destination="dOp-JJ-Kx3" id="khC-RS-kIw"/>
+                <outlet property="hightButton" destination="4el-O1-zkr" id="fkC-Ue-KQa"/>
+                <outlet property="hightLabel" destination="AEm-7C-yYq" id="mBz-gu-Mcs"/>
+                <outlet property="hightSlider" destination="2YE-sL-Itd" id="b7j-5W-67P"/>
+                <outlet property="hipButton" destination="x5P-6e-5aZ" id="gc5-3A-Akg"/>
+                <outlet property="scrollView" destination="hkY-VW-IiK" id="P8d-cE-ckM"/>
+                <outlet property="thinButton" destination="0zx-f2-YTg" id="VCQ-75-alp"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="weightLabel" destination="hrl-2d-ORS" id="8UE-PJ-GLT"/>
+                <outlet property="weightSlider" destination="VOU-vR-sAL" id="dmO-2l-1ub"/>
+>>>>>>> Stashed changes
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -35,8 +59,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+<<<<<<< Updated upstream
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_personality.png" id="aN8-ho-7Fw">
                     <rect key="frame" x="-4" y="-1" width="328" height="570"/>
+=======
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_personality.png" id="lku-pR-FGZ">
+                    <rect key="frame" x="0.0" y="-1" width="320" height="570"/>
+>>>>>>> Stashed changes
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
                 <view contentMode="scaleToFill" id="ePW-F0-H8c">
@@ -44,6 +73,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
+<<<<<<< Updated upstream
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="填写个性信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DrT-eJ-rFH">
                     <rect key="frame" x="100" y="35" width="120" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -53,27 +83,49 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="WFD-sl-Ush">
                     <rect key="frame" x="8" y="32" width="50" height="24"/>
+=======
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="填写个人信息" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="86M-kt-AoM">
+                    <rect key="frame" x="112" y="30" width="96" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hx5-Mz-AOJ">
+                    <rect key="frame" x="8" y="26" width="45" height="25"/>
+>>>>>>> Stashed changes
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="user_back_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+<<<<<<< Updated upstream
                     <connections>
                         <action selector="back:" destination="-1" eventType="touchUpInside" id="CnN-cT-56m"/>
                     </connections>
+=======
+>>>>>>> Stashed changes
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="hkY-VW-IiK">
                     <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请仔细选择各项内容哦！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VHf-xT-Aua">
+<<<<<<< Updated upstream
                             <rect key="frame" x="85" y="15" width="159" height="21"/>
+=======
+                            <rect key="frame" x="85" y="8" width="159" height="21"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我们会根据您的信息提供定量化服务" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6G0-3y-2oO">
+<<<<<<< Updated upstream
                             <rect key="frame" x="13" y="35" width="294" height="21"/>
+=======
+                            <rect key="frame" x="13" y="34" width="294" height="21"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -83,11 +135,14 @@
                             <rect key="frame" x="8" y="80" width="90" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+<<<<<<< Updated upstream
                         </view>
                         <view contentMode="scaleToFill" id="C8Z-J1-H3t">
                             <rect key="frame" x="222" y="80" width="90" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+=======
+>>>>>>> Stashed changes
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拖动小圆点选择" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NLb-wG-YU6">
                             <rect key="frame" x="106" y="70" width="100" height="21"/>
@@ -96,6 +151,11 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" id="C8Z-J1-H3t">
+                            <rect key="frame" x="222" y="80" width="90" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的年龄" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9Ap-e2-HwS">
                             <rect key="frame" x="121" y="109" width="70" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -106,12 +166,21 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18 岁" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Xt6-ke-160">
                             <rect key="frame" x="121" y="129" width="70" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+<<<<<<< Updated upstream
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="18" minValue="18" maxValue="35" id="55Q-Cc-7fT">
                             <rect key="frame" x="79" y="151" width="150" height="31"/>
+=======
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="55Q-Cc-7fT">
+                            <rect key="frame" x="79" y="149" width="150" height="31"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </slider>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的身高" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z6A-eF-dU4">
@@ -128,10 +197,18 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="150 cm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AEm-7C-yYq">
                             <rect key="frame" x="121" y="214" width="70" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+<<<<<<< Updated upstream
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
+=======
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+>>>>>>> Stashed changes
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="2YE-sL-Itd">
+                            <rect key="frame" x="81" y="237" width="150" height="31"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                        </slider>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="你的体重" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5cr-V7-AbE">
                             <rect key="frame" x="121" y="288" width="70" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -142,23 +219,35 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40 kg" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hrl-2d-ORS">
                             <rect key="frame" x="119" y="309" width="70" height="21"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+<<<<<<< Updated upstream
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="150" minValue="150" maxValue="170" id="2YE-sL-Itd">
                             <rect key="frame" x="81" y="237" width="150" height="31"/>
+=======
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="VOU-vR-sAL">
+                            <rect key="frame" x="81" y="330" width="150" height="31"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </slider>
                         <view contentMode="scaleToFill" id="oKe-kg-cpM">
                             <rect key="frame" x="8" y="380" width="90" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+<<<<<<< Updated upstream
                         </view>
                         <view contentMode="scaleToFill" id="jjy-Id-KBr">
                             <rect key="frame" x="222" y="380" width="90" height="1"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+=======
+>>>>>>> Stashed changes
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="体型" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X1x-Mb-LGf">
                             <rect key="frame" x="114" y="370" width="92" height="21"/>
@@ -167,8 +256,18 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+<<<<<<< Updated upstream
                         <button opaque="NO" tag="120" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FDQ-4c-yJP">
                             <rect key="frame" x="79" y="410" width="70" height="70"/>
+=======
+                        <view contentMode="scaleToFill" id="jjy-Id-KBr">
+                            <rect key="frame" x="222" y="380" width="90" height="1"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="FDQ-4c-yJP">
+                            <rect key="frame" x="85" y="410" width="70" height="70"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="A" image="user_person_a">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -177,28 +276,47 @@
                                 <action selector="getWithBodA:" destination="-1" eventType="touchUpInside" id="wJg-kQ-7KX"/>
                             </connections>
                         </button>
+<<<<<<< Updated upstream
                         <button opaque="NO" tag="121" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gbZ-6D-AK1">
                             <rect key="frame" x="161" y="410" width="70" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="H" image="user_person_h">
+=======
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pog-nV-Raf">
+                            <rect key="frame" x="85" y="495" width="70" height="70"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="V" image="user_person_v">
+>>>>>>> Stashed changes
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="getWithBodH:" destination="-1" eventType="touchUpInside" id="mao-z0-cbF"/>
                             </connections>
                         </button>
+<<<<<<< Updated upstream
                         <button opaque="NO" tag="122" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Pog-nV-Raf">
                             <rect key="frame" x="79" y="488" width="70" height="70"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="V" image="user_person_v">
+=======
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gbZ-6D-AK1">
+                            <rect key="frame" x="168" y="410" width="70" height="70"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="H" image="user_person_h">
+>>>>>>> Stashed changes
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="getWithBodV:" destination="-1" eventType="touchUpInside" id="g8G-v0-2Vm"/>
                             </connections>
                         </button>
+<<<<<<< Updated upstream
                         <button opaque="NO" tag="123" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="avM-Um-cUG">
                             <rect key="frame" x="161" y="488" width="70" height="70"/>
+=======
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="avM-Um-cUG">
+                            <rect key="frame" x="168" y="495" width="70" height="70"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="X" image="user_person_x">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -224,6 +342,7 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+<<<<<<< Updated upstream
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SL6-Ig-op4">
                             <rect key="frame" x="79" y="619" width="70" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -236,6 +355,10 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="baO-ba-FCo">
                             <rect key="frame" x="161" y="619" width="70" height="30"/>
+=======
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="baO-ba-FCo">
+                            <rect key="frame" x="168" y="619" width="70" height="30"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" title="欧美系"/>
@@ -343,8 +466,13 @@
                                 <action selector="personalizeOK:" destination="-1" eventType="touchUpInside" id="883-zb-8Xf"/>
                             </connections>
                         </button>
+<<<<<<< Updated upstream
                         <button opaque="NO" tag="106" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="53g-bb-bwQ">
                             <rect key="frame" x="191" y="766" width="50" height="30"/>
+=======
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7tx-Md-ChX">
+                            <rect key="frame" x="10" y="839" width="300" height="50"/>
+>>>>>>> Stashed changes
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <state key="normal" title="遮手臂">
@@ -355,15 +483,34 @@
                                 <action selector="selectMacth:" destination="-1" eventType="touchUpInside" id="Zgc-y9-MPT"/>
                             </connections>
                         </button>
+<<<<<<< Updated upstream
+=======
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SL6-Ig-op4">
+                            <rect key="frame" x="69" y="619" width="70" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.334929541" green="1" blue="0.38569904719999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" title="日韩系">
+                                <color key="titleColor" red="1" green="0.15615795660000001" blue="0.1366413296" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+>>>>>>> Stashed changes
                     </subviews>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+<<<<<<< Updated upstream
             <point key="canvasLocation" x="182" y="480.5"/>
         </view>
     </objects>
     <resources>
         <image name="badge_follow_btn" width="64" height="30"/>
+=======
+            <point key="canvasLocation" x="93" y="-1203.5"/>
+        </view>
+    </objects>
+    <resources>
+>>>>>>> Stashed changes
         <image name="user_back_btn" width="65" height="42"/>
         <image name="user_person_a" width="174" height="174"/>
         <image name="user_person_h" width="174" height="174"/>

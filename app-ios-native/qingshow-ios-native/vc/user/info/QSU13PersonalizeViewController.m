@@ -21,6 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+<<<<<<< Updated upstream
     // Do any additional setup after loading the view from its nib.
     _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
     
@@ -61,6 +62,23 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
+=======
+    
+    // Do any additional setup after loading the view from its nib.
+    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
+    self.JKButton.layer.cornerRadius = self.JKButton.frame.size.height / 8;
+    self.JKButton.clipsToBounds = YES;
+    self.EAButton.layer.cornerRadius = self.EAButton.frame.size.height / 8;
+    self.EAButton.clipsToBounds = YES;
+    self.OKButton.layer.cornerRadius = self.OKButton.frame.size.height / 8;
+    self.OKButton.clipsToBounds = YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = YES;
+>>>>>>> Stashed changes
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
