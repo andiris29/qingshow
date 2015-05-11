@@ -17,7 +17,7 @@
 #import "QSPaymentConst.h"
 //#import "QSS15TopicViewController.h"
 #import "QSS15ChosenViewController.h"
-
+#import "QSG02WelcomeViewController.h"
 
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
@@ -47,6 +47,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    UIViewController* vc = [[QSS01RootViewController alloc] init];
     UIViewController* vc = [[QSS15ChosenViewController alloc] init];
+    
+//    QSG02WelcomeViewController *welcomeVC = [[QSG02WelcomeViewController alloc]init];
+//    self.window.rootViewController = welcomeVC;
     
     UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
