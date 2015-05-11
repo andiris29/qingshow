@@ -25,6 +25,7 @@
 #import "QSS02ItemFeedingViewController.h"
 
 #import "QSS17TopShowsViewController.h"
+#import "QSU13PersonalizeViewController.h"
 
 
 @interface QSAbstractRootViewController ()
@@ -166,6 +167,8 @@
 #warning TODO
 //            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
 //            [self.navigationController pushViewController:vc animated:YES];
+            UIViewController *vc = [[QSU13PersonalizeViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 2:

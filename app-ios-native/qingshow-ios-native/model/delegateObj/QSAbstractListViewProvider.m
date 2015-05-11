@@ -92,11 +92,14 @@
         }
         
         [self.resultArray addObjectsFromArray:showArray];
+        if (self.networkDataFinalHandlerBlock) {
+            self.networkDataFinalHandlerBlock();
+        }
+        
         if (refreshBlock) {
             refreshBlock();
         }
-        
-        
+
         if (block) {
             block();
         }

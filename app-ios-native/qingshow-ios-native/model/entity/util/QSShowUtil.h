@@ -26,5 +26,6 @@
 + (BOOL)getIsLike:(NSDictionary*)showDict;
 + (void)setIsLike:(BOOL)isLike show:(NSDictionary*)showDict;
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict;
-
++ (NSDate*)getRecommendDate:(NSDictionary*)showDict;
++ (NSString*)getRecommentDesc:(NSDictionary*)showDict;
 @end

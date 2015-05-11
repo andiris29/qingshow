@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
-@interface QSU01UserDetailViewController : QSDetailBaseViewController
+#import "QSImageCollectionViewProvider.h"
+
+@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate>
 
 @property (strong, nonatomic) IBOutlet UICollectionView* likedCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendationCollectionView;

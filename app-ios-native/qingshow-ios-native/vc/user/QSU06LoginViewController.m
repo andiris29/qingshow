@@ -46,49 +46,13 @@
     self.userText.delegate = self;
     self.passwordText.delegate = self;
     
+    [self.userText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.passwordText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.userText setTintColor:[UIColor whiteColor]];
+    [self.passwordText setTintColor:[UIColor whiteColor]];
     
-    // View全体
-    self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
+    
 
-    // Navibar
-    self.navigationItem.title = @"登陆";
-    self.navigationItem.backBarButtonItem.title = @"";
-    
-    
-    [self hideNaviBackBtnTitle];
-    
-//    UIBarButtonItem *btnSave = [[UIBarButtonItem alloc]initWithTitle:@"注册"
-//                                                               style:UIBarButtonItemStylePlain
-//                                                              target:self
-//                                                              action:@selector(gotoRegister)];
-//    [[self navigationItem] setRightBarButtonItem:btnSave];
-    
-    for (UIView *subView in self.view.subviews) {
-        if ([subView isKindOfClass:[UILabel class]]) {
-            UILabel *label = (UILabel *)subView;
-            if (label.tag == 99) {
-                continue;
-            }
-            
-            CALayer *layer = [label layer];
-            CALayer *upperBorder = [CALayer layer];
-            upperBorder.borderWidth=1.0f;
-            upperBorder.frame = CGRectMake(0, 0, layer.frame.size.width, 1);
-            [upperBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
-            [layer addSublayer:upperBorder];
-        }
-    }
-    
-    CALayer *layer = [self.passwordLabel layer];
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.borderWidth = 1.0f;
-    bottomBorder.frame = CGRectMake(0, layer.frame.size.height - 1, layer.frame.size.width, 1);
-//    [bottomBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
-    bottomBorder.borderColor = [UIColor redColor].CGColor;
-    [layer addSublayer:bottomBorder];
-
-    // 登陆
-//    self.loginButton.backgroundColor = [UIColor colorWithRed:252.f/255.f green:145.f/255.f blue:95.f/255.f alpha:1.f];
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
     self.loginButton.layer.masksToBounds = YES;
     
@@ -120,16 +84,6 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    if (self.fRemoveLoginAndRegisterVc) {
-        NSMutableArray* a = [self.navigationController.viewControllers mutableCopy];
-        for (int i = 0; i < a.count; i++) {
-            if ([a[i] isKindOfClass:[QSU07RegisterViewController class]] || [a[i] isKindOfClass:[QSU06LoginViewController class]]) {
-                [a removeObjectAtIndex:i];
-                i--;
-            }
-        }
-        self.navigationController.viewControllers = a;
-    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -145,6 +99,9 @@
 - (void)resignOnTap:(id)sender {
     [self.currentResponder resignFirstResponder];
 }
+- (IBAction)back:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (IBAction)login:(id)sender {
     NSLog(@"login to qingshow");
@@ -152,7 +109,7 @@
     NSString *user = self.userText.text;
     NSString *passwd = self.passwordText.text;
     
-    if (user.length == 0) {
+    if (user.length == 0 ) {
         [self showErrorHudWithText:@"请输入账号"];
         return;
     }

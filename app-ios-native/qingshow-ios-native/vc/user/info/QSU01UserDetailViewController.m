@@ -18,6 +18,10 @@
 
 #import "UIViewController+ShowHud.h"
 #import "QSBrandUtil.h"
+#import "QSImageCollectionModel.h"
+#import "QSRecommendationDateCellModel.h"
+
+#import "QSDateUtil.h"
 
 #define PAGE_ID @"U01 - 个人"
 
@@ -25,8 +29,8 @@
 @property (strong, nonatomic) NSDictionary* userInfo;
 
 #pragma mark Provider
-@property (strong, nonatomic) QSShowCollectionViewProvider* likedProvider;
-@property (strong, nonatomic) QSShowCollectionViewProvider* recommendationProvider;
+@property (strong, nonatomic) QSImageCollectionViewProvider* likedProvider;
+@property (strong, nonatomic) QSImageCollectionViewProvider* recommendationProvider;
 @property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
 
@@ -54,11 +58,47 @@
 
 - (void)providerInit
 {
-    self.likedProvider  = [[QSShowCollectionViewProvider alloc] init];
+    __weak QSU01UserDetailViewController* weakSelf = self;
+    
+    self.likedProvider  = [[QSImageCollectionViewProvider alloc] init];
     self.likedProvider.delegate = self;
     self.likedProvider.hasRefreshControl = NO;
-    self.recommendationProvider = [[QSShowCollectionViewProvider alloc] init];
+    self.recommendationProvider = [[QSImageCollectionViewProvider alloc] init];
     self.recommendationProvider.delegate = self;
+    self.recommendationProvider.networkDataFinalHandlerBlock = ^(){
+        NSMutableArray* resultArray = weakSelf.recommendationProvider.resultArray;
+        for (int i = 0; i < resultArray.count - 1; i++) {
+            QSImageCollectionModel* currentModel = resultArray[i];
+            QSImageCollectionModel* nextModel = resultArray[i + 1];
+            
+            if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
+                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                m.type = QSImageCollectionModelTypeDate;
+                QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
+                dateModel.date = [QSShowUtil getRecommendDate:currentModel.data];
+                dateModel.desc = [QSShowUtil getRecommentDesc:currentModel.data];
+                m.data = dateModel;
+                [resultArray insertObject:m atIndex:0];
+                continue;
+            }
+            if (currentModel.type == QSImageCollectionModelTypeShow && nextModel.type == QSImageCollectionModelTypeShow) {
+                NSDate* curDate = [QSShowUtil getRecommendDate:currentModel.data];
+                NSDate* nextDate = [QSShowUtil getRecommendDate:nextModel.data];
+                if (curDate && nextDate && ![QSDateUtil date:curDate isTheSameDayWith:nextDate]) {
+                    QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                    m.type = QSImageCollectionModelTypeDate;
+                    QSRecommendationDateCellModel* dateModel = [[QSRecommendationDateCellModel alloc] init];
+                    dateModel.date = nextDate;
+                    dateModel.desc = [QSShowUtil getRecommentDesc:nextModel.data];
+                    m.data = dateModel;
+                    [resultArray insertObject:m atIndex:i + 1];
+                }
+            }
+        }
+    };
+
+    
+//    self.recommendationProvider.delegate = self;
     self.recommendationProvider.hasRefreshControl = NO;
 }
 
@@ -114,7 +154,14 @@
     [self.likedProvider bindWithCollectionView:self.likedCollectionView];
     self.likedProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            succeedBlock(array, metadata);
+            NSMutableArray* mArray = [@[] mutableCopy];
+            for (NSDictionary* dict in array) {
+                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                m.type = QSImageCollectionModelTypeShow;
+                m.data = dict;
+                [mArray addObject:m];
+            }
+            succeedBlock(mArray, metadata);
         } onError:^(NSError* e){
             errorBlock(e);
         }];
@@ -132,8 +179,16 @@
     //recommendation collectioin view
     [self.recommendationProvider bindWithCollectionView:self.recommendationCollectionView];
     self.recommendationProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            succeedBlock(array, metadata);
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
+        {
+            NSMutableArray* mArray = [@[] mutableCopy];
+            for (NSDictionary* dict in array) {
+                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                m.type = QSImageCollectionModelTypeShow;
+                m.data = dict;
+                [mArray addObject:m];
+            }
+            succeedBlock(mArray, metadata);
         } onError:^(NSError* e){
             errorBlock(e);
         }];
@@ -150,10 +205,11 @@
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.likedCollectionView, self.recommendationCollectionView];
+    self.viewArray = @[self.recommendationCollectionView, self.likedCollectionView];
     
-    self.likedCollectionView.hidden = NO;
-    self.recommendationCollectionView.hidden = YES;
+    self.recommendationCollectionView.hidden = NO;
+    self.likedCollectionView.hidden = YES;
+
     
     //Section title
     NSArray* titleArray = @[@"搭配推荐",@"我的收藏"];
@@ -187,4 +243,9 @@
 
 }
 
+#pragma mark - QSImageCollectionViewProviderDelegate
+- (void)didClickData:(NSDictionary*)data type:(QSImageCollectionModelType)type provider:(QSImageCollectionViewProvider*)provider
+{
+#warning TODO
+}
 @end

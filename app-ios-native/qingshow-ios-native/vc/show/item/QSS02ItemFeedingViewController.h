@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "QSItemImageListTableViewProvider.h"
-#import "QSItemCollectionViewProvider.h"
-@interface QSS02ItemFeedingViewController : UIViewController <QSItemProviderDelegate>
+#import "QSImageCollectionViewProvider.h"
+
+@interface QSS02ItemFeedingViewController : UIViewController <QSImageCollectionViewProviderDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 

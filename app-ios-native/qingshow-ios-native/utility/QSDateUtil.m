@@ -98,4 +98,63 @@
 
     return a[week];
 }
+
++ (BOOL)date:(NSDate*)date1 isTheSameDayWith:(NSDate*)date2
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c1 = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date1];
+    NSDateComponents* c2 = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date2];
+    return c1.year == c2.year && c1.month == c2.month && c1.day == c2.day;
+}
+
++ (NSString*)getDayDesc:(NSDate*)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSDayCalendarUnit) fromDate:date];
+    return @(c.day).stringValue;
+}
+
++ (NSString*)getMonthDesc:(NSDate*)date
+{
+    NSArray* monthNames = @[
+                            @"",
+                            @"Jan",
+                            @"Feb",
+                            @"Mar",
+                            @"Apr",
+                            @"May",
+                            @"Jun",
+                            @"Jul",
+                            @"Aug",
+                            @"Sep",
+                            @"Oct",
+                            @"Nov",
+                            @"Dec"];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSMonthCalendarUnit) fromDate:date];
+    return monthNames[c.month];
+}
+
++ (NSString*)getYearDesc:(NSDate*)date
+{
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSYearCalendarUnit) fromDate:date];
+    return @(c.year).stringValue;
+}
+
++ (NSString*)getWeekdayDesc:(NSDate*)date
+{
+    NSArray* array = @[
+                       @"",
+                       @"SUNDAY",
+                       @"MONDAY",
+                       @"TUESDAY",
+                       @"WEDENSDAY",
+                       @"THURSDAY",
+                       @"FRIDAY",
+                       @"SATURDAY"];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSWeekdayCalendarUnit) fromDate:date];
+    return array[c.weekday];
+}
 @end

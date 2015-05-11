@@ -124,6 +124,7 @@
     self.label3.frame = rect3;
     [self.label2 setNeedsDisplay];
     
+<<<<<<< HEAD
 //    NSDictionary* brand = [QSItemUtil getBrand:item];
 //    NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
 //    if (iconUrl) {
@@ -132,6 +133,16 @@
 //    } else {
 //        self.iconImageView.hidden = YES;
 //    }
+=======
+    //NSDictionary* brand = [QSItemUtil getBrand:item];
+//    NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
+//    if (iconUrl) {
+//        self.iconImageView.hidden = NO;
+////        [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
+//    } else {
+//        self.iconImageView.hidden = YES;
+   // }
+>>>>>>> 466e2e3807b5ad3333b76c2f26fad421f0daf7fb
 
 }
 @end

@@ -18,4 +18,9 @@
 
 + (NSString*)buildDateStringFromDate:(NSDate*)date;
 
++ (BOOL)date:(NSDate*)date1 isTheSameDayWith:(NSDate*)date2;
++ (NSString*)getDayDesc:(NSDate*)date;
++ (NSString*)getMonthDesc:(NSDate*)date;
++ (NSString*)getYearDesc:(NSDate*)date;
++ (NSString*)getWeekdayDesc:(NSDate*)date;
 @end

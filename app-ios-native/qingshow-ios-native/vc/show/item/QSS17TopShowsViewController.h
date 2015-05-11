@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSBlock.h"
 
 @interface QSS17TopShowsViewController : UIViewController
+
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-//- (id)bindWithDic:(NSDictionary *)TopShowSDic;
 @end

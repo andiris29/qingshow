@@ -13,22 +13,23 @@
 #import "UIViewController+Utility.h"
 #import "UIViewController+QSExtension.h"
 #import "QSNetworkKit.h"
+#import "QSU13PersonalizeViewController.h"
 
 #define PAGE_ID @"U07 - 注册"
 
 @interface QSU07RegisterViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *accountText;
+@property (weak, nonatomic) IBOutlet UITextField *nickNameText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdCfmText;
+@property (weak, nonatomic) IBOutlet UITextField *mailAndPhoneText;
 @property (weak, nonatomic) IBOutlet UIButton *registerButton;
+@property (weak, nonatomic) IBOutlet UIButton *weixinButton;
+@property (weak, nonatomic) IBOutlet UIButton *weiboButton;
 
 @end
 
 @implementation QSU07RegisterViewController
-{
-    NSMutableArray *clothesArray;
-    NSMutableArray *shoesArray;
-}
+
 - (void)configScrollView
 {
     CGSize scrollViewSize = self.containerScrollView.bounds.size;
@@ -41,108 +42,46 @@
     [super viewDidLoad];
     [self registerForKeyboardNotifications];
     [self configScrollView];
-    // Do any additional setup after loading the view from its nib.
-    
-    // assign delegate
-    self.accountText.delegate = self;
+ 
+    self.nickNameText.delegate = self;
     self.passwdCfmText.delegate = self;
     self.passwdText.delegate = self;
-    
-    // Array alloc;
-    clothesArray = [[NSMutableArray alloc]initWithCapacity:20];
-    shoesArray = [[NSMutableArray alloc]initWithCapacity:20];
-    
-    // View全体
-    self.view.backgroundColor=[UIColor colorWithRed:255.f/255.f green:255.f/255.f blue:255.f/255.f alpha:1.f];
-    
-    // Navibar
-    self.navigationItem.title = @"注册";
-    self.navigationItem.backBarButtonItem.title = @"";
-    [self hideNaviBackBtnTitle];
-    
-    // Goto Login
-    UIBarButtonItem *loginButton = [[UIBarButtonItem alloc] initWithTitle:@"登陆" style:UIBarButtonItemStyleDone target:self action:@selector(login)];
-    self.navigationItem.rightBarButtonItem = loginButton;
-    
-    for (UIView *subView in self.view.subviews) {
-        if ([subView isKindOfClass:[UILabel class]]) {
-            UILabel *label = (UILabel *)subView;
-            if (label.tag == 99) {
-                continue;
-            }
-            
-            CALayer *layer = [label layer];
-            CALayer *upperBorder = [CALayer layer];
-            upperBorder.borderWidth=1.0f;
-            upperBorder.frame = CGRectMake(0, 0, layer.frame.size.width, 1);
-            [upperBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
-            [layer addSublayer:upperBorder];
-        }
-    }
-    
-    CALayer *layer = [self.shoeSizeLabel layer];
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.borderWidth = 1.0f;
-    bottomBorder.frame = CGRectMake(0, layer.frame.size.height - 1, layer.frame.size.width, 1);
-    [bottomBorder setBorderColor:[[UIColor colorWithRed:215.f/255.f green:220.f/255.f blue:224.f/255.f alpha:1.f] CGColor]];
-    [layer addSublayer:bottomBorder];
-    
+    self.mailAndPhoneText.delegate = self;
+    [self.nickNameText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.passwdText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.passwdCfmText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [self.mailAndPhoneText setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    self.nickNameText.tintColor = [UIColor whiteColor];
+    self.passwdText.tintColor = [UIColor whiteColor];
+    self.passwdCfmText.tintColor = [UIColor whiteColor];
+    self.mailAndPhoneText.tintColor = [UIColor whiteColor];
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
-    self.registerButton.backgroundColor = [UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f];
+    [self.registerButton setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+    self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
+    self.weixinButton.layer.masksToBounds = YES;
     
-    self.gender = 1;
-    self.clothingSize = 0;
-    self.shoeSize = 34;
-    
-    //[self setSelectedStyleToPropButton:self.femaleButton];
-//    [self setDefaultStyleToPropButon:self.maleButton];
-//    [self setDefaultStyleToPropButon:self.femaleButton];
-    //[self setUnSelectedStyleToPropButton:self.maleButton];
-    [self.femaleButton setImage:[UIImage imageNamed:@"female_btn_hover"] forState:UIControlStateNormal];
-    [self.maleButton setImage:[UIImage imageNamed:@"male_btn"] forState:UIControlStateNormal];
-//    [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
-//    [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
-    
-//    [clothesArray addObject:self.xxsButton];
-//    [clothesArray addObject:self.xsButton];
-//    [clothesArray addObject:self.sButton];
-//    [clothesArray addObject:self.mButton];
-//    [clothesArray addObject:self.lButton];
-//    [clothesArray addObject:self.xlButton];
-//    [clothesArray addObject:self.xxlButton];
-//    [clothesArray addObject:self.xxxlButton];
-//    
-//    [shoesArray addObject:self.three4Button];
-//    [shoesArray addObject:self.three5Button];
-//    [shoesArray addObject:self.three6Button];
-//    [shoesArray addObject:self.three7Button];
-//    [shoesArray addObject:self.three8Button];
-//    [shoesArray addObject:self.three9Button];
-//    [shoesArray addObject:self.four0Button];
-//    [shoesArray addObject:self.four1Button];
-//    [shoesArray addObject:self.four2Button];
-//    [shoesArray addObject:self.four3Button];
-//    [shoesArray addObject:self.four4Button];
-//    
-//    [self setSizeStyleBySelectedSize:self.clothingSize buttonArray: clothesArray];
-//    [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
-//    
-//    // tap Setting
-//    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
-//    [singleTap setNumberOfTapsRequired:1];
-//    [singleTap setNumberOfTouchesRequired:1];
-//    [self.contentView addGestureRecognizer:singleTap];
+    self.weiboButton.layer.cornerRadius = self.weiboButton.frame.size.height / 8;
+    self.weiboButton.layer.masksToBounds = YES;
 }
 - (void)dealloc
 {
     [self unregisterKeyboardNotifications];
 }
+- (IBAction)login:(id)sender {
+    [self resignOnTap:nil];
+    UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
+    //self.navigationController.navigationBarHidden = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+- (IBAction)back:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
 }
 - (void)didReceiveMemoryWarning {
@@ -170,14 +109,14 @@
     [self.currentResponder resignFirstResponder];
 }
 
-- (IBAction)register:(id)sender {
-
-    NSString *account = self.accountText.text;
+- (IBAction)registers:(id)sender {
+    NSString *nickName = self.nickNameText.text;
     NSString *passwd = self.passwdText.text;
     NSString *passwdCfm = self.passwdCfmText.text;
+    NSString *mailAndPhone = self.mailAndPhoneText.text;
     
-    if (account.length == 0) {
-        [self showErrorHudWithText:@"请输入账号"];
+    if (nickName.length == 0) {
+        [self showErrorHudWithText:@"请输入昵称"];
         return;
     }
     
@@ -191,10 +130,10 @@
         return;
     }
     
-//    if ([self checkEmail:account] != YES) {
-//        [self showErrorHudWithText:@"请输入正确的邮件地址"];
-//        return;
-//    }
+        if ([self checkMobile:mailAndPhone] != YES) {
+            [self showErrorHudWithText:@"请输入正确的邮箱或手机号"];
+            return;
+        }
     
     if ([self checkPasswd:passwd] != YES) {
         [self showErrorHudWithText:@"请输入8-12位的英文或数字"];
@@ -208,14 +147,9 @@
     
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
-        [self dismissViewControllerAnimated:YES completion:nil];
-//        UIViewController *vc = [[QSS01RootViewController alloc]initWithNibName:@"QSS01RootViewController" bundle:nil];
-//        [self.navigationController pushViewController:vc animated:YES];
-//        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
-        NSNumber *gender = [[NSNumber alloc] initWithLong:self.gender];
-        NSNumber *clothingSize = [[NSNumber alloc] initWithLong:self.clothingSize];
-        NSNumber *shoeSize = [[NSNumber alloc] initWithLong:self.shoeSize];
-        [self updatePeopleEntityByEntity:@{@"gender": gender, @"clothingSize": clothingSize, @"shoeSize": shoeSize}];
+        //[self.navigationController popViewControllerAnimated:YES];
+        QSU13PersonalizeViewController *perliyVC = [[QSU13PersonalizeViewController alloc] init];
+        [self.navigationController pushViewController:perliyVC animated:YES];
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {
@@ -231,108 +165,41 @@
             return;
         }
     };
-    
-    [SHARE_NW_ENGINE registerById:account Password:passwd onSuccess:successBloc onError:errorBlock];
-}
+    [SHARE_NW_ENGINE registerByNickname:nickName Password:passwd Id:mailAndPhone onSucceessd:successBloc onErrer:errorBlock];
 
-# pragma mark - private
-- (void)setDefaultStyleToPropButon:(UIButton *) button {
-    button.layer.cornerRadius = button.frame.size.height / 8;
-    button.layer.masksToBounds = YES;
-    button.layer.borderWidth = 1.f;
-    [button.layer setBorderColor:[[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] CGColor]];
-}
-
-- (void)setSelectedStyleToPropButton:(UIButton *) button {
-    [button setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-}
-
-- (void)setUnSelectedStyleToPropButton:(UIButton *) button {
-    [button setBackgroundColor:[UIColor whiteColor]];
-    [button setTitleColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] forState:UIControlStateNormal];
-    [button.layer setBorderColor:[[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f] CGColor]];
-}
-
-- (void) setSizeStyleBySelectedSize:(NSInteger) selectSize buttonArray:(NSMutableArray *) array {
-    for (UIButton *button in array) {
-        NSInteger buttonTag = button.tag;
-        if (buttonTag == selectSize) {
-            [self setSelectedStyleToPropButton:button];
-        } else {
-            [self setUnSelectedStyleToPropButton:button];
-        }
-        [self setDefaultStyleToPropButon:button];
-    }
-}
-
-// Update Peoples
-- (void) updatePeopleEntityByEntity:(NSDictionary *)entity
-{
-    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-        if (metadata[@"error"] == nil && people != nil) {
-            //[vc showSuccessHudWithText:@"更新成功"];
-            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-//            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [self showErrorHudWithText:@"更新失败"];
-        }
-    };
-    
-    ErrorBlock error = ^(NSError *error) {
-        if (error.userInfo[@"error"] != nil) {
-            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
-            if (errorCode != nil) {
-            //    [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
-            }
-        } else {
-            [self showErrorHudWithText:@"网络连接失败"];
-        }
-    };
-    
-    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
-}
-
-- (IBAction)selectGender:(id)sender {
-    [self resignOnTap:nil];
-    self.gender = ((UIButton *)sender).tag;
-    if (self.gender == 0) {
-//        [self setSelectedStyleToPropButton:self.maleButton];
-//        [self setUnSelectedStyleToPropButton:self.femaleButton];
-//        [self.maleLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
-//        [self.femalLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
-        [self.femaleButton setImage:[UIImage imageNamed:@"female_btn"] forState:UIControlStateNormal];
-        [self.maleButton setImage:[UIImage imageNamed:@"male_btn_hover"] forState:UIControlStateNormal];
-    } else {
-//        [self setSelectedStyleToPropButton:self.femaleButton];
-//        [self setUnSelectedStyleToPropButton:self.maleButton];
-//        [self.femalLabel setTextColor:[UIColor colorWithRed:1.f green:1.f blue:1.f alpha:1.f]];
-//        [self.maleLabel setTextColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
-        [self.femaleButton setImage:[UIImage imageNamed:@"female_btn_hover"] forState:UIControlStateNormal];
-        [self.maleButton setImage:[UIImage imageNamed:@"male_btn"] forState:UIControlStateNormal];
-    }
-}
-
-- (IBAction)selectClothingSize:(id)sender {
-    [self resignOnTap:nil];
-    self.clothingSize = ((UIButton *)sender).tag;
-    [self setSizeStyleBySelectedSize:self.clothingSize buttonArray:clothesArray];
 }
 
 
-- (IBAction)selectShoeSize:(id)sender {
-    [self resignOnTap:nil];
-    self.shoeSize = ((UIButton *)sender).tag;
-    [self setSizeStyleBySelectedSize:self.shoeSize buttonArray:shoesArray];
-}
 
-- (void)login{
-    [self resignOnTap:nil];
-    UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
-    //self.navigationController.navigationBarHidden = YES;
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//// Update Peoples
+//- (void) updatePeopleEntityByEntity:(NSDictionary *)entity
+//{
+//    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
+//        if (metadata[@"error"] == nil && people != nil) {
+//            //[vc showSuccessHudWithText:@"更新成功"];
+//            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+////            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:0] animated:YES];
+//            [self.navigationController popViewControllerAnimated:YES];
+//        } else {
+//            [self showErrorHudWithText:@"更新失败"];
+//        }
+//    };
+//    
+//    ErrorBlock error = ^(NSError *error) {
+//        if (error.userInfo[@"error"] != nil) {
+//            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
+//            if (errorCode != nil) {
+//            //    [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
+//            }
+//        } else {
+//            [self showErrorHudWithText:@"网络连接失败"];
+//        }
+//    };
+//    
+//    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+//}
+
+
 
 #pragma mark - Keyboard
 - (void)registerForKeyboardNotifications

@@ -34,6 +34,8 @@
 
 @property (strong, nonatomic) NSArray* additionalResult;
 
+@property (strong, nonatomic) VoidBlock networkDataFinalHandlerBlock;
+
 #pragma mark - Network
 - (void)reloadData;
 - (void)refreshData:(NSDictionary*)dict;
