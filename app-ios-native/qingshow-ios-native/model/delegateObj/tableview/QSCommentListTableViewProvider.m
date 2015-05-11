@@ -10,6 +10,7 @@
 #import "QSCommentUtil.h"
 
 @implementation QSCommentListTableViewProvider
+@dynamic delegate;
 
 - (void)registerCell
 {

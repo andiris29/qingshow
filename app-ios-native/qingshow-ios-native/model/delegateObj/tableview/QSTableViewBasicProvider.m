@@ -20,7 +20,7 @@
 @end
 
 @implementation QSTableViewBasicProvider
-
+@dynamic view;
 #pragma mark - Init
 - (id)initWithCellClass:(Class)cellClass identifier:(NSString*)identifier
 {
@@ -82,6 +82,10 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.resultArray.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
 }
 - (void)removeData:(NSDictionary*)data withAnimation:(BOOL)fAnimate
 {

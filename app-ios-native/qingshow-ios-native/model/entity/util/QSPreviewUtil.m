@@ -45,30 +45,7 @@
     }
     return @"";
 }
-+ (NSString*)getImagesPriceDesc:(NSDictionary*)previewDict atIndex:(int)index
-{
-    if ([QSCommonUtil checkIsNil:previewDict]) {
-        return nil;
-    }
-    NSArray* paths = previewDict[@"images"];
-    if (index < paths.count) {
-        NSDictionary* d = paths[index];
-        return d[@"priceDescription"];
-    }
-    return @"";
-}
-+ (NSString*)getImagesBrandDesc:(NSDictionary*)previewDict atIndex:(int)index
-{
-    if ([QSCommonUtil checkIsNil:previewDict]) {
-        return nil;
-    }
-    NSArray* paths = previewDict[@"images"];
-    if (index < paths.count) {
-        NSDictionary* d = paths[index];
-        return d[@"brandDescription"];
-    }
-    return @"";
-}
+
 + (NSArray*)getImagesUrl:(NSDictionary*)previewDict
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
@@ -113,27 +90,6 @@
         return nil;
     }
     return ((NSNumber*)previewDict[@"numLike"]).kmbtStringValue;
-}
-+ (NSString*)getBrandDesc:(NSDictionary*)previewDict
-{
-    if ([QSCommonUtil checkIsNil:previewDict]) {
-        return nil;
-    }
-    return previewDict[@"brandDescription"];
-}
-+ (NSString*)getNameDesc:(NSDictionary*)previewDict
-{
-    if ([QSCommonUtil checkIsNil:previewDict]) {
-        return nil;
-    }
-    return previewDict[@"nameDescription"];
-}
-+ (NSString*)getPriceDesc:(NSDictionary*)previewDict
-{
-    if ([QSCommonUtil checkIsNil:previewDict]) {
-        return nil;
-    }
-    return previewDict[@"priceDescription"];
 }
 + (NSString*)getCreateDesc:(NSDictionary*)previewDict
 {

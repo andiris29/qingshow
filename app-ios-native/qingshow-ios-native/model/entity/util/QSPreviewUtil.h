@@ -13,9 +13,6 @@
 + (NSURL*)getCoverUrl:(NSDictionary*)previewDict;
 + (NSDictionary*)getCoverMetadata:(NSDictionary*)previewDict;
 + (NSString*)getNumLikeDesc:(NSDictionary*)previewDict;
-+ (NSString*)getBrandDesc:(NSDictionary*)previewDict;
-+ (NSString*)getNameDesc:(NSDictionary*)previewDesc;
-+ (NSString*)getPriceDesc:(NSDictionary*)previewDict;
 + (NSString*)getCreateDesc:(NSDictionary*)previewDict;
 + (NSString*)getNumCommentDesc:(NSDictionary*)previewDict;
 + (NSArray*)getImagesUrl:(NSDictionary*)previewDict;
@@ -26,7 +23,5 @@
 + (void)addNumberComment:(long long)num forPreview:(NSDictionary*)previewDict;
 //+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)previewDict;
 + (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index;
-+ (NSString*)getImagesPriceDesc:(NSDictionary*)previewDict atIndex:(int)index;
-+ (NSString*)getImagesBrandDesc:(NSDictionary*)previewDict atIndex:(int)index;
 
 @end

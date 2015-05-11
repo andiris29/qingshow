@@ -27,4 +27,5 @@
 
 + (NSURL*)getSizeExplanation:(NSDictionary*)item;
 + (NSString*)getVideoPath:(NSDictionary*)item;
++ (NSDictionary*)getBrand:(NSDictionary*)item;
 @end

@@ -55,17 +55,6 @@
     }
     return @"";
 }
-//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
-//{
-//    NSURL* cover = [self getCoverUrl:itemDict];
-//    NSArray* imagesUrl = [self getImagesUrl:itemDict];
-//    NSMutableArray* m = [@[] mutableCopy];
-//    if (cover) {
-//        [m addObject:cover];
-//    }
-//    [m addObjectsFromArray:imagesUrl];
-//    return m;
-//}
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
@@ -276,5 +265,27 @@
     } else {
         return path;
     }
+}
++ (NSDictionary*)getBrand:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    NSDictionary* b = itemDict[@"brandRef"];
+    if ([QSCommonUtil checkIsNil:b]) {
+        return b;
+    } else {
+        NSMutableDictionary* mb = [b mutableCopy];
+        [self setBrand:mb forItem:itemDict];
+        return mb;
+    }
+}
++ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
+{
+    if (![item isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)item;
+    m[@"brandRef"] = brandDict;
 }
 @end
