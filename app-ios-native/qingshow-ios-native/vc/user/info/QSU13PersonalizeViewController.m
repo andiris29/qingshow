@@ -21,7 +21,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-<<<<<<< Updated upstream
     // Do any additional setup after loading the view from its nib.
     _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
     
@@ -38,7 +37,7 @@
     [self.hightSlider addTarget:self action:@selector(getWithHight) forControlEvents:UIControlEventValueChanged];
     [self.weightSlider addTarget:self action:@selector(getWithWeight) forControlEvents:UIControlEventValueChanged];
     
-    [self.ageSlider minimumValueImageRectForBounds:<#(CGRect)#>]
+//    [self.ageSlider minimumValueImageRectForBounds:<#(CGRect)#>]
     
     
     self.expectations = [NSMutableArray arrayWithCapacity:0];
@@ -62,7 +61,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
-=======
     
     // Do any additional setup after loading the view from its nib.
     _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
@@ -74,12 +72,6 @@
     self.OKButton.clipsToBounds = YES;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
->>>>>>> Stashed changes
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

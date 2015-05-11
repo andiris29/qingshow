@@ -1253,13 +1253,10 @@
 		EF7826A41A4EB4F200C69460 /* resource */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
 				A7865BF41B00372F00F71B15 /* user_personality.png */,
 				A76A66401AFC925000AF5559 /* login_backImage.png */,
-=======
 				A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */,
 				A76A665A1AFCB74900AF5559 /* user_personality.png */,
->>>>>>> Stashed changes
 				EF88D08D1ACEF90C002C4963 /* area.json */,
 				EFEBAAE31ABEB0000000FEEE /* location.plist */,
 				EF7826A51A4EB4F200C69460 /* user_bg_default.png */,
@@ -2175,31 +2172,9 @@
 				EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */,
 				EF1729311A1CE50F001819E3 /* QSSectionTextButton.xib in Resources */,
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
-=======
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
->>>>>>> Stashed changes
-=======
-				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
->>>>>>> Stashed changes
-=======
-				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
->>>>>>> Stashed changes
-=======
-				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
->>>>>>> Stashed changes
-=======
-				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
->>>>>>> Stashed changes
-=======
 				A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */,
->>>>>>> Stashed changes
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
 				8C8B9D8B1B00395B00C1A321 /* welcome2_667@2x.png in Resources */,
 				EF610EFD1AF937F700B7DFB3 /* QSBigImageDateView.xib in Resources */,

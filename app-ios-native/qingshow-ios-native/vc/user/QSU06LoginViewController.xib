@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU06LoginViewController">
@@ -174,15 +174,10 @@
         </view>
     </objects>
     <resources>
-<<<<<<< Updated upstream
-        <image name="login_backImage.png" width="640" height="1178"/>
         <image name="user_back_btn" width="65" height="42"/>
         <image name="user_nickname" width="52" height="37"/>
         <image name="user_password" width="37" height="43"/>
-=======
-        <image name="model_detail_back_btn" width="20" height="20"/>
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
->>>>>>> Stashed changes
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
