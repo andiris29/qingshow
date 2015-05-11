@@ -404,7 +404,7 @@ _loginViaWeixin = function(req, res) {
     var param = req.body;
     var code = param.code;
     if (!code) {
-        RequestHelper.response(res, ServerError.NotEnoughParam);
+        ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback) {
@@ -422,7 +422,7 @@ _loginViaWeixin = function(req, res) {
 
         request.get(usr_url, function(errro, response, body) {
             var data = JSON.parse(body);
-            if (data.error !== null) {
+            if (data.error !== undefined) {
                 callback(data.error);
                 return;
             }
@@ -485,7 +485,7 @@ _loginViaWeixin = function(req, res) {
         req.session.loginDate = new Date();
         callback(null, people);
     }], function(error, people) {
-        RelationshipHelper.response(res, err, {
+        ResponseHelper.response(res, err, {
             'people' : people
         });
     });
@@ -496,14 +496,14 @@ _loginViaWeibo = function(req, res) {
     var token = param.access_token;
     var uid = param.uid;
     if (!token || !uid) {
-        RelationshipHelper.response(ServerError.NotEnoughParam);
+        ResponseHelper.response(ServerError.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback) {
         var url = "https://api.weibo.com/2/users/show.json?access_token=" + token + "&uid=" + uid;
         request.get(url, function(error, response, body) {
             var data = JSON.parse(body);
-            if (data.error !== null) {
+            if (data.error !== undefined) {
                 callback(data.error);
                 return;
             }
@@ -561,7 +561,7 @@ _loginViaWeibo = function(req, res) {
         req.session.loginDate = new Date();
         callback(null, people);
     }], function(error, people) {
-        RelationshipHelper.response(res, err, {
+        ResponseHelper.response(res, error, {
             'people' : people
         });
     });
