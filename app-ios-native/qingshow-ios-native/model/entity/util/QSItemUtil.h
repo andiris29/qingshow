@@ -10,29 +10,21 @@
 
 @interface QSItemUtil : NSObject
 
-+ (NSURL*)getCoverUrl:(NSDictionary*)itemDict;
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
 + (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
 + (NSDictionary*)getImageMetadata:(NSDictionary*)itemDict;
-//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict;
-
++ (NSString*)getItemTypeName:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 
-
-+ (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray;
 + (NSString*)getItemName:(NSDictionary*)item;
-+ (NSString*)getItemTypeName:(NSDictionary*)item;
 + (BOOL)hasDiscountInfo:(NSDictionary*)item;
 + (NSString*)getPrice:(NSDictionary*)item;
 + (NSString*)getPriceAfterDiscount:(NSDictionary*)itemDict;
 
-+ (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
 + (NSString*)getImageDesc:(NSDictionary*)itemDict atIndex:(int)index;
 
 + (NSDictionary*)getTaobaoInfo:(NSDictionary*)item;
 
 + (NSURL*)getSizeExplanation:(NSDictionary*)item;
 + (NSString*)getVideoPath:(NSDictionary*)item;
-
-//+ (CGFloat)getHeight:(NSDictionary*)itemDict;
 @end

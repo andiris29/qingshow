@@ -56,14 +56,6 @@
     }
 }
 
-+ (NSArray*)getItemsImageUrlArrayFromShow:(NSDictionary*)dict
-{
-    if ([QSCommonUtil checkIsNil:dict]) {
-        return nil;
-    }
-    NSArray* itemArray = dict[@"itemRefs"];
-    return [QSItemUtil getItemsImageUrlArray:itemArray];
-}
 + (NSArray*)getItems:(NSDictionary *)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
@@ -225,5 +217,29 @@
         return nil;
     }
     return rec[@"description"];
+}
+
++ (NSDictionary*)getBrand:(NSDictionary*)showDict
+{
+    if (![QSCommonUtil checkIsDict:showDict]) {
+        return nil;
+    }
+    NSDictionary* rec = showDict[@"brandRef"];
+    if (![QSCommonUtil checkIsDict:rec]) {
+        return nil;
+    }
+    return rec;
+}
+
++ (NSString*)getShowDesc:(NSDictionary*)showDict
+{
+    if (![QSCommonUtil checkIsDict:showDict]) {
+        return nil;
+    }
+    NSString* rec = showDict[@"description"];
+    if ([QSCommonUtil checkIsNil:rec]) {
+        return nil;
+    }
+    return rec;
 }
 @end
