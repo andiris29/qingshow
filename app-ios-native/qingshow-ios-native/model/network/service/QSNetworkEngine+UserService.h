@@ -19,10 +19,15 @@
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 
-- (MKNetworkOperation *)registerById:(NSString *)pid
-                            Password:(NSString *)passwd
-                           onSuccess:(EntitySuccessBlock)succeedBlock
-                             onError:(ErrorBlock)errorBlock;
+//- (MKNetworkOperation *)registerById:(NSString *)pid
+//                            Password:(NSString *)passwd
+//                           onSuccess:(EntitySuccessBlock)succeedBlock
+//                             onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)registerByNickname:(NSString *)nickName
+                                  Password:(NSString *)passwd
+                                        Id:(NSString *)pid
+                               onSucceessd:(EntitySuccessBlock)successdBlock
+                                   onErrer:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation *)updatePeople:(NSDictionary *)people
                            onSuccess:(EntitySuccessBlock)succeedBlock

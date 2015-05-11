@@ -9,11 +9,18 @@
 #import "QSS17TopShowsViewController.h"
 #import "QSS17TopShow_1Cell.h"
 #import "QSS17TopShow_2Cell.h"
+#import "QSS17TopShow_3Cell.h"
+#import "QSS17TopShow_4Cell.h"
+#import "QSS17TopShow_5Cell.h"
 #import "QSS03ShowDetailViewController.h"
+#import "QSNetworkKit.h"
+//#import "QSNetworkEngine+QSHotService.h"
 
 static NSString *TopShow_1Indentifier = @"TopShow_1Cell";
 static NSString *TopShow_2Indentifier = @"TopShow_2Cell";
-
+static NSString *TopShow_3Indentifier = @"TopShow_3Cell";
+static NSString *TopShow_4Indentifier = @"TopShow_4Cell";
+static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 @interface QSS17TopShowsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @end
@@ -27,6 +34,18 @@ static NSString *TopShow_2Indentifier = @"TopShow_2Cell";
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
+//    [SHARE_NW_ENGINE hotFeedingByTopShows:nil OnSucceed:^(NSArray *array, NSDictionary *metadata) {
+//        
+//    } onError:^(NSError *error) {
+//        
+//    }];
+//    [SHARE_NW_ENGINE hotFeedingByTopShows:nil OnSucceed:^(NSArray *array, NSDictionary *metadata) {
+//    
+//    } onError:^(NSError *error) {
+//    
+//    }];
+
+    
     [self registerCell];
 }
 
@@ -35,6 +54,10 @@ static NSString *TopShow_2Indentifier = @"TopShow_2Cell";
 {
   [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_1Cell" bundle:nil] forCellReuseIdentifier:TopShow_1Indentifier];
   [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_2Cell" bundle:nil] forCellReuseIdentifier:TopShow_2Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_3Cell" bundle:nil] forCellReuseIdentifier:TopShow_3Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_4Cell" bundle:nil] forCellReuseIdentifier:TopShow_4Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_5Cell" bundle:nil] forCellReuseIdentifier:TopShow_5Indentifier];
+    
 }
 
 #pragma mark - UITableViewDataSource
@@ -44,24 +67,34 @@ static NSString *TopShow_2Indentifier = @"TopShow_2Cell";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 2 == 0) {
+    if (indexPath.row == 0) {
         QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_1Indentifier forIndexPath:indexPath];
-        if (indexPath.row == 0) {
-            cell.dayLabel.hidden = NO;
-            cell.lineView.hidden = NO;
-            cell.YAndMLabel.hidden = NO;
-        } else {
-            cell.dayLabel.hidden = YES;
-            cell.lineView.hidden = YES;
-            cell.YAndMLabel.hidden = YES;
-        }
+//        if (indexPath.row == 0) {
+//            cell.dayLabel.hidden = NO;
+//            cell.lineView.hidden = NO;
+//            cell.YAndMLabel.hidden = NO;
+//        } else {
+//            cell.dayLabel.hidden = YES;
+//            cell.lineView.hidden = YES;
+//            cell.YAndMLabel.hidden = YES;
+//        }
+        return cell;
+    } else if(indexPath.row == 1){
+        QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_2Indentifier forIndexPath:indexPath];
+        return cell;
+    } else if (indexPath.row == 2){
+        QSS17TopShow_3Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_3Indentifier forIndexPath:indexPath];
+        return cell;
+    } else if (indexPath.row == 3){
+        QSS17TopShow_4Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_4Indentifier forIndexPath:indexPath];
         return cell;
     } else {
-        QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_2Indentifier forIndexPath:indexPath];
+        QSS17TopShow_5Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_5Indentifier forIndexPath:indexPath];
         return cell;
     }
     
 }
+
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
