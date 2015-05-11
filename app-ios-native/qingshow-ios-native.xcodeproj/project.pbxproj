@@ -221,6 +221,9 @@
 		EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB61A1116650078D1F9 /* QSItemImageScrollView.m */; };
 		EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */; };
 		EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */; };
+		EFCA01281B00F3F500199BCF /* QSS14PreviewDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCA01261B00F3F500199BCF /* QSS14PreviewDetailViewController.m */; };
+		EFCA01291B00F3F500199BCF /* QSS14PreviewDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFCA01271B00F3F500199BCF /* QSS14PreviewDetailViewController.xib */; };
+		EFCA01311B00F96F00199BCF /* QSNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFCA01301B00F96F00199BCF /* QSNavigationController.m */; };
 		EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */; };
 		EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFD28CF51AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m */; };
 		EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFD28CF61AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib */; };
@@ -741,6 +744,11 @@
 		EFC7ADB81A11207E0078D1F9 /* QSItemContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemContainerView.h; sourceTree = "<group>"; };
 		EFC7ADB91A11207E0078D1F9 /* QSItemContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemContainerView.m; sourceTree = "<group>"; };
 		EFC7ADBB1A11208A0078D1F9 /* QSItemContainerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemContainerView.xib; sourceTree = "<group>"; };
+		EFCA01251B00F3F500199BCF /* QSS14PreviewDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS14PreviewDetailViewController.h; sourceTree = "<group>"; };
+		EFCA01261B00F3F500199BCF /* QSS14PreviewDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS14PreviewDetailViewController.m; sourceTree = "<group>"; };
+		EFCA01271B00F3F500199BCF /* QSS14PreviewDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS14PreviewDetailViewController.xib; sourceTree = "<group>"; };
+		EFCA012F1B00F96F00199BCF /* QSNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSNavigationController.h; sourceTree = "<group>"; };
+		EFCA01301B00F96F00199BCF /* QSNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSNavigationController.m; sourceTree = "<group>"; };
 		EFD0B7EE1A1A4FC500BCDFBA /* QSUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserManager.h; sourceTree = "<group>"; };
 		EFD0B7EF1A1A4FC500BCDFBA /* QSUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserManager.m; sourceTree = "<group>"; };
 		EFD28CF41AB3F56C00991ADD /* QSU11ReceiverEditingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU11ReceiverEditingViewController.h; sourceTree = "<group>"; };
@@ -953,6 +961,8 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EFCA012E1B00F96100199BCF /* nav */,
+				EFCA01231B00F3E400199BCF /* preview */,
 				EFED34811AFC69A000F08A0D /* welcome */,
 				EFC6C3DE1AFA375A00631F14 /* chosen */,
 				EF9BC1EC1AB7499A00391530 /* video */,
@@ -1254,7 +1264,6 @@
 			isa = PBXGroup;
 			children = (
 				A7865BF41B00372F00F71B15 /* user_personality.png */,
-				A76A66401AFC925000AF5559 /* login_backImage.png */,
 				A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */,
 				A76A665A1AFCB74900AF5559 /* user_personality.png */,
 				EF88D08D1ACEF90C002C4963 /* area.json */,
@@ -1807,6 +1816,25 @@
 			path = imageScroll;
 			sourceTree = "<group>";
 		};
+		EFCA01231B00F3E400199BCF /* preview */ = {
+			isa = PBXGroup;
+			children = (
+				EFCA01251B00F3F500199BCF /* QSS14PreviewDetailViewController.h */,
+				EFCA01261B00F3F500199BCF /* QSS14PreviewDetailViewController.m */,
+				EFCA01271B00F3F500199BCF /* QSS14PreviewDetailViewController.xib */,
+			);
+			path = preview;
+			sourceTree = "<group>";
+		};
+		EFCA012E1B00F96100199BCF /* nav */ = {
+			isa = PBXGroup;
+			children = (
+				EFCA012F1B00F96F00199BCF /* QSNavigationController.h */,
+				EFCA01301B00F96F00199BCF /* QSNavigationController.m */,
+			);
+			path = nav;
+			sourceTree = "<group>";
+		};
 		EFD0B7EC1A1A4F7E00BCDFBA /* user */ = {
 			isa = PBXGroup;
 			children = (
@@ -2184,6 +2212,7 @@
 				EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */,
 				EF140A6B1A09254C00E3C4D4 /* QSS01RootViewController.xib in Resources */,
 				EF810F341AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib in Resources */,
+				EFCA01291B00F3F500199BCF /* QSS14PreviewDetailViewController.xib in Resources */,
 				8C8B9D8D1B00395B00C1A321 /* welcome1_736@3x.png in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				8C8B9D8A1B00395B00C1A321 /* welcome1_667@2x.png in Resources */,
@@ -2266,6 +2295,7 @@
 				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
+				EFCA01281B00F3F500199BCF /* QSS14PreviewDetailViewController.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
 				EF88D0911ACEF91C002C4963 /* QSLocationPickerProvider.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
@@ -2298,6 +2328,7 @@
 				EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */,
 				EF78E3511AAF4CB900665EDD /* QSOrderListTableViewCell.m in Sources */,
 				EF3013391AC3174000568D92 /* DataSigner.m in Sources */,
+				EFCA01311B00F96F00199BCF /* QSNavigationController.m in Sources */,
 				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
 				A77BD6671AF7879000D446F7 /* QSS17TopShowsViewController.m in Sources */,
 				EF610EF41AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m in Sources */,

@@ -16,9 +16,9 @@
 
 #import <objc/runtime.h>
 
-#import "QSS10ItemDetailVideoViewController.h"
 #import "QSS03ShowDetailViewController.h"
-
+#import "QSS10ItemDetailVideoViewController.h"
+#import "QSS14PreviewDetailViewController.h"
 
 
 static char alertDelegateObjKey;
@@ -86,7 +86,8 @@ static char alertDelegateObjKey;
 
 - (void)showPreviewDetailViewController:(NSDictionary*)previewDict
 {
-#warning TODO
+    UIViewController* vc = [[QSS14PreviewDetailViewController alloc] initWithPreview:previewDict];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end
