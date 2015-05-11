@@ -11,6 +11,7 @@
 #import "QSS15ChosenViewController.h"
 #import "QSNetworkKit.h"
 #import "QSChosenUtil.h"
+#import "UIViewController+QSExtension.h"
 
 @interface QSS15ChosenViewController ()
 
@@ -60,7 +61,7 @@
     self.provider = [[QSBigImageTableViewProvider alloc] init];
     self.provider.type = QSBigImageTableViewCellTypeChosen;
 //    self.provider.hasPaging = NO;
-//    self.provider.delegate = self;
+    self.provider.delegate = self;
     [self.provider bindWithTableView:self.tableView];
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE chosenFeedByType:ChosenTypeHome page:page onSucceed:succeedBlock onError:^(NSError *error) {
@@ -76,14 +77,35 @@
 }
 
 #pragma mark - QSBigImageTableViewProviderDelegate
-#warning TODO
+
 - (void)didClickCell:(UITableViewCell*)cell ofData:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
 {
-    
+    QSChosenRefType chosenType = [QSChosenUtil getChosenRefType:dict];
+    NSDictionary* ref = [QSChosenUtil getRef:dict];
+    switch (chosenType) {
+        case QSChosenRefTypeItem:
+        {
+            [self showItemDetailViewController:ref];
+            break;
+        }
+        case QSChosenRefTypePreview:
+        {
+            [self showPreviewDetailViewController:ref];
+            break;
+        }
+        case QSChosenRefTypeShow:
+        {
+            [self showShowDetailViewController:ref];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (void)clickLikeOfDict:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
 {
-
+    QSChosenRefType chosenType = [QSChosenUtil getChosenRefType:dict];
+    
 }
 @end

@@ -11,10 +11,13 @@
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
 #import "QSUserLoginAlertDelegateObj.h"
-#import "QSU01UserDetailViewController.h"
+//#import "QSU01UserDetailViewController.h"
 #import "QSPeopleUtil.h"
 
 #import <objc/runtime.h>
+
+#import "QSS10ItemDetailVideoViewController.h"
+#import "QSS03ShowDetailViewController.h"
 
 
 
@@ -67,4 +70,23 @@ static char alertDelegateObjKey;
     }
 
 }
+
+#pragma mark - Detail
+- (void)showShowDetailViewController:(NSDictionary*)showDict
+{
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showItemDetailViewController:(NSDictionary*)itemDict
+{
+    UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showPreviewDetailViewController:(NSDictionary*)previewDict
+{
+#warning TODO
+}
+
 @end

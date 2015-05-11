@@ -202,11 +202,8 @@
         }
         case 8:
         {
-
-//    UIViewController* vc = [[QSS02ShandianViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
-    UIViewController *vc = [[QSS02ItemFeedingViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
+            UIViewController *vc = [[QSS02ItemFeedingViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         default:
