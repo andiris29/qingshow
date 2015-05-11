@@ -2091,7 +2091,11 @@
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
+=======
+				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
+>>>>>>> Stashed changes
 =======
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
 >>>>>>> Stashed changes
