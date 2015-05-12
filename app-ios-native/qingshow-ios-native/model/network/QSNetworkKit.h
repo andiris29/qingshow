@@ -19,6 +19,10 @@
 #import "QSNetworkEngine+PreviewService.h"
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkEngine+ChosenService.h"
+<<<<<<< Updated upstream
 #import "QSNetworkEngine+ItemService.h"
+=======
+#import "QSNetworkEngine+HotService.h"
+>>>>>>> Stashed changes
 
 #endif

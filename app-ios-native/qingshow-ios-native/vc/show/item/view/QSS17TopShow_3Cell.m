@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.backImage.transform = CGAffineTransformMakeRotation(M_1_PI / 4);
+    self.sumLabel.transform = CGAffineTransformMakeRotation(-M_1_PI / 4);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
