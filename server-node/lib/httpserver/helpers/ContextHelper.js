@@ -51,6 +51,17 @@ ContextHelper.appendPreviewContext = function(qsCurrentUserId, previews, callbac
     });
 };
 
+ContextHelper.appendItemContext = function(qsCurrentUserId, items, callback) {
+    items = _prepare(items);
+    // __context.likeDate
+    var likeDate = function(callback) {
+        _rCreateDate(RPeopleLikeItem, qsCurrentUserId, items, 'likeDate', callback);
+    };
+    async.parallel([likeDate], function(err) {
+        callback(null, items);
+    });
+};
+
 var _prepare = function(models) {
     return models.filter(function(model) {
         return model;
@@ -91,6 +102,28 @@ var _rInitiator = function(RModel, initiatorRef, models, contextField, callback)
                 });
             } else {
                 model.__context[contextField] = false;
+                callback();
+            }
+        };
+    });
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    });
+};
+
+var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            if (initiatorRef) {
+                RModel.findOne({
+                    'initiatorRef' : initiatorRef,
+                    'targetRef' : model._id
+                }, function(err, relationship) {
+                    if (Boolean(!err && relationship)) {
+                        model.__context[contextField] = relationship.create;
+                    }
+                });
+            } else {
                 callback();
             }
         };
