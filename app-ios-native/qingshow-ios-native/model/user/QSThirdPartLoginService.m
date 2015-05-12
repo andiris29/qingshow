@@ -51,6 +51,8 @@
 - (void)loginWithWechatOnSuccees:(VoidBlock)succeedBlock
                          onError:(ErrorBlock)errorBlock
 {
+    self.succeedBlock = succeedBlock;
+    self.errorBlock = errorBlock;
     SendAuthReq* req = [[SendAuthReq alloc] init];
     req.scope = @"snsapi_message,snsapi_userinfo,snsapi_friend,snsapi_contact"; // @"post_timeline,sns"
     req.state = @(random()).stringValue;
