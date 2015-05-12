@@ -16,6 +16,11 @@
                             password:(NSString*)password
                            onSucceed:(EntitySuccessBlock)succeedBlock
                              onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)loginViaWeiboAccessToken:(NSString*)accessToken
+                                            uid:(NSString*)uid
+                                      onSucceed:(EntitySuccessBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock;
+
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
 

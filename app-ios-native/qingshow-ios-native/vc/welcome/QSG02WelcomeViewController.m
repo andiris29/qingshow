@@ -141,5 +141,7 @@
         [self skipBtnPressed:self];
     }
 }
+#pragma mark - Third Part
+
 
 @end

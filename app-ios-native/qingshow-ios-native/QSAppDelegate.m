@@ -148,8 +148,12 @@
         if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
             um.weiboAccessToken = [(WBAuthorizeResponse *)response accessToken];
             um.weiboUserId = [(WBAuthorizeResponse *)response userID];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode), @"accessToken" : um.weiboAccessToken, @"userId" : um.weiboUserId}];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
+        
+
     }
     else if ([response isKindOfClass:WBPaymentResponse.class])
     {

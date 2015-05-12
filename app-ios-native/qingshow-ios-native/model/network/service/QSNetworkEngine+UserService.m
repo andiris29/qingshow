@@ -14,6 +14,9 @@
 
 //Path
 #define PATH_USER_LOGIN @"user/login"
+#define PATH_USER_LOGIN_WEIBO @"user/loginViaWeibo"
+#define PATH_USER_LOGIN_WECHAT @"user/loginViaWeixin"
+
 #define PATH_USER_LOGOUT @"user/logout"
 #define PATH_USER_GET @"user/get"
 #define PATH_USER_REGISTER @"user/register"
@@ -57,6 +60,67 @@
                 }
             }];
 }
+
+
+- (MKNetworkOperation*)loginViaWeiboAccessToken:(NSString*)accessToken
+                                            uid:(NSString*)uid
+                                      onSucceed:(EntitySuccessBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock
+{
+    
+    
+    return [self startOperationWithPath:PATH_USER_LOGIN_WEIBO
+                                 method:@"POST"
+                               paramers:@{
+                                          @"access_token" : accessToken,
+                                          @"uid" : uid
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    NSDictionary *reDict = completedOperation.responseJSON;
+                    [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                    [QSUserManager shareUserManager].fIsLogined = YES;
+                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+- (MKNetworkOperation*)loginViaWechatCode:(NSString*)code
+                                      onSucceed:(EntitySuccessBlock)succeedBlock
+                                        onError:(ErrorBlock)errorBlock
+{
+    
+    
+    return [self startOperationWithPath:PATH_USER_LOGIN_WECHAT
+                                 method:@"POST"
+                               paramers:@{
+                                          @"code" : code
+                                          }
+                            onSucceeded:^(MKNetworkOperation *completedOperation)
+            {
+                if (succeedBlock) {
+                    NSDictionary *reDict = completedOperation.responseJSON;
+                    [QSUserManager shareUserManager].userInfo = reDict[@"data"][@"people"];
+                    [QSUserManager shareUserManager].fIsLogined = YES;
+                    succeedBlock(reDict[@"data"][@"people"], reDict[@"metadata"]);
+                }
+            }
+                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
+            {
+                if (errorBlock) {
+                    errorBlock(error);
+                }
+            }];
+}
+
+
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock
 {
