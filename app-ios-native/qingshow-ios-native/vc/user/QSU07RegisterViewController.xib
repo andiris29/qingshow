@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<<<<<<< Updated upstream
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
-    <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
-=======
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
->>>>>>> Stashed changes
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU07RegisterViewController">
@@ -188,11 +181,7 @@
             <rect key="frame" x="0.0" y="64" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-<<<<<<< Updated upstream
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_regAndlogin_backImage" id="kIE-zS-l8M">
-=======
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_regAndlogin_backImage.png" id="kIE-zS-l8M">
->>>>>>> Stashed changes
                     <rect key="frame" x="0.0" y="0.0" width="320" height="604"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
@@ -242,13 +231,10 @@
         <image name="user_mailbox" width="37" height="28"/>
         <image name="user_nickname" width="52" height="37"/>
         <image name="user_password" width="37" height="43"/>
-<<<<<<< Updated upstream
         <image name="user_regAndlogin_backImage" width="640" height="1178"/>
-=======
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
         <image name="user_reg_weibo_login" width="82" height="80"/>
         <image name="user_reg_winxin_login" width="98" height="80"/>
->>>>>>> Stashed changes
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
