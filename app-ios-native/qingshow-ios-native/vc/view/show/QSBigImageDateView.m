@@ -7,6 +7,7 @@
 //
 
 #import "QSBigImageDateView.h"
+#import "QSDateUtil.h"
 
 @implementation QSBigImageDateView
 + (instancetype)makeView
@@ -16,6 +17,15 @@
 
 - (void)bindWithDate:(NSDate*)date
 {
-#warning TODO
+    if (!date) {
+        self.hidden = YES;
+        return;
+    } else {
+        self.hidden = NO;
+    }
+    self.yearLabel.text = [QSDateUtil getYearDesc:date];
+    self.monthLabel.text = [QSDateUtil getMonthDesc:date];
+    self.dayLabel.text = [QSDateUtil getDayDesc:date];
+    self.weekLabel.text = [QSDateUtil getWeekdayDesc:date];
 }
 @end

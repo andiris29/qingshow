@@ -31,6 +31,9 @@
                              onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Like
+- (MKNetworkOperation*)handleShowLike:(NSDictionary*)showDict
+                            onSucceed:(BoolBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock;

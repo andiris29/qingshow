@@ -106,6 +106,21 @@
 - (void)clickLikeOfDict:(NSDictionary*)dict type:(QSBigImageTableViewCellType)type
 {
     QSChosenRefType chosenType = [QSChosenUtil getChosenRefType:dict];
+    NSDictionary* ref = [QSChosenUtil getRef:dict];
+    if (chosenType == QSChosenRefTypeShow) {
+        [SHARE_NW_ENGINE handleShowLike:ref onSucceed:^(BOOL f) {
+            [self.provider rebindData:dict];
+        } onError:^(NSError *error) {
+            [self handleError:error];
+        }];
+    } else if (chosenType == QSChosenRefTypeItem) {
+        [SHARE_NW_ENGINE handleItemLike:ref onSucceed:^(BOOL f) {
+            [self.provider rebindData:dict];
+        } onError:^(NSError *error) {
+            [self handleError:error];
+        }];
+    }
+    [self.provider rebindData:ref];
     
 }
 @end

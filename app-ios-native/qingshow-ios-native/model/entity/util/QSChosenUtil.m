@@ -8,7 +8,7 @@
 
 #import "QSChosenUtil.h"
 #import "QSCommonUtil.h"
-
+#import "QSDateUtil.h"
 @implementation QSChosenUtil
 
 + (QSChosenRefType)getChosenRefType:(NSDictionary*)chosen
@@ -43,7 +43,6 @@
         return nil;
     }
     NSString* dateStr = chosen[@"date"];
-    #warning TODO transform to nsdate
-    return nil;
+    return [QSDateUtil buildDateFromResponseString:dateStr];
 }
 @end

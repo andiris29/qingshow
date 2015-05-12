@@ -149,7 +149,20 @@
     } else if (type == QSChosenRefTypeItem) {
         [self bindWithItem:ref];
     }
+    [self.dateView bindWithDate:[QSChosenUtil getChosenDate:dict]];
 
+}
+
+#pragma mark - UI
+- (void)setLikeBtnHover:(BOOL)fHover
+{
+    if (fHover) {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    } else {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
 }
 
 - (void)bindWithShow:(NSDictionary*)showDict
@@ -162,7 +175,8 @@
     self.label1.text = [QSShowUtil getShowDesc:showDict];
     NSDictionary* brandDict = [QSShowUtil getBrand:showDict];
     [self updateBrandIcon:brandDict];
-
+    [self.likeButton setTitle:[QSShowUtil getNumberLikeDescription:showDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSShowUtil getIsLike:showDict]];
 }
 - (void)bindWithItem:(NSDictionary*)itemDict
 {
@@ -172,6 +186,8 @@
     self.label1.text = [QSItemUtil getItemName:itemDict];
     NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
     [self updateBrandIcon:brandDict];
+    [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSItemUtil getIsLike:itemDict]];
 }
 
 - (void)bindWithPreview:(NSDictionary*)previewDict
