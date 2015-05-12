@@ -496,7 +496,7 @@ _loginViaWeibo = function(req, res) {
     var token = param.access_token;
     var uid = param.uid;
     if (!token || !uid) {
-        ResponseHelper.response(ServerError.NotEnoughParam);
+        ResponseHelper.response(res, ServerError.NotEnoughParam);
         return;
     }
     async.waterfall([function(callback) {
