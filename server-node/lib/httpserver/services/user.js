@@ -411,8 +411,8 @@ _loginViaWeixin = function(req, res) {
         var token_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + WX_APPID + '&secret=' + WX_SECRET + '&code=' + code + '&grant_type=authorization_code';
         request.get(token_url, function(error, response, body) {
             var data = JSON.parse(body);
-            if (data.error !== null) {
-                callback(data.error);
+            if (data.errcode !== undefined) {
+                callback(data);
                 return;
             }
             callback(null, data.access_token, data.openid);
@@ -422,8 +422,11 @@ _loginViaWeixin = function(req, res) {
 
         request.get(usr_url, function(errro, response, body) {
             var data = JSON.parse(body);
-            if (data.error !== undefined) {
-                callback(data.error);
+            if (data.errorcode !== undefined) {
+                callback({
+                    errorcode : data.errcode,
+                    weixin_err : data
+                });
                 return;
             }
 
@@ -485,7 +488,7 @@ _loginViaWeixin = function(req, res) {
         req.session.loginDate = new Date();
         callback(null, people);
     }], function(error, people) {
-        ResponseHelper.response(res, err, {
+        ResponseHelper.response(res, error, {
             'people' : people
         });
     });
@@ -504,7 +507,7 @@ _loginViaWeibo = function(req, res) {
         request.get(url, function(error, response, body) {
             var data = JSON.parse(body);
             if (data.error !== undefined) {
-                callback(data.error);
+                callback(data);
                 return;
             }
 
