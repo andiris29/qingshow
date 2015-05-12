@@ -15,6 +15,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSShowUtil.h"
 #import "QSImageCollectionModel.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"S02 - 潮流单品"
 
@@ -28,7 +29,7 @@
 #pragma mark - Init
 - (instancetype)init
 {
-    self = [super initWithNibName:@"QSS02ShandianViewController" bundle:nil];
+    self = [super initWithNibName:@"QSS02ItemFeedingViewController" bundle:nil];
     if (self) {
         
     }
@@ -97,5 +98,24 @@
     UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
 //    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:itemDict];
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)didClickModel:(QSImageCollectionModel*)model provider:(QSImageCollectionViewProvider*)provider
+{
+    QSImageCollectionModelType type = model.type;
+    NSDictionary* data = model.data;
+    switch (type) {
+        case QSImageCollectionModelTypeItem:
+        {
+            [self showItemDetailViewController:data];
+            break;
+        }
+        case QSImageCollectionModelTypeShow:
+        {
+            [self showShowDetailViewController:data];
+            break;
+        }
+        default:
+            break;
+    }
 }
 @end

@@ -10,7 +10,7 @@
 
 
 @implementation QSOrderListTableViewProvider
-
+@dynamic delegate;
 #pragma mark - Override
 - (void)registerCell
 {

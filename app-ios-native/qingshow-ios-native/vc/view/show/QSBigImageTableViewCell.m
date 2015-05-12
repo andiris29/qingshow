@@ -147,9 +147,22 @@
     } else if (type == QSChosenRefTypePreview) {
         [self bindWithPreview:ref];
     } else if (type == QSChosenRefTypeItem) {
-        [self bindWIthItem:ref];
+        [self bindWithItem:ref];
     }
+    [self.dateView bindWithDate:[QSChosenUtil getChosenDate:dict]];
 
+}
+
+#pragma mark - UI
+- (void)setLikeBtnHover:(BOOL)fHover
+{
+    if (fHover) {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    } else {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
+        [self.likeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
 }
 
 - (void)bindWithShow:(NSDictionary*)showDict
@@ -159,39 +172,44 @@
 
     //Data Binding
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-#warning TODO label1, like btn
-//    self.label1.text = [QSPeopleUtil getName:modelDict];
-//    [self.iconImgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPeopleUtil getHeadIconUrl:modelDict]]];
-
+    self.label1.text = [QSShowUtil getShowDesc:showDict];
+    NSDictionary* brandDict = [QSShowUtil getBrand:showDict];
+    [self updateBrandIcon:brandDict];
+    [self.likeButton setTitle:[QSShowUtil getNumberLikeDescription:showDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSShowUtil getIsLike:showDict]];
 }
-- (void)bindWIthItem:(NSDictionary*)itemDict
+- (void)bindWithItem:(NSDictionary*)itemDict
 {
     float height = [QSBigImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
     [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
-#warning TODO label1
-    ;
-}
-- (void)bindWithBrand:(NSDictionary*)brandDict
-{
-#warning TODO remove
-    float height = [QSBigImageTableViewCell getHeightWithBrand:brandDict];
-    [self resizeWithHeight:height];
-    
-    self.label1.text = [QSBrandUtil getBrandName:brandDict];
-    [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSBrandUtil getBrandCoverUrl:brandDict]]];
+    self.label1.text = [QSItemUtil getItemName:itemDict];
+    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
+    [self updateBrandIcon:brandDict];
+    [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSItemUtil getIsLike:itemDict]];
 }
 
 - (void)bindWithPreview:(NSDictionary*)previewDict
 {
     float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
     [self resizeWithHeight:height];
-//    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getCoverUrl:previewDict]]];
+    //    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getCoverUrl:previewDict]]];
     [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getFirstImageUrl:previewDict]]];
-#warning TODO label1
+    self.label1.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:0];
 }
 
+#pragma mark Binding Helper
+- (void)updateBrandIcon:(NSDictionary*)brandDict
+{
+    if (brandDict) {
+        self.iconImgView.hidden = NO;
+        [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+    } else {
+        self.iconImgView.hidden = YES;
+
+    }
+}
 
 - (void)resizeWithHeight:(float)height
 {

@@ -175,11 +175,11 @@
 //    }
     else
     {
-        if (!people) {
-            [self showErrorHudWithText:@"系统错误"];
-        } else {
-            [self showPeopleDetailViewControl:people];
-        }
+//        if (!people) {
+//            [self showErrorHudWithText:@"系统错误"];
+//        } else {
+//            [self showPeopleDetailViewControl:people];
+//        }
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

@@ -17,6 +17,8 @@
 #import "QSUserManager.h"
 
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+QSExtension.h"
+
 #import "QSBrandUtil.h"
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
@@ -152,20 +154,42 @@
     
     //favor collectioin view
     [self.likedProvider bindWithCollectionView:self.likedCollectionView];
+    self.likedProvider.hasPaging = NO;
     self.likedProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getLikeFeedingUser:weakSelf.userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
-            NSMutableArray* mArray = [@[] mutableCopy];
-            for (NSDictionary* dict in array) {
-                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                m.type = QSImageCollectionModelTypeShow;
-                m.data = dict;
-                [mArray addObject:m];
-            }
-            succeedBlock(mArray, metadata);
-        } onError:^(NSError* e){
-            errorBlock(e);
-        }];
-
+        NSMutableArray* mArray = [@[] mutableCopy];
+        return
+        [SHARE_NW_ENGINE
+         getLikeFeedingUser:weakSelf.userInfo
+         page:page
+         onSucceed:^(NSArray *array, NSDictionary *metadata) {
+             for (NSDictionary* dict in array) {
+                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                 m.type = QSImageCollectionModelTypeShow;
+                 m.data = dict;
+                 [mArray addObject:m];
+             }
+             
+             [SHARE_NW_ENGINE
+              getItemFeedingLikePage:page
+              onSucceed:^(NSArray *array, NSDictionary *metadata) {
+                  for (NSDictionary* dict in array) {
+                      QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                      m.type = QSImageCollectionModelTypeItem;
+                      m.data = dict;
+                      [mArray addObject:m];
+                      
+#warning TODO sort    
+                      succeedBlock(mArray, metadata);
+                  }
+              }
+              onError:errorBlock];
+             
+             
+         }
+         onError:^(NSError* e){
+             errorBlock(e);
+         }];
+        
     };
     if (self.fShowAccountBtn) {
         self.likedProvider.filterBlock = ^BOOL(id obj){
@@ -244,8 +268,23 @@
 }
 
 #pragma mark - QSImageCollectionViewProviderDelegate
-- (void)didClickData:(NSDictionary*)data type:(QSImageCollectionModelType)type provider:(QSImageCollectionViewProvider*)provider
+- (void)didClickModel:(QSImageCollectionModel*)model
+             provider:(QSImageCollectionViewProvider*)provider
 {
-#warning TODO
+
+    switch (model.type) {
+        case QSImageCollectionModelTypeShow:
+        {
+            [self showShowDetailViewController:model.data];
+            break;
+        }
+        case QSImageCollectionModelTypeItem:
+        {
+            [self showItemDetailViewController:model.data];
+            break;
+        }
+        default:
+            break;
+    }
 }
 @end

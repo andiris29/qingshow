@@ -136,6 +136,23 @@
 }
 
 #pragma mark - Like
+- (MKNetworkOperation*)handleShowLike:(NSDictionary*)showDict
+                            onSucceed:(BoolBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    MKNetworkOperation* op = nil;
+    if ([QSShowUtil getIsLike:showDict]) {
+        op = [self unlikeShow:showDict onSucceed:^{
+            succeedBlock(NO);
+        } onError:errorBlock];
+    } else {
+        op = [self likeShow:showDict onSucceed:^{
+            succeedBlock(YES);
+        } onError:errorBlock];
+    }
+    return op;
+}
+
 - (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock

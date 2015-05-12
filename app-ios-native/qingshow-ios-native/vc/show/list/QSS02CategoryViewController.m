@@ -81,7 +81,7 @@
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    [self showPeopleDetailViewControl:peopleDict];
+//    [self showPeopleDetailViewControl:peopleDict];
 }
 
 - (void)handleNetworkError:(NSError*)error

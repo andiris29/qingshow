@@ -12,7 +12,6 @@
 
 + (NSString*)getBrandName:(NSDictionary*)dict;
 + (NSURL*)getBrandLogoUrl:(NSDictionary*)dict;
-+ (NSString*)getBrandTypeDesc:(NSDictionary*)dict;
 
 + (NSURL*)getBrandBgUrl:(NSDictionary*)dict;
 + (NSURL*)getBrandCoverUrl:(NSDictionary*)dict;

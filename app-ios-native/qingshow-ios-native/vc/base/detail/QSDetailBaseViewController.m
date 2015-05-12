@@ -229,12 +229,12 @@
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
-    [self showPeopleDetailViewControl:peopleDict];
+//    [self showPeopleDetailViewControl:peopleDict];
 }
 #pragma mark - QSModelListTableViewProviderDelegate
 - (void)clickModel:(NSDictionary*)model
 {
-    [self showPeopleDetailViewControl:model];
+//    [self showPeopleDetailViewControl:model];
 }
 - (void)followBtnPressed:(NSDictionary*)model
 {

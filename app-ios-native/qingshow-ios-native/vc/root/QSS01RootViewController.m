@@ -128,14 +128,16 @@
 
 - (void)didClickPeople:(NSDictionary *)peopleDict
 {
+
     [self hideMenu];
-    UIViewController* vc = [self generateDetailViewControlOfPeople:peopleDict];
-    [self.navigationController pushViewController:vc animated:NO];
-    
-    CATransition* tran = [[CATransition alloc] init];
-    tran.type = kCATransitionPush;
-    tran.subtype = kCATransitionFromRight;
-    [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_people_detail"];
+    return;
+//    UIViewController* vc = [self generateDetailViewControlOfPeople:peopleDict];
+//    [self.navigationController pushViewController:vc animated:NO];
+//    
+//    CATransition* tran = [[CATransition alloc] init];
+//    tran.type = kCATransitionPush;
+//    tran.subtype = kCATransitionFromRight;
+//    [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_people_detail"];
 }
 
 - (void)handleNetworkError:(NSError*)error

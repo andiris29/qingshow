@@ -11,6 +11,7 @@
 #import "QSS04CommentListViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
+#import "QSChosenUtil.h"
 
 #define PAGE_ID @"S08 - 时尚情报"
 
@@ -105,5 +106,26 @@
 - (void)didShareWeiboSuccess
 {
     [self showSuccessHudWithText:@"分享成功"];
+}
+#pragma mark - QSBigImageTableViewProviderDelegate
+- (void)didClickCell:(UITableViewCell *)cell ofData:(NSDictionary *)dict type:(QSBigImageTableViewCellType)type
+{
+    QSChosenRefType chosenType = [QSChosenUtil getChosenRefType:dict];
+    NSDictionary* data = [QSChosenUtil getRef:dict];
+    switch (chosenType) {
+        case QSChosenRefTypePreview:
+        {
+            [self showPreviewDetailViewController:data];
+            break;
+        }
+        case QSChosenRefTypeItem: {
+            [self showItemDetailViewController:data];
+        }
+        case QSChosenRefTypeShow: {
+            [self showShowDetailViewController:data];
+        }
+        default:
+            break;
+    }
 }
 @end

@@ -18,6 +18,7 @@
 //#import "QSS15TopicViewController.h"
 #import "QSS15ChosenViewController.h"
 #import "QSG02WelcomeViewController.h"
+#import "QSNavigationController.h"
 
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
@@ -51,7 +52,7 @@
 //    QSG02WelcomeViewController *welcomeVC = [[QSG02WelcomeViewController alloc]init];
 //    self.window.rootViewController = welcomeVC;
     
-    UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

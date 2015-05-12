@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS10ItemDetailVideoViewController">
@@ -11,6 +11,7 @@
                 <outlet property="btnPanel" destination="D9W-yi-AJb" id="sWu-RR-KPc"/>
                 <outlet property="buyBtn" destination="o9q-cw-zLP" id="OTc-g0-ddg"/>
                 <outlet property="labelContainer" destination="HYI-7E-pJC" id="qjy-Hp-blv"/>
+                <outlet property="likeButton" destination="r43-JY-BxE" id="8xf-uM-70T"/>
                 <outlet property="nameLabel" destination="jVf-zc-vse" id="p2d-Fy-gkf"/>
                 <outlet property="pauseBtn" destination="Hhn-9A-6pq" id="U3m-WV-Q2R"/>
                 <outlet property="playBtn" destination="kKI-2q-jl6" id="AhJ-Ce-JqL"/>
@@ -92,22 +93,33 @@
                     <rect key="frame" x="0.0" y="400" width="320" height="54"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jVf-zc-vse">
-                            <rect key="frame" x="8" y="8" width="300" height="15"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jVf-zc-vse">
+                            <rect key="frame" x="8" y="0.0" width="252" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="20d-XQ-RaT" customClass="UILabelStrikeThrough">
-                            <rect key="frame" x="8" y="31" width="95" height="15"/>
+                            <rect key="frame" x="8" y="39" width="95" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="r43-JY-BxE">
+                            <rect key="frame" x="268" y="8" width="40" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
+                            <state key="normal" backgroundImage="s03_like_btn">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="likeButtonPressed:" destination="-1" eventType="touchUpInside" id="K4D-9N-AJl"/>
+                            </connections>
+                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yQS-xq-QnA">
-                            <rect key="frame" x="150" y="31" width="95" height="15"/>
+                            <rect key="frame" x="150" y="39" width="95" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -123,6 +135,7 @@
     </objects>
     <resources>
         <image name="s03_back_btn" width="36" height="36"/>
+        <image name="s03_like_btn" width="40" height="36"/>
         <image name="s03_pause_btn" width="38" height="38"/>
         <image name="s10_buy_btn" width="138" height="50"/>
         <image name="s10_play_btn" width="138" height="50"/>

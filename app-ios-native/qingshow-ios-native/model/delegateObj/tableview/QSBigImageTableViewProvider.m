@@ -8,6 +8,7 @@
 
 #import "QSBigImageTableViewProvider.h"
 #import "QSChosenUtil.h"
+#import "QSDateUtil.h"
 
 @implementation QSBigImageTableViewProvider
 @dynamic delegate;
@@ -33,7 +34,26 @@
 
     cell.type = self.type;
     cell.delegate = self;
+    
 
+    BOOL fShowDate = NO;
+    if (self.type != QSBigImageTableViewCellTypeChosen) {
+        fShowDate = NO;
+    } else if (indexPath.row == 0) {
+        fShowDate = YES;
+    } else if (indexPath.row + 1 >= self.resultArray.count) {
+        fShowDate = NO;
+    } else {
+        NSDate* currentDate = [QSChosenUtil getChosenDate:dict];
+        NSDictionary* nextDict = self.resultArray[indexPath.row + 1];
+        NSDate* nextDate = [QSChosenUtil getChosenDate:nextDict];
+        if ([QSDateUtil date:currentDate isTheSameDayWith:nextDate]) {
+            fShowDate = NO;
+        } else {
+            fShowDate = YES;
+        }
+    }
+    cell.dateContainer.hidden = !fShowDate;
     [cell bindWithDict:dict];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;

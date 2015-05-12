@@ -8,21 +8,10 @@
 
 #import "QSItemUtil.h"
 #import "QSCommonUtil.h"
+#import "NSNumber+QSExtension.h"
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
 @implementation QSItemUtil
-+ (NSURL*)getCoverUrl:(NSDictionary*)itemDict
-{
-    if (![QSCommonUtil checkIsDict:itemDict]) {
-        return nil;
-    }
-    NSString* path = itemDict[@"cover"];
-    if (![QSCommonUtil checkIsNil:path]) {
-        NSURL* url = [NSURL URLWithString:path];
-        return url;
-    }
-    return nil;
-}
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict
 {
     NSArray* array = itemDict[@"images"];
@@ -67,17 +56,6 @@
     }
     return @"";
 }
-//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
-//{
-//    NSURL* cover = [self getCoverUrl:itemDict];
-//    NSArray* imagesUrl = [self getImagesUrl:itemDict];
-//    NSMutableArray* m = [@[] mutableCopy];
-//    if (cover) {
-//        [m addObject:cover];
-//    }
-//    [m addObjectsFromArray:imagesUrl];
-//    return m;
-//}
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
@@ -90,32 +68,6 @@
         return url;
     }
     return nil;
-}
-+ (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray
-{
-    if ([QSCommonUtil checkIsNil:itemsArray]) {
-        return nil;
-    }
-    if (!itemsArray.count || ![itemsArray[0] isKindOfClass:[NSDictionary class]]) {
-        return [[NSAttributedString alloc] init];
-    }
-    
-    NSMutableAttributedString* str = [[NSMutableAttributedString alloc] init];
-    for (NSDictionary* itemDict in itemsArray) {
-        NSString* typeStr = [QSItemUtil getItemTypeName:itemDict];
-//        NSAttributedString* typeAttributedStr = [NSAttributedString alloc] initWithString:typeStr attributes:@{}
-        NSString* des = [QSItemUtil getItemName:itemDict];
-        NSMutableAttributedString * a = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@ ", typeStr, des] attributes:nil];
-
-        [a addAttribute:NSFontAttributeName value:CFBridgingRelease(CTFontCreateWithName((CFStringRef)[UIFont fontWithName:@"Arial" size:14].fontName, 14, nil)) range:NSMakeRange(0, a.length)];
-        [a addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:78.f/255.f green:78.f/255.f blue:78.f/255.f alpha:1.f] range:NSMakeRange(0, a.length)];
-        [a addAttribute:NSForegroundColorAttributeName
-                  value:[UIColor colorWithRed:238.f/255.f green:120.f/255.f blue:37.f/255.f alpha:1.f]
-                  range:NSMakeRange(0, typeStr.length)];
-
-        [str appendAttributedString:a];
-    }
-    return str;
 }
 
 + (NSString*)getItemName:(NSDictionary*)itemDict
@@ -139,33 +91,16 @@
     }
 }
 
-+ (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
-{
-    if ([QSCommonUtil checkIsNil:itemArray]) {
-        return nil;
-    }
-    if (!itemArray.count || ![itemArray[0] isKindOfClass:[NSDictionary class]]) {
-        return @[];
-    }
-    
-    NSMutableArray* array = [@[] mutableCopy];
-    for (NSDictionary* itemDict in itemArray) {
-        NSString* path = itemDict[@"cover"];
-        NSURL* url = [NSURL URLWithString:path];
-        [array addObject:url];
-    }
-    return array;
-}
-
 + (NSArray*)getSkusArray:(NSDictionary*)itemDict
 {
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    NSDictionary* taobaoInfoDict = itemDict[@"taobaoInfo"];
+    NSDictionary* taobaoInfoDict = [self getTaobaoInfo:itemDict];
     if (![QSCommonUtil checkIsDict:taobaoInfoDict]) {
         return nil;
     }
+    
     NSArray* skus = taobaoInfoDict[@"skus"];
     if (![QSCommonUtil checkIsArray:skus]) {
         return nil;
@@ -331,5 +266,79 @@
     } else {
         return path;
     }
+}
++ (NSDictionary*)getBrand:(NSDictionary*)itemDict
+{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    NSDictionary* b = itemDict[@"brandRef"];
+    if ([QSCommonUtil checkIsNil:b]) {
+        return b;
+    } else {
+        NSMutableDictionary* mb = [b mutableCopy];
+        [self setBrand:mb forItem:itemDict];
+        return mb;
+    }
+}
++ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
+{
+    if (![item isKindOfClass:[NSMutableDictionary class]]) {
+        return;
+    }
+    NSMutableDictionary* m = (NSMutableDictionary*)item;
+    m[@"brandRef"] = brandDict;
+}
+
++ (BOOL)getIsLike:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return NO;
+    }
+    NSDictionary* context = itemDict[@"__context"];
+    if (context) {
+        return ((NSNumber*)context[@"likedByCurrentUser"]).boolValue;
+    }
+    return NO;
+}
+
++ (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return;
+    }
+    if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)itemDict;
+        NSDictionary* context = itemDict[@"__context"];
+        NSMutableDictionary* m = nil;
+        if ([context isKindOfClass:[NSDictionary class]]) {
+            m = [context mutableCopy];
+        } else
+        {
+            m = [@{} mutableCopy];
+        }
+        m[@"likedByCurrentUser"] = @(isLike);
+        s[@"__context"] = m;
+    }
+}
+
++ (void)addNumberLike:(long long)num forItem:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return;
+    }
+    if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)itemDict;
+        long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
+        s[@"numLike"] = @(preNumlike + num);
+    }
+}
+
++ (NSString*)getNumberLikeDescription:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return ((NSNumber*)itemDict[@"numLike"]).kmbtStringValue;
 }
 @end

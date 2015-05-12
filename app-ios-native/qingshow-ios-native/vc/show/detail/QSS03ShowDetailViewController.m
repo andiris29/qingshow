@@ -116,7 +116,7 @@
 - (void)setLikeBtnHover:(BOOL)fHover
 {
     if (fHover) {
-        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_full"] forState:UIControlStateNormal];
     } else {
         [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
     }
@@ -142,23 +142,18 @@
 
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
-    if ([QSShowUtil getIsLike:self.showDict]) {
-        [SHARE_NW_ENGINE unlikeShow:self.showDict onSucceed:^{
-            [self showSuccessHudWithText:@"取消喜欢成功"];
-            [self bindExceptImageWithDict:self.showDict];
-        } onError:^(NSError *error) {
-            [self bindExceptImageWithDict:self.showDict];
-            [self handleError:error];
-        }];
-    } else {
-        [SHARE_NW_ENGINE likeShow:self.showDict onSucceed:^{
+    NSDictionary* showDict = self.showDict;
+    [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
+        if (f) {
             [self showSuccessHudWithText:@"喜欢成功"];
-            [self bindExceptImageWithDict:self.showDict];
-        } onError:^(NSError *error) {
-            [self bindExceptImageWithDict:self.showDict];
-            [self handleError:error];
-        }];
-    }
+        } else {
+            [self showSuccessHudWithText:@"取消喜欢成功"];
+        }
+        [self bindExceptImageWithDict:showDict];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+        [self bindExceptImageWithDict:showDict];
+    }];
 }
 
 #pragma mark -

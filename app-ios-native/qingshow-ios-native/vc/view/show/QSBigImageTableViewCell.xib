@@ -33,7 +33,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="E1X-t2-uw7">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="E1X-t2-uw7">
                                 <rect key="frame" x="8" y="16" width="60" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -45,12 +45,6 @@
                                 <state key="normal" title="11" backgroundImage="s03_like_btn">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" backgroundImage="s03_like_btn_hover">
-                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="highlighted" backgroundImage="s03_like_btn_hover">
-                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="likeBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="EWh-N1-0r5"/>
@@ -79,7 +73,6 @@
     </objects>
     <resources>
         <image name="s03_like_btn" width="40" height="36"/>
-        <image name="s03_like_btn_hover" width="40" height="36"/>
         <image name="s03_model_shadow" width="320" height="92"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

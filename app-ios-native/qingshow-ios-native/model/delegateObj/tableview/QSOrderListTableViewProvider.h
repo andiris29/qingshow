@@ -9,11 +9,13 @@
 #import "QSTableViewBasicProvider.h"
 #import "QSOrderListTableViewCell.h"
 
-@protocol QSOrderListTableViewProviderDelegate <NSObject>
+@protocol QSOrderListTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
+@optional
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict;
 - (void)didClickSubmitBtnOfOrder:(NSDictionary*)orderDict;
 - (void)didClickPayBtnOfOrder:(NSDictionary*)orderDict;
+
 @end
 
 @interface QSOrderListTableViewProvider : QSTableViewBasicProvider <QSOrderListTableViewCellDelegate>

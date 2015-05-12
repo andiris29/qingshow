@@ -11,6 +11,8 @@
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
 #import "UILabelStrikeThrough.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
 #define PAGE_ID @"S10 - 商品详细"
 
 @interface QSS10ItemDetailVideoViewController ()
@@ -67,6 +69,7 @@
 {
     [self updateShowImgScrollView];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
+    //Discount
     if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.priceLabel.hidden = NO;
         self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
@@ -84,8 +87,21 @@
         [self.priceAfterDiscountLabel sizeToFit];
     }
     
-    
+    //Like
+    [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
+    [self setLikeBtnHover:[QSItemUtil getIsLike:self.itemDict]];
 }
+
+#pragma mark - UI
+- (void)setLikeBtnHover:(BOOL)fHover
+{
+    if (fHover) {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_full"] forState:UIControlStateNormal];
+    } else {
+        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
+    }
+}
+
 
 #pragma mark - Override
 #pragma mark Data
@@ -124,6 +140,15 @@
     self.labelContainer.hidden = hidden;
 }
 
+#pragma mark - 
+- (IBAction)likeButtonPressed:(id)sender {
+    NSDictionary* itemDict = self.itemDict;
+    [SHARE_NW_ENGINE handleItemLike:itemDict onSucceed:^(BOOL f) {
+        [self bindWithDict:itemDict];
+    } onError:^(NSError *error) {
+        [self handleError:error];
+    }];
+}
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {

@@ -31,14 +31,6 @@
     return [NSURL URLWithString:s];
 }
 
-+ (NSString*)getBrandTypeDesc:(NSDictionary*)dict
-{
-    if (![QSCommonUtil checkIsDict:dict]) {
-        return nil;
-    }
-    NSNumber* type = dict[@"type"];
-    return @[@"brand", @"studio"][type.intValue];
-}
 
 + (NSURL*)getBrandBgUrl:(NSDictionary*)dict
 {

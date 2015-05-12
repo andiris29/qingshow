@@ -11,66 +11,18 @@
 #import "NSArray+QSExtension.h"
 #import "QSCommonUtil.h"
 
-#define ITEM_FEEDING_BY_BRAND_NEW @"itemFeeding/byBrandNew"
-#define ITEM_FEEDING_BY_BRAND_DISCOUNT @"itemFeeding/byBrandDiscount"
-#define ITEM_FEEDING_RANDOM @"itemFeeding/random"
+#define ITEM_FEEDING_LIKE @"itemFeeding/like"
+
+
 
 @implementation QSNetworkEngine(ItemFeedingService)
-- (MKNetworkOperation*)getItemFeedingByBrandNew:(NSDictionary*)brand
-                                           page:(int)page
-                                      onSucceed:(ArraySuccessBlock)succeedBlock
-                                        onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation*)getItemFeedingLikePage:(int)page
+                                    onSucceed:(ArraySuccessBlock)successBlock
+                                      onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:ITEM_FEEDING_BY_BRAND_NEW
+    return [self startOperationWithPath:ITEM_FEEDING_LIKE
                                  method:@"GET"
-                               paramers:@{@"pageNo":@(page), @"pageSize": @10, @"_id": [QSCommonUtil getIdOrEmptyStr:brand]}
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                NSDictionary* retDict = completedOperation.responseJSON;
-                if (succeedBlock) {
-                    NSArray* items = retDict[@"data"][@"items"];
-                    succeedBlock([items deepMutableCopy], retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-
-}
-- (MKNetworkOperation*)getItemFeedingByBrandDiscount:(NSDictionary*)brand
-                                                page:(int)page
-                                           onSucceed:(ArraySuccessBlock)succeedBlock
-                                             onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:ITEM_FEEDING_BY_BRAND_DISCOUNT
-                                 method:@"GET"
-                               paramers:@{@"pageNo":@(page), @"pageSize": @10, @"_id": [QSCommonUtil getIdOrEmptyStr:brand]}
-                            onSucceeded:^(MKNetworkOperation *completedOperation)
-            {
-                NSDictionary* retDict = completedOperation.responseJSON;
-                if (succeedBlock) {
-                    NSArray* items = retDict[@"data"][@"items"];
-                    succeedBlock([items deepMutableCopy], retDict[@"metadata"]);
-                }
-            }
-                                onError:^(MKNetworkOperation *completedOperation, NSError *error)
-            {
-                if (errorBlock) {
-                    errorBlock(error);
-                }
-            }];
-}
-
-- (MKNetworkOperation*)getItemFeedingRandomPage:(int)page
-                                      onSucceed:(ArraySuccessBlock)successBlock
-                                        onError:(ErrorBlock)errorBlock
-{
-    return [self startOperationWithPath:ITEM_FEEDING_RANDOM
-                                 method:@"GET"
-                               paramers:@{@"pageNo":@(page), @"pageSize": @10}
+                               paramers:@{@"pageNo":@(page), @"pageSize": @100}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 NSDictionary* retDict = completedOperation.responseJSON;
