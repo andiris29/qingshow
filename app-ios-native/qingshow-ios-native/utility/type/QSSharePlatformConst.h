@@ -19,4 +19,6 @@
 
 //WeChat
 #define kWechatAppID @"wx75cf44d922f47721"
+#define kWechatAuthorizeSucceedNotification @"kWechatAuthorizeSucceedNotification"
+#define kWechatAuthorizeFailNotification @"kWechatAuthorizeFailNotification"
 #endif

@@ -25,7 +25,8 @@
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWeiboAuthroizeResult:) name:kWeiboAuthorizeResultNotification object:nil];
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWechatAuthroizeSuccess:) name:kWechatAuthorizeSucceedNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveWechatAuthroizeFail:) name:kWechatAuthorizeFailNotification object:nil];
     }
     return self;
 }
@@ -50,25 +51,25 @@
 - (void)loginWithWechatOnSuccees:(VoidBlock)succeedBlock
                          onError:(ErrorBlock)errorBlock
 {
-
+    SendAuthReq* req = [[SendAuthReq alloc] init];
+    req.scope = @"snsapi_message,snsapi_userinfo,snsapi_friend,snsapi_contact"; // @"post_timeline,sns"
+    req.state = @(random()).stringValue;
+    [WXApi sendReq:req];
 }
 
-/*
- 
- - (void)sendAuthRequest
- {
- SendAuthReq* req = [[[SendAuthReq alloc] init] autorelease];
- req.scope = @"snsapi_message,snsapi_userinfo,snsapi_friend,snsapi_contact"; // @"post_timeline,sns"
- req.state = @"xxx";
- req.openID = @"0c806938e2413ce73eef92cc3";
- 
- [WXApi sendAuthReq:req viewController:self.viewController delegate:self];
- }
- 
- */
-- (void)didReceiveWechatAuthroizeResult:(NSNotification*)noti
+- (void)didReceiveWechatAuthroizeSuccess:(NSNotification*)noti
 {
-    
+    NSDictionary* userInfo = noti.userInfo;
+    NSString* code = userInfo[@"code"];
+    [SHARE_NW_ENGINE loginViaWechatCode:code onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+        [self invokeSuccessCallback];
+    } onError:^(NSError *error) {
+        [self invokeFailCallback:error];
+    }];
+}
+- (void)didReceiveWechatAuthroizeFail:(NSNotification*)noti
+{
+    [self invokeFailCallback:nil];
 }
 
 #pragma mark - Weibo

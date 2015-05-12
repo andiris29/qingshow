@@ -201,10 +201,19 @@
 
 -(void) onResp:(BaseResp*)resp
 {
-    if (resp.errCode == kWechatPaymentSuccessCode) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
+        SendAuthResp* authResp = (SendAuthResp*)resp;
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeSucceedNotification object:nil userInfo:@{@"code" : authResp.code}];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeFailNotification object:nil];
+        }
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+        }
     }
 }
 @end

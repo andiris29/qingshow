@@ -20,6 +20,9 @@
                                             uid:(NSString*)uid
                                       onSucceed:(EntitySuccessBlock)succeedBlock
                                         onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)loginViaWechatCode:(NSString*)code
+                                onSucceed:(EntitySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 
 - (MKNetworkOperation*)logoutOnSucceed:(VoidBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock;
