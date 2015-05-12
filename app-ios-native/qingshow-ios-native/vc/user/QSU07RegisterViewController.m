@@ -61,8 +61,9 @@
     [self.registerButton setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
     self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
     self.weixinButton.layer.masksToBounds = YES;
-    
+    [self.weixinButton setBackgroundColor:[UIColor colorWithRed:41.f / 255.f green:160.f / 255.f blue:42.f / 255.f alpha:1.0]];
     self.weiboButton.layer.cornerRadius = self.weiboButton.frame.size.height / 8;
+    [self.weiboButton setBackgroundColor:[UIColor colorWithRed:228.f / 255.f green:74.f / 255.f blue:5.f / 255.f alpha:1.0]];
     self.weiboButton.layer.masksToBounds = YES;
 }
 - (void)dealloc

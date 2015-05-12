@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QSS17TopShow_3Cell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *backImage;
+@property (weak, nonatomic) IBOutlet UILabel *sumLabel;
 
 @end

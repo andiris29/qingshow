@@ -18,6 +18,7 @@
 #import "QSBrandUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSShowUtil.h"
+#import "QSHotUtil.h"
 
 @implementation QSNetworkEngine
 

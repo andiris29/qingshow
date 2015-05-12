@@ -32,6 +32,10 @@
 @property (nonatomic,assign)NSInteger bodyType;
 @property (nonatomic,assign)NSInteger dressStyle;
 @property (nonatomic,strong)NSMutableArray *expectations;
+@property (nonatomic, strong)NSString *age;
+@property (nonatomic, strong)NSString *hight;
+@property (nonatomic, strong)NSString *weight;
+
 
 @property (weak, nonatomic) IBOutlet UISlider *ageSlider;
 
