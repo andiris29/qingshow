@@ -4,6 +4,9 @@ var async = require('async');
 var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
+var RPeopleShareShow = require('../../model/rPeopleShareShow');
+
+var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
 
 /**
  * ContextHelper
@@ -23,8 +26,12 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     var likedByCurrentUser = function(callback) {
         _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
     };
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
+    };
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function (err) {
         callback(null, shows);
     });
 };
