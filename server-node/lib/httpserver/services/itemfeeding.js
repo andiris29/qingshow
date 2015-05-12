@@ -3,6 +3,7 @@ var MongoHelper = require('../helpers/MongoHelper');
 var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
 var Items = require('../../model/items');
 var async = require('async');
+var RequestHelper = require('../helpers/RequestHelper');
 
 var itemfeeding = module.exports;
 
@@ -26,7 +27,7 @@ itemfeeding.like = {
                     });
                     callback(null, items, count);
                 }, function (items, count, callback) {
-                    Items.populate(currentPageModels, 'brandRef', function () {
+                    Items.populate(items, 'brandRef', function () {
                         callback(null, items, count);
                     });
                 }
