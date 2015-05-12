@@ -49,7 +49,11 @@
         param = [@{} mutableCopy];
     }
     param[@"pageNo"] = @(page);
-    param[@"pageSize"] = @20;
+    if (![[param allKeys] containsObject:@"pageSize"]) {
+        param[@"pageSize"] = @20;
+    }
+
+
     
     return [self startOperationWithPath:path
                                  method:@"GET"
@@ -85,7 +89,7 @@
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
-    NSMutableDictionary* paramDict = [@{} mutableCopy];
+    NSMutableDictionary* paramDict = [@{@"pageSize" : @100} mutableCopy];
     if (userDict) {
         paramDict[@"_id"] = userDict[@"_id"];
     }
