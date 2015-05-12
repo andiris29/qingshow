@@ -1338,13 +1338,10 @@
 				EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */,
 				EF610EF21AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.h */,
 				EF610EF31AF92BCB00B7DFB3 /* QSNetworkEngine+ChosenService.m */,
-<<<<<<< Updated upstream
 				EFCA01321B01042C00199BCF /* QSNetworkEngine+ItemService.h */,
 				EFCA01331B01042C00199BCF /* QSNetworkEngine+ItemService.m */,
-=======
 				A75DF2091B01C87E00A88E36 /* QSNetworkEngine+HotService.h */,
 				A75DF20A1B01C87E00A88E36 /* QSNetworkEngine+HotService.m */,
->>>>>>> Stashed changes
 			);
 			path = service;
 			sourceTree = "<group>";
