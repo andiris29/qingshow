@@ -8,6 +8,7 @@
 
 #import "QSItemUtil.h"
 #import "QSCommonUtil.h"
+#import "NSNumber+QSExtension.h"
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
 @implementation QSItemUtil
@@ -331,5 +332,13 @@
         long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
         s[@"numLike"] = @(preNumlike + num);
     }
+}
+
++ (NSString*)getNumberLikeDescription:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return ((NSNumber*)itemDict[@"numLike"]).kmbtStringValue;
 }
 @end

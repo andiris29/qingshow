@@ -116,7 +116,7 @@
 - (void)setLikeBtnHover:(BOOL)fHover
 {
     if (fHover) {
-        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_hover"] forState:UIControlStateNormal];
+        [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_full"] forState:UIControlStateNormal];
     } else {
         [self.favorBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
     }

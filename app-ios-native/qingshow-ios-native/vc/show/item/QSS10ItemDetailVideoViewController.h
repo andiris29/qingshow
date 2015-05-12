@@ -22,7 +22,11 @@
 @property (weak, nonatomic) IBOutlet UILabelStrikeThrough *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceAfterDiscountLabel;
 @property (weak, nonatomic) IBOutlet UIView *labelContainer;
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
 
 
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
+- (IBAction)likeButtonPressed:(id)sender;
+
+
 @end
