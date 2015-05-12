@@ -14,9 +14,9 @@
     // Initialization code
     
     self.bigImage.transform = CGAffineTransformMakeRotation(-M_1_PI / 4);
-    //self.samLabel.transform = CGAffineTransformMakeRotation(-M_1_PI / 2);
-//    self.samLabel.layer.transform = CGAffineTransformMakeRotation(-M_1_PI / 4);
-    self.samLabel.layer.transform = CATransform3DMakeAffineTransform(CGAffineTransformMakeRotation(-M_1_PI / 4));
+    self.samLabel.transform = CGAffineTransformMakeRotation(-M_1_PI / 2);
+    
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

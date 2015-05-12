@@ -14,7 +14,10 @@
 #import "QSS17TopShow_5Cell.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSNetworkKit.h"
-//#import "QSNetworkEngine+QSHotService.h"
+#import "QSHotUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSDateUtil.h"
+#define PAGE_ID @"S17"
 
 static NSString *TopShow_1Indentifier = @"TopShow_1Cell";
 static NSString *TopShow_2Indentifier = @"TopShow_2Cell";
@@ -22,6 +25,9 @@ static NSString *TopShow_3Indentifier = @"TopShow_3Cell";
 static NSString *TopShow_4Indentifier = @"TopShow_4Cell";
 static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 @interface QSS17TopShowsViewController ()<UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong)NSMutableArray *coverArray;
+@property (nonatomic, strong)NSMutableArray *likeArray;
 
 @end
 
@@ -34,20 +40,44 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
-//    [SHARE_NW_ENGINE hotFeedingByTopShows:nil OnSucceed:^(NSArray *array, NSDictionary *metadata) {
-//        
-//    } onError:^(NSError *error) {
-//        
-//    }];
-//    [SHARE_NW_ENGINE hotFeedingByTopShows:nil OnSucceed:^(NSArray *array, NSDictionary *metadata) {
-//    
-//    } onError:^(NSError *error) {
-//    
-//    }];
-
-    
     [self registerCell];
+    
+    __block QSS17TopShowsViewController *blockSelf = self;
+    [SHARE_NW_ENGINE hotFeedingByOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+        //self.hotArray = array;
+        self.coverArray = [NSMutableArray arrayWithCapacity:0];
+        self.likeArray = [NSMutableArray arrayWithCapacity:0];
+        for (NSDictionary *dic in array) {
+            NSURL *image = [QSHotUtil getHotCoverUrl:dic];
+            NSString *like = [QSHotUtil getHotNumLike:dic];
+            
+            [self.coverArray addObject:image];
+            [self.likeArray addObject:like];
+        }
+        [blockSelf.tableView reloadData];
+    } onError:^(NSError *error) {
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }];
+    
+    
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
+
+
 
 //注册Cell
 - (void)registerCell
@@ -69,27 +99,28 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 {
     if (indexPath.row == 0) {
         QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_1Indentifier forIndexPath:indexPath];
-//        if (indexPath.row == 0) {
-//            cell.dayLabel.hidden = NO;
-//            cell.lineView.hidden = NO;
-//            cell.YAndMLabel.hidden = NO;
-//        } else {
-//            cell.dayLabel.hidden = YES;
-//            cell.lineView.hidden = YES;
-//            cell.YAndMLabel.hidden = YES;
-//        }
+        [cell.bacImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.samLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else if(indexPath.row == 1){
         QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_2Indentifier forIndexPath:indexPath];
+        [cell.bigImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.samLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else if (indexPath.row == 2){
         QSS17TopShow_3Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_3Indentifier forIndexPath:indexPath];
+        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.sumLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else if (indexPath.row == 3){
         QSS17TopShow_4Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_4Indentifier forIndexPath:indexPath];
+        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.sumLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else {
         QSS17TopShow_5Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_5Indentifier forIndexPath:indexPath];
+        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.sumLabel.text = self.likeArray[indexPath.row];
         return cell;
     }
     
@@ -99,12 +130,11 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UIScreen mainScreen].bounds.size.height - 130;
+    return [UIScreen mainScreen].bounds.size.height;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    QSS03ShowDetailViewController *showVC = [[QSS03ShowDetailViewController alloc] init];
-//    [self.navigationController pushViewController:showVC animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 
