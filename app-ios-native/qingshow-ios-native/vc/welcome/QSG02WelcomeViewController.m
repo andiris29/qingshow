@@ -31,12 +31,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.frame = [UIScreen mainScreen].bounds;
-    _loginBtn.frame = CGRectMake(w/5*4, h/10*9, 60, 30);
+    _loginBtn.frame = CGRectMake(w/5*4, h/10*9, 100, 30);
     _welcomeSCV.frame = CGRectMake(0, 0, w, h);
-    _welcomeSCV.contentSize = CGSizeMake(w*3, h);
+    _welcomeSCV.contentSize = CGSizeMake(w*4, h);
     _welcomeSCV.pagingEnabled = YES;
     _welcomeSCV.alpha = 1.0f;
+    _welcomeSCV.delegate = self;
+
     [self addPhotosToSVC];
+    [super viewDidLayoutSubviews];
+}
+- (void)viewDidLayoutSubviews
+{
+    _loginBtn.frame = CGRectMake(w/5*3, h/10*7, 100, 30);
 }
 
 //- (void)dealloc
@@ -56,6 +63,7 @@
         }
         else{
              num = 480;
+            
         }
     }
     else if(self.view.bounds.size.width == 375){
@@ -65,16 +73,22 @@
     {
         num = 736;
     }
-    NSLog(@"w = %f,h = %f",w,h);
+    //NSLog(@"w = %f,h = %f",w,h);
     
-    NSString *imgName01 = [NSString stringWithFormat:@"welcome1_%d",num];
-    NSString *imgName02 = [NSString stringWithFormat:@"welcome2_%d",num];
-    NSString *imgName03 = [NSString stringWithFormat:@"welcome3_%d",num];
-    img01 = [UIImage imageNamed:imgName01];
-    img02 = [UIImage imageNamed:imgName02];
-    img03 = [UIImage imageNamed:imgName03];
+    NSString *imgName01 = [NSString stringWithFormat:@"/welcome1_%d",num];
+    NSString *imgName02 = [NSString stringWithFormat:@"/welcome2_%d",num];
+    NSString *imgName03 = [NSString stringWithFormat:@"/welcome3_%d",num];
     
-    for (int i = 0;  i < 3; i ++) {
+    NSString *path01 = [[[NSBundle mainBundle]bundlePath] stringByAppendingString:imgName01];
+    NSString *path02 = [[[NSBundle mainBundle]bundlePath] stringByAppendingString:imgName02];
+    NSString *path03 = [[[NSBundle mainBundle]bundlePath] stringByAppendingString:imgName03];
+    
+    img01 = [UIImage imageWithContentsOfFile:path01];
+    img02 = [UIImage imageWithContentsOfFile:path02];
+    img03 = [UIImage imageWithContentsOfFile:path03];
+   
+    
+    for (int i = 0;  i < 4; i ++) {
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(w*i, 0, w, h)];
         [_welcomeSCV addSubview:imageView];
         if (i == 0) {
@@ -87,6 +101,12 @@
         else if(i == 2)
         {
             imageView.image = img03;
+        }
+        else if(i == 3){
+            UIView *view = [[UIView alloc]initWithFrame:CGRectMake(w*3, 0, w, h)];
+            view.backgroundColor = [UIColor clearColor];
+            view.alpha = .8f;
+            [_welcomeSCV addSubview:view];
         }
     }
 
@@ -109,6 +129,16 @@
     
     if ([self.delegate respondsToSelector:@selector(dismissWelcomePage:)]) {
         [self.delegate dismissWelcomePage:self];
+    }
+}
+#pragma mark - UIScrollView 代理
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //NSLog(@"offset  =  %f",_welcomeSCV.contentOffset.x);
+    if (_welcomeSCV.contentOffset.x == w*3) {
+        [_loginBtn setTitle:@"正在进入" forState:UIControlStateNormal];
+        _loginBtn.hidden = YES;
+        [self skipBtnPressed:self];
     }
 }
 

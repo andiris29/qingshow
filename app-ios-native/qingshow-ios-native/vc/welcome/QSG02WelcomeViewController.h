@@ -16,7 +16,7 @@
 
 @end
 
-@interface QSG02WelcomeViewController : UIViewController
+@interface QSG02WelcomeViewController : UIViewController<UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *welcomeSCV;

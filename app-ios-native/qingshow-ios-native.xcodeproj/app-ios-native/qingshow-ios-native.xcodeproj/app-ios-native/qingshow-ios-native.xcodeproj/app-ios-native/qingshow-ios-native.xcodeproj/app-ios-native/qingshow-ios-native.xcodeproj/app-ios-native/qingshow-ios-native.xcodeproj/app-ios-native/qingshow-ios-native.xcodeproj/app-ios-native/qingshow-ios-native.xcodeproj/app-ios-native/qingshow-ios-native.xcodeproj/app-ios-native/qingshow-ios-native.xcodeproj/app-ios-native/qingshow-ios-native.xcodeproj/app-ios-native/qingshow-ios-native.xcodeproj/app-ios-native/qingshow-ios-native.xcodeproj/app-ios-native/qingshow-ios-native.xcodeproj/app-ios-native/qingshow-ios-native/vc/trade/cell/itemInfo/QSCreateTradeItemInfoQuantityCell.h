@@ -1,0 +1,20 @@
+//
+//  QSCreateTradeItemInfoQuantityCell.h
+//  qingshow-ios-native
+//
+//  Created by wxy325 on 3/16/15.
+//  Copyright (c) 2015 QS. All rights reserved.
+//
+
+#import "QSCreateTradeHeigh60Cell.h"
+
+@interface QSCreateTradeItemInfoQuantityCell : QSCreateTradeHeigh60Cell
+
+@property (strong, nonatomic) IBOutlet UIButton* minusBtn;
+@property (strong, nonatomic) IBOutlet UIButton* plusBtn;
+@property (strong, nonatomic) IBOutlet UITextField* numberTextField;
+
+- (IBAction)plusBtnPressed:(id)sender;
+- (IBAction)minusBtnPressed:(id)sender;
+
+@end
