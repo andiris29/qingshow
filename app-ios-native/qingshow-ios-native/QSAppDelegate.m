@@ -202,13 +202,21 @@
 -(void) onResp:(BaseResp*)resp
 {
     if ([resp isKindOfClass:[SendAuthResp class]]) {
+        //微信登陆
         SendAuthResp* authResp = (SendAuthResp*)resp;
         if (resp.errCode == kWechatPaymentSuccessCode) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeSucceedNotification object:nil userInfo:@{@"code" : authResp.code}];
         } else {
             [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeFailNotification object:nil];
         }
-    } else {
+    } else if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatSuccessNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatFailNotification object:nil];
+        }
+    }else {
+        //微信支付
         if (resp.errCode == kWechatPaymentSuccessCode) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
         } else {

@@ -203,7 +203,19 @@
 }
 - (void)didShareWeiboSuccess
 {
-    [self showSuccessHudWithText:@"分享成功"];
+
+    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
+        [self showSuccessHudWithText:@"分享成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
+}
+- (void)didShareWechatSuccess {
+    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
+        [self showSuccessHudWithText:@"分享成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 
 #pragma mark - Override

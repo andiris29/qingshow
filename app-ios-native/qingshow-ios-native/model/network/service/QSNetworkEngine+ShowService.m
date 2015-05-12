@@ -22,6 +22,8 @@
 //Like
 #define PATH_SHOW_LIKE @"show/like"
 #define PATH_SHOW_UNLIKE @"show/unlike"
+//Share
+#define PATH_SHOW_SHARE @"show/share"
 
 
 @implementation QSNetworkEngine(ShowService)
@@ -194,6 +196,22 @@
                 [QSShowUtil setIsLike:NO show:showDict];
             }
         }
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+#pragma mark - Share
+- (MKNetworkOperation*)didShareShow:(NSDictionary*)showDict
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_SHOW_SHARE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);
         }

@@ -41,5 +41,8 @@
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
 
-
+#pragma mark - Share
+- (MKNetworkOperation*)didShareShow:(NSDictionary*)showDict
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock;
 @end

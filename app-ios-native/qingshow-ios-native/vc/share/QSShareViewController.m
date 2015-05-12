@@ -31,6 +31,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShareWechatSuccess:) name:kShareWechatSuccessNotification object:nil];
 
     self.shareContainer.hidden = YES;
     self.sharePanel.hidden = YES;
@@ -183,6 +184,12 @@
     
     [WXApi sendReq:req];
     [self hideSharePanel];
+}
+
+- (void)didReceiveShareWechatSuccess:(NSNotification*)noti {
+    if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
+        [self.delegate didShareWechatSuccess];
+    }
 }
 
 - (IBAction)shareCancelPressed:(id)sender {
