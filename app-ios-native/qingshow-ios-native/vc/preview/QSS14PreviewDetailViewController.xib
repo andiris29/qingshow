@@ -2,11 +2,17 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7702"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS14PreviewDetailViewController">
             <connections>
+                <outlet property="backBtn" destination="WSr-NV-OXH" id="OZK-Tn-ZPh"/>
+                <outlet property="likeBtn" destination="6pJ-rP-KiO" id="NP1-go-c67"/>
+                <outlet property="pauseBtn" destination="B2v-nf-t6X" id="KcR-1l-6XW"/>
+                <outlet property="playBtn" destination="buV-E9-hTt" id="6KV-Zz-qoY"/>
+                <outlet property="scrollViewContainer" destination="Fmu-B3-6ST" id="2rh-t4-t0A"/>
+                <outlet property="videoContainerView" destination="Olg-NT-kN2" id="n8o-iD-KVf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -15,23 +21,103 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2xQ-Ju-eDp">
-                    <rect key="frame" x="244" y="483" width="76" height="85"/>
-                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fmu-B3-6ST">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Olg-NT-kN2">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d2l-cv-f3i">
+                    <rect key="frame" x="240" y="368" width="80" height="200"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="buV-E9-hTt">
+                            <rect key="frame" x="21" y="155" width="38" height="38"/>
+                            <state key="normal" image="s03_play_btn">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="9RU-i5-HOy"/>
+                            </connections>
+                        </button>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B2v-nf-t6X">
+                            <rect key="frame" x="21" y="155" width="38" height="38"/>
+                            <state key="normal" image="s03_pause_btn">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="n2B-i0-I9x"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6pJ-rP-KiO">
+                            <rect key="frame" x="21" y="41" width="38" height="37"/>
+                            <state key="normal" backgroundImage="s03_like_btn">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="likeBtnPressed:" destination="-1" eventType="touchUpInside" id="mtd-WE-NfC"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="s03_line" translatesAutoresizingMaskIntoConstraints="NO" id="LHt-mo-WxG">
+                            <rect key="frame" x="22" y="86" width="36" height="6"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WLe-9i-9px">
+                            <rect key="frame" x="22" y="100" width="38" height="37"/>
+                            <state key="normal" image="s03_share_btn">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="shareBtnPressed:" destination="-1" eventType="touchUpInside" id="CeG-e7-Cso"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="85" id="igt-1u-aIi"/>
-                        <constraint firstAttribute="width" constant="76" id="qij-eb-CEc"/>
+                        <constraint firstAttribute="height" constant="200" id="5eB-qr-WJa"/>
+                        <constraint firstAttribute="width" constant="80" id="X7R-FK-8nD"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WSr-NV-OXH">
+                    <rect key="frame" x="20" y="30" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="36" id="PvX-J2-DlN"/>
+                        <constraint firstAttribute="height" constant="36" id="eqj-Su-8Uc"/>
+                    </constraints>
+                    <state key="normal" image="s03_back_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="yuG-cf-lXi"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="2xQ-Ju-eDp" secondAttribute="bottom" id="8D4-XZ-fTC"/>
-                <constraint firstAttribute="trailing" secondItem="2xQ-Ju-eDp" secondAttribute="trailing" id="bWz-wM-rrE"/>
+                <constraint firstItem="Olg-NT-kN2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="0QW-Xc-o2J"/>
+                <constraint firstAttribute="trailing" secondItem="Olg-NT-kN2" secondAttribute="trailing" id="39c-vI-oMX"/>
+                <constraint firstItem="WSr-NV-OXH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="4Os-qS-rx0"/>
+                <constraint firstAttribute="trailing" secondItem="Fmu-B3-6ST" secondAttribute="trailing" id="C6X-hG-ugD"/>
+                <constraint firstItem="Fmu-B3-6ST" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="LFe-IR-YL3"/>
+                <constraint firstAttribute="trailing" secondItem="d2l-cv-f3i" secondAttribute="trailing" id="UDS-Yc-Pvx"/>
+                <constraint firstAttribute="bottom" secondItem="Olg-NT-kN2" secondAttribute="bottom" id="Ycx-9m-7mh"/>
+                <constraint firstItem="Olg-NT-kN2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="drU-fg-uO1"/>
+                <constraint firstAttribute="bottom" secondItem="d2l-cv-f3i" secondAttribute="bottom" id="iJS-6m-R3e"/>
+                <constraint firstAttribute="bottom" secondItem="Fmu-B3-6ST" secondAttribute="bottom" id="jeE-4n-hC8"/>
+                <constraint firstItem="Fmu-B3-6ST" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tAw-hZ-oYH"/>
+                <constraint firstItem="WSr-NV-OXH" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="uBF-pZ-NcZ"/>
             </constraints>
             <point key="canvasLocation" x="326" y="343"/>
         </view>
     </objects>
+    <resources>
+        <image name="s03_back_btn" width="36" height="36"/>
+        <image name="s03_like_btn" width="40" height="36"/>
+        <image name="s03_line" width="36" height="6"/>
+        <image name="s03_pause_btn" width="38" height="38"/>
+        <image name="s03_play_btn" width="38" height="38"/>
+        <image name="s03_share_btn" width="38" height="28"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

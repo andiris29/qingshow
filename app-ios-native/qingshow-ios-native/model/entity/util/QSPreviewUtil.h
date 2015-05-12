@@ -23,5 +23,7 @@
 + (void)addNumberComment:(long long)num forPreview:(NSDictionary*)previewDict;
 //+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)previewDict;
 + (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index;
-
++ (NSString*)getVideoPath:(NSDictionary*)previewDict;
++ (NSURL*)getPosterUrl:(NSDictionary*)previewDict;
++ (NSDictionary*)getPosterMetadata:(NSDictionary*)previewDict;
 @end

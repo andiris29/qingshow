@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSVideoBaseViewController.h"
 
-@interface QSS14PreviewDetailViewController : UIViewController
+@interface QSS14PreviewDetailViewController : QSVideoBaseViewController
+
 
 - (instancetype)initWithPreview:(NSDictionary*)previewDict;
+@property (weak, nonatomic) IBOutlet UIButton *likeBtn;
+- (IBAction)shareBtnPressed:(id)sender;
+- (IBAction)likeBtnPressed:(id)sender;
 
 @end

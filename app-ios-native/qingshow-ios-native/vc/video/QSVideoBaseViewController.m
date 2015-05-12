@@ -23,12 +23,13 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.fNeedScreenShot = YES;
     // Do any additional setup after loading the view.
     if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
-    self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.scrollViewContainer.frame];
+    self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.scrollViewContainer.bounds];
     self.imageScrollView.pageControlOffsetY = 10.f;
     self.imageScrollView.pageControl.hidden = YES;
     self.imageScrollView.delegate = self;
@@ -43,7 +44,11 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
 }
-
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.imageScrollView.frame = self.scrollViewContainer.bounds;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -153,7 +158,7 @@
 - (void)updateShowImgScrollView
 {
     NSMutableArray* array = [@[] mutableCopy];
-    if (self.videoScreenShotImage) {
+    if (self.videoScreenShotImage && self.fNeedScreenShot) {
         [array addObject:self.videoScreenShotImage];
     }
     NSArray* previewArray =  [self generateImagesData];;
@@ -216,7 +221,11 @@
     tran.subtype = kCATransitionFromLeft;
     tran.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     [self.navigationController.view.layer addAnimation:tran forKey:@"transition_to_root"];
-    [self.navigationController popViewControllerAnimated:NO];
+    if (self.navigationController) {
+        [self.navigationController popViewControllerAnimated:NO];
+    } else {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
     
     if (self.movieController) {
         [self logMobPlayVideo:self.movieController.currentPlaybackTime];

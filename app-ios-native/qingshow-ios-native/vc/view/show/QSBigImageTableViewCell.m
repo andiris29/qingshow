@@ -194,7 +194,8 @@
 {
     float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
     [self resizeWithHeight:height];
-    //    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getCoverUrl:previewDict]]];
+#warning TODO 暂时没有cover数据，使用first image，有数据后改用下面一行
+//        [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getCoverUrl:previewDict]]];
     [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getFirstImageUrl:previewDict]]];
     self.label1.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:0];
 }

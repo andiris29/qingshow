@@ -33,6 +33,15 @@
     return [NSURL URLWithString:path];
 }
 
++ (NSURL*)getPosterUrl:(NSDictionary*)previewDict
+{
+    if ([QSCommonUtil checkIsNil:previewDict]) {
+        return nil;
+    }
+    NSString* path = previewDict[@"poster"];
+    return [NSURL URLWithString:path];
+}
+
 + (NSString*)getImagesDesc:(NSDictionary*)previewDict atIndex:(int)index
 {
     if ([QSCommonUtil checkIsNil:previewDict]) {
@@ -66,6 +75,19 @@
         return arrays[0];
     } else {
         return nil;
+    }
+}
+
++ (NSDictionary*)getPosterMetadata:(NSDictionary*)previewDict
+{
+    if (![QSCommonUtil checkIsDict:previewDict]) {
+        return nil;
+    }
+    NSDictionary* metadata = previewDict[@"posterMetadata"];
+    if ([QSCommonUtil checkIsNil:metadata]) {
+        return nil;
+    } else {
+        return metadata;
     }
 }
 
@@ -167,6 +189,20 @@
         }
         context[@"numComments"] = @(((NSNumber*)context[@"numComments"]).longLongValue + num);
         m[@"__context"] = context;
+    }
+}
+
++ (NSString*)getVideoPath:(NSDictionary*)previewDict
+{
+    if (![QSCommonUtil checkIsDict:previewDict]) {
+        return nil;
+    }
+    
+    NSString* path = previewDict[@"video"];
+    if ([QSCommonUtil checkIsNil:path]) {
+        return nil;
+    } else {
+        return path;
     }
 }
 @end
