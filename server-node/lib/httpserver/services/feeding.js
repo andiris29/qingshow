@@ -60,13 +60,10 @@ feeding.recommendation = {
         _feed(req, res, function (qsParam, outCallback) {
             async.waterfall([
                 function (callback) {
-                    callback();
                     var userid = req.qsCurrentUserId;
-//                    Peoples.findOne({'_id' : userid}, callback);
+                    Peoples.findOne({'_id' : userid}, callback);
                 }, function (people, callback) {
-
-//                    var rate = people.weight / people.height;
-                    var rate = 0.27;
+                    var rate = people.weight / people.height;
                     var type = null;
                     /*
                      * 0.24~0.27属于偏瘦型（A1）
@@ -87,7 +84,7 @@ feeding.recommendation = {
                         'recommend.group' : type
                     };
                     MongoHelper.queryPaging(Show.find(criteria).sort({
-                        'recommend.date' : 1
+                        'recommend.date' : -1
                     }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
                 }
             ], outCallback);

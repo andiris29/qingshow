@@ -30,6 +30,23 @@ peopleSchema = Schema({
             type : Date,
             select : false,
             'default' : Date.now
+        },
+        weixin : {
+            openid : String,
+            nickname : String,
+            sec : Number,
+            province : String,
+            country : String,
+            headimgurl : String,
+            unionid : String
+        },
+        weibo : {
+            id : String,
+            screen_name : String,
+            province : Number,
+            country : Number,
+            gender : String,
+            avatar_large : String
         }
     },
     receivers : [{
