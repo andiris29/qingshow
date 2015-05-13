@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -19,19 +19,8 @@
                         <rect key="frame" x="20" y="52" width="457" height="337"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Xy-yV-xWJ">
-<<<<<<< Updated upstream
                                 <rect key="frame" x="20" y="20" width="417" height="299"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShow_hear2" translatesAutoresizingMaskIntoConstraints="NO" id="GcK-3M-NI4">
-                                <rect key="frame" x="-10" y="237" width="72" height="62"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="72" id="BkF-NH-Nn3"/>
-                                    <constraint firstAttribute="height" constant="62" id="M47-FF-JgB"/>
-                                </constraints>
-=======
-                                <rect key="frame" x="20" y="22" width="417" height="297"/>
->>>>>>> Stashed changes
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShows_top2" translatesAutoresizingMaskIntoConstraints="NO" id="6y1-4A-uQx">
                                 <rect key="frame" x="374" y="-36" width="97" height="98"/>
@@ -58,7 +47,7 @@
                             <constraint firstItem="6y1-4A-uQx" firstAttribute="top" secondItem="6jo-hi-YpY" secondAttribute="top" constant="-36" id="5u0-OQ-RO9"/>
                             <constraint firstItem="4Xy-yV-xWJ" firstAttribute="leading" secondItem="6jo-hi-YpY" secondAttribute="leading" constant="20" id="6gs-Rk-rML"/>
                             <constraint firstAttribute="bottom" secondItem="4Xy-yV-xWJ" secondAttribute="bottom" constant="18" id="9Rn-34-a2F"/>
-                            <constraint firstItem="4Xy-yV-xWJ" firstAttribute="top" secondItem="6jo-hi-YpY" secondAttribute="top" constant="22" id="ANo-6q-Zx3"/>
+                            <constraint firstItem="4Xy-yV-xWJ" firstAttribute="top" secondItem="6jo-hi-YpY" secondAttribute="top" constant="20" id="ANo-6q-Zx3"/>
                             <constraint firstAttribute="trailing" secondItem="4Xy-yV-xWJ" secondAttribute="trailing" constant="20" id="Izy-mu-ZlI"/>
                             <constraint firstItem="bz2-sh-h5g" firstAttribute="leading" secondItem="6jo-hi-YpY" secondAttribute="leading" constant="-5" id="Uby-iN-JS0"/>
                             <constraint firstAttribute="trailing" secondItem="6y1-4A-uQx" secondAttribute="trailing" constant="-14" id="fTJ-b6-8Z7"/>

@@ -37,6 +37,8 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"美搭榜单";
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_red_back"] style:UIBarButtonItemStyleDone target:self action:@selector(back)];
+    self.navigationItem.leftBarButtonItem = leftButton;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -50,6 +52,8 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
         self.topShows = [NSMutableDictionary dictionaryWithCapacity:0];
         for (NSMutableDictionary *dic in array) {
             self.topShows = dic;
+            NSLog(@"%@", self.topShows);
+            NSLog(@"%@", [QSHotUtil getHotCreateDate:dic]);
             NSURL *image = [QSHotUtil getHotCoverUrl:dic];
             NSString *like = [QSHotUtil getHotNumLike:dic];
           [self.coverArray addObject:image];
@@ -62,6 +66,11 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
     }];
     
     
+}
+
+- (void)back
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
