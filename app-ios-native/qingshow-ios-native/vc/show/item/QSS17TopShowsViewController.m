@@ -108,8 +108,8 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 {
     if (indexPath.row == 0) {
         QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_1Indentifier forIndexPath:indexPath];
-//        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
-//        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
+        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else if(indexPath.row == 1){
         QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_2Indentifier forIndexPath:indexPath];
