@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+<<<<<<< Updated upstream
         <deployment identifier="iOS"/>
+=======
+>>>>>>> Stashed changes
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -16,49 +19,57 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6jo-hi-YpY">
-                        <rect key="frame" x="20" y="52" width="457" height="337"/>
+                        <rect key="frame" x="20" y="40" width="457" height="349"/>
                         <subviews>
+<<<<<<< Updated upstream
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Xy-yV-xWJ">
                                 <rect key="frame" x="20" y="20" width="417" height="299"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+=======
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4Xy-yV-xWJ">
+                                <rect key="frame" x="20" y="20" width="417" height="309"/>
+                                <color key="backgroundColor" red="1" green="0.15615795660000001" blue="0.1366413296" alpha="1" colorSpace="calibratedRGB"/>
+>>>>>>> Stashed changes
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShows_top2" translatesAutoresizingMaskIntoConstraints="NO" id="6y1-4A-uQx">
-                                <rect key="frame" x="374" y="-36" width="97" height="98"/>
+                                <rect key="frame" x="374" y="-38" width="97" height="98"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="UJy-vf-vh6"/>
                                     <constraint firstAttribute="height" constant="98" id="hdu-rw-PKc"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bz2-sh-h5g">
-                                <rect key="frame" x="-5" y="252" width="67" height="55"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="991-22-K44">
+                                <rect key="frame" x="20" y="257" width="61" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="6m4-VR-kyK"/>
-                                    <constraint firstAttribute="width" constant="67" id="cwM-y8-fI2"/>
+                                    <constraint firstAttribute="height" constant="55" id="dHr-wZ-oRY"/>
+                                    <constraint firstAttribute="width" constant="61" id="rpp-ON-gun"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2" maxY="0.0"/>
-                                <state key="normal" title="111" backgroundImage="topShow_hear2">
+                                <state key="normal" title="110" backgroundImage="topShow_hear2">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
                         </subviews>
+                        <color key="backgroundColor" red="1" green="0.92998832149999999" blue="0.2060719385" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="6y1-4A-uQx" firstAttribute="top" secondItem="6jo-hi-YpY" secondAttribute="top" constant="-36" id="5u0-OQ-RO9"/>
+                            <constraint firstItem="991-22-K44" firstAttribute="leading" secondItem="6jo-hi-YpY" secondAttribute="leading" constant="20" id="3yc-0Y-8xV"/>
+                            <constraint firstItem="6y1-4A-uQx" firstAttribute="top" secondItem="6jo-hi-YpY" secondAttribute="top" constant="-38" id="5u0-OQ-RO9"/>
                             <constraint firstItem="4Xy-yV-xWJ" firstAttribute="leading" secondItem="6jo-hi-YpY" secondAttribute="leading" constant="20" id="6gs-Rk-rML"/>
+<<<<<<< Updated upstream
                             <constraint firstAttribute="bottom" secondItem="4Xy-yV-xWJ" secondAttribute="bottom" constant="18" id="9Rn-34-a2F"/>
+=======
+                            <constraint firstAttribute="bottom" secondItem="4Xy-yV-xWJ" secondAttribute="bottom" constant="20" id="9Rn-34-a2F"/>
+>>>>>>> Stashed changes
                             <constraint firstItem="4Xy-yV-xWJ" firstAttribute="top" secondItem="6jo-hi-YpY" secondAttribute="top" constant="20" id="ANo-6q-Zx3"/>
                             <constraint firstAttribute="trailing" secondItem="4Xy-yV-xWJ" secondAttribute="trailing" constant="20" id="Izy-mu-ZlI"/>
-                            <constraint firstItem="bz2-sh-h5g" firstAttribute="leading" secondItem="6jo-hi-YpY" secondAttribute="leading" constant="-5" id="Uby-iN-JS0"/>
+                            <constraint firstAttribute="bottom" secondItem="991-22-K44" secondAttribute="bottom" constant="37" id="X8g-I9-GoV"/>
                             <constraint firstAttribute="trailing" secondItem="6y1-4A-uQx" secondAttribute="trailing" constant="-14" id="fTJ-b6-8Z7"/>
-                            <constraint firstAttribute="bottom" secondItem="bz2-sh-h5g" secondAttribute="bottom" constant="30" id="tKj-Qc-IUz"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="6jo-hi-YpY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="40" id="0oQ-HU-iK4"/>
                     <constraint firstItem="6jo-hi-YpY" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="HLX-Zo-6sr"/>
-                    <constraint firstItem="6jo-hi-YpY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="52" id="I3Z-Yk-Bmv"/>
+                    <constraint firstItem="6jo-hi-YpY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="I3Z-Yk-Bmv"/>
                     <constraint firstAttribute="trailingMargin" secondItem="6jo-hi-YpY" secondAttribute="trailing" constant="20" id="U7S-j6-xQM"/>
                     <constraint firstAttribute="bottom" secondItem="6jo-hi-YpY" secondAttribute="bottom" constant="10" id="VRw-Oy-UeJ"/>
                     <constraint firstAttribute="bottom" secondItem="6jo-hi-YpY" secondAttribute="bottom" constant="10" id="Ypb-so-FBu"/>
@@ -77,11 +88,11 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
-                <outlet property="backImage" destination="4Xy-yV-xWJ" id="eEb-cc-baV"/>
-                <outlet property="backView" destination="6jo-hi-YpY" id="fQR-S6-duX"/>
-                <outlet property="likeButton" destination="bz2-sh-h5g" id="k2U-Gm-8Ly"/>
+                <outlet property="backImage" destination="4Xy-yV-xWJ" id="Z2b-GA-Red"/>
+                <outlet property="backView" destination="6jo-hi-YpY" id="Tdy-DG-beQ"/>
+                <outlet property="likeButton" destination="991-22-K44" id="jg7-xf-rOg"/>
             </connections>
-            <point key="canvasLocation" x="308.5" y="258"/>
+            <point key="canvasLocation" x="308.5" y="262"/>
         </tableViewCell>
     </objects>
     <resources>
