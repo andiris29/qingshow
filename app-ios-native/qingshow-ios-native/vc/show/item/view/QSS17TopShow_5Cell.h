@@ -10,6 +10,7 @@
 
 @interface QSS17TopShow_5Cell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *backImage;
-@property (weak, nonatomic) IBOutlet UILabel *sumLabel;
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
+@property (weak, nonatomic) IBOutlet UIView *backView;
 
 @end

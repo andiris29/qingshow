@@ -9,12 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface QSS17TopShow_1Cell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *topImage;
-@property (weak, nonatomic) IBOutlet UIImageView *bacImage;
-@property (weak, nonatomic) IBOutlet UIImageView *samImage;
-@property (weak, nonatomic) IBOutlet UILabel *samLabel;
+@property (weak, nonatomic) IBOutlet UIView *backView;
+@property (weak, nonatomic) IBOutlet UIImageView *backImage;
+@property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UILabel *dayLabel;
-@property (weak, nonatomic) IBOutlet UIView *lineView;
 @property (weak, nonatomic) IBOutlet UILabel *YAndMLabel;
 
 @end

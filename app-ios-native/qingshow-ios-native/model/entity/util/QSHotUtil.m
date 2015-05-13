@@ -34,34 +34,19 @@
 }
 + (NSDate *)getHotCreateDate:(NSDictionary *)topShows
 {
-    if ([QSCommonUtil checkIsNil:nil]) {
+    if (![QSCommonUtil checkIsNil:topShows]) {
         return nil;
     }
-    id createDate = topShows[@"create"];
-    if ([QSCommonUtil checkIsNil:createDate]) {
-        return nil;
-    }else {
-        if ([createDate isKindOfClass:[NSDate class]]) {
-            return createDate;
-        }else {
-            NSString *dateStr = createDate;
-            return [QSDateUtil buildDateFromResponseString:dateStr];
-        }
-    }
-}
+    NSString *dateStr = topShows[@"create"];
+    return [QSDateUtil buildDateFromResponseString:dateStr];
+  }
 + (NSDate *)getHotUpDate:(NSDictionary *)topShows
 {
-    if ([QSCommonUtil checkIsNil:topShows]) {
+    if (![QSCommonUtil checkIsNil:topShows]) {
         return nil;
-    } else {
-        id upDate = topShows[@"upDate"];
-        if ([upDate isKindOfClass:[NSDate class]]) {
-            return upDate;
-        } else {
-            NSString *upDateStr = upDate;
-            return [QSDateUtil buildDateFromResponseString:upDateStr];
-        }
     }
-}
+    NSString *upDateStr = topShows[@"update"];
+    return [QSDateUtil buildDateFromResponseString:upDateStr];
+         }
 
 @end

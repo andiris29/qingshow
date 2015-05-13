@@ -44,4 +44,6 @@
                                  page:(int)page
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)hotFeedingByOnSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock;
+
 @end

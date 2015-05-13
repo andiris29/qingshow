@@ -157,4 +157,22 @@
 {
     return [self getFeedingPath:PATH_FEEDING_BY_TOPIC otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:topicDic]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
+
+- (MKNetworkOperation *)hotFeedingByOnSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_FEEDING_HOT method:nil paramers:nil onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            NSDictionary *topShows = completedOperation.responseJSON;
+            NSArray *topShowsArray = topShows[@"data"][@"shows"];
+            succeedBlock([topShowsArray deepMutableCopy], topShows[@"metadata"]);
+        }
+        
+        
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 @end
