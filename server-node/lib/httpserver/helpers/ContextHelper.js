@@ -30,8 +30,13 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     var sharedByCurrentUser = function(callback) {
         _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
     };
+
+    var likeDate = function(callback) {
+        _rCreateDate(RPeopleLikeShow, qsCurrentUserId, shows, 'likeDate', callback);
+    };
+
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, likeDate], function (err) {
         callback(null, shows);
     });
 };
@@ -122,6 +127,7 @@ var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback
                     if (Boolean(!err && relationship)) {
                         model.__context[contextField] = relationship.create;
                     }
+                    callback();
                 });
             } else {
                 callback();
