@@ -4,7 +4,7 @@ var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
 var Items = require('../../model/items');
 var async = require('async');
 var RequestHelper = require('../helpers/RequestHelper');
-
+var ContextHelper = require('../helpers/ContextHelper');
 var itemfeeding = module.exports;
 
 itemfeeding.like = {
@@ -40,8 +40,14 @@ itemfeeding.like = {
         }, {
             'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
                 //update cover metadata
-                MongoHelper.updateCoverMetaData(currentPageModels, callback);
-            }, 'afterParseRequest' : function(raw) {
+                async.series([
+                    function (callback) {
+                        MongoHelper.updateCoverMetaData(currentPageModels, callback);
+                    }, function (callback) {
+                        ContextHelper.appendItemContext(req.qsCurrentUserId, currentPageModels, callback);
+                    }], callback);
+            },
+            'afterParseRequest' : function(raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
                 };
