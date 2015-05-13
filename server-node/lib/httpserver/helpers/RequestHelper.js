@@ -39,7 +39,7 @@ RequestHelper.parseDate = function(string) {
 };
 
 RequestHelper.parseId = function(string) {
-    return string === undefined ? undefined : mongoose.mongo.BSONPure.ObjectID(string);
+    return string === undefined ? undefined : new mongoose.Types.ObjectId(string);
 };
 
 RequestHelper.parseArray = function(string) {
