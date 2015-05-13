@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-<<<<<<< Updated upstream
-        <deployment identifier="iOS"/>
-=======
->>>>>>> Stashed changes
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
@@ -20,14 +16,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oGb-9K-5Fn">
                         <rect key="frame" x="20" y="40" width="444" height="326"/>
                         <subviews>
-<<<<<<< Updated upstream
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GWU-BS-QEu">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GWU-BS-QEu">
                                 <rect key="frame" x="20" y="30" width="404" height="268"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-=======
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GWU-BS-QEu">
-                                <rect key="frame" x="20" y="28" width="404" height="278"/>
->>>>>>> Stashed changes
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShows_top5" translatesAutoresizingMaskIntoConstraints="NO" id="0lw-ik-bCq">
                                 <rect key="frame" x="0.0" y="-6" width="96" height="84"/>
