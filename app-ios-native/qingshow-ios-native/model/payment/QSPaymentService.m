@@ -45,11 +45,16 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_paymentService = [[QSPaymentService alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:s_paymentService selector:@selector(invokePaymentSuccessCallback:) name:kPaymentSuccessNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:s_paymentService selector:@selector(invokePaymentFailCallback:) name:kPaymentFailNotification object:nil];
-        
     });
     return s_paymentService;
+}
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invokePaymentSuccessCallback:) name:kPaymentSuccessNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invokePaymentFailCallback:) name:kPaymentFailNotification object:nil];
+    }
+    return self;
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict
@@ -136,6 +141,7 @@
     if (self.succeedBlock) {
         self.succeedBlock();
         self.succeedBlock = nil;
+        self.errorBlock = nil;
     }
 }
 
@@ -143,6 +149,7 @@
 {
     if (self.errorBlock) {
         self.errorBlock(nil);
+        self.succeedBlock = nil;
         self.errorBlock = nil;
     }
 }

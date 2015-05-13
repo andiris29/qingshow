@@ -33,4 +33,6 @@
 + (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict;
 + (void)addNumberLike:(long long)num forItem:(NSDictionary*)itemDict;
 + (NSString*)getNumberLikeDescription:(NSDictionary*)itemDict;
+
++ (NSDate*)getLikeDate:(NSDictionary*)itemDict;
 @end

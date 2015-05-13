@@ -10,7 +10,9 @@
 
 @protocol QSShareViewControllerDelegate <NSObject>
 
+@optional
 - (void)didShareWeiboSuccess;
+- (void)didShareWechatSuccess;
 
 @end
 

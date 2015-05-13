@@ -90,6 +90,7 @@
     //Like
     [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSItemUtil getIsLike:self.itemDict]];
+    self.discountContainer.hidden = YES;
 }
 
 #pragma mark - UI

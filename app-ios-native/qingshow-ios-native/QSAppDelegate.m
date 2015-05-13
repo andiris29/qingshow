@@ -148,8 +148,12 @@
         if (response.statusCode == WeiboSDKResponseStatusCodeSuccess) {
             um.weiboAccessToken = [(WBAuthorizeResponse *)response accessToken];
             um.weiboUserId = [(WBAuthorizeResponse *)response userID];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode), @"accessToken" : um.weiboAccessToken, @"userId" : um.weiboUserId}];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:kWeiboAuthorizeResultNotification object:nil userInfo:@{@"statusCode" : @(response.statusCode)}];
+        
+
     }
     else if ([response isKindOfClass:WBPaymentResponse.class])
     {
@@ -197,10 +201,27 @@
 
 -(void) onResp:(BaseResp*)resp
 {
-    if (resp.errCode == kWechatPaymentSuccessCode) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
-    } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
+        //微信登陆
+        SendAuthResp* authResp = (SendAuthResp*)resp;
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeSucceedNotification object:nil userInfo:@{@"code" : authResp.code}];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeFailNotification object:nil];
+        }
+    } else if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatSuccessNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatFailNotification object:nil];
+        }
+    }else {
+        //微信支付
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+        }
     }
 }
 @end

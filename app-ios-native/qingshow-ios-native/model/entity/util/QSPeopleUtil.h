@@ -43,4 +43,6 @@
 + (BOOL)isPeople:(NSDictionary*)l equalToPeople:(NSDictionary*)r;
 
 + (NSArray*)getReceiverList:(NSDictionary*)dict;
+
++ (BOOL)hasPersonalizeData:(NSDictionary*)dict;
 @end

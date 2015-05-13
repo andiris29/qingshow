@@ -4,6 +4,9 @@ var async = require('async');
 var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
+var RPeopleShareShow = require('../../model/rPeopleShareShow');
+
+var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
 
 /**
  * ContextHelper
@@ -23,8 +26,17 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     var likedByCurrentUser = function(callback) {
         _rInitiator(RPeopleLikeShow, qsCurrentUserId, shows, 'likedByCurrentUser', callback);
     };
+    // __context.sharedByCurrentUser
+    var sharedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
+    };
+
+    var likeDate = function(callback) {
+        _rCreateDate(RPeopleLikeShow, qsCurrentUserId, shows, 'likeDate', callback);
+    };
+
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, likeDate], function (err) {
         callback(null, shows);
     });
 };
@@ -41,6 +53,17 @@ ContextHelper.appendPreviewContext = function(qsCurrentUserId, previews, callbac
     };
     async.parallel([numComments, likedByCurrentUser], function(err) {
         callback(null, previews);
+    });
+};
+
+ContextHelper.appendItemContext = function(qsCurrentUserId, items, callback) {
+    items = _prepare(items);
+    // __context.likeDate
+    var likeDate = function(callback) {
+        _rCreateDate(RPeopleLikeItem, qsCurrentUserId, items, 'likeDate', callback);
+    };
+    async.parallel([likeDate], function(err) {
+        callback(null, items);
     });
 };
 
@@ -84,6 +107,29 @@ var _rInitiator = function(RModel, initiatorRef, models, contextField, callback)
                 });
             } else {
                 model.__context[contextField] = false;
+                callback();
+            }
+        };
+    });
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    });
+};
+
+var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            if (initiatorRef) {
+                RModel.findOne({
+                    'initiatorRef' : initiatorRef,
+                    'targetRef' : model._id
+                }, function(err, relationship) {
+                    if (Boolean(!err && relationship)) {
+                        model.__context[contextField] = relationship.create;
+                    }
+                    callback();
+                });
+            } else {
                 callback();
             }
         };

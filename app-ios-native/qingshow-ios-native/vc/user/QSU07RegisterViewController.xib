@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU07RegisterViewController">
@@ -134,6 +134,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="loginWeiboBtnPressed:" destination="-1" eventType="touchUpInside" id="JQm-El-scp"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_reg_weibo_login" id="2xG-8i-5Yq">
                     <rect key="frame" x="100" y="440" width="34" height="28"/>
@@ -149,6 +152,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="loginWechatBtnPressed:" destination="-1" eventType="touchUpInside" id="OKk-g6-Ns9"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_reg_winxin_login" id="fFJ-RI-AJH">
                     <rect key="frame" x="96" y="358" width="38" height="33"/>
@@ -195,7 +201,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D9E-Hs-YEh">
-                    <rect key="frame" x="226" y="22" width="86" height="30"/>
+                    <rect key="frame" x="225.99999995564306" y="22" width="86" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="登录账户">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -231,7 +237,6 @@
         <image name="user_mailbox" width="37" height="28"/>
         <image name="user_nickname" width="52" height="37"/>
         <image name="user_password" width="37" height="43"/>
-        <image name="user_regAndlogin_backImage" width="640" height="1178"/>
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
         <image name="user_reg_weibo_login" width="82" height="80"/>
         <image name="user_reg_winxin_login" width="98" height="80"/>

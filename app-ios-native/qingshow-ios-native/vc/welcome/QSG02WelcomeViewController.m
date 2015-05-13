@@ -37,9 +37,15 @@
     _welcomeSCV.pagingEnabled = YES;
     _welcomeSCV.alpha = 1.0f;
     _welcomeSCV.delegate = self;
-
+    _welcomeSCV.showsHorizontalScrollIndicator = NO;
     [self addPhotosToSVC];
+    
+    
     [super viewDidLayoutSubviews];
+    _pageControl.frame = CGRectMake(w/5*2, h/10*7, 60, 30);
+    _pageControl.numberOfPages = 3;
+    _pageControl.currentPage = 0;
+    
 }
 - (void)viewDidLayoutSubviews
 {
@@ -75,10 +81,10 @@
     }
     //NSLog(@"w = %f,h = %f",w,h);
     
-    NSString *imgName01 = [NSString stringWithFormat:@"/welcome1_%d",num];
-    NSString *imgName02 = [NSString stringWithFormat:@"/welcome2_%d",num];
-    NSString *imgName03 = [NSString stringWithFormat:@"/welcome3_%d",num];
-    
+    NSString *imgName01 = [NSString stringWithFormat:@"/welcome1_%d.png",num];
+    NSString *imgName02 = [NSString stringWithFormat:@"/welcome2_%d.png",num];
+    NSString *imgName03 = [NSString stringWithFormat:@"/welcome3_%d.png",num];
+//缓存优化
     NSString *path01 = [[[NSBundle mainBundle]bundlePath] stringByAppendingString:imgName01];
     NSString *path02 = [[[NSBundle mainBundle]bundlePath] stringByAppendingString:imgName02];
     NSString *path03 = [[[NSBundle mainBundle]bundlePath] stringByAppendingString:imgName03];
@@ -134,12 +140,16 @@
 #pragma mark - UIScrollView 代理
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    int pageNum =  _welcomeSCV.contentOffset.x/w;
+    _pageControl.currentPage = pageNum;
     //NSLog(@"offset  =  %f",_welcomeSCV.contentOffset.x);
     if (_welcomeSCV.contentOffset.x == w*3) {
-        [_loginBtn setTitle:@"正在进入" forState:UIControlStateNormal];
+        [_loginBtn setTitle:@"进入中。。" forState:UIControlStateNormal];
         _loginBtn.hidden = YES;
         [self skipBtnPressed:self];
     }
 }
+#pragma mark - Third Part
+
 
 @end

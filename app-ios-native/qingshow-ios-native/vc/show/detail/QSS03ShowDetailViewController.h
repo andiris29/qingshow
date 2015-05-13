@@ -22,6 +22,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *buttnPanel;
 @property (weak, nonatomic) IBOutlet UIButton *itemBtn;
+@property (weak, nonatomic) IBOutlet UIView *discountContainer;
 
 #pragma mark - Init
 - (id)initWithShow:(NSDictionary*)showDict;

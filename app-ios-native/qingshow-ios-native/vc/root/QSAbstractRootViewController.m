@@ -27,6 +27,8 @@
 #import "QSS17TopShowsViewController.h"
 #import "QSU13PersonalizeViewController.h"
 
+#import "QSPeopleUtil.h"
+
 
 @interface QSAbstractRootViewController ()
 
@@ -66,7 +68,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
     }
     return self;
 }
@@ -106,6 +107,11 @@
         self.fIsFirstLoad = NO;
         [self.navigationController.view addSubview:self.welcomeVc.view];
     }
+    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+        if (![QSPeopleUtil hasPersonalizeData:data]) {
+            [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
+        }
+    } onError:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -164,11 +170,9 @@
     switch (type) {
         case 1:
         {
-#warning TODO
+            [self accountButtonPressed];
 //            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
 //            [self.navigationController pushViewController:vc animated:YES];
-            UIViewController *vc = [[QSU13PersonalizeViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case 2:

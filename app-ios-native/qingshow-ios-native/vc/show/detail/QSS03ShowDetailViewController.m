@@ -59,6 +59,7 @@
 {
     [super viewWillAppear:animated];
     [self bindExceptImageWithDict:self.showDict];
+
     [MobClick beginLogPageView:PAGE_ID];
 }
 
@@ -104,7 +105,14 @@
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
-
+    
+    if ([QSShowUtil getSharedByCurrentUser:dict]){
+        self.discountContainer.hidden = YES;
+    } else {
+        self.discountContainer.hidden = NO;
+        self.discountContainer.alpha = 1.f;
+        [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -203,7 +211,19 @@
 }
 - (void)didShareWeiboSuccess
 {
-    [self showSuccessHudWithText:@"分享成功"];
+
+    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
+        [self showSuccessHudWithText:@"分享成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
+}
+- (void)didShareWechatSuccess {
+    [SHARE_NW_ENGINE didShareShow:self.showDict onSucceed:^{
+        [self showSuccessHudWithText:@"分享成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 
 #pragma mark - Override
@@ -242,5 +262,14 @@
     [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 
+#pragma mark - Discount
+- (void)hideDiscountContainer {
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    [UIView animateWithDuration:0.5f animations:^{
+        weakSelf.discountContainer.alpha = 0;
+    } completion:^(BOOL finished) {
+        weakSelf.discountContainer.hidden = YES;
+    }];
 
+}
 @end

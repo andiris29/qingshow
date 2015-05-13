@@ -8,10 +8,12 @@
 
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
+#import "QSU13PersonalizeViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
+#import "QSItemUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -124,10 +126,15 @@
     }
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
+
     [self.likedProvider refreshClickedData];
     [self.recommendationProvider refreshClickedData];
-//    [self.followingDelegate refreshClickedData];
     [MobClick beginLogPageView:PAGE_ID];
+    
+    if (![QSPeopleUtil hasPersonalizeData:[QSUserManager shareUserManager].userInfo]) {
+        [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
+    }
+    
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -177,10 +184,22 @@
                       m.type = QSImageCollectionModelTypeItem;
                       m.data = dict;
                       [mArray addObject:m];
-                      
-#warning TODO sort    
-                      succeedBlock(mArray, metadata);
                   }
+                  [mArray sortUsingComparator:^NSComparisonResult(QSImageCollectionModel* obj1, QSImageCollectionModel* obj2) {
+                      NSDate* (^getDate)(QSImageCollectionModel*) = ^NSDate*(QSImageCollectionModel* m){
+                          if (m.type == QSImageCollectionModelTypeShow) {
+                              return [QSShowUtil getLikeDate:m.data];
+                          } else if (m.type == QSImageCollectionModelTypeItem) {
+                              return [QSItemUtil getLikeDate:m.data];
+                          }
+                          return nil;
+                      };
+                      NSDate* date1 = getDate(obj1);
+                      NSDate* date2 = getDate(obj2);
+                      return [date1 compare:date2];
+                  }];
+                  
+                  succeedBlock(mArray, metadata);
               }
               onError:errorBlock];
              

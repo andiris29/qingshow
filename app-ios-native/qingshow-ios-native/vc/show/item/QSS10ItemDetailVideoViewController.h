@@ -28,5 +28,6 @@
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
 - (IBAction)likeButtonPressed:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *discountContainer;
 
 @end
