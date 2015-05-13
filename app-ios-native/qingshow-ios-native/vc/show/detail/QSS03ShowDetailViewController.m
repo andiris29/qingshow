@@ -59,9 +59,7 @@
 {
     [super viewWillAppear:animated];
     [self bindExceptImageWithDict:self.showDict];
-    self.discountContainer.hidden = NO;
-    self.discountContainer.alpha = 1.f;
-    [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+
     [MobClick beginLogPageView:PAGE_ID];
 }
 
@@ -107,7 +105,14 @@
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
-
+    
+    if ([QSShowUtil getSharedByCurrentUser:dict]){
+        self.discountContainer.hidden = YES;
+    } else {
+        self.discountContainer.hidden = NO;
+        self.discountContainer.alpha = 1.f;
+        [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

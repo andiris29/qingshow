@@ -8,6 +8,8 @@
 
 #import "QSU13PersonalizeViewController.h"
 #import "QSS15ChosenViewController.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"U13 - 个性信息"
 
@@ -205,7 +207,9 @@
 - (IBAction)selectMacth:(id)sender {
     UIButton *button = (UIButton *)sender;
     NSInteger expect = button.tag - 101;
-    NSString *mat = [NSString stringWithFormat:@"%d", expect];
+
+    NSString *matStr = [NSString stringWithFormat:@"%d", expect];
+    NSNumber* mat = @(matStr.intValue);
     
     switch (button.tag) {
             case 101:
@@ -313,14 +317,17 @@
     self.hight = [NSString stringWithFormat:@"%.0f", self.hightSlider.value];
     self.weight = [NSString stringWithFormat:@"%.0f", self.weightSlider.value];
     
-    NSLog(@"%@", self.age);
-    NSLog(@"%@", self.hight);
-    NSLog(@"%@", self.weight);
-    
-    NSLog(@"%d", self.bodyType);//体型A120 H121 V122 X123
-    NSLog(@"%d", self.dressStyle);//日韩系0 欧美系1
-    NSLog(@"%@", self.expectations);//显瘦101 显高102 显身材103 遮臀部104 遮肚腩105 遮手臂106（数组形式存放）
-    
+    [SHARE_NW_ENGINE updatePeople:@{@"age" : @(self.age.intValue),
+                                    @"height" : @(self.hight.intValue),
+                                    @"weight" : @(self.weight.intValue),
+                                    @"bodyType" : @(self.bodyType),
+                                    @"dressStyle" : @(self.dressStyle),
+                                    @"expectations" : self.self.expectations}
+                        onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        } onError:^(NSError *error) {
+                            [self handleError:error];
+                        }];
 }
 
 @end

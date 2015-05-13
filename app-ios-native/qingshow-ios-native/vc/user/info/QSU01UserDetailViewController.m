@@ -8,6 +8,7 @@
 
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
+#import "QSU13PersonalizeViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
@@ -125,10 +126,15 @@
     }
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
+
     [self.likedProvider refreshClickedData];
     [self.recommendationProvider refreshClickedData];
-//    [self.followingDelegate refreshClickedData];
     [MobClick beginLogPageView:PAGE_ID];
+    
+    if (![QSPeopleUtil hasPersonalizeData:[QSUserManager shareUserManager].userInfo]) {
+        [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
+    }
+    
 }
 - (void)viewDidAppear:(BOOL)animated
 {

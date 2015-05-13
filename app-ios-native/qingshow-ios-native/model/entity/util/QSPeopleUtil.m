@@ -388,4 +388,16 @@
     }
     return dict[@"receivers"];
 }
+
++ (BOOL)hasPersonalizeData:(NSDictionary*)dict
+{
+    NSArray* keys = [dict allKeys];
+    return
+    [keys containsObject:@"age"] &&
+    [keys containsObject:@"height"] &&
+    [keys containsObject:@"weight"] &&
+    [keys containsObject:@"bodyType"] &&
+    [keys containsObject:@"dressStyle"] &&
+    [keys containsObject:@"expectations"];
+}
 @end
