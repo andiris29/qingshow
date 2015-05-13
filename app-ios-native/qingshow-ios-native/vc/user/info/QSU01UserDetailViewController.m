@@ -12,6 +12,7 @@
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
+#import "QSItemUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -177,10 +178,22 @@
                       m.type = QSImageCollectionModelTypeItem;
                       m.data = dict;
                       [mArray addObject:m];
-                      
-#warning TODO sort    
-                      succeedBlock(mArray, metadata);
                   }
+                  [mArray sortUsingComparator:^NSComparisonResult(QSImageCollectionModel* obj1, QSImageCollectionModel* obj2) {
+                      NSDate* (^getDate)(QSImageCollectionModel*) = ^NSDate*(QSImageCollectionModel* m){
+                          if (m.type == QSImageCollectionModelTypeShow) {
+                              return [QSShowUtil getLikeDate:m.data];
+                          } else if (m.type == QSImageCollectionModelTypeItem) {
+                              return [QSItemUtil getLikeDate:m.data];
+                          }
+                          return nil;
+                      };
+                      NSDate* date1 = getDate(obj1);
+                      NSDate* date2 = getDate(obj2);
+                      return [date1 compare:date2];
+                  }];
+                  
+                  succeedBlock(mArray, metadata);
               }
               onError:errorBlock];
              

@@ -11,6 +11,7 @@
                 <outlet property="buttnPanel" destination="AUY-C1-rFf" id="ER7-pm-buG"/>
                 <outlet property="commentBtn" destination="DNE-pM-rCt" id="h59-dV-lrp"/>
                 <outlet property="contentLabel" destination="ZEr-7p-gCN" id="Sly-Xw-TLy"/>
+                <outlet property="discountContainer" destination="U6j-61-PMr" id="Vfb-TO-cd8"/>
                 <outlet property="favorBtn" destination="iFb-nD-1im" id="Qr1-Eb-uSI"/>
                 <outlet property="itemBtn" destination="Kom-JN-rRb" id="Pf0-eD-xFv"/>
                 <outlet property="modelContainer" destination="j8c-KL-RLo" id="Uhf-kj-brT"/>
@@ -139,6 +140,24 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <view contentMode="scaleToFill" id="U6j-61-PMr">
+                    <rect key="frame" x="155" y="438" width="112" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discount_label_right" id="VH9-vy-lIN">
+                            <rect key="frame" x="0.0" y="0.0" width="112" height="22"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="分享获8折优惠" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d0o-2w-MRt">
+                            <rect key="frame" x="18" y="0.0" width="77" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DXm-AO-FLL">
                     <rect key="frame" x="270" y="505" width="38" height="38"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -156,6 +175,7 @@
         </view>
     </objects>
     <resources>
+        <image name="discount_label_right" width="112" height="22"/>
         <image name="s03_back_btn" width="36" height="36"/>
         <image name="s03_comment_btn" width="40" height="38"/>
         <image name="s03_item_btn" width="36" height="42"/>

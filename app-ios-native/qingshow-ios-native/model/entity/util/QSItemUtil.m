@@ -11,6 +11,7 @@
 #import "NSNumber+QSExtension.h"
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import "QSDateUtil.h"
 @implementation QSItemUtil
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict
 {
@@ -340,5 +341,15 @@
         return nil;
     }
     return ((NSNumber*)itemDict[@"numLike"]).kmbtStringValue;
+}
+
++ (NSDate*)getLikeDate:(NSDictionary*)itemDict
+{
+    NSString* dateStr = [itemDict valueForKeyPath:@"__context.likeDate"];
+    if (!dateStr) {
+        return nil;
+    }
+    NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
+    return date;
 }
 @end

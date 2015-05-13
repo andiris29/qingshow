@@ -242,4 +242,20 @@
     }
     return rec;
 }
+
++ (NSDate*)getLikeDate:(NSDictionary*)showDict
+{
+    NSString* dateStr = [showDict valueForKeyPath:@"__context.likeDate"];
+    if (!dateStr) {
+        return nil;
+    }
+    NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
+    return date;
+}
+
++ (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict
+{
+    NSNumber* like = [showDict valueForKeyPath:@"__context.sharedByCurrentUser"];
+    return like.boolValue;
+}
 @end

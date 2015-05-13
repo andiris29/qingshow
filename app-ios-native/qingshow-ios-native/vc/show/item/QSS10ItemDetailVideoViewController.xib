@@ -10,6 +10,7 @@
                 <outlet property="backBtn" destination="5w3-ze-0os" id="ju7-yo-jlg"/>
                 <outlet property="btnPanel" destination="D9W-yi-AJb" id="sWu-RR-KPc"/>
                 <outlet property="buyBtn" destination="o9q-cw-zLP" id="OTc-g0-ddg"/>
+                <outlet property="discountContainer" destination="FAz-yv-CCI" id="QQc-r6-BtM"/>
                 <outlet property="labelContainer" destination="HYI-7E-pJC" id="qjy-Hp-blv"/>
                 <outlet property="likeButton" destination="r43-JY-BxE" id="8xf-uM-70T"/>
                 <outlet property="nameLabel" destination="jVf-zc-vse" id="p2d-Fy-gkf"/>
@@ -125,6 +126,24 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" id="FAz-yv-CCI">
+                            <rect key="frame" x="188" y="35" width="86" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discount_label_left" id="2Ek-Jx-wdP">
+                                    <rect key="frame" x="0.0" y="0.0" width="86" height="19"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已获8折优惠" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LGI-lk-PZo">
+                                    <rect key="frame" x="14" y="-1" width="64" height="21"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -134,6 +153,7 @@
         </view>
     </objects>
     <resources>
+        <image name="discount_label_left" width="86" height="19"/>
         <image name="s03_back_btn" width="36" height="36"/>
         <image name="s03_like_btn" width="40" height="36"/>
         <image name="s03_pause_btn" width="38" height="38"/>

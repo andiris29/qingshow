@@ -59,6 +59,9 @@
 {
     [super viewWillAppear:animated];
     [self bindExceptImageWithDict:self.showDict];
+    self.discountContainer.hidden = NO;
+    self.discountContainer.alpha = 1.f;
+    [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
     [MobClick beginLogPageView:PAGE_ID];
 }
 
@@ -254,5 +257,14 @@
     [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 
+#pragma mark - Discount
+- (void)hideDiscountContainer {
+    __weak QSS03ShowDetailViewController* weakSelf = self;
+    [UIView animateWithDuration:0.5f animations:^{
+        weakSelf.discountContainer.alpha = 0;
+    } completion:^(BOOL finished) {
+        weakSelf.discountContainer.hidden = YES;
+    }];
 
+}
 @end
