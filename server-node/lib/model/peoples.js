@@ -15,7 +15,7 @@ peopleSchema = Schema({
     age : Number,
     bodyType : Number,
     dressStyle : Number,
-    expectations : Number, 
+    expectations : [Number],
     userInfo : {
         id : String,
         password : {
