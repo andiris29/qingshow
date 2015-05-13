@@ -28,6 +28,7 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 
 @property (nonatomic, strong)NSMutableArray *coverArray;
 @property (nonatomic, strong)NSMutableArray *likeArray;
+@property (nonatomic, strong)NSMutableDictionary *topShows;
 
 @end
 
@@ -40,24 +41,23 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
-    [self registerCell];
+        [self registerCell];
     
     __block QSS17TopShowsViewController *blockSelf = self;
     [SHARE_NW_ENGINE hotFeedingByOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-        //self.hotArray = array;
         self.coverArray = [NSMutableArray arrayWithCapacity:0];
         self.likeArray = [NSMutableArray arrayWithCapacity:0];
-        for (NSDictionary *dic in array) {
+        self.topShows = [NSMutableDictionary dictionaryWithCapacity:0];
+        for (NSMutableDictionary *dic in array) {
+            self.topShows = dic;
             NSURL *image = [QSHotUtil getHotCoverUrl:dic];
             NSString *like = [QSHotUtil getHotNumLike:dic];
-            
-            [self.coverArray addObject:image];
-            [self.likeArray addObject:like];
+          [self.coverArray addObject:image];
+          [self.likeArray addObject:like];
         }
         [blockSelf.tableView reloadData];
     } onError:^(NSError *error) {
         if (error) {
-            NSLog(@"%@", error);
         }
     }];
     
@@ -99,33 +99,32 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 {
     if (indexPath.row == 0) {
         QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_1Indentifier forIndexPath:indexPath];
-        [cell.bacImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
-        cell.samLabel.text = self.likeArray[indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else if(indexPath.row == 1){
         QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_2Indentifier forIndexPath:indexPath];
-        [cell.bigImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
-        cell.samLabel.text = self.likeArray[indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
+        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
+
         return cell;
     } else if (indexPath.row == 2){
         QSS17TopShow_3Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_3Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
-        cell.sumLabel.text = self.likeArray[indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
+
         return cell;
     } else if (indexPath.row == 3){
         QSS17TopShow_4Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_4Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
-        cell.sumLabel.text = self.likeArray[indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
+
         return cell;
     } else {
         QSS17TopShow_5Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_5Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
-        cell.sumLabel.text = self.likeArray[indexPath.row];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
+
         return cell;
     }
     
@@ -135,11 +134,11 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UIScreen mainScreen].bounds.size.height;
+    return [UIScreen mainScreen].bounds.size.height ;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+  //  [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
 

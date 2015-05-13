@@ -20,8 +20,4 @@
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkEngine+ChosenService.h"
 #import "QSNetworkEngine+ItemService.h"
-
-#warning TODO Remove hot service
-#import "QSNetworkEngine+HotService.h"
-
 #endif
