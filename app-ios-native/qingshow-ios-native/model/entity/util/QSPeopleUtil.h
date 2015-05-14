@@ -13,7 +13,7 @@
 + (NSString*)buildModelStatusString:(NSDictionary*)peopleDict;
 + (NSString*)getGenderDesc:(NSDictionary*)modelDict;
 + (NSString*)buildNumLikeString:(NSDictionary*)peopleDict;
-+ (NSString*)getName:(NSDictionary*)peopleDict;
++ (NSString*)getNickname:(NSDictionary*)peopleDict;
 + (NSURL*)getHeadIconUrl:(NSDictionary*)peopleDict;
 + (NSURL*)getBackgroundUrl:(NSDictionary*)peopleDict;
 + (NSString*)getDetailDesc:(NSDictionary*)peopleDict;

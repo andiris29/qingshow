@@ -70,7 +70,7 @@
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
     
-    self.nameLabel.text = [QSPeopleUtil getName:peopleDict];
+    self.nameLabel.text = [QSPeopleUtil getNickname:peopleDict];
     
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];

@@ -69,13 +69,13 @@
     }
     return @"0";
 }
-+ (NSString*)getName:(NSDictionary*)peopleDict
++ (NSString*)getNickname:(NSDictionary*)peopleDict
 {
     if ([QSCommonUtil checkIsNil:peopleDict]) {
         return nil;
     }
     
-    NSString* name = peopleDict[@"name"];
+    NSString* name = peopleDict[@"nickname"];
     if (!name || !name.length) {
         name = @"倾秀用户";
     }
