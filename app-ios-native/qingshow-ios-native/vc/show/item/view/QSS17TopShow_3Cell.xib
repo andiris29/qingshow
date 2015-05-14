@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,47 +14,48 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tKg-jf-SYD">
-                        <rect key="frame" x="20" y="40" width="452" height="333"/>
+                        <rect key="frame" x="20" y="43" width="452" height="330"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JGL-cZ-CUI">
-                                <rect key="frame" x="20" y="20" width="412" height="293"/>
+                                <rect key="frame" x="20" y="23" width="412" height="290"/>
                                 <color key="backgroundColor" red="1" green="0.87901187733727093" blue="0.35923634590098508" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShows_top3" translatesAutoresizingMaskIntoConstraints="NO" id="S6b-mP-55D">
-                                <rect key="frame" x="0.0" y="-10" width="108" height="86"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="86" id="HMi-tV-1gH"/>
-                                    <constraint firstAttribute="width" constant="108" id="Ry4-yN-pwT"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jn-n8-HxL">
-                                <rect key="frame" x="386" y="258" width="46" height="30"/>
+                                <rect key="frame" x="381" y="246" width="58" height="47"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="0p1-H2-EVs"/>
-                                    <constraint firstAttribute="height" constant="30" id="Lw0-C9-UGN"/>
+                                    <constraint firstAttribute="width" constant="58" id="0p1-H2-EVs"/>
+                                    <constraint firstAttribute="height" constant="47" id="Lw0-C9-UGN"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="2"/>
                                 <state key="normal" title="110" backgroundImage="topShow_hear3">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShows_top3" translatesAutoresizingMaskIntoConstraints="NO" id="S6b-mP-55D">
+                                <rect key="frame" x="-21" y="-31" width="108" height="97"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="97" id="HMi-tV-1gH"/>
+                                    <constraint firstAttribute="width" constant="108" id="Ry4-yN-pwT"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.41797218219999999" green="1" blue="0.2001537608" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="JGL-cZ-CUI" secondAttribute="bottom" constant="20" id="2Mj-Ml-r6y"/>
-                            <constraint firstItem="JGL-cZ-CUI" firstAttribute="top" secondItem="tKg-jf-SYD" secondAttribute="top" constant="20" id="BTr-HU-8sD"/>
-                            <constraint firstAttribute="bottom" secondItem="8jn-n8-HxL" secondAttribute="bottom" constant="45" id="Cd9-F7-HoH"/>
+                            <constraint firstAttribute="bottom" secondItem="JGL-cZ-CUI" secondAttribute="bottom" constant="17" id="2Mj-Ml-r6y"/>
+                            <constraint firstItem="JGL-cZ-CUI" firstAttribute="top" secondItem="tKg-jf-SYD" secondAttribute="top" constant="23" id="BTr-HU-8sD"/>
+                            <constraint firstAttribute="bottom" secondItem="8jn-n8-HxL" secondAttribute="bottom" constant="37" id="Cd9-F7-HoH"/>
                             <constraint firstAttribute="trailing" secondItem="JGL-cZ-CUI" secondAttribute="trailing" constant="20" id="JPi-E1-OvZ"/>
                             <constraint firstItem="JGL-cZ-CUI" firstAttribute="leading" secondItem="tKg-jf-SYD" secondAttribute="leading" constant="20" id="V7I-fo-hUD"/>
-                            <constraint firstAttribute="trailing" secondItem="8jn-n8-HxL" secondAttribute="trailing" constant="20" id="m9J-cM-fim"/>
-                            <constraint firstItem="S6b-mP-55D" firstAttribute="top" secondItem="tKg-jf-SYD" secondAttribute="top" constant="-10" id="rMN-Le-M16"/>
-                            <constraint firstItem="S6b-mP-55D" firstAttribute="leading" secondItem="tKg-jf-SYD" secondAttribute="leading" id="rXg-S3-OVy"/>
+                            <constraint firstAttribute="trailing" secondItem="8jn-n8-HxL" secondAttribute="trailing" constant="13" id="m9J-cM-fim"/>
+                            <constraint firstItem="S6b-mP-55D" firstAttribute="top" secondItem="tKg-jf-SYD" secondAttribute="top" constant="-31" id="rMN-Le-M16"/>
+                            <constraint firstItem="S6b-mP-55D" firstAttribute="leading" secondItem="tKg-jf-SYD" secondAttribute="leading" constant="-21" id="rXg-S3-OVy"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="tKg-jf-SYD" secondAttribute="trailing" constant="20" id="At5-wW-Nec"/>
                     <constraint firstAttribute="bottom" secondItem="tKg-jf-SYD" secondAttribute="bottom" constant="10" id="O80-gj-TVy"/>
-                    <constraint firstItem="tKg-jf-SYD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="Rvp-0d-B3u"/>
+                    <constraint firstItem="tKg-jf-SYD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="43" id="Rvp-0d-B3u"/>
                     <constraint firstItem="tKg-jf-SYD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="xHW-LG-aoK"/>
                 </constraints>
             </tableViewCellContentView>
@@ -63,7 +64,7 @@
                 <outlet property="backView" destination="tKg-jf-SYD" id="ddw-0D-tQR"/>
                 <outlet property="likeButton" destination="8jn-n8-HxL" id="pnH-fZ-W4N"/>
             </connections>
-            <point key="canvasLocation" x="364" y="207"/>
+            <point key="canvasLocation" x="364" y="200"/>
         </tableViewCell>
     </objects>
     <resources>
