@@ -20,9 +20,19 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *birthdayText;
 @property (strong, nonatomic) IBOutlet UITableView *settingTableView;
+@property (weak, nonatomic) IBOutlet UITextField *ageText;
+//昵称
 @property (weak, nonatomic) IBOutlet UITextField *nameText;
+//身高
 @property (weak, nonatomic) IBOutlet UITextField *lengthText;
+//体重
 @property (weak, nonatomic) IBOutlet UITextField *weightText;
+//体型
+@property (weak, nonatomic) IBOutlet UITextField *bodyTpye;
+//穿衣风格
+@property (weak, nonatomic) IBOutlet UITextField *dressTpye;
+//搭配效果
+@property (weak, nonatomic) IBOutlet UITextField *expectationTpye;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
 @property (weak, nonatomic) IBOutlet UITextField *brandText;

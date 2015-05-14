@@ -55,11 +55,16 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewDidLoad];
     [self initNavigation];
     self.currentActionSheet = QSU02UserSettingViewControllerSelectTypeNone;
-    self.birthdayText.delegate = self;
+    //self.birthdayText.delegate = self;
     self.nameText.delegate = self;
     self.lengthText.delegate = self;
     self.weightText.delegate = self;
-    self.brandText.delegate = self;
+    
+    self.ageText.delegate = self;
+    self.bodyTpye.delegate = self;
+    self.dressTpye.delegate = self;
+    self.expectationTpye.delegate = self;
+    //self.brandText.delegate = self;
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -87,17 +92,20 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     }
     NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
     if (textField == self.nameText) {
-        if ([value compare:currentProfile[@"name"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"name": value} pop:NO];
+        if ([value compare:currentProfile[@"nickname"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"nickname": value} pop:NO];
         }
-    } else if (textField == self.birthdayText) {
-        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"birthday"]];
-        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
-        NSString* birth= [dateFormatter stringFromDate:date];
-        if ([value compare:birth] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
+    } else if (textField == self.ageText) {
+//        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"age"]];
+//        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+//        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+////        NSString* birth= [dateFormatter stringFromDate:date];
+//        if ([value compare:birth] != NSOrderedSame) {
+//            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
+        if (value.length != 0) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"age": value} pop:NO];
         }
+//        }
     } else if (textField == self.lengthText) {
         if (value .length != 0) {
             value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
@@ -112,9 +120,17 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         if ([value compare:currentProfile[@"weight"]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
         }
-    } else if (textField == self.brandText) {
-        if ([value compare:currentProfile[@"favoriteBrand"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"favoriteBrand": value} pop:NO];
+    } else if (textField == self.bodyTpye) {
+        if ([value compare:currentProfile[@"bodyType"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"bodyType": value} pop:NO];
+        } else if (textField == self.dressTpye){
+            if ([value compare:currentProfile[@"dressStyle"]] != NSOrderedSame) {
+                [self updatePeopleEntityViewController:self byEntity:@{@"dressStyle": value} pop:NO];
+            } else if (textField == self.expectationTpye){
+//                if ([value compare:currentProfile[@""]]) {
+//                    <#statements#>
+//                }
+            }
         }
     }
 }
