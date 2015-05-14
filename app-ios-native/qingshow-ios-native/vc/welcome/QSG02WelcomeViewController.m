@@ -32,7 +32,7 @@
     // Do any additional setup after loading the view from its nib.
     self.view.frame = [UIScreen mainScreen].bounds;
     
-    _loginBtn.frame = CGRectMake(w/5*4, h/10*9, 100, 30);
+   
     
     _welcomeSCV.frame = CGRectMake(0, 0, w, h);
     _welcomeSCV.contentSize = CGSizeMake(w*4, h);
@@ -44,14 +44,14 @@
     
     [super viewDidLayoutSubviews];
     
-    _pageControl.frame = CGRectMake(w/5*2, h/10*7, 60, 30);
     _pageControl.numberOfPages = 3;
     _pageControl.currentPage = 0;
     
 }
 - (void)viewDidLayoutSubviews
 {
-    _loginBtn.frame = CGRectMake(w/5*3, h/10*7, 100, 30);
+    _loginBtn.frame = CGRectMake(w/5*3, h/10*9, 100, 30);
+    _pageControl.frame = CGRectMake(w/5*2, h/10*9, 60, 30);
 }
 
 //- (void)dealloc

@@ -24,6 +24,7 @@
     CGRect rect = [UIScreen mainScreen].bounds;
     v.frame = rect;
     v.bgImageView.backgroundColor = [UIColor lightGrayColor];
+    
 //    v.bgImageView.layer.transform = CATransform3DMakeScale(1.03, 1.02, 0);
     return v;
 }
