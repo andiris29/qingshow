@@ -15,7 +15,7 @@
     self.likeButton.transform = CGAffineTransformMakeRotation(-M_1_PI / 2);
     self.backView.backgroundColor = [UIColor colorWithRed:187.f / 255.f green:217.f / 255.f blue:218.f / 255.f alpha:1.0];
     self.backgroundColor = [UIColor colorWithRed:223.f / 255.f green:223.f / 255.f blue:223.f / 255.f alpha:1.0];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
