@@ -19,16 +19,12 @@
 #import "QSDateUtil.h"
 #define PAGE_ID @"S17"
 
-static NSString *TopShow_1Indentifier = @"TopShow_1Cell";
-static NSString *TopShow_2Indentifier = @"TopShow_2Cell";
-static NSString *TopShow_3Indentifier = @"TopShow_3Cell";
-static NSString *TopShow_4Indentifier = @"TopShow_4Cell";
-static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 @interface QSS17TopShowsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong)NSMutableArray *coverArray;
 @property (nonatomic, strong)NSMutableArray *likeArray;
 @property (nonatomic, strong)NSMutableDictionary *topShows;
+@property (nonatomic, strong)NSMutableArray *hotArray;
 
 @end
 
@@ -49,8 +45,9 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
     [SHARE_NW_ENGINE hotFeedingByOnSucceed:^(NSArray *array, NSDictionary *metadata) {
         self.coverArray = [NSMutableArray arrayWithCapacity:0];
         self.likeArray = [NSMutableArray arrayWithCapacity:0];
+        self.hotArray = [NSMutableArray arrayWithArray:array];
         self.topShows = [NSMutableDictionary dictionaryWithCapacity:0];
-        for (NSMutableDictionary *dic in array) {
+        for (NSMutableDictionary *dic in self.hotArray) {
             self.topShows = dic;
             NSLog(@"%@", self.topShows);
             NSLog(@"%@", [QSHotUtil getHotCreateDate:dic]);
@@ -91,11 +88,11 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 //注册Cell
 - (void)registerCell
 {
-  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_1Cell" bundle:nil] forCellReuseIdentifier:TopShow_1Indentifier];
-  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_2Cell" bundle:nil] forCellReuseIdentifier:TopShow_2Indentifier];
-  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_3Cell" bundle:nil] forCellReuseIdentifier:TopShow_3Indentifier];
-  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_4Cell" bundle:nil] forCellReuseIdentifier:TopShow_4Indentifier];
-  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_5Cell" bundle:nil] forCellReuseIdentifier:TopShow_5Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_1Cell" bundle:nil] forCellReuseIdentifier:TopShowS_1Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_2Cell" bundle:nil] forCellReuseIdentifier:TopShowS_2Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_3Cell" bundle:nil] forCellReuseIdentifier:TopShowS_3Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_4Cell" bundle:nil] forCellReuseIdentifier:TopShowS_4Indentifier];
+  [self.tableView registerNib:[UINib nibWithNibName:@"QSS17TopShow_5Cell" bundle:nil] forCellReuseIdentifier:TopShowS_5Indentifier];
     
 }
 
@@ -107,30 +104,30 @@ static NSString *TopShow_5Indentifier = @"TopShow_5Cell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_1Indentifier forIndexPath:indexPath];
+        QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShowS_1Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
         cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
         return cell;
     } else if(indexPath.row == 1){
-        QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_2Indentifier forIndexPath:indexPath];
+        QSS17TopShow_2Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShowS_2Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
         cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
 
         return cell;
     } else if (indexPath.row == 2){
-        QSS17TopShow_3Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_3Indentifier forIndexPath:indexPath];
+        QSS17TopShow_3Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShowS_3Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
         cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
 
         return cell;
     } else if (indexPath.row == 3){
-        QSS17TopShow_4Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_4Indentifier forIndexPath:indexPath];
+        QSS17TopShow_4Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShowS_4Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
         cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
 
         return cell;
     } else {
-        QSS17TopShow_5Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShow_5Indentifier forIndexPath:indexPath];
+        QSS17TopShow_5Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShowS_5Indentifier forIndexPath:indexPath];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
         cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
 

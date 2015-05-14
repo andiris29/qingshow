@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define TopShowS_5Indentifier @"TopShow_5Cell"
+
 @interface QSS17TopShow_5Cell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *backImage;
 @property (weak, nonatomic) IBOutlet UIView *backView;

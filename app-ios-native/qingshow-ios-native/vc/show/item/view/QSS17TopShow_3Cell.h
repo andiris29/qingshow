@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define TopShowS_3Indentifier @"TopShow_3Cell"
+
 @interface QSS17TopShow_3Cell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *backImage;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
