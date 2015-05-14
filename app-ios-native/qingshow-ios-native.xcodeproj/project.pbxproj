@@ -148,6 +148,11 @@
 		EF88D0911ACEF91C002C4963 /* QSLocationPickerProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF88D0901ACEF91C002C4963 /* QSLocationPickerProvider.m */; };
 		EF8F0EF41A657DA900D1DADE /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8F0EF31A657DA900D1DADE /* UIImage+fixOrientation.m */; };
 		EF8FD04E1A0635CD0081F8EB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8FD04D1A0635CD0081F8EB /* QuartzCore.framework */; };
+		EF9089F41B046EE300011F30 /* QSS17TopShow_1Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34941AFC739200F08A0D /* QSS17TopShow_1Cell.xib */; };
+		EF9089F51B046EE300011F30 /* QSS17TopShow_2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34971AFC739200F08A0D /* QSS17TopShow_2Cell.xib */; };
+		EF9089F61B046EE300011F30 /* QSS17TopShow_3Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED349A1AFC739200F08A0D /* QSS17TopShow_3Cell.xib */; };
+		EF9089F71B046EE300011F30 /* QSS17TopShow_4Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED349D1AFC739200F08A0D /* QSS17TopShow_4Cell.xib */; };
+		EF9089F81B046EE300011F30 /* QSS17TopShow_5Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34A01AFC739200F08A0D /* QSS17TopShow_5Cell.xib */; };
 		EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EF921FBB1ACBB11100669124 /* libc++.dylib */; };
 		EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF92B7241A3C9F6A00A08F08 /* QSBigImageTableViewCell.m */; };
 		EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF92B7251A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib */; };
@@ -2188,6 +2193,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF9089F41B046EE300011F30 /* QSS17TopShow_1Cell.xib in Resources */,
+				EF9089F51B046EE300011F30 /* QSS17TopShow_2Cell.xib in Resources */,
+				EF9089F61B046EE300011F30 /* QSS17TopShow_3Cell.xib in Resources */,
+				EF9089F71B046EE300011F30 /* QSS17TopShow_4Cell.xib in Resources */,
+				EF9089F81B046EE300011F30 /* QSS17TopShow_5Cell.xib in Resources */,
 				8C8B9D861B00395B00C1A321 /* welcome3_480@2x.png in Resources */,
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
