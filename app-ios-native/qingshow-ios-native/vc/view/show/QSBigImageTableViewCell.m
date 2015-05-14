@@ -81,6 +81,7 @@
 }
 
 + (CGFloat)getHeightWithImageMetadata:(NSDictionary*)coverMetadata {
+    return 285.f;
     float iniWidth = [UIScreen mainScreen].bounds.size.width;
     
     float height = 92;
