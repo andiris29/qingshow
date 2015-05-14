@@ -247,15 +247,10 @@
 		EFED34901AFC734F00F08A0D /* QSU07RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED348C1AFC734F00F08A0D /* QSU07RegisterViewController.m */; };
 		EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED348D1AFC734F00F08A0D /* QSU07RegisterViewController.xib */; };
 		EFED34A11AFC739200F08A0D /* QSS17TopShow_1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34931AFC739200F08A0D /* QSS17TopShow_1Cell.m */; };
-		EFED34A21AFC739200F08A0D /* QSS17TopShow_1Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34941AFC739200F08A0D /* QSS17TopShow_1Cell.xib */; };
 		EFED34A31AFC739200F08A0D /* QSS17TopShow_2Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34961AFC739200F08A0D /* QSS17TopShow_2Cell.m */; };
-		EFED34A41AFC739200F08A0D /* QSS17TopShow_2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34971AFC739200F08A0D /* QSS17TopShow_2Cell.xib */; };
 		EFED34A51AFC739200F08A0D /* QSS17TopShow_3Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED34991AFC739200F08A0D /* QSS17TopShow_3Cell.m */; };
-		EFED34A61AFC739200F08A0D /* QSS17TopShow_3Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED349A1AFC739200F08A0D /* QSS17TopShow_3Cell.xib */; };
 		EFED34A71AFC739200F08A0D /* QSS17TopShow_4Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED349C1AFC739200F08A0D /* QSS17TopShow_4Cell.m */; };
-		EFED34A81AFC739200F08A0D /* QSS17TopShow_4Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED349D1AFC739200F08A0D /* QSS17TopShow_4Cell.xib */; };
 		EFED34A91AFC739200F08A0D /* QSS17TopShow_5Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED349F1AFC739200F08A0D /* QSS17TopShow_5Cell.m */; };
-		EFED34AA1AFC739200F08A0D /* QSS17TopShow_5Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED34A01AFC739200F08A0D /* QSS17TopShow_5Cell.xib */; };
 		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
@@ -2197,7 +2192,7 @@
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
-                EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
+				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
 				EFC543691A1750AD001B2C49 /* QSSectionNumberTextButton.xib in Resources */,
@@ -2255,17 +2250,14 @@
 				EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
-
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
 				A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */,
 				EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */,
 				EF78E3481AAF4C7600665EDD /* QSUserLocationTableViewCell.xib in Resources */,
 				8C8B9D8E1B00395B00C1A321 /* welcome2_736@3x.png in Resources */,
-
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */,
-				
 				EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */,
@@ -2585,7 +2577,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2611,7 +2603,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
+				PROVISIONING_PROFILE = "14ed298f-79f4-4b89-a71d-410305f7782b";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -2623,7 +2615,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: cheng cheng (5YH853PY86)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Pinju Network Technology Co.,Ltd (5BNEAQ5WZS)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2649,7 +2641,7 @@
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
+				PROVISIONING_PROFILE = "14ed298f-79f4-4b89-a71d-410305f7782b";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
