@@ -34,7 +34,7 @@
 }
 + (NSDate *)getHotCreateDate:(NSDictionary *)topShows
 {
-    if (![QSCommonUtil checkIsNil:topShows]) {
+    if (![QSCommonUtil checkIsDict:topShows]) {
         return nil;
     }
     NSString *dateStr = topShows[@"create"];

@@ -17,44 +17,51 @@
 #import "QSHotUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
+#import "QSS03ShowDetailViewController.h"
 #define PAGE_ID @"S17"
 
 @interface QSS17TopShowsViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong)NSMutableArray *coverArray;
 @property (nonatomic, strong)NSMutableArray *likeArray;
-@property (nonatomic, strong)NSMutableDictionary *topShows;
-@property (nonatomic, strong)NSMutableArray *hotArray;
+@property (nonatomic, strong)NSDictionary *topShows;
+@property (nonatomic, strong)NSMutableArray *timeArray;
 
 @end
 
 @implementation QSS17TopShowsViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"美搭榜单";
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_red_back"] style:UIBarButtonItemStyleDone target:self action:@selector(back)];
-    self.navigationItem.leftBarButtonItem = leftButton;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.showsVerticalScrollIndicator = NO;
-        [self registerCell];
+    [self registerCell];
     
     __block QSS17TopShowsViewController *blockSelf = self;
     [SHARE_NW_ENGINE hotFeedingByOnSucceed:^(NSArray *array, NSDictionary *metadata) {
         self.coverArray = [NSMutableArray arrayWithCapacity:0];
         self.likeArray = [NSMutableArray arrayWithCapacity:0];
-        self.hotArray = [NSMutableArray arrayWithArray:array];
-        self.topShows = [NSMutableDictionary dictionaryWithCapacity:0];
-        for (NSMutableDictionary *dic in self.hotArray) {
+        self.timeArray = [NSMutableArray arrayWithCapacity:0];
+        for (NSDictionary *dic in array) {
             self.topShows = dic;
-            NSLog(@"%@", self.topShows);
-            NSLog(@"%@", [QSHotUtil getHotCreateDate:dic]);
             NSURL *image = [QSHotUtil getHotCoverUrl:dic];
             NSString *like = [QSHotUtil getHotNumLike:dic];
-          [self.coverArray addObject:image];
-          [self.likeArray addObject:like];
+            NSDate *date = [QSHotUtil getHotCreateDate:dic];
+            [self.coverArray addObject:image];
+            [self.likeArray addObject:like];
+            [self.timeArray addObject:date];
+            
+            
+//            NSLog(@"<<<<<<<<<<<<<<<<<<%@", [QSHotUtil getHotCreateDate:dic]);
+//            NSLog(@"++++++++++++++++++++%@", [QSDateUtil getDayDesc:[QSHotUtil getHotCreateDate:dic]]);
+            NSLog(@"%@", self.timeArray);
+            
+            
+            
+            
+            
         }
         [blockSelf.tableView reloadData];
     } onError:^(NSError *error) {
@@ -65,14 +72,11 @@
     
 }
 
-- (void)back
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden =NO;
     [MobClick beginLogPageView:PAGE_ID];
 }
 
@@ -105,6 +109,8 @@
 {
     if (indexPath.row == 0) {
         QSS17TopShow_1Cell *cell = [tableView dequeueReusableCellWithIdentifier:TopShowS_1Indentifier forIndexPath:indexPath];
+        cell.dayLabel.text = [QSDateUtil getDayDesc:self.timeArray[indexPath.row]];
+        cell.YAndMLabel.text = [NSString stringWithFormat:@"%@  %@", [QSDateUtil getMonthDesc:self.timeArray[indexPath.row]], [QSDateUtil getYearDesc:self.timeArray[indexPath.row]]];
         [cell.backImage setImageFromURL:self.coverArray[indexPath.row] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"]];
         cell.likeButton.titleLabel.text = self.likeArray[indexPath.row];
         return cell;
@@ -144,7 +150,9 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  //  [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    QSS03ShowDetailViewController *showVC = [[QSS03ShowDetailViewController alloc] initWithShow:self.topShows];
+    [self.navigationController pushViewController:showVC animated:YES];
 }
 
 
