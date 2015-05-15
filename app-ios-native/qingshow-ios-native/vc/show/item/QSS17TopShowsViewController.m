@@ -52,16 +52,6 @@
             [self.coverArray addObject:image];
             [self.likeArray addObject:like];
             [self.timeArray addObject:date];
-            
-            
-//            NSLog(@"<<<<<<<<<<<<<<<<<<%@", [QSHotUtil getHotCreateDate:dic]);
-//            NSLog(@"++++++++++++++++++++%@", [QSDateUtil getDayDesc:[QSHotUtil getHotCreateDate:dic]]);
-            NSLog(@"%@", self.timeArray);
-            
-            
-            
-            
-            
         }
         [blockSelf.tableView reloadData];
     } onError:^(NSError *error) {

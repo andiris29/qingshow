@@ -38,12 +38,13 @@
     CGSize contentSize = self.contentView.bounds.size;
     float height = scrollViewSize.height > contentSize.height ? scrollViewSize.height : contentSize.height;
     self.containerScrollView.contentSize = CGSizeMake(scrollViewSize.width, height + 20);
-    [self.containerScrollView addSubview:self.contentView];
+    [self.view addSubview:self.contentView];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self registerForKeyboardNotifications];
     [self configScrollView];
+    [self.containerView addSubview:self.contentView];
  
     self.nickNameText.delegate = self;
     self.passwdCfmText.delegate = self;
@@ -133,7 +134,7 @@
         return;
     }
     
-        if ([self checkMobile:mailAndPhone] != YES) {
+    if([self checkEmail:mailAndPhone] != YES && [self checkMobile:mailAndPhone] != YES){
             [self showErrorHudWithText:@"请输入正确的邮箱或手机号"];
             return;
         }
