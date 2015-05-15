@@ -11,7 +11,6 @@
 #import "QSS01RootViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-#import "QSU01UserDetailViewController.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 
@@ -22,18 +21,18 @@
 @property (weak, nonatomic) IBOutlet UITextField *userText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
 
-@property (assign, nonatomic) BOOL fShowUserDetail;
+@property (assign, nonatomic) BOOL fPopToRoot;
 @property (assign, nonatomic) BOOL fRemoveLoginAndRegisterVc;
 @end
 
 @implementation QSU06LoginViewController
 
 #pragma mark - Init
-- (id)initWithShowUserDetailAfterLogin:(BOOL)fShowUserDetail
+- (instancetype)initWithPopToRootAfterLogin:(BOOL)fShowUserDetail
 {
     self = [super initWithNibName:@"QSU06LoginViewController" bundle:nil];
     if (self) {
-        self.fShowUserDetail = fShowUserDetail;
+        self.fPopToRoot = fShowUserDetail;
     }
     return self;
 }
@@ -124,8 +123,8 @@
         if (metadata[@"error"] == nil && people != nil) {
             self.fRemoveLoginAndRegisterVc = YES;
             [self showSuccessHudWithText:@"登陆成功"];
-            if (self.fShowUserDetail) {
-                [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] initWithCurrentUser] animated:YES];
+            if (self.fPopToRoot) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
             } else {
                 [self.navigationController popViewControllerAnimated:YES];
             }

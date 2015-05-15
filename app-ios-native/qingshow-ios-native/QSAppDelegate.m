@@ -8,17 +8,15 @@
 
 #import "QSAppDelegate.h"
 #import "QSNetworkEngine.h"
-#import "QSS01RootViewController.h"
-
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "QSPaymentConst.h"
-//#import "QSS15TopicViewController.h"
 #import "QSS15ChosenViewController.h"
-#import "QSG02WelcomeViewController.h"
 #import "QSNavigationController.h"
+#import "QSNetworkKit.h"
+
 
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
@@ -47,10 +45,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    UIViewController* vc = [[QSS01RootViewController alloc] init];
-    UIViewController* vc = [[QSS15ChosenViewController alloc] init];
-    
-//    QSG02WelcomeViewController *welcomeVC = [[QSG02WelcomeViewController alloc]init];
-//    self.window.rootViewController = welcomeVC;
+    QSS15ChosenViewController* vc = [[QSS15ChosenViewController alloc] init];
     
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
@@ -58,6 +53,13 @@
     [self.window makeKeyAndVisible];
     
     [self showLaunchImage];
+    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+        vc.hasFetchUserLogin = YES;
+        [vc handleCurrentUser];
+    } onError:^(NSError *error) {
+        vc.hasFetchUserLogin = YES;
+        [vc handleCurrentUser];
+    }];
     [self hideLaunchImageAfterDelay:3.f];
     return YES;
 }

@@ -15,7 +15,6 @@
 #import "QSNetworkKit.h"
 #import "QSU13PersonalizeViewController.h"
 #import "QSThirdPartLoginService.h"
-#import "QSU01UserDetailViewController.h"
 
 #define PAGE_ID @"U07 - 注册"
 
@@ -75,8 +74,7 @@
 }
 - (IBAction)login:(id)sender {
     [self resignOnTap:nil];
-    UIViewController *vc = [[QSU06LoginViewController alloc]initWithShowUserDetailAfterLogin:YES];
-    //self.navigationController.navigationBarHidden = YES;
+    UIViewController *vc = [[QSU06LoginViewController alloc]initWithPopToRootAfterLogin:YES];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)back:(id)sender {
@@ -234,7 +232,7 @@
 
 - (IBAction)loginWechatBtnPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
-        [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] initWithCurrentUser] animated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"微信登陆失败"];
     }];
@@ -242,7 +240,7 @@
 
 - (IBAction)loginWeiboBtnPressed:(id)sender {
     [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
-        [self.navigationController pushViewController:[[QSU01UserDetailViewController alloc] initWithCurrentUser] animated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"微博登陆失败"];
     }];

@@ -64,10 +64,10 @@
 
 
 #pragma mark - Init
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (instancetype)init {
+    self = [super init];
     if (self) {
+        self.hasFetchUserLogin = NO;
     }
     return self;
 }
@@ -107,13 +107,24 @@
         self.fIsFirstLoad = NO;
         [self.navigationController.view addSubview:self.welcomeVc.view];
     }
-    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
-        if (![QSPeopleUtil hasPersonalizeData:data]) {
-            [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
-        }
-    } onError:nil];
+    
+    if (self.hasFetchUserLogin) {
+        [self handleCurrentUser];
+    }
+
 }
 
+- (void)handleCurrentUser
+{
+    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
+    if (!userInfo) {
+        [self accountButtonPressed];
+    } else {
+        if (![QSPeopleUtil hasPersonalizeData:userInfo]) {
+            [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
+        }
+    }
+}
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -248,11 +259,6 @@
     [self hideMenu];
     
     QSUserManager* userManager = [QSUserManager shareUserManager];
-    //    if (userManager.fIsLogined && !userManager.userInfo) {
-    //        //还未获取到用户数据
-    //        [self showTextHud:@"请稍后再试"];
-    //        [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-    //    } else
     if (!userManager.userInfo) {
         //未登陆
         UIViewController *vc = [[QSU07RegisterViewController alloc] init];

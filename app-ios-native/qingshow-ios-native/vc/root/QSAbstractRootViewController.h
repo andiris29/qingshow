@@ -15,4 +15,7 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (void)hideMenu;
 
+@property (assign, nonatomic) BOOL hasFetchUserLogin;
+- (void)handleCurrentUser;
+
 @end

@@ -12,5 +12,5 @@
 @property (nonatomic, assign) id currentResponder;
 @property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
 
-- (id)initWithShowUserDetailAfterLogin:(BOOL)fShowUserDetail;
+- (instancetype)initWithPopToRootAfterLogin:(BOOL)fShowUserDetail;
 @end

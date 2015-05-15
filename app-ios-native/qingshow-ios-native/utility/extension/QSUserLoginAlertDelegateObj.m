@@ -31,7 +31,7 @@
 {
     UIViewController* vc = self.vc;
     if (buttonIndex != alertView.cancelButtonIndex && vc && vc.navigationController) {
-        UIViewController* u06Vc = [[QSU06LoginViewController alloc] initWithShowUserDetailAfterLogin:NO];
+        UIViewController* u06Vc = [[QSU06LoginViewController alloc] initWithPopToRootAfterLogin:NO];
         [vc.navigationController pushViewController:u06Vc animated:YES];
     }
     
