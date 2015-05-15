@@ -12,6 +12,7 @@
 @property (nonatomic, assign) id currentResponder;
 
 @property (strong, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;
 @end
