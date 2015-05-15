@@ -13,6 +13,7 @@
 #import "QSItemUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "UIViewController+QSExtension.h"
 
 #define PAGE_ID @"S07 - 搭配清单"
 
@@ -95,11 +96,11 @@
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     NSDictionary* itemDict = self.itemArray[indexPath.row];
-#warning TODO brand has been removed, adjust
+    if (itemDict) {
+        [self showItemDetailViewController:itemDict];
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
