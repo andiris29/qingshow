@@ -67,6 +67,11 @@
     self.weiboButton.layer.cornerRadius = self.weiboButton.frame.size.height / 8;
     [self.weiboButton setBackgroundColor:[UIColor colorWithRed:228.f / 255.f green:74.f / 255.f blue:5.f / 255.f alpha:1.0]];
     self.weiboButton.layer.masksToBounds = YES;
+    
+    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
+    self.view.userInteractionEnabled = YES;
+    [self.view addGestureRecognizer:ges];
+    
 }
 - (void)dealloc
 {
@@ -108,7 +113,13 @@
 
 # pragma mark - Action
 - (void)resignOnTap:(id)iSender {
-    [self.currentResponder resignFirstResponder];
+    [self hideKeyboard];
+}
+- (void)hideKeyboard
+{
+    for (UITextField* t in @[self.nickNameText, self.passwdText, self.passwdCfmText, self.mailAndPhoneText]) {
+        [t resignFirstResponder];
+    }
 }
 
 - (IBAction)registers:(id)sender {
@@ -231,6 +242,7 @@
 }
 
 - (IBAction)loginWechatBtnPressed:(id)sender {
+    [self hideKeyboard];
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
         [self.navigationController popToRootViewControllerAnimated:YES];
     } onError:^(NSError *error) {
@@ -239,6 +251,7 @@
 }
 
 - (IBAction)loginWeiboBtnPressed:(id)sender {
+    [self hideKeyboard];
     [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
         [self.navigationController popToRootViewControllerAnimated:YES];
     } onError:^(NSError *error) {
