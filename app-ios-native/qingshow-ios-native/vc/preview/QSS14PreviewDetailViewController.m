@@ -12,6 +12,7 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 #import "QSShareViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 
 @interface QSS14PreviewDetailViewController ()
@@ -135,5 +136,26 @@
     } else {
         [self.likeBtn setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
     }
+}
+- (void)backBtnPressed:(id)sender
+{
+    UIImageView* imgView = [[UIImageView alloc] initWithImage:self.parentControllerSnapShot];
+    [self.view addSubview:imgView];
+    
+    float delay = .25f;
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromLeft;
+    tran.duration = delay;
+//    tran.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    [self.view.layer addAnimation:tran forKey:@"tran"];
+    [self performSelector:@selector(dismissSelf:) withObject:imgView afterDelay:delay];
+    
+}
+- (void)dismissSelf:(UIImageView*)imageView {
+    [self dismissViewControllerAnimated:NO completion:^{
+        [imageView removeFromSuperview];
+    }];
 }
 @end

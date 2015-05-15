@@ -19,6 +19,9 @@
 #import "QSS03ShowDetailViewController.h"
 #import "QSS10ItemDetailVideoViewController.h"
 #import "QSS14PreviewDetailViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "QSBlock.h"
+#import "UIView+ScreenShot.h"
 
 
 static char alertDelegateObjKey;
@@ -86,8 +89,33 @@ static char alertDelegateObjKey;
 
 - (void)showPreviewDetailViewController:(NSDictionary*)previewDict
 {
-    UIViewController* vc = [[QSS14PreviewDetailViewController alloc] initWithPreview:previewDict];
-    [self presentViewController:vc animated:YES completion:nil];
+    QSS14PreviewDetailViewController* vc = [[QSS14PreviewDetailViewController alloc] initWithPreview:previewDict];
+    vc.parentControllerSnapShot = [self.navigationController.view makeScreenShow];
+//    [self.navigationController presentViewController:vc animated:NO completion:nil];
+    float delay = 0.25f;
+    UIImage* image = [vc.view makeScreenShow];
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
+    [self.navigationController.view addSubview:imageView];
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromRight;
+    tran.duration = delay;
+//    tran.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    [self.navigationController.view.layer addAnimation:tran forKey:@"tran"];
+    [self performSelector:@selector(presentPreviewDetailVc:)
+               withObject:@{@"vc" : vc,
+                            @"imageView" : imageView
+                            }
+               afterDelay:delay];
 }
 
+- (void)presentPreviewDetailVc:(NSDictionary*)dict {
+    UIViewController* vc = dict[@"vc"];
+    UIImageView* imageView = dict[@"imageView"];
+    [self presentViewController:vc animated:NO completion:^{
+        [imageView removeFromSuperview];
+    }];
+
+}
 @end

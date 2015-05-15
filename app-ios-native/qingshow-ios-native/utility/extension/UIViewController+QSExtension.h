@@ -16,4 +16,6 @@
 - (void)showPreviewDetailViewController:(NSDictionary*)previewDict;
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
+
+
 @end

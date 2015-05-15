@@ -17,4 +17,6 @@
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)likeBtnPressed:(id)sender;
 
+@property (strong, nonatomic) UIImage* parentControllerSnapShot;
+
 @end
