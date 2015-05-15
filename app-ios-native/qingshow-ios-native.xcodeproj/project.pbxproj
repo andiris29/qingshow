@@ -26,9 +26,6 @@
 		8C8B9D8D1B00395B00C1A321 /* welcome1_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D811B00395B00C1A321 /* welcome1_736@3x.png */; };
 		8C8B9D8E1B00395B00C1A321 /* welcome2_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D821B00395B00C1A321 /* welcome2_736@3x.png */; };
 		8C8B9D8F1B00395B00C1A321 /* welcome3_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D831B00395B00C1A321 /* welcome3_736@3x.png */; };
-		A74E205F1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A74E205D1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m */; };
-		A74E20601AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A74E205E1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib */; };
-		A75D7B401AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A75D7B3F1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m */; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
 		A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */; };
 		A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */ = {isa = PBXBuildFile; fileRef = A76A665A1AFCB74900AF5559 /* user_personality.png */; };
@@ -325,11 +322,6 @@
 		8C8B9D811B00395B00C1A321 /* welcome1_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_736@3x.png"; sourceTree = "<group>"; };
 		8C8B9D821B00395B00C1A321 /* welcome2_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_736@3x.png"; sourceTree = "<group>"; };
 		8C8B9D831B00395B00C1A321 /* welcome3_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_736@3x.png"; sourceTree = "<group>"; };
-		A74E205C1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS08FashionCollectionViewCell.h; sourceTree = "<group>"; };
-		A74E205D1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS08FashionCollectionViewCell.m; sourceTree = "<group>"; };
-		A74E205E1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS08FashionCollectionViewCell.xib; sourceTree = "<group>"; };
-		A75D7B3E1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFashionCollectionViewProvider.h; sourceTree = "<group>"; };
-		A75D7B3F1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFashionCollectionViewProvider.m; sourceTree = "<group>"; };
 		A75DF2051B01A6B400A88E36 /* QSHotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHotUtil.h; sourceTree = "<group>"; };
 		A75DF2061B01A6B400A88E36 /* QSHotUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSHotUtil.m; sourceTree = "<group>"; };
 		A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_regAndlogin_backImage.png; sourceTree = "<group>"; };
@@ -1221,9 +1213,6 @@
 				EF4D50A71A177B7A001E179B /* QSS02CategoryViewController.h */,
 				EF4D50A81A177B7A001E179B /* QSS02CategoryViewController.m */,
 				EF4D50A91A177B7A001E179B /* QSS02CategoryViewController.xib */,
-				A74E205C1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.h */,
-				A74E205D1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m */,
-				A74E205E1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib */,
 				EF6567771A47129D00B66E21 /* QSS08PreviewViewController.h */,
 				EF6567781A47129D00B66E21 /* QSS08PreviewViewController.m */,
 				EF6567791A47129D00B66E21 /* QSS08PreviewViewController.xib */,
@@ -1242,8 +1231,6 @@
 				EF59EDEA1A74FAEE00D639FB /* QSShowCollectionViewProvider.m */,
 				EF49036E1A7E842000A848B4 /* QSItemCollectionViewProvider.h */,
 				EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */,
-				A75D7B3E1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.h */,
-				A75D7B3F1AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m */,
 				EFAA5A311AFD1780001032F7 /* QSImageCollectionViewProvider.h */,
 				EFAA5A321AFD1780001032F7 /* QSImageCollectionViewProvider.m */,
 				EFAA5A341AFD17B3001032F7 /* QSImageCollectionModel.h */,
@@ -2249,7 +2236,6 @@
 				A77BD6681AF7879000D446F7 /* QSS17TopShowsViewController.xib in Resources */,
 				EFA1F5621A53052100010F79 /* QSImageEditingViewController.xib in Resources */,
 				EF7826A71A4EB4F200C69460 /* user_bg_default.png in Resources */,
-				A74E20601AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.xib in Resources */,
 				8C8B9D881B00395B00C1A321 /* welcome2_568@2x.png in Resources */,
 				EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */,
 				EF78E3321AAF3E2300665EDD /* QSU10ReceiverListViewController.xib in Resources */,
@@ -2389,7 +2375,6 @@
 				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,
 				EFF114B21A0D2EEC009B7361 /* UIImageView+MKNetworkKitAdditions.m in Sources */,
 				EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */,
-				A74E205F1AF0C8BF0060BAB6 /* QSS08FashionCollectionViewCell.m in Sources */,
 				EF65677A1A47129D00B66E21 /* QSS08PreviewViewController.m in Sources */,
 				A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */,
 				EFA98A821A38923300A8BFC7 /* QSCommonUtil.m in Sources */,
@@ -2418,7 +2403,6 @@
 				EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */,
 				EFD28CFD1AB41CBE00991ADD /* QSU12RefundViewController.m in Sources */,
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
-				A75D7B401AF0E08300DD8B93 /* QSFashionCollectionViewProvider.m in Sources */,
 				EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */,
 				EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */,
 				EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */,
