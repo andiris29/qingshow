@@ -73,13 +73,13 @@
 + (NSString*)getTime:(NSDate*)date
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:date];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
     return [NSString stringWithFormat:@"%d:%d",(int)c.hour, (int)c.minute];
 }
 + (NSString*)getMYD:(NSDate*)date
 {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];    
+    NSDateComponents* c = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth| NSCalendarUnitYear) fromDate:date];
     
     return [NSString stringWithFormat:@"%d/%d/%d", (int)c.year, (int)c.month, (int)c.day];
 }
@@ -94,7 +94,7 @@
                    @"星期五FRI",
                    @"星期六SAT",];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSInteger week = [calendar components:NSWeekdayCalendarUnit fromDate:date].weekday;
+    NSInteger week = [calendar components:NSCalendarUnitWeekday fromDate:date].weekday;
 
     return a[week];
 }
@@ -102,15 +102,15 @@
 + (BOOL)date:(NSDate*)date1 isTheSameDayWith:(NSDate*)date2
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c1 = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date1];
-    NSDateComponents* c2 = [calendar components:(NSDayCalendarUnit | NSMonthCalendarUnit| NSYearCalendarUnit) fromDate:date2];
+    NSDateComponents* c1 = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:date1];
+    NSDateComponents* c2 = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear) fromDate:date2];
     return c1.year == c2.year && c1.month == c2.month && c1.day == c2.day;
 }
 
 + (NSString*)getDayDesc:(NSDate*)date
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSDayCalendarUnit) fromDate:date];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitDay) fromDate:date];
     return @(c.day).stringValue;
 }
 
@@ -131,14 +131,14 @@
                             @"Nov",
                             @"Dec"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSMonthCalendarUnit) fromDate:date];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitMonth) fromDate:date];
     return monthNames[c.month];
 }
 
 + (NSString*)getYearDesc:(NSDate*)date
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSYearCalendarUnit) fromDate:date];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitYear) fromDate:date];
     return @(c.year).stringValue;
 }
 
@@ -154,7 +154,7 @@
                        @"FRIDAY",
                        @"SATURDAY"];
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSWeekdayCalendarUnit) fromDate:date];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitWeekday) fromDate:date];
     return array[c.weekday];
 }
 @end
