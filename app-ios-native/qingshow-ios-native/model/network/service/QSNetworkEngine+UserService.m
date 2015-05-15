@@ -41,7 +41,7 @@
     return [self startOperationWithPath:PATH_USER_LOGIN
                                  method:@"POST"
                                paramers:@{
-                                          @"id" : userName,
+                                          @"idOrNickName" : userName,
                                           @"password" : password
                                           }
                             onSucceeded:^(MKNetworkOperation *completedOperation)

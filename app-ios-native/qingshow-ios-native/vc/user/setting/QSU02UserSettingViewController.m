@@ -187,23 +187,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         }
         case 2:
         {
-            // 基本section
-            if (indexPath.row == 1) {
-                // GOTO Gender
-                self.currentActionSheet = [[UIActionSheet alloc] initWithTitle:@"性别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:GENDER_LIST, nil];
-                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeGender;
-                [self hideKeyboardAndDatePicker];
-                [self.currentActionSheet showInView:self.view];
-            } else if (indexPath.row == 2) {
-                // 选择生日
-            } else if (indexPath.row == 5) {
-                // GOTO HairType
-                self.currentActionSheet = [[UIActionSheet alloc]initWithTitle:@"发型" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:HAIR_LIST, nil];
-                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeHairType;
-                [self hideKeyboardAndDatePicker];
-                [self.currentActionSheet showInView:self.view];
-            }
-            
             break;
         }
         case 3:
@@ -371,7 +354,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)loadUserSetting {
     
     NSDictionary *people = [QSUserManager shareUserManager].userInfo;
-    self.nameText.text = (NSString *)people[@"name"];
+    self.nameText.text = [QSPeopleUtil getNickname:people];
+    self.ageText.text = [QSPeopleUtil getAge:people];
     
     // TODO Unify these npe check to QSPeopleUtil?
     self.lengthText.text = [QSPeopleUtil getHeight:people];
@@ -382,11 +366,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     if (self.weightText.text.length != 0) {
         self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
     }
-    if (people[@"birthday"] == nil) {
-        self.birthdayText.text = @"";
-    } else {
-        [self updateBirthDayLabel:[QSDateUtil buildDateFromResponseString:(NSString *)people[@"birthday"]]];
-    }
+    
+    self.dressTpye.text = [QSPeopleUtil getDressStyleDesc:people];
+    self.expectationTpye.text = [QSPeopleUtil getExpectationsDesc:people];
+    self.bodyTpye.text = [QSPeopleUtil getBodyTypeDesc:people];
     
     self.portraitImage.layer.cornerRadius = self.portraitImage.frame.size.height / 2;
     self.portraitImage.layer.masksToBounds = YES;
@@ -394,22 +377,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     self.backgroundImage.layer.cornerRadius = self.backgroundImage.frame.size.height / 2;
     self.backgroundImage.layer.masksToBounds = YES;
     
+    
     // Get Portrait & Backgrund's Image
     [self refreshImage];
-    
-    self.shoeSizeLabel.text = [QSPeopleUtil getShoeSizeDesc:people];
-    self.clothingSizeLabel.text = [QSPeopleUtil getClothingSizeDesc:people];
-    self.brandText.text = (NSString *)people[@"favoriteBrand"];
-    
-    self.genderLabel.text = [QSPeopleUtil getGenderDesc:people];
-    self.hairTypeLabel.text = [QSPeopleUtil getHairTypeDesc:people];
 }
 
-- (void)updateBirthDayLabel:(NSDate *)birthDay {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy/MM/dd"];
-    self.birthdayText.text = [formatter stringFromDate:birthDay];
-}
 
 // Update Peoples
 - (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity pop:(BOOL)fPop
@@ -473,10 +445,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 #pragma mark - Action
 - (void)actionSave {
     NSString *name = self.nameText.text;
-    NSString *birthDay = self.birthdayText.text;
     NSString *length = self.lengthText.text;
     NSString *weight = self.weightText.text;
-    NSString *brand = self.brandText.text;
     
     if (length.length != 0) {
         length = [length stringByReplacingOccurrencesOfString:@" cm" withString:@""];
@@ -486,12 +456,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         weight = [weight stringByReplacingOccurrencesOfString:@" kg" withString:@""];
     }
     
-    [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"birthtime": birthDay, @"height": length, @"weight": weight, @"brand": brand}];
-}
-
-- (void)changeDate:(id)sender {
-    UIDatePicker *datePicker = (UIDatePicker *)self.birthdayText.inputView;
-    [self updateBirthDayLabel:datePicker.date];
+    [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"height": length, @"weight": weight}];
 }
 
 - (void)actionLogout {
@@ -543,40 +508,16 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     self.weightText.text = [NSString stringWithFormat:@"%@ kg", self.weightText.text];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    if (textField != self.birthdayText) {
-        return;
-    }
-    UIDatePicker *datePicker = [[UIDatePicker alloc] init];
-    datePicker.datePickerMode = UIDatePickerModeDate;
-    [datePicker setLocale:[NSLocale currentLocale]];
-    if (self.birthdayText.text.length == 0) {
-        [datePicker setDate:[NSDate date]];
-    } else {
-        NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-        [dateFormat setDateFormat:@"yyyy/MM/dd"];
-        NSDate *date = [dateFormat dateFromString:self.birthdayText.text];
-        [datePicker setDate:date];
-    }
-    [datePicker addTarget:self action:@selector(changeDate:) forControlEvents:UIControlEventValueChanged];
-    
-    if (textField.tag == 11) {
-        self.birthdayText.inputView = datePicker;
-        [self updateBirthDayLabel:datePicker.date];
-    }
-    
+- (void)didTapTableView:(UITapGestureRecognizer*)ges
+{
+    [self hideKeyboardAndDatePicker];
 }
 
 - (void)hideKeyboardAndDatePicker
 {
-    NSArray* a = @[self.birthdayText, self.nameText, self.lengthText, self.weightText, self.brandText];
+    NSArray* a = @[self.nameText, self.lengthText, self.weightText];
     for (UIView* view in a) {
         [view resignFirstResponder];
     }
-}
-
-- (void)didTapTableView:(UITapGestureRecognizer*)ges
-{
-    [self hideKeyboardAndDatePicker];
 }
 @end

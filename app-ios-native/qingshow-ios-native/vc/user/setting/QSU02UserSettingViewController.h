@@ -18,7 +18,7 @@
 
 @interface QSU02UserSettingViewController : UITableViewController <QSU04EmailViewControllerDelegate, QSU08PasswordViewControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UITextField *birthdayText;
+
 @property (strong, nonatomic) IBOutlet UITableView *settingTableView;
 @property (weak, nonatomic) IBOutlet UITextField *ageText;
 //昵称
@@ -35,11 +35,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *expectationTpye;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
-@property (weak, nonatomic) IBOutlet UITextField *brandText;
-@property (weak, nonatomic) IBOutlet UILabel *shoeSizeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *clothingSizeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *hairTypeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *genderLabel;
 
 
 - (IBAction)lengthEditingDidBegin:(id)sender;
