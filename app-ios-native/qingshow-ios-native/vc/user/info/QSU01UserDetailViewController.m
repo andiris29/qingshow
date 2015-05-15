@@ -196,7 +196,7 @@
                       };
                       NSDate* date1 = getDate(obj1);
                       NSDate* date2 = getDate(obj2);
-                      return [date1 compare:date2];
+                      return [date2 compare:date1];
                   }];
                   
                   succeedBlock(mArray, metadata);
