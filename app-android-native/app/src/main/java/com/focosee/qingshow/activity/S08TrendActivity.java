@@ -1,41 +1,28 @@
 package com.focosee.qingshow.activity;
 
-import android.app.AlertDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S08TrendListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.PreviewParser;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -43,6 +30,7 @@ import java.util.LinkedList;
 public class S08TrendActivity extends BaseActivity {
 
     private final String TAG = "S08TrendActivity";
+    private final String TYPE = "1";
 
     private MPullRefreshListView mPullRefreshListView;
     private ListView listView;
@@ -99,7 +87,7 @@ public class S08TrendActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-//        mPullRefreshListView.doPullRefreshing(true, 500);
+        mPullRefreshListView.doPullRefreshing(true, 500);
     }
 
     @Override
@@ -130,7 +118,7 @@ public class S08TrendActivity extends BaseActivity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getPreviewTrendListApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize)), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -140,12 +128,12 @@ public class S08TrendActivity extends BaseActivity {
                     mPullRefreshListView.setHasMoreData(false);
                     return;
                 }
-                LinkedList<MongoPreview> results = PreviewParser.parseFeed(response);
+                LinkedList<MongoShow> results = ShowParser.parseQuery(response);
                 if (_tRefreshSign) {
-//                    adapter.resetData(results);
+                    adapter.resetData(results);
                     _currentPageIndex = 1;
                 } else {
-//                    adapter.addItemLast(results);
+                    adapter.addItemLast(results);
                     _currentPageIndex++;
                 }
                 adapter.notifyDataSetChanged();

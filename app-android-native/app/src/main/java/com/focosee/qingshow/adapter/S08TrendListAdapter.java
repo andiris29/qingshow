@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +9,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class S08TrendListAdapter extends BaseAdapter {
 
     public Context context;
+    private LinkedList<MongoShow> datas;
 
     public S08TrendListAdapter(Context context){
         this.context = context;
@@ -19,7 +25,7 @@ public class S08TrendListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 20;
+        return null == datas ? 0 : datas.size();
     }
 
     @Override
@@ -37,6 +43,8 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         S08ItemViewHolder viewHolder;
 
+        MongoShow show = datas.get(position);
+
         if(null == convertView){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_s08_trend_list, null);
             viewHolder = new S08ItemViewHolder(convertView);
@@ -44,12 +52,29 @@ public class S08TrendListAdapter extends BaseAdapter {
         }
 
         viewHolder = (S08ItemViewHolder)convertView.getTag();
-        viewHolder.imageView.setAspectRatio(1.0f);
-        viewHolder.imageView.setImageURI(null);
+        String uri = "";
+        if(show.getCover().equals("") || null == show.getCover()){
+            uri = show.getHorizontalCover();
+            viewHolder.imageView.setAspectRatio(show.getHorizontalCoverWidth() / show.getHorizontalCoverHeight());
+        }else{
+            uri = show.getCover();
+            viewHolder.imageView.setAspectRatio(show.getCoverWidth() / show.getCoverHeight());
+        }
+
+        viewHolder.imageView.setImageURI(Uri.parse(uri));
         //TODO
 
         return convertView;
     }
+
+    public void resetData(LinkedList<MongoShow> datas){
+        this.datas = datas;
+    }
+
+    public void addItemLast(LinkedList<MongoShow> datas){
+        this.datas.addAll(datas);
+    }
+
 
     public static class S08ItemViewHolder {
         public SimpleDraweeView imageView;
