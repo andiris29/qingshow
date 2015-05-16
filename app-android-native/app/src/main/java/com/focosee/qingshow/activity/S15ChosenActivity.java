@@ -10,23 +10,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U13PersonalizeFragment;
 import com.focosee.qingshow.adapter.S12Adapter;
@@ -52,7 +48,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by Administrator on 2015/3/27.
  */
-public class S12TopicListActivity extends BaseActivity implements View.OnClickListener {
+public class S15ChosenActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageView _blurImage;
     private DrawerLayout spl;
@@ -121,7 +117,7 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
                         pullRefreshView.onPullUpRefreshComplete();
 
                     pullRefreshView.setHasMoreData(false);
-                    ErrorHandler.handle(S12TopicListActivity.this, MetadataParser.getError(response));
+                    ErrorHandler.handle(S15ChosenActivity.this, MetadataParser.getError(response));
                 }
 
                 LinkedList<MongoTopic> data = TopicParser.parseQuery(response);
@@ -173,7 +169,7 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void handleMessage(Message msg) {
-                _blurImage.setBackground(new BitmapDrawable(S12TopicListActivity.this.getResources(), (Bitmap) msg.obj));
+                _blurImage.setBackground(new BitmapDrawable(S15ChosenActivity.this.getResources(), (Bitmap) msg.obj));
                 right.destroyDrawingCache();
             }
         };
@@ -289,31 +285,31 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
         Intent intent;
         switch (v.getId()) {
             case R.id.s12_nav_icon_flash:
-                intent = new Intent(S12TopicListActivity.this, S02ShowClassify.class);
+                intent = new Intent(S15ChosenActivity.this, S02ShowClassify.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 0);
                 startActivity(intent);
                 closeMenu();
                 break;
             case R.id.s12_nav_icon_match:
-                intent = new Intent(S12TopicListActivity.this, S17TopShowsActivity.class);
+                intent = new Intent(S15ChosenActivity.this, S17TopShowsActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
                 startActivity(intent);
                 closeMenu();
                 break;
 //            case R.id.s12_nav_icon_people:
-//                intent = new Intent(S12TopicListActivity.this, P01ModelListActivity.class);
+//                intent = new Intent(S15ChosenActivity.this, P01ModelListActivity.class);
 //                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 2);
 //                startActivity(intent);
 //                closeMenu();
 //                break;
             case R.id.s12_nav_icon_design:
-                intent = new Intent(S12TopicListActivity.this, S08TrendActivity.class);
+                intent = new Intent(S15ChosenActivity.this, S08TrendActivity.class);
                 intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 5);
                 startActivity(intent);
                 closeMenu();
                 break;
 //            case R.id.s12_nav_icon_brand:
-//                intent = new Intent(S12TopicListActivity.this, P03BrandListActivity.class);
+//                intent = new Intent(S15ChosenActivity.this, P03BrandListActivity.class);
 //                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 4);
 //                startActivity(intent);
 //                closeMenu();
@@ -330,7 +326,7 @@ public class S12TopicListActivity extends BaseActivity implements View.OnClickLi
                 }
                 break;
             case R.id.s12_user:
-                intent = new Intent(S12TopicListActivity.this,
+                intent = new Intent(S15ChosenActivity.this,
                         (QSModel.INSTANCE.loggedin())
                                 ? U01UserActivity.class : U07RegisterActivity.class);
 

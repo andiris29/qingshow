@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
  */
 public class MongoChosen implements Serializable {
     public String _id;
-    public String ref;
+    public Object ref;
     public String refCollection;
     public int order;
     public int type;

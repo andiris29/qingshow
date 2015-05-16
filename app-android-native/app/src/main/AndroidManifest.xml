@@ -183,7 +183,7 @@
             android:value="native" />
 
 
-        <activity android:name=".activity.S12TopicListActivity"
+        <activity android:name=".activity.S15ChosenActivity"
             android:label="S12TopicListActivity">
         </activity>
 

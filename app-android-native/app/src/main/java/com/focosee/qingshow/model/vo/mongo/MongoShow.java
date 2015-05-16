@@ -5,6 +5,7 @@ import com.focosee.qingshow.model.vo.metadata.ImageMetadata;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 
 // TODO Cleanup redundant methods
 public class MongoShow implements Serializable {
@@ -26,6 +27,14 @@ public class MongoShow implements Serializable {
     public ShowContext __context;
     public ImageMetadata coverMetadata;
     public ImageMetadata horizontalCoverMetadata;
+
+    public Recommend recommend;
+
+    public class Recommend{
+        String group;
+        String description;
+        GregorianCalendar date;
+    }
 
 
     public int getHorizontalCoverHeight() {
