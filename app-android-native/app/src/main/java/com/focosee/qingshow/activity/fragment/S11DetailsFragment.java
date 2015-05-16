@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,7 @@ import com.focosee.qingshow.widget.drawable.RoundBitmapDrawable;
 import com.focosee.qingshow.widget.flow.FlowRadioButton;
 import com.focosee.qingshow.widget.flow.FlowRadioGroup;
 import com.focosee.qingshow.widget.flow.FlowRadioImgeView;
-import com.focosee.qingshow.widget.flow.IRadioViewHelper;
+import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 

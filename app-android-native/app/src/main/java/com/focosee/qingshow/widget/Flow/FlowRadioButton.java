@@ -7,11 +7,12 @@ import android.view.MotionEvent;
 import android.widget.Button;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.widget.radio.IRadioViewHelper;
 
 /**
  * Created by Administrator on 2015/3/20.
  */
-public class FlowRadioButton extends Button implements IRadioViewHelper{
+public class FlowRadioButton extends Button implements IRadioViewHelper {
 
     private boolean check = false;
 
