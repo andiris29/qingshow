@@ -1,30 +1,30 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.model.vo.mongo.MongoTopic;
+import com.focosee.qingshow.model.vo.mongo.IMongoChosen;
+import com.focosee.qingshow.model.vo.mongo.MongoChosenShow;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 
 /**
  * Created by Administrator on 2015/3/31.
  */
-public class S12Adapter extends AbsWaterfallAdapter<MongoTopic> {
+public class S15Adapter extends AbsWaterfallAdapter<IMongoChosen> {
 
 
-    public S12Adapter(Context context) {
+    public S15Adapter(Context context) {
         this(context,0, null);
     }
 
-    public S12Adapter(Context context, int resourceId, ImageLoader mImageFetcher) {
+    public S15Adapter(Context context, int resourceId, ImageLoader mImageFetcher) {
         super(context, resourceId, mImageFetcher);
     }
 
@@ -38,24 +38,27 @@ public class S12Adapter extends AbsWaterfallAdapter<MongoTopic> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        final MongoTopic item = _data.get(position);
+        IMongoChosen item = _data.get(position);
 
         if (null == convertView) {
             convertView = LayoutInflater.from(_context).inflate(R.layout.item_s12_topic, null);
             viewHolder = new ViewHolder();
             viewHolder.image = (SimpleDraweeView) convertView.findViewById(R.id.s12_image);
             viewHolder.title = (TextView) convertView.findViewById(R.id.s12_title);
-            viewHolder.subtitle = (TextView) convertView.findViewById(R.id.s12_subtitle);
             convertView.setTag(viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
+        if (item.refCollection.equals("shows")){
+            MongoChosenShow itemShow = (MongoChosenShow) item;
+
+            viewHolder.image.setImageURI(Uri.parse(itemShow.ref.cover));
+        }
 
         viewHolder.image.setAspectRatio(1.37f);
 
-        viewHolder.image.setImageURI(Uri.parse(item.cover));
-        viewHolder.title.setText(item.title);
-        viewHolder.subtitle.setText(item.subtitle);
+//        viewHolder.title.setText(item.title);
+//        viewHolder.subtitle.setText(item.subtitle);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

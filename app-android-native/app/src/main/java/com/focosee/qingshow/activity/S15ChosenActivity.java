@@ -25,20 +25,21 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U13PersonalizeFragment;
-import com.focosee.qingshow.adapter.S12Adapter;
+import com.focosee.qingshow.adapter.S15Adapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.TopicParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ChosenParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.mongo.MongoTopic;
+import com.focosee.qingshow.model.vo.mongo.IMongoChosen;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.widget.MPullRefreshListView;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,7 +58,7 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
     private ActionBarDrawerToggle drawerbar;
     private MPullRefreshListView pullRefreshView;
     private ListView refreshView;
-    private S12Adapter adapter;
+    private S15Adapter adapter;
 
     private Timer timer = new Timer(true);
     private TimerTask timerTask;
@@ -82,7 +83,7 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
         refreshView = pullRefreshView.getRefreshableView();
         refreshView.setDividerHeight(0);
 
-        adapter = new S12Adapter(this);
+        adapter = new S15Adapter(this);
         refreshView.setAdapter(adapter);
         initEvent();
 
@@ -107,7 +108,7 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void getDataFromNet(final boolean refresh) {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getTopicListApi(), null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getChosenApi("0"), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -120,7 +121,8 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
                     ErrorHandler.handle(S15ChosenActivity.this, MetadataParser.getError(response));
                 }
 
-                LinkedList<MongoTopic> data = TopicParser.parseQuery(response);
+                Log.d("tag",response + "");
+                LinkedList<IMongoChosen> data = ChosenParser.parse(response);
                 if (refresh){
                     adapter.addItemTop(data);
                     adapter.notifyDataSetChanged();

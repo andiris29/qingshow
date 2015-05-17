@@ -109,16 +109,17 @@ public class S08TrendActivity extends BaseActivity {
     }
 
     private void doRefreshTask() {
-        _getDataFromNet(true, "1", "10");
+
+//        _getDataFromNet(true, "1", "10");
     }
 
     private void doGetMoreTask() {
-        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
+//        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
     }
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi("",0,0), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {

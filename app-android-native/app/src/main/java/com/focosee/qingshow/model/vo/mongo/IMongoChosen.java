@@ -1,14 +1,12 @@
 package com.focosee.qingshow.model.vo.mongo;
 
-import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**
- * Created by DylanJiang on 15/5/6.
+ * Created by DylanJiang on 15/5/17.
  */
-public class MongoChosen implements Serializable {
+public class IMongoChosen {
     public String _id;
-    public IMongoChosen ref;
     public String refCollection;
     public int order;
     public int type;

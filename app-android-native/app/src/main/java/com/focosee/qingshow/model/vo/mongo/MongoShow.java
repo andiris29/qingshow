@@ -5,6 +5,7 @@ import com.focosee.qingshow.model.vo.metadata.ImageMetadata;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 
 // TODO Cleanup redundant methods
@@ -21,8 +22,8 @@ public class MongoShow implements Serializable {
 
     public int numLike;
 
-    public MongoPeople modelRef;
-    public MongoItem[] itemRefs;
+
+    public String[] itemRefs;
 
     public ShowContext __context;
     public ImageMetadata coverMetadata;
@@ -72,16 +73,19 @@ public class MongoShow implements Serializable {
     }
 
     public String getModelPhoto() {
-        return (null != modelRef) ? modelRef.getPortrait() : "";
+//        return (null != modelRef) ? modelRef.getPortrait() : "";
+        return "";
     }
 
     public String getModelName() {
-        return (null != modelRef) ? modelRef.getName() : "";
+//        return (null != modelRef) ? modelRef.getName() : "";
+        return "";
     }
 
 
     public String getModelHeightAndHeightWithFormat() {
-        return (null != modelRef) ? (String.valueOf(modelRef.getHeight()) + String.valueOf(modelRef.getWeight())) : "0cm/0kg";
+//        return (null != modelRef) ? (String.valueOf(modelRef.getHeight()) + String.valueOf(modelRef.getWeight())) : "0cm/0kg";
+        return "";
     }
 
     public boolean getShowIsFollowedByCurrentUser() {
@@ -92,9 +96,9 @@ public class MongoShow implements Serializable {
     }
 
 
-    public MongoPeople getModelRef() {
-        return modelRef;
-    }
+//    public MongoPeople getModelRef() {
+//        return modelRef;
+//    }
 
 
     public String get_id() {
@@ -106,30 +110,33 @@ public class MongoShow implements Serializable {
     }
 
     public String getModelJob() {
-        return (null != modelRef && null != modelRef.roles) ? modelRef.roles.toString() : "";
+//        return (null != modelRef && null != modelRef.roles) ? modelRef.roles.toString() : "";
+        return "";
     }
 
     public String getModelWeightHeight() {
-        return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
+//        return ((null != modelRef) ? modelRef.height : "") + "cm/" + ((null != modelRef) ? modelRef.weight : "") + "kg";
+        return "";
     }
 
     // TODO change age calculate method
     public String getModelAgeHeight() {
-        return (null != modelRef) ? "x" + "岁 " + modelRef.height + "cm" : "";
+//        return (null != modelRef) ? "x" + "岁 " + modelRef.height + "cm" : "";
+        return "";
     }
 
 
     public ArrayList<MongoItem> getItemsList() {
         ArrayList<MongoItem> result = new ArrayList<MongoItem>();
-        for (MongoItem item : itemRefs) {
-            result.add(item);
-        }
+//        for (MongoItem item : itemRefs) {
+//            result.add(item);
+//        }
         return result;
     }
 
     public MongoItem getItem(int index) {
         if (null == itemRefs || index >= itemRefs.length || index < 0) return null;
-        return itemRefs[index];
+        return null;
     }
 
     public String[] getPosters() {
@@ -168,4 +175,21 @@ public class MongoShow implements Serializable {
         return String.valueOf((null != itemRefs) ? itemRefs.length : 0);
     }
 
+
+    @Override
+    public String toString() {
+        return "MongoShow{" +
+                "__context=" + __context +
+                ", _id='" + _id + '\'' +
+                ", cover='" + cover + '\'' +
+                ", horizontalCover='" + horizontalCover + '\'' +
+                ", video='" + video + '\'' +
+                ", posters=" + Arrays.toString(posters) +
+                ", numLike=" + numLike +
+                ", itemRefs=" + Arrays.toString(itemRefs) +
+                ", coverMetadata=" + coverMetadata +
+                ", horizontalCoverMetadata=" + horizontalCoverMetadata +
+                ", recommend=" + recommend +
+                '}';
+    }
 }
