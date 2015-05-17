@@ -5,18 +5,43 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.adapter.S08TrendListAdapter;
+import com.focosee.qingshow.model.vo.mongo.MongoPreview;
+import com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class S14FashionMsgActivity extends BaseActivity {
+
+    private NetworkImageIndicatorView imageIndicatorView;
+    private TextView describe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getIntent().getIntExtra("position", 0) % 2 ==0 ){
+        setContentView(R.layout.activity_s14_fashion_msg_pictures);
+        if(getIntent().getStringExtra("refCollection").equals(S08TrendListAdapter.PREVIEWS)){
+            MongoPreview preview = (MongoPreview) getIntent().getExtras().getSerializable("entity");
+            imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.s14_image_indicator);
+            describe = (TextView) findViewById(R.id.s14_describe);
+            List<String> imageList = new ArrayList<String>();
+            for (MongoPreview.Image image : preview.images){
+                imageList.add(image.url);
+            }
+            imageIndicatorView.setupLayoutByImageUrl(imageList, ImageLoader.getInstance());
+            imageIndicatorView.show();
+            imageIndicatorView.getViewPager().setCurrentItem(0, false);
+            describe.setText(preview.getDescription(0));
+
+        }else{
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
-        setContentView(R.layout.activity_s14_fashion_msg_pictures);
+
         findViewById(R.id.s14_back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

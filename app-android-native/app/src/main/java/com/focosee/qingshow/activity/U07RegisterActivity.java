@@ -9,11 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
@@ -22,24 +24,36 @@ import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.tencent.mm.sdk.constants.ConstantsAPI;
+import com.tencent.mm.sdk.modelbase.BaseReq;
+import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class U07RegisterActivity extends BaseActivity {
+public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHandler{
 
     private static final String DEBUG_TAG = "注册页";
     private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
+    private IWXAPI wxApi;
 
     private Button submitButton;
     private EditText accountEditText;
     private EditText passwordEditText;
     private EditText confirmEditText;
+    private EditText phoneEditText;
     private Context context;
+
+    private RelativeLayout weiChatLoginBtn;
 
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -57,10 +71,24 @@ public class U07RegisterActivity extends BaseActivity {
 
         context = getApplicationContext();
 
+        wxApi = QSApplication.instance().getWxApi();
+
+
+
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        confirmEditText = (EditText) findViewById(R.id.confirmEditText);
+        confirmEditText = (EditText) findViewById(R.id.confirmIdEditText);
+        phoneEditText = (EditText) findViewById(R.id.phoneEditText);
+
+        weiChatLoginBtn = (RelativeLayout) findViewById(R.id.weixinLoginButton);
+
+        weiChatLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weiChatLogin();
+            }
+        });
 
         ImageView backImageView = (ImageView) findViewById(R.id.backImageView);
         backImageView.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +111,7 @@ public class U07RegisterActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
+                    Toast.makeText(U07RegisterActivity.this, passwordEditText.getText().toString() + "/" + confirmEditText.getText().toString(), Toast.LENGTH_LONG).show();
                     Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
                 } else {
                     QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
@@ -120,6 +149,16 @@ public class U07RegisterActivity extends BaseActivity {
         });
         registerReceiver(receiver, new IntentFilter(U06LoginActivity.LOGIN_SUCCESS));
     }
+
+    public void weiChatLogin(){
+        // send oauth request
+        final com.tencent.mm.sdk.modelmsg.SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "qingshow_wxlogin";
+        Toast.makeText(this, "login", Toast.LENGTH_LONG).show();
+        wxApi.sendReq(req);
+    }
+
 
     @Override
     public void reconn() {
@@ -159,4 +198,39 @@ public class U07RegisterActivity extends BaseActivity {
         MobclickAgent.onPause(this);
     }
 
+    @Override
+    public void onReq(BaseReq req) {
+        switch (req.getType()) {
+            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
+                Toast.makeText(this, "COMMAND_GETMESSAGE_FROM_WX", Toast.LENGTH_LONG).show();
+                break;
+            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
+                Toast.makeText(this, "COMMAND_SHOWMESSAGE_FROM_WX", Toast.LENGTH_LONG).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onResp(BaseResp resp) {
+        String result = "";
+
+        switch (resp.errCode) {
+            case BaseResp.ErrCode.ERR_OK:
+                result = "success";
+                break;
+            case BaseResp.ErrCode.ERR_USER_CANCEL:
+                result = "user_cancel";
+                break;
+            case BaseResp.ErrCode.ERR_AUTH_DENIED:
+                result = "auth_denied";
+                break;
+            default:
+                result = "unknow";
+                break;
+        }
+
+        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+    }
 }

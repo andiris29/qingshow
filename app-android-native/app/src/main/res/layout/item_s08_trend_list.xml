@@ -7,7 +7,7 @@
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/item_s08_imageView"
         android:layout_alignParentLeft="true"
         fresco:placeholderImage="@drawable/splash_image"/>

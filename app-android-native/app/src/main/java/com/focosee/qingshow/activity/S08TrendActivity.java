@@ -13,7 +13,9 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S08TrendListAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ChosenParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.model.vo.mongo.MongoChosen;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.dataparser.PreviewParser;
@@ -78,15 +80,6 @@ public class S08TrendActivity extends BaseActivity {
                 doGetMoreTask();
             }
         });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(S08TrendActivity.this, S14FashionMsgActivity.class);
-                intent.putExtra("position", position);
-                startActivity(intent);
-            }
-        });
         mPullRefreshListView.doPullRefreshing(true, 500);
     }
 
@@ -110,16 +103,16 @@ public class S08TrendActivity extends BaseActivity {
 
     private void doRefreshTask() {
 
-//        _getDataFromNet(true, "1", "10");
+        _getDataFromNet(true, 1, 10);
     }
 
     private void doGetMoreTask() {
-//        _getDataFromNet(false, String.valueOf(_currentPageIndex + 1), "10");
+        _getDataFromNet(false, _currentPageIndex + 1, 10);
     }
 
-    private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
+    private void _getDataFromNet(boolean refreshSign, int pageNo, int pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi("",0,0), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getChosenFeedApi(TYPE, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if (MetadataParser.hasError(response)) {
@@ -129,7 +122,8 @@ public class S08TrendActivity extends BaseActivity {
                     mPullRefreshListView.setHasMoreData(false);
                     return;
                 }
-                LinkedList<MongoShow> results = ShowParser.parseQuery(response);
+                LinkedList<MongoChosen> results = new LinkedList<MongoChosen>();
+                results.addAll(ChosenParser.parse(response));
                 if (_tRefreshSign) {
                     adapter.resetData(results);
                     _currentPageIndex = 1;

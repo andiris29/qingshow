@@ -7,6 +7,6 @@ import java.io.Serializable;
  */
 public class ShowContext implements Serializable {
     public int numComments;
-    public int numLike;
+//    public int numLike;
     public Boolean likedByCurrentUser;
 }

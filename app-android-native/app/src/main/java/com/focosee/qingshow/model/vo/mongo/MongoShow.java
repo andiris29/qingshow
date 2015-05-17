@@ -13,6 +13,8 @@ public class MongoShow implements Serializable {
     public static final String DEBUG_TAG = "MongoShow";
 
     public String _id;
+    public String _hughUpdate;
+
 
     public String cover;
     public String horizontalCover;
@@ -20,10 +22,12 @@ public class MongoShow implements Serializable {
     public String video;
     public String[] posters;
 
+
     public int numLike;
 
 
     public String[] itemRefs;
+    public GregorianCalendar create;
 
     public ShowContext __context;
     public ImageMetadata coverMetadata;
@@ -31,11 +35,6 @@ public class MongoShow implements Serializable {
 
     public Recommend recommend;
 
-    public class Recommend{
-        String group;
-        String description;
-        GregorianCalendar date;
-    }
 
 
     public int getHorizontalCoverHeight() {
@@ -192,4 +191,11 @@ public class MongoShow implements Serializable {
                 ", recommend=" + recommend +
                 '}';
     }
+    public class Recommend implements Serializable {
+        public String group;
+        public GregorianCalendar date;
+        public String description;
+    }
+
+
 }

@@ -5,6 +5,10 @@
     android:orientation="vertical"
     android:background="@color/gray_background"
     tools:context="com.focosee.qingshow.activity.S14FashionMsgActivity">
+    <com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView
+        android:id="@+id/s14_image_indicator"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"/>
     <ImageButton
         android:id="@+id/s14_back_btn"
         android:layout_width="50dp"
@@ -12,10 +16,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/s03_back_btn" />
-    <com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView
-        android:id="@+id/s14_image_indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

@@ -86,6 +86,17 @@ public class QSAppWebAPI {
     public static String getChosenApi(String type) {
         return CHOSEN_API + "?type=" + type;
     }
+    private static final String CHOSEN_FEED_API = HOST_NAME + "/chosen/feed";
+
+    private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
+
+    public static String getFeedingRecommendationApi(){
+        return FEEDING_RECOMMENDATION_API;
+    }
+
+    public static String getChosenFeedApi(String type, int pageNo, int pageSize){
+        return CHOSEN_FEED_API + "?type="+ type +"&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
 
     public static String getTopicListApi() {
         return TOPIC_LIST_API;
