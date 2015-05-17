@@ -81,6 +81,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/age_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -90,7 +91,9 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <SeekBar style="@style/seeckbar" />
+        <SeekBar
+            android:id="@+id/age"
+            style="@style/seeckbar" />
 
         <TextView
             android:layout_width="wrap_content"

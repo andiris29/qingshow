@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S17TopAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
@@ -49,6 +50,7 @@ public class S17TopShowsActivity extends BaseActivity{
         ButterKnife.inject(this);
 
         title.setText(R.string.s17_title_name);
+        data = new LinkedList<MongoShow>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new S17TopAdapter(data,this,R.layout.item_s17_singular,R.layout.item_s17_plural);
         recyclerView.setAdapter(adapter);
@@ -68,5 +70,6 @@ public class S17TopShowsActivity extends BaseActivity{
 
             }
         },null);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 }

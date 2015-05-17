@@ -27,8 +27,10 @@ public class S17TopAdapter extends AbsAdapter<MongoShow> {
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
 
-        holder.setImgeByUrl(R.id.cover,getItemData(position).cover,1.33f)
-                .setText(R.id.like_num, getItemData(position).numLike + "");
+        if (datas.size() > position){
+            holder.setImgeByUrl(R.id.cover,getItemData(position).cover,1.33f)
+                    .setText(R.id.like_num, getItemData(position).numLike + "");
+        }
         ImageView top = holder.getView(R.id.top);
         ImageView like = holder.getView(R.id.like);
         RelativeLayout bg = holder.getView(R.id.bg);

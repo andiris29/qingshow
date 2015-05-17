@@ -12,10 +12,10 @@ import java.util.List;
  */
 public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> {
 
-    private List<T> datas;
-    private Context context;
-    private int[] layoutId;
-    private AbsViewHolder[] viewHolders;
+    protected List<T> datas;
+    protected Context context;
+    protected int[] layoutId;
+    protected AbsViewHolder[] viewHolders;
 
     public AbsAdapter(List<T> datas, Context context, int... layoutId) {
         this.datas = datas;
