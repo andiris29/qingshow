@@ -15,12 +15,6 @@
         android:background="@color/white"
         fresco:actualImageScaleType="fitXY"
         fresco:placeholderImage="@drawable/bg_pic" />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        
-    </LinearLayout>
 
     <LinearLayout
         android:layout_alignParentBottom="true"

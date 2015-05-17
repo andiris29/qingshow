@@ -294,7 +294,6 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.s12_nav_icon_match:
                 intent = new Intent(S15ChosenActivity.this, S17TopShowsActivity.class);
-                intent.putExtra(S02ShowClassify.INPUT_CATEGORY, 1);
                 startActivity(intent);
                 closeMenu();
                 break;

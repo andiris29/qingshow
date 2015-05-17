@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/4/30.
  */
-public class S17TopAdapter extends AbsAdapter {
+public class S17TopAdapter extends AbsAdapter<MongoShow> {
     public S17TopAdapter(List datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
     }
@@ -26,8 +27,8 @@ public class S17TopAdapter extends AbsAdapter {
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
 
-        holder.setImgeByUrl(R.id.cover,"http://trial01.focosee.com/demo6/1208a20200.jpg",1.33f)
-                .setText(R.id.like_num,"100");
+        holder.setImgeByUrl(R.id.cover,getItemData(position).cover,1.33f)
+                .setText(R.id.like_num, getItemData(position).numLike + "");
         ImageView top = holder.getView(R.id.top);
         ImageView like = holder.getView(R.id.like);
         RelativeLayout bg = holder.getView(R.id.bg);

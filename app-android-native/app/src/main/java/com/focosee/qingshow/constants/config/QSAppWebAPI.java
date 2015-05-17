@@ -77,6 +77,11 @@ public class QSAppWebAPI {
     private static final String FEEDING_TOPIC_API = HOST_NAME + "/feeding/byTopic";
 
     private static final String CHOSEN_API = HOST_NAME + "/chosen/feed";
+    private static final String TOP_API = HOST_NAME + "/feeding/hot";
+
+    public static String getTopApi() {
+        return TOP_API;
+    }
 
     public static String getChosenApi(String type) {
         return CHOSEN_API + "?type=" + type;
