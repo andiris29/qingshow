@@ -15,6 +15,7 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ChosenParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.model.vo.mongo.IMongoChosen;
 import com.focosee.qingshow.model.vo.mongo.MongoChosen;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -122,7 +123,7 @@ public class S08TrendActivity extends BaseActivity {
                     mPullRefreshListView.setHasMoreData(false);
                     return;
                 }
-                LinkedList<MongoChosen> results = new LinkedList<MongoChosen>();
+                LinkedList<IMongoChosen> results = new LinkedList<IMongoChosen>();
                 results.addAll(ChosenParser.parse(response));
                 if (_tRefreshSign) {
                     adapter.resetData(results);

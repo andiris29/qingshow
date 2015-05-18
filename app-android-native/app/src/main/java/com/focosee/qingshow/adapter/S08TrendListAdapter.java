@@ -14,7 +14,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S14FashionMsgActivity;
 import com.focosee.qingshow.model.ChosenRefParser;
+import com.focosee.qingshow.model.vo.mongo.IMongoChosen;
 import com.focosee.qingshow.model.vo.mongo.MongoChosen;
+import com.focosee.qingshow.model.vo.mongo.MongoChosenPreview;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 
@@ -26,7 +28,7 @@ public class S08TrendListAdapter extends BaseAdapter {
     public static final String PREVIEWS = "previews";
 //    private final String
     public Context context;
-    private LinkedList<MongoChosen> datas;
+    private LinkedList<IMongoChosen> datas;
 
     public S08TrendListAdapter(Context context){
         this.context = context;
@@ -51,6 +53,7 @@ public class S08TrendListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         S08ItemViewHolder viewHolder;
+        IMongoChosen item = datas.get(position);
 
         if(null == convertView){
             convertView = LayoutInflater.from(context).inflate(R.layout.item_s08_trend_list, null);
@@ -60,13 +63,13 @@ public class S08TrendListAdapter extends BaseAdapter {
 
         viewHolder = (S08ItemViewHolder)convertView.getTag();
 
-        final MongoChosen chosen = datas.get(position);
+        final IMongoChosen chosen = datas.get(position);
 
         final Bundle bundle = new Bundle();
 
         if(chosen.refCollection.equals(PREVIEWS)){
 
-            MongoPreview preview = ChosenRefParser.previewParser(chosen.ref);
+            MongoPreview preview = ((MongoChosenPreview) item).ref;
 
             viewHolder.imageView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, preview.getHeight()));
             viewHolder.imageView.setAspectRatio(preview.getWidth() / preview.getHeight());
@@ -103,11 +106,11 @@ public class S08TrendListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void resetData(LinkedList<MongoChosen> datas){
+    public void resetData(LinkedList<IMongoChosen> datas){
         this.datas = datas;
     }
 
-    public void addItemLast(LinkedList<MongoChosen> datas){
+    public void addItemLast(LinkedList<IMongoChosen> datas){
         this.datas.addAll(datas);
     }
 
