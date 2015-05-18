@@ -78,7 +78,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        confirmEditText = (EditText) findViewById(R.id.confirmIdEditText);
+        confirmEditText = (EditText) findViewById(R.id.reConfirmEditText);
         phoneEditText = (EditText) findViewById(R.id.phoneEditText);
 
         weiChatLoginBtn = (RelativeLayout) findViewById(R.id.weixinLoginButton);
@@ -110,9 +110,21 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(null == accountEditText.getText().toString() || "".equals(accountEditText.getText().toString())){
+                    Toast.makeText(context, "昵称不能为空", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(null == passwordEditText.getText().toString() || "".equals(passwordEditText.getText().toString())){
+                    Toast.makeText(context, "密码不能为空", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(null == phoneEditText.getText().toString() || "".equals(phoneEditText.getText().toString())){
+                    Toast.makeText(context, "手机或邮箱不能为空", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (!passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
-                    Toast.makeText(U07RegisterActivity.this, passwordEditText.getText().toString() + "/" + confirmEditText.getText().toString(), Toast.LENGTH_LONG).show();
                     Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
+                    return;
                 } else {
                     QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
                         @Override
@@ -137,7 +149,9 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
                         @Override
                         protected Map<String, String> getParams() {
                             Map<String, String> map = new HashMap<String, String>();
-                            map.put("id", accountEditText.getText().toString());
+
+                            map.put("id", phoneEditText.getText().toString());
+                            map.put("nickname", accountEditText.getText().toString());
                             map.put("password", passwordEditText.getText().toString());
 
                             return map;
