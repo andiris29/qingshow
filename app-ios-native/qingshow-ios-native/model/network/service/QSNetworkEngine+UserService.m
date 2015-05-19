@@ -259,6 +259,7 @@
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;
                 [QSUserManager shareUserManager].fIsLogined = YES;
+                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
                 if (successdBlock) {
                     successdBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }
@@ -283,6 +284,7 @@
                             onSucceeded:
             ^(MKNetworkOperation *completeOperation) {
                 NSDictionary *retDict = completeOperation.responseJSON;
+                [QSUserManager shareUserManager].userInfo = retDict[@"data"][@"people"];
                 if (succeedBlock) {
                     succeedBlock(retDict[@"data"][@"people"], retDict[@"metadata"]);
                 }

@@ -29,6 +29,8 @@
 
 #import "QSPeopleUtil.h"
 
+#define kWelcomePageVersionKey @"kWelcomePageVersionKey"
+
 
 @interface QSAbstractRootViewController ()
 
@@ -105,7 +107,17 @@
     
     if (self.fIsFirstLoad) {
         self.fIsFirstLoad = NO;
-        [self.navigationController.view addSubview:self.welcomeVc.view];
+        
+        NSUserDefaults* userDefault = [NSUserDefaults standardUserDefaults];
+//        userDefault valueFor
+        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        if (![[userDefault valueForKey:kWelcomePageVersionKey] isEqualToString:version]) {
+            [self.navigationController.view addSubview:self.welcomeVc.view];
+            [userDefault setValue:version forKey:kWelcomePageVersionKey];
+            [userDefault synchronize];
+        }
+        
+
     }
     
     if (self.hasFetchUserLogin) {

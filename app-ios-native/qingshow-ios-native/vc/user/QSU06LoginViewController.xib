@@ -37,18 +37,18 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_nickname" translatesAutoresizingMaskIntoConstraints="NO" id="aWK-Fb-8cM">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_nickname" translatesAutoresizingMaskIntoConstraints="NO" id="aWK-Fb-8cM">
                     <rect key="frame" x="35" y="104" width="30" height="25"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="pPA-wN-NXz"/>
                         <constraint firstAttribute="width" constant="30" id="sGZ-4n-KSJ"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_password" translatesAutoresizingMaskIntoConstraints="NO" id="tp3-BB-btG">
-                    <rect key="frame" x="37" y="162" width="25" height="25"/>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_password" translatesAutoresizingMaskIntoConstraints="NO" id="tp3-BB-btG">
+                    <rect key="frame" x="35" y="162" width="30" height="25"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="hRl-K9-6Ok"/>
-                        <constraint firstAttribute="width" constant="25" id="hok-Kk-kOu"/>
+                        <constraint firstAttribute="width" constant="30" id="hok-Kk-kOu"/>
                     </constraints>
                 </imageView>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="输入昵称、邮箱或手机号码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GHB-x5-Sck">
@@ -149,7 +149,7 @@
                 <constraint firstItem="gDc-h8-6Ln" firstAttribute="top" secondItem="tp3-BB-btG" secondAttribute="top" id="ZCS-Z8-znV"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="ZsR-Uw-brP"/>
                 <constraint firstItem="qN3-2Z-q9f" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="bSD-8q-p5U"/>
-                <constraint firstItem="tp3-BB-btG" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="leading" constant="2" id="fie-UH-lDL"/>
+                <constraint firstItem="tp3-BB-btG" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="leading" id="fie-UH-lDL"/>
                 <constraint firstItem="d76-ww-Mcn" firstAttribute="leading" secondItem="U29-r6-HME" secondAttribute="leading" id="kbZ-Oi-Nug"/>
                 <constraint firstAttribute="trailing" secondItem="wpf-Ue-aeI" secondAttribute="trailing" id="l72-OB-vac"/>
                 <constraint firstItem="cVr-g0-gMn" firstAttribute="trailing" secondItem="wpf-Ue-aeI" secondAttribute="trailing" constant="-10" id="lzv-sn-IHv"/>
@@ -164,7 +164,7 @@
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="wC8-Fp-Puq"/>
                 <constraint firstItem="d76-ww-Mcn" firstAttribute="top" secondItem="U29-r6-HME" secondAttribute="bottom" id="wJn-xC-18D"/>
                 <constraint firstItem="wpf-Ue-aeI" firstAttribute="top" secondItem="Q8J-EI-SBu" secondAttribute="top" constant="-30" id="x0c-Tk-SGv"/>
-                <constraint firstItem="gDc-h8-6Ln" firstAttribute="leading" secondItem="tp3-BB-btG" secondAttribute="trailing" constant="10" id="xJD-qY-kAu"/>
+                <constraint firstItem="gDc-h8-6Ln" firstAttribute="leading" secondItem="tp3-BB-btG" secondAttribute="trailing" constant="7" id="xJD-qY-kAu"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
@@ -172,9 +172,9 @@
         </view>
     </objects>
     <resources>
-        <image name="user_back_btn" width="65" height="42"/>
-        <image name="user_nickname" width="52" height="37"/>
-        <image name="user_password" width="37" height="43"/>
+        <image name="user_back_btn" width="32" height="21"/>
+        <image name="user_nickname" width="26" height="18"/>
+        <image name="user_password" width="18" height="21"/>
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

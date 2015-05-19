@@ -148,21 +148,22 @@
             return;
         }
     
-    if ([self checkPasswd:passwd] != YES) {
-        [self showErrorHudWithText:@"请输入8-12位的英文或数字"];
+    if ([passwd compare:passwdCfm] != NSOrderedSame) {
+        [self showErrorHudWithText:@"密码不一致请重新输入"];
         return;
     }
     
-    if ([passwd compare:passwdCfm] != NSOrderedSame) {
-        [self showErrorHudWithText:@"密码不一致请重新输入"];
+    if ([self checkPasswd:passwd] != YES) {
+        [self showErrorHudWithText:@"请输入6位以上英文或数字密码"];
         return;
     }
     
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
         //[self.navigationController popViewControllerAnimated:YES];
-        QSU13PersonalizeViewController *perliyVC = [[QSU13PersonalizeViewController alloc] init];
-        [self.navigationController pushViewController:perliyVC animated:YES];
+//        QSU13PersonalizeViewController *perliyVC = [[QSU13PersonalizeViewController alloc] init];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+//        [self.navigationController pushViewController:perliyVC animated:YES];
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {

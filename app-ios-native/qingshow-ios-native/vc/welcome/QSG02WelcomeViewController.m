@@ -46,12 +46,15 @@
     
     _pageControl.numberOfPages = 3;
     _pageControl.currentPage = 0;
+    _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
     
 }
 - (void)viewDidLayoutSubviews
 {
-    _loginBtn.frame = CGRectMake(w/5*3, h/10*9, 100, 30);
-    _pageControl.frame = CGRectMake(w/5*2, h/10*9, 60, 30);
+//    _loginBtn.frame = CGRectMake(w/10*7, h/10*9, 100, 30);
+    _loginBtn.center = CGPointMake(w / 5 * 4, h / 10 * 9);
+
+    _pageControl.center = CGPointMake(w / 2, h / 10 * 9);
 }
 
 //- (void)dealloc

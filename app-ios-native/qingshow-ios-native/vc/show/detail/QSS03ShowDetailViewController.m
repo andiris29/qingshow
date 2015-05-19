@@ -74,6 +74,14 @@
         [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
             weakSelf.showDict = dict;
             [weakSelf bindExceptImageWithDict:dict];
+            if ([QSShowUtil getSharedByCurrentUser:dict]){
+                self.discountContainer.hidden = YES;
+            } else {
+                self.discountContainer.hidden = NO;
+                self.discountContainer.alpha = 1.f;
+                [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+            }
+            
         } onError:^(NSError *error) {
             
         }];
@@ -105,14 +113,6 @@
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
-    
-    if ([QSShowUtil getSharedByCurrentUser:dict]){
-        self.discountContainer.hidden = YES;
-    } else {
-        self.discountContainer.hidden = NO;
-        self.discountContainer.alpha = 1.f;
-        [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
-    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -158,6 +158,7 @@
             [self showSuccessHudWithText:@"取消喜欢成功"];
         }
         [self bindExceptImageWithDict:showDict];
+        
     } onError:^(NSError *error) {
         [self handleError:error];
         [self bindExceptImageWithDict:showDict];
@@ -265,7 +266,7 @@
 #pragma mark - Discount
 - (void)hideDiscountContainer {
     __weak QSS03ShowDetailViewController* weakSelf = self;
-    [UIView animateWithDuration:0.5f animations:^{
+    [UIView animateWithDuration:.5f animations:^{
         weakSelf.discountContainer.alpha = 0;
     } completion:^(BOOL finished) {
         weakSelf.discountContainer.hidden = YES;

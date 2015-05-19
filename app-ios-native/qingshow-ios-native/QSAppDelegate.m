@@ -60,7 +60,7 @@
         vc.hasFetchUserLogin = YES;
         [vc handleCurrentUser];
     }];
-    [self hideLaunchImageAfterDelay:3.f];
+    [self hideLaunchImageAfterDelay:0.f];
     return YES;
 }
 

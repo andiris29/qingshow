@@ -127,12 +127,12 @@
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
     [self setBtnsHiddenExceptBackAndPlay:hidden];
-    NSString* videoPath = [QSItemUtil getVideoPath:self.itemDict];
-    if (videoPath) {
-        self.playBtn.hidden = hidden;
-    } else {
-        self.playBtn.hidden = YES;
-    }
+//    NSString* videoPath = [QSItemUtil getVideoPath:self.itemDict];
+//    if (videoPath) {
+//        self.playBtn.hidden = hidden;
+//    } else {
+//        self.playBtn.hidden = YES;
+//    }
 }
 - (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
 {

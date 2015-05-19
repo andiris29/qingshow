@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#define QSRootMenuItemWidth 60.f
-#define QSRootMenuItemHeight 110.f
+#define QSRootMenuItemWidth 64.f
+#define QSRootMenuItemHeight 120.f
 @class QSRootMenuItem;
 
 @protocol QSRootMenuItemDelegate <NSObject>

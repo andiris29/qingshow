@@ -10,6 +10,7 @@
 #import "QSS15ChosenViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
+#import "UIViewController+ShowHud.h"
 
 #define PAGE_ID @"U13 - 个性信息"
 
@@ -23,8 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.bodyType = -1;
+    self.dressStyle = -1;
     // Do any additional setup after loading the view from its nib.
-    _scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 1000);
     //设置滑块图片
     UIImage *sliderLeftTrack = [UIImage imageNamed:@"slider_left_image"];
     UIImage *sliderRightTrack = [UIImage imageNamed:@"slider_right_image"];
@@ -101,9 +103,6 @@
     self.armButton.layer.borderWidth = 1.0f;
     self.armButton.layer.borderColor = [[UIColor whiteColor]CGColor];
 
-
-
-    
     
     self.OKButton.backgroundColor = [UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1];
     self.OKButton.layer.cornerRadius = self.OKButton.frame.size.height / 8;
@@ -311,6 +310,18 @@
     
 }
 - (IBAction)personalizeOK:(id)sender {
+    if (self.bodyType < 0) {
+        [self showErrorHudWithText:@"请选择体型"];
+        return;
+    }
+    if (self.dressStyle < 0) {
+        [self showErrorHudWithText:@"请选择穿衣风格"];
+        return;
+    }
+    if (!self.expectations.count) {
+        [self showErrorHudWithText:@"请选择搭配期望"];
+        return;
+    }
 //    UIViewController *vc = [[QSS15ChosenViewController alloc] init];
 //    [self.navigationController pushViewController:vc animated:YES];
     self.age = [NSString stringWithFormat:@"%.0f", self.ageSlider.value];
