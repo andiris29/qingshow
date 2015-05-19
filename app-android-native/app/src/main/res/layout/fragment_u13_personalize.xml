@@ -155,7 +155,7 @@
             android:text="体型"
             android:textColor="@color/white" />
 
-        <com.focosee.qingshow.widget.radio.MyRadioGroup
+        <LinearLayout
             android:id="@+id/body_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                     android:layout_toRightOf="@+id/body_v"
                     android:background="@drawable/selector_stature_x" />
             </RelativeLayout>
-        </com.focosee.qingshow.widget.radio.MyRadioGroup>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
