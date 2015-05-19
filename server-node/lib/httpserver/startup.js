@@ -95,11 +95,9 @@ module.exports = function (appServerPort, folderUploads, pathUploads, qsdb) {
     app.use(bodyParser.urlencoded({
         extended : true
     }));
-    app.use(bodyParser.formdata());
     app.use(require('./middleware/sessionParser'));
     app.use(require('./middleware/permissionValidator')(services));
     app.use(require('./middleware/errorHandler'));
-    app.use(require('connect-flash'));
 // Regist http services
     services.forEach(function(service) {
         var module = service.module, path = service.path;
