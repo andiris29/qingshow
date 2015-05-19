@@ -274,13 +274,13 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
         return true;
     }
 
-//    public void showPersonalize(){
-//        Log.i("tag","show");
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.u13,new U13PersonalizeFragment())
-//                .addToBackStack(null)
-//                .commit();
-//    }
+    public void showPersonalize(){
+        Log.i("tag","show");
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.u13,new U13PersonalizeFragment())
+                .addToBackStack(null)
+                .commit();
+    }
 
     @Override
     public void onClick(View v) {
@@ -316,7 +316,7 @@ public class S15ChosenActivity extends BaseActivity implements View.OnClickListe
 //                closeMenu();
 //                break;
             case R.id.s12_logo:
-//                showPersonalize();
+                showPersonalize();
 //                showVerison();
                 break;
             case R.id.s12_menu_button:

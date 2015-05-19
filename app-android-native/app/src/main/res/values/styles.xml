@@ -56,4 +56,10 @@
         <item name="android:thumb">@drawable/seekbar_thumb</item>
     </style>
 
+    <style name="body_style">
+        <item name="android:layout_height">150dp</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:button">@null</item>
+    </style>
+
 </resources>

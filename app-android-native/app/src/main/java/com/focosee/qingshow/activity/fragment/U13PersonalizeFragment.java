@@ -9,9 +9,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.widget.radio.MyRadioGroup;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.InjectViews;
 
@@ -34,22 +36,27 @@ public class U13PersonalizeFragment extends Fragment {
     @InjectView(R.id.weight_text)
     TextView weightText;
 
+    @InjectView(R.id.body_style)
+    MyRadioGroup bodyStyle;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_u13_personalize, container, false);
-        initSeekBar(age,ageText,1,1,100);
-        initSeekBar(height,heightText,150,1,50);
-        initSeekBar(weight,weightText,30,1,70);
+        ButterKnife.inject(this, view);
+        initSeekBar(age,ageText,1,100);
+        initSeekBar(height,heightText,150,50);
+        initSeekBar(weight,weightText,30,70);
         return view;
     }
 
-    private void initSeekBar(SeekBar bar,final TextView text, final int startNum,final int offset,int copies) {
-        bar.setProgress(startNum);
+    private void initSeekBar(SeekBar bar,final TextView text, final int startNum,int copies) {
+        text.setText(startNum + "");
+        bar.setProgress(1);
         bar.setMax(copies);
         bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                text.setText(i + startNum + offset + "");
+                text.setText(i + startNum  + "");
             }
 
             @Override
