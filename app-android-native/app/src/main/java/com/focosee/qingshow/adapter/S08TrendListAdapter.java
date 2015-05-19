@@ -13,12 +13,9 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S14FashionMsgActivity;
-import com.focosee.qingshow.model.ChosenRefParser;
 import com.focosee.qingshow.model.vo.mongo.IMongoChosen;
-import com.focosee.qingshow.model.vo.mongo.MongoChosen;
 import com.focosee.qingshow.model.vo.mongo.MongoChosenPreview;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
