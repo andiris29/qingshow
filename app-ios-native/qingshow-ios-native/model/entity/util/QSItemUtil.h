@@ -12,7 +12,6 @@
 
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
 + (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
-+ (NSDictionary*)getImageMetadata:(NSDictionary*)itemDict;
 + (NSString*)getItemTypeName:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 

@@ -40,8 +40,6 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict;
 + (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict;
-//+ (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict;
-+ (CGFloat)getHeightWithChosen:(NSDictionary*)chosen;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

@@ -63,46 +63,20 @@
     // Configure the view for the selected state
 }
 #pragma mark - Static
-+ (CGFloat)getHeightWithImageMetadata:(NSDictionary*)coverMetadata {
-    return 285.f;
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = 92;
-    float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
-}
 
 
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict
 {
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = showDict[@"horizontalCoverMetadata"];
-    if (!coverMetadata || [coverMetadata isKindOfClass:[NSNull class]]) {
-        coverMetadata = showDict[@"coverMetadata"];
-    }
-    return [self getHeightWithImageMetadata:coverMetadata];
+#warning TODO
+    return 285.f;
 }
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = [QSItemUtil getImageMetadata:itemDict];
-    return [self getHeightWithImageMetadata:coverMetadata];
+#warning TODO
+    return 285.f;
 }
 
-+ (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
-{
-    NSDictionary* coverMetadata = brandDict[@"coverMetadata"];
-    return [self getHeightWithImageMetadata:coverMetadata];
-}
 
 #pragma mark - Bind
 - (void)bindWithDict:(NSDictionary*)dict

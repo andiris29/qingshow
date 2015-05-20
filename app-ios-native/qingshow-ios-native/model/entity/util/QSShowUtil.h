@@ -16,7 +16,6 @@
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
 + (NSArray*)getItems:(NSDictionary*)showDict;
-+ (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict;
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
 + (void)addNumberComment:(long long)num forShow:(NSDictionary*)showDict;
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict;
