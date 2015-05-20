@@ -50,7 +50,6 @@
 		EF1F52B51ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1F52B41ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m */; };
 		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
 		EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */; };
-		EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2A41571A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m */; };
 		EF2A41601A5D91BF003266E0 /* QSItemImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2A415E1A5D91BF003266E0 /* QSItemImageTableViewCell.m */; };
 		EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */; };
 		EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF2E0F231A2F790400F3A25C /* libWeiboSDK.a */; };
@@ -79,8 +78,6 @@
 		EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646251A2B229300172618 /* NSNumber+QSExtension.m */; };
 		EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
-		EF4903661A7E52C100A848B4 /* QSS02ItemFeedingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4903641A7E52C100A848B4 /* QSS02ItemFeedingViewController.m */; };
-		EF4903671A7E52C100A848B4 /* QSS02ItemFeedingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4903651A7E52C100A848B4 /* QSS02ItemFeedingViewController.xib */; };
 		EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */; };
 		EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */; };
 		EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */; };
@@ -352,8 +349,6 @@
 		EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeSelectButton.m; sourceTree = "<group>"; };
 		EF241E6D1AB9CD82007B5058 /* QSLayoutUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSLayoutUtil.h; sourceTree = "<group>"; };
 		EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSLayoutUtil.m; sourceTree = "<group>"; };
-		EF2A41561A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ItemFeedingService.h"; sourceTree = "<group>"; };
-		EF2A41571A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ItemFeedingService.m"; sourceTree = "<group>"; };
 		EF2A415D1A5D91BF003266E0 /* QSItemImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemImageTableViewCell.h; sourceTree = "<group>"; };
 		EF2A415E1A5D91BF003266E0 /* QSItemImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemImageTableViewCell.m; sourceTree = "<group>"; };
 		EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemImageTableViewCell.xib; sourceTree = "<group>"; };
@@ -486,9 +481,6 @@
 		EF4646271A2B2FA500172618 /* NSArray+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+QSExtension.h"; sourceTree = "<group>"; };
 		EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+QSExtension.m"; sourceTree = "<group>"; };
 		EF46462A1A2B5DBC00172618 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		EF4903631A7E52C100A848B4 /* QSS02ItemFeedingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS02ItemFeedingViewController.h; sourceTree = "<group>"; };
-		EF4903641A7E52C100A848B4 /* QSS02ItemFeedingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS02ItemFeedingViewController.m; sourceTree = "<group>"; };
-		EF4903651A7E52C100A848B4 /* QSS02ItemFeedingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS02ItemFeedingViewController.xib; sourceTree = "<group>"; };
 		EF4903691A7E788200A848B4 /* QSItemCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemCollectionViewCell.h; sourceTree = "<group>"; };
 		EF49036A1A7E788200A848B4 /* QSItemCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewCell.m; sourceTree = "<group>"; };
 		EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1294,8 +1286,6 @@
 				EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */,
 				EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */,
 				EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */,
-				EF2A41561A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.h */,
-				EF2A41571A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m */,
 				EF1F52AF1ABB281100E7EDDF /* QSNetworkEngine+TradeService.h */,
 				EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */,
 			);
@@ -1982,9 +1972,6 @@
 				EF6753BC1A6416C90045E96C /* QSG01ItemWebViewController.h */,
 				EF6753BD1A6416C90045E96C /* QSG01ItemWebViewController.m */,
 				EF6753BE1A6416C90045E96C /* QSG01ItemWebViewController.xib */,
-				EF4903631A7E52C100A848B4 /* QSS02ItemFeedingViewController.h */,
-				EF4903641A7E52C100A848B4 /* QSS02ItemFeedingViewController.m */,
-				EF4903651A7E52C100A848B4 /* QSS02ItemFeedingViewController.xib */,
 				EFA0F9021AB877B700E52F0B /* QSS10ItemDetailVideoViewController.h */,
 				EFA0F9031AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m */,
 				EFA0F9041AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib */,
@@ -2198,7 +2185,6 @@
 				8C8B9D881B00395B00C1A321 /* welcome2_568@2x.png in Resources */,
 				EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */,
 				EF78E3321AAF3E2300665EDD /* QSU10ReceiverListViewController.xib in Resources */,
-				EF4903671A7E52C100A848B4 /* QSS02ItemFeedingViewController.xib in Resources */,
 				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */,
@@ -2246,7 +2232,6 @@
 				EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */,
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
-				EF2A41581A5D836B003266E0 /* QSNetworkEngine+ItemFeedingService.m in Sources */,
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
 				EF4D50AA1A177B7A001E179B /* QSS02CategoryViewController.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
@@ -2340,7 +2325,6 @@
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
 				EF4646231A2B00CA00172618 /* QSBrandUtil.m in Sources */,
-				EF4903661A7E52C100A848B4 /* QSS02ItemFeedingViewController.m in Sources */,
 				EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */,
 				EF810F6A1AB5FE770079BA76 /* QSCreateTradeItemInfoColorCell.m in Sources */,
 				EF30133E1AC3174000568D92 /* RSADataSigner.m in Sources */,

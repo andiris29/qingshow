@@ -165,36 +165,7 @@
     self.likedProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         NSMutableArray* mArray = [@[] mutableCopy];
 
-        __block int count = 0;
-        __block NSError* outerError;
-        __block void (^completeHandler)(NSError*) = ^void(NSError* err){
-            if (count < 1) {
-                count++;
-                outerError = err;
-                return;
-            }
-            if (!mArray.count && outerError && err) {
-                errorBlock(err);
-            } else {
-                [mArray sortUsingComparator:^NSComparisonResult(QSImageCollectionModel* obj1, QSImageCollectionModel* obj2) {
-                    NSDate* (^getDate)(QSImageCollectionModel*) = ^NSDate*(QSImageCollectionModel* m){
-                        if (m.type == QSImageCollectionModelTypeShow) {
-                            return [QSShowUtil getLikeDate:m.data];
-                        } else if (m.type == QSImageCollectionModelTypeItem) {
-                            return [QSItemUtil getLikeDate:m.data];
-                        }
-                        return nil;
-                    };
-                    NSDate* date1 = getDate(obj1);
-                    NSDate* date2 = getDate(obj2);
-                    return [date2 compare:date1];
-                }];
-                
-                succeedBlock(mArray, nil);
-            }
-        };
-        
-        [SHARE_NW_ENGINE
+        return [SHARE_NW_ENGINE
          getLikeFeedingUser:weakSelf.userInfo
          page:page
          onSucceed:^(NSArray *array, NSDictionary *metadata) {
@@ -204,26 +175,9 @@
                  m.data = dict;
                  [mArray addObject:m];
              }
-             completeHandler(nil);
+             succeedBlock(mArray, metadata);
          }
-         onError:^(NSError* e){
-             completeHandler(e);
-         }];
-        
-        return [SHARE_NW_ENGINE
-         getItemFeedingLikePage:page
-         onSucceed:^(NSArray *array, NSDictionary *metadata) {
-             for (NSDictionary* dict in array) {
-                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                 m.type = QSImageCollectionModelTypeItem;
-                 m.data = dict;
-                 [mArray addObject:m];
-             }
-             completeHandler(nil);
-         }
-         onError:^(NSError* e){
-             completeHandler(e);
-         }];
+         onError:errorBlock];
     };
     
     self.likedProvider.filterBlock = ^BOOL(id obj){
