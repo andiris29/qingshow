@@ -11,12 +11,6 @@ showSchema = Schema({
         width : Number,
         height : Number
     },
-    horizontalCover : String,
-    horizontalCoverMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
     video : String,
     posters : [String],
     numLike : {
@@ -33,10 +27,6 @@ showSchema = Schema({
             ref : 'items'
         }]
         //        select: false
-    },
-    brandRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'brands'
     },
     create : {
         type : Date,
