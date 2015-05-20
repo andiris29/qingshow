@@ -10,6 +10,7 @@
 #import "QSVideoBaseViewController.h"
 @class UILabelStrikeThrough;
 
+#warning TODO adjust super class from QSVideoBaseViewController to UIViewController
 @interface QSS10ItemDetailVideoViewController : QSVideoBaseViewController
 
 @property (strong, nonatomic) IBOutlet UIButton* buyBtn;

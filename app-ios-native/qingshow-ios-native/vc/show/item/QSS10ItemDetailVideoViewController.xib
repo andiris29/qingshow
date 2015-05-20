@@ -7,18 +7,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS10ItemDetailVideoViewController">
             <connections>
                 <outlet property="backBtn" destination="5w3-ze-0os" id="ju7-yo-jlg"/>
-                <outlet property="btnPanel" destination="D9W-yi-AJb" id="sWu-RR-KPc"/>
                 <outlet property="buyBtn" destination="o9q-cw-zLP" id="OTc-g0-ddg"/>
                 <outlet property="discountContainer" destination="FAz-yv-CCI" id="QQc-r6-BtM"/>
                 <outlet property="labelContainer" destination="HYI-7E-pJC" id="qjy-Hp-blv"/>
                 <outlet property="nameLabel" destination="jVf-zc-vse" id="p2d-Fy-gkf"/>
-                <outlet property="pauseBtn" destination="Hhn-9A-6pq" id="U3m-WV-Q2R"/>
-                <outlet property="playBtn" destination="kKI-2q-jl6" id="AhJ-Ce-JqL"/>
                 <outlet property="priceAfterDiscountLabel" destination="yQS-xq-QnA" id="8vq-0O-3SL"/>
                 <outlet property="priceLabel" destination="20d-XQ-RaT" id="N5p-Y0-ySq"/>
                 <outlet property="scrollViewContainer" destination="wJq-V0-nvG" id="qp2-AW-Tdl"/>
                 <outlet property="shadow" destination="v5R-1x-6JF" id="niN-VB-x88"/>
-                <outlet property="videoContainerView" destination="IDe-Fy-Ejc" id="dCW-nv-FvF"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -30,11 +26,12 @@
                 <view contentMode="scaleToFill" id="wJq-V0-nvG">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" id="IDe-Fy-Ejc">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s10_shadow_btn" id="v5R-1x-6JF">
+                            <rect key="frame" x="0.0" y="358" width="320" height="210"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        </imageView>
+                    </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="5w3-ze-0os">
@@ -47,74 +44,36 @@
                         <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="4tH-8a-A9j"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="s10_shadow_btn" id="v5R-1x-6JF">
-                    <rect key="frame" x="-1" y="358" width="322" height="118"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                </imageView>
-                <view contentMode="scaleToFill" id="D9W-yi-AJb">
-                    <rect key="frame" x="0.0" y="475" width="320" height="93"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kKI-2q-jl6">
-                            <rect key="frame" x="16" y="22" width="138" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="s10_play_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="NJf-Xp-vRb"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="o9q-cw-zLP">
-                            <rect key="frame" x="167" y="22" width="138" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" image="s10_buy_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="shopBtnPressed:" destination="-1" eventType="touchUpInside" id="YTY-WE-XxP"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Hhn-9A-6pq">
-                    <rect key="frame" x="270" y="505" width="38" height="38"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <state key="normal" image="s03_pause_btn">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="o9q-cw-zLP">
+                    <rect key="frame" x="98" y="490" width="124" height="34"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="s10_buy_btn">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="playOrPauseBtnPressed:" destination="-1" eventType="touchUpInside" id="kZ7-RF-VWE"/>
+                        <action selector="shopBtnPressed:" destination="-1" eventType="touchUpInside" id="YTY-WE-XxP"/>
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" id="HYI-7E-pJC">
-                    <rect key="frame" x="0.0" y="400" width="320" height="54"/>
+                    <rect key="frame" x="0.0" y="400" width="320" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jVf-zc-vse">
-                            <rect key="frame" x="8" y="0.0" width="252" height="34"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="aaaa" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jVf-zc-vse">
+                            <rect key="frame" x="8" y="10" width="304" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="20d-XQ-RaT" customClass="UILabelStrikeThrough">
-                            <rect key="frame" x="8" y="39" width="95" height="15"/>
+                            <rect key="frame" x="8" y="40" width="95" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yQS-xq-QnA">
-                            <rect key="frame" x="150" y="39" width="95" height="15"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <view contentMode="scaleToFill" id="FAz-yv-CCI">
-                            <rect key="frame" x="188" y="35" width="86" height="19"/>
+                        <view hidden="YES" contentMode="scaleToFill" id="FAz-yv-CCI">
+                            <rect key="frame" x="218" y="40" width="86" height="19"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="discount_label_left" id="2Ek-Jx-wdP">
@@ -131,6 +90,13 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yQS-xq-QnA">
+                            <rect key="frame" x="113" y="40" width="95" height="19"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
@@ -142,10 +108,8 @@
     <resources>
         <image name="discount_label_left" width="86" height="19"/>
         <image name="s03_back_btn" width="36" height="36"/>
-        <image name="s03_pause_btn" width="38" height="38"/>
-        <image name="s10_buy_btn" width="138" height="50"/>
-        <image name="s10_play_btn" width="138" height="50"/>
-        <image name="s10_shadow_btn" width="322" height="118"/>
+        <image name="s10_buy_btn" width="124" height="34"/>
+        <image name="s10_shadow_btn" width="320" height="210"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
