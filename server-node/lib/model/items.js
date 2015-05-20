@@ -13,10 +13,7 @@ itemSchema = Schema({
         description : String
     }],
     source : String,
-    brandRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'brands'
-    },
+    brandLogo : String,
     numLike : Number,
     create : {
         type : Date,
