@@ -14,7 +14,6 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSBrandUtil.h"
 #import "QSImageNameUtil.h"
 #import "QSBigImageDateView.h"
 #import "QSItemUtil.h"
@@ -136,7 +135,7 @@
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSShowUtil getShowDesc:showDict];
     NSDictionary* brandDict = [QSShowUtil getBrand:showDict];
-    [self updateBrandIcon:brandDict];
+    [self updateBrandLogo:brandDict];
     [self.likeButton setTitle:[QSShowUtil getNumberLikeDescription:showDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSShowUtil getIsLike:showDict]];
 }
@@ -146,19 +145,19 @@
     [self resizeWithHeight:height];
     [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSItemUtil getItemName:itemDict];
-    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
-    [self updateBrandIcon:brandDict];
+    NSURL* brandLogo = [QSItemUtil getBrandLogoUrl:itemDict];
+    [self updateBrandLogo:brandLogo];
     [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSItemUtil getIsLike:itemDict]];
 }
 
 
 #pragma mark Binding Helper
-- (void)updateBrandIcon:(NSDictionary*)brandDict
+- (void)updateBrandLogo:(NSURL*)brandLogo
 {
-    if (brandDict) {
+    if (brandLogo) {
         self.iconImgView.hidden = NO;
-        [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+        [self.iconImgView setImageFromURL:brandLogo];
     } else {
         self.iconImgView.hidden = YES;
 

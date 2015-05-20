@@ -268,28 +268,20 @@
         return path;
     }
 }
-+ (NSDictionary*)getBrand:(NSDictionary*)itemDict
++ (NSURL*)getBrandLogoUrl:(NSDictionary *)item
 {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
+
+    if (![QSCommonUtil checkIsDict:item]) {
         return nil;
     }
-    NSDictionary* b = itemDict[@"brandRef"];
-    if ([QSCommonUtil checkIsNil:b]) {
-        return b;
+    NSString* b = item[@"brandLogo"];
+    if (![QSCommonUtil checkIsNil:b]) {
+        return [NSURL URLWithString:b];
     } else {
-        NSMutableDictionary* mb = [b mutableCopy];
-        [self setBrand:mb forItem:itemDict];
-        return mb;
+        return nil;
     }
 }
-+ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
-{
-    if (![item isKindOfClass:[NSMutableDictionary class]]) {
-        return;
-    }
-    NSMutableDictionary* m = (NSMutableDictionary*)item;
-    m[@"brandRef"] = brandDict;
-}
+
 
 + (BOOL)getIsLike:(NSDictionary*)itemDict
 {

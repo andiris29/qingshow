@@ -10,7 +10,6 @@
 
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
-#import "QSBrandUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+ShowHud.h"
 

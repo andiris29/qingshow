@@ -74,7 +74,6 @@
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
 		EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD51A4C677100218693 /* NSMutableDictionary+QSExtension.m */; };
 		EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46461E1A2AEB5C00172618 /* CoreText.framework */; };
-		EF4646231A2B00CA00172618 /* QSBrandUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646221A2B00CA00172618 /* QSBrandUtil.m */; };
 		EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646251A2B229300172618 /* NSNumber+QSExtension.m */; };
 		EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4646281A2B2FA500172618 /* NSArray+QSExtension.m */; };
 		EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF46462A1A2B5DBC00172618 /* Social.framework */; };
@@ -88,7 +87,6 @@
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
 		EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDE01A74CC9C00D639FB /* QSAbstractListViewProvider.m */; };
-		EF59EDF81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDE81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m */; };
 		EF59EDF91A74FAEE00D639FB /* QSShowCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDEA1A74FAEE00D639FB /* QSShowCollectionViewProvider.m */; };
 		EF59EDFA1A74FAEE00D639FB /* QSWaterfallBasicProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDEC1A74FAEE00D639FB /* QSWaterfallBasicProvider.m */; };
 		EF59EDFB1A74FAEE00D639FB /* QSBigImageTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF59EDEF1A74FAEE00D639FB /* QSBigImageTableViewProvider.m */; };
@@ -180,7 +178,6 @@
 		EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA618AF1A125FE900560699 /* QSCommentTableViewCell.m */; };
 		EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */; };
 		EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */; };
-		EFA98A761A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A751A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m */; };
 		EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */; };
 		EFA98A7C1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */; };
 		EFA98A7F1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */; };
@@ -259,8 +256,6 @@
 		EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9101A3F2F950048E634 /* QSItemListHeaderView.xib */; };
 		EFF5B9151A3F2FB50048E634 /* QSItemListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B9131A3F2FB50048E634 /* QSItemListTableViewCell.m */; };
 		EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9141A3F2FB50048E634 /* QSItemListTableViewCell.xib */; };
-		EFF89E091A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF89E071A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m */; };
-		EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF89E081A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib */; };
 		EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */; };
 		EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFABD6A1B0C9CD800298BD1 /* QSRootContentViewController.m */; };
 		EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE67251A067699001F4CA1 /* QSRootMenuItem.m */; };
@@ -474,8 +469,6 @@
 		EF42BBD41A4C677100218693 /* NSMutableDictionary+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+QSExtension.h"; sourceTree = "<group>"; };
 		EF42BBD51A4C677100218693 /* NSMutableDictionary+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+QSExtension.m"; sourceTree = "<group>"; };
 		EF46461E1A2AEB5C00172618 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		EF4646211A2B00CA00172618 /* QSBrandUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBrandUtil.h; sourceTree = "<group>"; };
-		EF4646221A2B00CA00172618 /* QSBrandUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBrandUtil.m; sourceTree = "<group>"; };
 		EF4646241A2B229300172618 /* NSNumber+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+QSExtension.h"; sourceTree = "<group>"; };
 		EF4646251A2B229300172618 /* NSNumber+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+QSExtension.m"; sourceTree = "<group>"; };
 		EF4646271A2B2FA500172618 /* NSArray+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+QSExtension.h"; sourceTree = "<group>"; };
@@ -500,8 +493,6 @@
 		EF59EDDF1A74CC9C00D639FB /* QSAbstractListViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractListViewProvider.h; sourceTree = "<group>"; };
 		EF59EDE01A74CC9C00D639FB /* QSAbstractListViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractListViewProvider.m; sourceTree = "<group>"; };
 		EF59EDE31A74E84300D639FB /* QSAbstractListViewProvider+Protect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QSAbstractListViewProvider+Protect.h"; sourceTree = "<group>"; };
-		EF59EDE71A74FAEE00D639FB /* QSBrandCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBrandCollectionViewProvider.h; sourceTree = "<group>"; };
-		EF59EDE81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBrandCollectionViewProvider.m; sourceTree = "<group>"; };
 		EF59EDE91A74FAEE00D639FB /* QSShowCollectionViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowCollectionViewProvider.h; sourceTree = "<group>"; };
 		EF59EDEA1A74FAEE00D639FB /* QSShowCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowCollectionViewProvider.m; sourceTree = "<group>"; };
 		EF59EDEB1A74FAEE00D639FB /* QSWaterfallBasicProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSWaterfallBasicProvider.h; sourceTree = "<group>"; };
@@ -652,8 +643,6 @@
 		EFA618B01A125FE900560699 /* QSCommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSCommentTableViewCell.xib; sourceTree = "<group>"; };
 		EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+UserService.h"; sourceTree = "<group>"; };
 		EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+UserService.m"; sourceTree = "<group>"; };
-		EFA98A741A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+BrandService.h"; sourceTree = "<group>"; };
-		EFA98A751A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+BrandService.m"; sourceTree = "<group>"; };
 		EFA98A771A38862800A8BFC7 /* QSNetworkEngine+Protect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+Protect.h"; sourceTree = "<group>"; };
 		EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+Protect.m"; sourceTree = "<group>"; };
 		EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ShowService.h"; sourceTree = "<group>"; };
@@ -799,9 +788,6 @@
 		EFF5B9121A3F2FB50048E634 /* QSItemListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListTableViewCell.h; sourceTree = "<group>"; };
 		EFF5B9131A3F2FB50048E634 /* QSItemListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemListTableViewCell.m; sourceTree = "<group>"; };
 		EFF5B9141A3F2FB50048E634 /* QSItemListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemListTableViewCell.xib; sourceTree = "<group>"; };
-		EFF89E061A13A4D4004E6C55 /* QSBrandListCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBrandListCollectionViewCell.h; sourceTree = "<group>"; };
-		EFF89E071A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBrandListCollectionViewCell.m; sourceTree = "<group>"; };
-		EFF89E081A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSBrandListCollectionViewCell.xib; sourceTree = "<group>"; };
 		EFFABD661B0C80F900298BD1 /* QSRootContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContainerViewController.h; sourceTree = "<group>"; };
 		EFFABD671B0C80F900298BD1 /* QSRootContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRootContainerViewController.m; sourceTree = "<group>"; };
 		EFFABD691B0C9CD700298BD1 /* QSRootContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRootContentViewController.h; sourceTree = "<group>"; };
@@ -1194,8 +1180,6 @@
 			children = (
 				EF59EDEB1A74FAEE00D639FB /* QSWaterfallBasicProvider.h */,
 				EF59EDEC1A74FAEE00D639FB /* QSWaterfallBasicProvider.m */,
-				EF59EDE71A74FAEE00D639FB /* QSBrandCollectionViewProvider.h */,
-				EF59EDE81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m */,
 				EF59EDE91A74FAEE00D639FB /* QSShowCollectionViewProvider.h */,
 				EF59EDEA1A74FAEE00D639FB /* QSShowCollectionViewProvider.m */,
 				EF49036E1A7E842000A848B4 /* QSItemCollectionViewProvider.h */,
@@ -1280,8 +1264,6 @@
 				EF7FA3741A34481100090EE4 /* QSNetworkEngine+FeedingService.m */,
 				EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */,
 				EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */,
-				EFA98A741A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.h */,
-				EFA98A751A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m */,
 				EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */,
 				EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */,
 				EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */,
@@ -1660,8 +1642,6 @@
 				EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */,
 				EF5573191A22105500C3BC23 /* QSCommentUtil.h */,
 				EF55731A1A22105500C3BC23 /* QSCommentUtil.m */,
-				EF4646211A2B00CA00172618 /* QSBrandUtil.h */,
-				EF4646221A2B00CA00172618 /* QSBrandUtil.m */,
 				EF7FA36E1A3440AC00090EE4 /* QSMetadataUtil.h */,
 				EF7FA36F1A3440AC00090EE4 /* QSMetadataUtil.m */,
 				EFA98A801A38923300A8BFC7 /* QSCommonUtil.h */,
@@ -2024,9 +2004,6 @@
 		EFF89E001A13A4AD004E6C55 /* list */ = {
 			isa = PBXGroup;
 			children = (
-				EFF89E061A13A4D4004E6C55 /* QSBrandListCollectionViewCell.h */,
-				EFF89E071A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m */,
-				EFF89E081A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib */,
 			);
 			path = list;
 			sourceTree = "<group>";
@@ -2187,7 +2164,6 @@
 				EF78E3321AAF3E2300665EDD /* QSU10ReceiverListViewController.xib in Resources */,
 				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
-				EFF89E0A1A13A4D4004E6C55 /* QSBrandListCollectionViewCell.xib in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
@@ -2258,7 +2234,6 @@
 				EF59EDFA1A74FAEE00D639FB /* QSWaterfallBasicProvider.m in Sources */,
 				EF9A74791A02A89900095F07 /* QSNetworkEngine.m in Sources */,
 				EFAA5A361AFD17B3001032F7 /* QSImageCollectionModel.m in Sources */,
-				EFF89E091A13A4D4004E6C55 /* QSBrandListCollectionViewCell.m in Sources */,
 				EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */,
 				EF1A59291A06761800001AE0 /* QSWaterFallCollectionViewLayout.m in Sources */,
 				EFED348E1AFC734F00F08A0D /* QSU06LoginViewController.m in Sources */,
@@ -2305,7 +2280,6 @@
 				EF78E3311AAF3E2300665EDD /* QSU10ReceiverListViewController.m in Sources */,
 				EFA618B11A125FE900560699 /* QSCommentTableViewCell.m in Sources */,
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
-				EFA98A761A3885AA00A8BFC7 /* QSNetworkEngine+BrandService.m in Sources */,
 				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
@@ -2324,7 +2298,6 @@
 				82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */,
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
-				EF4646231A2B00CA00172618 /* QSBrandUtil.m in Sources */,
 				EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */,
 				EF810F6A1AB5FE770079BA76 /* QSCreateTradeItemInfoColorCell.m in Sources */,
 				EF30133E1AC3174000568D92 /* RSADataSigner.m in Sources */,
@@ -2382,7 +2355,6 @@
 				EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */,
 				EF9C952D1A0FBFF2006A0AE3 /* UIViewController+ShowHud.m in Sources */,
 				EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */,
-				EF59EDF81A74FAEE00D639FB /* QSBrandCollectionViewProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
