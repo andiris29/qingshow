@@ -6,11 +6,6 @@ showSchema = Schema({
     __context : Object,
     icon : String,
     cover : String,
-    coverMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
     video : String,
     posters : [String],
     numLike : {

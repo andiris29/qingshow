@@ -12,11 +12,6 @@ itemSchema = Schema({
         url : String,
         description : String
     }],
-    imageMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
     source : String,
     brandRef : {
         type : Schema.Types.ObjectId,
