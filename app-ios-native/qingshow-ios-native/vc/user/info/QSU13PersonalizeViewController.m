@@ -7,7 +7,6 @@
 //
 
 #import "QSU13PersonalizeViewController.h"
-#import "QSS15ChosenViewController.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"

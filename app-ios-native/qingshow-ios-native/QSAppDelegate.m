@@ -13,7 +13,6 @@
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "QSPaymentConst.h"
-#import "QSS15ChosenViewController.h"
 #import "QSNavigationController.h"
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
