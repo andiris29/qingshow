@@ -112,26 +112,10 @@ _removeItemById = function(req, res) {
 _saveShow = function(req, res) {
     _saveModel(Show, 'show', req, res, function(req, res) {
         var param = req.body;
-        var coverUrl = param.coverUrl;
-        var coverHeight = param.coverHeight;
-        var coverWidth = param.coverWidth;
-        var horizontalCoverUrl = param.horizontalCoverUrl;
-        var horizontalCoverHeight = param.horizontalCoverHeight;
-        var horizontalCoverWidth = param.horizontalCoverWidth;
         var show = new Show({
-            coverMetadata : {
-                url : ( coverUrl ? coverUrl : ''),
-                width : ( coverWidth ? RequestHelper.parseNumber(coverWidth) : 0),
-                height : ( coverHeight ? RequestHelper.parseNumber(coverHeight) : 0)
-            },
-            horizontalCoverMetadata : {
-                url : ( horizontalCoverUrl ? horizontalCoverUrl : ''),
-                width : ( horizontalCoverWidth ? RequestHelper.parseNumber(horizontalCoverWidth) : 0),
-                height : ( horizontalCoverHeight ? RequestHelper.parseNumber(horizontalCoverHeight) : 0)
-            }
         });
 
-        ['cover', 'horizontalCover', 'video'].forEach(function(field) {
+        ['cover', 'video'].forEach(function(field) {
             if (param[field]) {
                 show.set(field, param[field]);
             }
