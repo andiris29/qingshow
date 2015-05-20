@@ -6,8 +6,6 @@ var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 
-var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
-
 /**
  * ContextHelper
  *
@@ -53,17 +51,6 @@ ContextHelper.appendPreviewContext = function(qsCurrentUserId, previews, callbac
     };
     async.parallel([numComments, likedByCurrentUser], function(err) {
         callback(null, previews);
-    });
-};
-
-ContextHelper.appendItemContext = function(qsCurrentUserId, items, callback) {
-    items = _prepare(items);
-    // __context.likeDate
-    var likeDate = function(callback) {
-        _rCreateDate(RPeopleLikeItem, qsCurrentUserId, items, 'likeDate', callback);
-    };
-    async.parallel([likeDate], function(err) {
-        callback(null, items);
     });
 };
 
