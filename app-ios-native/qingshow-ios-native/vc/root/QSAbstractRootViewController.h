@@ -18,7 +18,6 @@
 
 @interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate, QSMenuProviderDelegate>
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (void)hideMenu;
 
 @property (assign, nonatomic) BOOL hasFetchUserLogin;

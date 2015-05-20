@@ -24,7 +24,7 @@
 #import "QSRecommendationDateCellModel.h"
 
 #import "QSDateUtil.h"
-#import "QSU13PersonalizeViewController.h"
+//#import "QSU13PersonalizeViewController.h"
 
 #define PAGE_ID @"U01 - 个人"
 
@@ -42,6 +42,7 @@
 {
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
     }
     return self;
 }
@@ -109,6 +110,7 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindDelegateObj];
+
 }
 
 
@@ -116,19 +118,20 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    [self updateViewWithList];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)updateViewWithList {
     self.userInfo = [QSUserManager shareUserManager].userInfo;
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
-
+    
     [self.likedProvider refreshClickedData];
     [self.recommendationProvider refreshClickedData];
-    [MobClick beginLogPageView:PAGE_ID];
-    
-    if (![QSPeopleUtil hasPersonalizeData:[QSUserManager shareUserManager].userInfo]) {
-        [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
-    }
     
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -145,6 +148,10 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - View
@@ -301,5 +308,9 @@
     if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
         [self.menuProvider didClickMenuBtn];
     }
+}
+
+- (void)didReceiveCurrentUserInfoUpdate:(NSNotification*)noti{
+    [self updateViewWithList];
 }
 @end

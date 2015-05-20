@@ -98,8 +98,6 @@
             [userDefault setValue:version forKey:kWelcomePageVersionKey];
             [userDefault synchronize];
         }
-        
-
     }
     
     if (self.hasFetchUserLogin) {
