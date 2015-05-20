@@ -90,10 +90,10 @@ static char alertDelegateObjKey;
 - (void)showPreviewDetailViewController:(NSDictionary*)previewDict
 {
     QSS14PreviewDetailViewController* vc = [[QSS14PreviewDetailViewController alloc] initWithPreview:previewDict];
-    vc.parentControllerSnapShot = [self.navigationController.view makeScreenShow];
+    vc.parentControllerSnapShot = [self.navigationController.view makeScreenShot];
 //    [self.navigationController presentViewController:vc animated:NO completion:nil];
     float delay = 0.25f;
-    UIImage* image = [vc.view makeScreenShow];
+    UIImage* image = [vc.view makeScreenShot];
     UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
     [self.navigationController.view addSubview:imageView];
     CATransition* tran = [[CATransition alloc] init];

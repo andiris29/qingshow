@@ -7,8 +7,7 @@
 //
 
 #import "QSU01UserDetailViewController.h"
-#import "QSU02UserSettingViewController.h"
-#import "QSU13PersonalizeViewController.h"
+#import "QSRootContainerViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
@@ -21,11 +20,11 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 
-#import "QSBrandUtil.h"
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
 
 #import "QSDateUtil.h"
+#import "QSU13PersonalizeViewController.h"
 
 #define PAGE_ID @"U01 - 个人"
 
@@ -35,7 +34,6 @@
 #pragma mark Provider
 @property (strong, nonatomic) QSImageCollectionViewProvider* likedProvider;
 @property (strong, nonatomic) QSImageCollectionViewProvider* recommendationProvider;
-@property (assign, nonatomic) BOOL fShowAccountBtn;
 @end
 
 @implementation QSU01UserDetailViewController
@@ -44,7 +42,6 @@
 {
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
-        self.fShowAccountBtn = YES;
     }
     return self;
 }
@@ -55,7 +52,6 @@
         [self providerInit];
         self.userInfo = peopleDict;
         self.type = QSSectionButtonGroupTypeU01;
-        self.fShowAccountBtn = NO;
     }
     return self;
 }
@@ -111,19 +107,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //[self configNavBar];
     [self configView];
     [self bindDelegateObj];
-    self.accountBtn.hidden = !self.fShowAccountBtn;
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.fShowAccountBtn) {
-        self.userInfo = [QSUserManager shareUserManager].userInfo;
-    }
+    self.navigationController.navigationBarHidden = YES;
+    self.userInfo = [QSUserManager shareUserManager].userInfo;
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
 
@@ -226,11 +219,10 @@
          }];
     };
     
-    if (self.fShowAccountBtn) {
-        self.likedProvider.filterBlock = ^BOOL(id obj){
-            return [QSShowUtil getIsLike:obj];
-        };
-    }
+    self.likedProvider.filterBlock = ^BOOL(id obj){
+        return [QSShowUtil getIsLike:obj];
+    };
+    
 
     self.likedProvider.delegate = self;
     [self.likedProvider reloadData];
@@ -260,7 +252,7 @@
 - (void)configView
 {
     //title
-    self.title = self.userInfo[@"name"];
+    self.title = [QSPeopleUtil getNickname:self.userInfo];
     [self updateView];
     
     //Show and Hide
@@ -278,24 +270,7 @@
 }
 
 
-- (void)configNavBar
-{
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-    self.navigationItem.titleView = titleImageView;
-    
-    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
-    self.navigationItem.rightBarButtonItem = rightButtonItem;
-}
-
 #pragma mark - IBAction
-- (IBAction)accountButtonPressed
-{
-    UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
-    QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 - (void)updateView
 {
     [self.badgeView bindWithPeopleDict:self.userInfo];
@@ -320,6 +295,11 @@
         }
         default:
             break;
+    }
+}
+- (IBAction)menuBtnPressed:(id)sender {
+    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
+        [self.menuProvider didClickMenuBtn];
     }
 }
 @end

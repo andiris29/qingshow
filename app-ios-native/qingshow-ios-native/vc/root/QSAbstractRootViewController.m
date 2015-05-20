@@ -34,7 +34,7 @@
 
 @interface QSAbstractRootViewController ()
 
-@property (strong, nonatomic) QSRootMenuView* menuView;
+
 @property (assign, nonatomic) BOOL fIsShowMenu;
 @property (assign, nonatomic) BOOL fIsFirstLoad;
 
@@ -162,7 +162,6 @@
     self.navigationItem.titleView = titleImageView;
     
     
-#warning TODO add date to judge new menu btn
     NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
     if (!lastClickMenuDate || [[NSDate date] timeIntervalSinceDate:lastClickMenuDate] >= 24 * 60 * 60) {
         self.navigationItem.leftBarButtonItem = self.menuBtnNew;
@@ -187,61 +186,25 @@
 {
     [self hideMenu];
 }
-- (void)rootMenuItemPressedType:(int)type
+- (void)rootMenuItemPressedType:(QSRootMenuItemType)type
 {
     [self hideMenu];
     switch (type) {
-        case 1:
-        {
-            [self accountButtonPressed];
-//            UIViewController* vc = [[QSS02ShandianViewController alloc] init];
-//            [self.navigationController pushViewController:vc animated:YES];
-            break;
+        case QSRootMenuItemMy:{
+   
         }
-        case 2:
-        {
-            UIViewController *vc = [[QSS08PreviewViewController alloc] init];
-            [self.navigationController  pushViewController:vc animated:YES];
-            break;
-
+        case QSRootMenuItemMyFavor:{
+            
         }
-        case 3:
-        {
-#warning TODO remove
-//            UIViewController* vc = [[QSP01ModelListViewController alloc] init];
-//            [self.navigationController pushViewController:vc animated:YES];
-//            break;
+        case QSRootMenuItemMeida:{
+            
         }
-        case 4:
+        case QSRootMenuItemSetting:
         {
-#warning TODO remove
-//            UIViewController* vc = [[QSS06CompareViewController alloc] init];
-//            [self.navigationController pushViewController:vc animated:YES];
-//            break;
-        }
-        case 9:
-        {
-//            UIViewController* vc = [[QSP03BrandListViewController alloc] init];
-//            [self.navigationController pushViewController:vc animated:YES];
-            UIViewController *vc = [[QSS17TopShowsViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 8:
-        {
-            UIViewController *vc = [[QSS02ItemFeedingViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        default:
-        {
-            UIViewController* vc = [[QSS02CategoryViewController alloc] initWithCategory:type];
-            [self.navigationController pushViewController:vc animated:YES];
+//            [self accountButtonPressed];
             break;
         }
     }
-    
-    
 }
 
 #pragma mark - IBAction
@@ -302,5 +265,10 @@
     } completion:^(BOOL finished) {
         [vc.view removeFromSuperview];
     }];
+}
+#pragma mark - QSMenuProviderDelegate
+- (void)didClickMenuBtn
+{
+    [self menuButtonPressed];
 }
 @end
