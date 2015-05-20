@@ -11,7 +11,6 @@
                 <outlet property="buyBtn" destination="o9q-cw-zLP" id="OTc-g0-ddg"/>
                 <outlet property="discountContainer" destination="FAz-yv-CCI" id="QQc-r6-BtM"/>
                 <outlet property="labelContainer" destination="HYI-7E-pJC" id="qjy-Hp-blv"/>
-                <outlet property="likeButton" destination="r43-JY-BxE" id="8xf-uM-70T"/>
                 <outlet property="nameLabel" destination="jVf-zc-vse" id="p2d-Fy-gkf"/>
                 <outlet property="pauseBtn" destination="Hhn-9A-6pq" id="U3m-WV-Q2R"/>
                 <outlet property="playBtn" destination="kKI-2q-jl6" id="AhJ-Ce-JqL"/>
@@ -107,17 +106,6 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="r43-JY-BxE">
-                            <rect key="frame" x="268" y="8" width="40" height="36"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
-                            <state key="normal" backgroundImage="s03_like_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="likeButtonPressed:" destination="-1" eventType="touchUpInside" id="K4D-9N-AJl"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yQS-xq-QnA">
                             <rect key="frame" x="150" y="39" width="95" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -154,7 +142,6 @@
     <resources>
         <image name="discount_label_left" width="86" height="19"/>
         <image name="s03_back_btn" width="36" height="36"/>
-        <image name="s03_like_btn" width="40" height="36"/>
         <image name="s03_pause_btn" width="38" height="38"/>
         <image name="s10_buy_btn" width="138" height="50"/>
         <image name="s10_play_btn" width="138" height="50"/>

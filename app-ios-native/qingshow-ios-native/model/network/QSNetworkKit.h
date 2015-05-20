@@ -19,5 +19,5 @@
 #import "QSNetworkEngine+PreviewService.h"
 #import "QSNetworkEngine+TradeService.h"
 #import "QSNetworkEngine+ChosenService.h"
-#import "QSNetworkEngine+ItemService.h"
+
 #endif

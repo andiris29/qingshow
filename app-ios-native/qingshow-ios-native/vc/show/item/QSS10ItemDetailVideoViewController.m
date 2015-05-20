@@ -86,21 +86,9 @@
         [self.priceLabel sizeToFit];
         [self.priceAfterDiscountLabel sizeToFit];
     }
-    
-    //Like
-    [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
-    [self setLikeBtnHover:[QSItemUtil getIsLike:self.itemDict]];
-    self.discountContainer.hidden = YES;
-}
 
-#pragma mark - UI
-- (void)setLikeBtnHover:(BOOL)fHover
-{
-    if (fHover) {
-        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn_full"] forState:UIControlStateNormal];
-    } else {
-        [self.likeButton setBackgroundImage:[UIImage imageNamed:@"s03_like_btn"] forState:UIControlStateNormal];
-    }
+    
+    self.discountContainer.hidden = YES;
 }
 
 
@@ -127,12 +115,7 @@
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
     [self setBtnsHiddenExceptBackAndPlay:hidden];
-//    NSString* videoPath = [QSItemUtil getVideoPath:self.itemDict];
-//    if (videoPath) {
-//        self.playBtn.hidden = hidden;
-//    } else {
-//        self.playBtn.hidden = YES;
-//    }
+
 }
 - (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
 {
@@ -141,15 +124,6 @@
     self.labelContainer.hidden = hidden;
 }
 
-#pragma mark - 
-- (IBAction)likeButtonPressed:(id)sender {
-    NSDictionary* itemDict = self.itemDict;
-    [SHARE_NW_ENGINE handleItemLike:itemDict onSucceed:^(BOOL f) {
-        [self bindWithDict:itemDict];
-    } onError:^(NSError *error) {
-        [self handleError:error];
-    }];
-}
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
