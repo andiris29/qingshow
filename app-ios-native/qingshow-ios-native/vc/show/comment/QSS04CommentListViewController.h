@@ -9,11 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "QSCommentListTableViewProvider.h"
 
-typedef NS_ENUM(int, QSCommentListViewControllerType) {
-    QSCommentListViewControllerTypeShow,
-    QSCommentListViewControllerTypePreview
-};
-
 @interface QSS04CommentListViewController : UIViewController<QSCommentListTableViewProviderDelegate, UITextFieldDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *commentContainer;
@@ -25,6 +20,5 @@ typedef NS_ENUM(int, QSCommentListViewControllerType) {
 - (IBAction)sendBtnPressed:(id)sender;
 
 - (id)initWithShow:(NSDictionary*)showDict;
-- (id)initWithPreview:(NSDictionary*)previewDict;
 
 @end
