@@ -19,6 +19,7 @@
 #import "QSPeopleUtil.h"
 #import "QSDateUtil.h"
 #import "UIImage+fixOrientation.h"
+#import "QSRootContainerViewController.h"
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
 #define PAGE_ID @"U02 - 个人设置"
@@ -34,6 +35,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 
 @property (assign, nonatomic) QSU02UserSettingViewControllerSelectType currentSelectType;
 @property (strong, nonatomic) UIActionSheet* currentActionSheet;
+
+@property (strong, nonatomic) UIBarButtonItem* menuBtn;
+@property (strong, nonatomic) UIBarButtonItem* menuBtnNew;
+
 @end
 
 @implementation QSU02UserSettingViewController {
@@ -65,6 +70,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     self.dressTpye.delegate = self;
     self.expectationTpye.delegate = self;
     //self.brandText.delegate = self;
+    [self configNavBar];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -519,5 +525,61 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     for (UIView* view in a) {
         [view resignFirstResponder];
     }
+}
+
+#pragma mark - Configure View
+- (void)configNavBar
+{
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
+    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+    titleImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
+    tapGes.numberOfTapsRequired = 5;
+    [titleImageView addGestureRecognizer:tapGes];
+    
+    self.navigationItem.titleView = titleImageView;
+    
+    
+    NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
+    if (!lastClickMenuDate || [[NSDate date] timeIntervalSinceDate:lastClickMenuDate] >= 24 * 60 * 60) {
+        self.navigationItem.leftBarButtonItem = self.menuBtnNew;
+    } else {
+        self.navigationItem.leftBarButtonItem = self.menuBtn;
+    }
+    
+}
+
+- (void)menuButtonPressed
+{
+    self.navigationItem.leftBarButtonItem = self.menuBtn;
+    [QSUserManager shareUserManager].lastClickMenuDate = [NSDate date];
+    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
+        [self.menuProvider didClickMenuBtn];
+    }
+}
+
+- (void)didTapRootTitle
+{
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
+    [self showTextHud:[NSString stringWithFormat:@"version: %@", version]];
+}
+
+
+- (UIBarButtonItem*)menuBtn {
+    if (!_menuBtn) {
+        _menuBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu"] style:UIBarButtonItemStylePlain target:self action:@selector(menuButtonPressed)];
+    }
+    return _menuBtn;
+}
+- (UIBarButtonItem*)menuBtnNew {
+    if (!_menuBtnNew) {
+        UIImageView* navBtnMenuNewImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_menu_new"]];
+        UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(menuButtonPressed)];
+        navBtnMenuNewImageView.userInteractionEnabled = YES;
+        [navBtnMenuNewImageView addGestureRecognizer:ges];
+        _menuBtnNew = [[UIBarButtonItem alloc] initWithCustomView:navBtnMenuNewImageView];;
+    }
+    return _menuBtnNew;
 }
 @end

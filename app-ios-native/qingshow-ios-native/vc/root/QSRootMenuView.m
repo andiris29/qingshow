@@ -118,6 +118,11 @@
 - (void)menuItemPressed:(QSRootMenuItem*)item
 {
     if (self.currentType == item.type) {
+        
+        if ([self.delegate respondsToSelector:@selector(rootMenuViewDidTapBlankView)]) {
+            [self.delegate rootMenuViewDidTapBlankView];
+        }
+        
         return;
     }
     self.currentType = item.type;

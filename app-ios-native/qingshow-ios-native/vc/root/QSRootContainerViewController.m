@@ -70,6 +70,7 @@
         {
             UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
             QSU02UserSettingViewController *settingVc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+            settingVc.menuProvider = self;
             vc = settingVc;
             break;
         }
@@ -78,6 +79,10 @@
 }
 
 - (void)showVc:(UIViewController*)vc{
+    if (!vc) {
+        return;
+    }
+    
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
     nav.navigationBar.translucent = NO;
     vc = nav;
