@@ -3,7 +3,6 @@ var async = require('async');
 // Models
 var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
-var RPeopleLikePreview = require('../../model/rPeopleLikePreview');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 
 var RPeopleLikeItem = require('../../model/rPeopleLikeItem');
@@ -38,21 +37,6 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     // modedRef.__context.followedByCurrentUser
     async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, likeDate], function (err) {
         callback(null, shows);
-    });
-};
-
-ContextHelper.appendPreviewContext = function(qsCurrentUserId, previews, callback) {
-    previews = _prepare(previews);
-    // __context.numComments
-    var numComments = function(callback) {
-        _numAssociated(previews, PreviewComments, 'targetRef', 'numComments', callback);
-    };
-    // __context.likedByCurrentUser
-    var likedByCurrentUser = function(callback) {
-        _rInitiator(RPeopleLikePreview, qsCurrentUserId, previews, 'likedByCurrentUser', callback);
-    };
-    async.parallel([numComments, likedByCurrentUser], function(err) {
-        callback(null, previews);
     });
 };
 
