@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "QSTableViewBasicProvider.h"
 #import "QSShareViewController.h"
-@interface QSS17ViewController : UIViewController<QSAbstractScrollProviderDelegate,QSShareViewControllerDelegate>
+@interface QSS17ViewController : UIViewController<QSShareViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *topShowTableView;
 
-
-
 @end
+
