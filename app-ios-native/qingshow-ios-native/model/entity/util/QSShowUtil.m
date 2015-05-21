@@ -209,17 +209,6 @@
     return rec[@"description"];
 }
 
-+ (NSDictionary*)getBrand:(NSDictionary*)showDict
-{
-    if (![QSCommonUtil checkIsDict:showDict]) {
-        return nil;
-    }
-    NSDictionary* rec = showDict[@"brandRef"];
-    if (![QSCommonUtil checkIsDict:rec]) {
-        return nil;
-    }
-    return rec;
-}
 
 + (NSString*)getShowDesc:(NSDictionary*)showDict
 {

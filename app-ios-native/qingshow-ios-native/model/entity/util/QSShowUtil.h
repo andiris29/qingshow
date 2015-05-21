@@ -25,7 +25,6 @@
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict;
 + (NSDate*)getRecommendDate:(NSDictionary*)showDict;
 + (NSString*)getRecommentDesc:(NSDictionary*)showDict;
-+ (NSDictionary*)getBrand:(NSDictionary*)showDict;
 
 + (NSDate*)getLikeDate:(NSDictionary*)showDict;
 + (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;

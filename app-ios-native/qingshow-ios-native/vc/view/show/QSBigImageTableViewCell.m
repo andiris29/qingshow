@@ -108,8 +108,6 @@
     //Data Binding
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSShowUtil getShowDesc:showDict];
-    NSDictionary* brandDict = [QSShowUtil getBrand:showDict];
-    [self updateBrandLogo:brandDict];
     [self.likeButton setTitle:[QSShowUtil getNumberLikeDescription:showDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSShowUtil getIsLike:showDict]];
 }
