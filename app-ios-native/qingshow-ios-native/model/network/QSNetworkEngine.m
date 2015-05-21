@@ -15,7 +15,6 @@
 #import "QSUserManager.h"
 #import "QSFeedingCategory.h"
 #import "NSArray+QSExtension.h"
-#import "QSBrandUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSShowUtil.h"
 #import "QSHotUtil.h"

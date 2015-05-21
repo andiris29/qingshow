@@ -12,7 +12,6 @@
 
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
 + (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
-+ (NSDictionary*)getImageMetadata:(NSDictionary*)itemDict;
 + (NSString*)getItemTypeName:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;
 
@@ -27,7 +26,7 @@
 
 + (NSURL*)getSizeExplanation:(NSDictionary*)item;
 + (NSString*)getVideoPath:(NSDictionary*)item;
-+ (NSDictionary*)getBrand:(NSDictionary*)item;
++ (NSURL*)getBrandLogoUrl:(NSDictionary*)item;
 
 + (BOOL)getIsLike:(NSDictionary*)itemDict;
 + (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict;

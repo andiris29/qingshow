@@ -10,7 +10,6 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSPeopleUtil.h"
-#import "QSBrandUtil.h"
 
 @interface QSBadgeView ()
 
@@ -78,20 +77,6 @@
     if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
         QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
         [f setFollowed:[QSPeopleUtil getPeopleIsFollowed:peopleDict]];
-    }
-}
-- (void)bindWithBrandDict:(NSDictionary*)brandDict
-{
-    self.iconImageView.layer.cornerRadius = 0;
-    self.iconImageView.layer.masksToBounds = YES;
-    
-    [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.backgroundImageView setImageFromURL:[QSBrandUtil getBrandBgUrl:brandDict] placeHolderImage:nil animation:YES];
-    self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
-    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
-        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
-        
-        [f setFollowed:[QSBrandUtil getHasFollowBrand:brandDict]];
     }
 }
 

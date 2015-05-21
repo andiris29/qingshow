@@ -11,6 +11,8 @@
 #import "QSU08PasswordViewController.h"
 #import "QSImageEditingViewController.h"
 
+@protocol QSMenuProviderDelegate;
+
 #define CODE_TYPE_GENDER @"gender"
 #define CODE_TYPE_HAIR @"hairTypes"
 #define GENDER_LIST @"男性", @"女性" 
@@ -35,7 +37,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *expectationTpye;
 @property (weak, nonatomic) IBOutlet UIImageView *portraitImage;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImage;
-
+@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 - (IBAction)lengthEditingDidBegin:(id)sender;
 - (IBAction)lengthEditingDidEnd:(id)sender;

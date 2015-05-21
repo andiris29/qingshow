@@ -14,11 +14,8 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
-#import "QSPreviewUtil.h"
-#import "QSBrandUtil.h"
 #import "QSImageNameUtil.h"
 #import "QSBigImageDateView.h"
-#import "QSChosenUtil.h"
 #import "QSItemUtil.h"
 
 
@@ -66,93 +63,30 @@
     // Configure the view for the selected state
 }
 #pragma mark - Static
-+ (CGFloat)getHeightWithChosen:(NSDictionary*)chosen
-{
-    QSChosenRefType type = [QSChosenUtil getChosenRefType:chosen];
-    NSDictionary* ref = [QSChosenUtil getRef:chosen];
-    if (type == QSChosenRefTypeShow) {
-        return [self getHeightWithShow:ref];
-    } else if (type == QSChosenRefTypePreview) {
-        return [self getHeightWithPreview:ref];
-    } else if (type == QSChosenRefTypeItem) {
-        return [self getHeightWithItem:ref];
-    }
-    return 0;
-}
 
-+ (CGFloat)getHeightWithImageMetadata:(NSDictionary*)coverMetadata {
-    return 285.f;
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = 92;
-    float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
-}
-
-+ (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict
-{
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = [QSPreviewUtil getCoverMetadata:previewDict];
-    return [self getHeightWithImageMetadata:coverMetadata];
-}
 
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict
 {
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = showDict[@"horizontalCoverMetadata"];
-    if (!coverMetadata || [coverMetadata isKindOfClass:[NSNull class]]) {
-        coverMetadata = showDict[@"coverMetadata"];
-    }
-    return [self getHeightWithImageMetadata:coverMetadata];
+#warning TODO
+    return 285.f;
 }
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
-    NSDictionary* coverMetadata = nil;
-    coverMetadata = [QSItemUtil getImageMetadata:itemDict];
-    return [self getHeightWithImageMetadata:coverMetadata];
+#warning TODO
+    return 285.f;
 }
 
-+ (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict
-{
-    NSDictionary* coverMetadata = brandDict[@"coverMetadata"];
-    return [self getHeightWithImageMetadata:coverMetadata];
-}
 
 #pragma mark - Bind
 - (void)bindWithDict:(NSDictionary*)dict
 {
     self.dataDict = dict;
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-        [self bindWithPreview:dict];
-    } else if (self.type == QSBigImageTableViewCellTypeChosen) {
-        [self bindWithChosen:dict];
-    }else {
-        [self bindWithShow:dict];
-    }
-}
-- (void)bindWithChosen:(NSDictionary*)dict
-{
-    QSChosenRefType type = [QSChosenUtil getChosenRefType:dict];
-    NSDictionary* ref = [QSChosenUtil getRef:dict];
-    if (type == QSChosenRefTypeShow) {
-        [self bindWithShow:ref];
-    } else if (type == QSChosenRefTypePreview) {
-        [self bindWithPreview:ref];
-    } else if (type == QSChosenRefTypeItem) {
-        [self bindWithItem:ref];
-    }
-    [self.dateView bindWithDate:[QSChosenUtil getChosenDate:dict]];
 
+    [self bindWithShow:dict];
+    
 }
+
 
 #pragma mark - UI
 - (void)setLikeBtnHover:(BOOL)fHover
@@ -175,7 +109,7 @@
     [self.imgView setImageFromURL:[QSShowUtil getHoriCoverUrl:showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSShowUtil getShowDesc:showDict];
     NSDictionary* brandDict = [QSShowUtil getBrand:showDict];
-    [self updateBrandIcon:brandDict];
+    [self updateBrandLogo:brandDict];
     [self.likeButton setTitle:[QSShowUtil getNumberLikeDescription:showDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSShowUtil getIsLike:showDict]];
 }
@@ -185,28 +119,19 @@
     [self resizeWithHeight:height];
     [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSItemUtil getItemName:itemDict];
-    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
-    [self updateBrandIcon:brandDict];
+    NSURL* brandLogo = [QSItemUtil getBrandLogoUrl:itemDict];
+    [self updateBrandLogo:brandLogo];
     [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSItemUtil getIsLike:itemDict]];
 }
 
-- (void)bindWithPreview:(NSDictionary*)previewDict
-{
-    float height = [QSBigImageTableViewCell getHeightWithPreview:previewDict];
-    [self resizeWithHeight:height];
-#warning TODO 暂时没有cover数据，使用first image，有数据后改用下面一行
-//        [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getCoverUrl:previewDict]]];
-    [self.imgView setImageFromURL:[QSImageNameUtil generate2xImageNameUrl:[QSPreviewUtil getFirstImageUrl:previewDict]]];
-    self.label1.text = [QSPreviewUtil getImagesDesc:previewDict atIndex:0];
-}
 
 #pragma mark Binding Helper
-- (void)updateBrandIcon:(NSDictionary*)brandDict
+- (void)updateBrandLogo:(NSURL*)brandLogo
 {
-    if (brandDict) {
+    if (brandLogo) {
         self.iconImgView.hidden = NO;
-        [self.iconImgView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
+        [self.iconImgView setImageFromURL:brandLogo];
     } else {
         self.iconImgView.hidden = YES;
 

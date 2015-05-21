@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#define QSRootMenuItemWidth 64.f
+#define QSRootMenuItemWidth 65.f
 #define QSRootMenuItemHeight 120.f
+
+typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
+    QSRootMenuItemMy = 0,
+    QSRootMenuItemMeida = 1,
+    QSRootMenuItemMyFavor = 2,
+    QSRootMenuItemSetting = 3
+};
+
+
 @class QSRootMenuItem;
 
 @protocol QSRootMenuItemDelegate <NSObject>
@@ -25,7 +34,7 @@
 
 @property (weak, nonatomic) NSObject<QSRootMenuItemDelegate>* delegate;
 
-+ (QSRootMenuItem*)generateItemWithType:(int)type;
++ (QSRootMenuItem*)generateItemWithType:(QSRootMenuItemType)type;
 
 - (IBAction)buttonPressed:(id)sender;
 

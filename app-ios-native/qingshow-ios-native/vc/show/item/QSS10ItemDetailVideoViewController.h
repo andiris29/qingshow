@@ -10,6 +10,7 @@
 #import "QSVideoBaseViewController.h"
 @class UILabelStrikeThrough;
 
+#warning TODO adjust super class from QSVideoBaseViewController to UIViewController
 @interface QSS10ItemDetailVideoViewController : QSVideoBaseViewController
 
 @property (strong, nonatomic) IBOutlet UIButton* buyBtn;
@@ -22,11 +23,8 @@
 @property (weak, nonatomic) IBOutlet UILabelStrikeThrough *priceLabel;
 @property (weak, nonatomic) IBOutlet UILabel *priceAfterDiscountLabel;
 @property (weak, nonatomic) IBOutlet UIView *labelContainer;
-@property (weak, nonatomic) IBOutlet UIButton *likeButton;
-
 
 - (instancetype)initWithItem:(NSDictionary*)itemDict;
-- (IBAction)likeButtonPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *discountContainer;
 

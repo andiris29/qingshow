@@ -13,6 +13,7 @@
 
 @interface QSRootMenuView ()
 @property (strong, nonatomic) NSMutableArray* itemArray;
+@property (assign, nonatomic) int currentType;
 @end
 
 @implementation QSRootMenuView
@@ -33,7 +34,7 @@
 - (void)showMenuAnimationComple:(VoidBlock)block
 {
     self.bgImageView.hidden = YES;
-    UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShow];
+    UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShot];
     self.bgImageView.image = [img blurryImageWithBlurLevel:5.f];
     
     self.bgImageView.alpha = 0.f;
@@ -67,17 +68,17 @@
 - (void)awakeFromNib
 {
 
-   // NSArray* typeArray = @[@1, @9, @8, @2, @3];   //1,9,8,2,3
-    NSArray *typeArray = @[@1, @9, @8, @2];
+    NSArray *typeArray = @[@(QSRootMenuItemMy), @(QSRootMenuItemMeida), @(QSRootMenuItemMyFavor), @(QSRootMenuItemSetting)];
     self.itemArray = [@[] mutableCopy];
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < typeArray.count; i++) {
         NSNumber* typeNum = typeArray[i];
         QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:typeNum.intValue];
         item.delegate = self;
         [self.itemArray addObject:item];
         [self.containerView addSubview:item];
     }
+    self.currentType = -1;
 }
 
 #pragma mark - Init
@@ -116,8 +117,32 @@
 }
 - (void)menuItemPressed:(QSRootMenuItem*)item
 {
+    if (self.currentType == item.type) {
+        
+        if ([self.delegate respondsToSelector:@selector(rootMenuViewDidTapBlankView)]) {
+            [self.delegate rootMenuViewDidTapBlankView];
+        }
+        
+        return;
+    }
+    self.currentType = item.type;
+#warning TODO add hover of item
+    
     if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:)]) {
         [self.delegate rootMenuItemPressedType:item.type];
+    }
+}
+
+- (void)triggerItemTypePressed:(QSRootMenuItemType)type {
+    QSRootMenuItem* item = nil;
+    for (QSRootMenuItem* i in self.itemArray) {
+        if (i.type == type) {
+            item = i;
+            break;
+        }
+    }
+    if (item) {
+        [self menuItemPressed:item];
     }
 }
 - (IBAction)didTapView:(id)sender

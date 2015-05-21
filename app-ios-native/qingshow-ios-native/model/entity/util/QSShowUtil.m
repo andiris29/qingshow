@@ -86,16 +86,6 @@
     return nil;
 }
 
-+ (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict
-{
-    if ([QSCommonUtil checkIsNil:showDict]) {
-        return nil;
-    }
-    if (showDict) {
-        return showDict[@"coverMetadata"];
-    }
-    return nil;
-}
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {

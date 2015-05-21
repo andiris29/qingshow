@@ -10,12 +10,18 @@
 #import "QSRootMenuView.h"
 #import "QSG02WelcomeViewController.h"
 
-@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate>
+@protocol QSMenuProviderDelegate <NSObject>
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+- (void)didClickMenuBtn;
+
+@end
+
+@interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate, QSMenuProviderDelegate>
+
 - (void)hideMenu;
 
 @property (assign, nonatomic) BOOL hasFetchUserLogin;
+@property (strong, nonatomic) QSRootMenuView* menuView;
 - (void)handleCurrentUser;
 
 @end

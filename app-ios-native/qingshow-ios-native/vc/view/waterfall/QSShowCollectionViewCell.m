@@ -136,17 +136,9 @@
 #pragma mark - Static Method
 + (float)getImageHeightWithData:(NSDictionary*)showData
 {
-    NSDictionary* coverMetadata = [QSShowUtil getCoverMetadata:showData];
     float iniWidth = ([UIScreen mainScreen].bounds.size.width - 4) / 2;
     float height = 212;
     float width = iniWidth;
-    //212 158
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
     height = height * iniWidth / width;
     return height;
 }

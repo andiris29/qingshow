@@ -28,7 +28,6 @@
 
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict;
-- (void)bindWithBrandDict:(NSDictionary*)brandDict;
 
 @end
 
