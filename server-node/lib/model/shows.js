@@ -23,6 +23,10 @@ showSchema = Schema({
         }]
         //        select: false
     },
+    promotionRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'promotions'
+    },
     create : {
         type : Date,
         'default' : Date.now

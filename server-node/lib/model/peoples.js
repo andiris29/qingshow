@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Show = require('./shows');
-var Brand = require('./brands');
 
 var Schema = mongoose.Schema;
 var peopleSchema;

@@ -34,9 +34,6 @@ var _feed = function (req, res, querier, aspectInceptions) {
                     }, (res.qsPerformance && res.qsPerformance.d) ? res.qsPerformance.d : 1);
                 },
                 function (callback) {
-                    MongoHelper.updateCoverMetaData(currentPageModels, callback);
-                },
-                function (callback) {
                     // Append context
                     ContextHelper.appendShowContext(req.qsCurrentUserId, currentPageModels, callback);
                 },
@@ -89,11 +86,22 @@ feeding.recommendation = {
                 }
             ], outCallback);
         }, {
-            afterQuery : function (qsParam, currentPageModels, numTotal, callback) {
-                Show.populate(currentPageModels, {
-                    'path' : 'itemRefs',
-                    'model' : "items"
-                }, callback);
+            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
+                async.series([
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'itemRefs',
+                            'model' : "items"
+                        }, callback);
+                    }, 
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'promotionRef',
+                            'model' : "promotion"
+                        }, callback);
+                    }], 
+                    afterQuery_cb
+                );
             }
         });
     }
@@ -131,6 +139,23 @@ feeding.like = {
                     callback(null, shows, count);
                 }], callback);
         }, {
+            'afterQuery' : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
+                async.series([
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'itemRefs',
+                            'model' : "items"
+                        }, callback);
+                    }, 
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'promotionRef',
+                            'model' : "promotion"
+                        }, callback);
+                    }], 
+                    afterQuery_cb
+                );
+            },
             'afterParseRequest' : function (raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
