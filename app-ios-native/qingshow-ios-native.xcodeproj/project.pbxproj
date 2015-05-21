@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		687026EA1B0D66E000273C6D /* QSU14FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 687026E41B0D66E000273C6D /* QSU14FavoriteViewController.m */; };
+		687026EB1B0D66E000273C6D /* QSU14FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 687026E51B0D66E000273C6D /* QSU14FavoriteViewController.xib */; };
+		687026EC1B0D66E000273C6D /* QSU14DisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 687026E81B0D66E000273C6D /* QSU14DisplayCell.m */; };
+		687026ED1B0D66E000273C6D /* QSU14DisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 687026E91B0D66E000273C6D /* QSU14DisplayCell.xib */; };
 		8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */; };
 		8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */; };
 		82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */; };
@@ -282,6 +286,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		687026E31B0D66E000273C6D /* QSU14FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14FavoriteViewController.h; sourceTree = "<group>"; };
+		687026E41B0D66E000273C6D /* QSU14FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14FavoriteViewController.m; sourceTree = "<group>"; };
+		687026E51B0D66E000273C6D /* QSU14FavoriteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU14FavoriteViewController.xib; sourceTree = "<group>"; };
+		687026E71B0D66E000273C6D /* QSU14DisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14DisplayCell.h; sourceTree = "<group>"; };
+		687026E81B0D66E000273C6D /* QSU14DisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14DisplayCell.m; sourceTree = "<group>"; };
+		687026E91B0D66E000273C6D /* QSU14DisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU14DisplayCell.xib; sourceTree = "<group>"; };
 		8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
 		8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
 		8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QSU02UserSetting.storyboard; sourceTree = "<group>"; };
@@ -839,6 +849,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		687026E11B0D66E000273C6D /* favorite */ = {
+			isa = PBXGroup;
+			children = (
+				687026E21B0D66E000273C6D /* Controller */,
+				687026E61B0D66E000273C6D /* View */,
+			);
+			path = favorite;
+			sourceTree = "<group>";
+		};
+		687026E21B0D66E000273C6D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				687026E31B0D66E000273C6D /* QSU14FavoriteViewController.h */,
+				687026E41B0D66E000273C6D /* QSU14FavoriteViewController.m */,
+				687026E51B0D66E000273C6D /* QSU14FavoriteViewController.xib */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		687026E61B0D66E000273C6D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				687026E71B0D66E000273C6D /* QSU14DisplayCell.h */,
+				687026E81B0D66E000273C6D /* QSU14DisplayCell.m */,
+				687026E91B0D66E000273C6D /* QSU14DisplayCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		8C8B9D731B00395B00C1A321 /* welcomeImg */ = {
 			isa = PBXGroup;
 			children = (
@@ -916,6 +955,7 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				687026E11B0D66E000273C6D /* favorite */,
 				EFCA012E1B00F96100199BCF /* nav */,
 				EFCA01231B00F3E400199BCF /* preview */,
 				EFED34811AFC69A000F08A0D /* welcome */,
@@ -2167,6 +2207,7 @@
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
+				687026ED1B0D66E000273C6D /* QSU14DisplayCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
 				A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */,
 				EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */,
@@ -2174,6 +2215,7 @@
 				8C8B9D8E1B00395B00C1A321 /* welcome2_736@3x.png in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */,
+				687026EB1B0D66E000273C6D /* QSU14FavoriteViewController.xib in Resources */,
 				EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
 				EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */,
@@ -2198,6 +2240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				687026EC1B0D66E000273C6D /* QSU14DisplayCell.m in Sources */,
 				82F4E27B1A17475A007A90B4 /* UIViewController+Utility.m in Sources */,
 				EF59EDFB1A74FAEE00D639FB /* QSBigImageTableViewProvider.m in Sources */,
 				EFF114AE1A0D2EEC009B7361 /* NSDate+RFC1123.m in Sources */,
@@ -2211,6 +2254,7 @@
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
 				EF4D50AA1A177B7A001E179B /* QSS02CategoryViewController.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
+				687026EA1B0D66E000273C6D /* QSU14FavoriteViewController.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
 				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,
