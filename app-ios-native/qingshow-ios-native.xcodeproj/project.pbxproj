@@ -54,6 +54,10 @@
 		EF1F52B51ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF1F52B41ABB3B3400E7EDDF /* QSCreateTradeColorAndSizeBaseTableViewCell.m */; };
 		EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */; };
 		EF241E6F1AB9CD82007B5058 /* QSLayoutUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */; };
+		EF2679C91B0D82EB0012AE90 /* QSS17ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2679C31B0D82EB0012AE90 /* QSS17ViewController.m */; };
+		EF2679CA1B0D82EB0012AE90 /* QSS17ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2679C41B0D82EB0012AE90 /* QSS17ViewController.xib */; };
+		EF2679CB1B0D82EB0012AE90 /* QSS17Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2679C71B0D82EB0012AE90 /* QSS17Cell.m */; };
+		EF2679CC1B0D82EB0012AE90 /* QSS17Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2679C81B0D82EB0012AE90 /* QSS17Cell.xib */; };
 		EF2A41601A5D91BF003266E0 /* QSItemImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2A415E1A5D91BF003266E0 /* QSItemImageTableViewCell.m */; };
 		EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */; };
 		EF2E0F2E1A2F790400F3A25C /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF2E0F231A2F790400F3A25C /* libWeiboSDK.a */; };
@@ -354,6 +358,12 @@
 		EF241E6A1AB9BF6F007B5058 /* QSTradeSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTradeSelectButton.m; sourceTree = "<group>"; };
 		EF241E6D1AB9CD82007B5058 /* QSLayoutUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSLayoutUtil.h; sourceTree = "<group>"; };
 		EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSLayoutUtil.m; sourceTree = "<group>"; };
+		EF2679C21B0D82EB0012AE90 /* QSS17ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS17ViewController.h; sourceTree = "<group>"; };
+		EF2679C31B0D82EB0012AE90 /* QSS17ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS17ViewController.m; sourceTree = "<group>"; };
+		EF2679C41B0D82EB0012AE90 /* QSS17ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS17ViewController.xib; sourceTree = "<group>"; };
+		EF2679C61B0D82EB0012AE90 /* QSS17Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS17Cell.h; sourceTree = "<group>"; };
+		EF2679C71B0D82EB0012AE90 /* QSS17Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS17Cell.m; sourceTree = "<group>"; };
+		EF2679C81B0D82EB0012AE90 /* QSS17Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS17Cell.xib; sourceTree = "<group>"; };
 		EF2A415D1A5D91BF003266E0 /* QSItemImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemImageTableViewCell.h; sourceTree = "<group>"; };
 		EF2A415E1A5D91BF003266E0 /* QSItemImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemImageTableViewCell.m; sourceTree = "<group>"; };
 		EF2A415F1A5D91BF003266E0 /* QSItemImageTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemImageTableViewCell.xib; sourceTree = "<group>"; };
@@ -1030,6 +1040,27 @@
 				EFAA5A451AFE8969001032F7 /* QSRecommendationDateCellModel.m */,
 			);
 			path = waterfall;
+			sourceTree = "<group>";
+		};
+		EF2679C11B0D82EB0012AE90 /* topShow */ = {
+			isa = PBXGroup;
+			children = (
+				EF2679C21B0D82EB0012AE90 /* QSS17ViewController.h */,
+				EF2679C31B0D82EB0012AE90 /* QSS17ViewController.m */,
+				EF2679C41B0D82EB0012AE90 /* QSS17ViewController.xib */,
+				EF2679C51B0D82EB0012AE90 /* topShowCell */,
+			);
+			path = topShow;
+			sourceTree = "<group>";
+		};
+		EF2679C51B0D82EB0012AE90 /* topShowCell */ = {
+			isa = PBXGroup;
+			children = (
+				EF2679C61B0D82EB0012AE90 /* QSS17Cell.h */,
+				EF2679C71B0D82EB0012AE90 /* QSS17Cell.m */,
+				EF2679C81B0D82EB0012AE90 /* QSS17Cell.xib */,
+			);
+			path = topShowCell;
 			sourceTree = "<group>";
 		};
 		EF2E0F221A2F790400F3A25C /* libWeiboSDK */ = {
@@ -1752,6 +1783,7 @@
 		EFC7ADA51A10E2130078D1F9 /* show */ = {
 			isa = PBXGroup;
 			children = (
+				EF2679C11B0D82EB0012AE90 /* topShow */,
 				EFF5B9061A3F2F220048E634 /* item */,
 				EF4D50A61A177B31001E179B /* list */,
 				EFA618A81A125EA200560699 /* comment */,
@@ -2185,6 +2217,7 @@
 				8C8B9D8D1B00395B00C1A321 /* welcome1_736@3x.png in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				8C8B9D8A1B00395B00C1A321 /* welcome1_667@2x.png in Resources */,
+				EF2679CC1B0D82EB0012AE90 /* QSS17Cell.xib in Resources */,
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				8C8B9D851B00395B00C1A321 /* welcome2_480@2x.png in Resources */,
@@ -2203,6 +2236,7 @@
 				EFD28CF81AB3F56C00991ADD /* QSU11ReceiverEditingViewController.xib in Resources */,
 				EF78E3321AAF3E2300665EDD /* QSU10ReceiverListViewController.xib in Resources */,
 				EFC543671A1750AD001B2C49 /* QSSectionFollowButton.xib in Resources */,
+				EF2679CA1B0D82EB0012AE90 /* QSS17ViewController.xib in Resources */,
 				EF9A741C1A02A82600095F07 /* InfoPlist.strings in Resources */,
 				EFED34871AFC69C000F08A0D /* QSG02WelcomeViewController.xib in Resources */,
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
@@ -2350,6 +2384,7 @@
 				EF17292F1A1CE4F7001819E3 /* QSSectionTextButton.m in Sources */,
 				EFAA5A3A1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.m in Sources */,
 				EF78E33A1AAF47C700665EDD /* QSReceiverUtil.m in Sources */,
+				EF2679C91B0D82EB0012AE90 /* QSS17ViewController.m in Sources */,
 				EF30133B1AC3174000568D92 /* MD5DataSigner.m in Sources */,
 				EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */,
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
@@ -2361,6 +2396,7 @@
 				EFFE672A1A0676A4001F4CA1 /* QSRootMenuView.m in Sources */,
 				EF59EDE11A74CC9C00D639FB /* QSAbstractListViewProvider.m in Sources */,
 				EFC543661A1750AD001B2C49 /* QSSectionFollowButton.m in Sources */,
+				EF2679CB1B0D82EB0012AE90 /* QSS17Cell.m in Sources */,
 				EFED34861AFC69C000F08A0D /* QSG02WelcomeViewController.m in Sources */,
 				EF30133A1AC3174000568D92 /* DataVerifier.m in Sources */,
 				EF9C95271A0FB7B3006A0AE3 /* MBProgressHUD.m in Sources */,
