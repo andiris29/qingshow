@@ -85,16 +85,18 @@ _login = function(req, res) {
     idOrNickName = param.idOrNickName || '';
     password = param.password || '';
     People.findOne({
-        "$or" : [{
-            "userInfo.id" : idOrNickName
-        }, {
-            "nickname" : idOrNickName
-        }],
-        "$or" : [{
-            "userInfo.password" : password
-        }, {
-            "userInfo.encryptedPassword" : _encrypt(password)
-        }]
+        "$and" : [{
+            "$or" : [{
+                "userInfo.id" : idOrNickName
+            }, {
+                "nickname" : idOrNickName
+            }]}, {
+            "$or" : [{
+                "userInfo.password" : password
+            }, {
+                "userInfo.encryptedPassword" : _encrypt(password)
+            }]}
+        ]
     }).exec(function(err, people) {
         if (err) {
             ResponseHelper.response(res, err);

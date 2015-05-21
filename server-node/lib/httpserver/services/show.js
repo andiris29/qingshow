@@ -115,8 +115,8 @@ show.unlike = {
     'func' : function(req, res) {
         try {
             var param = req.body;
-            var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-            var initiatorRef = mongoose.mongo.BSONPure.ObjectID(req.qsCurrentUserId);
+            var targetRef = RequestHelper.parseId(param._id);
+            var initiatorRef = req.qsCurrentUserId;
         } catch (e) {
             ResponseHelper.response(res, ServerError.RequestValidationFail);
             return;
