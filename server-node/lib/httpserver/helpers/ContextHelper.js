@@ -119,12 +119,13 @@ var _rCreateDate = function(RModel, initiatorRef, models, contextField, callback
 var _generatePromoInfo =  function(peopleId, models, contextField, callback) {
     var tasks = models.map(function(model) {
         return function(callback) {
+            model.__context[contextField] = {};
             if (model.promotionRef === null || model.promotionRef === undefined) {
                 model.__context[contextField].enabled = false;
                 callback();
                 return;
             }
-            if (promotion.criteria === 0) {
+            if (model.promotionRef.criteria === 0) {
                 // 分享后可获得优惠
                 RPeopleShareShow.findOne({
                     'initiatorRef' : peopleId,

@@ -4,10 +4,12 @@ var async = require('async'), _ = require('underscore');
 var Show = require('../../model/shows');
 var Peoples = require('../../model/peoples');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
+var Promotion = require('../../model/promotions');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
 var ContextHelper = require('../helpers/ContextHelper');
+var ServiceHelper = require('../helpers/ServiceHelper');
 
 var ServerError = require('../server-error');
 
@@ -97,7 +99,7 @@ feeding.recommendation = {
                     function(callback) {
                         Show.populate(currentPageModels, {
                             'path' : 'promotionRef',
-                            'model' : "promotion"
+                            'model' : "promotions"
                         }, callback);
                     }], 
                     afterQuery_cb
@@ -110,10 +112,87 @@ feeding.recommendation = {
 feeding.hot = {
     'method' : 'get',
     'func' : function (req, res) {
-        _feed(req, res, function (qsParam, callback) {
-            MongoHelper.queryPaging(Show.find().sort({
-                'numLike' : -1
-            }), Show.find(), qsParam.pageNo, qsParam.pageSize, callback);
+        _feed(req, res, function (qsParam, out_callback) {
+            var dateNum = Math.floor(qsParam.pageSize / 2);
+            var showId = [];
+            async.waterfall([
+                function(callback) {
+                    Show.aggregate([
+                        {
+                            '$group' : {
+                                '_id': {
+                                    'year' : {'$year' : '$recommend.date'},
+                                    'month' : {'$month' : '$recommend.date'},
+                                    'day' : {'$dayOfMonth' : '$recommend.date'}
+                                }
+                            }
+                        }, {
+                            $sort : { _id : -1 }
+                        }
+                    ]).exec(function(err, data) {
+                        if (!err) {
+                            callback(null, data);
+                        } else {
+                            callback(err);
+                        }
+                    });
+                },
+                function(result, callback) {
+                    var task = result.map(function(element) {
+                        return function(in_callback) {
+                            var _id = element._id;
+
+                            var criteria = {
+                                'recommend.date' : {
+                                    '$gte' : new Date(_id.year, _id.month - 1, _id.day),
+                                    '$lt' : new Date(_id.year, _id.month - 1, _id.day + 1) 
+                                }
+                            };
+
+                            Show.find(criteria).sort({'numLike' : -1}).limit(2).exec(function(err, shows) {
+                                if(!err) {
+                                    shows.forEach(function(show) {
+                                        showId.push(show._id);
+                                    });
+                                    in_callback();
+                                } else {
+                                    in_callback(err);
+                                }
+                            });
+                        };
+                    });
+                    async.parallel(task, function(err) {
+                        callback();
+                    });
+                },
+                function(callback) {
+                    var criteria = {
+                        '_id' : { '$in' : showId}
+                    };
+                    MongoHelper.queryPaging(Show.find(criteria).sort({
+                        'recommend.date' : -1,
+                        'numLike' : -1
+                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
+                }], out_callback
+            );
+        }, {
+            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
+                async.series([
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'itemRefs',
+                            'model' : "items"
+                        }, callback);
+                    }, 
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'promotionRef',
+                            'model' : "promotions"
+                        }, callback);
+                    }], 
+                    afterQuery_cb
+                );
+            }
         });
     }
 };
