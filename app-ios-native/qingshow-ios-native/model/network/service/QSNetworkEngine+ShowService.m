@@ -28,6 +28,21 @@
 
 @implementation QSNetworkEngine(ShowService)
 #pragma mark - Query
+- (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : @"555aa9d538dadbed5a997eed"} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *retDict = completedOperation.responseJSON;
+        NSArray* dataArray = retDict[@"data"][@"shows"];
+        succeedBlock(dataArray, retDict[@"metadata"]);
+        
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 - (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
                              onSucceed:(DicBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock

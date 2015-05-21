@@ -45,4 +45,7 @@
 - (MKNetworkOperation*)didShareShow:(NSDictionary*)showDict
                           onSucceed:(VoidBlock)succeedBlock
                             onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock;
 @end
