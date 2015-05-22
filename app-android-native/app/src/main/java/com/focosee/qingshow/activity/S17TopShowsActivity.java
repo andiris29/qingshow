@@ -52,7 +52,7 @@ public class S17TopShowsActivity extends BaseActivity{
         title.setText(R.string.s17_title_name);
         data = new LinkedList<MongoShow>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new S17TopAdapter(data,this,R.layout.item_s17_singular,R.layout.item_s17_plural);
+        adapter = new S17TopAdapter(data,this,R.layout.item_s17);
         recyclerView.setAdapter(adapter);
         getDataFormNet();
     }

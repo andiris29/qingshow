@@ -21,51 +21,11 @@ public class S17TopAdapter extends AbsAdapter<MongoShow> {
 
     @Override
     public int getItemViewType(int position) {
-        return position % 2;
+        return 0;
     }
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-
-        if (datas.size() > position){
-            holder.setImgeByUrl(R.id.cover,getItemData(position).cover,1.33f)
-                    .setText(R.id.like_num, getItemData(position).numLike + "");
-        }
-        ImageView top = holder.getView(R.id.top);
-        ImageView like = holder.getView(R.id.like);
-        RelativeLayout bg = holder.getView(R.id.bg);
-        switch (position){
-            case 0:
-                top.setImageResource(R.drawable.top_one);
-                like.setImageResource(R.drawable.top_one_like);
-                bg.setBackgroundColor(getContext().getResources().getColor(R.color.top_one));
-                break;
-            case 1:
-                top.setImageResource(R.drawable.top_tow);
-                like.setImageResource(R.drawable.top_tow_like);
-                bg.setBackgroundColor(getContext().getResources().getColor(R.color.top_tow));
-                break;
-            case 2:
-                top.setImageResource(R.drawable.top_three);
-                like.setImageResource(R.drawable.top_three_like);
-                bg.setBackgroundColor(getContext().getResources().getColor(R.color.top_three));
-                break;
-            case 3:
-                top.setImageResource(R.drawable.top_for);
-                like.setImageResource(R.drawable.top_for_like);
-                bg.setBackgroundColor(getContext().getResources().getColor(R.color.top_for));
-                break;
-            case 4:
-                top.setImageResource(R.drawable.top_frive);
-                like.setImageResource(R.drawable.top_frive_like);
-                bg.setBackgroundColor(getContext().getResources().getColor(R.color.top_frive));
-                break;
-        }
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return 5;
+                
     }
 }
