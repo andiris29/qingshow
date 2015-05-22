@@ -113,11 +113,11 @@ feeding.hot = {
     'method' : 'get',
     'func' : function (req, res) {
         _feed(req, res, function (qsParam, out_callback) {
-            var dateNum = Math.floor(qsParam.pageSize / 2);
+            var dateNum = Math.ceil(qsParam.pageSize / 2);
             var showId = [];
             async.waterfall([
                 function(callback) {
-                    Show.aggregate([
+                    var condition = [
                         {
                             '$group' : {
                                 '_id': {
@@ -129,15 +129,10 @@ feeding.hot = {
                         }, {
                             $sort : { _id : -1 }
                         }
-                    ]).exec(function(err, data) {
-                        if (!err) {
-                            callback(null, data);
-                        } else {
-                            callback(err);
-                        }
-                    });
+                    ];
+                    MongoHelper.aggregatePaging(Show.aggregate(condition), qsParam.pageNo, dateNum, callback);
                 },
-                function(result, callback) {
+                function(result, count, callback) {
                     var task = result.map(function(element) {
                         return function(in_callback) {
                             var _id = element._id;
@@ -169,10 +164,20 @@ feeding.hot = {
                     var criteria = {
                         '_id' : { '$in' : showId}
                     };
-                    MongoHelper.queryPaging(Show.find(criteria).sort({
-                        'recommend.date' : -1,
+                    //MongoHelper.queryPaging(Show.find(criteria).sort({
+                    //    'recommend.date' : -1,
+                    //    'numLike' : -1
+                    //}), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
+                    Show.find(criteria).sort({
+                        'recommend.date' : - 1,
                         'numLike' : -1
-                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
+                    }).exec(function(err, shows) {
+                        if (err) {
+                            out_callback(ServerError.fromDescription(err));
+                        } else {
+                            out_callback(null, shows, shows.length);
+                        }
+                    });
                 }], out_callback
             );
         }, {
