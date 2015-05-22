@@ -248,3 +248,56 @@ feeding.like = {
         });
     }
 };
+
+feeding.byRecommendDate =  {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, out_callback) {
+            async.waterfall([
+                function(callback) {
+                    var date = qsParam.date;
+                    if (!date || date.length == 0) {
+                        callback(ServerError.NotEnoughParam);
+                    } else {
+                        callback();
+                    }
+                },
+                function(callback) {
+                    var beginDt = RequestHelper.parseDate(qsParam.date);
+                    var endDt = RequestHelper.parseDate(qsParam.date);
+                    endDt.setDate(endDt.getDate() + 1);
+
+                    var criteria = {
+                        'recommend.date' : {
+                            '$gte' : beginDt,
+                            '$lt' : endDt
+                        }
+                    };
+
+                    MongoHelper.queryPaging(Show.find(criteria).sort({
+                        'numLike' : -1
+                    }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, out_callback);
+
+                }
+            ], out_callback);
+        }, {
+            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
+                async.series([
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'itemRefs',
+                            'model' : "items"
+                        }, callback);
+                    }, 
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'promotionRef',
+                            'model' : "promotions"
+                        }, callback);
+                    }], 
+                    afterQuery_cb
+                );
+            }
+        });
+    }
+};
