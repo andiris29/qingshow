@@ -52,7 +52,6 @@
     if (self) {
         [self providerInit];
         self.userInfo = peopleDict;
-        self.type = QSSectionButtonGroupTypeU01;
     }
     return self;
 }
@@ -222,12 +221,7 @@
     self.recommendationCollectionView.hidden = NO;
     self.likedCollectionView.hidden = YES;
 
-    
-    //Section title
-    NSArray* titleArray = @[@"搭配推荐",@"我的收藏"];
-    for (int i = 0; i < titleArray.count; i++) {
-        [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
-    }
+
 }
 
 

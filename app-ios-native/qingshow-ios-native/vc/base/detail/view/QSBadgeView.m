@@ -18,8 +18,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
-@property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
-
 @end
 
 @implementation QSBadgeView
@@ -30,17 +28,6 @@
     UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
     NSArray* array = [nib instantiateWithOwner:self options:nil];
     QSBadgeView* v = array[0];
-    v.type = QSSectionButtonGroupTypeImage;
-    [v updateView];
-    return array[0];
-}
-+ (QSBadgeView*)generateViewWithType:(QSSectionButtonGroupType)type
-{
-
-    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
-    NSArray* array = [nib instantiateWithOwner:self options:nil];
-    QSBadgeView* v = array[0];
-    v.type = type;
     [v updateView];
     return array[0];
 }
@@ -57,10 +44,6 @@
     CGRect rect = self.frame;
     rect.size.width = [UIScreen mainScreen].bounds.size.width;
     self.frame = rect;
-    self.btnGroup = [[QSSectionButtonGroup alloc] initWithType:self.type];
-    [self.sectionGroupContainer addSubview:self.btnGroup];
-    [self.btnGroup setSelect:0];
-    self.btnGroup.delegate = self;
 }
 
 #pragma mark - Binding
@@ -73,25 +56,6 @@
     
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];
-    
-    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
-        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
-        [f setFollowed:[QSPeopleUtil getPeopleIsFollowed:peopleDict]];
-    }
-}
-
-#pragma mark - QSSectionButtonGroupDelegate
-- (void)groupButtonPressed:(int)index
-{
-    if ([self.delegate respondsToSelector:@selector(changeToSection:)]) {
-        [self.delegate changeToSection:index];
-    }
-}
-- (void)singleButtonPressed
-{
-    if ([self.delegate respondsToSelector:@selector(singleButtonPressed)]){
-        [self.delegate singleButtonPressed];
-    }
 }
 
 @end

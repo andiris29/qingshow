@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSSectionButtonGroup.h"
 
 @protocol QSBadgeViewDelegate <NSObject>
 
@@ -16,18 +15,16 @@
 
 @end
 
-@interface QSBadgeView : UIView <QSSectionButtonGroupDelegate>
+@interface QSBadgeView : UIView
 
 @property (weak, nonatomic) NSObject<QSBadgeViewDelegate>* delegate;
-@property (strong, nonatomic) QSSectionButtonGroup* btnGroup;
-@property (assign, nonatomic) QSSectionButtonGroupType type;
 
 #pragma mark - Static
 + (QSBadgeView*)generateView;
-+ (QSBadgeView*)generateViewWithType:(QSSectionButtonGroupType)type;
 
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict;
 
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @end
 
