@@ -32,14 +32,14 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
         findViewById(R.id.g02_go).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(G02WelcomeActivity.this, S15ChosenActivity.class));
+                startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
             }
         });
 
         findViewById(R.id.g02_dump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(G02WelcomeActivity.this, S15ChosenActivity.class));
+                startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
             }
         });
 

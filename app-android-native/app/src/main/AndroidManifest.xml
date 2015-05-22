@@ -183,10 +183,6 @@
             android:value="native" />
 
 
-        <activity android:name=".activity.S15ChosenActivity"
-            android:label="S12TopicListActivity">
-        </activity>
-
         <activity
             android:name=".activity.S14FashionMsgActivity"
             android:label="@string/title_activity_s14_fashion_msg"
