@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface QSU14FavoriteViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+#import "QSRootContentViewController.h"
+@interface QSU14FavoriteViewController : QSRootContentViewController <UITableViewDataSource,UITableViewDelegate>
 
 @end

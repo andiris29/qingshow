@@ -63,8 +63,6 @@
     // Configure the view for the selected state
 }
 #pragma mark - Static
-
-
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict
 {
 #warning TODO

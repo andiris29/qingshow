@@ -40,7 +40,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:YES];
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
 }

@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
+#import "QSS17ViewController.h"
+#import "QSU14FavoriteViewController.h"
 #import "QSNavigationController.h"
 
 @interface QSRootContainerViewController ()
@@ -61,9 +63,15 @@
             break;
         }
         case QSRootMenuItemMyFavor:{
+            QSU14FavoriteViewController* favorVc = [[QSU14FavoriteViewController alloc] init];
+            favorVc.menuProvider = self;
+            vc = favorVc;
             break;
         }
         case QSRootMenuItemMeida:{
+            QSS17ViewController* topShowVc = [[QSS17ViewController alloc] init];
+            topShowVc.menuProvider = self;
+            vc = topShowVc;
             break;
         }
         case QSRootMenuItemSetting:
