@@ -27,6 +27,19 @@
         return [NSURL URLWithString:cover];
     }
 }
+//新增获取高度的实现代码
++ (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic
+{
+    if ([QSCommonUtil checkIsNil:dic]) {
+        return 180;
+    }
+    if ([QSCommonUtil checkIsNil:dic[@"coverMetaData.height"]]) {
+        return 180;
+    }
+    else{
+        return  [dic[@"coverMetaData.height"] floatValue];
+    }
+}
 + (NSURL*)getCoverUrl:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {

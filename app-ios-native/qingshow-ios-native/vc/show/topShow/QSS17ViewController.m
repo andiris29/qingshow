@@ -16,6 +16,7 @@
 @interface QSS17ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray *_dataArray;
+    
 }
 
 @end
@@ -28,36 +29,52 @@
     self.view.backgroundColor = [UIColor clearColor];
     self.topShowTableView.dataSource = self;
     self.topShowTableView.delegate = self;
-    _dataArray =  [[NSMutableArray alloc]initWithCapacity:0];
-    [self transformNavigationItem];
+    self.topShowTableView.separatorColor = [UIColor grayColor];
+    self.topShowTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _dataArray =  [[NSMutableArray alloc]init];
+    self.navigationItem.title = @"";
+#warning add leftNavigationButton
     [self getNetWorkData];
-  
+    
+#warning expected reload moreData
 }
-//优化显示
-- (void)transformNavigationItem
+- (void)viewWillAppear:(BOOL)animated
 {
-    
-    self.navigationItem.title = @"美搭榜单";
-    
+    [super viewWillAppear:YES];
+    self.navigationController.navigationBarHidden = NO;
+    [MobClick beginLogPageView:PAGE_ID];
 }
 
 //获取网络数据
 - (void)getNetWorkData
 {
-    [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-        NSLog(@"array = %@,dic = %@",array,metadata);
-        [_dataArray addObjectsFromArray:array];
-        [self.topShowTableView reloadData];
-    } onError:^(NSError *error) {
-        NSLog(@"TopShow Page  NetWorlk Error!");
-    }];
-
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+            [_dataArray addObject:array];
+            [self.topShowTableView reloadData];
+        } onError:^(NSError *error) {
+            NSLog(@"TopShow Page  NetWorlk Error!");
+        }];
+    });
+    
+}
+- (CGFloat)getHeight:(NSDictionary *)dic
+{
+    CGFloat height = 180;
+    if (dic.count) {
+        height = [QSShowUtil getCoverMetaDataHeight:dic];
+    }
+    return height;
 }
 
 #pragma mark -UITableViewDataSource
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_dataArray.count) {
+        return  [self getHeight:[_dataArray firstObject][0]];
+    }
     return 180.f;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -76,13 +93,20 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS17TopShowCell" owner:nil options:nil]lastObject];
     }
-    [cell bindWithDataArray:_dataArray];
+    cell.userInteractionEnabled = YES;
+   
+    //查看网络返回的数据
+    //NSLog(@"datadic = %@",[_dataArray firstObject][0]);
+    
+    [cell bindWithDataDic:[_dataArray firstObject][indexPath.row*2] andAnotherDic:nil];
+    
     return cell;
 }
 #pragma mark - UITableViewDelegate - 点击跳转的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"跳转美搭榜单第二页");
+    
+    NSLog(@"date = %@",[QSShowUtil getRecommendDate: [_dataArray firstObject][indexPath.row*2]]);
 }
 
 - (void)didReceiveMemoryWarning {

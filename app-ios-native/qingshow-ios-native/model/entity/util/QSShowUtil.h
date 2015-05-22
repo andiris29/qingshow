@@ -29,4 +29,7 @@
 + (NSDate*)getLikeDate:(NSDictionary*)showDict;
 + (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;
 
+//新增获取图片高度的方法
++ (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;
+
 @end

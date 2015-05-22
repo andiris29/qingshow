@@ -16,9 +16,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *favoNumLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *leftImgView;
 @property (weak, nonatomic) IBOutlet UIImageView *rightImgView;
-- (IBAction)pressFavoritebtn:(id)sender;
+
+- (IBAction)favoBtnPressed:(UIButton *)sender;
 
 @property(nonatomic,assign)BOOL isFavoBtnPressed;
 
-- (void)bindWithDataArray:(NSArray *)dataArray;
+
+- (void)bindWithDataDic:(NSDictionary *)fDic andAnotherDic:(NSDictionary *)sDic;
 @end

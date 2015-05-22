@@ -15,12 +15,18 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Mho-Cb-ulb">
-                    <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Mho-Cb-ulb">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="Mho-Cb-ulb" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="90p-UY-wNK"/>
+                <constraint firstItem="Mho-Cb-ulb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="EkB-J7-5ED"/>
+                <constraint firstAttribute="bottom" secondItem="Mho-Cb-ulb" secondAttribute="bottom" id="ogM-Xg-fLV"/>
+                <constraint firstAttribute="trailing" secondItem="Mho-Cb-ulb" secondAttribute="trailing" id="xOt-lg-JkQ"/>
+            </constraints>
         </view>
     </objects>
 </document>
