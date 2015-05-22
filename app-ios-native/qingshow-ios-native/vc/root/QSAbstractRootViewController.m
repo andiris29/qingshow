@@ -21,7 +21,6 @@
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
 
-#import "QSS17TopShowsViewController.h"
 #import "QSU13PersonalizeViewController.h"
 
 #import "QSPeopleUtil.h"
