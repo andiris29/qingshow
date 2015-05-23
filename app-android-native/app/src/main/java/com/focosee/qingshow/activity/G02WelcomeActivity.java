@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,10 +14,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
+import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
-public class G02WelcomeActivity extends FragmentActivity implements ViewPager.OnPageChangeListener {
+public class G02WelcomeActivity extends FragmentActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private final int indicatorCount = 3;
     private ViewPager mViewPager;
@@ -29,19 +34,9 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
         setContentView(R.layout.activity_g02_welcome);
 
-        findViewById(R.id.g02_go).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
-            }
-        });
+        findViewById(R.id.g02_go).setOnClickListener(this);
 
-        findViewById(R.id.g02_dump).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
-            }
-        });
+        findViewById(R.id.g02_dump).setOnClickListener(this);
 
 
         mViewPager = (ViewPager) findViewById(R.id.g02_viewpager);
@@ -111,6 +106,15 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(QSModel.INSTANCE.loggedin()) {
+            startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
+        }else{
+            startActivity(new Intent(G02WelcomeActivity.this, U07RegisterActivity.class));
+        }
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

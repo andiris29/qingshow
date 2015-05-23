@@ -137,7 +137,6 @@
     <string name="s02_title_name">潮流单品</string>
     <string name="s17_title_name">美搭榜单</string>
 
-
     <!-- comm -->
     <string name="no_more_data">没有更多数据了！</string>
     <string name="need_login">请先登录</string>
@@ -173,8 +172,9 @@
     <string name="guide_pager1_title">倾秀</string>
     <string name="guide_pager2_title">潮流的搭配</string>
     <string name="guide_pager3_title">个性化推送</string>
-
     <string name="guide_pager1_describe">一个为你独家定制的服装搭配应用平台</string>
     <string name="guide_pager2_describe">即使没有女神的身材也可以有女神的风范</string>
     <string name="guide_pager3_describe">每天推送适合你的搭配和最潮流的资讯</string>
+    <string name="title_activity_u14_collection">U14CollectionActivity</string>
+
 </resources>

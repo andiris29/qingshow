@@ -35,6 +35,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class S02ShowClassify extends BaseActivity {
 
     static class ShowClassifyConfig {
@@ -48,7 +51,8 @@ public class S02ShowClassify extends BaseActivity {
     public static final String INPUT_CATEGORY = "INPUT_CATEGORY";
     public static String ACTION_MESSAGE = "S02ShowClassify_actionMessage";
 
-    private MPullRefreshMultiColumnListView _pullRefreshListView;
+    @InjectView(R.id.S02_waterfall_content)
+    MPullRefreshMultiColumnListView _pullRefreshListView;
     private MultiColumnListView _waterfallListView;
     private AbsWaterfallAdapter _adapter;
 
@@ -75,11 +79,9 @@ public class S02ShowClassify extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s02_show_classify);
-
+        ButterKnife.inject(this);
         Intent intent = getIntent();
         classifyMod = intent.getIntExtra(S02ShowClassify.INPUT_CATEGORY, 0);
-
-        _pullRefreshListView = (MPullRefreshMultiColumnListView) findViewById(R.id.S02_waterfall_content);
 
         ((TextView)findViewById(R.id.title)).setText(R.string.s02_title_name);
         findViewById(R.id.left_btn).setOnClickListener(new View.OnClickListener() {
@@ -111,35 +113,35 @@ public class S02ShowClassify extends BaseActivity {
         _pullRefreshListView.setPullLoadEnabled(true);
         _pullRefreshListView.setScrollLoadEnabled(true);
 
-        _pullRefreshListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
-            int i = 0;
-            @Override
-            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
-                pauseOnScroll(ImageLoader.getInstance(),true, scrollState);
-                i++;
-                Log.i("tag",i + "-scroll" + scrollState);
-            }
-
-            @Override
-            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            }
-
-            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnFling,int scrollState){
-                switch (scrollState) {
-                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-                        imageLoader.resume();
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        imageLoader.resume();
-                        break;
-                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        if (pauseOnFling) {
-                            imageLoader.pause();
-                        }
-                        break;
-                }
-            }
-        });
+//        _pullRefreshListView.setOnScrollListener(new PLA_AbsListView.OnScrollListener() {
+//            int i = 0;
+//            @Override
+//            public void onScrollStateChanged(PLA_AbsListView view, int scrollState) {
+//                pauseOnScroll(ImageLoader.getInstance(),true, scrollState);
+//                i++;
+//                Log.i("tag",i + "-scroll" + scrollState);
+//            }
+//
+//            @Override
+//            public void onScroll(PLA_AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//            }
+//
+//            private void pauseOnScroll(ImageLoader imageLoader, boolean pauseOnFling,int scrollState){
+//                switch (scrollState) {
+//                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+//                        imageLoader.resume();
+//                        break;
+//                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+//                        imageLoader.resume();
+//                        break;
+//                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+//                        if (pauseOnFling) {
+//                            imageLoader.pause();
+//                        }
+//                        break;
+//                }
+//            }
+//        });
 
         _pullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MultiColumnListView>() {
             @Override
@@ -188,27 +190,13 @@ public class S02ShowClassify extends BaseActivity {
 
     private void _getDataFromNet(boolean refreshSign, String pageNo, String pageSize) {
         final boolean _tRefreshSign = refreshSign;
-        String url = "";
-        switch (classifyMod){
-            case 0:
-                url = QSAppWebAPI.getitemRandomApi(Integer.valueOf(pageNo), Integer.valueOf(20));
-                break;
-            case 1:
-                url = QSAppWebAPI.getShowHotApi(Integer.valueOf(pageNo), Integer.valueOf(pageSize));
-                break;
-        }
-        QSJsonObjectRequest jor = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
+
+        QSJsonObjectRequest jor = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                System.out.println("response:" + response.toString());
                     LinkedList results = null;
-                    switch (classifyMod){
-                        case 0:
-                             results = ItemRandomParser.parse(response);
-                            break;
-                        case 1:
-                             results = FeedingParser.parse(response);
-                            break;
-                    }
+
                     if (_tRefreshSign) {
                         _adapter.addItemTop(results);
                         _currentPageIndex = 1;

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_u14_modelImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/splash_image"/>
+
+
+        </RelativeLayout>
+
+    <GridLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:columnOrderPreserved="true"
+        android:rowCount="2"
+        android:columnCount="2"
+        android:layout_weight="1">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_u14_modelImage2"
+            android:layout_width="95dp"
+            android:src="@drawable/alipay"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_u14_modelImage1"
+            android:layout_width="95dp"
+            android:src="@drawable/alipay"/>
+
+    </GridLayout>
+
+
+
+</LinearLayout>

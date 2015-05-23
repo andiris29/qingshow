@@ -27,26 +27,21 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
-
         <activity
-            android:name="com.focosee.qingshow.activity.S17TopShowsActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" />
-
+            android:name=".activity.S17TopShowsActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.focosee.qingshow.activity.U01UserActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" />
-
-
+            android:name=".activity.U01UserActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.focosee.qingshow.activity.S16PersonalizeActivity"
+            android:name=".activity.S16PersonalizeActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation" >
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
-
         <activity
             android:name=".activity.U02SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -182,18 +177,20 @@
             android:name="UMENG_CHANNEL"
             android:value="native" />
 
-
         <activity
             android:name=".activity.S14FashionMsgActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s14_fashion_msg"
-            android:screenOrientation="portrait"
-            android:configChanges="keyboardHidden|orientation">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.G02WelcomeActivity"
             android:label="@string/title_activity_g02_welcome" >
         </activity>
-
+        <activity
+            android:name=".activity.U14CollectionActivity"
+            android:label="@string/title_activity_u14_collection" >
+        </activity>
     </application>
 
 </manifest>

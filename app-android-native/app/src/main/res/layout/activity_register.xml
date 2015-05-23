@@ -209,7 +209,7 @@ android:background="@drawable/login_bg">
             android:background="@null"
             android:focusableInTouchMode="true"
             android:hint="@string/phone_email_activity_register"
-            android:inputType="phone|textEmailAddress"
+            android:inputType="textEmailAddress"
             android:singleLine="true"
             android:textColorHint="@color/white" />
     </RelativeLayout>

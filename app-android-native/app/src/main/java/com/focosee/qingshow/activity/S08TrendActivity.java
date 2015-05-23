@@ -29,18 +29,25 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class S08TrendActivity extends BaseActivity {
 
     private final String TAG = "S08TrendActivity";
     private final String TYPE = "1";
 
-    private MPullRefreshListView mPullRefreshListView;
+    @InjectView(R.id.S08_content_list_view)
+    MPullRefreshListView mPullRefreshListView;
     private ListView listView;
+
+    @InjectView(R.id.right_btn)
+    ImageView rightBtn;
 
     private S08TrendListAdapter adapter;
     private int _currentPageIndex = 1;
-    private ImageView _backImageBtn;
+    @InjectView(R.id.left_btn)
+    ImageView _backImageBtn;
 
     private SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
@@ -48,17 +55,22 @@ public class S08TrendActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s08_trend);
-
-        mPullRefreshListView = (MPullRefreshListView) findViewById(R.id.S08_content_list_view);
+        ButterKnife.inject(this);
         listView = mPullRefreshListView.getRefreshableView();
 
         ((TextView)findViewById(R.id.title)).setText(R.string.s08_title);
 
-        _backImageBtn = (ImageView) findViewById(R.id.left_btn);
         _backImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(S08TrendActivity.this, U01UserActivity.class));
             }
         });
 

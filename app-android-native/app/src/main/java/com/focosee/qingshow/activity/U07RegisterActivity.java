@@ -154,6 +154,8 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
                             map.put("nickname", accountEditText.getText().toString());
                             map.put("password", passwordEditText.getText().toString());
 
+                            System.out.println("id" + phoneEditText.getText().toString());
+                            System.out.println("password" + passwordEditText.getText().toString());
                             return map;
                         }
                     };

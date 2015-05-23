@@ -71,10 +71,6 @@ public class U06LoginActivity extends BaseActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("id", accountEditText.getText().toString());
-                params.put("password", passwordEditText.getText().toString());
-                JSONObject jsonObject = new JSONObject(params);
 
                 final ProgressDialog pDialog = new ProgressDialog(U06LoginActivity.this);
                 pDialog.setMessage("加载中...");
@@ -85,6 +81,7 @@ public class U06LoginActivity extends BaseActivity {
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                System.out.println("response:" + response);
                                 pDialog.dismiss();
 
                                 MongoPeople user = UserParser.parseLogin(response);
