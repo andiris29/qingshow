@@ -1,4 +1,4 @@
-package com.focosee.qingshow;
+package com.focosee.qingshow.imgResizer.file;
 
 import java.io.File;
 

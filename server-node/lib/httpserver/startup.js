@@ -11,7 +11,7 @@ var winston = require('winston');
 
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'chosen', 'item', 'itemfeeding'];
+var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade'];
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,

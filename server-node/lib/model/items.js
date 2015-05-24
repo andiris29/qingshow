@@ -12,16 +12,8 @@ itemSchema = Schema({
         url : String,
         description : String
     }],
-    imageMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
     source : String,
-    brandRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'brands'
-    },
+    brandLogo : String,
     numLike : Number,
     create : {
         type : Date,
