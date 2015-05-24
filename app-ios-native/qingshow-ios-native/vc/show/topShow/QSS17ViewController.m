@@ -33,7 +33,6 @@
     self.topShowTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _dataArray =  [[NSMutableArray alloc]init];
     self.navigationItem.title = @"";
-#warning add leftNavigationButton
     [self getNetWorkData];
     
 #warning expected reload moreData

@@ -11,7 +11,8 @@
 @implementation QSRecommendationDateCollectionViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
+    float rate = ([UIScreen mainScreen].bounds.size.width - 4) / 2.f /158.f;
+    self.contentView.transform = CGAffineTransformMakeScale(rate, rate);
 }
 - (void)bindWithDate:(QSRecommendationDateCellModel*)model;
 {

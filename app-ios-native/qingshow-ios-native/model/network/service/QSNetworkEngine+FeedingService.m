@@ -19,6 +19,7 @@
 #define PATH_FEEDING_STUDIO @"feeding/studio"
 #define PATH_FEEDING_LIKE @"feeding/like"
 #define PATH_FEEDING_RECOMMENDATION @"feeding/recommendation"
+#define PATH_FEEDING_RECOMMENDATION_DATE @"feeding/byRecommendDate"
 #define PATH_FEEDING_BY_BRAND @"feeding/byBrand"
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
 #define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
@@ -102,6 +103,17 @@
     return [self getFeedingPath:PATH_FEEDING_RECOMMENDATION otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
+- (MKNetworkOperation*)getRecommendationFeedingDate:(NSDate*)date
+                                               page:(int)page
+                                          onSucceed:(ArraySuccessBlock)succeedBlock
+                                            onError:(ErrorBlock)errorBlock
+{
+    return [self getFeedingPath:PATH_FEEDING_RECOMMENDATION_DATE
+                     otherParam:@{@"date": date}
+                           page:page
+                      onSucceed:succeedBlock
+                        onError:errorBlock];
+}
 
 - (MKNetworkOperation*)getCategoryFeeding:(int)type
                                      page:(int)page

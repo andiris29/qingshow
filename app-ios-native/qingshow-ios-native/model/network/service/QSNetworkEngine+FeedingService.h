@@ -23,6 +23,10 @@
 - (MKNetworkOperation*)getRecommendationFeedingPage:(int)page
                                           onSucceed:(ArraySuccessBlock)succeedBlock
                                             onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)getRecommendationFeedingDate:(NSDate*)date
+                                               page:(int)page
+                                          onSucceed:(ArraySuccessBlock)succeedBlock
+                                            onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)getCategoryFeeding:(int)type
                                      page:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock

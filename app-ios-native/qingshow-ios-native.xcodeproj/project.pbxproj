@@ -93,6 +93,9 @@
 		EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */; };
 		EF4D50AA1A177B7A001E179B /* QSS02CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4D50A81A177B7A001E179B /* QSS02CategoryViewController.m */; };
 		EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D50A91A177B7A001E179B /* QSS02CategoryViewController.xib */; };
+		EF4EFD051B120B1E002C6430 /* QSS18TopShowOneDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD031B120B1E002C6430 /* QSS18TopShowOneDayViewController.m */; };
+		EF4EFD061B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */; };
+		EF4EFD0A1B120CC0002C6430 /* QSS18WaterfallProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */; };
 		EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55730D1A21B20000C3BC23 /* QSShowUtil.m */; };
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
@@ -500,6 +503,11 @@
 		EF4D50A71A177B7A001E179B /* QSS02CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS02CategoryViewController.h; sourceTree = "<group>"; };
 		EF4D50A81A177B7A001E179B /* QSS02CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS02CategoryViewController.m; sourceTree = "<group>"; };
 		EF4D50A91A177B7A001E179B /* QSS02CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS02CategoryViewController.xib; sourceTree = "<group>"; };
+		EF4EFD021B120B1E002C6430 /* QSS18TopShowOneDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS18TopShowOneDayViewController.h; sourceTree = "<group>"; };
+		EF4EFD031B120B1E002C6430 /* QSS18TopShowOneDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS18TopShowOneDayViewController.m; sourceTree = "<group>"; };
+		EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS18TopShowOneDayViewController.xib; sourceTree = "<group>"; };
+		EF4EFD081B120CC0002C6430 /* QSS18WaterfallProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS18WaterfallProvider.h; sourceTree = "<group>"; };
+		EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS18WaterfallProvider.m; sourceTree = "<group>"; };
 		EF55730C1A21B20000C3BC23 /* QSShowUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowUtil.h; sourceTree = "<group>"; };
 		EF55730D1A21B20000C3BC23 /* QSShowUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowUtil.m; sourceTree = "<group>"; };
 		EF5573101A21EC7B00C3BC23 /* QSItemUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemUtil.h; sourceTree = "<group>"; };
@@ -1061,6 +1069,9 @@
 				EF2679C31B0D82EB0012AE90 /* QSS17ViewController.m */,
 				EF2679C41B0D82EB0012AE90 /* QSS17ViewController.xib */,
 				EF2679C51B0D82EB0012AE90 /* topShowCell */,
+				EF4EFD021B120B1E002C6430 /* QSS18TopShowOneDayViewController.h */,
+				EF4EFD031B120B1E002C6430 /* QSS18TopShowOneDayViewController.m */,
+				EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */,
 			);
 			path = topShow;
 			sourceTree = "<group>";
@@ -1271,6 +1282,8 @@
 				EFAA5A321AFD1780001032F7 /* QSImageCollectionViewProvider.m */,
 				EFAA5A341AFD17B3001032F7 /* QSImageCollectionModel.h */,
 				EFAA5A351AFD17B3001032F7 /* QSImageCollectionModel.m */,
+				EF4EFD081B120CC0002C6430 /* QSS18WaterfallProvider.h */,
+				EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */,
 			);
 			path = collectionview;
 			sourceTree = "<group>";
@@ -2171,6 +2184,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF4EFD061B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib in Resources */,
 				8C8B9D861B00395B00C1A321 /* welcome3_480@2x.png in Resources */,
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
@@ -2284,6 +2298,7 @@
 				EFC543621A1750AD001B2C49 /* QSBadgeView.m in Sources */,
 				EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */,
 				EF88D0911ACEF91C002C4963 /* QSLocationPickerProvider.m in Sources */,
+				EF4EFD0A1B120CC0002C6430 /* QSS18WaterfallProvider.m in Sources */,
 				EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */,
 				EF59EDFC1A74FAEE00D639FB /* QSCommentListTableViewProvider.m in Sources */,
 				EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */,
@@ -2395,6 +2410,7 @@
 				EFAA5A331AFD1780001032F7 /* QSImageCollectionViewProvider.m in Sources */,
 				EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */,
 				EFFE67261A067699001F4CA1 /* QSRootMenuItem.m in Sources */,
+				EF4EFD051B120B1E002C6430 /* QSS18TopShowOneDayViewController.m in Sources */,
 				EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */,
 				EFF5B9151A3F2FB50048E634 /* QSItemListTableViewCell.m in Sources */,
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
