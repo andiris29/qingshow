@@ -37,6 +37,7 @@
                 <outlet property="backgroundImageView" destination="NIY-rA-oO7" id="uIF-Pm-xoE"/>
                 <outlet property="iconImageView" destination="tKl-cf-6S5" id="iGt-p7-Fz7"/>
                 <outlet property="nameLabel" destination="74W-bg-pUU" id="aQF-ad-HH7"/>
+                <outlet property="statusLabel" destination="cqs-Sm-5h3" id="OaI-QH-2Ts"/>
             </connections>
             <point key="canvasLocation" x="503" y="389.5"/>
         </view>

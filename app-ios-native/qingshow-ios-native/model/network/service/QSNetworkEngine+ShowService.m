@@ -12,6 +12,8 @@
 #import "NSMutableDictionary+QSExtension.h"
 #import "QSError.h"
 #import "QSCommonUtil.h"
+#import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
 
 //Query
 #define PATH_QUERY_SHOW @"show/query"
@@ -34,7 +36,8 @@
     return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : @"555aa9d538dadbed5a997eed"} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary *retDict = completedOperation.responseJSON;
         NSArray* dataArray = retDict[@"data"][@"shows"];
-        succeedBlock(dataArray, retDict[@"metadata"]);
+        
+        succeedBlock([dataArray deepMutableCopy], retDict[@"metadata"]);
         
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

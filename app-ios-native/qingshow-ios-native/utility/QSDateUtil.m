@@ -166,7 +166,16 @@
     NSDateComponents* c = [calendar components:(NSCalendarUnitYear) fromDate:date];
     return @(c.year).stringValue;
 }
-
++ (int)getWeekdayIndex:(NSDate*)date
+{
+    if ([QSCommonUtil checkIsNil:date]) {
+        return 0;
+    } else {
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents* c = [calendar components:(NSCalendarUnitWeekday) fromDate:date];
+        return c.weekday;
+    }
+}
 + (NSString*)getWeekdayDesc:(NSDate*)date
 {
     if (!date) {
@@ -181,8 +190,6 @@
                        @"THURSDAY",
                        @"FRIDAY",
                        @"SATURDAY"];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents* c = [calendar components:(NSCalendarUnitWeekday) fromDate:date];
-    return array[c.weekday];
+    return array[[self getWeekdayIndex:date]];
 }
 @end

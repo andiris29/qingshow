@@ -32,8 +32,7 @@
 @property (strong, nonatomic) NSDictionary* userInfo;
 
 #pragma mark Provider
-@property (strong, nonatomic) QSImageCollectionViewProvider* likedProvider;
-@property (strong, nonatomic) QSImageCollectionViewProvider* recommendationProvider;
+@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
 @end
 
 @implementation QSU01UserDetailViewController
@@ -60,16 +59,21 @@
 {
     __weak QSU01UserDetailViewController* weakSelf = self;
     
-    self.likedProvider  = [[QSImageCollectionViewProvider alloc] init];
-    self.likedProvider.delegate = self;
-    self.likedProvider.hasRefreshControl = NO;
-    self.recommendationProvider = [[QSImageCollectionViewProvider alloc] init];
-    self.recommendationProvider.delegate = self;
-    self.recommendationProvider.networkDataFinalHandlerBlock = ^(){
-        NSMutableArray* resultArray = weakSelf.recommendationProvider.resultArray;
-        for (int i = 0; i < resultArray.count - 1; i++) {
+    self.recommendProvider  = [[QSImageCollectionViewProvider alloc] init];
+    self.recommendProvider.delegate = self;
+    self.recommendProvider.hasRefreshControl = NO;
+    self.recommendProvider.networkDataFinalHandlerBlock = ^(){
+        NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
+        if (resultArray.count == 0) {
+            return;
+        }
+        for (int i = 0; i + 1 < resultArray.count || i == 0; i++) {
             QSImageCollectionModel* currentModel = resultArray[i];
-            QSImageCollectionModel* nextModel = resultArray[i + 1];
+            QSImageCollectionModel* nextModel = nil;
+            if (resultArray.count > 1) {
+                nextModel = resultArray[i + 1];
+            }
+
             
             if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
@@ -96,10 +100,6 @@
             }
         }
     };
-
-    
-//    self.recommendationProvider.delegate = self;
-    self.recommendationProvider.hasRefreshControl = NO;
 }
 
 #pragma mark - Life Cycle
@@ -126,17 +126,14 @@
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
     
-    [self.likedProvider refreshClickedData];
-    [self.recommendationProvider refreshClickedData];
+    [self.recommendProvider refreshClickedData];
     
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.likedProvider fetchDataOfPage:1];
-    [self.recommendationProvider fetchDataOfPage:1];
-//    [self.followingDelegate fetchDataOfPage:1];
+    [self.recommendProvider fetchDataOfPage:1];
     [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -156,56 +153,33 @@
 #pragma mark - View
 - (void)bindDelegateObj
 {
-    __weak QSU01UserDetailViewController* weakSelf = self;
-    
     //favor collectioin view
-    [self.likedProvider bindWithCollectionView:self.likedCollectionView];
-    self.likedProvider.hasPaging = NO;
-    self.likedProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        NSMutableArray* mArray = [@[] mutableCopy];
-
-        return [SHARE_NW_ENGINE
-         getLikeFeedingUser:weakSelf.userInfo
-         page:page
-         onSucceed:^(NSArray *array, NSDictionary *metadata) {
-             for (NSDictionary* dict in array) {
-                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                 m.type = QSImageCollectionModelTypeShow;
-                 m.data = dict;
-                 [mArray addObject:m];
-             }
-             succeedBlock(mArray, metadata);
-         }
-         onError:errorBlock];
+    [self.recommendProvider bindWithCollectionView:self.likedCollectionView];
+    self.recommendProvider.hasPaging = NO;
+    self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
+                {
+                    NSMutableArray* mArray = [@[] mutableCopy];
+                    for (NSDictionary* dict in array) {
+                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                        m.type = QSImageCollectionModelTypeShow;
+                        m.data = dict;
+                        [mArray addObject:m];
+                    }
+                    succeedBlock(mArray, metadata);
+                } onError:^(NSError* e){
+                    errorBlock(e);
+                }];
     };
     
-    self.likedProvider.filterBlock = ^BOOL(id obj){
+    
+    self.recommendProvider.filterBlock = ^BOOL(id obj){
         return [QSShowUtil getIsLike:obj];
     };
     
 
-    self.likedProvider.delegate = self;
-    [self.likedProvider reloadData];
-
-    //recommendation collectioin view
-    [self.recommendationProvider bindWithCollectionView:self.recommendationCollectionView];
-    self.recommendationProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
-        {
-            NSMutableArray* mArray = [@[] mutableCopy];
-            for (NSDictionary* dict in array) {
-                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                m.type = QSImageCollectionModelTypeShow;
-                m.data = dict;
-                [mArray addObject:m];
-            }
-            succeedBlock(mArray, metadata);
-        } onError:^(NSError* e){
-            errorBlock(e);
-        }];
-    };
-    self.recommendationProvider.delegate = self;
-    [self.recommendationProvider reloadData];
+    self.recommendProvider.delegate = self;
+    [self.recommendProvider reloadData];
 
 }
 
@@ -216,12 +190,7 @@
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.recommendationCollectionView, self.likedCollectionView];
-    
-    self.recommendationCollectionView.hidden = NO;
-    self.likedCollectionView.hidden = YES;
-
-
+    self.viewArray = @[self.likedCollectionView];
 }
 
 

@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
 @end
 
@@ -53,6 +54,17 @@
     self.iconImageView.layer.masksToBounds = YES;
     
     self.nameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+    NSMutableString* statusStr = [@"" mutableCopy];
+    NSString* height = [QSPeopleUtil getHeight:peopleDict];
+    if (height && height.length) {
+        [statusStr appendFormat:@"%@cm ", height];
+    }
+    NSString* weight = [QSPeopleUtil getWeight:peopleDict];
+    if (weight && weight.length) {
+        [statusStr appendFormat:@"%@kg ", weight];
+    }
+    self.statusLabel.text = statusStr;
+    
     
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];

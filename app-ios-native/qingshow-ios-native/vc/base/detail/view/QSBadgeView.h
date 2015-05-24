@@ -25,6 +25,6 @@
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict;
 
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
 @end
 
