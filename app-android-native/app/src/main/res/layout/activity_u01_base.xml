@@ -1,16 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/user_bg"
-        android:layout_width="fill_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/bg_pic"
-        android:scaleType="centerCrop" />
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:scrollbarStyle="outsideOverlay">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</RelativeLayout>
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/context"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/user_bg"
+                android:layout_width="fill_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/bg_pic"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/s03_back_btn" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/navigation"
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:alpha="80"
+        android:background="#B0000000"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageButton style="@style/navigation_btn" />
+
+        <TextView
+            style="@style/navigation_text"
+            android:text="我的搭配" />
+
+        <ImageButton
+            style="@style/navigation_btn"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            style="@style/navigation_text"
+            android:text="美搭榜单" />
+
+        <ImageButton
+            style="@style/navigation_btn"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            style="@style/navigation_text"
+            android:text="我的收藏" />
+
+        <ImageButton
+            style="@style/navigation_btn"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            style="@style/navigation_text"
+            android:text="个人设置" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</android.support.v4.widget.DrawerLayout>
