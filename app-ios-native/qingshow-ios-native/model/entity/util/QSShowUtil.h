@@ -31,5 +31,5 @@
 
 //新增获取图片高度的方法
 + (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;
-
++ (NSDictionary*)getPromotionRef:(NSDictionary*)showDict;
 @end

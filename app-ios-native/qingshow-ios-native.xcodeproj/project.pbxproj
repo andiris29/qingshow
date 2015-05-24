@@ -98,6 +98,7 @@
 		EF4EFD0A1B120CC0002C6430 /* QSS18WaterfallProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */; };
 		EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */; };
 		EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */; };
+		EF4EFD121B1232CC002C6430 /* QSPromotionUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD111B1232CC002C6430 /* QSPromotionUtil.m */; };
 		EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55730D1A21B20000C3BC23 /* QSShowUtil.m */; };
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
@@ -513,6 +514,8 @@
 		EF4EFD0B1B121D28002C6430 /* QSTopShowOneDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTopShowOneDayCell.h; sourceTree = "<group>"; };
 		EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTopShowOneDayCell.m; sourceTree = "<group>"; };
 		EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTopShowOneDayCell.xib; sourceTree = "<group>"; };
+		EF4EFD101B1232CC002C6430 /* QSPromotionUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPromotionUtil.h; sourceTree = "<group>"; };
+		EF4EFD111B1232CC002C6430 /* QSPromotionUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPromotionUtil.m; sourceTree = "<group>"; };
 		EF55730C1A21B20000C3BC23 /* QSShowUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowUtil.h; sourceTree = "<group>"; };
 		EF55730D1A21B20000C3BC23 /* QSShowUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowUtil.m; sourceTree = "<group>"; };
 		EF5573101A21EC7B00C3BC23 /* QSItemUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemUtil.h; sourceTree = "<group>"; };
@@ -1760,6 +1763,8 @@
 				EFEBAAF21ABF09350000FEEE /* QSTradeUtil.m */,
 				A75DF2051B01A6B400A88E36 /* QSHotUtil.h */,
 				A75DF2061B01A6B400A88E36 /* QSHotUtil.m */,
+				EF4EFD101B1232CC002C6430 /* QSPromotionUtil.h */,
+				EF4EFD111B1232CC002C6430 /* QSPromotionUtil.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -2437,6 +2442,7 @@
 				EF59EDF91A74FAEE00D639FB /* QSShowCollectionViewProvider.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */,
+				EF4EFD121B1232CC002C6430 /* QSPromotionUtil.m in Sources */,
 				EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */,
 				EFA618AC1A125FCB00560699 /* QSS04CommentListViewController.m in Sources */,
 				EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */,

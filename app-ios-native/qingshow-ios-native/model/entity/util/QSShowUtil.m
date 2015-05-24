@@ -250,4 +250,14 @@
     NSNumber* like = [showDict valueForKeyPath:@"__context.sharedByCurrentUser"];
     return like.boolValue;
 }
+
++ (NSDictionary*)getPromotionRef:(NSDictionary*)showDict
+{
+    NSDictionary* dict = [showDict valueForKey:@"__context.promotionRef"];
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    } else {
+        return dict;
+    }
+}
 @end
