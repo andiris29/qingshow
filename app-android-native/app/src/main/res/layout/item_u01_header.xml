@@ -3,17 +3,16 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/U01_head_relative"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/RelativeLayout_height_activity_model">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:background="@drawable/bg_pic"
-        android:id="@+id/activity_personal_background"
+        android:id="@+id/bg"
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/RelativeLayout_height_activity_model"
+        android:layout_height="180dp"
+        android:background="#30000000"
         android:scaleType="centerCrop" />
 
     <ImageView
-        android:id="@+id/activity_personal_backTextView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
@@ -22,89 +21,40 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/s03_back_btn" />
 
-    <ImageView
-        android:id="@+id/settingsTextView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/u01_account_btn" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@id/bg"
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="卡扎飞得九分裤"
+            android:textColor="@color/darker_gray" />
+
+        <TextView
+            android:id="@+id/user_hw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:text="165cm,45kg"
+            android:textColor="@color/darker_gray" />
+    </LinearLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/user_head"
-        fresco:roundAsCircle="true"
-        fresco:roundingBorderWidth="3dp"
-        fresco:roundingBorderColor="@color/white"
         android:layout_width="65dp"
         android:layout_height="65dp"
+        android:layout_below="@id/bg"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        />
-
-
-    <TextView
-        android:layout_below="@+id/avatorImageView"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/nameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/text_size_small" />
-
-
-
-    <LinearLayout
-        xmlns:tabview="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-        <com.focosee.qingshow.widget.TabView
-            tabview:check_color="@color/tab_check"
-            tabview:uncheck_color="@color/tab_uncheck"
-            android:id="@+id/recommend"
-            android:onClick="onTabClick"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/indicator_height_activity_personal"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="推荐搭配"
-                android:textColor="@color/indicator_text_color_default_activity_personal"
-                android:textSize="@dimen/text_size_small" />
-
-
-        </com.focosee.qingshow.widget.TabView>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:background="#99ffffff" />
-
-        <com.focosee.qingshow.widget.TabView
-            tabview:check_color="@color/tab_check"
-            tabview:uncheck_color="@color/tab_uncheck"
-            android:id="@+id/favorite"
-            android:onClick="onTabClick"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/indicator_height_activity_personal"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="我的收藏"
-                android:textColor="@color/indicator_text_color_default_activity_personal"
-                android:textSize="@dimen/text_size_small" />
-        </com.focosee.qingshow.widget.TabView>
-    </LinearLayout>
+        android:layout_marginTop="-33dp"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@color/white"
+        fresco:roundingBorderWidth="3dp" />
 </RelativeLayout>

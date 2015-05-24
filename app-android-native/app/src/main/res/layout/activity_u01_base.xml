@@ -2,12 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/user_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="180dp"
+        android:background="@drawable/bg_pic"
+        android:scaleType="centerCrop" />
 
-    <com.focosee.qingshow.widget.MViewPager_NoScroll
-        android:id="@+id/viewpager"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-
-    <include layout="@layout/item_u01_header" android:id="@+id/u01_header"/>
 </RelativeLayout>

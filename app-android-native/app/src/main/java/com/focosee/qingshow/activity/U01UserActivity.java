@@ -1,12 +1,10 @@
 package com.focosee.qingshow.activity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U01PushAdapter;
 import com.focosee.qingshow.model.vo.mongo.Bean;
@@ -20,8 +18,11 @@ import butterknife.InjectView;
 public class U01UserActivity extends BaseActivity {
     @InjectView(R.id.recycler)
     RecyclerView recyclerView;
+    @InjectView(R.id.user_bg)
+    ImageView userBg;
 
     private List<Bean> list;
+    private final float DAMP = 5.0f;
 
     public void reconn() {
 
@@ -30,7 +31,7 @@ public class U01UserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_u01_base);
+        setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
         initData();
         initView();
@@ -50,13 +51,14 @@ public class U01UserActivity extends BaseActivity {
         });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(new U01PushAdapter(list, this,
-                R.layout.item_u01_push, R.layout.item_u01_loading));
+                R.layout.item_u01_push, R.layout.item_u01_header));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 float offset = recyclerView.computeVerticalScrollOffset();
+                userBg.setY(- offset / DAMP);
             }
         });
 
