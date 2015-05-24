@@ -8,10 +8,13 @@
 
 #import "QSS18TopShowOneDayViewController.h"
 
+#import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
+
 @interface QSS18TopShowOneDayViewController ()
 
 @property (strong, nonatomic) NSDate* date;
-
+@property (strong, nonatomic) QSS18WaterfallProvider* provider;
 @end
 
 @implementation QSS18TopShowOneDayViewController
@@ -30,7 +33,13 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    [self configView];
+    [self configProvider];
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -39,12 +48,26 @@
 }
 
 #pragma mark -
-
 - (void)configView {
     self.title = @"美搭榜单";
-    
 }
 - (void)configProvider {
+    self.provider = [[QSS18WaterfallProvider alloc] initWithDate:self.date];
+    self.provider.delegate = self;
+    [self.provider bindWithCollectionView:self.collectionView];
+    __weak QSS18TopShowOneDayViewController* weakSelf = self;
+    self.provider.networkBlock =  ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getRecommendationFeedingDate:weakSelf.date
+                                                        page:page
+                                                   onSucceed:succeedBlock
+                                                     onError:errorBlock];
+//        return [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
+    };
+    [self.provider reloadData];
+}
 
+- (void)didClickShow:(NSDictionary*)show ofProvider:(QSS18WaterfallProvider*)provider
+{
+    [self showShowDetailViewController:show];
 }
 @end

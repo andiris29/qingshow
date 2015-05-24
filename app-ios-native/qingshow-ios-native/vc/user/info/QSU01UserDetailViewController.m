@@ -155,7 +155,6 @@
 {
     //favor collectioin view
     [self.recommendProvider bindWithCollectionView:self.likedCollectionView];
-    self.recommendProvider.hasPaging = NO;
     self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata)
                 {

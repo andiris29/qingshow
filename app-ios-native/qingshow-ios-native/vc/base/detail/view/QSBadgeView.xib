@@ -17,6 +17,22 @@
                         <constraint firstAttribute="height" constant="230" id="V7e-gx-jfL"/>
                     </constraints>
                 </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tKl-cf-6S5">
+                    <rect key="frame" x="118" y="186" width="84" height="84"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="84" id="cfv-lh-VB1"/>
+                        <constraint firstAttribute="width" constant="84" id="z6f-Xq-QxH"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqs-Sm-5h3">
+                    <rect key="frame" x="8" y="313" width="304" height="18"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="oDk-SA-MGl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="74W-bg-pUU">
                     <rect key="frame" x="8" y="287" width="304" height="18"/>
                     <constraints>
@@ -26,22 +42,6 @@
                     <color key="textColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqs-Sm-5h3">
-                    <rect key="frame" x="8" y="313" width="304" height="18"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="304" id="EZz-Fa-sr0"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="0.31372549020000001" green="0.31372549020000001" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tKl-cf-6S5">
-                    <rect key="frame" x="118" y="186" width="84" height="84"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="84" id="cfv-lh-VB1"/>
-                        <constraint firstAttribute="width" constant="84" id="z6f-Xq-QxH"/>
-                    </constraints>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>

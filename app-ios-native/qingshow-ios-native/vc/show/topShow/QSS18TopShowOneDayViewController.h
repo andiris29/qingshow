@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSS18WaterfallProvider.h"
 
-@interface QSS18TopShowOneDayViewController : UIViewController
+@interface QSS18TopShowOneDayViewController : UIViewController<QSS18WaterfallProviderDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 - (instancetype)initWithDate:(NSDate*)date;

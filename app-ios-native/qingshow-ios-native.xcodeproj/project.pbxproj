@@ -96,6 +96,8 @@
 		EF4EFD051B120B1E002C6430 /* QSS18TopShowOneDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD031B120B1E002C6430 /* QSS18TopShowOneDayViewController.m */; };
 		EF4EFD061B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */; };
 		EF4EFD0A1B120CC0002C6430 /* QSS18WaterfallProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */; };
+		EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */; };
+		EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */; };
 		EF55730E1A21B20000C3BC23 /* QSShowUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55730D1A21B20000C3BC23 /* QSShowUtil.m */; };
 		EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5573111A21EC7B00C3BC23 /* QSItemUtil.m */; };
 		EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF55731A1A22105500C3BC23 /* QSCommentUtil.m */; };
@@ -508,6 +510,9 @@
 		EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS18TopShowOneDayViewController.xib; sourceTree = "<group>"; };
 		EF4EFD081B120CC0002C6430 /* QSS18WaterfallProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS18WaterfallProvider.h; sourceTree = "<group>"; };
 		EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS18WaterfallProvider.m; sourceTree = "<group>"; };
+		EF4EFD0B1B121D28002C6430 /* QSTopShowOneDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSTopShowOneDayCell.h; sourceTree = "<group>"; };
+		EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSTopShowOneDayCell.m; sourceTree = "<group>"; };
+		EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSTopShowOneDayCell.xib; sourceTree = "<group>"; };
 		EF55730C1A21B20000C3BC23 /* QSShowUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSShowUtil.h; sourceTree = "<group>"; };
 		EF55730D1A21B20000C3BC23 /* QSShowUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSShowUtil.m; sourceTree = "<group>"; };
 		EF5573101A21EC7B00C3BC23 /* QSItemUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemUtil.h; sourceTree = "<group>"; };
@@ -1056,6 +1061,9 @@
 				EFAA5A391AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib */,
 				EFAA5A441AFE8969001032F7 /* QSRecommendationDateCellModel.h */,
 				EFAA5A451AFE8969001032F7 /* QSRecommendationDateCellModel.m */,
+				EF4EFD0B1B121D28002C6430 /* QSTopShowOneDayCell.h */,
+				EF4EFD0C1B121D28002C6430 /* QSTopShowOneDayCell.m */,
+				EF4EFD0D1B121D28002C6430 /* QSTopShowOneDayCell.xib */,
 			);
 			path = waterfall;
 			sourceTree = "<group>";
@@ -2230,6 +2238,7 @@
 				8C8B9D851B00395B00C1A321 /* welcome2_480@2x.png in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
 				EF3013331AC3174000568D92 /* AlipaySDK.bundle in Resources */,
+				EF4EFD0F1B121D28002C6430 /* QSTopShowOneDayCell.xib in Resources */,
 				EF78E3521AAF4CB900665EDD /* QSOrderListTableViewCell.xib in Resources */,
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
 				EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */,
@@ -2361,6 +2370,7 @@
 				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
+				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				68824D921B0EBB57006E3151 /* QSU14FavoriteViewController.m in Sources */,
 				EF59EDFD1A74FAEE00D639FB /* QSItemImageListTableViewProvider.m in Sources */,
 				EFC543681A1750AD001B2C49 /* QSSectionNumberTextButton.m in Sources */,

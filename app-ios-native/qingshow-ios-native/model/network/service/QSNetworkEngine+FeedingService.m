@@ -10,6 +10,7 @@
 #import "NSArray+QSExtension.h"
 #import "QSNetworkEngine+Protect.h"
 #import "QSCommonUtil.h"
+#import "QSDateUtil.h"
 
 //Path
 #define PATH_FEEDING_CHOSEN @"feeding/chosen"
@@ -108,8 +109,12 @@
                                           onSucceed:(ArraySuccessBlock)succeedBlock
                                             onError:(ErrorBlock)errorBlock
 {
+    NSDictionary* paramDict = @{};
+    if (date) {
+        paramDict = @{@"date": [QSDateUtil buildStringFromDate:date]};
+    }
     return [self getFeedingPath:PATH_FEEDING_RECOMMENDATION_DATE
-                     otherParam:@{@"date": date}
+                     otherParam:paramDict
                            page:page
                       onSucceed:succeedBlock
                         onError:errorBlock];

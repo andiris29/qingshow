@@ -14,15 +14,19 @@
     float rate = ([UIScreen mainScreen].bounds.size.width - 4) / 2.f /158.f;
     self.contentView.transform = CGAffineTransformMakeScale(rate, rate);
 }
-- (void)bindWithDate:(QSRecommendationDateCellModel*)model;
+- (void)bindWithModel:(QSRecommendationDateCellModel*)model;
 {
+    self.descLabel.text = model.desc;
     NSDate* date = model.date;
-    
+    [self bindWithDate:date];
+}
+- (void)bindWithDate:(NSDate*)date
+{
     self.dayLabel.text = [QSDateUtil getDayDesc:date];
     self.monthLabel.text = [QSDateUtil getMonthDesc:date];
     self.yearLabel.text = [QSDateUtil getYearDesc:date];
     self.weekdayLabel.text = [QSDateUtil getWeekdayDesc:date];
-    self.descLabel.text = model.desc;
+    
     
     NSArray* backgroundColorArray = @[[NSNull null],
                                       [UIColor colorWithRed:113.f/255.f green:218.f/255.f blue:190.f/255.f alpha:1.f],//71dabe

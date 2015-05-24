@@ -10,6 +10,7 @@
 #import "QSNetworkKit.h"
 #import "QSS17TopShowCell.h"
 #import "QSShowUtil.h"
+#import "QSS18TopShowOneDayViewController.h"
 
 #define PAGE_ID @"美搭榜单"
 #define SS17CellId @"SS17TableViewCellId"
@@ -104,8 +105,9 @@
 #pragma mark - UITableViewDelegate - 点击跳转的方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    NSLog(@"date = %@",[QSShowUtil getRecommendDate: [_dataArray firstObject][indexPath.row*2]]);
+    NSDate* date =[QSShowUtil getRecommendDate: [_dataArray firstObject][indexPath.row*2]];
+    QSS18TopShowOneDayViewController* vc = [[QSS18TopShowOneDayViewController alloc] initWithDate:date];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

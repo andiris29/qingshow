@@ -8,6 +8,20 @@
 
 #import "QSWaterfallBasicProvider.h"
 
+@class QSS18WaterfallProvider;
+
+@protocol QSS18WaterfallProviderDelegate <QSAbstractScrollProviderDelegate>
+
+@optional
+- (void)didClickShow:(NSDictionary*)show ofProvider:(QSS18WaterfallProvider*)provider;
+
+@end
+
 @interface QSS18WaterfallProvider : QSWaterfallBasicProvider
+
+@property (strong, nonatomic) NSDate* date;
+@property (weak, nonatomic) NSObject<QSS18WaterfallProviderDelegate>* delegate;
+
+- (instancetype)initWithDate:(NSDate*)date;
 
 @end

@@ -56,13 +56,12 @@
 - (void)configNavBar
 {
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-    titleImageView.userInteractionEnabled = YES;
+//    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+//    titleImageView.userInteractionEnabled = YES;
+    UIView* titleView = self.navigationItem.titleView;
     UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
     tapGes.numberOfTapsRequired = 5;
-    [titleImageView addGestureRecognizer:tapGes];
-    
-    self.navigationItem.titleView = titleImageView;
+    [titleView addGestureRecognizer:tapGes];
     
     
     NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
