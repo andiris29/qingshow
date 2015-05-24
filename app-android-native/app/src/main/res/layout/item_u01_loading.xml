@@ -2,9 +2,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="@dimen/RelativeLayout_height_activity_model">
-    <com.focosee.qingshow.widget.HeaderLoadingLayout
-        android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

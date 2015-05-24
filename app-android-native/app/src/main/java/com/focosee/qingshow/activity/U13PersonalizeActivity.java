@@ -92,14 +92,15 @@ public class U13PersonalizeActivity extends BaseActivity {
     }
 
     @OnClick(R.id.submit)
-    public void submitToNet(){
+    public void submitToNet() {
         JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUpdateServiceUrl(), jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                QSAppWebAPI.getUpdateServiceUrl(), jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
             }
-        },null);
+        }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 

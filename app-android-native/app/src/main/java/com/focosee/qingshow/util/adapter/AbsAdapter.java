@@ -1,6 +1,7 @@
 package com.focosee.qingshow.util.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
     protected int[] layoutId;
     protected AbsViewHolder[] viewHolders;
 
-    public AbsAdapter(List<T> datas, Context context, int... layoutId) {
+    public AbsAdapter(@NonNull List<T> datas, Context context, int... layoutId) {
         this.datas = datas;
         this.context = context;
         this.layoutId = layoutId;
@@ -34,6 +35,9 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
 
     @Override
     public int getItemCount() {
+        if(datas == null){
+            return 0;
+        }
         return datas.size();
     }
 
