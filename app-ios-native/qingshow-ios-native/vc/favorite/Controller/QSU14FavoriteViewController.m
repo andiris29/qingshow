@@ -12,6 +12,7 @@
 #import "QSShowUtil.h"
 #import "QSFavoInfo.h"
 #import "Common.h"
+#import "UIViewController+ShowHud.h"
 
 @interface QSU14FavoriteViewController ()
 
@@ -52,11 +53,14 @@
             
             [self.tableView reloadData];
         } onError:^(NSError *error) {
+#warning 改成 [self showErrorHudWithError:err];
+            
             NSLog(@"TopShow Page  NetWorlk Error!");
         }];
 }
 
 #pragma mark //UITableViewDataSource
+#warning Move to Provider
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _dataArray.count;
@@ -75,6 +79,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+#warning 这里改成根据屏幕宽度来计算cell高度
     if (iPhone6Plus) {
         return 240;
     }else if (iPhone6){

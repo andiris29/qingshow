@@ -10,6 +10,7 @@
 
 @interface QSFavoInfo : NSObject
 
+#warning 这个skuUrl1,2,3,4搞成数组?
 //套装图片
 @property (nonatomic, copy) NSString *suitUrl;
 

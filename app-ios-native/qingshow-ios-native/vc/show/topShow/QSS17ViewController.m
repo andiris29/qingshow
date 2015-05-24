@@ -11,6 +11,7 @@
 #import "QSS17TopShowCell.h"
 #import "QSShowUtil.h"
 #import "QSS18TopShowOneDayViewController.h"
+#import "UIViewController+ShowHud.h"
 
 #define PAGE_ID @"美搭榜单"
 #define SS17CellId @"SS17TableViewCellId"
@@ -21,6 +22,8 @@
 }
 
 @end
+
+#warning Disable size Classes
 
 @implementation QSS17ViewController
 
@@ -51,9 +54,11 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+#warning use _dataArray = array
             [_dataArray addObject:array];
             [self.topShowTableView reloadData];
         } onError:^(NSError *error) {
+#warning use   [self showErrorHudWithError:error];
             NSLog(@"TopShow Page  NetWorlk Error!");
         }];
     });
@@ -63,13 +68,14 @@
 {
     CGFloat height = 180;
     if (dic.count) {
+#warning 全部改成固定高度，所有coverMetadata都会被删掉
         height = [QSShowUtil getCoverMetaDataHeight:dic];
     }
     return height;
 }
 
 #pragma mark -UITableViewDataSource
-
+#warning Move to Provider
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (_dataArray.count) {
@@ -84,6 +90,7 @@
     }
     else
     {
+#warning 测试用的？
         return 1;
     }
 }
@@ -94,6 +101,8 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS17TopShowCell" owner:nil options:nil]lastObject];
     }
     cell.userInteractionEnabled = YES;
+
+#warning Add   cell.selectionStyle = UITableViewCellSelectionStyleNone;
    
     //查看网络返回的数据
     //NSLog(@"datadic = %@",[_dataArray firstObject][0]);

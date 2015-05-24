@@ -14,7 +14,9 @@
 
 //cell的背景图片
 @property (weak, nonatomic) IBOutlet UIImageView *backImage;
+#warning backImage的图片貌似找不到,你有空看一下
 
+#warning 所有图片底部都要加一个阴影，用ImageView上一个阴影图
 //套装图片
 @property (weak, nonatomic) IBOutlet UIImageView *suitImageView;
 //单品图片
@@ -27,6 +29,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *skuImageView4;
 
 //相应控件
+#warning 文字最好不要用button，或者把button的手势检测禁掉type改成custume，不然点击有阴影。
+#warning 文字颜色貌似不对
 @property (weak, nonatomic) IBOutlet UIButton *suitButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *skuButton1;
