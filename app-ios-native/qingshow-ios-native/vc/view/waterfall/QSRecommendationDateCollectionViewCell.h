@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "QSRecommendationDateCellModel.h"
+#define kQSRecommendationDateCollectionViewCellIdentifier @"QSRecommendationDateCollectionViewCell"
 
 @interface QSRecommendationDateCollectionViewCell : UICollectionViewCell
 
@@ -17,6 +18,6 @@
 @property (weak, nonatomic) IBOutlet UILabel* weekdayLabel;
 @property (weak, nonatomic) IBOutlet UILabel* descLabel;
 
-- (void)bindWithDate:(QSRecommendationDateCellModel*)model;
-
+- (void)bindWithModel:(QSRecommendationDateCellModel*)model;
+- (void)bindWithDate:(NSDate*)date;
 @end

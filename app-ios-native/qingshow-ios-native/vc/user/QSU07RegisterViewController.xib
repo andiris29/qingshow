@@ -207,7 +207,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D9E-Hs-YEh">
-                    <rect key="frame" x="248.99999948767595" y="23" width="63" height="30"/>
+                    <rect key="frame" x="248.9999992928872" y="23" width="63" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="登录账户">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

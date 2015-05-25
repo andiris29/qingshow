@@ -27,6 +27,19 @@
         return [NSURL URLWithString:cover];
     }
 }
+//新增获取高度的实现代码
++ (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic
+{
+    if ([QSCommonUtil checkIsNil:dic]) {
+        return 180;
+    }
+    if ([QSCommonUtil checkIsNil:dic[@"coverMetaData.height"]]) {
+        return 180;
+    }
+    else{
+        return  [dic[@"coverMetaData.height"] floatValue];
+    }
+}
 + (NSURL*)getCoverUrl:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
@@ -62,12 +75,13 @@
         return nil;
     }
     NSArray* itemArray = showDict[@"itemRefs"];
-    if (itemArray.count) {
-        if (![itemArray[0] isKindOfClass:[NSDictionary class]]) {
-            return @[];
+    NSMutableArray* array = [@[] mutableCopy];
+    for (id item in itemArray) {
+        if ([QSCommonUtil checkIsDict:item]) {
+            [array addObject:item];
         }
     }
-    return itemArray;
+    return array;
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
@@ -86,16 +100,6 @@
     return nil;
 }
 
-+ (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict
-{
-    if ([QSCommonUtil checkIsNil:showDict]) {
-        return nil;
-    }
-    if (showDict) {
-        return showDict[@"coverMetadata"];
-    }
-    return nil;
-}
 
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {
@@ -219,17 +223,6 @@
     return rec[@"description"];
 }
 
-+ (NSDictionary*)getBrand:(NSDictionary*)showDict
-{
-    if (![QSCommonUtil checkIsDict:showDict]) {
-        return nil;
-    }
-    NSDictionary* rec = showDict[@"brandRef"];
-    if (![QSCommonUtil checkIsDict:rec]) {
-        return nil;
-    }
-    return rec;
-}
 
 + (NSString*)getShowDesc:(NSDictionary*)showDict
 {
@@ -257,5 +250,15 @@
 {
     NSNumber* like = [showDict valueForKeyPath:@"__context.sharedByCurrentUser"];
     return like.boolValue;
+}
+
++ (NSDictionary*)getPromotionRef:(NSDictionary*)showDict
+{
+    NSDictionary* dict = [showDict valueForKey:@"__context.promotionRef"];
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    } else {
+        return dict;
+    }
 }
 @end

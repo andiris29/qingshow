@@ -80,6 +80,10 @@
                       viewRefreshBlock:(VoidBlock)refreshBlock
                             completion:(VoidBlock)block
 {
+    if (self.refreshOperation && page != 1) {
+        return nil;
+    }
+    
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
         self.metadataDict = metadata;
         if (page == 1) {
@@ -126,11 +130,15 @@
     }, page);
     
     if (page == 1) {
+
         [self.loadMoreOperation cancel];
         self.loadMoreOperation = nil;
         self.fIsAll = NO;
         self.fIsHandlerAll = NO;
+        [self.refreshOperation cancel];
         self.refreshOperation = op;
+    } else {
+        
     }
     return op;
 }

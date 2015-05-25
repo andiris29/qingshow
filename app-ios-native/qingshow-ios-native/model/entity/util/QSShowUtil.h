@@ -16,7 +16,6 @@
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
 + (NSArray*)getItems:(NSDictionary*)showDict;
-+ (NSDictionary*)getCoverMetadata:(NSDictionary*)showDict;
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict;
 + (void)addNumberComment:(long long)num forShow:(NSDictionary*)showDict;
 + (NSString*)getNumberLikeDescription:(NSDictionary*)showDict;
@@ -26,9 +25,11 @@
 + (void)addNumberLike:(long long)num forShow:(NSDictionary*)showDict;
 + (NSDate*)getRecommendDate:(NSDictionary*)showDict;
 + (NSString*)getRecommentDesc:(NSDictionary*)showDict;
-+ (NSDictionary*)getBrand:(NSDictionary*)showDict;
 
 + (NSDate*)getLikeDate:(NSDictionary*)showDict;
 + (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;
 
+//新增获取图片高度的方法
++ (CGFloat)getCoverMetaDataHeight:(NSDictionary *)dic;
++ (NSDictionary*)getPromotionRef:(NSDictionary*)showDict;
 @end

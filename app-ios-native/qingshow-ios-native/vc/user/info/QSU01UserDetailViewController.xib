@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU01UserDetailViewController">
             <connections>
-                <outlet property="accountBtn" destination="N3M-vC-kKm" id="sUv-1u-Kr4"/>
                 <outlet property="backBtnTopConstrain" destination="DTe-9u-7lB" id="4Fn-1Z-TKD"/>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
                 <outlet property="likedCollectionView" destination="DrY-X6-QFu" id="UT3-Bf-Wl1"/>
-                <outlet property="recommendationCollectionView" destination="3Ou-E8-rc6" id="ygN-jh-oCs"/>
                 <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zNd-7b-5M4"/>
             </connections>
@@ -24,20 +22,10 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AVA-uB-yhC">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <subviews>
-                        <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DrY-X6-QFu">
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DrY-X6-QFu">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jYR-wN-aHn">
-                                <size key="itemSize" width="50" height="50"/>
-                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            </collectionViewFlowLayout>
-                        </collectionView>
-                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="3Ou-E8-rc6">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rQv-OK-BHc">
                                 <size key="itemSize" width="50" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                 <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -47,21 +35,17 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="3Ou-E8-rc6" secondAttribute="trailing" id="3UK-xF-1Z0"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Ix9-jJ-DGi"/>
                         <constraint firstAttribute="bottom" secondItem="DrY-X6-QFu" secondAttribute="bottom" id="LP0-8m-16x"/>
-                        <constraint firstItem="3Ou-E8-rc6" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="Mva-8b-SZ5"/>
-                        <constraint firstItem="3Ou-E8-rc6" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Wnz-mt-ErJ"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2a-2R-OyG"/>
-                        <constraint firstAttribute="bottom" secondItem="3Ou-E8-rc6" secondAttribute="bottom" id="raw-GU-h2y"/>
                         <constraint firstAttribute="trailing" secondItem="DrY-X6-QFu" secondAttribute="trailing" id="z1p-nF-Kpg"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fec-uB-6s0">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="228" id="uMu-M4-U1U"/>
+                        <constraint firstAttribute="height" constant="360" id="uMu-M4-U1U"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wOr-OR-RzB">
@@ -70,24 +54,11 @@
                         <constraint firstAttribute="height" constant="36" id="96r-aa-5BR"/>
                         <constraint firstAttribute="width" constant="36" id="qD7-AF-iCw"/>
                     </constraints>
-                    <state key="normal" image="u01_back_btn">
+                    <state key="normal" image="nav_btn_menu">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="BIy-c6-a1W"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N3M-vC-kKm">
-                    <rect key="frame" x="269" y="25" width="36" height="36"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="36" id="Pdx-Kd-91L"/>
-                        <constraint firstAttribute="height" constant="36" id="qlE-K7-bRu"/>
-                    </constraints>
-                    <state key="normal" image="u01_account_btn">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="accountButtonPressed" destination="-1" eventType="touchUpInside" id="2eL-px-anl"/>
+                        <action selector="menuBtnPressed:" destination="-1" eventType="touchUpInside" id="XiK-xf-Lbj"/>
                     </connections>
                 </button>
             </subviews>
@@ -95,7 +66,6 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="DTe-9u-7lB"/>
-                <constraint firstItem="N3M-vC-kKm" firstAttribute="top" secondItem="wOr-OR-RzB" secondAttribute="top" id="Goa-w5-cDO"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="5" id="QPE-wC-rfU"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
@@ -103,14 +73,12 @@
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>
-                <constraint firstAttribute="trailing" secondItem="N3M-vC-kKm" secondAttribute="trailing" constant="15" id="wuu-Rk-a0d"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
         </view>
     </objects>
     <resources>
-        <image name="u01_account_btn" width="36" height="36"/>
-        <image name="u01_back_btn" width="18" height="18"/>
+        <image name="nav_btn_menu" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

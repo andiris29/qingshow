@@ -7,8 +7,7 @@
 //
 
 #import "QSU01UserDetailViewController.h"
-#import "QSU02UserSettingViewController.h"
-#import "QSU13PersonalizeViewController.h"
+#import "QSRootContainerViewController.h"
 
 #import "QSPeopleUtil.h"
 #import "QSMetadataUtil.h"
@@ -21,11 +20,11 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 
-#import "QSBrandUtil.h"
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
 
 #import "QSDateUtil.h"
+//#import "QSU13PersonalizeViewController.h"
 
 #define PAGE_ID @"U01 - 个人"
 
@@ -33,9 +32,7 @@
 @property (strong, nonatomic) NSDictionary* userInfo;
 
 #pragma mark Provider
-@property (strong, nonatomic) QSImageCollectionViewProvider* likedProvider;
-@property (strong, nonatomic) QSImageCollectionViewProvider* recommendationProvider;
-@property (assign, nonatomic) BOOL fShowAccountBtn;
+@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
 @end
 
 @implementation QSU01UserDetailViewController
@@ -44,7 +41,7 @@
 {
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
-        self.fShowAccountBtn = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
     }
     return self;
 }
@@ -54,8 +51,6 @@
     if (self) {
         [self providerInit];
         self.userInfo = peopleDict;
-        self.type = QSSectionButtonGroupTypeU01;
-        self.fShowAccountBtn = NO;
     }
     return self;
 }
@@ -64,16 +59,21 @@
 {
     __weak QSU01UserDetailViewController* weakSelf = self;
     
-    self.likedProvider  = [[QSImageCollectionViewProvider alloc] init];
-    self.likedProvider.delegate = self;
-    self.likedProvider.hasRefreshControl = NO;
-    self.recommendationProvider = [[QSImageCollectionViewProvider alloc] init];
-    self.recommendationProvider.delegate = self;
-    self.recommendationProvider.networkDataFinalHandlerBlock = ^(){
-        NSMutableArray* resultArray = weakSelf.recommendationProvider.resultArray;
-        for (int i = 0; i < resultArray.count - 1; i++) {
+    self.recommendProvider  = [[QSImageCollectionViewProvider alloc] init];
+    self.recommendProvider.delegate = self;
+    self.recommendProvider.hasRefreshControl = NO;
+    self.recommendProvider.networkDataFinalHandlerBlock = ^(){
+        NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
+        if (resultArray.count == 0) {
+            return;
+        }
+        for (int i = 0; i + 1 < resultArray.count || i == 0; i++) {
             QSImageCollectionModel* currentModel = resultArray[i];
-            QSImageCollectionModel* nextModel = resultArray[i + 1];
+            QSImageCollectionModel* nextModel = nil;
+            if (resultArray.count > 1) {
+                nextModel = resultArray[i + 1];
+            }
+
             
             if (i == 0 && currentModel.type != QSImageCollectionModelTypeDate) {
                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
@@ -100,10 +100,6 @@
             }
         }
     };
-
-    
-//    self.recommendationProvider.delegate = self;
-    self.recommendationProvider.hasRefreshControl = NO;
 }
 
 #pragma mark - Life Cycle
@@ -111,37 +107,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //[self configNavBar];
     [self configView];
     [self bindDelegateObj];
-    self.accountBtn.hidden = !self.fShowAccountBtn;
+
 }
 
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if (self.fShowAccountBtn) {
-        self.userInfo = [QSUserManager shareUserManager].userInfo;
-    }
+    self.navigationController.navigationBarHidden = YES;
+    [self updateViewWithList];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)updateViewWithList {
+    self.userInfo = [QSUserManager shareUserManager].userInfo;
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
-
-    [self.likedProvider refreshClickedData];
-    [self.recommendationProvider refreshClickedData];
-    [MobClick beginLogPageView:PAGE_ID];
     
-    if (![QSPeopleUtil hasPersonalizeData:[QSUserManager shareUserManager].userInfo]) {
-        [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
-    }
+    [self.recommendProvider refreshClickedData];
     
 }
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.likedProvider fetchDataOfPage:1];
-    [self.recommendationProvider fetchDataOfPage:1];
-//    [self.followingDelegate fetchDataOfPage:1];
+    [self.recommendProvider fetchDataOfPage:1];
     [MobClick endLogPageView:PAGE_ID];
 }
 - (void)viewWillDisappear:(BOOL)animated
@@ -154,148 +146,65 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - View
 - (void)bindDelegateObj
 {
-    __weak QSU01UserDetailViewController* weakSelf = self;
-    
     //favor collectioin view
-    [self.likedProvider bindWithCollectionView:self.likedCollectionView];
-    self.likedProvider.hasPaging = NO;
-    self.likedProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        NSMutableArray* mArray = [@[] mutableCopy];
-
-        __block int count = 0;
-        __block NSError* outerError;
-        __block void (^completeHandler)(NSError*) = ^void(NSError* err){
-            if (count < 1) {
-                count++;
-                outerError = err;
-                return;
-            }
-            if (!mArray.count && outerError && err) {
-                errorBlock(err);
-            } else {
-                [mArray sortUsingComparator:^NSComparisonResult(QSImageCollectionModel* obj1, QSImageCollectionModel* obj2) {
-                    NSDate* (^getDate)(QSImageCollectionModel*) = ^NSDate*(QSImageCollectionModel* m){
-                        if (m.type == QSImageCollectionModelTypeShow) {
-                            return [QSShowUtil getLikeDate:m.data];
-                        } else if (m.type == QSImageCollectionModelTypeItem) {
-                            return [QSItemUtil getLikeDate:m.data];
-                        }
-                        return nil;
-                    };
-                    NSDate* date1 = getDate(obj1);
-                    NSDate* date2 = getDate(obj2);
-                    return [date2 compare:date1];
+    [self.recommendProvider bindWithCollectionView:self.likedCollectionView];
+    self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+//        return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata)
+//                {
+//                    NSMutableArray* mArray = [@[] mutableCopy];
+//                    for (NSDictionary* dict in array) {
+//                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+//                        m.type = QSImageCollectionModelTypeShow;
+//                        m.data = dict;
+//                        [mArray addObject:m];
+//                    }
+//                    succeedBlock(mArray, metadata);
+//                } onError:errorBlock];
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
+                {
+                    NSMutableArray* mArray = [@[] mutableCopy];
+                    for (NSDictionary* dict in array) {
+                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+                        m.type = QSImageCollectionModelTypeShow;
+                        m.data = dict;
+                        [mArray addObject:m];
+                    }
+                    succeedBlock(mArray, metadata);
+                } onError:^(NSError* e){
+                    errorBlock(e);
                 }];
-                
-                succeedBlock(mArray, nil);
-            }
-        };
-        
-        [SHARE_NW_ENGINE
-         getLikeFeedingUser:weakSelf.userInfo
-         page:page
-         onSucceed:^(NSArray *array, NSDictionary *metadata) {
-             for (NSDictionary* dict in array) {
-                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                 m.type = QSImageCollectionModelTypeShow;
-                 m.data = dict;
-                 [mArray addObject:m];
-             }
-             completeHandler(nil);
-         }
-         onError:^(NSError* e){
-             completeHandler(e);
-         }];
-        
-        return [SHARE_NW_ENGINE
-         getItemFeedingLikePage:page
-         onSucceed:^(NSArray *array, NSDictionary *metadata) {
-             for (NSDictionary* dict in array) {
-                 QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                 m.type = QSImageCollectionModelTypeItem;
-                 m.data = dict;
-                 [mArray addObject:m];
-             }
-             completeHandler(nil);
-         }
-         onError:^(NSError* e){
-             completeHandler(e);
-         }];
     };
     
-    if (self.fShowAccountBtn) {
-        self.likedProvider.filterBlock = ^BOOL(id obj){
-            return [QSShowUtil getIsLike:obj];
-        };
-    }
-
-    self.likedProvider.delegate = self;
-    [self.likedProvider reloadData];
-
-    //recommendation collectioin view
-    [self.recommendationProvider bindWithCollectionView:self.recommendationCollectionView];
-    self.recommendationProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
-        {
-            NSMutableArray* mArray = [@[] mutableCopy];
-            for (NSDictionary* dict in array) {
-                QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                m.type = QSImageCollectionModelTypeShow;
-                m.data = dict;
-                [mArray addObject:m];
-            }
-            succeedBlock(mArray, metadata);
-        } onError:^(NSError* e){
-            errorBlock(e);
-        }];
+    
+    self.recommendProvider.filterBlock = ^BOOL(id obj){
+        return [QSShowUtil getIsLike:obj];
     };
-    self.recommendationProvider.delegate = self;
-    [self.recommendationProvider reloadData];
+    
+
+    self.recommendProvider.delegate = self;
+    [self.recommendProvider reloadData];
 
 }
 
 - (void)configView
 {
     //title
-    self.title = self.userInfo[@"name"];
+    self.title = [QSPeopleUtil getNickname:self.userInfo];
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.recommendationCollectionView, self.likedCollectionView];
-    
-    self.recommendationCollectionView.hidden = NO;
-    self.likedCollectionView.hidden = YES;
-
-    
-    //Section title
-    NSArray* titleArray = @[@"搭配推荐",@"我的收藏"];
-    for (int i = 0; i < titleArray.count; i++) {
-        [self.badgeView.btnGroup setTitle:titleArray[i] atIndex:i];
-    }
+    self.viewArray = @[self.likedCollectionView];
 }
 
-
-- (void)configNavBar
-{
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
-    self.navigationItem.titleView = titleImageView;
-    
-    UIBarButtonItem* rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_btn_account"] style:UIBarButtonItemStylePlain target:self action:@selector(accountButtonPressed)];
-    self.navigationItem.rightBarButtonItem = rightButtonItem;
-}
 
 #pragma mark - IBAction
-- (IBAction)accountButtonPressed
-{
-    UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
-    QSU02UserSettingViewController *vc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 - (void)updateView
 {
     [self.badgeView bindWithPeopleDict:self.userInfo];
@@ -321,5 +230,14 @@
         default:
             break;
     }
+}
+- (IBAction)menuBtnPressed:(id)sender {
+    if ([self.menuProvider respondsToSelector:@selector(didClickMenuBtn)]) {
+        [self.menuProvider didClickMenuBtn];
+    }
+}
+
+- (void)didReceiveCurrentUserInfoUpdate:(NSNotification*)noti{
+    [self updateViewWithList];
 }
 @end

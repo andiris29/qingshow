@@ -6,17 +6,6 @@ showSchema = Schema({
     __context : Object,
     icon : String,
     cover : String,
-    coverMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
-    horizontalCover : String,
-    horizontalCoverMetadata : {
-        url : String,
-        width : Number,
-        height : Number
-    },
     video : String,
     posters : [String],
     numLike : {
@@ -34,9 +23,9 @@ showSchema = Schema({
         }]
         //        select: false
     },
-    brandRef : {
+    promotionRef : {
         type : Schema.Types.ObjectId,
-        ref : 'brands'
+        ref : 'promotions'
     },
     create : {
         type : Date,

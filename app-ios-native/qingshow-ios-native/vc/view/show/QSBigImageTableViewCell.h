@@ -10,10 +10,8 @@
 
 typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
     QSBigImageTableViewCellTypeModel,
-    QSBigImageTableViewCellTypeModelEmpty,
-//    QSBigImageTableViewCellTypeBrand,
-    QSBigImageTableViewCellTypeFashion,
-    QSBigImageTableViewCellTypeChosen
+    QSBigImageTableViewCellTypeModelEmpty
+//    QSBigImageTableViewCellTypeFashion,
 };
 
 @class QSBigImageTableViewCell;
@@ -41,9 +39,6 @@ typedef NS_ENUM(NSInteger, QSBigImageTableViewCellType) {
 @property (assign, nonatomic) QSBigImageTableViewCellType type;
 
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict;
-+ (CGFloat)getHeightWithPreview:(NSDictionary*)previewDict;
-//+ (CGFloat)getHeightWithBrand:(NSDictionary*)brandDict;
-+ (CGFloat)getHeightWithChosen:(NSDictionary*)chosen;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

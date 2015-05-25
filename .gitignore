@@ -36,6 +36,7 @@ admin-tools/goblin-tbitem/.idea
 admin-tools/goblin-tbitem/logs
 admin-tools/goblin-tbshop/.idea
 admin-tools/imgResizer/out
+admin-tools/imgResizer/.idea
 
 #app-web
 app-web/bin

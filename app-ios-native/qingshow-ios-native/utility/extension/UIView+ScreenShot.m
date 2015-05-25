@@ -10,7 +10,7 @@
 
 @implementation UIView(ScreenShot)
 
-- (UIImage*)makeScreenShow
+- (UIImage*)makeScreenShot
 {
     UIView* view = self;
     CGRect rect =view.frame;

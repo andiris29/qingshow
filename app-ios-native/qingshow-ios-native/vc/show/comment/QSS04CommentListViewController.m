@@ -29,8 +29,6 @@
 @property (strong, nonatomic) QSCommentListTableViewProvider* delegateObj;
 @property (assign, nonatomic) int clickIndex;
 
-@property (assign, nonatomic) QSCommentListViewControllerType type;
-
 @end
 
 @implementation QSS04CommentListViewController
@@ -42,27 +40,11 @@
 {
     self = [self initWithNibName:@"QSS04CommentListViewController" bundle:nil];
     if (self) {
-        self.type = QSCommentListViewControllerTypeShow;
         __weak QSS04CommentListViewController* weakSelf = self;
         self.showDict = showDict;
         self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE getCommentsOfShow:weakSelf.showDict page:page onSucceed:succeedBlock onError:errorBlock];
-        };
-        [self.delegateObj fetchDataOfPage:1];
-    }
-    return self;
-}
-- (id)initWithPreview:(NSDictionary*)previewDict
-{
-    self = [self initWithNibName:@"QSS04CommentListViewController" bundle:nil];
-    if (self) {
-        self.type = QSCommentListViewControllerTypePreview;
-        __weak QSS04CommentListViewController* weakSelf = self;
-        self.previewDict = previewDict;
-        self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
-        self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryCommentPreview:weakSelf.previewDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
         [self.delegateObj fetchDataOfPage:1];
     }
@@ -147,24 +129,13 @@
         //删除评论
         int index = self.clickIndex;
         self.clickIndex = -1;
-        if (self.type == QSCommentListViewControllerTypeShow) {
-            [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
-                [self.delegateObj.resultArray removeObjectAtIndex:index];
-                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        } else if (self.type == QSCommentListViewControllerTypePreview) {
-            [SHARE_NW_ENGINE deletePreviewComment:comment ofPreview:self.previewDict onSucceed:^{
-                [self.delegateObj.resultArray removeObjectAtIndex:index];
-                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        }
-
-    }
-    else if (buttonIndex == actionSheet.cancelButtonIndex)
+        [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
+            [self.delegateObj.resultArray removeObjectAtIndex:index];
+            [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } onError:^(NSError *error) {
+            [self handleError:error];
+        }];
+    } else if (buttonIndex == actionSheet.cancelButtonIndex)
     {
         self.clickIndex = -1;
     }
@@ -216,23 +187,13 @@
             people = [QSCommentUtil getPeople:comment];
         }
         __weak QSS04CommentListViewController* weakSelf = self;
-        if (self.type == QSCommentListViewControllerTypeShow) {
-            [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
-                [weakSelf.delegateObj reloadData];
-                [self showSuccessHudWithText:@"发送成功"];
-                self.textField.text = @"";
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        } else if (self.type == QSCommentListViewControllerTypePreview) {
-            [SHARE_NW_ENGINE addComment:self.textField.text onPreview:self.previewDict reply:people onSucceed:^{
-                [weakSelf.delegateObj reloadData];
-                [self showSuccessHudWithText:@"发送成功"];
-                self.textField.text = @"";
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        }
+        [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
+            [weakSelf.delegateObj reloadData];
+            [self showSuccessHudWithText:@"发送成功"];
+            self.textField.text = @"";
+        } onError:^(NSError *error) {
+            [self handleError:error];
+        }];
 
         self.clickIndex = -1;
 

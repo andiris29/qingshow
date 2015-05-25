@@ -7,7 +7,6 @@
 //
 
 #import "QSBigImageTableViewProvider.h"
-#import "QSChosenUtil.h"
 #import "QSDateUtil.h"
 
 @implementation QSBigImageTableViewProvider
@@ -25,33 +24,16 @@
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
     QSBigImageTableViewCell* cell = nil;
-    if (self.type == QSBigImageTableViewCellTypeFashion || (self.type == QSBigImageTableViewCellTypeChosen && [QSChosenUtil getChosenRefType:dict] == QSChosenRefTypePreview)) {
-        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageFashionTableViewCell" forIndexPath:indexPath];
-    } else {
-        
-        cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
-    }
+    cell = (QSBigImageTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSBigImageTableViewCell" forIndexPath:indexPath];
+    
 
     cell.type = self.type;
     cell.delegate = self;
     
 
     BOOL fShowDate = NO;
-    if (self.type != QSBigImageTableViewCellTypeChosen) {
-        fShowDate = NO;
-    } else if (indexPath.row == 0) {
+    if (indexPath.row == 0) {
         fShowDate = YES;
-    } else if (indexPath.row + 1 >= self.resultArray.count) {
-        fShowDate = NO;
-    } else {
-        NSDate* currentDate = [QSChosenUtil getChosenDate:dict];
-        NSDictionary* nextDict = self.resultArray[indexPath.row + 1];
-        NSDate* nextDate = [QSChosenUtil getChosenDate:nextDict];
-        if ([QSDateUtil date:currentDate isTheSameDayWith:nextDate]) {
-            fShowDate = NO;
-        } else {
-            fShowDate = YES;
-        }
     }
     cell.dateContainer.hidden = !fShowDate;
     [cell bindWithDict:dict];
@@ -64,13 +46,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary* dict = self.resultArray[indexPath.row];
-    if (self.type == QSBigImageTableViewCellTypeFashion) {
-        return [QSBigImageTableViewCell getHeightWithPreview:dict];
-    } else if (self.type == QSBigImageTableViewCellTypeChosen) {
-        return [QSBigImageTableViewCell getHeightWithChosen:dict];
-    } else {
-        return [QSBigImageTableViewCell getHeightWithShow:dict];
-    }
+    return [QSBigImageTableViewCell getHeightWithShow:dict];
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

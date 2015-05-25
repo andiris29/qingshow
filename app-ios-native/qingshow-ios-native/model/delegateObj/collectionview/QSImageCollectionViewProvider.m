@@ -41,7 +41,7 @@
     QSImageCollectionModel* model = self.resultArray[indexPath.row];
     if (model.type == QSImageCollectionModelTypeDate) {
         QSRecommendationDateCollectionViewCell* dateCell = [collectionViews dequeueReusableCellWithReuseIdentifier:@"QSRecommendationDateCollectionViewCell" forIndexPath:indexPath];
-        [dateCell bindWithDate:model.data];
+        [dateCell bindWithModel:model.data];
         cell = dateCell;
     } else {
         QSImageCollectionViewCell* imgCell = [collectionViews dequeueReusableCellWithReuseIdentifier:@"QSImageItemCollectionViewCell" forIndexPath:indexPath];
@@ -79,7 +79,7 @@
         NSIndexPath* indexPath = [NSIndexPath indexPathForItem:row inSection:0];
         if (self.clickedModel.type == QSImageCollectionModelTypeDate) {
             QSRecommendationDateCollectionViewCell* cell = (QSRecommendationDateCollectionViewCell*)[self.view cellForItemAtIndexPath:indexPath];
-            [cell bindWithDate:self.clickedModel.data];
+            [cell bindWithModel:self.clickedModel.data];
         } else {
             QSImageCollectionViewCell* cell = (QSImageCollectionViewCell*)[self.view cellForItemAtIndexPath:indexPath];
             if (self.clickedModel.type == QSImageCollectionModelTypeShow) {

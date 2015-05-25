@@ -39,6 +39,35 @@ MongoHelper.queryPaging = function(query, queryCount, pageNo, pageSize, callback
         });
     }], callback);
 };
+
+MongoHelper.aggregatePaging =  function(aggregate, pageNo, pageSize, callback) {
+    async.waterfall([
+        function(callback) {
+            // Count 
+            aggregate.exec(function(err, data) {
+                if (err) {
+                    callback(ServerError.fromDescription(err));
+                } else {
+                    if ((pageNo - 1) * pageSize >= data.length) {
+                        callback(ServerError.fromCode(ServerError.PagingNotExist));
+                    } else {
+                        callback(null, data.length);
+                    }
+                }
+            });
+        },
+        function(count, callback) {
+            // Query
+            aggregate.skip((pageNo - 1) * pageSize).limit(pageSize).exec(function(err, models) {
+                if (err) {
+                    callback(ServerError.fromDescription(err));
+                } else {
+                    callback(err, models, count);
+                }
+            });
+        }], callback);
+};
+
 /**
  *
  * @param {Object} query

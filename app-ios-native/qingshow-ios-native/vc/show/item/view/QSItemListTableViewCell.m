@@ -8,7 +8,6 @@
 
 #import "QSItemListTableViewCell.h"
 #import "QSItemUtil.h"
-#import "QSBrandUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
 @implementation QSItemListTableViewCell

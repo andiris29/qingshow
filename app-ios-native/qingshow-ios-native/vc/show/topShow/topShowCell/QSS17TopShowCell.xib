@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment version="2048" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="QSS17TopShowCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bgImgforCell.png" translatesAutoresizingMaskIntoConstraints="NO" id="yBB-b4-BjV">
+                        <rect key="frame" x="2" y="2" width="316" height="175"/>
+                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
+                        </accessibility>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="15 MAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-Gl-NfR">
+                        <rect key="frame" x="5" y="5" width="100" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.34578203914141414" green="0.34578203914141414" blue="0.34578203914141414" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0e-ii-m2X">
+                        <rect key="frame" x="5" y="27" width="100" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CQ3-OP-Ib4">
+                        <rect key="frame" x="30" y="55" width="50" height="1"/>
+                        <color key="backgroundColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Monday" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-mY-Wyw">
+                        <rect key="frame" x="5" y="60" width="100" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qk-08-Zd6">
+                        <rect key="frame" x="20" y="150" width="20" height="18"/>
+                        <state key="normal" image="s03_like_btn_hover">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="favoBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="gGc-cK-hIu"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10086" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7V-Jz-V0H">
+                        <rect key="frame" x="50" y="150" width="56" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_regAndlogin_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dqq-v5-42D">
+                        <rect key="frame" x="110" y="7" width="100" height="166"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" fixedFrame="YES" image="user_regAndlogin_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="7D8-KW-cL0">
+                        <rect key="frame" x="215" y="7" width="100" height="166"/>
+                    </imageView>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="dayLabel" destination="ltH-Gl-NfR" id="MbO-Mg-H3l"/>
+                <outlet property="favoBtn" destination="0Qk-08-Zd6" id="yIN-Nv-eXJ"/>
+                <outlet property="favoNumLabel" destination="P7V-Jz-V0H" id="MXT-KV-cPo"/>
+                <outlet property="leftImgView" destination="Dqq-v5-42D" id="u5u-sI-h2u"/>
+                <outlet property="rightImgView" destination="7D8-KW-cL0" id="Nzf-Oa-HQK"/>
+                <outlet property="weekLabel" destination="tTq-mY-Wyw" id="Ww3-cJ-SQh"/>
+                <outlet property="yearLabel" destination="X0e-ii-m2X" id="vhD-ey-uoo"/>
+            </connections>
+            <point key="canvasLocation" x="340" y="395"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="bgImgforCell.png" width="320" height="184"/>
+        <image name="s03_like_btn_hover" width="40" height="36"/>
+        <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

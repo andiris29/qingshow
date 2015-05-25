@@ -33,7 +33,6 @@ RequestHelper.parseNumber = function(string) {
 RequestHelper.parseDate = function(string) {
     if (string !== undefined) {
         var date = new Date(string);
-        date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
         return date;
     }
 };

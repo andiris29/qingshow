@@ -13,7 +13,7 @@
 
 @protocol QSRootMenuViewDelegate <NSObject>
 
-- (void)rootMenuItemPressedType:(int)type;
+- (void)rootMenuItemPressedType:(QSRootMenuItemType)type;
 - (void)rootMenuViewDidTapBlankView;
 
 @end
@@ -30,4 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView* bgImageView;
 @property (weak, nonatomic) IBOutlet UIView* containerView;
 - (IBAction)didTapView:(id)sender;
+
+- (void)triggerItemTypePressed:(QSRootMenuItemType)type;
 @end

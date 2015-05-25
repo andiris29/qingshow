@@ -16,6 +16,7 @@
 #import "QSNetworkKit.h"
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
+#import "QSPromotionUtil.h"
 
 #import "UIViewController+ShowHud.h"
 #import <QuartzCore/QuartzCore.h>
@@ -74,18 +75,26 @@
         [SHARE_NW_ENGINE queryShowDetail:self.showDict onSucceed:^(NSDictionary * dict) {
             weakSelf.showDict = dict;
             [weakSelf bindExceptImageWithDict:dict];
-            if ([QSShowUtil getSharedByCurrentUser:dict]){
+            NSDictionary* promotionDict = [QSShowUtil getPromotionRef:dict];
+            if (!promotionDict) {
                 self.discountContainer.hidden = YES;
             } else {
-                self.discountContainer.hidden = NO;
-                self.discountContainer.alpha = 1.f;
-                [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
+                if (![QSPromotionUtil getIsEnabled:promotionDict]) {
+                    [self showDiscountContainer];
+                } else {
+                    self.discountContainer.hidden = YES;
+                }
             }
-            
         } onError:^(NSError *error) {
             
         }];
     }
+}
+
+- (void)showDiscountContainer{
+    self.discountContainer.hidden = NO;
+    self.discountContainer.alpha = 1.f;
+    [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
