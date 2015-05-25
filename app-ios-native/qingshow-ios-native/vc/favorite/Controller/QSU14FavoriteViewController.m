@@ -13,6 +13,7 @@
 #import "QSFavoInfo.h"
 #import "Common.h"
 #import "UIViewController+ShowHud.h"
+#import "QSTableViewBasicProvider.h"
 
 @interface QSU14FavoriteViewController ()
 
@@ -28,12 +29,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //设置tableView dataDataSources/delegate
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+    QSTableViewBasicProvider *tableView = [[QSTableViewBasicProvider alloc] initWithCellNib:[UINib nibWithNibName:@"QSU14DisplayCell" bundle:[NSBundle mainBundle]] identifier:@"displayCell"];
     
-    //注册cell
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSU14DisplayCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"displayCell"];
+    [tableView bindWithTableView:self.tableView];
     
     //获取数据源
     [self loadFavotiteData];

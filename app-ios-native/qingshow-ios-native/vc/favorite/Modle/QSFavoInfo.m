@@ -13,35 +13,26 @@
 #pragma mark -- 字典转模型
 + (instancetype)favoInfoWithDic:(NSDictionary *)favoInfo
 {
-#warning TODO 模型转化
-    return nil;
+    return [[self alloc]initWithDic:favoInfo];
 }
 
-- (instancetype)initWithDit:(NSDictionary *)dic
+- (instancetype)initWithDic:(NSDictionary *)dic
 {
     if (self == [super init]) {
         
 #warning TODO 模型转化
         
-        self.suitUrl = @"http://trial01.focosee.com/qs201505/201505140100s.jpg";
+        NSArray *urlStrArray = [NSArray arrayWithObjects:@"http://trial01.focosee.com/qs201505/201505140100s.jpg",@"http://trial01.focosee.com/qs201505/201505140110s.jpg",@"http://trial01.focosee.com/qs201505/201505140120s.jpg",@"http://trial01.focosee.com/qs201505/201505140122s.jpg",@"http://trial01.focosee.com/qs201505/201505140123s.jpg",nil];
         
-        self.skuUrl1 = @"http://trial01.focosee.com/qs201505/201505140110s.jpg";
+        NSArray *contentStr = [NSArray arrayWithObjects:@"蕾丝T恤 x 条纹七分裤",@"168",@"168",@"172",@"188",@"199", nil];
         
-        self.skuUrl2 = @"http://trial01.focosee.com/qs201505/201505140120s.jpg";
+        for (int i = 0; i < urlStrArray.count; i ++) {
+            NSString *urlStr = urlStrArray[i];
+            NSURL *url = [NSURL URLWithString:urlStr];
+            [self.picUrlArray addObject:url];
+        }
+        [self.contentArray addObjectsFromArray:contentStr];
         
-        self.skuUrl3 = @"http://trial01.focosee.com/qs201505/201505140122s.jpg";
-        
-        self.skuUrl4 = @"http://trial01.focosee.com/qs201505/201505140123s.jpg";
-        
-        self.suitName = @"蕾丝T恤 x 条纹七分裤";
-        
-        self.skuPrice1 = @"￥128";
-        
-        self.skuPrice2 = @"￥128";
-        
-        self.skuPrice3 = @"￥128";
-        
-        self.skuPrice4 = @"￥128";
         
     }
     return self;
@@ -53,7 +44,7 @@
     
     for (int i = 0; i < dicArray.count; i ++) {
         NSDictionary *dic = dicArray[i];
-        QSFavoInfo *favoInfo = [[QSFavoInfo alloc] initWithDit:dic];
+        QSFavoInfo *favoInfo = [[QSFavoInfo alloc] initWithDic:dic];
         [favoinfoArray addObject:favoInfo];
     }
     
