@@ -70,7 +70,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDate* date =[QSShowUtil getRecommendDate:self.resultArray[indexPath.row * 2 - 1]];
+    NSDate* date =[QSShowUtil getRecommendDate:self.resultArray[indexPath.row * 2]];
     if ([self.delegate respondsToSelector:@selector(didClickedDate:ofProvider:)]) {
         [self.delegate didClickedDate:date ofProvider:self];
     }
