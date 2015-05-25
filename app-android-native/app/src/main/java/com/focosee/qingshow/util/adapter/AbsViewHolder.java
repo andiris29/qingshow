@@ -16,10 +16,14 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
 
     private SparseArray<View> views;
     private View itemView;
+    private View.OnClickListener onClickListener;
 
     public AbsViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
+        if (null != onClickListener){
+            itemView.setOnClickListener(onClickListener);
+        }
         views = new SparseArray<View>();
     }
 
@@ -29,7 +33,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
             view =  views.get(id);
         }else{
             view = itemView.findViewById(id);
-            views.put(id,view);
+            views.put(id, view);
         }
         return (T) view;
     }
@@ -69,5 +73,9 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
             imageView.setImageResource(res);
         }
         return this;
+    }
+
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 }

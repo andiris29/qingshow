@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U01PushAdapter;
 import com.focosee.qingshow.model.vo.mongo.Bean;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class U01UserActivity extends BaseActivity {
 
     private final float DAMP = 3.0f;
 
-    private List<Bean> list;
+    private List<MongoShow> datas;
     private U01PushAdapter adapter;
 
     private boolean isFirstFocus = true;
@@ -61,7 +62,7 @@ public class U01UserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
-        initData();
+        datas = new ArrayList<>();
         initDrawer();
         initRectcler();
     }
@@ -145,8 +146,8 @@ public class U01UserActivity extends BaseActivity {
 
 
     private void initRectcler() {
-        adapter = new U01PushAdapter(list, this,
-                R.layout.item_u01_push, R.layout.item_u01_header);
+        adapter = new U01PushAdapter(datas, this,
+                R.layout.item_u01_push, R.layout.item_u01_header,R.layout.item_u01_date);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -170,24 +171,7 @@ public class U01UserActivity extends BaseActivity {
         });
     }
 
-    private void initData() {
-        list = new ArrayList<Bean>();
 
-        for (int i = 0; i < 20; i++) {
-
-            if (i % 2 != 0) {
-                Bean b = new Bean();
-                b.url = "http://trial01.focosee.com/demo6/1107a50100.jpg";
-                b.text = "123";
-                list.add(b);
-            } else {
-                Bean b = new Bean();
-                b.url = "http://trial01.focosee.com/demo6/1211b60100.jpg";
-                b.text = "456";
-                list.add(b);
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
