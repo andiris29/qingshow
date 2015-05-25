@@ -11,35 +11,12 @@
 @interface QSFavoInfo : NSObject
 
 #warning 这个skuUrl1,2,3,4搞成数组?
-//套装图片
-@property (nonatomic, copy) NSString *suitUrl;
+//图片
+@property (nonatomic, strong) NSMutableArray *picUrlArray;
 
-//套装文字
-@property (nonatomic, copy) NSString *suitName;
+//图片信息
+@property (nonatomic, strong) NSMutableArray *contentArray;
 
-//单品1图片
-@property (nonatomic, copy) NSString *skuUrl1;
-
-//单品1价格
-@property (nonatomic ,copy) NSString *skuPrice1;
-
-//单品2图片
-@property (nonatomic, copy) NSString *skuUrl2;
-
-//单品2价格
-@property (nonatomic ,copy) NSString *skuPrice2;
-
-//单品3图片
-@property (nonatomic, copy) NSString *skuUrl3;
-
-//单品3价格
-@property (nonatomic ,copy) NSString *skuPrice3;
-
-//单品4图片
-@property (nonatomic, copy) NSString *skuUrl4;
-
-//单品4价格
-@property (nonatomic ,copy) NSString *skuPrice4;
 
 //字典转模型
 + (instancetype)favoInfoWithDic:(NSDictionary *)favoInfo;
