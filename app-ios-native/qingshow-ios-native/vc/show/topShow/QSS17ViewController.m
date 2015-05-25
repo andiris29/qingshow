@@ -8,117 +8,94 @@
 
 #import "QSS17ViewController.h"
 #import "QSNetworkKit.h"
-#import "QSS17TopShowCell.h"
 #import "QSShowUtil.h"
 #import "QSS18TopShowOneDayViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "QSS17TavleViewProvider.h"
 
 #define PAGE_ID @"美搭榜单"
 #define SS17CellId @"SS17TableViewCellId"
-@interface QSS17ViewController ()<UITableViewDelegate,UITableViewDataSource>
-{
-    NSMutableArray *_dataArray;
-    
-}
+
+@interface QSS17ViewController ()<QSS17ProviderDelegate>
+@property(nonatomic,strong)QSS17TavleViewProvider *delegateObj;
+@property(nonatomic,strong)NSMutableArray *dataArray;
 
 @end
 
-#warning Disable size Classes
+
 
 @implementation QSS17ViewController
 
+- (instancetype)init
+{
+    if (self = [super initWithNibName:@"QSS17ViewController" bundle:nil]) {
+        
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor clearColor];
-    self.topShowTableView.dataSource = self;
-    self.topShowTableView.delegate = self;
+    //[self getNetWorkData];
+    [self configProvider];
     self.topShowTableView.separatorColor = [UIColor grayColor];
     self.topShowTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _dataArray =  [[NSMutableArray alloc]init];
-    self.navigationItem.title = @"";
-    [self getNetWorkData];
-    
-#warning expected reload moreData
+    self.navigationItem.title = @"美搭榜单";
+
 }
+- (void)configProvider
+{
+  
+    self.delegateObj = [[QSS17TavleViewProvider alloc]initWithArray:self.dataArray];
+    //self.delegateObj.dataArray = self.dataArray;
+    self.delegateObj.delegate = self;
+    [self.delegateObj bindWithTableView:self.topShowTableView];
+      __weak QSS17ViewController* weakSelf = self;
+    self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+            //weakSelf.dataArray = (NSMutableArray *)array;
+            succeedBlock(array,metadata);
+
+            //NSLog(@"weakdataArray = %@",weakSelf.dataArray);
+            
+        } onError:^(NSError *error) {
+            [weakSelf showErrorHudWithError:error];
+        }];
+        
+    };
+    [self.delegateObj fetchDataOfPage:1];
+    [self.delegateObj reloadData];
+
+}
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
 }
+//////获取网络数据
+//- (void)getNetWorkData
+//{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+//            _dataArray = (NSMutableArray *)array;
+//        } onError:^(NSError *error) {
+//            [self showErrorHudWithError:error];
+//        }];
+//    });
+//    
+//}
+#pragma mark - QSS17ProviderDelegate - 点击跳转的方法
 
-//获取网络数据
-- (void)getNetWorkData
+- (void)tableViewCellDidClicked:(NSInteger)row
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-#warning use _dataArray = array
-            [_dataArray addObject:array];
-            [self.topShowTableView reloadData];
-        } onError:^(NSError *error) {
-#warning use   [self showErrorHudWithError:error];
-            NSLog(@"TopShow Page  NetWorlk Error!");
-        }];
-    });
-    
-}
-- (CGFloat)getHeight:(NSDictionary *)dic
-{
-    CGFloat height = 180;
-    if (dic.count) {
-#warning 全部改成固定高度，所有coverMetadata都会被删掉
-        height = [QSShowUtil getCoverMetaDataHeight:dic];
-    }
-    return height;
-}
-
-#pragma mark -UITableViewDataSource
-#warning Move to Provider
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (_dataArray.count) {
-        return  [self getHeight:[_dataArray firstObject][0]];
-    }
-    return 180.f;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (_dataArray.count) {
-        return _dataArray.count;
-    }
-    else
-    {
-#warning 测试用的？
-        return 1;
-    }
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    QSS17TopShowCell *cell = [tableView dequeueReusableCellWithIdentifier:SS17CellId ];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS17TopShowCell" owner:nil options:nil]lastObject];
-    }
-    cell.userInteractionEnabled = YES;
-
-#warning Add   cell.selectionStyle = UITableViewCellSelectionStyleNone;
-   
-    //查看网络返回的数据
-    //NSLog(@"datadic = %@",[_dataArray firstObject][0]);
-    
-    [cell bindWithDataDic:[_dataArray firstObject][indexPath.row*2] andAnotherDic:nil];
-    
-    return cell;
-}
-#pragma mark - UITableViewDelegate - 点击跳转的方法
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSDate* date =[QSShowUtil getRecommendDate: [_dataArray firstObject][indexPath.row*2]];
+    NSDate* date =[QSShowUtil getRecommendDate: _dataArray[row*2]];
     QSS18TopShowOneDayViewController* vc = [[QSS18TopShowOneDayViewController alloc] initWithDate:date];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -135,6 +112,7 @@
 */
 
 @end
+
 
 
 

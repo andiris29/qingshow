@@ -11,10 +11,11 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
 @implementation QSS17TopShowCell
-#warning 禁用size classes
+
 - (void)awakeFromNib {
     // Initialization code
     _isFavoBtnPressed = NO;
+    self.autoresizingMask = NO;
    
 }
 
