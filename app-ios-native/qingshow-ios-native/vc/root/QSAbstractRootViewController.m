@@ -17,7 +17,6 @@
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
 #import "QSU01UserDetailViewController.h"
-#import "QSS02CategoryViewController.h"
 #import "QSAppDelegate.h"
 #import "QSUserManager.h"
 

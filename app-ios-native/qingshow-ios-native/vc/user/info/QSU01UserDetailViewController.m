@@ -156,17 +156,17 @@
     //favor collectioin view
     [self.recommendProvider bindWithCollectionView:self.likedCollectionView];
     self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata)
-                {
-                    NSMutableArray* mArray = [@[] mutableCopy];
-                    for (NSDictionary* dict in array) {
-                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-                        m.type = QSImageCollectionModelTypeShow;
-                        m.data = dict;
-                        [mArray addObject:m];
-                    }
-                    succeedBlock(mArray, metadata);
-                } onError:errorBlock];
+//        return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata)
+//                {
+//                    NSMutableArray* mArray = [@[] mutableCopy];
+//                    for (NSDictionary* dict in array) {
+//                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
+//                        m.type = QSImageCollectionModelTypeShow;
+//                        m.data = dict;
+//                        [mArray addObject:m];
+//                    }
+//                    succeedBlock(mArray, metadata);
+//                } onError:errorBlock];
         return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
                 {
                     NSMutableArray* mArray = [@[] mutableCopy];

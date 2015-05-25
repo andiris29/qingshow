@@ -27,10 +27,6 @@
                                                page:(int)page
                                           onSucceed:(ArraySuccessBlock)succeedBlock
                                             onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getCategoryFeeding:(int)type
-                                     page:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
                                  page:(int)page
                             onSucceed:(ArraySuccessBlock)succeedBlock
@@ -48,6 +44,7 @@
                                  page:(int)page
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation *)hotFeedingByOnSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock;
-
+- (MKNetworkOperation *)getHotFeedingPage:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
 @end

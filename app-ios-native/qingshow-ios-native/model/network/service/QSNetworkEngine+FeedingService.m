@@ -120,27 +120,6 @@
                         onError:errorBlock];
 }
 
-- (MKNetworkOperation*)getCategoryFeeding:(int)type
-                                     page:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock
-{
-    NSString* path = nil;
-    switch (type) {
-        case 1:
-            return [self getChosenFeedingType:1 page:page onSucceed:succeedBlock onError:errorBlock];
-            break;
-        case 2:
-            path = PATH_FEEDING_HOT;
-            break;
-        case 8:
-            path = PATH_FEEDING_STUDIO;
-            break;
-        default:
-            break;
-    }
-    return [self getFeedingPath:path otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
-}
 
 
 - (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
@@ -175,21 +154,11 @@
     return [self getFeedingPath:PATH_FEEDING_BY_TOPIC otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:topicDic]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
-- (MKNetworkOperation *)hotFeedingByOnSucceed:(ArraySuccessBlock)succeedBlock onError:(ErrorBlock)errorBlock
+- (MKNetworkOperation *)getHotFeedingPage:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_FEEDING_HOT method:nil paramers:nil onSucceeded:^(MKNetworkOperation *completedOperation) {
-        if (succeedBlock) {
-            NSDictionary *topShows = completedOperation.responseJSON;
-            NSArray *topShowsArray = topShows[@"data"][@"shows"];
-            succeedBlock([topShowsArray deepMutableCopy], topShows[@"metadata"]);
-        }
-        
-        
-    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
-        if (errorBlock) {
-            errorBlock(error);
-        }
-    }];
+    return [self getFeedingPath:PATH_FEEDING_HOT otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
 }
 
 @end

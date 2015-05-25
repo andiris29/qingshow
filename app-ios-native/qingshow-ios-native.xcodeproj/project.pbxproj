@@ -93,8 +93,6 @@
 		EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF49036B1A7E788200A848B4 /* QSItemCollectionViewCell.xib */; };
 		EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */; };
 		EF4985981AC875F900F70811 /* QSAbstractRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */; };
-		EF4D50AA1A177B7A001E179B /* QSS02CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4D50A81A177B7A001E179B /* QSS02CategoryViewController.m */; };
-		EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4D50A91A177B7A001E179B /* QSS02CategoryViewController.xib */; };
 		EF4EFD051B120B1E002C6430 /* QSS18TopShowOneDayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD031B120B1E002C6430 /* QSS18TopShowOneDayViewController.m */; };
 		EF4EFD061B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */; };
 		EF4EFD0A1B120CC0002C6430 /* QSS18WaterfallProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4EFD091B120CC0002C6430 /* QSS18WaterfallProvider.m */; };
@@ -509,9 +507,6 @@
 		EF49036F1A7E842000A848B4 /* QSItemCollectionViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemCollectionViewProvider.m; sourceTree = "<group>"; };
 		EF4985961AC875F900F70811 /* QSAbstractRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAbstractRootViewController.h; sourceTree = "<group>"; };
 		EF4985971AC875F900F70811 /* QSAbstractRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAbstractRootViewController.m; sourceTree = "<group>"; };
-		EF4D50A71A177B7A001E179B /* QSS02CategoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS02CategoryViewController.h; sourceTree = "<group>"; };
-		EF4D50A81A177B7A001E179B /* QSS02CategoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS02CategoryViewController.m; sourceTree = "<group>"; };
-		EF4D50A91A177B7A001E179B /* QSS02CategoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS02CategoryViewController.xib; sourceTree = "<group>"; };
 		EF4EFD021B120B1E002C6430 /* QSS18TopShowOneDayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS18TopShowOneDayViewController.h; sourceTree = "<group>"; };
 		EF4EFD031B120B1E002C6430 /* QSS18TopShowOneDayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS18TopShowOneDayViewController.m; sourceTree = "<group>"; };
 		EF4EFD041B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS18TopShowOneDayViewController.xib; sourceTree = "<group>"; };
@@ -1281,9 +1276,6 @@
 		EF4D50A61A177B31001E179B /* list */ = {
 			isa = PBXGroup;
 			children = (
-				EF4D50A71A177B7A001E179B /* QSS02CategoryViewController.h */,
-				EF4D50A81A177B7A001E179B /* QSS02CategoryViewController.m */,
-				EF4D50A91A177B7A001E179B /* QSS02CategoryViewController.xib */,
 			);
 			path = list;
 			sourceTree = "<group>";
@@ -2280,7 +2272,6 @@
 				EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */,
 				EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */,
 				EF1A59261A06761800001AE0 /* QSTimeCollectionViewCell.xib in Resources */,
-				EF4D50AB1A177B7A001E179B /* QSS02CategoryViewController.xib in Resources */,
 				A7F852991AF8D559002EC71D /* QSU13PersonalizeViewController.xib in Resources */,
 				8CC1850A1B0EFBDA00DD7657 /* bgImgforCell@2x.png in Resources */,
 				EFA0F9061AB877B700E52F0B /* QSS10ItemDetailVideoViewController.xib in Resources */,
@@ -2314,7 +2305,6 @@
 				EFC7ADBA1A11207E0078D1F9 /* QSItemContainerView.m in Sources */,
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
-				EF4D50AA1A177B7A001E179B /* QSS02CategoryViewController.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
 				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,

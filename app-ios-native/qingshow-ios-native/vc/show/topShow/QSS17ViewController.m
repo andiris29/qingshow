@@ -21,8 +21,6 @@
 @property(nonatomic,strong)QSS17TavleViewProvider *provider;
 @end
 
-
-
 @implementation QSS17ViewController
 
 - (instancetype)init
@@ -48,9 +46,8 @@
     self.provider.delegate = self;
     [self.provider bindWithTableView:self.topShowTableView];
     self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-            succeedBlock(array,metadata);
-        } onError:errorBlock];
+        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+//        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
     };
     [self.provider fetchDataOfPage:1];
     [self.provider reloadData];
@@ -64,19 +61,7 @@
     self.navigationController.navigationBarHidden = NO;
     [MobClick beginLogPageView:PAGE_ID];
 }
-//////获取网络数据
-//- (void)getNetWorkData
-//{
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-//            _dataArray = (NSMutableArray *)array;
-//        } onError:^(NSError *error) {
-//            [self showErrorHudWithError:error];
-//        }];
-//    });
-//    
-//}
+
 #pragma mark - QSS17ProviderDelegate - 点击跳转的方法
 
 - (void)didClickedDate:(NSDate*)date ofProvider:(QSS17TavleViewProvider*)provider
