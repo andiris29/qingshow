@@ -13,30 +13,62 @@
 #import "QSFavoInfo.h"
 #import "Common.h"
 #import "UIViewController+ShowHud.h"
-#import "QSTableViewBasicProvider.h"
+#import "QSU14FavoTableVIewProvider.h"
 
 @interface QSU14FavoriteViewController ()
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 //tableView 数据源
-@property (nonatomic,strong)NSMutableArray *dataArray;
+@property (nonatomic, strong)NSMutableArray *dataArray;
+
+@property (nonatomic, strong)QSU14FavoTableVIewProvider *favoProvider;
 
 @end
 
 @implementation QSU14FavoriteViewController
 
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self = [super initWithNibName:@"QSU14FavoriteViewController" bundle:nil]) {
+        _dataArray = [NSMutableArray array];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    QSTableViewBasicProvider *tableView = [[QSTableViewBasicProvider alloc] initWithCellNib:[UINib nibWithNibName:@"QSU14DisplayCell" bundle:[NSBundle mainBundle]] identifier:@"displayCell"];
-    
-    [tableView bindWithTableView:self.tableView];
-    
+    [self setProvider];
     //获取数据源
-    [self loadFavotiteData];
+//    [self loadFavotiteData];
     
 }
+
+#pragma mark -- provider
+- (void)setProvider
+{
+//    _favoProvider = [[QSU14FavoTableVIewProvider alloc] init];
+//    
+    
+                self.favoProvider = [[QSU14FavoTableVIewProvider alloc] init];
+        [self.favoProvider bindWithTableView:self.tableView];
+        __weak QSU14FavoriteViewController* weakSelf = self;
+
+        self.favoProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+            return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+                succeedBlock(array,metadata);
+            } onError:^(NSError *error) {
+                
+            }];
+        };
+        [self.favoProvider fetchDataOfPage:1];
+    [self.favoProvider reloadData];
+
+}
+
+
 
 #pragma mark --获取网络数据
 - (void)loadFavotiteData
@@ -47,44 +79,13 @@
             NSArray *favoInfoArray = [QSFavoInfo favoInfoWithDicArray:array];
             
             //模型传递
-            _dataArray = [NSMutableArray arrayWithArray:favoInfoArray];
+            self.favoProvider.dataArray = [NSMutableArray arrayWithArray:favoInfoArray];
             
             [self.tableView reloadData];
         } onError:^(NSError *error) {
-#warning 改成 [self showErrorHudWithError:err];
             
-            NSLog(@"TopShow Page  NetWorlk Error!");
+            [self showErrorHudWithError:error];
         }];
 }
 
-#pragma mark //UITableViewDataSource
-#warning Move to Provider
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return _dataArray.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    QSU14DisplayCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"displayCell"];
-    if (cell == nil) {
-        cell = [[QSU14DisplayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"displayCell"];
-    }
-    QSFavoInfo *favoInfo = _dataArray[indexPath.row];
-    [cell setValueForSubViewsWith:favoInfo];
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-#warning 这里改成根据屏幕宽度来计算cell高度
-    if (iPhone6Plus) {
-        return 240;
-    }else if (iPhone6){
-        return 225;
-    }else{
-        return 215;
-    }
-}
-#pragma mark --UITableViewDelegate
 @end

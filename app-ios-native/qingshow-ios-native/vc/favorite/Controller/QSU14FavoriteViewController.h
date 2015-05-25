@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "QSRootContentViewController.h"
-@interface QSU14FavoriteViewController : QSRootContentViewController <UITableViewDataSource,UITableViewDelegate>
+@interface QSU14FavoriteViewController : QSRootContentViewController
 
 @end
