@@ -23,20 +23,8 @@
 }
 - (CGFloat)getHeight
 {
-    if (w == 320) {
-        if (h == 568) {
-            return 568/3;
-        }
-        return 180;
-    }
-    else if(w == 375)
-    {
-        return 667/3;
-    }
-    else
-    {
-        return 736/3;
-    }
+    return h/3+10;
+    
 }
 
 
@@ -64,7 +52,9 @@
     NSDictionary* rightDict = self.resultArray.count > (indexPath.row * 2  + 1)? self.resultArray[indexPath.row * 2 + 1] : nil;
     
     [cell bindWithDataDic:leftDict andAnotherDic:rightDict];
-    
+    if (w == 414) {
+        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
+    }
     return cell;
 }
 
