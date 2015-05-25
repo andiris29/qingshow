@@ -13,5 +13,5 @@
 + (NSString*)getHint:(NSDictionary*)dict;
 + (NSString*)getDescription:(NSDictionary*)dict;
 + (NSNumber*)getCriteria:(NSDictionary*)dict;
-
++ (BOOL)getIsEnabled:(NSDictionary*)dict;
 @end

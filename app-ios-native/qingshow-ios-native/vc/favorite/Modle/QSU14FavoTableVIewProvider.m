@@ -40,8 +40,8 @@
     if (cell == nil) {
         cell = [[QSU14DisplayCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"displayCell"];
     }
-    QSFavoInfo *favoInfo = self.resultArray[indexPath.row];
-    [cell setValueForSubViewsWith:favoInfo];
+//    QSFavoInfo *favoInfo = self.resultArray[indexPath.row];
+//    [cell setValueForSubViewsWith:favoInfo];
     return cell;
 }
 

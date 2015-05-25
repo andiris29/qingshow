@@ -33,4 +33,16 @@
     }
     return dict[@"criteria"];
 }
++ (BOOL)getIsEnabled:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return NO;
+    }
+    NSNumber* n = dict[@"enabled"];
+    if ([QSCommonUtil checkIsNil:n]) {
+        return NO;
+    } else {
+        return n.boolValue;
+    }
+}
 @end
