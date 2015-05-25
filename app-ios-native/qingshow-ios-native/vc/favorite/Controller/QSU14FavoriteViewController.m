@@ -13,7 +13,9 @@
 #import "QSFavoInfo.h"
 #import "Common.h"
 #import "UIViewController+ShowHud.h"
-#import "QSU14FavoTableVIewProvider.h"
+#import "UIViewController+QSExtension.h"
+#import "QSUserManager.h"
+
 
 @interface QSU14FavoriteViewController ()
 
@@ -22,70 +24,55 @@
 //tableView 数据源
 @property (nonatomic, strong)NSMutableArray *dataArray;
 
-@property (nonatomic, strong)QSU14FavoTableVIewProvider *favoProvider;
+@property (nonatomic, strong)QSU14FavoTableViewProvider *favoProvider;
 
 @end
 
 @implementation QSU14FavoriteViewController
 
-
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+#pragma mark - Init
+- (instancetype)init {
     if (self = [super initWithNibName:@"QSU14FavoriteViewController" bundle:nil]) {
         _dataArray = [NSMutableArray array];
     }
     return self;
 }
 
+#pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setProvider];
-    //获取数据源
-//    [self loadFavotiteData];
+    self.title = @"我的收藏";
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
     
 }
 
 #pragma mark -- provider
 - (void)setProvider
 {
-//    _favoProvider = [[QSU14FavoTableVIewProvider alloc] init];
-//    
-    
-                self.favoProvider = [[QSU14FavoTableVIewProvider alloc] init];
-        [self.favoProvider bindWithTableView:self.tableView];
-        __weak QSU14FavoriteViewController* weakSelf = self;
-
-        self.favoProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-                succeedBlock(array,metadata);
-            } onError:^(NSError *error) {
-                
-            }];
-        };
-        [self.favoProvider fetchDataOfPage:1];
+    self.favoProvider = [[QSU14FavoTableViewProvider alloc] init];
+    self.favoProvider.delegate = self;
+    [self.favoProvider bindWithTableView:self.tableView];
+//    __weak QSU14FavoriteViewController* weakSelf = self;
+    self.favoProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+//        return [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
+    };
     [self.favoProvider reloadData];
 
 }
 
-
-
-#pragma mark --获取网络数据
-- (void)loadFavotiteData
+#pragma mark - QSU14FavoriteViewController
+- (void)didSelectionShow:(NSDictionary*)showDict ofProvider:(QSU14FavoTableViewProvider*)provider
 {
-        [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-//            NSLog(@"array = %@,dic = %@",array,metadata);
-            //数据转模型
-            NSArray *favoInfoArray = [QSFavoInfo favoInfoWithDicArray:array];
-            
-            //模型传递
-            self.favoProvider.dataArray = [NSMutableArray arrayWithArray:favoInfoArray];
-            
-            [self.tableView reloadData];
-        } onError:^(NSError *error) {
-            
-            [self showErrorHudWithError:error];
-        }];
+    [self showShowDetailViewController:showDict];
 }
-
+- (void)handleError:(NSError *)error
+{
+    [self showErrorHudWithError:error];
+}
 @end

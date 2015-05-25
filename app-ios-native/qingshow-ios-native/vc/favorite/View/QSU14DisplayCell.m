@@ -10,6 +10,10 @@
 #import "QSFavoInfo.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
+#import "QSShowUtil.h"
+#import "QSItemUtil.h"
+
+
 @implementation QSU14DisplayCell
 
 - (void)awakeFromNib {
@@ -22,41 +26,27 @@
     // Configure the view for the selected state
 }
 
-#pragma mark -- setValue for cell
-- (void)setValueForSubViewsWith:(QSFavoInfo *)favoInfo
+#pragma mark -
+- (void)bindWithShow:(NSDictionary *)showDict
 {
-    for (int i = 0; i < favoInfo.picUrlArray.count; i ++) {
-        switch (i) {
-            case 0:
-                [self.suitImageView setImageFromURL:favoInfo.picUrlArray[i] placeHolderImage:nil];
-                [self.suitButton setTitle:favoInfo.contentArray[i] forState:UIControlStateNormal];
-                break;
-                
-            case 1:
-                self.skuButton1.hidden = NO;
-                [self.skuImageView1 setImageFromURL:favoInfo.picUrlArray[i] placeHolderImage:nil];
-                [self.skuButton1 setTitle:favoInfo.contentArray[i] forState:UIControlStateNormal];
-                
-            case 2:
-                self.skuButton2.hidden = NO;
-                [self.skuImageView2 setImageFromURL:favoInfo.picUrlArray[i] placeHolderImage:nil];
-                [self.skuButton2 setTitle:favoInfo.contentArray[i] forState:UIControlStateNormal];
-
-                break;
-            case 3:
-                self.skuButton3.hidden = NO;
-                [self.skuImageView3 setImageFromURL:favoInfo.picUrlArray[i] placeHolderImage:nil];
-                [self.skuButton3 setTitle:favoInfo.contentArray[i] forState:UIControlStateNormal];
-                break;
-                
-            case 4:
-                self.skuButton4.hidden = NO;
-                [self.skuImageView4 setImageFromURL:favoInfo.picUrlArray[i] placeHolderImage:nil];
-                [self.skuButton4 setTitle:favoInfo.contentArray[i] forState:UIControlStateNormal];
-                break;
-                
-            default:
-                break;
+    //Show
+    [self.showImageView setImageFromURL:[QSShowUtil getCoverUrl:showDict]];
+    [self.showButton setTitle:[QSShowUtil getShowDesc:showDict] forState:UIControlStateNormal];
+    
+    //Item
+    NSArray* itemArray = [QSShowUtil getItems:showDict];
+    for (int i = 0; i < self.itemImageViews.count; i++) {
+        UIButton* itemBtn = self.itemButtons[i];
+        UIImageView* itemImgView = self.itemImageViews[i];
+        if (i < itemArray.count) {
+            itemBtn.hidden = NO;
+            itemImgView.hidden = NO;
+            NSDictionary* itemDict = itemArray[i];
+            [itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+            [itemBtn setTitle:[QSItemUtil getPrice:itemDict] forState:UIControlStateNormal];
+        } else {
+            itemBtn.hidden = YES;
+            itemImgView.hidden = YES;
         }
     }
 }

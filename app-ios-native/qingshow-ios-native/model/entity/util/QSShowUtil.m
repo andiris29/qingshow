@@ -75,12 +75,13 @@
         return nil;
     }
     NSArray* itemArray = showDict[@"itemRefs"];
-    if (itemArray.count) {
-        if (![itemArray[0] isKindOfClass:[NSDictionary class]]) {
-            return @[];
+    NSMutableArray* array = [@[] mutableCopy];
+    for (id item in itemArray) {
+        if ([QSCommonUtil checkIsDict:item]) {
+            [array addObject:item];
         }
     }
-    return itemArray;
+    return array;
 }
 
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index
