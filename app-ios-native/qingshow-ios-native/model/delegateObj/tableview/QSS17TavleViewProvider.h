@@ -9,16 +9,17 @@
 #import "QSTableViewBasicProvider.h"
 #import "QSS17TopShowCell.h"
 
-@protocol QSS17ProviderDelegate <NSObject>
+@class QSS17TavleViewProvider;
 
-- (void)tableViewCellDidClicked:(NSInteger)row;
+@protocol QSS17ProviderDelegate <QSAbstractScrollProviderDelegate>
+
+@optional
+- (void)didClickedDate:(NSDate*)date ofProvider:(QSS17TavleViewProvider*)provider;
 
 @end
 
 @interface QSS17TavleViewProvider : QSTableViewBasicProvider
 
-@property(nonatomic,strong)NSArray *dataArray;
 @property(nonatomic,weak)NSObject<QSS17ProviderDelegate>* delegate;
-- (id)initWithArray:(NSArray *)array;
 
 @end

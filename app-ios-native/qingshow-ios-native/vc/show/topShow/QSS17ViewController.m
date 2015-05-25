@@ -11,15 +11,14 @@
 #import "QSShowUtil.h"
 #import "QSS18TopShowOneDayViewController.h"
 #import "UIViewController+ShowHud.h"
-#import "QSS17TavleViewProvider.h"
+
 
 #define PAGE_ID @"美搭榜单"
 #define SS17CellId @"SS17TableViewCellId"
 
 @interface QSS17ViewController ()<QSS17ProviderDelegate>
-@property(nonatomic,strong)QSS17TavleViewProvider *delegateObj;
-@property(nonatomic,strong)NSMutableArray *dataArray;
 
+@property(nonatomic,strong)QSS17TavleViewProvider *provider;
 @end
 
 
@@ -45,26 +44,16 @@
 }
 - (void)configProvider
 {
-  
-    self.delegateObj = [[QSS17TavleViewProvider alloc]initWithArray:self.dataArray];
-    //self.delegateObj.dataArray = self.dataArray;
-    self.delegateObj.delegate = self;
-    [self.delegateObj bindWithTableView:self.topShowTableView];
-      __weak QSS17ViewController* weakSelf = self;
-    self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+    self.provider = [[QSS17TavleViewProvider alloc] init];
+    self.provider.delegate = self;
+    [self.provider bindWithTableView:self.topShowTableView];
+    self.provider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return  [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-            //weakSelf.dataArray = (NSMutableArray *)array;
             succeedBlock(array,metadata);
-
-            //NSLog(@"weakdataArray = %@",weakSelf.dataArray);
-            
-        } onError:^(NSError *error) {
-            [weakSelf showErrorHudWithError:error];
-        }];
-        
+        } onError:errorBlock];
     };
-    [self.delegateObj fetchDataOfPage:1];
-    [self.delegateObj reloadData];
+    [self.provider fetchDataOfPage:1];
+    [self.provider reloadData];
 
 }
 
@@ -90,26 +79,21 @@
 //}
 #pragma mark - QSS17ProviderDelegate - 点击跳转的方法
 
-- (void)tableViewCellDidClicked:(NSInteger)row
+- (void)didClickedDate:(NSDate*)date ofProvider:(QSS17TavleViewProvider*)provider
 {
-    NSDate* date =[QSShowUtil getRecommendDate: _dataArray[row*2]];
     QSS18TopShowOneDayViewController* vc = [[QSS18TopShowOneDayViewController alloc] initWithDate:date];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)handleNetworkError:(NSError *)error
+{
+    [self showErrorHudWithError:error];
 }
-*/
 
 @end
 

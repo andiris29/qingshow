@@ -14,17 +14,8 @@
 #define h ([UIScreen mainScreen].bounds.size.height)
 
 @implementation QSS17TavleViewProvider
+
 @dynamic delegate;
-
-
-- (id)initWithArray:(NSArray *)array
-{
-    if (self = [super initWithCellNib:[UINib nibWithNibName:@"QSS17TopShowCell" bundle:nil] identifier:SS17CellId]) {
-        self.dataArray = array;
-    }
-    return self;
-}
-
 
 - (void)registerCell
 {
@@ -57,15 +48,9 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.dataArray.count) {
-        return self.dataArray.count;
-    }
-    else
-    {
-        return 1;
-    }
-//    return self.dataArray.count;
+    return (self.resultArray.count + 1) / 2;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSS17TopShowCell *cell = [tableView dequeueReusableCellWithIdentifier:SS17CellId forIndexPath:indexPath];
@@ -73,20 +58,22 @@
         cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS17TopShowCell" owner:nil options:nil]lastObject];
     }
     cell.userInteractionEnabled = YES;
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //查看网络返回的数据
-    NSLog(@"datadic = %@",self.dataArray);
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    [cell bindWithDataDic:[_dataArray firstObject][indexPath.row*2] andAnotherDic:nil];
+    NSDictionary* leftDict = self.resultArray[indexPath.row * 2];
+    NSDictionary* rightDict = self.resultArray.count > (indexPath.row * 2  + 1)? self.resultArray[indexPath.row * 2 + 1] : nil;
+    
+    [cell bindWithDataDic:leftDict andAnotherDic:rightDict];
     
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.delegate tableViewCellDidClicked:indexPath.row];
+    NSDate* date =[QSShowUtil getRecommendDate:self.resultArray[indexPath.row * 2 - 1]];
+    if ([self.delegate respondsToSelector:@selector(didClickedDate:ofProvider:)]) {
+        [self.delegate didClickedDate:date ofProvider:self];
+    }
 }
-
-
-
 
 @end
