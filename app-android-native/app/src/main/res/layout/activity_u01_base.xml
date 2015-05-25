@@ -38,6 +38,11 @@
         </RelativeLayout>
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/navigation"
@@ -80,9 +85,4 @@
             android:text="个人设置" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/blur"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
 </android.support.v4.widget.DrawerLayout>
