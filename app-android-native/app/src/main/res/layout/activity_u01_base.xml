@@ -19,7 +19,7 @@
                 android:id="@+id/user_bg"
                 android:layout_width="fill_parent"
                 android:layout_height="180dp"
-                android:background="@drawable/bg_pic"
+                android:background="@drawable/user_bg_default"
                 android:scaleType="centerCrop" />
 
             <ImageView
@@ -54,13 +54,16 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageButton style="@style/navigation_btn" />
+        <ImageButton
+            android:src="@drawable/root_menu_flash"
+            style="@style/navigation_btn" />
 
         <TextView
             style="@style/navigation_text"
             android:text="我的搭配" />
 
         <ImageButton
+            android:src="@drawable/root_menu_match"
             style="@style/navigation_btn"
             android:layout_marginTop="30dp" />
 
@@ -69,6 +72,7 @@
             android:text="美搭榜单" />
 
         <ImageButton
+            android:src="@drawable/root_menu_people"
             style="@style/navigation_btn"
             android:layout_marginTop="30dp" />
 
@@ -77,6 +81,7 @@
             android:text="我的收藏" />
 
         <ImageButton
+            android:src="@drawable/root_menu_setting"
             style="@style/navigation_btn"
             android:layout_marginTop="30dp" />
 
