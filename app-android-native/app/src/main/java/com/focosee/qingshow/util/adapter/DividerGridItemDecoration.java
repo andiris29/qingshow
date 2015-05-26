@@ -17,11 +17,11 @@ import android.view.View;
  */
 public class DividerGridItemDecoration extends RecyclerView.ItemDecoration {
 
-    private static final int[] ATTRS = new int[]{android.R.attr.listDivider};
     private Drawable mDivider;
 
-    public DividerGridItemDecoration(Context context) {
-        final TypedArray typedArray = context.obtainStyledAttributes(ATTRS);
+    public DividerGridItemDecoration(Context context,int res) {
+        int atrs[] = new int[]{res};
+        final TypedArray typedArray = context.obtainStyledAttributes(atrs);
         mDivider = typedArray.getDrawable(0);
         typedArray.recycle();
     }
