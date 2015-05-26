@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,12 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/user_bg"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:background="@drawable/user_bg_default"
-                android:scaleType="centerCrop" />
+                fresco:actualImageScaleType="focusCrop"
+                fresco:placeholderImage="@drawable/user_bg_default" />
 
             <ImageView
                 android:layout_width="40dp"
@@ -55,35 +56,35 @@
         android:orientation="vertical">
 
         <ImageButton
-            android:src="@drawable/root_menu_flash"
-            style="@style/navigation_btn" />
+            style="@style/navigation_btn"
+            android:src="@drawable/root_menu_flash" />
 
         <TextView
             style="@style/navigation_text"
             android:text="我的搭配" />
 
         <ImageButton
-            android:src="@drawable/root_menu_match"
             style="@style/navigation_btn"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:src="@drawable/root_menu_match" />
 
         <TextView
             style="@style/navigation_text"
             android:text="美搭榜单" />
 
         <ImageButton
-            android:src="@drawable/root_menu_people"
             style="@style/navigation_btn"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:src="@drawable/root_menu_people" />
 
         <TextView
             style="@style/navigation_text"
             android:text="我的收藏" />
 
         <ImageButton
-            android:src="@drawable/root_menu_setting"
             style="@style/navigation_btn"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="30dp"
+            android:src="@drawable/root_menu_setting" />
 
         <TextView
             style="@style/navigation_text"

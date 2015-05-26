@@ -80,7 +80,13 @@ public class QSAppWebAPI {
     private static final String TOP_API = HOST_NAME + "/feeding/hot";
 
 
-    public static String getUpdateServiceUrl() {
+    private static final String USER_RECOMMENDATION = HOST_NAME + "/feeding/recommendation";
+
+    public static String getUserRecommendationApi() {
+        return USER_RECOMMENDATION;
+    }
+
+    public static String getUserUpdateApi() {
         return UPDATE_SERVICE_URL;
     }
 

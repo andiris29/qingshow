@@ -3,6 +3,7 @@ package com.focosee.qingshow.activity;
 import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,13 +19,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U01PushAdapter;
-import com.focosee.qingshow.model.vo.mongo.Bean;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -35,7 +49,7 @@ public class U01UserActivity extends BaseActivity {
     @InjectView(R.id.recycler)
     RecyclerView recyclerView;
     @InjectView(R.id.user_bg)
-    ImageView userBg;
+    SimpleDraweeView userBg;
 
     @InjectView(R.id.drawer)
     DrawerLayout drawer;
@@ -62,9 +76,32 @@ public class U01UserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
-        datas = new ArrayList<>();
+        datas = new LinkedList<>();
         initDrawer();
+        initUserInfo();
         initRectcler();
+        loadDataFormNet();
+    }
+
+    private void loadDataFormNet() {
+        JsonObjectRequest objectRequest = new JsonObjectRequest(QSAppWebAPI.getUserRecommendationApi()
+                , null, response -> {
+                    if (MetadataParser.hasError(response)){
+                        ErrorHandler.handle(U01UserActivity.this,MetadataParser.getError(response));
+                        return;
+                    }
+                    datas = ShowParser.parseQuery(response);
+                    adapter.addDataAtTop(datas);
+                    adapter.notifyDataSetChanged();
+                }, null);
+        RequestQueueManager.INSTANCE.getQueue().add(objectRequest);
+    }
+
+    private void initUserInfo() {
+        MongoPeople user = QSModel.INSTANCE.getUser();
+        if (null != user.background)
+            userBg.setImageURI(Uri.parse(user.background));
+
     }
 
     private void initDrawer() {
@@ -106,12 +143,7 @@ public class U01UserActivity extends BaseActivity {
         }
         blur.setVisibility(View.VISIBLE);
 
-        navigation.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
+        navigation.setOnTouchListener((view, motionEvent) -> true);
         drawer.openDrawer(navigation);
     }
 
@@ -147,7 +179,7 @@ public class U01UserActivity extends BaseActivity {
 
     private void initRectcler() {
         adapter = new U01PushAdapter(datas, this,
-                R.layout.item_u01_push, R.layout.item_u01_header,R.layout.item_u01_date);
+                R.layout.item_u01_push, R.layout.item_u01_header, R.layout.item_u01_date);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -164,13 +196,11 @@ public class U01UserActivity extends BaseActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 float offset = recyclerView.computeVerticalScrollOffset();
                 userBg.setY(-offset / DAMP);
             }
         });
     }
-
 
 
     @Override

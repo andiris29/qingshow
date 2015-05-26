@@ -46,6 +46,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-33dp"
         fresco:roundAsCircle="true"
+        fresco:actualImageScaleType="focusCrop"
         fresco:placeholderImage="@drawable/user_head_default"
         fresco:roundingBorderColor="@color/white"
         fresco:roundingBorderWidth="3dp" />

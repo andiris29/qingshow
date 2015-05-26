@@ -3,11 +3,15 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.util.TimeUtils;
+import android.widget.TextView;
 
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.Bean;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.FontsUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -62,15 +66,27 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
             case 0:
                 bindShowHolder(holder, position);
                 break;
+            case 1:
+                bindUserHolder(holder);
             case 2:
                 bindDateHolder(holder, position);
+                break;
         }
+    }
+
+    private void bindUserHolder(AbsViewHolder holder) {
+        MongoPeople user = QSModel.INSTANCE.getUser();
+        holder.setText(R.id.user_name,user.nickname)
+                .setText(R.id.user_hw, user.height + "," + user.weight)
+                .setImgeByUrl(R.id.user_head, user.portrait);
     }
 
     private void bindDateHolder(AbsViewHolder holder, int position) {
         groupCount++;
         MongoShow item = getItemData(position - groupCount - 1);
         GregorianCalendar calendar = item.recommend.date;
+
+        FontsUtil.changeFont(context,holder.getView(R.id.day),"fonts/HelveticaInserat-Roman-SemiBold.ttf");
         holder.setText(R.id.year, String.valueOf(calendar.YEAR))
                 .setText(R.id.manth, TimeUtil.formatManthInfo(calendar.MONTH))
                 .setText(R.id.day, String.valueOf(calendar.DAY_OF_MONTH))
@@ -85,7 +101,6 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
         holder.setOnClickListener(view -> {
             Intent intent = new Intent(context, S03SHowActivity.class);
             context.startActivity(intent);
-
         });
     }
 
