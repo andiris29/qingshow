@@ -91,11 +91,11 @@ public class S07ListAdapter extends BaseAdapter {
 
         holderView.name.setText(data.get(position).getItemName());
         holderView.category.setText(data.get(position).getItemCategory());
-        if(null != data.get(position).getBrandRef()) {
-            ImageLoader.getInstance().displayImage(data.get(position).getBrandRef().getBrandLogo(), holderView.brandLogo, AppUtil.getPortraitDisplayOptions());
-        }else{
-            holderView.brandLogo.setImageResource(R.drawable.user_head_default);
-        }
+//        if(null != data.get(position).getBrandRef()) {
+////            ImageLoader.getInstance().displayImage(data.get(position).getBrandRef().getBrandLogo(), holderView.brandLogo, AppUtil.getPortraitDisplayOptions());
+//        }else{
+//            holderView.brandLogo.setImageResource(R.drawable.user_head_default);
+//        }
 
         holderView.detailButton.setTag(position);
         holderView.detailButton.setOnClickListener(new View.OnClickListener() {

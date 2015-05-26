@@ -198,15 +198,6 @@ public class MongoItem implements Serializable {
         }
     }
 
-    public MongoBrand getBrandRef() {
-        return brandRef;
-    }
-
-    public String getBrandId() {
-        if (null == brandRef) return "";
-        return String.valueOf(brandRef.get_id());
-    }
-
     public String getSourcePrice() {
         if (taobaoInfo != null) {
             if (taobaoInfo.getPrice() == null) {

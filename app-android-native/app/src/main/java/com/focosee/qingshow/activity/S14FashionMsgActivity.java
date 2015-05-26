@@ -3,7 +3,6 @@ package com.focosee.qingshow.activity;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,13 +13,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.S08TrendListAdapter;
-import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.vo.mongo.MongoPreview;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -65,34 +60,34 @@ public class S14FashionMsgActivity extends BaseActivity {
         likeNumText = (TextView) findViewById(R.id.s14_like_text_view);
         imageIndicatorView = (NetworkImageIndicatorView) findViewById(R.id.s14_image_indicator);
 
-        if(getIntent().getStringExtra("refCollection").equals(S08TrendListAdapter.PREVIEWS)){
-            MongoPreview preview = (MongoPreview) getIntent().getExtras().getSerializable("entity");
-            _id = preview._id;
-            likeUrl = QSAppWebAPI.getPreviewTrendLikeApi();
-            unlikeUrl = QSAppWebAPI.getPreviewTrendUnLikeApi();
-            isFollowed = preview.getIsLikeByCurrentUser();
-            describe = (TextView) findViewById(R.id.s14_describe);
-            List<String> imageList = new ArrayList<String>();
-            for (MongoPreview.Image image : preview.images){
-                imageList.add(image.url);
-            }
-            imageIndicatorView.setVisibility(View.VISIBLE);
-            imageIndicatorView.setupLayoutByImageUrl(imageList, ImageLoader.getInstance());
-            imageIndicatorView.show();
-            imageIndicatorView.getViewPager().setCurrentItem(0, false);
-            describe.setText(preview.getDescription(0));
-            likeNumText.setText(String.valueOf(preview.numLike));
-
-        }else{
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            MongoShow show = (MongoShow) getIntent().getExtras().getSerializable("entity");
-            _id = show._id;
-            likeUrl = QSAppWebAPI.getShowLikeApi();
-            unlikeUrl = QSAppWebAPI.getShowUnlikeApi();
-            isFollowed = show.getShowIsFollowedByCurrentUser();
-            videoImage.setImageURI(Uri.parse(show.cover));
-            videoImage.setVisibility(View.VISIBLE );
-        }
+//        if(getIntent().getStringExtra("refCollection").equals(S08TrendListAdapter.PREVIEWS)){
+//            MongoPreview preview = (MongoPreview) getIntent().getExtras().getSerializable("entity");
+//            _id = preview._id;
+//            likeUrl = QSAppWebAPI.getPreviewTrendLikeApi();
+//            unlikeUrl = QSAppWebAPI.getPreviewTrendUnLikeApi();
+//            isFollowed = preview.getIsLikeByCurrentUser();
+//            describe = (TextView) findViewById(R.id.s14_describe);
+//            List<String> imageList = new ArrayList<String>();
+//            for (MongoPreview.Image image : preview.images){
+//                imageList.add(image.url);
+//            }
+//            imageIndicatorView.setVisibility(View.VISIBLE);
+//            imageIndicatorView.setupLayoutByImageUrl(imageList, ImageLoader.getInstance());
+//            imageIndicatorView.show();
+//            imageIndicatorView.getViewPager().setCurrentItem(0, false);
+//            describe.setText(preview.getDescription(0));
+//            likeNumText.setText(String.valueOf(preview.numLike));
+//
+//        }else{
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//            MongoShow show = (MongoShow) getIntent().getExtras().getSerializable("entity");
+//            _id = show._id;
+//            likeUrl = QSAppWebAPI.getShowLikeApi();
+//            unlikeUrl = QSAppWebAPI.getShowUnlikeApi();
+//            isFollowed = show.getShowIsFollowedByCurrentUser();
+//            videoImage.setImageURI(Uri.parse(show.cover));
+//            videoImage.setVisibility(View.VISIBLE );
+//        }
 
         if(isFollowed){
             likeBtn.setImageResource(R.drawable.s03_like_btn_hover);

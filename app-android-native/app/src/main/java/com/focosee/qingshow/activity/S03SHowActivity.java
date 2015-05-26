@@ -270,61 +270,61 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void clickLikeShowButton() {
-        likedImageButton.setClickable(false);
-        Map<String, String> likeData = new HashMap<String, String>();
-        likeData.put("_id", showDetailEntity.get_id());
-        JSONObject jsonObject = new JSONObject(likeData);
-
-        String requestApi = (showDetailEntity.likedByCurrentUser()) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
-                    showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
-                    Intent intent = new Intent(ACTION_MESSAGE);
-                    intent.putExtra("position", position);
-                    sendBroadcast(intent);
-                    setLikedImageButtonBackgroundImage();
-                    likedImageButton.setClickable(true);
-                    UserCommand.refresh();
-                } else {
-                    handleResponseError(response);
-                }
-            }
-        });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+//        likedImageButton.setClickable(false);
+//        Map<String, String> likeData = new HashMap<String, String>();
+//        likeData.put("_id", showDetailEntity._id);
+//        JSONObject jsonObject = new JSONObject(likeData);
+//
+//        String requestApi = (showDetailEntity.likedByCurrentUser()) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
+//
+//        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                if (!MetadataParser.hasError(response)) {
+//                    showMessage(S03SHowActivity.this, showDetailEntity.likedByCurrentUser() ? "取消点赞成功" : "点赞成功");
+//                    showDetailEntity.setLikedByCurrentUser(!showDetailEntity.likedByCurrentUser());
+//                    Intent intent = new Intent(ACTION_MESSAGE);
+//                    intent.putExtra("position", position);
+//                    sendBroadcast(intent);
+//                    setLikedImageButtonBackgroundImage();
+//                    likedImageButton.setClickable(true);
+//                    UserCommand.refresh();
+//                } else {
+//                    handleResponseError(response);
+//                }
+//            }
+//        });
+//
+//        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void setLikedImageButtonBackgroundImage() {
         if (null == showDetailEntity) {
             return;
         }
-        if (showDetailEntity.likedByCurrentUser()) {
-            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
-        } else {
-            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn);
-        }
-        likeTextView.setText(showDetailEntity.getShowLikeNumber());
+//        if (showDetailEntity.likedByCurrentUser()) {
+//            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn_hover);
+//        } else {
+//            likedImageButton.setBackgroundResource(R.drawable.s03_like_btn);
+//        }
+//        likeTextView.setText(showDetailEntity.getShowLikeNumber());
     }
 
     private void handleResponseError(JSONObject response) {
-        int errorCode = MetadataParser.getError(response);
-        String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
-        switch (errorCode) {
-            case 1012:
-                errorMessage = "请先登录！";
-                break;
-            case 1000:
-                errorMessage = "服务器错误，请稍后重试！";
-                break;
-            default:
-                errorMessage = String.valueOf(errorCode) + response.toString();
-                break;
-        }
-        showMessage(S03SHowActivity.this, errorMessage);
+//        int errorCode = MetadataParser.getError(response);
+//        String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
+//        switch (errorCode) {
+//            case 1012:
+//                errorMessage = "请先登录！";
+//                break;
+//            case 1000:
+//                errorMessage = "服务器错误，请稍后重试！";
+//                break;
+//            default:
+//                errorMessage = String.valueOf(errorCode) + response.toString();
+//                break;
+//        }
+//        showMessage(S03SHowActivity.this, errorMessage);
     }
 
     private void showMessage(Context context, String message) {
@@ -353,23 +353,23 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if (null == showDetailEntity)
             return;
 
-        itemsData = showDetailEntity.getItemsList();
-
-        videoUriString = showDetailEntity.getShowVideo();
-
-        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
-
-        modelInformation.setText(showDetailEntity.getModelName());
-
-        modelAgeHeight.setText(showDetailEntity.getModelWeightHeight());
-
-        commentTextView.setText(showDetailEntity.getShowCommentNumber());
-
-        likeTextView.setText(showDetailEntity.getShowLikeNumber());
-
-        itemTextView.setText(showDetailEntity.getItemsCount());
-
-        this.initPosterView(showDetailEntity.getPosters());
+//        itemsData = showDetailEntity.getItemsList();
+//
+//        videoUriString = showDetailEntity.getShowVideo();
+//
+//        ImageLoader.getInstance().displayImage(showDetailEntity.getModelPhoto(), modelImage, AppUtil.getPortraitDisplayOptions());
+//
+//        modelInformation.setText(showDetailEntity.getModelName());
+//
+//        modelAgeHeight.setText(showDetailEntity.getModelWeightHeight());
+//
+//        commentTextView.setText(showDetailEntity.getShowCommentNumber());
+//
+//        likeTextView.setText(showDetailEntity.getShowLikeNumber());
+//
+//        itemTextView.setText(showDetailEntity.getItemsCount());
+//
+//        this.initPosterView(showDetailEntity.getPosters());
 
         modelImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -384,15 +384,15 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         findViewById(R.id.S03_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (S07CollectActivity.isOpened) return;
-                if(null == showDetailEntity.getItemsList() || null == showDetailEntity.getCover())return;
-                S07CollectActivity.isOpened = true;
-                Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
-                intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, ImgUtil.imgTo2x(showDetailEntity.getCover()));
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                if (S07CollectActivity.isOpened) return;
+//                if(null == showDetailEntity.getItemsList() || null == showDetailEntity.getCover())return;
+//                S07CollectActivity.isOpened = true;
+//                Intent intent = new Intent(S03SHowActivity.this, S07CollectActivity.class);
+//                intent.putExtra(S07CollectActivity.INPUT_BACK_IMAGE, ImgUtil.imgTo2x(showDetailEntity.getCover()));
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(S07CollectActivity.INPUT_ITEMS, showDetailEntity.getItemsList());
+//                intent.putExtras(bundle);
+//                startActivity(intent);
             }
         });
 
@@ -550,7 +550,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         mediaObject.title = ShareConfig.SHARE_TITLE;
         mediaObject.description = ShareConfig.SHARE_DESCRIPTION;
         mediaObject.setThumbImage(BitmapFactory.decodeResource(getResources(), ShareConfig.IMG));
-        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity.get_id();
+        mediaObject.actionUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
         mediaObject.defaultText = ShareConfig.SHARE_DESCRIPTION;
 
         weiboMessage.mediaObject = mediaObject;
@@ -605,7 +605,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         WXWebpageObject webpage = new WXWebpageObject();
         WXMediaMessage msg;
-        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity.get_id();
+        webpage.webpageUrl = ShareConfig.SHARE_SHOW_URL + showDetailEntity._id;
 
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;

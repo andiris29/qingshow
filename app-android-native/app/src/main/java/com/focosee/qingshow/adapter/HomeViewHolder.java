@@ -35,15 +35,15 @@ public class HomeViewHolder extends AbsViewHolder {
     public void setData(MongoShow entity, ImageLoader imageLoader) {
 
         this.imageLoader = imageLoader;
-        showIV.setOriginWidth(entity.getCoverWidth());
-        showIV.setOriginHeight(entity.getCoverHeight());
-        modelUrl = entity.getModelPhoto();
-        goneView();
-        imageLoader.cancelDisplayTask(modelIV);
-        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
-        modelNameTV.setText(entity.getModelName());
-        modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
-        loveTV.setText(entity.getShowNumLike());
+//        showIV.setOriginWidth(entity.getCoverWidth());
+//        showIV.setOriginHeight(entity.getCoverHeight());
+//        modelUrl = entity.getModelPhoto();
+//        goneView();
+//        imageLoader.cancelDisplayTask(modelIV);
+//        imageLoader.displayImage(ImgUtil.imgTo2x(entity.getShowCover()), showIV, AppUtil.getShowDisplayOptions(), animateFirstListener);
+//        modelNameTV.setText(entity.getModelName());
+//        modelHeightWeightTV.setText(entity.getModelHeightAndHeightWithFormat());
+//        loveTV.setText(entity.getShowNumLike());
     }
 
     private void goneView(){

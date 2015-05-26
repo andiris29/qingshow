@@ -60,12 +60,12 @@ public class S07CollectActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(null == items.get(position).getBrandRef()){
-                    QSComponent.showDialag(S07CollectActivity.this, getResources().getString(R.string.brand_not_exist));
-                    return;
-                }
-                Intent intent = new Intent(S07CollectActivity.this, S10ItemDetailActivity.class);
-                startActivity(intent);
+//                if(null == items.get(position).getBrandRef()){
+//                    QSComponent.showDialag(S07CollectActivity.this, getResources().getString(R.string.brand_not_exist));
+//                    return;
+//                }
+//                Intent intent = new Intent(S07CollectActivity.this, S10ItemDetailActivity.class);
+//                startActivity(intent);
 
             }
         });

@@ -97,9 +97,9 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.s10_back_btn:
                 finish();
                 break;
-            case R.id.s10_watch:
-                startVideo();
-                break;
+//            case R.id.s10_watch:
+//                startVideo();
+//                break;
             case R.id.s10_video_play:
                 if(videoView.isPlaying()){
                     videoView.pause();
