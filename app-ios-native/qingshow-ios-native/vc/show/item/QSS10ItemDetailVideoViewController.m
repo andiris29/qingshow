@@ -96,7 +96,7 @@
 #pragma mark Data
 - (NSArray*)generateImagesData
 {
-    return [QSImageNameUtil generate2xImageNameUrlArray:[QSItemUtil getImagesUrl:self.itemDict]];;
+    return [QSItemUtil getImagesUrl:self.itemDict];
 }
 - (NSString*)generateVideoPath
 {

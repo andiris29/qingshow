@@ -65,7 +65,7 @@
     self.itemDict = itemDict;
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
-    self.imageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSItemUtil getImagesUrl:itemDict]];
+    self.imageScrollView.imageUrlArray = [QSItemUtil getImagesUrl:itemDict];
     if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;

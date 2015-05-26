@@ -10,10 +10,10 @@
 
 @interface QSImageNameUtil : NSObject
 
-+ (NSURL*)generate2xImageNameUrl:(NSURL*)imgUrl;
-+ (NSArray*)generate2xImageNameUrlArray:(NSArray*)imgUrl;
+//+ (NSURL*)generate2xImageNameUrl:(NSURL*)imgUrl;
+//+ (NSArray*)generate2xImageNameUrlArray:(NSArray*)imgUrl;
 
-+ (NSString*)generate2xImageName:(NSString*)imgName;
-+ (NSArray*)generate2xImageNameArray:(NSArray*)imgNames;
+//+ (NSString*)generate2xImageName:(NSString*)imgName;
+//+ (NSArray*)generate2xImageNameArray:(NSArray*)imgNames;
 
 @end

@@ -240,7 +240,7 @@
 #pragma mark Data
 - (NSArray*)generateImagesData
 {
-    return [QSImageNameUtil generate2xImageNameUrlArray:[QSShowUtil getShowVideoPreviewUrlArray:self.showDict]];;
+    return [QSShowUtil getShowVideoPreviewUrlArray:self.showDict];;
 }
 - (NSString*)generateVideoPath
 {
