@@ -25,26 +25,33 @@
 
 - (void)registerCell
 {
-    [self.view registerNib:[UINib nibWithNibName:@"QSU14DisplayCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:displayCellId];
+    [self.view registerNib:[UINib nibWithNibName:@"QSU14DisplayCell" bundle:nil] forCellReuseIdentifier:displayCellId];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.resultArray.count;
+//    return self.resultArray.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSU14DisplayCell *cell = [self.view dequeueReusableCellWithIdentifier:displayCellId forIndexPath:indexPath];
+    QSU14DisplayCell *cell = [tableView dequeueReusableCellWithIdentifier:displayCellId forIndexPath:indexPath];
 
-    NSDictionary* showDict = self.resultArray[indexPath.row];
+    NSDictionary* showDict = [self.resultArray lastObject];
     [cell bindWithShow:showDict];
+    
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
+    }
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UIScreen mainScreen].bounds.size.width / 2 / 9 * 16;
+    return [UIScreen mainScreen].bounds.size.width/2 + 10;
+    
+//    return [UIScreen mainScreen].bounds.size.width / 2 / 9 * 16;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary* showDict = self.resultArray[indexPath.row];

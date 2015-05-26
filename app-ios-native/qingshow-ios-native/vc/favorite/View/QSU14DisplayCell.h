@@ -23,12 +23,15 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *showButton;
 
+@property (weak, nonatomic) IBOutlet UIImageView *shouShadowImageView;
 
 //Item
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *itemImageViews;
+
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *itemButtons;
 
-
+//阴影
+@property (strong ,nonatomic)IBOutletCollection(UIImageView)NSArray *shadow;
 
 - (void)bindWithShow:(NSDictionary*)showDict;
 

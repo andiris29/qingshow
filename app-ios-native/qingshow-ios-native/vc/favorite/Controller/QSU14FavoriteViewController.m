@@ -19,7 +19,6 @@
 
 @interface QSU14FavoriteViewController ()
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 //tableView 数据源
 @property (nonatomic, strong)NSMutableArray *dataArray;
@@ -41,6 +40,7 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.favoProvider registerCell];
     [self setProvider];
     self.title = @"我的收藏";
 }
@@ -62,6 +62,7 @@
         return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
 //        return [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
     };
+    [self.favoProvider fetchDataOfPage:1];
     [self.favoProvider reloadData];
 
 }

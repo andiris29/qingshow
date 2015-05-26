@@ -12,6 +12,8 @@
 
 @interface QSU14FavoriteViewController : QSRootContentViewController <QSU14FavoTableViewProviderDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 - (instancetype)init;
 
 @end
