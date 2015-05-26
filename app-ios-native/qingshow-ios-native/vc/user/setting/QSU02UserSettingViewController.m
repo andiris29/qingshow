@@ -11,6 +11,9 @@
 #import "QSU08PasswordViewController.h"
 #import "QSU09OrderListViewController.h"
 #import "QSU10ReceiverListViewController.h"
+
+#import "QSU07RegisterViewController.h"
+
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
 #import "QSUserManager.h"
@@ -470,8 +473,12 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     VoidBlock succss = ^ {
         [QSUserManager shareUserManager].userInfo = nil;
         [QSUserManager shareUserManager].fIsLogined = NO;
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        QSU07RegisterViewController *registerVC = [[QSU07RegisterViewController alloc]init];
+       
+        [self.navigationController pushViewController:registerVC animated:YES];
     };
+
+   
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
 
