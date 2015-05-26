@@ -233,6 +233,22 @@ _update = function(req, res) {
         }
         delete qsParam.password;
         delete qsParam.currentPassword;
+        if (qsParam.shoulder) {
+            people.set('measureInfo.shoulder', RequestHelper.parseNumber(qsParam.shoulder));
+        }
+        if (qsParam.bust) {
+            people.set('measureInfo.bust', RequestHelper.parseNumber(qsParam.bust));
+        }
+        if (qsParam.waist) {
+            people.set('measureInfo.waist', RequestHelper.parseNumber(qsParam.waist));
+        }
+        if (qsParam.hips) {
+            people.set('measureInfo.hips', RequestHelper.parseNumber(qsParam.hips));
+        }
+        delete qsParam.shoulder;
+        delete qsParam.bust;
+        delete qsParam.waist;
+        delete qsParam.hips;
         for (var field in qsParam) {
             people.set(field, qsParam[field]);
         }

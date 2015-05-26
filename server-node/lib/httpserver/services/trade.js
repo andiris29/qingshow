@@ -37,7 +37,7 @@ trade.create = {
                     'price' : element.price,
                     'itemSnapshot' : element.itemSnapshot,
                     'peopleSnapshot' : people,
-                    'selectedItemSkuId' : element.selectedItemSkuId,
+                    //'selectedItemSkuId' : element.selectedItemSkuId,
                     'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
                 });
             });
