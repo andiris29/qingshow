@@ -1,4 +1,4 @@
-
+var winston = require('winston');
 var async = require('async');
 var Iconv = require('iconv-lite');
 var request = require('request');
@@ -75,10 +75,10 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                     if (key !== 'sku') {
                         return;
                     }
-                    console.log(obj);
+                    winston.info(obj);
                 };
             } catch (e) {
-                console.log(e);
+                winston.info(e);
             }
 
             try {
@@ -105,7 +105,7 @@ var _parseTaobaoWebPage = function (source, webSkus, callback) {
                 }
 
             } catch (e) {
-                console.log(e);
+                winston.info(e);
                 callback(e);
             }
         }
@@ -230,7 +230,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                             };
                             webSkus.push(skuObj);
                         } catch (e) {
-                            console.log('Parse item :' + tbItemId + '  key: ' + key + ' error.');
+                            winston.info('Parse item :' + tbItemId + '  key: ' + key + ' error.');
                         }
                     }
                     callback(null, webSkus);
@@ -238,7 +238,7 @@ var _getTmallItemWebSkus = function(tbItemId, callback) {
                 eval(Iconv.decode(new Buffer(body, 'binary'), 'gbk'));
 
                 if (!isSetMdskipInvoke) {
-                    console.log('Parse item :' + tbItemId + ' Error' );
+                    winston.info('Parse item :' + tbItemId + ' Error' );
                     //TODO handle error
                     callback(null, null);
                 }
@@ -401,7 +401,7 @@ var _getTaobaoItemWebSkus = function (tbItemId, callback) {
                         };
                         webSkus.push(sku);
                     } catch (e) {
-                        console.log('Parse itemId: ' + tbItemId + ' sku: ' + key + ' Error');
+                        winston.info('Parse itemId: ' + tbItemId + ' sku: ' + key + ' Error');
                     }
                 }
                 callback(null, webSkus);
