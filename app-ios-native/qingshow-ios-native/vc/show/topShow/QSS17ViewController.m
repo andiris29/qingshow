@@ -11,6 +11,7 @@
 #import "QSShowUtil.h"
 #import "QSS18TopShowOneDayViewController.h"
 #import "UIViewController+ShowHud.h"
+#import "UIViewController+QSExtension.h"
 
 
 #define PAGE_ID @"美搭榜单"
@@ -39,6 +40,7 @@
     self.topShowTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.navigationItem.title = @"美搭榜单";
 
+    [self hideNaviBackBtnTitle];
 }
 - (void)configProvider
 {

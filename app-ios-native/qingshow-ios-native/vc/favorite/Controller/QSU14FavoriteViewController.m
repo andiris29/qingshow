@@ -43,6 +43,7 @@
     [self.favoProvider registerCell];
     [self setProvider];
     self.title = @"我的收藏";
+    [self hideNaviBackBtnTitle];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -62,7 +63,6 @@
         return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
 //        return [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
     };
-    [self.favoProvider fetchDataOfPage:1];
     [self.favoProvider reloadData];
 
 }
