@@ -85,15 +85,19 @@ public class U01UserActivity extends BaseActivity {
 
     private void loadDataFormNet() {
         JsonObjectRequest objectRequest = new JsonObjectRequest(QSAppWebAPI.getUserRecommendationApi()
-                , null, response -> {
-                    if (MetadataParser.hasError(response)){
-                        ErrorHandler.handle(U01UserActivity.this,MetadataParser.getError(response));
-                        return;
-                    }
-                    datas = ShowParser.parseQuery(response);
-                    adapter.addDataAtTop(datas);
-                    adapter.notifyDataSetChanged();
-                }, null);
+                , null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (MetadataParser.hasError(response)) {
+                    ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+                datas = ShowParser.parseQuery(response);
+                adapter.addDataAtTop(datas);
+                adapter.notifyDataSetChanged();
+
+            }
+        }, null);
         RequestQueueManager.INSTANCE.getQueue().add(objectRequest);
     }
 
@@ -157,6 +161,7 @@ public class U01UserActivity extends BaseActivity {
                 right.destroyDrawingCache();
             }
         };
+        String str;
         Bitmap overlay = BitMapUtil.convertToBlur(bkg, this);
         Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
         mHandler.sendMessage(msg);
