@@ -36,8 +36,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSU14DisplayCell *cell = [tableView dequeueReusableCellWithIdentifier:displayCellId forIndexPath:indexPath];
-
-    NSDictionary* showDict = [self.resultArray lastObject];
+    NSLog(@"%@",self.resultArray);
+    NSDictionary* showDict = self.resultArray[indexPath.row];
     [cell bindWithShow:showDict];
     
     if ([UIScreen mainScreen].bounds.size.width == 414) {
