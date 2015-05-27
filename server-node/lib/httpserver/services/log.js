@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 
-var Log = require('../../model/logs');
+var Trace = require('../../model/traces');
 
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -24,7 +24,7 @@ log.trace = {
         }
 
         var channel = '';
-        var newlog = new Log({
+        var newlog = new Trace({
             'ip' : clientIp,
             'behavior' : param.behavior,
             'deviceUid' : param.deviceUid,
@@ -32,25 +32,25 @@ log.trace = {
             'osVersion' : param.osVersion
         });
 
-        var saveCallback = function(err, log) {
+        var saveCallback = function(err, trace) {
             if (err) {
                 ResponseHelper.response(res, err);
-            } else if (!log) {
+            } else if (!trace) {
                 ResponseHelper.response(res, ServerError.ServerError);
             } else {
                 ResponseHelper.response(res, null, {
-                    'log' : log
+                    'trace' : trace
                 });
             }
         };
         if (param.behavior === 'firstLaunch') {
             channel = ChannelPool.pool[clientIp];
-            Log.findOne({
+            Trace.findOne({
                 'deviceUid' : param.deviceUid
-            }, function(err, log) {
+            }, function(err, trace) {
                 if (err) {
                     ResponseHelper.response(res, err);
-                } else if (log) {
+                } else if (trace) {
                     ResponseHelper.response(res, ServerError.ServerError);
                 } else {
                     if (channel === null || channel === undefined || channel.length === 0) {
@@ -70,7 +70,5 @@ log.trace = {
             newlog.save(saveCallback);
         }
 
-    },
-
-    
+    }
 };

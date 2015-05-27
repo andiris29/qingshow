@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
-var logSchema;
-logSchema = Schema({
+var traceSchema;
+traceSchema = Schema({
     ip : String,
     version : Number,
     deviceUid : Number,
@@ -20,7 +20,7 @@ logSchema = Schema({
     }
 });
 
-var Log = mongoose.model('logs', logSchema);
+var Trace = mongoose.model('traces', traceSchema);
 
-module.exports = Log;
+module.exports = Trace;
 
