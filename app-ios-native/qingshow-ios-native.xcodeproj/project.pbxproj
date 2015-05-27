@@ -14,6 +14,7 @@
 		68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68824D911B0EBB57006E3151 /* QSU14DisplayCell.xib */; };
 		68824D991B0EC8BC006E3151 /* QSFavoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 68824D981B0EC8BC006E3151 /* QSFavoInfo.m */; };
 		68A6D45A1B1300E20061825D /* QSU14FavoTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A6D4591B1300E20061825D /* QSU14FavoTableViewProvider.m */; };
+		68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68C919791B15ACE800A5D405 /* shadowImage.png */; };
 		8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */; };
 		8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */; };
 		82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */; };
@@ -302,6 +303,7 @@
 		68824D981B0EC8BC006E3151 /* QSFavoInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFavoInfo.m; sourceTree = "<group>"; };
 		68A6D4581B1300E20061825D /* QSU14FavoTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14FavoTableViewProvider.h; sourceTree = "<group>"; };
 		68A6D4591B1300E20061825D /* QSU14FavoTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14FavoTableViewProvider.m; sourceTree = "<group>"; };
+		68C919791B15ACE800A5D405 /* shadowImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadowImage.png; sourceTree = "<group>"; };
 		8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
 		8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
 		8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QSU02UserSetting.storyboard; sourceTree = "<group>"; };
@@ -863,6 +865,7 @@
 		681148F91B0F0E8A00E024B1 /* backImage */ = {
 			isa = PBXGroup;
 			children = (
+				68C919791B15ACE800A5D405 /* shadowImage.png */,
 				681148FA1B0F0E9D00E024B1 /* ImgforCell@2x.png */,
 				681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */,
 			);
@@ -2231,6 +2234,7 @@
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
 				A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */,
+				68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */,
 				EF9A742A1A02A82600095F07 /* Images.xcassets in Resources */,
 				8C8B9D8B1B00395B00C1A321 /* welcome2_667@2x.png in Resources */,
 				68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */,

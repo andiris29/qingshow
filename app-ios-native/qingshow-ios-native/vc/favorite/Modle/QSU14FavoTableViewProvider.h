@@ -19,6 +19,8 @@
 
 @property (weak, nonatomic) NSObject<QSU14FavoTableViewProviderDelegate>* delegate;
 
+@property (strong ,nonatomic)UIViewController *currentVC;
+
 @property (nonatomic , strong) NSArray *dataArray;
 
 @end

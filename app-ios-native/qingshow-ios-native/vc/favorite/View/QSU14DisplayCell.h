@@ -8,15 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class QSFavoInfo;
-
 @interface QSU14DisplayCell : UITableViewCell
 
 //cell的背景图片
 @property (weak, nonatomic) IBOutlet UIImageView *backImage;
-#warning backImage的图片貌似找不到,你有空看一下
-#warning 所有图片底部都要加一个阴影，用ImageView上一个阴影图
-
 
 //Show
 @property (weak, nonatomic) IBOutlet UIImageView *showImageView;
@@ -35,4 +30,10 @@
 
 - (void)bindWithShow:(NSDictionary*)showDict;
 
+//传递VC
+@property (strong , nonatomic)UIViewController *currentVC;
+
+@property (strong , nonatomic)NSDictionary *showDict;
+
+@property (strong ,nonatomic)NSArray *itemArray;
 @end

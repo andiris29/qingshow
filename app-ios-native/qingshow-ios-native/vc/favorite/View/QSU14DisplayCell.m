@@ -9,7 +9,7 @@
 #import "QSU14DisplayCell.h"
 #import "QSFavoInfo.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import "UIViewController+QSExtension.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
 
@@ -35,19 +35,34 @@
     
     //Item
     NSArray* itemArray = [QSShowUtil getItems:showDict];
+    
+    //
+    self.showDict = showDict;
+    self.itemArray = itemArray;
+    
     for (int i = 0; i < self.itemImageViews.count; i++) {
         UIButton* itemBtn = self.itemButtons[i];
         UIImageView* itemImgView = self.itemImageViews[i];
+        UIImageView* shadowImageView = self.shadow[i];
         if (i < itemArray.count) {
             itemBtn.hidden = NO;
+            itemBtn.enabled = YES;
             itemImgView.hidden = NO;
             NSDictionary* itemDict = itemArray[i];
             [itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
             [itemBtn setTitle:[QSItemUtil getPrice:itemDict] forState:UIControlStateNormal];
+            shadowImageView.image = [UIImage imageNamed:@"shadowImage"];
         } else {
             itemBtn.hidden = YES;
             itemImgView.hidden = YES;
         }
+    }
+}
+
+- (IBAction)itemButtonAction:(UIButton *)sender {
+    if (sender.tag) {
+        NSInteger flag = sender.tag -1;
+        [self.currentVC  showItemDetailViewController:self.itemArray[flag]];
     }
 }
 

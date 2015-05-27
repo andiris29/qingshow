@@ -57,11 +57,14 @@
 {
     self.favoProvider = [[QSU14FavoTableViewProvider alloc] init];
     self.favoProvider.delegate = self;
+    self.favoProvider.currentVC = self;
     [self.favoProvider bindWithTableView:self.tableView];
 //    __weak QSU14FavoriteViewController* weakSelf = self;
     self.favoProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
 //        return [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
+        
+//        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.favoProvider reloadData];
 
@@ -72,6 +75,8 @@
 {
     [self showShowDetailViewController:showDict];
 }
+
+
 - (void)handleError:(NSError *)error
 {
     [self showErrorHudWithError:error];
