@@ -1,4 +1,5 @@
 var util = require('util');
+var winston = require('winston');
 
 var ServerError = function(errorCode, description, err) {
     Error.call(this, 'server error');
@@ -7,8 +8,8 @@ var ServerError = function(errorCode, description, err) {
     if (errorCode === ServerError.ServerError) {
         err = err || new Error();
         this.stack = err.stack;
-        console.log(new Date().toString() + '- ServerError: ' + this.errorCode);
-        console.log('\t' + this.stack);
+        winston.info(new Date().toString() + '- ServerError: ' + this.errorCode);
+        winston.info('\t' + this.stack);
     }
 };
 
