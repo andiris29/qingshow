@@ -52,6 +52,8 @@
 {
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
+    self.iconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.iconImageView.layer.borderWidth = 2.f;
     
     self.nameLabel.text = [QSPeopleUtil getNickname:peopleDict];
     NSMutableString* statusStr = [@"" mutableCopy];
