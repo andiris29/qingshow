@@ -38,8 +38,8 @@
     QSU14DisplayCell *cell = [tableView dequeueReusableCellWithIdentifier:displayCellId forIndexPath:indexPath];
     NSLog(@"%@",self.resultArray);
     NSDictionary* showDict = self.resultArray[indexPath.row];
+    cell.currentVC = self.currentVC;
     [cell bindWithShow:showDict];
-    
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
     }
@@ -48,9 +48,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UIScreen mainScreen].bounds.size.width/2 + 10;
+    return [UIScreen mainScreen].bounds.size.width/8 * 6.5;
     
-//    return [UIScreen mainScreen].bounds.size.width / 2 / 9 * 16;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary* showDict = self.resultArray[indexPath.row];
