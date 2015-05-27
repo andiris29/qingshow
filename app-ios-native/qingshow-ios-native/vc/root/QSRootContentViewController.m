@@ -58,10 +58,10 @@
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
 //    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
 //    titleImageView.userInteractionEnabled = YES;
-    UIView* titleView = self.navigationItem.titleView;
+    UINavigationBar* navBar = self.navigationController.navigationBar;
     UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
     tapGes.numberOfTapsRequired = 5;
-    [titleView addGestureRecognizer:tapGes];
+    [navBar addGestureRecognizer:tapGes];
     
     
     NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
