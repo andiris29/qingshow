@@ -91,11 +91,12 @@
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock
 {
-    NSMutableDictionary* paramDict = [@{@"pageSize" : @100} mutableCopy];
+    
+    NSMutableDictionary* paramDict = [@{} mutableCopy];
     if (userDict) {
         paramDict[@"_id"] = userDict[@"_id"];
     }
-    return [self getFeedingPath:PATH_FEEDING_LIKE otherParam:paramDict page:page onSucceed:succeedBlock onError:errorBlock];
+        return [self getFeedingPath:PATH_FEEDING_LIKE otherParam:paramDict page:page onSucceed:succeedBlock onError:errorBlock];
 }
 - (MKNetworkOperation*)getRecommendationFeedingPage:(int)page
                                           onSucceed:(ArraySuccessBlock)succeedBlock
