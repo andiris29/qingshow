@@ -237,17 +237,6 @@
     return itemDict[@"taobaoInfo"];
 }
 
-+ (NSURL*)getSizeExplanation:(NSDictionary*)item
-{
-    if (![QSCommonUtil checkIsDict:item]) {
-        return nil;
-    }
-    NSString* e = item[@"sizeExplanation"];
-    if (![QSCommonUtil checkIsNil:e]) {
-        return [NSURL URLWithString:e];
-    }
-    return nil;
-}
 
 + (NSString*)getVideoPath:(NSDictionary*)item
 {
@@ -259,19 +248,6 @@
         return nil;
     } else {
         return path;
-    }
-}
-+ (NSURL*)getBrandLogoUrl:(NSDictionary *)item
-{
-
-    if (![QSCommonUtil checkIsDict:item]) {
-        return nil;
-    }
-    NSString* b = item[@"brandLogo"];
-    if (![QSCommonUtil checkIsNil:b]) {
-        return [NSURL URLWithString:b];
-    } else {
-        return nil;
     }
 }
 

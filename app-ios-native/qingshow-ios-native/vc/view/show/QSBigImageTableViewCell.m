@@ -115,8 +115,8 @@
     [self resizeWithHeight:height];
     [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:NO];
     self.label1.text = [QSItemUtil getItemName:itemDict];
-    NSURL* brandLogo = [QSItemUtil getBrandLogoUrl:itemDict];
-    [self updateBrandLogo:brandLogo];
+//    NSURL* brandLogo = [QSItemUtil getBrandLogoUrl:itemDict];
+//    [self updateBrandLogo:brandLogo];
     [self.likeButton setTitle:[QSItemUtil getNumberLikeDescription:itemDict] forState:UIControlStateNormal];
     [self setLikeBtnHover:[QSItemUtil getIsLike:itemDict]];
 }

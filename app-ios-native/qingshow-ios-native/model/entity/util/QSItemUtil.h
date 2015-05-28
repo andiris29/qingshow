@@ -24,9 +24,7 @@
 
 + (NSDictionary*)getTaobaoInfo:(NSDictionary*)item;
 
-+ (NSURL*)getSizeExplanation:(NSDictionary*)item;
 + (NSString*)getVideoPath:(NSDictionary*)item;
-+ (NSURL*)getBrandLogoUrl:(NSDictionary*)item;
 
 + (BOOL)getIsLike:(NSDictionary*)itemDict;
 + (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict;

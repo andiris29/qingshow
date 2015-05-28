@@ -11,6 +11,7 @@
 #define QSRootMenuItemHeight 120.f
 
 typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
+    
     QSRootMenuItemMy = 0,
     QSRootMenuItemMeida = 1,
     QSRootMenuItemMyFavor = 2,

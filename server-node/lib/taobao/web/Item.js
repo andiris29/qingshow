@@ -285,7 +285,7 @@ var _parseTmallPropertyMap = function ($) {
             var aTag = this$.find('a');
             var aStyle = aTag.attr('style');
             if (aStyle && aStyle.length) {
-                var bgRegex = /background:url\((.*)\)/
+                var bgRegex = /background:url\((.*)\)/;
                 var matchResult = aStyle.match(bgRegex);
                 if (matchResult.length > 1) {
                     propertyMap[dataValue].properties_thumbnail = matchResult[1];
@@ -294,7 +294,7 @@ var _parseTmallPropertyMap = function ($) {
         }
     });
     return propertyMap;
-}
+};
 
 
 var _generateSkus = function (webSkus, skuMap, propertyMap) {
@@ -320,7 +320,7 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
             price : parseFloat(targetValue.price),
             promo_price : webSku.promo_price,
             stock : targetValue.stock
-        }
+        };
         retSku.properties_name = _parsePropertiesName(retSku.properties, propertyMap);
         var thumbnail = _parsePropertiesThumbnail(retSku.properties, propertyMap);
         if (thumbnail) {
@@ -328,7 +328,7 @@ var _generateSkus = function (webSkus, skuMap, propertyMap) {
         }
         return retSku;
     });
-    var skus = skus.filter(function (s) { return s !== null; })
+    var skus = skus.filter(function (s) { return s !== null; });
     return skus;
 };
 
@@ -356,7 +356,7 @@ var _parsePropertiesThumbnail = function (propertiesStr, propertyMap) {
         }
     });
     return propThumbnail;
-}
+};
 
 
 var _getTaobaoItemWebSkus = function (tbItemId, callback) {

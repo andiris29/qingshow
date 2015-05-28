@@ -104,9 +104,7 @@
 - (void)handleCurrentUser
 {
     NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
-    if (!userInfo) {
-        [self.navigationController pushViewController:[[QSU07RegisterViewController alloc] init] animated:YES];
-    } else if (![QSPeopleUtil hasPersonalizeData:userInfo]) {
+    if (userInfo && ![QSPeopleUtil hasPersonalizeData:userInfo]) {
         [self.navigationController pushViewController:[[QSU13PersonalizeViewController alloc] init] animated:YES];
     }
 }

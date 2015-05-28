@@ -39,7 +39,12 @@
     self.topShowTableView.separatorColor = [UIColor grayColor];
     self.topShowTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.navigationItem.title = @"美搭榜单";
-
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+  @{NSFontAttributeName:[UIFont systemFontOfSize:17],
+    
+    NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    //self.navigationController.navigationBar setBackgroundImage:<#(UIImage *)#> forBarMetrics:<#(UIBarMetrics)#>
     [self hideNaviBackBtnTitle];
 }
 - (void)configProvider

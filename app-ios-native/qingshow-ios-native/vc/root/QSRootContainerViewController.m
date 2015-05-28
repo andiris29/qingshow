@@ -13,11 +13,12 @@
 #import "QSS17ViewController.h"
 #import "QSU14FavoriteViewController.h"
 #import "QSNavigationController.h"
+#import "QSU07RegisterViewController.h"
+#import "QSUserManager.h"
 
 @interface QSRootContainerViewController ()
 
 @property (strong, nonatomic) UIViewController* contentVc;
-
 
 @end
 
@@ -29,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.menuView triggerItemTypePressed:QSRootMenuItemMy];
+    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
 
 }
 
@@ -37,6 +38,10 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    
+    if (![QSUserManager shareUserManager].userInfo) {
+        [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,6 +89,12 @@
         }
     }
     [self showVc:vc];
+    
+    if (![vc isKindOfClass:[QSS17ViewController class]]) {
+        if (![QSUserManager shareUserManager].userInfo) {
+            [self.navigationController pushViewController:[[QSU07RegisterViewController alloc] init] animated:YES];
+        }
+    }
 }
 
 - (void)showVc:(UIViewController*)vc{

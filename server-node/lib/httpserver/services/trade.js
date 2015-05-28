@@ -37,7 +37,7 @@ trade.create = {
                     'price' : element.price,
                     'itemSnapshot' : element.itemSnapshot,
                     'peopleSnapshot' : people,
-                    'selectedItemSkuId' : element.selectedItemSkuId,
+                    //'selectedItemSkuId' : element.selectedItemSkuId,
                     'selectedPeopleReceiverUuid' : element.selectedPeopleReceiverUuid
                 });
             });
@@ -294,7 +294,7 @@ trade.alipayCallback = {
                 //'date' : Date.now
             });
             trade.save(function(error, trade) {
-                callback(error, trade)
+                callback(error, trade);
             });
         },
         function(trade, callback) {
@@ -458,4 +458,4 @@ trade.refreshPaymentStatus = {
             });
         });
     }
-}
+};

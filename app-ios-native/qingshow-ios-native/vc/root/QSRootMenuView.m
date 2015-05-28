@@ -68,7 +68,7 @@
 - (void)awakeFromNib
 {
 
-    NSArray *typeArray = @[@(QSRootMenuItemMy), @(QSRootMenuItemMeida), @(QSRootMenuItemMyFavor), @(QSRootMenuItemSetting)];
+    NSArray *typeArray = @[@(QSRootMenuItemMeida), @(QSRootMenuItemMy),  @(QSRootMenuItemMyFavor), @(QSRootMenuItemSetting)];
     self.itemArray = [@[] mutableCopy];
 
     for (int i = 0; i < typeArray.count; i++) {
