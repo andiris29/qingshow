@@ -13,8 +13,8 @@ itemSchema = Schema({
         description : String
     }],
     source : String,
-    brandLogo : String,
     numLike : Number,
+    selectedSkuId : String,
     create : {
         type : Date,
         'default' : Date.now

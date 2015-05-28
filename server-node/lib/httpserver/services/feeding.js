@@ -234,7 +234,7 @@ feeding.like = {
                     function(callback) {
                         Show.populate(currentPageModels, {
                             'path' : 'promotionRef',
-                            'model' : "promotion"
+                            'model' : "promotions"
                         }, callback);
                     }], 
                     afterQuery_cb

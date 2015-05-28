@@ -52,13 +52,6 @@ show.query = {
             });
         },
         function(shows, callback) {
-            // Populate nested references
-            Show.populate(shows, {
-                'path' : 'itemRefs.brandRef',
-                'model' : 'brands'
-            }, callback);
-        },
-        function(shows, callback) {
             // Append followed by current user
             ContextHelper.appendShowContext(req.qsCurrentUserId, shows, callback);
         }], function(err, shows) {

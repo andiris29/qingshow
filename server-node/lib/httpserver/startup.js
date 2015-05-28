@@ -9,9 +9,10 @@ var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
 
+var download = require('./services/download');
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade'];
+var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'log'];
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,
@@ -111,5 +112,6 @@ module.exports = function (appServerPort, folderUploads, pathUploads, qsdb) {
             }
         }
     });
+    app.get('/services/download', wrapCallback('services/download', download));
     winston.info('Http server startup complete!');
 };
