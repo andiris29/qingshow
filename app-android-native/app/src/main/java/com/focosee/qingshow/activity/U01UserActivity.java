@@ -36,6 +36,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.adapter.DividerGridItemDecoration;
 
 import org.json.JSONObject;
 
@@ -152,7 +153,12 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         }
         blur.setVisibility(View.VISIBLE);
 
-//        navigation.setOnTouchListener((view, motionEvent) -> true);
+        navigation.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         drawer.openDrawer(navigation);
     }
 
@@ -202,7 +208,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
         });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-
+//        recyclerView.addItemDecoration(new DividerGridItemDecoration(this,R.drawable.item_decoration));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
