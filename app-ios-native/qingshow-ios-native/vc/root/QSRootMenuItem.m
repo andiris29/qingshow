@@ -37,6 +37,19 @@ UIImage* getIconImageFromType(QSRootMenuItemType type) {
     }
 }
 
+UIImage* getIconHoverImageFromType(QSRootMenuItemType type) {
+    NSArray* titleArray = @[@"root_menu_icon_my_hover",
+                            @"root_menu_icon_meida_hover",
+                            @"root_menu_icon_myfavor_hover",
+                            @"root_menu_icon_setting_hover"];
+    if ((NSUInteger)type < titleArray.count) {
+        NSString* str = titleArray[type];
+        return [UIImage imageNamed:str];
+    } else {
+        return nil;
+    }
+}
+
 @implementation QSRootMenuItem
 
 + (QSRootMenuItem*)generateItemWithType:(QSRootMenuItemType)type
@@ -49,9 +62,13 @@ UIImage* getIconImageFromType(QSRootMenuItemType type) {
     item.label.text = getTitleFromType(type);
     
     [item.button setImage:getIconImageFromType(type) forState:UIControlStateNormal];
+    [item.button setImage:getIconHoverImageFromType(type) forState:UIControlStateHighlighted];
+        [item.button setImage:getIconHoverImageFromType(type) forState:UIControlStateSelected];
     item.button.backgroundColor = [UIColor clearColor];
     return item;
 }
+
+
 #pragma mark - Life Cycle
 - (void)awakeFromNib
 {

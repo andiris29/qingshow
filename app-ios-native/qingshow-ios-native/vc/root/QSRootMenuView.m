@@ -126,7 +126,10 @@
         return;
     }
     self.currentType = item.type;
-#warning TODO add hover of item
+    for (QSRootMenuItem* i in self.itemArray) {
+        [i.button setSelected:(i == item)];
+    }
+    
     
     if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:)]) {
         [self.delegate rootMenuItemPressedType:item.type];
