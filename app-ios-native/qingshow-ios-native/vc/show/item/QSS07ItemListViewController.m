@@ -14,6 +14,9 @@
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+QSExtension.h"
+#import "QSItemListCell.h"
+
+#define QSItemListCellID @"QSItemListCellID"
 
 #define PAGE_ID @"S07 - 搭配清单"
 
@@ -44,7 +47,9 @@
     // Do any additional setup after loading the view from its nib.
     UIView* headerView = [QSItemListHeaderView generateView];
     self.tableView.tableHeaderView = headerView;
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListTableViewCell" bundle:nil] forCellReuseIdentifier:QSItemListTableViewCellIdentifier];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListTableViewCell" bundle:nil] forCellReuseIdentifier:QSItemListTableViewCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    [self.bgImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
     
@@ -89,8 +94,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
-    [cell bindWithItem:self.itemArray[indexPath.row]];
+//    QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
+//    [cell bindWithItem:self.itemArray[indexPath.row]];
+    
+    QSItemListCell *cell = [tableView dequeueReusableCellWithIdentifier:QSItemListCellID forIndexPath:indexPath];
+    [cell bindWithDic:self.itemArray[indexPath.row]];
     return cell;
 }
 #pragma mark - UITableView Delegate
@@ -104,7 +112,13 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 75.f;
+//    return 75.f;
+    return [UIScreen mainScreen].bounds.size.width/32*5;
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return [UIScreen mainScreen].bounds.size.width/5;
+//}
 
 @end
