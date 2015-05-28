@@ -2,9 +2,14 @@ package com.focosee.qingshow.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U14CollectionAdapter;
 import butterknife.ButterKnife;
@@ -14,7 +19,8 @@ public class U14CollectionActivity extends Activity {
 
     @InjectView(R.id.u14_recyclerView)
     RecyclerView recyclerView;
-
+    @InjectView(R.id.left_btn)
+    ImageView backBtn;
     U14CollectionAdapter adapter;
 
     @Override
@@ -22,9 +28,17 @@ public class U14CollectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u14_collection);
         ButterKnife.inject(this);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        adapter = new U14CollectionAdapter(this);
 
-        adapter = new U14CollectionAdapter();
-
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
 
