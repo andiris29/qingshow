@@ -5,9 +5,7 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 
 var ServerError = require('../server-error');
-var ChannelPool = require('./ChannelPool');
 
-var url = 'http://www.sina.com.cn';
 var download = {
     'method' : 'get',
     'func' : function(req, res) {
@@ -19,9 +17,9 @@ var download = {
         }
         var channel = req.queryString.channel;
 
-        ChannelPool.pool[clientIp] = channel;
+        require('../stores/channelStore').set(clientIp, channel);
 
-        res.redirect(url);
+        res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
     }
 };
 

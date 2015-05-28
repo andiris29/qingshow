@@ -7,7 +7,6 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 
 var ServerError = require('../server-error');
-var ChannelPool = require('./ChannelPool');
 
 var log = module.exports;
 
@@ -44,7 +43,7 @@ log.trace = {
             }
         };
         if (param.behavior === 'firstLaunch') {
-            channel = ChannelPool.pool[clientIp];
+            channel = require('../stores/channelStore').get(clientIp);
             Trace.findOne({
                 'deviceUid' : param.deviceUid
             }, function(err, trace) {
@@ -61,7 +60,6 @@ log.trace = {
                                 'channel' : channel
                             }
                         };
-                        
                         newlog.save(saveCallback);
                     }
                 }
