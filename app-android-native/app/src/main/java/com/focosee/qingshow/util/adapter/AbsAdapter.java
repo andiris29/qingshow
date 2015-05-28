@@ -19,7 +19,7 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
     protected int[] layoutId;
     protected AbsViewHolder[] viewHolders;
 
-    public AbsAdapter(@Nullable List<T> datas, Context context, int... layoutId) {
+    public AbsAdapter(@NonNull List<T> datas, Context context, int... layoutId) {
         this.datas = datas;
         addDataAtTop(datas);
         this.context = context;

@@ -13,7 +13,7 @@ public class MongoShow implements Serializable {
     public String description;
 
 
-    public String[] itemRefs;
+    public MongoItem[] itemRefs;
     public MongoBrand brandRef;
     public MongoPromotion promotionRef;
 

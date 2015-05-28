@@ -19,6 +19,7 @@ import com.focosee.qingshow.util.ShowUtil;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import butterknife.ButterKnife;
@@ -52,7 +53,7 @@ public class S17TopShowsActivity extends BaseActivity{
 
         title.setText(R.string.s17_title_name);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new S17TopAdapter(null,this,R.layout.item_s17);
+        adapter = new S17TopAdapter(new ArrayList<>(),this,R.layout.item_s17);
         recyclerView.setAdapter(adapter);
         getDataFormNet();
     }

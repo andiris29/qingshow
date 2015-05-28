@@ -16,6 +16,8 @@ import static com.focosee.qingshow.util.StringUtil.FormatPrice;
  * Created by i068020 on 2/8/15.
  */
 public class MongoItem implements Serializable {
+
+    //
     public static final String DEBUG_TAG = "MongoItem";
 
     public String _id;
@@ -29,18 +31,12 @@ public class MongoItem implements Serializable {
     public String video;
     public String sizeExplanation;
 
-    public MongoBrand brandRef;
-    public BrandDiscountInfo brandDiscountInfo;
+    public String brandRef;
     public TaoBaoInfo taobaoInfo;
 
     public class Image implements Serializable {
         public String url;
         public String description;
-    }
-
-    public class BrandDiscountInfo implements Serializable {
-        public int order;
-        public Number price;
     }
 
     public class TaoBaoInfo implements Serializable{

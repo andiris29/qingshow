@@ -2,8 +2,11 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,19 +43,23 @@ public class S17TopAdapter extends AbsAdapter<List<MongoShow>> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
+        PointF proint = new PointF(0f,0f);
         List<MongoShow> item = getItemData(position);
         SimpleDraweeView img02 = holder.getView(R.id.show02);
+        SimpleDraweeView img01 = holder.getView(R.id.show01);
 
         MongoShow show = item.get(0);
 
         GregorianCalendar calendar = show.recommend.date;
-        FontsUtil.changeFont(context, (TextView) holder.getView(R.id.day), "fonts/HelveticaInserat-Roman-SemiBold.ttf");
-        holder.setText(R.id.year, String.valueOf(calendar.YEAR))
-                .setText(R.id.day, String.valueOf(calendar.DAY_OF_MONTH) + " " + TimeUtil.formatManthInfo(calendar.MONTH))
-                .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.DAY_OF_WEEK));
+        Log.i("tag", calendar.toString());
+        holder.setText(R.id.year, String.valueOf(calendar.get(GregorianCalendar.YEAR)))
+                .setText(R.id.day, String.valueOf(calendar.get(calendar.DAY_OF_MONTH)) + " " + TimeUtil.formatManthInfo(calendar.get(calendar.MONTH)))
+                .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)));
 
-        holder.setImgeByUrl(R.id.show01, show.cover);
+//        img01.getHierarchy().setActualImageFocusPoint(proint);
+        img01.setImageURI(Uri.parse(show.cover));
         if (null != item.get(1)) {
+//            img02.getHierarchy().setActualImageFocusPoint(proint);
             img02.setImageURI(Uri.parse(item.get(1).cover));
             img02.setVisibility(View.VISIBLE);
         }
