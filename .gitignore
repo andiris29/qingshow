@@ -45,3 +45,4 @@ app-web/bin
 server-pay/payment/build/
 server-pay/payment/target/
 
+script
