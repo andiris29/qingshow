@@ -26,26 +26,6 @@
     [self updateWithItemPrice:dict];
 }
 
-- (void)updateWithSize:(NSString*)sizeSku color:(NSString*)colorSku item:(NSDictionary*)itemDict
-{
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
-    NSString* price = [QSTaobaoInfoUtil getPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    NSString* prom_price = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    
-    if (!prom_price) {
-        [self updateWithItemPrice:itemDict];
-        return;
-    }
-    self.priceAfterDiscountLabel.text = prom_price ;
-    if ([price isEqualToString:prom_price]) {
-        self.priceLabel.hidden = YES;
-        self.priceTextLabel.hidden = YES;
-    } else {
-        self.priceLabel.hidden = NO;
-        self.priceTextLabel.hidden = NO;
-        self.priceLabel.text =  price;
-    }
-}
 - (void)updateWithItemPrice:(NSDictionary*)itemDict {
     if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.priceTextLabel.hidden = NO;

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS11CreateTradeViewController">
             <connections>
+                <outlet property="clothSizeCell" destination="4KL-hM-DCT" id="pfv-f5-1yz"/>
                 <outlet property="itemInfoColorCell" destination="jfb-He-aaO" id="B0R-HI-hDA"/>
                 <outlet property="itemInfoQuantityCell" destination="0JF-BK-tFN" id="mSs-wW-yZy"/>
-                <outlet property="itemInfoSizeCell" destination="0mE-1x-HpC" id="BAb-SA-wtb"/>
                 <outlet property="itemInfoTitleCell" destination="yMR-Hb-tKX" id="Y3Z-dZ-pGJ"/>
                 <outlet property="locationPicker" destination="li8-XD-Ft7" id="jlU-A7-LdB"/>
                 <outlet property="payInfoAlipayCell" destination="qdV-pm-cch" id="fLI-iA-BX6"/>
@@ -20,6 +20,7 @@
                 <outlet property="receiverInfoNameCell" destination="Px5-tN-uwV" id="Fip-0P-bxl"/>
                 <outlet property="receiverInfoPhoneCell" destination="3ED-XR-GZq" id="WEL-e2-U0E"/>
                 <outlet property="receiverInfoTitleCell" destination="15S-S2-52n" id="Ndz-FU-rOI"/>
+                <outlet property="shoeSizeCell" destination="CoX-8W-YIA" id="M9t-lw-0ty"/>
                 <outlet property="tableView" destination="lwj-Es-0Kt" id="1iN-55-m3p"/>
                 <outlet property="totalCell" destination="yOL-GW-vcb" id="EgT-fA-aE8"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -139,7 +140,7 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfb-He-aaO" id="BIv-xr-4Wi">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择颜色" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVW-yV-huW">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="颜色" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVW-yV-huW">
                         <rect key="frame" x="8" y="22" width="52" height="16"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="52" id="I0G-ae-DMb"/>
@@ -149,37 +150,21 @@
                         <color key="textColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QeW-pw-ThF">
+                        <rect key="frame" x="67" y="22" width="245" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="MVW-yV-huW" firstAttribute="top" secondItem="BIv-xr-4Wi" secondAttribute="top" constant="22" id="6N8-6w-Gy8"/>
                     <constraint firstItem="MVW-yV-huW" firstAttribute="leading" secondItem="BIv-xr-4Wi" secondAttribute="leading" constant="8" id="yBK-jJ-oPy"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="colorLabel" destination="QeW-pw-ThF" id="cDE-Hf-M5A"/>
+            </connections>
             <point key="canvasLocation" x="949" y="282"/>
-        </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0mE-1x-HpC" customClass="QSCreateTradeItemInfoSizeCell">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
-            <autoresizingMask key="autoresizingMask"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0mE-1x-HpC" id="Rpj-op-Frc">
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="选择尺码" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4K-fJ-oMC">
-                        <rect key="frame" x="8" y="22" width="52" height="16"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="16" id="PJv-pu-zzj"/>
-                            <constraint firstAttribute="width" constant="52" id="z7s-WP-Vqb"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <color key="textColor" red="0.1176470588" green="0.1176470588" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="s4K-fJ-oMC" firstAttribute="top" secondItem="Rpj-op-Frc" secondAttribute="top" constant="22" id="iEJ-vZ-dMn"/>
-                    <constraint firstItem="s4K-fJ-oMC" firstAttribute="leading" secondItem="Rpj-op-Frc" secondAttribute="leading" constant="8" id="uwq-Xa-iR3"/>
-                </constraints>
-            </tableViewCellContentView>
-            <point key="canvasLocation" x="976" y="419"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="0JF-BK-tFN" customClass="QSCreateTradeItemInfoQuantityCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
@@ -236,7 +221,7 @@
                 <outlet property="numberTextField" destination="VKM-3z-60I" id="PfZ-sy-vzR"/>
                 <outlet property="plusBtn" destination="eje-LB-5n3" id="OIh-EM-RkL"/>
             </connections>
-            <point key="canvasLocation" x="955" y="535"/>
+            <point key="canvasLocation" x="943" y="402"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="15S-S2-52n" customClass="QSCreateTradeReceiverInfoTitleCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="40"/>
@@ -289,7 +274,7 @@
             <connections>
                 <outlet property="textField" destination="0Rl-rr-aJH" id="gEo-qR-lS7"/>
             </connections>
-            <point key="canvasLocation" x="1405.5" y="274"/>
+            <point key="canvasLocation" x="1405.5" y="275"/>
         </tableViewCell>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="3ED-XR-GZq" customClass="QSCreateTradeReceiverInfoTextCell">
             <rect key="frame" x="0.0" y="0.0" width="321" height="46"/>
@@ -542,7 +527,7 @@
             </connections>
             <point key="canvasLocation" x="2194.5" y="158.5"/>
         </tableViewCell>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="4KL-hM-DCT" customClass="QSCreateTableViewSizeCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="4KL-hM-DCT" customClass="QSCreateTradeClothSizeCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4KL-hM-DCT" id="pTc-ug-7Qy">
@@ -578,17 +563,49 @@
                         <rect key="frame" x="0.0" y="80" width="320" height="1"/>
                         <color key="backgroundColor" red="0.82098327019999995" green="0.82098327019999995" blue="0.82098327019999995" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-Zs-5AM">
-                        <rect key="frame" x="210" y="36" width="60" height="80"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="u6G-Zs-5AM">
+                        <rect key="frame" x="210" y="36" width="61" height="80"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="1FK-SB-UJh"/>
+                            <constraint firstAttribute="width" constant="61" id="pGE-sj-edX"/>
+                        </constraints>
                     </imageView>
                 </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="u6G-Zs-5AM" secondAttribute="trailing" constant="49" id="Ioy-N6-p4Z"/>
+                    <constraint firstItem="u6G-Zs-5AM" firstAttribute="top" secondItem="pTc-ug-7Qy" secondAttribute="top" constant="36" id="i7a-RR-lzS"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="bodyPartImgView" destination="u6G-Zs-5AM" id="xFU-9C-RFd"/>
                 <outlet property="bustCircleOrWaistlineTextField" destination="eLa-We-zdc" id="YzZ-E7-eI1"/>
                 <outlet property="shoulderOrHiplineTextField" destination="hGi-3c-aM0" id="MN4-e4-Ne1"/>
+                <outlet property="titleLabel" destination="cYe-EJ-Iqv" id="q6S-Nh-p08"/>
             </connections>
             <point key="canvasLocation" x="949" y="727"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="CoX-8W-YIA" customClass="QSCreateTradeShoeSizeCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="46"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CoX-8W-YIA" id="GeX-Im-flg">
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="鞋码" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mJf-pz-laX">
+                        <rect key="frame" x="8" y="15" width="26" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tdr-nP-1eS">
+                        <rect key="frame" x="79" y="15" width="233" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="textField" destination="tdr-nP-1eS" id="BHX-ml-rUe"/>
+            </connections>
+            <point key="canvasLocation" x="991" y="549"/>
         </tableViewCell>
     </objects>
     <resources>

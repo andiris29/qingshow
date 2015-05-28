@@ -73,31 +73,7 @@
 
     float height = self.skuLabelBaseY;
 
-    NSString* size = [QSTaobaoInfoUtil getSizeOfSku:skuDict];
-    if (size && size.length) {
-        self.sizeLabel.text = size;
-        self.sizeTextLabel.hidden = NO;
-        self.sizeLabel.hidden = NO;
-        [self updateView:self.sizeTextLabel y:height];
-        [self updateView:self.sizeLabel y:height];
-        height += 20;
-    } else {
-        self.sizeTextLabel.hidden = YES;
-        self.sizeLabel.hidden = YES;
-    }
-    
-    NSString* color = [QSTaobaoInfoUtil getColorOfSku:skuDict];
-    if (color && color.length) {
-        self.colorLabel.text = color;
-        self.colorTextLabel.hidden = NO;
-        self.colorLabel.hidden = NO;
-        [self updateView:self.colorTextLabel y:height];
-        [self updateView:self.colorLabel y:height];
-        height += 20;
-    } else {
-        self.colorTextLabel.hidden = YES;
-        self.colorLabel.hidden = YES;
-    }
+#warning TODO color
     
     for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
         [self updateView:view y:height];

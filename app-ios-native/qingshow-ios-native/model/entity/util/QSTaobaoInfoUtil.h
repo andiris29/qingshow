@@ -10,39 +10,13 @@
 
 @interface QSTaobaoInfoUtil : NSObject
 
-+ (BOOL)hasSizeSku:(NSDictionary*)taobaoInfo;
-+ (BOOL)hasColorSku:(NSDictionary*)taobaoInfo;
-+ (BOOL)hasPropertiesThumbnail:(NSDictionary*)taobaoInfo;
-
-+ (NSArray*)getSizeSkus:(NSDictionary*)taobaoInfo;
-+ (NSArray*)getColorSkus:(NSDictionary*)taobaoInfo;
-
 + (NSURL*)getThumbnailUrlOfProperty:(NSString*)property taobaoInfo:(NSDictionary*)taobaoInfo;
+
 + (NSString*)getNameOfProperty:(NSString*)property taobaoInfo:(NSDictionary*)taobaoInfo;
-
-+ (NSString*)getPriceOfSize:(NSString*)sizeSku
-                      color:(NSString*)colorSku
-                 taobaoInfo:(NSDictionary*)taobaoInfo;
-+ (NSString*)getPromoPriceOfSize:(NSString*)sizeSku
-                           color:(NSString*)colorSku
-                      taobaoInfo:(NSDictionary*)taobaoInfo;
-+ (NSString*)getPromoPriceOfSize:(NSString*)sizeSku
-                           color:(NSString*)colorSku
-                      taobaoInfo:(NSDictionary *)taobaoInfo
-                        quanitty:(NSNumber*)quantity;
-+ (NSNumber*)getSkuOfSize:(NSString*)sizeSku
-                    color:(NSString*)colorSku
-               taobaoInfo:(NSDictionary *)taobaoInfo;
-+ (NSNumber*)getPromoPriceNumOfSize:(NSString*)sizeSku
-                              color:(NSString*)colorSku
-                         taobaoInfo:(NSDictionary *)taobaoInfo
-                           quanitty:(NSNumber*)quantity;
-
-+ (BOOL)getIsAvaliableOfSize:(NSString*)sizeSku color:(NSString*)colorSku taobaoInfo:(NSDictionary*)taobaoInfo;
-
 
 + (NSArray*)getSkusArray:(NSDictionary*)taobaoInfo;
 + (NSDictionary*)findSkusWithSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo;
-+ (NSString*)getSizeOfSku:(NSDictionary*)skuDict;
-+ (NSString*)getColorOfSku:(NSDictionary*)skuDict;
++ (NSNumber*)getPriceOfSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo quantity:(NSNumber*)quantity;
++ (NSNumber*)getPromoPriceOfSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo quantity:(NSNumber*)quantity;
+
 @end

@@ -6,9 +6,10 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSCreateTradeTableViewCellBase.h"
+#import "QSCreateTradeHeigh60Cell.h"
 
-@interface QSCreateTableViewSizeCell : QSCreateTradeTableViewCellBase
+@interface QSCreateTradeClothSizeCell : QSCreateTradeTableViewCellBase
+@property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *bustCircleOrWaistlineTextField;
 @property (weak, nonatomic) IBOutlet UITextField *shoulderOrHiplineTextField;
 @property (weak, nonatomic) IBOutlet UIImageView *bodyPartImgView;

@@ -2,14 +2,16 @@
 //  QSCreateTradeItemInfoColorCell.h
 //  qingshow-ios-native
 //
-//  Created by wxy325 on 3/16/15.
+//  Created by wxy325 on 5/28/15.
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSCreateTradeColorAndSizeBaseTableViewCell.h"
+#import "QSCreateTradeHeigh60Cell.h"
 
-@interface QSCreateTradeItemInfoColorCell : QSCreateTradeColorAndSizeBaseTableViewCell
+@interface QSCreateTradeItemInfoColorCell : QSCreateTradeHeigh60Cell
 
-- (void)updateWithSizeSelected:(NSString*)sku item:(NSDictionary*)itemDict;
+@property (strong, nonatomic) IBOutlet UILabel* colorLabel;
+
+- (void)bindWithDict:(NSDictionary*)dict;
 
 @end

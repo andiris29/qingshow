@@ -76,12 +76,24 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    NSArray* array = @[@"上装", @"下装", @"鞋子", @"配饰"];
-    NSNumber* category = itemDict[@"category"];
-    if (category.intValue < array.count) {
-        return array[category.intValue];
-    } else {
+    NSArray* array = @[@"上衣", @"下装", @"连衣裙", @"内搭", @"鞋子", @"包", @"配饰"];
+    QSItemCategory category = [self getItemCategory:itemDict];
+    if (category == QSItemCategoryUnknown) {
         return @"";
+    } else {
+        return array[category];
+    }
+}
+
++ (QSItemCategory)getItemCategory:(NSDictionary*)itemDict {
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return QSItemCategoryUnknown;
+    }
+    NSNumber* category = itemDict[@"category"];
+    if (category.intValue < QSItemCategoryCount) {
+        return category.intValue;
+    } else {
+        return QSItemCategoryUnknown;
     }
 }
 
@@ -312,5 +324,33 @@
     }
     NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
     return date;
+}
+
++ (NSString*)getSelectedSku:(NSDictionary*)item
+{
+    if (![QSCommonUtil checkIsDict:item]) {
+        return nil;
+    }
+    NSString* sku = item[@"selectedSkuId"];
+    if ([QSCommonUtil checkIsNil:sku]) {
+        return nil;
+    } else {
+        return sku;
+    }
+        
+}
+
++ (NSString*)getItemColorDesc:(NSDictionary*)item
+{
+    if (![QSCommonUtil checkIsDict:item]) {
+        return nil;
+    }
+    
+    NSString* colorDesc = item[@"color"];
+    if ([QSCommonUtil checkIsNil:colorDesc]) {
+        return nil;
+    } else {
+        return colorDesc;
+    }
 }
 @end

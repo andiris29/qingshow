@@ -150,18 +150,19 @@
 {
     NSMutableArray* array = [@[] mutableCopy];
     [array addObject:self.itemInfoTitleCell];
-    
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    if ([QSTaobaoInfoUtil hasColorSku:taobaoInfo]) {
-        [array addObject:self.itemInfoColorCell];
-    } else {
-        self.itemInfoColorCell = nil;
-    }
-    
-    if ([QSTaobaoInfoUtil hasSizeSku:taobaoInfo]) {
-        [array addObject:self.itemInfoSizeCell];
-    } else {
-        self.itemInfoSizeCell = nil;
+    [array addObject:self.itemInfoColorCell];
+    //023
+    //1
+    //4
+    //56
+    QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
+    if (category == QSItemCategoryShangyi ||
+        category == QSItemCategoryDress ||
+        category == QSItemCategoryNeida ||
+        category == QSItemCategoryPant) {
+        [array addObject:self.clothSizeCell];
+    } else if (category == QSItemCategoryShoe) {
+        [array addObject:self.shoeSizeCell];
     }
     
     [array addObject:self.itemInfoQuantityCell];
@@ -329,9 +330,6 @@
     if (self.itemInfoColorCell && !self.itemInfoColorCell.getInputData) {
         return NO;
     }
-    if (self.itemInfoSizeCell && !self.itemInfoSizeCell.getInputData) {
-        return NO;
-    }
     if (!self.receiverInfoNameCell.getInputData ||
         !self.receiverInfoPhoneCell.getInputData ||
         !self.receiverInfoLocationCell.getInputData ||
@@ -352,8 +350,6 @@
         return;
     }
     NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
-    NSString* sizeSku = [self.itemInfoSizeCell getInputData];
-    NSString* colorSku = [self.itemInfoColorCell getInputData];
     NSNumber* quantity = [self.itemInfoQuantityCell getInputData];
     
     PaymentType paymentType = 0;
@@ -362,14 +358,12 @@
     } else if (self.payInfoWechatCell.isSelect) {
         paymentType = PaymentTypeWechat;
     }
+    NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
+    NSNumber* totalPrice = [QSTaobaoInfoUtil getPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
+    NSNumber* price = [QSTaobaoInfoUtil getPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:@1];
+
     
-    NSNumber* sku = [QSTaobaoInfoUtil getSkuOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo];
-    NSNumber* price = [QSTaobaoInfoUtil getPromoPriceNumOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:@1];
-    
-    NSNumber* totalPrice = [QSTaobaoInfoUtil getPromoPriceNumOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
-    
-    NSString* totalPriceStr = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:taobaoInfo quanitty:[self.itemInfoQuantityCell getInputData]];
-    [self.totalCell updateWithPrice:totalPriceStr];
+    [self.totalCell updateWithPrice:totalPrice.stringValue];
     
     totalPrice = @(0.01f);
     quantity = @1;
@@ -380,7 +374,7 @@
                                 quantity:quantity.intValue
                                    price:price.doubleValue
                                     item:self.itemDict
-                                     sku:sku
+                                     sku:@(sku.longLongValue)
                             receiverUuid:uuid
                                     type:paymentType
                                onSucceed:^(NSDictionary* tradeDict)
@@ -407,34 +401,18 @@
 #pragma mark - QSCreateTradeTableViewCellBaseDelegate
 - (void)updateCellTriggerBy:(QSCreateTradeTableViewCellBase*)cell
 {
-    if (cell == self.itemInfoColorCell) {
-        NSString* v = [self.itemInfoColorCell getInputData];
-        [self.itemInfoSizeCell updateWithColorSelected:v item:self.itemDict];
-        [self updatePriceRelatedCell];
-    } else if (cell == self.itemInfoSizeCell) {
-        NSString* v = [self.itemInfoSizeCell getInputData];
-        [self.itemInfoColorCell updateWithSizeSelected:v item:self.itemDict];
-        [self updatePriceRelatedCell];
-    }else if (cell == self.itemInfoQuantityCell) {
+    if (cell == self.itemInfoQuantityCell) {
         [self updatePriceRelatedCell];
     }
     
-//    for (NSArray* a in self.cellGroupArray) {
-//        for (QSCreateTradeTableViewCellBase* c in a) {
-//            if (cell == c) {
-//                continue;
-//            }
-//            
-//        }
-//    }
 }
 - (void)updatePriceRelatedCell {
-    NSString* sizeSku = [self.itemInfoSizeCell getInputData];
-    NSString* colorSku = [self.itemInfoColorCell getInputData];
-    [self.itemInfoTitleCell updateWithSize:sizeSku color:colorSku item:self.itemDict];
     
-    NSString* totalPrice = [QSTaobaoInfoUtil getPromoPriceOfSize:sizeSku color:colorSku taobaoInfo:[QSItemUtil getTaobaoInfo:self.itemDict] quanitty:[self.itemInfoQuantityCell getInputData]];
-    [self.totalCell updateWithPrice:totalPrice];
+    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:self.itemDict];
+    NSString* sku = [QSItemUtil getSelectedSku:self.itemDict];
+    NSNumber* totalPrice = [QSTaobaoInfoUtil getPriceOfSkuId:sku taobaoInfo:taobaoInfo quantity:[self.itemInfoQuantityCell getInputData]];
+
+    [self.totalCell updateWithPrice:totalPrice.stringValue];
 }
 
 #pragma mark - QSU10ReceiverListViewControllerDelegate
