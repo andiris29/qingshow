@@ -203,8 +203,7 @@ public class U01UserActivity extends BaseActivity {
         });
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerGridItemDecoration(this,R.drawable.item_decoration));
-
+//        recyclerView.addItemDecoration(new DividerGridItemDecoration(this,R.drawable.item_decoration));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

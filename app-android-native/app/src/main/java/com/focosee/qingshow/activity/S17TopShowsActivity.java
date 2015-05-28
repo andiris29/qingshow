@@ -15,6 +15,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.ShowUtil;
 
 import org.json.JSONObject;
 
@@ -50,9 +51,8 @@ public class S17TopShowsActivity extends BaseActivity{
         ButterKnife.inject(this);
 
         title.setText(R.string.s17_title_name);
-        data = new LinkedList<MongoShow>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new S17TopAdapter(data,this,R.layout.item_s17);
+        adapter = new S17TopAdapter(null,this,R.layout.item_s17);
         recyclerView.setAdapter(adapter);
         getDataFormNet();
     }
@@ -66,6 +66,7 @@ public class S17TopShowsActivity extends BaseActivity{
                     return;
                 }
                 data = ShowParser.parseQuery(response);
+                adapter.addDataAtTop(ShowUtil.formentShow(data));
                 adapter.notifyDataSetChanged();
 
             }
