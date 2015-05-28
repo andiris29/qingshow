@@ -14,7 +14,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    _isFavoBtnPressed = NO;
     self.autoresizingMask = NO;
    
 }
@@ -40,17 +39,17 @@
     self.weekLabel.text = [QSDateUtil getWeekdayDesc:date];
     
 }
-- (IBAction)favoBtnPressed:(UIButton *)sender {
-    if (_isFavoBtnPressed == NO) {
-        
-        [sender setImage:[UIImage imageNamed:@"s03_like_btn_hover.png"] forState:UIControlStateNormal];
-        _isFavoBtnPressed = YES;
-    }
-    else if(_isFavoBtnPressed == YES)
-    {
-        
-        [sender setImage:[UIImage imageNamed:@"s03_like_btn_full.png"] forState:UIControlStateNormal];
-        _isFavoBtnPressed = NO;
-    }
-}
+//- (IBAction)favoBtnPressed:(UIButton *)sender {
+//    if (_isFavoBtnPressed == NO) {
+//        
+//        [sender setImage:[UIImage imageNamed:@"s03_like_btn_hover.png"] forState:UIControlStateNormal];
+//        _isFavoBtnPressed = YES;
+//    }
+//    else if(_isFavoBtnPressed == YES)
+//    {
+//        
+//        [sender setImage:[UIImage imageNamed:@"s03_like_btn_full.png"] forState:UIControlStateNormal];
+//        _isFavoBtnPressed = NO;
+//    }
+//}
 @end

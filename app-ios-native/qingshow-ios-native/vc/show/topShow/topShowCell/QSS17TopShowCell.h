@@ -17,9 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *leftImgView;
 @property (weak, nonatomic) IBOutlet UIImageView *rightImgView;
 
-- (IBAction)favoBtnPressed:(UIButton *)sender;
-
-@property(nonatomic,assign)BOOL isFavoBtnPressed;
+//- (IBAction)favoBtnPressed:(UIButton *)sender;
 
 
 - (void)bindWithDataDic:(NSDictionary *)fDic andAnotherDic:(NSDictionary *)sDic;

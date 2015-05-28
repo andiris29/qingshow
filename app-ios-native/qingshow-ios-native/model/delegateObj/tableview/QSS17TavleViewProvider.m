@@ -23,8 +23,13 @@
 }
 - (CGFloat)getHeight
 {
-    return h/3+10;
-    
+    if (w == 320 && h == 480) {
+        return h/3+10;
+    }
+    else
+    {
+    return h/3-10;
+    }
 }
 
 
