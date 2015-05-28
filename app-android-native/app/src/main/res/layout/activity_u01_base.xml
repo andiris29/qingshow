@@ -75,6 +75,8 @@
         <ImageButton
             style="@style/navigation_btn"
             android:layout_marginTop="30dp"
+            android:id="@+id/u01_collection"
+            android:onClick="onClick"
             android:src="@drawable/root_menu_people" />
 
         <TextView

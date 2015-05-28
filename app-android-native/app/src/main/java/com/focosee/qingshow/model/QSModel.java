@@ -1,5 +1,8 @@
 package com.focosee.qingshow.model;
 
+import android.content.SharedPreferences;
+
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 /**
@@ -19,6 +22,14 @@ public enum QSModel {
     }
 
     public void setUser(MongoPeople _user) {
+        if(null == _user) return;
         this.user = _user;
+        saveUser(_user._id);
+    }
+
+    public void saveUser(String id){
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.putString("id", id);
+        editor.commit();
     }
 }

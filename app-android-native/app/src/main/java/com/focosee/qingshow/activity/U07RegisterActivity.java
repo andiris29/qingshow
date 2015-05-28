@@ -129,6 +129,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
                     QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            System.out.println("response:" + response);
                             MongoPeople user = UserParser.parseRegister(response);
                             if (user == null) {
                                 ErrorHandler.handle(context, MetadataParser.getError(response));

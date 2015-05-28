@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,7 +46,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U01UserActivity extends BaseActivity {
+public class U01UserActivity extends BaseActivity implements View.OnClickListener{
 
     @InjectView(R.id.recycler)
     RecyclerView recyclerView;
@@ -59,6 +61,8 @@ public class U01UserActivity extends BaseActivity {
     ImageView blur;
     @InjectView(R.id.context)
     RelativeLayout right;
+    @InjectView(R.id.u01_collection)
+    ImageButton collectionBtn;
 
     private final float DAMP = 3.0f;
 
@@ -81,6 +85,7 @@ public class U01UserActivity extends BaseActivity {
         initUserInfo();
         initRectcler();
         loadDataFormNet();
+
     }
 
     private void loadDataFormNet() {
@@ -147,7 +152,7 @@ public class U01UserActivity extends BaseActivity {
         }
         blur.setVisibility(View.VISIBLE);
 
-        navigation.setOnTouchListener((view, motionEvent) -> true);
+//        navigation.setOnTouchListener((view, motionEvent) -> true);
         drawer.openDrawer(navigation);
     }
 
@@ -230,4 +235,15 @@ public class U01UserActivity extends BaseActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.u01_collection:
+                startActivity(new Intent(U01UserActivity.this, U14CollectionActivity.class));
+                break;
+        }
+
+
+    }
 }

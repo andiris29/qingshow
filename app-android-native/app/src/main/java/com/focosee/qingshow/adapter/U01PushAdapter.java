@@ -87,7 +87,7 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
         MongoShow item = getItemData(position - groupCount - 1);
         GregorianCalendar calendar = item.recommend.date;
 
-        FontsUtil.changeFont(context,holder.getView(R.id.day),"fonts/HelveticaInserat-Roman-SemiBold.ttf");
+//        FontsUtil.changeFont(context,holder.getView(R.id.day),"fonts/HelveticaInserat-Roman-SemiBold.ttf");
         holder.setText(R.id.year, String.valueOf(calendar.YEAR))
                 .setText(R.id.manth, TimeUtil.formatManthInfo(calendar.MONTH))
                 .setText(R.id.day, String.valueOf(calendar.DAY_OF_MONTH))

@@ -2,7 +2,9 @@ package com.focosee.qingshow;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.preference.PreferenceManager;
 import android.view.Display;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -74,6 +76,10 @@ public class QSApplication extends Application {
         Point size = new Point();
         display.getSize(size);
         return size;
+    }
+
+    public SharedPreferences getPreferences(){
+        return PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     }
 }
 

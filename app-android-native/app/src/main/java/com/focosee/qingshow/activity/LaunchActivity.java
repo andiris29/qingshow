@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.WindowManager;
+
+import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.umeng.analytics.MobclickAgent;
 
 public class LaunchActivity extends BaseActivity{
@@ -23,6 +27,12 @@ public class LaunchActivity extends BaseActivity{
         MobclickAgent.updateOnlineConfig(this);
         MobclickAgent.openActivityDurationTrack(false);
 
+        String id = QSApplication.instance().getPreferences().getString("id", "");
+        if(!"".equals(id)){
+            MongoPeople _user = new MongoPeople();
+            _user._id = id;
+            QSModel.INSTANCE.setUser(_user);
+        }
 
         setContentView(R.layout.activity_launch);
 

@@ -110,6 +110,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
     @Override
     public void onClick(View v) {
+
         if(QSModel.INSTANCE.loggedin()) {
             startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
         }else{

@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
@@ -76,15 +77,22 @@ public class U06LoginActivity extends BaseActivity {
                 pDialog.setMessage("加载中...");
                 pDialog.show();
 
-                QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST,
-                        QSAppWebAPI.LOGIN_SERVICE_URL,
-                        new Response.Listener<String>() {
+                Map<String, String> map = new HashMap<>();
+                map.put("id", accountEditText.getText().toString());
+                map.put("password", passwordEditText.getText().toString());
+                System.out.println("id:" + accountEditText.getText().toString());
+                System.out.println("password:" + passwordEditText.getText().toString());
+                JSONObject jsonObject = new JSONObject(map);
+
+                QSJsonObjectRequest stringRequest = new QSJsonObjectRequest(Request.Method.POST,
+                        QSAppWebAPI.LOGIN_SERVICE_URL,jsonObject,
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
+                            public void onResponse(JSONObject response) {
                                 System.out.println("response:" + response);
                                 pDialog.dismiss();
 
-                                MongoPeople user = UserParser.parseLogin(response);
+                                MongoPeople user = UserParser._parsePeople(response);
                                 if (user == null) {
                                     if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {
                                         Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
@@ -105,16 +113,7 @@ public class U06LoginActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("TAG", error.getMessage(), error);
                     }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> map = new HashMap<String, String>();
-                        map.put("id", accountEditText.getText().toString());
-                        map.put("password", passwordEditText.getText().toString());
-                        return map;
-                    }
-
-                };
+                });
                 requestQueue.add(stringRequest);
             }
         });

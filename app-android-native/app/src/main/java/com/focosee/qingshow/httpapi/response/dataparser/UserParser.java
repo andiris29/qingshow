@@ -47,7 +47,7 @@ public class UserParser {
         return null;
     }
 
-    private static MongoPeople _parsePeople(JSONObject response) {
+    public static MongoPeople _parsePeople(JSONObject response) {
         try {
             Gson gson = QSGsonFactory.create();
 
