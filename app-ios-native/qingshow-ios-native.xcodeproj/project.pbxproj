@@ -42,6 +42,7 @@
 		8CB99BB11B16BEE4001EDF52 /* QSU02UserSettingInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CB99BAF1B16BEE4001EDF52 /* QSU02UserSettingInfoCell.xib */; };
 		8CB99BB51B16CC88001EDF52 /* QSUserSettingPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BB31B16CC88001EDF52 /* QSUserSettingPickerCell.m */; };
 		8CB99BB61B16CC88001EDF52 /* QSUserSettingPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CB99BB41B16CC88001EDF52 /* QSUserSettingPickerCell.xib */; };
+		8CB99BBA1B16D85F001EDF52 /* QSU02UserSettingViewController01.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController01.m */; };
 		8CC1850A1B0EFBDA00DD7657 /* bgImgforCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CC185091B0EFBDA00DD7657 /* bgImgforCell@2x.png */; };
 		8CC1850C1B0EFCC500DD7657 /* bgImgforCell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CC1850B1B0EFCC500DD7657 /* bgImgforCell@3x.png */; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
@@ -346,6 +347,8 @@
 		8CB99BB21B16CC88001EDF52 /* QSUserSettingPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserSettingPickerCell.h; sourceTree = "<group>"; };
 		8CB99BB31B16CC88001EDF52 /* QSUserSettingPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserSettingPickerCell.m; sourceTree = "<group>"; };
 		8CB99BB41B16CC88001EDF52 /* QSUserSettingPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSUserSettingPickerCell.xib; sourceTree = "<group>"; };
+		8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController01.h; sourceTree = "<group>"; };
+		8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController01.m; sourceTree = "<group>"; };
 		8CC185091B0EFBDA00DD7657 /* bgImgforCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImgforCell@2x.png"; sourceTree = "<group>"; };
 		8CC1850B1B0EFCC500DD7657 /* bgImgforCell@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImgforCell@3x.png"; sourceTree = "<group>"; };
 		A75DF2051B01A6B400A88E36 /* QSHotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHotUtil.h; sourceTree = "<group>"; };
@@ -1972,6 +1975,8 @@
 				8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */,
 				8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */,
 				8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */,
+				8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController01.h */,
+				8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController01.m */,
 				82B6967A1A19120300518EE5 /* QSU04EmailViewController.h */,
 				82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */,
 				82B6967C1A19120300518EE5 /* QSU04EmailViewController.xib */,
@@ -2381,6 +2386,7 @@
 				EFC543641A1750AD001B2C49 /* QSSectionButtonBase.m in Sources */,
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
+				8CB99BBA1B16D85F001EDF52 /* QSU02UserSettingViewController01.m in Sources */,
 				EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */,
 				EF78E34B1AAF4C9400665EDD /* QSOrderListHeaderView.m in Sources */,
 				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,

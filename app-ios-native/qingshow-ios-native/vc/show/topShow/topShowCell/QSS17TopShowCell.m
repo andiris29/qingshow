@@ -10,6 +10,7 @@
 #import "QSShowUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
+
 @implementation QSS17TopShowCell
 
 - (void)awakeFromNib {
@@ -37,7 +38,6 @@
     self.dayLabel.text = [NSString stringWithFormat:@"%@ %@",day,month];
     self.yearLabel.text = [QSDateUtil getYearDesc:date];
     self.weekLabel.text = [QSDateUtil getWeekdayDesc:date];
-    
 }
 //- (IBAction)favoBtnPressed:(UIButton *)sender {
 //    if (_isFavoBtnPressed == NO) {

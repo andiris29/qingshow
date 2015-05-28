@@ -28,7 +28,7 @@
     }
     else
     {
-    return h/3-10;
+    return h/3-13;
     }
 }
 

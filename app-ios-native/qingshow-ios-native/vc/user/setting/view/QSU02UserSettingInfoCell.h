@@ -12,4 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *infoTextField;
 
+@property (nonatomic,assign)NSInteger row;
+- (void)infoCellBindWithDic:(NSDictionary *)peopleDic;
 @end
