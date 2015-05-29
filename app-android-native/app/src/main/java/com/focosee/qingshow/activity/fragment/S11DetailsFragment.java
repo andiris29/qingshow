@@ -11,7 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
@@ -57,6 +61,14 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private MongoItem itemEntity;
     private LinkedList<MongoItem.TaoBaoInfo.SKU> skus;
     private MongoOrder order;
+
+    private FrameLayout sizeLayout;
+    private LinearLayout cate4;
+    private RelativeLayout cate023;
+    private EditText shoe;
+    private EditText numOne;
+    private EditText numTow;
+    private ImageView sizeImg;
 
     private int num = 1;
 
@@ -128,12 +140,12 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText(StringUtil.FormatPrice(sku.promo_price));
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText("原价:" + StringUtil.FormatPrice(sku.price));
-            EventBus.getDefault().post(new S11DetailsEvent(order, true));
+            EventBus.getDefault().post(new S11DetailsEvent(order, true, itemEntity.category,getNums(itemEntity.category)));
             return true;
         } else {
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText("");
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText("");
-            EventBus.getDefault().post(new S11DetailsEvent(null, false));
+            EventBus.getDefault().post(new S11DetailsEvent(null, false, itemEntity.category,getNums(itemEntity.category)));
             return false;
         }
     }
@@ -143,6 +155,13 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
+        sizeLayout = (FrameLayout) rootView.findViewById(R.id.s11_details_size);
+        cate4 = (LinearLayout) rootView.findViewById(R.id.cate_4);
+        cate023 = (RelativeLayout) rootView.findViewById(R.id.cate_023);
+        shoe = (EditText) rootView.findViewById(R.id.shoe);
+        numOne = (EditText) rootView.findViewById(R.id.num_one);
+        numTow = (EditText) rootView.findViewById(R.id.num_tow);
+        sizeImg = (ImageView) rootView.findViewById(R.id.size_img);
 
         name = (TextView) rootView.findViewById(R.id.s11_details_name);
         addButton = (Button) rootView.findViewById(R.id.S11_add_num);
@@ -189,63 +208,52 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     }
 
     private void initSize() {
-        if (null == skus) {
-            return;
+        sizeLayout.setVisibility(View.VISIBLE);
+        switch (itemEntity.category) {
+            case 0:
+            case 2:
+            case 3:
+                cate023.setVisibility(View.VISIBLE);
+                cate4.setVisibility(View.GONE);
+                numOne.setHint("胸围：70cm");
+                numTow.setHint("肩宽：30cm");
+                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_shangyi));
+                break;
+            case 1:
+                cate023.setVisibility(View.VISIBLE);
+                cate4.setVisibility(View.GONE);
+                numOne.setHint("腰围：70cm");
+                numTow.setHint("臀围：30cm");
+                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_pants));
+                break;
+            case 4:
+                cate023.setVisibility(View.GONE);
+                cate4.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+            case 6:
+                sizeLayout.setVisibility(View.GONE);
+                break;
         }
-        if (sizes.isEmpty()) {
-            rootView.findViewById(R.id.s11_details_size_line).setVisibility(View.GONE);
-            rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
-            return;
+    }
+
+    private float[] getNums(int category){
+        float[] nums = null;
+        switch (category){
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                nums = new float[2];
+                nums[0] = Float.parseFloat(numOne.getText().toString());
+                nums[1] = Float.parseFloat(numTow.getText().toString());
+                break;
+            case 4:
+                nums = new float[1];
+                nums[0] = Float.parseFloat(shoe.getText().toString());
+                break;
         }
-        int i = 0;
-
-        final ArrayList<Prop> sizeList = new ArrayList<Prop>();
-        ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-        itemParams.setMargins(10, 10, 10, 10);
-        for (Prop size : sizes) {
-
-            FlowRadioButton sizeItem = new FlowRadioButton(getActivity());
-            sizeItem.setBackgroundResource(R.drawable.s11_size_item_bg);
-            sizeItem.setTextColor(getResources().getColor(R.color.black));
-            sizeItem.setGravity(Gravity.CENTER);
-            sizeItem.setTextSize(13);
-
-            if (!TextUtils.isEmpty(size.getName())) {
-                sizeItem.setText(size.getName());
-            } else {
-                sizeItem.setText(size.getPropValue() != null ?
-                        size.getPropValue() : "");
-            }
-            sizeGroup.addView(sizeItem, itemParams);
-            sizeList.add(size);
-            i++;
-
-            if (i == 1) {
-                sizeItem.setChecked(true);
-                myPropList.add(size);
-                onSecletChanged();
-            }
-        }
-
-        if (0 == sizeGroup.getChildCount()) {
-            rootView.findViewById(R.id.s11_details_size_line).setVisibility(View.GONE);
-            rootView.findViewById(R.id.s11_details_size).setVisibility(View.GONE);
-            return;
-        }
-
-        sizeGroup.setOnCheckedChangeListener(new FlowRadioGroup.OnCheckedChangeListener() {
-            int selectNum = 0;
-
-            @Override
-            public void checkedChanged(int i) {
-                int index = myPropList.indexOf(sizeList.get(selectNum));
-                myPropList.remove(index);
-                myPropList.add(index, sizeList.get(i));
-                onSecletChanged();
-                selectNum = i;
-            }
-        });
+        return nums;
     }
 
     private void initItem() {
