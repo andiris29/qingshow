@@ -1,6 +1,7 @@
 package com.focosee.qingshow.model.vo.mongo;
 
 import com.focosee.qingshow.model.vo.context.PeopleContext;
+
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -26,6 +27,8 @@ public class MongoPeople implements Serializable {
     public String favoriteBrand;
     public UserInfo userInfo;
     public LinkedList<Receiver> receivers;
+    public MeasureInfo measureInfo;
+
     //    +modelInfo
     //    +modelInfo.order
 
@@ -38,23 +41,17 @@ public class MongoPeople implements Serializable {
         public String province;
         public String address;
         public boolean isDefault;
-        public Receiver(){
+
+        public Receiver() {
 
         }
     }
 
-    public Receiver newReceiverInstance(){
-        return new Receiver();
-    }
 
     public class UserInfo implements Serializable {
         public String id;
         public String password;
         public String encryptedPassword;
-    }
-
-    public PeopleContext get__context() {
-        return __context;
     }
 
     public String get_id() {
@@ -68,27 +65,11 @@ public class MongoPeople implements Serializable {
         return height + "cm/";
     }
 
-    public String getWeight() {
-        if (null == weight) {
-            return "";
-        }
-        return weight + "kg";
-    }
 
     public String getName() {
         return name;
     }
 
-    public String getJob() {
-        return "模特";
-    }
-
-    public String getHeightWeight() {
-        if (height != "" && weight != "" && null != height && null != weight) {
-            return String.valueOf(height) + "cm/" + String.valueOf(weight) + "kg";
-        }
-        return "";
-    }
 
     public String getBackground() {
         return background;
@@ -98,48 +79,11 @@ public class MongoPeople implements Serializable {
         return portrait;
     }
 
-    public String getPeopleName() {
-        if(null == name || "".equals(name))
-            return "倾秀用户";
-        return name;
-    }
+    public class MeasureInfo {
+        public int shoulder;
+        public int bust;
+        public int waist;
+        public int hips;
 
-    public String getPeoplePortrait() {
-        return portrait;
     }
-
-    public String getShowNumberString() {
-        return String.valueOf(__context.numShows);
-    }
-
-    public String getLikeNumberString() {
-        return String.valueOf(__context.numFollowers);
-    }
-
-    public int[] getRoles() {
-        return roles;
-    }
-
-    public int getNumberShows() {
-        if (null != __context)
-            return __context.numShows;
-        return 0;
-    }
-
-    public int getNumberFollowers() {
-        if (null != __context)
-            return __context.numFollowers;
-        return 0;
-    }
-
-    public boolean getModelIsFollowedByCurrentUser() {
-        if (null != __context)
-            return __context.followedByCurrentUser;
-        return false;
-    }
-
-    public void setModelIsFollowedByCurrentUser(boolean followedByCurrentUser) {
-        __context.followedByCurrentUser = followedByCurrentUser;
-    }
-
 }

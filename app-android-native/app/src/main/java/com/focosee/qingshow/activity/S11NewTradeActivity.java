@@ -70,6 +70,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     private Map params;
     private MongoOrder order;
     private MongoTrade trade;
+    private MongoPeople.MeasureInfo measureInfo;
 
     private String selectedPeopleReceiverUuid;
 
@@ -129,6 +130,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void onEventMainThread(S11DetailsEvent event) {
+        measureInfo = event.getMeasureInfo();
         setAllow(event.isExists(), event.getOrder());
     }
 
@@ -153,6 +155,21 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
 
     private void submitTrade() {
         submit.setEnabled(false);
+
+        JSONObject jsonObject = null;
+        try {
+             jsonObject = new JSONObject(QSGsonFactory.create().toJson(measureInfo));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
         receiver = receiptFragment.getReceiver();
 
         Map<String, String> params = new HashMap<String, String>();

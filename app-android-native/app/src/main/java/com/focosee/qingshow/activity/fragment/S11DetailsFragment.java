@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -22,6 +24,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S11NewTradeActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoOrder;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.StringUtil;
 import com.focosee.qingshow.util.sku.Prop;
@@ -140,12 +143,12 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText(StringUtil.FormatPrice(sku.promo_price));
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText("原价:" + StringUtil.FormatPrice(sku.price));
-            EventBus.getDefault().post(new S11DetailsEvent(order, true, itemEntity.category,getNums(itemEntity.category)));
+            EventBus.getDefault().post(new S11DetailsEvent(order, true, getNums(itemEntity.category)));
             return true;
         } else {
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText("");
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText("");
-            EventBus.getDefault().post(new S11DetailsEvent(null, false, itemEntity.category,getNums(itemEntity.category)));
+            EventBus.getDefault().post(new S11DetailsEvent(null, false, getNums(itemEntity.category)));
             return false;
         }
     }
@@ -235,25 +238,40 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
                 sizeLayout.setVisibility(View.GONE);
                 break;
         }
+
+        EditText.OnEditorActionListener listener = new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    onSecletChanged();
+                    return true;
+                }
+                return false;
+            }
+        };
+        numOne.setOnEditorActionListener(listener);
+        numTow.setOnEditorActionListener(listener);
+        shoe.setOnEditorActionListener(listener);
     }
 
-    private float[] getNums(int category){
-        float[] nums = null;
-        switch (category){
+    private MongoPeople.MeasureInfo getNums(int category) {
+        MongoPeople.MeasureInfo measureInfo = new MongoPeople().new MeasureInfo();
+        switch (category) {
             case 0:
-            case 1:
             case 2:
             case 3:
-                nums = new float[2];
-                nums[0] = Float.parseFloat(numOne.getText().toString());
-                nums[1] = Float.parseFloat(numTow.getText().toString());
+                measureInfo.shoulder = Integer.parseInt(numOne.getText().toString());
+                measureInfo.bust = Integer.parseInt(numTow.getText().toString());
+                break;
+            case 1:
+                measureInfo.waist = Integer.parseInt(numOne.getText().toString());
+                measureInfo.hips = Integer.parseInt(numTow.getText().toString());
                 break;
             case 4:
-                nums = new float[1];
-                nums[0] = Float.parseFloat(shoe.getText().toString());
+                shoe.getText().toString();
                 break;
         }
-        return nums;
+        return measureInfo;
     }
 
     private void initItem() {
@@ -272,8 +290,8 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         final ArrayList<Prop> colorList = new ArrayList<Prop>();
 
         for (SkuColor color : colors) {
-            int imgWidth = (int) AppUtil.transformToDip(35,getActivity());
-            int imgHeight = (int) AppUtil.transformToDip(35,getActivity());
+            int imgWidth = (int) AppUtil.transformToDip(35, getActivity());
+            int imgHeight = (int) AppUtil.transformToDip(35, getActivity());
             ViewGroup.MarginLayoutParams itemParams = new ViewGroup.MarginLayoutParams(imgWidth, imgHeight);
             itemParams.setMargins(10, 10, 10, 10);
             final FlowRadioImgeView colorItem = new FlowRadioImgeView(getActivity());
@@ -288,7 +306,7 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, AppUtil.transformToDip(5,getActivity()), AppUtil.transformToDip(5,getActivity())));
+                        colorItem.setBackgroundDrawable(new RoundBitmapDrawable(loadedImage, AppUtil.transformToDip(5, getActivity()), AppUtil.transformToDip(5, getActivity())));
                     }
                 });
 
