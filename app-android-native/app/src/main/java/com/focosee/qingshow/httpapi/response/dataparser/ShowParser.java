@@ -18,7 +18,7 @@ public class ShowParser {
         try {
             String shows = response.getJSONObject("data").getJSONArray("shows").toString();
             Gson gson = QSGsonFactory.create();
-            return gson.fromJson(shows, new TypeToken<LinkedList<MongoShow>>() {
+                return gson.fromJson(shows, new TypeToken<LinkedList<MongoShow>>() {
             }.getType());
         } catch (JSONException e) {
             return null;

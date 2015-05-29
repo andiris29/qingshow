@@ -35,7 +35,7 @@ public class S07ListAdapter extends BaseAdapter {
     public S07ListAdapter(Context context, ArrayList<MongoItem> items, int itemHeiht) {
         this.context = context;
         this.data = items;
-        ITEMHEIGHT = itemHeiht/5;
+        ITEMHEIGHT = itemHeiht / 5;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class S07ListAdapter extends BaseAdapter {
             holderView = new HolderView();
             AbsListView.LayoutParams params = new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
                     ITEMHEIGHT);
-            if ("".equals(data.get(position).getPrice()) || null ==data.get(position).getPrice()) {
+            if ("".equals(data.get(position).getPrice()) || null == data.get(position).getPrice()) {
                 convertView = layoutInflater.inflate(R.layout.item_s07_item_list, null);
                 holderView.item_collection = (LinearLayout) convertView.findViewById(R.id.item_s07_collection);
                 holderView.category = (TextView) convertView.findViewById(R.id.item_S07_category);
@@ -106,12 +106,11 @@ public class S07ListAdapter extends BaseAdapter {
             }
         });
 
-        if (!("".equals(data.get(position).getPrice()) || null ==data.get(position).getPrice())) {
-            if(null != data.get(position).brandDiscountInfo) {
-                holderView.originPriceTV.setText(data.get(position).getSourcePrice());
-                holderView.originPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-            if(data.get(position).getPrice() != null){
+        if (!("".equals(data.get(position).getPrice()) || null == data.get(position).getPrice())) {
+            holderView.originPriceTV.setText(data.get(position).getSourcePrice());
+            holderView.originPriceTV.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+            if (data.get(position).getPrice() != null) {
                 holderView.priceTV.setText(data.get(position).getPrice());
             }
         }

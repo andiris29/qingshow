@@ -53,7 +53,7 @@ public class LaunchActivity extends BaseActivity{
     }
 
     public void jump(){
-        Intent mainIntent = new Intent(LaunchActivity.this, G02WelcomeActivity.class);
+        Intent mainIntent = new Intent(LaunchActivity.this, S17TopShowsActivity.class);
         LaunchActivity.this.startActivity(mainIntent);
         LaunchActivity.this.finish();
     }

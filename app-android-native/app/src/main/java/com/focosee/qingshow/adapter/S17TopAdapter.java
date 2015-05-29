@@ -63,6 +63,8 @@ public class S17TopAdapter extends AbsAdapter<List<MongoShow>> {
             img02.setImageURI(Uri.parse(item.get(1).cover));
             img02.setVisibility(View.VISIBLE);
         }
+        holder.setText(R.id.like,String.valueOf(show.numLike));
+
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
