@@ -9,7 +9,7 @@
 #import "QSRootContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSU01UserDetailViewController.h"
-#import "QSU02UserSettingViewController.h"
+#import "QSU02UserSettingViewController03.h"
 #import "QSS17ViewController.h"
 #import "QSU14FavoriteViewController.h"
 #import "QSNavigationController.h"
@@ -81,8 +81,11 @@
         }
         case QSRootMenuItemSetting:
         {
-            UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
-            QSU02UserSettingViewController *settingVc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+//            UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
+//            QSU02UserSettingViewController *settingVc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
+//            settingVc.menuProvider = self;
+//            vc = settingVc;
+            QSU02UserSettingViewController03 *settingVc = [[QSU02UserSettingViewController03 alloc]init];
             settingVc.menuProvider = self;
             vc = settingVc;
             break;

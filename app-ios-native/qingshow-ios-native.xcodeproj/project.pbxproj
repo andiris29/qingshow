@@ -17,8 +17,6 @@
 		68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68C919791B15ACE800A5D405 /* shadowImage.png */; };
 		68D8249F1B17018300BC9FC6 /* QSItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D8249D1B17018300BC9FC6 /* QSItemListCell.m */; };
 		68D824A01B17018300BC9FC6 /* QSItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */; };
-		8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */; };
-		8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */; };
 		82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */; };
 		82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B6967C1A19120300518EE5 /* QSU04EmailViewController.xib */; };
 		82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B696811A19123200518EE5 /* QSU08PasswordViewController.m */; };
@@ -38,13 +36,15 @@
 		8C8B9D8D1B00395B00C1A321 /* welcome1_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D811B00395B00C1A321 /* welcome1_736@3x.png */; };
 		8C8B9D8E1B00395B00C1A321 /* welcome2_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D821B00395B00C1A321 /* welcome2_736@3x.png */; };
 		8C8B9D8F1B00395B00C1A321 /* welcome3_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D831B00395B00C1A321 /* welcome3_736@3x.png */; };
+		8C961D431B186E560013996B /* QSU02UserSetting02.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C961D401B186E560013996B /* QSU02UserSetting02.storyboard */; };
+		8C961D441B186E560013996B /* QSU02UserSettingViewController02.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C961D421B186E560013996B /* QSU02UserSettingViewController02.m */; };
 		8CB99BAB1B16BEB1001EDF52 /* QSU02UserSettingImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BA91B16BEB1001EDF52 /* QSU02UserSettingImgCell.m */; };
 		8CB99BAC1B16BEB1001EDF52 /* QSU02UserSettingImgCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CB99BAA1B16BEB1001EDF52 /* QSU02UserSettingImgCell.xib */; };
 		8CB99BB01B16BEE4001EDF52 /* QSU02UserSettingInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BAE1B16BEE4001EDF52 /* QSU02UserSettingInfoCell.m */; };
 		8CB99BB11B16BEE4001EDF52 /* QSU02UserSettingInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CB99BAF1B16BEE4001EDF52 /* QSU02UserSettingInfoCell.xib */; };
 		8CB99BB51B16CC88001EDF52 /* QSUserSettingPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BB31B16CC88001EDF52 /* QSUserSettingPickerCell.m */; };
 		8CB99BB61B16CC88001EDF52 /* QSUserSettingPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CB99BB41B16CC88001EDF52 /* QSUserSettingPickerCell.xib */; };
-		8CB99BBA1B16D85F001EDF52 /* QSU02UserSettingViewController01.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController01.m */; };
+		8CB99BBA1B16D85F001EDF52 /* QSU02UserSettingViewController03.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController03.m */; };
 		8CC1850A1B0EFBDA00DD7657 /* bgImgforCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CC185091B0EFBDA00DD7657 /* bgImgforCell@2x.png */; };
 		8CC1850C1B0EFCC500DD7657 /* bgImgforCell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CC1850B1B0EFCC500DD7657 /* bgImgforCell@3x.png */; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
@@ -315,9 +315,6 @@
 		68D8249C1B17018300BC9FC6 /* QSItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListCell.h; sourceTree = "<group>"; };
 		68D8249D1B17018300BC9FC6 /* QSItemListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemListCell.m; sourceTree = "<group>"; };
 		68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemListCell.xib; sourceTree = "<group>"; };
-		8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController.h; sourceTree = "<group>"; };
-		8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController.m; sourceTree = "<group>"; };
-		8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QSU02UserSetting.storyboard; sourceTree = "<group>"; };
 		82B6967A1A19120300518EE5 /* QSU04EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU04EmailViewController.h; sourceTree = "<group>"; };
 		82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU04EmailViewController.m; sourceTree = "<group>"; };
 		82B6967C1A19120300518EE5 /* QSU04EmailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU04EmailViewController.xib; sourceTree = "<group>"; };
@@ -342,6 +339,9 @@
 		8C8B9D811B00395B00C1A321 /* welcome1_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_736@3x.png"; sourceTree = "<group>"; };
 		8C8B9D821B00395B00C1A321 /* welcome2_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_736@3x.png"; sourceTree = "<group>"; };
 		8C8B9D831B00395B00C1A321 /* welcome3_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_736@3x.png"; sourceTree = "<group>"; };
+		8C961D401B186E560013996B /* QSU02UserSetting02.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = QSU02UserSetting02.storyboard; sourceTree = "<group>"; };
+		8C961D411B186E560013996B /* QSU02UserSettingViewController02.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController02.h; sourceTree = "<group>"; };
+		8C961D421B186E560013996B /* QSU02UserSettingViewController02.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController02.m; sourceTree = "<group>"; };
 		8CB99BA81B16BEB1001EDF52 /* QSU02UserSettingImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingImgCell.h; sourceTree = "<group>"; };
 		8CB99BA91B16BEB1001EDF52 /* QSU02UserSettingImgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingImgCell.m; sourceTree = "<group>"; };
 		8CB99BAA1B16BEB1001EDF52 /* QSU02UserSettingImgCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU02UserSettingImgCell.xib; sourceTree = "<group>"; };
@@ -351,8 +351,8 @@
 		8CB99BB21B16CC88001EDF52 /* QSUserSettingPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSUserSettingPickerCell.h; sourceTree = "<group>"; };
 		8CB99BB31B16CC88001EDF52 /* QSUserSettingPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSUserSettingPickerCell.m; sourceTree = "<group>"; };
 		8CB99BB41B16CC88001EDF52 /* QSUserSettingPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSUserSettingPickerCell.xib; sourceTree = "<group>"; };
-		8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController01.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController01.h; sourceTree = "<group>"; };
-		8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController01.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController01.m; sourceTree = "<group>"; };
+		8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController03.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserSettingViewController03.h; sourceTree = "<group>"; };
+		8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController03.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserSettingViewController03.m; sourceTree = "<group>"; };
 		8CC185091B0EFBDA00DD7657 /* bgImgforCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImgforCell@2x.png"; sourceTree = "<group>"; };
 		8CC1850B1B0EFCC500DD7657 /* bgImgforCell@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImgforCell@3x.png"; sourceTree = "<group>"; };
 		A75DF2051B01A6B400A88E36 /* QSHotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHotUtil.h; sourceTree = "<group>"; };
@@ -1972,11 +1972,11 @@
 			isa = PBXGroup;
 			children = (
 				EF78E3411AAF4C7600665EDD /* view */,
-				8255B1431A0E11B600A83D4C /* QSU02UserSettingViewController.h */,
-				8255B1441A0E11B600A83D4C /* QSU02UserSettingViewController.m */,
-				8255B1481A0E1F1500A83D4C /* QSU02UserSetting.storyboard */,
-				8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController01.h */,
-				8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController01.m */,
+				8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController03.h */,
+				8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController03.m */,
+				8C961D401B186E560013996B /* QSU02UserSetting02.storyboard */,
+				8C961D411B186E560013996B /* QSU02UserSettingViewController02.h */,
+				8C961D421B186E560013996B /* QSU02UserSettingViewController02.m */,
 				82B6967A1A19120300518EE5 /* QSU04EmailViewController.h */,
 				82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */,
 				82B6967C1A19120300518EE5 /* QSU04EmailViewController.xib */,
@@ -2275,6 +2275,7 @@
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
 				8CB99BAC1B16BEB1001EDF52 /* QSU02UserSettingImgCell.xib in Resources */,
+				8C961D431B186E560013996B /* QSU02UserSetting02.storyboard in Resources */,
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
 				A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */,
 				68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */,
@@ -2301,7 +2302,6 @@
 				EF78E3521AAF4CB900665EDD /* QSOrderListTableViewCell.xib in Resources */,
 				EFC7ADBC1A11208A0078D1F9 /* QSItemContainerView.xib in Resources */,
 				EF92B7271A3C9F6A00A08F08 /* QSBigImageTableViewCell.xib in Resources */,
-				8255B1491A0E1F1500A83D4C /* QSU02UserSetting.storyboard in Resources */,
 				8C8B9D891B00395B00C1A321 /* welcome3_568@2x.png in Resources */,
 				8CB99BB61B16CC88001EDF52 /* QSUserSettingPickerCell.xib in Resources */,
 				EFC543631A1750AD001B2C49 /* QSBadgeView.xib in Resources */,
@@ -2375,7 +2375,6 @@
 				EF9BC1EF1AB749AD00391530 /* QSVideoBaseViewController.m in Sources */,
 				EF6753BF1A6416C90045E96C /* QSG01ItemWebViewController.m in Sources */,
 				68824D941B0EBB57006E3151 /* QSU14DisplayCell.m in Sources */,
-				8255B1461A0E11B600A83D4C /* QSU02UserSettingViewController.m in Sources */,
 				EFCC1B8E1B0203FB00E13279 /* QSThirdPartLoginService.m in Sources */,
 				EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */,
 				8CB99BAB1B16BEB1001EDF52 /* QSU02UserSettingImgCell.m in Sources */,
@@ -2390,7 +2389,7 @@
 				EFC543641A1750AD001B2C49 /* QSSectionButtonBase.m in Sources */,
 				EFAB90C21A20F88D00C69E42 /* QSPeopleUtil.m in Sources */,
 				EFF114AC1A0D2EEC009B7361 /* NSAlert+MKNetworkKitAdditions.m in Sources */,
-				8CB99BBA1B16D85F001EDF52 /* QSU02UserSettingViewController01.m in Sources */,
+				8CB99BBA1B16D85F001EDF52 /* QSU02UserSettingViewController03.m in Sources */,
 				EFFABD6B1B0C9CD800298BD1 /* QSRootContentViewController.m in Sources */,
 				EF78E34B1AAF4C9400665EDD /* QSOrderListHeaderView.m in Sources */,
 				EFC3D6F11A6C1EF8002C95CD /* NSDictionary+QSExtension.m in Sources */,
@@ -2462,6 +2461,7 @@
 				EF2679C91B0D82EB0012AE90 /* QSS17ViewController.m in Sources */,
 				EF30133B1AC3174000568D92 /* MD5DataSigner.m in Sources */,
 				EFA98A721A38816F00A8BFC7 /* QSNetworkEngine+UserService.m in Sources */,
+				8C961D441B186E560013996B /* QSU02UserSettingViewController02.m in Sources */,
 				EFC7ADAF1A10FBAA0078D1F9 /* QSImageScrollViewBase.m in Sources */,
 				EF42BBD61A4C677100218693 /* NSMutableDictionary+QSExtension.m in Sources */,
 				EF4903701A7E842000A848B4 /* QSItemCollectionViewProvider.m in Sources */,

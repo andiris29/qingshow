@@ -105,16 +105,16 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             [self updatePeopleEntityViewController:self byEntity:@{@"nickname": value} pop:NO];
         }
     } else if (textField == self.ageText) {
-//        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"age"]];
-//        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-//        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
-////        NSString* birth= [dateFormatter stringFromDate:date];
-//        if ([value compare:birth] != NSOrderedSame) {
-//            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
+        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"age"]];
+        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+        NSString* birth= [dateFormatter stringFromDate:date];
+        if ([value compare:birth] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
         if (value.length != 0) {
             [self updatePeopleEntityViewController:self byEntity:@{@"age": value} pop:NO];
         }
-//        }
+        }
     } else if (textField == self.lengthText) {
         if (value .length != 0) {
             value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
@@ -142,6 +142,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             }
         }
     }
+    
 }
 
 #pragma mark - UITableViewDelegate
