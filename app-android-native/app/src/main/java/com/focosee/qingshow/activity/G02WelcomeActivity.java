@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
+import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -112,7 +113,11 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
     public void onClick(View v) {
 
         if(QSModel.INSTANCE.loggedin()) {
-            startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
+            UserCommand.refresh(new Callback() {
+                public void onComplete() {
+                    startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
+                }
+            });
         }else{
             startActivity(new Intent(G02WelcomeActivity.this, U07RegisterActivity.class));
         }

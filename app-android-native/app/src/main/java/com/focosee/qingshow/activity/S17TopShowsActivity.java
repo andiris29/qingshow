@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -44,7 +46,7 @@ import butterknife.InjectView;
  * Created by DylanJiang on 15/4/30.
  */
 
-public class S17TopShowsActivity extends BaseActivity{
+public class S17TopShowsActivity extends BaseActivity implements OnClickListener{
 
     @InjectView(R.id.s17_recycler)
     RecyclerView recyclerView;
@@ -193,5 +195,14 @@ public class S17TopShowsActivity extends BaseActivity{
             else openMenu();
         }
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.u01_collection:
+                startActivity(new Intent(S17TopShowsActivity.this, U14CollectionActivity.class));
+
+        }
     }
 }
