@@ -8,10 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSU02UserSettingInfoCell : UITableViewCell
+
+@protocol QSU02SettingInfoCellDelegate <NSObject>
+
+- (void)tableViewReloadDataForInfoCell;
+
+@end
+@interface QSU02UserSettingInfoCell : UITableViewCell<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *infoTextField;
 
 @property (nonatomic,assign)NSInteger row;
+@property (nonatomic,strong)UIViewController *superVC;
+@property(nonatomic,weak)id<QSU02SettingInfoCellDelegate> delegate;
+
 - (void)infoCellBindWithDic:(NSDictionary *)peopleDic;
+
 @end

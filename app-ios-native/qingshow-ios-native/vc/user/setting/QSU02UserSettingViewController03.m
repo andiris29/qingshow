@@ -1,12 +1,12 @@
 //
-//  QSU02UserSettingViewController01.m
+//  QSU02UserSettingViewController.m
 //  qingshow-ios-native
 //
 //  Created by mhy on 15/5/28.
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSU02UserSettingViewController01.h"
+#import "QSU02UserSettingViewController03.h"
 #import "QSU04EmailViewController.h"
 #import "QSU08PasswordViewController.h"
 #import "QSU09OrderListViewController.h"
@@ -45,7 +45,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     QSU02UserSettingViewControllerSelectTypeCamera,
     QSU02UserSettingViewControllerSelectTypeHairType
 };
-@interface QSU02UserSettingViewController01 ()<UITableViewDataSource,UITableViewDelegate>
+@interface QSU02UserSettingViewController03 ()<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong)NSString *userId;
 @property (assign, nonatomic) QSU02UserSettingViewControllerSelectType currentSelectType;
@@ -55,18 +55,20 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 @property (strong, nonatomic) UIBarButtonItem* menuBtnNew;
 @end
 
-@implementation QSU02UserSettingViewController01
+@implementation QSU02UserSettingViewController03
 {
     UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSMutableArray *_textFieldArray;
+    @private
+    long _uploadImageType;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self loadUserSetting];
+    
     [MobClick beginLogPageView:PAGE_ID];
     
 }
@@ -79,11 +81,13 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initNavigation];
+    _dataArray = [[NSMutableArray alloc]init];
     _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
-    
+    [self configNavBar];
 }
 - (void)initNavigation {
     NSLog(@"initNavigation");
@@ -99,7 +103,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         if (metadata[@"error"] == nil && people != nil) {
             [vc showSuccessHudWithText:@"更新成功"];
             EntitySuccessBlock successLoad = ^(NSDictionary *people, NSDictionary *metadata) {
-                [self loadUserSetting];
+                [_tableView reloadData];
             };
             [SHARE_NW_ENGINE getLoginUserOnSucced:successLoad onError:nil];
             if (fPop) {
@@ -158,6 +162,40 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeCamera) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            //没有Camera时,cancelButtonIndex为1
+            UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+            imagePickerController.delegate = self;
+            if (buttonIndex == 0) {
+                imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            } else if (buttonIndex == 1) {
+                
+                imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+            }
+            imagePickerController.allowsEditing = NO;
+            [self presentViewController:imagePickerController animated:YES completion:^{}];
+        }
+    } else if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeGender) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"gender" : @(buttonIndex)} pop:NO];
+        }
+    } else if (self.currentSelectType == QSU02UserSettingViewControllerSelectTypeHairType) {
+        if (buttonIndex != actionSheet.cancelButtonIndex) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"hairType": @(buttonIndex)} pop:NO];
+        }
+    }
+    
+    
+    self.currentSelectType = QSU02UserSettingViewControllerSelectTypeNone;
+    self.currentActionSheet = nil;
+    
+    
+}
 
 #pragma mark - U04,U05,U08's Delegate
 - (void)passwordViewController:(QSU08PasswordViewController *)vc didSavingPassword:(NSString *)newPassword needCurrentPassword:(NSString *)curPasswrod {
@@ -167,7 +205,6 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)emailViewController:(QSU04EmailViewController *)vc didSavingEmail:(NSString *)email {
     [self updatePeopleEntityViewController:vc byEntity:@{@"email": email}];
 }
-
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 4;
@@ -196,48 +233,57 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     }
     else
     {
-        return 44.0f;
+        return 0;
     }
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
     if (section == 3) {
-        UIView *footerView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
-        UIButton *addcharity=[UIButton buttonWithType:UIButtonTypeCustom];
-        [addcharity setTitle:@"退出登陆" forState:UIControlStateNormal];
-        [addcharity setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [addcharity addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
-        //[addcharity setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];//set the color this is may be different for iOS 7
-        [addcharity setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
-        CGRect screenBound = [[UIScreen mainScreen] bounds];
-        CGSize screenSize = screenBound.size;
-        CGFloat screenWidth = screenSize.width;
-        addcharity.frame=CGRectMake(10, 25, screenWidth - 20 , 50); //set some large width to ur title
-        addcharity.layer.cornerRadius = addcharity.frame.size.height / 8;
-        addcharity.layer.masksToBounds = YES;
-        [footerView addSubview:addcharity];
+        UIButton *logOutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [logOutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        [logOutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [logOutBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
+        [logOutBtn setBackgroundColor:[UIColor colorWithRed:128.f/255.f green:128.f/255.f blue:128.f/255.f alpha:1.f]];
+        logOutBtn.frame = CGRectMake(10, 25, w-20, 50);
+        logOutBtn.layer.cornerRadius = logOutBtn.bounds.size.height/8;
+        logOutBtn.layer.masksToBounds = YES;
+        [footerView addSubview:logOutBtn];
+        
         return footerView;
     }
-
-#warning superfooterView
-//    return [super tableView:tableView viewForFooterInSection:section];
-    return nil;
+    else
+    {
+        return nil;
+    }
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, w, 66)];
-    headerView.backgroundColor = [UIColor grayColor];
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, w, 66)];
+    UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -20, w, 44)];
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, w, 44)];
     if (section == 0) {
         label.text = @"选择图片";
+        [headerView addSubview:label];
+        
     }
     else if(section == 1)
     {
         label.text = @"管理";
+        [headerView addSubview:label];
     }
     else if(section == 2)
     {
-        
+        label.text = @"基本信息";
+        [headerView addSubview:label];
     }
-    [headerView addSubview:label];
+    else
+    {
+        label.text = @"其他";
+        [headerView addSubview:label];
+    }
+    headerView.backgroundColor = [UIColor whiteColor];
     return headerView;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -248,6 +294,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             QSU02UserSettingImgCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"QSU02UserSettingImgCell" owner:nil options:nil]lastObject];
             cell.row = indexPath.row;
             [cell imgCellBindWithDic:peopleDic];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return cell;
     }
     else if(indexPath.section == 1)
@@ -255,40 +302,148 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:defaultCellId];
         if (indexPath.row == 1) {
             cell.textLabel.text = @"订单管理";
+            cell.textLabel.frame = CGRectMake(8, 8, 50, 30);
         }
         else
         {
             cell.textLabel.text = @"收货地址管理";
         }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     else if(indexPath.section == 2)
     {
-        if (indexPath.row < 5) {
-            QSU02UserSettingInfoCell *cell = [[QSU02UserSettingInfoCell alloc]init];
+
+    
+        if (indexPath.row < 4) {
+            QSU02UserSettingInfoCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU02UserSettingInfoCell" owner:nil options:nil]lastObject];
             cell.row = indexPath.row;
+            cell.superVC = self;
+            cell.infoTextField.delegate = self;
             [cell infoCellBindWithDic:peopleDic];
             return cell;
         }
+        else if(indexPath.row  == 4 || indexPath.row == 5)
+        {
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"pickerCellId"];
+            UILabel *label = [[UILabel alloc ]initWithFrame:CGRectMake(8, 3, w/8, 40)];
+            return cell;
+            
+        }
+        else
+        {
+            QSUserSettingPickerCell *cell = [[QSUserSettingPickerCell alloc]init];
+            return cell;
+        }
+       
+    
     }
     else if (indexPath.section == 3)
     {
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:defaultCellId];
         cell.textLabel.text = @"更改密码";
+        cell.textLabel.frame = CGRectMake(8, 8, 50, 30);
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     return nil;
 }
+        
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self hideKeyboardAndDatePicker];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case 0:
+        {
+            // 选择section
+            _uploadImageType = indexPath.row;
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                          otherButtonTitles:@"从相册选择", @"使用相机拍照", nil];
+                sheet.tag = 255;
+                [self hideKeyboardAndDatePicker];
+                [sheet showInView:self.view];
+                self.currentActionSheet = sheet;
+                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeCamera;
+                
+            } else if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                                                   delegate:self
+                                                          cancelButtonTitle:@"取消"
+                                                     destructiveButtonTitle:nil
+                                                          otherButtonTitles:@"从相册选择", nil];
+                sheet.tag = 255;
+                [self hideKeyboardAndDatePicker];
+                [sheet showInView:self.view];
+                self.currentActionSheet = sheet;
+                self.currentSelectType = QSU02UserSettingViewControllerSelectTypeCamera;
+            } else {
+                [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
+            }
+            break;
+        }
+        case 1:
+        {
+            UIViewController* vc = nil;
+            if (indexPath.row == 0) {
+                vc = [[QSU09OrderListViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            } else if (indexPath.row == 1) {
+                vc = [[QSU10ReceiverListViewController alloc] init];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+            break;
+        }
+        case 2:
+        {
+            if (indexPath.row == 6) {
+                //UIView *view = [UIView alloc]ini
+            }
+            break;
+        }
+        case 3:
+        {
+            // 其他section
+            if (indexPath.row == 0) {
+                // Change Password
+                QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
+                vc.delegate = self;
+                [self.navigationController pushViewController:vc animated:YES];
+                //            } else if (indexPath.row == 1) {
+                //                // Change Email
+                //                QSU04EmailViewController *vc = [[QSU04EmailViewController alloc]initWithNibName:@"QSU04EmailViewController" bundle:nil];
+                //                vc.delegate = self;
+                //                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                NSLog(@"Nothing");
+            }
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+}
 
 
 
+#pragma mark - infoCellDalegate
+- (void)tableViewReloadDataForInfoCell
+{
+    [_tableView reloadData];
+}
 
 #pragma mark - loadData
-- (void)loadUserSetting
-{
-    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-    
-}
+//- (void)loadUserSetting
+//{
+//    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+//    
+//}
 - (void)didTapTableView:(UITapGestureRecognizer*)ges
 {
     [self hideKeyboardAndDatePicker];
