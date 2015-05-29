@@ -64,7 +64,7 @@
 
     <style name="navigation_btn">
         <item name="android:layout_width">50dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">50dp</item>
         <item name="android:adjustViewBounds">true</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
