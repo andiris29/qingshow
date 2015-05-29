@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 var traceSchema;
 traceSchema = Schema({
     ip : String,
-    version : Number,
-    deviceUid : Number,
+    version : String,
+    deviceUid : String,
     osType : Number,
-    osVersion : Number,
+    osVersion : String,
     behavior : String,
     behaviorInfo : {
         firstLaunch : {
