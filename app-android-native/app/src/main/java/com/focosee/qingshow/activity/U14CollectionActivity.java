@@ -1,6 +1,7 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -34,6 +36,8 @@ public class U14CollectionActivity extends Activity {
     ImageView rightBtn;
     @InjectView(R.id.title)
     TextView title;
+    @InjectView(R.id.title_layout)
+    LinearLayout layout;
     U14CollectionAdapter adapter;
 
     @Override
@@ -50,6 +54,7 @@ public class U14CollectionActivity extends Activity {
             }
         });
         title.setText(R.string.title_collection);
+        layout.setBackgroundColor(Color.WHITE);
         adapter = new U14CollectionAdapter(this);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
