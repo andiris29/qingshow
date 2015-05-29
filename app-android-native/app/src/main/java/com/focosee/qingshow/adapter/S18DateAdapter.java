@@ -41,7 +41,7 @@ public class S18DateAdapter extends AbsAdapter<MongoShow> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        if (datas.size() == 0 ){
+        if (datas.size() == 0) {
             return;
         }
         MongoShow item;
@@ -53,11 +53,12 @@ public class S18DateAdapter extends AbsAdapter<MongoShow> {
             holder.setText(R.id.year, String.valueOf(calendar.get(calendar.YEAR)))
                     .setText(R.id.manth, TimeUtil.formatManthInfo(calendar.get(calendar.MONTH)))
                     .setText(R.id.day, String.valueOf(calendar.get(calendar.DAY_OF_MONTH)))
-                    .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)));
+                    .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)))
+                    .setText(R.id.des, "Top List");
         } else {
             item = getItemData(position--);
             holder.setImgeByUrl(R.id.cover, item.cover)
-                    .setText(R.id.numlike,String.valueOf(item.numLike));
+                    .setText(R.id.numlike, String.valueOf(item.numLike));
 
             holder.setOnClickListener(new View.OnClickListener() {
                 @Override

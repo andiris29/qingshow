@@ -10,12 +10,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -93,15 +99,20 @@ public class U13PersonalizeActivity extends BaseActivity {
 
     @OnClick(R.id.submit)
     public void submitToNet() {
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
-                QSAppWebAPI.getUserUpdateApi(), jsonObject, new Response.Listener<JSONObject>() {
+        Map map = new HashMap();
+        UserCommand.update(map,new Callback(){
             @Override
-            public void onResponse(JSONObject response) {
-
+            public void onComplete() {
+                super.onComplete();
+                U13PersonalizeActivity.this.finish();
             }
-        }, null);
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+
+            @Override
+            public void onError(int errorCode) {
+                super.onError(errorCode);
+                ErrorHandler.handle(U13PersonalizeActivity.this,errorCode);
+            }
+        });
     }
 
     private int initSingleChecked(List<RadioButton> radios, View view) {
