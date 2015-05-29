@@ -83,7 +83,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/white"
                 fresco:actualImageScaleType="fitCenter"/>
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -91,7 +90,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/white"
                 android:visibility="invisible"
                 fresco:actualImageScaleType="fitCenter"/>
         </LinearLayout>

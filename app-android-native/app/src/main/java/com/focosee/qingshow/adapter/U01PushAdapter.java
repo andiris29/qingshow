@@ -88,10 +88,10 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
         GregorianCalendar calendar = item.recommend.date;
 
         FontsUtil.changeFont(context, (TextView) holder.getView(R.id.day),"fonts/HelveticaInserat-Roman-SemiBold.ttf");
-        holder.setText(R.id.year, String.valueOf(calendar.YEAR))
-                .setText(R.id.manth, TimeUtil.formatManthInfo(calendar.MONTH))
-                .setText(R.id.day, String.valueOf(calendar.DAY_OF_MONTH))
-                .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.DAY_OF_WEEK));
+        holder.setText(R.id.year, String.valueOf(calendar.get(calendar.YEAR)))
+                .setText(R.id.manth, TimeUtil.formatManthInfo(calendar.get(calendar.MONTH)))
+                .setText(R.id.day, String.valueOf(calendar.get(calendar.DAY_OF_MONTH)))
+                        .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)));
     }
 
     private void bindShowHolder(AbsViewHolder holder, int position) {

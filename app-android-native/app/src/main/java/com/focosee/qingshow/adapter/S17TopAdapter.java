@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PointF;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,10 @@ public class S17TopAdapter extends AbsAdapter<List<MongoShow>> {
         SimpleDraweeView img02 = holder.getView(R.id.show02);
         SimpleDraweeView img01 = holder.getView(R.id.show01);
 
-        MongoShow show = item.get(0);
+        final MongoShow show = item.get(0);
 
         GregorianCalendar calendar = show.recommend.date;
-        Log.i("tag", calendar.toString());
+        Log.i("tag", TimeUtil.parseDateString(calendar));
         holder.setText(R.id.year, String.valueOf(calendar.get(GregorianCalendar.YEAR)))
                 .setText(R.id.day, String.valueOf(calendar.get(calendar.DAY_OF_MONTH)) + " " + TimeUtil.formatManthInfo(calendar.get(calendar.MONTH)))
                 .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)));
@@ -69,6 +70,7 @@ public class S17TopAdapter extends AbsAdapter<List<MongoShow>> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,S18ShowByDateActivity.class);
+                intent.putExtra("dateforS18",TimeUtil.parseDateString(show.recommend.date));
                 context.startActivity(intent);
             }
         });

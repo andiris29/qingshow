@@ -21,9 +21,6 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
     public AbsViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
-        if (null != onClickListener){
-            itemView.setOnClickListener(onClickListener);
-        }
         views = new SparseArray<View>();
     }
 
@@ -77,5 +74,8 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+        if (null != onClickListener){
+            itemView.setOnClickListener(onClickListener);
+        }
     }
 }

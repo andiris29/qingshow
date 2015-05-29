@@ -78,9 +78,13 @@ public class QSAppWebAPI {
 
     private static final String CHOSEN_API = HOST_NAME + "/chosen/feed";
     private static final String TOP_API = HOST_NAME + "/feeding/hot";
-
+    private static final String BYDATE_API = HOST_NAME + "/feeding/byRecommendDate";
 
     private static final String USER_RECOMMENDATION = HOST_NAME + "/feeding/recommendation";
+
+    public static String getBydateApi(String date) {
+        return BYDATE_API + "?date=" + date;
+    }
 
     public static String getUserRecommendationApi() {
         return USER_RECOMMENDATION;
@@ -89,6 +93,7 @@ public class QSAppWebAPI {
     public static String getUserUpdateApi() {
         return UPDATE_SERVICE_URL;
     }
+
 
     public static String getTopApi() {
         return TOP_API;

@@ -28,20 +28,18 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
+            android:name=".activity.S18ShowByDateActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".activity.S17TopShowsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.U01UserActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.S16PersonalizeActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
+            android:configChanges="keyboardHidden|orientation"/>
+
         <activity
             android:name=".activity.U02SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -107,12 +105,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.S02ShowClassify"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_s02_show_classify"
-            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.S04CommentActivity"
