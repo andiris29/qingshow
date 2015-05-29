@@ -1,7 +1,6 @@
 package com.focosee.qingshow.model.vo.mongo;
 
 import com.focosee.qingshow.model.vo.context.PeopleContext;
-
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;

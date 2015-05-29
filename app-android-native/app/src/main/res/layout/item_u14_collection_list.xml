@@ -2,45 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
-    android:padding="5dp"
+    android:padding="1dp"
     android:layout_width="match_parent"
+    android:background="@color/gray_background"
+    android:layout_marginBottom="15dp"
     android:layout_height="250dp">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="2dp"
         android:layout_weight="1">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_u14_modelImage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="0dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:scaleType="fitStart"
             fresco:placeholderImage="@drawable/user_bg_default" />
         </RelativeLayout>
 
     <GridLayout
+        android:id="@+id/item_u14_grid"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
         android:orientation="horizontal"
         android:columnOrderPreserved="true"
+        android:background="@color/white"
+        android:padding="2dp"
         android:rowCount="2"
         android:columnCount="2"
         android:layout_weight="1">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_u14_modelImage2"
-            android:layout_width="95dp"
-            android:layout_height="45dp"
-            fresco:placeholderImage="@drawable/alipay"/>
+        <include
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            layout="@layout/u14_product"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_u14_modelImage1"
-            android:layout_width="95dp"
-            android:layout_height="45dp"
-            fresco:placeholderImage="@drawable/alipay"/>
+        <include
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="5dp"
+            layout="@layout/u14_product"/>
+
 
     </GridLayout>
 

@@ -9,9 +9,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U14CollectionAdapter;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.model.QSModel;
+
+import org.json.JSONObject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -21,6 +30,10 @@ public class U14CollectionActivity extends Activity {
     RecyclerView recyclerView;
     @InjectView(R.id.left_btn)
     ImageView backBtn;
+    @InjectView(R.id.right_btn)
+    ImageView rightBtn;
+    @InjectView(R.id.title)
+    TextView title;
     U14CollectionAdapter adapter;
 
     @Override
@@ -28,12 +41,15 @@ public class U14CollectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u14_collection);
         ButterKnife.inject(this);
+        backBtn.setImageResource(R.drawable.nav_btn_menu_n);
+        rightBtn.setVisibility(View.INVISIBLE);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        title.setText(R.string.title_collection);
         adapter = new U14CollectionAdapter(this);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -41,7 +57,22 @@ public class U14CollectionActivity extends Activity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
 
+        recyclerView.addItemDecoration(adapter.getItemDecoration(10));
 
+        getDatasFromNet();
+
+
+    }
+
+    private void getDatasFromNet(){
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(QSModel.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>(){
+
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println("repsonse:" + response);
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
 
