@@ -16,6 +16,7 @@
 #import "QSNavigationController.h"
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
+#import "QSNetworkEngine+TraceService.h"
 
 
 @interface QSAppDelegate ()
@@ -28,6 +29,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //标记第一次载入
+    [self rememberFirstLaunch];
     //Weibo
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kWeiboAppKeyNum];
@@ -224,6 +227,53 @@
         } else {
             [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
         }
+    }
+}
+
+#pragma mark -- rememberFirstLaunch
+- (void)logTraceFirstLaunch
+{
+        
+    //behavior
+    NSString *behavior = @"firstLaunch";
+    //获取倾秀版本
+    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    //获取设备号
+    NSUUID *uidID= [UIDevice currentDevice].identifierForVendor;
+    NSString *uidIDStr = [NSString stringWithFormat:@"%@",uidID];
+    NSRange range = [uidIDStr rangeOfString:@"> "];
+    NSString *uidStr =  nil;
+    if (range.length) {
+        int loc = (int)(range.location + range.length);
+        uidStr = [uidIDStr substringFromIndex:loc];
+    }
+        //获取iOS版本号
+    NSString *osVersion = [UIDevice currentDevice].systemVersion;
+    
+    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
+    parametes[@"version"] = appVersion;
+    parametes[@"deviceUid"] = uidStr;
+    parametes[@"osVersion"] = osVersion;
+    parametes[@"behavior"] = behavior;
+    parametes[@"osType"] = @(0);
+    
+    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+        
+    } onError:^(NSError *error) {
+        
+    }];
+}
+
+//标记第一次载入软件
+- (void)rememberFirstLaunch
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    BOOL isFirstLaunch = ![userDefaults boolForKey:@"isFirstLaunch"];
+    
+    if (isFirstLaunch) {
+        [self logTraceFirstLaunch];
+        [userDefaults setBool:YES forKey:@"isFirstLaunch"];
     }
 }
 @end
