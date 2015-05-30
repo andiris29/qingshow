@@ -15,7 +15,8 @@ var spread = module.exports;
 spread.download = {
     'method' : 'get',
     'func' : function(req, res) {
-        _channelStore[RequestHelper.getIp(req)] = req.queryString.channel;
+        var ip = RequestHelper.getIp(req);
+        _channelStore[ip] = req.queryString.channel;
         res.redirect('http://a.app.qq.com/o/simple.jsp?pkgname=com.focosee.qingshow');
     }
 };
@@ -24,9 +25,10 @@ spread.firstLaunch = {
     'method' : 'post',
     'func' : function(req, res) {
         var param = req.body;
+        var ip = RequestHelper.getIp(req);
         var newlog = new Trace({
-            'ip' : RequestHelper.getIp(req),
-            'behavior' : param.behavior,
+            'ip' : ip,
+            'behavior' : 'firstLaunch',
             'deviceUid' : param.deviceUid,
             'osType' : param.osType,
             'osVersion' : param.osVersion
@@ -54,7 +56,7 @@ spread.firstLaunch = {
             } else {
                 newlog.behaviorInfo = {
                     'firstLaunch' : {
-                        'channel' : _channelStore[RequestHelper.getIp(req)]
+                        'channel' : _channelStore[ip]
                     }
                 };
                 newlog.save(saveCallback);

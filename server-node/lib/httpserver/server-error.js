@@ -8,8 +8,8 @@ var ServerError = function(errorCode, description, err) {
     if (errorCode === ServerError.ServerError) {
         err = err || new Error();
         this.stack = err.stack;
-        winston.info(new Date().toString() + '- ServerError: ' + this.errorCode);
-        winston.info('\t' + this.stack);
+        winston.error(new Date().toString() + '- ServerError: ' + this.errorCode);
+        winston.error('\t' + this.stack);
     }
 };
 
