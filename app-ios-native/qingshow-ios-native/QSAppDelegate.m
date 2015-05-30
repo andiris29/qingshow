@@ -16,8 +16,9 @@
 #import "QSNavigationController.h"
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
-#import "QSNetworkEngine+TraceService.h"
+#import "QSNetworkKit.h"
 
+#define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
 @interface QSAppDelegate ()
 @property (strong, nonatomic) NSString *wbtoken;
@@ -233,9 +234,6 @@
 #pragma mark -- rememberFirstLaunch
 - (void)logTraceFirstLaunch
 {
-        
-    //behavior
-    NSString *behavior = @"firstLaunch";
     //获取倾秀版本
     NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     //获取设备号
@@ -253,11 +251,11 @@
     NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
     parametes[@"version"] = appVersion;
     parametes[@"deviceUid"] = uidStr;
+//    parametes[@"deviceUid"] = @111;
     parametes[@"osVersion"] = osVersion;
-    parametes[@"behavior"] = behavior;
     parametes[@"osType"] = @(0);
     
-    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(NSDictionary *data, NSDictionary *metadata) {
+    [SHARE_NW_ENGINE logTraceWithParametes:parametes onSucceed:^(BOOL f) {
         
     } onError:^(NSError *error) {
         
@@ -269,11 +267,12 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    BOOL isFirstLaunch = ![userDefaults boolForKey:@"isFirstLaunch"];
+    BOOL isFirstLaunch = [userDefaults boolForKey:kTraceLogFirstLaunch];
     
-    if (isFirstLaunch) {
+//    if (!isFirstLaunch) {
         [self logTraceFirstLaunch];
-        [userDefaults setBool:YES forKey:@"isFirstLaunch"];
-    }
+        [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
+        [userDefaults synchronize];
+//    }
 }
 @end
