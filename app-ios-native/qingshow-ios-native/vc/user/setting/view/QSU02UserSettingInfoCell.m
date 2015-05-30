@@ -18,6 +18,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _infoTextField.textColor = [UIColor grayColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

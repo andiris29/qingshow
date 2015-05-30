@@ -27,7 +27,7 @@
 #import "QSU02UserSettingImgCell.h"
 #import "QSU02UserSettingInfoCell.h"
 #import "QSUserSettingPickerCell.h"
-
+#import "QSU02UserChangeDressEffectViewController.h"
 #define UPLOAD_PORTRAIT 0
 #define UPLOAD_BACKGROUND 1
 #define PAGE_ID @"U02 - 个人设置"
@@ -325,14 +325,20 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         }
         else if(indexPath.row  == 4 || indexPath.row == 5)
         {
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"pickerCellId"];
-            UILabel *label = [[UILabel alloc ]initWithFrame:CGRectMake(8, 3, w/8, 40)];
+            QSUserSettingPickerCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSUserSettingPickerCell" owner:nil options:nil]lastObject];
+            cell.row = indexPath.row;
+            [cell bindWithDic:peopleDic];
             return cell;
             
         }
         else
         {
-            QSUserSettingPickerCell *cell = [[QSUserSettingPickerCell alloc]init];
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"dressEffectCellId"];
+            cell.textLabel.text = @"搭配效果";
+            UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(100, 0, 200, 40)];
+            label.text = [QSPeopleUtil getExpectationsDesc:peopleDic];
+            label.textColor = [UIColor grayColor];
+            [cell addSubview:label];
             return cell;
         }
        
@@ -401,7 +407,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         case 2:
         {
             if (indexPath.row == 6) {
-                //UIView *view = [UIView alloc]ini
+                QSU02UserChangeDressEffectViewController *vc = [[QSU02UserChangeDressEffectViewController alloc]init];
+                [self.navigationController pushViewController:vc animated:YES];
             }
             break;
         }

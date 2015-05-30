@@ -13,23 +13,31 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnu-1Q-Xn0">
-                        <rect key="frame" x="8" y="8" width="50" height="30"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="穿衣风格" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnu-1Q-Xn0">
+                        <rect key="frame" x="14" y="8" width="73" height="30"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ad7-5Z-JAB">
-                        <rect key="frame" x="180" y="-40" width="100" height="120"/>
+                        <rect key="frame" x="180" y="-58" width="100" height="162"/>
                     </pickerView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dku-qM-bTb">
                         <rect key="frame" x="80" y="8" width="80" height="30"/>
                         <state key="normal" title="Button">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="changeStyleBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="pyP-W5-XHo"/>
+                        </connections>
                     </button>
                 </subviews>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="chooseStylePickerView" destination="ad7-5Z-JAB" id="O81-QC-qGp"/>
+                <outlet property="styleBtn" destination="Dku-qM-bTb" id="sCx-Xe-HS9"/>
+                <outlet property="typeLabel" destination="cnu-1Q-Xn0" id="6tF-cR-WXy"/>
+            </connections>
             <point key="canvasLocation" x="239" y="269"/>
         </tableViewCell>
     </objects>

@@ -25,6 +25,7 @@
 		82F4E27B1A17475A007A90B4 /* UIViewController+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F4E27A1A17475A007A90B4 /* UIViewController+Utility.m */; };
 		8C26B9191B12C1D100D8E8A1 /* QSS17TavleViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C26B9181B12C1D100D8E8A1 /* QSS17TavleViewProvider.m */; };
 		8C3E1A051B14168B005971D8 /* QSCreateTradeClothSizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C3E1A041B14168B005971D8 /* QSCreateTradeClothSizeCell.m */; };
+		8C684C691B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C684C681B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m */; };
 		8C8B9D841B00395B00C1A321 /* welcome1_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D751B00395B00C1A321 /* welcome1_480@2x.png */; };
 		8C8B9D851B00395B00C1A321 /* welcome2_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D761B00395B00C1A321 /* welcome2_480@2x.png */; };
 		8C8B9D861B00395B00C1A321 /* welcome3_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D771B00395B00C1A321 /* welcome3_480@2x.png */; };
@@ -330,6 +331,8 @@
 		8C26B9181B12C1D100D8E8A1 /* QSS17TavleViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS17TavleViewProvider.m; sourceTree = "<group>"; };
 		8C3E1A031B14168B005971D8 /* QSCreateTradeClothSizeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeClothSizeCell.h; sourceTree = "<group>"; };
 		8C3E1A041B14168B005971D8 /* QSCreateTradeClothSizeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeClothSizeCell.m; sourceTree = "<group>"; };
+		8C684C671B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserChangeDressEffectViewController.h; sourceTree = "<group>"; };
+		8C684C681B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserChangeDressEffectViewController.m; sourceTree = "<group>"; };
 		8C8B9D751B00395B00C1A321 /* welcome1_480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_480@2x.png"; sourceTree = "<group>"; };
 		8C8B9D761B00395B00C1A321 /* welcome2_480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_480@2x.png"; sourceTree = "<group>"; };
 		8C8B9D771B00395B00C1A321 /* welcome3_480@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_480@2x.png"; sourceTree = "<group>"; };
@@ -1979,6 +1982,8 @@
 				EF78E3411AAF4C7600665EDD /* view */,
 				8CB99BB81B16D85F001EDF52 /* QSU02UserSettingViewController03.h */,
 				8CB99BB91B16D85F001EDF52 /* QSU02UserSettingViewController03.m */,
+				8C684C671B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.h */,
+				8C684C681B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m */,
 				8C961D401B186E560013996B /* QSU02UserSetting02.storyboard */,
 				8C961D411B186E560013996B /* QSU02UserSettingViewController02.h */,
 				8C961D421B186E560013996B /* QSU02UserSettingViewController02.m */,
@@ -2498,6 +2503,7 @@
 				EFF114B11A0D2EEC009B7361 /* UIAlertView+MKNetworkKitAdditions.m in Sources */,
 				EFEBAAF31ABF09350000FEEE /* QSTradeUtil.m in Sources */,
 				EF4646291A2B2FA500172618 /* NSArray+QSExtension.m in Sources */,
+				8C684C691B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m in Sources */,
 				EF7FA3701A3440AC00090EE4 /* QSMetadataUtil.m in Sources */,
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
