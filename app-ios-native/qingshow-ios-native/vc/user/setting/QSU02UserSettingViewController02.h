@@ -18,7 +18,7 @@
 #define GENDER_LIST @"男性", @"女性" 
 #define HAIR_LIST @"所有", @"长发", @"超长发", @"中长发",@"短发"
 
-@interface QSU02UserSettingViewController : UITableViewController <QSU04EmailViewControllerDelegate, QSU08PasswordViewControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, UITextFieldDelegate>
+@interface QSU02UserSettingViewController02 : UITableViewController <QSU04EmailViewControllerDelegate, QSU08PasswordViewControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, UITextFieldDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UITableView *settingTableView;

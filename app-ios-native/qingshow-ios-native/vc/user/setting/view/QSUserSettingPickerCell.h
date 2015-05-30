@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSUserSettingPickerCell : UITableViewCell
+@interface QSUserSettingPickerCell : UITableViewCell<UIPickerViewDelegate,UIPickerViewDataSource>
 
 @end

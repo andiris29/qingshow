@@ -12,6 +12,7 @@
 #import "QSNetworkKit.h"
 #import "QSDateUtil.h"
 #import "UIViewController+ShowHud.h"
+#import "QSBlock.h"
 
 @implementation QSU02UserSettingInfoCell
 
