@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "QSNetworkEngine.h"
+#define kGlobalFirstUpdateNotification @"kGlobalFirstUpdateNotification"
 
-@interface QSNetworkEngine(TraceService)
+
+@interface QSNetworkEngine(SpreadService)
 
 - (MKNetworkOperation*)logTraceWithParametes:(NSDictionary *)parametes
-                                   onSucceed:(EntitySuccessBlock)succeedBlock
+                                   onSucceed:(BoolBlock)succeedBlock
                                      onError:(ErrorBlock)errorBlock;
 @end

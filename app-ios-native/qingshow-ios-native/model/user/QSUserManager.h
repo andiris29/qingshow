@@ -20,4 +20,7 @@
 
 @property (strong, nonatomic) NSDate* lastClickMenuDate;
 
+@property (strong, nonatomic) NSDate* globalFirstLaunchShowDueDate;
+@property (strong, nonatomic) NSString* globalFirstLaunchTitle;
+
 @end
