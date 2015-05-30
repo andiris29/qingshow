@@ -1,10 +1,13 @@
 package com.focosee.qingshow.model.vo.mongo;
 
+import com.focosee.qingshow.model.vo.context.ShowContext;
+
 import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 public class MongoShow implements Serializable {
     public String _id;
+    public ShowContext __context;
 
     public String cover;
 

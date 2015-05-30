@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffe1e1e1"
@@ -16,6 +17,12 @@
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="fill_parent"-->
             <!--android:visibility="gone" />-->
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/S03_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1"
+            />
 
         <RelativeLayout
             android:id="@+id/S03_before_video_view"
@@ -28,9 +35,9 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/S03_before_video_view_button">
 
-                <com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView                 android:id="@+id/S03_image_indicator"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"/>
+                <!--<com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView                 android:id="@+id/S03_image_indicator"-->
+                    <!--android:layout_width="fill_parent"-->
+                    <!--android:layout_height="fill_parent"/>-->
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -43,72 +50,21 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/S03_before_video_without_back">
 
-                    <com.focosee.qingshow.widget.MRoundImageView xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/S03_model_portrait"
-                        android:layout_width="50dp"
+                    <TextView
+                        android:id="@+id/S03_describe"
+                        android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="35dp"
-                        android:layout_marginLeft="10dp"
-                        imagecontrol:border_outside_color="#fffffe"
-                        imagecontrol:border_thickness="2dp" />
+                        android:layout_marginLeft="10dp"/>
 
-                    <LinearLayout
-                        android:id="@+id/S03_model_LinearLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/S03_model_portrait"
-                        android:layout_alignTop="@+id/S03_model_portrait"
-                        android:layout_toRightOf="@+id/S03_model_portrait"
-                        android:orientation="vertical"
-                        android:paddingLeft="10dp">
-
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/S03_model_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:text=""
-                                android:textColor="#ffffff"
-                                android:textSize="30px" />
-
-                            <TextView
-                                android:id="@+id/S03_model_age_height"
-                                android:layout_width="fill_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:text=""
-                                android:textColor="#ffffff"
-                                android:textSize="25px" />
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/S03_model_signature"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1"
-                            android:gravity="left|bottom"
-                            android:text=""
-                            android:textColor="#ffffff"
-                            android:textSize="25px" />
-
-                    </LinearLayout>
 
 
                     <ImageView
                         android:id="@+id/S03_video_start_btn"
                         android:layout_width="43dp"
                         android:layout_height="43dp"
-                        android:layout_alignBottom="@+id/S03_model_portrait"
+                        android:layout_alignBottom="@+id/S03_describe"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="25dp"
                         android:scaleType="centerInside"

@@ -1,5 +1,7 @@
 package com.focosee.qingshow.model.vo.context;
 
+import com.focosee.qingshow.model.vo.mongo.MongoPromotion;
+
 import java.io.Serializable;
 
 /**
@@ -8,5 +10,7 @@ import java.io.Serializable;
 public class ShowContext implements Serializable {
     public int numComments;
 //    public int numLike;
+    public MongoPromotion promotionRef;
     public Boolean likedByCurrentUser;
+    public Boolean sharedByCurrentUser;
 }
