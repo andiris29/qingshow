@@ -22,7 +22,6 @@ log.trace = {
             clientIp = req.header('X-Real-IP');
         }
 
-        var channel = '';
         var newlog = new Trace({
             'ip' : clientIp,
             'behavior' : param.behavior,
@@ -43,25 +42,21 @@ log.trace = {
             }
         };
         if (param.behavior === 'firstLaunch') {
-            channel = require('../stores/channelStore').get(clientIp);
             Trace.findOne({
                 'deviceUid' : param.deviceUid
             }, function(err, trace) {
                 if (err) {
                     ResponseHelper.response(res, err);
                 } else if (trace) {
-                    ResponseHelper.response(res, ServerError.ServerError);
+                    ResponseHelper.response(res, ServerError.AlreadyLaunched);
                 } else {
-                    if (channel === null || channel === undefined || channel.length === 0) {
-                        ResponseHelper.response(res, ServerError.ServerError);
-                    } else {
-                        newlog.behaviorInfo = {
-                            'firstLaunch' : {
-                                'channel' : channel
-                            }
-                        };
-                        newlog.save(saveCallback);
-                    }
+                    var channel = require('../stores/channelStore').get(clientIp);
+                    newlog.behaviorInfo = {
+                        'firstLaunch' : {
+                            'channel' : channel
+                        }
+                    };
+                    newlog.save(saveCallback);
                 }
             });
         } else {
