@@ -115,7 +115,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
         if(QSModel.INSTANCE.loggedin()) {
             UserCommand.refresh(new Callback() {
                 public void onComplete() {
-                    startActivity(new Intent(G02WelcomeActivity.this, U01UserActivity.class));
+                    startActivity(new Intent(G02WelcomeActivity.this, S17TopShowsActivity.class));
                 }
             });
         }else{

@@ -170,10 +170,10 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         addButton = (Button) rootView.findViewById(R.id.S11_add_num);
         cutButton = (Button) rootView.findViewById(R.id.S11_cut_num);
         numView = (TextView) rootView.findViewById(R.id.S11_num);
-        sizeGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_size_group);
+//        sizeGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_size_group);
         itemGroup = (FlowRadioGroup) rootView.findViewById(R.id.s11_item_group);
-        reference = (ImageView) rootView.findViewById(R.id.s11_reference);
-        showReference = (TextView) rootView.findViewById(R.id.s11_show_reference);
+//        reference = (ImageView) rootView.findViewById(R.id.s11_reference);
+//        showReference = (TextView) rootView.findViewById(R.id.s11_show_reference);
         ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
         addButton.setOnClickListener(this);

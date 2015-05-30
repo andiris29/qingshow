@@ -44,7 +44,7 @@ public class S18DateAdapter extends AbsAdapter<MongoShow> {
         if (datas.size() == 0) {
             return;
         }
-        MongoShow item;
+        final MongoShow item;
 
         if (position == 0) {
             item = getItemData(position);
@@ -56,6 +56,7 @@ public class S18DateAdapter extends AbsAdapter<MongoShow> {
                     .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)))
                     .setText(R.id.des, "Top List");
         } else {
+            final int fPosition = position--;
             item = getItemData(position--);
             holder.setImgeByUrl(R.id.cover, item.cover)
                     .setText(R.id.numlike, String.valueOf(item.numLike));
@@ -64,6 +65,8 @@ public class S18DateAdapter extends AbsAdapter<MongoShow> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, S03SHowActivity.class);
+                    intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, item._id);
+                    intent.putExtra("position", fPosition);
                     context.startActivity(intent);
                 }
             });

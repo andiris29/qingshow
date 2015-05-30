@@ -1,17 +1,29 @@
 package com.focosee.qingshow.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.WindowManager;
 
+import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.util.AppUtil;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LaunchActivity extends BaseActivity{
 
@@ -26,6 +38,11 @@ public class LaunchActivity extends BaseActivity{
         //友盟接口
         MobclickAgent.updateOnlineConfig(this);
         MobclickAgent.openActivityDurationTrack(false);
+
+        String  deviceUid = QSApplication.instance().getPreferences().getString("deviceUid", "");
+        if ("".equals(deviceUid) || !deviceUid.equals(((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId())){
+            userFollow();
+        }
 
         String id = QSApplication.instance().getPreferences().getString("id", "");
         if(!"".equals(id)){
@@ -53,9 +70,25 @@ public class LaunchActivity extends BaseActivity{
     }
 
     public void jump(){
-        Intent mainIntent = new Intent(LaunchActivity.this, S17TopShowsActivity.class);
+        Intent mainIntent = new Intent(LaunchActivity.this, G02WelcomeActivity.class);
         LaunchActivity.this.startActivity(mainIntent);
         LaunchActivity.this.finish();
+    }
+
+    private void userFollow(){
+        Map params = new HashMap();
+        params.put("version", AppUtil.getVersion());
+        params.put("deviceUid", ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId());
+        params.put("osType", 1);
+        params.put("osVersion", android.os.Build.VERSION.RELEASE);
+        JSONObject jsonObject = new JSONObject(params);
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getSpreadFirstlanuchApi(), jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println("response:" + response);
+            }
+        });
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     @Override

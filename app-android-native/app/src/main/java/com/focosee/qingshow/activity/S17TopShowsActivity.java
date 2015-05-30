@@ -62,6 +62,8 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
     ImageView blur;
     @InjectView(R.id.context)
     LinearLayout right;
+    @InjectView(R.id.s17_settting)
+    ImageView settingBtn;
     private boolean isFirstFocus = true;
 
     private LinkedList<MongoShow> data;
@@ -202,7 +204,9 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
         switch(v.getId()){
             case R.id.u01_collection:
                 startActivity(new Intent(S17TopShowsActivity.this, U14CollectionActivity.class));
-
+                break;
+            case R.id.s17_settting:
+                startActivity(new Intent(S17TopShowsActivity.this, U02SettingsActivity.class));
         }
     }
 }

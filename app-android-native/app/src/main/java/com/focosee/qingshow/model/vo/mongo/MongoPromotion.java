@@ -8,4 +8,5 @@ public class MongoPromotion {
     public String criteria;
     public String hint;
     public String description;
+    public boolean enabled;
 }

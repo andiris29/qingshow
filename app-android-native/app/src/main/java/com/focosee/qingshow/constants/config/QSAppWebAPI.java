@@ -81,6 +81,12 @@ public class QSAppWebAPI {
     private static final String BYDATE_API = HOST_NAME + "/feeding/byRecommendDate";
 
     private static final String USER_RECOMMENDATION = HOST_NAME + "/feeding/recommendation";
+    private static final String SPREAD_FIRSTLANUCH_API = HOST_NAME + "/spread/firstLaunch";
+
+    public static String getSpreadFirstlanuchApi(){
+        return SPREAD_FIRSTLANUCH_API;
+    }
+
 
     public static String getBydateApi(String date) {
         return BYDATE_API + "?date=" + date;

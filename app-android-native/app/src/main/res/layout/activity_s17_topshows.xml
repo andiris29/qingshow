@@ -97,7 +97,9 @@
 
         <ImageButton
             style="@style/navigation_btn"
+            android:id="@+id/s17_settting"
             android:layout_marginTop="30dp"
+            android:onClick="onClick"
             android:background="@drawable/root_menu_setting" />
 
         <TextView
