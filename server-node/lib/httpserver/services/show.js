@@ -141,7 +141,7 @@ show.queryComments = {
         }, {
             'afterParseRequest' : function(raw) {
                 return {
-                    '_id' : mongoose.mongo.BSONPure.ObjectID(raw._id)
+                    '_id' : mongoose.Types.ObjectId(raw._id)
                 };
             }
         });
@@ -155,8 +155,8 @@ show.comment = {
     'func' : function(req, res) {
         try {
             var param = req.body;
-            var targetRef = mongoose.mongo.BSONPure.ObjectID(param._id);
-            var atRef = mongoose.mongo.BSONPure.ObjectID(param._atId);
+            var targetRef = mongoose.Types.ObjectId(param._id);
+            var atRef = mongoose.Types.ObjectId(param._atId);
             var comment = param.comment;
         } catch (err) {
             ResponseHelper.response(res, err);
@@ -185,7 +185,7 @@ show.deleteComment = {
     'func' : function(req, res) {
         try {
             var param = req.body;
-            var _id = mongoose.mongo.BSONPure.ObjectID(param._id);
+            var _id = mongoose.Types.ObjectId(param._id);
         } catch (err) {
             ResponseHelper.response(res, err);
             return;

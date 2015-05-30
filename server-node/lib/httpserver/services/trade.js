@@ -74,8 +74,10 @@ trade.create = {
                     orderName = orderName.substring(0, orderName.length - 1);
                 }
 
-                var ip = req.header('X-Real-IP') || req.connection.remoteAddres;
-                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + '&totalFee=' + trade.totalFee + '&orderName=' + orderName + '&clientIp=' + ip;
+                var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + 
+                    '&totalFee=' + trade.totalFee + 
+                    '&orderName=' + orderName + 
+                    '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
                     if (jsonObject.metadata) {

@@ -29,7 +29,7 @@ require('./scheduled/startup')();
 
 // Handle uncaught exceptions
 process.on('uncaughtException', function(err) {
-    winston.info(new Date().toString() + ': uncaughtException');
-    winston.info(err);
-    winston.info('\t' + err.stack);
+    winston.error(new Date().toString() + ': uncaughtException');
+    winston.error(err);
+    winston.error('\t' + err.stack);
 });

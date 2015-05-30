@@ -8,8 +8,8 @@ var ServerError = function(errorCode, description, err) {
     if (errorCode === ServerError.ServerError) {
         err = err || new Error();
         this.stack = err.stack;
-        winston.info(new Date().toString() + '- ServerError: ' + this.errorCode);
-        winston.info('\t' + this.stack);
+        winston.error(new Date().toString() + '- ServerError: ' + this.errorCode);
+        winston.error('\t' + this.stack);
     }
 };
 
@@ -48,6 +48,7 @@ ServerError.IsNotAdmin = 1022;
 ServerError.TopShopNotExist = 1023;
 ServerError.TradeNotExist = 1024;
 ServerError.TradeStatusChangeError = 1025;
+ServerError.AlreadyLaunched = 1026;
 
 var _codeToString = function(code) {
     switch (code) {

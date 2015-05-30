@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 
 var RequestHelper = module.exports;
 
+RequestHelper.getIp = function(req) {
+    return req.header('X-Real-IP') || req.connection.remoteAddress;
+};
+
 RequestHelper.parse = function(raw, specifiedParsers) {
     var qsParam = {};
     specifiedParsers = specifiedParsers || {};
