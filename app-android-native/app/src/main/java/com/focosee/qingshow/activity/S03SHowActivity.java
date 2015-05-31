@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.session.MediaController;
+import android.media.session.MediaSession;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -105,7 +107,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private String videoUriString;
     private int playTime = 0;
 
-    private VideoView videoView;
+    @InjectView(R.id.S03_video_pause)
+    ImageView pauseImage;
+    @InjectView(R.id.S03_video_view)
+    VideoView videoView;
     @InjectView(R.id.S03_image)
     SimpleDraweeView image;
     @InjectView(R.id.S03_comment_text_view)
@@ -121,7 +126,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     // like image button
     @InjectView(R.id.S03_like_btn)
     ImageView likedImageButton;
-    @InjectView(R.id.S03_video_start_btn)
+    @InjectView(R.id.S03_video_start_btn_real)
     ImageView playImageButton;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -206,10 +211,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             }
         }, shareMsgShowTime);
 
-
-        likedImageButton = (ImageView) findViewById(R.id.S03_like_btn);
-        playImageButton = (ImageView) findViewById(R.id.S03_video_start_btn);
-
         // mSsoHandler = new SsoHandler(this, mAuthInfo);
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
@@ -231,14 +232,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             position = intent.getIntExtra("position", 0);
         }
 
-        System.out.println("showId:" + showId);
         getShowDetailFromNet();
-
-        matchUI();
 
         registerReceiver(receiver, new IntentFilter(S04CommentActivity.COMMENT_NUM_CHANGE));
 
     }
+
+
 
     @Override
     public void reconn() {
@@ -268,7 +268,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         JSONObject jsonObject = new JSONObject(likeData);
 
         String requestApi = (showDetailEntity.__context.likedByCurrentUser) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
-        final int change = (showDetailEntity.__context.likedByCurrentUser) ? 1 : -1;
+        final int change = (showDetailEntity.__context.likedByCurrentUser) ? -1 : 1;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
             @Override
@@ -325,12 +325,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private void showMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         Log.i(context.getPackageName(), message);
-    }
-
-    private void matchUI() {
-        this.videoView = new MFullScreenVideoView(this);
-        videoView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
     }
 
     private void showData() {
@@ -407,14 +401,39 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         playImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playImageButton.setImageResource(R.drawable.s03_pause_btn);
-//                if (videoView.isPlaying()) pauseVideo();
-//                else startVideo();
+
+                if (videoView.isPlaying()) {
+                    pauseVideo();
+                }else{
+                    startVideo();
+                }
 
             }
         });
 
         setLikedImageButtonBackgroundImage();
+    }
+
+    public void pauseVideo(){
+        pauseImage.setVisibility(View.VISIBLE);
+        videoView.buildDrawingCache();
+        pauseImage.setImageBitmap(videoView.getDrawingCache());
+        playImageButton.setImageResource(R.drawable.s03_play_btn);
+        videoView.pause();
+    }
+
+    public void startVideo(){
+        pauseImage.setVisibility(View.GONE);
+        videoView.setDrawingCacheEnabled(true);
+        if(videoView.getVisibility() == View.VISIBLE){
+            videoView.start();
+        }else {
+            videoView.setVisibility(View.VISIBLE);
+            videoView.setVideoURI(Uri.parse(showDetailEntity.video));
+            videoView.start();
+        }
+        playImageButton.setImageResource(R.drawable.s03_pause_btn);
+
     }
 
     private String arrayToString(String[] input) {

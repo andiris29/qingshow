@@ -7,16 +7,13 @@
     tools:context="com.focosee.qingshow.activity.S03SHowActivity">
 
 
+
+
     <RelativeLayout
         android:id="@+id/S03_relative_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <!--<com.focosee.qingshow.widget.MFullScreenVideoView-->
-            <!--android:id="@+id/S03_video_view"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="fill_parent"-->
-            <!--android:visibility="gone" />-->
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/S03_image"
             android:layout_width="fill_parent"
@@ -58,8 +55,6 @@
                         android:layout_marginBottom="35dp"
                         android:layout_marginLeft="10dp"/>
 
-
-
                     <ImageView
                         android:id="@+id/S03_video_start_btn"
                         android:layout_width="43dp"
@@ -67,8 +62,7 @@
                         android:layout_alignBottom="@+id/S03_describe"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="25dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/s03_play_btn" />
+                        android:scaleType="centerInside"/>
 
                     <ImageView
                         android:id="@+id/S03_share_btn"
@@ -78,6 +72,7 @@
                         android:layout_alignRight="@+id/S03_video_start_btn"
                         android:layout_marginBottom="20dp"
                         android:scaleType="centerInside"
+                        android:visibility="invisible"
                         android:src="@drawable/s03_share_btn" />
 
                     <ImageView
@@ -187,19 +182,51 @@
                         android:text="分享即获8折优惠"
                         android:background="@drawable/share_msg_bg_9"/>
 
+
+
+                    <ImageButton
+                        android:id="@+id/S03_back_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/s03_back_btn" />
+
+                    <ImageView
+                        android:id="@+id/S03_video_pause"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
+
+                    <com.focosee.qingshow.widget.MFullScreenVideoView
+                        android:id="@+id/S03_video_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:id="@+id/S03_video_start_btn_real"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:layout_alignBottom="@+id/S03_video_start_btn"
+                        android:layout_alignTop="@+id/S03_video_start_btn"
+                        android:layout_alignLeft="@+id/S03_video_start_btn"
+                        android:layout_alignRight="@+id/S03_video_start_btn"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="25dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/s03_play_btn" />
+
                 </RelativeLayout>
 
             </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/S03_back_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/s03_back_btn" />
+
         </RelativeLayout>
 
     </RelativeLayout>
+
+
+
 
 </RelativeLayout>
