@@ -13,6 +13,8 @@
 #import "UILabelStrikeThrough.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
+#import "QSUserManager.h"
+#import "QSU07RegisterViewController.h"
 #define PAGE_ID @"S10 - 商品详细"
 
 @interface QSS10ItemDetailVideoViewController ()
@@ -61,8 +63,18 @@
 #pragma mark - IBAction
 - (IBAction)shopBtnPressed:(id)sender
 {
-    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    NSLog(@"dic = %@",peopleDic);
+    if (!peopleDic) {
+        UIViewController *vc = [[QSU07RegisterViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+  
 }
 #pragma mark - Private
 - (void)bindWithDict:(NSDictionary*)itemDict
