@@ -2674,7 +2674,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
@@ -2712,7 +2712,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",

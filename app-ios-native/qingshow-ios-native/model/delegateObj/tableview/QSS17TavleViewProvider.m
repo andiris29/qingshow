@@ -78,6 +78,7 @@
     self.view.dataSource = self;
     self.view.delegate = self;
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.showsVerticalScrollIndicator = NO;
     [self registerCell];
 }
 

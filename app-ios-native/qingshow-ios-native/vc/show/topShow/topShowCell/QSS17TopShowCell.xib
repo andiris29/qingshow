@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="2048" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -22,36 +22,36 @@
                         </accessibility>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="15 MAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-Gl-NfR">
-                        <rect key="frame" x="5" y="5" width="100" height="20"/>
+                        <rect key="frame" x="5" y="14" width="100" height="20"/>
                         <color key="tintColor" red="0.55681818181818188" green="0.55681818181818188" blue="0.55681818181818188" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.34578203914141414" green="0.34578203914141414" blue="0.34578203914141414" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0e-ii-m2X">
-                        <rect key="frame" x="5" y="27" width="100" height="20"/>
+                        <rect key="frame" x="5" y="34" width="100" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CQ3-OP-Ib4">
-                        <rect key="frame" x="30" y="55" width="50" height="1"/>
+                        <rect key="frame" x="30" y="58" width="50" height="1"/>
                         <color key="backgroundColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WEDNESDAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-mY-Wyw">
-                        <rect key="frame" x="5" y="60" width="106" height="21"/>
+                        <rect key="frame" x="5" y="61" width="106" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qk-08-Zd6">
-                        <rect key="frame" x="20" y="150" width="20" height="18"/>
+                        <rect key="frame" x="31" y="150" width="12" height="12"/>
                         <state key="normal" image="s03_like_btn_full">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10086" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7V-Jz-V0H">
-                        <rect key="frame" x="50" y="150" width="56" height="20"/>
+                        <rect key="frame" x="50" y="146" width="56" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
