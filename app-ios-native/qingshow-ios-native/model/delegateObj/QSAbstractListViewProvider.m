@@ -43,7 +43,7 @@
         self.loadMoreOperation = nil;
         self.refreshOperation = nil;
         self.currentPage = 1;
-        self.hasRefreshControl = YES;
+        self.hasRefreshControl = NO;
         self.hasPaging = YES;
     }
     return self;
