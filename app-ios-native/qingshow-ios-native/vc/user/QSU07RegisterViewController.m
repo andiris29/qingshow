@@ -41,10 +41,10 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
     [self registerForKeyboardNotifications];
     [self configScrollView];
     [self.containerView addSubview:self.contentView];
- 
     self.nickNameText.delegate = self;
     self.passwdCfmText.delegate = self;
     self.passwdText.delegate = self;
@@ -88,6 +88,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    NSString *str = [[NSUserDefaults standardUserDefaults]objectForKey:@"isPushFromU07"];
+    if (str) {
+        _itemBtn.hidden = YES;
+    }
     self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
 }
