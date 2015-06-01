@@ -65,6 +65,7 @@
     
     
     NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
+     NSTimeInterval t =[[NSDate date] timeIntervalSinceDate:lastClickMenuDate];
     if (!lastClickMenuDate || [[NSDate date] timeIntervalSinceDate:lastClickMenuDate] >= 24 * 60 * 60) {
         self.navigationItem.leftBarButtonItem = self.menuBtnNew;
     } else {

@@ -55,7 +55,7 @@
 {
     
     _lastClickMenuDate = lastClickMenuDate;
-    [self.userDefault setDouble:[lastClickMenuDate timeIntervalSince1970] forKey:kGlobalFirstLaunchShowDueDate];
+    [self.userDefault setDouble:[lastClickMenuDate timeIntervalSince1970] forKey:kLastClickMenuDateKey];
     [self.userDefault synchronize];
 }
 
