@@ -17,7 +17,7 @@
 #define CODE_TYPE_HAIR @"hairTypes"
 #define GENDER_LIST @"男性", @"女性"
 #define HAIR_LIST @"所有", @"长发", @"超长发", @"中长发",@"短发"
-@interface QSU02UserSettingViewController03 : UIViewController<QSU04EmailViewControllerDelegate, QSU08PasswordViewControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, UITextFieldDelegate,QSU02SettingInfoCellDelegate>
+@interface QSU02UserSettingViewController03 : UIViewController<QSU04EmailViewControllerDelegate, QSU08PasswordViewControllerDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, UITextFieldDelegate>
 
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;

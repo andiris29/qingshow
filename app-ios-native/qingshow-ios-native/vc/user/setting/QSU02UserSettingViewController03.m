@@ -69,6 +69,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     
+    
+    
     [MobClick beginLogPageView:PAGE_ID];
     
 }
@@ -162,6 +164,107 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
+
+
+#pragma mark - UITextFieldDelegate
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    [self hideKeyboardAndDatePicker];
+    NSString *value = textField.text;
+    if (value.length == 0) {
+        return;
+    }
+    NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
+    QSU02UserSettingInfoCell *cell01 = _tableView.visibleCells[4];
+    QSU02UserSettingInfoCell *cell02 = _tableView.visibleCells[5];
+    QSU02UserSettingInfoCell *cell03 = _tableView.visibleCells[6];
+    QSU02UserSettingInfoCell *cell04 = _tableView.visibleCells[7];
+    if (textField == cell01.infoTextField) {
+        if ([value compare:currentProfile[@"nickname"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"nickname": value} pop:NO];
+        }
+    } else if (textField == cell02.infoTextField) {
+//        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"age"]];
+//        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+//        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
+//        NSString* birth= [dateFormatter stringFromDate:date];
+//        if ([value compare:birth] != NSOrderedSame) {
+//            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
+//            if (value.length != 0) {
+//                [self updatePeopleEntityViewController:self byEntity:@{@"age": value} pop:NO];
+//            }
+//        }
+        if ([value compare:currentProfile[@"age"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"age":value} pop:NO];
+        }
+
+    } else if (textField == cell03.infoTextField) {
+        if (value .length != 0) {
+            value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
+        }
+        if ([value compare:currentProfile[@"length"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"height": value} pop:NO];
+        }
+    } else if (textField == cell04.infoTextField) {
+        if (value.length != 0) {
+            value = [value stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+        }
+        if ([value compare:currentProfile[@"weight"]] != NSOrderedSame) {
+            [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
+        }
+    }
+    //else if (textField == self.bodyTpye) {
+    //        if ([value compare:currentProfile[@"bodyType"]] != NSOrderedSame) {
+    //            [self updatePeopleEntityViewController:self byEntity:@{@"bodyType": value} pop:NO];
+    //        } else if (textField == self.dressTpye){
+    //            if ([value compare:currentProfile[@"dressStyle"]] != NSOrderedSame) {
+    //                [self updatePeopleEntityViewController:self byEntity:@{@"dressStyle": value} pop:NO];
+    //            } else if (textField == self.expectationTpye){
+    //                //                if ([value compare:currentProfile[@""]]) {
+    //                //                    <#statements#>
+    //                //                }
+    //            }
+    //        }
+    //    }
+    
+}
+
+//- (void)updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity pop:(BOOL)fPop
+//{
+//    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
+//        if (metadata[@"error"] == nil && people != nil) {
+//            [vc showSuccessHudWithText:@"更新成功"];
+//            EntitySuccessBlock successLoad = ^(NSDictionary *people, NSDictionary *metadata) {
+//                [self.delegate tableViewReloadDataForInfoCell];
+//            };
+//            [SHARE_NW_ENGINE getLoginUserOnSucced:successLoad onError:nil];
+//            if (fPop) {
+//                [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
+//            }
+//            
+//        } else {
+//            [vc showErrorHudWithText:@"更新失败"];
+//        }
+//    };
+//    
+//    ErrorBlock error = ^(NSError *error) {
+//        if (error.userInfo[@"error"] != nil) {
+//            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
+//            if (errorCode != nil) {
+//                [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
+//            }
+//        } else {
+//            [vc showErrorHudWithText:@"网络连接失败"];
+//        }
+//    };
+//    
+//    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
+//}
+//
+//
+//
+//
+
 #pragma mark - UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -439,18 +542,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 
 
 
-#pragma mark - infoCellDalegate
-- (void)tableViewReloadDataForInfoCell
-{
-    [_tableView reloadData];
-}
+
 
 #pragma mark - loadData
-//- (void)loadUserSetting
-//{
-//    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
-//    
-//}
+
 - (void)didTapTableView:(UITapGestureRecognizer*)ges
 {
     [self hideKeyboardAndDatePicker];
