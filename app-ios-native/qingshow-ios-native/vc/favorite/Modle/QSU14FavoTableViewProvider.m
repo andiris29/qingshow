@@ -57,4 +57,24 @@
         [self.delegate didSelectionShow:showDict ofProvider:self];
     }
 }
+
+#pragma mark --重写bind
+- (void)bindWithTableView:(UITableView*)tableView
+{
+    self.view = tableView;
+    self.view.dataSource = self;
+    self.view.delegate = self;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self registerCell];
+}
+
+#pragma mark - Scroll View //可以不写但是从运行效率考虑？？
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    return;
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    return ;
+}
 @end
