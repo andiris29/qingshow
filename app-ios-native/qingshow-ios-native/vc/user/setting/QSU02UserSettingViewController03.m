@@ -157,7 +157,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         [QSUserManager shareUserManager].userInfo = nil;
         [QSUserManager shareUserManager].fIsLogined = NO;
         QSU07RegisterViewController *registerVC = [[QSU07RegisterViewController alloc]init];
-        
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        [ud setObject:@"YES" forKey:@"isPushFromU07"];
         [self.navigationController pushViewController:registerVC animated:YES];
     };
     
