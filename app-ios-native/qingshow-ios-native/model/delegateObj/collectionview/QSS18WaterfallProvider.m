@@ -93,34 +93,4 @@
     return self.resultArray.count + 1;
 }
 
-#pragma mark --重写bind
-- (void)bindWithCollectionView:(UICollectionView *)collectionView
-{
-    self.view = collectionView;
-    self.view.dataSource = self;
-    self.view.delegate = self;
-    collectionView.alwaysBounceVertical = YES;
-    collectionView.showsVerticalScrollIndicator = NO;
-    
-    QSWaterFallCollectionViewLayout* layout = [[QSWaterFallCollectionViewLayout alloc] init];
-    self.view.collectionViewLayout = layout;
-    self.view.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    self.view.scrollEnabled=YES;
-    self.view.backgroundColor=[UIColor colorWithRed:242.f/255.f green:242.f/255.f blue:242.f/255.f alpha:1.f];
-    
-    [self registerCell];
-    
-}
-
-#pragma mark - Scroll View //可以不写但是从运行效率考虑？？
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    return;
-}
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    return ;
-}
-
 @end
