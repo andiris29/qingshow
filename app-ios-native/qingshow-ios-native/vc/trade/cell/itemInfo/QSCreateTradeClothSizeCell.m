@@ -23,15 +23,19 @@
     QSItemCategory category = [QSItemUtil getItemCategory:dict];
     if (category == QSItemCategoryShangyi || category == QSItemCategoryDress || category == QSItemCategoryNeida) {
         self.titleLabel.text = @"上身数值";
-        self.bustCircleOrWaistlineTextField.placeholder = @"胸围：70cm";
-        self.shoulderOrHiplineTextField.placeholder = @"肩宽：30cm";
+        self.label1.text = @"胸围：";
+        self.bustCircleOrWaistlineTextField.placeholder = @"70";
+        self.label2.text = @"肩宽：";
+        self.shoulderOrHiplineTextField.placeholder = @"30";
         self.bodyPartImgView.image = [UIImage imageNamed:@"category_shangyi"] ;
     }
     else if(category == QSItemCategoryPant)
     {
         self.titleLabel.text = @"下身数值";
-        self.bustCircleOrWaistlineTextField.placeholder = @"腰围：70cm";
-        self.shoulderOrHiplineTextField.placeholder = @"臀围：30cm";
+        self.label1.text = @"腰围：";
+        self.bustCircleOrWaistlineTextField.placeholder = @"70";
+        self.label2.text = @"臀围：";
+        self.shoulderOrHiplineTextField.placeholder = @"30";
         self.bodyPartImgView.image = [UIImage imageNamed:@"category_pants"];
     }
 }

@@ -12,6 +12,9 @@
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *bustCircleOrWaistlineTextField;
 @property (weak, nonatomic) IBOutlet UITextField *shoulderOrHiplineTextField;
+@property (weak, nonatomic) IBOutlet UILabel* label1;
+@property (weak, nonatomic) IBOutlet UILabel* label2;
+
 @property (weak, nonatomic) IBOutlet UIImageView *bodyPartImgView;
 
 
