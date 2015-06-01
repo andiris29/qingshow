@@ -181,19 +181,10 @@
     return str;
 }
 
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+- (NSString*)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    UILabel* label = nil;
-    if (view) {
-        label = (UILabel*)view;
-    } else {
-        label = [[UILabel alloc] init];
-        label.font = [UIFont systemFontOfSize:9.f];
-        label.textAlignment = NSTextAlignmentCenter;
-    }
     NSString* str = [self valueForRow:row forComponent:component];
-    label.text = str;
-    return label;
+    return str;
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
