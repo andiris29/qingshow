@@ -93,6 +93,17 @@
     
     return [NSString stringWithFormat:@"%d/%d/%d", (int)c.year, (int)c.month, (int)c.day];
 }
+//获取日期
++ (NSString*)getMonthAndDate:(NSDate*)date
+{
+    if (!date) {
+        return nil;
+    }
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents* c = [calendar components:(NSCalendarUnitDay | NSCalendarUnitMonth| NSCalendarUnitYear) fromDate:date];
+    
+    return [NSString stringWithFormat:@"%d/%d", (int)c.month, (int)c.day];
+}
 + (NSString*)getWeek:(NSDate*)date
 {
     if (!date) {

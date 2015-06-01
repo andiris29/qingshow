@@ -51,7 +51,7 @@
             NSDictionary* itemDict = itemArray[i];
             [itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
             [itemBtn setTitle:[QSItemUtil getPrice:itemDict] forState:UIControlStateNormal];
-            shadowImageView.image = [UIImage imageNamed:@"shadowImage"];
+            shadowImageView.image = [UIImage imageNamed:@"s03_model_shadow"];
         } else {
             itemBtn.hidden = YES;
             itemImgView.hidden = YES;

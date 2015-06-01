@@ -36,7 +36,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QSU14DisplayCell *cell = [tableView dequeueReusableCellWithIdentifier:displayCellId forIndexPath:indexPath];
-    NSLog(@"%@",self.resultArray);
+//    NSLog(@"%@",self.resultArray);
     NSDictionary* showDict = self.resultArray[indexPath.row];
     cell.currentVC = self.currentVC;
     [cell bindWithShow:showDict];
