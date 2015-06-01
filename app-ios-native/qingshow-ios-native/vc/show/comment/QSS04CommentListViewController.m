@@ -58,6 +58,11 @@
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.delegate = self;
     self.title = @"评论";
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:[UIFont systemFontOfSize:17],
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     self.headIcon.layer.cornerRadius = self.headIcon.frame.size.width / 2;
     self.headIcon.layer.masksToBounds = YES;

@@ -50,6 +50,11 @@
 #pragma mark -
 - (void)configView {
     self.title = @"美搭榜单";
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:[UIFont systemFontOfSize:17],
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)configProvider {
     self.provider = [[QSS18WaterfallProvider alloc] initWithDate:self.date];
