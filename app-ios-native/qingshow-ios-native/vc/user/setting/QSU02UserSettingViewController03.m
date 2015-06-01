@@ -468,7 +468,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)configNavBar
 {
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:89.f/255.f green:86.f/255.f blue:86.f/255.f alpha:1.f];
-    UIImageView* titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav_btn_image_logo"]];
+    UIImageView* titleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 40)];
+    UILabel *label = [[UILabel alloc]init];
+    label.text = @"个人设置";
+    label.frame = CGRectMake(0, 0, 80, 40);
+    [titleImageView addSubview:label];
     titleImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
     tapGes.numberOfTapsRequired = 5;
