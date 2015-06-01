@@ -175,6 +175,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     if (value.length == 0) {
         return;
     }
+    return;
+#warning TODO fix it @MHY
     NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
     QSU02UserSettingInfoCell *cell01 = _tableView.visibleCells[4];
     QSU02UserSettingInfoCell *cell02 = _tableView.visibleCells[5];
