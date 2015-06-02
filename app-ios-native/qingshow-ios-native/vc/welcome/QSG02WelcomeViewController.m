@@ -9,6 +9,7 @@
 #import "QSG02WelcomeViewController.h"
 //#import "QSS01RootViewController.h"
 //#import "QSAppDelegate.h"
+#define PAGE_ID @"G02 - 欢迎页"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
 #define h ([UIScreen mainScreen].bounds.size.height)
@@ -49,6 +50,18 @@
     _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
     
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
+}
+
 - (void)viewDidLayoutSubviews
 {
 //    _loginBtn.frame = CGRectMake(w/10*7, h/10*9, 100, 30);

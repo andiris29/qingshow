@@ -16,6 +16,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSUserManager.h"
 
+#define PAGE_ID @"U14 - 收藏搭配"
 
 @interface QSU14FavoriteViewController ()
 
@@ -49,7 +50,12 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    
+    [MobClick endLogPageView:PAGE_ID];
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 #pragma mark -- provider

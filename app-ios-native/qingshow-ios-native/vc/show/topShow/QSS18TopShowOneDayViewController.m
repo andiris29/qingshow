@@ -11,6 +11,8 @@
 #import "QSNetworkKit.h"
 #import "UIViewController+QSExtension.h"
 
+#define PAGE_ID @"S18 - 美搭每天"
+
 @interface QSS18TopShowOneDayViewController ()
 
 @property (strong, nonatomic) NSDate* date;
@@ -40,11 +42,18 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    [MobClick beginLogPageView:PAGE_ID];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:PAGE_ID];
 }
 
 #pragma mark -

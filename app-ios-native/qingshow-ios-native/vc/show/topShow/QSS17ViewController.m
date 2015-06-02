@@ -15,7 +15,7 @@
 #import "QSUserManager.h"
 #import "QSGlobalFirstLaunchViewController.h"
 
-#define PAGE_ID @"美搭榜单"
+#define PAGE_ID @"S17 - 美搭榜单"
 #define SS17CellId @"SS17TableViewCellId"
 
 @interface QSS17ViewController ()<QSS17ProviderDelegate>
