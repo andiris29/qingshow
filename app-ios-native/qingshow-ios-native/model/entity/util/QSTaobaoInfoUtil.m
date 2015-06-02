@@ -9,6 +9,8 @@
 #import "QSTaobaoInfoUtil.h"
 #import "QSCommonUtil.h"
 
+#define COLOR_PRE @"1627207"
+
 @interface QSTaobaoInfoUtil ()
 + (NSDictionary*)getFirstSku:(NSDictionary*)taobaoInfo;
 
@@ -130,6 +132,30 @@
 {
     NSDictionary* sku = [self findSkusWithSkuId:skuId taobaoInfo:taobaoInfo];
     return sku[@"promo_price"];
+}
+
++ (NSString*)getColorPropertyId:(NSDictionary*)taobaoInfoDict sku:(NSString*)skuId {
+    if (![QSCommonUtil checkIsDict:taobaoInfoDict]) {
+        return nil;
+    }
+    NSDictionary* skuDict = [self findSkusWithSkuId:skuId taobaoInfo:taobaoInfoDict];
+    NSString* propertiesName = skuDict[@"properties"];
+    NSArray* array = [propertiesName componentsSeparatedByString:@";"];
+    NSString* colorProp = nil;
+    for (NSString* str in array) {
+        if ([str hasPrefix:COLOR_PRE]) {
+            colorProp = str;
+        }
+    }
+    return colorProp;
+}
++ (NSString*)getColorPropertyName:(NSDictionary*)taobaoInfo sku:(NSString*)skuId {
+    NSString* colorPropertyId = [self getColorPropertyId:taobaoInfo sku:skuId];
+    if (!colorPropertyId) {
+        return nil;
+    }
+    
+    return [self getNameOfProperty:colorPropertyId taobaoInfo:taobaoInfo];
 }
 
 @end

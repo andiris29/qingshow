@@ -18,5 +18,5 @@
 + (NSDictionary*)findSkusWithSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo;
 + (NSNumber*)getPriceOfSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo quantity:(NSNumber*)quantity;
 + (NSNumber*)getPromoPriceOfSkuId:(NSString*)skuId taobaoInfo:(NSDictionary*)taobaoInfo quantity:(NSNumber*)quantity;
-
++ (NSString*)getColorPropertyName:(NSDictionary*)taobaoInfo sku:(NSString*)skuId;
 @end

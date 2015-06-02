@@ -12,6 +12,7 @@
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import "QSDateUtil.h"
+#import "QSTaobaoInfoUtil.h"
 @implementation QSItemUtil
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict
 {
@@ -60,6 +61,17 @@
     if (path) {
         NSURL* url = [NSURL URLWithString:path];
         return url;
+    }
+    return nil;
+}
+
++ (NSString*)getSource:(NSDictionary*)itemDict{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
+        return nil;
+    }
+    NSString* path = itemDict[@"source"];
+    if (![QSCommonUtil checkIsNil:path]) {
+        return path;
     }
     return nil;
 }
@@ -328,29 +340,38 @@
 
 + (NSString*)getSelectedSku:(NSDictionary*)item
 {
-    if (![QSCommonUtil checkIsDict:item]) {
+    NSString* source = [self getSource:item];
+    if ([QSCommonUtil checkIsNil:source]) {
         return nil;
     }
-    NSString* sku = item[@"selectedSkuId"];
-    if ([QSCommonUtil checkIsNil:sku]) {
-        return nil;
-    } else {
-        return sku;
+    NSArray* comps = [source componentsSeparatedByString:@"&"];
+    NSString* skuStr = nil;
+    for (NSString* c in comps) {
+        if ([c hasPrefix:@"sku="]) {
+            NSArray* a = [c componentsSeparatedByString:@"="];
+            skuStr = [a lastObject];
+        }
     }
-        
+    if (!skuStr) {
+        NSArray* array = [self getSkusArray:item];
+        if (array.count) {
+            NSDictionary* skuDict = [array firstObject];
+            skuStr = skuDict[@"sku_id"];
+        }
+    }
+    skuStr = [NSString stringWithFormat:@"%@", skuStr];
+    return skuStr;
 }
 
 + (NSString*)getItemColorDesc:(NSDictionary*)item
 {
-    if (![QSCommonUtil checkIsDict:item]) {
-        return nil;
-    }
     
-    NSString* colorDesc = item[@"color"];
-    if ([QSCommonUtil checkIsNil:colorDesc]) {
-        return nil;
-    } else {
-        return colorDesc;
-    }
+    //http://detail.tmall.com/item.htm?spm=a1z10.5-b.w4011-8651694057.389.luXHAj&id=43637272792&rn=7f3fef736d52e1a21ca8c9041f4dc74d&abbucket=9&sku_properties=1627207:28320
+    
+    NSString* sku = [self getSelectedSku:item];
+    NSDictionary* taobaoInfo = [self getTaobaoInfo:item];
+    
+    return [QSTaobaoInfoUtil getColorPropertyName:taobaoInfo sku:sku];
+    
 }
 @end
