@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		681148FD1B0F0E9D00E024B1 /* ImgforCell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */; };
+		686B73ED1B1D987000E229B9 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 686B73EC1B1D987000E229B9 /* 2.jpg */; };
 		68824D921B0EBB57006E3151 /* QSU14FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68824D8A1B0EBB57006E3151 /* QSU14FavoriteViewController.m */; };
 		68824D931B0EBB57006E3151 /* QSU14FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68824D8B1B0EBB57006E3151 /* QSU14FavoriteViewController.xib */; };
 		68824D941B0EBB57006E3151 /* QSU14DisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68824D901B0EBB57006E3151 /* QSU14DisplayCell.m */; };
@@ -305,6 +306,7 @@
 /* Begin PBXFileReference section */
 		681148FA1B0F0E9D00E024B1 /* ImgforCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImgforCell@2x.png"; sourceTree = "<group>"; };
 		681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ImgforCell@3x.png"; sourceTree = "<group>"; };
+		686B73EC1B1D987000E229B9 /* 2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 2.jpg; sourceTree = "<group>"; };
 		68824D891B0EBB57006E3151 /* QSU14FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14FavoriteViewController.h; sourceTree = "<group>"; };
 		68824D8A1B0EBB57006E3151 /* QSU14FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14FavoriteViewController.m; sourceTree = "<group>"; };
 		68824D8B1B0EBB57006E3151 /* QSU14FavoriteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU14FavoriteViewController.xib; sourceTree = "<group>"; };
@@ -899,6 +901,7 @@
 		681148F91B0F0E8A00E024B1 /* backImage */ = {
 			isa = PBXGroup;
 			children = (
+				686B73EC1B1D987000E229B9 /* 2.jpg */,
 				68C919791B15ACE800A5D405 /* shadowImage.png */,
 				681148FA1B0F0E9D00E024B1 /* ImgforCell@2x.png */,
 				681148FB1B0F0E9D00E024B1 /* ImgforCell@3x.png */,
@@ -2300,6 +2303,7 @@
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,
 				8CB99BAC1B16BEB1001EDF52 /* QSU02UserSettingImgCell.xib in Resources */,
 				8C961D431B186E560013996B /* QSU02UserSetting02.storyboard in Resources */,
+				686B73ED1B1D987000E229B9 /* 2.jpg in Resources */,
 				A7865BF51B00372F00F71B15 /* user_personality.png in Resources */,
 				A76A665B1AFCB74900AF5559 /* user_personality.png in Resources */,
 				68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */,

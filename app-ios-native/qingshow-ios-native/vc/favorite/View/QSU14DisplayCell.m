@@ -41,24 +41,41 @@
     //
     self.showDict = showDict;
     self.itemArray = itemArray;
-    
-    for (int i = 0; i < self.itemImageViews.count; i++) {
+  
+    for (int i = 0; i < 4; i++) {
         UIButton* itemBtn = self.itemButtons[i];
         UIImageView* itemImgView = self.itemImageViews[i];
         UIImageView* shadowImageView = self.shadow[i];
-        if (i < itemArray.count) {
+        if (i < 4) {
             itemBtn.hidden = NO;
             itemBtn.enabled = YES;
             itemImgView.hidden = NO;
-            NSDictionary* itemDict = itemArray[i];
-            [itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
-            [itemBtn setTitle:[QSItemUtil getPrice:itemDict] forState:UIControlStateNormal];
+            [itemImgView setImage:[UIImage imageNamed:@"2.jpg"]];
+            [itemBtn setTitle:@"￥131" forState:UIControlStateNormal];
             shadowImageView.image = [UIImage imageNamed:@"s03_model_shadow"];
         } else {
             itemBtn.hidden = YES;
             itemImgView.hidden = YES;
         }
     }
+
+//    for (int i = 0; i < self.itemImageViews.count; i++) {
+//        UIButton* itemBtn = self.itemButtons[i];
+//        UIImageView* itemImgView = self.itemImageViews[i];
+//        UIImageView* shadowImageView = self.shadow[i];
+//        if (i < itemArray.count) {
+//            itemBtn.hidden = NO;
+//            itemBtn.enabled = YES;
+//            itemImgView.hidden = NO;
+//            NSDictionary* itemDict = itemArray[i];
+//            [itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+//            [itemBtn setTitle:[QSItemUtil getPrice:itemDict] forState:UIControlStateNormal];
+//            shadowImageView.image = [UIImage imageNamed:@"s03_model_shadow"];
+//        } else {
+//            itemBtn.hidden = YES;
+//            itemImgView.hidden = YES;
+//        }
+//    }
 }
 
 - (IBAction)itemButtonAction:(UIButton *)sender {
