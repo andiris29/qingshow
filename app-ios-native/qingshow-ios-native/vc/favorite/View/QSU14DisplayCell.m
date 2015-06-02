@@ -12,6 +12,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "QSImageNameUtil.h"
 
 
 @implementation QSU14DisplayCell
@@ -30,7 +31,8 @@
 - (void)bindWithShow:(NSDictionary *)showDict
 {
     //Show
-    [self.showImageView setImageFromURL:[QSShowUtil getCoverUrl:showDict]];
+    
+    [self.showImageView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:showDict] type:QSImageNameTypeS]];
     [self.showButton setTitle:[QSShowUtil getShowDesc:showDict] forState:UIControlStateNormal];
     
     //show 边框
@@ -51,7 +53,7 @@
             itemBtn.enabled = YES;
             itemImgView.hidden = NO;
             NSDictionary* itemDict = itemArray[i];
-            [itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+            [itemImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSItemUtil getFirstImagesUrl:itemDict] type:QSImageNameTypeXS]];
             [itemBtn setTitle:[QSItemUtil getPrice:itemDict] forState:UIControlStateNormal];
             shadowImageView.image = [UIImage imageNamed:@"s03_model_shadow"];
         } else {

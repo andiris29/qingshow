@@ -10,6 +10,7 @@
 #import "QSShowUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSDateUtil.h"
+#import "QSImageNameUtil.h"
 
 @implementation QSS17TopShowCell
 
@@ -29,8 +30,9 @@
 
 - (void)bindWithDataDic:(NSDictionary *)fDic andAnotherDic:(NSDictionary *)sDic
 {
-    [self.leftImgView setImageFromURL:[QSShowUtil getCoverUrl:fDic]];
-    [self.rightImgView setImageFromURL:[QSShowUtil getCoverUrl:sDic]];
+    
+    [self.leftImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:fDic] type:QSImageNameTypeS]];
+    [self.rightImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:sDic] type:QSImageNameTypeS]];
     self.colorView.backgroundColor = [UIColor grayColor];
     self.favoNumLabel.text = [QSShowUtil getNumberCommentsDescription:fDic];
     NSDate *date = [QSShowUtil getRecommendDate:fDic];

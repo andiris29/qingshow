@@ -9,6 +9,7 @@
 #import "QSTopShowOneDayCell.h"
 #import "QSShowUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSImageNameUtil.h"
 @implementation QSTopShowOneDayCell
 
 - (void)awakeFromNib {
@@ -16,7 +17,8 @@
 }
 - (void)bindWithShow:(NSDictionary*)showDict
 {
-    [self.imgView setImageFromURL:[QSShowUtil getCoverUrl:showDict]];
+    
+    [self.imgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:showDict] type:QSImageNameTypeS]];
     self.numLikeLabel.text = [QSShowUtil getNumberLikeDescription:showDict];
 }
 @end

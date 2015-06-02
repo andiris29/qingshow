@@ -9,7 +9,6 @@
 #import "QSS18WaterfallProvider.h"
 #import "QSTopShowOneDayCell.h"
 #import "QSRecommendationDateCollectionViewCell.h"
-
 @interface QSS18WaterfallProvider ()
 
 @end
