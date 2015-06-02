@@ -52,7 +52,6 @@
     self.shareVc.delegate = self;
     [self.view addSubview:self.shareVc.view];
     self.shareVc.view.frame = self.view.bounds;
-    
     [self bindWithDict:self.showDict];
 }
 
@@ -163,8 +162,11 @@
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {
             [self showSuccessHudWithText:@"喜欢成功"];
+            [self.favorBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
         } else {
             [self showSuccessHudWithText:@"取消喜欢成功"];
+            [self.favorBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         }
         [self bindExceptImageWithDict:showDict];
         

@@ -14,57 +14,62 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bgImgforCell.png" translatesAutoresizingMaskIntoConstraints="NO" id="yBB-b4-BjV">
-                        <rect key="frame" x="2" y="2" width="316" height="175"/>
+                    <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bgImgforCell.png" translatesAutoresizingMaskIntoConstraints="NO" id="yBB-b4-BjV">
+                        <rect key="frame" x="2" y="3" width="316" height="175"/>
                         <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" none="YES" image="YES" notEnabled="YES"/>
                         </accessibility>
                     </imageView>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VcP-aX-gk4">
+                        <rect key="frame" x="5" y="6" width="102" height="169"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="15 MAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltH-Gl-NfR">
-                        <rect key="frame" x="5" y="14" width="100" height="20"/>
+                        <rect key="frame" x="5" y="22" width="100" height="20"/>
                         <color key="tintColor" red="0.55681818181818188" green="0.55681818181818188" blue="0.55681818181818188" alpha="1" colorSpace="calibratedRGB"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.34578203914141414" green="0.34578203914141414" blue="0.34578203914141414" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X0e-ii-m2X">
-                        <rect key="frame" x="5" y="34" width="100" height="20"/>
+                        <rect key="frame" x="5" y="42" width="100" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CQ3-OP-Ib4">
-                        <rect key="frame" x="30" y="58" width="50" height="1"/>
-                        <color key="backgroundColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <rect key="frame" x="35" y="68" width="40" height="1"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WEDNESDAY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tTq-mY-Wyw">
-                        <rect key="frame" x="5" y="61" width="106" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <rect key="frame" x="5" y="72" width="106" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" alpha="0.40000000000000002" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qk-08-Zd6">
-                        <rect key="frame" x="31" y="150" width="12" height="12"/>
-                        <state key="normal" image="s03_like_btn_full">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qk-08-Zd6">
+                        <rect key="frame" x="31" y="150" width="15" height="13"/>
+                        <state key="normal" image="xin.png">
+                            <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10086" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7V-Jz-V0H">
                         <rect key="frame" x="50" y="146" width="56" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="0.34578203909999999" green="0.34578203909999999" blue="0.34578203909999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_regAndlogin_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dqq-v5-42D">
-                        <rect key="frame" x="110" y="7" width="100" height="166"/>
-                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" fixedFrame="YES" image="user_regAndlogin_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="7D8-KW-cL0">
-                        <rect key="frame" x="215" y="7" width="100" height="166"/>
+                        <rect key="frame" x="213" y="6" width="100" height="169"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_regAndlogin_backImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dqq-v5-42D">
+                        <rect key="frame" x="110" y="6" width="101" height="169"/>
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="colorView" destination="VcP-aX-gk4" id="FNF-RP-ZYP"/>
                 <outlet property="dayLabel" destination="ltH-Gl-NfR" id="MbO-Mg-H3l"/>
                 <outlet property="favoBtn" destination="0Qk-08-Zd6" id="yIN-Nv-eXJ"/>
                 <outlet property="favoNumLabel" destination="P7V-Jz-V0H" id="MXT-KV-cPo"/>
@@ -78,8 +83,8 @@
     </objects>
     <resources>
         <image name="bgImgforCell.png" width="320" height="184"/>
-        <image name="s03_like_btn_full" width="32" height="29"/>
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
+        <image name="xin.png" width="17" height="15"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

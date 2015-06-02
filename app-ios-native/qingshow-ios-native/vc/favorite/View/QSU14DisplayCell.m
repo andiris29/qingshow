@@ -33,13 +33,15 @@
     [self.showImageView setImageFromURL:[QSShowUtil getCoverUrl:showDict]];
     [self.showButton setTitle:[QSShowUtil getShowDesc:showDict] forState:UIControlStateNormal];
     
+    //show 边框
+//    self.backImage.image = [UIImage imageNamed:@"ImgforCell"];
     //Item
     NSArray* itemArray = [QSShowUtil getItems:showDict];
     
     //
     self.showDict = showDict;
     self.itemArray = itemArray;
-    
+  
     for (int i = 0; i < self.itemImageViews.count; i++) {
         UIButton* itemBtn = self.itemButtons[i];
         UIImageView* itemImgView = self.itemImageViews[i];

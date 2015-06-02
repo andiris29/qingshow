@@ -60,6 +60,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     UITableView *_tableView;
     NSMutableArray *_dataArray;
     NSMutableArray *_textFieldArray;
+    NSMutableArray *_cellArray;
     @private
     long _uploadImageType;
 }
@@ -84,6 +85,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initNavigation];
+    _cellArray = [[NSMutableArray alloc]init];
     _dataArray = [[NSMutableArray alloc]init];
     _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     _tableView.delegate = self;
@@ -166,27 +168,60 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
 
+//#pragma mark - ImageEditing
+//- (void)imageEditingUseImage:(UIImage *)image vc:(QSImageEditingViewController *)vc
+//{
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    MBProgressHUD* hud = [self showNetworkWaitingHud];
+//    // Success Handle
+//    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
+//        [hud hide:YES];
+//        if (metadata[@"error"] == nil && people != nil) {
+//            [self showSuccessHudWithText:@"上传成功"];
+//            // refresh local login user's data
+//            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
+//            //[self refreshImage];
+//        } else {
+//            [self showErrorHudWithText:@"上传失败"];
+//        }
+//    };
+//    
+//    // Error Handle
+//    ErrorBlock error = ^(NSError *error) {
+//        [hud hide:YES];
+//        [self handleError:error];
+//    };
+//    
+//    // Convert UIImage to NSData
+//    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+//    // write NSData to sandbox
+//    if (_uploadImageType == UPLOAD_PORTRAIT) {
+//        [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
+//    } else {
+//        [SHARE_NW_ENGINE updateBackground:imageData onSuccess:success onError:error];
+//    }
+//}
+//- (void)cancelImageEditing:(QSImageEditingViewController *)vc
+//{
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//}
 
 #pragma mark - UITextFieldDelegate
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboardAndDatePicker];
     NSString *value = textField.text;
-    if (value.length == 0) {
-        return;
-    }
-    return;
-#warning TODO fix it @MHY
+//    if (value.length == 0) {
+//        return;
+//    }
     NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
-    QSU02UserSettingInfoCell *cell01 = _tableView.visibleCells[4];
-    QSU02UserSettingInfoCell *cell02 = _tableView.visibleCells[5];
-    QSU02UserSettingInfoCell *cell03 = _tableView.visibleCells[6];
-    QSU02UserSettingInfoCell *cell04 = _tableView.visibleCells[7];
-    if (textField == cell01.infoTextField) {
+    NSLog(@"curr = %@",currentProfile);
+    if (textField.tag == 200) {
         if ([value compare:currentProfile[@"nickname"]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"nickname": value} pop:NO];
         }
-    } else if (textField == cell02.infoTextField) {
+      
+    } else if (textField.tag == 201) {
 //        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"age"]];
 //        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
 //        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
@@ -197,24 +232,26 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 //                [self updatePeopleEntityViewController:self byEntity:@{@"age": value} pop:NO];
 //            }
 //        }
-        if ([value compare:currentProfile[@"age"]] != NSOrderedSame) {
+        if ([value compare:[currentProfile[@"age"] stringValue]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"age":value} pop:NO];
         }
-
-    } else if (textField == cell03.infoTextField) {
-        if (value .length != 0) {
-            value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
-        }
+        
+    } else if (textField.tag == 202) {
+//        if (value .length != 0) {
+//            value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
+//        }
         if ([value compare:currentProfile[@"length"]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"height": value} pop:NO];
         }
-    } else if (textField == cell04.infoTextField) {
-        if (value.length != 0) {
-            value = [value stringByReplacingOccurrencesOfString:@" kg" withString:@""];
-        }
-        if ([value compare:currentProfile[@"weight"]] != NSOrderedSame) {
+        
+    } else if (textField.tag == 203) {
+//        if (value.length != 0) {
+//            value = [value stringByReplacingOccurrencesOfString:@" kg" withString:@""];
+//        }
+        if ([value compare:[currentProfile[@"weight"] stringValue]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
         }
+        
     }
     //else if (textField == self.bodyTpye) {
     //        if ([value compare:currentProfile[@"bodyType"]] != NSOrderedSame) {
@@ -307,6 +344,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (void)passwordViewController:(QSU08PasswordViewController *)vc didSavingPassword:(NSString *)newPassword needCurrentPassword:(NSString *)curPasswrod {
     [self updatePeopleEntityViewController:vc byEntity:@{@"password":newPassword, @"currentPassword": curPasswrod}];
 }
+#pragma maek - changeDressEffectVCDelegate
+
 
 - (void)emailViewController:(QSU04EmailViewController *)vc didSavingEmail:(NSString *)email {
     [self updatePeopleEntityViewController:vc byEntity:@{@"email": email}];
@@ -339,12 +378,12 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     }
     else
     {
-        return 0;
+        return 0.f;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44;
+    return 44.f;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
@@ -400,7 +439,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             QSU02UserSettingImgCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"QSU02UserSettingImgCell" owner:nil options:nil]lastObject];
             cell.row = indexPath.row;
             [cell imgCellBindWithDic:peopleDic];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             return cell;
     }
     else if(indexPath.section == 1)
@@ -424,9 +463,10 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         if (indexPath.row < 4) {
             QSU02UserSettingInfoCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU02UserSettingInfoCell" owner:nil options:nil]lastObject];
             cell.row = indexPath.row;
-            cell.superVC = self;
             cell.infoTextField.delegate = self;
             [cell infoCellBindWithDic:peopleDic];
+            cell.infoTextField.tag = 200+indexPath.row;
+            [_cellArray addObject:cell];
             return cell;
         }
         else if(indexPath.row  == 4 || indexPath.row == 5)
@@ -514,6 +554,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         {
             if (indexPath.row == 6) {
                 QSU02UserChangeDressEffectViewController *vc = [[QSU02UserChangeDressEffectViewController alloc]init];
+                
                 [self.navigationController pushViewController:vc animated:YES];
             }
             break;
@@ -561,6 +602,27 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         [view resignFirstResponder];
     }
 }
+//- (void)refreshImage {
+//    
+//    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
+//    [self.portraitImage setImageFromURL:[QSPeopleUtil getHeadIconUrl:people]];
+//    [self.backgroundImage setImageFromURL:[QSPeopleUtil getBackgroundUrl:people]];
+//    /*
+//     if (people[@"portrait"] != nil) {
+//     NSString *portaits = people[@"portrait"];
+//     [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
+//     } else {
+//     [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
+//     }
+//     
+//     if (people[@"background"] != nil) {
+//     NSString *background = people[@"background"];
+//     [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
+//     } else {
+//     [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
+//     }
+//     */
+//}
 
 #pragma mark - configureView
 - (void)configNavBar

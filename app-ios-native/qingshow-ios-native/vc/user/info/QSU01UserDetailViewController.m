@@ -197,6 +197,12 @@
 {
     //title
     self.title = [QSPeopleUtil getNickname:self.userInfo];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:[UIFont systemFontOfSize:18],
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
     [self updateView];
     
     //Show and Hide
