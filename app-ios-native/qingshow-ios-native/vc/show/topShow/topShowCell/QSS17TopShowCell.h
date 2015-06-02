@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *favoNumLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *leftImgView;
 @property (weak, nonatomic) IBOutlet UIImageView *rightImgView;
+@property (weak, nonatomic) IBOutlet UIView *colorView;
 
 //- (IBAction)favoBtnPressed:(UIButton *)sender;
 
