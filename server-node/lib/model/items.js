@@ -14,7 +14,6 @@ itemSchema = Schema({
     }],
     source : String,
     numLike : Number,
-    selectedSkuId : String,
     create : {
         type : Date,
         'default' : Date.now
