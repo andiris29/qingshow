@@ -117,21 +117,21 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         }
 
         if (sku == null) {
-            return;
+            sku = skus.get(0);
         }
 
         props = SkuUtil.filter(sku);
 
 
-            for (Prop prop : props) {
+        for (Prop prop : props) {
 
-                if (prop.getPropId().equals(SkuUtil.KEY.COLOR.id)) {
-                    SkuColor skuColor = new SkuColor(prop);
-                    skuColor.setUrl(sku.properties_thumbnail != null ?
-                            sku.properties_thumbnail : "");
-                    colors.add(skuColor);
-                }
+            if (prop.getPropId().equals(SkuUtil.KEY.COLOR.id)) {
+                SkuColor skuColor = new SkuColor(prop);
+                skuColor.setUrl(sku.properties_thumbnail != null ?
+                        sku.properties_thumbnail : "");
+                colors.add(skuColor);
             }
+        }
     }
 
     private boolean onSecletChanged() {
