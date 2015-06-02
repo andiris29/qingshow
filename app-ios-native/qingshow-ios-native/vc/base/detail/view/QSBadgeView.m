@@ -54,7 +54,7 @@
     self.iconImageView.layer.masksToBounds = YES;
     self.iconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.iconImageView.layer.borderWidth = 2.f;
-    
+    self.nameLabel.font = [UIFont systemFontOfSize:18];
     self.nameLabel.text = [QSPeopleUtil getNickname:peopleDict];
     NSMutableString* statusStr = [@"" mutableCopy];
     NSString* height = [QSPeopleUtil getHeight:peopleDict];
