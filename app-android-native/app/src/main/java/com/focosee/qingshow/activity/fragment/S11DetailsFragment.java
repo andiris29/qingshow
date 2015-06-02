@@ -55,14 +55,12 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     private Button addButton;
     private Button cutButton;
     private TextView numView;
-    private FlowRadioGroup sizeGroup;
     private FlowRadioGroup itemGroup;
-    private ImageView reference;
-    private TextView showReference;
     private TextView name;
 
     private MongoItem itemEntity;
     private LinkedList<MongoItem.TaoBaoInfo.SKU> skus;
+    private MongoItem.TaoBaoInfo.SKU sku;
     private MongoOrder order;
 
     private FrameLayout sizeLayout;
@@ -75,8 +73,9 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
     private int num = 1;
 
-    private HashMap<ArrayList<Prop>, MongoItem.TaoBaoInfo.SKU> skusProp;
+    private ArrayList<Prop> props;
     private ArrayList<Prop> myPropList;
+    private String skuId;
 
 
     private HashSet<Prop> sizes = new HashSet<Prop>();
@@ -104,41 +103,46 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         if (null == skus) {
             return;
         }
-        skusProp = SkuUtil.filter(skus);
+
+        skuId = SkuUtil.getSkuId(itemEntity.source);
+
+        if (skuId == null) {
+            return;
+        }
+
+        for (MongoItem.TaoBaoInfo.SKU sku : skus) {
+            if (sku.sku_id.equals(skuId)) {
+                this.sku = sku;
+            }
+        }
+
+        if (sku == null) {
+            return;
+        }
+
+        props = SkuUtil.filter(sku);
 
 
-        for (ArrayList<Prop> props : skusProp.keySet()) {
             for (Prop prop : props) {
 
                 if (prop.getPropId().equals(SkuUtil.KEY.COLOR.id)) {
                     SkuColor skuColor = new SkuColor(prop);
-                    skuColor.setUrl(skusProp.get(props).properties_thumbnail != null ?
-                            skusProp.get(props).properties_thumbnail : "");
+                    skuColor.setUrl(sku.properties_thumbnail != null ?
+                            sku.properties_thumbnail : "");
                     colors.add(skuColor);
                 }
-
-                for (SkuUtil.KEY sizeKey : SkuUtil.KEY.values()) {
-                    if (sizeKey.name.equals("size")) {
-                        if (prop.getPropId().equals(sizeKey.id)) {
-                            sizes.add(prop);
-                        }
-                    }
-                }
             }
-        }
     }
 
     private boolean onSecletChanged() {
 
-        if (skusProp.containsKey(myPropList)) {
-
-            MongoItem.TaoBaoInfo.SKU sku = skusProp.get(myPropList);
+        if (null != sku) {
 
             order = new MongoOrder();
             order.quantity = num;
             order.itemSnapshot = itemEntity;
-//            order.price = Double.parseDouble(sku.promo_price);
-            order.price = 0.01;
+            order.price = Double.parseDouble(sku.promo_price);
+//            order.price = 0.01;
             order.selectedItemSkuId = sku.sku_id;
 
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText(StringUtil.FormatPrice(sku.promo_price));
@@ -187,27 +191,6 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
         if (!TextUtils.isEmpty(itemEntity.taobaoInfo.getMaxPrice())) {
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText(itemEntity.taobaoInfo.getMaxPrice());
         }
-
-        if (TextUtils.isEmpty(itemEntity.sizeExplanation)) {
-            showReference.setVisibility(View.GONE);
-        } else {
-            ImageLoader.getInstance().displayImage(itemEntity.sizeExplanation, reference);
-        }
-
-        showReference.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (reference.getVisibility() == View.VISIBLE) {
-                    showReference.setTextColor(Color.BLACK);
-                    reference.setVisibility(View.GONE);
-                } else {
-                    showReference.setTextColor(getResources().getColor(R.color.hint_text_color));
-                    reference.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-
     }
 
     private void initSize() {
