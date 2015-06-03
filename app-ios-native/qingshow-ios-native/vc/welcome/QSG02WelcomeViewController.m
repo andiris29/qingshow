@@ -40,6 +40,8 @@
     _welcomeSCV.pagingEnabled = YES;
     _welcomeSCV.alpha = 1.0f;
     _welcomeSCV.delegate = self;
+    _welcomeSCV.bounces = NO;
+    _welcomeSCV.alwaysBounceHorizontal = YES;
     _welcomeSCV.showsHorizontalScrollIndicator = NO;
     [self addPhotosToSVC];
     
@@ -47,6 +49,7 @@
     
     _pageControl.numberOfPages = 3;
     _pageControl.currentPage = 0;
+    _pageControl.userInteractionEnabled = NO;
     _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
     
 }
