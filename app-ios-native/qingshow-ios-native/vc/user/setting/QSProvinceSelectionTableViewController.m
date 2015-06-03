@@ -81,6 +81,7 @@
     }
     NSString* key = self.nameIdListArray[indexPath.row];
     id value = self.idToNameDict[key];
+    cell.textLabel.font = NEWFONT;
     if ([value isKindOfClass:[NSDictionary class]]) {
         NSDictionary* valueDict = value;
         cell.textLabel.text = valueDict[@"name"];

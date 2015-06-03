@@ -49,6 +49,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"effectCell"];
+    cell.textLabel.font = NEWFONT;
     cell.textLabel.text = _effectArray[indexPath.row];
     
     

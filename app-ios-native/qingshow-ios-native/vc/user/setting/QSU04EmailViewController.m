@@ -31,7 +31,6 @@
                                                                style:UIBarButtonItemStylePlain
                                                               target:self
                                                               action:@selector(actionSave)];
-    
     [[self navigationItem] setRightBarButtonItem:btnSave];
     
     // Initialize Current Email Label

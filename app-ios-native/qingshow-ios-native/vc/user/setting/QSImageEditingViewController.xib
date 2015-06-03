@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSImageEditingViewController">
             <connections>
@@ -38,6 +44,7 @@
                         <constraint firstAttribute="width" constant="36" id="vOG-Vf-P6L"/>
                         <constraint firstAttribute="height" constant="34" id="yxM-0K-Etv"/>
                     </constraints>
+                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="18"/>
                     <state key="normal" title="取消">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -51,6 +58,7 @@
                         <constraint firstAttribute="width" constant="36" id="RSj-rO-b8E"/>
                         <constraint firstAttribute="height" constant="34" id="fAe-ai-h9F"/>
                     </constraints>
+                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="18"/>
                     <state key="normal" title="选取">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>

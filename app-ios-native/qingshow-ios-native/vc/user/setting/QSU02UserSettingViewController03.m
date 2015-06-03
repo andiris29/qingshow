@@ -389,6 +389,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 100)];
     if (section == 3) {
         UIButton *logOutBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        logOutBtn.titleLabel.font = NEWFONT;
         [logOutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
         [logOutBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [logOutBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
@@ -408,6 +409,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -20, w, 44)];
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, w, 44)];
+    label.font = NEWFONT;
     if (section == 0) {
         label.text = @"选择图片";
         [headerView addSubview:label];
@@ -445,6 +447,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     else if(indexPath.section == 1)
     {
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:defaultCellId];
+        cell.textLabel.font = NEWFONT;
         if (indexPath.row == 1) {
             cell.textLabel.text = @"订单管理";
             cell.textLabel.frame = CGRectMake(8, 8, 50, 30);
@@ -480,6 +483,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         else
         {
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"dressEffectCellId"];
+            cell.textLabel.font = NEWFONT;
             cell.textLabel.text = @"搭配效果";
             UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(100, 0, 200, 40)];
             label.text = [QSPeopleUtil getExpectationsDesc:peopleDic];
@@ -493,6 +497,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     else if (indexPath.section == 3)
     {
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:defaultCellId];
+        cell.font = NEWFONT;
         cell.textLabel.text = @"更改密码";
         cell.textLabel.frame = CGRectMake(8, 8, 50, 30);
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
