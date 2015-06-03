@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -18,7 +19,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -32,12 +32,15 @@ import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.util.ShowUtil;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -46,7 +49,7 @@ import butterknife.InjectView;
  * Created by DylanJiang on 15/4/30.
  */
 
-public class S17TopShowsActivity extends BaseActivity implements OnClickListener{
+public class S17TopShowsActivity extends BaseActivity implements OnClickListener {
 
     @InjectView(R.id.s17_recycler)
     RecyclerView recyclerView;
@@ -69,6 +72,12 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
     private LinkedList<MongoShow> data;
     private S17TopAdapter adapter;
 
+
+    private Timer timer = new Timer(true);
+    private TimerTask timerTask;
+    private long time = 2000;
+    private int count = 0;
+
     @Override
     public void reconn() {
 
@@ -82,12 +91,42 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
 
         title.setText(R.string.s17_title_name);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new S17TopAdapter(new ArrayList<>(),this,R.layout.item_s17);
+        adapter = new S17TopAdapter(new ArrayList<>(), this, R.layout.item_s17);
         recyclerView.setAdapter(adapter);
         getDataFormNet();
+        initShowVerison(title);
     }
 
-    private void getDataFormNet(){
+
+    private void initShowVerison(View view) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ++count;
+                if (null != timerTask) {
+                    timerTask.cancel();
+                }
+                timerTask = new TimerTask() {
+                    @Override
+                    public void run() {
+                        count = 0;
+                    }
+                };
+                timer.schedule(timerTask, time / 5);
+                String version = "";
+                try {
+                    version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (count == 5)
+                    QSComponent.showDialag(S17TopShowsActivity.this, "当前版本是：" + version);
+            }
+        });
+    }
+
+
+    private void getDataFormNet() {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(QSAppWebAPI.getTopApi(), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -100,7 +139,7 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
                 adapter.notifyDataSetChanged();
 
             }
-        },null);
+        }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
@@ -201,7 +240,7 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.u01_collection:
                 startActivity(new Intent(S17TopShowsActivity.this, U14CollectionActivity.class));
                 break;
