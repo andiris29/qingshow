@@ -137,7 +137,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
                                 QSModel.INSTANCE.setUser(user);
                                 updateSettings();
                                 Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(U07RegisterActivity.this, U01UserActivity.class));
+                                startActivity(new Intent(U07RegisterActivity.this, U13PersonalizeActivity.class));
                                 finish();
                             }
                         }

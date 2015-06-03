@@ -22,7 +22,10 @@ public enum QSModel {
     }
 
     public void setUser(MongoPeople _user) {
-        if(null == _user) return;
+        if(null == _user) {
+            removeUser();
+            return;
+        }
         this.user = _user;
         saveUser(_user._id);
     }
@@ -32,4 +35,12 @@ public enum QSModel {
         editor.putString("id", id);
         editor.commit();
     }
+
+    public void removeUser(){
+        if("".equals(QSApplication.instance().getPreferences().getString("id", ""))) return;
+        SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
+        editor.remove("id");
+        editor.commit();
+    }
+
 }

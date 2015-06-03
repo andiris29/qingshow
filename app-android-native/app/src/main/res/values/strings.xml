@@ -179,4 +179,6 @@
 
     <string name="title_collection">我的收藏</string>
 
+    <string name="title_activity_u13_person">个人信息</string>
+
 </resources>

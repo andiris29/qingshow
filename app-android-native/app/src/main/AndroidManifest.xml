@@ -97,6 +97,13 @@
             android:windowSoftInputMode="stateHidden|stateUnchanged" >
         </activity>
         <activity
+            android:name=".activity.U13PersonalizeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/title_activity_u13_person"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" >
+        </activity>
+        <activity
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"

@@ -78,21 +78,21 @@ public class U06LoginActivity extends BaseActivity {
                 pDialog.show();
 
                 Map<String, String> map = new HashMap<>();
-                map.put("id", accountEditText.getText().toString());
+                map.put("idOrNickName", accountEditText.getText().toString());
                 map.put("password", passwordEditText.getText().toString());
                 System.out.println("id:" + accountEditText.getText().toString());
                 System.out.println("password:" + passwordEditText.getText().toString());
                 JSONObject jsonObject = new JSONObject(map);
 
-                QSJsonObjectRequest stringRequest = new QSJsonObjectRequest(Request.Method.POST,
-                        QSAppWebAPI.LOGIN_SERVICE_URL,jsonObject,
-                        new Response.Listener<JSONObject>() {
+                QSStringRequest stringRequest = new QSStringRequest(map, Request.Method.POST,
+                        QSAppWebAPI.LOGIN_SERVICE_URL,
+                        new Response.Listener<String>() {
                             @Override
-                            public void onResponse(JSONObject response) {
+                            public void onResponse(String response) {
                                 System.out.println("response:" + response);
                                 pDialog.dismiss();
 
-                                MongoPeople user = UserParser._parsePeople(response);
+                                MongoPeople user = UserParser.parseLogin(response);
                                 if (user == null) {
                                     if (MetadataParser.getError(response) == ErrorCode.IncorrectMailOrPassword) {
                                         Toast.makeText(context, "账号或密码错误", Toast.LENGTH_LONG).show();
@@ -102,7 +102,7 @@ public class U06LoginActivity extends BaseActivity {
                                 } else {
                                     QSModel.INSTANCE.setUser(user);
 
-                                    Intent intent = new Intent(U06LoginActivity.this, U01UserActivity.class);
+                                    Intent intent = new Intent(U06LoginActivity.this, U13PersonalizeActivity.class);
                                     startActivity(intent);
                                     sendBroadcast(new Intent(LOGIN_SUCCESS));
                                     finish();
