@@ -60,6 +60,11 @@
         
     }];
     self.view.alpha = 0.9f;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated

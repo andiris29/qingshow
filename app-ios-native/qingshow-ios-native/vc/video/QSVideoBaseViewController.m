@@ -28,7 +28,11 @@
     if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.imageScrollView = [[QSSingleImageScrollView alloc] initWithFrame:self.scrollViewContainer.bounds];
     self.imageScrollView.pageControlOffsetY = 10.f;
     self.imageScrollView.pageControl.hidden = YES;

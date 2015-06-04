@@ -223,7 +223,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="D9E-Hs-YEh">
-                    <rect key="frame" x="248.99999981834776" y="23" width="63" height="30"/>
+                    <rect key="frame" x="249" y="23" width="62.999999632037799" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
                     <state key="normal" title="登录账户">

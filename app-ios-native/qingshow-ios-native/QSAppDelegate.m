@@ -52,6 +52,11 @@
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
     
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
+    [nav.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

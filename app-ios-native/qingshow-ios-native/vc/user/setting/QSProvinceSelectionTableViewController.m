@@ -59,7 +59,11 @@
     } else {
         self.title = @"选择省份";
     }
-  
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)didReceiveMemoryWarning {

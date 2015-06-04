@@ -61,6 +61,11 @@
     self.label2.isWithStrikeThrough = YES;
     self.label2.isNotStrikeDollor = YES;
 
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)viewDidLayoutSubviews
 {

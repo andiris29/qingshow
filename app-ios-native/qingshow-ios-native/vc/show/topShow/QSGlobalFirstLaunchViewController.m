@@ -34,6 +34,11 @@
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     NSString* dateStr = [dateFormatter stringFromDate:[NSDate date]];
     self.dateLabel.text = dateStr;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)didReceiveMemoryWarning {

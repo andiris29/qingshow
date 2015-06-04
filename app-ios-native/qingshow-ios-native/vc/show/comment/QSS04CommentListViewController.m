@@ -60,10 +60,9 @@
     self.title = @"评论";
     [self.navigationController.navigationBar setTitleTextAttributes:
      
-     @{NSFontAttributeName:[UIFont systemFontOfSize:17],
+     @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
-    
     self.headIcon.layer.cornerRadius = self.headIcon.frame.size.width / 2;
     self.headIcon.layer.masksToBounds = YES;
     self.textField.layer.cornerRadius = 4;

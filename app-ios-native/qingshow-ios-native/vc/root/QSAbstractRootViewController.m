@@ -74,6 +74,11 @@
     
     self.welcomeVc = [[QSG02WelcomeViewController alloc] init];
     self.welcomeVc.delegate = self;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated

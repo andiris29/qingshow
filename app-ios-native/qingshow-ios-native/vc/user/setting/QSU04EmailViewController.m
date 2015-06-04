@@ -35,6 +35,11 @@
     
     // Initialize Current Email Label
     self.nowEmailLabel.text = (NSString *) [QSUserManager shareUserManager].userInfo[@"userInfo"][@"email"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
 }
 - (void)viewWillAppear:(BOOL)animated

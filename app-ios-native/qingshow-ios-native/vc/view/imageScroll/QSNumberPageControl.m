@@ -40,7 +40,7 @@
         _numberOfPages = 0;
         self.numberLabel = [[UILabel alloc] initWithFrame:self.bounds];
         self.numberLabel.textColor = [UIColor whiteColor];
-        self.numberLabel.font = [UIFont systemFontOfSize:12];
+        self.numberLabel.font = NEWFONT;
         self.numberLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.numberLabel];
         

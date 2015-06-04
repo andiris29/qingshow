@@ -109,6 +109,11 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindDelegateObj];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 
 }
 

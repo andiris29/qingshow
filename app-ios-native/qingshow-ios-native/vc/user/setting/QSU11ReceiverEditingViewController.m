@@ -48,6 +48,11 @@
     self.pickerProvider = [[QSLocationPickerProvider alloc] initWithPicker:self.provincePicker];
     self.pickerProvider.delegate = self;
     [self bindWithDict:self.locationDict];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated

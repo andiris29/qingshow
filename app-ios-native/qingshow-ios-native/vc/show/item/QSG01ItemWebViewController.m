@@ -49,6 +49,11 @@
     NSURL* url = [QSItemUtil getShopUrl:self.itemDict];
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [MobClick event:@"viewItemSource" attributes:@{@"itemId": self.itemDict[@"_id"]} counter:1];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)didReceiveMemoryWarning {

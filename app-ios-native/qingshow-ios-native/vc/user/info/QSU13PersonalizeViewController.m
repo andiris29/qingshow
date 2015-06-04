@@ -106,6 +106,12 @@
     self.OKButton.backgroundColor = [UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1];
     self.OKButton.layer.cornerRadius = self.OKButton.frame.size.height / 8;
     self.OKButton.layer.masksToBounds = YES;
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)viewWillAppear:(BOOL)animated
 {

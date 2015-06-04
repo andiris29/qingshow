@@ -45,6 +45,11 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     [self configNavBar];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)didReceiveMemoryWarning {

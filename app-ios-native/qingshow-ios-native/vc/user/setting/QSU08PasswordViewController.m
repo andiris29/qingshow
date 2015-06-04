@@ -33,6 +33,11 @@
     [[self navigationItem] setRightBarButtonItem:btnSave];
     
     // Initialize View
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
 }
 - (void)viewWillAppear:(BOOL)animated

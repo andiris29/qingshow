@@ -49,6 +49,11 @@
     
     UITapGestureRecognizer* tapDate = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTextField)];
     [self.sendDateTextField addGestureRecognizer:tapDate];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)didTapTextField
 {

@@ -61,7 +61,11 @@
     [self hideNaviBackBtnTitle];
     self.backPreTopCon = self.backBtnTopConstrain.constant;
     self.canScrollBadgeViewUp = YES;
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     if ([self respondsToSelector:@selector(setAutomaticallyAdjustsScrollViewInsets:)]) {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }

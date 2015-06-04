@@ -58,7 +58,7 @@
    self.title = @"美搭榜单";
     [self.navigationController.navigationBar setTitleTextAttributes:
      
-  @{NSFontAttributeName:[UIFont systemFontOfSize:17],
+  @{NSFontAttributeName:NAVNEWFONT,
     
     NSForegroundColorAttributeName:[UIColor blackColor]}];
     //self.navigationController.navigationBar setBackgroundImage:<#(UIImage *)#> forBarMetrics:<#(UIBarMetrics)#>

@@ -92,6 +92,11 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     [self configNavBar];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)initNavigation {
     NSLog(@"initNavigation");

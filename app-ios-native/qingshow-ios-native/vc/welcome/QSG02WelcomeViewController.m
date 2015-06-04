@@ -33,7 +33,11 @@
     // Do any additional setup after loading the view from its nib.
     self.view.frame = [UIScreen mainScreen].bounds;
     
-   
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     _welcomeSCV.frame = CGRectMake(0, 0, w, h);
     _welcomeSCV.contentSize = CGSizeMake(w*4, h);

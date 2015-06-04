@@ -38,6 +38,11 @@
     float height = scrollViewSize.height > contentSize.height ? scrollViewSize.height : contentSize.height;
     self.containerScrollView.contentSize = CGSizeMake(scrollViewSize.width, height + 20);
     [self.view addSubview:self.contentView];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

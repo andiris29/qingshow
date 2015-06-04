@@ -75,6 +75,11 @@
     [self configView];
     [self updateAllCell];
     [self receiverConfig];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     
 }
 - (void)receiverConfig

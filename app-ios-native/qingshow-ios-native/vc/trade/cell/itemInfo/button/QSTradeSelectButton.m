@@ -34,7 +34,7 @@
     if (self) {
         self.label = [[UILabel alloc] initWithFrame:self.bounds];
         self.label.textAlignment = NSTextAlignmentCenter;
-        self.label.font = TEXT_FONT;
+        self.label.font = NEWFONT;
         [self addSubview:self.label];
         
         self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];

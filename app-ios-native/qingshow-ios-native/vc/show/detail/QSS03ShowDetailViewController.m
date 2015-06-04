@@ -53,6 +53,11 @@
     [self.view addSubview:self.shareVc.view];
     self.shareVc.view.frame = self.view.bounds;
     [self bindWithDict:self.showDict];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)viewWillAppear:(BOOL)animated
