@@ -115,7 +115,7 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
                 bindUserHolder(holder);
                 break;
             case 2:
-                bindDateHolder(holder, position);
+//                bindDateHolder(holder, position);
                 break;
         }
     }

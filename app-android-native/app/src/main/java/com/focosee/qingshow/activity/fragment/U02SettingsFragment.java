@@ -46,7 +46,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class U02SettingsFragment extends Fragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
+public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
     private static final String[] sexArgs = {"男", "女"};
     private static final String[] bodyTypeArgs = {"A型", "H型", "V型", "X型"};

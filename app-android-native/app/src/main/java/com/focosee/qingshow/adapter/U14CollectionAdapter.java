@@ -2,6 +2,7 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by 华榕 on 2015/5/23.
@@ -38,7 +41,7 @@ class ViewHolder extends RecyclerView.ViewHolder{
 public class U14CollectionAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context context;
-    private ArrayList<MongoPeople> datas;
+    private LinkedList<MongoShow> datas;
     private View gridView;
 
     public U14CollectionAdapter(Context context){
@@ -57,12 +60,8 @@ public class U14CollectionAdapter extends RecyclerView.Adapter<ViewHolder> {
         return viewHolder;
     }
 
-    public void refreshDatas(ArrayList<MongoPeople> datas){
+    public void refreshDatas(LinkedList<MongoShow> datas){
         this.datas = datas;
-    }
-
-    public void addDatas(ArrayList<MongoPeople> datas){
-        this.datas.addAll(datas);
     }
 
     @Override
@@ -77,13 +76,14 @@ public class U14CollectionAdapter extends RecyclerView.Adapter<ViewHolder> {
         price.setText(String.valueOf(position + 128));
         holder.gridLayout.setUseDefaultMargins(true);
         holder.gridLayout.setColumnOrderPreserved(true);
-        holder.gridLayout.addView(gridView, new ViewGroup.LayoutParams(200,200));
+        holder.gridLayout.addView(gridView, new ViewGroup.LayoutParams(200, 200));
+        holder.modelImage.setImageURI(Uri.parse(datas.get(position).cover));
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return null == datas ? 0 : this.datas.size();
     }
 
     public SpacesItemDecoration getItemDecoration(int space){

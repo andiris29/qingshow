@@ -57,6 +57,8 @@
 
         <ImageButton
             style="@style/navigation_btn"
+            android:id="@+id/navigation_btn_match"
+            android:onClick="onClick"
             android:src="@drawable/root_menu_flash" />
 
         <TextView
@@ -66,6 +68,8 @@
         <ImageButton
             style="@style/navigation_btn"
             android:layout_marginTop="30dp"
+            android:id="@+id/navigation_btn_good_match"
+            android:onClick="onClick"
             android:src="@drawable/root_menu_match" />
 
         <TextView
@@ -86,6 +90,8 @@
         <ImageButton
             style="@style/navigation_btn"
             android:layout_marginTop="30dp"
+            android:id="@+id/s17_settting"
+            android:onClick="onClick"
             android:src="@drawable/root_menu_setting" />
 
         <TextView

@@ -60,22 +60,19 @@ public class S07CollectActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if(null == items.get(position).getBrandRef()){
-//                    QSComponent.showDialag(S07CollectActivity.this, getResources().getString(R.string.brand_not_exist));
-//                    return;
-//                }
-//                Intent intent = new Intent(S07CollectActivity.this, S10ItemDetailActivity.class);
-//                startActivity(intent);
+                if(null == items.get(position)){
+                    QSComponent.showDialag(S07CollectActivity.this, getResources().getString(R.string.item_not_exist));
+                    return;
+                }
+                Intent intent = new Intent(S07CollectActivity.this, S10ItemDetailActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, items.get(position));
+                intent.putExtras(bundle1);
+                startActivity(intent);
 
             }
         });
 
-        if (null != brandText) {
-            findViewById(R.id.S07_brand_tv).setVisibility(View.VISIBLE);
-            ((TextView)findViewById(R.id.S07_brand_tv)).setText(brandText);
-        } else {
-            findViewById(R.id.S07_brand_tv).setVisibility(View.GONE);
-        }
     }
 
     @Override

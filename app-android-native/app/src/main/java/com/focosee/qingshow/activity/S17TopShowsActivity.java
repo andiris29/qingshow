@@ -49,7 +49,7 @@ import butterknife.InjectView;
  * Created by DylanJiang on 15/4/30.
  */
 
-public class S17TopShowsActivity extends BaseActivity implements OnClickListener {
+public class S17TopShowsActivity extends MenuActivity implements OnClickListener {
 
     @InjectView(R.id.s17_recycler)
     RecyclerView recyclerView;
@@ -57,16 +57,6 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
     @InjectView(R.id.title)
     TextView title;
 
-    @InjectView(R.id.drawer)
-    DrawerLayout drawer;
-    @InjectView(R.id.navigation)
-    LinearLayout navigation;
-    @InjectView(R.id.blur)
-    ImageView blur;
-    @InjectView(R.id.context)
-    LinearLayout right;
-    @InjectView(R.id.s17_settting)
-    ImageView settingBtn;
     private boolean isFirstFocus = true;
 
     private LinkedList<MongoShow> data;
@@ -141,111 +131,5 @@ public class S17TopShowsActivity extends BaseActivity implements OnClickListener
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
-    }
-
-    private void initDrawer() {
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
-                R.string.menu_open, R.string.menu_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                openMenu();
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                closeMenu();
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                if (slideOffset == 0.0) blur.setVisibility(View.INVISIBLE);
-            }
-        };
-        drawer.setDrawerListener(drawerToggle);
-    }
-
-    private void closeMenu() {
-        blur.setVisibility(View.INVISIBLE);
-        drawer.closeDrawer(navigation);
-    }
-
-    private boolean isMenuOpened() {
-        return drawer.isDrawerOpen(navigation);
-    }
-
-    private void openMenu() {
-
-        if (isFirstFocus) {
-            applyBlur();
-            if (Build.VERSION.SDK_INT > 16)
-                isFirstFocus = true;
-        }
-        blur.setVisibility(View.VISIBLE);
-
-        navigation.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
-        drawer.openDrawer(navigation);
-    }
-
-    private void blur(Bitmap bkg) {
-        Handler mHandler = new Handler() {
-            @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-            @Override
-            public void handleMessage(Message msg) {
-                blur.setBackground(new BitmapDrawable(S17TopShowsActivity.this.getResources(),
-                        (Bitmap) msg.obj));
-                right.destroyDrawingCache();
-            }
-        };
-        String str;
-        Bitmap overlay = BitMapUtil.convertToBlur(bkg, this);
-        Message msg = mHandler.obtainMessage(1, 1, 1, overlay);
-        mHandler.sendMessage(msg);
-    }
-
-    private void applyBlur() {
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                right.setDrawingCacheEnabled(true);
-                right.buildDrawingCache();
-                Bitmap bitmap = right.getDrawingCache();
-
-                blur(bitmap);
-            }
-        };
-        thread.run();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isScrollbarFadingEnabled() && isMenuOpened())
-            closeMenu();
-        else
-            super.onBackPressed();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            if (isMenuOpened()) closeMenu();
-            else openMenu();
-        }
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.u01_collection:
-                startActivity(new Intent(S17TopShowsActivity.this, U14CollectionActivity.class));
-                break;
-            case R.id.s17_settting:
-                startActivity(new Intent(S17TopShowsActivity.this, U02SettingsActivity.class));
-        }
     }
 }

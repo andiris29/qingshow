@@ -1,32 +1,34 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U14CollectionAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
-
+import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
-
+import java.util.LinkedList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U14CollectionActivity extends Activity {
+public class U14CollectionActivity extends MenuActivity {
 
     @InjectView(R.id.u14_recyclerView)
     RecyclerView recyclerView;
@@ -74,7 +76,14 @@ public class U14CollectionActivity extends Activity {
 
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("repsonse:" + response);
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(U14CollectionActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+                LinkedList<MongoShow> shows = ShowParser.parseQuery(response);
+                adapter.refreshDatas(shows);
+                Toast.makeText(U14CollectionActivity.this, R.string.load_finish, Toast.LENGTH_SHORT).show();
+
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -101,5 +110,15 @@ public class U14CollectionActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return super.onKeyDown(keyCode, event);
     }
 }

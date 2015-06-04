@@ -142,6 +142,7 @@
     <string name="need_login">请先登录</string>
     <string name="check_wifi">请检查网络</string>
     <string name="brand_not_exist">非常抱歉，店铺已不存在</string>
+    <string name="item_not_exist">商品不存在</string>
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>
@@ -180,5 +181,6 @@
     <string name="title_collection">我的收藏</string>
 
     <string name="title_activity_u13_person">个人信息</string>
+    <string name="title_activity_menu">MenuActivity</string>
 
 </resources>
