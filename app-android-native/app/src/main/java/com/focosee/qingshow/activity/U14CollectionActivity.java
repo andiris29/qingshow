@@ -24,7 +24,11 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -52,12 +56,12 @@ public class U14CollectionActivity extends MenuActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                menuSwitch();
             }
         });
         title.setText(R.string.title_collection);
         layout.setBackgroundColor(Color.WHITE);
-        adapter = new U14CollectionAdapter(this);
+        adapter = new U14CollectionAdapter(new ArrayList<>(), this, R.layout.item_u14_collection_list);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -76,12 +80,14 @@ public class U14CollectionActivity extends MenuActivity {
 
             @Override
             public void onResponse(JSONObject response) {
+                System.out.println("response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(U14CollectionActivity.this, MetadataParser.getError(response));
                     return;
                 }
                 LinkedList<MongoShow> shows = ShowParser.parseQuery(response);
                 adapter.refreshDatas(shows);
+                adapter.notifyDataSetChanged();
                 Toast.makeText(U14CollectionActivity.this, R.string.load_finish, Toast.LENGTH_SHORT).show();
 
             }

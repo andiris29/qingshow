@@ -1,6 +1,7 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -14,50 +15,29 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.adapter.*;
+import com.focosee.qingshow.util.adapter.AbsViewHolder;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by 华榕 on 2015/5/23.
  */
 
-class ViewHolder extends RecyclerView.ViewHolder{
 
-    public SimpleDraweeView modelImage;
-    public GridLayout gridLayout;
+public class U14CollectionAdapter extends AbsAdapter<List<MongoShow>> {
 
-
-    public ViewHolder(View itemView) {
-        super(itemView);
-        modelImage = (SimpleDraweeView) itemView.findViewById(R.id.item_u14_modelImage);
-        gridLayout = (GridLayout) itemView.findViewById(R.id.item_u14_grid);
-    }
-}
-
-public class U14CollectionAdapter extends RecyclerView.Adapter<ViewHolder> {
-
-    private Context context;
     private LinkedList<MongoShow> datas;
-    private View gridView;
 
-    public U14CollectionAdapter(Context context){
-        this.context = context;
-
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(context).inflate(R.layout.item_u14_collection_list, null);
-
-        ViewHolder viewHolder = new ViewHolder(view);
-
-
-        return viewHolder;
+    public U14CollectionAdapter(List datas, Context context, int... layoutId){
+        super(datas, context, layoutId);
     }
 
     public void refreshDatas(LinkedList<MongoShow> datas){
@@ -65,25 +45,56 @@ public class U14CollectionAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(AbsViewHolder holder, int position) {
 
-        gridView = LayoutInflater.from(context).inflate(R.layout.u14_product, null);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(80, 100);
-        params.setMargins(5, 0, 0, 0);
-        SimpleDraweeView productImage = (SimpleDraweeView) gridView.findViewById(R.id.u14_product_image);
-        productImage.setLayoutParams(params);
-        TextView price = (TextView) gridView.findViewById(R.id.u14_product_price);
-        price.setText(String.valueOf(position + 128));
-        holder.gridLayout.setUseDefaultMargins(true);
-        holder.gridLayout.setColumnOrderPreserved(true);
-        holder.gridLayout.addView(gridView, new ViewGroup.LayoutParams(200, 200));
-        holder.modelImage.setImageURI(Uri.parse(datas.get(position).cover));
+        MongoShow show = datas.get(position);
+
+        SimpleDraweeView modelImage = holder.getView(R.id.item_u14_modelImage);
+        TextView describe = holder.getView(R.id.item_u14_describe);
+
+        RelativeLayout[] products = new RelativeLayout[4];
+
+        products[0] = holder.getView(R.id.u14_product);
+        products[1] = holder.getView(R.id.u14_product1);
+        products[2] = holder.getView(R.id.u14_product2);
+        products[3] = holder.getView(R.id.u14_product3);
+
+        SimpleDraweeView[] imags = new SimpleDraweeView[4];
+
+        imags[0] = holder.getView(R.id.u14_product_image);
+        imags[1] = holder.getView(R.id.u14_product_image1);
+        imags[2] = holder.getView(R.id.u14_product_image2);
+        imags[3] = holder.getView(R.id.u14_product_image3);
+
+        TextView[] prices = new TextView[4];
+        prices[0] = holder.getView(R.id.u14_product_price);
+        prices[1] = holder.getView(R.id.u14_product_price1);
+        prices[2] = holder.getView(R.id.u14_product_price2);
+        prices[3] = holder.getView(R.id.u14_product_price3);
+
+        int i = 0;
+        if(null != show.itemRefs) {
+            for (MongoItem item : show.itemRefs) {
+                products[i].setVisibility(View.VISIBLE);
+                imags[i].setImageURI(Uri.parse(item.images.get(0).url));
+                prices[i].setText(item.images.get(0).description);
+                i++;
+            }
+        }
+
+        modelImage.setImageURI(Uri.parse(show.cover));
+        describe.setText(show.description);
 
     }
 
     @Override
     public int getItemCount() {
         return null == datas ? 0 : this.datas.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
     }
 
     public SpacesItemDecoration getItemDecoration(int space){

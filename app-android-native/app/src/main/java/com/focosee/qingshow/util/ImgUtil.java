@@ -9,7 +9,7 @@ public class ImgUtil {
         return str;
     }
 
-    public String getImgSrc(String url,int scale){
+    public static String getImgSrc(String url,int scale){
         String type = url.substring(url.length() - 5,url.length() - 1);
         String result = "";
         switch (scale){
