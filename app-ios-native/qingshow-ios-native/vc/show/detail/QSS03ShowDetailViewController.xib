@@ -74,7 +74,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hMW-Uu-LLo">
                     <rect key="frame" x="20" y="30" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" backgroundImage="s03_back_btn">
+                    <state key="normal" backgroundImage="nav_btn_back">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -184,7 +184,7 @@
     </objects>
     <resources>
         <image name="discount_label_right" width="112" height="22"/>
-        <image name="s03_back_btn" width="36" height="36"/>
+        <image name="nav_btn_back" width="28" height="28"/>
         <image name="s03_comment_btn" width="40" height="38"/>
         <image name="s03_item_btn" width="36" height="42"/>
         <image name="s03_like_btnIcon" width="40" height="38"/>
