@@ -28,6 +28,7 @@ import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.U01PushAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
@@ -90,7 +91,7 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void loadDataFormNet() {
-        JsonObjectRequest objectRequest = new JsonObjectRequest(QSAppWebAPI.getUserRecommendationApi()
+        QSJsonObjectRequest objectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserRecommendationApi()
                 , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -103,12 +104,15 @@ public class U01UserActivity extends BaseActivity implements View.OnClickListene
                 adapter.notifyDataSetChanged();
 
             }
-        }, null);
+        });
         RequestQueueManager.INSTANCE.getQueue().add(objectRequest);
     }
 
     private void initUserInfo() {
         MongoPeople user = QSModel.INSTANCE.getUser();
+        if (user == null){
+            return;
+        }
         if (null != user.background)
             userBg.setImageURI(Uri.parse(user.background));
 

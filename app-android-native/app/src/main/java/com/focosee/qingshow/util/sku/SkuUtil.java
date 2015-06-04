@@ -74,7 +74,7 @@ public class SkuUtil {
 
     public static String getSkuId(String url) {
         Map<String, String> params = getUrlParam(url);
-        return params.get("id");
+        return params.get("skuId");
     }
 
     /**
