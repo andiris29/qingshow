@@ -76,7 +76,11 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s04_comment);
-
+        if(!QSModel.INSTANCE.loggedin()){
+            startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
+            finish();
+            return;
+        }
         Intent intent = getIntent();
 
         if(!"".equals(intent.getStringExtra(INPUT_SHOW_ID)) && null != intent.getStringExtra(INPUT_SHOW_ID)){
@@ -223,6 +227,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
 
         if (! QSModel.INSTANCE.loggedin()) {
             Toast.makeText(S04CommentActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(S04CommentActivity.this, U07RegisterActivity.class));
             return;
         }
 

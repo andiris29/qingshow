@@ -13,9 +13,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
@@ -87,6 +89,11 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.s10_bay:
+                if (! QSModel.INSTANCE.loggedin()) {
+                    Toast.makeText(S10ItemDetailActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(S10ItemDetailActivity.this, U07RegisterActivity.class));
+                    return;
+                }
                 Intent intent = new Intent(S10ItemDetailActivity.this, S11NewTradeActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY, itemEntity);

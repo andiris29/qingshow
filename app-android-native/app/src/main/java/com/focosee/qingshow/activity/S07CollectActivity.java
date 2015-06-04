@@ -69,7 +69,6 @@ public class S07CollectActivity extends BaseActivity {
                 bundle1.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, items.get(position));
                 intent.putExtras(bundle1);
                 startActivity(intent);
-
             }
         });
 

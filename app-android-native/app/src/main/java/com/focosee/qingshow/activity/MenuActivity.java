@@ -61,23 +61,31 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
         drawer.setDrawerListener(drawerToggle);
     }
 
-    private void closeMenu() {
-        blur.setVisibility(View.INVISIBLE);
+    public void menuSwitch(){
+        if(isMenuOpened()){
+            closeMenu();
+        }else{
+            openMenu();
+        }
+    }
+
+    public void closeMenu() {
+//        blur.setVisibility(View.INVISIBLE);
         drawer.closeDrawer(navigation);
     }
 
-    private boolean isMenuOpened() {
+    public boolean isMenuOpened() {
         return drawer.isDrawerOpen(navigation);
     }
 
-    private void openMenu() {
+    public void openMenu() {
 
-        if (isFirstFocus) {
-            applyBlur();
-            if (Build.VERSION.SDK_INT > 16)
-                isFirstFocus = true;
-        }
-        blur.setVisibility(View.VISIBLE);
+//        if (isFirstFocus) {
+//            applyBlur();
+//            if (Build.VERSION.SDK_INT > 16)
+//                isFirstFocus = true;
+//        }
+//        blur.setVisibility(View.VISIBLE);
 
         navigation.setOnTouchListener(new View.OnTouchListener() {
             @Override
