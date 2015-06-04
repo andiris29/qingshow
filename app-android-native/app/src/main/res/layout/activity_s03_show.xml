@@ -72,7 +72,7 @@
                         android:layout_alignRight="@+id/S03_video_start_btn"
                         android:layout_marginBottom="20dp"
                         android:scaleType="centerInside"
-                        android:visibility="invisible"
+                        android:onClick="onClick"
                         android:src="@drawable/s03_share_btn" />
 
                     <ImageView
@@ -92,6 +92,7 @@
                         android:layout_above="@+id/S03_line_share_like"
                         android:layout_alignRight="@+id/S03_line_share_like"
                         android:scaleType="centerInside"
+                        android:onClick="onClick"
                         android:background="@drawable/s03_like_btn"
                          />
 
@@ -124,6 +125,7 @@
                         android:layout_above="@+id/S03_line_like_message"
                         android:layout_alignRight="@+id/S03_line_like_message"
                         android:scaleType="centerInside"
+                        android:onClick="onClick"
                         android:src="@drawable/s03_comment_btn" />
 
                     <TextView
@@ -155,6 +157,7 @@
                         android:layout_above="@+id/S03_line_comment_item"
                         android:layout_alignRight="@+id/S03_line_comment_item"
                         android:scaleType="centerInside"
+                        android:onClick="onClick"
                         android:src="@drawable/s03_item_btn" />
 
                     <TextView
@@ -215,6 +218,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="25dp"
                         android:scaleType="centerInside"
+                        android:onClick="onClick"
                         android:src="@drawable/s03_play_btn" />
 
                 </RelativeLayout>
