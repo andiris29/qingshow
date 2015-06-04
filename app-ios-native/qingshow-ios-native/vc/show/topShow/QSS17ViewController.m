@@ -65,6 +65,8 @@
     [self hideNaviBackBtnTitle];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFirstLaunchChange:) name:kGlobalFirstUpdateNotification object:nil];
+    
+    NSLog(@"count ======   %d",self.navigationController.childViewControllers.count);
 }
 
 - (void)didReceiveFirstLaunchChange:(NSNotification*)noti{
@@ -125,7 +127,16 @@
 - (void)didClickedDate:(NSDate*)date ofProvider:(QSS17TavleViewProvider*)provider
 {
     QSS18TopShowOneDayViewController* vc = [[QSS18TopShowOneDayViewController alloc] initWithDate:date];
+    
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
+  
+    
+}
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

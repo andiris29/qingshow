@@ -553,9 +553,13 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
             UIViewController* vc = nil;
             if (indexPath.row == 0) {
                 vc = [[QSU09OrderListViewController alloc] init];
+                QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+                vc.navigationItem.leftBarButtonItem = backItem;
                 [self.navigationController pushViewController:vc animated:YES];
             } else if (indexPath.row == 1) {
                 vc = [[QSU10ReceiverListViewController alloc] init];
+                QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+                vc.navigationItem.leftBarButtonItem = backItem;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             break;
@@ -564,7 +568,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
         {
             if (indexPath.row == 6) {
                 QSU02UserChangeDressEffectViewController *vc = [[QSU02UserChangeDressEffectViewController alloc]init];
-                
+                QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+                vc.navigationItem.leftBarButtonItem = backItem;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             break;
@@ -576,6 +581,8 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
                 // Change Password
                 QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
                 vc.delegate = self;
+                QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+                vc.navigationItem.leftBarButtonItem = backItem;
                 [self.navigationController pushViewController:vc animated:YES];
                 //            } else if (indexPath.row == 1) {
                 //                // Change Email

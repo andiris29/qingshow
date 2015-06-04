@@ -16,4 +16,5 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "MobClick.h"
+    #import"QSBackBarItem.h"
 #endif

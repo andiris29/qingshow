@@ -37,11 +37,13 @@
     [super viewDidLoad];
     [self configView];
     [self configProvider];
+
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+//        [self.navigationController.navigationItem.backBarButtonItem setImage: [UIImage imageNamed:@"nav_btn_back"]];
     [MobClick beginLogPageView:PAGE_ID];
 }
 
