@@ -56,6 +56,15 @@
     [HUD show:YES];
     [HUD hide:YES afterDelay:TEXT_HUD_DELAY];
 }
+- (void)showSuccessHudAndPop:(NSString*)text{
+    [self showSuccessHudAndPop:text];
+    [self performSelector:@selector(popVc) withObject:nil afterDelay:TEXT_HUD_DELAY];
+}
+
+- (void)popVc {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (MBProgressHUD*)showNetworkWaitingHud
 {
     MBProgressHUD *HUD;

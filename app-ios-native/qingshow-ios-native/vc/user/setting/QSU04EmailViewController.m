@@ -10,6 +10,7 @@
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
 #import "QSUserManager.h"
+#import "QSNetworkKit.h"
 
 #define PAGE_ID @"U04 - 邮箱设置"
 
@@ -73,6 +74,11 @@
         return;
     }
     
-    [self.delegate emailViewController:self didSavingEmail:email];
+    [SHARE_NW_ENGINE updatePeople:@{@"email": email} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+        [self showSuccessHudAndPop:@"修改成功"];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
+
 @end

@@ -122,7 +122,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    
+    [self.tableView reloadData];
     [MobClick beginLogPageView:PAGE_ID];
     
 }
@@ -236,7 +236,6 @@
 }
 - (void)showChangePasswordVc {
     QSU08PasswordViewController *vc = [[QSU08PasswordViewController alloc]initWithNibName:@"QSU08PasswordViewController" bundle:nil];
-    vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -247,41 +246,6 @@
 }
 
 
-- (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity pop:(BOOL)fPop
-{
-    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-        if (metadata[@"error"] == nil && people != nil) {
-            [vc showSuccessHudWithText:@"更新成功"];
-            EntitySuccessBlock successLoad = ^(NSDictionary *people, NSDictionary *metadata) {
-                [_tableView reloadData];
-            };
-            [SHARE_NW_ENGINE getLoginUserOnSucced:successLoad onError:nil];
-            if (fPop) {
-                [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
-            }
-            
-        } else {
-            [vc showErrorHudWithText:@"更新失败"];
-        }
-    };
-    
-    ErrorBlock error = ^(NSError *error) {
-        if (error.userInfo[@"error"] != nil) {
-            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
-            if (errorCode != nil) {
-                [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
-            }
-        } else {
-            [vc showErrorHudWithText:@"网络连接失败"];
-        }
-    };
-    
-    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
-}
-
-- (void) updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity {
-    [self updatePeopleEntityViewController:vc byEntity:entity pop:YES];
-}
 #pragma mark - Action
 //- (void)actionSave {
 //    NSString *name = self.nameText.text;
@@ -354,6 +318,9 @@
 
 #pragma mark - UITextFieldDelegate
 
+- (void)updatePeopleEntityViewController:(id)vc byEntity:(id)en pop:(BOOL)f {
+#warning Temp
+}
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboardAndDatePicker];
     NSString *value = textField.text;
@@ -368,85 +335,23 @@
         }
       
     } else if (textField.tag == 201) {
-//        NSDate *date = [QSDateUtil buildDateFromResponseString:(NSString *)currentProfile[@"age"]];
-//        NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-//        [dateFormatter setDateFormat:@"yyyy/MM/dd"];
-//        NSString* birth= [dateFormatter stringFromDate:date];
-//        if ([value compare:birth] != NSOrderedSame) {
-//            [self updatePeopleEntityViewController:self byEntity:@{@"birthday": value} pop:NO];
-//            if (value.length != 0) {
-//                [self updatePeopleEntityViewController:self byEntity:@{@"age": value} pop:NO];
-//            }
-//        }
         if ([value compare:[currentProfile[@"age"] stringValue]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"age":value} pop:NO];
         }
         
     } else if (textField.tag == 202) {
-//        if (value .length != 0) {
-//            value = [value stringByReplacingOccurrencesOfString:@" cm" withString:@""];
-//        }
         if ([value compare:currentProfile[@"length"]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"height": value} pop:NO];
         }
         
     } else if (textField.tag == 203) {
-//        if (value.length != 0) {
-//            value = [value stringByReplacingOccurrencesOfString:@" kg" withString:@""];
-//        }
         if ([value compare:[currentProfile[@"weight"] stringValue]] != NSOrderedSame) {
             [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
         }
         
     }
-    //else if (textField == self.bodyTpye) {
-    //        if ([value compare:currentProfile[@"bodyType"]] != NSOrderedSame) {
-    //            [self updatePeopleEntityViewController:self byEntity:@{@"bodyType": value} pop:NO];
-    //        } else if (textField == self.dressTpye){
-    //            if ([value compare:currentProfile[@"dressStyle"]] != NSOrderedSame) {
-    //                [self updatePeopleEntityViewController:self byEntity:@{@"dressStyle": value} pop:NO];
-    //            } else if (textField == self.expectationTpye){
-    //                //                if ([value compare:currentProfile[@""]]) {
-    //                //                    <#statements#>
-    //                //                }
-    //            }
-    //        }
-    //    }
-    
 }
 
-//- (void)updatePeopleEntityViewController: (UIViewController *)vc byEntity:(NSDictionary *)entity pop:(BOOL)fPop
-//{
-//    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata){
-//        if (metadata[@"error"] == nil && people != nil) {
-//            [vc showSuccessHudWithText:@"更新成功"];
-//            EntitySuccessBlock successLoad = ^(NSDictionary *people, NSDictionary *metadata) {
-//                [self.delegate tableViewReloadDataForInfoCell];
-//            };
-//            [SHARE_NW_ENGINE getLoginUserOnSucced:successLoad onError:nil];
-//            if (fPop) {
-//                [vc.navigationController popToViewController:vc.navigationController.viewControllers[vc.navigationController.viewControllers.count - 2] animated:YES];
-//            }
-//            
-//        } else {
-//            [vc showErrorHudWithText:@"更新失败"];
-//        }
-//    };
-//    
-//    ErrorBlock error = ^(NSError *error) {
-//        if (error.userInfo[@"error"] != nil) {
-//            NSNumber *errorCode = (NSNumber *)error.userInfo[@"error"];
-//            if (errorCode != nil) {
-//                [vc showErrorHudWithText:@"更新失败，请确认输入的内容"];
-//            }
-//        } else {
-//            [vc showErrorHudWithText:@"网络连接失败"];
-//        }
-//    };
-//    
-//    [SHARE_NW_ENGINE updatePeople:entity onSuccess:success onError:error];
-//}
-//
 //
 //
 //
@@ -466,11 +371,12 @@
 
 
     if (otherBtns.count) {
-        UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"选择图片"
-                                                           delegate:self
-                                                  cancelButtonTitle:@"取消"
-                                             destructiveButtonTitle:nil
-                                                  otherButtonTitles:nil];
+        UIActionSheet *sheet =
+        [[UIActionSheet alloc] initWithTitle:@"选择图片"
+                                    delegate:self
+                           cancelButtonTitle:@"取消"
+                      destructiveButtonTitle:nil
+                           otherButtonTitles:nil];
         for (NSString* title in otherBtns) {
             [sheet addButtonWithTitle:title];
         }
@@ -496,24 +402,6 @@
         [self presentViewController:imagePickerController animated:YES completion:^{}];
     }
 }
-
-
-
-
-#pragma mark - U04,U05,U08's Delegate
-- (void)passwordViewController:(QSU08PasswordViewController *)vc didSavingPassword:(NSString *)newPassword needCurrentPassword:(NSString *)curPasswrod {
-    [self updatePeopleEntityViewController:vc byEntity:@{@"password":newPassword, @"currentPassword": curPasswrod}];
-}
-#pragma maek - changeDressEffectVCDelegate
-
-
-- (void)emailViewController:(QSU04EmailViewController *)vc didSavingEmail:(NSString *)email {
-    [self updatePeopleEntityViewController:vc byEntity:@{@"email": email}];
-}
-
-
-
-
 
 
 #pragma mark - loadData

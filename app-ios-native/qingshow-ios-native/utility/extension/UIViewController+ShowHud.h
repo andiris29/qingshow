@@ -17,5 +17,6 @@
 - (void)showErrorHudWithText:(NSString*)text;
 - (void)showErrorHudWithError:(NSError*)error;
 - (void)showSuccessHudWithText:(NSString*)text;
+- (void)showSuccessHudAndPop:(NSString*)text;
 - (MBProgressHUD*)showNetworkWaitingHud;
 @end
