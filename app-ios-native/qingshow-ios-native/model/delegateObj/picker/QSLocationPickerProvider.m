@@ -189,7 +189,7 @@
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
-    return 20.f;
+    return 40.f;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
@@ -205,6 +205,7 @@
     }
 
 }
+
 
 - (void)updateCityAndDistrictDatasource
 {
