@@ -45,11 +45,7 @@
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
     [self configNavBar];
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,15 +64,16 @@
     tapGes.numberOfTapsRequired = 5;
     [navBar addGestureRecognizer:tapGes];
     
-    
     NSDate* lastClickMenuDate = [QSUserManager shareUserManager].lastClickMenuDate;
-     NSTimeInterval t =[[NSDate date] timeIntervalSinceDate:lastClickMenuDate];
     if (!lastClickMenuDate || [[NSDate date] timeIntervalSinceDate:lastClickMenuDate] >= 24 * 60 * 60) {
         self.navigationItem.leftBarButtonItem = self.menuBtnNew;
     } else {
         self.navigationItem.leftBarButtonItem = self.menuBtn;
     }
     
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)menuButtonPressed

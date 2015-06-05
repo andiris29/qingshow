@@ -6,10 +6,10 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSUserSettingPickerCell.h"
+#import "QSU02InfoPickerCell.h"
 #import "QSPeopleUtil.h"
 
-@implementation QSUserSettingPickerCell
+@implementation QSU02InfoPickerCell
 {
 @private NSMutableArray *_dressStyleArray;
     NSMutableArray *_bodyStyleArray;
@@ -26,18 +26,19 @@
     _bodyStyleArray = [NSMutableArray arrayWithObjects:@"A型",@"H型",@"V型",@"X型", nil];
     _dressStyleArray = [NSMutableArray arrayWithObjects:@"日韩系",@"欧美系",nil];
 }
-- (void)bindWithDic:(NSDictionary *)peopleDic
-{
-    
-  
-    if (self.row == 4) {
-        _typeLabel.text = @"体型";
-          [_styleBtn setTitle:[QSPeopleUtil getBodyTypeDesc:peopleDic] forState:UIControlStateNormal];
-    }
-    else
-    {
-        _typeLabel.text = @"穿衣风格";
-        [_styleBtn setTitle:[QSPeopleUtil getDressStyleDesc:peopleDic] forState:UIControlStateNormal];
+- (void)bindWithUser:(NSDictionary *)peopleDict {
+    _typeLabel.text = u02InfoTypeToTitle(self.rowType);
+    switch (self.rowType) {
+        case U02SectionInfoRowBodyType: {
+            [_styleBtn setTitle:[QSPeopleUtil getBodyTypeDesc:peopleDict] forState:UIControlStateNormal];
+            break;
+        }
+        case U02SectionInfoRowDressStyle: {
+            [_styleBtn setTitle:[QSPeopleUtil getDressStyleDesc:peopleDict] forState:UIControlStateNormal];
+            break;
+        }
+        default:
+            break;
     }
 }
 
@@ -54,23 +55,29 @@
 }
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    if (self.row == 4) {
-        return 4;
+    if (self.rowType == U02SectionInfoRowBodyType) {
+        return _bodyStyleArray.count;
+    } else if (self.rowType == U02SectionInfoRowDressStyle) {
+        return _dressStyleArray.count;
+    } else {
+        return 0;
     }
-    return 2;
 }
+
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    if (self.row == 4) {
-        NSString *str = [NSString string];
+    if (self.rowType == U02SectionInfoRowBodyType) {
+        NSString *str = nil;
         str = _bodyStyleArray[row];
         return str;
     }
-    else
+    else if (self.rowType == U02SectionInfoRowDressStyle)
     {
         NSString *str = [NSString string];
         str = _dressStyleArray[row];
         return str;
+    } else {
+        return nil;
     }
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component

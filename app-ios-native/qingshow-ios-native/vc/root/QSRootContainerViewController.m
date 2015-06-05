@@ -9,7 +9,7 @@
 #import "QSRootContainerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSU01UserDetailViewController.h"
-#import "QSU02UserSettingViewController03.h"
+#import "QSU02UserSettingViewController.h"
 #import "QSS17ViewController.h"
 #import "QSU14FavoriteViewController.h"
 #import "QSNavigationController.h"
@@ -89,7 +89,7 @@
 //            QSU02UserSettingViewController *settingVc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
 //            settingVc.menuProvider = self;
 //            vc = settingVc;
-            QSU02UserSettingViewController03 *settingVc = [[QSU02UserSettingViewController03 alloc]init];
+            QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
             settingVc.menuProvider = self;
             vc = settingVc;
             break;

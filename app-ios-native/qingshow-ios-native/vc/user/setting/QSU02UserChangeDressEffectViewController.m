@@ -22,6 +22,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"修改穿衣效果";
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    self.navigationItem.leftBarButtonItem = backItem;
+    
     [self creatTableView];
 }
 - (void)viewWillAppear:(BOOL)animated

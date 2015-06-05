@@ -41,10 +41,10 @@
     [self configProvider];
     [self configView];
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    self.navigationItem.leftBarButtonItem = backItem;
 }
 - (void)viewWillAppear:(BOOL)animated
 {

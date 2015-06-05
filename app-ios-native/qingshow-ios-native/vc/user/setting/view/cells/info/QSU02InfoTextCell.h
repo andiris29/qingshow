@@ -7,14 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSU02InfoBaseCell.h"
 
+@interface QSU02InfoTextCell : QSU02InfoBaseCell<UITextFieldDelegate>
 
-@interface QSU02UserSettingInfoCell : UITableViewCell<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UITextField *infoTextField;
-
-@property (nonatomic,assign)NSInteger row;
-@property (nonatomic,strong)UIViewController *superVC;
 
 - (void)infoCellBindWithDic:(NSDictionary *)peopleDic;
 

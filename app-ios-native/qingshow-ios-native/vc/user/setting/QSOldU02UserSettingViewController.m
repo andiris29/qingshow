@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 QS. All rights reserved.
 //
 
-#import "QSU02UserSettingViewController02.h"
+#import "QSOldU02UserSettingViewController.h"
 #import "QSU04EmailViewController.h"
 #import "QSU08PasswordViewController.h"
 #import "QSU09OrderListViewController.h"
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
     QSU02UserSettingViewControllerSelectTypeHairType
 };
 
-@interface QSU02UserSettingViewController02 ()
+@interface QSOldU02UserSettingViewController ()
 
 @property (assign, nonatomic) QSU02UserSettingViewControllerSelectType currentSelectType;
 @property (strong, nonatomic) UIActionSheet* currentActionSheet;
@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, QSU02UserSettingViewControllerSelectType) {
 
 @end
 
-@implementation QSU02UserSettingViewController02 {
+@implementation QSOldU02UserSettingViewController {
     
 @private
     long _uploadImageType;
