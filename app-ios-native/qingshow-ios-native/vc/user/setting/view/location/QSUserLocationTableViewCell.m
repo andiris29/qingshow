@@ -14,6 +14,7 @@
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     _isSelectedReceiver = NO;
+    self.selectedIndicator.highlighted = _isSelectedReceiver;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

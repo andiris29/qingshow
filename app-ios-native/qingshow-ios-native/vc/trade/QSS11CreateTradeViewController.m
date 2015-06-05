@@ -246,6 +246,7 @@
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+   
     return self.cellGroupArray.count;
 }
 
@@ -263,7 +264,13 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 0.f;
+    }
+    else
+    {
     return 5.f;
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -426,7 +433,15 @@
 - (IBAction)receiverManageBtnPressed:(id)sender {
     QSU10ReceiverListViewController* vc = [[QSU10ReceiverListViewController alloc] init];
     vc.delegate = self;
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)backAction
+{
+     [self.tableView reloadData];
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 - (void)receiverListVc:(QSU10ReceiverListViewController*)vc didSelectReceiver:(NSDictionary*)receiver
 {
