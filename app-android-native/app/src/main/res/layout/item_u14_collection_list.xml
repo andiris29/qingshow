@@ -6,26 +6,37 @@
     android:layout_width="match_parent"
     android:background="@color/gray_background"
     android:layout_marginBottom="15dp"
-    android:layout_height="250dp">
+    android:layout_height="300dp">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@color/white"
+        android:gravity="center_horizontal"
         android:padding="2dp"
         android:layout_weight="1">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_u14_modelImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             fresco:placeholderImage="@drawable/root_cell_placehold_image1" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/item_shadow"/>
         <TextView
             android:id="@+id/item_u14_describe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:text="fads"/>
         </RelativeLayout>
 
     <LinearLayout
@@ -68,6 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
+                android:layout_alignParentBottom="true"
                 android:textColor="@color/white"
                 android:layout_alignBottom="@+id/u14_product_shadow"
                 android:layout_marginBottom="5dp"
@@ -80,7 +92,7 @@
             android:id="@+id/u14_product1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="3dp"
             android:visibility="invisible"
             android:padding="2dp"
             android:layout_weight="1">
@@ -103,6 +115,7 @@
                 android:id="@+id/u14_product_price1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:textSize="12sp"
                 android:textColor="@color/white"
                 android:layout_alignBottom="@+id/u14_product_shadow"
@@ -149,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:layout_alignBottom="@+id/u14_product_shadow"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="5dp"
                     android:layout_centerHorizontal="true"
                     android:text="￥138"/>
@@ -160,7 +173,7 @@
                 android:id="@+id/u14_product3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="2dp"
                 android:visibility="invisible"
                 android:padding="2dp"
                 android:layout_weight="1">
@@ -183,7 +196,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:textColor="@color/white"
-                    android:layout_alignBottom="@+id/u14_product_shadow"
+                    android:layout_alignParentBottom="true"
                     android:layout_marginBottom="5dp"
                     android:layout_centerHorizontal="true"
                     android:text="￥138"/>

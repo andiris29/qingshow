@@ -1,9 +1,11 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S03SHowActivity;
+import com.focosee.qingshow.activity.S10ItemDetailActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
@@ -47,7 +51,7 @@ public class U14CollectionAdapter extends AbsAdapter<List<MongoShow>> {
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
 
-        MongoShow show = datas.get(position);
+        final MongoShow show = datas.get(position);
 
         SimpleDraweeView modelImage = holder.getView(R.id.item_u14_modelImage);
         TextView describe = holder.getView(R.id.item_u14_describe);
@@ -74,15 +78,33 @@ public class U14CollectionAdapter extends AbsAdapter<List<MongoShow>> {
 
         int i = 0;
         if(null != show.itemRefs) {
-            for (MongoItem item : show.itemRefs) {
+            for (final MongoItem item : show.itemRefs) {
                 products[i].setVisibility(View.VISIBLE);
+                products[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, S10ItemDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(S10ItemDetailActivity.INPUT_ITEM_ENTITY, item);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
+                });
                 imags[i].setImageURI(Uri.parse(item.images.get(0).url));
-                prices[i].setText(item.images.get(0).description);
+                prices[i].setText(item.price);
                 i++;
             }
         }
 
         modelImage.setImageURI(Uri.parse(show.cover));
+        modelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, S03SHowActivity.class);
+                intent.putExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID, show._id);
+                context.startActivity(intent);
+            }
+        });
         describe.setText(show.description);
 
     }
