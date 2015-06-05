@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSCreateTradeHeigh60Cell.h"
+#import "QSCreateTradeHeigh46Cell.h"
 
-@interface QSCreateTradeItemInfoColorCell : QSCreateTradeHeigh60Cell
+@interface QSCreateTradeItemInfoColorCell : QSCreateTradeHeigh46Cell
 
 @property (strong, nonatomic) IBOutlet UILabel* colorLabel;
 

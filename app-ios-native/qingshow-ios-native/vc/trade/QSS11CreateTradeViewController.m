@@ -252,8 +252,10 @@
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     QSCreateTradeTableViewCellBase* cell = [self cellForIndexPath:indexPath];
     return [cell getHeightWithDict:self.itemDict];
+    
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {

@@ -18,6 +18,7 @@
     // Drawing code
 }
 */
+
 - (void)bindWithDict:(NSDictionary *)dict
 {
     QSItemCategory category = [QSItemUtil getItemCategory:dict];
@@ -41,7 +42,7 @@
 }
 - (CGFloat)getHeightWithDict:(NSDictionary *)dict
 {
-    return 120.f ;
+    return 184.0f ;
 }
 - (CGFloat)getBustCircleOrWaistline
 {

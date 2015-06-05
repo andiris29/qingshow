@@ -29,6 +29,7 @@
 		8C26B9191B12C1D100D8E8A1 /* QSS17TavleViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C26B9181B12C1D100D8E8A1 /* QSS17TavleViewProvider.m */; };
 		8C3E1A051B14168B005971D8 /* QSCreateTradeClothSizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C3E1A041B14168B005971D8 /* QSCreateTradeClothSizeCell.m */; };
 		8C56075B1B1D90FC00C737F8 /* xin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C56075A1B1D90FC00C737F8 /* xin@2x.png */; };
+		8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C597FF31B213C010087225E /* QSCreateTradeHeight80Cell.m */; };
 		8C684C691B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C684C681B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m */; };
 		8C79DB8B1B1EDED700D5159E /* lantingjianhei_xi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C79DB8A1B1EDED700D5159E /* lantingjianhei_xi.ttf */; };
 		8C8B9D841B00395B00C1A321 /* welcome1_480@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C8B9D751B00395B00C1A321 /* welcome1_480@2x.png */; };
@@ -344,6 +345,8 @@
 		8C3E1A031B14168B005971D8 /* QSCreateTradeClothSizeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeClothSizeCell.h; sourceTree = "<group>"; };
 		8C3E1A041B14168B005971D8 /* QSCreateTradeClothSizeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeClothSizeCell.m; sourceTree = "<group>"; };
 		8C56075A1B1D90FC00C737F8 /* xin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xin@2x.png"; sourceTree = "<group>"; };
+		8C597FF21B213C010087225E /* QSCreateTradeHeight80Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeHeight80Cell.h; sourceTree = "<group>"; };
+		8C597FF31B213C010087225E /* QSCreateTradeHeight80Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeHeight80Cell.m; sourceTree = "<group>"; };
 		8C684C671B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU02UserChangeDressEffectViewController.h; sourceTree = "<group>"; };
 		8C684C681B19AECE0068E340 /* QSU02UserChangeDressEffectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU02UserChangeDressEffectViewController.m; sourceTree = "<group>"; };
 		8C79DB8A1B1EDED700D5159E /* lantingjianhei_xi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = lantingjianhei_xi.ttf; path = libs/lantingjianhei_xi.ttf; sourceTree = "<group>"; };
@@ -1488,6 +1491,8 @@
 				EF810F461AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m */,
 				EF810F471AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.h */,
 				EF810F481AB5F81B0079BA76 /* QSCreateTradeHeigh60Cell.m */,
+				8C597FF21B213C010087225E /* QSCreateTradeHeight80Cell.h */,
+				8C597FF31B213C010087225E /* QSCreateTradeHeight80Cell.m */,
 				EF810F491AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.h */,
 				EF810F4A1AB5F81B0079BA76 /* QSCreateTradeTableViewCellBase.m */,
 			);
@@ -2475,6 +2480,7 @@
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
 				EF8E69381B17665700678E9A /* QSCreateTradeItemInfoColorCell.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
+				8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */,
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				68824D921B0EBB57006E3151 /* QSU14FavoriteViewController.m in Sources */,
 				EF59EDFD1A74FAEE00D639FB /* QSItemImageListTableViewProvider.m in Sources */,

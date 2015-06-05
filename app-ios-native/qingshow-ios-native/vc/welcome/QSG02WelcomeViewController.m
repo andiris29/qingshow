@@ -56,6 +56,8 @@
     _pageControl.userInteractionEnabled = NO;
     _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
     
+    _loginBtn.hidden = YES;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -169,7 +171,7 @@
     _pageControl.currentPage = pageNum;
     //NSLog(@"offset  =  %f",_welcomeSCV.contentOffset.x);
     if (_welcomeSCV.contentOffset.x == w*3) {
-        [_loginBtn setTitle:@"进入中。。" forState:UIControlStateNormal];
+        //[_loginBtn setTitle:@"进入中。。" forState:UIControlStateNormal];
         _loginBtn.hidden = YES;
         [self skipBtnPressed:self];
     }

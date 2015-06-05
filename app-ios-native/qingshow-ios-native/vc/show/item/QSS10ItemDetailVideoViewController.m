@@ -41,6 +41,7 @@
     // Do any additional setup after loading the view from its nib.
     self.imageScrollView.pageControlOffsetY = 120.f;
     [self bindWithDict:self.itemDict];
+    self.priceLabel.hidden = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
