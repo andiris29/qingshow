@@ -31,7 +31,7 @@ public class MongoItem implements Serializable {
     public String video;
     public String sizeExplanation;
 
-    public String brandRef;
+    public String brandLogo;
     public TaoBaoInfo taobaoInfo;
 
     public class Image implements Serializable {
