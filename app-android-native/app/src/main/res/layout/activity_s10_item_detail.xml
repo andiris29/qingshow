@@ -1,59 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:id="@+id/s10_info"
+    android:layout_height="fill_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/s10_item_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="11">
+        android:layout_height="match_parent" />
 
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/s10_item_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ImageButton
-            android:id="@+id/s10_back_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/s03_back_btn"
-            android:onClick="onClick" />
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <com.focosee.qingshow.widget.indicator.PageIndicator
-                android:id="@+id/s10_page_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-
-        </LinearLayout>
-    </RelativeLayout>
+    <ImageButton
+        android:id="@+id/s10_back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/s03_back_btn"
+        android:onClick="onClick" />
 
     <LinearLayout
-        android:id="@+id/s10_info_button"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3.5"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_height="200dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
         android:background="@drawable/show_bottom_shadow"
-        android:padding="5dp">
+        android:orientation="vertical">
 
+        <com.focosee.qingshow.widget.indicator.PageIndicator
+            android:id="@+id/s10_page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +42,6 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="25dp"
-                android:text=""
                 android:textColor="#ffffff" />
 
             <TextView
@@ -76,7 +51,6 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="5dp"
-                android:text=""
                 android:textColor="#ffffff" />
         </LinearLayout>
 
@@ -92,42 +66,11 @@
             android:layout_marginBottom="20dp"
             android:textSize="30sp"
             android:textColor="@color/white"
+            android:layout_marginTop="10dp"
             android:text="Buy Now"
             android:background="@drawable/red_btn" />
+
     </LinearLayout>
+</RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/s10_video"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
 
-        <com.focosee.qingshow.widget.MFullScreenVideoView
-            android:id="@+id/s10_video_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
-        <ImageButton
-            android:id="@+id/s10_video_back_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/s03_back_btn"
-            android:onClick="onClick" />
-
-        <ImageView
-            android:onClick="onClick"
-            android:id="@+id/s10_video_play"
-            android:layout_width="43dp"
-            android:layout_height="43dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="30dp"
-            android:layout_marginRight="25dp"
-            android:scaleType="centerInside"
-            android:background="@drawable/s03_play_btn" />
-
-    </RelativeLayout>
-
-</LinearLayout>

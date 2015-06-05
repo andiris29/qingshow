@@ -39,14 +39,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     private TextView price;
     private PageIndicator pageIndicator;
 
-    private RelativeLayout videoLayout;
-    private RelativeLayout info;
-    private LinearLayout infoButton;
-    private VideoView videoView;
-
     private MongoItem itemEntity;
-
-    private boolean isFirstPlay = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +51,10 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private void init() {
-        videoLayout = (RelativeLayout) findViewById(R.id.s10_video);
-        infoButton = (LinearLayout) findViewById(R.id.s10_info_button);
-        info = (RelativeLayout) findViewById(R.id.s10_info);
         viewPager = (ViewPager) findViewById(R.id.s10_item_viewpager);
         description = (TextView) findViewById(R.id.s10_item_description);
         price = (TextView) findViewById(R.id.s10_item_price);
         pageIndicator = (PageIndicator) findViewById(R.id.s10_page_indicator);
-        videoView = (VideoView) findViewById(R.id.s10_video_view);
 
         ItemImgViewPagerAdapter viewPagerAdapter = new ItemImgViewPagerAdapter(itemEntity.images, this);
         viewPager.setAdapter(viewPagerAdapter);
@@ -75,8 +64,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         pageIndicator.setCount(itemEntity.images.size());
 
         description.setText(itemEntity.name);
-        price.setText(itemEntity.getPrice());
-        configVideo();
+        price.setText(itemEntity.price);
     }
 
 
@@ -99,58 +87,13 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
                 bundle.putSerializable(S11NewTradeActivity.INPUT_ITEM_ENTITY, itemEntity);
                 intent.putExtras(bundle);
                 Log.i("tag",itemEntity._id);
-                S10ItemDetailActivity.this.startActivity(intent);
+                startActivity(intent);
                 break;
             case R.id.s10_back_btn:
                 finish();
                 break;
-//            case R.id.s10_watch:
-//                startVideo();
-//                break;
-            case R.id.s10_video_play:
-                if(videoView.isPlaying()){
-                    videoView.pause();
-                    v.setBackgroundResource(R.drawable.s03_play_btn);
-                }else {
-                    videoView.start();
-                    v.setBackgroundResource(R.drawable.s03_pause_btn);
-                }
-                break;
-            case R.id.s10_video_back_btn:
-                videoView.pause();
-                videoLayout.setVisibility(View.GONE);
-                info.setVisibility(View.VISIBLE);
-                infoButton.setVisibility(View.VISIBLE);
-                break;
-        }
-    }
 
-    private void configVideo(){
-        if (TextUtils.isEmpty(itemEntity.video)) {
-            return;
         }
-        videoView.setVideoPath(itemEntity.video);
-        videoView.requestFocus();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(isFirstPlay){
-                    videoView.seekTo(1);
-                    isFirstPlay = false;
-                }
-            }
-        }).start();
-    }
-
-    private void startVideo(){
-        if (TextUtils.isEmpty(itemEntity.video)) {
-            return;
-        }
-        configVideo();
-        info.setVisibility(View.GONE);
-        infoButton.setVisibility(View.GONE);
-        videoLayout.setVisibility(View.VISIBLE);
-
     }
 
     private class ItemImgViewPagerAdapter extends PagerAdapter implements ViewPager.OnPageChangeListener {
