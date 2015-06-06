@@ -43,6 +43,7 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     
+    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
     if (![QSUserManager shareUserManager].userInfo) {
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     }
@@ -98,9 +99,7 @@
     [self showVc:vc];
     
     if (![vc isKindOfClass:[QSS17ViewController class]]) {
-        if (![QSUserManager shareUserManager].userInfo) {
-            [self.navigationController pushViewController:[[QSU07RegisterViewController alloc] init] animated:YES];
-        }
+        [self showRegisterVc];
     }
 }
 
@@ -126,8 +125,11 @@
 
     [vc didMoveToParentViewController:self];    //Call after transition
     self.contentVc = nav;
-
-    
+}
+- (void)showRegisterVc {
+    if (![QSUserManager shareUserManager].userInfo) {
+        [self.navigationController pushViewController:[[QSU07RegisterViewController alloc] init] animated:YES];
+    }
 }
 
 @end

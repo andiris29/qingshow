@@ -250,16 +250,10 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 
 - (void)actionLogout {
-    NSLog(@"logout");
-    VoidBlock succss = ^ {
-        [QSUserManager shareUserManager].userInfo = nil;
-        [QSUserManager shareUserManager].fIsLogined = NO;
-        QSU07RegisterViewController *registerVC = [[QSU07RegisterViewController alloc]init];
-        [self.navigationController pushViewController:registerVC animated:YES];
-    };
-    
-    
-    [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
+    [QSUserManager shareUserManager].userInfo = nil;
+    [QSUserManager shareUserManager].fIsLogined = NO;
+    [self.menuProvider showRegisterVc];
+    [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
 }
 
 #pragma mark - Text Field

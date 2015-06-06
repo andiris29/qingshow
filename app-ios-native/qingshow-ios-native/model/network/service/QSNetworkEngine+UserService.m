@@ -129,9 +129,13 @@
                                paramers:@{}
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
+                NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
                 if (succeedBlock) {
-                    [QSUserManager shareUserManager].userInfo = nil;
-                    [QSUserManager shareUserManager].fIsLogined = NO;
+                    if (userInfo && [QSUserManager shareUserManager].userInfo == userInfo) {
+                        [QSUserManager shareUserManager].userInfo = nil;
+                        [QSUserManager shareUserManager].fIsLogined = NO;
+                    }
+
                     succeedBlock();
                 }
             }

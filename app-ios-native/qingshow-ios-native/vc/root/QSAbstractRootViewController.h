@@ -13,6 +13,7 @@
 @protocol QSMenuProviderDelegate <NSObject>
 
 - (void)didClickMenuBtn;
+- (void)showRegisterVc;
 
 @end
 
