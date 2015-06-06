@@ -132,11 +132,12 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [MobClick endLogPageView:PAGE_ID];
 }
 
-- (void)refreshData {
-    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
-        [self.tableView reloadData];
-    } onError:nil];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
+
+
 
 #pragma mark - Config View
 
@@ -224,12 +225,8 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     return cell;
 }
 
-- (void)hideKeyboardAndPicker {
-    [self visitAllCell:^BOOL(QSU02AbstractTableViewCell *cell) {
-        [cell resignKeyboardAndPicker];
-        return YES;
-    }];
-}
+
+#pragma mark - Action
 
 - (void)showOrderList{
     [self.navigationController pushViewController:[[QSU09OrderListViewController alloc] init] animated:YES];
@@ -252,17 +249,12 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [cell cellDidClicked];
 }
 
-
-#pragma mark - Action
-
 - (void)actionLogout {
     NSLog(@"logout");
     VoidBlock succss = ^ {
         [QSUserManager shareUserManager].userInfo = nil;
         [QSUserManager shareUserManager].fIsLogined = NO;
         QSU07RegisterViewController *registerVC = [[QSU07RegisterViewController alloc]init];
-        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-        [ud setObject:@"YES" forKey:@"isPushFromU07"];
         [self.navigationController pushViewController:registerVC animated:YES];
     };
     
@@ -270,7 +262,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
 
-//For Text Field
+#pragma mark - Text Field
 - (void)updateUserInfoKey:(NSString*)key value:(NSString*)value{
     if (!key || !value || !key.length || !value.length) {
         return;
@@ -332,7 +324,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 #pragma mark - Image Picker
 #pragma mark -  UIImagePickerControllerDelegate
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     //    [picker dismissViewControllerAnimated:YES completion:^{}];
     
@@ -393,20 +384,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 }
 
 
-
-#pragma mark - loadData
-
-- (void)didTapTableView:(UITapGestureRecognizer*)ges
-{
-    [self hideKeyboardAndPicker];
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Helper
 - (void)visitAllCell:(U02CellBlock)cellBlock {
     for (NSArray* array in self.cellArrays) {
@@ -417,7 +394,25 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         }
     }
 }
+
+- (void)refreshData {
+    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+        [self.tableView reloadData];
+    } onError:nil];
+}
+
+#pragma mark - Keyboard
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self hideKeyboardAndPicker];
 }
+
+- (void)hideKeyboardAndPicker {
+    [self visitAllCell:^BOOL(QSU02AbstractTableViewCell *cell) {
+        [cell resignKeyboardAndPicker];
+        return YES;
+    }];
+}
+
+#pragma mark - Picker
+
 @end

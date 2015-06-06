@@ -93,10 +93,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSString *str = [[NSUserDefaults standardUserDefaults]objectForKey:@"isPushFromU07"];
-    if (str) {
-        _itemBtn.hidden = YES;
-    }
     self.navigationController.navigationBarHidden = YES;
     [MobClick beginLogPageView:PAGE_ID];
 }
