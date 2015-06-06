@@ -63,4 +63,7 @@ NSString* u02SectionToTitle(U02Section sec){
 - (void)cellDidClicked {
 
 }
+- (void)resignKeyboardAndPicker {
+    
+}
 @end

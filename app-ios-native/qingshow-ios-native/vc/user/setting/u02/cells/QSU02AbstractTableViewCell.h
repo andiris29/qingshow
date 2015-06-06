@@ -23,6 +23,7 @@ NSString* u02SectionToTitle(U02Section sec);
 - (void)showAddressList;
 - (void)showExpectationVc;
 - (void)showChangePasswordVc;
+- (void)updateUserInfoKey:(NSString*)key value:(NSString*)value;
 @end
 
 
@@ -36,5 +37,5 @@ NSString* u02SectionToTitle(U02Section sec);
 
 - (void)bindWithUser:(NSDictionary*)userDict;
 - (void)cellDidClicked;
-
+- (void)resignKeyboardAndPicker;
 @end

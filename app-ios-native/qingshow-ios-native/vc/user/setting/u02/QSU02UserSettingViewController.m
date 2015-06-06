@@ -43,6 +43,8 @@
 #define w ([UIScreen mainScreen].bounds.size.width)
 #define h ([UIScreen mainScreen].bounds.size.height)
 
+typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
+
 @interface QSU02UserSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong)NSString *userId;
@@ -222,8 +224,11 @@
     return cell;
 }
 
-- (void)hideKeyboardAndDatePicker {
-    
+- (void)hideKeyboardAndPicker {
+    [self visitAllCell:^BOOL(QSU02AbstractTableViewCell *cell) {
+        [cell resignKeyboardAndPicker];
+        return YES;
+    }];
 }
 
 - (void)showOrderList{
@@ -249,21 +254,6 @@
 
 
 #pragma mark - Action
-//- (void)actionSave {
-//    NSString *name = self.nameText.text;
-//    NSString *length = self.lengthText.text;
-//    NSString *weight = self.weightText.text;
-//    
-//    if (length.length != 0) {
-//        length = [length stringByReplacingOccurrencesOfString:@" cm" withString:@""];
-//    }
-//    
-//    if (weight.length != 0) {
-//        weight = [weight stringByReplacingOccurrencesOfString:@" kg" withString:@""];
-//    }
-//    
-//    [self updatePeopleEntityViewController:self byEntity:@{@"name": name, @"height": length, @"weight": weight}];
-//}
 
 - (void)actionLogout {
     NSLog(@"logout");
@@ -280,48 +270,18 @@
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
 
-
-#pragma mark - UITextFieldDelegate
-
-- (void)updatePeopleEntityViewController:(id)vc byEntity:(id)en pop:(BOOL)f {
-#warning Temp
-}
-
-
--(void)textFieldDidEndEditing:(UITextField *)textField {
-    [self hideKeyboardAndDatePicker];
-    NSString *value = textField.text;
-//    if (value.length == 0) {
-//        return;
-//    }
-    NSDictionary *currentProfile = [QSUserManager shareUserManager].userInfo;
-    NSLog(@"curr = %@",currentProfile);
-    if (textField.tag == 200) {
-        if ([value compare:currentProfile[@"nickname"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"nickname": value} pop:NO];
-        }
-      
-    } else if (textField.tag == 201) {
-        if ([value compare:[currentProfile[@"age"] stringValue]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"age":value} pop:NO];
-        }
-        
-    } else if (textField.tag == 202) {
-        if ([value compare:currentProfile[@"length"]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"height": value} pop:NO];
-        }
-        
-    } else if (textField.tag == 203) {
-        if ([value compare:[currentProfile[@"weight"] stringValue]] != NSOrderedSame) {
-            [self updatePeopleEntityViewController:self byEntity:@{@"weight": value} pop:NO];
-        }
-        
+//For Text Field
+- (void)updateUserInfoKey:(NSString*)key value:(NSString*)value{
+    if (!key || !value || !key.length || !value.length) {
+        return;
     }
+    NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
+    if ([value isEqualToString:peopleDict[key]]) {
+        return;
+    }
+    [SHARE_NW_ENGINE updatePeople:@{key : value} onSuccess:nil onError:nil];
 }
 
-//
-//
-//
 
 #pragma mark - Update Image
 - (void)prompToChangeImage:(NSInteger)type {
@@ -347,7 +307,7 @@
         for (NSString* title in otherBtns) {
             [sheet addButtonWithTitle:title];
         }
-        [self hideKeyboardAndDatePicker];
+        [self hideKeyboardAndPicker];
         [sheet showInView:self.view];
     } else {
         [self showErrorHudWithText:@"没有权限访问相册，请再设定里允许对相册进行访问"];
@@ -438,35 +398,26 @@
 
 - (void)didTapTableView:(UITapGestureRecognizer*)ges
 {
-#warning Hide Keyboard and Picker
+    [self hideKeyboardAndPicker];
 }
 
-//- (void)refreshImage {
-//    
-//    NSDictionary *people = [QSUserManager shareUserManager].userInfo;
-//    [self.portraitImage setImageFromURL:[QSPeopleUtil getHeadIconUrl:people]];
-//    [self.backgroundImage setImageFromURL:[QSPeopleUtil getBackgroundUrl:people]];
-//    /*
-//     if (people[@"portrait"] != nil) {
-//     NSString *portaits = people[@"portrait"];
-//     [self.portraitImage setImageFromURL:[NSURL URLWithString:portaits]];
-//     } else {
-//     [self.portraitImage setImage:[UIImage imageNamed:@"nav_btn_account"]];
-//     }
-//     
-//     if (people[@"background"] != nil) {
-//     NSString *background = people[@"background"];
-//     [self.backgroundImage setImageFromURL:[NSURL URLWithString:background]];
-//     } else {
-//     [self.backgroundImage setBackgroundColor:[UIColor blackColor]];
-//     }
-//     */
-//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-
+#pragma mark - Helper
+- (void)visitAllCell:(U02CellBlock)cellBlock {
+    for (NSArray* array in self.cellArrays) {
+        for (QSU02AbstractTableViewCell* cell in array) {
+            if (!cellBlock(cell)) {
+                return;
+            }
+        }
+    }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self hideKeyboardAndPicker];
+}
 @end

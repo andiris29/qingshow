@@ -15,7 +15,7 @@
 #import "QSU02AbstractTableViewCell.h"
 
 
-@interface QSU02UserSettingViewController : QSRootContentViewController< UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, UITextFieldDelegate, QSU02AbstractTableViewCellDelegate>
+@interface QSU02UserSettingViewController : QSRootContentViewController< UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, QSU02AbstractTableViewCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView* tableView;
 @end

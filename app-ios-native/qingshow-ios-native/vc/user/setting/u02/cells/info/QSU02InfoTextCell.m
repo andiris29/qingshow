@@ -15,6 +15,7 @@
 #import "QSBlock.h"
 #import "UINib+QSExtension.h"
 
+
 @implementation QSU02InfoTextCell
 
 - (void)awakeFromNib {
@@ -31,7 +32,6 @@
 
 - (void)bindWithUser:(NSDictionary *)peopleDict
 {
-
     self.typeLabel.text = u02InfoTypeToTitle(self.rowType);
     switch (self.rowType) {
         case U02SectionInfoRowName: {
@@ -53,15 +53,55 @@
             if ([QSPeopleUtil getHeight:peopleDict]) {
                 self.infoTextField.text = [NSString stringWithFormat:@"%@",[QSPeopleUtil getHeight:peopleDict]];
             }
+            break;
         }
         case U02SectionInfoRowWeight: {
             self.infoTextField.placeholder = @"请输入体重";
             if ([QSPeopleUtil getWeight:peopleDict]) {
                 self.infoTextField.text = [NSString stringWithFormat:@"%@",[QSPeopleUtil getWeight:peopleDict]];
             }
-        }
-        default:
             break;
+        }
+        default:{
+            break;
+        }
     }
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {
+    NSString* key = nil;
+    NSString* value = self.infoTextField.text;
+    
+    switch (self.rowType) {
+        case U02SectionInfoRowName: {
+            key = @"nickname";
+            break;
+        }
+        case U02SectionInfoRowAge: {
+            key = @"age";
+            break;
+        }
+        case U02SectionInfoRowHeight: {
+            key = @"height";
+            break;
+        }
+        case U02SectionInfoRowWeight: {
+            key = @"weight";
+            break;
+        }
+        default:{
+            break;
+        }
+    }
+    [self.delegate updateUserInfoKey:key value:value];
+}
+
+- (void)resignKeyboardAndPicker {
+    [self.infoTextField resignFirstResponder];
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [self.infoTextField resignFirstResponder];
+    return YES;
 }
 @end

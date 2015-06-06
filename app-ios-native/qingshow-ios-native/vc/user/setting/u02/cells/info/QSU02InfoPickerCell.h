@@ -9,15 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "QSU02InfoBaseCell.h"
 
-@interface QSU02InfoPickerCell : QSU02InfoBaseCell<UIPickerViewDelegate,UIPickerViewDataSource>
+@interface QSU02InfoPickerCell : QSU02InfoBaseCell
+
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
-
-@property (weak, nonatomic) IBOutlet UIButton *styleBtn;
-
-@property (weak, nonatomic) IBOutlet UIPickerView *chooseStylePickerView;
-
-
-- (IBAction)changeStyleBtnPressed:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel* valueLabel;
 
 - (void)bindWithDic:(NSDictionary *)peopleDic;
 
