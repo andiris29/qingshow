@@ -13,9 +13,12 @@
 
 #import "QSRootContentViewController.h"
 #import "QSU02AbstractTableViewCell.h"
+#import "QSSinglePickerProvider.h"
 
 
-@interface QSU02UserSettingViewController : QSRootContentViewController< UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, QSU02AbstractTableViewCellDelegate>
+@interface QSU02UserSettingViewController : QSRootContentViewController< UIActionSheetDelegate, UIImagePickerControllerDelegate, UIScrollViewDelegate, QSImageEditingViewControllerDelegate, QSU02AbstractTableViewCellDelegate, QSSinglePickerProviderDelegate>
 
+@property (weak, nonatomic) IBOutlet UIPickerView *picker;
 @property (weak, nonatomic) IBOutlet UITableView* tableView;
+
 @end

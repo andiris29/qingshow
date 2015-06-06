@@ -20,6 +20,7 @@
 @interface QSSinglePickerProvider : NSObject <UIPickerViewDataSource, UIPickerViewDelegate>
 - (instancetype)initWithDataArray:(NSArray*)dataArray;
 - (void)bindPicker:(UIPickerView*)picker;
+- (void)selectData:(NSString*)data;
 
 @property (strong, nonatomic) NSArray* dataArray;
 @property (weak, nonatomic) NSObject<QSSinglePickerProviderDelegate>* delegate;

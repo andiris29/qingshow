@@ -32,7 +32,7 @@
 #import "QSU02UserChangeDressEffectViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "QSBlock.h"
-#import "QSSinglePickerProvider.h"
+
 
 
 #define PAGE_ID @"U02 - 个人设置"
@@ -57,6 +57,10 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 @property (strong, nonatomic) NSMutableArray* cellArrays;       //[[]]
 @property (strong, nonatomic) NSArray* sectionModelArray;
 @property (strong, nonatomic) NSArray* rowModelArray;
+
+
+@property (strong, nonatomic) QSSinglePickerProvider* bodyTypePickerProvider;
+@property (strong, nonatomic) QSSinglePickerProvider* dressStyleProvider;
 @end
 
 @implementation QSU02UserSettingViewController
@@ -118,6 +122,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [self configSections];
     [self configCells];
     self.tableView.tableFooterView = self.footerView;
+    [self pickerProviderInit];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -391,8 +396,70 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         [cell resignKeyboardAndPicker];
         return YES;
     }];
+    [self hidePicker];
 }
 
 #pragma mark - Picker
+- (void)pickerProviderInit {
+    self.bodyTypePickerProvider = [[QSSinglePickerProvider alloc] initWithDataArray:@[@"A型", @"H型", @"V型", @"X型"]];
+    self.bodyTypePickerProvider.delegate = self;
+    self.dressStyleProvider = [[QSSinglePickerProvider alloc] initWithDataArray:@[@"日韩系", @"欧美系"]];
+    self.dressStyleProvider.delegate = self;
+}
+
+- (void)showPickerWithType:(NSInteger)type {
+    NSDictionary* dict = [QSUserManager shareUserManager].userInfo;
+    if (type == U02SectionInfoRowDressStyle) {
+        [self.dressStyleProvider bindPicker:self.picker];
+        [self.dressStyleProvider selectData:[QSPeopleUtil getDressStyleDesc:dict]];
+        
+        [self showPicker];
+    } else if (type == U02SectionInfoRowBodyType) {
+        [self.bodyTypePickerProvider bindPicker:self.picker];
+        [self.bodyTypePickerProvider selectData:[QSPeopleUtil getBodyTypeDesc:dict]];
+        
+        [self showPicker];
+    }
+}
+- (void)showPicker {
+    if (!self.picker.hidden){
+        return;
+    }
+    
+    self.picker.hidden = NO;
+    self.picker.hidden = NO;
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromTop;
+    tran.duration = 0.2f;
+    [self.picker.layer addAnimation:tran forKey:@"ShowAnimation"];
+}
+- (void)hidePicker {
+    if (self.picker.hidden) {
+        return;
+    }
+    self.picker.hidden = YES;
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionPush;
+    tran.subtype = kCATransitionFromBottom;
+    tran.duration = 0.2f;
+    [self.picker.layer addAnimation:tran forKey:@"ShowAnimation"];
+}
+- (void)provider:(QSSinglePickerProvider*)provider didSelectRow:(int)row value:(NSString*)value {
+    NSString* key = nil;
+    if (provider == self.bodyTypePickerProvider) {
+        key = @"bodyType";
+    } else if (provider == self.dressStyleProvider) {
+        key = @"dressStyle";
+    }
+    if (!key) {
+        return;
+    }
+    
+    [SHARE_NW_ENGINE updatePeople:@{key : @(row)} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+        [self refreshData];
+    } onError:nil];
+    
+}
 
 @end

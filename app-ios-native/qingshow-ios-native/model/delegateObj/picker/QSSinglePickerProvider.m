@@ -8,21 +8,35 @@
 
 #import "QSSinglePickerProvider.h"
 
+@interface QSSinglePickerProvider ()
+@property (weak, nonatomic) UIPickerView* picker;
+
+@end
+
 @implementation QSSinglePickerProvider
 
 - (instancetype)initWithDataArray:(NSArray*)dataArray
 {
     self = [super init];
     if (self) {
-        
+        self.dataArray = dataArray;
     }
     return self;
 }
 - (void)bindPicker:(UIPickerView*)picker{
+    self.picker = picker;
     picker.dataSource = self;
     picker.delegate = self;
+    [picker reloadAllComponents];
 }
-
+- (void)selectData:(NSString*)data {
+    int index = [self.dataArray indexOfObject:data];
+    if (index == NSNotFound) {
+        return;
+    } else {
+        [self.picker selectRow:index inComponent:0 animated:NO];
+    }
+}
 
 #pragma mark - UIPicker DataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView

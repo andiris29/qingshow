@@ -55,7 +55,7 @@
 - (void)showSharePanelWithUrl:(NSString*)urlStr
 {
     self.shareUrl = urlStr;
-    if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
+    if (!self.shareContainer.hidden && !self.sharePanel.hidden){
         return;
     }
 
@@ -70,7 +70,7 @@
 }
 - (void)hideSharePanel
 {
-    if (self.shareContainer.hidden == YES && self.sharePanel.hidden == YES) {
+    if (self.shareContainer.hidden && self.sharePanel.hidden) {
         return;
     }
 
