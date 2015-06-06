@@ -34,8 +34,6 @@
 #import "QSBlock.h"
 
 
-#define UPLOAD_PORTRAIT 0
-#define UPLOAD_BACKGROUND 1
 #define PAGE_ID @"U02 - 个人设置"
 
 #define headImgCellId (@"headImageViewCellId")
@@ -122,7 +120,7 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
-    [self.tableView reloadData];
+    [self refreshData];
     [MobClick beginLogPageView:PAGE_ID];
     
 }
@@ -132,7 +130,11 @@
     [MobClick endLogPageView:PAGE_ID];
 }
 
-
+- (void)refreshData {
+    [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
+        [self.tableView reloadData];
+    } onError:nil];
+}
 
 #pragma mark - Config View
 
@@ -278,49 +280,14 @@
     [SHARE_NW_ENGINE logoutOnSucceed:succss onError:nil];
 }
 
-//#pragma mark - ImageEditing
-//- (void)imageEditingUseImage:(UIImage *)image vc:(QSImageEditingViewController *)vc
-//{
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//    MBProgressHUD* hud = [self showNetworkWaitingHud];
-//    // Success Handle
-//    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
-//        [hud hide:YES];
-//        if (metadata[@"error"] == nil && people != nil) {
-//            [self showSuccessHudWithText:@"上传成功"];
-//            // refresh local login user's data
-//            [SHARE_NW_ENGINE getLoginUserOnSucced:nil onError:nil];
-//            //[self refreshImage];
-//        } else {
-//            [self showErrorHudWithText:@"上传失败"];
-//        }
-//    };
-//    
-//    // Error Handle
-//    ErrorBlock error = ^(NSError *error) {
-//        [hud hide:YES];
-//        [self handleError:error];
-//    };
-//    
-//    // Convert UIImage to NSData
-//    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
-//    // write NSData to sandbox
-//    if (_uploadImageType == UPLOAD_PORTRAIT) {
-//        [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
-//    } else {
-//        [SHARE_NW_ENGINE updateBackground:imageData onSuccess:success onError:error];
-//    }
-//}
-//- (void)cancelImageEditing:(QSImageEditingViewController *)vc
-//{
-//    [self dismissViewControllerAnimated:YES completion:nil];
-//}
 
 #pragma mark - UITextFieldDelegate
 
 - (void)updatePeopleEntityViewController:(id)vc byEntity:(id)en pop:(BOOL)f {
 #warning Temp
 }
+
+
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     [self hideKeyboardAndDatePicker];
     NSString *value = textField.text;
@@ -393,15 +360,78 @@
         //没有Camera时,cancelButtonIndex为1
         UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
         imagePickerController.delegate = self;
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
             imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        } else if (buttonIndex == 1) {
+        } else if (buttonIndex == 2) {
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         }
         imagePickerController.allowsEditing = NO;
         [self presentViewController:imagePickerController animated:YES completion:^{}];
     }
 }
+
+#pragma mark - Image Picker
+#pragma mark -  UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //    [picker dismissViewControllerAnimated:YES completion:^{}];
+    
+    // Get Original Image from PhotoLibrary
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image) {
+        image = [info objectForKeyedSubscript:UIImagePickerControllerOriginalImage];
+    }
+    
+    image = [image fixOrientation];
+    
+    QSImageEditingViewController* vc = nil;
+    if (_uploadImageType == U02SectionImageRowHead) {
+        vc = [[QSImageEditingViewController alloc] initWithType:QSImageEditingViewControllerTypeHead image:image];
+    } else {
+        vc = [[QSImageEditingViewController alloc] initWithType:QSImageEditingViewControllerTypeBg image:image];
+    }
+    vc.delegate = self;
+    [picker presentViewController:vc animated:YES completion:nil];
+    
+}
+
+#pragma mark - ImageEditing
+- (void)imageEditingUseImage:(UIImage *)image vc:(QSImageEditingViewController *)vc
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    MBProgressHUD* hud = [self showNetworkWaitingHud];
+    // Success Handle
+    EntitySuccessBlock success = ^(NSDictionary *people, NSDictionary *metadata) {
+        [hud hide:YES];
+        if (metadata[@"error"] == nil && people != nil) {
+            [self showSuccessHudWithText:@"上传成功"];
+            // refresh local login user's data
+            [self refreshData];
+        } else {
+            [self showErrorHudWithText:@"上传失败"];
+        }
+    };
+    
+    // Error Handle
+    ErrorBlock error = ^(NSError *error) {
+        [hud hide:YES];
+        [self handleError:error];
+    };
+    
+    // Convert UIImage to NSData
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    // write NSData to sandbox
+    if (_uploadImageType == U02SectionImageRowHead) {
+        [SHARE_NW_ENGINE updatePortrait:imageData onSuccess:success onError:error];
+    } else {
+        [SHARE_NW_ENGINE updateBackground:imageData onSuccess:success onError:error];
+    }
+}
+- (void)cancelImageEditing:(QSImageEditingViewController *)vc
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 
 #pragma mark - loadData
