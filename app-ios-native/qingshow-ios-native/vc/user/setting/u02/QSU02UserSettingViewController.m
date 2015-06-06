@@ -32,6 +32,7 @@
 #import "QSU02UserChangeDressEffectViewController.h"
 #import "UIViewController+QSExtension.h"
 #import "QSBlock.h"
+#import "QSSinglePickerProvider.h"
 
 
 #define PAGE_ID @"U02 - 个人设置"
@@ -116,6 +117,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
                                ]];
     [self configSections];
     [self configCells];
+    self.tableView.tableFooterView = self.footerView;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -194,23 +196,8 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 {
     return 44.f;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == self.cellArrays.count - 1) {
-        return self.footerView.bounds.size.height;
-    } else {
-        return 0;
-    }
-}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return self.headerViews[section];
-}
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == self.cellArrays.count - 1) {
-        return self.footerView;
-    } else {
-        return nil;
-    }
 }
 
 - (QSU02AbstractTableViewCell*)getCellWithIndexPath:(NSIndexPath*)indexPath {
@@ -224,7 +211,6 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     [cell bindWithUser:peopleDic];
     return cell;
 }
-
 
 #pragma mark - Action
 

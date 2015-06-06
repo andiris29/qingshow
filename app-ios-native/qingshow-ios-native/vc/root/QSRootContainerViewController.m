@@ -86,10 +86,6 @@
         }
         case QSRootMenuItemSetting:
         {
-//            UIStoryboard *tableViewStoryboard = [UIStoryboard storyboardWithName:@"QSU02UserSetting" bundle:nil];
-//            QSU02UserSettingViewController *settingVc = [tableViewStoryboard instantiateViewControllerWithIdentifier:@"U02UserSetting"];
-//            settingVc.menuProvider = self;
-//            vc = settingVc;
             QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
             settingVc.menuProvider = self;
             vc = settingVc;

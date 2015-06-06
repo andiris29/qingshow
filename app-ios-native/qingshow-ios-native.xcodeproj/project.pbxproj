@@ -256,6 +256,7 @@
 		EFE419F41A407AEE005175BB /* QSS03ItemShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F21A407AEE005175BB /* QSS03ItemShopDetailViewController.m */; };
 		EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */; };
 		EFE419F91A409A9F005175BB /* QSAllItemImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */; };
+		EFE504561B23654B0069F945 /* QSSinglePickerProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE504551B23654B0069F945 /* QSSinglePickerProvider.m */; };
 		EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFEBAAE31ABEB0000000FEEE /* location.plist */; };
 		EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */; };
 		EFEBAAEF1ABF01FE0000FEEE /* QSOrderUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEBAAEE1ABF01FE0000FEEE /* QSOrderUtil.m */; };
@@ -815,6 +816,8 @@
 		EFE419F31A407AEE005175BB /* QSS03ItemShopDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS03ItemShopDetailViewController.xib; sourceTree = "<group>"; };
 		EFE419F71A409A9F005175BB /* QSAllItemImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSAllItemImageScrollView.h; sourceTree = "<group>"; };
 		EFE419F81A409A9F005175BB /* QSAllItemImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSAllItemImageScrollView.m; sourceTree = "<group>"; };
+		EFE504541B23654B0069F945 /* QSSinglePickerProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSSinglePickerProvider.h; sourceTree = "<group>"; };
+		EFE504551B23654B0069F945 /* QSSinglePickerProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSSinglePickerProvider.m; sourceTree = "<group>"; };
 		EFEBAAE31ABEB0000000FEEE /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
 		EFEBAAE61ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSProvinceSelectionTableViewController.h; sourceTree = "<group>"; };
 		EFEBAAE71ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSProvinceSelectionTableViewController.m; sourceTree = "<group>"; };
@@ -1622,6 +1625,8 @@
 			children = (
 				EF88D08F1ACEF91C002C4963 /* QSLocationPickerProvider.h */,
 				EF88D0901ACEF91C002C4963 /* QSLocationPickerProvider.m */,
+				EFE504541B23654B0069F945 /* QSSinglePickerProvider.h */,
+				EFE504551B23654B0069F945 /* QSSinglePickerProvider.m */,
 			);
 			path = picker;
 			sourceTree = "<group>";
@@ -2546,6 +2551,7 @@
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
 				EF8E69381B17665700678E9A /* QSCreateTradeItemInfoColorCell.m in Sources */,
 				EFA98A791A38862800A8BFC7 /* QSNetworkEngine+Protect.m in Sources */,
+				EFE504561B23654B0069F945 /* QSSinglePickerProvider.m in Sources */,
 				8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */,
 				EF4EFD0E1B121D28002C6430 /* QSTopShowOneDayCell.m in Sources */,
 				68824D921B0EBB57006E3151 /* QSU14FavoriteViewController.m in Sources */,
