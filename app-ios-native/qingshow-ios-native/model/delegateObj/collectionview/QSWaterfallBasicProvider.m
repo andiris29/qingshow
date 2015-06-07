@@ -18,7 +18,7 @@
 
 
 @implementation QSWaterfallBasicProvider
-
+@dynamic view;
 #pragma mark - Method To Be Override
 - (void)registerCell
 {

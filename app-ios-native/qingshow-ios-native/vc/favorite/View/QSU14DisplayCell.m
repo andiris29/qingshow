@@ -7,7 +7,6 @@
 //
 
 #import "QSU14DisplayCell.h"
-#import "QSFavoInfo.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+QSExtension.h"
 #import "QSShowUtil.h"

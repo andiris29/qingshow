@@ -13,7 +13,6 @@
 		68824D931B0EBB57006E3151 /* QSU14FavoriteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68824D8B1B0EBB57006E3151 /* QSU14FavoriteViewController.xib */; };
 		68824D941B0EBB57006E3151 /* QSU14DisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68824D901B0EBB57006E3151 /* QSU14DisplayCell.m */; };
 		68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68824D911B0EBB57006E3151 /* QSU14DisplayCell.xib */; };
-		68824D991B0EC8BC006E3151 /* QSFavoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 68824D981B0EC8BC006E3151 /* QSFavoInfo.m */; };
 		68A6D45A1B1300E20061825D /* QSU14FavoTableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A6D4591B1300E20061825D /* QSU14FavoTableViewProvider.m */; };
 		68C9197A1B15ACE800A5D405 /* shadowImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 68C919791B15ACE800A5D405 /* shadowImage.png */; };
 		68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */; };
@@ -324,8 +323,6 @@
 		68824D8F1B0EBB57006E3151 /* QSU14DisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14DisplayCell.h; sourceTree = "<group>"; };
 		68824D901B0EBB57006E3151 /* QSU14DisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14DisplayCell.m; sourceTree = "<group>"; };
 		68824D911B0EBB57006E3151 /* QSU14DisplayCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU14DisplayCell.xib; sourceTree = "<group>"; };
-		68824D971B0EC8BC006E3151 /* QSFavoInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSFavoInfo.h; sourceTree = "<group>"; };
-		68824D981B0EC8BC006E3151 /* QSFavoInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSFavoInfo.m; sourceTree = "<group>"; };
 		68A6D4581B1300E20061825D /* QSU14FavoTableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU14FavoTableViewProvider.h; sourceTree = "<group>"; };
 		68A6D4591B1300E20061825D /* QSU14FavoTableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU14FavoTableViewProvider.m; sourceTree = "<group>"; };
 		68C919791B15ACE800A5D405 /* shadowImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shadowImage.png; sourceTree = "<group>"; };
@@ -980,8 +977,6 @@
 		68824D961B0EC7DF006E3151 /* Modle */ = {
 			isa = PBXGroup;
 			children = (
-				68824D971B0EC8BC006E3151 /* QSFavoInfo.h */,
-				68824D981B0EC8BC006E3151 /* QSFavoInfo.m */,
 				68A6D4581B1300E20061825D /* QSU14FavoTableViewProvider.h */,
 				68A6D4591B1300E20061825D /* QSU14FavoTableViewProvider.m */,
 			);
@@ -2529,7 +2524,6 @@
 				EF9740FC1A49C3A5001300B5 /* QSUserLoginAlertDelegateObj.m in Sources */,
 				EFAB908B1A20741700C69E42 /* QSFeedingCategory.m in Sources */,
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,
-				68824D991B0EC8BC006E3151 /* QSFavoInfo.m in Sources */,
 				EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */,
 				EFA0F90B1AB89C3200E52F0B /* QSTaobaoInfoUtil.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,

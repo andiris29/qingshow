@@ -10,7 +10,6 @@
 #import "QSU14DisplayCell.h"
 #import "QSNetworkKit.h"
 #import "QSShowUtil.h"
-#import "QSFavoInfo.h"
 #import "Common.h"
 #import "UIViewController+ShowHud.h"
 #import "UIViewController+QSExtension.h"
