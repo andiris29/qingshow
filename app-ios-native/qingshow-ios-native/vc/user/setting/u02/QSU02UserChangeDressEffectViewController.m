@@ -7,13 +7,18 @@
 //
 
 #import "QSU02UserChangeDressEffectViewController.h"
+#import "QSUserManager.h"
+#import "QSNetworkKit.h"
+#import "QSPeopleUtil.h"
+
 
 #define PAGE_ID @"修改穿衣效果"
 @interface QSU02UserChangeDressEffectViewController ()<UITableViewDelegate,UITableViewDataSource>
-{
-    NSMutableArray *_effectArray;
-    UITableView *_tableView;
-}
+
+@property (strong, nonatomic) UITableView* tableView;
+@property (strong, nonatomic) NSArray* dataArray;
+@property (strong, nonatomic) NSMutableArray* selectedArray;
+
 @end
 
 @implementation QSU02UserChangeDressEffectViewController
@@ -37,31 +42,50 @@
 }
 - (void)creatTableView
 {
-    _effectArray = [NSMutableArray arrayWithObjects:@"显瘦",@"显高",@"显身材",@"遮臀部",@"遮肚腩",@"遮手臂", nil];
+    self.selectedArray = [[QSPeopleUtil getExpectations:[QSUserManager shareUserManager].userInfo] mutableCopy];
+    self.dataArray = [NSMutableArray arrayWithObjects:@"显瘦",@"显高",@"显身材",@"遮臀部",@"遮肚腩",@"遮手臂", nil];
     _tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     
+    
 }
 #pragma mark - tableviewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _effectArray.count;
+    return self.dataArray.count;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"effectCell"];
     cell.textLabel.font = NEWFONT;
-    cell.textLabel.text = _effectArray[indexPath.row];
+    cell.textLabel.text = self.dataArray[indexPath.row];
     
+    if ([self.selectedArray containsObject:@(indexPath.row)]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning expected upload data to Server and refresh tableView
-   NSLog(@"%@", _tableView.visibleCells[indexPath.row]);
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSNumber* n = @(indexPath.row);
+    if ([self.selectedArray containsObject:n]) {
+        [self.selectedArray removeObject:n];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        [self.selectedArray addObject:n];
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    [self updateExpectation];
+}
+- (void)updateExpectation {
+    [SHARE_NW_ENGINE updatePeople:@{@"expectations" : self.selectedArray} onSuccess:nil onError:nil];
 }
 
 - (void)didReceiveMemoryWarning {

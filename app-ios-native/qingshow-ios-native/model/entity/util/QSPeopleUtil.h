@@ -40,5 +40,6 @@
 + (NSString*)getAge:(NSDictionary*)dict;
 + (NSString*)getBodyTypeDesc:(NSDictionary*)dict;
 + (NSString*)getDressStyleDesc:(NSDictionary*)dict;
++ (NSArray*)getExpectations:(NSDictionary*)dict;
 + (NSString*)getExpectationsDesc:(NSDictionary*)dict;
 @end

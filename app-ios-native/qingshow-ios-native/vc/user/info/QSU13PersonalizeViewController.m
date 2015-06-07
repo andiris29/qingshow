@@ -338,7 +338,7 @@
                                     @"weight" : @(self.weight.intValue),
                                     @"bodyType" : @(self.bodyType),
                                     @"dressStyle" : @(self.dressStyle),
-                                    @"expectations" : self.self.expectations}
+                                    @"expectations" : self.expectations}
                         onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
                             [self.navigationController popViewControllerAnimated:YES];
                         } onError:^(NSError *error) {

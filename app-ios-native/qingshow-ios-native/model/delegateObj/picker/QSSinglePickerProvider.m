@@ -11,6 +11,7 @@
 @interface QSSinglePickerProvider ()
 @property (weak, nonatomic) UIPickerView* picker;
 
+
 @end
 
 @implementation QSSinglePickerProvider

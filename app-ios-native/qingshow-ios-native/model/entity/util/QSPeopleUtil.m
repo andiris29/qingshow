@@ -336,13 +336,22 @@
     }
 }
 
-+ (NSString*)getExpectationsDesc:(NSDictionary*)dict {
-    NSArray* array = @[@"显瘦", @"显高", @"显身材", @"遮臀部", @"遮肚腩", @"遮手臂"];
++ (NSArray*)getExpectations:(NSDictionary*)dict {
     if (![QSCommonUtil checkIsDict:dict]) {
         return nil;
     }
     NSArray* expectations = dict[@"expectations"];
     if ([QSCommonUtil checkIsNil:expectations]) {
+        return nil;
+    } else {
+        return expectations;
+    }
+}
+
++ (NSString*)getExpectationsDesc:(NSDictionary*)dict {
+    NSArray* array = @[@"显瘦", @"显高", @"显身材", @"遮臀部", @"遮肚腩", @"遮手臂"];
+    NSArray* expectations = [self getExpectations:dict];
+    if (!expectations) {
         return nil;
     }
     NSMutableString* str = [@"" mutableCopy];
