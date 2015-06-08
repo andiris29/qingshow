@@ -74,7 +74,7 @@
     [self configCellArray];
     [self configView];
     [self updateAllCell];
-    [self receiverConfig];
+//    [self receiverConfig];
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
@@ -105,6 +105,9 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     [MobClick beginLogPageView:PAGE_ID];
+//    [self.tableView reloadData];
+    [self updateAllCell];
+    [self receiverConfig];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
