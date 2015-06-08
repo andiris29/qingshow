@@ -34,7 +34,7 @@
     [self.leftImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:fDic] type:QSImageNameTypeS] placeHolderImage:nil];
     [self.rightImgView setImageFromURL:[QSImageNameUtil appendImageNameUrl:[QSShowUtil getCoverUrl:sDic] type:QSImageNameTypeS] placeHolderImage:nil];
     self.colorView.backgroundColor = [UIColor grayColor];
-    NSInteger numlike01 = [QSShowUtil getNumberLikeDescription:fDic].integerValue ;
+    NSInteger numlike01 = [QSShowUtil getNumberLikeDescription:fDic].integerValue;
     NSInteger numlike02 = [QSShowUtil getNumberLikeDescription:sDic].integerValue;
     self.favoNumLabel.text = [NSString stringWithFormat:@"%d",numlike01*numlike02];
     NSDate *date = [QSShowUtil getRecommendDate:fDic];
@@ -58,7 +58,7 @@
     }
     else if([str isEqualToString:@"星期四THU"])
     {
-        self.weekLabel.text = @"THUR.";
+        self.weekLabel.text = @"THU.";
     }
     else if([str isEqualToString:@"星期五FRI"])
     {

@@ -12,7 +12,7 @@
 
 #ifdef __OBJC__
 #define NEWFONT ([UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:16])
-#define NAVNEWFONT ([UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:18])
+#define NAVNEWFONT ([UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:16])
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "MobClick.h"
