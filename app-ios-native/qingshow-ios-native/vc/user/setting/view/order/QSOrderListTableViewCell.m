@@ -58,7 +58,6 @@
         orderDict = orderList[0];
     }
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
-    NSDictionary* taobaoInfo = [QSItemUtil getTaobaoInfo:itemDict];
     
 //    self.orderIdLabel.text = [QSCommonUtil getIdOrEmptyStr:tradeDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
@@ -68,12 +67,9 @@
     self.priceLabel.text = [QSOrderUtil getPriceDesc:orderDict];
     self.quantityLabel.text = [QSOrderUtil getQuantityDesc:orderDict];
 
-    NSString* sku = [QSOrderUtil getSkuId:orderDict];
-    NSDictionary* skuDict = [QSTaobaoInfoUtil findSkusWithSkuId:sku taobaoInfo:taobaoInfo];
 
     float height = self.skuLabelBaseY;
 
-#warning TODO color
     
     for (UIView* view in @[self.quantityLabel, self.quantityTextLabel, self.priceLabel, self.priceTextLabel]) {
         [self updateView:view y:height];

@@ -116,10 +116,7 @@
 }
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
-{
-#warning TODO people has been removed, adjust content label
-//    self.contentLabel.text = [QSPeopleUtil getStatus:peopleInfo];
-    
+{   
     //Like Btn
     [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
     

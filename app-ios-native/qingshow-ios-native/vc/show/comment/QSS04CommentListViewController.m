@@ -105,11 +105,6 @@
 }
 
 #pragma mark - QSCommentListTableViewProviderDelegate
-- (void)didClickPeople:(NSDictionary *)peopleDict
-{
-#warning TODO ask?
-//    [self showPeopleDetailViewControl:peopleDict];
-}
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
     NSString* destructiveTitle = nil;
@@ -125,7 +120,6 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
-    NSDictionary* people = [QSCommentUtil getPeople:comment];
 
     //0 查看个人主页
     

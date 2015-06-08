@@ -9,6 +9,9 @@
 #import "QSItemImageListTableViewProvider.h"
 #import "QSItemImageTableViewCell.h"
 @implementation QSItemImageListTableViewProvider
+
+@dynamic delegate;
+
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSItemImageTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSItemImageTableViewCell"];

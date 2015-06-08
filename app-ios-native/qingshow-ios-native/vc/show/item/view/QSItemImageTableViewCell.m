@@ -34,7 +34,10 @@
         size = [str boundingRectWithSize:conSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:nil].size;
     } else {
         //Below IOS 7
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         size = [str sizeWithFont:font constrainedToSize:conSize lineBreakMode:NSLineBreakByWordWrapping];
+#pragma clang diagnostic pop
     }
     if (size.height < 17) {
         size.height = 17;
@@ -131,7 +134,6 @@
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
     return 200;
-#warning TODO
 }
 
 - (IBAction)shopBtnPressed:(id)sender

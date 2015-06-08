@@ -12,7 +12,6 @@
 @protocol QSCommentListTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index;
-- (void)didClickPeople:(NSDictionary*)peopleDict;
 
 @end
 

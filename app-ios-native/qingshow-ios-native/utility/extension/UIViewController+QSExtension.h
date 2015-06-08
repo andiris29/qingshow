@@ -13,7 +13,6 @@
 - (void)handleError:(NSError*)error;
 - (void)showShowDetailViewController:(NSDictionary*)showDict;
 - (void)showItemDetailViewController:(NSDictionary*)itemDict;
-- (void)showPreviewDetailViewController:(NSDictionary*)previewDict;
 - (void)hideNaviBackBtnTitle;
 - (void)disableAutoAdjustScrollViewInset;
 

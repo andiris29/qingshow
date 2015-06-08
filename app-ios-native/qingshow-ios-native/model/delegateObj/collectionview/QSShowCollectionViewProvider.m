@@ -15,6 +15,7 @@
 @end
 
 @implementation QSShowCollectionViewProvider
+@dynamic delegate;
 #pragma mark - Init
 - (id)init
 {

@@ -24,7 +24,6 @@
 
 - (void)bindWithShow:(NSDictionary*)showDict
 {
-#warning label1
     [self.imageView setImageFromURL:[QSShowUtil getCoverUrl:showDict]];
     self.label1.text = @"";
     self.label2.text = @"";

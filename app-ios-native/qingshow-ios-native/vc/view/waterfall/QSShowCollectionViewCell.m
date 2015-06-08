@@ -78,8 +78,6 @@
     self.headIconImageView.layer.masksToBounds = YES;
     self.headIconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
     self.headIconImageView.layer.borderWidth = 1.f;
-    UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(peopleTap:)];
-    [self.modelTapView addGestureRecognizer:ges];
     self.type = QSShowCollectionViewCellTypeNormal;
     [self updateViewForType];
 }

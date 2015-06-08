@@ -208,4 +208,7 @@
 {
     [self menuButtonPressed];
 }
+- (void)showRegisterVc
+{
+}
 @end
