@@ -25,6 +25,10 @@
     <string name="birth_activity_settings">生日</string>
     <string name="height_activity_settings">身高</string>
     <string name="weight_activity_settings">体重</string>
+    <string name="bust_activity_settings">胸围</string>
+    <string name="shoulder_activity_settings">肩宽</string>
+    <string name="waistline_activity_settings">腰围</string>
+    <string name="hipline_activity_settings">臀围</string>
     <string name="bodyType_activity_settings">体型</string>
     <string name="dressStyle_activity_settings">穿衣风格</string>
     <string name="effect_activity_settings">搭配效果</string>

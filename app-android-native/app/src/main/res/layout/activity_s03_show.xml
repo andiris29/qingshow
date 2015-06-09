@@ -181,6 +181,7 @@
                         android:layout_alignBottom="@+id/S03_share_btn"
                         android:layout_toLeftOf="@+id/S03_share_btn"
                         android:gravity="center"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:text="分享即获8折优惠"
                         android:background="@drawable/share_msg_bg_9"/>

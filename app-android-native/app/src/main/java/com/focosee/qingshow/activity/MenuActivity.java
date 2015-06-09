@@ -15,6 +15,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -151,6 +153,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if(!QSModel.INSTANCE.loggedin()){
+            Toast.makeText(this, R.string.need_login, Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
             return;
         }

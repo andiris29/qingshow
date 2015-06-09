@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
@@ -149,7 +145,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
 
                 MImageView_OriginSize imageView = new MImageView_OriginSize(context);
                 imageView.setLayoutParams(params);
-                imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 imageView.setTag(imgInfo);
                 imageView.setPadding(0, -16, 0, 0);
                 _mImgViewS[index] = imageView;

@@ -155,6 +155,158 @@
         android:background="@color/line_activity_settings" />
 
     <RelativeLayout
+        android:id="@+id/bustRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/bustTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/bust_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/bustEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/bustTextView"
+            android:background="@null"
+            android:hint="请填写胸围"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/shoulderRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/shoulderTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/shoulder_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/shoulderEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/shoulderTextView"
+            android:background="@null"
+            android:hint="请填写肩宽"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/waistlineRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/waistlineTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/waistline_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/waistlineEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/waistlineTextView"
+            android:background="@null"
+            android:hint="请填写腰围"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
+        android:id="@+id/hiplineRelativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_activity_settings"
+        android:background="#ffffff"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/hiplineTextView"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_left_activity_settings"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:text="@string/hipline_activity_settings"
+            android:textSize="@dimen/text_size" />
+
+        <EditText
+            android:id="@+id/hiplineEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right_activity_settings"
+            android:layout_toRightOf="@id/hiplineTextView"
+            android:background="@null"
+            android:hint="请填写臀围"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textSize="@dimen/text_size"
+            android:textColorHint="#C7C7CD" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_activity_settings" />
+
+    <RelativeLayout
         android:id="@+id/bodyTypeRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_activity_settings"

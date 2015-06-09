@@ -1,5 +1,6 @@
 package com.focosee.qingshow.activity;
 
+import android.animation.StateListAnimator;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.net.Uri;
@@ -127,6 +129,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     TextView likeTextView;
     @InjectView(R.id.S03_item_text_view)
     TextView itemTextView;
+    @InjectView(R.id.S03_share_msg)
+    TextView shareMsgTextView;
 //    @InjectView(R.id.S03_share_btn)
 //    ImageView shareBtn;
     private SharePopupWindow sharePopupWindow;
@@ -152,14 +156,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
-        final TextView shareMsgTextView = (TextView)findViewById(R.id.S03_share_msg);
-
-        shareMsgTextView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                shareMsgTextView.setVisibility(View.GONE);
-            }
-        }, shareMsgShowTime);
 
         // mSsoHandler = new SsoHandler(this, mAuthInfo);
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
@@ -234,7 +230,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                     likeBtn.setClickable(true);
                     UserCommand.refresh();
                 } else {
-                    handleResponseError(response);
+                    ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                 }
             }
         });
@@ -255,22 +251,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     }
 
-    private void handleResponseError(JSONObject response) {
-//        int errorCode = MetadataParser.getError(response);
-//        String errorMessage = showDetailEntity.likedByCurrentUser() ? "取消点赞失败" : "点赞失败";
-//        switch (errorCode) {
-//            case 1012:
-//                errorMessage = "请先登录！";
-//                break;
-//            case 1000:
-//                errorMessage = "服务器错误，请稍后重试！";
-//                break;
-//            default:
-//                errorMessage = String.valueOf(errorCode) + response.toString();
-//                break;
-//        }
-//        showMessage(S03SHowActivity.this, errorMessage);
-    }
 
     private void showMessage(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -296,6 +276,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
 
+        if(null == showDetailEntity.promotionRef) {//优惠信息
+            shareMsgTextView.setVisibility(View.VISIBLE);
+            shareMsgTextView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    shareMsgTextView.setVisibility(View.GONE);
+                }
+            }, shareMsgShowTime);
+        }
+
         setLikedImageButtonBackgroundImage();
     }
 
@@ -318,7 +308,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             videoView.start();
         }
         playImageButton.setImageResource(R.drawable.s03_pause_btn);
-
+        videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                playImageButton.setImageResource(R.drawable.s03_play_btn);
+            }
+        });
     }
 
     private String arrayToString(String[] input) {
