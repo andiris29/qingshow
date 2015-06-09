@@ -375,4 +375,60 @@
         return age.stringValue;
     }
 }
+
++ (NSString*)getShoulder:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.shoulder"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getBust:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.bust"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getWaist:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.waist"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getHips:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.hips"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getShoeSize:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.shoeSize"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
 @end

@@ -42,4 +42,10 @@
 + (NSString*)getDressStyleDesc:(NSDictionary*)dict;
 + (NSArray*)getExpectations:(NSDictionary*)dict;
 + (NSString*)getExpectationsDesc:(NSDictionary*)dict;
+
++ (NSString*)getShoulder:(NSDictionary*)dict;
++ (NSString*)getBust:(NSDictionary*)dict;
++ (NSString*)getWaist:(NSDictionary*)dict;
++ (NSString*)getHips:(NSDictionary*)dict;
++ (NSString*)getShoeSize:(NSDictionary*)dict;
 @end

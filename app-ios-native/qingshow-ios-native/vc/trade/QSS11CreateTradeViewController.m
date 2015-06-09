@@ -44,6 +44,7 @@
 
 @property (strong, nonatomic) NSDictionary* selectedReceiver;
 
+@property (strong, nonatomic) MKNetworkOperation* userUpdateOp;
 @property (strong, nonatomic) MKNetworkOperation* createTradeOp;
 @property (strong, nonatomic) MKNetworkOperation* saveReceiverOp;
 
@@ -163,14 +164,30 @@
     //1
     //4
     //56
+    
+    NSDictionary* peopleDict = [QSUserManager shareUserManager].userInfo;
+    
     QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
     if (category == QSItemCategoryShangyi ||
         category == QSItemCategoryDress ||
-        category == QSItemCategoryNeida ||
-        category == QSItemCategoryPant) {
+        category == QSItemCategoryNeida) {
         [array addObject:self.clothSizeCell];
+        self.shoeSizeCell = nil;
+        self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getBust:peopleDict];
+        self.clothSizeCell.shoulderOrHiplineTextField.text = [QSPeopleUtil getShoulder:peopleDict];
+    } else if (category == QSItemCategoryPant) {
+        [array addObject:self.clothSizeCell];
+        self.shoeSizeCell = nil;
+        self.clothSizeCell.bustCircleOrWaistlineTextField.text = [QSPeopleUtil getWaist:peopleDict];
+        self.clothSizeCell.shoulderOrHiplineTextField.text = [QSPeopleUtil getHips:peopleDict];
+        
     } else if (category == QSItemCategoryShoe) {
         [array addObject:self.shoeSizeCell];
+        self.shoeSizeCell.textField.text = [QSPeopleUtil getShoeSize:peopleDict];
+        self.clothSizeCell = nil;
+    } else {
+        self.shoeSizeCell = nil;
+        self.clothSizeCell = nil;
     }
     
     [array addObject:self.itemInfoQuantityCell];
@@ -310,6 +327,43 @@
         [self showErrorHudWithText:@"请填写完整信息"];
         return;
     }
+    if (self.userUpdateOp) {
+        return;
+    }
+    
+    NSDictionary* measuerInfo = nil;
+    QSItemCategory category = [QSItemUtil getItemCategory:self.itemDict];
+    if (category == QSItemCategoryShangyi ||
+        category == QSItemCategoryDress ||
+        category == QSItemCategoryNeida) {
+        measuerInfo = @{
+                        @"bust" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
+                        @"shoulder" : self.clothSizeCell.shoulderOrHiplineTextField.text
+                        };
+    } else if (category == QSItemCategoryPant) {
+        measuerInfo = @{
+                        @"waist" : self.clothSizeCell.bustCircleOrWaistlineTextField.text,
+                        @"hips" : self.clothSizeCell.shoulderOrHiplineTextField.text
+                        };
+    } else if (category == QSItemCategoryShoe) {
+        measuerInfo = @{
+                        @"shoeSize": self.shoeSizeCell.textField.text
+                        };
+    }
+    if (measuerInfo) {
+        self.userUpdateOp = [SHARE_NW_ENGINE updatePeople:@{@"measureInfo" : measuerInfo} onSuccess:^(NSDictionary *data, NSDictionary *metadata) {
+            self.userUpdateOp = nil;
+            [self saveReceiverAndCreateTrade];
+        } onError:^(NSError *error) {
+            self.userUpdateOp = nil;
+            [self showErrorHudWithError:error];
+        }];
+    } else {
+        [self saveReceiverAndCreateTrade];
+    }
+}
+
+- (void)saveReceiverAndCreateTrade {
     if ([self checkNewReceiver]) {
         if (self.saveReceiverOp ) {
             return;
@@ -332,6 +386,7 @@
         [self submitOrderWithReceiver:[QSReceiverUtil getUuid:self.selectedReceiver]];
     }
 }
+
 - (BOOL)checkNewReceiver
 {
     if (!self.selectedReceiver) {
@@ -344,9 +399,18 @@
 }
 - (BOOL)checkFullInfo
 {
-    if (self.itemInfoColorCell && !self.itemInfoColorCell.getInputData) {
-        return NO;
+    if (self.clothSizeCell) {
+        if (!self.clothSizeCell.bustCircleOrWaistlineTextField.text.length ||
+            !self.clothSizeCell.shoulderOrHiplineTextField.text.length) {
+            return NO;
+        }
     }
+    if (self.shoeSizeCell) {
+        if (!self.shoeSizeCell.textField.text.length) {
+            return NO;
+        }
+    }
+    
     if (!self.receiverInfoNameCell.getInputData ||
         !self.receiverInfoPhoneCell.getInputData ||
         !self.receiverInfoLocationCell.getInputData ||
