@@ -99,7 +99,6 @@
 + (CGFloat)getHeight:(NSDictionary*)itemDict
 {
     return 200;
-#warning TODO
 }
 + (CGSize)getSize:(NSDictionary*)itemDict
 {

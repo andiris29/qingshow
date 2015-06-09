@@ -49,6 +49,5 @@ typedef NS_ENUM(NSUInteger, QSShowCollectionViewCellType)
 + (float)getHeightWithData:(NSDictionary*)showData;
 + (CGSize)getSizeWithData:(NSDictionary*)showData;
 //IBAction
-- (void)peopleTap:(id)sender;
 - (IBAction)playBtnPressed:(id)sender;
 @end

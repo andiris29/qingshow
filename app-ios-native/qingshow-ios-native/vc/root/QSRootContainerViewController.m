@@ -43,7 +43,6 @@
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
     
-    NSDictionary* userInfo = [QSUserManager shareUserManager].userInfo;
     if (![QSUserManager shareUserManager].userInfo) {
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     }
@@ -114,10 +113,6 @@
     [self.view addSubview:vc.view];
     [self addChildViewController:vc];
     
-    if (self.contentVc) {
-#warning Transition
-        
-    }
 
     [vc didMoveToParentViewController:self];    //Call after transition
     self.contentVc = nav;

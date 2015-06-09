@@ -44,11 +44,7 @@
 
 - (void)didTapIcon:(QSCommentTableViewCell*)cell
 {
-    NSIndexPath* indexPath = [self.view indexPathForCell:cell];
-    if ([self.delegate respondsToSelector:@selector(didClickPeople:)]) {
-        NSDictionary* dict = self.resultArray[indexPath.row];
-        [self.delegate didClickPeople:[QSCommentUtil getPeople:dict]];
-    }
+
 }
 
 @end

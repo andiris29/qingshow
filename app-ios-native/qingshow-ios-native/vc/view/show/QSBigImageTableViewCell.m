@@ -65,13 +65,11 @@
 #pragma mark - Static
 + (CGFloat)getHeightWithShow:(NSDictionary*)showDict
 {
-#warning TODO
     return 285.f;
 }
 
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
-#warning TODO
     return 285.f;
 }
 

@@ -10,8 +10,6 @@
 
 @interface QSTaobaoInfoUtil : NSObject
 
-+ (NSURL*)getThumbnailUrlOfProperty:(NSString*)property taobaoInfo:(NSDictionary*)taobaoInfo;
-
 + (NSString*)getNameOfProperty:(NSString*)property taobaoInfo:(NSDictionary*)taobaoInfo;
 
 + (NSArray*)getSkusArray:(NSDictionary*)taobaoInfo;

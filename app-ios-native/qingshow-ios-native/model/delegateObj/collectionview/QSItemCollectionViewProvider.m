@@ -11,6 +11,8 @@
 #import "QSTimeCollectionViewCell.h"
 @implementation QSItemCollectionViewProvider
 
+@dynamic delegate;
+
 #pragma mark - Cell
 - (void)registerCell
 {

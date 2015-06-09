@@ -14,6 +14,4 @@
 @property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @property (weak, nonatomic) IBOutlet UILabel* valueLabel;
 
-- (void)bindWithDic:(NSDictionary *)peopleDic;
-
 @end

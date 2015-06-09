@@ -248,17 +248,19 @@
     NSUUID *uidID= [UIDevice currentDevice].identifierForVendor;
     NSString *uidIDStr = [NSString stringWithFormat:@"%@",uidID];
     NSRange range = [uidIDStr rangeOfString:@"> "];
-    NSString *uidStr =  nil;
+    
+    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
     if (range.length) {
         int loc = (int)(range.location + range.length);
-        uidStr = [uidIDStr substringFromIndex:loc];
+        NSString *uidStr = [uidIDStr substringFromIndex:loc];
+        parametes[@"deviceUid"] = uidStr;
     }
         //获取iOS版本号
     NSString *osVersion = [UIDevice currentDevice].systemVersion;
     
-    NSMutableDictionary *parametes = [[NSMutableDictionary alloc ] init];
+
     parametes[@"version"] = appVersion;
-    parametes[@"deviceUid"] = uidStr;
+
 //    parametes[@"deviceUid"] = @111;
     parametes[@"osVersion"] = osVersion;
     parametes[@"osType"] = @(0);
@@ -275,12 +277,8 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    BOOL isFirstLaunch = [userDefaults boolForKey:kTraceLogFirstLaunch];
-    
-//    if (!isFirstLaunch) {
-        [self logTraceFirstLaunch];
-        [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
-        [userDefaults synchronize];
-//    }
+    [self logTraceFirstLaunch];
+    [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
+    [userDefaults synchronize];
 }
 @end
