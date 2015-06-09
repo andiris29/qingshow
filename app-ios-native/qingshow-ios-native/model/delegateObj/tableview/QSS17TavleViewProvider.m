@@ -25,13 +25,7 @@
 }
 - (CGFloat)getHeight
 {
-    if (w == 320 && h == 480) {
-        return h/3+10;
-    }
-    else
-    {
-    return h/3-16;
-    }
+    return (w - 20) / 3 / 9 * 16 + 6;
 }
 
 
@@ -59,9 +53,10 @@
     NSDictionary* rightDict = self.resultArray.count > (indexPath.row * 2  + 1)? self.resultArray[indexPath.row * 2 + 1] : nil;
     
     [cell bindWithDataDic:leftDict andAnotherDic:rightDict];
-    if (w == 414) {
-        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.35);
-    }
+
+    float rate = [UIScreen mainScreen].bounds.size.width / 320.f;
+    cell.contentView.transform  = CGAffineTransformMakeScale(rate, rate);
+    
     return cell;
 }
 
