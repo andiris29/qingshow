@@ -19,7 +19,8 @@ peopleSchema = Schema({
         shoulder : Number,
         bust : Number,
         waist : Number,
-        hips : Number
+        hips : Number,
+        shoeSize : Number
     },
     userInfo : {
         id : String,

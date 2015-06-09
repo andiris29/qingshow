@@ -233,22 +233,28 @@ _update = function(req, res) {
         }
         delete qsParam.password;
         delete qsParam.currentPassword;
-        if (qsParam.shoulder) {
-            people.set('measureInfo.shoulder', RequestHelper.parseNumber(qsParam.shoulder));
+
+        if (qsParam.measureInfo) {
+            if (qsParam.measureInfo.shoulder) {
+                people.set('measureInfo.shoulder', RequestHelper.parseNumber(qsParam.measureInfo.shoulder));
+            }
+            if (qsParam.measureInfo.bust) {
+                people.set('measureInfo.bust', RequestHelper.parseNumber(qsParam.measureInfo.bust));
+            }
+            if (qsParam.measureInfo.waist) {
+                people.set('measureInfo.waist', RequestHelper.parseNumber(qsParam.measureInfo.waist));
+            }
+            if (qsParam.measureInfo.hips) {
+                people.set('measureInfo.hips', RequestHelper.parseNumber(qsParam.measureInfo.hips));
+            }
+            if (qsParam.measureInfo.shoeSize) {
+                people.set('measureInfo.shoeSize', RequestHelper.parseNumber(qsParam.measureInfo.shoeSize));
+
+            }
+
+            delete qsParam.measureInfo;
         }
-        if (qsParam.bust) {
-            people.set('measureInfo.bust', RequestHelper.parseNumber(qsParam.bust));
-        }
-        if (qsParam.waist) {
-            people.set('measureInfo.waist', RequestHelper.parseNumber(qsParam.waist));
-        }
-        if (qsParam.hips) {
-            people.set('measureInfo.hips', RequestHelper.parseNumber(qsParam.hips));
-        }
-        delete qsParam.shoulder;
-        delete qsParam.bust;
-        delete qsParam.waist;
-        delete qsParam.hips;
+
         for (var field in qsParam) {
             people.set(field, qsParam[field]);
         }
