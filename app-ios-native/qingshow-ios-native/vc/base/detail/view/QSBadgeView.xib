@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -17,18 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NIY-rA-oO7">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_bg_default.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="NIY-rA-oO7">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="230" id="V7e-gx-jfL"/>
-                    </constraints>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tKl-cf-6S5">
-                    <rect key="frame" x="118" y="186" width="84" height="84"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="84" id="cfv-lh-VB1"/>
-                        <constraint firstAttribute="width" constant="84" id="z6f-Xq-QxH"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqs-Sm-5h3">
@@ -49,6 +41,13 @@
                     <color key="textColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_head_default.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="tKl-cf-6S5">
+                    <rect key="frame" x="118" y="186" width="84" height="84"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="84" id="cfv-lh-VB1"/>
+                        <constraint firstAttribute="width" constant="84" id="z6f-Xq-QxH"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -75,6 +74,10 @@
             <point key="canvasLocation" x="503" y="389.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="user_bg_default.jpg" width="720" height="450"/>
+        <image name="user_head_default.jpg" width="720" height="450"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

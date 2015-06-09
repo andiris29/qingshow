@@ -10,7 +10,7 @@
 
 NSString* managerCellTypeToTitle(U02SectionManagerRow type)
 {
-    return @[@"收获地址管理", @"订单管理"][type];
+    return @[@"收货地址管理", @"订单管理"][type];
 }
 
 @implementation QSU02ManagerCell

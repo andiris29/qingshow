@@ -82,6 +82,11 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
         logOutBtn.frame = CGRectMake(10, 25, w-20, 50);
         logOutBtn.layer.cornerRadius = logOutBtn.bounds.size.height/8;
         logOutBtn.layer.masksToBounds = YES;
+        CGRect frame = CGRectMake(20, _footerView.frame.origin.y+1, [UIScreen mainScreen].bounds.size.width, 1);
+        UIImageView *view = [[UIImageView alloc]init];
+        view.backgroundColor = [UIColor colorWithWhite:0.856 alpha:1.000];
+        view.frame = frame;
+        [_footerView addSubview:view];
         [_footerView addSubview:logOutBtn];
     }
     return _footerView;
@@ -152,11 +157,24 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
     NSMutableArray* headers = [@[] mutableCopy];
     for (NSNumber* n in self.sectionModelArray) {
         U02Section section = n.integerValue;
-        UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -20, w, 44)];
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, w, 44)];
+        UIView *headerView = [[UIView alloc]initWithFrame:CGRectMake(0, -20, w, 55)];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(8, 0, w, 55)];
         label.font = NEWFONT;
         label.text = u02SectionToTitle(section);
         [headerView addSubview:label];
+        
+        CGRect frame = CGRectMake(0, 0, w, 1);
+        UIImageView *view = [[UIImageView alloc]init];
+        view.backgroundColor = [UIColor colorWithWhite:0.886 alpha:1.000];
+        view.frame = frame;
+        [headerView addSubview:view];
+        CGRect frame01 = view.frame;
+        frame01.origin.y = 55;
+        UIImageView *view01 = [[UIImageView alloc]initWithFrame:frame01];
+        view01.backgroundColor = view.backgroundColor;
+        [headerView addSubview:view01];
+        
+        
         headerView.backgroundColor = [UIColor whiteColor];
         [headers addObject:headerView];
     }
@@ -199,7 +217,7 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44.f;
+    return 55.f;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return self.headerViews[section];

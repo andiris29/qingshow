@@ -212,7 +212,7 @@
 }
 
 - (void)keyboardWillHide:(NSNotification *)notif {
-    self.textField.placeholder = @"回复评论";
+    self.textField.placeholder = @"输入新评论";
     [UIView animateWithDuration:0.5 animations:^{
         self.commentBottomConstrain.constant = 0;
         [self.view layoutIfNeeded];
