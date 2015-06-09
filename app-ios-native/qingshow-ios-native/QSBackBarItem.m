@@ -20,7 +20,7 @@
         self.style = UIBarButtonItemStyleDone;
         self.target = self;
         self.action = @selector(backAction);
-        self.accessibilityFrame = CGRectMake(0, 0, 28, 28);
+        self.accessibilityFrame = CGRectMake(0, 0, 29, 29);
         _actionVC = vc;
     }
     return self;

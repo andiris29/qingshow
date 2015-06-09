@@ -17,6 +17,8 @@
 
 @dynamic delegate;
 
+
+
 - (void)registerCell
 {
     [self.view registerNib:[UINib nibWithNibName:@"QSS17TopShowCell" bundle:nil] forCellReuseIdentifier:SS17CellId];
@@ -28,7 +30,7 @@
     }
     else
     {
-    return h/3-13;
+    return h/3-16;
     }
 }
 
@@ -58,7 +60,7 @@
     
     [cell bindWithDataDic:leftDict andAnotherDic:rightDict];
     if (w == 414) {
-        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
+        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.35);
     }
     return cell;
 }
@@ -70,5 +72,6 @@
         [self.delegate didClickedDate:date ofProvider:self];
     }
 }
+
 
 @end

@@ -66,6 +66,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFirstLaunchChange:) name:kGlobalFirstUpdateNotification object:nil];
     
+    _backToTopBtn.hidden = YES;
     NSLog(@"count ======   %d",self.navigationController.childViewControllers.count);
 }
 
@@ -130,6 +131,7 @@
     
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
+    vc.backToTopBtn.hidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
   
     
@@ -149,6 +151,26 @@
     [self showErrorHudWithError:error];
 }
 
+#pragma mark - UISCrollerViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.topShowTableView.contentOffset.y != 0) {
+        _backToTopBtn.hidden = NO;
+    }
+    else
+    {
+        _backToTopBtn.hidden = YES;
+    }
+}
+
+
+- (IBAction)backtoTopBtnPressed:(id)sender {
+    
+    CGPoint p = [self.topShowTableView contentOffset];
+    p.y = 0;
+    [self.topShowTableView setContentOffset:p animated:YES];
+    _backToTopBtn.hidden = YES;
+}
 @end
 
 

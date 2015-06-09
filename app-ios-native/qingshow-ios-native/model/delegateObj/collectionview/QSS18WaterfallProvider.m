@@ -48,6 +48,13 @@
         QSTopShowOneDayCell* showCell = [collectionViews dequeueReusableCellWithReuseIdentifier:kQSTopShowOneDayCellIdentifier forIndexPath:indexPath];
         [showCell bindWithShow:dict];
         cell = showCell;
+        if ([UIScreen mainScreen].bounds.size.width == 414) {
+            cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.35);
+        }
+        else
+        {
+            cell.contentView.transform = CGAffineTransformMakeScale(1.1, 1.1);
+        }
     }
     return cell;
 }

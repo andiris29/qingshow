@@ -21,13 +21,19 @@
 
 @implementation QSS18TopShowOneDayViewController
 #pragma mark - Init
+- (IBAction)bakToTopBtnPressed:(id)sender {
+    CGPoint p = [self.collectionView contentOffset];
+    p.y = 0;
+    [self.collectionView setContentOffset:p animated:YES];
+    _backToTopBtn.hidden = YES;
+}
+
 - (instancetype)initWithDate:(NSDate*)date
 {
     self = [super initWithNibName:@"QSS18TopShowOneDayViewController" bundle:nil];
     if (self) {
         self.date = date;
-        
-        
+       
     }
     return self;
 }
@@ -37,6 +43,7 @@
     [super viewDidLoad];
     [self configView];
     [self configProvider];
+     _backToTopBtn.hidden = YES;
 
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -58,6 +65,17 @@
     [MobClick endLogPageView:PAGE_ID];
 }
 
+#pragma mark - UIScrollerViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.collectionView.contentOffset.y != 0) {
+        _backToTopBtn.hidden = NO;
+    }
+    else
+    {
+        _backToTopBtn.hidden = YES;
+    }
+}
 #pragma mark -
 - (void)configView {
     self.title = @"美搭榜单";

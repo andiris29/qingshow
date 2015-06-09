@@ -58,7 +58,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qk-08-Zd6">
-                        <rect key="frame" x="27" y="150" width="15" height="13"/>
+                        <rect key="frame" x="23" y="149" width="20" height="14"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="18"/>
                         <state key="normal" image="xin.png">
                             <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -94,7 +94,7 @@
     <resources>
         <image name="bgImgforCell.png" width="320" height="184"/>
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>
-        <image name="xin.png" width="17" height="15"/>
+        <image name="xin.png" width="23" height="17"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

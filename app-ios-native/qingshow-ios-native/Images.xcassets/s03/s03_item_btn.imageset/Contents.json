@@ -2,8 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "s03_item_btn.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

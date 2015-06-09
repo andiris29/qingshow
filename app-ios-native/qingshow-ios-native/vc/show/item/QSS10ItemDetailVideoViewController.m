@@ -39,15 +39,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.imageScrollView.pageControlOffsetY = 120.f;
+    self.imageScrollView.pageControlOffsetY = 10.f;
     [self bindWithDict:self.itemDict];
     self.priceLabel.hidden = YES;
+   
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

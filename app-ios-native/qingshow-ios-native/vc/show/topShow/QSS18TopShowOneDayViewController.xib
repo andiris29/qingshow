@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS18TopShowOneDayViewController">
             <connections>
+                <outlet property="backToTopBtn" destination="AuP-Oh-7bP" id="KYA-G8-Fns"/>
                 <outlet property="collectionView" destination="7aL-0J-akD" id="ek3-w9-VHJ"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -25,17 +26,35 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AuP-Oh-7bP">
+                    <rect key="frame" x="259" y="487" width="41" height="41"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="41" id="SOD-AB-UvH"/>
+                        <constraint firstAttribute="width" constant="41" id="wSI-6E-arQ"/>
+                    </constraints>
+                    <state key="normal" image="backToTopBtnImg">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="bakToTopBtnPressed:" destination="-1" eventType="touchUpInside" id="M3h-ve-mkr"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="7aL-0J-akD" secondAttribute="bottom" id="6au-1I-mWb"/>
                 <constraint firstItem="7aL-0J-akD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="7CP-rn-8HW"/>
                 <constraint firstAttribute="trailing" secondItem="7aL-0J-akD" secondAttribute="trailing" id="7rR-jo-Ruh"/>
+                <constraint firstAttribute="bottom" secondItem="AuP-Oh-7bP" secondAttribute="bottom" constant="40" id="Jlg-Lj-Hqh"/>
                 <constraint firstItem="7aL-0J-akD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TQu-Hk-PzC"/>
+                <constraint firstAttribute="trailing" secondItem="AuP-Oh-7bP" secondAttribute="trailing" constant="20" id="nqw-9J-ZYL"/>
             </constraints>
             <point key="canvasLocation" x="470" y="361"/>
         </view>
     </objects>
+    <resources>
+        <image name="backToTopBtnImg" width="41" height="41"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

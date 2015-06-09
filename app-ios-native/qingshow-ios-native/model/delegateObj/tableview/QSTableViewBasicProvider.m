@@ -12,6 +12,8 @@
 #import "QSMetadataUtil.h"
 #import "QSAbstractListViewProvider+Protect.h"
 
+#define w ([UIScreen mainScreen].bounds.size.width)
+#define h ([UIScreen mainScreen].bounds.size.height)
 @interface QSTableViewBasicProvider ()
 
 @property (assign, nonatomic) Class cellClass;
@@ -27,6 +29,7 @@
     self = [self initWIthIdentifier:identifier];
     if (self) {
         self.cellClass = cellClass;
+      
     }
     return self;
 }
@@ -36,6 +39,7 @@
     self = [self initWIthIdentifier:identifier];
     if (self) {
         self.cellNib = cellNib;
+       
     }
     return self;
 }
@@ -44,6 +48,7 @@
     self = [self init];
     if (self) {
         self.identifier = identifier;
+        
     }
     return self;
 }
@@ -54,6 +59,11 @@
     self.view.delegate = nil;
     self.view.dataSource = nil;
 }
+- (void)backToTop
+{
+    [self.view scrollsToTop];
+}
+
 #pragma mark - 
 - (void)bindWithTableView:(UITableView*)tableView
 {

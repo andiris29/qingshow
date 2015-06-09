@@ -11,6 +11,8 @@
 
 @interface QSS18TopShowOneDayViewController : UIViewController<QSS18WaterfallProviderDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
+- (IBAction)bakToTopBtnPressed:(id)sender;
 
 - (instancetype)initWithDate:(NSDate*)date;
 

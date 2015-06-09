@@ -7,6 +7,10 @@
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -54,7 +58,7 @@
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZEr-7p-gCN">
                             <rect key="frame" x="8" y="26" width="253" height="41"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -72,7 +76,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hMW-Uu-LLo">
-                    <rect key="frame" x="20" y="30" width="36" height="36"/>
+                    <rect key="frame" x="20" y="30" width="28" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" backgroundImage="nav_btn_back">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -88,7 +92,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DNE-pM-rCt">
                             <rect key="frame" x="12" y="72" width="40" height="38"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <state key="normal" title="0" backgroundImage="s03_comment_btn">
                                 <color key="titleColor" red="0.5782828283" green="0.5782828283" blue="0.5782828283" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -100,7 +104,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kom-JN-rRb">
                             <rect key="frame" x="12" y="8" width="36" height="42"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
                             <state key="normal" title="0" backgroundImage="s03_item_btn">
                                 <color key="titleColor" red="0.5782828283" green="0.5782828283" blue="0.5782828283" alpha="1" colorSpace="calibratedRGB"/>
@@ -113,7 +117,7 @@
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iFb-nD-1im">
                             <rect key="frame" x="12" y="132" width="40" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <state key="normal" title="0" backgroundImage="s03_like_btnIcon">
                                 <color key="titleColor" red="0.5782828283" green="0.5782828283" blue="0.5782828283" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -187,8 +191,8 @@
         <image name="nav_btn_back" width="28" height="28"/>
         <image name="s03_comment_btn" width="40" height="38"/>
         <image name="s03_item_btn" width="36" height="42"/>
-        <image name="s03_like_btnIcon" width="40" height="38"/>
-        <image name="s03_line" width="36" height="6"/>
+        <image name="s03_like_btnIcon" width="40" height="36"/>
+        <image name="s03_line" width="38" height="6"/>
         <image name="s03_model_shadow" width="320" height="92"/>
         <image name="s03_pause_btn" width="38" height="38"/>
         <image name="s03_play_btn" width="38" height="38"/>

@@ -14,8 +14,10 @@
 
 @interface QSS17ViewController : QSRootContentViewController<QSS17ProviderDelegate>
 
+@property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
 @property (weak, nonatomic) IBOutlet UITableView *topShowTableView;
 
+- (IBAction)backtoTopBtnPressed:(id)sender;
 
 @end
 

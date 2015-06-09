@@ -32,7 +32,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqs-Sm-5h3">
-                    <rect key="frame" x="8" y="313" width="304" height="18"/>
+                    <rect key="frame" x="8" y="318" width="304" height="18"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="18" id="oDk-SA-MGl"/>
                     </constraints>
@@ -41,9 +41,9 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="74W-bg-pUU">
-                    <rect key="frame" x="8" y="287" width="304" height="18"/>
+                    <rect key="frame" x="8" y="287" width="304" height="23"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="18" id="COh-x2-oQd"/>
+                        <constraint firstAttribute="height" constant="23" id="COh-x2-oQd"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                     <color key="textColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
