@@ -25,7 +25,7 @@
 }
 - (CGFloat)getHeight
 {
-    return (w - 20) / 3 / 9 * 16 + 6;
+    return (w - 20) / 3 / 9 * 16 + 6 ;
 }
 
 

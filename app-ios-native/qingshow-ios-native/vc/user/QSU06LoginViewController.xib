@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -93,9 +92,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cVr-g0-gMn">
-                    <rect key="frame" x="10" y="243" width="300" height="50"/>
+                    <rect key="frame" x="80" y="243" width="140" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="WSe-kK-wzU"/>
+                        <constraint firstAttribute="height" constant="40" id="WSe-kK-wzU"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="25"/>
                     <state key="normal" title="登录倾秀">
@@ -140,7 +139,7 @@
                 <constraint firstItem="rMd-37-2CO" firstAttribute="leading" secondItem="U29-r6-HME" secondAttribute="leading" id="2Ue-Yh-GtW"/>
                 <constraint firstItem="gDc-h8-6Ln" firstAttribute="width" secondItem="GHB-x5-Sck" secondAttribute="width" id="2lG-33-Mvl"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="width" secondItem="rMd-37-2CO" secondAttribute="width" id="37z-yS-QRs"/>
-                <constraint firstItem="cVr-g0-gMn" firstAttribute="leading" secondItem="wpf-Ue-aeI" secondAttribute="leading" constant="10" id="6bi-Mg-Vnt"/>
+                <constraint firstItem="cVr-g0-gMn" firstAttribute="leading" secondItem="wpf-Ue-aeI" secondAttribute="leading" constant="80" id="6bi-Mg-Vnt"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="top" secondItem="aWK-Fb-8cM" secondAttribute="top" constant="-40" id="8xg-Nm-jRo"/>
                 <constraint firstItem="wpf-Ue-aeI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="C6V-fq-1as"/>
                 <constraint firstAttribute="trailing" secondItem="lt6-V9-GZx" secondAttribute="trailing" id="Cus-sG-u5p"/>
@@ -162,7 +161,7 @@
                 <constraint firstItem="tp3-BB-btG" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="leading" id="fie-UH-lDL"/>
                 <constraint firstItem="d76-ww-Mcn" firstAttribute="leading" secondItem="U29-r6-HME" secondAttribute="leading" id="kbZ-Oi-Nug"/>
                 <constraint firstAttribute="trailing" secondItem="wpf-Ue-aeI" secondAttribute="trailing" id="l72-OB-vac"/>
-                <constraint firstItem="cVr-g0-gMn" firstAttribute="trailing" secondItem="wpf-Ue-aeI" secondAttribute="trailing" constant="-10" id="lzv-sn-IHv"/>
+                <constraint firstItem="cVr-g0-gMn" firstAttribute="trailing" secondItem="wpf-Ue-aeI" secondAttribute="trailing" constant="-100" id="lzv-sn-IHv"/>
                 <constraint firstItem="qN3-2Z-q9f" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="80" id="m5h-gt-bim"/>
                 <constraint firstAttribute="trailing" secondItem="w5l-0e-MyN" secondAttribute="trailing" constant="10" id="mpi-EY-kgb"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="leading" constant="-25" id="nak-1u-u4Z"/>

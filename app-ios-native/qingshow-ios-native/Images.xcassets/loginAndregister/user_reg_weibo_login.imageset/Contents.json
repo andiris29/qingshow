@@ -2,8 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "user_reg_weibo_login.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",

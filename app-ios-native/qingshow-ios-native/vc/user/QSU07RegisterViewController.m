@@ -17,7 +17,7 @@
 #import "QSThirdPartLoginService.h"
 
 #define PAGE_ID @"U07 - 注册"
-
+#define w ([UIScreen mainScreen].bounds.size.width)
 @interface QSU07RegisterViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nickNameText;
 @property (weak, nonatomic) IBOutlet UITextField *passwdText;
@@ -33,6 +33,7 @@
 
 - (void)configScrollView
 {
+    
     CGSize scrollViewSize = self.containerScrollView.bounds.size;
     CGSize contentSize = self.contentView.bounds.size;
     float height = scrollViewSize.height > contentSize.height ? scrollViewSize.height : contentSize.height;
@@ -65,17 +66,39 @@
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
-    [self.registerButton setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+    self.registerButton.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2f];
+  
     self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
     self.weixinButton.layer.masksToBounds = YES;
-    [self.weixinButton setBackgroundColor:[UIColor colorWithRed:41.f / 255.f green:160.f / 255.f blue:42.f / 255.f alpha:1.0]];
+    [self.weixinButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.2f]];
     self.weiboButton.layer.cornerRadius = self.weiboButton.frame.size.height / 8;
-    [self.weiboButton setBackgroundColor:[UIColor colorWithRed:228.f / 255.f green:74.f / 255.f blue:5.f / 255.f alpha:1.0]];
+    [self.weiboButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.2f]];
     self.weiboButton.layer.masksToBounds = YES;
     
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];
     self.view.userInteractionEnabled = YES;
     [self.view addGestureRecognizer:ges];
+    
+    
+}
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if (w == 414) {
+        CGRect frame = self.navtextImageView.frame;
+        frame.origin.x += 25;
+        self.navtextImageView.frame = frame;
+        CGRect frame01 = self.orLabel.frame;
+        frame01.origin.x += 25;
+        self.orLabel.frame = frame01;
+        CGRect frame03 = self.leftLine.frame;
+        frame03.size.width += 15;
+        self.leftLine.frame = frame03;
+        CGRect frame04 = self.rightLine.frame;
+        frame04.origin.x +=20;
+        frame04.size.width -= 10;
+        self.rightLine.frame = frame04;
+    }
     
 }
 - (void)dealloc

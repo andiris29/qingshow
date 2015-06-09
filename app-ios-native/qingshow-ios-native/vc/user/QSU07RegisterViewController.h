@@ -14,6 +14,10 @@
 @property (strong, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (weak, nonatomic) IBOutlet UIButton *itemBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *navtextImageView;
+@property (weak, nonatomic) IBOutlet UILabel *orLabel;
+@property (weak, nonatomic) IBOutlet UIView *leftLine;
+@property (weak, nonatomic) IBOutlet UIView *rightLine;
 
 
 
