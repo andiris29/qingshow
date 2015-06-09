@@ -53,7 +53,7 @@
         }
         else
         {
-            cell.contentView.transform = CGAffineTransformMakeScale(1.1, 1.1);
+            cell.contentView.transform = CGAffineTransformMakeScale(1.1, 1.06);
         }
     }
     return cell;

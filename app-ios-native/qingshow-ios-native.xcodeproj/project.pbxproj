@@ -44,8 +44,8 @@
 		8C9240011B2589D80043561E /* xin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240001B2589D80043561E /* xin@2x.png */; };
 		8C9240031B2589DF0043561E /* xin.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240021B2589DF0043561E /* xin.png */; };
 		8C9240051B258AB60043561E /* hongxin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240041B258AB60043561E /* hongxin@2x.png */; };
-		8C9240071B25A8030043561E /* user_bg_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default.png */; };
-		8C9240091B25A83C0043561E /* user_head_default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default.png */; };
+		8C9240071B25A8030043561E /* user_bg_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240061B25A8030043561E /* user_bg_default@2x.png */; };
+		8C9240091B25A83C0043561E /* user_head_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C9240081B25A83C0043561E /* user_head_default@2x.png */; };
 		8CC1850A1B0EFBDA00DD7657 /* bgImgforCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CC185091B0EFBDA00DD7657 /* bgImgforCell@2x.png */; };
 		8CC1850C1B0EFCC500DD7657 /* bgImgforCell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8CC1850B1B0EFCC500DD7657 /* bgImgforCell@3x.png */; };
 		A75DF2071B01A6B400A88E36 /* QSHotUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A75DF2061B01A6B400A88E36 /* QSHotUtil.m */; };
@@ -366,8 +366,8 @@
 		8C9240001B2589D80043561E /* xin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xin@2x.png"; sourceTree = "<group>"; };
 		8C9240021B2589DF0043561E /* xin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xin.png; sourceTree = "<group>"; };
 		8C9240041B258AB60043561E /* hongxin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongxin@2x.png"; sourceTree = "<group>"; };
-		8C9240061B25A8030043561E /* user_bg_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_bg_default.png; sourceTree = "<group>"; };
-		8C9240081B25A83C0043561E /* user_head_default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_head_default.png; sourceTree = "<group>"; };
+		8C9240061B25A8030043561E /* user_bg_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_bg_default@2x.png"; sourceTree = "<group>"; };
+		8C9240081B25A83C0043561E /* user_head_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_head_default@2x.png"; sourceTree = "<group>"; };
 		8CC185091B0EFBDA00DD7657 /* bgImgforCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImgforCell@2x.png"; sourceTree = "<group>"; };
 		8CC1850B1B0EFCC500DD7657 /* bgImgforCell@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bgImgforCell@3x.png"; sourceTree = "<group>"; };
 		A75DF2051B01A6B400A88E36 /* QSHotUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSHotUtil.h; sourceTree = "<group>"; };
@@ -1468,8 +1468,8 @@
 				A7865BF41B00372F00F71B15 /* user_personality.png */,
 				A76A66581AFCB0D100AF5559 /* user_regAndlogin_backImage.png */,
 				A76A665A1AFCB74900AF5559 /* user_personality.png */,
-				8C9240061B25A8030043561E /* user_bg_default.png */,
-				8C9240081B25A83C0043561E /* user_head_default.png */,
+				8C9240061B25A8030043561E /* user_bg_default@2x.png */,
+				8C9240081B25A83C0043561E /* user_head_default@2x.png */,
 				EF88D08D1ACEF90C002C4963 /* area.json */,
 				EFEBAAE31ABEB0000000FEEE /* location.plist */,
 			);
@@ -2391,7 +2391,7 @@
 				68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */,
 				EF610EFD1AF937F700B7DFB3 /* QSBigImageDateView.xib in Resources */,
 				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
-				8C9240091B25A83C0043561E /* user_head_default.png in Resources */,
+				8C9240091B25A83C0043561E /* user_head_default@2x.png in Resources */,
 				EF0C642D1B21AAC20079B22E /* QSU02InfoTextCell.xib in Resources */,
 				EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */,
 				8C8B9D871B00395B00C1A321 /* welcome1_568@2x.png in Resources */,
@@ -2428,7 +2428,7 @@
 				EF17292C1A1CDD36001819E3 /* QSU01UserDetailViewController.xib in Resources */,
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
-				8C9240071B25A8030043561E /* user_bg_default.png in Resources */,
+				8C9240071B25A8030043561E /* user_bg_default@2x.png in Resources */,
 				A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */,
 				EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */,
 				EF78E3481AAF4C7600665EDD /* QSUserLocationTableViewCell.xib in Resources */,
@@ -2770,7 +2770,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",
@@ -2808,7 +2808,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "qingshow-ios-native/qingshow-ios-native-Prefix.pch";
 				INFOPLIST_FILE = "qingshow-ios-native/qingshow-ios-native-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/libWeiboSDK",

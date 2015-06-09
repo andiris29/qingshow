@@ -46,6 +46,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIView* headerView = [QSItemListHeaderView generateView];
+    
     self.tableView.tableHeaderView = headerView;
 //    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListTableViewCell" bundle:nil] forCellReuseIdentifier:QSItemListTableViewCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
@@ -65,6 +66,10 @@
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    if([UIScreen mainScreen].bounds.size.width == 414)
+    {
+        self.tableView.tableHeaderView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -104,6 +109,9 @@
     
     QSItemListCell *cell = [tableView dequeueReusableCellWithIdentifier:QSItemListCellID forIndexPath:indexPath];
     [cell bindWithDic:self.itemArray[indexPath.row]];
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        cell.contentView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    }
     return cell;
 }
 #pragma mark - UITableView Delegate

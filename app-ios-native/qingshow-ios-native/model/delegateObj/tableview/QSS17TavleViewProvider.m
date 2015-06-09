@@ -25,13 +25,15 @@
 }
 - (CGFloat)getHeight
 {
-    if (w == 320 && h == 480) {
-        return h/3+10;
-    }
-    else
-    {
-    return h/3-16;
-    }
+//    if (w == 320 && h == 480) {
+//        return h/3+10;
+//    }
+//    else
+//    {
+//    return h/3-2;
+//    }
+    float width = w/2+10;
+    return width;
 }
 
 
@@ -59,9 +61,7 @@
     NSDictionary* rightDict = self.resultArray.count > (indexPath.row * 2  + 1)? self.resultArray[indexPath.row * 2 + 1] : nil;
     
     [cell bindWithDataDic:leftDict andAnotherDic:rightDict];
-    if (w == 414) {
-        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.35);
-    }
+    cell.contentView.transform  = CGAffineTransformMakeScale(320/w, 320/w);
     return cell;
 }
 
