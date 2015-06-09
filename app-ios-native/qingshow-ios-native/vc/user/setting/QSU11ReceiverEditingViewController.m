@@ -167,6 +167,7 @@
     self.phoneTextField.text = [QSReceiverUtil getPhone:dict];
     self.localLabel.text = [QSReceiverUtil getProvince:dict];
     [self.pickerProvider bindWithValue:self.localLabel.text];
+    self.selectionLocation = self.localLabel.text;
     self.detailLocationTextField.text = [QSReceiverUtil getAddress:dict];
 }
 
