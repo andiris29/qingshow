@@ -81,12 +81,12 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8J-EI-SBu">
-                    <rect key="frame" x="8" y="30" width="46" height="25"/>
+                    <rect key="frame" x="20" y="30" width="28" height="28"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="25" id="1Oi-Gn-UPI"/>
-                        <constraint firstAttribute="width" constant="46" id="yrO-wu-Lc0"/>
+                        <constraint firstAttribute="height" constant="28" id="1Oi-Gn-UPI"/>
+                        <constraint firstAttribute="width" constant="28" id="yrO-wu-Lc0"/>
                     </constraints>
-                    <state key="normal" image="user_back_btn"/>
+                    <state key="normal" image="nav_btn_back_white"/>
                     <connections>
                         <action selector="back:" destination="-1" eventType="touchUpInside" id="Bov-Np-ASX"/>
                     </connections>
@@ -96,7 +96,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="WSe-kK-wzU"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="25"/>
+                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="20"/>
                     <state key="normal" title="登录倾秀">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -166,7 +166,7 @@
                 <constraint firstAttribute="trailing" secondItem="w5l-0e-MyN" secondAttribute="trailing" constant="10" id="mpi-EY-kgb"/>
                 <constraint firstItem="w5l-0e-MyN" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="leading" constant="-25" id="nak-1u-u4Z"/>
                 <constraint firstItem="GHB-x5-Sck" firstAttribute="leading" secondItem="aWK-Fb-8cM" secondAttribute="trailing" constant="10" id="nfL-wE-47Y"/>
-                <constraint firstItem="wpf-Ue-aeI" firstAttribute="leading" secondItem="Q8J-EI-SBu" secondAttribute="leading" constant="-8" id="qai-FF-vV8"/>
+                <constraint firstItem="wpf-Ue-aeI" firstAttribute="leading" secondItem="Q8J-EI-SBu" secondAttribute="leading" constant="-20" id="qai-FF-vV8"/>
                 <constraint firstItem="tp3-BB-btG" firstAttribute="top" secondItem="U29-r6-HME" secondAttribute="top" constant="16" id="rLv-4y-Ef4"/>
                 <constraint firstItem="rMd-37-2CO" firstAttribute="width" secondItem="U29-r6-HME" secondAttribute="width" id="rgn-4L-WGU"/>
                 <constraint firstItem="lt6-V9-GZx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="uTr-fI-p3y"/>
@@ -181,7 +181,7 @@
         </view>
     </objects>
     <resources>
-        <image name="user_back_btn" width="32" height="21"/>
+        <image name="nav_btn_back_white" width="28" height="28"/>
         <image name="user_nickname" width="26" height="18"/>
         <image name="user_password" width="18" height="21"/>
         <image name="user_regAndlogin_backImage.png" width="640" height="1178"/>

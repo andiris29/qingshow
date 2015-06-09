@@ -20,6 +20,7 @@
     self = [super init];
     if (self) {
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(100, 0, 200, 40)];
+        label.font = NEWFONT;
         label.textColor = [UIColor grayColor];
         self.label = label;
         [self addSubview:label];

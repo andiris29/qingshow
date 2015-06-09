@@ -47,7 +47,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.tableView registerNib:[UINib nibWithNibName:@"QSUserLocationTableViewCell" bundle:nil] forCellReuseIdentifier:QSUserLocationTableViewCellIdentifier];
-    self.title = @"收获地址管理";
+    self.title = @"收货地址管理";
     [self hideNaviBackBtnTitle];
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(newLocationBtnPressed)];
@@ -128,7 +128,13 @@
 {
     NSDictionary* dict = [self receiverDictForCell:cell];
     UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:dict];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didClickDeleteButtonOfCell:(QSUserLocationTableViewCell*)cell
 {
@@ -160,6 +166,8 @@
 - (void)newLocationBtnPressed
 {
     UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:nil];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (NSDictionary*)receiverDictForIndexPath:(NSIndexPath*)indexPath

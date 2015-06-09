@@ -94,7 +94,7 @@
         </view>
     </objects>
     <resources>
-        <image name="user_head_default.png" width="1440" height="900"/>
+        <image name="user_head_default.png" width="720" height="450"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

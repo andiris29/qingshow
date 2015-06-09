@@ -43,6 +43,7 @@
     [self.favoProvider registerCell];
     [self setProvider];
     self.title = @"我的收藏";
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,

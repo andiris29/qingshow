@@ -51,6 +51,7 @@
     
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
+        self.backBtn.transform = CGAffineTransformMakeScale(1/1.3, 1/1.3);
     }
 }
 
@@ -84,9 +85,15 @@
     else
     {
         UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+        vc.navigationItem.leftBarButtonItem = backItem;
         [self.navigationController pushViewController:vc animated:YES];
     }
   
+}
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 #pragma mark - Private
 - (void)bindWithDict:(NSDictionary*)itemDict
