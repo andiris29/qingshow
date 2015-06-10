@@ -197,7 +197,7 @@
                        @"SUNDAY",
                        @"MONDAY",
                        @"TUESDAY",
-                       @"WEDENSDAY",
+                       @"WEDNESDAY",
                        @"THURSDAY",
                        @"FRIDAY",
                        @"SATURDAY"];
