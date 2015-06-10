@@ -106,13 +106,16 @@ var _crawlItemTaobaoInfo = function (item, callback) {
         }
     ], function (err) {
         if (err) {
+            winston.info('[Goblin-tbitem] item error: ' + item._id);
             callback(err);
         } else {
             item.taobaoInfo = item.taobaoInfo || {};
             if (Object.keys(item.taobaoInfo).length === 0) {
                 item.deactive = true;
+                winston.info('[Goblin-tbitem] item failed: ' + item._id);
             } else {
                 item.deactive = false;
+                winston.info('[Goblin-tbitem] item success: ' + item._id);
             }
             item.taobaoInfo.refreshTime = new Date();
             item.save(callback);
