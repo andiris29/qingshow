@@ -11,6 +11,7 @@ var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
 var MongoHelper = require('../../httpserver/helpers/MongoHelper');
 var ServerError = require('../../httpserver/server-error');
+var mongoose = require('mongoose');
 
 var _next = function (time, retryTime) {
     async.waterfall([
@@ -40,7 +41,7 @@ var _next = function (time, retryTime) {
             var query = Item.find(criteria);
             var queryCount = Item.find(criteria);
             var pageNo = 1;
-            var pageSize = 10;
+            var pageSize = 1;
             MongoHelper.queryPaging(query, queryCount, pageNo, pageSize, function (err, result, count) {
                 winston.info('goblin item : remain item ' + count);
                 if (err) {
@@ -84,14 +85,14 @@ var _next = function (time, retryTime) {
                 winston.info('remain retry : ' + retryTime);
                 _.delay(function() {
                     _next(time, retryTime);
-                }, 1000);
+                }, 2000);
             } else {
                 winston.info('Error: goblin item retry time is zero, stop.');
             }
         } else {
             _.delay(function () {
                 _next(time, retryTime);
-            }, 1000);
+            }, 2000);
         }
     });
 };
@@ -130,7 +131,10 @@ module.exports = function () {
     schedule.scheduleJob(rule, function () {
         var startDate = new Date();
         winston.info('Goblin-tbitem run at: ' + startDate);
-        
+
         _next(startDate, 10);
     });
+
+    var startDate = new Date();
+    _next(startDate, 10);
 };
