@@ -62,6 +62,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)willPresentAlertView:(UIAlertView *)alertView
+{
+    for (UIView *view in alertView.subviews) {
+        if ([view isKindOfClass:[UILabel class]]) {
+            UILabel *label = (UILabel *)view;
+            if ([label.text isEqualToString:alertView.message]) {
+                label.font = NEWFONT;
+            }
+            NSLog(@"label.text = %@",label.text);
+            
+        }
+    }
+}
 
 - (void)configView {
     self.automaticallyAdjustsScrollViewInsets = NO;

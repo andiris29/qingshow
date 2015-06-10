@@ -85,16 +85,13 @@
     else
     {
         UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
-        UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+        QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
         vc.navigationItem.leftBarButtonItem = backItem;
         [self.navigationController pushViewController:vc animated:YES];
     }
   
 }
-- (void)backAction
-{
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 #pragma mark - Private
 - (void)bindWithDict:(NSDictionary*)itemDict
 {

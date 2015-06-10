@@ -49,11 +49,15 @@
 
 //@property (weak, nonatomic) IBOutlet UIButton* refundButton;
 @property (weak, nonatomic) IBOutlet UIButton* submitButton;
+@property (weak, nonatomic) IBOutlet UIButton *exchangeButton;
+@property (weak, nonatomic) IBOutlet UIButton *returnButton;
 
 //@property (assign, nonatomic) QSOrderListTableViewCellType type;
 
 //- (IBAction)refundBtnPressed:(id)sender;
 - (IBAction)submitBtnPressed:(id)sender;
+- (IBAction)returnBtnPressed:(id)sender;
+- (IBAction)exchangeBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

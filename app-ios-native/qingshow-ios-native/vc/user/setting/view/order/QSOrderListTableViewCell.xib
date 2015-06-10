@@ -22,6 +22,8 @@
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -146,6 +148,18 @@
                             <action selector="submitBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Sog-MU-1HV"/>
                         </connections>
                     </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="iWr-lL-9Bu">
+                        <rect key="frame" x="175" y="123" width="65" height="27"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                        <state key="normal" title="申请退货">
+                            <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="returnBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ocj-Ar-dUc"/>
+                        </connections>
+                    </button>
                     <view contentMode="scaleToFill" id="7d8-dP-1tT">
                         <rect key="frame" x="0.0" y="169" width="320" height="3"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -165,6 +179,18 @@
                         <color key="textColor" red="0.58431372550000005" green="0.58431372550000005" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DHm-Pe-qd6">
+                        <rect key="frame" x="96" y="123" width="65" height="27"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="11"/>
+                        <state key="normal" title="申请换货">
+                            <color key="titleColor" red="0.66274509800000003" green="0.1019607843" blue="0.30588235289999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="exchangeBtnPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="noM-bB-SeW"/>
+                        </connections>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -174,11 +200,13 @@
                 <outlet property="dateEndTextLabel" destination="CYE-tL-dVE" id="QJ9-4f-hfm"/>
                 <outlet property="dateStartLabel" destination="2tR-2E-uR3" id="e60-Lx-RkM"/>
                 <outlet property="dateStartTextLabel" destination="Uzx-81-YOf" id="Xt3-Bk-cFv"/>
+                <outlet property="exchangeButton" destination="DHm-Pe-qd6" id="CgY-jr-z6o"/>
                 <outlet property="itemImgView" destination="v5b-Zo-lnU" id="YEc-dC-beU"/>
                 <outlet property="priceLabel" destination="4Zo-1X-lqA" id="YRp-fr-X36"/>
                 <outlet property="priceTextLabel" destination="z9V-li-TJo" id="AB0-yl-4sz"/>
                 <outlet property="quantityLabel" destination="1xK-R1-Ulq" id="70D-MN-7Xm"/>
                 <outlet property="quantityTextLabel" destination="uiT-kk-lUe" id="Rfl-iA-COx"/>
+                <outlet property="returnButton" destination="iWr-lL-9Bu" id="DKa-DL-p6C"/>
                 <outlet property="sizeLabel" destination="4ba-04-Wqp" id="dAt-xj-GZw"/>
                 <outlet property="sizeTextLabel" destination="1uC-ur-evb" id="lCw-SR-PG2"/>
                 <outlet property="stateLabel" destination="jzB-mS-e1C" id="FeN-eI-V8h"/>

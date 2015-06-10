@@ -218,7 +218,7 @@
 - (void)showSharePanel
 {
     NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
-    NSString* urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@", showId];
+    NSString* urlStr = [NSString stringWithFormat:@"http://121.41.161.239/app-web?action=shareShow&_id=%@", showId];
     [self.shareVc showSharePanelWithUrl:urlStr];
 }
 - (void)hideSharePanel

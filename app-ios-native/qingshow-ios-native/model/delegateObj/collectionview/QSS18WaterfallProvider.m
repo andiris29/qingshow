@@ -40,6 +40,7 @@
         QSRecommendationDateCollectionViewCell* dateCell = [collectionViews dequeueReusableCellWithReuseIdentifier:kQSRecommendationDateCollectionViewCellIdentifier forIndexPath:indexPath];
         [dateCell bindWithDate:self.date];
         dateCell.descLabel.text = @"Top List";
+        dateCell.descLabel.font = [UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:18];
         dateCell.descLabel.textAlignment = NSTextAlignmentCenter;
         
         cell = dateCell;

@@ -26,7 +26,7 @@
     self.monthLabel.text = [QSDateUtil getMonthDesc:date];
     self.yearLabel.text = [QSDateUtil getYearDesc:date];
     self.weekdayLabel.text = [QSDateUtil getWeekdayDesc:date];
-    self.descLabel.font = [UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:22];
+    self.descLabel.font = [UIFont fontWithName:@"FZLanTingHeiS-EL-GB" size:12];
     
     NSArray* backgroundColorArray = @[[NSNull null],
                                       [UIColor colorWithRed:113.f/255.f green:218.f/255.f blue:190.f/255.f alpha:1.f],//71dabe
