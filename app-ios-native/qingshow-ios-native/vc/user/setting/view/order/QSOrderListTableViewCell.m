@@ -14,8 +14,9 @@
 #import "QSTaobaoInfoUtil.h"
 #import "QSCommonUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSNetworkKit.h"
 
-@interface QSOrderListTableViewCell ()
+@interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDictionary* tradeDict;
 
@@ -29,8 +30,10 @@
     // Initialization code
 //    [self configBtn:self.refundButton];
     [self configBtn:self.submitButton];
+    [self configBtn:self.returnButton];
+    [self configBtn:self.exchangeButton];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y;
+    self.skuLabelBaseY = self.sizeTextLabel.frame.origin.y+30;
 }
 - (void)configBtn:(UIButton*)btn
 {
@@ -46,6 +49,7 @@
 
     // Configure the view for the selected state
 }
+
 
 #pragma mark - Binding
 - (void)bindWithDict:(NSDictionary*)tradeDict
@@ -76,12 +80,17 @@
     }
     
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
+    NSLog(@"status = %@",status);
     if (status.intValue == 0) {
         self.submitButton.hidden = NO;
+        self.returnButton.hidden = YES;
+        self.exchangeButton.hidden = YES;
         [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
     } else if (status.intValue < 5 && status.intValue > 0) {
         self.submitButton.hidden = NO;
-        [self.submitButton setTitle:@"申请退货" forState:UIControlStateNormal];
+        self.returnButton.hidden = NO;
+        self.exchangeButton.hidden = NO;
+        [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
     } else {
         self.submitButton.hidden = YES;
     }
@@ -141,6 +150,35 @@
         [self refundBtnPressed:sender];
     }
 }
+
+- (IBAction)returnBtnPressed:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"您的退货申请已经受理，我们的客服会尽快与您联系" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+    [alert show];
+#warning send status 11
+}
+
+- (IBAction)exchangeBtnPressed:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"您的换货申请已经受理，我们的客服会尽快与您联系" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+#warning send status 11
+    [alert show];
+}
+//- (void)willPresentAlertView:(UIAlertView *)alertView
+//{
+//    
+//  
+//    for (UIView *view in alertView.subviews) {
+//        NSLog(@"111");
+//        NSLog(@"view.class == %@",view.class);
+//        if ([view isKindOfClass:[UILabel class]]) {
+//            UILabel *label = (UILabel *)view;
+//            if ([label.text isEqualToString:alertView.message]) {
+//                label.font = NEWFONT;
+//            }
+//            NSLog(@"label.text = %@",label.text);
+//            
+//        }
+//    }
+//}
 - (void)payBtnPressed
 {
     if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {

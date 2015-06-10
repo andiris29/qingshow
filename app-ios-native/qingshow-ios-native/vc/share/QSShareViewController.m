@@ -105,7 +105,7 @@
     if (self.shareUrl) {
         webPage.webpageUrl = self.shareUrl;
     } else {
-        webPage.webpageUrl = @"http://chingshow.com/";
+        webPage.webpageUrl = @"http://121.41.161.239/";
     }
 
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
@@ -148,7 +148,7 @@
     if (self.shareUrl) {
         ext.webpageUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
 
     message.mediaObject = ext;
@@ -176,7 +176,7 @@
 
         ext.webpageUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
 
     message.mediaObject = ext;
