@@ -92,14 +92,14 @@
 {
     if ([QSShowUtil getIsLike:showDict]) {
         [SHARE_NW_ENGINE unlikeShow:showDict onSucceed:^{
-            [self showSuccessHudWithText:@"取消喜欢成功"];
+            [self showSuccessHudWithText:@"取消收藏"];
             [self.provider updateShow:showDict];
         } onError:^(NSError *error) {
             [self handleError:error];
         }];
     } else {
         [SHARE_NW_ENGINE likeShow:showDict onSucceed:^{
-            [self showSuccessHudWithText:@"喜欢成功"];
+            [self showSuccessHudWithText:@"添加收藏"];
             [self.provider updateShow:showDict];
         } onError:^(NSError *error) {
             [self handleError:error];

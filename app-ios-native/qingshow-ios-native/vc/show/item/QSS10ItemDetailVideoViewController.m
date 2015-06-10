@@ -55,6 +55,21 @@
     }
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480)
+    {
+        CGRect imgFrame = self.imageScrollView.frame;
+        imgFrame.origin.y -= 50;
+        self.imageScrollView.frame = imgFrame;
+        CGRect labelFrame = self.labelContainer.frame;
+        labelFrame.origin.y -= 50;
+        self.labelContainer.frame = labelFrame;
+        
+    }
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
