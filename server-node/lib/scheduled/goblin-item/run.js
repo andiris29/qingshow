@@ -13,7 +13,7 @@ var MongoHelper = require('../../httpserver/helpers/MongoHelper');
 var ServerError = require('../../httpserver/server-error');
 var mongoose = require('mongoose');
 
-var _next = function (time, retryTime) {
+var _next = function (time) {
     async.waterfall([
         function (callback) {
             var criteria = {
@@ -36,23 +36,18 @@ var _next = function (time, retryTime) {
                 }]
             };
 
-            var query = Item.find(criteria);
-            var queryCount = Item.find(criteria);
-            var pageNo = 1;
-            var pageSize = 1;
-            MongoHelper.queryPaging(query, queryCount, pageNo, pageSize, function (err, result, count) {
-                winston.info('[Goblin-tbitem] remaining count: ' + count);
+            var query = Item.find(criteria, function (err, items) {
                 if (err) {
                     callback(err);
-                } else if (!count) {
+                } else if (!items || !items.length) {
                     callback(ServerError.fromCode(ServerError.PagingNotExist));
                 } else {
-                    callback(null, result);
+                    winston.info('[Goblin-tbitem] Total count: ' + items.length);
+                    callback(null, items);
                 }
             });
         },
-        function (result, callback) {
-            items = result;
+        function (items, callback) {
             var tasks = [];
             items.forEach(function (item) {
                 var task = function (callback) {
@@ -68,25 +63,7 @@ var _next = function (time, retryTime) {
             async.series(tasks, callback);
         }
     ], function (err) {
-        if (err && err.errorCode === ServerError.PagingNotExist) {
-            //finish
-            winston.info('goblin item daily complete');
-            return;
-        }
-
-        if (err) {
-            winston.info('gobin item error:');
-            winston.info(err);
-            retryTime -= 1;
-            if (retryTime > 0) {
-                winston.info('remain retry : ' + retryTime);
-                _next(time, retryTime);
-            } else {
-                winston.info('Error: goblin item retry time is zero, stop.');
-            }
-        } else {
-            _next(time, retryTime);
-        }
+        winston.info('[Goblin-tbitem] Complete.');
     });
 };
 
@@ -94,24 +71,24 @@ var _crawlItemTaobaoInfo = function (item, callback) {
     async.waterfall([
         function (callback) {
             TaobaoWebItem.getSkus(item.source, function (err, taobaoInfo) {
-                item.taobaoInfo = taobaoInfo;
-                callback(err);
+                callback(err, taobaoInfo);
             });
         }
-    ], function (err) {
+    ], function (err, taobaoInfo) {
         if (err) {
             _logItem('item error', item);
             callback(err);
         } else {
-            item.taobaoInfo = item.taobaoInfo || {};
-            item.taobaoInfo.refreshTime = new Date();
-            if (Object.keys(item.taobaoInfo).length === 0) {
+            if (!taobaoInfo) {
+                item.taobaoInfo = item.taobaoInfo || {};
+                item.taobaoInfo.refreshTime = new Date();
                 item.deactive = true;
                 _logItem('item failed', item);
-                callback();
             } else {
-                _logItem('item success', item);
+                item.taobaoInfo = taobaoInfo;
+                item.taobaoInfo.refreshTime = new Date();
                 item.deactive = false;
+                _logItem('item success', item);
             }
             item.save(callback);
         }
@@ -127,7 +104,7 @@ var _run = function() {
     startDate.setDate(startDate.getDate() - 3);
     winston.info('Goblin-tbitem run at: ' + startDate);
 
-    _next(startDate, 10);
+    _next(startDate);
 };
 
 module.exports = function () {
