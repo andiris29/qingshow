@@ -117,4 +117,20 @@
                                    [weakSelf showErrorHudWithText:@"支付失败"];
                                }];
 }
+- (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
+{
+    __weak QSU09OrderListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE changeTrade:orderDic status:7 onSucceed:^{
+        [weakSelf showTextHud:@"已申请换货"];
+    } onError:nil];
+}
+- (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic
+{
+    __weak QSU09OrderListViewController *weakSelf = self;
+    [SHARE_NW_ENGINE changeTrade:orderDic status:5 onSucceed:^{
+        [weakSelf showTextHud:@"收货成功！"];
+    } onError:nil];
+}
+
+
 @end

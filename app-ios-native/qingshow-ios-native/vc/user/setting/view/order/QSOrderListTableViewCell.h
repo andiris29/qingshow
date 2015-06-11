@@ -18,7 +18,13 @@
 
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
 //- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
+
 - (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
+
+- (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell;
+
+- (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
+
 @end
 
 //typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {

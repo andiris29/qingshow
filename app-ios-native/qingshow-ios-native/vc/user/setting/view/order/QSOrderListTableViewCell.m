@@ -87,13 +87,28 @@
         self.exchangeButton.hidden = YES;
         [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
     } else if (status.intValue < 5 && status.intValue > 0) {
+        self.exchangeButton.hidden = YES;
+        self.submitButton.hidden = YES;
+        self.returnButton.hidden = YES;
+    } else if(status.intValue == 5 ){
+        [self.submitButton setTitle:@"已收货" forState:UIControlStateNormal];
+        self.returnButton.hidden = YES;
+        self.exchangeButton.hidden = YES;
+    }else if(status.intValue == 6)
+    {
+        [self.submitButton setTitle:@"退货中" forState:UIControlStateNormal];
+        self.returnButton.hidden = YES;
+        self.exchangeButton.hidden = YES;
+    }
+    else
+    {
         self.submitButton.hidden = NO;
         self.returnButton.hidden = NO;
         self.exchangeButton.hidden = NO;
         [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
-    } else {
-        self.submitButton.hidden = YES;
+        
     }
+    
 }
 - (void)updateView:(UIView*)view y:(float)y
 {
@@ -147,20 +162,23 @@
     if (status == 0) {
         [self payBtnPressed];
     } else if (status > 0 && status < 5) {
-        [self refundBtnPressed:sender];
+        if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnForCell:)]) {
+            [self.delegate didClickReceiveBtnForCell:self];
+        }
     }
 }
 
 - (IBAction)returnBtnPressed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"您的退货申请已经受理，我们的客服会尽快与您联系" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-    [alert show];
-#warning send status 11
+   [self refundBtnPressed:sender];
+
 }
 
 - (IBAction)exchangeBtnPressed:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"您的换货申请已经受理，我们的客服会尽快与您联系" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-#warning send status 11
     [alert show];
+    if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnForCell:)]) {
+        [self.delegate didClickExchangeBtnForCell:self];
+    }
 }
 //- (void)willPresentAlertView:(UIAlertView *)alertView
 //{
