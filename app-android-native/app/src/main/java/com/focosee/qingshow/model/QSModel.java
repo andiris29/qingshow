@@ -37,10 +37,10 @@ public enum QSModel {
     }
 
     public void removeUser(){
-        if("".equals(QSApplication.instance().getPreferences().getString("id", ""))) return;
         SharedPreferences.Editor editor = QSApplication.instance().getPreferences().edit();
-        editor.remove("id");
+        editor.clear();
         editor.commit();
+        this.user = null;
     }
 
 }

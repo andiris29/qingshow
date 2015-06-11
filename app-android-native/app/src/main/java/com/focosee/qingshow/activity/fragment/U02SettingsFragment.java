@@ -1,7 +1,6 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,7 +20,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U06LoginActivity;
 import com.focosee.qingshow.activity.U09TradeListActivity;
@@ -45,10 +43,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.Optional;
 
 public class U02SettingsFragment extends MenuFragment implements View.OnFocusChangeListener, ActionSheet.ActionSheetListener {
 
@@ -134,7 +130,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_u02_settings, container, false);
-        ButterKnife.inject(view);
+        ButterKnife.inject(this, view);
         context = getActivity().getApplicationContext();
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
 
@@ -150,20 +146,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 Intent intent = new Intent(getActivity(), U06LoginActivity.class);
                 startActivity(intent);
                 getActivity().finish();
-                QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.LOGOUT_SERVICE_URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                QSModel.INSTANCE.setUser(null);
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", error.getMessage(), error);
-                    }
-                }) {
-                };
-                requestQueue.add(stringRequest);
             }
         });
         return view;
@@ -266,7 +248,6 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
-
             if(null != people.portrait)
                 ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
             if(null != people.background)
