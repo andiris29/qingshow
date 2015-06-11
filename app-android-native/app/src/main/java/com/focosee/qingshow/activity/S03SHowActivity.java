@@ -220,7 +220,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             @Override
             public void onResponse(JSONObject response) {
                 if (!MetadataParser.hasError(response)) {
-                    showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "取消点赞成功" : "点赞成功");
+                    showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "取消收藏成功" : "收藏成功");
                     showDetailEntity.__context.likedByCurrentUser = !showDetailEntity.__context.likedByCurrentUser;
                     Intent intent = new Intent(ACTION_MESSAGE);
                     intent.putExtra("position", position);
