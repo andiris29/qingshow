@@ -54,6 +54,18 @@
         [self.delegate didClickPayBtnOfOrder:[self orderForCell:cell]];
     }
 }
+- (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell
+{
+    if ([self.delegate respondsToSelector:@selector(didClickReceiveBtnOfOrder:)]) {
+        [self.delegate didClickReceiveBtnOfOrder:[self orderForCell:cell]];
+    }
+}
+- (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell
+{
+    if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnOfOrder:)]) {
+        [self.delegate didClickExchangeBtnOfOrder:[self orderForCell:cell]];
+    }
+}
 #pragma mark - Private
 - (NSDictionary*)orderForCell:(UITableViewCell*)cell
 {
