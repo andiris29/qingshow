@@ -9,5 +9,5 @@
 #import "QSAbstractRootViewController.h"
 
 @interface QSRootContainerViewController : QSAbstractRootViewController
-
+- (void)showDefaultVc;
 @end

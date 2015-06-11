@@ -52,14 +52,7 @@
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
     
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];
-//    [nav.navigationBar setTitleTextAttributes:
-//     
-//     @{NSFontAttributeName:NAVNEWFONT,
-//       
-//       NSForegroundColorAttributeName:[UIColor blackColor]}];
-//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]init];
-//    backItem.image = [UIImage imageNamed:@"nav_btn_back"];
-//    nav.navigationItem.backBarButtonItem = backItem;
+
     nav.navigationBar.translucent = NO;
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
@@ -68,11 +61,15 @@
     [SHARE_NW_ENGINE getLoginUserOnSucced:^(NSDictionary *data, NSDictionary *metadata) {
         vc.hasFetchUserLogin = YES;
         [vc handleCurrentUser];
+        [self hideLaunchImageAfterDelay:0.f];
+        [vc showDefaultVc];
     } onError:^(NSError *error) {
         vc.hasFetchUserLogin = YES;
         [vc handleCurrentUser];
+        [self hideLaunchImageAfterDelay:0.f];
+        [vc showDefaultVc];
     }];
-    [self hideLaunchImageAfterDelay:0.f];
+
     return YES;
 }
 

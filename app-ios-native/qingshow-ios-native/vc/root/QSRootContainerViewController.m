@@ -30,13 +30,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
+
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
+
+- (void)showDefaultVc {
+    if ([QSUserManager shareUserManager].userInfo) {
+        [self.menuView triggerItemTypePressed:QSRootMenuItemMy];
+    } else {
+        [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
+    }
+
+}
+
 
 - (void)viewWillAppear:(BOOL)animated
 {
