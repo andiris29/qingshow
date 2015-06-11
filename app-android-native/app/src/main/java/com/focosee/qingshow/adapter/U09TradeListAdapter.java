@@ -54,6 +54,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     private OnViewHolderListener onViewHolderListener;
 
     public LinkedList<MongoTrade> datas = null;
+    private boolean isStatusSuccessed = false;
     public U09TradeListAdapter(Context context) {
         this.context = context;
     }
@@ -175,7 +176,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                     view.findViewById(R.id.tradedialog_comfirm_btn).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            statusTo(trade);
+                            statusTo(trade, 1);
                             if(context instanceof U09TradeListActivity){
                                 ((U09TradeListActivity)context).doRefresh();
                             }
@@ -190,6 +191,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         //显示申请退货
         if(trade .status == 1 || trade .status == 2 || trade .status == 3 || trade.status == 4){
             viewHolder.tradingLayout.setVisibility(View.VISIBLE);
+            viewHolder.applyChange.setVisibility(View.VISIBLE);
             viewHolder.applyReturn.setVisibility(View.VISIBLE);
             viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -199,6 +201,35 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                     bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                }
+            });
+
+            viewHolder.applyChange.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    statusTo(trade, 0);
+                    final MaterialDialog dialog = new MaterialDialog(context);
+                    LayoutInflater layoutInflater = LayoutInflater.from(context);
+                    View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
+                    dialog.setContentView(view);
+                    ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("确认收货");
+                    view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    view.findViewById(R.id.tradedialog_comfirm_btn).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            statusTo(trade, 1);
+                            if(context instanceof U09TradeListActivity){
+                                ((U09TradeListActivity)context).doRefresh();
+                            }
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show();
                 }
             });
         }
@@ -236,7 +267,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         this.onViewHolderListener = onViewHolderListener;
     }
 
-    public void statusTo(MongoTrade trade){
+    public void statusTo(MongoTrade trade, final int type){
 
         JSONObject jsonObject = getStatusJSONObjcet(trade);
 
@@ -248,8 +279,9 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                     return;
                 }
 
+                responseToStatusToSuccessed(type);
                 //改变订单状态成功
-                Toast.makeText(context, "确认收货成功！", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "确认收货成功！", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -283,6 +315,26 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 
     }
 
+    private void responseToStatusToSuccessed(int type){
+        switch (type){
+            case 0://申请换货
+                final MaterialDialog dialog = new MaterialDialog(context);
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                View view = layoutInflater.inflate(R.layout.tradelist_dialog, null);
+                dialog.setContentView(view);
+                ((TextView) view.findViewById(R.id.tradelist_dialog_receiveTime)).setText("您的换货申请已经受理我们的客服会尽快与您联系");
+                view.findViewById(R.id.tradedialog_cancel_btn).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                view.findViewById(R.id.tradedialog_comfirm_btn).setVisibility(View.GONE);
+                dialog.show();
+
+        }
+    }
+
     public void resetDatas(LinkedList<MongoTrade> datas){
         this.datas = datas;
     }
@@ -306,6 +358,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         public LinearLayout skuLayout;
         public LinearLayout finishLayout;
         public RelativeLayout tradingLayout;
+        public Button applyChange;
         public Button applyReturn;
         public Button applyReceive;
         public ViewHolder instance;
@@ -330,6 +383,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             skuLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_sku);
             finishLayout = (LinearLayout) view.findViewById(R.id.item_trade_finishTime_layout);
             tradingLayout = (RelativeLayout) view.findViewById(R.id.item_tradelist_trading);
+            applyChange = (Button) view.findViewById(R.id.item_tradelist_applychange);
             applyReturn = (Button) view.findViewById(R.id.item_tradelist_applyreturn);
             applyReceive = (Button) view.findViewById(R.id.item_tradelist_applyreceive);
         }

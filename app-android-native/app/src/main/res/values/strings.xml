@@ -150,6 +150,7 @@
 
     <!-- trade -->
     <string name="title_name_activity_trade">订单管理</string>
+    <string name="apply_change_activity_trade">申请换货</string>
     <string name="apply_return_activity_trade">申请退货</string>
     <string name="comfirm_receive_activity_trade">确认收货</string>
     <string name="service_text">客服热线:</string>
