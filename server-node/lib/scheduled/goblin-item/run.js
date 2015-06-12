@@ -114,5 +114,5 @@ module.exports = function () {
     schedule.scheduleJob(rule, function () {
         _run();
     });
-    // _run();
+    _run();
 };
