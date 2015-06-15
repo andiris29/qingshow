@@ -90,13 +90,13 @@ public class U14CollectionAdapter extends AbsAdapter<List<MongoShow>> {
                         context.startActivity(intent);
                     }
                 });
-                imags[i].setImageURI(Uri.parse(item.images.get(0).url));
+                imags[i].setImageURI(Uri.parse(ImgUtil.getImgSrc(item.images.get(0).url,-1)));
                 prices[i].setText(item.price);
                 i++;
             }
         }
 
-        modelImage.setImageURI(Uri.parse(show.cover));
+        modelImage.setImageURI(Uri.parse(ImgUtil.getImgSrc(show.cover,0)));
         modelImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

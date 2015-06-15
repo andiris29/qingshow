@@ -268,7 +268,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         videoUriString = showDetailEntity.video;
 
-        image.setImageURI(Uri.parse(showDetailEntity.cover));
+        image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover,0)));
 
         commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
 

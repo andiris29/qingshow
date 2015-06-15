@@ -17,6 +17,7 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S18ShowByDateActivity;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.FontsUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.ShowUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
@@ -58,10 +59,13 @@ public class S17TopAdapter extends AbsAdapter<List<MongoShow>> {
                 .setText(R.id.week, TimeUtil.formatWeekInfo(calendar.get(calendar.DAY_OF_WEEK)));
 
 //        img01.getHierarchy().setActualImageFocusPoint(proint);
-        img01.setImageURI(Uri.parse(show.cover));
+
+        img01.setImageURI(Uri.parse(ImgUtil.getImgSrc(show.cover,-1)));
+
         if (null != item.get(1)) {
 //            img02.getHierarchy().setActualImageFocusPoint(proint);
-            img02.setImageURI(Uri.parse(item.get(1).cover));
+
+            img02.setImageURI(Uri.parse(ImgUtil.getImgSrc(item.get(1).cover,-1)));
             img02.setVisibility(View.VISIBLE);
         }
         holder.setText(R.id.like,String.valueOf(show.numLike));

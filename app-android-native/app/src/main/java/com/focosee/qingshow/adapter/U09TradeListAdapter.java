@@ -30,6 +30,7 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
@@ -130,7 +131,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             viewHolder.measurement.setText(measurement);
             viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
             viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
-            viewHolder.image.setImageURI(Uri.parse(trade.orders.get(0).itemSnapshot.imageMetadata.url));
+            viewHolder.image.setImageURI(Uri.parse(ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.imageMetadata.url,-1)));
+
             viewHolder.image.setAspectRatio(trade.orders.get(0).itemSnapshot.imageMetadata.width / trade.orders.get(0).itemSnapshot.imageMetadata.height);
             viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){

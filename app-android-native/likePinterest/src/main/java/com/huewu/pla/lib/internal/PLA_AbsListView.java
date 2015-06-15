@@ -73,6 +73,7 @@ ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnTouchModeChangeListe
 	 * @see #setTranscriptMode(int)
 	 */
 	public static final int TRANSCRIPT_MODE_DISABLED = 0;
+
 	/**
 	 * The list will automatically scroll to the bottom when a data set change
 	 * notification is received and only if the last item is already visible

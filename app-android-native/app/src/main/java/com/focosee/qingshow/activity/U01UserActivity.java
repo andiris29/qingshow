@@ -37,6 +37,7 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.BitMapUtil;
+import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.adapter.DividerGridItemDecoration;
 
 import org.json.JSONObject;
@@ -103,8 +104,8 @@ public class U01UserActivity extends MenuActivity implements View.OnClickListene
             return;
         }
         if (null != user.background)
-            userBg.setImageURI(Uri.parse(user.background));
 
+            userBg.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.background,-1)));
     }
 
     private void initRectcler() {
