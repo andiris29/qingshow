@@ -38,4 +38,15 @@
     }
     return idString;
 }
++ (NSString *)getCommentsStr:(NSDictionary *)dict
+{
+    if (![self checkIsDict:dict]) {
+        return nil;
+    }
+    NSString *commentsStr = dict[@"_comments"];
+    if ([self checkIsNil:commentsStr]) {
+        return @"";
+    }
+    return commentsStr;
+}
 @end

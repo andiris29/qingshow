@@ -86,28 +86,73 @@
         self.returnButton.hidden = YES;
         self.exchangeButton.hidden = YES;
         [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
-    } else if (status.intValue < 5 && status.intValue > 0) {
-        self.exchangeButton.hidden = YES;
-        self.submitButton.hidden = YES;
-        self.returnButton.hidden = YES;
-    } else if(status.intValue == 5 ){
-        [self.submitButton setTitle:@"已收货" forState:UIControlStateNormal];
-        self.returnButton.hidden = YES;
-        self.exchangeButton.hidden = YES;
-    }else if(status.intValue == 6)
+        
+    }
+    else if(status.intValue == 3 || status.intValue == 14)
     {
-        [self.submitButton setTitle:@"退货中" forState:UIControlStateNormal];
-        self.returnButton.hidden = YES;
-        self.exchangeButton.hidden = YES;
+        self.submitButton.hidden = NO;
+        self.exchangeButton.hidden = NO;
+        self.returnButton.hidden = NO;
+        [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
+        
     }
     else
     {
         self.submitButton.hidden = NO;
-        self.returnButton.hidden = NO;
         self.exchangeButton.hidden = NO;
-        [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
-        
+        self.returnButton.hidden = NO;
     }
+//    if (status.intValue == 0) {
+//        self.submitButton.hidden = NO;
+//        self.returnButton.hidden = YES;
+//        self.exchangeButton.hidden = YES;
+//        [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
+//    } else if ((status.intValue < 3 && status.intValue > 0) || status.intValue == 4) {
+//        self.exchangeButton.hidden = NO;
+//        self.submitButton.hidden = YES;
+//        self.returnButton.hidden = NO;
+//       
+//    }else if(status.intValue == 3)
+//    {
+//        self.submitButton.hidden = NO;
+//        self.exchangeButton.hidden = NO;
+//        self.returnButton.hidden = NO;
+//        [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
+//    }
+//    else if(status.intValue == 5 ){
+//        [self.submitButton setTitle:@"交易成功" forState:UIControlStateNormal];
+//        self.returnButton.hidden = YES;
+//        self.exchangeButton.hidden = YES;
+//    }else if(status.intValue == 7)
+//    {
+//        self.submitButton.hidden = NO;
+//        self.submitButton.userInteractionEnabled = NO;
+//        [self.submitButton setTitle:@"退货中" forState:UIControlStateNormal];
+//        self.returnButton.hidden = YES;
+//        self.exchangeButton.hidden = YES;
+//    }
+//    else if (status.intValue == 11)
+//    {
+//        self.submitButton.hidden = NO;
+//        [self.submitButton setTitle:@"换货中" forState:UIControlStateNormal];
+//        self.returnButton.hidden = NO;
+//        self.exchangeButton.hidden = NO;
+//    }
+//    else if(status.intValue == 17)
+//    {
+//        self.submitButton.hidden = NO;
+//        self.exchangeButton.hidden = YES;
+//        self.returnButton.hidden = YES;
+//        [self.submitButton setTitle:@"退款中" forState:UIControlStateNormal];
+//    }
+//    else
+//    {
+//        self.submitButton.hidden = NO;
+//        self.returnButton.hidden = YES;
+//        self.exchangeButton.hidden = YES;
+//        [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
+//        
+//    }
     
 }
 - (void)updateView:(UIView*)view y:(float)y
@@ -174,8 +219,7 @@
 }
 
 - (IBAction)exchangeBtnPressed:(id)sender {
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"您的换货申请已经受理，我们的客服会尽快与您联系" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
-    [alert show];
+    
     if ([self.delegate respondsToSelector:@selector(didClickExchangeBtnForCell:)]) {
         [self.delegate didClickExchangeBtnForCell:self];
     }

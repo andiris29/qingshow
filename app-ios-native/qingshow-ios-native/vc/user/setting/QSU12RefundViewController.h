@@ -17,8 +17,13 @@
 @property (weak, nonatomic) IBOutlet UITextField *companyTextField;
 @property (weak, nonatomic) IBOutlet UITextField *expressOrderTextField;
 @property (weak, nonatomic) IBOutlet UILabel *sendDateTextField;
-
+@property (weak, nonatomic) IBOutlet UILabel *typeAddrLabel;
+@property (weak, nonatomic) IBOutlet UILabel *typeReceiverLabel;
 @property (weak, nonatomic) IBOutlet UIButton *submitBtn;
+@property (weak, nonatomic) IBOutlet UITextField *resonTextField;
+
+@property(nonatomic,assign)NSInteger type;
+
 - (IBAction)submitBtnPressed:(id)sender;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;

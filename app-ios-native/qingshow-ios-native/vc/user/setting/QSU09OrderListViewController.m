@@ -102,7 +102,8 @@
 #pragma mark - QSOrderListTableViewProviderDelegate
 - (void)didClickRefundBtnOfOrder:(NSDictionary*)orderDict
 {
-    UIViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
+    QSU12RefundViewController* vc = [[QSU12RefundViewController alloc] initWithDict:orderDict];
+    vc.type = 1;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -119,10 +120,10 @@
 }
 - (void)didClickExchangeBtnOfOrder:(NSDictionary *)orderDic
 {
-    __weak QSU09OrderListViewController *weakSelf = self;
-    [SHARE_NW_ENGINE changeTrade:orderDic status:7 onSucceed:^{
-        [weakSelf showTextHud:@"已申请换货"];
-    } onError:nil];
+    QSU12RefundViewController *vc = [[QSU12RefundViewController alloc]initWithDict:orderDic];
+    vc.type = 2;
+    [self.navigationController pushViewController:vc
+                                         animated:YES];
 }
 - (void)didClickReceiveBtnOfOrder:(NSDictionary *)orderDic
 {
