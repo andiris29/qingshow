@@ -298,7 +298,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_toLeftOf="@+id/item_tradelist_applyreturn"
                     android:background="@drawable/tradelist_btn"
-                    android:text="@string/apply_return_activity_trade"
+                    android:text="@string/apply_change_activity_trade"
                     android:visibility="gone"
                     android:textColor="@color/master"/>
 

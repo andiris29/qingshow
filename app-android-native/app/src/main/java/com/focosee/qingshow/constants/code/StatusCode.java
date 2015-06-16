@@ -4,7 +4,7 @@ package com.focosee.qingshow.constants.code;
  * Created by Administrator on 2015/3/17.
  */
 public class StatusCode {
-    //                                                  0     1        2         3         4           5         6           7           8        9          10
-    public static final String[] statusArrays = {"未付款","已付款", "已付款", "已发货", "已签收", "交易成功", "申请退货", "退货中", "退货中", "退款成功", "退款失败"};
+    //                                               0       1        2        3         5          7         9       10        11       12       13      14         15        16         17
+    public static final String[] statusArrays = {"等待付款", "备货中", "备货中", "已发货", "交易成功", "退货中", "交易关闭", "结束", "换货中", "交易成功", "结束", "已发货", "交易成功", "已发货", "交易关闭"};
 
 }
