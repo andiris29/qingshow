@@ -1,6 +1,5 @@
 package com.focosee.qingshow.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
-import com.focosee.qingshow.command.Callback;
-import com.focosee.qingshow.command.UserCommand;
-import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 public class G02WelcomeActivity extends FragmentActivity implements ViewPager.OnPageChangeListener, View.OnClickListener {
 
@@ -112,6 +105,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
     @Override
     public void onClick(View v) {
         startActivity(new Intent(G02WelcomeActivity.this, S17TopShowsActivity.class));
+        finish();
     }
 
     public class ViewPagerAdapter extends FragmentPagerAdapter {

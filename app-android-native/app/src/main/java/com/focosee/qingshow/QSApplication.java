@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.preference.PreferenceManager;
 import android.view.Display;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.activity.BaseActivity;

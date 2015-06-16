@@ -1,31 +1,21 @@
 package com.focosee.qingshow.activity;
 
-import android.animation.StateListAnimator;
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
-import android.media.session.MediaSession;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -35,7 +25,6 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -43,16 +32,10 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
-import com.focosee.qingshow.widget.MFullScreenVideoView;
-import com.focosee.qingshow.widget.MRoundImageView;
 import com.focosee.qingshow.widget.SharePopupWindow;
-import com.focosee.qingshow.widget.indicator.ImageIndicatorView;
-import com.focosee.qingshow.widget.indicator.NetworkImageIndicatorView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
 import com.sina.weibo.sdk.api.share.BaseResponse;
@@ -72,25 +55,13 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Handler;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -157,7 +128,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
 
-        // mSsoHandler = new SsoHandler(this, mAuthInfo);
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
@@ -328,51 +298,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         videoView.setVideoPath(videoUriString);
         videoView.requestFocus();
     }
-
-    private boolean isFirstStart = true;
-
-    private void showOneView(ViewGroup viewGroup, int id) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            if (viewGroup.getChildAt(i).getId() != id)
-                viewGroup.getChildAt(i).setVisibility(View.INVISIBLE);
-        }
-    }
-
-    private void showAllView(ViewGroup viewGroup) {
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            viewGroup.getChildAt(i).setVisibility(View.VISIBLE);
-        }
-    }
-
-
-    // 保存到sdcard
-    private void savePic(Bitmap b, String strFileName) {
-        File f = new File("/sdcard/Note/" + strFileName + ".jpg");
-        FileOutputStream fOut = null;
-        try {
-            fOut = new FileOutputStream(f);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("test", e.toString());
-        }
-        b.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-        try {
-            fOut.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("test", e.toString());
-        }
-        try {
-            fOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-            Log.i("test", e.toString());
-        }
-    }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -549,15 +474,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         }
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (mSsoHandler != null) {
-//            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
-//        }
-//    }
-
 
     class ShareClickListener implements View.OnClickListener {
 

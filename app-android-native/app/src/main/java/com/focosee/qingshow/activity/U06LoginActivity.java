@@ -44,8 +44,6 @@ public class U06LoginActivity extends BaseActivity {
     private Context context;
     private RequestQueue requestQueue;
 
-    String rawCookie = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

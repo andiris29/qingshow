@@ -24,7 +24,6 @@ import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorCode;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -32,9 +31,9 @@ import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
-import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,8 +71,6 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
         context = getApplicationContext();
 
         wxApi = QSApplication.instance().getWxApi();
-
-
 
         submitButton = (Button) findViewById(R.id.submitButton);
         accountEditText = (EditText) findViewById(R.id.accountEditText);
@@ -169,13 +166,18 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
 
     public void weiChatLogin(){
         // send oauth request
-        final com.tencent.mm.sdk.modelmsg.SendAuth.Req req = new SendAuth.Req();
+        if (!wxApi.isWXAppInstalled()) {
+            //提醒用户没有按照微信
+            Toast.makeText(this, "您还没有安装微信，请先安装微信", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "qingshow_wxlogin";
         Toast.makeText(this, "login", Toast.LENGTH_LONG).show();
         wxApi.sendReq(req);
     }
-
 
     @Override
     public void reconn() {
@@ -199,6 +201,13 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
                 ErrorHandler.handle(U07RegisterActivity.this,errorCode);
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        QSApplication.instance().getWxApi().handleIntent(intent, this);
     }
 
     @Override
