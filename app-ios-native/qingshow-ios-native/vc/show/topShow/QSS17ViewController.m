@@ -67,8 +67,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFirstLaunchChange:) name:kGlobalFirstUpdateNotification object:nil];
     
     _backToTopBtn.hidden = YES;
-    NSLog(@"count ======   %d",self.navigationController.childViewControllers.count);
+    //NSLog(@"count ======   %d",self.navigationController.childViewControllers.count);
 }
+
 
 - (void)didReceiveFirstLaunchChange:(NSNotification*)noti{
     [self showGlobalFirstLaunchIcon];

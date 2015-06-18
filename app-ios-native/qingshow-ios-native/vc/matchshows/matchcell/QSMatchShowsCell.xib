@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="QSMatchShowsCell">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="320"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="matchshow_bg_img" translatesAutoresizingMaskIntoConstraints="NO" id="Vxf-Q3-EHu">
+                        <rect key="frame" x="0.0" y="0.0" width="150" height="260"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uOI-fk-NF4">
+                        <rect key="frame" x="0.0" y="261" width="150" height="1"/>
+                        <color key="backgroundColor" red="0.86618134469696972" green="0.86618134469696972" blue="0.86618134469696972" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_head_default.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="q1F-Hf-8Wm">
+                        <rect key="frame" x="8" y="280" width="30" height="29"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我是名字" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4I4-W0-OJO">
+                        <rect key="frame" x="46" y="277" width="69" height="21"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="hongxin.png" translatesAutoresizingMaskIntoConstraints="NO" id="P0P-Sn-2vO">
+                        <rect key="frame" x="45" y="296" width="19" height="20"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10086" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9K-In-K1C">
+                        <rect key="frame" x="63" y="295" width="42" height="21"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="10"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="body_thin" translatesAutoresizingMaskIntoConstraints="NO" id="wPn-fC-WA3">
+                        <rect key="frame" x="114" y="282" width="16" height="29"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_head_default.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="dp9-gc-uNq">
+                        <rect key="frame" x="8" y="50" width="134" height="160"/>
+                    </imageView>
+                </subviews>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bodyTypeImgView" destination="wPn-fC-WA3" id="XdY-Xp-WIb"/>
+                <outlet property="headerImgView" destination="q1F-Hf-8Wm" id="N2K-TK-ezw"/>
+                <outlet property="likeNumlabel" destination="a9K-In-K1C" id="Tx5-GU-V2V"/>
+                <outlet property="matchShowImgview" destination="dp9-gc-uNq" id="fqC-dK-oLy"/>
+                <outlet property="userNameLabel" destination="4I4-W0-OJO" id="JcY-r4-niW"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="body_thin" width="15" height="30"/>
+        <image name="hongxin.png" width="17" height="15"/>
+        <image name="matchshow_bg_img" width="320" height="568"/>
+        <image name="user_head_default.jpg" width="720" height="450"/>
+    </resources>
+</document>
