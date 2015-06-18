@@ -159,8 +159,9 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
         }
         switch (v.getId()) {
             case R.id.navigation_btn_match:
-                startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
-                finish();
+              //  startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
+              //  finish();
+                startActivity(new Intent(MenuActivity.this, S21CategoryActivity.class));//ÁÙÊ±Èë¿Ú
                 break;
             case R.id.navigation_btn_good_match:
                 startActivity(new Intent(MenuActivity.this, S18ShowByDateActivity.class));

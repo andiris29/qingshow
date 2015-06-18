@@ -187,6 +187,10 @@
             android:name=".activity.MenuActivity"
             android:label="@string/title_activity_menu" >
         </activity>
+
+        <activity
+            android:name=".activity.S21CategoryActivity">
+        </activity>
     </application>
 
 </manifest>

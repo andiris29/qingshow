@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/match_clothes_item_content_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/root_cell_sample_head"
+        android:gravity="center"
+        android:text="针织衫" />
+
+    <TextView
+        android:id="@+id/match_clothes_item_content_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/root_cell_sample_head"
+        android:gravity="center"
+        android:text="背心" />
+
+    <TextView
+        android:id="@+id/match_clothes_item_content_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawablePadding="5dp"
+        android:drawableTop="@drawable/root_cell_sample_head"
+        android:gravity="center"
+        android:text="衬衣" />
+</LinearLayout>
