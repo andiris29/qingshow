@@ -45,23 +45,24 @@ spread.firstLaunch = {
                 });
             }
         };
+        newlog.save(saveCallback);
         // firstLaunch
-        Trace.findOne({
-            'deviceUid' : param.deviceUid
-        }, function(err, trace) {
-            if (err) {
-                ResponseHelper.response(res, err);
-            } else if (trace) {
-                ResponseHelper.response(res, ServerError.AlreadyLaunched);
-            } else {
-                newlog.behaviorInfo = {
-                    'firstLaunch' : {
-                        'channel' : _channelStore[ip]
-                    }
-                };
-                newlog.save(saveCallback);
-            }
-        });
+        //Trace.findOne({
+        //    'deviceUid' : param.deviceUid
+        //}, function(err, trace) {
+        //    if (err) {
+        //        ResponseHelper.response(res, err);
+        //    } else if (trace) {
+        //        ResponseHelper.response(res, ServerError.AlreadyLaunched);
+        //    } else {
+        //        newlog.behaviorInfo = {
+        //            'firstLaunch' : {
+        //                'channel' : _channelStore[ip]
+        //            }
+        //        };
+        //        newlog.save(saveCallback);
+        //    }
+        //});
     }
 };
 
