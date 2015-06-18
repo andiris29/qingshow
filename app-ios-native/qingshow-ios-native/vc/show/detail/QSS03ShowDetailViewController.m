@@ -23,6 +23,8 @@
 #import "QSUserManager.h"
 #import "UIViewController+QSExtension.h"
 
+#import "QSUserManager.h"
+
 #define PAGE_ID @"S03 - 秀"
 
 @interface QSS03ShowDetailViewController ()
@@ -218,7 +220,14 @@
 - (void)showSharePanel
 {
     NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
-    NSString* urlStr = [NSString stringWithFormat:@"http://121.41.161.239/app-web?action=shareShow&_id=%@", showId];
+    
+//    NSString* urlStr = [NSString stringWithFormat:@"http://121.41.161.239/app-web?action=shareShow&_id=%@", showId];
+    
+    //获取userID
+    QSUserManager *um = [QSUserManager shareUserManager];
+    NSString* peopleID = um.userInfo[@"_id"];
+    
+    NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
     [self.shareVc showSharePanelWithUrl:urlStr];
 }
 - (void)hideSharePanel
