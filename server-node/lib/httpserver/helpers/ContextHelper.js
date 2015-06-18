@@ -4,6 +4,7 @@ var async = require('async');
 var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
+var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
 
 /**
  * ContextHelper
@@ -12,6 +13,27 @@ var RPeopleShareShow = require('../../model/rPeopleShareShow');
  */
 var ContextHelper = module.exports;
 
+ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback) {
+    peoples = _prepare(peoples);
+
+    // __context.followedByCurrentUser
+    var followedByCurrentUser = function(callback) {
+        _rInitiator(RPeopleFollowPeople, qsCurrentUserId, peoples, 'followedByCurrentUser', callback);
+    };
+
+    // __context.numFollowPeoples
+    var numFollowPeoples = function(callback) {
+        _numAssociated(peoples, RPeopleFollowPeople, 'initiatorRef', 'numFollowPeoples', callback);
+    };
+    // __context.numFollowers
+    var numFollowers = function(callback) {
+        _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
+    };
+
+    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
+        callback(null, peoples);
+    });
+};
 
 ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     shows = _prepare(shows);
