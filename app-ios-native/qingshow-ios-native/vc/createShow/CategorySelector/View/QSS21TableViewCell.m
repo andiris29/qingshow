@@ -40,7 +40,7 @@
 #pragma mark -- 设置scrollView item
 - (void)setItemsWith:(NSArray *)array
 {
-    self.scrollView.contentSize = CGSizeMake(array.count*94, 117);
+    self.scrollView.contentSize = CGSizeMake(7*94, 117);
     for (int i = 0; i < 7; i ++) {
         
         //初始化resultArray

@@ -348,7 +348,7 @@
 		68D16CB41B32DDA500A4646C /* QSS21CategorySelectorVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21CategorySelectorVC.xib; sourceTree = "<group>"; };
 		68D16CB61B32DDA500A4646C /* QSS21TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewCell.h; sourceTree = "<group>"; };
 		68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewCell.m; sourceTree = "<group>"; };
-		68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21TableViewCell.xib; sourceTree = "<group>"; };
+		68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS21TableViewCell.xib; path = "qingshow-ios-native/vc/createShow/CategorySelector/View/QSS21TableViewCell.xib"; sourceTree = SOURCE_ROOT; };
 		68D16CC31B339BC100A4646C /* QSS21TableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewProvider.h; sourceTree = "<group>"; };
 		68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewProvider.m; sourceTree = "<group>"; };
 		68D16CC61B33A24C00A4646C /* QSS21ItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21ItemButton.h; sourceTree = "<group>"; };

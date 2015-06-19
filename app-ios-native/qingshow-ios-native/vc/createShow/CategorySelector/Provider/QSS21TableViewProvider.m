@@ -32,6 +32,7 @@
     if (cell == nil) {
         cell = [[QSS21TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectorCellID];
     }
+
 #warning TODO //1.获取服务器数据，为self.dataArray赋值
     
     NSDictionary *cellDic = self.dataArray[indexPath.row];
