@@ -20,9 +20,9 @@ import java.util.Map;
 public class S21CategoryActivity extends Activity {
     private ListView s21_listview;
     private final String ITEM_NAME = "titleName";
-    private final String ITEM_CONTENT_1 = "content_1";
-    private final String ITEM_CONTENT_2 = "content_2";
-    private final String ITEM_CONTENT_3 = "content_3";
+    private final String ITEM_CONTENT_1 = "category_1";
+    private final String ITEM_CONTENT_2 = "category_2";
+    private final String ITEM_CONTENT_3 = "category_3";
 //    private final Charset UTF="";
 
     @Override
@@ -36,35 +36,28 @@ public class S21CategoryActivity extends Activity {
     protected void onResume() {
         super.onResume();
         s21_listview.setDividerHeight(0);
-        setListViewAdapter(this, s21_listview, getListInfo());
+        String[] listkeys={ ITEM_NAME};
+        S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(this,getListInfo(), listkeys);
+
+        s21_listview.setAdapter(adapter);
     }
 
-    public void back(View view){
+    public void back(View view) {
         this.finish();
     }
 
-    private void setListViewAdapter(Context context, ListView listView, List<Map<String, String>> list) {
-
-        S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(
-                context,
-                list,
-                R.layout.item_s21_category_listview,
-                new String[]{ITEM_NAME},
-                new int[]{R.id.item_s21_name,R.id.item_s21_middle});
-        listView.setAdapter(adapter);
-    }
 
     private List<Map<String, String>> getListInfo() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 5; i++) {
             Map<String, String> map = new HashMap<String, String>();
-            map.put(ITEM_NAME,  "TITLE");
+            map.put(ITEM_NAME, "TITLE");
             map.put(ITEM_CONTENT_1, "CONTENT");
             map.put(ITEM_CONTENT_2, "CONTENT");
             map.put(ITEM_CONTENT_3, "CONTENT");
-            map.put(ITEM_CONTENT_1, "CONTENT");
-            map.put(ITEM_CONTENT_2, "CONTENT");
-            map.put(ITEM_CONTENT_3, "CONTENT");
+            map.put("545", "CONTENT");
+            map.put("afa", "CONTENT");
+            map.put("afs", "CONTENT");
             list.add(map);
         }
         return list;

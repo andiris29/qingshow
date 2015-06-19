@@ -31,13 +31,13 @@
         android:layout_marginBottom="10dp"
         android:background="@color/hint_text_color" />
 
-    <ListView
+    <com.focosee.qingshow.widget.S21mListview
         android:id="@+id/s21_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:listSelector="#00000000"
-        android:clickable="false"></ListView>
+        ></com.focosee.qingshow.widget.S21mListview>
 
     <Button
         android:layout_width="match_parent"
