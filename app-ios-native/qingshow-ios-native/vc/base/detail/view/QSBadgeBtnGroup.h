@@ -20,5 +20,7 @@
 @interface QSBadgeBtnGroup : UIView
 
 - (instancetype)initWithTypes:(NSArray*)array;
+- (void)triggerSelectType:(QSBadgeButtonType)type;
+
 @property (weak, nonatomic) NSObject<QSBadgeBtnGroupDelegate>* delegate;
 @end

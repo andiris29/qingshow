@@ -23,7 +23,7 @@
 //tableView 数据源
 @property (nonatomic, strong)NSMutableArray *dataArray;
 
-@property (nonatomic, strong)QSU14FavoTableViewProvider *favoProvider;
+@property (nonatomic, strong)QSFavorTableViewProvider *favoProvider;
 
 @end
 
@@ -40,17 +40,17 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.favoProvider registerCell];
-    [self setProvider];
     self.title = @"我的收藏";
     
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     
-     @{NSFontAttributeName:NAVNEWFONT,
-       
-       NSForegroundColorAttributeName:[UIColor blackColor]}];
     [self hideNaviBackBtnTitle];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    [self configProvider];
+
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -64,25 +64,24 @@
 }
 
 #pragma mark -- provider
-- (void)setProvider
+- (void)configProvider
 {
-    self.favoProvider = [[QSU14FavoTableViewProvider alloc] init];
+    self.favoProvider = [[QSFavorTableViewProvider alloc] init];
     self.favoProvider.delegate = self;
+#warning TODO remove currentVC
     self.favoProvider.currentVC = self;
     [self.favoProvider bindWithTableView:self.tableView];
-//    __weak QSU14FavoriteViewController* weakSelf = self;
+
+    
     self.favoProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
         return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
-//        return [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
-        
-//        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.favoProvider reloadData];
 
 }
 
 #pragma mark - QSU14FavoriteViewController
-- (void)didSelectionShow:(NSDictionary*)showDict ofProvider:(QSU14FavoTableViewProvider*)provider
+- (void)didSelectionShow:(NSDictionary*)showDict ofProvider:(QSFavorTableViewProvider*)provider
 {
     [self showShowDetailViewController:showDict];
 }

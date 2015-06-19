@@ -11,9 +11,8 @@
 
 #import "QSShowCollectionViewProvider.h"
 
-@interface QSDetailBaseViewController : UIViewController <QSBadgeViewDelegate, QSShowProviderDelegate>
+@interface QSDetailBaseViewController : UIViewController <QSShowProviderDelegate, QSBadgeBtnGroupDelegate>
 
-//@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property (strong, nonatomic) NSArray* viewArray;
 @property (strong, nonatomic) QSBadgeView* badgeView;
 

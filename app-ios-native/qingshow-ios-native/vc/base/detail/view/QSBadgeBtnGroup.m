@@ -55,6 +55,9 @@
 }
 
 - (void)didClickBtn:(QSBadgeButton*)btn {
+    if (btn.hover) {
+        return;
+    }
     for (NSUInteger i = 0; i < self.buttons.count; i++) {
         QSBadgeButton* b = self.buttons[i];
         b.hover = b == btn;
@@ -66,5 +69,20 @@
     
 }
 
+
+- (void)triggerSelectType:(QSBadgeButtonType)type {
+    NSUInteger index = 0;
+    for (index = 0; index < self.types.count; index++) {
+        NSNumber* n = self.types[index];
+        if (n.integerValue == type) {
+            break;
+        }
+    }
+    
+    if (index != self.types.count) {
+        QSBadgeButton* btn = self.buttons[index];
+        [self didClickBtn:btn];
+    }
+}
 
 @end

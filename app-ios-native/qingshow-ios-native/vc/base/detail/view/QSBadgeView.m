@@ -19,7 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (strong, nonatomic) QSBadgeBtnGroup* btnGroup;
+
 
 @end
 
@@ -40,15 +40,6 @@
     CGRect rect = self.frame;
     rect.size.width = [UIScreen mainScreen].bounds.size.width;
     self.frame = rect;
-    
-    /*
-     
-     QSBadgeButtonTypeMatcher = 0,
-     QSBadgeButtonTypeRecommend = 1,
-     QSBadgeButtonTypeFavor = 2,
-     QSBadgeButtonTypeFollowing = 3,
-     QSBadgeButtonTypeFollower = 4
-     */
     self.btnGroup = [[QSBadgeBtnGroup alloc] initWithTypes:
   @[
     @(QSBadgeButtonTypeMatcher),

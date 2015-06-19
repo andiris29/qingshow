@@ -24,9 +24,11 @@
 #import "QSRecommendationDateCellModel.h"
 
 #import "QSMatchCollectionViewProvider.h"
+#import "QSFavorTableViewProvider.h"
+#import "QSPeopleListTableViewProvider.h"
 
 #import "QSDateUtil.h"
-//#import "QSU13PersonalizeViewController.h"
+
 
 #define PAGE_ID @"U01 - 个人"
 
@@ -34,8 +36,12 @@
 @property (strong, nonatomic) NSDictionary* userInfo;
 
 #pragma mark Provider
-@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
 @property (strong,nonatomic) QSMatchCollectionViewProvider *matchProvider;
+@property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
+@property (strong, nonatomic) QSFavorTableViewProvider *favorProvider;
+@property (strong, nonatomic) QSPeopleListTableViewProvider* followingProvider;
+@property (strong, nonatomic) QSPeopleListTableViewProvider* followerProvider;
+
 @end
 
 @implementation QSU01UserDetailViewController
@@ -62,9 +68,13 @@
 {
     __weak QSU01UserDetailViewController* weakSelf = self;
     
+    
+    //Matcher
+    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
+    
+    //Recommend
     self.recommendProvider  = [[QSImageCollectionViewProvider alloc] init];
-    self.recommendProvider.delegate = self;
-    self.recommendProvider.hasRefreshControl = NO;
+
     self.recommendProvider.networkDataFinalHandlerBlock = ^(){
         NSMutableArray* resultArray = weakSelf.recommendProvider.resultArray;
         if (resultArray.count == 0) {
@@ -103,6 +113,14 @@
             }
         }
     };
+    
+    //Favor
+    self.favorProvider = [[QSFavorTableViewProvider alloc] init];
+    //Following
+    self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
+    //Follower
+    self.followerProvider = [[QSPeopleListTableViewProvider alloc] init];
+    
 }
 
 #pragma mark - Life Cycle
@@ -111,12 +129,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self configView];
-    [self bindDelegateObj];
+    [self bindProvider];
     [self.navigationController.navigationBar setTitleTextAttributes:
-     
      @{NSFontAttributeName:NAVNEWFONT,
-       
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
 
 }
 
@@ -159,22 +176,19 @@
 }
 
 #pragma mark - View
-- (void)bindDelegateObj
+- (void)bindProvider
 {
-    //favor collectioin view
-    [self.recommendProvider bindWithCollectionView:self.likedCollectionView];
+    __weak QSU01UserDetailViewController* weakSelf = self;
+    
+    //Matcher
+
+#warning TODO Matcher
+    //    [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
+    
+    //Favor
+    self.recommendProvider.hasRefreshControl = NO;
+    [self.recommendProvider bindWithCollectionView:self.recommendCollectionView];
     self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-//        return [SHARE_NW_ENGINE getTestShowsOnSucceed:^(NSArray *array, NSDictionary *metadata)
-//                {
-//                    NSMutableArray* mArray = [@[] mutableCopy];
-//                    for (NSDictionary* dict in array) {
-//                        QSImageCollectionModel* m = [[QSImageCollectionModel alloc] init];
-//                        m.type = QSImageCollectionModelTypeShow;
-//                        m.data = dict;
-//                        [mArray addObject:m];
-//                    }
-//                    succeedBlock(mArray, metadata);
-//                } onError:errorBlock];
         return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:^(NSArray *array, NSDictionary *metadata)
                 {
                     NSMutableArray* mArray = [@[] mutableCopy];
@@ -194,11 +208,28 @@
     self.recommendProvider.filterBlock = ^BOOL(id obj){
         return [QSShowUtil getIsLike:obj];
     };
-    
-
     self.recommendProvider.delegate = self;
     [self.recommendProvider reloadData];
 
+    //Favor
+    self.favorProvider.hasRefreshControl = NO;
+//    [self.favorProvider bindWithTableView:self.favorCollectionView];
+#warning Favor
+    
+    //Following
+    self.followingProvider.hasRefreshControl = NO;
+    self.followingProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE peopleQueryFollowed:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    [self.followingProvider bindWithTableView:self.followingTableView];
+    [self.followingProvider reloadData];
+    //Follower
+    self.followerProvider.hasRefreshControl = NO;
+    self.followerProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE peopleQueryFollower:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    [self.followerProvider bindWithTableView:self.followerTableView];
+    [self.followerProvider reloadData];
 }
 
 - (void)configView
@@ -214,7 +245,14 @@
     [self updateView];
     
     //Show and Hide
-    self.viewArray = @[self.likedCollectionView];
+    self.viewArray =
+  @[
+    self.matcherCollectionView,
+    self.recommendCollectionView,
+    self.favorCollectionView,
+    self.followingTableView,
+    self.followerTableView
+    ];
 }
 
 

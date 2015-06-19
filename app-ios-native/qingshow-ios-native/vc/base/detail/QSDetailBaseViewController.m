@@ -43,7 +43,7 @@
     self.badgeView = [QSBadgeView generateView];
     [self.badgeContainer addSubview:self.badgeView];
     self.badgeView.frame = self.badgeContainer.bounds;
-    self.badgeView.delegate = self;
+    self.badgeView.btnGroup.delegate = self;
 
 }
 
@@ -258,5 +258,10 @@
 
 - (IBAction)backBtnPressed:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark -
+- (void)btnGroup:(QSBadgeBtnGroup*)btnGroup didSelectType:(QSBadgeButtonType)type {
+    [self changeToSection:type];
 }
 @end

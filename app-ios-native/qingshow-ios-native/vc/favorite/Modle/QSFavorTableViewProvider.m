@@ -6,12 +6,12 @@
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSU14FavoTableViewProvider.h"
+#import "QSFavorTableViewProvider.h"
 #import "QSU14DisplayCell.h"
 
 #define displayCellId @"displayCellId"
 
-@implementation QSU14FavoTableViewProvider
+@implementation QSFavorTableViewProvider
 @dynamic delegate;
 
 - (id)initwithArray:(NSArray *)array

@@ -14,7 +14,12 @@
 
 @interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate>
 
-@property (strong, nonatomic) IBOutlet UICollectionView* likedCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *matcherCollectionView;
+@property (strong, nonatomic) IBOutlet UICollectionView* recommendCollectionView;
+@property (weak, nonatomic) IBOutlet UICollectionView *favorCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView *followingTableView;
+@property (weak, nonatomic) IBOutlet UITableView *followerTableView;
+
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 - (id)initWithPeople:(NSDictionary*)peopleDict;

@@ -7,14 +7,14 @@
 //
 
 #import "QSTableViewBasicProvider.h"
-@class QSU14FavoTableViewProvider;
+@class QSFavorTableViewProvider;
 @protocol QSU14FavoTableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
-- (void)didSelectionShow:(NSDictionary*)showDict ofProvider:(QSU14FavoTableViewProvider*)provider;
+- (void)didSelectionShow:(NSDictionary*)showDict ofProvider:(QSFavorTableViewProvider*)provider;
 
 @end
 
-@interface QSU14FavoTableViewProvider : QSTableViewBasicProvider
+@interface QSFavorTableViewProvider : QSTableViewBasicProvider
 
 
 @property (weak, nonatomic) NSObject<QSU14FavoTableViewProviderDelegate>* delegate;

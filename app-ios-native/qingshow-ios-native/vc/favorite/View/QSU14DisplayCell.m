@@ -66,6 +66,7 @@
 - (IBAction)itemButtonAction:(UIButton *)sender {
     if (sender.tag) {
         NSInteger flag = sender.tag -1;
+#warning TODO 改为delegate
         [self.currentVC  showItemDetailViewController:self.itemArray[flag]];
     }
 }
