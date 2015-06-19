@@ -20,6 +20,10 @@
 		68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */; };
 		68D16CBC1B32DDA500A4646C /* QSS21TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */; };
 		68D16CC51B339BC100A4646C /* QSS21TableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */; };
+		68D16CC81B33A24C00A4646C /* QSS21ItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CC71B33A24C00A4646C /* QSS21ItemButton.m */; };
+		68D16CCA1B33A2F800A4646C /* QSS21ItemButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CC91B33A2F800A4646C /* QSS21ItemButton.xib */; };
+		68D16CD41B33C40400A4646C /* baidi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CD21B33C40400A4646C /* baidi@2x.png */; };
+		68D16CD51B33C40400A4646C /* hongdi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CD31B33C40400A4646C /* hongdi@2x.png */; };
 		68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */; };
 		68D8249F1B17018300BC9FC6 /* QSItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D8249D1B17018300BC9FC6 /* QSItemListCell.m */; };
 		68D824A01B17018300BC9FC6 /* QSItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */; };
@@ -340,6 +344,11 @@
 		68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21TableViewCell.xib; sourceTree = "<group>"; };
 		68D16CC31B339BC100A4646C /* QSS21TableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewProvider.h; sourceTree = "<group>"; };
 		68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewProvider.m; sourceTree = "<group>"; };
+		68D16CC61B33A24C00A4646C /* QSS21ItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21ItemButton.h; sourceTree = "<group>"; };
+		68D16CC71B33A24C00A4646C /* QSS21ItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21ItemButton.m; sourceTree = "<group>"; };
+		68D16CC91B33A2F800A4646C /* QSS21ItemButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21ItemButton.xib; sourceTree = "<group>"; };
+		68D16CD21B33C40400A4646C /* baidi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "baidi@2x.png"; sourceTree = "<group>"; };
+		68D16CD31B33C40400A4646C /* hongdi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hongdi@2x.png"; sourceTree = "<group>"; };
 		68D2B7ED1B18439500731B71 /* QSNetworkEngine+SpreadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+SpreadService.h"; sourceTree = "<group>"; };
 		68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+SpreadService.m"; sourceTree = "<group>"; };
 		68D8249C1B17018300BC9FC6 /* QSItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListCell.h; sourceTree = "<group>"; };
@@ -1008,6 +1017,7 @@
 		68D16CB01B32DDA500A4646C /* CategorySelector */ = {
 			isa = PBXGroup;
 			children = (
+				68D16CCB1B33ABEC00A4646C /* QS21ItemIcon */,
 				68D16CC21B339BC100A4646C /* Provider */,
 				68D16CB11B32DDA500A4646C /* Controller */,
 				68D16CB51B32DDA500A4646C /* View */,
@@ -1031,6 +1041,9 @@
 				68D16CB61B32DDA500A4646C /* QSS21TableViewCell.h */,
 				68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */,
 				68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */,
+				68D16CC61B33A24C00A4646C /* QSS21ItemButton.h */,
+				68D16CC71B33A24C00A4646C /* QSS21ItemButton.m */,
+				68D16CC91B33A2F800A4646C /* QSS21ItemButton.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1042,6 +1055,15 @@
 				68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */,
 			);
 			path = Provider;
+			sourceTree = "<group>";
+		};
+		68D16CCB1B33ABEC00A4646C /* QS21ItemIcon */ = {
+			isa = PBXGroup;
+			children = (
+				68D16CD21B33C40400A4646C /* baidi@2x.png */,
+				68D16CD31B33C40400A4646C /* hongdi@2x.png */,
+			);
+			path = QS21ItemIcon;
 			sourceTree = "<group>";
 		};
 		8C8B9D731B00395B00C1A321 /* welcomeImg */ = {
@@ -2416,6 +2438,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68D16CD51B33C40400A4646C /* hongdi@2x.png in Resources */,
 				EF4EFD061B120B1E002C6430 /* QSS18TopShowOneDayViewController.xib in Resources */,
 				8C8B9D861B00395B00C1A321 /* welcome3_480@2x.png in Resources */,
 				EF0C64361B21AAC20079B22E /* QSU02UserSettingViewController.xib in Resources */,
@@ -2452,6 +2475,7 @@
 				68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */,
 				EF610EFD1AF937F700B7DFB3 /* QSBigImageDateView.xib in Resources */,
 				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
+				68D16CCA1B33A2F800A4646C /* QSS21ItemButton.xib in Resources */,
 				8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */,
 				EF0C642D1B21AAC20079B22E /* QSU02InfoTextCell.xib in Resources */,
 				EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */,
@@ -2465,6 +2489,7 @@
 				EF2679CC1B0D82EB0012AE90 /* QSS17TopShowCell.xib in Resources */,
 				EF0C64281B21AAC20079B22E /* QSU02ImgCell.xib in Resources */,
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
+				68D16CD41B33C40400A4646C /* baidi@2x.png in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				8C8B9D851B00395B00C1A321 /* welcome2_480@2x.png in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
@@ -2537,6 +2562,7 @@
 				EF30133C1AC3174000568D92 /* NSDataEx.m in Sources */,
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
+				68D16CC81B33A24C00A4646C /* QSS21ItemButton.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
 				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,
 				EF810F4C1AB5F81B0079BA76 /* QSCreateTradeHeigh46Cell.m in Sources */,

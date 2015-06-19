@@ -13,6 +13,7 @@
 
 @implementation QSS21TableViewProvider
 @dynamic delegate;
+@dynamic resultArray;
 
 - (void)registerCell
 {
@@ -31,7 +32,14 @@
     if (cell == nil) {
         cell = [[QSS21TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectorCellID];
     }
+#warning TODO //1.获取服务器数据，为self.dataArray赋值
     
+    NSDictionary *cellDic = self.dataArray[indexPath.row];
+    [cell setSubViewsWith:cellDic];
+    
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
+    }
     return cell;
 }
 
@@ -42,7 +50,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return [UIScreen mainScreen].bounds.size.width/160 * 37;
+    return [UIScreen mainScreen].bounds.size.width/16;
 }
+
 #pragma mark -- UITableViewDelegate
 @end

@@ -14,4 +14,10 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+//记录每一行选中的item 需要传递的参数
+@property (copy , nonatomic) NSString *recordStr;
+
+//设置cell的子控件
+- (void)setSubViewsWith:(NSDictionary *)cellDic;
+
 @end

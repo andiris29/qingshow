@@ -19,4 +19,6 @@
 
 @property (strong , nonatomic) NSArray *dataArray;
 
+@property (strong , nonatomic) NSMutableArray *resultArray;
+
 @end

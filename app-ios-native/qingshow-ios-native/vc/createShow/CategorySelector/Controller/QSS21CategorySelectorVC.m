@@ -35,4 +35,10 @@
     [self.provider bindWithTableView:self.tableView];
 }
 
+#pragma mark -- 开始搭配
+- (IBAction)goToMakeShow:(UIButton *)sender {
+#warning TODO//获取provider的resultArray
+    
+}
+
 @end
