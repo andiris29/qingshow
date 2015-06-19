@@ -1,24 +1,21 @@
 //
-//  QSMatchShowsCell.m
+//  QSU01MatchCollectionViewCell.m
 //  qingshow-ios-native
 //
-//  Created by mhy on 15/6/18.
+//  Created by mhy on 15/6/19.
 //  Copyright (c) 2015年 QS. All rights reserved.
 //
 
-#import "QSMatchShowsCell.h"
+#import "QSU01MatchCollectionViewCell.h"
 
-@implementation QSMatchShowsCell
+@implementation QSU01MatchCollectionViewCell
 
 - (void)awakeFromNib {
     // Initialization code
 }
-
 - (void)bindWithDic:(NSDictionary *)dict
 {
-#warning DATA
+#warning OVER RIDE
 }
-
-
 
 @end

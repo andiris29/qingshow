@@ -23,6 +23,7 @@
 #import "QSU13PersonalizeViewController.h"
 
 #import "QSPeopleUtil.h"
+#import "QSS21CategorySelectorVC.h"
 
 #define kWelcomePageVersionKey @"kWelcomePageVersionKey"
 
@@ -149,7 +150,8 @@
    
         }
         case QSRootMenuItemMyFavor:{
-            
+//            QSS21CategorySelectorVC *selectorVC = [[QSS21CategorySelectorVC alloc] init];
+//            [self.navigationController pushViewController:selectorVC animated:YES];
         }
         case QSRootMenuItemMeida:{
             

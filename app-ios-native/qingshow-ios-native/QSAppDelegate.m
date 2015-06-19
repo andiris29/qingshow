@@ -273,7 +273,7 @@
 - (void)rememberFirstLaunch
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
+#warning 应该少个判断 
     [self logTraceFirstLaunch];
     [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
     [userDefaults synchronize];

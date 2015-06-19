@@ -8,14 +8,19 @@
 
 #import "QSWaterfallBasicProvider.h"
 
-@protocol QSMatchCollectionViewDeledate <NSObject>
+@protocol QSMatchCollectionViewDelegate <NSObject>
 
 
 
 @end
+typedef enum : NSUInteger {
+    U01Type = 1,
+    S01Type,
+} MatchCellProviderType;
 
 @interface QSMatchCollectionViewProvider : QSWaterfallBasicProvider
 
-@property(nonatomic,assign)NSObject<QSMatchCollectionViewDeledate>* delegate;
+@property(nonatomic,assign)NSObject<QSMatchCollectionViewDelegate>* delegate;
+@property(nonatomic,assign)NSInteger type;
 
 @end
