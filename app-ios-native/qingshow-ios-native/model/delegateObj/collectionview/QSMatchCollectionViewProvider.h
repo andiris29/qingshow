@@ -8,7 +8,7 @@
 
 #import "QSWaterfallBasicProvider.h"
 
-@protocol QSMatchCollectionViewDeledate <NSObject>
+@protocol QSMatchCollectionViewDelegate <NSObject>
 
 
 
@@ -16,6 +16,6 @@
 
 @interface QSMatchCollectionViewProvider : QSWaterfallBasicProvider
 
-@property(nonatomic,assign)NSObject<QSMatchCollectionViewDeledate>* delegate;
+@property(nonatomic,assign)NSObject<QSMatchCollectionViewDelegate>* delegate;
 
 @end

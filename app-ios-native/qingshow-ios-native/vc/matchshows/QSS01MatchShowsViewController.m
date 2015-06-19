@@ -9,13 +9,15 @@
 #import "QSS01MatchShowsViewController.h"
 #import "QSGlobalFirstLaunchViewController.h"
 #import "QSMatchCollectionViewProvider.h"
-#define PAGE_ID @""
+#import "MKNetworkKit.h"
 
-@interface QSS01MatchShowsViewController ()
+#define PAGE_ID @"新美搭榜单"
+
+@interface QSS01MatchShowsViewController ()<QSMatchCollectionViewDelegate>
 
 @property (nonatomic,assign) NSInteger segIndex;
 @property (nonatomic, strong) UIBarButtonItem* firstLaunchItem;
-@property (strong, nonatomic) QSGlobalFirstLaunchViewController* firstLaunchVc;
+@property (nonatomic,strong) QSGlobalFirstLaunchViewController* firstLaunchVc;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
 
 @end
@@ -39,25 +41,43 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self configNav];
+    [self configProvider];
 }
 - (void)configProvider
 {
     _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
     _matchCollectionViewProvider.delegate = self;
+    [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
     
+   // _matchCollectionViewProvider.networkBlock = nil;
+   // [_matchCollectionViewProvider fetchDataOfPage:1];
+    //[self.matchCollectionViewProvider reloadData];
 }
 
 - (void)configNav
 {
     
     UISegmentedControl *segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
-    segmentControl.frame = CGRectMake(120, 20, 120, 40);
+    segmentControl.frame = CGRectMake(110, 10, 120, 30);
     [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
-    [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateSelected];
+    [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
+    segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
     [self.navigationController.navigationBar addSubview:segmentControl];
 }
+- (void)didClickFirstLaunch:(UIGestureRecognizer*)ges {
+    QSGlobalFirstLaunchViewController* vc = [[QSGlobalFirstLaunchViewController alloc] init];
+    
+    //    [self addChildViewController:vc];
+    vc.view.alpha = 0.f;
+    [self.navigationController.view addSubview:vc.view];
+    [UIView animateWithDuration:0.5 animations:^{
+        vc.view.alpha = 1.f;
+    }];
+    self.firstLaunchVc = vc;
+}
 
+#warning CHANGE dic
 - (void)changeEvents
 {
     if(_segIndex == 1)

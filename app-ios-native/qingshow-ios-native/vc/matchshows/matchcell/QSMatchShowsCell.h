@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSMatchShowsCell : UITableViewCell
+@interface QSMatchShowsCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headerImgView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumlabel;
