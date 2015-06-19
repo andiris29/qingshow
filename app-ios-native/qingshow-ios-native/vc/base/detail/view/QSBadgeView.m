@@ -10,6 +10,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSPeopleUtil.h"
+#import "UINib+QSExtension.h"
 
 @interface QSBadgeView ()
 
@@ -18,6 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (strong, nonatomic) QSBadgeBtnGroup* btnGroup;
 
 @end
 
@@ -26,11 +28,7 @@
 #pragma mark - Static Method
 + (QSBadgeView*)generateView
 {
-    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
-    NSArray* array = [nib instantiateWithOwner:self options:nil];
-    QSBadgeView* v = array[0];
-    [v updateView];
-    return array[0];
+    return [UINib generateViewWithNibName:@"QSBadgeView"];
 }
 
 #pragma mark - Life Cycle
@@ -38,14 +36,31 @@
 {
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-}
-
-- (void)updateView
-{
+    
     CGRect rect = self.frame;
     rect.size.width = [UIScreen mainScreen].bounds.size.width;
     self.frame = rect;
+    
+    /*
+     
+     QSBadgeButtonTypeMatcher = 0,
+     QSBadgeButtonTypeRecommend = 1,
+     QSBadgeButtonTypeFavor = 2,
+     QSBadgeButtonTypeFollowing = 3,
+     QSBadgeButtonTypeFollower = 4
+     */
+    self.btnGroup = [[QSBadgeBtnGroup alloc] initWithTypes:
+  @[
+    @(QSBadgeButtonTypeMatcher),
+    @(QSBadgeButtonTypeRecommend),
+    @(QSBadgeButtonTypeFavor),
+    @(QSBadgeButtonTypeFollowing),
+    @(QSBadgeButtonTypeFollower)
+    ]];
+    self.btnGroup.frame = self.btnsContainer.bounds;
+    [self.btnsContainer addSubview:self.btnGroup];
 }
+
 
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict
@@ -74,5 +89,11 @@
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
 }
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.btnGroup.frame = self.btnsContainer.bounds;
+}
+
 
 @end

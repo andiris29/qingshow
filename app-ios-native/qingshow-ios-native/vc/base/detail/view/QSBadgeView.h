@@ -7,17 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QSBadgeBtnGroup.h"
 
 @protocol QSBadgeViewDelegate <NSObject>
 
 - (void)changeToSection:(int)sectionIndex;
-- (void)singleButtonPressed;
+
 
 @end
 
 @interface QSBadgeView : UIView
 
 @property (weak, nonatomic) NSObject<QSBadgeViewDelegate>* delegate;
+@property (weak, nonatomic) IBOutlet UIView *btnsContainer;
 
 #pragma mark - Static
 + (QSBadgeView*)generateView;
