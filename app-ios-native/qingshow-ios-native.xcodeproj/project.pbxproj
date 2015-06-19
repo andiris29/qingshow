@@ -19,6 +19,7 @@
 		68D16CBA1B32DDA500A4646C /* QSS21CategorySelectorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB41B32DDA500A4646C /* QSS21CategorySelectorVC.xib */; };
 		68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */; };
 		68D16CBC1B32DDA500A4646C /* QSS21TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */; };
+		68D16CC51B339BC100A4646C /* QSS21TableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */; };
 		68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */; };
 		68D8249F1B17018300BC9FC6 /* QSItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D8249D1B17018300BC9FC6 /* QSItemListCell.m */; };
 		68D824A01B17018300BC9FC6 /* QSItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */; };
@@ -337,6 +338,8 @@
 		68D16CB61B32DDA500A4646C /* QSS21TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewCell.h; sourceTree = "<group>"; };
 		68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewCell.m; sourceTree = "<group>"; };
 		68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21TableViewCell.xib; sourceTree = "<group>"; };
+		68D16CC31B339BC100A4646C /* QSS21TableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewProvider.h; sourceTree = "<group>"; };
+		68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewProvider.m; sourceTree = "<group>"; };
 		68D2B7ED1B18439500731B71 /* QSNetworkEngine+SpreadService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+SpreadService.h"; sourceTree = "<group>"; };
 		68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+SpreadService.m"; sourceTree = "<group>"; };
 		68D8249C1B17018300BC9FC6 /* QSItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListCell.h; sourceTree = "<group>"; };
@@ -1005,6 +1008,7 @@
 		68D16CB01B32DDA500A4646C /* CategorySelector */ = {
 			isa = PBXGroup;
 			children = (
+				68D16CC21B339BC100A4646C /* Provider */,
 				68D16CB11B32DDA500A4646C /* Controller */,
 				68D16CB51B32DDA500A4646C /* View */,
 			);
@@ -1029,6 +1033,15 @@
 				68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		68D16CC21B339BC100A4646C /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				68D16CC31B339BC100A4646C /* QSS21TableViewProvider.h */,
+				68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */,
+			);
+			path = Provider;
 			sourceTree = "<group>";
 		};
 		8C8B9D731B00395B00C1A321 /* welcomeImg */ = {
@@ -2689,6 +2702,7 @@
 				EF02202A1B19A9E3009A7F59 /* QSGlobalFirstLaunchViewController.m in Sources */,
 				8C3E1A051B14168B005971D8 /* QSCreateTradeClothSizeCell.m in Sources */,
 				EF7826B11A4F057900C69460 /* UIView+ScreenShot.m in Sources */,
+				68D16CC51B339BC100A4646C /* QSS21TableViewProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
