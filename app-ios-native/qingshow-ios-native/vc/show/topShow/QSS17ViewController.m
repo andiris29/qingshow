@@ -14,7 +14,7 @@
 #import "UIViewController+QSExtension.h"
 #import "QSUserManager.h"
 #import "QSGlobalFirstLaunchViewController.h"
-
+#import "QSS01MatchShowsViewController.h"
 #define PAGE_ID @"S17 - 美搭榜单"
 #define SS17CellId @"SS17TableViewCellId"
 
@@ -67,8 +67,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveFirstLaunchChange:) name:kGlobalFirstUpdateNotification object:nil];
     
     _backToTopBtn.hidden = YES;
-    NSLog(@"count ======   %d",self.navigationController.childViewControllers.count);
+    //NSLog(@"count ======   %d",self.navigationController.childViewControllers.count);
 }
+
 
 - (void)didReceiveFirstLaunchChange:(NSNotification*)noti{
     [self showGlobalFirstLaunchIcon];
@@ -128,10 +129,9 @@
 - (void)didClickedDate:(NSDate*)date ofProvider:(QSS17TavleViewProvider*)provider
 {
     QSS18TopShowOneDayViewController* vc = [[QSS18TopShowOneDayViewController alloc] initWithDate:date];
-    
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
-    vc.backToTopBtn.hidden = YES;
+    //vc.backToTopBtn.hidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
   
     

@@ -23,6 +23,8 @@
 #import "QSImageCollectionModel.h"
 #import "QSRecommendationDateCellModel.h"
 
+#import "QSMatchCollectionViewProvider.h"
+
 #import "QSDateUtil.h"
 //#import "QSU13PersonalizeViewController.h"
 
@@ -33,6 +35,7 @@
 
 #pragma mark Provider
 @property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
+@property (strong,nonatomic) QSMatchCollectionViewProvider *matchProvider;
 @end
 
 @implementation QSU01UserDetailViewController
