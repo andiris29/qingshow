@@ -15,7 +15,7 @@ var ServerError = require('../server-error');
 
 var people = module.exports;
 
-people.queryFollowTargets = {
+people.queryFollowers= {
     method : 'get',
     func : function(req, res) {
         ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
@@ -25,7 +25,7 @@ people.queryFollowTargets = {
     }
 };
 
-people.queryFollowInitiators = {
+people.queryFollowingPeoples= {
     method : 'get',
     func : function(req, res) {
         ServiceHelper.queryRelatedPeoples(req, res, RPeopleFollowPeople, {
