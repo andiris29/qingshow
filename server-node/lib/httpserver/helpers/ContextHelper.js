@@ -5,6 +5,8 @@ var ShowComments = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
 var RPeopleFollowPeople = require('../../model/rPeopleFollowPeople');
+var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
+var People = require('../../model/peoples');
 
 /**
  * ContextHelper
@@ -58,6 +60,11 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     // __context.promotionRef
     var generatePromoInfo = function(callback) {
         _generatePromoInfo(qsCurrentUserId, shows, 'promotionRef', callback);
+    };
+
+    // __context.createBy
+    var generateCreateBy = function(callback) {
+        _generateCreateBy(RPeopleCreateShow, shows, 'createBy', callback);
     };
 
     // modedRef.__context.followedByCurrentUser
@@ -169,3 +176,29 @@ var _generatePromoInfo =  function(peopleId, models, contextField, callback) {
     });
 };
 
+var _generateCreateBy = function(RModel, models, contextField, callback) {
+    var tasks = models.map(function(model) {
+        return function(callback) {
+            model.__context[contextField] = {};
+            
+            RModel.findOne({
+                'targetRef' : model._id
+            }, function(err, relationship) {
+                if (!err && relationship) {
+                    People.findOne({
+                        '_id' : relationship.initiatorRef
+                    }, function(err, people) {
+                        model.__context[contextField] = Boolean(!err && people) ? people : {};
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            });
+        };
+    });
+
+    async.parallel(tasks, function(err) {
+        callback(null, models);
+    });
+};

@@ -6,6 +6,10 @@ showSchema = Schema({
     __context : Object,
     icon : String,
     cover : String,
+    coverInfo : {
+        backgroud : String,
+        foreground : String
+    },
     video : String,
     posters : [String],
     numLike : {
@@ -35,7 +39,8 @@ showSchema = Schema({
         group: String,
         date : Date,
         description : String
-    }
+    },
+    ugc : Boolean
 
 });
 
