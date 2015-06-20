@@ -10,7 +10,7 @@ var _ = require('underscore');
 var winston = require('winston');
 
 //Services Name
-var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people'];
+var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher'];
 var services = servicesNames.map(function (path) {
     return {
         'path' : path,

@@ -4,7 +4,11 @@ var Schema = mongoose.Schema;
 var itemSchema;
 itemSchema = Schema({
     __context : Object,
-    category : Number, // <code>
+    categoryRef : {
+        type : Schema.Types.ObjectId,
+        ref : 'categories'
+    },
+    thumbnail : String,
     name : String,
     price: Number,
     deactive : Boolean,
