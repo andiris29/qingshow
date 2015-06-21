@@ -4,6 +4,7 @@ var async = require('async');
 // model
 var Category = require('../../model/categories');
 var Item = require('../../model/items');
+var Show = require('../../model/shows');
 
 // util
 var ResponseHelper = require('../helpers/ResponseHelper');
@@ -49,5 +50,68 @@ matcher.queryItems = {
     }
 };
 
+matcher.save = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        if (!req.body.itemRefs || !req.body.itemRefs.length) {
+            ResponseHelper.response(res, ServerError.NotEnoughParam);
+            return;
+        }
 
+        var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
 
+        var show = new Show({
+            'itemRefs' : itemRefs, 
+            'ugc' : true
+        });
+
+        show.save(function(err, show) {
+            if (err) {
+                ResponseHelper.response(res, err);
+            } else if (!show) {
+                ResponseHelper.response(res, ServerError.ServerError);
+            } else {
+                ResponseHelper.response(res, null, {
+                    'show' : show
+                });
+            }
+        });
+    }
+}
+
+matcher.updateCover = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        if (!req.body._id || !req.body._id.length) {
+            ResponseHelper.response(res, ServerError.NotEnoughParam);
+            return;
+        }
+
+        var formidable = require('formidable');
+        var path = require('path');
+
+        var form = new formidable.IncomingForm();
+        form.uploadDir = global.__qingshow_uploads.folder;
+        form.keepExtensions = true;
+        form.parse(req, function(err, fields, files) {
+            if (err) {
+                ResponseHelper.response(res, err);
+                return;
+            }
+            var file = files['cover'];
+            Show.findOne({
+                '_id' : RequestHelper.parseId(fields['_id'])
+            }, function(err, show) {
+                show.set('cover', global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
+                show.save(function(err, show) {
+                    ResponseHelper.response(res, err, {
+                        'show' : show
+                    });
+                });
+            });
+        });
+        return;
+    }
+}
