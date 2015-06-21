@@ -10,12 +10,13 @@ var Show = require('../../model/shows');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 var ServiceHelper = require('../helpers/ServiceHelper');
+var MongoHelper = require('../helpers/MongoHelper.js');
 
 var ServerError = require('../server-error');
 
 var matcher = module.exports;
 
-matcher.queryCategoy = {
+matcher.queryCategory = {
     'method' : 'get',
     'func' : function(req, res) {
         Category.find({}).exec(function(err, categories) {
@@ -31,10 +32,10 @@ matcher.queryItems = {
     'func' : function(req, res) {
         var qsParam = req.body;
 
-        if (!qsParam.category || !qsParam.category.length) {
-            ResponseHelper.response(res, ServerError.NotEnoughParam);
-            return;
-        }
+        //if (!qsParam.category || !qsParam.category.length) {
+        //    ResponseHelper.response(res, ServerError.NotEnoughParam);
+        //    return;
+        //}
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
             var id = RequestHelper.parseId(qsParam.category);
             var criteria = {
@@ -84,11 +85,6 @@ matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        if (!req.body._id || !req.body._id.length) {
-            ResponseHelper.response(res, ServerError.NotEnoughParam);
-            return;
-        }
-
         var formidable = require('formidable');
         var path = require('path');
 
@@ -100,9 +96,18 @@ matcher.updateCover = {
                 ResponseHelper.response(res, err);
                 return;
             }
+            if (!fields['_id'] || !fields['_id'].length) {
+                ResponseHelper.response(res, ServerError.NotEnoughParam);
+                return;
+            }
             var file = files['cover'];
+            if (!file) {
+                ResponseHelper.response(res, ServerError.NotEnoughParam);
+                return;
+            }
             Show.findOne({
-                '_id' : RequestHelper.parseId(fields['_id'])
+                '_id' : RequestHelper.parseId(fields['_id']),
+                'ugc' : true
             }, function(err, show) {
                 show.set('cover', global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
                 show.save(function(err, show) {
