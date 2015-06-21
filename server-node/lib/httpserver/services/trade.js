@@ -116,6 +116,9 @@ var _statusValidationMap = {
     8 : [7], // 退款中
     9 : [8], // 退款成功
     10 : [8],// 退款失败
+    11 : [3, 4], // 申请换货中
+    12 : [11], // 换货成功
+    13 : [11],// 换货失败
 };
 trade.statusTo = {
     'method' : 'post',
@@ -199,6 +202,9 @@ trade.statusTo = {
                 callback(ServerError.TradeStatusChangeError);
             } else if (newStatus == 10) {
                 // TODO Save the parameters from payment server.
+            } else if (newStatus == 11) {
+            } else if (newStatus == 12) {
+            } else if (newStatus == 13) {
             }
             //trade.status = newStatus;
             trade.save(function(error, trade) {

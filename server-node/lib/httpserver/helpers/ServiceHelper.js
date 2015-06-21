@@ -86,6 +86,22 @@ ServiceHelper.queryRelatedTrades = function(req, res, RModel, fields) {
     });
 };
 
+ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(peoples) {
+        return {
+            'peoples' : peoples
+        };
+    }, {
+        'afterQuery' : function(qsParam, peoples, numTotal, callback) {
+            if (qsParam._id) {
+                ContextHelper.appendPeopleContext(qsParam._id, peoples, callback);
+            } else {
+                ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+            }
+        }
+    });
+};
+
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};

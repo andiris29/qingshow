@@ -9,11 +9,6 @@ traceSchema = Schema({
     osType : Number,
     osVersion : String,
     behavior : String,
-    behaviorInfo : {
-        firstLaunch : {
-            channel : String
-        }
-    },
     create : {
         type : Date,
         'default' : Date.now

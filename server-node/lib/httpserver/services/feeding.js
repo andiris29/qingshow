@@ -13,6 +13,13 @@ var ServiceHelper = require('../helpers/ServiceHelper');
 
 var ServerError = require('../server-error');
 
+var isNotUgc = {
+    "$or" : [
+        {"ugc" : false},
+        {"ugc" : {"$exists" : false}}
+    ]
+};
+
 var _feed = function (req, res, querier, aspectInceptions) {
     aspectInceptions = aspectInceptions || {};
     ServiceHelper.queryPaging(req, res, querier, function (models) {
@@ -80,7 +87,10 @@ feeding.recommendation = {
                         type = 'A4';
                     }
                     var criteria = {
-                        'recommend.group' : type
+                        '$and' : [
+                            { 'recommend.group' : type}, 
+                            isNotUgc
+                        ]
                     };
                     MongoHelper.queryPaging(Show.find(criteria).sort({
                         'recommend.date' : -1
@@ -117,8 +127,9 @@ feeding.hot = {
             var showId = [];
             async.waterfall([
                 function(callback) {
-                    var condition = [
-                        {
+                    var condition = [{
+                            "$match" : isNotUgc
+                        }, {
                             '$group' : {
                                 '_id': {
                                     'year' : {'$year' : '$recommend.date'},
@@ -138,10 +149,13 @@ feeding.hot = {
                             var _id = element._id;
 
                             var criteria = {
-                                'recommend.date' : {
-                                    '$gte' : new Date(_id.year, _id.month - 1, _id.day),
-                                    '$lt' : new Date(_id.year, _id.month - 1, _id.day + 1) 
-                                }
+                                '$and' : [{
+                                        'recommend.date' : {
+                                            '$gte' : new Date(_id.year, _id.month - 1, _id.day),
+                                            '$lt' : new Date(_id.year, _id.month - 1, _id.day + 1) 
+                                        }
+                                    } , isNotUgc
+                                ]
                             };
 
                             Show.find(criteria).sort({'numLike' : -1}).limit(2).exec(function(err, shows) {
@@ -268,10 +282,14 @@ feeding.byRecommendDate =  {
                     endDt.setDate(endDt.getDate() + 1);
 
                     var criteria = {
-                        'recommend.date' : {
-                            '$gte' : beginDt,
-                            '$lt' : endDt
-                        }
+                        '$and' : [{
+                                'recommend.date' : {
+                                    '$gte' : beginDt,
+                                    '$lt' : endDt
+                                }
+                            }, 
+                            isNotUgc
+                        ]
                     };
 
                     MongoHelper.queryPaging(Show.find(criteria).sort({
@@ -280,6 +298,76 @@ feeding.byRecommendDate =  {
 
                 }
             ], out_callback);
+        }, {
+            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
+                async.series([
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'itemRefs',
+                            'model' : "items"
+                        }, callback);
+                    }, 
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'promotionRef',
+                            'model' : "promotions"
+                        }, callback);
+                    }], 
+                    afterQuery_cb
+                );
+            }
+        });
+    }
+};
+
+feeding.matchHot = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, outCallback) {
+            async.waterfall([
+            function(callback) {
+                var criteria = {
+                    'ugc' : true
+                };
+                MongoHelper.queryPaging(Show.find(criteria).sort({
+                    'numLike' : -1
+                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
+            }], outCallback);
+        }, {
+            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
+                async.series([
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'itemRefs',
+                            'model' : "items"
+                        }, callback);
+                    }, 
+                    function(callback) {
+                        Show.populate(currentPageModels, {
+                            'path' : 'promotionRef',
+                            'model' : "promotions"
+                        }, callback);
+                    }], 
+                    afterQuery_cb
+                );
+            }
+        });
+    }
+};
+
+feeding.matchNew = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        _feed(req, res, function(qsParam, outCallback) {
+            async.waterfall([
+            function(callback) {
+                var criteria = {
+                    'ugc' : true
+                };
+                MongoHelper.queryPaging(Show.find(criteria).sort({
+                    'create' : -1
+                }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
+            }], outCallback);
         }, {
             afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
                 async.series([

@@ -11,8 +11,9 @@ var Item = require('../../model/items');
 // TODO Remove dependency on httpserver
 var MongoHelper = require('../../httpserver/helpers/MongoHelper');
 var ServerError = require('../../httpserver/server-error');
+var mongoose = require('mongoose');
 
-var _next = function (time, retryTime) {
+var _next = function (time) {
     async.waterfall([
         function (callback) {
             var criteria = {
@@ -25,74 +26,44 @@ var _next = function (time, retryTime) {
                         'taobaoInfo.refreshTime': {
                             '$lt': time
                         }
+                    }, {
+                        'deactive': {
+                            '$exists': false
+                        }
+                    }, {
+                        'deactive': true
                     }]
-                }, {
-                    // '$or': [{
-                        // 'deactive': {
-                            // '$exists': false
-                        // }
-                    // }, {
-                        // 'deactive': false
-                    // }]
                 }]
             };
 
-            var query = Item.find(criteria);
-            var queryCount = Item.find(criteria);
-            var pageNo = 1;
-            var pageSize = 10;
-            MongoHelper.queryPaging(query, queryCount, pageNo, pageSize, function (err, result, count) {
-                winston.info('goblin item : remain item ' + count);
+            var query = Item.find(criteria, function (err, items) {
                 if (err) {
                     callback(err);
-                } else if (!count) {
-                    callback(ServerError.PagingNotExist);
+                } else if (!items || !items.length) {
+                    callback(ServerError.fromCode(ServerError.PagingNotExist));
                 } else {
-                    callback(null, result);
+                    winston.info('[Goblin-tbitem] Total count: ' + items.length);
+                    callback(null, items);
                 }
             });
         },
-        function (result, callback) {
-            items = result;
+        function (items, callback) {
             var tasks = [];
             items.forEach(function (item) {
                 var task = function (callback) {
+                    _logItem('item start', item);
                     _crawlItemTaobaoInfo(item, function(err) {
                         setTimeout(function() {
                             callback(err);
-                        }, 1000);
+                        }, _.random(5000, 10000));
                     });
                 };
                 tasks.push(task);
             });
             async.series(tasks, callback);
-
         }
     ], function (err) {
-        //TODO
-        if (err === ServerError.PagingNotExist) {
-            //finish
-            winston.info('goblin item daily complete');
-            return;
-        }
-
-        if (err) {
-            winston.info('gobin item error:');
-            winston.info(err);
-            retryTime -= 1;
-            if (retryTime > 0) {
-                winston.info('remain retry : ' + retryTime);
-                _.delay(function() {
-                    _next(time, retryTime);
-                }, 1000);
-            } else {
-                winston.info('Error: goblin item retry time is zero, stop.');
-            }
-        } else {
-            _.delay(function () {
-                _next(time, retryTime);
-            }, 1000);
-        }
+        winston.info('[Goblin-tbitem] Complete.');
     });
 };
 
@@ -100,24 +71,40 @@ var _crawlItemTaobaoInfo = function (item, callback) {
     async.waterfall([
         function (callback) {
             TaobaoWebItem.getSkus(item.source, function (err, taobaoInfo) {
-                item.taobaoInfo = taobaoInfo;
-                callback();
+                callback(err, taobaoInfo);
             });
         }
-    ], function (err) {
+    ], function (err, taobaoInfo) {
         if (err) {
+            _logItem('item error', item);
             callback(err);
         } else {
-            item.taobaoInfo = item.taobaoInfo || {};
-            if (Object.keys(item.taobaoInfo).length === 0) {
+            if (!taobaoInfo) {
+                item.taobaoInfo = item.taobaoInfo || {};
+                item.taobaoInfo.refreshTime = new Date();
                 item.deactive = true;
+                _logItem('item failed', item);
             } else {
+                item.taobaoInfo = taobaoInfo;
+                item.taobaoInfo.refreshTime = new Date();
                 item.deactive = false;
+                _logItem('item success', item);
             }
-            item.taobaoInfo.refreshTime = new Date();
             item.save(callback);
         }
     });
+};
+
+var _logItem = function(content, item) {
+    winston.info('[Goblin-tbitem] ' + content + ': ' + item._id);
+};
+
+var _run = function() {
+    var startDate = new Date();
+    startDate.setDate(startDate.getDate() - 3);
+    winston.info('Goblin-tbitem run at: ' + startDate);
+
+    _next(startDate);
 };
 
 module.exports = function () {
@@ -125,9 +112,7 @@ module.exports = function () {
     rule.hour = 1;
     rule.minute = 0;
     schedule.scheduleJob(rule, function () {
-        var startDate = new Date();
-        winston.info('Goblin-tbitem run at: ' + startDate);
-        
-        _next(startDate, 10);
+        _run();
     });
+    _run();
 };
