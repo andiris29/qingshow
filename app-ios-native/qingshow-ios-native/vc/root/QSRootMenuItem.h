@@ -14,8 +14,9 @@ typedef NS_ENUM(NSUInteger, QSRootMenuItemType) {
     
     QSRootMenuItemMy = 0,
     QSRootMenuItemMeida = 1,
-    QSRootMenuItemMyFavor = 2,
-    QSRootMenuItemSetting = 3
+//    QSRootMenuItemMyFavor = 2,
+    QSRootMenuItemSetting = 3,
+    QSRootMenuItemMatcher = 4
 };
 
 

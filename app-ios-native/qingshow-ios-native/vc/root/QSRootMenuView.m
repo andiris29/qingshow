@@ -10,6 +10,7 @@
 #import "QSAppDelegate.h"
 #import "UIImage+BlurryImage.h"
 #import "UIView+ScreenShot.h"
+#import "UINib+QSExtension.h"
 
 @interface QSRootMenuView ()
 @property (strong, nonatomic) NSMutableArray* itemArray;
@@ -19,14 +20,10 @@
 @implementation QSRootMenuView
 + (QSRootMenuView*)generateView
 {
-    UINib* nib = [UINib nibWithNibName:@"QSRootMenuView" bundle:nil];
-    NSArray* array = [nib instantiateWithOwner:self options:nil];
-    QSRootMenuView* v = array[0];
+    QSRootMenuView* v = [UINib generateViewWithNibName:@"QSRootMenuView"];
     CGRect rect = [UIScreen mainScreen].bounds;
     v.frame = rect;
     v.bgImageView.backgroundColor = [UIColor lightGrayColor];
-    
-//    v.bgImageView.layer.transform = CATransform3DMakeScale(1.03, 1.02, 0);
     return v;
 }
 
@@ -67,8 +64,11 @@
 #pragma mark - Life Cycle
 - (void)awakeFromNib
 {
-
-    NSArray *typeArray = @[@(QSRootMenuItemMeida), @(QSRootMenuItemMy),  @(QSRootMenuItemMyFavor), @(QSRootMenuItemSetting)];
+    NSArray *typeArray = @[
+                           @(QSRootMenuItemMeida),
+                           @(QSRootMenuItemMatcher),
+                           @(QSRootMenuItemMy),
+                           @(QSRootMenuItemSetting)];
     self.itemArray = [@[] mutableCopy];
 
     for (int i = 0; i < typeArray.count; i++) {

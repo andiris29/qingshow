@@ -13,6 +13,7 @@
 @interface QSBadgeView : UIView
 
 @property (weak, nonatomic) IBOutlet UIView *btnsContainer;
+@property (weak, nonatomic) IBOutlet UIButton* followBtn;
 @property (strong, nonatomic) QSBadgeBtnGroup* btnGroup;
 
 

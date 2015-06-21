@@ -145,23 +145,6 @@
 - (void)rootMenuItemPressedType:(QSRootMenuItemType)type
 {
     [self hideMenu];
-    switch (type) {
-        case QSRootMenuItemMy:{
-   
-        }
-        case QSRootMenuItemMyFavor:{
-//            QSS21CategorySelectorVC *selectorVC = [[QSS21CategorySelectorVC alloc] init];
-//            [self.navigationController pushViewController:selectorVC animated:YES];
-        }
-        case QSRootMenuItemMeida:{
-            
-        }
-        case QSRootMenuItemSetting:
-        {
-
-            break;
-        }
-    }
 }
 
 #pragma mark - IBAction

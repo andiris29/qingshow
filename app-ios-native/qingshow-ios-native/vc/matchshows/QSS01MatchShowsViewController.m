@@ -24,6 +24,14 @@
 
 @implementation QSS01MatchShowsViewController
 
+- (instancetype)init {
+    self = [super initWithNibName:@"QSS01MatchShowsViewController" bundle:nil];
+    if (self) {
+        
+    }
+    return self;
+}
+
 - (UIBarButtonItem*)firstLaunchItem {
     if (!_firstLaunchItem) {
         UIImageView* barImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"global_first_launch"]];
@@ -43,6 +51,12 @@
     [self configNav];
     [self configProvider];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
 - (void)configProvider
 {
     _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];

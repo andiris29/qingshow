@@ -249,6 +249,8 @@
 		EFAB9C6F1B346FE5008A4EF5 /* QSTableViewBasicProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C5E1B346FE5008A4EF5 /* QSTableViewBasicProvider.m */; };
 		EFAB9C741B347027008A4EF5 /* QSPeopleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */; };
 		EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */; };
+		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
+		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
 		EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBC76481B332A6200832116 /* QSBadgeButton.m */; };
 		EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBC764A1B332AEC00832116 /* QSBadgeButton.xib */; };
@@ -818,6 +820,9 @@
 		EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPeopleListTableViewCell.m; sourceTree = "<group>"; };
 		EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSPeopleListTableViewCell.xib; sourceTree = "<group>"; };
 		EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSPaymentConst.h; sourceTree = "<group>"; };
+		EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS20MatcherViewController.h; sourceTree = "<group>"; };
+		EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS20MatcherViewController.m; sourceTree = "<group>"; };
+		EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS20MatcherViewController.xib; sourceTree = "<group>"; };
 		EFBA0B611A2387090014A05B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		EFBC76471B332A6200832116 /* QSBadgeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBadgeButton.h; sourceTree = "<group>"; };
 		EFBC76481B332A6200832116 /* QSBadgeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBadgeButton.m; sourceTree = "<group>"; };
@@ -1254,6 +1259,7 @@
 		EF1A59191A06761800001AE0 /* vc */ = {
 			isa = PBXGroup;
 			children = (
+				EFB1ADCA1B371478007893AB /* matcher */,
 				68D16CFA1B341A4700A4646C /* matchshows */,
 				68D16CAF1B32DDA500A4646C /* createShow */,
 				68824D871B0EBB57006E3151 /* favorite */,
@@ -2071,6 +2077,16 @@
 			path = people;
 			sourceTree = "<group>";
 		};
+		EFB1ADCA1B371478007893AB /* matcher */ = {
+			isa = PBXGroup;
+			children = (
+				EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */,
+				EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */,
+				EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */,
+			);
+			path = matcher;
+			sourceTree = "<group>";
+		};
 		EFC5434D1A1750AD001B2C49 /* base */ = {
 			isa = PBXGroup;
 			children = (
@@ -2503,6 +2519,7 @@
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
 				68824D931B0EBB57006E3151 /* QSU14FavoriteViewController.xib in Resources */,
 				EF02202B1B19A9E3009A7F59 /* QSGlobalFirstLaunchViewController.xib in Resources */,
+				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
 				8C8B9D841B00395B00C1A321 /* welcome1_480@2x.png in Resources */,
 				68D16D051B341A4700A4646C /* QSS01MatchShowsViewController.xib in Resources */,
@@ -2716,6 +2733,7 @@
 				EFA98A821A38923300A8BFC7 /* QSCommonUtil.m in Sources */,
 				EF1A59271A06761800001AE0 /* QSShowCollectionViewCell.m in Sources */,
 				EF9A741E1A02A82600095F07 /* main.m in Sources */,
+				EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */,
 				EFA0F9051AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m in Sources */,
 				82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */,
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,

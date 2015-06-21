@@ -55,6 +55,18 @@
                     <rect key="frame" x="8" y="300" width="304" height="52"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLX-Q6-vzv">
+                    <rect key="frame" x="220" y="199" width="70" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="70" id="dfq-WR-8hs"/>
+                        <constraint firstAttribute="height" constant="30" id="msi-6Z-D2M"/>
+                    </constraints>
+                    <state key="normal" image="follow_btn">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="selected" image="unfollow_btn"/>
+                    <state key="highlighted" image="unfollow_btn"/>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -62,6 +74,7 @@
                 <constraint firstItem="74W-bg-pUU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="7xS-5O-IMB"/>
                 <constraint firstItem="cqs-Sm-5h3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="AVA-jv-Aq6"/>
                 <constraint firstItem="74W-bg-pUU" firstAttribute="top" secondItem="tKl-cf-6S5" secondAttribute="bottom" constant="8" id="Ape-E5-zkv"/>
+                <constraint firstItem="xLX-Q6-vzv" firstAttribute="top" secondItem="NIY-rA-oO7" secondAttribute="bottom" constant="12" id="B3T-fo-YGS"/>
                 <constraint firstAttribute="bottom" secondItem="che-XF-QkT" secondAttribute="bottom" constant="8" id="MHi-q9-Nkp"/>
                 <constraint firstAttribute="trailing" secondItem="cqs-Sm-5h3" secondAttribute="trailing" constant="8" id="PDV-1b-H38"/>
                 <constraint firstAttribute="trailing" secondItem="NIY-rA-oO7" secondAttribute="trailing" id="SN3-9u-RHd"/>
@@ -71,6 +84,7 @@
                 <constraint firstAttribute="trailing" secondItem="74W-bg-pUU" secondAttribute="trailing" constant="8" id="cTP-t7-Jag"/>
                 <constraint firstAttribute="trailing" secondItem="che-XF-QkT" secondAttribute="trailing" constant="8" id="fhl-SR-awx"/>
                 <constraint firstItem="cqs-Sm-5h3" firstAttribute="top" secondItem="74W-bg-pUU" secondAttribute="bottom" constant="8" id="hbL-Rr-qIH"/>
+                <constraint firstAttribute="trailing" secondItem="xLX-Q6-vzv" secondAttribute="trailing" constant="30" id="hvM-k3-eNs"/>
                 <constraint firstItem="NIY-rA-oO7" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yFu-Dr-Ib6"/>
                 <constraint firstItem="NIY-rA-oO7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="yc9-1l-WhT"/>
             </constraints>
@@ -79,6 +93,7 @@
             <connections>
                 <outlet property="backgroundImageView" destination="NIY-rA-oO7" id="uIF-Pm-xoE"/>
                 <outlet property="btnsContainer" destination="che-XF-QkT" id="Md5-Ks-01G"/>
+                <outlet property="followBtn" destination="xLX-Q6-vzv" id="hAr-Oo-BRf"/>
                 <outlet property="iconImageView" destination="tKl-cf-6S5" id="iGt-p7-Fz7"/>
                 <outlet property="nameLabel" destination="74W-bg-pUU" id="aQF-ad-HH7"/>
                 <outlet property="statusLabel" destination="cqs-Sm-5h3" id="OaI-QH-2Ts"/>
@@ -87,6 +102,8 @@
         </view>
     </objects>
     <resources>
+        <image name="follow_btn" width="70" height="30"/>
+        <image name="unfollow_btn" width="70" height="30"/>
         <image name="user_bg_default.jpg" width="720" height="450"/>
         <image name="user_head_default.jpg" width="720" height="450"/>
     </resources>

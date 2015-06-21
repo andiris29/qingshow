@@ -15,6 +15,8 @@
 #import "QSNavigationController.h"
 #import "QSU07RegisterViewController.h"
 #import "QSUserManager.h"
+#import "QSS20MatcherViewController.h"
+#import "QSS01MatchShowsViewController.h"
 
 @interface QSRootContainerViewController ()
 
@@ -75,35 +77,34 @@
     [self hideMenu];
     UIViewController* vc = nil;
     switch (type) {
-        case QSRootMenuItemMy:{
+        case QSRootMenuItemMy: {
             QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
             u01Vc.menuProvider = self;
             vc = u01Vc;
             break;
         }
-        case QSRootMenuItemMyFavor:{
-            QSU14FavoriteViewController* favorVc = [[QSU14FavoriteViewController alloc] init];
-            favorVc.menuProvider = self;
-            vc = favorVc;
+        case QSRootMenuItemMeida: {
+            QSS01MatchShowsViewController * matcherShowVc = [[QSS01MatchShowsViewController alloc] init];
+            matcherShowVc.menuProvider = self;
+            vc = matcherShowVc;
             break;
         }
-        case QSRootMenuItemMeida:{
-            QSS17ViewController* topShowVc = [[QSS17ViewController alloc] init];
-            topShowVc.menuProvider = self;
-            vc = topShowVc;
-            break;
-        }
-        case QSRootMenuItemSetting:
-        {
+        case QSRootMenuItemSetting: {
             QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
             settingVc.menuProvider = self;
             vc = settingVc;
             break;
         }
+        case QSRootMenuItemMatcher: {
+            QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
+            matcherVc.menuProvider = self;
+            vc = matcherVc;
+            break;
+        }
     }
     [self showVc:vc];
     
-    if (![vc isKindOfClass:[QSS17ViewController class]]) {
+    if (![vc isKindOfClass:[QSS01MatchShowsViewController class]]) {
         [self showRegisterVc];
     }
 }

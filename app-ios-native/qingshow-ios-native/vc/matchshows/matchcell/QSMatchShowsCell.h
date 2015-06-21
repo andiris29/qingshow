@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface QSMatchShowsCell : UICollectionViewCell
+#warning @mhy 检查下xib，现在xib里显示的是TableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headerImgView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumlabel;

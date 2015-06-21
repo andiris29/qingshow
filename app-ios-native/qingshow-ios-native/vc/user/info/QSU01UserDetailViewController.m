@@ -34,7 +34,7 @@
 
 @interface QSU01UserDetailViewController ()
 @property (strong, nonatomic) NSDictionary* userInfo;
-
+@property (assign, nonatomic) BOOL isCurrentUser;
 #pragma mark Provider
 @property (strong,nonatomic) QSMatchCollectionViewProvider *matchProvider;
 @property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
@@ -51,6 +51,7 @@
     self = [self initWithPeople:[QSUserManager shareUserManager].userInfo];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveCurrentUserInfoUpdate:) name:kUserInfoUpdateNotification object:nil];
+        self.isCurrentUser = YES;
     }
     return self;
 }
@@ -58,6 +59,7 @@
 {
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
+        self.isCurrentUser = NO;
         [self providerInit];
         self.userInfo = peopleDict;
     }
@@ -134,6 +136,7 @@
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
+    self.badgeView.followBtn.hidden = self.isCurrentUser;
 
 }
 
