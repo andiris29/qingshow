@@ -127,29 +127,15 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-    if (showDict) {
-        NSDictionary* peopleDict = showDict[@"modelRef"];
-        if ([QSCommonUtil checkIsNil:peopleDict]) {
-            return peopleDict;
-        } else {
-#warning 需要优化
-            NSMutableDictionary* mP = [peopleDict mutableCopy];
-            [self setPeople:mP show:showDict];
-            return mP;
-        }
+    NSDictionary* peopleDict = [showDict valueForKeyPath:@"__context.createdBy"];
+    if ([QSCommonUtil checkIsNil:peopleDict]) {
+        return nil;
+    } else {
+        return peopleDict;
     }
-    return nil;
+
 }
-+ (void)setPeople:(NSDictionary*)peopleDict show:(NSDictionary*)showDict
-{
-    if ([QSCommonUtil checkIsNil:showDict]) {
-        return;
-    }
-    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
-        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
-        s[@"modelRef"] = peopleDict;
-    }
-}
+
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
