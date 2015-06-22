@@ -8,7 +8,10 @@
 
 #import "QSS20MatcherViewController.h"
 #import "QSAbstractRootViewController.h"
+
 @interface QSS20MatcherViewController ()
+
+@property (strong, nonatomic) QSMatcherItemSelectionView* itemSelectionView;
 
 @end
 
@@ -27,6 +30,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.itemSelectionView = [QSMatcherItemSelectionView generateView];
+    self.itemSelectionView.frame = self.itemSelectionContainer.bounds;
+    [self.itemSelectionContainer addSubview:self.itemSelectionView];
+    self.itemSelectionView.datasource = self;
+    self.itemSelectionView.delegate = self;
+    [self.itemSelectionView reloadData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -42,5 +51,15 @@
 
 - (IBAction)menuBtnPressed:(id)sender {
     [self.menuProvider didClickMenuBtn];
+}
+
+- (NSUInteger)numberOfItemInSelectionView:(QSMatcherItemSelectionView*)view {
+    return 7;
+}
+- (NSDictionary*)selectionView:(QSMatcherItemSelectionView*)view itemDictAtIndex:(NSUInteger)index {
+    
+    NSArray* array = @[@{}, @{}, @{}, @{}, @{}];
+    
+    return array[index % array.count];
 }
 @end

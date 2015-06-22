@@ -11,7 +11,7 @@
 @class QSMatcherItemSelectionView;
 
 @protocol QSMatcherItemSelectionViewDelegate <NSObject>
-
+@optional
 - (void)selectionView:(QSMatcherItemSelectionView*)view didSelectItemAtIndex:(NSUInteger)index;
 
 @end
@@ -23,7 +23,7 @@
 
 @end
 
-@interface QSMatcherItemSelectionView : UIView
+@interface QSMatcherItemSelectionView : UIView <UIScrollViewDelegate>
 
 @property (weak, nonatomic) NSObject<QSMatcherItemSelectionViewDelegate>* delegate;
 @property (weak, nonatomic) NSObject<QSMatcherItemSelectionViewDataSource>* datasource;
