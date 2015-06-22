@@ -5,12 +5,14 @@ var async = require('async');
 var Category = require('../../model/categories');
 var Item = require('../../model/items');
 var Show = require('../../model/shows');
+var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 
 // util
 var ResponseHelper = require('../helpers/ResponseHelper');
 var RequestHelper = require('../helpers/RequestHelper');
 var ServiceHelper = require('../helpers/ServiceHelper');
 var MongoHelper = require('../helpers/MongoHelper.js');
+var RelationshipHelper = require('../helpers/RelationshipHelper');
 
 var ServerError = require('../server-error');
 
@@ -73,8 +75,18 @@ matcher.save = {
             } else if (!show) {
                 ResponseHelper.response(res, ServerError.ServerError);
             } else {
-                ResponseHelper.response(res, null, {
-                    'show' : show
+                var initiatorRef = req.qsCurrentUserId;
+                var targetRef = show._id;
+                RelationshipHelper.create(RPeopleCreateShow, initiatorRef, targetRef, function(err, relationship) {
+                    if (err) {
+                        ResponseHelper.response(res, err);
+                    } else if (!relationship) {
+                        ResponseHelper.response(res, ServerError.ServerError);
+                    } else {
+                        ResponseHelper.response(res, null, {
+                            'show' : show
+                        });
+                    }
                 });
             }
         });

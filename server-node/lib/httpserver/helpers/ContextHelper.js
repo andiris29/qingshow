@@ -32,7 +32,7 @@ ContextHelper.appendPeopleContext = function(qsCurrentUserId, peoples, callback)
         _numAssociated(peoples, RPeopleFollowPeople, 'targetRef', 'numFollowers', callback);
     };
 
-    async.parallel([followedByCurrentUser, numShows, numFollowBrands, numFollowPeoples, numFollowers], function(err) {
+    async.parallel([followedByCurrentUser, numFollowPeoples, numFollowers], function(err) {
         callback(null, peoples);
     });
 };

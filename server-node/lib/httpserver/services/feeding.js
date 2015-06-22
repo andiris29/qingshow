@@ -5,6 +5,7 @@ var Show = require('../../model/shows');
 var Peoples = require('../../model/peoples');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var Promotion = require('../../model/promotions');
+var RPeopleCreateShow = require('../../model/rPeopleCreateShow');
 //util
 var RequestHelper = require('../helpers/RequestHelper');
 var MongoHelper = require('../helpers/MongoHelper');
@@ -389,3 +390,14 @@ feeding.matchNew = {
         });
     }
 };
+
+feeding.matchCreateBy = {
+    'method' : 'get',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        ServiceHelper.queryRelatedCreateShow(req, res, RPeopleCreateShow, {
+            'query' : 'initiatorRef',
+            'result' : 'targetRef'
+        });
+    }
+}
