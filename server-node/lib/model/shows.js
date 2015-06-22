@@ -16,10 +16,6 @@ showSchema = Schema({
         type : Number,
         'default' : 0
     },
-    modelRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'peoples'
-    },
     itemRefs : {
         type : [{
             type : Schema.Types.ObjectId,
