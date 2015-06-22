@@ -19,11 +19,26 @@
 
 @implementation QSS21CategorySelectorVC
 
+#pragma mark - Init
+- (instancetype)init {
+    self = [super initWithNibName:@"QSS21CategorySelectorVC" bundle:nil];
+    if (self) {
+        
+    }
+    return self;
+}
+
+#pragma mark - Life Cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self setProvider];
     
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark -- bindTableView

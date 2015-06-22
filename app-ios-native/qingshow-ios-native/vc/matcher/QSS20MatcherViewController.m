@@ -7,6 +7,7 @@
 //
 
 #import "QSS20MatcherViewController.h"
+#import "QSS21CategorySelectorVC.h"
 #import "QSAbstractRootViewController.h"
 
 @interface QSS20MatcherViewController ()
@@ -48,11 +49,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - IBAction
+- (IBAction)categorySelectedBtnPressed:(id)sender {
+    [self.navigationController pushViewController:[[QSS21CategorySelectorVC alloc] init] animated:YES];
+}
 
 - (IBAction)menuBtnPressed:(id)sender {
     [self.menuProvider didClickMenuBtn];
 }
 
+
+
+#pragma mark - QSMatcherItemSelectionView
 - (NSUInteger)numberOfItemInSelectionView:(QSMatcherItemSelectionView*)view {
     return 7;
 }

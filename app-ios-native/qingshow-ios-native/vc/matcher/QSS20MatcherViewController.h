@@ -18,6 +18,7 @@
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 @property (weak, nonatomic) IBOutlet UIView *itemSelectionContainer;
 
+- (IBAction)categorySelectedBtnPressed:(id)sender;
 
 - (IBAction)menuBtnPressed:(id)sender;
 
