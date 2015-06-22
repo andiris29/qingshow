@@ -102,6 +102,14 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     });
 };
 
+ServiceHelper.queryRelatedCreateShow = function(req, res, RModel, fields) {
+    _queryRelated(req, res, RModel, fields, function(shows) {
+        return {
+            'shows' : shows
+        };
+    });
+}
+
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
