@@ -251,6 +251,10 @@
 		EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */; };
 		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
 		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
+		EFB1ADE51B372080007893AB /* QSMatcherItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */; };
+		EFB1ADE61B372080007893AB /* QSMatcherItemImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADE11B372080007893AB /* QSMatcherItemImageView.xib */; };
+		EFB1ADE71B372080007893AB /* QSMatcherItemSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE31B372080007893AB /* QSMatcherItemSelectionView.m */; };
+		EFB1ADE81B372080007893AB /* QSMatcherItemSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADE41B372080007893AB /* QSMatcherItemSelectionView.xib */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
 		EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBC76481B332A6200832116 /* QSBadgeButton.m */; };
 		EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBC764A1B332AEC00832116 /* QSBadgeButton.xib */; };
@@ -823,6 +827,12 @@
 		EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS20MatcherViewController.h; sourceTree = "<group>"; };
 		EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS20MatcherViewController.m; sourceTree = "<group>"; };
 		EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS20MatcherViewController.xib; sourceTree = "<group>"; };
+		EFB1ADDF1B372080007893AB /* QSMatcherItemImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemImageView.h; sourceTree = "<group>"; };
+		EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemImageView.m; sourceTree = "<group>"; };
+		EFB1ADE11B372080007893AB /* QSMatcherItemImageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemImageView.xib; sourceTree = "<group>"; };
+		EFB1ADE21B372080007893AB /* QSMatcherItemSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemSelectionView.h; sourceTree = "<group>"; };
+		EFB1ADE31B372080007893AB /* QSMatcherItemSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemSelectionView.m; sourceTree = "<group>"; };
+		EFB1ADE41B372080007893AB /* QSMatcherItemSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemSelectionView.xib; sourceTree = "<group>"; };
 		EFBA0B611A2387090014A05B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		EFBC76471B332A6200832116 /* QSBadgeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBadgeButton.h; sourceTree = "<group>"; };
 		EFBC76481B332A6200832116 /* QSBadgeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBadgeButton.m; sourceTree = "<group>"; };
@@ -2080,11 +2090,41 @@
 		EFB1ADCA1B371478007893AB /* matcher */ = {
 			isa = PBXGroup;
 			children = (
+				EFB1ADDC1B372080007893AB /* view */,
 				EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */,
 				EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */,
 				EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */,
 			);
 			path = matcher;
+			sourceTree = "<group>";
+		};
+		EFB1ADDC1B372080007893AB /* view */ = {
+			isa = PBXGroup;
+			children = (
+				EFB1ADDD1B372080007893AB /* canvas */,
+				EFB1ADDE1B372080007893AB /* itemSelection */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		EFB1ADDD1B372080007893AB /* canvas */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = canvas;
+			sourceTree = "<group>";
+		};
+		EFB1ADDE1B372080007893AB /* itemSelection */ = {
+			isa = PBXGroup;
+			children = (
+				EFB1ADDF1B372080007893AB /* QSMatcherItemImageView.h */,
+				EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */,
+				EFB1ADE11B372080007893AB /* QSMatcherItemImageView.xib */,
+				EFB1ADE21B372080007893AB /* QSMatcherItemSelectionView.h */,
+				EFB1ADE31B372080007893AB /* QSMatcherItemSelectionView.m */,
+				EFB1ADE41B372080007893AB /* QSMatcherItemSelectionView.xib */,
+			);
+			path = itemSelection;
 			sourceTree = "<group>";
 		};
 		EFC5434D1A1750AD001B2C49 /* base */ = {
@@ -2527,6 +2567,7 @@
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
 				EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */,
 				8C8B9D8F1B00395B00C1A321 /* welcome3_736@3x.png in Resources */,
+				EFB1ADE81B372080007893AB /* QSMatcherItemSelectionView.xib in Resources */,
 				EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */,
 				82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */,
@@ -2594,6 +2635,7 @@
 				EF78E3481AAF4C7600665EDD /* QSUserLocationTableViewCell.xib in Resources */,
 				8C8B9D8E1B00395B00C1A321 /* welcome2_736@3x.png in Resources */,
 				8C9240051B258AB60043561E /* hongxin@2x.png in Resources */,
+				EFB1ADE61B372080007893AB /* QSMatcherItemImageView.xib in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */,
 				EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */,
@@ -2723,6 +2765,7 @@
 				EFAB9C6E1B346FE5008A4EF5 /* QSS17TavleViewProvider.m in Sources */,
 				EFAB9C6A1B346FE5008A4EF5 /* QSCommentListTableViewProvider.m in Sources */,
 				EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */,
+				EFB1ADE51B372080007893AB /* QSMatcherItemImageView.m in Sources */,
 				EF0C642A1B21AAC20079B22E /* QSU02InfoPickerCell.m in Sources */,
 				EFFABD681B0C80F900298BD1 /* QSRootContainerViewController.m in Sources */,
 				EF55731B1A22105500C3BC23 /* QSCommentUtil.m in Sources */,
@@ -2736,6 +2779,7 @@
 				EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */,
 				EFA0F9051AB877B700E52F0B /* QSS10ItemDetailVideoViewController.m in Sources */,
 				82B696831A19123200518EE5 /* QSU08PasswordViewController.m in Sources */,
+				EFB1ADE71B372080007893AB /* QSMatcherItemSelectionView.m in Sources */,
 				82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */,
 				EFC7ADB71A1116650078D1F9 /* QSItemImageScrollView.m in Sources */,
 				EF4646261A2B229300172618 /* NSNumber+QSExtension.m in Sources */,

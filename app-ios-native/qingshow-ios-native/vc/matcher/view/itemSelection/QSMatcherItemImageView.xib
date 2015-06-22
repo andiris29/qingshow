@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QSMatcherItemImageView">
+            <rect key="frame" x="0.0" y="0.0" width="88" height="110"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hIf-4k-1s8">
+                    <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RuH-mF-GTV">
+                    <rect key="frame" x="0.0" y="92" width="88" height="18"/>
+                    <color key="backgroundColor" red="0.58431372549019611" green="0.58431372549019611" blue="0.58431372549019611" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="YSe-rh-oXc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="RuH-mF-GTV" secondAttribute="trailing" id="2Q3-0Q-J2d"/>
+                <constraint firstItem="hIf-4k-1s8" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5UB-OA-x6W"/>
+                <constraint firstItem="hIf-4k-1s8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="5xI-qw-jwZ"/>
+                <constraint firstItem="RuH-mF-GTV" firstAttribute="top" secondItem="hIf-4k-1s8" secondAttribute="bottom" constant="4" id="Qhg-l1-UCl"/>
+                <constraint firstAttribute="bottom" secondItem="RuH-mF-GTV" secondAttribute="bottom" id="Y7x-Jf-v3f"/>
+                <constraint firstAttribute="trailing" secondItem="hIf-4k-1s8" secondAttribute="trailing" id="gS4-OK-6hd"/>
+                <constraint firstItem="RuH-mF-GTV" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="lBZ-MJ-nQp"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="imgView" destination="hIf-4k-1s8" id="8xP-aZ-7LI"/>
+                <outlet property="priceLabel" destination="RuH-mF-GTV" id="ddX-S8-700"/>
+            </connections>
+            <point key="canvasLocation" x="442.5" y="182.5"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
