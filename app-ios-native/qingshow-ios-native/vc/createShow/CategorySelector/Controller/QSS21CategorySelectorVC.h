@@ -11,5 +11,4 @@
 @interface QSS21CategorySelectorVC : UIViewController
 
 - (instancetype)init;
-
 @end
