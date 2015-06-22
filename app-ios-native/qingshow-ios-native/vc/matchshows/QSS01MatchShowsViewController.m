@@ -46,7 +46,7 @@
     _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
     _matchCollectionViewProvider.delegate = self;
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
-    
+#warning networkBlock先随便用一个show的network api
    // _matchCollectionViewProvider.networkBlock = nil;
    // [_matchCollectionViewProvider fetchDataOfPage:1];
     //[self.matchCollectionViewProvider reloadData];
@@ -67,6 +67,7 @@
 #warning CHANGE dic
 - (void)changeEvents
 {
+#warning TODO 可以改成用两个provider,每个provider管不同segIndex
     if(_segIndex == 1)
     {
         

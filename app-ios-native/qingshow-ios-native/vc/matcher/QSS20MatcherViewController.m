@@ -51,7 +51,8 @@
 
 #pragma mark - IBAction
 - (IBAction)categorySelectedBtnPressed:(id)sender {
-    [self.navigationController pushViewController:[[QSS21CategorySelectorVC alloc] init] animated:YES];
+#warning TODO add categories
+    [self.navigationController pushViewController:[[QSS21CategorySelectorVC alloc] initWithCategories:nil] animated:YES];
 }
 
 - (IBAction)menuBtnPressed:(id)sender {

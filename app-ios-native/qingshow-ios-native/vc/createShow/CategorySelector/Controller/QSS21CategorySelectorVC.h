@@ -10,5 +10,5 @@
 
 @interface QSS21CategorySelectorVC : UIViewController
 
-- (instancetype)init;
+- (instancetype)initWithCategories:(NSArray*)array;
 @end
