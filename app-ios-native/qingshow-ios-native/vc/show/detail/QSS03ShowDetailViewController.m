@@ -114,17 +114,46 @@
 - (void)bindWithDict:(NSDictionary*)dict
 {
     [self bindExceptImageWithDict:dict];
-    [self updateShowImgScrollView];
+    
+    NSArray* array = [self generateImagesData];
+    if (array && array.count) {
+        self.scrollViewContainer.hidden = NO;
+        self.coverContainer.hidden = YES;
+        [self updateShowImgScrollView];
+    } else {
+        self.scrollViewContainer.hidden = YES;
+        self.coverContainer.hidden = NO;
+        [self updateCover];
+    }
+
+}
+- (void)updateCover {
+    [self.coverImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict]];
+    [self.coverForegroundImageView setImageFromURL:[QSShowUtil getCoverForegroundUrl:self.showDict]];
+    [self.coverBackgroundImageView setImageFromURL:[QSShowUtil getCoverBackgroundUrl:self.showDict]];
 }
 
 - (void)bindExceptImageWithDict:(NSDictionary*)dict
-{   
+{    
+    self.playBtn.hidden = !self.generateVideoPath;
+
     //Like Btn
     [self setLikeBtnHover:[QSShowUtil getIsLike:dict]];
     
     [self.commentBtn setTitle:[QSShowUtil getNumberCommentsDescription:dict] forState:UIControlStateNormal];
     [self.favorBtn setTitle:[QSShowUtil getNumberLikeDescription:dict] forState:UIControlStateNormal];
     [self.itemBtn setTitle:[QSShowUtil getNumberItemDescription:self.showDict] forState:UIControlStateNormal];
+    
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
+    if (!peopleDict) {
+        self.headIconImageView.hidden = YES;
+        self.modelNameLabel.hidden = YES;
+    } else {
+        self.headIconImageView.hidden = NO;
+        [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+        self.modelNameLabel.hidden = NO;
+        self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -259,7 +288,7 @@
 }
 - (NSString*)generateVideoPath
 {
-    return self.showDict[@"video"];
+    return [QSShowUtil getVideoPath:self.showDict];
 }
 
 #pragma mark Btn

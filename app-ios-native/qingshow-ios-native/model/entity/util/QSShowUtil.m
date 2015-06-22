@@ -51,6 +51,28 @@
     }
     return [NSURL URLWithString:cover];
 }
+
++ (NSURL*)getCoverBackgroundUrl:(NSDictionary*)dict {
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = [dict valueForKeyPath:@"coverInfo.background"];
+    if ([QSCommonUtil checkIsNil:cover]) {
+        return nil;
+    }
+    return [NSURL URLWithString:cover];
+}
++ (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict {
+    if ([QSCommonUtil checkIsNil:dict]) {
+        return nil;
+    }
+    NSString* cover = [dict valueForKeyPath:@"coverInfo.foreground"];
+    if ([QSCommonUtil checkIsNil:cover]) {
+        return nil;
+    }
+    return [NSURL URLWithString:cover];
+}
+
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
 {
     if ([QSCommonUtil checkIsNil:dict]) {
@@ -100,7 +122,34 @@
     return nil;
 }
 
-
++ (NSDictionary*)getPeopleFromShow:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
+    if (showDict) {
+        NSDictionary* peopleDict = showDict[@"modelRef"];
+        if ([QSCommonUtil checkIsNil:peopleDict]) {
+            return peopleDict;
+        } else {
+#warning 需要优化
+            NSMutableDictionary* mP = [peopleDict mutableCopy];
+            [self setPeople:mP show:showDict];
+            return mP;
+        }
+    }
+    return nil;
+}
++ (void)setPeople:(NSDictionary*)peopleDict show:(NSDictionary*)showDict
+{
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return;
+    }
+    if ([showDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)showDict;
+        s[@"modelRef"] = peopleDict;
+    }
+}
 + (NSString*)getNumberCommentsDescription:(NSDictionary*)showDict
 {
     if ([QSCommonUtil checkIsNil:showDict]) {
@@ -260,5 +309,15 @@
     } else {
         return dict;
     }
+}
++ (NSString*)getVideoPath:(NSDictionary*)showDict {
+    if ([QSCommonUtil checkIsNil:showDict]) {
+        return nil;
+    }
+    NSString* videoPath = showDict[@"video"];
+    if ([QSCommonUtil checkIsNil:videoPath] || !videoPath.length) {
+        return nil;
+    }
+    return videoPath;
 }
 @end
