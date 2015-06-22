@@ -253,6 +253,7 @@
 		EFB1ADE61B372080007893AB /* QSMatcherItemImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADE11B372080007893AB /* QSMatcherItemImageView.xib */; };
 		EFB1ADE71B372080007893AB /* QSMatcherItemSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE31B372080007893AB /* QSMatcherItemSelectionView.m */; };
 		EFB1ADE81B372080007893AB /* QSMatcherItemSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADE41B372080007893AB /* QSMatcherItemSelectionView.xib */; };
+		EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADEA1B386889007893AB /* QSNetworkEngine+MatcherService.m */; };
 		EFBA0B621A2387090014A05B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFBA0B611A2387090014A05B /* MediaPlayer.framework */; };
 		EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFBC76481B332A6200832116 /* QSBadgeButton.m */; };
 		EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFBC764A1B332AEC00832116 /* QSBadgeButton.xib */; };
@@ -761,7 +762,7 @@
 		EFA98A771A38862800A8BFC7 /* QSNetworkEngine+Protect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+Protect.h"; sourceTree = "<group>"; };
 		EFA98A781A38862800A8BFC7 /* QSNetworkEngine+Protect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+Protect.m"; sourceTree = "<group>"; };
 		EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+ShowService.h"; sourceTree = "<group>"; };
-		EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+ShowService.m"; sourceTree = "<group>"; };
+		EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "QSNetworkEngine+ShowService.m"; path = "model/network/service/QSNetworkEngine+ShowService.m"; sourceTree = "<group>"; };
 		EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+PeopleService.h"; sourceTree = "<group>"; };
 		EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+PeopleService.m"; sourceTree = "<group>"; };
 		EFA98A801A38923300A8BFC7 /* QSCommonUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCommonUtil.h; sourceTree = "<group>"; };
@@ -828,6 +829,8 @@
 		EFB1ADE21B372080007893AB /* QSMatcherItemSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemSelectionView.h; sourceTree = "<group>"; };
 		EFB1ADE31B372080007893AB /* QSMatcherItemSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemSelectionView.m; sourceTree = "<group>"; };
 		EFB1ADE41B372080007893AB /* QSMatcherItemSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemSelectionView.xib; sourceTree = "<group>"; };
+		EFB1ADE91B386889007893AB /* QSNetworkEngine+MatcherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "QSNetworkEngine+MatcherService.h"; sourceTree = "<group>"; };
+		EFB1ADEA1B386889007893AB /* QSNetworkEngine+MatcherService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "QSNetworkEngine+MatcherService.m"; sourceTree = "<group>"; };
 		EFBA0B611A2387090014A05B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		EFBC76471B332A6200832116 /* QSBadgeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSBadgeButton.h; sourceTree = "<group>"; };
 		EFBC76481B332A6200832116 /* QSBadgeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSBadgeButton.m; sourceTree = "<group>"; };
@@ -1602,13 +1605,14 @@
 				EFA98A701A38816F00A8BFC7 /* QSNetworkEngine+UserService.h */,
 				EFA98A711A38816F00A8BFC7 /* QSNetworkEngine+UserService.m */,
 				EFA98A7A1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.h */,
-				EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */,
 				EFA98A7D1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.h */,
 				EFA98A7E1A388C2E00A8BFC7 /* QSNetworkEngine+PeopleService.m */,
 				EF1F52AF1ABB281100E7EDDF /* QSNetworkEngine+TradeService.h */,
 				EF1F52B01ABB281100E7EDDF /* QSNetworkEngine+TradeService.m */,
 				68D2B7ED1B18439500731B71 /* QSNetworkEngine+SpreadService.h */,
 				68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */,
+				EFB1ADE91B386889007893AB /* QSNetworkEngine+MatcherService.h */,
+				EFB1ADEA1B386889007893AB /* QSNetworkEngine+MatcherService.m */,
 			);
 			path = service;
 			sourceTree = "<group>";
@@ -1766,6 +1770,7 @@
 				EF9A74201A02A82600095F07 /* QSAppDelegate.h */,
 				EF9A74211A02A82600095F07 /* QSAppDelegate.m */,
 				EF9A74291A02A82600095F07 /* Images.xcassets */,
+				EFA98A7B1A388BE200A8BFC7 /* QSNetworkEngine+ShowService.m */,
 				EF9A74181A02A82600095F07 /* Supporting Files */,
 			);
 			path = "qingshow-ios-native";
@@ -2713,6 +2718,7 @@
 				EF0C642C1B21AAC20079B22E /* QSU02InfoTextCell.m in Sources */,
 				EFAB9C651B346FE5008A4EF5 /* QSWaterfallBasicProvider.m in Sources */,
 				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
+				EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,
 				EF30133D1AC3174000568D92 /* openssl_wrapper.m in Sources */,
 				EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */,
