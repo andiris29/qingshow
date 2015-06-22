@@ -137,7 +137,7 @@
        NSForegroundColorAttributeName:[UIColor blackColor]}];
     [self.badgeView.btnGroup triggerSelectType:QSBadgeButtonTypeMatcher];
     self.badgeView.followBtn.hidden = self.isCurrentUser;
-
+    [self.badgeView.followBtn addTarget:self action:@selector(followBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 
@@ -294,5 +294,13 @@
 
 - (void)didReceiveCurrentUserInfoUpdate:(NSNotification*)noti{
     [self updateViewWithList];
+}
+
+- (void)followBtnPressed:(id)sender {
+    [SHARE_NW_ENGINE handleFollowModel:self.userInfo onSucceed:^(BOOL f) {
+        self.badgeView.followBtn.selected = f;
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
 }
 @end
