@@ -22,16 +22,15 @@
 
 @end
 
-typedef NS_ENUM(NSInteger, QSShowDelegateObjType) {
-    QSShowWaterfallDelegateObjTypeWithoutDate = 0,
-    QSShowWaterfallDelegateObjTypeWithDate = 1
+typedef NS_ENUM(NSInteger, QSShowProviderType) {
+    QSShowProviderTypeWithoutDate = 0,
+    QSShowProviderTypeWithDate = 1
 };
 
 
 @interface QSShowCollectionViewProvider : QSWaterfallBasicProvider< QSShowCollectionViewCellDelegate>
 
-@property (assign, nonatomic) QSShowDelegateObjType type;
-@property (assign, nonatomic) QSShowCollectionViewCellType cellType;
+@property (assign, nonatomic) QSShowProviderType type;
 
 @property (weak, nonatomic) NSObject<QSShowProviderDelegate>* delegate;
 

@@ -63,13 +63,13 @@
 {
     
     UISegmentedControl *segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
-    segmentControl.frame = CGRectMake(110, 10, 120, 30);
+    segmentControl.frame = CGRectMake(0, 0, 120, 30);
     [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
     [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
     segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
     _segIndex = segmentControl.selectedSegmentIndex;
-    [self.navigationController.navigationBar addSubview:segmentControl];
+    self.navigationItem.titleView = segmentControl;
 }
 
 

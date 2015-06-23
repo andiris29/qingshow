@@ -36,9 +36,9 @@
 @property (strong, nonatomic) NSDictionary* userInfo;
 @property (assign, nonatomic) BOOL isCurrentUser;
 #pragma mark Provider
-@property (strong,nonatomic) QSMatchCollectionViewProvider *matchProvider;
+@property (strong,nonatomic) QSShowCollectionViewProvider *matchProvider;
 @property (strong, nonatomic) QSImageCollectionViewProvider* recommendProvider;
-@property (strong, nonatomic) QSFavorTableViewProvider *favorProvider;
+@property (strong, nonatomic) QSShowCollectionViewProvider *favorProvider;
 @property (strong, nonatomic) QSPeopleListTableViewProvider* followingProvider;
 @property (strong, nonatomic) QSPeopleListTableViewProvider* followerProvider;
 
@@ -72,7 +72,8 @@
     
     
     //Matcher
-    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
+//    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
+    self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
     
     //Recommend
     self.recommendProvider  = [[QSImageCollectionViewProvider alloc] init];
@@ -117,7 +118,7 @@
     };
     
     //Favor
-    self.favorProvider = [[QSFavorTableViewProvider alloc] init];
+    self.favorProvider = [[QSShowCollectionViewProvider alloc] init];
     //Following
     self.followingProvider = [[QSPeopleListTableViewProvider alloc] init];
     //Follower
@@ -153,8 +154,11 @@
     self.userInfo = [QSUserManager shareUserManager].userInfo;
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
-    
-    [self.recommendProvider refreshClickedData];
+    [self.matchProvider reloadData];
+    [self.recommendProvider reloadData];
+    [self.favorProvider reloadData];
+    [self.followingProvider reloadData];
+    [self.followerProvider reloadData];
     
 }
 
@@ -184,11 +188,16 @@
     __weak QSU01UserDetailViewController* weakSelf = self;
     
     //Matcher
-
-#warning TODO Matcher
-    //    [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
+    self.matchProvider.hasRefreshControl = NO;
+    self.matchProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+#warning TODO Change with query matcher
+        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+    };
+    [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
+    self.matchProvider.delegate = self;
+    [self.matchProvider reloadData];
     
-    //Favor
+    //Recommend
     self.recommendProvider.hasRefreshControl = NO;
     [self.recommendProvider bindWithCollectionView:self.recommendCollectionView];
     self.recommendProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -216,8 +225,16 @@
 
     //Favor
     self.favorProvider.hasRefreshControl = NO;
-//    [self.favorProvider bindWithTableView:self.favorCollectionView];
-#warning Favor
+    self.favorProvider.networkBlock =^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getLikeFeedingUser:[QSUserManager shareUserManager].userInfo page:page onSucceed:^(NSArray *array, NSDictionary *metadata) {
+            succeedBlock(array, metadata);
+        } onError:^(NSError *error) {
+            errorBlock(error);
+        }];
+    };
+    [self.favorProvider bindWithCollectionView:self.favorCollectionView];
+    self.favorProvider.delegate = self;
+    [self.favorProvider reloadData];
     
     //Following
     self.followingProvider.hasRefreshControl = NO;

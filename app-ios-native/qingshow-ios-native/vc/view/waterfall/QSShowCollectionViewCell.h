@@ -19,35 +19,30 @@
 
 @end
 
-typedef NS_ENUM(NSUInteger, QSShowCollectionViewCellType)
-{
-    QSShowCollectionViewCellTypeNormal,
-    QSShowCollectionViewCellTypeTopic
-};
 
 
 @interface QSShowCollectionViewCell : UICollectionViewCell
 
 @property (strong, nonatomic) IBOutlet UIImageView *photoImageView;
+@property (strong, nonatomic) IBOutlet UIImageView* backgroundImageView;
+@property (strong, nonatomic) IBOutlet UIImageView* foregroundImageView;
+
 @property (strong, nonatomic) IBOutlet UIImageView *headIconImageView;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
-@property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property (strong, nonatomic) IBOutlet UILabel *favorNumberLabel;
 @property (strong, nonatomic) IBOutlet UIButton* favorButton;
-@property (strong, nonatomic) IBOutlet UIImageView *shadowImageView;
 @property (strong, nonatomic) IBOutlet UIView* modelTapView;
-@property (strong, nonatomic) IBOutlet UIButton* playBtn;
-- (IBAction)favorBtnPressed:(id)sender;
 
-@property (assign, nonatomic) QSShowCollectionViewCellType type;
+
+
 @property (weak, nonatomic) NSObject<QSShowCollectionViewCellDelegate>* delegate;
 
+- (IBAction)favorBtnPressed:(id)sender;
 //Show
 - (void)bindData:(NSDictionary*)showData;
 
 //static
 + (float)getHeightWithData:(NSDictionary*)showData;
 + (CGSize)getSizeWithData:(NSDictionary*)showData;
-//IBAction
-- (IBAction)playBtnPressed:(id)sender;
+
 @end

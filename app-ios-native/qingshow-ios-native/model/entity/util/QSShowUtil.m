@@ -136,10 +136,10 @@
         return nil;
     }
     NSDictionary* peopleDict = [showDict valueForKeyPath:@"__context.createdBy"];
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return nil;
-    } else {
+    if ([QSCommonUtil checkIsDict:peopleDict]) {
         return peopleDict;
+    } else {
+        return nil;
     }
 
 }

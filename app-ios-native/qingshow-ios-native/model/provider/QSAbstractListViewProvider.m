@@ -83,6 +83,9 @@
     if (self.refreshOperation && page != 1) {
         return nil;
     }
+    if (!self.networkBlock) {
+        return nil;
+    }
     
     MKNetworkOperation* op = self.networkBlock(^(NSArray *showArray, NSDictionary *metadata) {
         self.metadataDict = metadata;

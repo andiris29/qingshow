@@ -110,6 +110,9 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
+    if (!peopleDict) {
+        return nil;
+    }
     return [self startOperationWithPath:PATH_PEOPLE_QUERY_FOLLOWER method:@"GET" paramers:@{@"_id" : peopleDict[@"_id"], @"pageNo" : @(page),@"paegSize" : @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         NSArray* a = responseDict[@"data"][@"peoples"];

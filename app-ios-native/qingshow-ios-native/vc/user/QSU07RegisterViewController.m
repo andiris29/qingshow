@@ -6,7 +6,6 @@
 //  Copyright (c) 2014年 QS. All rights reserved.
 //
 
-#import "QSS01RootViewController.h"
 #import "QSU06LoginViewController.h"
 #import "QSU07RegisterViewController.h"
 #import "UIViewController+ShowHud.h"

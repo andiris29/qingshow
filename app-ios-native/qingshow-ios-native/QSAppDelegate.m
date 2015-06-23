@@ -48,7 +48,6 @@
     [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    UIViewController* vc = [[QSS01RootViewController alloc] init];
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
     
     UINavigationController* nav = [[QSNavigationController alloc] initWithRootViewController:vc];

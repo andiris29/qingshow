@@ -21,7 +21,7 @@
 {
     self = [super init];
     if (self) {
-        self.cellType = QSShowCollectionViewCellTypeNormal;
+        self.type = QSShowProviderTypeWithoutDate;
     }
     return self;
 }
@@ -58,7 +58,7 @@
 - (NSDictionary*)getShowDictForIndexPath:(NSIndexPath*)indexPath
 {
     NSInteger index = indexPath.row;
-    if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
+    if (self.type == QSShowProviderTypeWithDate) {
         index -= 1;
     }
     if (index < 0) {
@@ -70,7 +70,7 @@
 - (NSIndexPath*)getIndexPathOfShow:(NSDictionary*)showDict
 {
     NSInteger index = [self.resultArray indexOfObject:showDict];
-    if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
+    if (self.type == QSShowProviderTypeWithDate) {
         index += 1;
     }
     
@@ -88,7 +88,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
+    if (self.type == QSShowProviderTypeWithDate && indexPath.row == 0) {
         
         return CGSizeMake(([UIScreen mainScreen].bounds.size.width - 2) / 2, 35);
     } else {
@@ -111,7 +111,7 @@
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (self.type == QSShowWaterfallDelegateObjTypeWithDate) {
+    if (self.type == QSShowProviderTypeWithDate) {
         return self.resultArray.count + 1;
     } else {
         return self.resultArray.count;
@@ -121,14 +121,13 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionViews cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.type == QSShowWaterfallDelegateObjTypeWithDate && indexPath.row == 0) {
+    if (self.type == QSShowProviderTypeWithDate && indexPath.row == 0) {
         QSTimeCollectionViewCell* cell = (QSTimeCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSTimeCollectionViewCell" forIndexPath:indexPath];
         [cell bindWithMetadata:self.metadataDict];
         return cell;
     } else {
         QSShowCollectionViewCell* cell = (QSShowCollectionViewCell*)[collectionViews dequeueReusableCellWithReuseIdentifier:@"QSShowCollectionViewCell" forIndexPath:indexPath];
         cell.delegate = self;
-        cell.type = self.cellType;
         NSDictionary* dict = [self getShowDictForIndexPath:indexPath];
         [cell bindData:dict];
         

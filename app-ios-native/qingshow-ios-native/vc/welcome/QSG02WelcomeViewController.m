@@ -7,8 +7,7 @@
 //
 
 #import "QSG02WelcomeViewController.h"
-//#import "QSS01RootViewController.h"
-//#import "QSAppDelegate.h"
+
 #define PAGE_ID @"G02 - 欢迎页"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -158,7 +157,6 @@
 //    [defaults synchronize];
 //    
 //    QSAppDelegate *delegate = (QSAppDelegate *)[UIApplication sharedApplication].delegate;
-//    delegate.window.rootViewController = [[QSS01RootViewController alloc] init];
     
     if ([self.delegate respondsToSelector:@selector(dismissWelcomePage:)]) {
         [self.delegate dismissWelcomePage:self];
