@@ -31,10 +31,10 @@ properties.parse(configPath, configOptions, function(error, config) {
 
     //Database Connection
     var qsdb = require('./runtime/qsdb');
-    qsdb.connect(config);
+    qsdb.connect(config.mongodb);
 
     // Startup http server
-    require('./httpserver/startup')(config.server.port, config.server.folder_uploads, config.server.http_server_uploads, qsdb);
+    require('./httpserver/startup')(config, qsdb);
 
     // Startup scheduled
     require('./scheduled/startup')();

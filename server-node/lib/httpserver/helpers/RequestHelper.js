@@ -54,3 +54,23 @@ RequestHelper.parseIds = function(string) {
         return RequestHelper.parseId(element);
     });
 };
+
+RequestHelper.parseFile = function(req, uploadPath, callback) {
+    var formidable = require('formidable');
+    var path = require('path');
+
+    var form = new formidable.IncomingForm();
+    form.uploadDir = uploadPath;
+    form.keepExtensions = true;
+    form.parse(req, function(err, fields, files) {
+        if (err) {
+            callback(err);
+        }
+        var file;
+        for (var key in files) {
+            file = files[key];
+        }
+        callback(null, fields, file);
+    });
+};
+

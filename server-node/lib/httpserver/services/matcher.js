@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var path = require('path');
 
 // model
 var Category = require('../../model/categories');
@@ -42,7 +43,7 @@ matcher.queryItems = {
             var id = RequestHelper.parseId(qsParam.category);
             var criteria = {
                 'categoryRef' : id
-            }
+            };
             MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
         }, function(items) {
             // responseDataBuilder
@@ -91,19 +92,13 @@ matcher.save = {
             }
         });
     }
-}
+};
 
 matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var formidable = require('formidable');
-        var path = require('path');
-
-        var form = new formidable.IncomingForm();
-        form.uploadDir = global.__qingshow_uploads.folder;
-        form.keepExtensions = true;
-        form.parse(req, function(err, fields, files) {
+        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.localPath, function(err, fields, file) {
             if (err) {
                 ResponseHelper.response(res, err);
                 return;
@@ -112,7 +107,6 @@ matcher.updateCover = {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
                 return;
             }
-            var file = files['cover'];
             if (!file) {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
                 return;
@@ -121,7 +115,7 @@ matcher.updateCover = {
                 '_id' : RequestHelper.parseId(fields['_id']),
                 'ugc' : true
             }, function(err, show) {
-                show.set('cover', global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
+                show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.localPath, file.path));
                 show.save(function(err, show) {
                     ResponseHelper.response(res, err, {
                         'show' : show
@@ -131,4 +125,4 @@ matcher.updateCover = {
         });
         return;
     }
-}
+};
