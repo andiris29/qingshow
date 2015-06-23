@@ -49,7 +49,7 @@ public class S21CategoryActivity extends Activity {
 
     private List<Map<String, String>> getListInfo() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             Map<String, String> map = new HashMap<String, String>();
             map.put(ITEM_NAME, "TITLE");
             map.put(ITEM_CONTENT_1, "CONTENT");
