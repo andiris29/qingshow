@@ -83,7 +83,14 @@ public class QSAppWebAPI {
     private static final String USER_RECOMMENDATION = HOST_NAME + "/feeding/recommendation";
     private static final String SPREAD_FIRSTLANUCH_API = HOST_NAME + "/spread/firstLaunch";
 
-    public static String getSpreadFirstlanuchApi(){
+    private static final String QUERY_CATEGORIES = HOST_NAME + "/matcher/queryCategories";
+//    private static final String QUERY_ITMES=HOST_NAME+"";
+
+    public static String getQueryCategories(){
+        return  QUERY_CATEGORIES;
+    }
+
+    public static String getSpreadFirstlanuchApi() {
         return SPREAD_FIRSTLANUCH_API;
     }
 
@@ -108,16 +115,17 @@ public class QSAppWebAPI {
     public static String getChosenApi(String type) {
         return CHOSEN_API + "?type=" + type;
     }
+
     private static final String CHOSEN_FEED_API = HOST_NAME + "/chosen/feed";
 
     private static final String FEEDING_RECOMMENDATION_API = HOST_NAME + "/feeding/recommendation";
 
-    public static String getFeedingRecommendationApi(){
+    public static String getFeedingRecommendationApi() {
         return FEEDING_RECOMMENDATION_API;
     }
 
-    public static String getChosenFeedApi(String type, int pageNo, int pageSize){
-        return CHOSEN_FEED_API + "?type="+ type +"&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    public static String getChosenFeedApi(String type, int pageNo, int pageSize) {
+        return CHOSEN_FEED_API + "?type=" + type + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getTopicListApi() {
@@ -125,7 +133,7 @@ public class QSAppWebAPI {
     }
 
 
-    public static final String getFeedingTopicApi(String _id, int pageNo, int pageSize){
+    public static final String getFeedingTopicApi(String _id, int pageNo, int pageSize) {
         return FEEDING_TOPIC_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
@@ -193,7 +201,7 @@ public class QSAppWebAPI {
         return PREVIEW_TREND_LIST_API + "?pageNo=" + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getPreviewQuerycommentsApi(String _id, int pageIndex, int pageSize){
+    public static String getPreviewQuerycommentsApi(String _id, int pageIndex, int pageSize) {
         return PREVIEW_QUERYCOMMENTS_API + "?_id=" + _id + "&pageNo=" + pageIndex + "&pageSize=" + pageSize;
     }
 
@@ -232,14 +240,14 @@ public class QSAppWebAPI {
     }
 
     public static String getCommentPostApi(int API_TYPE) {
-        if(API_TYPE == 1){//preview
+        if (API_TYPE == 1) {//preview
             return PREVIEW_COMMENT_POST_API;
         }
         return COMMENT_POST_API;
     }
 
     public static String getCommentDeleteApi(int API_TYPE) {
-        if(API_TYPE == 1){
+        if (API_TYPE == 1) {
             return PREVIEW_COMMENT_DEL_API;
         }
         return COMMENT_DELETE_API;

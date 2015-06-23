@@ -161,7 +161,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
             case R.id.navigation_btn_match:
               //  startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
               //  finish();
-                startActivity(new Intent(MenuActivity.this, S21CategoryActivity.class));// tempReset[position] = tv;临时入口
+                startActivity(new Intent(MenuActivity.this, S21CategoryActivity.class));// 临时入口
                 break;
             case R.id.navigation_btn_good_match:
                 startActivity(new Intent(MenuActivity.this, S18ShowByDateActivity.class));
