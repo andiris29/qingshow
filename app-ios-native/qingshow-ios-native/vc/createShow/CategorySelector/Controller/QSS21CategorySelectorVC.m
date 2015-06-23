@@ -84,13 +84,15 @@
 {
     self.provider = [[QSS21TableViewProvider alloc] init];
     self.provider.delegate = self;
+    self.provider.dataArray = self.categories;
     [self.provider bindWithTableView:self.tableView];
 }
 
 #pragma mark -- 开始搭配
 - (IBAction)goToMakeShow:(UIButton *)sender {
 #warning TODO//获取provider的resultArray
-    
+    NSArray *result = [self.provider getResultArray];
+    NSLog(@"%@",result);
 }
 
 @end

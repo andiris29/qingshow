@@ -8,10 +8,17 @@
 
 #import "QSS21TableViewCell.h"
 #import "QSS21ItemButton.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSS21TableViewProvider.h"
+
 #define seletedColor [UIColor colorWithRed:234/255.0 green:128/255.0 blue:146/255.0 alpha:1.0] 
+#define kItemWith 94.0
+#define kItemHeight 117.0
 
+@interface QSS21TableViewCell ()
+
+@end
 @implementation QSS21TableViewCell
-
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -24,6 +31,21 @@
 
 #pragma mark -- 左右箭头触发事件
 - (IBAction)changePage:(UIButton *)sender {
+    CGFloat contentOffsetX = self.scrollView.contentOffset.x;
+    [UIView animateWithDuration:0.3 animations:^{
+        if (sender.tag) {
+            if (contentOffsetX > self.scrollView.contentSize.width - kItemWith*3) {
+                return;
+            }
+            self.scrollView.contentOffset = CGPointMake(contentOffsetX + kItemWith, 0);
+        }else{
+            if (contentOffsetX < kItemWith || contentOffsetX == kItemWith) {
+                self.scrollView.contentOffset = CGPointMake(0, 0);
+                return;
+            }
+            self.scrollView.contentOffset = CGPointMake(contentOffsetX - kItemWith, 0);
+        }
+    }];
     
 }
 
@@ -33,14 +55,17 @@
     //设置title圆角
     [self setTitleButtonCornerRadius];
     
-    NSArray *array = cellDic[@""];
+    NSString *titleStr = cellDic[@"name"];
+    [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
+    
+    NSArray *array = cellDic[@"children"];
     [self setItemsWith:array];
 }
 
 #pragma mark -- 设置scrollView item
 - (void)setItemsWith:(NSArray *)array
 {
-    self.scrollView.contentSize = CGSizeMake(7*94, 117);
+    self.scrollView.contentSize = CGSizeMake(7*kItemWith, kItemHeight);
     for (int i = 0; i < 7; i ++) {
         
         //初始化resultArray
@@ -51,12 +76,26 @@
         item.frame = CGRectMake(i *94, 0, 64, 117);
         
         [item addTarget:self action:@selector(changeitemState:) forControlEvents:UIControlEventTouchUpInside];
-#warning TODO 设置item的title image （normal/selected）
-        [item setTitle:@"哈哈" forState:UIControlStateNormal];
-//        [item setTitle:@"哈哈" forState:UIControlStateSelected];
-//
-//        [item setImage:[UIImage imageNamed:@"baidi"] forState:UIControlStateNormal];
-//        [item setImage:[UIImage imageNamed:@"hongdi"] forState:UIControlStateNormal];
+        
+//      设置item的title image （normal/selected）
+//        NSDictionary *itemDic = array[i];
+//        item.itemDic = itemDic;
+        item.itemDic = @{@"llajl":@"xiaoliu"};
+//        NSString *itemName = itemDic[@"name"];
+//        [item setTitle:itemName forState:UIControlStateNormal];
+//        [item setTitle:itemName forState:UIControlStateSelected];
+//        
+//        NSString *imgUrl = itemDic[@"icon"];
+//        NSString *imgSelectedUrl = itemDic[@"icon"];
+//        NSString *testUrl = @"";
+//        
+//        NSData *normalImgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl]];
+//        NSData *selectedImdData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgSelectedUrl]];
+//        
+//        UIImage *norMalImg = [[UIImage alloc] initWithData:normalImgData];
+//        UIImage *selectedImg = [[UIImage alloc] initWithData:selectedImdData];
+//        [item setImage:norMalImg forState:UIControlStateNormal];
+//        [item setImage:selectedImg forState:UIControlStateSelected];
         
         [self.scrollView addSubview:item];
     }
@@ -74,7 +113,8 @@
             itemBT.selected = NO;
         }
     }
-#warning  TODO //更改数据传值 可以为cell 加一个属性 给provider观察者
+    QSS21ItemButton *itemButton = (QSS21ItemButton *)item;
+    self.recordDic = itemButton.itemDic;
     item.selected = YES;
     
 }

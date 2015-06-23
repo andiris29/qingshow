@@ -10,5 +10,5 @@
 
 @interface QSS21ItemButton : UIButton
 
-@property (copy ,nonatomic)NSString *flog;
+@property (strong  ,nonatomic)NSDictionary *itemDic;
 @end
