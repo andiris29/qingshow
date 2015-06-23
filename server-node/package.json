@@ -25,6 +25,7 @@
     "request": "2.44.*",
     "session-mongoose": "^0.5.2",
     "underscore": "1.7.*",
-    "winston": "0.8.3"
+    "winston": "0.8.3",
+    "properties" : "1.*"
   }
 }
