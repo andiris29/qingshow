@@ -43,6 +43,7 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
         
+       // NSLog(@"result Array = %@",self.resultArray);
        // [cell bindWithDic:self.resultArray[indexPath.item]];
         return (UICollectionViewCell *)cell;
     }
