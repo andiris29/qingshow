@@ -8,7 +8,9 @@
 
 #import "QSS01MatchShowsViewController.h"
 #import "QSMatchCollectionViewProvider.h"
-#import "MKNetworkKit.h"
+#import "QSBlock.h"
+#import "QSNetworkKit.h"
+#import "QSShareViewController.h"
 
 #define PAGE_ID @"新美搭榜单"
 
@@ -31,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib
     [self configNav];
     [self configProvider];
 }
@@ -45,11 +47,16 @@
 {
     _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
     _matchCollectionViewProvider.delegate = self;
+    _matchCollectionViewProvider.type = 1;
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
-#warning networkBlock先随便用一个show的network api
-   // _matchCollectionViewProvider.networkBlock = nil;
-   // [_matchCollectionViewProvider fetchDataOfPage:1];
-    //[self.matchCollectionViewProvider reloadData];
+#warning  TODO  change test NET
+    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+        //        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
+    };
+
+    [_matchCollectionViewProvider fetchDataOfPage:1];
+    [self.matchCollectionViewProvider reloadData];
 }
 
 - (void)configNav
@@ -61,20 +68,24 @@
     [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
     segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
+    _segIndex = segmentControl.selectedSegmentIndex;
     [self.navigationController.navigationBar addSubview:segmentControl];
 }
 
-#warning CHANGE dic
+
 - (void)changeEvents
 {
 #warning TODO 可以改成用两个provider,每个provider管不同segIndex
+#warning TODO change dic
     if(_segIndex == 1)
     {
         
+        [self.matchCollectionViewProvider reloadData];
     }
     else
     {
         
+        [self.matchCollectionViewProvider reloadData];
     }
 }
 - (void)didReceiveMemoryWarning {

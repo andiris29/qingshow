@@ -14,6 +14,8 @@
 + (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict;
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict;
 
++ (NSString *)getRecommendGroup:(NSDictionary *)dict;
+
 + (NSString*)getShowDesc:(NSDictionary*)showDict;
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;
