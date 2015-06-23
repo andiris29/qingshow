@@ -33,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    // Do any additional setup after loading the view from its nib
     [self configNav];
     [self configProvider];
 }
@@ -68,6 +68,7 @@
     [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
     segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
+    _segIndex = segmentControl.selectedSegmentIndex;
     [self.navigationController.navigationBar addSubview:segmentControl];
 }
 

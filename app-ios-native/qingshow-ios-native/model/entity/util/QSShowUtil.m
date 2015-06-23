@@ -72,6 +72,14 @@
     }
     return [NSURL URLWithString:cover];
 }
++ (NSString *)getRecommendGroup:(NSDictionary *)dict
+{
+    NSString *groupStr = [dict valueForKey:@"recommend.group"];
+    if ([QSCommonUtil checkIsNil:groupStr]) {
+        return nil;
+    }
+    return groupStr;
+}
 
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict
 {
