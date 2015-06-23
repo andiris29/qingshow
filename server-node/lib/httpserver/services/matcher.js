@@ -18,7 +18,7 @@ var ServerError = require('../server-error');
 
 var matcher = module.exports;
 
-matcher.queryCategory = {
+matcher.queryCategories = {
     'method' : 'get',
     'func' : function(req, res) {
         Category.find({}).exec(function(err, categories) {
@@ -43,7 +43,7 @@ matcher.queryItems = {
             var criteria = {
                 'categoryRef' : id
             }
-            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+            MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
         }, function(items) {
             // responseDataBuilder
             return {
