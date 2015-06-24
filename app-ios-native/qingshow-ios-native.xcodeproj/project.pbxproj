@@ -31,6 +31,7 @@
 		68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */; };
 		68D8249F1B17018300BC9FC6 /* QSItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D8249D1B17018300BC9FC6 /* QSItemListCell.m */; };
 		68D824A01B17018300BC9FC6 /* QSItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */; };
+		68E18BF61B3A5C40000A7985 /* hongdi.png in Resources */ = {isa = PBXBuildFile; fileRef = 68E18BF51B3A5C40000A7985 /* hongdi.png */; };
 		68F888011B1BF83A007A36F1 /* NSDate+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F888001B1BF83A007A36F1 /* NSDate+QSExtension.m */; };
 		82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */; };
 		82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B6967C1A19120300518EE5 /* QSU04EmailViewController.xib */; };
@@ -370,6 +371,7 @@
 		68D8249C1B17018300BC9FC6 /* QSItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListCell.h; sourceTree = "<group>"; };
 		68D8249D1B17018300BC9FC6 /* QSItemListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemListCell.m; sourceTree = "<group>"; };
 		68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemListCell.xib; sourceTree = "<group>"; };
+		68E18BF51B3A5C40000A7985 /* hongdi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hongdi.png; sourceTree = "<group>"; };
 		68F887FF1B1BF83A007A36F1 /* NSDate+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+QSExtension.h"; sourceTree = "<group>"; };
 		68F888001B1BF83A007A36F1 /* NSDate+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+QSExtension.m"; sourceTree = "<group>"; };
 		82B6967A1A19120300518EE5 /* QSU04EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU04EmailViewController.h; sourceTree = "<group>"; };
@@ -1087,6 +1089,7 @@
 		68D16CCB1B33ABEC00A4646C /* QS21ItemIcon */ = {
 			isa = PBXGroup;
 			children = (
+				68E18BF51B3A5C40000A7985 /* hongdi.png */,
 				68D16CD21B33C40400A4646C /* baidi@2x.png */,
 				68D16CD31B33C40400A4646C /* hongdi@2x.png */,
 			);
@@ -2546,6 +2549,7 @@
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
+				68E18BF61B3A5C40000A7985 /* hongdi.png in Resources */,
 				68824D931B0EBB57006E3151 /* QSU14FavoriteViewController.xib in Resources */,
 				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
