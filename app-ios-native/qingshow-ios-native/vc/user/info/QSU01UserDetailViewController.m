@@ -73,6 +73,7 @@
     
     //Matcher
 //    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
+#warning type of provider
     self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
     
     //Recommend

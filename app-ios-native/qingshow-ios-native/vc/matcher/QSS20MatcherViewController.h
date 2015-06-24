@@ -8,18 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "QSMatcherItemSelectionView.h"
+#import "QSMatcherCanvasView.h"
 
 @protocol QSMenuProviderDelegate;
 
-@interface QSS20MatcherViewController : UIViewController <QSMatcherItemSelectionViewDataSource, QSMatcherItemSelectionViewDelegate>
+@interface QSS20MatcherViewController : UIViewController <QSMatcherItemSelectionViewDataSource, QSMatcherItemSelectionViewDelegate, QSMatcherCanvasViewDelegate>
 
 - (instancetype)init;
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 @property (weak, nonatomic) IBOutlet UIView *itemSelectionContainer;
+@property (weak, nonatomic) IBOutlet UIView *canvasContainer;
 
 - (IBAction)categorySelectedBtnPressed:(id)sender;
 
 - (IBAction)menuBtnPressed:(id)sender;
+- (IBAction)submitButtonPressed:(id)sender;
 
 @end

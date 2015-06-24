@@ -41,6 +41,7 @@
     NSMutableArray* array = [@[] mutableCopy];
     for (int i = 0; i < 9; i++) {
         QSMatcherItemImageView* v = [QSMatcherItemImageView generateView];
+        [v addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
         [array addObject:v];
         [self.scrollView addSubview:v];
     }
@@ -198,4 +199,13 @@
     }
 }
 
+
+- (void)didClick:(QSMatcherItemImageView*)imgView {
+    int index = [self.itemImageViews indexOfObject:imgView];
+    int baseIndex =self.scrollView.contentOffset.x / self.scrollView.bounds.size.width * 3;
+    int actualIndex = self.currentIndex - baseIndex + index;
+    if ([self.delegate respondsToSelector:@selector(selectionView:didSelectItemAtIndex:)]) {
+        [self.delegate selectionView:self didSelectItemAtIndex:actualIndex];
+    }
+}
 @end
