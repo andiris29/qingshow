@@ -40,6 +40,24 @@ var wrapCallback = function (fullpath, callback) {
     };
 };
 
+var mkdirUploads = function(config) {
+    for (var key in config) {
+        var value = config[key];
+        if (_.isObject(value)) {
+            mkdirUploads(value);
+        } else {
+            if (!fs.existsSync(value)) {
+                require('mkdirp').sync(value);
+            }
+            var files = fs.readdirSync(value);
+            files.forEach(function (file) {
+                if (file.indexOf('.lock') !== -1) {
+                    process.exit();
+                }
+            });
+        }
+    }
+};
 
 module.exports = function (config, qsdb) {
     var app = express();
@@ -47,18 +65,8 @@ module.exports = function (config, qsdb) {
     app.listen(config.server.port);
 
     // Upload
-    [config.uploads.user.portrait.localPath, config.uploads.user.background.localPath, config.uploads.show.cover.localPath].forEach(function(folderUploads, index) {
-        if (!fs.existsSync(folderUploads)) {
-            fs.mkdirSync(folderUploads);
-        }
-        var files = fs.readdirSync(folderUploads);
-        files.forEach(function (file) {
-            if (file.indexOf('.lock') !== -1) {
-                process.exit();
-            }
-        });
-    });
-
+    mkdirUploads(config.uploads);
+    // Cross domain
     app.use(function (req, res, next) {
         // Set header for cross domain
         res.header('Access-Control-Allow-Credentials', true);

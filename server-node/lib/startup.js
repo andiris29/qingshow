@@ -17,11 +17,11 @@ winston.add(winston.transports.DailyRotateFile, {
 
 // Load the config file(config.properties)
 var configPath = path.join(__dirname, 'config.properties');
-var configOptions = {
+properties.parse(configPath, {
     path : true,
-    namespaces : true
-};
-properties.parse(configPath, configOptions, function(error, config) {
+    namespaces : true,
+    variables : true
+}, function(error, config) {
     if (error) {
         console.error (error);
         return;
