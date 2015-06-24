@@ -44,7 +44,11 @@
         }
         
         //NSLog(@"result Array = %@",self.resultArray);
-        //[cell bindWithDic:self.resultArray[indexPath.item]];
+        //NSLog(@"count === %d",self.resultArray.count);
+        if(self.resultArray.count)
+        {
+            [cell bindWithDic:self.resultArray[indexPath.item]];
+        }
         return (UICollectionViewCell *)cell;
     }
     else
@@ -53,7 +57,9 @@
         if (cell == nil) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU01MatchCollectionViewCell" owner:nil options:nil]lastObject];
         }
-        [cell bindWithDic:self.resultArray[indexPath.item]];
+        if (self.resultArray.count) {
+             [cell bindWithDic:self.resultArray[indexPath.item]];
+        }
         return (UICollectionViewCell *)cell;
     }
     

@@ -47,4 +47,9 @@
 - (MKNetworkOperation *)getHotFeedingPage:(int)page
                                 onSucceed:(ArraySuccessBlock)succeedBlock
                                   onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)feedingMatchCreateBy:(NSDictionary*)peopleDict
+                                       page:(int)page
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock;
+
 @end

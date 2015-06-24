@@ -41,6 +41,8 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.submitButton.layer.cornerRadius = 2.f;
+    self.submitButton.layer.masksToBounds = YES;
     // Do any additional setup after loading the view from its nib.
     self.itemSelectionView = [QSMatcherItemSelectionView generateView];
     self.itemSelectionView.frame = self.itemSelectionContainer.bounds;

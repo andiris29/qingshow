@@ -4,11 +4,17 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="lantingjianhei_xi.ttf">
+            <string>FZLTXHJW--GB1-0</string>
+        </mutableArray>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS20MatcherViewController">
             <connections>
                 <outlet property="canvasContainer" destination="nXP-DQ-iBc" id="xU6-cQ-0St"/>
                 <outlet property="itemSelectionContainer" destination="IPv-3T-oo4" id="ZB5-bx-xbM"/>
+                <outlet property="submitButton" destination="Gud-mx-kWh" id="VyE-dd-z4W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,11 +31,15 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sV4-f5-KsD">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLE-BA-R8G">
-                            <rect key="frame" x="8" y="8" width="46" height="30"/>
-                            <state key="normal" title="menu">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLE-BA-R8G">
+                            <rect key="frame" x="14" y="15" width="36" height="36"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="36" id="6dy-8d-PD7"/>
+                                <constraint firstAttribute="width" constant="36" id="CTT-bi-X4J"/>
+                            </constraints>
+                            <state key="normal" image="s03_back_btn">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -37,7 +47,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lP0-aE-IHb">
-                            <rect key="frame" x="119" y="8" width="60" height="30"/>
+                            <rect key="frame" x="123" y="15" width="60" height="30"/>
                             <state key="normal" title="选择分类">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -45,10 +55,16 @@
                                 <action selector="categorySelectedBtnPressed:" destination="-1" eventType="touchUpInside" id="M3F-J8-4me"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gud-mx-kWh">
-                            <rect key="frame" x="221" y="8" width="60" height="30"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gud-mx-kWh">
+                            <rect key="frame" x="230" y="18" width="70" height="24"/>
+                            <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="24" id="H7w-td-7ze"/>
+                                <constraint firstAttribute="width" constant="70" id="zIW-Sl-CjZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <state key="normal" title="发布搭配">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
                                 <action selector="submitButtonPressed:" destination="-1" eventType="touchUpInside" id="gMm-bJ-bCC"/>
@@ -57,30 +73,37 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="43" id="jsd-kb-PgJ"/>
+                        <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="sV4-f5-KsD" secondAttribute="leading" constant="14" id="Qew-X3-sed"/>
+                        <constraint firstAttribute="height" constant="50" id="jsd-kb-PgJ"/>
+                        <constraint firstAttribute="trailing" secondItem="Gud-mx-kWh" secondAttribute="trailing" constant="20" id="mvJ-Ql-52Q"/>
+                        <constraint firstItem="Gud-mx-kWh" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="18" id="yOf-Nl-BNq"/>
+                        <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="15" id="zGi-oh-m5f"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nXP-DQ-iBc">
-                    <rect key="frame" x="0.0" y="43" width="320" height="362"/>
+                    <rect key="frame" x="0.0" y="55" width="320" height="345"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="sV4-f5-KsD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7rZ-OL-ZMh"/>
                 <constraint firstAttribute="trailing" secondItem="sV4-f5-KsD" secondAttribute="trailing" id="SWz-ll-cnY"/>
                 <constraint firstAttribute="trailing" secondItem="IPv-3T-oo4" secondAttribute="trailing" id="X2e-Nn-QdN"/>
                 <constraint firstItem="IPv-3T-oo4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="b9g-Ht-2Ui"/>
-                <constraint firstItem="IPv-3T-oo4" firstAttribute="top" secondItem="nXP-DQ-iBc" secondAttribute="bottom" id="ch5-4Y-c1F"/>
+                <constraint firstItem="IPv-3T-oo4" firstAttribute="top" secondItem="nXP-DQ-iBc" secondAttribute="bottom" constant="5" id="ch5-4Y-c1F"/>
                 <constraint firstAttribute="bottom" secondItem="IPv-3T-oo4" secondAttribute="bottom" id="i4G-kn-vtl"/>
                 <constraint firstItem="sV4-f5-KsD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="oGV-IY-y5Y"/>
                 <constraint firstItem="nXP-DQ-iBc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="s0z-Kj-V0p"/>
                 <constraint firstAttribute="trailing" secondItem="nXP-DQ-iBc" secondAttribute="trailing" id="vaB-31-Idd"/>
-                <constraint firstItem="nXP-DQ-iBc" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="bottom" id="xbj-kt-KmE"/>
+                <constraint firstItem="nXP-DQ-iBc" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="bottom" constant="5" id="xbj-kt-KmE"/>
             </constraints>
-            <point key="canvasLocation" x="467" y="412"/>
+            <point key="canvasLocation" x="462" y="417"/>
         </view>
     </objects>
+    <resources>
+        <image name="s03_back_btn" width="36" height="36"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
