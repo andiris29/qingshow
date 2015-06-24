@@ -24,6 +24,7 @@
 #define PATH_FEEDING_BY_BRAND @"feeding/byBrand"
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
 #define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
+#define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
 
 
 
@@ -161,5 +162,10 @@
 {
     return [self getFeedingPath:PATH_FEEDING_HOT otherParam:nil page:page onSucceed:succeedBlock onError:errorBlock];
 }
-
+- (MKNetworkOperation*)feedingMatchCreateBy:(NSDictionary*)peopleDict
+                                       page:(int)page
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock {
+    return [self getFeedingPath:PATH_FEEDING_MATCH_CREATE_BY otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+}
 @end

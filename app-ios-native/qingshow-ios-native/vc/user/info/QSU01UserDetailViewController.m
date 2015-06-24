@@ -191,8 +191,8 @@
     //Matcher
     self.matchProvider.hasRefreshControl = NO;
     self.matchProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-#warning TODO Change with query matcher
-        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE feedingMatchCreateBy:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+//        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
     self.matchProvider.delegate = self;
