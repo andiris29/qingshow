@@ -24,7 +24,7 @@
         [self.headerImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
     }
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
-    self.userNameLabel.text = [QSShowUtil getRecommentDesc:dict];
+    self.userNameLabel.text = [QSShowUtil getNameStr:dict];
     NSString *groupStr = [QSShowUtil getRecommendGroup:dict];
     if (groupStr) {
         if ([groupStr isEqualToString:@"A1"]) {

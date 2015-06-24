@@ -14,6 +14,7 @@
 + (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict;
 + (NSURL*)getHoriCoverUrl:(NSDictionary*)dict;
 
++ (NSString *)getNameStr:(NSDictionary *)dict;
 + (NSString *)getRecommendGroup:(NSDictionary *)dict;
 
 + (NSString*)getShowDesc:(NSDictionary*)showDict;

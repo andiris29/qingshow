@@ -72,6 +72,17 @@
     }
     return [NSURL URLWithString:cover];
 }
+
++ (NSString *)getNameStr:(NSDictionary *)dict
+{
+    NSString *nameStr = [dict valueForKey:@"__contenxt.createBy.nickname"];
+    NSLog(@"name = %@",nameStr);
+    NSLog(@"id = %@",[dict valueForKey:@"_id"]);
+    if (!nameStr) {
+        return nil;
+    }
+    return nameStr;
+}
 + (NSString *)getRecommendGroup:(NSDictionary *)dict
 {
     NSString *groupStr = [dict valueForKey:@"recommend.group"];
