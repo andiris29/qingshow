@@ -64,11 +64,11 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
 
     // __context.createBy
     var generateCreateBy = function(callback) {
-        _generateCreateBy(RPeopleCreateShow, shows, 'createBy', callback);
+        _initiator(RPeopleCreateShow, People, shows, 'createdBy', callback);
     };
 
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, likeDate, generatePromoInfo], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, likeDate, generatePromoInfo, generateCreateBy], function (err) {
         callback(null, shows);
     });
 };
@@ -176,7 +176,7 @@ var _generatePromoInfo =  function(peopleId, models, contextField, callback) {
     });
 };
 
-var _generateCreateBy = function(RModel, models, contextField, callback) {
+var _initiator = function(RModel, InitiatorModel, models, contextField, callback) {
     var tasks = models.map(function(model) {
         return function(callback) {
             model.__context[contextField] = {};
@@ -185,7 +185,7 @@ var _generateCreateBy = function(RModel, models, contextField, callback) {
                 'targetRef' : model._id
             }, function(err, relationship) {
                 if (!err && relationship) {
-                    People.findOne({
+                    InitiatorModel.findOne({
                         '_id' : relationship.initiatorRef
                     }, function(err, people) {
                         model.__context[contextField] = Boolean(!err && people) ? people : {};
