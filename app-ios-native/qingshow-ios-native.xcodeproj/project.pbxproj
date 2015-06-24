@@ -246,6 +246,8 @@
 		EFAB9C741B347027008A4EF5 /* QSPeopleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */; };
 		EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */; };
 		EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD756F1B3A456400565DED /* QSCategoryUtil.m */; };
+		EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */; };
+		EFAD75761B3A4C8200565DED /* QSMatcherCanvasView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */; };
 		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
 		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
 		EFB1ADE51B372080007893AB /* QSMatcherItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */; };
@@ -817,6 +819,9 @@
 		EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSPeopleListTableViewCell.xib; sourceTree = "<group>"; };
 		EFAD756E1B3A456400565DED /* QSCategoryUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCategoryUtil.h; sourceTree = "<group>"; };
 		EFAD756F1B3A456400565DED /* QSCategoryUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCategoryUtil.m; sourceTree = "<group>"; };
+		EFAD75721B3A4C7300565DED /* QSMatcherCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherCanvasView.h; sourceTree = "<group>"; };
+		EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherCanvasView.m; sourceTree = "<group>"; };
+		EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherCanvasView.xib; sourceTree = "<group>"; };
 		EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSPaymentConst.h; sourceTree = "<group>"; };
 		EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS20MatcherViewController.h; sourceTree = "<group>"; };
 		EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS20MatcherViewController.m; sourceTree = "<group>"; };
@@ -2104,6 +2109,9 @@
 		EFB1ADDD1B372080007893AB /* canvas */ = {
 			isa = PBXGroup;
 			children = (
+				EFAD75721B3A4C7300565DED /* QSMatcherCanvasView.h */,
+				EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */,
+				EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */,
 			);
 			path = canvas;
 			sourceTree = "<group>";
@@ -2586,6 +2594,7 @@
 				EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */,
 				8C8B9D871B00395B00C1A321 /* welcome1_568@2x.png in Resources */,
 				EFF5B9111A3F2F950048E634 /* QSItemListHeaderView.xib in Resources */,
+				EFAD75761B3A4C8200565DED /* QSMatcherCanvasView.xib in Resources */,
 				EF810F341AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib in Resources */,
 				8C8B9D8D1B00395B00C1A321 /* welcome1_736@3x.png in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
@@ -2720,6 +2729,7 @@
 				EF92B7261A3C9F6A00A08F08 /* QSBigImageTableViewCell.m in Sources */,
 				EFD28CF71AB3F56C00991ADD /* QSU11ReceiverEditingViewController.m in Sources */,
 				EFAB9C5F1B346FE5008A4EF5 /* QSImageCollectionModel.m in Sources */,
+				EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */,
 				EFA1F5611A53052100010F79 /* QSImageEditingViewController.m in Sources */,
 				EF3013381AC3174000568D92 /* base64.m in Sources */,
 				EF810F7C1AB602770079BA76 /* QSTotalPriceCell.m in Sources */,

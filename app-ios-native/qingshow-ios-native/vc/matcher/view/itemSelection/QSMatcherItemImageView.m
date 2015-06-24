@@ -43,12 +43,13 @@
 }
 
 - (void)bindWithItem:(NSDictionary*)itemDict {
-    [self.imgView setImageFromURL:[NSURL URLWithString:@"http://trial01.focosee.com/a2015/m06010310.jpg"]];
-//    [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
-//    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
+//    [self.imgView setImageFromURL:[NSURL URLWithString:@"http://trial01.focosee.com/a2015/m06010310.jpg"]];
+    [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    self.priceLabel.text = [QSItemUtil getPrice:itemDict];
 }
 
 - (void)didTap:(UITapGestureRecognizer*)ges {
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
+
 @end
