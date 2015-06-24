@@ -74,6 +74,9 @@
     NSMutableArray *resultArray = [NSMutableArray array];
     for (int i = 0 ; i < self.dataArray.count; i ++) {
         QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[i];
+        if (cell.recordDic == nil) {
+            continue;
+        }
         [resultArray addObject:cell.recordDic];
     }
     return resultArray;
