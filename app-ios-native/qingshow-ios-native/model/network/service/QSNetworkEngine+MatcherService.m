@@ -70,19 +70,12 @@
                          onSucceed:(DicBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock {
     NSMutableArray* idArray = [@[] mutableCopy];
-    NSMutableString* idStr = [@"" mutableCopy];
     for (NSDictionary* itemDict in itemArray) {
-
         [idArray addObject:[QSCommonUtil getIdOrEmptyStr:itemDict]];
-        if (idStr.length) {
-            [idStr appendFormat:@",%@", [QSCommonUtil getIdOrEmptyStr:itemDict]];
-        } else {
-            [idStr appendFormat:@"%@", [QSCommonUtil getIdOrEmptyStr:itemDict]];
-        }
     }
     
     
-    return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idStr} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MATCHER_SAVE method:@"POST" paramers:@{@"itemRefs" : idArray} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock([((NSDictionary*)[responseDict valueForKeyPath:@"data.show"]) deepMutableCopy]);

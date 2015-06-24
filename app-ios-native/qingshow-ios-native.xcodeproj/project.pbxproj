@@ -247,6 +247,7 @@
 		EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD756F1B3A456400565DED /* QSCategoryUtil.m */; };
 		EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */; };
 		EFAD75761B3A4C8200565DED /* QSMatcherCanvasView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */; };
+		EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD757B1B3AFD4C00565DED /* QSCanvasImageView.m */; };
 		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
 		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
 		EFB1ADE51B372080007893AB /* QSMatcherItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */; };
@@ -820,6 +821,8 @@
 		EFAD75721B3A4C7300565DED /* QSMatcherCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherCanvasView.h; sourceTree = "<group>"; };
 		EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherCanvasView.m; sourceTree = "<group>"; };
 		EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherCanvasView.xib; sourceTree = "<group>"; };
+		EFAD757A1B3AFD4C00565DED /* QSCanvasImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCanvasImageView.h; sourceTree = "<group>"; };
+		EFAD757B1B3AFD4C00565DED /* QSCanvasImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCanvasImageView.m; sourceTree = "<group>"; };
 		EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSPaymentConst.h; sourceTree = "<group>"; };
 		EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS20MatcherViewController.h; sourceTree = "<group>"; };
 		EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS20MatcherViewController.m; sourceTree = "<group>"; };
@@ -2109,6 +2112,8 @@
 				EFAD75721B3A4C7300565DED /* QSMatcherCanvasView.h */,
 				EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */,
 				EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */,
+				EFAD757A1B3AFD4C00565DED /* QSCanvasImageView.h */,
+				EFAD757B1B3AFD4C00565DED /* QSCanvasImageView.m */,
 			);
 			path = canvas;
 			sourceTree = "<group>";
@@ -2680,6 +2685,7 @@
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
 				68D16CC81B33A24C00A4646C /* QSS21ItemButton.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
+				EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */,
 				8C8658E51B33F2E7004DF14F /* QSU01MatchCollectionViewCell.m in Sources */,
 				EFAB9C661B346FE5008A4EF5 /* QSLocationPickerProvider.m in Sources */,
 				EF49036C1A7E788200A848B4 /* QSItemCollectionViewCell.m in Sources */,

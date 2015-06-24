@@ -115,7 +115,7 @@
         NSDictionary* item = itemArray[index.intValue];
         [items addObject:item];
     }
-    UIImage* snapshot = [self.canvasView makeScreenShot];
+    UIImage* snapshot = [self.canvasView submitView];
     [SHARE_NW_ENGINE matcherSave:items onSucceed:^(NSDictionary *dict) {
         [SHARE_NW_ENGINE matcher:dict updateCover:snapshot  onSucceed:^(NSDictionary *d) {
             [self showShowDetailViewController:d];
@@ -141,7 +141,6 @@
 }
 
 - (void)selectionView:(QSMatcherItemSelectionView*)view didSelectItemAtIndex:(NSUInteger)index {
-    NSLog(@"%d", index);
     NSArray* cs = self.cateIdToItems[self.selectedCateId];
     NSDictionary* item = cs[index];
     [self.canvasView setItem:item forCategoryId:self.selectedCateId];

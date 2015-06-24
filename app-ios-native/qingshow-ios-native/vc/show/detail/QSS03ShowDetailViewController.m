@@ -60,6 +60,9 @@
      @{NSFontAttributeName:NAVNEWFONT,
        
        NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    self.headIconImageView.layer.cornerRadius = self.headIconImageView.bounds.size.height / 2;
+    self.headIconImageView.layer.masksToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated

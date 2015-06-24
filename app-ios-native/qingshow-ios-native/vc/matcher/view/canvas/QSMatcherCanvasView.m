@@ -11,6 +11,8 @@
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCommonUtil.h"
+#import "QSCanvasImageView.h"
+#import "UIView+ScreenShot.h"
 
 @interface QSMatcherCanvasView ()
 
@@ -34,12 +36,15 @@
     for (int i = 0; i < self.categoryArray.count; i++) {
         float width = self.frame.size.width / 3;
         float height = self.frame.size.height  / ((self.categoryArray.count + 2)/ 3);
-        UIImageView* imgView = [[UIImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), width, height)];
-        imgView.contentMode = UIViewContentModeScaleAspectFit;
+        UIImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), width, height)];
+;
 //        imgView.layer.borderColor = [UIColor grayColor].CGColor;
 //        imgView.layer.borderWidth = 1.f;
         imgView.userInteractionEnabled = YES;
-        [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView:)]];
+        UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView:)];
+        ges.minimumPressDuration = 0.f;
+        [imgView addGestureRecognizer:ges];
+//        [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView:)]];
         [self.canvasEntityView addObject:imgView];
         [self addSubview:imgView];
     }
@@ -60,22 +65,34 @@
 }
 #pragma mark - Gesture
 - (void)didTapView:(UIGestureRecognizer*)ges {
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        [self bringSubviewToFront:ges.view];
+        [self updateHighlightView:ges.view];
+        int index = [self.canvasEntityView indexOfObject:ges.view];
+        if (index >= 0 && index < self.categoryArray.count) {
+            NSDictionary* c = self.categoryArray[index];
+            if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
+                [self.delegate canvasView:self didTapCategory:c];
+            }
+        }
+
+    }
+}
+
+- (void)updateHighlightView:(UIView*)highlightView {
     for (UIImageView* imgView in self.canvasEntityView) {
-        if (imgView != ges.view) {
+        if (imgView != highlightView) {
             imgView.layer.borderColor = [UIColor clearColor].CGColor;
             imgView.layer.borderWidth = 0.f;
         } else {
             imgView.layer.borderColor = [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f].CGColor;
             imgView.layer.borderWidth = 1.f;
         }
-
+        
     }
-    int index = [self.canvasEntityView indexOfObject:ges.view];
-    if (index >= 0 && index < self.categoryArray.count) {
-        NSDictionary* c = self.categoryArray[index];
-        if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
-            [self.delegate canvasView:self didTapCategory:c];
-        }
-    }
+}
+- (UIImage*)submitView {
+    [self updateHighlightView:nil];
+    return [self makeScreenShot];
 }
 @end
