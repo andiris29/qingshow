@@ -11,6 +11,7 @@
 #import "QSCommonUtil.h"
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
+#import "QSCategoryUtil.h"
 
 #define PATH_MATCHER_QUERY_CATEGORIES @"matcher/queryCategories"
 #define PATH_MATCHER_QUERY_ITEMS @"matcher/queryItems"
@@ -24,7 +25,24 @@
     return [self startOperationWithPath:PATH_MATCHER_QUERY_CATEGORIES method:@"GET" paramers:@{} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
-            succeedBlock([((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy], responseDict[@"metadata"]);
+            NSArray* resArray = [((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy];
+            NSMutableArray* retArray = [@[] mutableCopy];
+            for (NSDictionary* dict in resArray) {
+                if ([QSCategoryUtil getParentId:dict].length == 0) {
+                    [retArray addObject:dict];
+                    [dict setValue:[@[] mutableCopy] forKey:@"children"];
+                } else {
+                    for (NSDictionary* parantDict in retArray) {
+                        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCommonUtil getIdOrEmptyStr:parantDict]]) {
+                            NSMutableArray* mArray = (NSMutableArray*)[QSCategoryUtil getChildren:parantDict];
+                            [mArray addObject:dict];
+                        }
+                    }
+                }
+
+            }
+            
+            succeedBlock(retArray, responseDict[@"metadata"]);
         }
     } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {

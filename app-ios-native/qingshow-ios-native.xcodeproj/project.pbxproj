@@ -245,6 +245,7 @@
 		EFAB9C6F1B346FE5008A4EF5 /* QSTableViewBasicProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C5E1B346FE5008A4EF5 /* QSTableViewBasicProvider.m */; };
 		EFAB9C741B347027008A4EF5 /* QSPeopleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */; };
 		EFAB9C751B347027008A4EF5 /* QSPeopleListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */; };
+		EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD756F1B3A456400565DED /* QSCategoryUtil.m */; };
 		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
 		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
 		EFB1ADE51B372080007893AB /* QSMatcherItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */; };
@@ -814,6 +815,8 @@
 		EFAB9C711B347027008A4EF5 /* QSPeopleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSPeopleListTableViewCell.h; sourceTree = "<group>"; };
 		EFAB9C721B347027008A4EF5 /* QSPeopleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPeopleListTableViewCell.m; sourceTree = "<group>"; };
 		EFAB9C731B347027008A4EF5 /* QSPeopleListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSPeopleListTableViewCell.xib; sourceTree = "<group>"; };
+		EFAD756E1B3A456400565DED /* QSCategoryUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCategoryUtil.h; sourceTree = "<group>"; };
+		EFAD756F1B3A456400565DED /* QSCategoryUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCategoryUtil.m; sourceTree = "<group>"; };
 		EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSPaymentConst.h; sourceTree = "<group>"; };
 		EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS20MatcherViewController.h; sourceTree = "<group>"; };
 		EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS20MatcherViewController.m; sourceTree = "<group>"; };
@@ -1996,6 +1999,8 @@
 				EF4EFD111B1232CC002C6430 /* QSPromotionUtil.m */,
 				8C8658EB1B3403E2004DF14F /* QSMatchShowUtil.h */,
 				8C8658EC1B3403E2004DF14F /* QSMatchShowUtil.m */,
+				EFAD756E1B3A456400565DED /* QSCategoryUtil.h */,
+				EFAD756F1B3A456400565DED /* QSCategoryUtil.m */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -2806,6 +2811,7 @@
 				EF4EFD051B120B1E002C6430 /* QSS18TopShowOneDayViewController.m in Sources */,
 				EF810F6B1AB5FE770079BA76 /* QSCreateTradeItemInfoQuantityCell.m in Sources */,
 				EFF5B9151A3F2FB50048E634 /* QSItemListTableViewCell.m in Sources */,
+				EFAD75701B3A456400565DED /* QSCategoryUtil.m in Sources */,
 				EF0C64351B21AAC20079B22E /* QSU02UserSettingViewController.m in Sources */,
 				EFC7ADB41A1115E20078D1F9 /* QSSingleImageScrollView.m in Sources */,
 				EFF114AF1A0D2EEC009B7361 /* NSDictionary+RequestEncoding.m in Sources */,
