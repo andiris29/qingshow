@@ -50,7 +50,7 @@ RequestHelper.parseArray = function(raw) {
     if (raw === undefined) {
         return undefined;
     } else if (_.isString(raw)){
-        return string.split(',');
+        return raw.split(',');
     } else if (_.isArray(raw)){
         return raw;
     } else {
