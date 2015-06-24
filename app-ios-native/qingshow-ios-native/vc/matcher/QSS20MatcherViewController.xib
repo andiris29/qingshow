@@ -31,15 +31,15 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sV4-f5-KsD">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLE-BA-R8G">
-                            <rect key="frame" x="14" y="15" width="36" height="36"/>
+                            <rect key="frame" x="20" y="25" width="36" height="36"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="6dy-8d-PD7"/>
                                 <constraint firstAttribute="width" constant="36" id="CTT-bi-X4J"/>
                             </constraints>
-                            <state key="normal" image="s03_back_btn">
+                            <state key="normal" image="nav_btn_menu">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -47,7 +47,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lP0-aE-IHb">
-                            <rect key="frame" x="123" y="15" width="60" height="30"/>
+                            <rect key="frame" x="130" y="28" width="60" height="30"/>
                             <state key="normal" title="选择分类">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -56,7 +56,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gud-mx-kWh">
-                            <rect key="frame" x="230" y="18" width="70" height="24"/>
+                            <rect key="frame" x="232" y="31" width="70" height="24"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="24" id="H7w-td-7ze"/>
@@ -73,19 +73,19 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="sV4-f5-KsD" secondAttribute="leading" constant="14" id="Qew-X3-sed"/>
-                        <constraint firstAttribute="height" constant="50" id="jsd-kb-PgJ"/>
-                        <constraint firstAttribute="trailing" secondItem="Gud-mx-kWh" secondAttribute="trailing" constant="20" id="mvJ-Ql-52Q"/>
-                        <constraint firstItem="Gud-mx-kWh" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="18" id="yOf-Nl-BNq"/>
-                        <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="15" id="zGi-oh-m5f"/>
+                        <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="sV4-f5-KsD" secondAttribute="leading" constant="20" id="Qew-X3-sed"/>
+                        <constraint firstAttribute="height" constant="60" id="jsd-kb-PgJ"/>
+                        <constraint firstAttribute="trailing" secondItem="Gud-mx-kWh" secondAttribute="trailing" constant="18" id="mvJ-Ql-52Q"/>
+                        <constraint firstItem="Gud-mx-kWh" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="31" id="yOf-Nl-BNq"/>
+                        <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="25" id="zGi-oh-m5f"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nXP-DQ-iBc">
-                    <rect key="frame" x="0.0" y="55" width="320" height="345"/>
+                    <rect key="frame" x="0.0" y="65" width="320" height="335"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="sV4-f5-KsD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7rZ-OL-ZMh"/>
                 <constraint firstAttribute="trailing" secondItem="sV4-f5-KsD" secondAttribute="trailing" id="SWz-ll-cnY"/>
@@ -102,7 +102,7 @@
         </view>
     </objects>
     <resources>
-        <image name="s03_back_btn" width="36" height="36"/>
+        <image name="nav_btn_menu" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
