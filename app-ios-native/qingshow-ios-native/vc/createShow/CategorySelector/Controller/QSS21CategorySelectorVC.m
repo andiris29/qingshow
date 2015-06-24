@@ -39,6 +39,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:NEWFONT}];
+    
+    self.title = @"百搭秀场";
 }
 
 #pragma mark -- bindTableView

@@ -29,6 +29,9 @@
 		68D2B7EF1B18439500731B71 /* QSNetworkEngine+SpreadService.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D2B7EE1B18439500731B71 /* QSNetworkEngine+SpreadService.m */; };
 		68D8249F1B17018300BC9FC6 /* QSItemListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D8249D1B17018300BC9FC6 /* QSItemListCell.m */; };
 		68D824A01B17018300BC9FC6 /* QSItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */; };
+		68E18C0D1B3AB881000A7985 /* baidi.png in Resources */ = {isa = PBXBuildFile; fileRef = 68E18C0C1B3AB881000A7985 /* baidi.png */; };
+		68E18C0F1B3ABFBD000A7985 /* hongdi.png in Resources */ = {isa = PBXBuildFile; fileRef = 68E18C0E1B3ABFBD000A7985 /* hongdi.png */; };
+		68E18C111B3AC188000A7985 /* hoderImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 68E18C101B3AC188000A7985 /* hoderImg.png */; };
 		68F888011B1BF83A007A36F1 /* NSDate+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F888001B1BF83A007A36F1 /* NSDate+QSExtension.m */; };
 		82B6967D1A19120300518EE5 /* QSU04EmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B6967B1A19120300518EE5 /* QSU04EmailViewController.m */; };
 		82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82B6967C1A19120300518EE5 /* QSU04EmailViewController.xib */; };
@@ -369,6 +372,9 @@
 		68D8249C1B17018300BC9FC6 /* QSItemListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSItemListCell.h; sourceTree = "<group>"; };
 		68D8249D1B17018300BC9FC6 /* QSItemListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSItemListCell.m; sourceTree = "<group>"; };
 		68D8249E1B17018300BC9FC6 /* QSItemListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSItemListCell.xib; sourceTree = "<group>"; };
+		68E18C0C1B3AB881000A7985 /* baidi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baidi.png; sourceTree = "<group>"; };
+		68E18C0E1B3ABFBD000A7985 /* hongdi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hongdi.png; sourceTree = "<group>"; };
+		68E18C101B3AC188000A7985 /* hoderImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hoderImg.png; sourceTree = "<group>"; };
 		68F887FF1B1BF83A007A36F1 /* NSDate+QSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+QSExtension.h"; sourceTree = "<group>"; };
 		68F888001B1BF83A007A36F1 /* NSDate+QSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+QSExtension.m"; sourceTree = "<group>"; };
 		82B6967A1A19120300518EE5 /* QSU04EmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU04EmailViewController.h; sourceTree = "<group>"; };
@@ -1048,6 +1054,7 @@
 		68D16CB01B32DDA500A4646C /* CategorySelector */ = {
 			isa = PBXGroup;
 			children = (
+				68E18C0B1B3AB881000A7985 /* IconImg */,
 				68D16CC21B339BC100A4646C /* Provider */,
 				68D16CB11B32DDA500A4646C /* Controller */,
 				68D16CB51B32DDA500A4646C /* View */,
@@ -1106,6 +1113,16 @@
 				68D16CFE1B341A4700A4646C /* QSMatchShowsCell.xib */,
 			);
 			path = matchcell;
+			sourceTree = "<group>";
+		};
+		68E18C0B1B3AB881000A7985 /* IconImg */ = {
+			isa = PBXGroup;
+			children = (
+				68E18C101B3AC188000A7985 /* hoderImg.png */,
+				68E18C0E1B3ABFBD000A7985 /* hongdi.png */,
+				68E18C0C1B3AB881000A7985 /* baidi.png */,
+			);
+			path = IconImg;
 			sourceTree = "<group>";
 		};
 		8C8B9D731B00395B00C1A321 /* welcomeImg */ = {
@@ -2545,6 +2562,7 @@
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
 				68824D931B0EBB57006E3151 /* QSU14FavoriteViewController.xib in Resources */,
+				68E18C0F1B3ABFBD000A7985 /* hongdi.png in Resources */,
 				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
 				8C8B9D841B00395B00C1A321 /* welcome1_480@2x.png in Resources */,
@@ -2557,6 +2575,7 @@
 				EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */,
 				82B6967E1A19120300518EE5 /* QSU04EmailViewController.xib in Resources */,
+				68E18C0D1B3AB881000A7985 /* baidi.png in Resources */,
 				681148FD1B0F0E9D00E024B1 /* ImgforCell@3x.png in Resources */,
 				68D824A01B17018300BC9FC6 /* QSItemListCell.xib in Resources */,
 				8C8B9D8C1B00395B00C1A321 /* welcome3_667@2x.png in Resources */,
@@ -2584,6 +2603,7 @@
 				8C8B9D8D1B00395B00C1A321 /* welcome1_736@3x.png in Resources */,
 				EFC543611A1750AD001B2C49 /* QSDetailBaseViewController.xib in Resources */,
 				8C8B9D8A1B00395B00C1A321 /* welcome1_667@2x.png in Resources */,
+				68E18C111B3AC188000A7985 /* hoderImg.png in Resources */,
 				EF2679CC1B0D82EB0012AE90 /* QSS17TopShowCell.xib in Resources */,
 				EF0C64281B21AAC20079B22E /* QSU02ImgCell.xib in Resources */,
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,

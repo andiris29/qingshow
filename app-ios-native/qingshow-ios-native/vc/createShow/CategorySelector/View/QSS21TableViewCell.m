@@ -83,26 +83,40 @@
         //设置item的title image （normal/selected）
         NSDictionary *itemDic = array[i];
         item.itemDic = itemDic;
+       
         NSString *itemName = itemDic[@"name"];
         [item setTitle:itemName forState:UIControlStateNormal];
         [item setTitle:itemName forState:UIControlStateSelected];
-       
+        [self.scrollView addSubview:item];
+        
         NSString *imgUrl = itemDic[@"icon"];
         NSRange range = [imgUrl rangeOfString:@".png"];
         NSString *rangeStr = [imgUrl substringToIndex:range.location];
         NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_grey.png",rangeStr];
         
-        NSData *normalImgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl]];
-        NSData *selectedImdData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgSelectedUrl]];
+        //设置未选中状态图片
+        UIImage *hoderImg = [UIImage imageNamed:@"hoderImg"];
+        UIImageView *imgView = [[UIImageView alloc] init];
+        [imgView setImageFromURL:[NSURL URLWithString:imgUrl]];
+        if (imgView.image == nil) {
+            [item setImage:hoderImg forState:UIControlStateNormal];
+        }else {
+            [item setImage:imgView.image forState:UIControlStateNormal];
+        }
         
-        UIImage *norMalImg = [[UIImage alloc] initWithData:normalImgData];
-        UIImage *selectedImg = [[UIImage alloc] initWithData:selectedImdData];
-        [item setImage:norMalImg forState:UIControlStateNormal];
-        [item setImage:selectedImg forState:UIControlStateSelected];
+        //设置选中状态图片
+        UIImageView *selectedView = [[UIImageView alloc] init];
+        [selectedView setImageFromURL:[NSURL URLWithString:imgSelectedUrl]];
+        if (selectedView.image == nil) {
+            [item setImage:hoderImg forState:UIControlStateSelected];
+        }else{
+            [item setImage:selectedView.image forState:UIControlStateSelected];
+        }
+        
         if (item.itemDic == self.recordDic) {
             item.selected = YES;
         }
-        [self.scrollView addSubview:item];
+        
     }
 }
 
