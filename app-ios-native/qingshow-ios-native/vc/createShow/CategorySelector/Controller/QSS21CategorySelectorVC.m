@@ -23,7 +23,6 @@
 - (instancetype)initWithCategories:(NSArray*)array {
     self = [super initWithNibName:@"QSS21CategorySelectorVC" bundle:nil];
     if (self) {
-#warning TODO @lsy 这个界面不发送网络请求，直接根据传进来的categories创建tableView
         self.categories = array;
     }
     return self;

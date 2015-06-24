@@ -15,8 +15,6 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
-@property (strong , nonatomic)QSS21TableViewProvider *provider;
-
 //记录每一行选中的item 需要传递的参数
 @property (strong , nonatomic) NSDictionary *recordDic;
 
