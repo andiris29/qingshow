@@ -12,8 +12,7 @@
 #define selectorCellID @"QSS21SelectorCell"
 
 @interface QSS21TableViewProvider ()
-//记录indexpath
-@property (strong ,nonatomic) NSMutableArray *indexPathArray;
+
 @property (strong ,nonatomic) NSMutableArray *cellArray;
 @end
 
@@ -22,51 +21,34 @@
 
 - (void)registerCell
 {
-//    [self.view registerNib:[UINib nibWithNibName:@"QSS21TableViewCell" bundle:nil] forCellReuseIdentifier:selectorCellID];
-}
-- (instancetype)init
-{
-    if (self == [super init]) {
-        NSMutableArray *arr = [NSMutableArray array];
-        for (int i = 0; i < 5; i ++) {
-            QSS21TableViewCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS21TableViewCell" owner:nil options:nil]lastObject];
-            [arr addObject:cell];
-        }
-        self.cellArray = arr;
-    }
-    return self;
 }
 
-//懒加载
-- (NSMutableArray *)indexPathArray
+- (NSMutableArray *)cellArray
 {
-    if (_indexPathArray == nil) {
-        _indexPathArray = [NSMutableArray array];
+    if (_cellArray == nil) {
+        _cellArray = [NSMutableArray array];
+        for (int i = 0; i < self.dataArray.count; i ++) {
+            QSS21TableViewCell *cell = [[[NSBundle mainBundle]loadNibNamed:@"QSS21TableViewCell" owner:nil options:nil]lastObject];
+            [_cellArray addObject:cell];
+        }
     }
-    return _indexPathArray;
+    return _cellArray;
 }
+
 #pragma mark -- UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 5;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning TODO cell复用带来的问题 不能记录UI状态
-//    QSS21TableViewCell *cell = [self.view dequeueReusableCellWithIdentifier:selectorCellID];
-//    if (cell == nil) {
-//        cell = [[QSS21TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:selectorCellID];
-//    }
-    
     
     QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[indexPath.row];
-    //记录indexpath
-    [self.indexPathArray addObject:indexPath];
     
-//    NSDictionary *cellDic = self.dataArray[indexPath.row];
+    NSDictionary *cellDic = self.dataArray[indexPath.row];
     
-    [cell setSubViewsWith:nil];
+    [cell setSubViewsWith:cellDic];
     
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
@@ -86,12 +68,12 @@
     return [UIScreen mainScreen].bounds.size.width/16;
 }
 
+#pragma mark -- 获取选择categorys
 - (NSMutableArray *)getResultArray
 {
     NSMutableArray *resultArray = [NSMutableArray array];
-    for (int i = 0 ; i < 5; i ++) {
-        NSIndexPath *indexPath = self.indexPathArray[i];
-        QSS21TableViewCell *cell = (QSS21TableViewCell *)[self.view cellForRowAtIndexPath:indexPath];
+    for (int i = 0 ; i < self.dataArray.count; i ++) {
+        QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[i];
         [resultArray addObject:cell.recordDic];
     }
     return resultArray;
