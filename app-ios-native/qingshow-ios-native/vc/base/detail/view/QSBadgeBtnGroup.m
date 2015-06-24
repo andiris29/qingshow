@@ -43,10 +43,12 @@
     if (self.buttons.count) {
         CGRect selfFrame = self.frame;
         CGFloat y = selfFrame.size.height / 2;
-        CGFloat x = selfFrame.size.width / (self.buttons.count + 1);
+        float btnWidth = 35.f;
+        float leftBorder = 15.f;
+        CGFloat x = (selfFrame.size.width - 2 * leftBorder - self.buttons.count * btnWidth) / (self.buttons.count - 1);
         for (NSUInteger i = 0; i < self.buttons.count; i++) {
             QSBadgeButton* btn = self.buttons[i];
-            btn.center = CGPointMake( x * (i + 1), y);
+            btn.center = CGPointMake( (x + btnWidth) * i + btnWidth / 2 + leftBorder, y);
             btn.bounds = CGRectMake(0, 0, 35, 52);
         }
     }
