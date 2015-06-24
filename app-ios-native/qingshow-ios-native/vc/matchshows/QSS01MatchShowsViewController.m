@@ -36,6 +36,7 @@
     // Do any additional setup after loading the view from its nib
     [self configNav];
     [self configProvider];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -49,12 +50,14 @@
     _matchCollectionViewProvider.delegate = self;
     _matchCollectionViewProvider.type = 1;
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
-#warning  TODO  change test NET
-    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
-        //        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
-    };
 
+//    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+//        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+//        //        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
+//    };
+    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+        return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+    };
     [_matchCollectionViewProvider fetchDataOfPage:1];
     [self.matchCollectionViewProvider reloadData];
 }
@@ -70,21 +73,28 @@
     segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
     _segIndex = segmentControl.selectedSegmentIndex;
     self.navigationItem.titleView = segmentControl;
+    
+    [self.navigationController.navigationBar removeGestureRecognizer:self.showVersionTapGesture];
 }
 
 
 - (void)changeEvents
 {
-#warning TODO 可以改成用两个provider,每个provider管不同segIndex
-#warning TODO change dic
+
     if(_segIndex == 1)
     {
-        
+        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+            return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+
         [self.matchCollectionViewProvider reloadData];
     }
     else
     {
-        
+        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+            return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+
         [self.matchCollectionViewProvider reloadData];
     }
 }

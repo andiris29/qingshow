@@ -51,5 +51,14 @@
                                        page:(int)page
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock;
+#pragma mark - add matchHot/matchNew
+- (MKNetworkOperation *)getfeedingMatchHot:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation *)getfeedingMatchNew:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
 @end

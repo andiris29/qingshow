@@ -61,6 +61,7 @@
 //    titleImageView.userInteractionEnabled = YES;
     UINavigationBar* navBar = self.navigationController.navigationBar;
     UITapGestureRecognizer* tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapRootTitle)];
+    self.showVersionTapGesture = tapGes;
     tapGes.numberOfTapsRequired = 5;
     [navBar addGestureRecognizer:tapGes];
     

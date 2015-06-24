@@ -13,6 +13,8 @@
 #define S01MATCHCELL @"matchShowsForS01CellId"
 #define U01MATCHCELL @"matchShowsForU01CellId"
 
+#define w ([UIScreen mainScreen].bounds.size.width)
+#define h ([UIScreen mainScreen].bounds.size.height)
 @implementation QSMatchCollectionViewProvider
 
 @dynamic delegate;
@@ -29,7 +31,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width/2-10, 320);
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width/2-10, w/320*320);
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -43,12 +45,15 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
         
-        //NSLog(@"result Array = %@",self.resultArray);
+       // NSLog(@"result Array = %@",self.resultArray);
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {
             [cell bindWithDic:self.resultArray[indexPath.item]];
         }
+       
+            cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
+
         return (UICollectionViewCell *)cell;
     }
     else
