@@ -36,6 +36,7 @@
     // Do any additional setup after loading the view from its nib
     [self configNav];
     [self configProvider];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,6 +71,8 @@
     segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
     _segIndex = segmentControl.selectedSegmentIndex;
     self.navigationItem.titleView = segmentControl;
+    
+    [self.navigationController.navigationBar removeGestureRecognizer:self.showVersionTapGesture];
 }
 
 

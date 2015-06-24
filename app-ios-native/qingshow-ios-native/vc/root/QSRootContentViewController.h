@@ -12,5 +12,5 @@
 @interface QSRootContentViewController : UIViewController
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
-
+@property (strong, nonatomic) UITapGestureRecognizer* showVersionTapGesture;
 @end
