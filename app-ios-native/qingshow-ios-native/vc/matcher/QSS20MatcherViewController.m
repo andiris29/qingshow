@@ -9,11 +9,12 @@
 #import "QSS20MatcherViewController.h"
 #import "QSS21CategorySelectorVC.h"
 #import "QSAbstractRootViewController.h"
+#import "QSNetworkKit.h"
 
 @interface QSS20MatcherViewController ()
 
 @property (strong, nonatomic) QSMatcherItemSelectionView* itemSelectionView;
-
+@property (strong, nonatomic) NSArray* categoryArray;
 @end
 
 @implementation QSS20MatcherViewController
@@ -37,6 +38,10 @@
     self.itemSelectionView.datasource = self;
     self.itemSelectionView.delegate = self;
     [self.itemSelectionView reloadData];
+    
+    [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+        self.categoryArray = array;
+    } onError:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -51,8 +56,7 @@
 
 #pragma mark - IBAction
 - (IBAction)categorySelectedBtnPressed:(id)sender {
-#warning TODO add categories
-    [self.navigationController pushViewController:[[QSS21CategorySelectorVC alloc] initWithCategories:nil] animated:YES];
+    [self.navigationController pushViewController:[[QSS21CategorySelectorVC alloc] initWithCategories:self.categoryArray] animated:YES];
 }
 
 - (IBAction)menuBtnPressed:(id)sender {
