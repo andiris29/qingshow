@@ -391,7 +391,7 @@ feeding.matchNew = {
     }
 };
 
-feeding.matchCreateBy = {
+feeding.matchCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
@@ -400,4 +400,4 @@ feeding.matchCreateBy = {
             'result' : 'targetRef'
         });
     }
-}
+};
