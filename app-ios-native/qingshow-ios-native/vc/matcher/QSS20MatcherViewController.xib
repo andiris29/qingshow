@@ -7,12 +7,14 @@
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSS20MatcherViewController">
             <connections>
                 <outlet property="canvasContainer" destination="nXP-DQ-iBc" id="xU6-cQ-0St"/>
+                <outlet property="categorySelectionButton" destination="lP0-aE-IHb" id="cjq-FG-ios"/>
                 <outlet property="itemSelectionContainer" destination="IPv-3T-oo4" id="ZB5-bx-xbM"/>
                 <outlet property="submitButton" destination="Gud-mx-kWh" id="VyE-dd-z4W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -39,15 +41,6 @@
                                 <action selector="menuBtnPressed:" destination="-1" eventType="touchUpInside" id="oTT-HS-3eK"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lP0-aE-IHb">
-                            <rect key="frame" x="130" y="28" width="60" height="30"/>
-                            <state key="normal" title="选择分类">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="categorySelectedBtnPressed:" destination="-1" eventType="touchUpInside" id="M3F-J8-4me"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gud-mx-kWh">
                             <rect key="frame" x="232" y="31" width="70" height="24"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
@@ -63,10 +56,28 @@
                                 <action selector="submitButtonPressed:" destination="-1" eventType="touchUpInside" id="gMm-bJ-bCC"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lP0-aE-IHb">
+                            <rect key="frame" x="154" y="31" width="70" height="24"/>
+                            <color key="backgroundColor" red="0.94117647059999998" green="0.58431372550000005" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="24" id="Xji-sc-4Jr"/>
+                                <constraint firstAttribute="width" constant="70" id="qAd-ko-iXZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                            <state key="normal" title="选择分类">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="categorySelectedBtnPressed:" destination="-1" eventType="touchUpInside" id="M3F-J8-4me"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="sV4-f5-KsD" secondAttribute="leading" constant="20" id="Qew-X3-sed"/>
+                        <constraint firstItem="Gud-mx-kWh" firstAttribute="leading" secondItem="lP0-aE-IHb" secondAttribute="trailing" constant="8" id="br5-jp-SDJ"/>
+                        <constraint firstItem="lP0-aE-IHb" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="31" id="hqD-VZ-h3s"/>
                         <constraint firstAttribute="height" constant="60" id="jsd-kb-PgJ"/>
                         <constraint firstAttribute="trailing" secondItem="Gud-mx-kWh" secondAttribute="trailing" constant="18" id="mvJ-Ql-52Q"/>
                         <constraint firstItem="Gud-mx-kWh" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="31" id="yOf-Nl-BNq"/>

@@ -43,6 +43,8 @@
     [super viewDidLoad];
     self.submitButton.layer.cornerRadius = 2.f;
     self.submitButton.layer.masksToBounds = YES;
+    self.categorySelectionButton.layer.cornerRadius = 2.f;
+    self.categorySelectionButton.layer.masksToBounds = YES;
     // Do any additional setup after loading the view from its nib.
     self.itemSelectionView = [QSMatcherItemSelectionView generateView];
     self.itemSelectionView.frame = self.itemSelectionContainer.bounds;
