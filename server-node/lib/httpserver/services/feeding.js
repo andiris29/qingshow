@@ -32,16 +32,19 @@ var _feed = function (req, res, querier, aspectInceptions) {
         'afterParseRequest' : aspectInceptions.afterParseRequest,
         'afterQuery' : function (qsParam, currentPageModels, numTotal, callback) {
             async.series([
-                function (callback) {
-                    // Populate
-                    _.delay(function () {
-                        Show.populate(currentPageModels.filter(function(show) {
-                            if (show.cover && req.session && req.session.assetsRoot) {
-                                show.cover = req.session.assetsRoot + show.cover;
-                            }
-                            return !!show;
-                        }), 'modelRef', callback);
-                    }, (res.qsPerformance && res.qsPerformance.d) ? res.qsPerformance.d : 1);
+                function(callback) {
+                    // Populate itemRefs
+                    Show.populate(currentPageModels, {
+                        'path' : 'itemRefs',
+                        'model' : "items"
+                    }, callback);
+                },
+                function(callback) {
+                    // Populate promotionRef
+                    Show.populate(currentPageModels, {
+                        'path' : 'promotionRef',
+                        'model' : "promotions"
+                    }, callback);
                 },
                 function (callback) {
                     // Append context
@@ -98,24 +101,6 @@ feeding.recommendation = {
                     }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
                 }
             ], outCallback);
-        }, {
-            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
-                async.series([
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'itemRefs',
-                            'model' : "items"
-                        }, callback);
-                    }, 
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'promotionRef',
-                            'model' : "promotions"
-                        }, callback);
-                    }], 
-                    afterQuery_cb
-                );
-            }
         });
     }
 };
@@ -195,24 +180,6 @@ feeding.hot = {
                     });
                 }], out_callback
             );
-        }, {
-            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
-                async.series([
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'itemRefs',
-                            'model' : "items"
-                        }, callback);
-                    }, 
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'promotionRef',
-                            'model' : "promotions"
-                        }, callback);
-                    }], 
-                    afterQuery_cb
-                );
-            }
         });
     }
 };
@@ -238,23 +205,6 @@ feeding.like = {
                     callback(null, shows, count);
                 }], callback);
         }, {
-            'afterQuery' : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
-                async.series([
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'itemRefs',
-                            'model' : "items"
-                        }, callback);
-                    }, 
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'promotionRef',
-                            'model' : "promotions"
-                        }, callback);
-                    }], 
-                    afterQuery_cb
-                );
-            },
             'afterParseRequest' : function (raw) {
                 return {
                     '_id' : RequestHelper.parseId(raw._id)
@@ -299,24 +249,6 @@ feeding.byRecommendDate =  {
 
                 }
             ], out_callback);
-        }, {
-            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
-                async.series([
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'itemRefs',
-                            'model' : "items"
-                        }, callback);
-                    }, 
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'promotionRef',
-                            'model' : "promotions"
-                        }, callback);
-                    }], 
-                    afterQuery_cb
-                );
-            }
         });
     }
 };
@@ -334,24 +266,6 @@ feeding.matchHot = {
                     'numLike' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
             }], outCallback);
-        }, {
-            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
-                async.series([
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'itemRefs',
-                            'model' : "items"
-                        }, callback);
-                    }, 
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'promotionRef',
-                            'model' : "promotions"
-                        }, callback);
-                    }], 
-                    afterQuery_cb
-                );
-            }
         });
     }
 };
@@ -369,24 +283,6 @@ feeding.matchNew = {
                     'create' : -1
                 }), Show.find(criteria), qsParam.pageNo, qsParam.pageSize, outCallback);
             }], outCallback);
-        }, {
-            afterQuery : function (qsParam, currentPageModels, numTotal, afterQuery_cb) {
-                async.series([
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'itemRefs',
-                            'model' : "items"
-                        }, callback);
-                    }, 
-                    function(callback) {
-                        Show.populate(currentPageModels, {
-                            'path' : 'promotionRef',
-                            'model' : "promotions"
-                        }, callback);
-                    }], 
-                    afterQuery_cb
-                );
-            }
         });
     }
 };
