@@ -25,7 +25,8 @@
 #define PATH_FEEDING_BY_BRAND_DISCOUNT @"feeding/byBrandDiscount"
 #define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
 #define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
-
+#define PATH_FEEDING_MATCH_HOT @"feeding/matchHot"
+#define PATH_FEEDING_MATCH_NEW @"feeding/mathNew"
 
 
 @interface QSNetworkEngine (Private)
@@ -167,5 +168,20 @@
                                   onSucceed:(ArraySuccessBlock)succeedBlock
                                     onError:(ErrorBlock)errorBlock {
     return [self getFeedingPath:PATH_FEEDING_MATCH_CREATE_BY otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+}
+- (MKNetworkOperation *)getfeedingMatchHot:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock
+{
+    return [self getFeedingPath:PATH_FEEDING_MATCH_HOT otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
+}
+
+- (MKNetworkOperation *)getfeedingMatchNew:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock
+{
+    return [self getFeedingPath:PATH_FEEDING_MATCH_NEW otherParam:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:peopleDict]} page:page onSucceed:succeedBlock onError:errorBlock];
 }
 @end

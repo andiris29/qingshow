@@ -49,12 +49,14 @@
     _matchCollectionViewProvider.delegate = self;
     _matchCollectionViewProvider.type = 1;
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
-#warning  TODO  change test NET
-    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
-        //        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
-    };
 
+//    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
+//        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
+//        //        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
+//    };
+    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+        return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+    };
     [_matchCollectionViewProvider fetchDataOfPage:1];
     [self.matchCollectionViewProvider reloadData];
 }
@@ -75,16 +77,21 @@
 
 - (void)changeEvents
 {
-#warning TODO 可以改成用两个provider,每个provider管不同segIndex
-#warning TODO change dic
+
     if(_segIndex == 1)
     {
-        
+        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+            return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+
         [self.matchCollectionViewProvider reloadData];
     }
     else
     {
-        
+        _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
+            return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
+        };
+
         [self.matchCollectionViewProvider reloadData];
     }
 }
