@@ -43,8 +43,8 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
         
-       // NSLog(@"result Array = %@",self.resultArray);
-       // [cell bindWithDic:self.resultArray[indexPath.item]];
+        //NSLog(@"result Array = %@",self.resultArray);
+        //[cell bindWithDic:self.resultArray[indexPath.item]];
         return (UICollectionViewCell *)cell;
     }
     else
@@ -53,7 +53,7 @@
         if (cell == nil) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSU01MatchCollectionViewCell" owner:nil options:nil]lastObject];
         }
-        //[cell bindWithDic:self.resultArray[indexPath.item]];
+        [cell bindWithDic:self.resultArray[indexPath.item]];
         return (UICollectionViewCell *)cell;
     }
     
