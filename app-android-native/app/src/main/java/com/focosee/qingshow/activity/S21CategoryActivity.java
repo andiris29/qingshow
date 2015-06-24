@@ -1,7 +1,6 @@
 package com.focosee.qingshow.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -14,26 +13,21 @@ import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.CategoryParser;
-import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/6/17.
  */
 public class S21CategoryActivity extends Activity {
     private ListView s21_listview;
-    private final String ITEM_NAME = "titleName";
-    private final String ITEM_CONTENT_1 = "category_1";
-    private final String ITEM_CONTENT_2 = "category_2";
-    private final String ITEM_CONTENT_3 = "category_3";
-//    private final Charset UTF="";
+    private ArrayList<MongoCategories> categories = new ArrayList<MongoCategories>();
+    private ArrayList<ArrayList<MongoCategories>> items = new ArrayList<ArrayList<MongoCategories>>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,34 +39,16 @@ public class S21CategoryActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        s21_listview.setDividerHeight(0);
-        String[] listkeys = {ITEM_NAME};
-        S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(this, getListInfo(), listkeys);
-
-        s21_listview.setAdapter(adapter);
         getDataFromNet();
+        s21_listview.setDividerHeight(0);
+
+
     }
 
     public void back(View view) {
         this.finish();
     }
 
-
-    private List<Map<String, String>> getListInfo() {
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        for (int i = 0; i < 6; i++) {
-            Map<String, String> map = new HashMap<String, String>();
-            map.put(ITEM_NAME, "TITLE");
-            map.put(ITEM_CONTENT_1, "CONTENT");
-            map.put(ITEM_CONTENT_2, "CONTENT");
-            map.put(ITEM_CONTENT_3, "CONTENT");
-            map.put("545", "CONTENT");
-            map.put("afa", "CONTENT");
-            map.put("afs", "CONTENT");
-            list.add(map);
-        }
-        return list;
-    }
 
     private void getDataFromNet() {
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryCategories(), null, new Response.Listener<JSONObject>() {
@@ -82,9 +58,37 @@ public class S21CategoryActivity extends Activity {
                     ErrorHandler.handle(S21CategoryActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                String s = CategoryParser.parseQuery(response).toString();//ok
+                ArrayList<MongoCategories> arrayList = CategoryParser.parseQuery(response);
+                for (MongoCategories ca : arrayList) {
+                    String parentRef = ca.getParentRef();
+                    boolean activate = ca.isActivate();
+                    if (activate && (parentRef == null)) {
+                        categories.add(ca);
+                    }
+                }
+                for (int i = 0; i < categories.size(); i++) {
+                    String id=categories.get(i).get_id();
+                    ArrayList<MongoCategories> item = new ArrayList<MongoCategories>();
+                    for (MongoCategories cas : arrayList) {
+                        String parentRef = cas.getParentRef();
+                        boolean activate = cas.isActivate();
+
+                        if (activate && (id.equals(parentRef))) {
+                            item.add(cas);
+                        }
+                    }
+                    items.add(item);
+                }
+                show();
+
             }
         });
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void show() {
+        S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(S21CategoryActivity.this, categories, items);
+
+        s21_listview.setAdapter(adapter);
     }
 }

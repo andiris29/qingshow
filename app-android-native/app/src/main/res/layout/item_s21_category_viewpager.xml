@@ -1,39 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-
-    <TextView
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_s21_category_1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:drawablePadding="5dp"
-        android:drawableTop="@drawable/bg_photpchoose_eg01"
+        android:layout_marginBottom="5dp"
+        android:background="#00000000"
+        fresco:actualImageScaleType="fitCenter"
+        />
+    <TextView
+        android:id="@+id/item_s21_category_11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:clickable="true"
         android:text="针织衫" />
 
-    <TextView
-        android:id="@+id/item_s21_category_2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawablePadding="5dp"
-        android:drawableTop="@drawable/bg_photpchoose_eg01"
-        android:gravity="center"
-        android:clickable="true"
-        android:text="背心" />
 
-    <TextView
-        android:id="@+id/item_s21_category_3"
+</LinearLayout>
+
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawablePadding="5dp"
-        android:clickable="true"
-        android:drawableTop="@drawable/bg_photpchoose_eg01"
-        android:gravity="center"
-        android:text="衬衣" />
+        android:orientation="vertical">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_s21_category_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:background="#00000000"
+            fresco:actualImageScaleType="fitCenter"
+            />
+        <TextView
+            android:id="@+id/item_s21_category_21"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="针织衫" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_s21_category_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="5dp"
+            android:background="#00000000"
+            fresco:actualImageScaleType="fitCenter"
+            />
+        <TextView
+            android:id="@+id/item_s21_category_31"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="针织衫" />
+
+
+    </LinearLayout>
 </LinearLayout>
