@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var _ = require('underscore');
 
 var RequestHelper = module.exports;
 
@@ -45,8 +46,16 @@ RequestHelper.parseId = function(string) {
     return string === undefined ? undefined : new mongoose.Types.ObjectId(string);
 };
 
-RequestHelper.parseArray = function(string) {
-    return string === undefined ? undefined : string.split(',');
+RequestHelper.parseArray = function(raw) {
+    if (raw === undefined) {
+        return undefined;
+    } else if (_.isString(raw)){
+        return string.split(',');
+    } else if (_.isArray(raw)){
+        return raw;
+    } else {
+        return undefined;
+    }
 };
 
 RequestHelper.parseIds = function(string) {
