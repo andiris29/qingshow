@@ -93,6 +93,7 @@
 #pragma mark -
 - (void)reloadData {
     self.count = [self.datasource numberOfItemInSelectionView:self];
+    [self layoutSubviews];
     [self reloadImageAndOffset];
 }
 
