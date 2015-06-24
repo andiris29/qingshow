@@ -19,12 +19,12 @@
 @interface QSMatcherCanvasView : UIView
 
 + (instancetype)generateView;
-- (void)bindWithCategory:(NSArray*)category;
+- (void)bindWithCategory:(NSArray*)categoryArray;
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category;
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId;
 
 - (UIImage*)submitView;
 
-@property (strong, nonatomic) NSMutableArray* canvasEntityView;
+
 @property (weak, nonatomic) NSObject<QSMatcherCanvasViewDelegate>* delegate;
 @end

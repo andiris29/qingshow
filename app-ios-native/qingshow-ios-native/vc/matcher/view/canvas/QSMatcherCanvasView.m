@@ -8,6 +8,7 @@
 
 #import "QSMatcherCanvasView.h"
 #import "UINib+QSExtension.h"
+#import "NSArray+QSExtension.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCommonUtil.h"
@@ -16,8 +17,8 @@
 
 @interface QSMatcherCanvasView ()
 
-@property (strong, nonatomic) NSArray* categoryArray;
-
+@property (strong, nonatomic) NSMutableDictionary* categoryIdToEntity;
+@property (strong, nonatomic) NSMutableDictionary* categoryIdToView;
 @end
 
 @implementation QSMatcherCanvasView
@@ -27,60 +28,80 @@
 
 
 - (void)awakeFromNib {
-    self.canvasEntityView = [@[] mutableCopy];
+    self.categoryIdToEntity = [@{} mutableCopy];
+    self.categoryIdToView = [@{} mutableCopy];
 }
 
-- (void)bindWithCategory:(NSArray*)category {
-    self.categoryArray = category;
+- (void)bindWithCategory:(NSArray*)categoryArray {
+    NSArray* newIdArray = [categoryArray mapUsingBlock:^id(NSDictionary* dict) {
+        return [QSCommonUtil getIdOrEmptyStr:dict];
+    }];
+    for (NSDictionary* oldId in [self.categoryIdToView allKeys]) {
+        if ([newIdArray indexOfObject:oldId] == NSNotFound) {
+            UIView* oldView = self.categoryIdToView[oldId];
+            [oldView removeFromSuperview];
+            [self.categoryIdToView removeObjectForKey:oldId];
+            [self.categoryIdToEntity removeObjectForKey:oldId];
+        }
+    }
     
-    for (int i = 0; i < self.categoryArray.count; i++) {
+    NSArray* oldIdArray = [self.categoryIdToView allKeys];
+    NSArray* newCategoryArray = [categoryArray filteredArrayUsingBlock:^BOOL(NSDictionary* dict) {
+        NSString* idStr = [QSCommonUtil getIdOrEmptyStr:dict];
+        return [oldIdArray indexOfObject:idStr] == NSNotFound;
+    }];
+    
+    for (int i = 0; i < newCategoryArray.count; i++) {
+        float sizeHeight = self.frame.size.height / 2;
+        float sizeWidth = sizeHeight / 16 * 9;
         float width = self.frame.size.width / 3;
-        float height = self.frame.size.height  / ((self.categoryArray.count + 2)/ 3);
-        UIImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), width, height)];
-;
-//        imgView.layer.borderColor = [UIColor grayColor].CGColor;
-//        imgView.layer.borderWidth = 1.f;
+        float height = self.frame.size.height  / ((newCategoryArray.count + 2)/ 3);
+        UIImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), sizeWidth, sizeHeight)];
         imgView.userInteractionEnabled = YES;
         UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView:)];
         ges.minimumPressDuration = 0.f;
         [imgView addGestureRecognizer:ges];
-//        [imgView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView:)]];
-        [self.canvasEntityView addObject:imgView];
+        
+        NSDictionary* categoryDict = newCategoryArray[i];
+        NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+        self.categoryIdToEntity[categoryId] = categoryDict;
+        self.categoryIdToView[categoryId] = imgView;
+
         [self addSubview:imgView];
     }
 }
 
 - (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category {
-    int index = [self.categoryArray indexOfObject:category];
-    UIImageView* imgView = self.canvasEntityView[index];
-    [imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:category];
+    [self setItem:itemDict forCategoryId:categoryId];
 }
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId {
-    for (NSDictionary* c in self.categoryArray) {
-        if ([[QSCommonUtil getIdOrEmptyStr:c] isEqualToString:categoryId]) {
-            [self setItem:itemDict forCategory:c];
-            return;
-        }
-    }
+    UIImageView* imgView = self.categoryIdToView[categoryId];
+    [imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
 }
 #pragma mark - Gesture
 - (void)didTapView:(UIGestureRecognizer*)ges {
     if (ges.state == UIGestureRecognizerStateBegan) {
         [self bringSubviewToFront:ges.view];
         [self updateHighlightView:ges.view];
-        int index = [self.canvasEntityView indexOfObject:ges.view];
-        if (index >= 0 && index < self.categoryArray.count) {
-            NSDictionary* c = self.categoryArray[index];
-            if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
-                [self.delegate canvasView:self didTapCategory:c];
+        
+        NSArray* idArray = [self.categoryIdToView allKeys];
+        NSString* categoryId = nil;
+        for (categoryId in idArray) {
+            UIView* view = self.categoryIdToView[categoryId];
+            if (view == ges.view) {
+                NSDictionary* categoryDict = self.categoryIdToEntity[categoryId];
+                if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
+                    [self.delegate canvasView:self didTapCategory:categoryDict];
+                }
             }
         }
-
     }
 }
 
 - (void)updateHighlightView:(UIView*)highlightView {
-    for (UIImageView* imgView in self.canvasEntityView) {
+    NSArray* viewArray = [self.categoryIdToView allValues];
+    for (UIImageView* imgView in viewArray) {
         if (imgView != highlightView) {
             imgView.layer.borderColor = [UIColor clearColor].CGColor;
             imgView.layer.borderWidth = 0.f;

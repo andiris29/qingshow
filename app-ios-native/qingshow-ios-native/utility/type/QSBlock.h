@@ -24,5 +24,7 @@ typedef void (^OperationErrorBlock)(MKNetworkOperation *completedOperation, NSEr
 typedef void (^ArraySuccessBlock)(NSArray* array, NSDictionary* metadata);
 typedef void (^EntitySuccessBlock)(NSDictionary *data, NSDictionary *metadata);
 typedef MKNetworkOperation* (^ArrayNetworkBlock)(ArraySuccessBlock, ErrorBlock, int);
+typedef NSArray* (^ArrayBlock)(id);
+typedef id(^IdBlock)(id);
 
 #endif

@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "QSBlock.h"
 @interface NSArray(QSExtension)
 
 - (NSMutableArray*)deepMutableCopy;
+- (NSArray*)mapUsingBlock:(IdBlock)block;
+- (NSArray*)filteredArrayUsingBlock:(FilterBlock)block;
 
 @end
