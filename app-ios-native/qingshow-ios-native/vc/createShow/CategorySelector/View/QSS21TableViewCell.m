@@ -65,38 +65,43 @@
 #pragma mark -- 设置scrollView item
 - (void)setItemsWith:(NSArray *)array
 {
-    self.scrollView.contentSize = CGSizeMake(7*kItemWith, kItemHeight);
-    for (int i = 0; i < 7; i ++) {
+    self.scrollView.contentSize = CGSizeMake(array.count*kItemWith, kItemHeight);
+//    for (QSS21ItemButton *item in self.scrollView.subviews) {
+//        [item removeFromSuperview];
+//    }
+    for (int i = 0; i < array.count; i ++) {
         
         //初始化resultArray
         //从nib记载自定义button
         NSArray *nibViews = [[NSBundle mainBundle] loadNibNamed:@"QSS21ItemButton" owner:self options:nil];
         
         QSS21ItemButton *item = [nibViews lastObject];
-        item.frame = CGRectMake(i *94, 0, 64, 117);
+        item.frame = CGRectMake(i *kItemWith, 0, 64, kItemHeight);
         
         [item addTarget:self action:@selector(changeitemState:) forControlEvents:UIControlEventTouchUpInside];
         
-//      设置item的title image （normal/selected）
-//        NSDictionary *itemDic = array[i];
-//        item.itemDic = itemDic;
-        item.itemDic = @{@"llajl":@"xiaoliu"};
-//        NSString *itemName = itemDic[@"name"];
-//        [item setTitle:itemName forState:UIControlStateNormal];
-//        [item setTitle:itemName forState:UIControlStateSelected];
-//        
-//        NSString *imgUrl = itemDic[@"icon"];
-//        NSString *imgSelectedUrl = itemDic[@"icon"];
-//        NSString *testUrl = @"";
-//        
-//        NSData *normalImgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl]];
-//        NSData *selectedImdData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgSelectedUrl]];
-//        
-//        UIImage *norMalImg = [[UIImage alloc] initWithData:normalImgData];
-//        UIImage *selectedImg = [[UIImage alloc] initWithData:selectedImdData];
-//        [item setImage:norMalImg forState:UIControlStateNormal];
-//        [item setImage:selectedImg forState:UIControlStateSelected];
+        //设置item的title image （normal/selected）
+        NSDictionary *itemDic = array[i];
+        item.itemDic = itemDic;
+        NSString *itemName = itemDic[@"name"];
+        [item setTitle:itemName forState:UIControlStateNormal];
+        [item setTitle:itemName forState:UIControlStateSelected];
+       
+        NSString *imgUrl = itemDic[@"icon"];
+        NSRange range = [imgUrl rangeOfString:@".png"];
+        NSString *rangeStr = [imgUrl substringToIndex:range.location];
+        NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_grey.png",rangeStr];
         
+        NSData *normalImgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgUrl]];
+        NSData *selectedImdData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imgSelectedUrl]];
+        
+        UIImage *norMalImg = [[UIImage alloc] initWithData:normalImgData];
+        UIImage *selectedImg = [[UIImage alloc] initWithData:selectedImdData];
+        [item setImage:norMalImg forState:UIControlStateNormal];
+        [item setImage:selectedImg forState:UIControlStateSelected];
+        if (item.itemDic == self.recordDic) {
+            item.selected = YES;
+        }
         [self.scrollView addSubview:item];
     }
 }
