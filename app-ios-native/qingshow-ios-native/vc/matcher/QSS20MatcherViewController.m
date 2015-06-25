@@ -26,7 +26,7 @@
 @property (strong, nonatomic) NSMutableDictionary* cateIdToProvider;
 
 @property (strong, nonatomic) NSString* selectedCateId;
-
+@property (strong, nonatomic) NSArray* allCategories;
 @end
 
 @implementation QSS20MatcherViewController
@@ -61,6 +61,7 @@
     
     
     [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+        self.allCategories = array;
         [self updateCategory:array];
     } onError:nil];
     self.cateIdToProvider = [@{} mutableCopy];
@@ -83,7 +84,7 @@
     NSArray* categoryArray = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
         return p.categoryDict;
     }];
-    QSS21CategorySelectorVC* vc = [[QSS21CategorySelectorVC alloc] initWithCategories:categoryArray];
+    QSS21CategorySelectorVC* vc = [[QSS21CategorySelectorVC alloc] initWithCategories:self.allCategories selectedCategories:categoryArray];
     vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }

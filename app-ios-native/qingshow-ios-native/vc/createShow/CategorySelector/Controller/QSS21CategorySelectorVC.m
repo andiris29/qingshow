@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray* categories;
+@property (strong, nonatomic) NSArray* selectedCategories;
 @property (strong , nonatomic)QSS21TableViewProvider *provider;
 
 @end
@@ -20,10 +21,12 @@
 @implementation QSS21CategorySelectorVC
 
 #pragma mark - Init
-- (instancetype)initWithCategories:(NSArray*)array {
+- (instancetype)initWithCategories:(NSArray*)array selectedCategories:(NSArray*)selectedCategories {
     self = [super initWithNibName:@"QSS21CategorySelectorVC" bundle:nil];
     if (self) {
+#warning self.categories是所有的category，self.selectedCategories是已经被用户选中的category
         self.categories = array;
+        self.selectedCategories = selectedCategories;
     }
     return self;
 }

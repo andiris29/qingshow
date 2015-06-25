@@ -18,6 +18,6 @@
 
 @interface QSS21CategorySelectorVC : UIViewController
 
-- (instancetype)initWithCategories:(NSArray*)array;
+- (instancetype)initWithCategories:(NSArray*)array selectedCategories:(NSArray*)selectedCategories;
 @property (weak, nonatomic) NSObject<QSS21CategorySelectorVCDelegate>* delegate;
 @end
