@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.focosee.qingshow.util.ImgUtil;
 
 /**
  * Created by Administrator on 2015/4/23.
@@ -54,7 +55,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
         SimpleDraweeView draweeView;
         if(null != (view = getView(id))){
             draweeView = (SimpleDraweeView) view;
-            draweeView.setImageURI(Uri.parse(url));
+            draweeView.setImageURI(Uri.parse(ImgUtil.getImgSrc(url,-1)));
             if (ratdio != 0){
                 draweeView.setAspectRatio(ratdio);
             }

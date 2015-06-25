@@ -41,8 +41,6 @@ public class S21CategoryActivity extends Activity {
         super.onResume();
         getDataFromNet();
         s21_listview.setDividerHeight(0);
-
-
     }
 
     public void back(View view) {
