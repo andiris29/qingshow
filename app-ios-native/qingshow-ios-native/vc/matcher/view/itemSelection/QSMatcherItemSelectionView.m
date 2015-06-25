@@ -109,7 +109,7 @@
         self.previousBtn.userInteractionEnabled = YES;
         self.currentIndex -= 3;
         [self reloadImageAndOffset];
-
+        [self checkFinish];
     }];
 
 }
@@ -124,6 +124,7 @@
         self.nextBtn.userInteractionEnabled = YES;
         self.currentIndex += 3;
         [self reloadImageAndOffset];
+        [self checkFinish];
     }];
     
 
@@ -153,6 +154,7 @@
     
     self.currentIndex += deltaIndex;
     [self reloadImageAndOffset];
+    [self checkFinish];
 }
 
 #pragma mark - Reload
@@ -207,6 +209,14 @@
     int actualIndex = self.currentIndex - baseIndex + index;
     if ([self.delegate respondsToSelector:@selector(selectionView:didSelectItemAtIndex:)]) {
         [self.delegate selectionView:self didSelectItemAtIndex:actualIndex];
+    }
+}
+
+- (void)checkFinish {
+    if (self.currentIndex + 3 >= self.count) {
+        if ([self.delegate respondsToSelector:@selector(selectionViewDidReachEnd:)]) {
+            [self.delegate selectionViewDidReachEnd:self];
+        }
     }
 }
 @end

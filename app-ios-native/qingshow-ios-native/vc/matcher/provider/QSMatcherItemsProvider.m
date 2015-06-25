@@ -14,6 +14,8 @@
 @interface QSMatcherItemsProvider ()
 
 @property (assign, nonatomic) int currentPage;
+@property (strong, nonatomic) MKNetworkOperation* loadMoreOp;
+@property (strong, nonatomic) MKNetworkOperation* reloadOp;
 @end
 
 @implementation QSMatcherItemsProvider
@@ -43,10 +45,40 @@
         [self.delegate matcherItemProvider:self ofCategory:self.categoryDict didSelectItem:item];
     }
 }
+- (void)selectionViewDidReachEnd:(QSMatcherItemSelectionView *)view {
+    if (self.reloadOp || self.loadMoreOp) {
+        return;
+    }
+    
+    
+    __block int nextPage = self.currentPage + 1;
+    self.loadMoreOp = [SHARE_NW_ENGINE matcherQueryItemsCategory:self.categoryDict page:nextPage onSucceed:^(NSArray *array, NSDictionary *metadata) {
+        self.currentPage = nextPage;
+        
+        [self.resultArray addObjectsFromArray:array];
+        
+        if ([self.delegate respondsToSelector:@selector(matcherItemProvider:didFinishNetworkLoading:)]) {
+            [self.delegate matcherItemProvider:self didFinishNetworkLoading:self.categoryDict];
+        }
+        self.loadMoreOp = nil;
+    } onError:^(NSError *error) {
+        self.loadMoreOp = nil;
+    }];
+    
+}
 
 
 - (void)reloadData {
-    [SHARE_NW_ENGINE matcherQueryItemsCategory:self.categoryDict page:1 onSucceed:^(NSArray *array, NSDictionary *metadata) {
+    self.currentPage = 1;
+    if (self.reloadOp) {
+        return;
+    }
+    if (self.loadMoreOp) {
+        [self.loadMoreOp cancel];
+        self.loadMoreOp = nil;
+    }
+
+    self.reloadOp = [SHARE_NW_ENGINE matcherQueryItemsCategory:self.categoryDict page:self.currentPage onSucceed:^(NSArray *array, NSDictionary *metadata) {
         [self.resultArray removeAllObjects];
         [self.resultArray addObjectsFromArray:array];
         
@@ -60,6 +92,9 @@
         if ([self.delegate respondsToSelector:@selector(matcherItemProvider:didFinishNetworkLoading:)]) {
             [self.delegate matcherItemProvider:self didFinishNetworkLoading:self.categoryDict];
         }
-    } onError:nil];
+        self.reloadOp = nil;
+    } onError:^(NSError *error) {
+        self.reloadOp = nil;
+    }];
 }
 @end

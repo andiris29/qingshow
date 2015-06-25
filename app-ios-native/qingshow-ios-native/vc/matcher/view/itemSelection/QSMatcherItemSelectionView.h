@@ -13,7 +13,7 @@
 @protocol QSMatcherItemSelectionViewDelegate <NSObject>
 @optional
 - (void)selectionView:(QSMatcherItemSelectionView*)view didSelectItemAtIndex:(NSUInteger)index;
-
+- (void)selectionViewDidReachEnd:(QSMatcherItemSelectionView *)view;
 @end
 
 @protocol QSMatcherItemSelectionViewDataSource <NSObject>
