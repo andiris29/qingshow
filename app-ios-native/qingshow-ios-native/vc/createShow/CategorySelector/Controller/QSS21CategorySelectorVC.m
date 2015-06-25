@@ -56,9 +56,11 @@
 
 #pragma mark -- 开始搭配
 - (IBAction)goToMakeShow:(UIButton *)sender {
-#warning TODO//获取provider的resultArray
     NSArray *result = [self.provider getResultArray];
-    NSLog(@"%@",result);
+    if ([self.delegate respondsToSelector:@selector(didSelectCategories:)]) {
+        [self.delegate didSelectCategories:result];
+    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

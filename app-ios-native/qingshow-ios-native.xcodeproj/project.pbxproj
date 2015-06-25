@@ -248,6 +248,7 @@
 		EFAD75741B3A4C7300565DED /* QSMatcherCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD75731B3A4C7300565DED /* QSMatcherCanvasView.m */; };
 		EFAD75761B3A4C8200565DED /* QSMatcherCanvasView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */; };
 		EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD757B1B3AFD4C00565DED /* QSCanvasImageView.m */; };
+		EFAD758D1B3BAE1300565DED /* QSMatcherItemsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAD758C1B3BAE1300565DED /* QSMatcherItemsProvider.m */; };
 		EFB1ADCF1B371525007893AB /* QSS20MatcherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */; };
 		EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */; };
 		EFB1ADE51B372080007893AB /* QSMatcherItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1ADE01B372080007893AB /* QSMatcherItemImageView.m */; };
@@ -823,6 +824,8 @@
 		EFAD75751B3A4C8200565DED /* QSMatcherCanvasView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherCanvasView.xib; sourceTree = "<group>"; };
 		EFAD757A1B3AFD4C00565DED /* QSCanvasImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCanvasImageView.h; sourceTree = "<group>"; };
 		EFAD757B1B3AFD4C00565DED /* QSCanvasImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCanvasImageView.m; sourceTree = "<group>"; };
+		EFAD758B1B3BAE1300565DED /* QSMatcherItemsProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemsProvider.h; sourceTree = "<group>"; };
+		EFAD758C1B3BAE1300565DED /* QSMatcherItemsProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemsProvider.m; sourceTree = "<group>"; };
 		EFB003241AD58FBF0097AB82 /* QSPaymentConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSPaymentConst.h; sourceTree = "<group>"; };
 		EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS20MatcherViewController.h; sourceTree = "<group>"; };
 		EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS20MatcherViewController.m; sourceTree = "<group>"; };
@@ -2086,9 +2089,19 @@
 			path = people;
 			sourceTree = "<group>";
 		};
+		EFAD75891B3BADF700565DED /* provider */ = {
+			isa = PBXGroup;
+			children = (
+				EFAD758B1B3BAE1300565DED /* QSMatcherItemsProvider.h */,
+				EFAD758C1B3BAE1300565DED /* QSMatcherItemsProvider.m */,
+			);
+			path = provider;
+			sourceTree = "<group>";
+		};
 		EFB1ADCA1B371478007893AB /* matcher */ = {
 			isa = PBXGroup;
 			children = (
+				EFAD75891B3BADF700565DED /* provider */,
 				EFB1ADDC1B372080007893AB /* view */,
 				EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */,
 				EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */,
@@ -2725,6 +2738,7 @@
 				EFCA01311B00F96F00199BCF /* QSNavigationController.m in Sources */,
 				EF0C642C1B21AAC20079B22E /* QSU02InfoTextCell.m in Sources */,
 				EFAB9C651B346FE5008A4EF5 /* QSWaterfallBasicProvider.m in Sources */,
+				EFAD758D1B3BAE1300565DED /* QSMatcherItemsProvider.m in Sources */,
 				EF78E3361AAF459800665EDD /* QSU09OrderListViewController.m in Sources */,
 				EFB1ADEB1B386889007893AB /* QSNetworkEngine+MatcherService.m in Sources */,
 				EFA1F5691A5305DE00010F79 /* UIImage+Rotation.m in Sources */,

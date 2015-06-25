@@ -1,0 +1,32 @@
+//
+//  QSMatcherItemsProvider.h
+//  qingshow-ios-native
+//
+//  Created by wxy325 on 6/25/15.
+//  Copyright (c) 2015 QS. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "QSMatcherItemSelectionView.h"
+
+@class QSMatcherItemsProvider;
+
+@protocol QSMatcherItemsProviderDelegate
+
+- (void)matcherItemProvider:(QSMatcherItemsProvider*)provider ofCategory:(NSDictionary*)categoryDict didSelectItem:(NSDictionary*)itemDict;
+- (void)matcherItemProvider:(QSMatcherItemsProvider*)provider didFinishNetworkLoading:(NSDictionary*)categoryDict;
+
+@end
+
+@interface QSMatcherItemsProvider : NSObject <QSMatcherItemSelectionViewDataSource, QSMatcherItemSelectionViewDelegate>
+
+- (instancetype)initWithCategory:(NSDictionary*)categoryDict;
+
+@property (strong, nonatomic) NSDictionary* categoryDict;
+@property (assign, nonatomic) int selectIndex;
+@property (strong, nonatomic) NSMutableArray* resultArray;
+@property (weak, nonatomic) NSObject<QSMatcherItemsProviderDelegate>* delegate;
+
+- (void)reloadData;
+
+@end

@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "QSMatcherItemSelectionView.h"
 #import "QSMatcherCanvasView.h"
+#import "QSS21CategorySelectorVC.h"
+#import "QSMatcherItemsProvider.h"
 
 @protocol QSMenuProviderDelegate;
 
-@interface QSS20MatcherViewController : UIViewController <QSMatcherItemSelectionViewDataSource, QSMatcherItemSelectionViewDelegate, QSMatcherCanvasViewDelegate>
+@interface QSS20MatcherViewController : UIViewController <QSMatcherCanvasViewDelegate, QSMatcherItemsProviderDelegate, QSS21CategorySelectorVCDelegate>
 
 - (instancetype)init;
 

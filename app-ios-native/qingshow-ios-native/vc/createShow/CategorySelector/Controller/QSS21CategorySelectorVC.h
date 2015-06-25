@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class QSS21CategorySelectorVC;
+
+@protocol QSS21CategorySelectorVCDelegate <NSObject>
+
+- (void)didSelectCategories:(NSArray*)categoryArray;
+
+@end
+
 @interface QSS21CategorySelectorVC : UIViewController
 
 - (instancetype)initWithCategories:(NSArray*)array;
+@property (weak, nonatomic) NSObject<QSS21CategorySelectorVCDelegate>* delegate;
 @end
