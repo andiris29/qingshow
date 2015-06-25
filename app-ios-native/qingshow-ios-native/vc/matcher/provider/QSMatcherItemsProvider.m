@@ -39,7 +39,7 @@
 }
 
 - (void)selectionView:(QSMatcherItemSelectionView*)view didSelectItemAtIndex:(NSUInteger)index {
-
+    self.selectIndex = index;
     NSDictionary* item = self.resultArray[index];
     if ([self.delegate respondsToSelector:@selector(matcherItemProvider:ofCategory:didSelectItem:)]) {
         [self.delegate matcherItemProvider:self ofCategory:self.categoryDict didSelectItem:item];

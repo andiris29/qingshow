@@ -199,14 +199,20 @@
             [v bindWithItem:nil];
             v.hidden = YES;
         }
+        v.hovered = itemIndex == self.selectIndex;
     }
 }
 
 
 - (void)didClick:(QSMatcherItemImageView*)imgView {
+    for (QSMatcherItemImageView* v in self.itemImageViews) {
+        v.hovered = v == imgView;
+    }
     int index = [self.itemImageViews indexOfObject:imgView];
     int baseIndex =self.scrollView.contentOffset.x / self.scrollView.bounds.size.width * 3;
     int actualIndex = self.currentIndex - baseIndex + index;
+    
+    self.selectIndex = actualIndex;
     if ([self.delegate respondsToSelector:@selector(selectionView:didSelectItemAtIndex:)]) {
         [self.delegate selectionView:self didSelectItemAtIndex:actualIndex];
     }
@@ -218,5 +224,10 @@
             [self.delegate selectionViewDidReachEnd:self];
         }
     }
+}
+
+- (void)offsetToZero:(BOOL)fAnimate{
+    self.currentIndex = 0;
+    [self.scrollView setContentOffset:[self getOffset] animated:fAnimate];
 }
 @end

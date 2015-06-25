@@ -119,7 +119,9 @@
     QSMatcherItemsProvider* provider = self.cateIdToProvider[selectedCateId];
     self.itemSelectionView.datasource = provider;
     self.itemSelectionView.delegate = provider;
+    self.itemSelectionView.selectIndex = provider.selectIndex;
     [self.itemSelectionView reloadData];
+    [self.itemSelectionView offsetToZero:YES];
 }
 
 #pragma mark canvas
