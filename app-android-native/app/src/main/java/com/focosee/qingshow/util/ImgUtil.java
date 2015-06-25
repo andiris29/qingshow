@@ -1,5 +1,7 @@
 package com.focosee.qingshow.util;
 
+import android.net.Uri;
+
 public class ImgUtil {
 
     public static String imgTo2x(String url) {
@@ -12,7 +14,6 @@ public class ImgUtil {
     public static String getImgSrc(String url, int scale) {
         String[] array = url.split("\\.");
         String type = "." + array[array.length - 1];
-
         String result = "";
         switch (scale) {
             case 1:
@@ -32,5 +33,13 @@ public class ImgUtil {
         }
 
         return result;
+    }
+
+    public static Uri changeImgUri(String uri) {
+        String[] array = uri.split("\\.");
+        String type = "." + array[array.length - 1];
+        String result = "";
+        result = uri.replace(type, "_grey" + type);
+        return Uri.parse(result);
     }
 }

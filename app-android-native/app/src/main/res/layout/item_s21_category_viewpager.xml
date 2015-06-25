@@ -6,13 +6,13 @@
     android:orientation="horizontal">
 <LinearLayout
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:layout_weight="1"
     android:orientation="vertical">
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_s21_category_1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginBottom="5dp"
         android:background="#00000000"
@@ -30,13 +30,13 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_weight="1"
         android:orientation="vertical">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_s21_category_2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginBottom="5dp"
             android:background="#00000000"
@@ -54,13 +54,13 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_weight="1"
         android:orientation="vertical">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_s21_category_3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginBottom="5dp"
             android:background="#00000000"
