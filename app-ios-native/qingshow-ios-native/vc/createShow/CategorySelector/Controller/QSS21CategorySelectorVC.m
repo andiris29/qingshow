@@ -8,6 +8,7 @@
 
 #import "QSS21CategorySelectorVC.h"
 #import "QSS21TableViewProvider.h"
+#import "QSBackBarItem.h"
 
 @interface QSS21CategorySelectorVC () <QSS21TableViewProviderDelegate>
 
@@ -24,7 +25,6 @@
 - (instancetype)initWithCategories:(NSArray*)array selectedCategories:(NSArray*)selectedCategories {
     self = [super initWithNibName:@"QSS21CategorySelectorVC" bundle:nil];
     if (self) {
-#warning self.categories是所有的category，self.selectedCategories是已经被用户选中的category
         self.categories = array;
         self.selectedCategories = selectedCategories;
     }
@@ -36,8 +36,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setLeftBarButtonItem];
+    
     [self setProvider];
     
+}
+#pragma mark -- 返回按钮设置
+- (void)setLeftBarButtonItem
+{
+    UIImage *backImage = [UIImage imageNamed:@"nav_btn_back"];
+    backImage  = [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:backImage style:UIBarButtonItemStylePlain target:self  action:@selector(gotoBack)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
+}
+- (void)gotoBack
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -54,6 +69,7 @@
     self.provider = [[QSS21TableViewProvider alloc] init];
     self.provider.delegate = self;
     self.provider.dataArray = self.categories;
+    self.provider.selectedArray = self.selectedCategories;
     [self.provider bindWithTableView:self.tableView];
 }
 

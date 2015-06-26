@@ -48,7 +48,8 @@
     
     NSDictionary *cellDic = self.dataArray[indexPath.row];
     
-    [cell setSubViewsWith:cellDic];
+    NSDictionary *dic = [self getSelectedDicCompareWithCellDic:cellDic];
+    [cell setSubViewsWith:cellDic andSelectedDic:dic];
     
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         cell.contentView.transform  = CGAffineTransformMakeScale(1.3, 1.3);
@@ -66,6 +67,17 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return [UIScreen mainScreen].bounds.size.width/16;
+}
+
+#pragma mark -- 获取记录的category
+- (NSDictionary *)getSelectedDicCompareWithCellDic:(NSDictionary *)cellDic
+{
+    for (NSDictionary *dic in self.selectedArray) {
+        if ([dic[@"parentRef"] isEqualToString:cellDic[@"_id"]]) {
+            return dic;
+        }
+    }
+    return nil;
 }
 
 #pragma mark -- 获取选择categorys

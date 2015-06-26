@@ -19,6 +19,6 @@
 @property (strong , nonatomic) NSDictionary *recordDic;
 
 //设置cell的子控件
-- (void)setSubViewsWith:(NSDictionary *)cellDic;
+- (void)setSubViewsWith:(NSDictionary *)cellDic andSelectedDic:(NSDictionary *)selectedDic;
 
 @end

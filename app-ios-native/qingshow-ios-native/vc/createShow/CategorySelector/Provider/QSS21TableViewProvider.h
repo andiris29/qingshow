@@ -19,6 +19,8 @@
 
 @property (strong , nonatomic) NSArray *dataArray;
 
+@property (strong , nonatomic) NSArray *selectedArray;
+
 //获取cell的记录结果
 - (NSMutableArray *)getResultArray;
 

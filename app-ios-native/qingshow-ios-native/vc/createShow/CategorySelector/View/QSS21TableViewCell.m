@@ -50,8 +50,11 @@
 }
 
 #pragma mark -- 设置子控件
-- (void)setSubViewsWith:(NSDictionary *)cellDic
+- (void)setSubViewsWith:(NSDictionary *)cellDic andSelectedDic:(NSDictionary *)selectedDic
 {
+    if (selectedDic) {
+        self.recordDic = selectedDic;
+    }
     //设置title圆角
     [self setTitleButtonCornerRadius];
     
