@@ -35,18 +35,12 @@ matcher.queryItems = {
     'func' : function(req, res) {
         var qsParam = req.body;
 
-        //if (!qsParam.category || !qsParam.category.length) {
-        //    ResponseHelper.response(res, ServerError.NotEnoughParam);
-        //    return;
-        //}
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var id = RequestHelper.parseId(qsParam.category);
             var criteria = {
-                'categoryRef' : id
+                'categoryRef' : RequestHelper.parseId(qsParam.categoryRef)
             };
             MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
         }, function(items) {
-            // responseDataBuilder
             return {
                 'items' : items 
             };

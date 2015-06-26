@@ -87,7 +87,7 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
         });
     },
     function(count, callback) {
-        var tasks = [], skipped = [], models = [];
+        var tasks = [], skipped = [];
         size = Math.min(size, count);
         for (var i = 0; i < size; i++) {
             tasks.push(function(callback) {
@@ -106,7 +106,7 @@ MongoHelper.queryRandom = function(query, queryCount, size, callback) {
                 });
             });
         }
-        async.parallel(tasks, callback);
+        async.series(tasks, callback);
     }], callback);
 };
 
