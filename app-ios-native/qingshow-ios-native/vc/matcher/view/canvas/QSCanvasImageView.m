@@ -27,9 +27,9 @@
         pinchGes.delegate = self;
         [self addGestureRecognizer:pinchGes];
         
-        UIRotationGestureRecognizer* rotateGes = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(didRotate:)];
-        rotateGes.delegate = self;
-        [self addGestureRecognizer:rotateGes];
+//        UIRotationGestureRecognizer* rotateGes = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(didRotate:)];
+//        rotateGes.delegate = self;
+//        [self addGestureRecognizer:rotateGes];
         
         UIPanGestureRecognizer* panGes = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
         panGes.delegate = self;

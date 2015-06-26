@@ -93,6 +93,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
     return [self setImageFromURL:url placeHolderImage:nil];
 }
 
+- (MKNetworkOperation*) setImageFromURL:(NSURL *)url completeBlock:(VoidBlock)completeBlock {
+    return [self setImageFromURL:url placeHolderImage:nil usingEngine:DefaultEngine animation:YES complete:completeBlock];
+}
+
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image {
     
     return [self setImageFromURL:url placeHolderImage:image usingEngine:DefaultEngine animation:YES];
@@ -104,6 +108,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
+    return [self setImageFromURL:url placeHolderImage:image usingEngine:imageCacheEngine animation:animation complete:nil];
+}
+
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation complete:(VoidBlock)completeBlock {
     if (self.contentMode != UIViewContentModeCenter) {
         self.preContentMode = self.contentMode;
     }
@@ -113,7 +121,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
     } else {
         self.image = nil;
     }
-
+    
     [self.imageFetchOperation cancel];
     if(!imageCacheEngine) imageCacheEngine = DefaultEngine;
     
@@ -129,11 +137,17 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                                           self.image = fetchedImage;
                                                                           self.contentMode = self.preContentMode;
                                                                           [self setCurrentImageUrl:[url absoluteString]];
+                                                                          if (completeBlock) {
+                                                                              completeBlock();
+                                                                          }
                                                                       } completion:nil];
                                                   } else {
                                                       self.image = fetchedImage;
                                                       self.contentMode = self.preContentMode;
                                                       [self setCurrentImageUrl:[url absoluteString]];
+                                                      if (completeBlock) {
+                                                          completeBlock();
+                                                      }
                                                   }
                                               } errorHandler:^(MKNetworkOperation *completedOperation, NSError *error) {
                                                   //                                              self.image = image;
@@ -151,5 +165,7 @@ const float kFreshLoadAnimationDuration = 0.35f;
     }
     
     return self.imageFetchOperation;
+    
 }
+
 @end

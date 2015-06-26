@@ -77,7 +77,18 @@
 }
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId {
     UIImageView* imgView = self.categoryIdToView[categoryId];
-    [imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
+    __weak UIImageView* weakImgView = imgView;
+    [imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] completeBlock:^{
+        UIImage* img = weakImgView.image;
+        CGSize imgSize = img.size;
+        CGSize viewSize = weakImgView.bounds.size;
+        CGFloat newHeigh = viewSize.width / imgSize.width * imgSize.height;
+        viewSize.height = newHeigh;
+        CGRect bounds = weakImgView.bounds;
+        bounds.size = viewSize;
+        weakImgView.bounds = bounds;
+    }];
+    
 }
 #pragma mark - Gesture
 - (void)didTapView:(UIGestureRecognizer*)ges {
