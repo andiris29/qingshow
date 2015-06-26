@@ -374,4 +374,12 @@
     return [QSTaobaoInfoUtil getColorPropertyName:taobaoInfo sku:sku];
     
 }
++ (NSURL*)getThumbnail:(NSDictionary *)itemDict {
+    NSString* s = [QSCommonUtil getStringValue:itemDict key:@"thumbnail"];
+    if (s) {
+        return [NSURL URLWithString:s];
+    } else {
+        return nil;
+    }
+}
 @end

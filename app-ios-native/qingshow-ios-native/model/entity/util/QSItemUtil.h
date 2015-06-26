@@ -23,6 +23,7 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 @interface QSItemUtil : NSObject
 
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict;
++ (NSURL*)getThumbnail:(NSDictionary*)itemDict;
 + (NSURL*)getFirstImagesUrl:(NSDictionary*)itemDict;
 + (NSString*)getItemTypeName:(NSDictionary*)itemDict;
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict;

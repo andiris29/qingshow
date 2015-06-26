@@ -77,7 +77,7 @@
 }
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId {
     UIImageView* imgView = self.categoryIdToView[categoryId];
-    [imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    [imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
 }
 #pragma mark - Gesture
 - (void)didTapView:(UIGestureRecognizer*)ges {

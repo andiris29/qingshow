@@ -43,8 +43,7 @@
 }
 
 - (void)bindWithItem:(NSDictionary*)itemDict {
-//    [self.imgView setImageFromURL:[NSURL URLWithString:@"http://trial01.focosee.com/a2015/m06010310.jpg"]];
-    [self.imgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
+    [self.imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict]];
     self.priceLabel.text = [QSItemUtil getPrice:itemDict];
 }
 
