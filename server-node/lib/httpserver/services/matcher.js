@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var path = require('path');
+var _ = require('underscore');
 
 // model
 var Category = require('../../model/categories');
@@ -59,9 +60,12 @@ matcher.save = {
 
         var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
 
+        var coverUrl = global.qsConfig.show.coverForeground.template;
+        coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
         var show = new Show({
             'itemRefs' : itemRefs, 
-            'ugc' : true
+            'ugc' : true,
+            'coverForeground' : coverUrl
         });
 
         show.save(function(err, show) {
