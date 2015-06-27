@@ -106,19 +106,18 @@ trade.create = {
 
 // Validate new status
 var _statusValidationMap = {
-    1 : [0], // 等待买家付款
-    2 : [1], // 等待倾秀代购
-    3 : [2], // 等待卖家发货
-    4 : [3], // 买家已签收
-    5 : [3, 4], // 交易成功
-    6 : [1, 2, 3, 4], // 申请退货中
-    7 : [6], // 退货中
-    8 : [7], // 退款中
-    9 : [8], // 退款成功
-    10 : [8],// 退款失败
-    11 : [3, 4], // 申请换货中
-    12 : [11], // 换货成功
-    13 : [11],// 换货失败
+    1 : [0],
+    2 : [1],
+    3 : [2],
+    5 : [3, 14],
+    15 : [3, 14],
+    7 : [3],
+    9 : [7],
+    10 : [7],
+    11 : [3],
+    13 : [11, 16],
+    14 : [11, 16],
+    17 : [1, 2]
 };
 trade.statusTo = {
     'method' : 'post',
@@ -184,9 +183,6 @@ trade.statusTo = {
                         }
                     });
                 }
-            } else if (newStatus == 4) {
-                trade.logistic = trade.logistic || {};
-                trade.logistic.receiptDate = param['logistic']['receiptDate'];
             } else if (newStatus == 5) {
                 // handle at callback interface
                 callback(ServerError.TradeStatusChangeError);
