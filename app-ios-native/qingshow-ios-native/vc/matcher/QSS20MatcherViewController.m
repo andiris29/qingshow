@@ -95,7 +95,15 @@
 
 - (IBAction)submitButtonPressed:(id)sender {
     NSArray* items = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
-        return p.resultArray[p.selectIndex];
+        if (p.selectIndex < p.resultArray.count) {
+            return p.resultArray[p.selectIndex];
+        } else {
+            return [NSNull null];
+        }
+        
+    }];
+    items = [items filteredArrayUsingBlock:^BOOL(NSDictionary* itemDict) {
+        return ![QSCommonUtil checkIsNil:itemDict];
     }];
 
     UIImage* snapshot = [self.canvasView submitView];
