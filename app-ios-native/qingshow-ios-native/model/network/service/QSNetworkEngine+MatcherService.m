@@ -55,7 +55,7 @@
                                             page:(int)page
                                        onSucceed:(ArraySuccessBlock)succeedBlock
                                          onError:(ErrorBlock)errorBlock {
-    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : [QSCommonUtil getIdOrEmptyStr:categoryDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+    return [self startOperationWithPath:PATH_MATCHER_QUERY_ITEMS method:@"GET" paramers:@{@"categoryRef" : [QSCommonUtil getIdOrEmptyStr:categoryDict], @"pageNo" : @(page), @"pageSize" : @20} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             succeedBlock([((NSArray*)[responseDict valueForKeyPath:@"data.items"]) deepMutableCopy], responseDict[@"metadata"]);
