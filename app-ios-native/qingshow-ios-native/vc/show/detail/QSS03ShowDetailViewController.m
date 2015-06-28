@@ -35,6 +35,11 @@
 @end
 
 @implementation QSS03ShowDetailViewController
+- (void)setMenuProvider:(NSObject<QSMenuProviderDelegate> *)menuProvider {
+    _menuProvider = menuProvider;
+    self.menuBtn.hidden = _menuProvider == nil;
+    self.backBtn.hidden = _menuProvider != nil;
+}
 #pragma mark - Init Method
 - (id)initWithShow:(NSDictionary*)showDict
 {
@@ -49,7 +54,7 @@
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-    
+    self.menuProvider = self.menuProvider;
     self.shareVc = [[QSShareViewController alloc] init];
     self.shareVc.delegate = self;
     [self.view addSubview:self.shareVc.view];
@@ -228,6 +233,10 @@
         vc.view.alpha = 1.f;
     }];
     
+}
+
+- (IBAction)menuBtnPressed:(id)sender {
+    [self.menuProvider didClickMenuBtn];
 }
 
 - (void)didClickItemListCloseBtn

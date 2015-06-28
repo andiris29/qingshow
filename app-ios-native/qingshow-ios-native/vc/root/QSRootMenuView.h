@@ -13,7 +13,7 @@
 
 @protocol QSRootMenuViewDelegate <NSObject>
 
-- (void)rootMenuItemPressedType:(QSRootMenuItemType)type;
+- (void)rootMenuItemPressedType:(QSRootMenuItemType)type oldType:(QSRootMenuItemType)oldType;
 - (void)rootMenuViewDidTapBlankView;
 
 @end

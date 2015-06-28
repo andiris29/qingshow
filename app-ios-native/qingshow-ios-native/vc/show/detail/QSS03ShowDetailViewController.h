@@ -11,7 +11,7 @@
 #import "QSShareViewController.h"
 #import "QSS07ItemListViewController.h"
 #import "QSVideoBaseViewController.h"
-
+#import "QSAbstractRootViewController.h"
 
 @interface QSS03ShowDetailViewController : QSVideoBaseViewController < UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate>
 
@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverBackgroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverForegroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (weak, nonatomic) IBOutlet UIButton *menuBtn;
 
 
 
@@ -43,11 +44,13 @@
 - (IBAction)shareBtnPressed:(id)sender;
 - (IBAction)likeBtnPressed:(id)sender;
 - (IBAction)itemButtonPressed:(id)sender;
+- (IBAction)menuBtnPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *modelContainer;
 
 @property (weak, nonatomic) IBOutlet UIButton *shareBtn;
 
 @property (strong, nonatomic) QSS07ItemListViewController* itemListVc;
+@property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
 @end

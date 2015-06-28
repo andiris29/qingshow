@@ -68,42 +68,50 @@
 {
     [self hideMenu];
 }
-- (void)rootMenuItemPressedType:(QSRootMenuItemType)type
+- (void)rootMenuItemPressedType:(QSRootMenuItemType)type oldType:(QSRootMenuItemType)oldType
 {
-    [super rootMenuItemPressedType:type];
+    [super rootMenuItemPressedType:type oldType:oldType];
     [self hideMenu];
-    UIViewController* vc = nil;
-    switch (type) {
-        case QSRootMenuItemMy: {
-            QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
-            u01Vc.menuProvider = self;
-            vc = u01Vc;
-            break;
+    if (oldType != type) {
+        UIViewController* vc = nil;
+        switch (type) {
+            case QSRootMenuItemMy: {
+                QSU01UserDetailViewController* u01Vc = [[QSU01UserDetailViewController alloc] initWithCurrentUser];
+                u01Vc.menuProvider = self;
+                vc = u01Vc;
+                break;
+            }
+            case QSRootMenuItemMeida: {
+                QSS01MatchShowsViewController * matcherShowVc = [[QSS01MatchShowsViewController alloc] init];
+                matcherShowVc.menuProvider = self;
+                vc = matcherShowVc;
+                break;
+            }
+            case QSRootMenuItemSetting: {
+                QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
+                settingVc.menuProvider = self;
+                vc = settingVc;
+                break;
+            }
+            case QSRootMenuItemMatcher: {
+                QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
+                matcherVc.menuProvider = self;
+                vc = matcherVc;
+                break;
+            }
         }
-        case QSRootMenuItemMeida: {
-            QSS01MatchShowsViewController * matcherShowVc = [[QSS01MatchShowsViewController alloc] init];
-            matcherShowVc.menuProvider = self;
-            vc = matcherShowVc;
-            break;
+        [self showVc:vc];
+        
+        if (![vc isKindOfClass:[QSS01MatchShowsViewController class]]) {
+            [self showRegisterVc];
         }
-        case QSRootMenuItemSetting: {
-            QSU02UserSettingViewController *settingVc = [[QSU02UserSettingViewController alloc]init];
-            settingVc.menuProvider = self;
-            vc = settingVc;
-            break;
-        }
-        case QSRootMenuItemMatcher: {
-            QSS20MatcherViewController* matcherVc = [[QSS20MatcherViewController alloc] init];
-            matcherVc.menuProvider = self;
-            vc = matcherVc;
-            break;
+    } else {
+        if ([self.contentVc isKindOfClass:[UINavigationController class]]) {
+            [((UINavigationController*)self.contentVc) popToRootViewControllerAnimated:NO];
         }
     }
-    [self showVc:vc];
     
-    if (![vc isKindOfClass:[QSS01MatchShowsViewController class]]) {
-        [self showRegisterVc];
-    }
+    
 }
 
 - (void)showVc:(UIViewController*)vc{

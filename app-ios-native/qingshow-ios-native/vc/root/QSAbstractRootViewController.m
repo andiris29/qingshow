@@ -142,7 +142,7 @@
 {
     [self hideMenu];
 }
-- (void)rootMenuItemPressedType:(QSRootMenuItemType)type
+- (void)rootMenuItemPressedType:(QSRootMenuItemType)type oldType:(QSRootMenuItemType)oldType
 {
     [self hideMenu];
 }

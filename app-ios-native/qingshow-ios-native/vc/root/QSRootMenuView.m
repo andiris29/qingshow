@@ -117,22 +117,14 @@
 }
 - (void)menuItemPressed:(QSRootMenuItem*)item
 {
-    if (self.currentType == item.type) {
-        
-        if ([self.delegate respondsToSelector:@selector(rootMenuViewDidTapBlankView)]) {
-            [self.delegate rootMenuViewDidTapBlankView];
-        }
-        
-        return;
-    }
+    QSRootMenuItemType oldType = self.currentType;
     self.currentType = item.type;
     for (QSRootMenuItem* i in self.itemArray) {
         [i.button setSelected:(i == item)];
     }
     
-    
-    if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:)]) {
-        [self.delegate rootMenuItemPressedType:item.type];
+    if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:oldType:)]) {
+        [self.delegate rootMenuItemPressedType:item.type oldType:oldType];
     }
 }
 

@@ -15,6 +15,7 @@
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "UIView+ScreenShot.h"
+#import "QSS03ShowDetailViewController.h"
 
 #import "NSArray+QSExtension.h"
 
@@ -109,7 +110,10 @@
     UIImage* snapshot = [self.canvasView submitView];
     [SHARE_NW_ENGINE matcherSave:items onSucceed:^(NSDictionary *dict) {
         [SHARE_NW_ENGINE matcher:dict updateCover:snapshot  onSucceed:^(NSDictionary *d) {
-            [self showShowDetailViewController:d];
+            QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:d];
+            vc.menuProvider = self.menuProvider;
+            [self.navigationController pushViewController:vc animated:YES];
+//            [self showShowDetailViewController:d];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
