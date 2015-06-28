@@ -51,6 +51,8 @@
         return [oldIdArray indexOfObject:idStr] == NSNotFound;
     }];
     
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
+    
     for (int i = 0; i < newCategoryArray.count; i++) {
         float sizeHeight = self.frame.size.height / 2;
         float sizeWidth = sizeHeight / 16 * 9;
@@ -58,10 +60,10 @@
         float height = self.frame.size.height  / ((newCategoryArray.count + 2)/ 3);
         UIImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), sizeWidth, sizeHeight)];
         imgView.userInteractionEnabled = YES;
-        UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView:)];
+        UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapEntityView:)];
         ges.minimumPressDuration = 0.f;
         [imgView addGestureRecognizer:ges];
-        
+
         NSDictionary* categoryDict = newCategoryArray[i];
         NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
         self.categoryIdToEntity[categoryId] = categoryDict;
@@ -92,7 +94,13 @@
     
 }
 #pragma mark - Gesture
-- (void)didTapView:(UIGestureRecognizer*)ges {
+- (void)didTapBlank:(UIGestureRecognizer*)ges {
+    [self updateHighlightView:nil];
+    if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
+        [self.delegate canvasView:self didTapCategory:nil];
+    }
+}
+- (void)didTapEntityView:(UIGestureRecognizer*)ges {
     if (ges.state == UIGestureRecognizerStateBegan) {
         [self bringSubviewToFront:ges.view];
         [self updateHighlightView:ges.view];

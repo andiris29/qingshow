@@ -138,7 +138,7 @@
 #pragma mark canvas
 - (void)canvasView:(QSMatcherCanvasView*)view didTapCategory:(NSDictionary*)categoryDict {
     self.selectedCateId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
-
+    
 }
 
 #pragma mark - Category Selection
