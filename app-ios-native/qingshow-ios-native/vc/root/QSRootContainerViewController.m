@@ -41,11 +41,8 @@
 }
 
 - (void)showDefaultVc {
-    if ([QSUserManager shareUserManager].userInfo) {
-        [self.menuView triggerItemTypePressed:QSRootMenuItemMy];
-    } else {
-        [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
-    }
+
+    [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
 
 }
 
