@@ -123,6 +123,9 @@
 
 
 - (void)setSelectedCateId:(NSString *)selectedCateId {
+    if ([_selectedCateId isEqualToString:selectedCateId]) {
+        return;
+    }
     _selectedCateId = selectedCateId;
     QSMatcherItemsProvider* provider = self.cateIdToProvider[selectedCateId];
     self.itemSelectionView.datasource = provider;
