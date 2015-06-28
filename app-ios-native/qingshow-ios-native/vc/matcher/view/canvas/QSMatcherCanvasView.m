@@ -78,8 +78,7 @@
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId {
     UIImageView* imgView = self.categoryIdToView[categoryId];
     __weak UIImageView* weakImgView = imgView;
-    [imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] completeBlock:^{
-        UIImage* img = weakImgView.image;
+    [imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
         CGSize imgSize = img.size;
         CGSize viewSize = weakImgView.bounds.size;
         CGFloat newHeigh = viewSize.width / imgSize.width * imgSize.height;
@@ -88,6 +87,8 @@
         bounds.size = viewSize;
         weakImgView.bounds = bounds;
     }];
+    
+
     
 }
 #pragma mark - Gesture

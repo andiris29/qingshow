@@ -35,9 +35,9 @@ extern const float kFreshLoadAnimationDuration;
 @interface UIImageView (MKNetworkKitAdditions)
 +(void) setDefaultEngine:(MKNetworkEngine*) engine;
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url;
-- (MKNetworkOperation*) setImageFromURL:(NSURL *)url completeBlock:(VoidBlock)completeBlock;;
+- (MKNetworkOperation*) setImageFromURL:(NSURL *)url beforeCompleteBlock:(ImgBlock)completeBlock;
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image;
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image animation:(BOOL) yesOrNo;
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) yesOrNo;
--(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) yesOrNo complete:(VoidBlock)completeBlock ;
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation beforeComplete:(ImgBlock)beforeBlock complete:(VoidBlock)completeBlock;
 @end

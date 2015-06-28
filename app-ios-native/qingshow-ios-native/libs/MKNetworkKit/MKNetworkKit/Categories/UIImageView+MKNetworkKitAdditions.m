@@ -93,8 +93,8 @@ const float kFreshLoadAnimationDuration = 0.35f;
     return [self setImageFromURL:url placeHolderImage:nil];
 }
 
-- (MKNetworkOperation*) setImageFromURL:(NSURL *)url completeBlock:(VoidBlock)completeBlock {
-    return [self setImageFromURL:url placeHolderImage:nil usingEngine:DefaultEngine animation:YES complete:completeBlock];
+- (MKNetworkOperation*) setImageFromURL:(NSURL *)url beforeCompleteBlock:(ImgBlock)completeBlock {
+    return [self setImageFromURL:url placeHolderImage:nil usingEngine:DefaultEngine animation:YES beforeComplete:completeBlock complete:nil];
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image {
@@ -108,10 +108,10 @@ const float kFreshLoadAnimationDuration = 0.35f;
 }
 
 -(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation {
-    return [self setImageFromURL:url placeHolderImage:image usingEngine:imageCacheEngine animation:animation complete:nil];
+    return [self setImageFromURL:url placeHolderImage:image usingEngine:imageCacheEngine animation:animation beforeComplete:nil complete:nil];
 }
 
--(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation complete:(VoidBlock)completeBlock {
+-(MKNetworkOperation*) setImageFromURL:(NSURL*) url placeHolderImage:(UIImage*) image usingEngine:(MKNetworkEngine*) imageCacheEngine animation:(BOOL) animation beforeComplete:(ImgBlock)beforeBlock complete:(VoidBlock)completeBlock {
     if (self.contentMode != UIViewContentModeCenter) {
         self.preContentMode = self.contentMode;
     }
@@ -134,6 +134,9 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                                         duration:isInCache?kFromCacheAnimationDuration:kFreshLoadAnimationDuration
                                                                          options:UIViewAnimationOptionTransitionCrossDissolve | UIViewAnimationOptionAllowUserInteraction
                                                                       animations:^{
+                                                                          if (beforeBlock) {
+                                                                              beforeBlock(fetchedImage);
+                                                                          }
                                                                           self.image = fetchedImage;
                                                                           self.contentMode = self.preContentMode;
                                                                           [self setCurrentImageUrl:[url absoluteString]];
@@ -142,6 +145,9 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                                                           }
                                                                       } completion:nil];
                                                   } else {
+                                                      if (beforeBlock) {
+                                                          beforeBlock(fetchedImage);
+                                                      }
                                                       self.image = fetchedImage;
                                                       self.contentMode = self.preContentMode;
                                                       [self setCurrentImageUrl:[url absoluteString]];
@@ -156,7 +162,11 @@ const float kFreshLoadAnimationDuration = 0.35f;
                                               }];
         NSData* data = [imageCacheEngine cachedDataForOperation:self.imageFetchOperation];
         if (data) {
-            self.image = [[UIImage alloc] initWithData:data];
+            UIImage* preImage = [[UIImage alloc] initWithData:data];
+            if (beforeBlock) {
+                beforeBlock(preImage);
+            }
+            self.image = preImage;
             self.contentMode = self.preContentMode;
         }
     } else {

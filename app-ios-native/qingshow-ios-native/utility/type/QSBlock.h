@@ -14,6 +14,7 @@
 
 
 typedef void (^VoidBlock)(void);
+typedef void (^ImgBlock) (UIImage* image);
 typedef void (^DicBlock) (NSDictionary*);
 typedef void (^BoolBlock)(BOOL);
 typedef BOOL (^FilterBlock)(id);
