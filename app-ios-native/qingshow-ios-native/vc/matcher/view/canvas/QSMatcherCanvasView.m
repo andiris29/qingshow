@@ -116,6 +116,9 @@
                 }
             }
         }
+    } else if (ges.state != UIGestureRecognizerStateChanged) {
+        //End
+        
     }
 }
 

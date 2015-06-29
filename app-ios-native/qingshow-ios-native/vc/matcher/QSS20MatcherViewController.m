@@ -46,7 +46,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    float height = ([UIScreen mainScreen].bounds.size.width - 4 * 2 - 31 * 2) / 3 + 4 + 22 + 22;
+    float height = ([UIScreen mainScreen].bounds.size.width - 4 * 2 - 31 * 2) / 3 + 4 + 22 + 5;
     self.selectionHeightConstraint.constant = height;
     
     
