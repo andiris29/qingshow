@@ -13,6 +13,11 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.headerImgView.layer.masksToBounds = YES;
+    self.headerImgView.layer.cornerRadius = 16.0;
+    self.headerImgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImgViewPressed:)];
+    [self.headerImgView addGestureRecognizer:tap];
 }
 
 - (void)bindWithDic:(NSDictionary *)dict
@@ -27,13 +32,13 @@
     self.userNameLabel.text = [QSShowUtil getNameStr:dict];
     NSString *groupStr = [QSShowUtil getRecommendGroup:dict];
     if (groupStr) {
-        if ([groupStr isEqualToString:@"A1"]) {
+        if ([groupStr isEqualToString:@"1"]) {
             self.bodyTypeImgView.image = [UIImage imageNamed:@"body_thin"];
         }
-        else if([groupStr isEqualToString:@"A2"]){
+        else if([groupStr isEqualToString:@"2"]){
             self.bodyTypeImgView.image = [UIImage imageNamed:@"body_nomal"];
         }
-        else if ([groupStr isEqualToString:@"A3"])
+        else if ([groupStr isEqualToString:@"3"])
         {
             self.bodyTypeImgView.image = [UIImage imageNamed:@"body_heavy"];
         }
@@ -45,6 +50,12 @@
     
 }
 
+- (void)headerImageViewPressed:(NSString *)userid
+{
+    if (1) {
+        
+    }
+}
 
 
 @end

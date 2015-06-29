@@ -66,7 +66,9 @@
     if ([QSCommonUtil checkIsNil:dict]) {
         return nil;
     }
-    NSString* cover = [dict valueForKeyPath:@"coverInfo.foreground"];
+    NSDictionary *dic = [dict valueForKey:@"__context"];
+    NSDictionary *createDic = dic[@"createdBy"];
+    NSString* cover = createDic[@"background"];
     if ([QSCommonUtil checkIsNil:cover]) {
         return nil;
     }
@@ -75,17 +77,21 @@
 
 + (NSString *)getNameStr:(NSDictionary *)dict
 {
-    NSString *nameStr = [dict valueForKey:@"__contenxt.createBy.nickname"];
-    NSLog(@"name = %@",nameStr);
+    NSDictionary *nameDic = [dict valueForKey:@"__context"];
+    NSDictionary *createDic = nameDic[@"createdBy"];
     NSLog(@"id = %@",[dict valueForKey:@"_id"]);
-    if (!nameStr) {
+    if (!createDic) {
         return nil;
     }
-    return nameStr;
+    return createDic[@"nickname"];
 }
 + (NSString *)getRecommendGroup:(NSDictionary *)dict
 {
-    NSString *groupStr = [dict valueForKey:@"recommend.group"];
+    NSDictionary *dic = [dict valueForKey:@"__context"];
+    NSDictionary *createDic = dic[@"createdBy"];
+    NSString *groupStr = [createDic[@"bodyType"] stringValue];
+    
+    NSLog(@"group = %@",groupStr);
     if ([QSCommonUtil checkIsNil:groupStr]) {
         return nil;
     }

@@ -9,7 +9,7 @@
 #import "QSMatchCollectionViewProvider.h"
 #import "QSMatchShowsCell.h"
 #import "QSU01MatchCollectionViewCell.h"
-
+#import "QSS03ShowDetailViewController.h"
 #define S01MATCHCELL @"matchShowsForS01CellId"
 #define U01MATCHCELL @"matchShowsForU01CellId"
 
@@ -45,7 +45,7 @@
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
         
-       // NSLog(@"result Array = %@",self.resultArray);
+        //NSLog(@"result Array = %@",self.resultArray);
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {
