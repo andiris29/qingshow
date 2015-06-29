@@ -20,6 +20,7 @@
     NSRange range = [imgUrl rangeOfString:@".png"];
     NSString *rangeStr = [imgUrl substringToIndex:range.location];
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_grey.png",rangeStr];
+
     if (self.itemDic == selectedDic) {
         [self.imgView setImageFromURL:[NSURL URLWithString:imgSelectedUrl] placeHolderImage:[UIImage imageNamed:@"selectedHoderImg"]];
     }else {
