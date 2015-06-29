@@ -68,15 +68,18 @@
     if (ges.state == UIGestureRecognizerStateBegan) {
         self.prePanTranslation = p;
     } else if (ges.state == UIGestureRecognizerStateChanged) {
+        CGAffineTransform tran = self.transform;
         self.transform = CGAffineTransformTranslate(self.transform, p.x - self.prePanTranslation.x, p.y - self.prePanTranslation.y);
-        self.prePanTranslation = p;
-    } else {
-        if (self.superview && !CGRectIntersectsRect(self.superview.frame, self.frame)) {
-            //移出屏幕外，则返回远处
-            self.transform = CGAffineTransformTranslate(self.transform, -self.prePanTranslation.x, -self.prePanTranslation.y);
+        
+        if (self.superview && !CGRectContainsRect(self.superview.frame, self.frame)) {
+            //不移出画布
+            self.transform = tran;
+        } else {
+            self.prePanTranslation = p;
         }
-        self.prePanTranslation = CGPointZero;
 
+    } else {
+        self.prePanTranslation = CGPointZero;
     }
 }
 
