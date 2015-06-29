@@ -97,11 +97,11 @@
         NSString *rangeStr = [imgUrl substringToIndex:range.location];
         NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_grey.png",rangeStr];
         
-        //设置未选中状态图片
-        UIImage *hoderImg = [UIImage imageNamed:@"hoderImg"];
         UIImageView *imgView = [[UIImageView alloc] init];
         [imgView setImageFromURL:[NSURL URLWithString:imgUrl]];
         if (imgView.image == nil) {
+            //设置未选中状态图片
+            UIImage *hoderImg = [UIImage imageNamed:@"hoderImg"];
             [item setImage:hoderImg forState:UIControlStateNormal];
         }else {
             [item setImage:imgView.image forState:UIControlStateNormal];
@@ -111,7 +111,8 @@
         UIImageView *selectedView = [[UIImageView alloc] init];
         [selectedView setImageFromURL:[NSURL URLWithString:imgSelectedUrl]];
         if (selectedView.image == nil) {
-            [item setImage:hoderImg forState:UIControlStateSelected];
+            UIImage *selectedHoderImg = [UIImage imageNamed:@"selectedHoderImg"];
+            [item setImage:selectedHoderImg forState:UIControlStateSelected];
         }else{
             [item setImage:selectedView.image forState:UIControlStateSelected];
         }
@@ -124,7 +125,7 @@
 }
 
 #pragma mark -- item触发事件
-- (void)changeitemState:(UIButton *)item
+- (void)changeitemState:(QSS21ItemButton *)item
 {
     UIScrollView *scroll = (UIScrollView *)item.superview;
     NSArray *items = scroll.subviews;
@@ -135,8 +136,13 @@
             itemBT.selected = NO;
         }
     }
-    QSS21ItemButton *itemButton = (QSS21ItemButton *)item;
-    self.recordDic = itemButton.itemDic;
+    
+    if (item.itemDic == self.recordDic) {
+        item.selected = NO;
+        self.recordDic = nil;
+        return ;
+    }
+    self.recordDic = item.itemDic;
     item.selected = YES;
     
 }
