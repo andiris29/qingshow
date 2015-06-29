@@ -94,7 +94,7 @@
     return [self startOperationWithPath:PATH_MATCHER_UPDATE_COVER
                                  method:@"POST"
                                paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:matcherDict]}
-                                fileKey:@"cover" image:UIImageJPEGRepresentation(cover, 0.5)
+                                fileKey:@"cover" image:UIImageJPEGRepresentation(cover, 1.0)
                             onSucceeded:^(MKNetworkOperation *completedOperation)
             {
                 NSDictionary* responseDict = completedOperation.responseJSON;
