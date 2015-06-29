@@ -13,5 +13,6 @@
 + (NSArray*)getChildren:(NSDictionary*)categoryDict;
 + (NSString*)getParentId:(NSDictionary*)categoryDict;
 
++ (BOOL)getMatchEnabled:(NSDictionary*)categoryDict;
 
 @end

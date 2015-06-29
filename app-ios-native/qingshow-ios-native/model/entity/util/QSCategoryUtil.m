@@ -18,4 +18,9 @@
 + (NSString*)getParentId:(NSDictionary*)categoryDict {
     return [QSCommonUtil getStringValue:categoryDict key:@"parentRef"];
 }
+
++ (BOOL)getMatchEnabled:(NSDictionary*)categoryDict {
+    NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.enabled"];
+    return n.boolValue;
+}
 @end
