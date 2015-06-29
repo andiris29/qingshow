@@ -84,6 +84,7 @@
         
         //添加点击手势
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeitemState:)];
+        singleTap.numberOfTapsRequired = 1;
         [item addGestureRecognizer:singleTap];
         
         //设置图片和title
@@ -107,22 +108,21 @@
     
     if (self.recordDic == item.itemDic) {
         self.recordDic = nil;
-    }else{
+    }else {
         self.recordDic = item.itemDic;
     }
+    
     for (int i = 0; i < items.count; i ++) {
         QSS21ItemView *itemBT = items[i];
         if (itemBT.tag) {
-            [item setSubViewsValueWith:self.recordDic];
+            [itemBT setSubViewsValueWith:self.recordDic];
         }
     }
-    
 }
 #pragma mark -- titleButton 设置圆角
 - (void)setTitleButtonCornerRadius
 {
     self.titleButton.layer.cornerRadius =  self.titleButton.frame.size.width/6.0;
 }
-
 
 @end
