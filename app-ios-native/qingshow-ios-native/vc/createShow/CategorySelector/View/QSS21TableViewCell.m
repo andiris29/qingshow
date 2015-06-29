@@ -9,6 +9,7 @@
 #import "QSS21TableViewCell.h"
 #import "QSS21ItemButton.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSS21ItemView.h"
 #import "QSS21TableViewProvider.h"
 
 #define seletedColor [UIColor colorWithRed:234/255.0 green:128/255.0 blue:146/255.0 alpha:1.0] 
@@ -69,81 +70,52 @@
 - (void)setItemsWith:(NSArray *)array
 {
     self.scrollView.contentSize = CGSizeMake(array.count*kItemWith, kItemHeight);
-//    for (QSS21ItemButton *item in self.scrollView.subviews) {
-//        [item removeFromSuperview];
-//    }
+    for (QSS21ItemView *item in self.scrollView.subviews) {
+        [item removeFromSuperview];
+    }
     for (int i = 0; i < array.count; i ++) {
         
         //初始化resultArray
         //从nib记载自定义button
-        NSArray *nibViews = [[NSBundle mainBundle] loadNibNamed:@"QSS21ItemButton" owner:self options:nil];
+        NSArray *nibViews = [[NSBundle mainBundle] loadNibNamed:@"QSS21ItemView" owner:self options:nil];
         
-        QSS21ItemButton *item = [nibViews lastObject];
+        QSS21ItemView *item = [nibViews lastObject];
         item.frame = CGRectMake(i *kItemWith, 0, 64, kItemHeight);
         
-        [item addTarget:self action:@selector(changeitemState:) forControlEvents:UIControlEventTouchUpInside];
+        //添加点击手势
+        UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeitemState:)];
+        [item addGestureRecognizer:singleTap];
         
-        //设置item的title image （normal/selected）
+        //设置图片和title
         NSDictionary *itemDic = array[i];
         item.itemDic = itemDic;
-       
-        NSString *itemName = itemDic[@"name"];
-        [item setTitle:itemName forState:UIControlStateNormal];
-        [item setTitle:itemName forState:UIControlStateSelected];
+        
+        [item setSubViewsValueWith:self.recordDic];
+        
         [self.scrollView addSubview:item];
         
-        NSString *imgUrl = itemDic[@"icon"];
-        NSRange range = [imgUrl rangeOfString:@".png"];
-        NSString *rangeStr = [imgUrl substringToIndex:range.location];
-        NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_grey.png",rangeStr];
-        
-        UIImageView *imgView = [[UIImageView alloc] init];
-        [imgView setImageFromURL:[NSURL URLWithString:imgUrl]];
-        if (imgView.image == nil) {
-            //设置未选中状态图片
-            UIImage *hoderImg = [UIImage imageNamed:@"hoderImg"];
-            [item setImage:hoderImg forState:UIControlStateNormal];
-        }else {
-            [item setImage:imgView.image forState:UIControlStateNormal];
         }
-        
-        //设置选中状态图片
-        UIImageView *selectedView = [[UIImageView alloc] init];
-        [selectedView setImageFromURL:[NSURL URLWithString:imgSelectedUrl]];
-        if (selectedView.image == nil) {
-            UIImage *selectedHoderImg = [UIImage imageNamed:@"selectedHoderImg"];
-            [item setImage:selectedHoderImg forState:UIControlStateSelected];
-        }else{
-            [item setImage:selectedView.image forState:UIControlStateSelected];
-        }
-        
-        if (item.itemDic == self.recordDic) {
-            item.selected = YES;
-        }
-        
-    }
+    
 }
 
 #pragma mark -- item触发事件
-- (void)changeitemState:(QSS21ItemButton *)item
+- (void)changeitemState:(UITapGestureRecognizer *)gesture
 {
+    QSS21ItemView *item = (QSS21ItemView *)gesture.view;
     UIScrollView *scroll = (UIScrollView *)item.superview;
     NSArray *items = scroll.subviews;
     
+    if (self.recordDic == item.itemDic) {
+        self.recordDic = nil;
+    }else{
+        self.recordDic = item.itemDic;
+    }
     for (int i = 0; i < items.count; i ++) {
-        QSS21ItemButton *itemBT = items[i];
+        QSS21ItemView *itemBT = items[i];
         if (itemBT.tag) {
-            itemBT.selected = NO;
+            [item setSubViewsValueWith:self.recordDic];
         }
     }
-    
-    if (item.itemDic == self.recordDic) {
-        item.selected = NO;
-        self.recordDic = nil;
-        return ;
-    }
-    self.recordDic = item.itemDic;
-    item.selected = YES;
     
 }
 #pragma mark -- titleButton 设置圆角
