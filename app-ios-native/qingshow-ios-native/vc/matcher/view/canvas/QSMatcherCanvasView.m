@@ -19,6 +19,13 @@
 
 @property (strong, nonatomic) NSMutableDictionary* categoryIdToEntity;
 @property (strong, nonatomic) NSMutableDictionary* categoryIdToView;
+
+@property (strong, nonatomic) UIView* currentFocusView;
+
+//For Gesture
+@property (assign, nonatomic) float prePinchScale;
+@property (assign, nonatomic) float preRotation;
+@property (assign, nonatomic) CGPoint prePanTranslation;
 @end
 
 @implementation QSMatcherCanvasView
@@ -30,6 +37,7 @@
 - (void)awakeFromNib {
     self.categoryIdToEntity = [@{} mutableCopy];
     self.categoryIdToView = [@{} mutableCopy];
+    [self addGesture];
 }
 
 - (void)bindWithCategory:(NSArray*)categoryArray {
@@ -94,6 +102,24 @@
     
 }
 #pragma mark - Gesture
+- (void)makeViewFocus:(UIView*)view {
+    self.currentFocusView = view;
+    [self bringSubviewToFront:view];
+    [self updateHighlightView:view];
+    
+    NSArray* idArray = [self.categoryIdToView allKeys];
+    NSString* categoryId = nil;
+    for (categoryId in idArray) {
+        UIView* v = self.categoryIdToView[categoryId];
+        if (v == view) {
+            NSDictionary* categoryDict = self.categoryIdToEntity[categoryId];
+            if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
+                [self.delegate canvasView:self didTapCategory:categoryDict];
+            }
+        }
+    }
+}
+//Tap
 - (void)didTapBlank:(UIGestureRecognizer*)ges {
     [self updateHighlightView:nil];
     if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
@@ -102,25 +128,85 @@
 }
 - (void)didTapEntityView:(UIGestureRecognizer*)ges {
     if (ges.state == UIGestureRecognizerStateBegan) {
-        [self bringSubviewToFront:ges.view];
-        [self updateHighlightView:ges.view];
-        
-        NSArray* idArray = [self.categoryIdToView allKeys];
-        NSString* categoryId = nil;
-        for (categoryId in idArray) {
-            UIView* view = self.categoryIdToView[categoryId];
-            if (view == ges.view) {
-                NSDictionary* categoryDict = self.categoryIdToEntity[categoryId];
-                if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
-                    [self.delegate canvasView:self didTapCategory:categoryDict];
-                }
-            }
+        if (self.currentFocusView) {
+            return;
         }
+        [self makeViewFocus:ges.view];
     } else if (ges.state != UIGestureRecognizerStateChanged) {
         //End
-        
+        self.currentFocusView = nil;
     }
 }
+
+//Pan, drag, pinch
+- (void)addGesture {
+    UIPinchGestureRecognizer* pinchGes = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(didPinch:)];
+    pinchGes.delegate = self;
+    [self addGestureRecognizer:pinchGes];
+    
+    //        UIRotationGestureRecognizer* rotateGes = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(didRotate:)];
+    //        rotateGes.delegate = self;
+    //        [self addGestureRecognizer:rotateGes];
+    
+    UIPanGestureRecognizer* panGes = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
+    panGes.delegate = self;
+    [self addGestureRecognizer:panGes];
+}
+
+- (void)didRotate:(UIRotationGestureRecognizer*)ges {
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        self.preRotation = ges.rotation;
+    } else if (ges.state == UIGestureRecognizerStateChanged) {
+        float newRotation = ges.rotation;
+        self.currentFocusView.transform = CGAffineTransformRotate(self.currentFocusView.transform, newRotation - self.preRotation);
+        self.preRotation = newRotation;
+    } else  {
+        self.preRotation = 0;
+    }
+}
+
+- (void)didPinch:(UIPinchGestureRecognizer*)ges {
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        self.prePinchScale = ges.scale;
+    } else if (ges.state == UIGestureRecognizerStateChanged) {
+        float newScale = ges.scale;
+        CGAffineTransform preTrans = self.currentFocusView.transform;
+        self.currentFocusView.transform = CGAffineTransformScale(self.currentFocusView.transform, newScale / self.prePinchScale, newScale / self.prePinchScale);
+        if (!CGRectContainsRect(self.frame, self.currentFocusView.frame)) {
+            //不移出画布
+            self.currentFocusView.transform = preTrans;
+        } else {
+            self.prePinchScale = newScale;
+        }
+
+    } else  {
+        self.prePinchScale = 1.f;
+    }
+    
+}
+
+- (void)didPan:(UIPanGestureRecognizer*)ges {
+    CGPoint p = [ges translationInView:self];
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        self.prePanTranslation = p;
+    } else if (ges.state == UIGestureRecognizerStateChanged) {
+        CGPoint c = self.currentFocusView.center;
+        self.currentFocusView.center = CGPointMake(c.x + p.x - self.prePanTranslation.x, c.y + p.y - self.prePanTranslation.y);
+        if (!CGRectContainsRect(self.frame, self.currentFocusView.frame)) {
+            //不移出画布
+            self.currentFocusView.center = c;
+        } else {
+            self.prePanTranslation = p;
+        }
+        
+    } else {
+        self.prePanTranslation = CGPointZero;
+    }
+}
+
+
+
+
 
 - (void)updateHighlightView:(UIView*)highlightView {
     NSArray* viewArray = [self.categoryIdToView allValues];
@@ -139,4 +225,14 @@
     [self updateHighlightView:nil];
     return [self makeScreenShot];
 }
+
+
+#pragma mark -
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
+        return NO;
+    }
+    return YES;
+}
+
 @end

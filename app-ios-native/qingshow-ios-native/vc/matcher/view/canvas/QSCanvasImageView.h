@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSCanvasImageView : UIImageView <UIGestureRecognizerDelegate>
+@interface QSCanvasImageView : UIImageView 
 
 @end

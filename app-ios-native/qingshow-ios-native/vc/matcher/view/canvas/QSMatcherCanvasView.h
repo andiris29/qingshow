@@ -16,7 +16,7 @@
 
 @end
 
-@interface QSMatcherCanvasView : UIView
+@interface QSMatcherCanvasView : UIView <UIGestureRecognizerDelegate>
 
 + (instancetype)generateView;
 - (void)bindWithCategory:(NSArray*)categoryArray;
