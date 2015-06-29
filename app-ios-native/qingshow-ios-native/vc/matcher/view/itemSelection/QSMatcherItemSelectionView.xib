@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -8,22 +8,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSMatcherItemSelectionView"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QSMatcherItemSelectionView">
-            <rect key="frame" x="0.0" y="0.0" width="386" height="128"/>
+            <rect key="frame" x="0.0" y="0.0" width="386" height="140"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="xik-An-ggQ">
-                    <rect key="frame" x="363" y="42" width="23" height="43"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="matcher_item_selection_next">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="nextBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="lar-Pr-MQt"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mVe-c3-pCz">
-                    <rect key="frame" x="0.0" y="42" width="23" height="43"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mVe-c3-pCz">
+                    <rect key="frame" x="8" y="32" width="23" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="hRu-dF-VrK"/>
+                        <constraint firstAttribute="width" constant="23" id="qK5-mt-Ick"/>
+                    </constraints>
                     <state key="normal" image="matcher_item_selection_pre">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -31,12 +24,34 @@
                         <action selector="previousBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="Tro-yD-jqq"/>
                     </connections>
                 </button>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Ux7-IZ-mVN">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ux7-IZ-mVN">
                     <rect key="frame" x="31" y="0.0" width="324" height="128"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xik-An-ggQ">
+                    <rect key="frame" x="355" y="32" width="23" height="43"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="23" id="QNo-zt-GZm"/>
+                        <constraint firstAttribute="height" constant="43" id="oNQ-Xt-aoF"/>
+                    </constraints>
+                    <state key="normal" image="matcher_item_selection_next">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="nextBtnPressed:" destination="iN0-l3-epB" eventType="touchUpInside" id="lar-Pr-MQt"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="xik-An-ggQ" secondAttribute="trailing" constant="8" id="7Kv-3L-gaj"/>
+                <constraint firstItem="Ux7-IZ-mVN" firstAttribute="centerY" secondItem="xik-An-ggQ" secondAttribute="centerY" constant="11" id="95c-t0-mhg"/>
+                <constraint firstItem="mVe-c3-pCz" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="Bzl-Kk-2lh"/>
+                <constraint firstAttribute="bottom" secondItem="Ux7-IZ-mVN" secondAttribute="bottom" constant="12" id="YgC-XD-nOD"/>
+                <constraint firstItem="mVe-c3-pCz" firstAttribute="centerY" secondItem="Ux7-IZ-mVN" secondAttribute="centerY" constant="-11" id="cNX-aL-qZj"/>
+                <constraint firstItem="Ux7-IZ-mVN" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eDz-Nm-Oya"/>
+                <constraint firstItem="xik-An-ggQ" firstAttribute="leading" secondItem="Ux7-IZ-mVN" secondAttribute="trailing" id="kBP-ya-jHU"/>
+                <constraint firstItem="Ux7-IZ-mVN" firstAttribute="leading" secondItem="mVe-c3-pCz" secondAttribute="trailing" id="rxT-ys-eIC"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
@@ -46,7 +61,7 @@
                 <outlet property="previousBtn" destination="mVe-c3-pCz" id="JSg-nK-YLa"/>
                 <outlet property="scrollView" destination="Ux7-IZ-mVN" id="nAp-WS-z6q"/>
             </connections>
-            <point key="canvasLocation" x="334" y="172"/>
+            <point key="canvasLocation" x="334" y="178"/>
         </view>
     </objects>
     <resources>

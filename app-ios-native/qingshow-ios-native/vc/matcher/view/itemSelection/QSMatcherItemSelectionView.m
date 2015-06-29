@@ -65,9 +65,9 @@
     self.scrollView.contentOffset = [self getOffset];
     
     //Update item image view
-    CGFloat height = bounds.size.height;
+
     CGFloat width = (bounds.size.width - 2 * DIVIDER_X_WIDTH) / 3;
-    
+    CGFloat height = width + 22;
     for (int i = 0; i < self.itemImageViews.count; i++) {
         QSMatcherItemImageView* v = self.itemImageViews[i];
         int screenNumber = i / 3;

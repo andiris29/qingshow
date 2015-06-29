@@ -26,6 +26,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary* cateIdToProvider;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *selectionHeightConstraint;
 @property (strong, nonatomic) NSString* selectedCateId;
 @property (strong, nonatomic) NSArray* allCategories;
 @end
@@ -44,6 +45,12 @@
 #pragma mark - Life Cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    float height = ([UIScreen mainScreen].bounds.size.width - 4 * 2 - 31 * 2) / 3 + 4 + 22 + 22;
+    self.selectionHeightConstraint.constant = height;
+    
+    
+    
     self.submitButton.layer.cornerRadius = 2.f;
     self.submitButton.layer.masksToBounds = YES;
     self.categorySelectionButton.layer.cornerRadius = 2.f;
