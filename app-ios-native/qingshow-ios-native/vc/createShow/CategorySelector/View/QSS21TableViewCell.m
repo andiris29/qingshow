@@ -7,7 +7,6 @@
 //
 
 #import "QSS21TableViewCell.h"
-#import "QSS21ItemButton.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSS21ItemView.h"
 #import "QSS21TableViewProvider.h"

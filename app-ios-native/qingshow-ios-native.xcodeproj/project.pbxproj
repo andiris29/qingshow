@@ -20,8 +20,6 @@
 		68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */; };
 		68D16CBC1B32DDA500A4646C /* QSS21TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */; };
 		68D16CC51B339BC100A4646C /* QSS21TableViewProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */; };
-		68D16CC81B33A24C00A4646C /* QSS21ItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CC71B33A24C00A4646C /* QSS21ItemButton.m */; };
-		68D16CCA1B33A2F800A4646C /* QSS21ItemButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CC91B33A2F800A4646C /* QSS21ItemButton.xib */; };
 		68D16D021B341A4700A4646C /* QSMatchShowsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16CFD1B341A4700A4646C /* QSMatchShowsCell.m */; };
 		68D16D031B341A4700A4646C /* QSMatchShowsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68D16CFE1B341A4700A4646C /* QSMatchShowsCell.xib */; };
 		68D16D041B341A4700A4646C /* QSS01MatchShowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D16D001B341A4700A4646C /* QSS01MatchShowsViewController.m */; };
@@ -361,9 +359,6 @@
 		68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = QSS21TableViewCell.xib; path = "qingshow-ios-native/vc/createShow/CategorySelector/View/QSS21TableViewCell.xib"; sourceTree = SOURCE_ROOT; };
 		68D16CC31B339BC100A4646C /* QSS21TableViewProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21TableViewProvider.h; sourceTree = "<group>"; };
 		68D16CC41B339BC100A4646C /* QSS21TableViewProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21TableViewProvider.m; sourceTree = "<group>"; };
-		68D16CC61B33A24C00A4646C /* QSS21ItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS21ItemButton.h; sourceTree = "<group>"; };
-		68D16CC71B33A24C00A4646C /* QSS21ItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS21ItemButton.m; sourceTree = "<group>"; };
-		68D16CC91B33A2F800A4646C /* QSS21ItemButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS21ItemButton.xib; sourceTree = "<group>"; };
 		68D16CFC1B341A4700A4646C /* QSMatchShowsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatchShowsCell.h; sourceTree = "<group>"; };
 		68D16CFD1B341A4700A4646C /* QSMatchShowsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatchShowsCell.m; sourceTree = "<group>"; };
 		68D16CFE1B341A4700A4646C /* QSMatchShowsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatchShowsCell.xib; sourceTree = "<group>"; };
@@ -1087,9 +1082,6 @@
 				68D16CB61B32DDA500A4646C /* QSS21TableViewCell.h */,
 				68D16CB71B32DDA500A4646C /* QSS21TableViewCell.m */,
 				68D16CB81B32DDA500A4646C /* QSS21TableViewCell.xib */,
-				68D16CC61B33A24C00A4646C /* QSS21ItemButton.h */,
-				68D16CC71B33A24C00A4646C /* QSS21ItemButton.m */,
-				68D16CC91B33A2F800A4646C /* QSS21ItemButton.xib */,
 				68DE6A961B40EB19001B829C /* QSS21ItemView.h */,
 				68DE6A971B40EB19001B829C /* QSS21ItemView.m */,
 				68DE6A991B40EB3B001B829C /* QSS21ItemView.xib */,
@@ -2614,7 +2606,6 @@
 				68824D951B0EBB57006E3151 /* QSU14DisplayCell.xib in Resources */,
 				EF610EFD1AF937F700B7DFB3 /* QSBigImageDateView.xib in Resources */,
 				EFC7ADAB1A10E22B0078D1F9 /* QSS03ShowDetailViewController.xib in Resources */,
-				68D16CCA1B33A2F800A4646C /* QSS21ItemButton.xib in Resources */,
 				8C9240091B25A83C0043561E /* user_head_default@2x.jpg in Resources */,
 				EF0C642D1B21AAC20079B22E /* QSU02InfoTextCell.xib in Resources */,
 				EFA618B21A125FE900560699 /* QSCommentTableViewCell.xib in Resources */,
@@ -2708,7 +2699,6 @@
 				EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */,
 				EFBC76491B332A6200832116 /* QSBadgeButton.m in Sources */,
 				EF810F791AB602240079BA76 /* QSCreateTradePayInfoSelectCell.m in Sources */,
-				68D16CC81B33A24C00A4646C /* QSS21ItemButton.m in Sources */,
 				EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */,
 				EFAD757C1B3AFD4C00565DED /* QSCanvasImageView.m in Sources */,
 				8C8658E51B33F2E7004DF14F /* QSU01MatchCollectionViewCell.m in Sources */,
