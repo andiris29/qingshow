@@ -265,10 +265,18 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 tempUri[position] = uri;
 
             } else {
+
                 reset(tempTv[position], tempImg[position], tempUri[position]);
-                tempTv[position] = tv;
-                tempImg[position] = img;
-                tempUri[position] = uri;
+                if (uri != tempUri[position]) {
+                    tempTv[position] = tv;
+                    tempImg[position] = img;
+                    tempUri[position] = uri;
+                } else {
+                    tempMemory[position] = 0;
+                    tempTv[position] = null;
+                    tempImg[position] = null;
+                    tempUri[position] = null;
+                }
             }
 
         }
