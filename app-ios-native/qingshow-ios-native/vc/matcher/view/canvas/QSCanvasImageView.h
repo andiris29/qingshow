@@ -13,6 +13,6 @@
 @property (strong, nonatomic) UIImageView* imgView;
 @property (assign, nonatomic) BOOL hover;
 
+- (void)hideRemoveBtn;
 - (BOOL)judgeIsHitRemoveButton:(CGPoint)p;
-
 @end

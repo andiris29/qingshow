@@ -22,12 +22,13 @@
 @property (strong, nonatomic) NSMutableDictionary* categoryIdToEntity;
 @property (strong, nonatomic) NSMutableDictionary* categoryIdToView;
 
-@property (strong, nonatomic) UIView* currentFocusView;
+@property (strong, nonatomic) QSCanvasImageView* currentFocusView;
 
 //For Gesture
 @property (assign, nonatomic) float prePinchScale;
 @property (assign, nonatomic) float preRotation;
 @property (assign, nonatomic) CGPoint prePanTranslation;
+@property (assign, nonatomic) CGPoint initPanTranslation;
 @end
 
 @implementation QSMatcherCanvasView
@@ -202,6 +203,7 @@
         } else {
             self.prePinchScale = newScale;
         }
+        [self.currentFocusView hideRemoveBtn];
 
     } else  {
         self.prePinchScale = 1.f;
@@ -213,6 +215,7 @@
     CGPoint p = [ges translationInView:self];
     if (ges.state == UIGestureRecognizerStateBegan) {
         self.prePanTranslation = p;
+        self.initPanTranslation = p;
     } else if (ges.state == UIGestureRecognizerStateChanged) {
         CGPoint c = self.currentFocusView.center;
         self.currentFocusView.center = CGPointMake(c.x + p.x - self.prePanTranslation.x, c.y + p.y - self.prePanTranslation.y);
@@ -223,8 +226,14 @@
             self.prePanTranslation = p;
         }
         
+        if (ABS(self.prePanTranslation.x - self.initPanTranslation.x) >= 20 ||
+            ABS(self.prePanTranslation.y - self.initPanTranslation.y) >= 20) {
+            [self.currentFocusView hideRemoveBtn];
+        }
+        
     } else {
         self.prePanTranslation = CGPointZero;
+        self.initPanTranslation = CGPointZero;
     }
 }
 
