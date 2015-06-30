@@ -69,6 +69,7 @@
 		A7865BF51B00372F00F71B15 /* user_personality.png in Resources */ = {isa = PBXBuildFile; fileRef = A7865BF41B00372F00F71B15 /* user_personality.png */; };
 		A7F852981AF8D559002EC71D /* QSU13PersonalizeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */; };
 		A7F852991AF8D559002EC71D /* QSU13PersonalizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */; };
+		EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF037EA01B43520A004E2723 /* QSRandomUtil.m */; };
 		EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */; };
 		EF0C63FF1B2186360079B22E /* UINib+QSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C63FE1B2186360079B22E /* UINib+QSExtension.m */; };
 		EF0C64271B21AAC20079B22E /* QSU02ImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0C640A1B21AAC20079B22E /* QSU02ImgCell.m */; };
@@ -424,6 +425,8 @@
 		A7F852951AF8D559002EC71D /* QSU13PersonalizeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU13PersonalizeViewController.h; sourceTree = "<group>"; };
 		A7F852961AF8D559002EC71D /* QSU13PersonalizeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU13PersonalizeViewController.m; sourceTree = "<group>"; };
 		A7F852971AF8D559002EC71D /* QSU13PersonalizeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU13PersonalizeViewController.xib; sourceTree = "<group>"; };
+		EF037E9F1B43520A004E2723 /* QSRandomUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRandomUtil.h; sourceTree = "<group>"; };
+		EF037EA01B43520A004E2723 /* QSRandomUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRandomUtil.m; sourceTree = "<group>"; };
 		EF05E9411A7928DC00A58F72 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		EF05E9421A7928DC00A58F72 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		EF05E9431A7928DC00A58F72 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -1853,6 +1856,8 @@
 				EF36BD731A871512003CBBEE /* QSImageNameUtil.m */,
 				EF241E6D1AB9CD82007B5058 /* QSLayoutUtil.h */,
 				EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */,
+				EF037E9F1B43520A004E2723 /* QSRandomUtil.h */,
+				EF037EA01B43520A004E2723 /* QSRandomUtil.m */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -2759,6 +2764,7 @@
 				EFAB9C671B346FE5008A4EF5 /* QSSinglePickerProvider.m in Sources */,
 				EFC543601A1750AD001B2C49 /* QSDetailBaseViewController.m in Sources */,
 				EFEBAAE81ABEB0CE0000FEEE /* QSProvinceSelectionTableViewController.m in Sources */,
+				EF037EA11B43520A004E2723 /* QSRandomUtil.m in Sources */,
 				68D16CBB1B32DDA500A4646C /* QSS21TableViewCell.m in Sources */,
 				EFA0F90B1AB89C3200E52F0B /* QSTaobaoInfoUtil.m in Sources */,
 				EF9A74221A02A82600095F07 /* QSAppDelegate.m in Sources */,

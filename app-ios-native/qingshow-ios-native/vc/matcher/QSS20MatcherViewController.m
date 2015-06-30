@@ -12,6 +12,7 @@
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
 #import "QSCommonUtil.h"
+#import "QSCategoryUtil.h"
 #import "UIViewController+QSExtension.h"
 #import "UIViewController+ShowHud.h"
 #import "UIView+ScreenShot.h"
@@ -66,7 +67,46 @@
     
     [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
         self.allCategories = array;
-        [self updateCategory:array];
+        NSMutableArray* selectedCategories = [@[] mutableCopy];
+        
+        __block int maxRow = -1;
+        __block int maxColumn = -1;
+        
+        DicBlock updateMaxRowAndColumn = ^(NSDictionary* dict){
+            NSNumber* n = [QSCategoryUtil getMathchInfoRow:dict];
+            if (n && n.intValue > maxRow) {
+                maxRow = n.intValue;
+            }
+            n = [QSCategoryUtil getMatchInfoColumn:dict];
+            if (n && n.intValue > maxColumn) {
+                maxColumn = n.intValue;
+            }
+        };
+        
+        for (NSDictionary* category in array) {
+            if ([QSCategoryUtil getDefaultOnCanvas:category]) {
+                [selectedCategories addObject:category];
+                updateMaxRowAndColumn(category);
+                
+            }
+            NSArray* childrens = [QSCategoryUtil getChildren:category];
+            for (NSDictionary* c in childrens) {
+                if ([QSCategoryUtil getDefaultOnCanvas:c]) {
+                    [selectedCategories addObject:c];
+                    updateMaxRowAndColumn(c);
+                }
+            }
+        }
+        
+        if (maxRow >= 0) {
+            self.canvasView.maxRow = maxRow;
+        }
+        
+        if (maxColumn >= 0) {
+            self.canvasView.maxColumn = maxColumn;
+        }
+        
+        [self updateCategory:selectedCategories];
     } onError:nil];
     self.cateIdToProvider = [@{} mutableCopy];
 }

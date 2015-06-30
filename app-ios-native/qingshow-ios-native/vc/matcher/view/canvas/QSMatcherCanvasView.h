@@ -29,4 +29,7 @@
 
 
 @property (weak, nonatomic) NSObject<QSMatcherCanvasViewDelegate>* delegate;
+
+@property (assign, nonatomic) int maxRow;
+@property (assign, nonatomic) int maxColumn;
 @end

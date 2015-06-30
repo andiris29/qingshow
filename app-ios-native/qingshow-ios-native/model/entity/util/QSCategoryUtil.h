@@ -14,5 +14,8 @@
 + (NSString*)getParentId:(NSDictionary*)categoryDict;
 
 + (BOOL)getMatchEnabled:(NSDictionary*)categoryDict;
++ (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict;
++ (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict;
++ (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict;
 
 @end

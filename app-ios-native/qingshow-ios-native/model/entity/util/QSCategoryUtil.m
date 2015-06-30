@@ -27,4 +27,15 @@
         return n.boolValue;
     }
 }
+
++ (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict {
+    NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.defaultOnCavase"];
+    return n.boolValue;
+}
++ (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict {
+    return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.row"];
+}
++ (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict {
+    return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.column"];
+}
 @end

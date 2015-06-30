@@ -12,8 +12,9 @@
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCommonUtil.h"
+#import "QSCategoryUtil.h"
 #import "QSCanvasImageView.h"
-
+#import "QSRandomUtil.h"
 #import "UIView+ScreenShot.h"
 
 @interface QSMatcherCanvasView ()
@@ -39,6 +40,8 @@
     self.categoryIdToEntity = [@{} mutableCopy];
     self.categoryIdToView = [@{} mutableCopy];
     [self addGesture];
+    self.maxColumn = 1;
+    self.maxRow = 3;
 }
 
 - (void)bindWithCategory:(NSArray*)categoryArray {
@@ -62,19 +65,30 @@
     
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapBlank:)]];
     
-    for (int i = 0; i < newCategoryArray.count; i++) {
-        float sizeHeight = self.frame.size.height / 2;
-        float sizeWidth = sizeHeight / 16 * 9;
-        float width = self.frame.size.width / 3;
-        float height = self.frame.size.height  / ((newCategoryArray.count + 2)/ 3);
+    for (NSDictionary* categoryDict in newCategoryArray) {
+        float sizeHeight = self.frame.size.height / (self.maxRow + 1);
+        float sizeWidth = self.frame.size.width / (self.maxColumn + 1);
+        int row = -1, column = -1;
+        if ([QSCategoryUtil getMathchInfoRow:categoryDict]) {
+            row = [QSCategoryUtil getMathchInfoRow:categoryDict].intValue;
+        } else {
+            row = [QSRandomUtil randomRangeFrom:0 to:self.maxRow + 1];
+        }
+        if ([QSCategoryUtil getMatchInfoColumn:categoryDict]) {
+            column = [QSCategoryUtil getMatchInfoColumn:categoryDict].intValue;
+        } else {
+            column = [QSRandomUtil randomRangeFrom:0 to:self.maxColumn + 1];
+        }
+        float y = self.frame.size.height * (row + 0.5) / (self.maxRow + 1);
+        float x = self.frame.size.width * (column + 0.5) / (self.maxColumn + 1);
 
-        QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), sizeWidth, sizeHeight)];
+        QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(x, y, sizeWidth, sizeHeight)];
+        imgView.center = CGPointMake(x, y);
         imgView.userInteractionEnabled = YES;
         UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapEntityView:)];
         ges.minimumPressDuration = 0.f;
         [imgView addGestureRecognizer:ges];
-
-        NSDictionary* categoryDict = newCategoryArray[i];
+        
         NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
         self.categoryIdToEntity[categoryId] = categoryDict;
         self.categoryIdToView[categoryId] = imgView;
