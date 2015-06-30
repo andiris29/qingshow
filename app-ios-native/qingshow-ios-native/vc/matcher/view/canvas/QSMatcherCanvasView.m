@@ -123,6 +123,7 @@
 }
 //Tap
 - (void)didTapBlank:(UIGestureRecognizer*)ges {
+    return;
     [self updateHighlightView:nil];
     if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
         [self.delegate canvasView:self didTapCategory:nil];
