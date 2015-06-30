@@ -9,13 +9,14 @@
 #import "QSMatchShowsCell.h"
 #import "QSShowUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+
 @implementation QSMatchShowsCell
 
 - (void)awakeFromNib {
     // Initialization code
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = 16.0;
-    self.headerImgView.userInteractionEnabled = YES;
+    //self.headerImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImgViewPressed:)];
     [self.headerImgView addGestureRecognizer:tap];
 }
@@ -50,10 +51,10 @@
     
 }
 
-- (void)headerImageViewPressed:(NSString *)userid
+- (void)headerImageViewPressed:(id )sender
 {
-    if (1) {
-        
+    if ([self.delegate respondsToSelector:@selector(headerImgViewPressed:)]) {
+        [self.delegate headerImgViewPressed:nil];
     }
 }
 

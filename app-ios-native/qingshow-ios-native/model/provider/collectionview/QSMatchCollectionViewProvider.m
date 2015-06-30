@@ -53,7 +53,7 @@
         }
        
             cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
-
+        cell.delegate = self;
         return (UICollectionViewCell *)cell;
     }
     else
@@ -71,14 +71,24 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-#warning PUSH SHOW
+    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)]) {
+        [self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)];
+    }
 }
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (self.resultArray.count) {
         return self.resultArray.count;
     }
     return 10;
+}
+#pragma mark - Delegate
+- (void)headerImgViewPressed:(NSDictionary *)dict
+{
+    if ([self.delegate respondsToSelector:@selector(didClickHeaderImgView:)]) {
+        [self.delegate respondsToSelector:@selector(didClickHeaderImgView:)];
+    }
 }
 
 @end
