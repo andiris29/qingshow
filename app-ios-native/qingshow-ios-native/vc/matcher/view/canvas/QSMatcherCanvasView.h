@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
 @class QSMatcherCanvasView;
 
 @protocol QSMatcherCanvasViewDelegate <NSObject>
 
 - (void)canvasView:(QSMatcherCanvasView*)view didTapCategory:(NSDictionary*)categoryDict;
+- (void)canvasView:(QSMatcherCanvasView*)view didRemoveCategory:(NSDictionary*)categoryDict;
 
 @end
 

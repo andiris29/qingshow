@@ -147,6 +147,13 @@
     self.selectedCateId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
     
 }
+- (void)canvasView:(QSMatcherCanvasView *)view didRemoveCategory:(NSDictionary *)categoryDict {
+    NSString* categoryID = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+    [self.cateIdToProvider removeObjectForKey:categoryID];
+    if ([self.selectedCateId isEqualToString:categoryID]) {
+        self.selectedCateId = nil;
+    }
+}
 
 #pragma mark - Category Selection
 - (void)didSelectCategories:(NSArray*)categoryArray {
