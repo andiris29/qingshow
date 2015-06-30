@@ -69,6 +69,7 @@
     NSDictionary *dic = [dict valueForKey:@"__context"];
     NSDictionary *createDic = dic[@"createdBy"];
     NSString* cover = createDic[@"background"];
+    
     if ([QSCommonUtil checkIsNil:cover]) {
         return nil;
     }
@@ -79,11 +80,18 @@
 {
     NSDictionary *nameDic = [dict valueForKey:@"__context"];
     NSDictionary *createDic = nameDic[@"createdBy"];
-    NSLog(@"id = %@",[dict valueForKey:@"_id"]);
     if (!createDic) {
         return nil;
     }
     return createDic[@"nickname"];
+}
++ (NSString *)getUserId:(NSDictionary *)dict
+{
+    NSString  *userId  = dict[@"id"];
+    if ([QSCommonUtil checkIsNil:userId]) {
+        return nil;
+    }
+    return userId;
 }
 + (NSString *)getRecommendGroup:(NSDictionary *)dict
 {

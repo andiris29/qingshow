@@ -11,10 +11,12 @@
 #import "QSBlock.h"
 #import "QSNetworkKit.h"
 #import "QSShareViewController.h"
+#import "QSS03ShowDetailViewController.h"
+#import "QSU01UserDetailViewController.h"
 
 #define PAGE_ID @"新美搭榜单"
 
-@interface QSS01MatchShowsViewController ()<QSMatchCollectionViewDelegate>
+@interface QSS01MatchShowsViewController ()<UICollectionViewDelegate,QSMatchCollectionViewProviderDelegate>
 
 @property (nonatomic,assign) NSInteger segIndex;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
@@ -73,7 +75,7 @@
     segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
     _segIndex = segmentControl.selectedSegmentIndex;
     self.navigationItem.titleView = segmentControl;
-    
+    segmentControl.selectedSegmentIndex = 0;
     [self.navigationController.navigationBar removeGestureRecognizer:self.showVersionTapGesture];
 }
 
@@ -97,6 +99,23 @@
 
         [self.matchCollectionViewProvider reloadData];
     }
+}
+#pragma mark - Delegate
+- (void)didSelectedCellInCollectionView:(id)sender
+{
+    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:nil];
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = backItem;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)didClickHeaderImgView:(id)sender
+{
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]init];
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = backItem;
+    [self.navigationController pushViewController:vc animated:YES];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
