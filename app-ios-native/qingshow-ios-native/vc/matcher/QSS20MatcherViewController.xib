@@ -16,7 +16,6 @@
                 <outlet property="canvasContainer" destination="nXP-DQ-iBc" id="xU6-cQ-0St"/>
                 <outlet property="categorySelectionButton" destination="lP0-aE-IHb" id="cjq-FG-ios"/>
                 <outlet property="itemSelectionContainer" destination="IPv-3T-oo4" id="ZB5-bx-xbM"/>
-                <outlet property="selectionHeightConstraint" destination="JOT-kQ-zpe" id="Lsp-2q-zyr"/>
                 <outlet property="submitButton" destination="Gud-mx-kWh" id="VyE-dd-z4W"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -26,44 +25,29 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nXP-DQ-iBc">
+                    <rect key="frame" x="0.0" y="24" width="320" height="403"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLE-BA-R8G">
+                    <rect key="frame" x="8" y="24" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="36" id="CpV-wO-wF2"/>
+                        <constraint firstAttribute="height" constant="36" id="fG1-NF-9Vt"/>
+                    </constraints>
+                    <state key="normal" image="nav_btn_menu">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="menuBtnPressed:" destination="-1" eventType="touchUpInside" id="oTT-HS-3eK"/>
+                    </connections>
+                </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sV4-f5-KsD">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
+                    <rect key="frame" x="0.0" y="514" width="320" height="54"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLE-BA-R8G">
-                            <rect key="frame" x="20" y="25" width="36" height="36"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="36" id="6dy-8d-PD7"/>
-                                <constraint firstAttribute="width" constant="36" id="CTT-bi-X4J"/>
-                            </constraints>
-                            <state key="normal" image="nav_btn_menu">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="menuBtnPressed:" destination="-1" eventType="touchUpInside" id="oTT-HS-3eK"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gud-mx-kWh">
-                            <rect key="frame" x="232" y="31" width="70" height="24"/>
-                            <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="24" id="H7w-td-7ze"/>
-                                <constraint firstAttribute="width" constant="70" id="zIW-Sl-CjZ"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                            <state key="normal" title="发布搭配">
-                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="submitButtonPressed:" destination="-1" eventType="touchUpInside" id="gMm-bJ-bCC"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lP0-aE-IHb">
-                            <rect key="frame" x="154" y="31" width="70" height="24"/>
-                            <color key="backgroundColor" red="0.94117647059999998" green="0.58431372550000005" blue="0.64313725489999995" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="24" id="Xji-sc-4Jr"/>
-                                <constraint firstAttribute="width" constant="70" id="qAd-ko-iXZ"/>
-                            </constraints>
+                            <rect key="frame" x="9" y="9" width="145" height="35"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
                             <state key="normal" title="选择分类">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -73,42 +57,53 @@
                                 <action selector="categorySelectedBtnPressed:" destination="-1" eventType="touchUpInside" id="M3F-J8-4me"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gud-mx-kWh">
+                            <rect key="frame" x="166" y="9" width="145" height="35"/>
+                            <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
+                            <state key="normal" title="发布搭配">
+                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="submitButtonPressed:" destination="-1" eventType="touchUpInside" id="gMm-bJ-bCC"/>
+                            </connections>
+                        </button>
                     </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.62745098039215685" green="0.62745098039215685" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="sV4-f5-KsD" secondAttribute="leading" constant="20" id="Qew-X3-sed"/>
-                        <constraint firstItem="Gud-mx-kWh" firstAttribute="leading" secondItem="lP0-aE-IHb" secondAttribute="trailing" constant="8" id="br5-jp-SDJ"/>
-                        <constraint firstItem="lP0-aE-IHb" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="31" id="hqD-VZ-h3s"/>
-                        <constraint firstAttribute="height" constant="60" id="jsd-kb-PgJ"/>
-                        <constraint firstAttribute="trailing" secondItem="Gud-mx-kWh" secondAttribute="trailing" constant="18" id="mvJ-Ql-52Q"/>
-                        <constraint firstItem="Gud-mx-kWh" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="31" id="yOf-Nl-BNq"/>
-                        <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="25" id="zGi-oh-m5f"/>
+                        <constraint firstAttribute="height" constant="54" id="3CG-JD-9do"/>
+                        <constraint firstItem="lP0-aE-IHb" firstAttribute="leading" secondItem="sV4-f5-KsD" secondAttribute="leading" constant="9" id="DEk-8r-x8K"/>
+                        <constraint firstAttribute="bottom" secondItem="Gud-mx-kWh" secondAttribute="bottom" constant="10" id="HOp-vu-tLM"/>
+                        <constraint firstAttribute="bottom" secondItem="lP0-aE-IHb" secondAttribute="bottom" constant="10" id="dMU-JW-uuI"/>
+                        <constraint firstItem="Gud-mx-kWh" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="9" id="hT6-vY-sHd"/>
+                        <constraint firstItem="lP0-aE-IHb" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="top" constant="9" id="ut6-IO-pQV"/>
+                        <constraint firstAttribute="trailing" secondItem="Gud-mx-kWh" secondAttribute="trailing" constant="9" id="wr7-TR-chp"/>
+                        <constraint firstItem="Gud-mx-kWh" firstAttribute="leading" secondItem="lP0-aE-IHb" secondAttribute="trailing" constant="12" id="yeE-oI-2fe"/>
+                        <constraint firstItem="Gud-mx-kWh" firstAttribute="width" secondItem="lP0-aE-IHb" secondAttribute="width" id="ymG-GI-tAt"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nXP-DQ-iBc">
-                    <rect key="frame" x="0.0" y="65" width="320" height="335"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IPv-3T-oo4">
-                    <rect key="frame" x="0.0" y="405" width="320" height="163"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <rect key="frame" x="0.0" y="427" width="320" height="87"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="163" id="JOT-kQ-zpe"/>
+                        <constraint firstAttribute="height" constant="87" id="lmD-Hj-Orh"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="sV4-f5-KsD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="7rZ-OL-ZMh"/>
-                <constraint firstAttribute="trailing" secondItem="sV4-f5-KsD" secondAttribute="trailing" id="SWz-ll-cnY"/>
-                <constraint firstAttribute="trailing" secondItem="IPv-3T-oo4" secondAttribute="trailing" id="X2e-Nn-QdN"/>
-                <constraint firstItem="IPv-3T-oo4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="b9g-Ht-2Ui"/>
-                <constraint firstItem="IPv-3T-oo4" firstAttribute="top" secondItem="nXP-DQ-iBc" secondAttribute="bottom" constant="5" id="ch5-4Y-c1F"/>
-                <constraint firstAttribute="bottom" secondItem="IPv-3T-oo4" secondAttribute="bottom" id="i4G-kn-vtl"/>
-                <constraint firstItem="sV4-f5-KsD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="oGV-IY-y5Y"/>
-                <constraint firstItem="nXP-DQ-iBc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="s0z-Kj-V0p"/>
-                <constraint firstAttribute="trailing" secondItem="nXP-DQ-iBc" secondAttribute="trailing" id="vaB-31-Idd"/>
-                <constraint firstItem="nXP-DQ-iBc" firstAttribute="top" secondItem="sV4-f5-KsD" secondAttribute="bottom" constant="5" id="xbj-kt-KmE"/>
+                <constraint firstItem="eLE-BA-R8G" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="29K-Lw-qhy"/>
+                <constraint firstAttribute="trailing" secondItem="IPv-3T-oo4" secondAttribute="trailing" id="BQP-dL-hp8"/>
+                <constraint firstItem="nXP-DQ-iBc" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="Gm4-3q-Izp"/>
+                <constraint firstItem="nXP-DQ-iBc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NMp-Vt-9C0"/>
+                <constraint firstItem="IPv-3T-oo4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NtX-kZ-lQl"/>
+                <constraint firstAttribute="bottom" secondItem="sV4-f5-KsD" secondAttribute="bottom" id="VcR-qQ-ynu"/>
+                <constraint firstItem="sV4-f5-KsD" firstAttribute="top" secondItem="IPv-3T-oo4" secondAttribute="bottom" id="amL-Li-eHr"/>
+                <constraint firstAttribute="trailing" secondItem="sV4-f5-KsD" secondAttribute="trailing" id="ciY-qN-zmc"/>
+                <constraint firstAttribute="trailing" secondItem="nXP-DQ-iBc" secondAttribute="trailing" id="nna-rp-NMr"/>
+                <constraint firstItem="sV4-f5-KsD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="pWd-9S-OhI"/>
+                <constraint firstItem="eLE-BA-R8G" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" id="tks-Qz-8KH"/>
+                <constraint firstItem="IPv-3T-oo4" firstAttribute="top" secondItem="nXP-DQ-iBc" secondAttribute="bottom" id="y8H-eB-28m"/>
             </constraints>
             <point key="canvasLocation" x="462" y="417"/>
         </view>

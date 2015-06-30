@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSCanvasImageView : UIImageView 
+@interface QSCanvasImageView : UIView
+@property (strong, nonatomic) NSString* categoryId;
+@property (strong, nonatomic) UIImageView* imgView;
+@property (assign, nonatomic) BOOL hover;
+
+- (BOOL)judgeIsHitRemoveButton:(CGPoint)p;
 
 @end

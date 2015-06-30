@@ -13,6 +13,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSCommonUtil.h"
 #import "QSCanvasImageView.h"
+
 #import "UIView+ScreenShot.h"
 
 @interface QSMatcherCanvasView ()
@@ -66,7 +67,8 @@
         float sizeWidth = sizeHeight / 16 * 9;
         float width = self.frame.size.width / 3;
         float height = self.frame.size.height  / ((newCategoryArray.count + 2)/ 3);
-        UIImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), sizeWidth, sizeHeight)];
+
+        QSCanvasImageView* imgView = [[QSCanvasImageView alloc] initWithFrame:CGRectMake(width * (i % 3), height * (i / 3), sizeWidth, sizeHeight)];
         imgView.userInteractionEnabled = YES;
         UILongPressGestureRecognizer* ges = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(didTapEntityView:)];
         ges.minimumPressDuration = 0.f;
@@ -76,7 +78,7 @@
         NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
         self.categoryIdToEntity[categoryId] = categoryDict;
         self.categoryIdToView[categoryId] = imgView;
-
+        imgView.categoryId = categoryId;
         [self addSubview:imgView];
     }
 }
@@ -86,9 +88,9 @@
     [self setItem:itemDict forCategoryId:categoryId];
 }
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId {
-    UIImageView* imgView = self.categoryIdToView[categoryId];
-    __weak UIImageView* weakImgView = imgView;
-    [imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
+    QSCanvasImageView* imgView = self.categoryIdToView[categoryId];
+    __weak QSCanvasImageView* weakImgView = imgView;
+    [imgView.imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
         CGSize imgSize = img.size;
         CGSize viewSize = weakImgView.bounds.size;
         CGFloat newHeigh = viewSize.width / imgSize.width * imgSize.height;
@@ -121,6 +123,7 @@
 }
 //Tap
 - (void)didTapBlank:(UIGestureRecognizer*)ges {
+    return;
     [self updateHighlightView:nil];
     if ([self.delegate respondsToSelector:@selector(canvasView:didTapCategory:)]) {
         [self.delegate canvasView:self didTapCategory:nil];
@@ -128,6 +131,13 @@
 }
 - (void)didTapEntityView:(UIGestureRecognizer*)ges {
     if (ges.state == UIGestureRecognizerStateBegan) {
+        QSCanvasImageView* imgView = (QSCanvasImageView*)ges.view;
+        CGPoint p = [ges locationInView:imgView];
+        if ([imgView judgeIsHitRemoveButton:p]) {
+            [self canvasImageViewDidClickRemoveBtn:imgView];
+            return;
+        }
+        
         if (self.currentFocusView) {
             return;
         }
@@ -210,15 +220,8 @@
 
 - (void)updateHighlightView:(UIView*)highlightView {
     NSArray* viewArray = [self.categoryIdToView allValues];
-    for (UIImageView* imgView in viewArray) {
-        if (imgView != highlightView) {
-            imgView.layer.borderColor = [UIColor clearColor].CGColor;
-            imgView.layer.borderWidth = 0.f;
-        } else {
-            imgView.layer.borderColor = [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f].CGColor;
-            imgView.layer.borderWidth = 1.f;
-        }
-        
+    for (QSCanvasImageView* imgView in viewArray) {
+        imgView.hover = imgView == highlightView;
     }
 }
 - (UIImage*)submitView {
@@ -229,10 +232,18 @@
 
 #pragma mark -
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if ([gestureRecognizer isKindOfClass:[UILongPressGestureRecognizer class]]) {
-        return NO;
-    }
     return YES;
 }
 
+#pragma mark - QSCanvasImageViewDelegate
+- (void)canvasImageViewDidClickRemoveBtn:(QSCanvasImageView*)view {
+    NSString* categoryId = view.categoryId;
+    [view removeFromSuperview];
+    NSDictionary* categoryDict = self.categoryIdToEntity[categoryId];
+    [self.categoryIdToEntity removeObjectForKey:categoryId];
+    [self.categoryIdToView removeObjectForKey:categoryId];
+    if ([self.delegate respondsToSelector:@selector(canvasView:didRemoveCategory:)]) {
+        [self.delegate canvasView:self didRemoveCategory:categoryDict];
+    }
+}
 @end
