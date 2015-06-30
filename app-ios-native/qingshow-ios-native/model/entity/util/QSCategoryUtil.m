@@ -21,6 +21,10 @@
 
 + (BOOL)getMatchEnabled:(NSDictionary*)categoryDict {
     NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.enabled"];
-    return n.boolValue;
+    if (!n) {
+        return YES;
+    } else {
+        return n.boolValue;
+    }
 }
 @end
