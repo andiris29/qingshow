@@ -10,7 +10,8 @@
 #import "UINib+QSExtension.h"
 #import "QSMatcherItemImageView.h"
 #define DIVIDER_X_WIDTH 4.f
-
+#define ITEM_WIDTH 60.f
+#define ITEM_PER_PAGE 5
 @interface QSMatcherItemSelectionView ()
 
 @property (assign, nonatomic) int count;
@@ -39,7 +40,7 @@
     self.currentIndex = 0;
 
     NSMutableArray* array = [@[] mutableCopy];
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < ITEM_PER_PAGE * 3; i++) {
         QSMatcherItemImageView* v = [QSMatcherItemImageView generateView];
         [v addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
         [array addObject:v];
@@ -56,7 +57,7 @@
     
     //Update scroll view content size
     CGRect bounds = self.scrollView.bounds;
-    if (self.count > 3) {
+    if (self.count > ITEM_PER_PAGE) {
         self.scrollView.contentSize = CGSizeMake(bounds.size.width * 3, bounds.size.height);
     } else {
         self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height);
@@ -66,13 +67,14 @@
     
     //Update item image view
 
-    CGFloat width = (bounds.size.width - 2 * DIVIDER_X_WIDTH) / 3;
-    CGFloat height = width + 22;
+    CGFloat width = ITEM_WIDTH;
+    CGFloat dividerWidhth = (bounds.size.width - ITEM_PER_PAGE * width) / (ITEM_PER_PAGE + 1);
+    CGFloat height = ITEM_WIDTH;
     for (int i = 0; i < self.itemImageViews.count; i++) {
         QSMatcherItemImageView* v = self.itemImageViews[i];
-        int screenNumber = i / 3;
-        int imgIndex = i % 3;
-        CGFloat x = screenNumber * bounds.size.width + imgIndex * (width + DIVIDER_X_WIDTH) + 1;
+        int screenNumber = i / ITEM_PER_PAGE;
+        int imgIndex = i % ITEM_PER_PAGE;
+        CGFloat x = screenNumber * bounds.size.width + imgIndex * (width + dividerWidhth) + dividerWidhth;
         v.frame = CGRectMake(x, 0, width - 2, height);
     }
 }
@@ -99,7 +101,7 @@
 
 #pragma mark - IBAction
 - (IBAction)previousBtnPressed:(id)sender {
-    if (self.currentIndex < 3) {
+    if (self.currentIndex < ITEM_PER_PAGE) {
         return;
     }
     self.previousBtn.userInteractionEnabled = NO;
@@ -107,14 +109,14 @@
         self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x - self.scrollView.bounds.size.width, 0);
     } completion:^(BOOL finished) {
         self.previousBtn.userInteractionEnabled = YES;
-        self.currentIndex -= 3;
+        self.currentIndex -= ITEM_PER_PAGE;
         [self reloadImageAndOffset];
         [self checkFinish];
     }];
 
 }
 - (IBAction)nextBtnPressed:(id)sender {
-    if (self.currentIndex + 3 >= self.count) {
+    if (self.currentIndex + ITEM_PER_PAGE >= self.count) {
         return;
     }
     self.nextBtn.userInteractionEnabled = NO;
@@ -122,7 +124,7 @@
         self.scrollView.contentOffset = CGPointMake(self.scrollView.contentOffset.x + self.scrollView.bounds.size.width, 0);
     } completion:^(BOOL finished) {
         self.nextBtn.userInteractionEnabled = YES;
-        self.currentIndex += 3;
+        self.currentIndex += ITEM_PER_PAGE;
         [self reloadImageAndOffset];
         [self checkFinish];
     }];
@@ -141,11 +143,11 @@
     [self updateForDraging];
 }
 - (void)updateForDraging {
-    int deltaIndex = (self.scrollView.contentOffset.x / self.scrollView.bounds.size.width - 1) * 3;
+    int deltaIndex = (self.scrollView.contentOffset.x / self.scrollView.bounds.size.width - 1) * ITEM_PER_PAGE;
     if (self.currentIndex == 0) {
-        deltaIndex += 3;
-    } else if (self.currentIndex + 3 >= self.count) {
-        deltaIndex -= 3;
+        deltaIndex += ITEM_PER_PAGE;
+    } else if (self.currentIndex + ITEM_PER_PAGE >= self.count) {
+        deltaIndex -= ITEM_PER_PAGE;
     }
     
     if (self.currentIndex < -deltaIndex || self.currentIndex + deltaIndex >= self.count) {
@@ -170,7 +172,7 @@
     } else {
         [self.previousBtn setImage:[UIImage imageNamed:@"matcher_item_selection_pre_hover"] forState:UIControlStateNormal];
     }
-    if (self.currentIndex + 3 >= self.count) {
+    if (self.currentIndex + ITEM_PER_PAGE >= self.count) {
         [self.nextBtn setImage:[UIImage imageNamed:@"matcher_item_selection_next"] forState:UIControlStateNormal];
     } else {
         [self.nextBtn setImage:[UIImage imageNamed:@"matcher_item_selection_next_hover"] forState:UIControlStateNormal];
@@ -181,11 +183,11 @@
     int indexFrom = 0;
     if (self.currentIndex == 0) {
         indexFrom = self.currentIndex;
-    } else if (self.currentIndex + 3 >= self.count) {
-        indexFrom = self.currentIndex - 6;
+    } else if (self.currentIndex + ITEM_PER_PAGE >= self.count) {
+        indexFrom = self.currentIndex - ITEM_PER_PAGE * 2;
         //此时indexFrom有可能为-3，及第一页完全空白，第二页从0开始，第三页到底
     } else {
-        indexFrom = self.currentIndex - 3;
+        indexFrom = self.currentIndex - ITEM_PER_PAGE;
     }
     
     for (int i = 0; i < self.itemImageViews.count; i++) {
@@ -209,7 +211,7 @@
         v.hovered = v == imgView;
     }
     int index = [self.itemImageViews indexOfObject:imgView];
-    int baseIndex =self.scrollView.contentOffset.x / self.scrollView.bounds.size.width * 3;
+    int baseIndex =self.scrollView.contentOffset.x / self.scrollView.bounds.size.width * ITEM_PER_PAGE;
     int actualIndex = self.currentIndex - baseIndex + index;
     
     self.selectIndex = actualIndex;
@@ -219,7 +221,7 @@
 }
 
 - (void)checkFinish {
-    if (self.currentIndex + 3 >= self.count) {
+    if (self.currentIndex + ITEM_PER_PAGE >= self.count) {
         if ([self.delegate respondsToSelector:@selector(selectionViewDidReachEnd:)]) {
             [self.delegate selectionViewDidReachEnd:self];
         }

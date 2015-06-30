@@ -35,10 +35,8 @@
 - (void)updateColor {
     if (_hovered) {
         self.imgView.layer.borderColor = COLOR_PINK.CGColor;
-        self.priceLabel.backgroundColor = COLOR_PINK;
     } else {
         self.imgView.layer.borderColor = COLOR_GRAY.CGColor;
-        self.priceLabel.backgroundColor = COLOR_GRAY;
     }
 }
 
