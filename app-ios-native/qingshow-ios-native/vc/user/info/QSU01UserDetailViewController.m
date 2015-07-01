@@ -153,7 +153,10 @@
 }
 
 - (void)updateViewWithList {
-    self.userInfo = [QSUserManager shareUserManager].userInfo;
+    if (self.isCurrentUser) {
+        self.userInfo = [QSUserManager shareUserManager].userInfo;
+    }
+
     [self.badgeView bindWithPeopleDict:self.userInfo];
     
     [self.matchProvider reloadData];

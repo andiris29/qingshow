@@ -118,6 +118,7 @@
 - (void)didClickHeaderImgView:(id)sender
 {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
+    vc.menuProvider = self.menuProvider;
     vc.navigationController.navigationBar.hidden = NO;
     vc.nemuBtn.hidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
