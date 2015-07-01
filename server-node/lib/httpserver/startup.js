@@ -46,15 +46,9 @@ var mkdirUploads = function(config) {
         if (_.isObject(value)) {
             mkdirUploads(value);
         } else {
-            if (!fs.existsSync(value)) {
+            if (value.indexOf('http://') !== 0 && !fs.existsSync(value)) {
                 require('mkdirp').sync(value);
             }
-            var files = fs.readdirSync(value);
-            files.forEach(function (file) {
-                if (file.indexOf('.lock') !== -1) {
-                    process.exit();
-                }
-            });
         }
     }
 };
