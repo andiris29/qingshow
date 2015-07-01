@@ -84,8 +84,18 @@ public class QSAppWebAPI {
     private static final String SPREAD_FIRSTLANUCH_API = HOST_NAME + "/spread/firstLaunch";
 
     private static final String QUERY_CATEGORIES = HOST_NAME + "/matcher/queryCategories";
+    private static final String MATCH_HOT_API = HOST_NAME + "/feeding/matchHot";
+    private static final String MATCH_NEW_API = HOST_NAME + "/feeding/matchNew";
+
 //    private static final String QUERY_ITMES=HOST_NAME+"";
 
+    public static String getMatchHotApi(int pageNo, int pageSize) {
+        return MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
+
+    public static String getMatchNewApi(int pageNo, int pageSize) {
+        return MATCH_NEW_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
     public static String getQueryCategories(){
         return  QUERY_CATEGORIES;
     }

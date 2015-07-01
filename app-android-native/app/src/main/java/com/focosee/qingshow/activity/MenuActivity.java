@@ -16,10 +16,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
+
+import java.nio.Buffer;
+
+import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MenuActivity extends BaseActivity implements View.OnClickListener{

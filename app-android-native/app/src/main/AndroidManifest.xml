@@ -187,9 +187,11 @@
             android:name=".activity.MenuActivity"
             android:label="@string/title_activity_menu" >
         </activity>
-
+        <activity android:name=".activity.S21CategoryActivity" >
+        </activity>
         <activity
-            android:name=".activity.S21CategoryActivity">
+            android:name=".activity.S01MatchShowsActivity"
+            android:label="@string/title_activity_s01_match_shows" >
         </activity>
     </application>
 

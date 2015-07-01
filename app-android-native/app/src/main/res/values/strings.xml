@@ -187,5 +187,6 @@
 
     <string name="title_activity_u13_person">个人信息</string>
     <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_s01_match_shows">S01MatchShowsActivity</string>
 
 </resources>
