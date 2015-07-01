@@ -21,12 +21,12 @@
 
 - (void)registerCell
 {
-    [self.view registerNib:[UINib nibWithNibName:@"QSModelListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSModelListTableViewCell"];
+    [self.view registerNib:[UINib nibWithNibName:@"QSPeopleListTableViewCell" bundle:nil] forCellReuseIdentifier:@"QSPeopleListTableViewCell"];
 }
 #pragma mark - UITableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QSPeopleListTableViewCell* cell = (QSPeopleListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSModelListTableViewCell" forIndexPath:indexPath];
+    QSPeopleListTableViewCell* cell = (QSPeopleListTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"QSPeopleListTableViewCell" forIndexPath:indexPath];
     cell.delegate = self;
     NSDictionary* dict = self.resultArray[indexPath.row];
     [cell bindWithPeople:dict];

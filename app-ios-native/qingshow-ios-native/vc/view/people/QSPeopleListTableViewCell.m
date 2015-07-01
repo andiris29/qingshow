@@ -41,33 +41,12 @@
 #pragma mark - Binding
 - (void)bindWithPeople:(NSDictionary*)modelDict
 {
-    
     self.nameLabel.text = [QSPeopleUtil getNickname:modelDict];
     self.detailLabel.text = [QSPeopleUtil getDetailDesc:modelDict];
     [self.headPhotoImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:modelDict]];
-    /*
-    if ([QSPeopleUtil getPeopleIsFollowed:modelDict]) {
-        [self.followBtn setImage:[UIImage imageNamed:@"people_list_unfollow"] forState:UIControlStateNormal];
-    } else {
-        [self.followBtn setImage:[UIImage imageNamed:@"people_list_follow"] forState:UIControlStateNormal];
-    }
-    */
-#warning TODO
-    if (false) {
-//    if ([QSPeopleUtil checkPeopleIsModel:modelDict]) {
-        self.showNumLabel.text = [QSPeopleUtil getNumberShowsDescription:modelDict];
-        self.followerNumLabel.text = [QSPeopleUtil getNumberFollowersDescription:modelDict];
-        self.leftIcon.image = [UIImage imageNamed:@"model_cell_icon01_cloth"];
-        self.rightIcon.image = [UIImage imageNamed:@"model_cell_icon02_noticeno"];
-    } else {
-        //left
-        self.showNumLabel.text = [QSPeopleUtil getNumberFollowPeoples:modelDict];
-        //right
-        self.followerNumLabel.text = [QSPeopleUtil getNumberFollowBrands:modelDict];
-        self.leftIcon.image = [UIImage imageNamed:@"model_cell_icon02_noticeno"];
-        self.rightIcon.image = [UIImage imageNamed:@"people_cell_brand_icon"];
-    }
-
+    
+    self.showNumLabel.text = [QSPeopleUtil getNumberFollowPeoples:modelDict];
+    self.followerNumLabel.text = [QSPeopleUtil getNumberFollowBrands:modelDict];
 }
 
 @end
