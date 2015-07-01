@@ -44,9 +44,9 @@
         if (!cell) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
-        if (indexPath.item == 1) {
-            NSLog(@"result Array = %@",self.resultArray);
-        }
+//        if (indexPath.item == 1) {
+//            NSLog(@"result Array = %@",self.resultArray);
+//        }
         
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
@@ -79,10 +79,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (self.resultArray.count) {
-        return self.resultArray.count;
-    }
-    return 6;
+    return self.resultArray.count;
 }
 #pragma mark - Delegate
 - (void)headerImgViewPressed:(id)sender

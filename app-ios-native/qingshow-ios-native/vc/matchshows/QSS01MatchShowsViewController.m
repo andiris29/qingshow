@@ -87,7 +87,7 @@
     if(_segIndex == 1)
     {
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-            return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
 
         [self.matchCollectionViewProvider reloadData];
@@ -95,9 +95,11 @@
     else
     {
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
-            return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
+            return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
+        
 
+       
         [self.matchCollectionViewProvider reloadData];
     }
 }
@@ -106,6 +108,7 @@
 {
 
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:sender];
+    NSLog(@"sender = %@",sender);
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];

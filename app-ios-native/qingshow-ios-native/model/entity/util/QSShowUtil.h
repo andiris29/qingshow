@@ -17,7 +17,7 @@
 + (NSString *)getNameStr:(NSDictionary *)dict;
 + (NSString *)getRecommendGroup:(NSDictionary *)dict;
 + (NSString *)getUserId:(NSDictionary *)dict;
-
++ (NSString *)getHeaderImg:(NSDictionary *)dict;
 + (NSString*)getShowDesc:(NSDictionary*)showDict;
 + (NSArray*)getShowVideoPreviewUrlArray:(NSDictionary*)dict;
 + (NSDictionary*)getItemFromShow:(NSDictionary*)showDict AtIndex:(int)index;

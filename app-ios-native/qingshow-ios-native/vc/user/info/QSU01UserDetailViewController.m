@@ -134,7 +134,7 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindProvider];
-    
+    self.backBtn.hidden = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];

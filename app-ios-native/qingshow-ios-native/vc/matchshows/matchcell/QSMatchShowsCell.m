@@ -36,16 +36,17 @@
 
 - (void)bindWithDic:(NSDictionary *)dict withIndex:(int)index
 {
-//    NSLog(@"itemRef = %d",[QSShowUtil getItems:dict].count);
+   // NSLog(@"itemRef = %@",[QSShowUtil get]);
 //    NSLog(@"index = %d",index);
-    _showDic = [QSShowUtil getItemFromShow:dict AtIndex:[QSShowUtil getItems:dict].count-1];
+   // _showDic = [QSShowUtil getItemFromShow:dict AtIndex:[QSShowUtil getItems:dict].count-1];
+    _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-   // NSLog(@"%@",_showDic);
+    //NSLog(@"%@",_showDic);
     if ([QSShowUtil getCoverUrl:dict]) {
         [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     }
     if ([QSShowUtil getCoverForegroundUrl:dict]) {
-        [self.headerImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
+        [self.headerImgView setImageFromURL:[NSURL URLWithString:[QSShowUtil getHeaderImg:dict]]];
     }
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];

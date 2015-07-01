@@ -20,6 +20,9 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dp9-gc-uNq">
+                        <rect key="frame" x="8" y="55" width="134" height="176"/>
+                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vxf-Q3-EHu">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="260"/>
                     </imageView>
@@ -47,9 +50,6 @@
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="body_thin" translatesAutoresizingMaskIntoConstraints="NO" id="wPn-fC-WA3">
                         <rect key="frame" x="114" y="282" width="16" height="29"/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dp9-gc-uNq">
-                        <rect key="frame" x="8" y="50" width="134" height="160"/>
                     </imageView>
                 </subviews>
             </tableViewCellContentView>

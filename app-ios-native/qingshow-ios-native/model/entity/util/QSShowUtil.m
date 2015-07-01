@@ -62,6 +62,17 @@
     }
     return [NSURL URLWithString:cover];
 }
++ (NSString *)getHeaderImg:(NSDictionary *)dict
+{
+    
+    NSDictionary *dic = [dict valueForKey:@"__context"];
+    NSDictionary *createDic = dic[@"createdBy"];
+    if (!createDic) {
+        return nil;
+    }
+    return createDic[@"background"];
+}
+
 + (NSURL*)getCoverForegroundUrl:(NSDictionary*)dict {
     if ([QSCommonUtil checkIsNil:dict]) {
         return nil;
