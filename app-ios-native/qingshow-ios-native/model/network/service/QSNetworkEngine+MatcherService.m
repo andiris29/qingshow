@@ -35,7 +35,11 @@
                 if ([QSCategoryUtil getParentId:dict].length == 0) {
                     [retArray addObject:dict];
                     [dict setValue:[@[] mutableCopy] forKey:@"children"];
-                } else {
+                }
+            }
+            
+            for (NSDictionary* dict in resArray) {
+                if ([QSCategoryUtil getParentId:dict].length != 0){
                     for (NSDictionary* parantDict in retArray) {
                         if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCommonUtil getIdOrEmptyStr:parantDict]]) {
                             NSMutableArray* mArray = (NSMutableArray*)[QSCategoryUtil getChildren:parantDict];
@@ -43,8 +47,8 @@
                         }
                     }
                 }
-
             }
+                    
             
             succeedBlock(retArray, responseDict[@"metadata"]);
         }
