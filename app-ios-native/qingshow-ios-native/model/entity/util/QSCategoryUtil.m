@@ -29,13 +29,13 @@
 }
 
 + (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict {
-    NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matckInfo.defaultOnCavase"];
+    NSNumber* n = [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.defaultOnCanvas"];
     return n.boolValue;
 }
 + (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getNumberValue:categoryDict key:@"matckInfo.row"];
+    return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.row"];
 }
 + (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict {
-    return [QSCommonUtil getNumberValue:categoryDict key:@"matckInfo.column"];
+    return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.column"];
 }
 @end
