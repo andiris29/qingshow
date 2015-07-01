@@ -117,12 +117,10 @@
 
 - (void)didClickHeaderImgView:(id)sender
 {
-    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithCurrentUser];
-    vc.navigationController.navigationBar.hidden = YES;
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
+    vc.navigationController.navigationBar.hidden = NO;
     vc.nemuBtn.hidden = YES;
-    vc.backBtn.hidden = NO;
-////    vc.menuProvider =
-    //[self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 - (void)didReceiveMemoryWarning {
