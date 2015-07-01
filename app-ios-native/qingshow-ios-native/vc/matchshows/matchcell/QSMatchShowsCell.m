@@ -13,6 +13,7 @@
 @implementation QSMatchShowsCell
 {
     NSDictionary *_showDic;
+    NSDictionary *_peopleDic;
 }
 - (void)awakeFromNib {
     // Initialization code
@@ -33,15 +34,20 @@
     
 }
 
-- (void)bindWithDic:(NSDictionary *)dict
+- (void)bindWithDic:(NSDictionary *)dict withIndex:(int)index
 {
-    _showDic = [QSShowUtil getItems:dict];
+//    NSLog(@"itemRef = %d",[QSShowUtil getItems:dict].count);
+//    NSLog(@"index = %d",index);
+    _showDic = [QSShowUtil getItemFromShow:dict AtIndex:[QSShowUtil getItems:dict].count-1];
+    _peopleDic = [QSShowUtil getPeopleFromShow:dict];
+   // NSLog(@"%@",_showDic);
     if ([QSShowUtil getCoverUrl:dict]) {
         [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     }
     if ([QSShowUtil getCoverForegroundUrl:dict]) {
         [self.headerImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
     }
+    [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
     self.userNameLabel.text = [QSShowUtil getNameStr:dict];
     NSString *groupStr = [QSShowUtil getRecommendGroup:dict];
@@ -67,13 +73,13 @@
 - (void)headerImgViewPressed:(id )sender
 {
     if ([self.delegate respondsToSelector:@selector(headerImgViewPressed:)]) {
-        [self.delegate headerImgViewPressed:_showDic];
+        [self.delegate headerImgViewPressed:_peopleDic];
     }
 }
 - (void)matchShowImgviewPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(matchImgViewPressed:)]) {
-        [self.delegate matchImgViewPressed:self];
+        [self.delegate matchImgViewPressed:_showDic];
     }
 }
 

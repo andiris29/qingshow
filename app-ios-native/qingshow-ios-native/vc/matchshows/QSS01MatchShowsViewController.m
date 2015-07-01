@@ -105,7 +105,7 @@
 - (void)didSelectedCellInCollectionView:(id)sender
 {
 
-    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:nil];
+    QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:sender];
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
@@ -116,7 +116,10 @@
 {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithCurrentUser];
     vc.navigationController.navigationBar.hidden = YES;
-    [self.navigationController pushViewController:vc animated:YES];
+    vc.nemuBtn.hidden = YES;
+    vc.backBtn.hidden = NO;
+////    vc.menuProvider =
+    //[self.navigationController pushViewController:vc animated:YES];
     
 }
 - (void)didReceiveMemoryWarning {

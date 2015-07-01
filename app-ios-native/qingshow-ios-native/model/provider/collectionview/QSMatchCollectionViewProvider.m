@@ -51,7 +51,7 @@
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {
-            [cell bindWithDic:self.resultArray[indexPath.item]];
+            [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
         }
        
             cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);

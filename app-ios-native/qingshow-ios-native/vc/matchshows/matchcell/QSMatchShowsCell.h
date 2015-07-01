@@ -25,5 +25,5 @@
 
 @property (assign,nonatomic) NSObject <QSMatchShowCellDelegate>* delegate;
 
-- (void)bindWithDic:(NSDictionary *)dict;
+- (void)bindWithDic:(NSDictionary *)dict withIndex:(int)index;
 @end

@@ -73,7 +73,7 @@
     
     //Matcher
 //    self.matchProvider = [[QSMatchCollectionViewProvider alloc] init];
-#warning type of provider
+
     self.matchProvider = [[QSShowCollectionViewProvider alloc] init];
     self.matchProvider.type = 2;
     //Recommend
@@ -134,7 +134,7 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindProvider];
-    self.backBtn.hidden = YES;
+    
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];

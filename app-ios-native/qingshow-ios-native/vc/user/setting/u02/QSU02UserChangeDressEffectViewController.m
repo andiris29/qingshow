@@ -61,7 +61,6 @@
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"effectCell"];
     cell.textLabel.font = NEWFONT;
     cell.textLabel.text = self.dataArray[indexPath.row];
-    
     if ([self.selectedArray containsObject:@(indexPath.row)]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     } else {

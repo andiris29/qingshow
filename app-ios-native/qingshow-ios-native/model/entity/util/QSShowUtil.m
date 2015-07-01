@@ -66,9 +66,7 @@
     if ([QSCommonUtil checkIsNil:dict]) {
         return nil;
     }
-    NSDictionary *dic = [dict valueForKey:@"__context"];
-    NSDictionary *createDic = dic[@"createdBy"];
-    NSString* cover = createDic[@"background"];
+    NSString* cover = [dict valueForKey:@"coverForeground"];
     
     if ([QSCommonUtil checkIsNil:cover]) {
         return nil;
@@ -333,10 +331,15 @@
     if ([QSCommonUtil checkIsNil:showDict]) {
         return nil;
     }
-    NSString* videoPath = showDict[@"video"];
-    if ([QSCommonUtil checkIsNil:videoPath] || !videoPath.length) {
-        return nil;
+   // NSLog(@"show Dic Key %@",[showDict allKeys]);
+    if ([[showDict allKeys] containsObject:@"video"] ) {
+        NSString* videoPath = [showDict valueForKey:@"video"];
+        if ([QSCommonUtil checkIsNil:videoPath] || !videoPath.length) {
+            return nil;
+        }
+        return videoPath;
     }
-    return videoPath;
+    return nil;
+    
 }
 @end

@@ -20,7 +20,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="matchshow_bg_img" translatesAutoresizingMaskIntoConstraints="NO" id="Vxf-Q3-EHu">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vxf-Q3-EHu">
                         <rect key="frame" x="0.0" y="0.0" width="150" height="260"/>
                     </imageView>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uOI-fk-NF4">
@@ -67,7 +67,6 @@
     <resources>
         <image name="body_thin" width="15" height="30"/>
         <image name="hongxin.png" width="17" height="15"/>
-        <image name="matchshow_bg_img" width="320" height="568"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
