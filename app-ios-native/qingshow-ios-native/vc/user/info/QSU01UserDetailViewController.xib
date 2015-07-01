@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU01UserDetailViewController">
             <connections>
+                <outlet property="backBtn" destination="ac3-Q3-Rae" id="iKG-6W-NmG"/>
                 <outlet property="backBtnTopConstrain" destination="DTe-9u-7lB" id="4Fn-1Z-TKD"/>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
@@ -14,6 +15,7 @@
                 <outlet property="followerTableView" destination="XtV-4f-8cf" id="emu-XJ-QSw"/>
                 <outlet property="followingTableView" destination="NhE-AF-avk" id="lUM-yU-JZN"/>
                 <outlet property="matcherCollectionView" destination="sg7-Ao-Jcv" id="HS6-Q1-pXq"/>
+                <outlet property="nemuBtn" destination="wOr-OR-RzB" id="hcm-D3-LRJ"/>
                 <outlet property="recommendCollectionView" destination="DrY-X6-QFu" id="GMq-fN-k8b"/>
                 <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zNd-7b-5M4"/>
@@ -109,15 +111,31 @@
                         <action selector="menuBtnPressed:" destination="-1" eventType="touchUpInside" id="XiK-xf-Lbj"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ac3-Q3-Rae">
+                    <rect key="frame" x="20" y="25" width="36" height="36"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="36" id="3Lc-wb-1SG"/>
+                        <constraint firstAttribute="width" constant="36" id="b32-WZ-UZ8"/>
+                    </constraints>
+                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <state key="normal" image="nav_btn_back">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backBtnPressed:" destination="-1" eventType="touchUpInside" id="CmO-Eh-z0z"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="3hV-Eq-L5b"/>
                 <constraint firstAttribute="trailing" secondItem="fec-uB-6s0" secondAttribute="trailing" id="9ht-st-Vrt"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="25" id="DTe-9u-7lB"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JYh-Ze-q17"/>
                 <constraint firstItem="wOr-OR-RzB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="QPE-wC-rfU"/>
                 <constraint firstItem="fec-uB-6s0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="j2X-WF-LhN"/>
                 <constraint firstAttribute="bottom" secondItem="AVA-uB-yhC" secondAttribute="bottom" id="kd3-lf-ZLW"/>
+                <constraint firstItem="ac3-Q3-Rae" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="nPm-wY-OMy"/>
                 <constraint firstAttribute="trailing" secondItem="AVA-uB-yhC" secondAttribute="trailing" id="o4Q-HH-lR9"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qNf-PQ-9CZ"/>
                 <constraint firstItem="AVA-uB-yhC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="v9I-jF-Wrp"/>
@@ -126,6 +144,7 @@
         </view>
     </objects>
     <resources>
+        <image name="nav_btn_back" width="28" height="28"/>
         <image name="nav_btn_menu" width="28" height="28"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

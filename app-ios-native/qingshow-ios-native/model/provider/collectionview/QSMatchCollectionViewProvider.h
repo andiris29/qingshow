@@ -8,6 +8,7 @@
 
 #import "QSWaterfallBasicProvider.h"
 #import "QSMatchShowsCell.h"
+#import "QSU01MatchCollectionViewCell.h"
 @protocol QSMatchCollectionViewProviderDelegate <NSObject>
 
 - (void)didSelectedCellInCollectionView:(id)sender;
@@ -21,7 +22,7 @@ typedef enum : NSUInteger {
 
 @interface QSMatchCollectionViewProvider : QSWaterfallBasicProvider<QSMatchShowCellDelegate>
 
-@property(nonatomic,assign)NSObject<UICollectionViewDelegate>* delegate;
+@property(nonatomic,assign)NSObject<QSMatchCollectionViewProviderDelegate>* delegate;
 @property(nonatomic,assign)NSInteger type;
 
 @end

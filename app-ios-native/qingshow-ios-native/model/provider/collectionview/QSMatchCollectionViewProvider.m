@@ -7,9 +7,9 @@
 //
 
 #import "QSMatchCollectionViewProvider.h"
-#import "QSMatchShowsCell.h"
-#import "QSU01MatchCollectionViewCell.h"
+
 #import "QSS03ShowDetailViewController.h"
+
 #define S01MATCHCELL @"matchShowsForS01CellId"
 #define U01MATCHCELL @"matchShowsForU01CellId"
 
@@ -44,8 +44,10 @@
         if (!cell) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
+        if (indexPath.item == 1) {
+            NSLog(@"result Array = %@",self.resultArray);
+        }
         
-        //NSLog(@"result Array = %@",self.resultArray);
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {
@@ -71,9 +73,8 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)]) {
-        [self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)];
-    }
+   
+   
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -81,13 +82,19 @@
     if (self.resultArray.count) {
         return self.resultArray.count;
     }
-    return 10;
+    return 6;
 }
 #pragma mark - Delegate
-- (void)headerImgViewPressed:(NSDictionary *)dict
+- (void)headerImgViewPressed:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(didClickHeaderImgView:)]) {
-        [self.delegate respondsToSelector:@selector(didClickHeaderImgView:)];
+        [self.delegate didClickHeaderImgView:sender];
+    }
+}
+- (void)matchImgViewPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(didSelectedCellInCollectionView:)]) {
+        [self.delegate  didSelectedCellInCollectionView:sender];
     }
 }
 

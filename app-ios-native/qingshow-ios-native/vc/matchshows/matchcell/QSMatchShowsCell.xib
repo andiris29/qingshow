@@ -27,7 +27,7 @@
                         <rect key="frame" x="0.0" y="261" width="150" height="1"/>
                         <color key="backgroundColor" red="0.86618134469696972" green="0.86618134469696972" blue="0.86618134469696972" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_head_default.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="q1F-Hf-8Wm">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1F-Hf-8Wm">
                         <rect key="frame" x="8" y="280" width="30" height="29"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我是名字" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4I4-W0-OJO">
@@ -48,12 +48,13 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="body_thin" translatesAutoresizingMaskIntoConstraints="NO" id="wPn-fC-WA3">
                         <rect key="frame" x="114" y="282" width="16" height="29"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_head_default.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="dp9-gc-uNq">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dp9-gc-uNq">
                         <rect key="frame" x="8" y="50" width="134" height="160"/>
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="bgImgView" destination="Vxf-Q3-EHu" id="vYh-LI-PVb"/>
                 <outlet property="bodyTypeImgView" destination="wPn-fC-WA3" id="XdY-Xp-WIb"/>
                 <outlet property="headerImgView" destination="q1F-Hf-8Wm" id="N2K-TK-ezw"/>
                 <outlet property="likeNumlabel" destination="a9K-In-K1C" id="Tx5-GU-V2V"/>
@@ -67,7 +68,6 @@
         <image name="body_thin" width="15" height="30"/>
         <image name="hongxin.png" width="17" height="15"/>
         <image name="matchshow_bg_img" width="320" height="568"/>
-        <image name="user_head_default.jpg" width="720" height="450"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

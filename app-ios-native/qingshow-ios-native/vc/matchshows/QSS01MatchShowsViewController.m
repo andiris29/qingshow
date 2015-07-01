@@ -36,6 +36,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib
+    _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
+    _matchCollectionViewProvider.delegate = self;
+    _matchCollectionViewProvider.type = 1;
     [self configNav];
     [self configProvider];
 
@@ -48,9 +51,7 @@
 
 - (void)configProvider
 {
-    _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
-    _matchCollectionViewProvider.delegate = self;
-    _matchCollectionViewProvider.type = 1;
+   
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
 
 //    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -103,17 +104,18 @@
 #pragma mark - Delegate
 - (void)didSelectedCellInCollectionView:(id)sender
 {
+
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:nil];
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+
 - (void)didClickHeaderImgView:(id)sender
 {
-    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]init];
-    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
-    vc.navigationItem.leftBarButtonItem = backItem;
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithCurrentUser];
+    vc.navigationController.navigationBar.hidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

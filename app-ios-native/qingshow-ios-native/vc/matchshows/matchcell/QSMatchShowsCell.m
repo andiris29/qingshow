@@ -11,18 +11,31 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 
 @implementation QSMatchShowsCell
-
+{
+    NSDictionary *_showDic;
+}
 - (void)awakeFromNib {
     // Initialization code
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = 16.0;
-    //self.headerImgView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImgViewPressed:)];
-    [self.headerImgView addGestureRecognizer:tap];
+    self.headerImgView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *u01Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImgViewPressed:)];
+    u01Tap.numberOfTapsRequired = 1;
+    [self.headerImgView addGestureRecognizer:u01Tap];
+    
+    
+    UITapGestureRecognizer *s03Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];
+    UITapGestureRecognizer *s03ImgTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];
+    self.matchShowImgview.userInteractionEnabled = YES;
+    self.bgImgView.userInteractionEnabled = YES;
+    [self.matchShowImgview addGestureRecognizer:s03Tap];
+    [self.bgImgView addGestureRecognizer:s03ImgTap];
+    
 }
 
 - (void)bindWithDic:(NSDictionary *)dict
 {
+    _showDic = [QSShowUtil getItems:dict];
     if ([QSShowUtil getCoverUrl:dict]) {
         [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     }
@@ -51,10 +64,16 @@
     
 }
 
-- (void)headerImageViewPressed:(id )sender
+- (void)headerImgViewPressed:(id )sender
 {
     if ([self.delegate respondsToSelector:@selector(headerImgViewPressed:)]) {
-        [self.delegate headerImgViewPressed:nil];
+        [self.delegate headerImgViewPressed:_showDic];
+    }
+}
+- (void)matchShowImgviewPressed:(id)sender
+{
+    if ([self.delegate respondsToSelector:@selector(matchImgViewPressed:)]) {
+        [self.delegate matchImgViewPressed:self];
     }
 }
 

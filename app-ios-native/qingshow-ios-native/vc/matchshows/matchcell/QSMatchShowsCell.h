@@ -11,6 +11,7 @@
 @protocol QSMatchShowCellDelegate <NSObject>
 
 - (void)headerImgViewPressed:(id)sender;
+- (void)matchImgViewPressed:(id)sender;
 
 @end
 
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeNumlabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bodyTypeImgView;
 @property (weak, nonatomic) IBOutlet UIImageView *matchShowImgview;
+@property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
 
 @property (assign,nonatomic) NSObject <QSMatchShowCellDelegate>* delegate;
 

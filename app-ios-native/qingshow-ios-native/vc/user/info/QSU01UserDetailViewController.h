@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *favorCollectionView;
 @property (weak, nonatomic) IBOutlet UITableView *followingTableView;
 @property (weak, nonatomic) IBOutlet UITableView *followerTableView;
+@property (weak, nonatomic) IBOutlet UIButton *nemuBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 

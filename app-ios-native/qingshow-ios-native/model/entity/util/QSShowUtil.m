@@ -99,7 +99,7 @@
     NSDictionary *createDic = dic[@"createdBy"];
     NSString *groupStr = [createDic[@"bodyType"] stringValue];
     
-    NSLog(@"group = %@",groupStr);
+    //NSLog(@"group = %@",groupStr);
     if ([QSCommonUtil checkIsNil:groupStr]) {
         return nil;
     }
