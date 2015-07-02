@@ -249,7 +249,28 @@
 }
 - (UIImage*)submitView {
     [self updateHighlightView:nil];
-    return [self makeScreenShot];
+    
+    //放大一定倍数后再截图以提高图片清晰度
+    float rate = 2.f;
+    CGRect bounds = self.bounds;
+    bounds.size.width *= rate;
+    bounds.size.height *= rate;
+    UIView* newView = [[UIView alloc] initWithFrame:bounds];
+    newView.backgroundColor = self.backgroundColor;
+    for (id v in self.subviews) {
+        if ([v isKindOfClass:[QSCanvasImageView class]]) {
+            QSCanvasImageView* imgView = v;
+            CGRect frame = imgView.frame;
+            frame.origin.x *= rate;
+            frame.origin.y *= rate;
+            frame.size.width *= rate;
+            frame.size.height *= rate;
+            UIImageView* newImageView = [[UIImageView alloc] initWithFrame:frame];
+            newImageView.image = imgView.imgView.image;
+            [newView addSubview:newImageView];
+        }
+    }
+    return [newView makeScreenShot];
 }
 
 
