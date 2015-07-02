@@ -17,7 +17,7 @@
 #define PATH_PEOPLE_FOLLOW @"people/follow"
 #define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
 #define PATH_PEOPLE_QUERY_FOLLOWER @"people/queryFollowers"
-#define PATH_PEOPLE_QUERY_FOLLOWED @"people/queryFollowed"
+#define PATH_PEOPLE_QUERY_FOLLOWED @"people/queryFollowingPeoples"
 #define PATH_PEOPLE_QUERY_FOLLOWED_BRAND @"brand/queryFollowed"
 
 

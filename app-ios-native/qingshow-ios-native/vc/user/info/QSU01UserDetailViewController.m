@@ -195,7 +195,7 @@
     //Matcher
     self.matchProvider.hasRefreshControl = NO;
     self.matchProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-        return [SHARE_NW_ENGINE feedingMatchCreateBy:[QSUserManager shareUserManager].userInfo page:page onSucceed:succeedBlock onError:errorBlock];
+        return [SHARE_NW_ENGINE feedingMatchCreateBy:weakSelf.userInfo page:page onSucceed:succeedBlock onError:errorBlock];
 //        return [SHARE_NW_ENGINE getRecommendationFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
     };
     [self.matchProvider bindWithCollectionView:self.matcherCollectionView];
@@ -325,6 +325,13 @@
         self.badgeView.followBtn.selected = f;
     } onError:^(NSError *error) {
         [self showErrorHudWithError:error];
+        if (error.code == 1019) {
+            self.badgeView.followBtn.selected = YES;
+            [QSPeopleUtil setPeople:self.userInfo isFollowed:YES];
+        } else if (error.code == 1020) {
+            self.badgeView.followBtn.selected = NO;
+            [QSPeopleUtil setPeople:self.userInfo isFollowed:NO];
+        }
     }];
 }
 @end

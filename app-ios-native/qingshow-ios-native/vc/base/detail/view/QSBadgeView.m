@@ -79,6 +79,7 @@
     [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
     [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
     }
+    self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
 }
 
 - (void)layoutSubviews {
