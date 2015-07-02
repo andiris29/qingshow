@@ -11,7 +11,7 @@
 #import "QSMetadataUtil.h"
 #import "NSNumber+QSExtension.h"
 #import "QSAbstractListViewProvider+Protect.h"
-
+#import "UIViewController+ShowHud.h"
 @interface QSWaterfallBasicProvider ()
 
 @end

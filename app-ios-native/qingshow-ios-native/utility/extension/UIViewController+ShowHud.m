@@ -73,6 +73,7 @@
     HUD.mode = MBProgressHUDModeIndeterminate;
     HUD.removeFromSuperViewOnHide = YES;
     [HUD show:YES];
+    [HUD hide:YES afterDelay:TEXT_HUD_DELAY];
     return HUD;
 }
 @end

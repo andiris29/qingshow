@@ -10,6 +10,7 @@
 #import "QSMatchCollectionViewProvider.h"
 #import "QSBlock.h"
 #import "QSNetworkKit.h"
+#import "UIViewController+ShowHud.h"
 #import "QSShareViewController.h"
 #import "QSS03ShowDetailViewController.h"
 #import "QSU01UserDetailViewController.h"
@@ -19,6 +20,7 @@
 @interface QSS01MatchShowsViewController ()<UICollectionViewDelegate,QSMatchCollectionViewProviderDelegate>
 
 @property (nonatomic,assign) NSInteger segIndex;
+@property (nonatomic,strong) UISegmentedControl *segmentControl;
 @property (nonatomic,strong) QSMatchCollectionViewProvider *matchCollectionViewProvider;
 
 @end
@@ -53,11 +55,6 @@
 {
    
     [_matchCollectionViewProvider bindWithCollectionView:self.collectionView];
-
-//    _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-//        return [SHARE_NW_ENGINE getHotFeedingPage:page onSucceed:succeedBlock onError:errorBlock];
-//        //        return  [SHARE_NW_ENGINE getTestShowsOnSucceed:succeedBlock onError:errorBlock];
-//    };
     _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
         return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
     };
@@ -68,39 +65,40 @@
 - (void)configNav
 {
     
-    UISegmentedControl *segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
-    segmentControl.frame = CGRectMake(0, 0, 120, 30);
-    [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
-    [segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
-    [segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
-    segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
-    _segIndex = segmentControl.selectedSegmentIndex;
-    self.navigationItem.titleView = segmentControl;
-    segmentControl.selectedSegmentIndex = 0;
+    _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
+    _segmentControl.frame = CGRectMake(0, 0, 120, 30);
+    [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
+    [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
+    [_segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
+    _segmentControl.tintColor = [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000];
+    
+    self.navigationItem.titleView = _segmentControl;
+    _segmentControl.selectedSegmentIndex = 0;
     [self.navigationController.navigationBar removeGestureRecognizer:self.showVersionTapGesture];
 }
 
 
 - (void)changeEvents
 {
-
+    _segIndex = _segmentControl.selectedSegmentIndex;
     if(_segIndex == 1)
     {
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
+           
         };
-
-        [self.matchCollectionViewProvider reloadData];
+        [_matchCollectionViewProvider fetchDataOfPage:1];
+        [self reloadCollectionViewData];
+        
     }
     else
     {
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
-        
-
+        [_matchCollectionViewProvider fetchDataOfPage:1];
+        [self reloadCollectionViewData];
        
-        [self.matchCollectionViewProvider reloadData];
     }
 }
 #pragma mark - Delegate
@@ -108,21 +106,24 @@
 {
 
     QSS03ShowDetailViewController *vc = [[QSS03ShowDetailViewController alloc]initWithShow:sender];
-    NSLog(@"sender = %@",sender);
     QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
     vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)reloadCollectionViewData
+{
+    [self showNetworkWaitingHud];
+    [self.matchCollectionViewProvider reloadData];
+}
 
 - (void)didClickHeaderImgView:(id)sender
 {
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:sender];
     vc.menuProvider = self.menuProvider;
     vc.navigationController.navigationBar.hidden = NO;
-    vc.nemuBtn.hidden = YES;
     [self.navigationController pushViewController:vc animated:YES];
-    
+ 
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

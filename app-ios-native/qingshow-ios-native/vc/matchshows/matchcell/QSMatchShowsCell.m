@@ -36,9 +36,6 @@
 
 - (void)bindWithDic:(NSDictionary *)dict withIndex:(int)index
 {
-   // NSLog(@"itemRef = %@",[QSShowUtil get]);
-//    NSLog(@"index = %d",index);
-   // _showDic = [QSShowUtil getItemFromShow:dict AtIndex:[QSShowUtil getItems:dict].count-1];
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
     //NSLog(@"%@",_showDic);
