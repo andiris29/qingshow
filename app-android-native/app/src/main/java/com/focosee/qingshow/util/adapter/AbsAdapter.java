@@ -19,6 +19,12 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
     protected int[] layoutId;
     protected AbsViewHolder[] viewHolders;
 
+    /**
+     * viewType的顺序的layoutId的顺序一致
+     * @param datas
+     * @param context
+     * @param layoutId
+     */
     public AbsAdapter(@NonNull List<T> datas, Context context, int... layoutId) {
         this.datas = datas;
         addDataAtTop(datas);
@@ -37,10 +43,7 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
 
     @Override
     public int getItemCount() {
-        if(datas == null){
-            return 0;
-        }
-        return datas.size();
+        return null == datas ? 0 : datas.size();
     }
 
     public void addData(List<T> datas){

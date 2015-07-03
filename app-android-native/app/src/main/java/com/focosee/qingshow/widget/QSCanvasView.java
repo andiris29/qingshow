@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.focosee.qingshow.widget.QSImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 

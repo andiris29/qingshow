@@ -87,7 +87,13 @@ public class QSAppWebAPI {
     private static final String MATCH_HOT_API = HOST_NAME + "/feeding/matchHot";
     private static final String MATCH_NEW_API = HOST_NAME + "/feeding/matchNew";
 
+    private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
+
 //    private static final String QUERY_ITMES=HOST_NAME+"";
+
+    public static String getMatchCreatedbyApi(String _id){
+        return MATCH_CREATEDBY_API + "?_id=" + _id;
+    }
 
     public static String getMatchHotApi(int pageNo, int pageSize) {
         return MATCH_HOT_API + "?pageNo=" + pageNo + "&pageSize=" + pageSize;
