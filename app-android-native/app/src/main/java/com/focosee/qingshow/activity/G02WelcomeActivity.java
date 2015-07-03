@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.WelComeFragment;
 
@@ -40,13 +41,13 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
         mViewPager.setCurrentItem(0);
 
-        indicatorLayout = (LinearLayout)findViewById(R.id.g02_point_onthebotton);
+        indicatorLayout = (LinearLayout) findViewById(R.id.g02_point_onthebotton);
 
         initIndicator();
 
     }
 
-    private void initIndicator(){
+    private void initIndicator() {
 
         for (int i = 0; i < indicatorCount; i++) {
 
@@ -85,10 +86,10 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         for (int i = 0; i < indicatorLayout.getChildCount(); i++) {
-            if(i == position )
-                ((ImageView)indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_white);
+            if (i == position)
+                ((ImageView) indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_white);
             else
-                ((ImageView)indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_transparent);
+                ((ImageView) indicatorLayout.getChildAt(i)).setImageResource(R.drawable.point_transparent);
         }
     }
 
@@ -104,7 +105,7 @@ public class G02WelcomeActivity extends FragmentActivity implements ViewPager.On
 
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(G02WelcomeActivity.this, S17TopShowsActivity.class));
+        startActivity(new Intent(G02WelcomeActivity.this, S01MatchShowsActivity.class));
         finish();
     }
 

@@ -22,17 +22,15 @@ public class MongoItem implements Serializable {
 
     public String _id;
 
-    public int category;
+    public String categoryRef;
     public String name;
     public LinkedList<Image> images;
-    public ImageMetadata imageMetadata;
     public String source;
-    public String price;
-    public String video;
-    public String sizeExplanation;
-
-    public String brandLogo;
+    public String thumbnail;
+    public boolean deactive;
+    public int numLike;
     public TaoBaoInfo taobaoInfo;
+    public GregorianCalendar create;
 
     public class Image implements Serializable {
         public String url;
@@ -148,38 +146,30 @@ public class MongoItem implements Serializable {
         return name;
     }
 
-    public String getItemCategory() {
-        String categoryName;
-        switch (category) {
-            case 0:
-                categoryName = "上装";
-                break;
-            case 1:
-                categoryName = "下装";
-                break;
-            case 2:
-                categoryName = "鞋子";
-                break;
-            case 3:
-                categoryName = "配饰";
-                break;
-            default:
-                categoryName = "未定义";
-                break;
-        }
-        return categoryName;
-    }
-
-    public String getBrandPortrait() {
-        return (null != imageMetadata) ? imageMetadata.url : null;
-    }
+//    public String getItemCategory() {
+//        String categoryName;
+//        switch (categoryRef) {
+//            case :
+//                categoryName = "上装";
+//                break;
+//            case 1:
+//                categoryName = "下装";
+//                break;
+//            case 2:
+//                categoryName = "鞋子";
+//                break;
+//            case 3:
+//                categoryName = "配饰";
+//                break;
+//            default:
+//                categoryName = "未定义";
+//                break;
+//        }
+//        return categoryName;
+//    }
 
     public String getSource() {
         return source;
-    }
-
-    public String getOriginPrice() {
-        return price;
     }
 
     public String getPrice() {

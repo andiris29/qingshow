@@ -1,11 +1,9 @@
 package com.focosee.qingshow.activity.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -13,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -162,7 +159,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             return;
         }
         switch (v.getId()) {
-            case R.id.u01_collection:
+            case R.id.u01_people:
                 startActivity(new Intent(getActivity(), U14CollectionActivity.class));
                 getActivity().finish();
                 break;

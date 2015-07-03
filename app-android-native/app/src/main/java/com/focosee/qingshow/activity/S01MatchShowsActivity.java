@@ -27,6 +27,7 @@ import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -45,7 +46,7 @@ public class S01MatchShowsActivity extends MenuActivity {
     ImageButton navigationBtnMatch;
     @InjectView(R.id.navigation_btn_good_match)
     ImageButton navigationBtnGoodMatch;
-    @InjectView(R.id.u01_collection)
+    @InjectView(R.id.u01_people)
     ImageButton u01Collection;
     @InjectView(R.id.s01_recyclerView)
     RecyclerPullToRefreshView recyclerPullToRefreshView;
@@ -87,28 +88,29 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerPullToRefreshView.doPullRefreshing(true, 500);
     }
 
-    public void doRefresh(int type){
+    public void doRefresh(int type) {
         getDatasFromNet(type, 1, 10);
     }
 
-    public void doLoadMore(int type){
+    public void doLoadMore(int type) {
         getDatasFromNet(type, currentPageNo, 10);
     }
 
-    public void getDatasFromNet(int type, int pageNo, int pageSize){
+    public void getDatasFromNet(int type, int pageNo, int pageSize) {
 
         String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, pageSize) : QSAppWebAPI.getMatchNewApi(pageNo, pageSize);
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>(){
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                if(MetadataParser.hasError(response)){
+                System.out.println("response:" + response);
+                if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
                     return;
                 }
 
-                if(currentPageNo == 1){
+                if (currentPageNo == 1) {
                     adapter.addDataAtTop(ShowParser.parseQuery(response));
                 } else {
                     adapter.addData(ShowParser.parseQuery(response));
@@ -149,17 +151,17 @@ public class S01MatchShowsActivity extends MenuActivity {
     public void onClick(View v) {
 
         if (v.getId() == R.id.s01_tab_hot) {
-            doRefresh(TYPE_HOT);
             currentType = TYPE_HOT;
+            recyclerPullToRefreshView.doPullRefreshing(true, 500);
             s01TabHot.setBackground(getResources().getDrawable(R.drawable.s01_tab_btn1));
             s01TabHot.setTextColor(getResources().getColor(R.color.white));
             s01TabNew.setBackground(getResources().getDrawable(R.drawable.s01_tab_border1));
             s01TabNew.setTextColor(getResources().getColor(R.color.s21_pink));
             return;
         }
-        if(v.getId() == R.id.s01_tab_new) {
-            doRefresh(TYPE_NEW);
+        if (v.getId() == R.id.s01_tab_new) {
             currentType = TYPE_NEW;
+            recyclerPullToRefreshView.doPullRefreshing(true, 500);
             s01TabHot.setBackground(getResources().getDrawable(R.drawable.s01_tab_border2));
             s01TabHot.setTextColor(getResources().getColor(R.color.s21_pink));
             s01TabNew.setBackground(getResources().getDrawable(R.drawable.s01_tab_btn2));

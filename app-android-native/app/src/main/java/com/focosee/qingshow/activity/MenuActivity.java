@@ -13,16 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.util.BitMapUtil;
-
-import java.nio.Buffer;
-
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MenuActivity extends BaseActivity implements View.OnClickListener{
@@ -34,7 +31,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
     @InjectView(R.id.blur)
     ImageView blur;
     @InjectView(R.id.context)
-    LinearLayout right;
+    ViewGroup right;
     @InjectView(R.id.s17_settting)
     ImageView settingBtn;
 
@@ -164,14 +161,14 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
             case R.id.navigation_btn_match:
               //  startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
               //  finish();
-                startActivity(new Intent(MenuActivity.this, S21CategoryActivity.class));// ÁÙÊ±Èë¿Ú
+                startActivity(new Intent(MenuActivity.this, S01MatchShowsActivity.class));
                 break;
             case R.id.navigation_btn_good_match:
-                startActivity(new Intent(MenuActivity.this, S18ShowByDateActivity.class));
+                startActivity(new Intent(MenuActivity.this, S21CategoryActivity.class));
                 finish();
                 break;
-            case R.id.u01_collection:
-                startActivity(new Intent(MenuActivity.this, U14CollectionActivity.class));
+            case R.id.u01_people:
+                startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
                 finish();
                 break;
             case R.id.s17_settting:

@@ -90,7 +90,7 @@ public class S07ListAdapter extends BaseAdapter {
         holderView.priceTV = (TextView) convertView.findViewById(R.id.item_S07_with_price_price);
 
         holderView.name.setText(data.get(position).getItemName());
-        holderView.category.setText(data.get(position).getItemCategory());
+//        holderView.category.setText(data.get(position).getItemCategory());
 //        if(null != data.get(position).getBrandRef()) {
 ////            ImageLoader.getInstance().displayImage(data.get(position).getBrandRef().getBrandLogo(), holderView.brandLogo, AppUtil.getPortraitDisplayOptions());
 //        }else{

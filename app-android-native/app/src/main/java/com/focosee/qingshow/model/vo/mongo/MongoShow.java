@@ -11,14 +11,13 @@ public class MongoShow implements Serializable {
     public String cover;
     public boolean ugc;
     public int __v;
-
     public String video;
     public String[] posters;
     public String description;
 
     public MongoItem[] itemRefs;
-    public MongoBrand brandRef;
     public MongoPromotion promotionRef;
+    public String coverForeground;
 
     public GregorianCalendar create;
     public int numLike;

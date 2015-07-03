@@ -6,10 +6,19 @@ package com.focosee.qingshow.model.vo.mongo;
 public class MongoCategories {
     private String _id;
     private String name;
+    public String order;
     private String parentRef;
     private String icon;
     private boolean activate;
+    public MatchInfo matchInfo;
 
+    class MatchInfo {
+        public boolean enabled;
+        public boolean defaultOnCavase;
+        public int row;
+        public int column;
+
+    }
     public MongoCategories() {
     }
 
