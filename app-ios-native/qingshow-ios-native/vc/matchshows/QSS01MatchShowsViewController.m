@@ -66,7 +66,7 @@
 {
     
     _segmentControl = [[UISegmentedControl alloc]initWithItems:@[@"最热",@"最新"]];
-    _segmentControl.frame = CGRectMake(0, 0, 120, 30);
+    _segmentControl.frame = CGRectMake(0, 0, 140, 25);
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithRed:1.000 green:0.659 blue:0.743 alpha:1.000]} forState:UIControlStateNormal];
     [_segmentControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]} forState:UIControlStateHighlighted];
     [_segmentControl addTarget:self action:@selector(changeEvents) forControlEvents:UIControlEventValueChanged];
@@ -83,19 +83,23 @@
     _segIndex = _segmentControl.selectedSegmentIndex;
     if(_segIndex == 1)
     {
+        [self.matchCollectionViewProvider.resultArray removeAllObjects];
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
            
         };
+        NSLog(@"self.newresultArray = %@",self.matchCollectionViewProvider.resultArray);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
         
     }
     else
     {
+        [self.matchCollectionViewProvider.resultArray removeAllObjects];
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
+        NSLog(@"self.hotresultArray = %@",self.matchCollectionViewProvider.resultArray);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
        

@@ -54,7 +54,8 @@
             [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
         }
        
-            cell.contentView.transform = CGAffineTransformMakeScale(w/320, w/320);
+        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
+        cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
         return (UICollectionViewCell *)cell;
     }
@@ -67,6 +68,8 @@
         if (self.resultArray.count) {
              [cell bindWithDic:self.resultArray[indexPath.item]];
         }
+        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
+        cell.backgroundColor = [UIColor whiteColor];
         return (UICollectionViewCell *)cell;
     }
     
