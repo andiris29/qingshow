@@ -1,11 +1,13 @@
-package com.qs.myapplication;
+package com.focosee.qingshow.widget;
 
 import android.content.Context;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,13 +18,17 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/7/2.
  */
-public class QSCanvasView extends FrameLayout {
+public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener {
 
     private List<QSImageView> views;
     private int lastCheckedIndex;
     private int checkedIndex;
 
+    private QSImageView checkedView;
+
     private OnCheckedChangeListener onCheckedChangeListener;
+    private GestureDetector gestureDetector;
+    private ScaleGestureDetector scaleGestureDetector;
 
     public interface OnCheckedChangeListener {
         public void checkedChanged(QSImageView view);
@@ -43,6 +49,8 @@ public class QSCanvasView extends FrameLayout {
 
     private void init() {
         views = new ArrayList<>();
+        gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener());
+        scaleGestureDetector = new ScaleGestureDetector(getContext(), this);
     }
 
     public void attach(QSImageView view) {
@@ -56,17 +64,36 @@ public class QSCanvasView extends FrameLayout {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
+
+    /**
+     * 分发前执行checked方法
+     * @return false
+     *
+     * */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        notifyCheckedChange();
+        return gestureDetector.onTouchEvent(ev);
+    }
+
+    /**
+     * 监听缩放手势，同时消费touch事件
+     * @return true
+     *
+     * */
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return scaleGestureDetector.onTouchEvent(ev);
     }
 
     public void notifyCheckedChange() {
-        boolean check[] = new boolean[getChildCount()];
+        boolean check[] = new boolean[views.size()];
         int checkedCount = 0;
-        Log.i("tag", checkedCount + "count");
-
-        for (int i = 0; i < getChildCount(); i++) {
-            QSImageView item = (QSImageView) getChildAt(i);
+        for (int i = 0; i < views.size(); i++) {
+            QSImageView item = views.get(i);
             if (item.isChecked()) {
                 ++checkedCount;
                 check[i] = true;
@@ -81,7 +108,8 @@ public class QSCanvasView extends FrameLayout {
                 if (check[i]) {
                     lastCheckedIndex = i;
                     if (null != onCheckedChangeListener) {
-//                        onCheckedChangeListener.checkedChanged(i);
+                        onCheckedChangeListener.checkedChanged(views.get(i));
+                        checkedView = views.get(i);
                     }
                 }
             }
@@ -89,17 +117,36 @@ public class QSCanvasView extends FrameLayout {
 
         if (2 == checkedCount) {
             for (int i = 0; i < check.length; i++) {
-                QSImageView item = (QSImageView) getChildAt(i);
+                QSImageView item = views.get(i);
                 if (i == lastCheckedIndex && check[i]) {
                     item.setChecked(false);
                 } else if (i != lastCheckedIndex && check[i]) {
                     checkedIndex = i;
                     if (null != onCheckedChangeListener) {
-//                        onCheckedChangeListener.checkedChanged(i);
+                        onCheckedChangeListener.checkedChanged(views.get(i));
+                        checkedView = views.get(i);
                     }
                 }
             }
             lastCheckedIndex = checkedIndex;
         }
     }
+
+    @Override
+    public boolean onScale(ScaleGestureDetector detector) {
+        return true;
+    }
+
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector detector) {
+        return true;
+    }
+
+    @Override
+    public void onScaleEnd(ScaleGestureDetector detector) {
+
+    }
+
+
+
 }

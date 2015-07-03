@@ -1,18 +1,15 @@
-package com.qs.myapplication;
+package com.focosee.qingshow.widget;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import com.focosee.qingshow.R;
 
 /**
  * Created by Administrator on 2015/7/2.
@@ -68,11 +65,12 @@ public class QSImageView extends RelativeLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        setChecked(true);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 lastX = event.getRawX();
                 lastY = event.getRawY();
-                return true;
+                break;
             case MotionEvent.ACTION_MOVE:
                 float distanceX = lastX - event.getRawX();
                 float distanceY = lastY - event.getRawY();
@@ -99,11 +97,10 @@ public class QSImageView extends RelativeLayout {
                 animatorSet.playTogether(x, y);
                 animatorSet.setDuration(0);
                 animatorSet.start();
-
                 lastX = event.getRawX();
                 lastY = event.getRawY();
+                break;
         }
-        setChecked(true);
         return false;
     }
 
