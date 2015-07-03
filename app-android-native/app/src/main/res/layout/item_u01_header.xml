@@ -14,6 +14,7 @@
 
 
     <LinearLayout
+        android:id="@+id/center_layout"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:layout_below="@id/bg"
@@ -42,12 +43,149 @@
         android:id="@+id/user_head"
         android:layout_width="65dp"
         android:layout_height="65dp"
-        android:layout_below="@id/bg"
+        android:layout_below="@+id/bg"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-33dp"
         fresco:roundAsCircle="true"
         fresco:actualImageScaleType="focusCrop"
         fresco:placeholderImage="@drawable/user_head_default"
-        fresco:roundingBorderColor="@color/white"
-        fresco:roundingBorderWidth="3dp" />
+        fresco:roundingBorderColor="@color/white"/>
+
+    <ImageView
+        android:id="@+id/user_follow_btn"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="-20dp"
+        android:layout_alignBottom="@+id/user_head"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/follow_btn"/>
+
+    <LinearLayout
+        android:id="@+id/user_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginBottom="-50dp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_alignBottom="@+id/center_layout">
+
+        <RelativeLayout
+            android:id="@+id/user_match_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/user_match"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/match_pink"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/s21_pink"
+                android:layout_below="@+id/user_match"
+                android:layout_alignLeft="@+id/user_match"
+                android:layout_alignRight="@+id/user_match"
+                android:layout_marginTop="5dp"
+                android:text="搭配"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/user_recomm_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/user_recomm"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/recommend"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darker_gray"
+                android:layout_below="@+id/user_recomm"
+                android:layout_alignLeft="@+id/user_recomm"
+                android:layout_alignRight="@+id/user_recomm"
+                android:layout_marginTop="5dp"
+                android:text="推荐"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/user_collection_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/user_collection"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/collection"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darker_gray"
+                android:layout_below="@+id/user_collection"
+                android:layout_alignLeft="@+id/user_collection"
+                android:layout_alignRight="@+id/user_collection"
+                android:layout_marginTop="5dp"
+                android:text="收藏"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/user_follow_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/user_follow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/follow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darker_gray"
+                android:layout_below="@+id/user_follow"
+                android:layout_alignLeft="@+id/user_follow"
+                android:layout_alignRight="@+id/user_follow"
+                android:layout_marginTop="5dp"
+                android:text="关注"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/user_fans_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1">
+            <ImageView
+                android:id="@+id/user_fans"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/fans"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darker_gray"
+                android:layout_below="@+id/user_fans"
+                android:layout_alignLeft="@+id/user_fans"
+                android:layout_alignRight="@+id/user_fans"
+                android:layout_marginTop="5dp"
+                android:text="粉丝"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/gray_background"
+        android:layout_below="@+id/user_tab_layout"/>
 </RelativeLayout>

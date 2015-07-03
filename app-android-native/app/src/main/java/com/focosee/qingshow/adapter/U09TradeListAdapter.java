@@ -131,9 +131,9 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
             viewHolder.measurement.setText(measurement);
             viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
             viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
-            viewHolder.image.setImageURI(Uri.parse(ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.imageMetadata.url,-1)));
+            viewHolder.image.setImageURI(Uri.parse(ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.images.get(0).url,-1)));
 
-            viewHolder.image.setAspectRatio(trade.orders.get(0).itemSnapshot.imageMetadata.width / trade.orders.get(0).itemSnapshot.imageMetadata.height);
+            viewHolder.image.setAspectRatio(0.5f);
             viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){
             e.printStackTrace();

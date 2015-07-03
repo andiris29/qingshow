@@ -147,12 +147,12 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
 
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText(StringUtil.FormatPrice(sku.promo_price));
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText("原价:" + StringUtil.FormatPrice(sku.price));
-            EventBus.getDefault().post(new S11DetailsEvent(order, true, getNums(itemEntity.category)));
+//            EventBus.getDefault().post(new S11DetailsEvent(order, true, getNums(itemEntity.categoryRef)));
             return true;
         } else {
             ((TextView) rootView.findViewById(R.id.s11_details_price)).setText("");
             ((TextView) rootView.findViewById(R.id.s11_details_maxprice)).setText("");
-            EventBus.getDefault().post(new S11DetailsEvent(null, false, getNums(itemEntity.category)));
+//            EventBus.getDefault().post(new S11DetailsEvent(null, false, getNums(itemEntity.categoryRef)));
             return false;
         }
     }
@@ -194,33 +194,33 @@ public class S11DetailsFragment extends Fragment implements View.OnClickListener
     }
 
     private void initSize() {
-        sizeLayout.setVisibility(View.VISIBLE);
-        switch (itemEntity.category) {
-            case 0:
-            case 2:
-            case 3:
-                cate023.setVisibility(View.VISIBLE);
-                cate4.setVisibility(View.GONE);
-                numOne.setHint("胸围：70cm");
-                numTow.setHint("肩宽：30cm");
-                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_shangyi));
-                break;
-            case 1:
-                cate023.setVisibility(View.VISIBLE);
-                cate4.setVisibility(View.GONE);
-                numOne.setHint("腰围：70cm");
-                numTow.setHint("臀围：30cm");
-                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_pants));
-                break;
-            case 4:
-                cate023.setVisibility(View.GONE);
-                cate4.setVisibility(View.VISIBLE);
-                break;
-            case 5:
-            case 6:
-                sizeLayout.setVisibility(View.GONE);
-                break;
-        }
+//        sizeLayout.setVisibility(View.VISIBLE);
+//        switch (itemEntity.categoryRef) {
+//            case 0:
+//            case 2:
+//            case 3:
+//                cate023.setVisibility(View.VISIBLE);
+//                cate4.setVisibility(View.GONE);
+//                numOne.setHint("胸围：70cm");
+//                numTow.setHint("肩宽：30cm");
+//                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_shangyi));
+//                break;
+//            case 1:
+//                cate023.setVisibility(View.VISIBLE);
+//                cate4.setVisibility(View.GONE);
+//                numOne.setHint("腰围：70cm");
+//                numTow.setHint("臀围：30cm");
+//                sizeImg.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.category_pants));
+//                break;
+//            case 4:
+//                cate023.setVisibility(View.GONE);
+//                cate4.setVisibility(View.VISIBLE);
+//                break;
+//            case 5:
+//            case 6:
+//                sizeLayout.setVisibility(View.GONE);
+//                break;
+//        }
 
         EditText.OnEditorActionListener listener = new TextView.OnEditorActionListener() {
             @Override

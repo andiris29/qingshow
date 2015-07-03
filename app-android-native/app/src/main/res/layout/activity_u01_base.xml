@@ -15,6 +15,15 @@
             android:id="@+id/context"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:id="@+id/user_head"
+                android:layout_width="match_parent"
+                android:layout_height="360dp">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/user_bg"
@@ -30,12 +39,11 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/s03_back_btn" />
+                android:background="@drawable/nav_btn_menu_n"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            <include layout="@layout/item_u01_header"/>
+            </RelativeLayout>
+
         </RelativeLayout>
     </FrameLayout>
 
@@ -44,59 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
-
-    <LinearLayout
-        android:id="@+id/navigation"
-        android:layout_width="140dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:alpha="80"
-        android:background="#B0000000"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageButton
-            style="@style/navigation_btn"
-            android:id="@+id/navigation_btn_match"
-            android:onClick="onClick"
-            android:src="@drawable/root_menu_flash" />
-
-        <TextView
-            style="@style/navigation_text"
-            android:text="我的搭配" />
-
-        <ImageButton
-            style="@style/navigation_btn"
-            android:layout_marginTop="30dp"
-            android:id="@+id/navigation_btn_good_match"
-            android:onClick="onClick"
-            android:src="@drawable/root_menu_match" />
-
-        <TextView
-            style="@style/navigation_text"
-            android:text="美搭榜单" />
-
-        <ImageButton
-            style="@style/navigation_btn"
-            android:layout_marginTop="30dp"
-            android:id="@+id/u01_collection"
-            android:onClick="onClick"
-            android:src="@drawable/root_menu_people" />
-
-        <TextView
-            style="@style/navigation_text"
-            android:text="我的收藏" />
-
-        <ImageButton
-            style="@style/navigation_btn"
-            android:layout_marginTop="30dp"
-            android:id="@+id/s17_settting"
-            android:onClick="onClick"
-            android:src="@drawable/root_menu_setting" />
-
-        <TextView
-            style="@style/navigation_text"
-            android:text="个人设置" />
-    </LinearLayout>
+    <include layout="@layout/menu"/>
 
 </android.support.v4.widget.DrawerLayout>

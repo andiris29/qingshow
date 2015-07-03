@@ -85,9 +85,9 @@ public class S05ItemActivity extends BaseActivity {
     }
 
     public void showItemAtIndex(final int index) {
-        ImageLoader.getInstance().displayImage(items.get(index).getBrandPortrait(), (MCircularImageView)findViewById(R.id.S05_portrait), AppUtil.getPortraitDisplayOptions());
+//        ImageLoader.getInstance().displayImage(items.get(index).getBrandPortrait(), (MCircularImageView)findViewById(R.id.S05_portrait), AppUtil.getPortraitDisplayOptions());
         ((TextView)findViewById(R.id.S05_item_name)).setText(items.get(index).getItemName());
-        ((TextView)findViewById(R.id.S05_origin_price)).setText(items.get(index).getOriginPrice());
+//        ((TextView)findViewById(R.id.S05_origin_price)).setText(items.get(index).getOriginPrice());
         ((TextView)findViewById(R.id.S05_origin_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         ((TextView)findViewById(R.id.S05_now_price)).setText(items.get(index).getPrice());
         ((Button)findViewById(R.id.S05_buy_btn)).setOnClickListener(new View.OnClickListener() {

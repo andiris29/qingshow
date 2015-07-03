@@ -91,7 +91,7 @@ public class U14CollectionAdapter extends AbsAdapter<List<MongoShow>> {
                     }
                 });
                 imags[i].setImageURI(Uri.parse(ImgUtil.getImgSrc(item.images.get(0).url,-1)));
-                prices[i].setText(item.price);
+                prices[i].setText(item.getSourcePrice());
                 i++;
             }
         }

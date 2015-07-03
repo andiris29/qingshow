@@ -47,7 +47,7 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
 
     @Override
     public int getItemViewType(int position) {
-        int result;
+        int result = 1;
         if (position == 0) {
             result = 1;
         } else if (position == 1) {
@@ -56,20 +56,20 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
             result = 0;
         } else {
 
-            if (lastR1 == 2) {
-                result = 0;
-            } else {
-                int num = position - 1 - map.get(position);
-                MongoShow item = datas.get(num);
-                MongoShow lastItem = datas.get(num - 1);
-                if (lastItem.recommend.date.equals(item.recommend.date)) {
-                    result = 0;
-                } else {
-                    result = 2;
-                }
-            }
+//            if (lastR1 == 2) {
+//                result = 0;
+//            } else {
+//                int num = position - 1 - map.get(position);
+//                MongoShow item = datas.get(num);
+//                MongoShow lastItem = datas.get(num - 1);
+//                if (lastItem.recommend.date.equals(item.recommend.date)) {
+//                    result = 0;
+//                } else {
+//                    result = 2;
+//                }
+//            }
         }
-        lastR1 = result;
+//        lastR1 = result;
 
         return result;
     }
@@ -104,20 +104,20 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-        if (datas.size() == 0) {
-            return;
-        }
-        switch (getTp(position)) {
-            case 0:
-                bindShowHolder(holder, position);
-                break;
-            case 1:
-                bindUserHolder(holder);
-                break;
-            case 2:
-//                bindDateHolder(holder, position);
-                break;
-        }
+//        if (datas.size() == 0) {
+//            return;
+//        }
+//        switch (getTp(position)) {
+//            case 0:
+//                bindShowHolder(holder, position);
+//                break;
+//            case 1:
+//                bindUserHolder(holder);
+//                break;
+//            case 2:
+////                bindDateHolder(holder, position);
+//                break;
+//        }
     }
 
     private void bindUserHolder(AbsViewHolder holder) {
@@ -142,7 +142,7 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
 
     private void bindShowHolder(AbsViewHolder holder, int position) {
         MongoShow item = datas.get(position - map.get(position) - 1);
-        holder.setImgeByUrl(R.id.cover, item.cover).setText(R.id.description, item.description);
+//        holder.setImgeByUrl(R.id.cover, item.cover).setText(R.id.description, item.description);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,6 +178,8 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
 
     @Override
     public int getItemCount() {
-        return datas.size() + plusNum + 1;
+
+//        return datas.size() + plusNum + 1;
+        return 20;
     }
 }

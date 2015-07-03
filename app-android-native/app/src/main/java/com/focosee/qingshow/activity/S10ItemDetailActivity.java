@@ -60,7 +60,7 @@ public class S10ItemDetailActivity extends BaseActivity implements View.OnClickL
         pageIndicator.setCount(itemEntity.images.size());
 
         description.setText(itemEntity.name);
-        price.setText(itemEntity.price);
+//        price.setText(itemEntity.price);
     }
 
 

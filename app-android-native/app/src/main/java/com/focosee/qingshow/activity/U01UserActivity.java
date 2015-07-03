@@ -1,32 +1,16 @@
 package com.focosee.qingshow.activity;
 
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
+import android.widget.Toast;
 import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
-import com.focosee.qingshow.adapter.U01PushAdapter;
+import com.focosee.qingshow.adapter.U01MatchAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -36,20 +20,14 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
-import com.focosee.qingshow.util.adapter.DividerGridItemDecoration;
-
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class U01UserActivity extends MenuActivity implements View.OnClickListener{
+public class U01UserActivity extends MenuActivity{
 
     @InjectView(R.id.recycler)
     RecyclerView recyclerView;
@@ -58,9 +36,13 @@ public class U01UserActivity extends MenuActivity implements View.OnClickListene
 
 
     private final float DAMP = 3.0f;
+    @InjectView(R.id.user_match_layout)
+    RelativeLayout userMatchLayout;
+    @InjectView(R.id.user_head)
+    RelativeLayout userHead;
 
     private List<MongoShow> datas;
-    private U01PushAdapter adapter;
+    private U01MatchAdapter adapter;
 
     private boolean isFirstFocus = true;
 
@@ -100,16 +82,17 @@ public class U01UserActivity extends MenuActivity implements View.OnClickListene
 
     private void initUserInfo() {
         MongoPeople user = QSModel.INSTANCE.getUser();
-        if (user == null){
+        if (user == null) {
             return;
         }
         if (null != user.background)
-
-            userBg.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.background,-1)));
+            userBg.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.background, -1)));
     }
 
+    float preOffset = 0;
+    View view;
     private void initRectcler() {
-        adapter = new U01PushAdapter(datas, this,
+        adapter = new U01MatchAdapter(datas, this,
                 R.layout.item_u01_push, R.layout.item_u01_header, R.layout.item_u01_date);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -127,12 +110,29 @@ public class U01UserActivity extends MenuActivity implements View.OnClickListene
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if(null == view && null != recyclerView.getChildAt(0))
+                    view = recyclerView.getChildAt(0);
                 float offset = recyclerView.computeVerticalScrollOffset();
-                userBg.setY(-offset / DAMP);
+                if (view == recyclerView.getChildAt(0))
+                    userHead.setY(view.getBottom()-view.getHeight());
+                else
+                    userHead.setY(-userHead.getHeight());
             }
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()){
+            case R.id.user_match_layout:
+                Toast.makeText(this, "match", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.user_recomm_layout:
+                Toast.makeText(this, "recomm", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 
     @Override
     protected void onDestroy() {
