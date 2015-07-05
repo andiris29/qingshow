@@ -8,7 +8,7 @@
 
 #import "QSUserLoginAlertDelegateObj.h"
 #import "UIViewController+QSExtension.h"
-#import "QSU06LoginViewController.h"
+#import "QSU07RegisterViewController.h"
 
 @interface UIViewController(NetworkPrivate)
 @property (nonatomic) QSUserLoginAlertDelegateObj* loginErrorAlertDelegateObj;
@@ -31,8 +31,9 @@
 {
     UIViewController* vc = self.vc;
     if (buttonIndex != alertView.cancelButtonIndex && vc && vc.navigationController) {
-        UIViewController* u06Vc = [[QSU06LoginViewController alloc] initWithPopToRootAfterLogin:NO];
-        [vc.navigationController pushViewController:u06Vc animated:YES];
+        QSU07RegisterViewController* u07Vc = [[QSU07RegisterViewController alloc] init];
+        [vc.navigationController pushViewController:u07Vc animated:YES];
+        u07Vc.previousVc = vc;
     }
     
     self.alertView = nil;

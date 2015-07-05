@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIView *rightLine;
 
 
-
+@property (weak, nonatomic) UIViewController* previousVc;
 
 
 @property (weak, nonatomic) IBOutlet UIScrollView *containerScrollView;

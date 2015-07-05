@@ -26,9 +26,19 @@
 @property (weak, nonatomic) IBOutlet UIButton *weixinButton;
 @property (weak, nonatomic) IBOutlet UIButton *weiboButton;
 
+
+
 @end
 
 @implementation QSU07RegisterViewController
+
+- (void)popToPreviousVc {
+    if (self.previousVc) {
+        [self.navigationController popToViewController:self.previousVc animated:YES];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
 
 - (void)configScrollView
 {
@@ -106,7 +116,8 @@
 }
 - (IBAction)login:(id)sender {
     [self resignOnTap:nil];
-    UIViewController *vc = [[QSU06LoginViewController alloc]initWithPopToRootAfterLogin:YES];
+    QSU06LoginViewController *vc = [[QSU06LoginViewController alloc] init];
+    vc.previousVc = self.previousVc;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)back:(id)sender {
@@ -187,10 +198,7 @@
     
     EntitySuccessBlock successBloc = ^(NSDictionary *people, NSDictionary *meta) {
         [self showSuccessHudWithText:@"登陆成功"];
-        //[self.navigationController popViewControllerAnimated:YES];
-//        QSU13PersonalizeViewController *perliyVC = [[QSU13PersonalizeViewController alloc] init];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-//        [self.navigationController pushViewController:perliyVC animated:YES];
+        [self popToPreviousVc];
     };
     
     ErrorBlock errorBlock = ^(NSError *error) {
@@ -272,7 +280,8 @@
 - (IBAction)loginWechatBtnPressed:(id)sender {
     [self hideKeyboard];
     [[QSThirdPartLoginService getInstance] loginWithWechatOnSuccees:^{
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self popToPreviousVc];
+
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"微信登陆失败"];
     }];
@@ -281,7 +290,7 @@
 - (IBAction)loginWeiboBtnPressed:(id)sender {
     [self hideKeyboard];
     [[QSThirdPartLoginService getInstance] loginWithWeiboOnSuccees:^{
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self popToPreviousVc];
     } onError:^(NSError *error) {
         [self showErrorHudWithText:@"微博登陆失败"];
     }];

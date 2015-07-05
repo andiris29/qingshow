@@ -11,6 +11,6 @@
 @interface QSU06LoginViewController : UIViewController<UITextFieldDelegate>
 @property (nonatomic, assign) id currentResponder;
 @property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
-
-- (instancetype)initWithPopToRootAfterLogin:(BOOL)fShowUserDetail;
+@property (weak, nonatomic) UIViewController* previousVc;
+- (instancetype)init;
 @end

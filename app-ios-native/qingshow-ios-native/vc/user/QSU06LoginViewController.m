@@ -19,19 +19,22 @@
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
 @property (weak, nonatomic) IBOutlet UITextField *userText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
-
-@property (assign, nonatomic) BOOL fPopToRoot;
 @property (assign, nonatomic) BOOL fRemoveLoginAndRegisterVc;
 @end
 
 @implementation QSU06LoginViewController
-
+- (void)popToPreviousVc {
+    if (self.previousVc) {
+        [self.navigationController popToViewController:self.previousVc animated:YES];
+    } else {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+}
 #pragma mark - Init
-- (instancetype)initWithPopToRootAfterLogin:(BOOL)fShowUserDetail
+- (instancetype)init
 {
     self = [super initWithNibName:@"QSU06LoginViewController" bundle:nil];
     if (self) {
-        self.fPopToRoot = fShowUserDetail;
     }
     return self;
 }
@@ -127,12 +130,7 @@
         if (metadata[@"error"] == nil && people != nil) {
             self.fRemoveLoginAndRegisterVc = YES;
             [self showSuccessHudWithText:@"登陆成功"];
-            if (self.fPopToRoot) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            } else {
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-
+            [self popToPreviousVc];
         } else {
             [self showErrorHudWithText:@"登陆失败"];
         }
