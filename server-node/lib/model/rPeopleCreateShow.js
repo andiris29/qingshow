@@ -10,6 +10,10 @@ var rPeopleCreateShow = mongoose.model('rPeopleCreateShow', Schema({
         'type' : Schema.Types.ObjectId,
         'ref' : 'shows'
     },
+    hideAgainstCreator : {
+        'type' : Boolean,
+        'default' : false
+    },
     'create' : {
         'type' : Date,
         'default' : Date.now

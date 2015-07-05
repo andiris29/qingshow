@@ -293,7 +293,10 @@ feeding.matchCreatedBy = {
     'func' : function(req, res) {
         ServiceHelper.queryRelatedCreateShow(req, res, RPeopleCreateShow, {
             'query' : 'initiatorRef',
-            'result' : 'targetRef'
+            'result' : 'targetRef',
+            'additonalQuery' : {
+                hideAgainstCreator : false
+            }
         });
     }
 };

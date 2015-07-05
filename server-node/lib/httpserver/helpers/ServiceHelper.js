@@ -114,6 +114,9 @@ var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspe
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
         criteria[fields.query] = qsParam._id;
+        if (fields.additonalQuery) {
+            criteria = _.extend(criteria, fields.additonalQuery);
+        }
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
         }).populate(fields.result), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {

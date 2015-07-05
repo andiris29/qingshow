@@ -154,3 +154,32 @@ matcher.updateCover = {
         return;
     }
 };
+
+matcher.hide = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            RPeopleCreateShow.findOne({
+                'initiatorRef' : req.qsCurrentUserId,
+                'targetRef' : RequestHelper.parseId(req.body._id)
+            }, function(err, relationship) {
+                callback(err, relationship);
+            });
+        },
+        function(relationship, callback) {
+            relationship.hide = true;
+            relationship.save(function(err, relationship) {
+                callback(err);
+            });
+        }],
+        function(err, relationship) {
+            if (!relationship) {
+                ResponseHelper.response(res, ServerError.ShowNotExist);
+            } else {
+                ResponseHelper.response(res, err);
+            }
+        });
+    }
+};
