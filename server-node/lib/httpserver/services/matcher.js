@@ -60,26 +60,56 @@ matcher.save = {
 
         var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
 
-        var coverUrl = global.qsConfig.show.coverForeground.template;
-        coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
-        var show = new Show({
-            'itemRefs' : itemRefs, 
-            'ugc' : true,
-            'coverForeground' : coverUrl
-        });
+        if (!req.body._id || !req.body._id.length) {
+            // Add a new show
+            var coverUrl = global.qsConfig.show.coverForeground.template;
+            coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
+            var show = new Show({
+                'itemRefs' : itemRefs, 
+                'ugc' : true,
+                'coverForeground' : coverUrl
+            });
 
-        show.save(function(err, show) {
+            show.save(function(err, show) {
+                if (err) {
+                    ResponseHelper.response(res, err);
+                } else if (!show) {
+                    ResponseHelper.response(res, ServerError.ServerError);
+                } else {
+                    var initiatorRef = req.qsCurrentUserId;
+                    var targetRef = show._id;
+                    // Add PeopleCreateShow Relationship
+                    RelationshipHelper.create(RPeopleCreateShow, initiatorRef, targetRef, function(err, relationship) {
+                        if (err) {
+                            ResponseHelper.response(res, err);
+                        } else if (!relationship) {
+                            ResponseHelper.response(res, ServerError.ServerError);
+                        } else {
+                            ResponseHelper.response(res, null, {
+                                'show' : show
+                            });
+                        }
+                    });
+                }
+            });
+            return;
+        } 
+
+        // Update a show
+        var _id = RequestHelper.parseId(req.body._id);
+        Show.findOne({
+            '_id' : id
+        }, function(err, show) {
             if (err) {
                 ResponseHelper.response(res, err);
             } else if (!show) {
-                ResponseHelper.response(res, ServerError.ServerError);
+                ResponseHelper.response(res, ServerError.ShowNotExist);
             } else {
-                var initiatorRef = req.qsCurrentUserId;
-                var targetRef = show._id;
-                RelationshipHelper.create(RPeopleCreateShow, initiatorRef, targetRef, function(err, relationship) {
+                show.itemRefs = itemRefs;
+                show.save(function(err, show) {
                     if (err) {
                         ResponseHelper.response(res, err);
-                    } else if (!relationship) {
+                    } else if (!show) {
                         ResponseHelper.response(res, ServerError.ServerError);
                     } else {
                         ResponseHelper.response(res, null, {
