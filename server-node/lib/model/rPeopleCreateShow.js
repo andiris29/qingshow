@@ -10,7 +10,7 @@ var rPeopleCreateShow = mongoose.model('rPeopleCreateShow', Schema({
         'type' : Schema.Types.ObjectId,
         'ref' : 'shows'
     },
-    hideAgainstCreator : {
+    'hideAgainstCreator' : {
         'type' : Boolean,
         'default' : false
     },

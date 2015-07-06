@@ -108,14 +108,15 @@ ServiceHelper.queryRelatedCreateShow = function(req, res, RModel, fields) {
             'shows' : shows
         };
     });
-}
+};
 
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
-        criteria[fields.query] = qsParam._id;
-        if (fields.additonalQuery) {
-            criteria = _.extend(criteria, fields.additonalQuery);
+        if (fields.criteria) {
+            criteria = fields.criteria;
+        } else {
+            criteria[fields.query] = qsParam._id;
         }
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1

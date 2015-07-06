@@ -291,11 +291,21 @@ feeding.matchCreatedBy = {
     'method' : 'get',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
+        var qsParam = RequestHelper.parsePageInfo(req.queryString);
         ServiceHelper.queryRelatedCreateShow(req, res, RPeopleCreateShow, {
-            'query' : 'initiatorRef',
             'result' : 'targetRef',
-            'additonalQuery' : {
-                hideAgainstCreator : false
+            'criteria' : {
+                '$and' : [{
+                    'initiatorRef' : qsParam._id
+                }, {
+                    '$or' : [{
+                        'hideAgainstCreator' : false 
+                    } , {
+                        'hideAgainstCreator' : {
+                            '$exists' : false
+                        }
+                    }]
+                }]
             }
         });
     }

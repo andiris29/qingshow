@@ -98,7 +98,7 @@ matcher.save = {
         // Update a show
         var _id = RequestHelper.parseId(req.body._id);
         Show.findOne({
-            '_id' : id
+            '_id' : _id
         }, function(err, show) {
             if (err) {
                 ResponseHelper.response(res, err);
@@ -169,9 +169,9 @@ matcher.hide = {
             });
         },
         function(relationship, callback) {
-            relationship.hide = true;
+            relationship.hideAgainstCreator = true;
             relationship.save(function(err, relationship) {
-                callback(err);
+                callback(err, relationship);
             });
         }],
         function(err, relationship) {
