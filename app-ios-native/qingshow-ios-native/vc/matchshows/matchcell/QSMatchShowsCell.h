@@ -17,6 +17,7 @@
 
 @interface QSMatchShowsCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headerImgView;
+@property (weak, nonatomic) IBOutlet UIView* headerImageTapView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumlabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bodyTypeImgView;

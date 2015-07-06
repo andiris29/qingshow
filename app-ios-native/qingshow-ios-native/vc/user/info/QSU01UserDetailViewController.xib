@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSU01UserDetailViewController">
@@ -15,7 +14,7 @@
                 <outlet property="followerTableView" destination="XtV-4f-8cf" id="emu-XJ-QSw"/>
                 <outlet property="followingTableView" destination="NhE-AF-avk" id="lUM-yU-JZN"/>
                 <outlet property="matcherCollectionView" destination="sg7-Ao-Jcv" id="HS6-Q1-pXq"/>
-                <outlet property="nemuBtn" destination="wOr-OR-RzB" id="hcm-D3-LRJ"/>
+                <outlet property="menuBtn" destination="wOr-OR-RzB" id="zAR-eC-Xpi"/>
                 <outlet property="recommendCollectionView" destination="DrY-X6-QFu" id="GMq-fN-k8b"/>
                 <outlet property="topConstrain" destination="j2X-WF-LhN" id="aJX-zq-48w"/>
                 <outlet property="view" destination="iN0-l3-epB" id="zNd-7b-5M4"/>

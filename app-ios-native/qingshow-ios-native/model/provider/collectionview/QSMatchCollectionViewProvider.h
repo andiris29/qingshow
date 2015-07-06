@@ -9,7 +9,7 @@
 #import "QSWaterfallBasicProvider.h"
 #import "QSMatchShowsCell.h"
 #import "QSU01MatchCollectionViewCell.h"
-@protocol QSMatchCollectionViewProviderDelegate <NSObject>
+@protocol QSMatchCollectionViewProviderDelegate <QSAbstractScrollProviderDelegate>
 
 - (void)didSelectedCellInCollectionView:(id)sender;
 - (void)didClickHeaderImgView:(id)sender;

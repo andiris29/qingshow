@@ -22,7 +22,7 @@
     self.headerImgView.userInteractionEnabled = YES;
     UITapGestureRecognizer *u01Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerImgViewPressed:)];
     u01Tap.numberOfTapsRequired = 1;
-    [self.headerImgView addGestureRecognizer:u01Tap];
+    [self.headerImageTapView addGestureRecognizer:u01Tap];
     
     
     UITapGestureRecognizer *s03Tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(matchShowImgviewPressed:)];

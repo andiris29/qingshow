@@ -134,7 +134,8 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindProvider];
-    self.backBtn.hidden = YES;
+    self.backBtn.hidden = self.isCurrentUser;
+    self.menuBtn.hidden = !self.isCurrentUser;
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{NSFontAttributeName:NAVNEWFONT,
        NSForegroundColorAttributeName:[UIColor blackColor]}];
@@ -314,6 +315,7 @@
     }
 }
 - (IBAction)backBtnPressed:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveCurrentUserInfoUpdate:(NSNotification*)noti{
