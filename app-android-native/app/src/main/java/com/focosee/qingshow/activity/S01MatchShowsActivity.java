@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.android.volley.Response;
+import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -85,7 +86,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
         recyclerView.setAdapter(adapter);
-        recyclerPullToRefreshView.doPullRefreshing(true, 500);
+        recyclerPullToRefreshView.doPullRefreshing(true, 200);
     }
 
     public void doRefresh(int type) {
@@ -104,7 +105,8 @@ public class S01MatchShowsActivity extends MenuActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
+                recyclerPullToRefreshView.onPullDownRefreshComplete();
+                recyclerPullToRefreshView.onPullUpRefreshComplete();
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
                     return;
@@ -115,8 +117,6 @@ public class S01MatchShowsActivity extends MenuActivity {
                 } else {
                     adapter.addData(ShowParser.parseQuery(response));
                 }
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
                 adapter.notifyDataSetChanged();
                 currentPageNo++;
             }

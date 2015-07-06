@@ -24,6 +24,7 @@
     <!-- personal -->
     <dimen name="indicator_height_activity_personal">40dp</dimen>
     <dimen name="indicator_height_activity_itembar">40dp</dimen>
+    <dimen name="space_between_head_and_list">2dp</dimen>
 
 
     <!-- register -->
