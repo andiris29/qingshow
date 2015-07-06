@@ -91,11 +91,18 @@ public class QSAppWebAPI {
 
 
     private static final String QUERY_ITEMS = HOST_NAME + "/matcher/queryItems";
+    private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
 
 //    private static final String QUERY_ITMES=HOST_NAME+"";
 
     public static String getQueryItems(int pageNo, int pageSize,String categoryRef) {
         return QUERY_ITEMS + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&categoryRef=" + categoryRef;
+    }
+
+//    private static final String QUERY_ITMES=HOST_NAME+"";
+
+    public static String getMatchCreatedbyApi(String _id){
+        return MATCH_CREATEDBY_API + "?_id=" + _id;
     }
 
     public static String getMatchHotApi(int pageNo, int pageSize) {

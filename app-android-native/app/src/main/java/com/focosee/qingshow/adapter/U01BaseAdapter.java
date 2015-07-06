@@ -25,7 +25,7 @@ public class U01BaseAdapter<T> extends AbsAdapter<T>{
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
         if(0 == position){
-
+            return;
         }
     }
 }

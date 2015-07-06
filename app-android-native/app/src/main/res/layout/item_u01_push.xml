@@ -5,20 +5,11 @@
     android:layout_height="360dp"
     android:orientation="vertical">
 
-<<<<<<< HEAD
-    <!--<com.facebook.drawee.view.SimpleDraweeView-->
-        <!--android:id="@+id/cover"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--fresco:actualImageScaleType="fitXY"-->
-        <!--fresco:clickable="true" />-->
-=======
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         fresco:actualImageScaleType="fitXY"/>
->>>>>>> d8cab8c7158c84e9774aa991444bdded86d81b88
 
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->

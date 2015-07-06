@@ -85,9 +85,10 @@
                 android:layout_height="30dp"
                 android:src="@drawable/match_pink"/>
             <TextView
+                android:id="@+id/user_match_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/s21_pink"
+                android:textColor="@drawable/u01_tab_textcolor"
                 android:layout_below="@+id/user_match"
                 android:layout_alignLeft="@+id/user_match"
                 android:layout_alignRight="@+id/user_match"
@@ -107,6 +108,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/recommend"/>
             <TextView
+                android:id="@+id/user_recomm_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/darker_gray"
@@ -121,6 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="onClick"
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_collection"
@@ -128,6 +131,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/collection"/>
             <TextView
+                android:id="@+id/user_collection_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/darker_gray"
@@ -142,6 +146,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="onClick"
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_follow"
@@ -149,6 +154,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/follow"/>
             <TextView
+                android:id="@+id/user_follow_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/darker_gray"
@@ -163,6 +169,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="onClick"
             android:layout_weight="1">
             <ImageView
                 android:id="@+id/user_fans"
@@ -170,6 +177,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/fans"/>
             <TextView
+                android:id="@+id/user_fans_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/darker_gray"
@@ -180,12 +188,4 @@
                 android:text="粉丝"/>
         </RelativeLayout>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/gray_background"
-        android:layout_below="@+id/user_tab_layout"/>
 </RelativeLayout>
