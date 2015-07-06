@@ -71,7 +71,7 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
     }
 
     /**
-     * 分发前执行checked方法
+     * 鍒嗗彂鍓嶆墽琛宑hecked鏂规硶
      * @return false
      *
      * */
@@ -82,7 +82,7 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
     }
 
     /**
-     * 监听缩放手势，同时消费touch事件
+     * 鐩戝惉缂╂斁鎵嬪娍锛屽悓鏃舵秷璐箃ouch浜嬩欢
      * @return true
      *
      * */

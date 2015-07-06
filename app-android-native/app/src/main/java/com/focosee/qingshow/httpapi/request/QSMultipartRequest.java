@@ -7,6 +7,10 @@ import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,13 +20,18 @@ import java.util.Map;
 /**
  * Created by focosee on 15/2/12.
  */
-public class QSMultipartRequest extends Request<String> {
+public class QSMultipartRequest extends JsonObjectRequest {
 
     QSMultipartEntity mMultiPartEntity = new QSMultipartEntity();
-    Response.Listener<String> mListener;
+    Response.Listener<JSONObject> mListener;
 
-    public QSMultipartRequest(int method, String url, Response.Listener<String> mListener, Response.ErrorListener listener) {
-        super(method, url, listener);
+    public QSMultipartRequest(int method, String url, JSONObject jsonObject, Response.Listener<JSONObject> mListener, Response.ErrorListener listener) {
+        super(method, url, jsonObject, mListener, listener);
+        this.mListener = mListener;
+    }
+
+    public QSMultipartRequest(int method, String url, Response.Listener<JSONObject> mListener, Response.ErrorListener listener) {
+        super(method, url, null, mListener, listener);
         this.mListener = mListener;
     }
 
@@ -54,20 +63,22 @@ public class QSMultipartRequest extends Request<String> {
 
 
     @Override
-    protected void deliverResponse(String response) {
+    protected void deliverResponse(JSONObject response) {
         mListener.onResponse(response);
 
     }
 
     @Override
-    protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        String parsed;
-        try {
-            parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-        } catch (UnsupportedEncodingException e) {
-            parsed = new String(response.data);
-        }
-        return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+        RequestHelper.beforeParseNetworkResponse(response.headers);
+//        String parsed;
+//        try {
+//            parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+//        } catch (UnsupportedEncodingException e) {
+//            parsed = new String(response.data);
+//        }
+//        return Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response));
+        return super.parseNetworkResponse(response);
     }
 
     @Override

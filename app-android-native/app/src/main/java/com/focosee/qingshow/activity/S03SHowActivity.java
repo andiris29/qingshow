@@ -21,10 +21,12 @@ import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.constants.config.ShareConfig;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -127,7 +129,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
-
+        if(null == S03Model.INSTANCE.getShow()) {
+            Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
+            finish();
+        }
         mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, ShareConfig.SINA_APP_KEY);
         mWeiboShareAPI.registerApp();
 
@@ -137,16 +142,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 S03SHowActivity.this.finish();
             }
         });
-
-        Intent intent = getIntent();
-        if (null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY)) {
-            showListEntity = (MongoShow) intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_LIST_ENTITY);
-            position = intent.getIntExtra("position", 0);
-        }
-        if (null != intent.getSerializableExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID)) {
-            showId = intent.getStringExtra(S03SHowActivity.INPUT_SHOW_ENTITY_ID);
-            position = intent.getIntExtra("position", 0);
-        }
 
         getShowDetailFromNet();
 
@@ -162,7 +157,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void getShowDetailFromNet() {
-        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(showId), null, new Response.Listener<JSONObject>() {
+        final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(S03Model.INSTANCE.getShow()._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
@@ -179,33 +174,24 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private void clickLikeShowButton() {
         if (null == showDetailEntity.__context)return;
         likeBtn.setClickable(false);
-        Map<String, String> likeData = new HashMap<>();
-        likeData.put("_id", showDetailEntity._id);
-        JSONObject jsonObject = new JSONObject(likeData);
 
-        String requestApi = (showDetailEntity.__context.likedByCurrentUser) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
         final int change = (showDetailEntity.__context.likedByCurrentUser) ? -1 : 1;
-
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, requestApi, jsonObject, new Response.Listener<JSONObject>() {
+        String requestApi = (showDetailEntity.__context.likedByCurrentUser) ? QSAppWebAPI.getShowUnlikeApi() : QSAppWebAPI.getShowLikeApi();
+        UserCommand.likeOrFollow(requestApi, showDetailEntity._id, new Callback(){
             @Override
-            public void onResponse(JSONObject response) {
-                if (!MetadataParser.hasError(response)) {
-                    showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "取消收藏成功" : "收藏成功");
-                    showDetailEntity.__context.likedByCurrentUser = !showDetailEntity.__context.likedByCurrentUser;
-                    Intent intent = new Intent(ACTION_MESSAGE);
-                    intent.putExtra("position", position);
-                    sendBroadcast(intent);
-                    setLikedImageButtonBackgroundImage();
-                    likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
-                    likeBtn.setClickable(true);
-                    UserCommand.refresh();
-                } else {
-                    ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
-                }
+            public void onComplete(JSONObject response) {
+                showDetailEntity.__context.likedByCurrentUser = !showDetailEntity.__context.likedByCurrentUser;
+                showMessage(S03SHowActivity.this, showDetailEntity.__context.likedByCurrentUser ? "添加收藏" : "取消收藏");
+                setLikedImageButtonBackgroundImage();
+                likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
+                likeBtn.setClickable(true);
+            }
+
+            @Override
+            public void onError(int errorCode) {
+                ErrorHandler.handle(S03SHowActivity.this, errorCode);
             }
         });
-
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private void setLikedImageButtonBackgroundImage() {
@@ -214,9 +200,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         }
         if(null == showDetailEntity.__context)return;
         if (showDetailEntity.__context.likedByCurrentUser) {
-            likeBtn.setBackgroundResource(R.drawable.s03_like_btn_hover);
+            likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
         } else {
-            likeBtn.setBackgroundResource(R.drawable.s03_like_btn);
+            likeBtn.setImageResource(R.drawable.s03_like_btn);
         }
 
     }

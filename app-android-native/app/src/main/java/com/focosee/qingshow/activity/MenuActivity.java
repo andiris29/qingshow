@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.util.BitMapUtil;
 import butterknife.InjectView;
 
@@ -168,6 +169,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
                 finish();
                 break;
             case R.id.u01_people:
+                U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
                 startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
                 finish();
                 break;

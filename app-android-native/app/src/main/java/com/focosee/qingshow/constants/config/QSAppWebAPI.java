@@ -92,6 +92,7 @@ public class QSAppWebAPI {
 
     private static final String QUERY_ITEMS = HOST_NAME + "/matcher/queryItems";
     private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
+    private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
 
 //    private static final String QUERY_ITMES=HOST_NAME+"";
 
@@ -100,6 +101,10 @@ public class QSAppWebAPI {
     }
 
 //    private static final String QUERY_ITMES=HOST_NAME+"";
+
+    public static String getPeopleQueryFollowPeoplesApi(String _id, int pageNo, int pageSize){
+        return PEOPLE_QUERY_FOLLOW_PEOPLES_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
+    }
 
     public static String getMatchCreatedbyApi(String _id){
         return MATCH_CREATEDBY_API + "?_id=" + _id;
@@ -307,9 +312,8 @@ public class QSAppWebAPI {
         return MODEL_DETAIL_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&pageSize=10";
     }
 
-    public static String getQueryPeopleFollowerApi(String modelId, String pageNo) {
-        return QUERY_PEOPLE_FOLLOWER_API + "?_id=" + modelId + "&pageNo=" + pageNo + "&paegSize=10";
-
+    public static String getQueryPeopleFollowerApi(String _id, int pageNo, int pageSize) {
+        return QUERY_PEOPLE_FOLLOWER_API + "?_id=" + _id + "&pageNo=" + pageNo + "&paegSize=" + pageSize;
     }
 
     public static String getQueryPeopleFollowedApi(String modelId, String pageNo) {

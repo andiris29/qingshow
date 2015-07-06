@@ -3,6 +3,12 @@ package com.focosee.qingshow.widget;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Adapter;
+
+import com.focosee.qingshow.QSApplication;
 
 /**
  * Created by Administrator on 2015/4/24.
@@ -53,6 +59,15 @@ public class RecyclerPullToRefreshView extends PullToRefreshBase<RecyclerView>{
 
     @Override
     public boolean isReadyForPullUp() {
+        return true;
+    }
+
+    /**
+     * 判断最后一个child是否完全显示出来
+     *
+     * @return true完全显示出来，否则false
+     */
+    private boolean isLastItemVisible() {
         return false;
     }
 

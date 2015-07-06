@@ -47,15 +47,27 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
     }
 
     public AbsViewHolder setImgeByUrl(int id,String url){
-        return this.setImgeByUrl(id, url, 0);
+        return this.setImgeByUrl(id, url, 0, null);
     }
 
-    public AbsViewHolder setImgeByUrl(int id,String url,float ratdio){
+    public AbsViewHolder setImgeByUrl(int id,String url, String type){
+        return this.setImgeByUrl(id, url, 0, type);
+    }
+
+    public AbsViewHolder setImgeByUrl(int id,String url, float ratdio){
+        return this.setImgeByUrl(id, url, ratdio, null);
+    }
+
+
+    public AbsViewHolder setImgeByUrl(int id,String url,float ratdio,String type){
         View view;
         SimpleDraweeView draweeView;
         if(null != (view = getView(id))){
             draweeView = (SimpleDraweeView) view;
-            draweeView.setImageURI(Uri.parse(ImgUtil.getImgSrc(url,-1)));
+            if(null == type || "".equals(type))
+                draweeView.setImageURI(Uri.parse(url));
+            else
+                draweeView.setImageURI(Uri.parse(ImgUtil.getImgSrc(url,-1,type)));
             if (ratdio != 0){
                 draweeView.setAspectRatio(ratdio);
             }

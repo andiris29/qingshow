@@ -93,7 +93,7 @@
                         android:layout_alignRight="@+id/S03_line_share_like"
                         android:scaleType="centerInside"
                         android:onClick="onClick"
-                        android:background="@drawable/s03_like_btn"
+                        android:src="@drawable/s03_like_btn"
                          />
 
                     <TextView

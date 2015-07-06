@@ -23,7 +23,7 @@ public class ShowParser {
         }
     }
 
-    public static LinkedList<MongoShow> parseQuery_u01_match(JSONObject response){
+    public static LinkedList<MongoShow> parseQuery_itemString(JSONObject response){
         try {
             String shows = response.getJSONObject("data").getJSONArray("shows").toString();
             Gson gson = QSGsonFactory.showBuilder().create();

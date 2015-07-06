@@ -11,28 +11,31 @@ public class ImgUtil {
         return str;
     }
 
-    public static String getImgSrc(String url, int scale) {
-        String[] array = url.split("\\.");
-        String type = "." + array[array.length - 1];
+    public static String getImgSrc(String url, int scale){
+        return getImgSrc(url, scale, null);
+    }
+
+    public static String getImgSrc(String url, int scale, String type) {
         String result = "";
+        if(null == type || "".equals(type))
+            type = "jpg";
         switch (scale) {
             case 1:
                 break;
             case 0:
-                result = url.replace(type, "_s" + type);
-                break;
+                result = "_s";
             case -1:
-                result = url.replace(type, "_xs" + type);
+                result = "_xs";
                 break;
             case -2:
-                result = url.replace(type, "_xxs" + type);
+                result = "_xxs";
                 break;
             case -3:
-                result = url.replace(type, "_xxxs" + type);
+                result = "_xxxs";
                 break;
         }
 
-        return result;
+        return url + result + "." +type;
     }
 
     public static Uri changeImgUri(String uri) {

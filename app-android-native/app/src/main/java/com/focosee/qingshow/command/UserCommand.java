@@ -1,6 +1,8 @@
 package com.focosee.qingshow.command;
 
 
+import android.content.Intent;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -8,6 +10,8 @@ import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorCode;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -16,6 +20,7 @@ import com.focosee.qingshow.model.QSModel;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -65,4 +70,23 @@ public class UserCommand {
         RequestQueueManager.INSTANCE.getQueue().add(qxStringRequest);
     }
 
+    public static void likeOrFollow(String url, String _id, final Callback callback){
+        Map<String, String> likeData = new HashMap<>();
+        likeData.put("_id", _id);
+        JSONObject jsonObject = new JSONObject(likeData);
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (!MetadataParser.hasError(response)) {
+                    callback.onComplete(response);
+                    UserCommand.refresh();
+                } else {
+                    callback.onError(MetadataParser.getError(response));
+                }
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
 }
