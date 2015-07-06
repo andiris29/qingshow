@@ -56,6 +56,10 @@
         [self.menuView triggerItemTypePressed:QSRootMenuItemMeida];
     }
 }
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.contentVc.view.frame = self.view.bounds;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
