@@ -293,6 +293,7 @@
 		EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED348A1AFC734F00F08A0D /* QSU06LoginViewController.xib */; };
 		EFED34901AFC734F00F08A0D /* QSU07RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFED348C1AFC734F00F08A0D /* QSU07RegisterViewController.m */; };
 		EFED34911AFC734F00F08A0D /* QSU07RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFED348D1AFC734F00F08A0D /* QSU07RegisterViewController.xib */; };
+		EFEDA3771B4A01F90036B0EE /* QSRectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EFEDA3761B4A01F90036B0EE /* QSRectUtil.m */; };
 		EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */; };
 		EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032C1A30BBE600EC9B48 /* SystemConfiguration.framework */; };
 		EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EFEF032E1A30BBF100EC9B48 /* libz.dylib */; };
@@ -900,6 +901,8 @@
 		EFED348B1AFC734F00F08A0D /* QSU07RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSU07RegisterViewController.h; sourceTree = "<group>"; };
 		EFED348C1AFC734F00F08A0D /* QSU07RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSU07RegisterViewController.m; sourceTree = "<group>"; };
 		EFED348D1AFC734F00F08A0D /* QSU07RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSU07RegisterViewController.xib; sourceTree = "<group>"; };
+		EFEDA3751B4A01F90036B0EE /* QSRectUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSRectUtil.h; sourceTree = "<group>"; };
+		EFEDA3761B4A01F90036B0EE /* QSRectUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSRectUtil.m; sourceTree = "<group>"; };
 		EFEF03261A30A99500EC9B48 /* QSSharePlatformConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSSharePlatformConst.h; sourceTree = "<group>"; };
 		EFEF03281A30BBC000EC9B48 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		EFEF03291A30BBC000EC9B48 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
@@ -1858,6 +1861,8 @@
 				EF241E6E1AB9CD82007B5058 /* QSLayoutUtil.m */,
 				EF037E9F1B43520A004E2723 /* QSRandomUtil.h */,
 				EF037EA01B43520A004E2723 /* QSRandomUtil.m */,
+				EFEDA3751B4A01F90036B0EE /* QSRectUtil.h */,
+				EFEDA3761B4A01F90036B0EE /* QSRectUtil.m */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -2782,6 +2787,7 @@
 				EFC7ADAA1A10E22B0078D1F9 /* QSS03ShowDetailViewController.m in Sources */,
 				EFAB9C741B347027008A4EF5 /* QSPeopleListTableViewCell.m in Sources */,
 				EF241E6B1AB9BF6F007B5058 /* QSTradeSelectButton.m in Sources */,
+				EFEDA3771B4A01F90036B0EE /* QSRectUtil.m in Sources */,
 				EF0C642F1B21AAC20079B22E /* QSU02ManagerCell.m in Sources */,
 				EF3013351AC3174000568D92 /* APAuthV2Info.m in Sources */,
 				EF8E69381B17665700678E9A /* QSCreateTradeItemInfoColorCell.m in Sources */,

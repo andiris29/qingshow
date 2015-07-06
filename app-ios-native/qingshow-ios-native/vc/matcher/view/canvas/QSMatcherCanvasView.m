@@ -16,6 +16,7 @@
 #import "QSCanvasImageView.h"
 #import "QSRandomUtil.h"
 #import "UIView+ScreenShot.h"
+#import "QSRectUtil.h"
 
 @interface QSMatcherCanvasView ()
 
@@ -113,13 +114,15 @@
         CGRect bounds = weakImgView.bounds;
         bounds.size = viewSize;
         weakImgView.bounds = bounds;
+        
+        
+        weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
+        
     }];
-    
-
-    
 }
+
 #pragma mark - Gesture
-- (void)makeViewFocus:(UIView*)view {
+- (void)makeViewFocus:(QSCanvasImageView*)view {
     self.currentFocusView = view;
     [self bringSubviewToFront:view];
     [self updateHighlightView:view];
@@ -156,7 +159,7 @@
         if (self.currentFocusView) {
             return;
         }
-        [self makeViewFocus:ges.view];
+        [self makeViewFocus:(QSCanvasImageView*)ges.view];
     } else if (ges.state != UIGestureRecognizerStateChanged) {
         //End
         self.currentFocusView = nil;
