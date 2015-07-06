@@ -29,7 +29,7 @@ ServiceHelper = module.exports;
  });
  */
 ServiceHelper.queryPaging = function(req, res, querier, responseDataBuilder, aspectInceptions) {
-    // afterQuery, afterParseRequest, preSendResponse
+    // afterQuery, afterParseRequest, beforeEndResponse
     aspectInceptions = aspectInceptions || {};
     var qsParam;
     async.waterfall([
@@ -102,22 +102,41 @@ ServiceHelper.queryRelatedPeoples = function(req, res, RModel, fields) {
     });
 };
 
-ServiceHelper.queryRelatedCreateShow = function(req, res, RModel, fields) {
+ServiceHelper.queryCreatedShows = function(req, res, RModel, fields) {
     _queryRelated(req, res, RModel, fields, function(shows) {
         return {
             'shows' : shows
         };
+    }, {
+        'beforeGenerateQuery' : function(criteria) {
+            return {
+                '$and' : [{
+                    'initiatorRef' : criteria.initiatorRef
+                }, {
+                    '$or' : [{
+                        'hideAgainstCreator' : false 
+                    } , {
+                        'hideAgainstCreator' : {
+                            '$exists' : false
+                        }
+                    }]
+                }]
+            };
+        }
     });
 };
 
 var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspectInceptions) {
+    aspectInceptions = aspectInceptions || {};
+    
     ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
         var criteria = {};
-        if (fields.criteria) {
-            criteria = fields.criteria;
-        } else {
-            criteria[fields.query] = qsParam._id;
+        criteria[fields.query] = qsParam._id;
+        
+        if (aspectInceptions.beforeGenerateQuery) {
+            criteria = aspectInceptions.beforeGenerateQuery(criteria);
         }
+        
         MongoHelper.queryPaging(RModel.find(criteria).sort({
             'create' : -1
         }).populate(fields.result), RModel.find(criteria), qsParam.pageNo, qsParam.pageSize, function(err, relationships, count) {
@@ -131,7 +150,7 @@ var _queryRelated = function(req, res, RModel, fields, responseDataBuilder, aspe
             }
             callback(err, peoples, count);
         });
-    }, responseDataBuilder, _.extend(aspectInceptions || {}, {
+    }, responseDataBuilder, _.extend(aspectInceptions, {
         'afterParseRequest' : function(raw) {
             return {
                 '_id' : RequestHelper.parseId(req.queryString._id)

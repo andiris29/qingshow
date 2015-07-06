@@ -292,21 +292,9 @@ feeding.matchCreatedBy = {
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
         var qsParam = RequestHelper.parsePageInfo(req.queryString);
-        ServiceHelper.queryRelatedCreateShow(req, res, RPeopleCreateShow, {
-            'result' : 'targetRef',
-            'criteria' : {
-                '$and' : [{
-                    'initiatorRef' : qsParam._id
-                }, {
-                    '$or' : [{
-                        'hideAgainstCreator' : false 
-                    } , {
-                        'hideAgainstCreator' : {
-                            '$exists' : false
-                        }
-                    }]
-                }]
-            }
+        ServiceHelper.queryCreatedShows(req, res, RPeopleCreateShow, {
+            'query' : 'initiatorRef',
+            'result' : 'targetRef'
         });
     }
 };
