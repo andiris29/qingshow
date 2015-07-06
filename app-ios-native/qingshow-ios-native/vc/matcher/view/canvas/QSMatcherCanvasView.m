@@ -181,17 +181,17 @@
     [self addGestureRecognizer:panGes];
 }
 
-- (void)didRotate:(UIRotationGestureRecognizer*)ges {
-    if (ges.state == UIGestureRecognizerStateBegan) {
-        self.preRotation = ges.rotation;
-    } else if (ges.state == UIGestureRecognizerStateChanged) {
-        float newRotation = ges.rotation;
-        self.currentFocusView.transform = CGAffineTransformRotate(self.currentFocusView.transform, newRotation - self.preRotation);
-        self.preRotation = newRotation;
-    } else  {
-        self.preRotation = 0;
-    }
-}
+//- (void)didRotate:(UIRotationGestureRecognizer*)ges {
+//    if (ges.state == UIGestureRecognizerStateBegan) {
+//        self.preRotation = ges.rotation;
+//    } else if (ges.state == UIGestureRecognizerStateChanged) {
+//        float newRotation = ges.rotation;
+//        self.currentFocusView.transform = CGAffineTransformRotate(self.currentFocusView.transform, newRotation - self.preRotation);
+//        self.preRotation = newRotation;
+//    } else  {
+//        self.preRotation = 0;
+//    }
+//}
 
 - (void)didPinch:(UIPinchGestureRecognizer*)ges {
     if (ges.state == UIGestureRecognizerStateBegan) {
@@ -200,7 +200,9 @@
         float newScale = ges.scale;
         CGAffineTransform preTrans = self.currentFocusView.transform;
         self.currentFocusView.transform = CGAffineTransformScale(self.currentFocusView.transform, newScale / self.prePinchScale, newScale / self.prePinchScale);
-        if (!CGRectContainsRect(self.frame, self.currentFocusView.frame)) {
+        
+
+        if (!CGRectContainsRect(self.bounds, self.currentFocusView.frame)) {
             //不移出画布
             self.currentFocusView.transform = preTrans;
         } else {
@@ -220,15 +222,32 @@
         self.prePanTranslation = p;
         self.initPanTranslation = p;
     } else if (ges.state == UIGestureRecognizerStateChanged) {
+        //x
         CGPoint c = self.currentFocusView.center;
-        self.currentFocusView.center = CGPointMake(c.x + p.x - self.prePanTranslation.x, c.y + p.y - self.prePanTranslation.y);
-        if (!CGRectContainsRect(self.frame, self.currentFocusView.frame)) {
+        self.currentFocusView.center = CGPointMake(self.currentFocusView.center.x + p.x - self.prePanTranslation.x, self.currentFocusView.center.y);
+        if (!CGRectContainsRect(self.bounds, self.currentFocusView.frame)) {
             //不移出画布
             self.currentFocusView.center = c;
         } else {
-            self.prePanTranslation = p;
+            CGPoint prePoint = self.prePanTranslation;
+            prePoint.x = p.x;
+            self.prePanTranslation = prePoint;
         }
         
+        //y
+        c = self.currentFocusView.center;
+        self.currentFocusView.center = CGPointMake(self.currentFocusView.center.x, self.currentFocusView.center.y + p.y - self.prePanTranslation.y);
+        if (!CGRectContainsRect(self.bounds, self.currentFocusView.frame)) {
+            //不移出画布
+            self.currentFocusView.center = c;
+        } else {
+            CGPoint prePoint = self.prePanTranslation;
+            prePoint.y = p.y;
+            self.prePanTranslation = prePoint;
+        }
+        
+
+        //Remove btn
         if (ABS(self.prePanTranslation.x - self.initPanTranslation.x) >= 20 ||
             ABS(self.prePanTranslation.y - self.initPanTranslation.y) >= 20) {
             [self.currentFocusView hideRemoveBtn];
