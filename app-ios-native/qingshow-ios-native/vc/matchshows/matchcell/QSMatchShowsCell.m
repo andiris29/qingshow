@@ -8,6 +8,7 @@
 
 #import "QSMatchShowsCell.h"
 #import "QSShowUtil.h"
+#import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 
 @implementation QSMatchShowsCell
@@ -36,16 +37,15 @@
 
 - (void)bindWithDic:(NSDictionary *)dict withIndex:(int)index
 {
+
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-    //NSLog(@"%@",_showDic);
-    if ([QSShowUtil getCoverUrl:dict]) {
-        [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
-    }
-    if ([QSShowUtil getCoverForegroundUrl:dict]) {
-        [self.headerImgView setImageFromURL:[NSURL URLWithString:[QSShowUtil getHeaderImg:dict]]];
-    }
+    
+    [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
+    [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic]];
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
+    
+    
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
     self.userNameLabel.text = [QSShowUtil getNameStr:dict];
     NSString *groupStr = [QSShowUtil getRecommendGroup:dict];
