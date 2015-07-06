@@ -15,4 +15,5 @@
 
 - (void)hideRemoveBtn;
 - (BOOL)judgeIsHitRemoveButton:(CGPoint)p;
+- (void)updateHoverColor;
 @end

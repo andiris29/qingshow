@@ -30,6 +30,8 @@
 @property (assign, nonatomic) float preRotation;
 @property (assign, nonatomic) CGPoint prePanTranslation;
 @property (assign, nonatomic) CGPoint initPanTranslation;
+
+@property (strong, nonatomic) QSCanvasImageView* imgViewToBeRemoved;
 @end
 
 @implementation QSMatcherCanvasView
@@ -267,6 +269,9 @@
     NSArray* viewArray = [self.categoryIdToView allValues];
     for (QSCanvasImageView* imgView in viewArray) {
         imgView.hover = imgView == highlightView;
+        if (imgView == highlightView) {
+            [imgView updateHoverColor];
+        }
     }
 }
 - (UIImage*)submitView {
@@ -303,13 +308,26 @@
 
 #pragma mark - QSCanvasImageViewDelegate
 - (void)canvasImageViewDidClickRemoveBtn:(QSCanvasImageView*)view {
-    NSString* categoryId = view.categoryId;
-    [view removeFromSuperview];
-    NSDictionary* categoryDict = self.categoryIdToEntity[categoryId];
-    [self.categoryIdToEntity removeObjectForKey:categoryId];
-    [self.categoryIdToView removeObjectForKey:categoryId];
-    if ([self.delegate respondsToSelector:@selector(canvasView:didRemoveCategory:)]) {
-        [self.delegate canvasView:self didRemoveCategory:categoryDict];
+    self.imgViewToBeRemoved = view;
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"删除" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == alertView.cancelButtonIndex) {
+        self.imgViewToBeRemoved = nil;
+    } else {
+        QSCanvasImageView* view = self.imgViewToBeRemoved;
+        NSString* categoryId = view.categoryId;
+        [view removeFromSuperview];
+        NSDictionary* categoryDict = self.categoryIdToEntity[categoryId];
+        [self.categoryIdToEntity removeObjectForKey:categoryId];
+        [self.categoryIdToView removeObjectForKey:categoryId];
+        if ([self.delegate respondsToSelector:@selector(canvasView:didRemoveCategory:)]) {
+            [self.delegate canvasView:self didRemoveCategory:categoryDict];
+        }
     }
 }
 @end
