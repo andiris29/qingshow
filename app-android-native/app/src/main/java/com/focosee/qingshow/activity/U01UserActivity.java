@@ -1,41 +1,32 @@
 package com.focosee.qingshow.activity;
 
-import android.app.usage.UsageEvents;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U01CollectionFragment;
+import com.focosee.qingshow.activity.fragment.U01FansFragment;
+import com.focosee.qingshow.activity.fragment.U01FollowerFragment;
 import com.focosee.qingshow.activity.fragment.U01MatchFragment;
-import com.focosee.qingshow.adapter.U01MatchAdapter;
-import com.focosee.qingshow.constants.config.QSAppWebAPI;
-import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
-import com.focosee.qingshow.httpapi.request.RequestQueueManager;
-import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
-import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.activity.fragment.U01RecommFragment;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
-
-import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -60,8 +51,8 @@ public class U01UserActivity extends MenuActivity {
     private final float DAMP = 3.0f;
     @InjectView(R.id.user_match_layout)
     RelativeLayout userMatchLayout;
-    @InjectView(R.id.user_head)
-    RelativeLayout userHead;
+    @InjectView(R.id.user_head_layout)
+    RelativeLayout userHeadLayout;
     @InjectView(R.id.bg)
     ImageView bg;
     @InjectView(R.id.user_name)
@@ -112,9 +103,12 @@ public class U01UserActivity extends MenuActivity {
     TextView userFollowText;
     @InjectView(R.id.user_fans_text)
     TextView userFansText;
+    @InjectView(R.id.user_head)
+    SimpleDraweeView userHead;
+    @InjectView(R.id.user_nav_btn)
+    ImageView userNavBtn;
 
     private List<MongoShow> datas;
-    private U01MatchAdapter adapter;
     private UserPagerAdapter pagerAdapter;
     private EventBus eventBus;
 
@@ -129,6 +123,23 @@ public class U01UserActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
+        userNavBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                menuSwitch();
+            }
+        });
+
+        if(U01Model.INSTANCE.getUser() == QSModel.INSTANCE.getUser()) {//进入自己的页面时不显示关注按钮
+            userFollowBtn.setVisibility(View.GONE);
+        }else{
+            userFollowBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
         eventBus = EventBus.getDefault();
         eventBus.register(this);
         datas = new LinkedList<>();
@@ -161,27 +172,15 @@ public class U01UserActivity extends MenuActivity {
 
     }
 
-    private void loadDataFormNet() {
-        QSJsonObjectRequest objectRequest = new QSJsonObjectRequest(QSAppWebAPI.getUserRecommendationApi()
-                , null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                if (MetadataParser.hasError(response)) {
-                    ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
-                    return;
-                }
-                datas = ShowParser.parseQuery(response);
-                adapter.addDataAtTop(datas);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(objectRequest);
-    }
-
     private void initUserInfo() {
-        MongoPeople user = QSModel.INSTANCE.getUser();
+        MongoPeople user = U01Model.INSTANCE.getUser();
         if (user == null) {
             return;
+        }
+        userName.setText(user.nickname);
+        userHw.setText((null == user.height ? "0" : user.height) + "cm," + (null == user.weight ? "0" : user.weight) + "kg");
+        if (user.portrait != null) {
+            userHead.setImageURI(Uri.parse(user.portrait));
         }
         if (null != user.background)
             userBg.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.background, -1)));
@@ -189,18 +188,18 @@ public class U01UserActivity extends MenuActivity {
 
     private View view;
     private RecyclerView[] recyclerViews = new RecyclerView[PAGER_NUM];
+    private RecyclerView preRecyclerView = null;
 
-    private void initRecyclerViews(RecyclerView recyclerView){
+    private void initRecyclerViews(RecyclerView recyclerView) {
         recyclerViews[Integer.parseInt(String.valueOf(recyclerView.getTag()))] = recyclerView;
     }
+
     private void initRectcler(RecyclerView recyclerView) {
 
         //reset
-        if(null == recyclerView) return;
-        for (int i = 0 ; i < recyclerViews.length ; i++){
-            if(null != recyclerViews[i])
-                recyclerViews[i].scrollToPosition(0);
-        }
+        if (null == recyclerView) return;
+        userHeadLayout.setY(0);
+//        preRecyclerView.scrollToPosition(0);
         view = null;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -208,46 +207,51 @@ public class U01UserActivity extends MenuActivity {
                 if (null == view && null != recyclerView.getChildAt(0))
                     view = recyclerView.getChildAt(0);
                 if (view == recyclerView.getChildAt(0))
-                    userHead.setY(view.getBottom() - view.getHeight());
+                    userHeadLayout.setY(view.getBottom() - view.getHeight());
                 else
-                    userHead.setY(-userHead.getHeight());
+                    userHeadLayout.setY(-userHeadLayout.getHeight());
             }
         });
+
+        preRecyclerView = recyclerView;
     }
 
     private int currentPos = 0;
 
     public void onEventMainThread(RecyclerView recyclerView) {
-        if(null == recyclerViews[POS_MATCH])
+        if (null == recyclerViews[POS_MATCH])
             initRectcler(recyclerView);
         initRecyclerViews(recyclerView);
     }
+
+    int pos = 0;
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        int pos = 0;
         switch (v.getId()) {
             case R.id.user_match_layout:
-                userViewPager.setCurrentItem(POS_MATCH);
-                pos = POS_MATCH;
+                tabOnclick(POS_MATCH);
                 break;
             case R.id.user_recomm_layout:
-                userViewPager.setCurrentItem(POS_RECOMM);
-                pos = POS_RECOMM;
+                tabOnclick(POS_RECOMM);
                 break;
             case R.id.user_collection_layout:
-                userViewPager.setCurrentItem(POS_COLL);
-                pos = POS_COLL;
+                tabOnclick(POS_COLL);
                 break;
             case R.id.user_follow_layout:
-                userViewPager.setCurrentItem(POS_FOLLOW);
-                pos = POS_FOLLOW;
+                tabOnclick(POS_FOLLOW);
                 break;
             case R.id.user_fans_layout:
-                userViewPager.setCurrentItem(POS_FANS);
-                pos = POS_FANS;
+                tabOnclick(POS_FANS);
                 break;
         }
+    }
+
+    private void tabOnclick(int pos) {
+        preRecyclerView.scrollToPosition(0);
+        userViewPager.setCurrentItem(pos);
+        this.pos = pos;
         initRectcler(recyclerViews[pos]);
     }
 
@@ -271,13 +275,16 @@ public class U01UserActivity extends MenuActivity {
                     fragment = U01MatchFragment.newInstance(U01UserActivity.this);
                     break;
                 case POS_RECOMM:
-                    fragment = U01MatchFragment.newInstance(U01UserActivity.this);
+                    fragment = U01RecommFragment.newInstance(U01UserActivity.this);
+                    break;
+                case POS_COLL:
+                    fragment = U01CollectionFragment.newInstance(U01UserActivity.this);
                     break;
                 case POS_FOLLOW:
-                    fragment = U01MatchFragment.newInstance(U01UserActivity.this);
+                    fragment = U01FollowerFragment.newInstance(U01UserActivity.this);
                     break;
                 case POS_FANS:
-                    fragment = U01MatchFragment.newInstance(U01UserActivity.this);
+                    fragment = U01FansFragment.newInstance(U01UserActivity.this);
                     break;
                 default:
                     fragment = U01MatchFragment.newInstance(U01UserActivity.this);

@@ -14,15 +14,16 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.adapter.U01PushAdapter;
+import com.focosee.qingshow.adapter.U01FollowerFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
-import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
+import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.model.U01Model;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 
 import org.json.JSONObject;
 
@@ -38,20 +39,21 @@ import de.greenrobot.event.EventBus;
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class U01RecommFragment extends Fragment {
-    private static final String TAG = "U01RecommFragment";
+public class U01FansFragment extends Fragment {
+
+    private static final String TAG = "U01CollectionFragment";
 
     @InjectView(R.id.fragment_u01_recyclerview)
     RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
-    private U01PushAdapter adapter;
+    private U01FollowerFragAdapter adapter;
     private static Context context;
 
-    public static U01RecommFragment newInstance(Context context1){
+    public static U01FansFragment newInstance(Context context1){
         context = context1;
-        return new U01RecommFragment();
+        return new U01FansFragment();
     }
-    public U01RecommFragment() {
+    public U01FansFragment() {
 
 
 
@@ -63,7 +65,7 @@ public class U01RecommFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_u01, container, false);
         ButterKnife.inject(this, view);
-        adapter = new U01PushAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_date, R.layout.item_s17);
+        adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -76,17 +78,17 @@ public class U01RecommFragment extends Fragment {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setTag(U01UserActivity.POS_RECOMM);
+                recyclerView.setTag(U01UserActivity.POS_FANS);
                 EventBus.getDefault().post(recyclerView);
             }
         });
-        getDatasFromNet();
+        getDatasFromNet(1, 20);
         return view;
     }
 
-    public void getDatasFromNet(){
+    public void getDatasFromNet(int pageNo, int pageSize){
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
@@ -95,7 +97,7 @@ public class U01RecommFragment extends Fragment {
                     return;
                 }
 
-                adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                adapter.addDataAtTop(PeopleParser.parseQueryFollowers(response));
                 adapter.notifyDataSetChanged();
             }
         });

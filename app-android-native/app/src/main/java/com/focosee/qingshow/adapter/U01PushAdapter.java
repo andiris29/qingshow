@@ -32,6 +32,8 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
     private int lastR1 = 0;
     private int lastR2 = 0;
 
+    private int missNum = 0;
+
 
     private Map<Integer, Integer> map;//k : postion v : groupNum
 
@@ -41,96 +43,60 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
 
     /**
      * 0: R.layout.item_u01_push
-     * 1: R.layout.item_u01_header
-     * 2: R.layout.item_u01_date
+     * 1: R.layout.item_u01_date
+     * 2: R.layout.item_s17
      */
 
     @Override
     public int getItemViewType(int position) {
-        int result = 1;
-        if (position == 0) {
-            result = 1;
-        } else if (position == 1) {
-            result = 2;
-        } else if (position == 2) {
-            result = 0;
-        } else {
 
-//            if (lastR1 == 2) {
-//                result = 0;
-//            } else {
-//                int num = position - 1 - map.get(position);
-//                MongoShow item = datas.get(num);
-//                MongoShow lastItem = datas.get(num - 1);
-//                if (lastItem.recommend.date.equals(item.recommend.date)) {
-//                    result = 0;
-//                } else {
-//                    result = 2;
-//                }
-//            }
+        if (position == 0) return 0;
+
+        if(position == 1) return 1;
+
+        if(isDataItem(position)){
+            return 1;
+        }else{
+            return 2;
         }
-//        lastR1 = result;
-
-        return result;
     }
-
-    public int getTp(int position) {
-        int result;
-        if (position == 0) {
-            result = 1;
-        } else if (position == 1) {
-            result = 2;
-        } else if (position == 2) {
-            result = 0;
-        } else {
-            if (lastR2 == 2) {
-                result = 0;
-            } else {
-                int num = position - 1 - map.get(position);
-                MongoShow item = datas.get(num);
-                MongoShow lastItem = datas.get(num - 1);
-                if (lastItem.recommend.date.equals(item.recommend.date)) {
-                    result = 0;
-                } else {
-                    result = 2;
-                }
-            }
-        }
-        lastR2 = result;
-
-        return result;
-    }
-
 
     @Override
     public void onBindViewHolder(AbsViewHolder holder, int position) {
-//        if (datas.size() == 0) {
-//            return;
-//        }
-//        switch (getTp(position)) {
-//            case 0:
-//                bindShowHolder(holder, position);
-//                break;
-//            case 1:
-//                bindUserHolder(holder);
-//                break;
-//            case 2:
-////                bindDateHolder(holder, position);
-//                break;
-//        }
+        if (datas.size() == 0) {
+            return;
+        }
+
+        if (position == 0)
+            return;
+
+        if(position == 1) {
+            bindDateHolder(holder, position - missNum);
+            return;
+        }
+
+        if(isDataItem(position)){
+            bindDateHolder(holder, position - missNum);
+            missNum++;
+        }else{
+            bindShowHolder(holder, position - missNum);
+        }
+
     }
 
-    private void bindUserHolder(AbsViewHolder holder) {
-        MongoPeople user = QSModel.INSTANCE.getUser();
-        holder.setText(R.id.user_name, user.nickname)
-                .setText(R.id.user_hw, user.height + "," + user.weight);
-        if (user.portrait != null) {
-            holder.setImgeByUrl(R.id.user_head, user.portrait);
+    private boolean isDataItem(int position){
+        if(null == datas || 0 == datas.size()) return false;
+        MongoShow item = datas.get(position - missNum);
+        MongoShow lastItem = datas.get(position - missNum - 1);
+        if (lastItem.recommend.date.equals(item.recommend.date)) {
+            return false;
+        } else {
+            return true;
         }
     }
 
     private void bindDateHolder(AbsViewHolder holder, int position) {
-        MongoShow item = datas.get(position - map.get(position) - 1);
+        MongoShow item = datas.get(position);
         GregorianCalendar calendar = item.recommend.date;
         FontsUtil.changeFont(context, (TextView) holder.getView(R.id.day), "fonts/HelveticaInserat-Roman-SemiBold.ttf");
         holder.setText(R.id.year, String.valueOf(calendar.get(calendar.YEAR)))
@@ -153,33 +119,10 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
     }
 
     @Override
-    public void addDataAtTop(List<MongoShow> datas) {
-        super.addDataAtTop(datas);
-        plusNum = 0;
-
-        map = new HashMap<>();
-        map.put(0, 0);
-        map.put(1, 0);
-
-        for (int i = 0; i < datas.size(); i++) {
-            if (i == 0) {
-                plusNum++;
-                map.put(2, 1);
-                continue;
-            }
-            if (!datas.get(i).recommend.date.equals(datas.get(i - 1).recommend.date)) {
-                map.put(i + 1 + plusNum, plusNum);
-                plusNum++;
-            }
-            map.put(i + 1 + plusNum, plusNum);
-
-        }
-    }
-
-    @Override
     public int getItemCount() {
-
-//        return datas.size() + plusNum + 1;
-        return 20;
+//        int i = datas.get(0).recommend.date.compareTo(datas.get(datas.size() - 1).recommend.date);
+//        System.out.println("i:" + i);
+        return datas.size() + 1;
     }
+
 }

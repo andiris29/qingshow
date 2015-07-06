@@ -10,11 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.adapter.U01PushAdapter;
+import com.focosee.qingshow.adapter.U01CollectionFragAdapter;
+import com.focosee.qingshow.adapter.U01MatchFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
@@ -22,12 +22,10 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -38,20 +36,21 @@ import de.greenrobot.event.EventBus;
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class U01RecommFragment extends Fragment {
-    private static final String TAG = "U01RecommFragment";
+public class U01CollectionFragment extends Fragment {
+
+    private static final String TAG = "U01CollectionFragment";
 
     @InjectView(R.id.fragment_u01_recyclerview)
     RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
-    private U01PushAdapter adapter;
+    private U01CollectionFragAdapter adapter;
     private static Context context;
 
-    public static U01RecommFragment newInstance(Context context1){
+    public static U01CollectionFragment newInstance(Context context1){
         context = context1;
-        return new U01RecommFragment();
+        return new U01CollectionFragment();
     }
-    public U01RecommFragment() {
+    public U01CollectionFragment() {
 
 
 
@@ -63,7 +62,7 @@ public class U01RecommFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_u01, container, false);
         ButterKnife.inject(this, view);
-        adapter = new U01PushAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_date, R.layout.item_s17);
+        adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_collection_createby, R.layout.item_u01_collection_qingshow);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -76,7 +75,7 @@ public class U01RecommFragment extends Fragment {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                recyclerView.setTag(U01UserActivity.POS_RECOMM);
+                recyclerView.setTag(U01UserActivity.POS_COLL);
                 EventBus.getDefault().post(recyclerView);
             }
         });
@@ -86,7 +85,7 @@ public class U01RecommFragment extends Fragment {
 
     public void getDatasFromNet(){
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(U01Model.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
@@ -95,7 +94,7 @@ public class U01RecommFragment extends Fragment {
                     return;
                 }
 
-                adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                adapter.addDataAtTop(ShowParser.parseQuery(response));
                 adapter.notifyDataSetChanged();
             }
         });

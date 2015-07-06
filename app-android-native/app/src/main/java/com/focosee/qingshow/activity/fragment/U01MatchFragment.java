@@ -3,10 +3,10 @@ package com.focosee.qingshow.activity.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +21,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -35,6 +36,8 @@ import de.greenrobot.event.EventBus;
  * to handle interaction events.
  */
 public class U01MatchFragment extends Fragment {
+
+    private static final String TAG = "U01MatchFragment";
 
     @InjectView(R.id.fragment_u01_recyclerview)
     RecyclerView recyclerView;
@@ -81,17 +84,16 @@ public class U01MatchFragment extends Fragment {
 
     public void getDatasFromNet(){
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(QSModel.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(U01Model.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
                     return;
                 }
 
-                System.out.println("response_u01:" + response);
-                System.out.println("_id:" + QSModel.INSTANCE.getUser()._id);
-                adapter.addDataAtTop(ShowParser.parseQuery_u01_match(response));
+                adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
                 adapter.notifyDataSetChanged();
             }
         });

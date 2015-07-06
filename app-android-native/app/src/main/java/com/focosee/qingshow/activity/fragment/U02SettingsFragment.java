@@ -40,6 +40,9 @@ import com.focosee.qingshow.persist.CookieSerializer;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.ActionSheet;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -209,10 +212,11 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         }
         String API = api;
         QSMultipartRequest multipartRequest = new QSMultipartRequest(Request.Method.POST,
-                API, new Response.Listener<String>() {
+                API, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                MongoPeople user = UserParser.parseUpdate(response);
+            public void onResponse(JSONObject response) {
+                System.out.println("u02_response:" + response);
+                MongoPeople user = UserParser._parsePeople(response);
                 if (user == null) {
                     ErrorHandler.handle(context, MetadataParser.getError(response));
                 } else {

@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
             <RelativeLayout
-                android:id="@+id/user_head"
+                android:id="@+id/user_head_layout"
                 android:layout_width="match_parent"
                 android:layout_height="360dp">
 
@@ -30,16 +30,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 fresco:actualImageScaleType="focusCrop"
+                android:background="@color/white"
                 fresco:placeholderImage="@drawable/user_bg_default" />
 
             <ImageView
+                android:id="@+id/user_nav_btn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:padding="5dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/nav_btn_menu_n"/>
+                android:src="@drawable/nav_btn_menu_n"/>
 
             <include layout="@layout/item_u01_header"/>
             </RelativeLayout>
