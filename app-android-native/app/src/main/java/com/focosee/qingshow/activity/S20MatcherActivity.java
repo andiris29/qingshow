@@ -121,7 +121,6 @@ public class S20MatcherActivity extends BaseActivity {
         itemView.setOnDelClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("tag", "click");
                 canvas.detach(itemView);
             }
         });
@@ -141,6 +140,7 @@ public class S20MatcherActivity extends BaseActivity {
                     categoryRef = view.getCategoryId();
                     if (allDatas.containsKey(categoryRef)) {
                         allViews.get(categoryRef).showDelBtn();
+                        allViews.get(categoryRef).bringToFront();
                         List<MongoItem> mongoItems = allDatas.get(categoryRef);
                         adapter.setSelectPos(allSelect.get(categoryRef).selectPos);
                         adapter.setLastChecked(allSelect.get(categoryRef).lastChecked);
