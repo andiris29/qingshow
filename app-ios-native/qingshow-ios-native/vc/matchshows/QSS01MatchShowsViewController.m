@@ -41,6 +41,7 @@
     _matchCollectionViewProvider = [[QSMatchCollectionViewProvider alloc]init];
     _matchCollectionViewProvider.delegate = self;
     _matchCollectionViewProvider.type = 1;
+    _backToTopbtn.hidden = YES;
     [self configNav];
     [self configProvider];
 
@@ -58,6 +59,7 @@
     _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
         return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
     };
+    //NSLog(@" new count == %@",self.matchCollectionViewProvider.resultArray);
     [_matchCollectionViewProvider fetchDataOfPage:1];
     [self.matchCollectionViewProvider reloadData];
 }
@@ -81,25 +83,26 @@
 - (void)changeEvents
 {
     _segIndex = _segmentControl.selectedSegmentIndex;
-    if(_segIndex == 1)
+    //NSLog(@"_seg = %d",_segIndex);
+    if(_segIndex ==  1)
     {
-        [self.matchCollectionViewProvider.resultArray removeAllObjects];
+        //[self.matchCollectionViewProvider.resultArray removeAllObjects];
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
            
         };
-        NSLog(@"self.newresultArray = %@",self.matchCollectionViewProvider.resultArray);
+        NSLog(@"self.newresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
         
     }
-    else
+    else if(_segIndex == 0)
     {
         [self.matchCollectionViewProvider.resultArray removeAllObjects];
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
-        NSLog(@"self.hotresultArray = %@",self.matchCollectionViewProvider.resultArray);
+        NSLog(@"self.hotresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
        
@@ -143,5 +146,20 @@
     // Pass the selected object to the new view controller.
 }
 */
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.collectionView.contentOffset.y != 0) {
+        _backToTopbtn.hidden = NO;
+    }
+    else
+    {
+        _backToTopbtn.hidden = YES;
+    }
+}
+- (IBAction)backToTopBtnPressed:(id)sender {
+    CGPoint p = [self.collectionView contentOffset];
+    p.y = 0;
+    [self.collectionView setContentOffset:p animated:YES];
+    _backToTopbtn.hidden = YES;
+}
 @end
