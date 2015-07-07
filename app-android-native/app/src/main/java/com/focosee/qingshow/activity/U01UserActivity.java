@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.fragment.U01BaseFragment;
 import com.focosee.qingshow.activity.fragment.U01CollectionFragment;
 import com.focosee.qingshow.activity.fragment.U01FansFragment;
 import com.focosee.qingshow.activity.fragment.U01FollowerFragment;
@@ -46,7 +47,6 @@ public class U01UserActivity extends MenuActivity {
 
     @InjectView(R.id.user_bg)
     SimpleDraweeView userBg;
-
 
     private final float DAMP = 3.0f;
     @InjectView(R.id.user_match_layout)
@@ -173,10 +173,12 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void initUserInfo() {
-        MongoPeople user = U01Model.INSTANCE.getUser();
-        if (user == null) {
-            return;
+
+        if (U01Model.INSTANCE.getUser() == null) {
+            U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
         }
+        MongoPeople user = U01Model.INSTANCE.getUser();
+
         userName.setText(user.nickname);
         userHw.setText((null == user.height ? "0" : user.height) + "cm," + (null == user.weight ? "0" : user.weight) + "kg");
         if (user.portrait != null) {
@@ -187,6 +189,7 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private View view;
+    private U01BaseFragment[] fragments = new U01BaseFragment[PAGER_NUM];
     private RecyclerView[] recyclerViews = new RecyclerView[PAGER_NUM];
     private RecyclerView preRecyclerView = null;
 
@@ -228,29 +231,31 @@ public class U01UserActivity extends MenuActivity {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.user_match_layout:
                 tabOnclick(POS_MATCH);
-                break;
+                return;
             case R.id.user_recomm_layout:
                 tabOnclick(POS_RECOMM);
-                break;
+                return;
             case R.id.user_collection_layout:
                 tabOnclick(POS_COLL);
-                break;
+                return;
             case R.id.user_follow_layout:
                 tabOnclick(POS_FOLLOW);
-                break;
+                return;
             case R.id.user_fans_layout:
                 tabOnclick(POS_FANS);
-                break;
+                return;
         }
+        super.onClick(v);
+
     }
 
     private void tabOnclick(int pos) {
         preRecyclerView.scrollToPosition(0);
         userViewPager.setCurrentItem(pos);
+        fragments[pos].getRecyclerPullToRefreshView().doPullRefreshing(true, 200);
         this.pos = pos;
         initRectcler(recyclerViews[pos]);
     }
@@ -269,7 +274,7 @@ public class U01UserActivity extends MenuActivity {
 
         @Override
         public Fragment getItem(int pos) {
-            Fragment fragment = null;
+            U01BaseFragment fragment = null;
             switch (pos) {
                 case POS_MATCH:
                     fragment = U01MatchFragment.newInstance(U01UserActivity.this);
@@ -292,6 +297,7 @@ public class U01UserActivity extends MenuActivity {
             if (fragment == null) {
                 fragment = U01MatchFragment.newInstance(U01UserActivity.this);
             }
+            fragments[pos] = fragment;
             return fragment;
         }
 

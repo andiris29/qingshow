@@ -1,8 +1,11 @@
 package com.focosee.qingshow.util;
 
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -93,6 +96,14 @@ public class TimeUtil {
                 break;
         }
         return result;
+    }
+
+    public static String formatDateTime(long time) {
+        if (0 == time) {
+            return "";
+        }
+        SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+        return _mDateFormat.format(new Date(time));
     }
 
 }
