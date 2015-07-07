@@ -104,7 +104,7 @@
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QSUserLocationTableViewCellHeight;
+    return [QSUserLocationTableViewCell getHeightWithDict:[self receiverDictForIndexPath:indexPath]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
