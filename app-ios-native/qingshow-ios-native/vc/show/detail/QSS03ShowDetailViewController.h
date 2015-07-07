@@ -33,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *coverForegroundImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 @property (weak, nonatomic) IBOutlet UIButton *menuBtn;
+@property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
+@property (weak, nonatomic) IBOutlet UIButton *trashBtn;
 
 
 
@@ -45,6 +47,7 @@
 - (IBAction)likeBtnPressed:(id)sender;
 - (IBAction)itemButtonPressed:(id)sender;
 - (IBAction)menuBtnPressed:(id)sender;
+- (IBAction)trashBtnPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIView *modelContainer;
 

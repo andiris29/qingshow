@@ -27,5 +27,8 @@
                    updateCover:(UIImage*)cover
                      onSucceed:(DicBlock)succeedBlock
                        onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)matcherHide:(NSDictionary*)matcherDict
+                         onSucceed:(VoidBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock;
 
 @end

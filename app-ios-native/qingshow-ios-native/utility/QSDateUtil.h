@@ -17,7 +17,7 @@
 + (NSString*)getWeek:(NSDate*)date;
 
 + (NSString*)buildDateStringFromDate:(NSDate*)date;
-
++ (NSString*)buildDayStringFromDate:(NSDate*)date;
 + (BOOL)date:(NSDate*)date1 isTheSameDayWith:(NSDate*)date2;
 + (NSString*)getDayDesc:(NSDate*)date;
 + (NSString*)getMonthDesc:(NSDate*)date;
@@ -27,4 +27,5 @@
 
 //获取日期
 + (NSString*)getMonthAndDate:(NSDate*)date;
+
 @end

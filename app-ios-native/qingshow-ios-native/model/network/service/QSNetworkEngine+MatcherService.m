@@ -17,6 +17,7 @@
 #define PATH_MATCHER_QUERY_ITEMS @"matcher/queryItems"
 #define PATH_MATCHER_SAVE @"matcher/save"
 #define PATH_MATCHER_UPDATE_COVER @"matcher/updateCover"
+#define PATH_MATCHER_HIDE @"matcher/hide"
 
 @implementation QSNetworkEngine(MatcherService)
 
@@ -116,5 +117,19 @@
                     errorBlock(error);
                 }
             }];
+}
+
+- (MKNetworkOperation*)matcherHide:(NSDictionary*)matcherDict
+                         onSucceed:(VoidBlock)succeedBlock
+                           onError:(ErrorBlock)errorBlock {
+    return [self startOperationWithPath:PATH_MATCHER_HIDE method:@"POST" paramers:@{@"_id" : [QSCommonUtil getIdOrEmptyStr:matcherDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
 }
 @end

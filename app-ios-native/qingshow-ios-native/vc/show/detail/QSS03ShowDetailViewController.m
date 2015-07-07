@@ -12,6 +12,7 @@
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 #import "QSCommonUtil.h"
+#import "QSDateUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
 #import "QSItemUtil.h"
@@ -73,14 +74,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self bindExceptImageWithDict:self.showDict];
-
-    [MobClick beginLogPageView:PAGE_ID];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     if (!self.itemListVc) {
         __weak QSS03ShowDetailViewController* weakSelf = self;
         if (self.showDict) {
@@ -103,6 +96,14 @@
             
         }];
     }
+
+    [MobClick beginLogPageView:PAGE_ID];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)showDiscountContainer{
@@ -157,10 +158,23 @@
         self.headIconImageView.hidden = YES;
         self.modelNameLabel.hidden = YES;
     } else {
-        self.headIconImageView.hidden = NO;
-        [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
-        self.modelNameLabel.hidden = NO;
-        self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+        NSDictionary* currentUser = [QSUserManager shareUserManager].userInfo;
+        if ([[QSCommonUtil getIdOrEmptyStr:currentUser] isEqualToString:[QSCommonUtil getIdOrEmptyStr:peopleDict]]) {
+            //当前用户
+            self.headIconImageView.hidden = YES;
+            self.modelNameLabel.hidden = YES;
+            self.releaseDateLabel.hidden = NO;
+            self.trashBtn.hidden = NO;
+            self.playBtn.hidden = YES;
+            self.pauseBtn.hidden = YES;
+            NSDate* createDate = [QSShowUtil getCreatedDate:dict];
+            self.releaseDateLabel.text = [NSString stringWithFormat:@"发布日期：%@", [QSDateUtil buildDayStringFromDate:createDate]];
+        } else {
+            self.headIconImageView.hidden = NO;
+            [self.headIconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict]];
+            self.modelNameLabel.hidden = NO;
+            self.modelNameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+        }
     }
 }
 
@@ -238,6 +252,16 @@
 - (IBAction)menuBtnPressed:(id)sender {
     [self.menuProvider didClickMenuBtn];
 }
+
+- (IBAction)trashBtnPressed:(id)sender {
+    [SHARE_NW_ENGINE matcherHide:self.showDict onSucceed:^{
+        [self showTextHud:@"删除成功"];
+        [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
+    } onError:^(NSError *error) {
+        [self showErrorHudWithError:error];
+    }];
+}
+
 
 - (void)didClickItemListCloseBtn
 {

@@ -34,6 +34,7 @@
 + (NSString*)getVideoPath:(NSDictionary*)showDict;
 
 + (NSDate*)getLikeDate:(NSDictionary*)showDict;
++ (NSDate*)getCreatedDate:(NSDictionary*)showDict;
 + (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict;
 
 //新增获取图片高度的方法

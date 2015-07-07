@@ -313,6 +313,15 @@
     return date;
 }
 
++ (NSDate*)getCreatedDate:(NSDictionary*)showDict {
+    NSString* dateStr = [showDict valueForKeyPath:@"create"];
+    if (!dateStr) {
+        return nil;
+    }
+    NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
+    return date;
+}
+
 + (BOOL)getSharedByCurrentUser:(NSDictionary*)showDict
 {
     NSNumber* like = [showDict valueForKeyPath:@"__context.sharedByCurrentUser"];
