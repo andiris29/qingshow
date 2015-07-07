@@ -2,6 +2,7 @@ package com.focosee.qingshow.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 
@@ -82,7 +84,8 @@ public class S01MatchShowsActivity extends MenuActivity {
                 doLoadMore(currentType);
             }
         });
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        LinearLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
         recyclerView.setAdapter(adapter);
@@ -97,7 +100,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         getDatasFromNet(type, currentPageNo, 10);
     }
 
-    public void getDatasFromNet(int type, int pageNo, int pageSize) {
+    public void getDatasFromNet(int type, final int pageNo, int pageSize) {
 
         String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, pageSize) : QSAppWebAPI.getMatchNewApi(pageNo, pageSize);
 
@@ -105,24 +108,35 @@ public class S01MatchShowsActivity extends MenuActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                recyclerPullToRefreshView.onPullDownRefreshComplete();
-                recyclerPullToRefreshView.onPullUpRefreshComplete();
+
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                     return;
                 }
 
-                if (currentPageNo == 1) {
+                if (pageNo == 1) {
                     adapter.addDataAtTop(ShowParser.parseQuery(response));
+                    currentPageNo = pageNo;
                 } else {
                     adapter.addData(ShowParser.parseQuery(response));
                 }
+
+                setLastUpdateTime();
                 adapter.notifyDataSetChanged();
+                recyclerPullToRefreshView.onPullDownRefreshComplete();
+                recyclerPullToRefreshView.onPullUpRefreshComplete();
                 currentPageNo++;
             }
         });
 
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+    }
+
+    private void setLastUpdateTime() {
+        String text = TimeUtil.formatDateTime(System.currentTimeMillis());
+        recyclerPullToRefreshView.setLastUpdatedLabel(text);
     }
 
     @Override
