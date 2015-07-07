@@ -173,11 +173,11 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void initUserInfo() {
-
-        if (U01Model.INSTANCE.getUser() == null) {
-            U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
-        }
         MongoPeople user = U01Model.INSTANCE.getUser();
+
+        if (null == user) {
+            return;
+        }
 
         userName.setText(user.nickname);
         userHw.setText((null == user.height ? "0" : user.height) + "cm," + (null == user.weight ? "0" : user.weight) + "kg");
@@ -250,6 +250,10 @@ public class U01UserActivity extends MenuActivity {
         }
         super.onClick(v);
 
+    }
+
+    private void clickFollow(){
+        MongoPeople user = U01Model.INSTANCE.getUser();
     }
 
     private void tabOnclick(int pos) {

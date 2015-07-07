@@ -95,7 +95,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @InjectView(R.id.S03_back_btn)
     ImageButton S03BackBtn;
     @InjectView(R.id.S03_video_start_btn_real)
-    ImageView S03VideoStartBtnReal;
+    ImageView s03VideoStartBtnReal;
     @InjectView(R.id.S03_before_video_without_back)
     RelativeLayout S03BeforeVideoWithoutBack;
     @InjectView(R.id.S03_before_video_view_button)
@@ -254,6 +254,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         videoUriString = showDetailEntity.video;
 
+        if(null != videoUriString || !"".equals(videoUriString))
+            s03VideoStartBtnReal.setVisibility(View.VISIBLE);
+
         s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, 2)));
         s03ImagePreground.setAspectRatio(0.5f);
 
@@ -283,7 +286,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         pauseImage.setVisibility(View.VISIBLE);
         videoView.buildDrawingCache();
         pauseImage.setImageBitmap(videoView.getDrawingCache());
-        S03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
+        s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
         videoView.pause();
     }
 
@@ -297,11 +300,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             videoView.setVideoURI(Uri.parse(showDetailEntity.video));
             videoView.start();
         }
-        S03VideoStartBtnReal.setImageResource(R.drawable.s03_pause_btn);
+        s03VideoStartBtnReal.setImageResource(R.drawable.s03_pause_btn);
         videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                S03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
+                s03VideoStartBtnReal.setImageResource(R.drawable.s03_play_btn);
             }
         });
     }

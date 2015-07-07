@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,13 +64,7 @@ public class U01FansFragment extends U01BaseFragment {
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return 0 == position ? 2 : 1;
-            }
-        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.post(new Runnable() {
@@ -94,6 +89,8 @@ public class U01FansFragment extends U01BaseFragment {
     }
 
     public void getDatasFromNet(int pageNo, int pageSize){
+
+        if(U01Model.INSTANCE.getUser() == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override

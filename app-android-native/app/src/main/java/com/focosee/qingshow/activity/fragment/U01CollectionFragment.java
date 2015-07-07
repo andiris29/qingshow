@@ -92,6 +92,8 @@ public class U01CollectionFragment extends U01BaseFragment {
 
     public void getDatasFromNet(final int pageNo, int pageSize){
 
+        if(U01Model.INSTANCE.getUser() == null) return;
+
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

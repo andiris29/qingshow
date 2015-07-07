@@ -28,7 +28,6 @@ import java.util.List;
  */
 public class S01ItemAdapter extends AbsAdapter<MongoShow> {
 
-
     public S01ItemAdapter(@NonNull LinkedList<MongoShow> datas, Context context, int... layoutId) {
         super(datas, context, layoutId);
     }

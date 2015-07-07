@@ -20,6 +20,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
 import java.util.LinkedList;
@@ -87,6 +88,8 @@ public class U01RecommFragment extends U01BaseFragment {
     }
 
     public void getDatasFromNet(){
+
+        if(U01Model.INSTANCE.getUser() == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
             @Override

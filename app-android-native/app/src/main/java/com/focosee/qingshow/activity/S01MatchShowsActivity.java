@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class S01MatchShowsActivity extends MenuActivity {
+
+    private static final String TAG = "S01MatchShowsActivity";
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -108,7 +111,7 @@ public class S01MatchShowsActivity extends MenuActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-
+                Log.d(TAG, "response: "+ response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
