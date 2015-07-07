@@ -20,28 +20,20 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- */
-public class U01MatchFragment extends Fragment {
+public class U01MatchFragment extends U01BaseFragment {
 
     private static final String TAG = "U01MatchFragment";
 
-    @InjectView(R.id.fragment_u01_recyclerview)
-    RecyclerView recyclerView;
-    private OnFragmentInteractionListener mListener;
     private U01MatchFragAdapter adapter;
     private static Context context;
 
@@ -49,18 +41,13 @@ public class U01MatchFragment extends Fragment {
         context = context1;
         return new U01MatchFragment();
     }
-    public U01MatchFragment() {
 
-
-
-    }
-
+    public U01MatchFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_u01, container, false);
-        ButterKnife.inject(this, view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_match_frag);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -69,6 +56,7 @@ public class U01MatchFragment extends Fragment {
                 return 0 == position ? 2 : 1;
             }
         });
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.post(new Runnable() {
@@ -78,22 +66,43 @@ public class U01MatchFragment extends Fragment {
                 EventBus.getDefault().post(recyclerView);
             }
         });
-        getDatasFromNet();
+
+        recyclerPullToRefreshView.doPullRefreshing(true, 200);
         return view;
     }
 
-    public void getDatasFromNet(){
+    @Override
+    public void refresh() {
+        getDatasFromNet(1, 10);
+    }
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(U01Model.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>() {
+    @Override
+    public void loadMore() {
+        getDatasFromNet(currentPageN0, 10);
+    }
+
+    public void getDatasFromNet(final int pageNo, int pageSize){
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
                     return;
                 }
 
-                adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                if (pageNo == 1) {
+                    adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    currentPageN0 = pageNo;
+                }else{
+                    adapter.addData(ShowParser.parseQuery_itemString(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                }
+                currentPageN0++;
                 adapter.notifyDataSetChanged();
             }
         });
@@ -101,34 +110,9 @@ public class U01MatchFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
-    public RecyclerView getRecyclerView(){
-        return recyclerView;
     }
 
 }

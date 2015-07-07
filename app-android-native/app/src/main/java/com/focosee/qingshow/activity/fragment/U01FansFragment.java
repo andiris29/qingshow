@@ -39,12 +39,10 @@ import de.greenrobot.event.EventBus;
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class U01FansFragment extends Fragment {
+public class U01FansFragment extends U01BaseFragment {
 
     private static final String TAG = "U01CollectionFragment";
 
-    @InjectView(R.id.fragment_u01_recyclerview)
-    RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
     private U01FollowerFragAdapter adapter;
     private static Context context;
@@ -63,8 +61,7 @@ public class U01FansFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_u01, container, false);
-        ButterKnife.inject(this, view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -86,6 +83,16 @@ public class U01FansFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void refresh() {
+        getDatasFromNet(1, 10);
+    }
+
+    @Override
+    public void loadMore() {
+        getDatasFromNet(currentPageN0, 10);
+    }
+
     public void getDatasFromNet(int pageNo, int pageSize){
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
@@ -94,9 +101,12 @@ public class U01FansFragment extends Fragment {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     return;
                 }
-
+                recyclerPullToRefreshView.onPullUpRefreshComplete();
+                recyclerPullToRefreshView.onPullDownRefreshComplete();
                 adapter.addDataAtTop(PeopleParser.parseQueryFollowers(response));
                 adapter.notifyDataSetChanged();
             }

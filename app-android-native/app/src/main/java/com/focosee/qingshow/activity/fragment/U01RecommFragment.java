@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
@@ -21,13 +20,9 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -38,11 +33,9 @@ import de.greenrobot.event.EventBus;
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class U01RecommFragment extends Fragment {
+public class U01RecommFragment extends U01BaseFragment {
     private static final String TAG = "U01RecommFragment";
 
-    @InjectView(R.id.fragment_u01_recyclerview)
-    RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
     private U01PushAdapter adapter;
     private static Context context;
@@ -61,8 +54,7 @@ public class U01RecommFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_u01, container, false);
-        ButterKnife.inject(this, view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         adapter = new U01PushAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_date, R.layout.item_s17);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -84,6 +76,16 @@ public class U01RecommFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void refresh() {
+        getDatasFromNet();
+    }
+
+    @Override
+    public void loadMore() {
+        getDatasFromNet();
+    }
+
     public void getDatasFromNet(){
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingRecommendationApi(), null, new Response.Listener<JSONObject>() {
@@ -92,9 +94,12 @@ public class U01RecommFragment extends Fragment {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     return;
                 }
-
+                recyclerPullToRefreshView.onPullUpRefreshComplete();
+                recyclerPullToRefreshView.onPullDownRefreshComplete();
                 adapter.addDataAtTop(ShowParser.parseQuery_itemString(response));
                 adapter.notifyDataSetChanged();
             }

@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.util.BitMapUtil;
@@ -153,29 +154,33 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if(!QSModel.INSTANCE.loggedin()){
-            Toast.makeText(this, R.string.need_login, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
+        if(v.getId() == R.id.navigation_btn_match){
+            startActivity(new Intent(MenuActivity.this, S01MatchShowsActivity.class));
             return;
         }
+
+        Class _class = null;
         switch (v.getId()) {
-            case R.id.navigation_btn_match:
-              //  startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
-              //  finish();
-                startActivity(new Intent(MenuActivity.this, S01MatchShowsActivity.class));
-                break;
             case R.id.navigation_btn_good_match:
-                startActivity(new Intent(MenuActivity.this, S21CategoryActivity.class));
-                finish();
+                _class = S21CategoryActivity.class;
                 break;
             case R.id.u01_people:
                 U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
-                startActivity(new Intent(MenuActivity.this, U01UserActivity.class));
-                finish();
+                _class = U01UserActivity.class;
                 break;
             case R.id.s17_settting:
-                startActivity(new Intent(MenuActivity.this, U02SettingsActivity.class));
-                finish();
+                _class = U02SettingsActivity.class;
+                break;
         }
+
+        if(!QSModel.INSTANCE.loggedin()){
+            Toast.makeText(this, R.string.need_login, Toast.LENGTH_SHORT).show();
+            GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
+            startActivity(new Intent(MenuActivity.this, U07RegisterActivity.class));
+            return;
+        }
+
+        startActivity(new Intent(MenuActivity.this, _class));
+        finish();
     }
 }
