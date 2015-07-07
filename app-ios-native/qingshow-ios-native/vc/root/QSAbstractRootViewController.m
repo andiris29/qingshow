@@ -196,4 +196,7 @@
 - (void)showRegisterVc
 {
 }
+- (void)showDefaultVc {
+    
+}
 @end
