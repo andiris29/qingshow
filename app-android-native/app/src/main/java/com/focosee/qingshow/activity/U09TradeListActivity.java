@@ -20,6 +20,8 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
+import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
+
 import org.json.JSONObject;
 import java.util.LinkedList;
 
@@ -79,9 +81,9 @@ public class U09TradeListActivity extends BaseActivity{
         });
         tradelist.setAdapter(mAdapter);
 //        tradelist.addView(headerPlaceHolder);
-        tradelist.addItemDecoration(mAdapter.getItemDecoration(10));
+        tradelist.addItemDecoration(new SpacesItemDecoration(10));
 
-        tradelist.setOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
+        tradelist.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
             @Override
             public void onLoadMore(int current_page) {
                 doLoadMore();

@@ -1,8 +1,15 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
+
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S03SHowActivity;
+import com.focosee.qingshow.activity.U01UserActivity;
+import com.focosee.qingshow.model.S03Model;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.ImgUtil;
@@ -59,10 +66,24 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
         }
     }
 
-    private void bindCreateBy(AbsViewHolder holder, MongoShow show){
-        holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover + ".jpg", 0.5f);
+    private void bindCreateBy(AbsViewHolder holder, final MongoShow show){
+        holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover + ".jpeg", 0.5f);
         holder.setImgeByUrl(R.id.item_u01_collection_preground, show.coverForeground, 0.5f);
         MongoPeople people = show.__context.createdBy;
+        holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S03Model.INSTANCE.setShow(show);
+                context.startActivity(new Intent(context, S03SHowActivity.class));
+            }
+        });
+        holder.getView(R.id.item_u01_collection_bottom_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                U01Model.INSTANCE.setUser(show.__context.createdBy);
+                context.startActivity(new Intent(context, U01UserActivity.class));
+            }
+        });
         if(null != people.portrait)
             holder.setImgeByUrl(R.id.item_u01_collection_head_img, people.portrait);
         holder.setText(R.id.item_u01_collection_nikename, people.nickname);

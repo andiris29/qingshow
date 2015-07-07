@@ -35,6 +35,7 @@ import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
+import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -394,29 +395,6 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     @Override
     public long getItemId(int position) {
         return 0;
-    }
-
-    public SpacesItemDecoration getItemDecoration(int space){
-        return new SpacesItemDecoration(space);
-    }
-
-    public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//            outRect.left = space;
-//            outRect.right = space;
-            outRect.bottom = space;
-
-            // Add top margin only for the first item to avoid double space between items
-//            if(parent.getChildPosition(view) == 0)
-//                outRect.top = space;
-        }
     }
 
     public interface OnViewHolderListener {

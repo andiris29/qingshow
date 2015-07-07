@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,12 +40,10 @@ import de.greenrobot.event.EventBus;
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class U01FansFragment extends Fragment {
+public class U01FansFragment extends U01BaseFragment {
 
     private static final String TAG = "U01CollectionFragment";
 
-    @InjectView(R.id.fragment_u01_recyclerview)
-    RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
     private U01FollowerFragAdapter adapter;
     private static Context context;
@@ -63,16 +62,9 @@ public class U01FansFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_u01, container, false);
-        ButterKnife.inject(this, view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return 0 == position ? 2 : 1;
-            }
-        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.post(new Runnable() {
@@ -86,7 +78,19 @@ public class U01FansFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void refresh() {
+        getDatasFromNet(1, 10);
+    }
+
+    @Override
+    public void loadMore() {
+        getDatasFromNet(currentPageN0, 10);
+    }
+
     public void getDatasFromNet(int pageNo, int pageSize){
+
+        if(U01Model.INSTANCE.getUser() == null) return;
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
@@ -94,9 +98,12 @@ public class U01FansFragment extends Fragment {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     return;
                 }
-
+                recyclerPullToRefreshView.onPullUpRefreshComplete();
+                recyclerPullToRefreshView.onPullDownRefreshComplete();
                 adapter.addDataAtTop(PeopleParser.parseQueryFollowers(response));
                 adapter.notifyDataSetChanged();
             }

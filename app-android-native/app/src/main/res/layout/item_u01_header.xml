@@ -46,6 +46,7 @@
         android:layout_below="@+id/bg"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="-33dp"
+        fresco:roundingBorderWidth="3dp"
         fresco:roundAsCircle="true"
         fresco:actualImageScaleType="focusCrop"
         fresco:placeholderImage="@drawable/user_head_default"

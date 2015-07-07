@@ -33,7 +33,8 @@ public class U01FollowerFragAdapter extends U01BaseAdapter<MongoPeople>{
         super.onBindViewHolder(holder, position);
         if(0 == position) return;
         MongoPeople people = getItemData(position);
-        holder.setImgeByUrl(R.id.item_u01_fans_image, people.portrait);
+        if(null != people.portrait && !"".equals(people.portrait))
+            holder.setImgeByUrl(R.id.item_u01_fans_image, people.portrait);
         holder.setText(R.id.item_u01_fans_name, people.nickname);
 //        holder.setText(R.id.item_u01_fans_cloth_number, people.)
     }

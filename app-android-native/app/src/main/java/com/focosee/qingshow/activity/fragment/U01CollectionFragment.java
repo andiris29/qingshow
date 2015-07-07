@@ -36,12 +36,10 @@ import de.greenrobot.event.EventBus;
  * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class U01CollectionFragment extends Fragment {
+public class U01CollectionFragment extends U01BaseFragment {
 
     private static final String TAG = "U01CollectionFragment";
 
-    @InjectView(R.id.fragment_u01_recyclerview)
-    RecyclerView recyclerView;
     private OnFragmentInteractionListener mListener;
     private U01CollectionFragAdapter adapter;
     private static Context context;
@@ -60,8 +58,7 @@ public class U01CollectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_u01, container, false);
-        ButterKnife.inject(this, view);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         adapter = new U01CollectionFragAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_collection_createby, R.layout.item_u01_collection_qingshow);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -79,22 +76,44 @@ public class U01CollectionFragment extends Fragment {
                 EventBus.getDefault().post(recyclerView);
             }
         });
-        getDatasFromNet();
+        recyclerPullToRefreshView.doPullRefreshing(true, 200);
         return view;
     }
 
-    public void getDatasFromNet(){
+    @Override
+    public void refresh() {
+        getDatasFromNet(1, 10);
+    }
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(U01Model.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>() {
+    @Override
+    public void loadMore() {
+        getDatasFromNet(currentPageN0, 10);
+    }
+
+    public void getDatasFromNet(final int pageNo, int pageSize){
+
+        if(U01Model.INSTANCE.getUser() == null) return;
+
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(getActivity(), MetadataParser.getError(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     return;
                 }
 
-                adapter.addDataAtTop(ShowParser.parseQuery(response));
+                if(pageNo == 1) {
+                    adapter.addDataAtTop(ShowParser.parseQuery(response));
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
+                    currentPageN0 = pageNo;
+                }else{
+                    adapter.addData(ShowParser.parseQuery(response));
+                    recyclerPullToRefreshView.onPullUpRefreshComplete();
+                }
+                currentPageN0++;
                 adapter.notifyDataSetChanged();
             }
         });

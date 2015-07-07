@@ -13,6 +13,7 @@
         android:background="@color/white"
         android:orientation="vertical">
         <RelativeLayout
+            android:id="@+id/item_u01_collection_top_layout"
             android:layout_width="match_parent"
             android:background="@color/white"
             android:layout_height="300dp">
@@ -20,21 +21,20 @@
                 android:id="@+id/item_u01_collection_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                fresco:placeholderImage="@drawable/root_icon_share"/>
+                android:layout_centerInParent="true"/>
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_u01_collection_preground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                fresco:placeholderImage="@drawable/s01_preground"/>
+                android:layout_centerInParent="true"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/gray_background"/>
         <LinearLayout
+            android:id="@+id/item_u01_collection_bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/white"
@@ -65,15 +65,16 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginTop="2dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_alignLeft="@+id/item_u01_collection_likeNum"
+                    android:layout_alignRight="@+id/item_u01_collection_likeNum"
                     android:src="@drawable/s03_favor_btn"/>
                 <TextView
                     android:id="@+id/item_u01_collection_likeNum"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/item_u01_collection_favor_image"
-                    android:layout_alignLeft="@+id/item_u01_collection_favor_image"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/darker_gray"

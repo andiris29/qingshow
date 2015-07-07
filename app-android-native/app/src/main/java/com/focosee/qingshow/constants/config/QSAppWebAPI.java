@@ -106,8 +106,8 @@ public class QSAppWebAPI {
         return PEOPLE_QUERY_FOLLOW_PEOPLES_API + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
-    public static String getMatchCreatedbyApi(String _id){
-        return MATCH_CREATEDBY_API + "?_id=" + _id;
+    public static String getMatchCreatedbyApi(String _id, int pageNo, int pageSize){
+        return MATCH_CREATEDBY_API + "?_id=" + _id + "&apgeNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getMatchHotApi(int pageNo, int pageSize) {
@@ -244,8 +244,8 @@ public class QSAppWebAPI {
         return HOST_NAME + SHOW_LIST_CATEGORY_API[1] + String.valueOf(pageIndex) + "&pageSize=" + String.valueOf(pageSize);
     }
 
-    public static String getFeedingLikeApi(String _id) {
-        return FEEDING_LIKE + "?_id=" + _id;
+    public static String getFeedingLikeApi(String _id, int pageNo, int pageSize) {
+        return FEEDING_LIKE + "?_id=" + _id + "&pageNo=" + pageNo + "&pageSize=" + pageSize;
     }
 
     public static String getFeedingRecommendationApi(String _id, int pageIndex, int pageSize) {

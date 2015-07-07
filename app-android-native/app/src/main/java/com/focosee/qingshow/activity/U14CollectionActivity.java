@@ -76,23 +76,23 @@ public class U14CollectionActivity extends MenuActivity {
     }
 
     private void getDatasFromNet(){
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(QSModel.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>(){
-
-            @Override
-            public void onResponse(JSONObject response) {
-                System.out.println("response:" + response);
-                if(MetadataParser.hasError(response)){
-                    ErrorHandler.handle(U14CollectionActivity.this, MetadataParser.getError(response));
-                    return;
-                }
-                LinkedList<MongoShow> shows = ShowParser.parseQuery(response);
-                adapter.refreshDatas(shows);
-                adapter.notifyDataSetChanged();
-                Toast.makeText(U14CollectionActivity.this, R.string.load_finish, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+//        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getFeedingLikeApi(QSModel.INSTANCE.getUser()._id), null, new Response.Listener<JSONObject>(){
+//
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                System.out.println("response:" + response);
+//                if(MetadataParser.hasError(response)){
+//                    ErrorHandler.handle(U14CollectionActivity.this, MetadataParser.getError(response));
+//                    return;
+//                }
+//                LinkedList<MongoShow> shows = ShowParser.parseQuery(response);
+//                adapter.refreshDatas(shows);
+//                adapter.notifyDataSetChanged();
+//                Toast.makeText(U14CollectionActivity.this, R.string.load_finish, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
 
