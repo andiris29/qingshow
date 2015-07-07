@@ -25,7 +25,7 @@
 
 #import "QSMatchCollectionViewProvider.h"
 #import "QSFavorTableViewProvider.h"
-#import "QSPeopleListTableViewProvider.h"
+
 
 #import "QSDateUtil.h"
 
@@ -249,6 +249,7 @@
     };
     [self.followingProvider bindWithTableView:self.followingTableView];
     [self.followingProvider reloadData];
+    self.followerProvider.delegate = self;
     //Follower
     self.followerProvider.hasRefreshControl = NO;
     self.followerProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -256,6 +257,7 @@
     };
     [self.followerProvider bindWithTableView:self.followerTableView];
     [self.followerProvider reloadData];
+    self.followerProvider.delegate = self;
 }
 
 - (void)configView
@@ -335,5 +337,11 @@
             [QSPeopleUtil setPeople:self.userInfo isFollowed:NO];
         }
     }];
+}
+
+- (void)clickModel:(NSDictionary*)model {
+    QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:model];
+    vc.menuProvider = self.menuProvider;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

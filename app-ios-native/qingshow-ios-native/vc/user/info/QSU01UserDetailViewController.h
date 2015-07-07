@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "QSDetailBaseViewController.h"
 #import "QSImageCollectionViewProvider.h"
-
+#import "QSPeopleListTableViewProvider.h"
 @protocol QSMenuProviderDelegate;
 
-@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate>
+@interface QSU01UserDetailViewController : QSDetailBaseViewController <QSImageCollectionViewProviderDelegate, QSPeoplelListTableViewProviderDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *matcherCollectionView;
 @property (strong, nonatomic) IBOutlet UICollectionView* recommendCollectionView;
