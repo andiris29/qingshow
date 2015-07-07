@@ -15,11 +15,15 @@
         android:layout_height="fill_parent">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/S03_image_preground"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/S03_image"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            fresco:placeholderImage="@drawable/root_cell_placehold_image1"
-            />
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
 
         <RelativeLayout
             android:id="@+id/S03_before_video_view"
@@ -221,17 +225,8 @@
                         android:scaleType="centerInside"
                         android:onClick="onClick"
                         android:src="@drawable/s03_play_btn" />
-
                 </RelativeLayout>
-
             </RelativeLayout>
-
-
         </RelativeLayout>
-
     </RelativeLayout>
-
-
-
-
 </RelativeLayout>
