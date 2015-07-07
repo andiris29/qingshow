@@ -60,7 +60,7 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
         this.addView(view);
     }
 
-    private void detach(QSImageView view) {
+    public void detach(QSImageView view) {
         views.remove(view);
         this.removeView(view);
     }
@@ -149,6 +149,9 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
 
     }
 
+    public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {
+        this.onCheckedChangeListener = onCheckedChangeListener;
+    }
 
 
 }

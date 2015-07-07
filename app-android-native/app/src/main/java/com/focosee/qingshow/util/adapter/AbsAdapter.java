@@ -55,6 +55,10 @@ public abstract class AbsAdapter<T> extends RecyclerView.Adapter<AbsViewHolder> 
         this.datas.addAll(datas);
     }
 
+    public void addDataAtLast(List<T> datas){
+        this.datas.addAll(datas);
+    }
+
     @Override
     public long getItemId(int position) {
         return position;

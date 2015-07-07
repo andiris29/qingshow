@@ -4,20 +4,19 @@ package com.focosee.qingshow.model.vo.mongo;
  * Created by Administrator on 2015/6/24.
  */
 public class MongoCategories {
-    private String _id;
-    private String name;
+    public String _id;
+    public String name;
     public String order;
     private String parentRef;
     private String icon;
     private boolean activate;
     public MatchInfo matchInfo;
 
-    class MatchInfo {
+    public class MatchInfo {
         public boolean enabled;
         public boolean defaultOnCavase;
         public int row;
         public int column;
-
     }
     public MongoCategories() {
     }

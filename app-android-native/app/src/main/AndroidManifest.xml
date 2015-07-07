@@ -189,6 +189,8 @@
         </activity>
         <activity android:name=".activity.S21CategoryActivity" >
         </activity>
+        <activity android:name=".activity.S20MatcherActivity" >
+        </activity>
         <activity
             android:name=".activity.S01MatchShowsActivity"
             android:label="@string/title_activity_s01_match_shows" >
