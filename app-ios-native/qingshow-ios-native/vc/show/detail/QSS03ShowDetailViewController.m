@@ -25,6 +25,7 @@
 #import "UIViewController+QSExtension.h"
 
 #import "QSUserManager.h"
+#import "QSU01UserDetailViewController.h"
 
 #define PAGE_ID @"S03 - 秀"
 
@@ -69,6 +70,8 @@
     
     self.headIconImageView.layer.cornerRadius = self.headIconImageView.bounds.size.height / 2;
     self.headIconImageView.layer.masksToBounds = YES;
+    self.headIconImageView.userInteractionEnabled = YES;
+    [self.headIconImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapHeadIcon:)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -361,5 +364,13 @@
         weakSelf.discountContainer.hidden = YES;
     }];
 
+}
+- (void)didTapHeadIcon:(id)sender {
+    NSDictionary* peopleDict = [QSShowUtil getPeopleFromShow:self.showDict];
+    if (peopleDict) {
+        QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:peopleDict];
+        vc.menuProvider = self.menuProvider;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 @end
