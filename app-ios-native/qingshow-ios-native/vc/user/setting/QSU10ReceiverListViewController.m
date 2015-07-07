@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSArray* receiverArray;
 @property (strong, nonatomic) NSDictionary* selectedRecevier;
 @property (strong, nonatomic) MKNetworkOperation* removeOperation;
+@property (strong, nonatomic) QSUserLocationTableViewCell* toRemoveCell;
 @end
 
 @implementation QSU10ReceiverListViewController
@@ -141,20 +142,9 @@
     if (self.removeOperation) {
         return;
     }
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-    NSDictionary* locationDict = [self receiverDictForCell:cell];
-    self.removeOperation =
-    [SHARE_NW_ENGINE removeReceiver:locationDict onSuccess:^{
-        self.removeOperation = nil;
-        if ([self.receiverArray isKindOfClass:[NSMutableArray class]]) {
-            NSMutableArray* m = (NSMutableArray*)self.receiverArray;
-            [m removeObject:locationDict];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    } onError:^(NSError *error) {
-        self.removeOperation = nil;
-        [self showErrorHudWithError:error];
-    }];
+    self.toRemoveCell = cell;
+    UIAlertView* v =  [[UIAlertView alloc] initWithTitle:@"确认删除" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [v show];
 }
 - (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell
 {
@@ -184,5 +174,28 @@
 {
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     return [self receiverDictForIndexPath:indexPath];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    UITableViewCell* cell = self.toRemoveCell;
+    self.toRemoveCell = nil;
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* locationDict = [self receiverDictForCell:cell];
+    
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        self.removeOperation =
+        [SHARE_NW_ENGINE removeReceiver:locationDict onSuccess:^{
+            self.removeOperation = nil;
+            if ([self.receiverArray isKindOfClass:[NSMutableArray class]]) {
+                NSMutableArray* m = (NSMutableArray*)self.receiverArray;
+                [m removeObject:locationDict];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        } onError:^(NSError *error) {
+            self.removeOperation = nil;
+            [self showErrorHudWithError:error];
+        }];
+    }
 }
 @end
