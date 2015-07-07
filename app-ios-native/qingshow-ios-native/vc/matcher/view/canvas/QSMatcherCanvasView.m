@@ -274,6 +274,32 @@
         }
     }
 }
+
+
+- (BOOL)checkRate:(float)rate {
+    NSArray* subviews = self.subviews;
+    subviews = [subviews filteredArrayUsingBlock:^BOOL(QSCanvasImageView* imgView) {
+        if (![imgView isKindOfClass:[QSCanvasImageView class]]) {
+            return NO;
+        }
+        if (!imgView.imgView.image) {
+            return NO;
+        }
+        return YES;
+    }];
+    
+    while (subviews.count > 1) {
+        UIView* firstView = [subviews firstObject];
+        subviews = [subviews subarrayWithRange:NSMakeRange(1, subviews.count - 1)];
+        float f = [QSRectUtil getViewUncoveredSquare:firstView otherViews:subviews];
+        float square = [QSRectUtil getSquare:firstView.frame];
+        if (f / square < rate) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
 - (UIImage*)submitView {
     [self updateHighlightView:nil];
     

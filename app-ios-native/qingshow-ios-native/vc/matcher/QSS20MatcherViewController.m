@@ -139,6 +139,12 @@
 }
 
 - (IBAction)previewButtonPressed:(id)sender {
+    //图片需要显示70%以上才能提交
+    if (![self.canvasView checkRate:0.7f]) {
+        [self showErrorHudWithText:@"图片被遮挡太多，请调整"];
+        return;
+    }
+    
     NSArray* items = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
         if (p.selectIndex < p.resultArray.count) {
             return p.resultArray[p.selectIndex];

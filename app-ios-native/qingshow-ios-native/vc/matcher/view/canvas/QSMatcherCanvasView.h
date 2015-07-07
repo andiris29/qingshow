@@ -26,6 +26,7 @@
 - (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId;
 
 - (UIImage*)submitView;
+- (BOOL)checkRate:(float)rate;
 
 
 @property (weak, nonatomic) NSObject<QSMatcherCanvasViewDelegate>* delegate;

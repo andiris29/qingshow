@@ -10,4 +10,8 @@
 
 @interface QSRectUtil : NSObject
 + (CGRect)reducedFrame:(CGRect)innerRect forContainer:(CGRect)containerRect;
+
++ (float)getViewUncoveredSquare:(UIView*)view otherViews:(NSArray*)array;
+
++ (float)getSquare:(CGRect)rect;
 @end
