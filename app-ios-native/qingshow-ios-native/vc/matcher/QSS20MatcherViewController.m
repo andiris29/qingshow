@@ -8,6 +8,7 @@
 
 #import "QSS20MatcherViewController.h"
 #import "QSS21CategorySelectorVC.h"
+#import "QSS23MatcherPreviewViewController.h"
 
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
@@ -137,7 +138,7 @@
     [self.menuProvider didClickMenuBtn];
 }
 
-- (IBAction)submitButtonPressed:(id)sender {
+- (IBAction)previewButtonPressed:(id)sender {
     NSArray* items = [[self.cateIdToProvider allValues] mapUsingBlock:^id(QSMatcherItemsProvider* p) {
         if (p.selectIndex < p.resultArray.count) {
             return p.resultArray[p.selectIndex];
@@ -149,21 +150,11 @@
     items = [items filteredArrayUsingBlock:^BOOL(NSDictionary* itemDict) {
         return ![QSCommonUtil checkIsNil:itemDict];
     }];
-
-    UIImage* snapshot = [self.canvasView submitView];
-    [SHARE_NW_ENGINE matcherSave:items onSucceed:^(NSDictionary *dict) {
-        [SHARE_NW_ENGINE matcher:dict updateCover:snapshot  onSucceed:^(NSDictionary *d) {
-            QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:d];
-            vc.menuProvider = self.menuProvider;
-            [self.navigationController pushViewController:vc animated:YES];
-//            [self showShowDetailViewController:d];
-        } onError:^(NSError *error) {
-            [self showErrorHudWithError:error];
-        }];
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
     
+    UIImage* snapshot = [self.canvasView submitView];
+    
+    UIViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items coverImages:snapshot menuProvider:self.menuProvider];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

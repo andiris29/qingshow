@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="lantingjianhei_xi.ttf">
@@ -61,11 +60,11 @@
                             <rect key="frame" x="166" y="9" width="145" height="35"/>
                             <color key="backgroundColor" red="0.94117647058823528" green="0.58431372549019611" blue="0.64313725490196072" alpha="1" colorSpace="calibratedRGB"/>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="12"/>
-                            <state key="normal" title="发布搭配">
+                            <state key="normal" title="预览搭配">
                                 <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="submitButtonPressed:" destination="-1" eventType="touchUpInside" id="gMm-bJ-bCC"/>
+                                <action selector="previewButtonPressed:" destination="-1" eventType="touchUpInside" id="s0C-kJ-QjB"/>
                             </connections>
                         </button>
                     </subviews>

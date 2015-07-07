@@ -119,6 +119,8 @@
 		EF30133F1AC3174000568D92 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013321AC3174000568D92 /* RSADataVerifier.m */; };
 		EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013451AC31AFC00568D92 /* QSPaymentService.m */; };
 		EF3013491AC31BD700568D92 /* AlipayOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3013481AC31BD700568D92 /* AlipayOrder.m */; };
+		EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */; };
+		EF30601A1B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF3060181B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib */; };
 		EF36BD741A871512003CBBEE /* QSImageNameUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD731A871512003CBBEE /* QSImageNameUtil.m */; };
 		EF36BD781A87153F003CBBEE /* QSDateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = EF36BD771A87153F003CBBEE /* QSDateUtil.m */; };
 		EF42BBD31A4C5B1C00218693 /* UILabelStrikeThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = EF42BBD21A4C5B1C00218693 /* UILabelStrikeThrough.m */; };
@@ -596,6 +598,9 @@
 		EF3013451AC31AFC00568D92 /* QSPaymentService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSPaymentService.m; sourceTree = "<group>"; };
 		EF3013471AC31BD700568D92 /* AlipayOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlipayOrder.h; sourceTree = "<group>"; };
 		EF3013481AC31BD700568D92 /* AlipayOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlipayOrder.m; sourceTree = "<group>"; };
+		EF3060161B4B4BB500490F31 /* QSS23MatcherPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS23MatcherPreviewViewController.h; sourceTree = "<group>"; };
+		EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS23MatcherPreviewViewController.m; sourceTree = "<group>"; };
+		EF3060181B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS23MatcherPreviewViewController.xib; sourceTree = "<group>"; };
 		EF36BD721A871512003CBBEE /* QSImageNameUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSImageNameUtil.h; sourceTree = "<group>"; };
 		EF36BD731A871512003CBBEE /* QSImageNameUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSImageNameUtil.m; sourceTree = "<group>"; };
 		EF36BD761A87153F003CBBEE /* QSDateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSDateUtil.h; sourceTree = "<group>"; };
@@ -2119,6 +2124,9 @@
 				EFB1ADCC1B371525007893AB /* QSS20MatcherViewController.h */,
 				EFB1ADCD1B371525007893AB /* QSS20MatcherViewController.m */,
 				EFB1ADCE1B371525007893AB /* QSS20MatcherViewController.xib */,
+				EF3060161B4B4BB500490F31 /* QSS23MatcherPreviewViewController.h */,
+				EF3060171B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m */,
+				EF3060181B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib */,
 			);
 			path = matcher;
 			sourceTree = "<group>";
@@ -2663,6 +2671,7 @@
 				EF78E3481AAF4C7600665EDD /* QSUserLocationTableViewCell.xib in Resources */,
 				8C8B9D8E1B00395B00C1A321 /* welcome2_736@3x.png in Resources */,
 				8C9240051B258AB60043561E /* hongxin@2x.png in Resources */,
+				EF30601A1B4B4BB500490F31 /* QSS23MatcherPreviewViewController.xib in Resources */,
 				EFB1ADE61B372080007893AB /* QSMatcherItemImageView.xib in Resources */,
 				EFFE672C1A0676BE001F4CA1 /* QSRootMenuItem.xib in Resources */,
 				EFAA5A3B1AFD251C001032F7 /* QSRecommendationDateCollectionViewCell.xib in Resources */,
@@ -2866,6 +2875,7 @@
 				EFD0B7F01A1A4FC500BCDFBA /* QSUserManager.m in Sources */,
 				EF5573121A21EC7B00C3BC23 /* QSItemUtil.m in Sources */,
 				EFAB9C621B346FE5008A4EF5 /* QSMatchCollectionViewProvider.m in Sources */,
+				EF3060191B4B4BB500490F31 /* QSS23MatcherPreviewViewController.m in Sources */,
 				EF3013461AC31AFC00568D92 /* QSPaymentService.m in Sources */,
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				68DE6A981B40EB19001B829C /* QSS21ItemView.m in Sources */,

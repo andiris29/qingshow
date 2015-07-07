@@ -25,7 +25,7 @@
 - (IBAction)categorySelectedBtnPressed:(id)sender;
 
 - (IBAction)menuBtnPressed:(id)sender;
-- (IBAction)submitButtonPressed:(id)sender;
+- (IBAction)previewButtonPressed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *categorySelectionButton;
