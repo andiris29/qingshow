@@ -37,4 +37,5 @@
 - (IBAction)selectedIndicatorPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
++ (float)getHeightWithDict:(NSDictionary*)dict;
 @end

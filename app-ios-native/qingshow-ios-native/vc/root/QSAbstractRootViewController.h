@@ -14,7 +14,7 @@
 
 - (void)didClickMenuBtn;
 - (void)showRegisterVc;
-
+- (void)showDefaultVc;
 @end
 
 @interface QSAbstractRootViewController : UIViewController <QSRootMenuViewDelegate, QSG02WelcomeViewControllerDelegate, QSMenuProviderDelegate>

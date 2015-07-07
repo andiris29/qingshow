@@ -261,7 +261,12 @@ typedef BOOL (^U02CellBlock)(QSU02AbstractTableViewCell* cell);
 - (void)actionLogout {
     [QSUserManager shareUserManager].userInfo = nil;
     [QSUserManager shareUserManager].fIsLogined = NO;
-    [self.menuProvider showRegisterVc];
+    CATransition* tran = [[CATransition alloc] init];
+    tran.type = kCATransitionFade;
+    tran.duration = 0.5f;
+    [self.navigationController.parentViewController.view.layer addAnimation:tran forKey:@"tran"];
+    [self.menuProvider showDefaultVc];
+
     [SHARE_NW_ENGINE logoutOnSucceed:nil onError:nil];
 }
 
