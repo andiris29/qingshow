@@ -66,6 +66,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_right_activity_settings"
             android:layout_toRightOf="@id/ageTextView"
+            android:inputType="numberDecimal"
             android:background="@null"
             android:hint="请填写年龄"
             android:singleLine="true"

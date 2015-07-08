@@ -7,15 +7,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,7 +32,6 @@ import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSMultipartEntity;
 import com.focosee.qingshow.httpapi.request.QSMultipartRequest;
-import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
@@ -44,8 +46,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -61,6 +65,84 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     private static final String TAG_EXPECTATIONS = "expectations";
     private static final int TYPE_PORTRAIT = 10000;//上传头像
     private static final int TYPE_BACKGROUD = 10001;//上传背景
+    @InjectView(R.id.backTextView)
+    TextView backTextView;
+    @InjectView(R.id.titleBarRelativeLayout)
+    LinearLayout titleBarRelativeLayout;
+    @InjectView(R.id.chooseRelativeLayout)
+    RelativeLayout chooseRelativeLayout;
+    @InjectView(R.id.manageRelativeLayout)
+    RelativeLayout manageRelativeLayout;
+    @InjectView(R.id.u02_tradelist_text)
+    TextView u02TradelistText;
+    @InjectView(R.id.u02_addresslist_text)
+    TextView u02AddresslistText;
+    @InjectView(R.id.baseRelativeLayout)
+    RelativeLayout baseRelativeLayout;
+    @InjectView(R.id.nameTextView)
+    TextView nameTextView;
+    @InjectView(R.id.nameRelativeLayout)
+    RelativeLayout nameRelativeLayout;
+    @InjectView(R.id.ageTextView)
+    TextView ageTextView;
+    @InjectView(R.id.ageEditText)
+    EditText ageEditText;
+    @InjectView(R.id.ageRelativeLayout)
+    RelativeLayout ageRelativeLayout;
+    @InjectView(R.id.heightTextView)
+    TextView heightTextView;
+    @InjectView(R.id.heightRelativeLayout)
+    RelativeLayout heightRelativeLayout;
+    @InjectView(R.id.weightTextView)
+    TextView weightTextView;
+    @InjectView(R.id.weightRelativeLayout)
+    RelativeLayout weightRelativeLayout;
+    @InjectView(R.id.bustTextView)
+    TextView bustTextView;
+    @InjectView(R.id.bustEditText)
+    EditText bustEditText;
+    @InjectView(R.id.bustRelativeLayout)
+    RelativeLayout bustRelativeLayout;
+    @InjectView(R.id.shoulderTextView)
+    TextView shoulderTextView;
+    @InjectView(R.id.shoulderEditText)
+    EditText shoulderEditText;
+    @InjectView(R.id.shoulderRelativeLayout)
+    RelativeLayout shoulderRelativeLayout;
+    @InjectView(R.id.waistlineTextView)
+    TextView waistlineTextView;
+    @InjectView(R.id.waistlineEditText)
+    EditText waistlineEditText;
+    @InjectView(R.id.waistlineRelativeLayout)
+    RelativeLayout waistlineRelativeLayout;
+    @InjectView(R.id.hiplineTextView)
+    TextView hiplineTextView;
+    @InjectView(R.id.hiplineEditText)
+    EditText hiplineEditText;
+    @InjectView(R.id.hiplineRelativeLayout)
+    RelativeLayout hiplineRelativeLayout;
+    @InjectView(R.id.bodyTypeLabel)
+    TextView bodyTypeLabel;
+    @InjectView(R.id.dressStyleEextView)
+    TextView dressStyleEextView;
+    @InjectView(R.id.effectEextView)
+    TextView effectEextView;
+    @InjectView(R.id.sexLabel)
+    TextView sexLabel;
+    @InjectView(R.id.othersRelativeLayout)
+    RelativeLayout othersRelativeLayout;
+    @InjectView(R.id.quitButton)
+    Button quitButton;
+    @InjectView(R.id.quitRelativeLayout)
+    RelativeLayout quitRelativeLayout;
+    @InjectView(R.id.settingsLinearLayout)
+    LinearLayout settingsLinearLayout;
+    @InjectView(R.id.navigation_btn_match)
+    ImageButton navigationBtnMatch;
+    @InjectView(R.id.navigation_btn_good_match)
+    ImageButton navigationBtnGoodMatch;
+    @InjectView(R.id.u01_people)
+    ImageButton u01People;
 
     private Context context;
     private RequestQueue requestQueue;
@@ -252,15 +334,20 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     //进入页面时，给字段赋值
     private void setData() {
         if (null != people) {
-            if(null != people.portrait)
+            if (null != people.portrait)
                 ImageLoader.getInstance().displayImage(people.portrait, portraitImageView, AppUtil.getPortraitDisplayOptions());
-            if(null != people.background)
+            if (null != people.background)
                 ImageLoader.getInstance().displayImage(people.background, backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
-            if(null != people.name)
-                nameEditText.setText(people.name);
-            if(null != people.height)
+            if (null != people.nickname)
+                nameEditText.setText(people.nickname);
+            if (null != people.birthday) {
+                GregorianCalendar today = new GregorianCalendar();
+                today.setTimeInMillis(System.currentTimeMillis());
+                ageEditText.setText(people.birthday.compareTo(today));
+            }
+            if (null != people.height)
                 heightEditText.setText(people.height);
-            if(null != people.weight)
+            if (null != people.weight)
                 weightEditText.setText(people.weight);
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
@@ -486,5 +573,11 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 showActionSheet(TAG_EXPECTATIONS);
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
     }
 }

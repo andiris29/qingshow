@@ -35,7 +35,7 @@ import butterknife.InjectView;
  * Use the {@link MenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenuFragment extends Fragment implements View.OnClickListener{
+public class MenuFragment extends Fragment{
 
     @InjectView(R.id.drawer)
     DrawerLayout drawer;
@@ -150,23 +150,6 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             return true;
         }
         return false;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if(!QSModel.INSTANCE.loggedin()){
-            startActivity(new Intent(getActivity(), U07RegisterActivity.class));
-            return;
-        }
-        switch (v.getId()) {
-            case R.id.u01_people:
-                startActivity(new Intent(getActivity(), U14CollectionActivity.class));
-                getActivity().finish();
-                break;
-            case R.id.s17_settting:
-                startActivity(new Intent(getActivity(), U02SettingsActivity.class));
-                getActivity().finish();
-        }
     }
 
 }
