@@ -72,3 +72,35 @@ people.unfollow = {
         }
     }
 };
+
+people.query = {
+    method : 'get',
+    func : function(req, res) {
+        var _ids;
+        async.waterfall([
+        function(callback) {
+            // Parser req
+            try {
+                _ids = RequestHelper.parseIds(req.queryString._ids);
+                callback(null);
+            } catch (err) {
+                callback(ServerError.fromError(err));
+            }
+        },
+        function(callback) {
+            // Query & populate
+            People.find({
+                '_id' : {
+                    '$in' : _ids
+                }
+            }).exec(callback);
+        },
+        function(peoples, callback) {
+            ContextHelper.appendPeopleContext(req.qsCurrentUserId, peoples, callback);
+        }], function(err, peoples) {
+            ResponseHelper.response(res, err, {
+                'peoples' : peoples 
+            });
+        });
+    }
+};
