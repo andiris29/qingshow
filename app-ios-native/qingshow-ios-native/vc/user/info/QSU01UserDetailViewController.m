@@ -134,6 +134,7 @@
     // Do any additional setup after loading the view.
     [self configView];
     [self bindProvider];
+    self.backToTopBtn.hidden = YES;
     self.backBtn.hidden = self.isCurrentUser;
     self.menuBtn.hidden = !self.isCurrentUser;
     [self.navigationController.navigationBar setTitleTextAttributes:
@@ -343,5 +344,24 @@
     QSU01UserDetailViewController *vc = [[QSU01UserDetailViewController alloc]initWithPeople:model];
     vc.menuProvider = self.menuProvider;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //NSLog(@"scrollView.con = %f",scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y != -360) {
+        _backToTopBtn.hidden = NO;
+    }
+    else
+    {
+        _backToTopBtn.hidden = YES;
+    }
+}
+- (IBAction)topToTopBtnPressed:(id)sender {
+    UIScrollView *scrollView = self.viewArray[self.currentSection];
+    CGPoint p = [scrollView contentOffset];
+    p.y = -360;
+    [scrollView setContentOffset:p animated:YES];
+    _backToTopBtn.hidden = YES;
 }
 @end

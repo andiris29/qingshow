@@ -227,18 +227,17 @@
     [self showSharePanel];
 }
 
-
 - (IBAction)likeBtnPressed:(id)sender {
     [self hideSharePanel];
     NSDictionary* showDict = self.showDict;
     [SHARE_NW_ENGINE handleShowLike:showDict onSucceed:^(BOOL f) {
         if (f) {
             [self showSuccessHudWithText:@"添加收藏"];
-            [self.favorBtn setTitleColor:[UIColor colorWithRed:0.894 green:0.310 blue:0.392 alpha:1.000] forState:UIControlStateNormal];
+            [self.favorBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
         } else {
             [self showSuccessHudWithText:@"取消收藏"];
-            [self.favorBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            [self.favorBtn setTitleColor:[UIColor colorWithRed:67 green:67 blue:67 alpha:1.0f] forState:UIControlStateNormal];
         }
         [self bindExceptImageWithDict:showDict];
         

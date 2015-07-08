@@ -26,7 +26,7 @@
 #define PATH_FEEDING_BY_TOPIC @"feeding/byTopic"
 #define PATH_FEEDING_MATCH_CREATE_BY @"feeding/matchCreatedBy"
 #define PATH_FEEDING_MATCH_HOT @"feeding/matchHot"
-#define PATH_FEEDING_MATCH_NEW @"feeding/mathNew"
+#define PATH_FEEDING_MATCH_NEW @"feeding/matchNew"
 
 
 @interface QSNetworkEngine (Private)

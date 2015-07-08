@@ -12,5 +12,8 @@
 @interface QSS01MatchShowsViewController : QSRootContentViewController
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIButton *backToTopbtn;
+
+- (IBAction)backToTopBtnPressed:(id)sender;
 
 @end

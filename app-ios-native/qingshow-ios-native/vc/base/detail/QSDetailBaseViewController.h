@@ -13,8 +13,10 @@
 
 @interface QSDetailBaseViewController : UIViewController <QSShowProviderDelegate, QSBadgeBtnGroupDelegate>
 
+@property (assign, nonatomic) int currentSection;
 @property (strong, nonatomic) NSArray* viewArray;
 @property (strong, nonatomic) QSBadgeView* badgeView;
+
 
 - (void)configContentInset;
 @end

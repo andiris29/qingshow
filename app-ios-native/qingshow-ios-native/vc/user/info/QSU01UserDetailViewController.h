@@ -21,6 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *followerTableView;
 @property (weak, nonatomic) IBOutlet UIButton *menuBtn;
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backToTopBtn;
+
+- (IBAction)topToTopBtnPressed:(id)sender;
 
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
 
