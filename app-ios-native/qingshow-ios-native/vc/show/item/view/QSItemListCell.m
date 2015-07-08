@@ -9,6 +9,8 @@
 #import "QSItemListCell.h"
 #import "QSItemUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+#import "QSCategoryUtil.h"
 
 @implementation QSItemListCell
 
@@ -25,9 +27,8 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-    NSString *iconNum = itemDic[@"category"];
-    NSString *iconStr = [NSString stringWithFormat:@"itemIcon%@",iconNum];
-    self.itemIcomImageView.image = [UIImage imageNamed:iconStr];
+    NSDictionary* category = [QSItemUtil getCategoryRef:itemDic];
+    [self.itemIcomImageView setImageFromURL:[QSCategoryUtil getIconUrl:category]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDic];
 }
 @end

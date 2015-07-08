@@ -303,16 +303,6 @@
     return rec;
 }
 
-+ (NSDate*)getLikeDate:(NSDictionary*)showDict
-{
-    NSString* dateStr = [showDict valueForKeyPath:@"__context.likeDate"];
-    if (!dateStr) {
-        return nil;
-    }
-    NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
-    return date;
-}
-
 + (NSDate*)getCreatedDate:(NSDictionary*)showDict {
     NSString* dateStr = [showDict valueForKeyPath:@"create"];
     if (!dateStr) {

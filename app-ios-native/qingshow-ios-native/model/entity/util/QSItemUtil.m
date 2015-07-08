@@ -382,4 +382,8 @@
         return nil;
     }
 }
+
++ (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict {
+    return [QSCommonUtil getDictValue:itemDict key:@"categoryRef"];
+}
 @end

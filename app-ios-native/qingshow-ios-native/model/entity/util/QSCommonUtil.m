@@ -73,4 +73,7 @@
 + (NSArray*)getArrayValue:(NSDictionary*)dict key:(NSString*)key {
     return [self getValue:dict key:key class:[NSArray class]];
 }
++ (NSDictionary*)getDictValue:(NSDictionary*)dict key:(NSString*)key {
+    return [self getValue:dict key:key class:[NSDictionary class]];
+}
 @end
