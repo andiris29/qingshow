@@ -52,11 +52,6 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
         _rInitiator(RPeopleShareShow, qsCurrentUserId, shows, 'sharedByCurrentUser', callback);
     };
 
-    // __context.likeDate
-    var likeDate = function(callback) {
-        _rCreateDate(RPeopleLikeShow, qsCurrentUserId, shows, 'likeDate', callback);
-    };
-
     // __context.promotionRef
     var generatePromoInfo = function(callback) {
         _generatePromoInfo(qsCurrentUserId, shows, 'promotionRef', callback);
@@ -68,7 +63,7 @@ ContextHelper.appendShowContext = function(qsCurrentUserId, shows, callback) {
     };
 
     // modedRef.__context.followedByCurrentUser
-    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, likeDate, generatePromoInfo, generateCreateBy], function (err) {
+    async.parallel([numComments, likedByCurrentUser, sharedByCurrentUser, generatePromoInfo, generateCreateBy], function (err) {
         callback(null, shows);
     });
 };
