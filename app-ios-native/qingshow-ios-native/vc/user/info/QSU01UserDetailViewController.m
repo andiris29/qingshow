@@ -25,7 +25,6 @@
 #import "QSRecommendationDateCellModel.h"
 
 #import "QSMatchCollectionViewProvider.h"
-#import "QSFavorTableViewProvider.h"
 #import "QSS03ShowDetailViewController.h"
 
 

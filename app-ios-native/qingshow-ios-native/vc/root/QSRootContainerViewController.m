@@ -11,7 +11,6 @@
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
 #import "QSS17ViewController.h"
-#import "QSU14FavoriteViewController.h"
 #import "QSNavigationController.h"
 #import "QSU07RegisterViewController.h"
 #import "QSUserManager.h"
