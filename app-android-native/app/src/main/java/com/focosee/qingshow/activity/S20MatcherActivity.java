@@ -39,6 +39,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2015/7/1.
@@ -49,10 +50,6 @@ public class S20MatcherActivity extends BaseActivity {
     QSCanvasView canvas;
     @InjectView(R.id.selectRV)
     RecyclerView selectRV;
-    @InjectView(R.id.selectBtn)
-    Button selectBtn;
-    @InjectView(R.id.submitBtn)
-    Button submitBtn;
 
     private S20SelectAdapter adapter;
     private List<MongoItem> datas;
@@ -92,10 +89,6 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
     private void initCategoryRef() {
-        categoryRefs.add("5593b88838dadbed5a998b92");
-        categoryRefs.add("5593b88838dadbed5a998b83");
-        categoryRefs.add("5593b88838dadbed5a998b9c");
-
         getCategoryFromNet();
     }
 
@@ -290,13 +283,13 @@ public class S20MatcherActivity extends BaseActivity {
                 }
                 List<MongoCategories> categories = CategoryParser.parseQuery(response);
 
-                for (String ref : categoryRefs) {
                     for (MongoCategories category : categories) {
-                        if (category._id.equals(ref)) {
-                            getDataFromNet(ref, category.matchInfo.row, category.matchInfo.column);
+                        if (category.matchInfo != null){
+                            if (category.matchInfo.enabled) {
+                                getDataFromNet(category._id, category.matchInfo.row, category.matchInfo.column);
+                            }
                         }
                     }
-                }
             }
         }, null);
         RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
@@ -333,5 +326,19 @@ public class S20MatcherActivity extends BaseActivity {
         animatorSet.playTogether(x, y);
         animatorSet.setDuration(0);
         animatorSet.start();
+    }
+
+    public void onEventMainThread(S21CategoryEvent event) {
+        categoryRefs = event.getCategories();
+    }
+
+    @OnClick(R.id.selectBtn)
+    public void select(){
+
+    }
+
+    @OnClick(R.id.submitBtn)
+    public void submit(){
+        
     }
 }

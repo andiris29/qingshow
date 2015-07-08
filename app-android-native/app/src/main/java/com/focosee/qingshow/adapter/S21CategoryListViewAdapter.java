@@ -3,6 +3,7 @@ package com.focosee.qingshow.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,12 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
     private SimpleDraweeView img4 = null;
     private SimpleDraweeView img5 = null;
     private SimpleDraweeView img6 = null;
+
+    private OnSelectChangeListener onSelectChangeListener;
+
+    public interface OnSelectChangeListener{
+        void onSelectChanged(int[] tempMemory);
+    }
 
     public S21CategoryListViewAdapter(Context context, ArrayList<MongoCategories> categories, ArrayList<ArrayList<MongoCategories>> items) {
         this.categories = categories;
@@ -231,6 +238,7 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
 
     private void memory(TextView tv, SimpleDraweeView img, Uri uri) {
+        Log.i("tag","memory");
         tv.setTextColor(context.getResources().getColor(R.color.s21_pink));
         img.setImageURI(uri);
     }
@@ -279,6 +287,10 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
                 }
             }
 
+            if (onSelectChangeListener != null){
+                onSelectChangeListener.onSelectChanged(tempMemory);
+            }
+
         }
 
         private void reset(TextView tv, SimpleDraweeView img, String uri) {
@@ -287,6 +299,10 @@ public class S21CategoryListViewAdapter extends BaseAdapter {
 
         }
 
+    }
+
+    public void setOnSelectChangeListener(OnSelectChangeListener onSelectChangeListener) {
+        this.onSelectChangeListener = onSelectChangeListener;
     }
 
 }

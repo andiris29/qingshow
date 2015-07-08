@@ -106,6 +106,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                 lastY = event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                goneDelBtn();
                 if (isScaleJustEnd) {
                     isScaleJustEnd = false;
                     return true;
@@ -181,6 +182,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
+        goneDelBtn();
         float scaleFactor = detector.getScaleFactor();
         lastScaleFactor *= scaleFactor;
 

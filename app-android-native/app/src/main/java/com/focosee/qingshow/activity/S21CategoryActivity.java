@@ -1,8 +1,8 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -19,21 +19,34 @@ import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Administrator on 2015/6/17.
  */
-public class S21CategoryActivity extends Activity {
+public class S21CategoryActivity extends BaseActivity {
+
     private ListView s21_listview;
     private ArrayList<MongoCategories> categories = new ArrayList<MongoCategories>();
     private ArrayList<ArrayList<MongoCategories>> items = new ArrayList<ArrayList<MongoCategories>>();
-
+    private List<String> selectCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s21_category_selector);
+        ButterKnife.inject(this);
         s21_listview = (ListView) findViewById(R.id.s21_listview);
+        selectCategories = new ArrayList<>();
+    }
+
+    @Override
+    public void reconn() {
+
     }
 
     @Override
@@ -41,6 +54,12 @@ public class S21CategoryActivity extends Activity {
         super.onResume();
         getDataFromNet();
         s21_listview.setDividerHeight(0);
+    }
+
+    @OnClick(R.id.submit)
+    public void submit(){
+        S21CategoryEvent event = new S21CategoryEvent(selectCategories);
+        EventBus.getDefault().post(event);
     }
 
     public void back(View view) {
@@ -65,7 +84,7 @@ public class S21CategoryActivity extends Activity {
                     }
                 }
                 for (int i = 0; i < categories.size(); i++) {
-                    String id=categories.get(i).get_id();
+                    String id = categories.get(i).get_id();
                     ArrayList<MongoCategories> item = new ArrayList<MongoCategories>();
                     for (MongoCategories cas : arrayList) {
                         String parentRef = cas.getParentRef();
@@ -86,7 +105,18 @@ public class S21CategoryActivity extends Activity {
 
     private void show() {
         S21CategoryListViewAdapter adapter = new S21CategoryListViewAdapter(S21CategoryActivity.this, categories, items);
-
+        adapter.setOnSelectChangeListener(new S21CategoryListViewAdapter.OnSelectChangeListener() {
+            @Override
+            public void onSelectChanged(int[] tempMemory) {
+                selectCategories.clear();
+                for (int i = 0; i < tempMemory.length; i++) {
+                    if (tempMemory[i] == 0){
+                        continue;
+                    }
+                    selectCategories.add(items.get(i).get(tempMemory[i] - 1)._id);
+                }
+            }
+        });
         s21_listview.setAdapter(adapter);
     }
 }
