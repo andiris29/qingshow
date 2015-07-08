@@ -7,7 +7,8 @@
 //
 
 #import "QSG02WelcomeViewController.h"
-
+#import "QSU06LoginViewController.h"
+#import "QSU07RegisterViewController.h"
 #define PAGE_ID @"G02 - 欢迎页"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -174,6 +175,21 @@
         [self skipBtnPressed:self];
     }
 }
+- (IBAction)loginBtnPressed:(id)sender {
+    QSU06LoginViewController *vc = [[QSU06LoginViewController alloc]init];
+    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = item;
+    [self.navigationController pushViewController:vc
+                                         animated:YES];
+}
+- (IBAction)registeBtnPressed:(id)sender {
+    QSU07RegisterViewController *vc = [[QSU07RegisterViewController alloc]init];
+    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:self];
+    vc.navigationItem.leftBarButtonItem = item;
+    [self.navigationController pushViewController:vc
+                                         animated:YES];
+}
+
 #pragma mark - Third Part
 
 
