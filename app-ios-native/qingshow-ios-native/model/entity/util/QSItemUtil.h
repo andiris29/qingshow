@@ -49,6 +49,8 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 + (NSDate*)getLikeDate:(NSDictionary*)itemDict;
 + (QSItemCategory)getItemCategory:(NSDictionary*)itemDict;
 
++ (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
+
 + (NSString*)getItemColorDesc:(NSDictionary*)itemDict;
 
 @end

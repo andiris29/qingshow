@@ -17,5 +17,5 @@
 + (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict;
 + (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict;
 + (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict;
-
++ (NSURL*)getIconUrl:(NSDictionary*)categoryDict;
 @end

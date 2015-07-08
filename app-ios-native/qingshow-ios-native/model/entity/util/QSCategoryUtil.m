@@ -38,4 +38,12 @@
 + (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict {
     return [QSCommonUtil getNumberValue:categoryDict key:@"matchInfo.column"];
 }
++ (NSURL*)getIconUrl:(NSDictionary*)categoryDict{
+    NSString* path = [QSCommonUtil getStringValue:categoryDict key:@"icon"];
+    if (path) {
+        return [NSURL URLWithString:path];
+    } else {
+        return nil;
+    }
+}
 @end

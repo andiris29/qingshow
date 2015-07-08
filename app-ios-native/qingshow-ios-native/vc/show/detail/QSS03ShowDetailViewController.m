@@ -109,17 +109,29 @@
     
 }
 
-- (void)showDiscountContainer{
-    self.discountContainer.hidden = NO;
-    self.discountContainer.alpha = 1.f;
-    [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
-}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [self hideSharePanel];
     [MobClick endLogPageView:PAGE_ID];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+#warning @mhy 在这里改边缘尺寸
+    float topMargin = 10.f;
+    float leftMargin = 10.f;
+    float rightMargin = 10.f;
+    float bottomMargin = 10.f;
+    
+    self.coverImageView.frame =
+    CGRectMake(
+               self.coverForegroundImageView.frame.origin.x + leftMargin,
+               self.coverForegroundImageView.frame.origin.y + topMargin,
+               self.coverForegroundImageView.frame.size.width - leftMargin - rightMargin,
+               self.coverForegroundImageView.frame.size.height - topMargin - bottomMargin);
+    
 }
 
 #pragma mark - Binding
@@ -371,5 +383,12 @@
         vc.menuProvider = self.menuProvider;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+
+- (void)showDiscountContainer{
+    self.discountContainer.hidden = NO;
+    self.discountContainer.alpha = 1.f;
+    [self performSelector:@selector(hideDiscountContainer) withObject:nil afterDelay:5.f];
 }
 @end
