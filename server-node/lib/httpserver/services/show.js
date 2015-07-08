@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 //model
 var Show = require('../../model/shows');
+var Item = require('../../model/items');
 var ShowComment = require('../../model/showComments');
 var RPeopleLikeShow = require('../../model/rPeopleLikeShow');
 var RPeopleShareShow = require('../../model/rPeopleShareShow');
@@ -37,6 +38,14 @@ show.query = {
                     '$in' : _ids
                 }
             }).populate('modelRef').populate('itemRefs').exec(callback);
+        },
+        function(shows, callback) {
+            shows.forEach(function(show) {
+                Item.populate(show.itemRefs, {
+                    'path' : 'categoryRef',
+                    'model' : "categories"
+                }, callback);
+            });
         },
         function(shows, callback) {
             // Append followed by current user
