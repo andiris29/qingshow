@@ -56,8 +56,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="50dp"
                         android:layout_alignParentBottom="true"
+                        android:text="发布日期：2015.7.6"
+                        android:textColor="@color/white"
+                        android:textSize="25sp"
+                        android:gravity="center"
+                        android:visibility="invisible"
                         android:layout_marginBottom="35dp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="15dp"/>
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/s03_portrait"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:visibility="gone"
+                        fresco:roundAsCircle="true"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_alignParentBottom="true"
+                        fresco:placeholderImage="@drawable/root_cell_placehold_head"/>
+
+                    <TextView
+                        android:id="@+id/s03_nickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="25sp"
+                        android:layout_toRightOf="@+id/s03_portrait"
+                        android:layout_alignTop="@+id/s03_portrait"
+                        android:layout_alignBottom="@+id/s03_portrait"
+                        android:visibility="gone"
+                        android:gravity="center"
+                        android:textColor="@color/white"/>
 
                     <ImageView
                         android:id="@+id/S03_video_start_btn"
@@ -110,6 +138,7 @@
                         android:layout_alignRight="@+id/S03_like_btn"
                         android:gravity="center"
                         android:paddingBottom="2dp"
+                        android:text="0"
                         android:textColor="#ffffff" />
 
                     <ImageView
@@ -142,6 +171,7 @@
                         android:layout_alignRight="@+id/S03_comment_btn"
                         android:gravity="center"
                         android:paddingBottom="2dp"
+                        android:text="0"
                         android:textColor="#ffffff" />
 
                     <ImageView
@@ -175,6 +205,7 @@
                         android:gravity="center"
                         android:paddingTop="15dp"
                         android:layout_centerInParent="true"
+                        android:text="0"
                         android:textColor="#ffffff" />
 
                     <TextView

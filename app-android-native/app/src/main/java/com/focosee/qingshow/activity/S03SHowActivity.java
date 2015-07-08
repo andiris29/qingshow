@@ -40,6 +40,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
 import com.focosee.qingshow.util.BitMapUtil;
 import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.UmengCountUtil;
 import com.focosee.qingshow.widget.SharePopupWindow;
 import com.sina.weibo.sdk.api.WebpageObject;
@@ -83,7 +84,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @InjectView(R.id.S03_image_preground)
     SimpleDraweeView s03ImagePreground;
     @InjectView(R.id.S03_describe)
-    TextView S03Describe;
+    TextView s03Describe;
     @InjectView(R.id.S03_video_start_btn)
     ImageView S03VideoStartBtn;
     @InjectView(R.id.S03_line_share_like)
@@ -104,6 +105,12 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     RelativeLayout S03BeforeVideoView;
     @InjectView(R.id.S03_relative_layout)
     RelativeLayout S03RelativeLayout;
+    @InjectView(R.id.s03_portrait)
+    SimpleDraweeView s03Portrait;
+    @InjectView(R.id.s03_nickname)
+    TextView s03Nickname;
+    @InjectView(R.id.s03_del_btn)
+    ImageView s03DelBtn;
     private int position;
 
     private String showId;
@@ -197,7 +204,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void clickLikeShowButton() {
-        if(!QSModel.INSTANCE.loggedin()) {
+        if (!QSModel.INSTANCE.loggedin()) {
             Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
             GoToWhereAfterLoginModel.INSTANCE.set_class(null);
             startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
@@ -234,7 +241,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         } else {
             likeBtn.setImageResource(R.drawable.s03_like_btn);
         }
-
     }
 
 
@@ -246,7 +252,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     private void showData() {
         if (null == showDetailEntity)
             return;
-        if (null == showDetailEntity.__context) return;
         if (showDetailEntity.__context.likedByCurrentUser) {
             likeBtn.setImageResource(R.drawable.s03_like_btn_hover);
         }
@@ -254,20 +259,22 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         videoUriString = showDetailEntity.video;
 
-        if(null != videoUriString || !"".equals(videoUriString))
+        if (null != videoUriString || !"".equals(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
-        s03ImagePreground.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.coverForeground, 2)));
+        s03ImagePreground.setImageURI(Uri.parse(showDetailEntity.coverForeground));
         s03ImagePreground.setAspectRatio(0.5f);
 
         image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover, 2)));
         image.setAspectRatio(1f);
 
-        commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
+        if (null != showDetailEntity.__context)
+            commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
 
-        likeTextView.setText(String.valueOf(showDetailEntity.numLike));
+        likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike));
 
-        itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
+        if (null != showDetailEntity.__context)
+            itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
 
         if (null == showDetailEntity.promotionRef) {//优惠信息
             shareMsgTextView.setVisibility(View.VISIBLE);
@@ -279,7 +286,27 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             }, shareMsgShowTime);
         }
 
+        if(showDetailEntity.__context.createdBy._id.equals(QSModel.INSTANCE.getUser()._id))
+            showData_self();
+        else
+            showData_other();
         setLikedImageButtonBackgroundImage();
+    }
+
+    private void showData_self() {
+        s03DelBtn.setVisibility(View.VISIBLE);
+        s03Describe.setVisibility(View.VISIBLE);
+        s03Describe.setText("发布日期：" + TimeUtil.parseDateString(showDetailEntity.create));
+    }
+
+    private void showData_other() {
+        s03Portrait.setVisibility(View.VISIBLE);
+        if(null != showDetailEntity.__context)
+            if(null != showDetailEntity.__context.createdBy)
+                if(null != showDetailEntity.__context.createdBy.portrait)
+                    s03Portrait.setImageURI(Uri.parse(showDetailEntity.__context.createdBy.portrait));
+        s03Nickname.setVisibility(View.VISIBLE);
+        s03Nickname.setText(showDetailEntity.__context.createdBy.nickname);
     }
 
     public void pauseVideo() {
@@ -403,8 +430,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         msg.title = ShareConfig.SHARE_TITLE;
         msg.description = ShareConfig.SHARE_DESCRIPTION;
 
-
-        final SendMessageToWX.Req req = new SendMessageToWX.Req();
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
         req.message = msg;
         req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline : SendMessageToWX.Req.WXSceneSession;
@@ -429,7 +455,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     @Override
     public void onResp(BaseResp resp) {
-
 
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
@@ -491,7 +516,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                     startVideo();
                 }
                 break;
-
+            case R.id.s03_del_btn:
+                break;
         }
     }
 
