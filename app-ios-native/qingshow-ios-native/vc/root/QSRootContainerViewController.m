@@ -10,7 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "QSU01UserDetailViewController.h"
 #import "QSU02UserSettingViewController.h"
-#import "QSS17ViewController.h"
 #import "QSNavigationController.h"
 #import "QSU07RegisterViewController.h"
 #import "QSUserManager.h"
