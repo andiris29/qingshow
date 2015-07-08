@@ -185,7 +185,7 @@ public class U01UserActivity extends MenuActivity {
             userHead.setImageURI(Uri.parse(user.portrait));
         }
         if (null != user.background)
-            userBg.setImageURI(Uri.parse(ImgUtil.getImgSrc(user.background, -1)));
+            userBg.setImageURI(Uri.parse(user.background), 2f);
     }
 
     private View view;

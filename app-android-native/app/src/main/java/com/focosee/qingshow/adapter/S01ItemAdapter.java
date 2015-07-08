@@ -2,14 +2,9 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
@@ -19,9 +14,7 @@ import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
-
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2015/7/1.
@@ -64,12 +57,12 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
                 user = show.__context.createdBy;
             }
         }
+
         if(null != user.portrait || "".equals(user.portrait))
             holder.setImgeByUrl(R.id.item_s01_head_img, user.portrait, 1f);
 
         ((TextView)holder.getView(R.id.item_s01_nikename)).setText(user.nickname);
         ((TextView)holder.getView(R.id.item_s01_likeNum)).setText(String.valueOf(show.numLike));
-
 
     }
 }

@@ -154,6 +154,8 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+
+        closeMenu();
         if(v.getId() == R.id.navigation_btn_match){
             startActivity(new Intent(MenuActivity.this, S01MatchShowsActivity.class));
             return;

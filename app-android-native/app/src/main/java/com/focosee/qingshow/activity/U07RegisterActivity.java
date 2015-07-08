@@ -5,13 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.provider.SyncStateContract;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -21,155 +25,141 @@ import com.focosee.qingshow.R;
 import com.focosee.qingshow.command.Callback;
 import com.focosee.qingshow.command.UserCommand;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.constants.config.ShareConfig;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
 import com.focosee.qingshow.httpapi.request.QSStringRequest;
 import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
+import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
-public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHandler{
+public class U07RegisterActivity extends BaseActivity implements View.OnClickListener{
 
     private static final String DEBUG_TAG = "注册页";
     public static final String FINISH_CODE = "u07finish";
+    @InjectView(R.id.accountEditText)
+    EditText accountEditText;
+    @InjectView(R.id.passwordEditText)
+    EditText passwordEditText;
+    @InjectView(R.id.reConfirmEditText)
+    EditText reConfirmEditText;
+    @InjectView(R.id.phoneEditText)
+    EditText phoneEditText;
     private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
     private IWXAPI wxApi;
 
-    private Button submitButton;
-    private EditText accountEditText;
-    private EditText passwordEditText;
-    private EditText confirmEditText;
-    private EditText phoneEditText;
     private Context context;
 
-    private RelativeLayout weiChatLoginBtn;
-
-    BroadcastReceiver receiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(U06LoginActivity.LOGIN_SUCCESS.equals(intent.getAction())){
-                finish();
-            }
-        }
-    };
+    private AuthInfo mAuthInfo;
+    /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
+    private SsoHandler mSsoHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.inject(this);
         EventBus.getDefault().register(this);
 
         context = getApplicationContext();
 
         wxApi = QSApplication.instance().getWxApi();
 
-        submitButton = (Button) findViewById(R.id.submitButton);
-        accountEditText = (EditText) findViewById(R.id.accountEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        confirmEditText = (EditText) findViewById(R.id.reConfirmEditText);
-        phoneEditText = (EditText) findViewById(R.id.phoneEditText);
-
-        weiChatLoginBtn = (RelativeLayout) findViewById(R.id.weixinLoginButton);
-
-        weiChatLoginBtn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                weiChatLogin();
-            }
-        });
-
-        ImageView backImageView = (ImageView) findViewById(R.id.backImageView);
-        backImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
                 finish();
             }
         });
 
-        findViewById(R.id.register_login_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-            }
-        });
-
+        // 创建微博实例
+        //mWeiboAuth = new WeiboAuth(this, Constants.APP_KEY, Constants.REDIRECT_URL, Constants.SCOPE);
+        // 快速授权时，请不要传入 SCOPE，否则可能会授权不成功
+        mAuthInfo = new AuthInfo(this, ShareConfig.SINA_APP_KEY, ShareConfig.SINA_REDIRECT_URL, ShareConfig.SCOPE);
+        mSsoHandler = new SsoHandler(U07RegisterActivity.this, mAuthInfo);
         requestQueue = RequestQueueManager.INSTANCE.getQueue();
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(null == accountEditText.getText().toString() || "".equals(accountEditText.getText().toString())){
-                    Toast.makeText(context, "昵称不能为空", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(null == passwordEditText.getText().toString() || "".equals(passwordEditText.getText().toString())){
-                    Toast.makeText(context, "密码不能为空", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if(null == phoneEditText.getText().toString() || "".equals(phoneEditText.getText().toString())){
-                    Toast.makeText(context, "手机或邮箱不能为空", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (!passwordEditText.getText().toString().equals(confirmEditText.getText().toString())) {
-                    Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
-                    return;
-                } else {
-                    QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            System.out.println("response:" + response);
-                            MongoPeople user = UserParser.parseRegister(response);
-                            if (user == null) {
-                                ErrorHandler.handle(context, MetadataParser.getError(response));
-                            } else {
-                                QSModel.INSTANCE.setUser(user);
-                                updateSettings();
-                                Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
-                                finish();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() {
-                            Map<String, String> map = new HashMap<String, String>();
-
-                            map.put("id", phoneEditText.getText().toString());
-                            map.put("nickname", accountEditText.getText().toString());
-                            map.put("password", passwordEditText.getText().toString());
-
-                            System.out.println("id" + phoneEditText.getText().toString());
-                            System.out.println("password" + passwordEditText.getText().toString());
-                            return map;
-                        }
-                    };
-                    requestQueue.add(stringRequest);
-                }
-            }
-        });
-        registerReceiver(receiver, new IntentFilter(U06LoginActivity.LOGIN_SUCCESS));
     }
 
-    public void weiChatLogin(){
+    public void submit(){
+        if (null == accountEditText.getText().toString() || "".equals(accountEditText.getText().toString())) {
+            Toast.makeText(context, "昵称不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (null == passwordEditText.getText().toString() || "".equals(passwordEditText.getText().toString())) {
+            Toast.makeText(context, "密码不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (null == phoneEditText.getText().toString() || "".equals(phoneEditText.getText().toString())) {
+            Toast.makeText(context, "手机或邮箱不能为空", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (!passwordEditText.getText().toString().equals(reConfirmEditText.getText().toString())) {
+            Toast.makeText(context, "请确认两次密码是否一致", Toast.LENGTH_LONG).show();
+            return;
+        } else {
+            QSStringRequest stringRequest = new QSStringRequest(Request.Method.POST, QSAppWebAPI.REGISTER_SERVICE_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    MongoPeople user = UserParser.parseRegister(response);
+                    if (user == null) {
+                        ErrorHandler.handle(context, MetadataParser.getError(response));
+                    } else {
+                        QSModel.INSTANCE.setUser(user);
+                        updateSettings();
+                        Toast.makeText(context, "注册成功", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
+                        finish();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "请重新尝试", Toast.LENGTH_LONG).show();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> map = new HashMap<String, String>();
+
+                    map.put("id", phoneEditText.getText().toString());
+                    map.put("nickname", accountEditText.getText().toString());
+                    map.put("password", passwordEditText.getText().toString());
+
+                    return map;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+    }
+
+    public void weiChatLogin() {
         // send oauth request
         if (!wxApi.isWXAppInstalled()) {
             //提醒用户没有按照微信
@@ -180,8 +170,11 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
         final SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = "qingshow_wxlogin";
-        Toast.makeText(this, "login", Toast.LENGTH_LONG).show();
         wxApi.sendReq(req);
+    }
+
+    public void weiBoLogin() {
+        mSsoHandler.authorize(new AuthListener());
     }
 
     public void onEventMainThread(String finish) {
@@ -196,7 +189,6 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(receiver);
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -204,12 +196,12 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
     private void updateSettings() {
         Map<String, String> params = new HashMap<String, String>();
 
-        UserCommand.update(params,new Callback(){
+        UserCommand.update(params, new Callback() {
 
             @Override
             public void onError(int errorCode) {
                 super.onError(errorCode);
-                ErrorHandler.handle(U07RegisterActivity.this,errorCode);
+                ErrorHandler.handle(U07RegisterActivity.this, errorCode);
             }
         });
     }
@@ -218,7 +210,6 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        QSApplication.instance().getWxApi().handleIntent(intent, this);
     }
 
     @Override
@@ -236,40 +227,87 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
     }
 
     @Override
-    public void onReq(BaseReq req) {
-        System.out.println("u07_baseReq");
-        switch (req.getType()) {
-            case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
-                Toast.makeText(this, "COMMAND_GETMESSAGE_FROM_WX", Toast.LENGTH_LONG).show();
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.backImageView:
+                finish();
                 break;
-            case ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX:
-                Toast.makeText(this, "COMMAND_SHOWMESSAGE_FROM_WX", Toast.LENGTH_LONG).show();
+            case R.id.register_login_btn:
+                Toast.makeText(U07RegisterActivity.this, "login", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(U07RegisterActivity.this, U06LoginActivity.class));
+                finish();
                 break;
-            default:
+            case R.id.submitButton:
+                submit();
+                break;
+            case R.id.weixinLoginButton:
+                weiChatLogin();
+                break;
+            case R.id.weiboLoginButton:
+                weiBoLogin();
                 break;
         }
     }
 
-    @Override
-    public void onResp(BaseResp resp) {
-        System.out.println("u07_baseResp");
-        String result = "";
+    /**
+     * 微博认证授权回调类。
+     * 1. SSO 授权时，需要在 {@link #onActivityResult} 中调用 {@link SsoHandler#authorizeCallBack} 后，
+     *    该回调才会被执行。
+     * 2. 非 SSO 授权时，当授权结束后，该回调就会被执行。
+     * 当授权成功后，请保存该 access_token、expires_in、uid 等信息到 SharedPreferences 中。
+     */
 
-        switch (resp.errCode) {
-            case BaseResp.ErrCode.ERR_OK:
-                result = "success";
-                break;
-            case BaseResp.ErrCode.ERR_USER_CANCEL:
-                result = "user_cancel";
-                break;
-            case BaseResp.ErrCode.ERR_AUTH_DENIED:
-                result = "auth_denied";
-                break;
-            default:
-                result = "unknow";
-                break;
+    /** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
+    private Oauth2AccessToken mAccessToken;
+    class AuthListener implements WeiboAuthListener {
+
+        @Override
+        public void onComplete(Bundle values) {
+            // 从 Bundle 中解析 Token
+            mAccessToken = Oauth2AccessToken.parseAccessToken(values);
+            if (mAccessToken.isSessionValid()) {
+                Map<String, String> map = new HashMap<>();
+                map.put("access_toke", mAccessToken.getToken());
+                map.put("uid", mAccessToken.getUid());
+                QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.getUserLoginWbApi(), new JSONObject(map), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        if(MetadataParser.hasError(response)){
+                            ErrorHandler.handle(U07RegisterActivity.this, MetadataParser.getError(response));
+                            return;
+                        }
+
+                        Toast.makeText(U07RegisterActivity.this, R.string.login_successed, Toast.LENGTH_SHORT).show();
+                        MongoPeople user = UserParser._parsePeople(response);
+                        QSModel.INSTANCE.setUser(user);
+                        U01Model.INSTANCE.setUser(user);
+                        startActivity(new Intent(U07RegisterActivity.this, U01UserActivity.class));
+                        finish();
+                        return;
+                    }
+                });
+
+                RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
+            } else {
+                // 以下几种情况，您会收到 Code：
+                // 1. 当您未在平台上注册的应用程序的包名与签名时；
+                // 2. 当您注册的应用程序包名与签名不正确时；
+                // 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+                String code = values.getString("code");
+                String message = "微博登录出错";
+                if (!TextUtils.isEmpty(code)) {
+                    message = message + "\nObtained the code: " + code;
+                }
+                Toast.makeText(U07RegisterActivity.this, message, Toast.LENGTH_LONG).show();
+            }
         }
 
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+        }
     }
 }

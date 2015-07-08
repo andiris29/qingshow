@@ -41,6 +41,7 @@ public class S01MatchShowsActivity extends MenuActivity {
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
+    private final int PAGESIZE = 20;
 
     @InjectView(R.id.s01_menu_btn)
     ImageView s01MenuBtn;
@@ -96,16 +97,16 @@ public class S01MatchShowsActivity extends MenuActivity {
     }
 
     public void doRefresh(int type) {
-        getDatasFromNet(type, 1, 10);
+        getDatasFromNet(type, 1);
     }
 
     public void doLoadMore(int type) {
-        getDatasFromNet(type, currentPageNo, 10);
+        getDatasFromNet(type, currentPageNo);
     }
 
-    public void getDatasFromNet(int type, final int pageNo, int pageSize) {
+    public void getDatasFromNet(int type, final int pageNo) {
 
-        String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, pageSize) : QSAppWebAPI.getMatchNewApi(pageNo, pageSize);
+        String url = type == TYPE_HOT ? QSAppWebAPI.getMatchHotApi(pageNo, PAGESIZE) : QSAppWebAPI.getMatchNewApi(pageNo, PAGESIZE);
 
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(url, null, new Response.Listener<JSONObject>() {
 
@@ -166,7 +167,7 @@ public class S01MatchShowsActivity extends MenuActivity {
 
     @Override
     public void onClick(View v) {
-
+        recyclerView.scrollToPosition(0);
         if (v.getId() == R.id.s01_tab_hot) {
             currentType = TYPE_HOT;
             recyclerPullToRefreshView.doPullRefreshing(true, 500);

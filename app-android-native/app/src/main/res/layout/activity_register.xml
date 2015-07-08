@@ -29,7 +29,8 @@ android:background="@drawable/login_bg">
             android:layout_height="@dimen/title_bar_height"
             android:layout_weight="1"
             android:layout_alignParentLeft="true"
-            android:padding="10dp"
+            android:padding="15dp"
+            android:onClick="onClick"
             android:src="@drawable/title_back_btn" />
         <View
             android:layout_width="0dp"
@@ -53,6 +54,7 @@ android:background="@drawable/login_bg">
             android:layout_alignParentRight="true"
             android:gravity="center"
             android:layout_centerVertical="true"
+            android:onClick="onClick"
             android:text="@string/login_activity_login"
             android:textColor="@color/white"
             android:paddingRight="10dp"
@@ -225,6 +227,7 @@ android:background="@drawable/login_bg">
         android:background="@drawable/red_btn"
         android:text="@string/submit_activity_register"
         android:textColor="#ffffff"
+        android:onClick="onClick"
         android:textSize="@dimen/text_size" />
 
 
@@ -265,6 +268,7 @@ android:background="@drawable/login_bg">
         android:layout_height="45dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:onClick="onClick"
         android:background="@drawable/green">
         <ImageView
             android:layout_width="35dp"
@@ -290,6 +294,7 @@ android:background="@drawable/login_bg">
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
+        android:onClick="onClick"
         android:background="@drawable/yellow">
         <ImageView
             android:layout_width="35dp"
