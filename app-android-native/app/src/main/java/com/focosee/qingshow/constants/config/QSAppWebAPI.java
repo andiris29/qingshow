@@ -14,6 +14,7 @@ public class QSAppWebAPI {
     public static final String GET_SERVICE_URL = HOST_NAME + "/user/get";
     private static final String USER_SAVE_RECEIVER_API = HOST_NAME + "/user/saveReceiver";
     private static final String USER_REMOVE_RECEIVER_API = HOST_NAME + "/user/removeReceiver";
+    private static final String USER_LOGIN_WX_API = HOST_NAME + "/user/loginViaWeixin";
 
     public static final String People_Query_Followed = HOST_NAME + "/people/queryFollowed";
 
@@ -95,6 +96,10 @@ public class QSAppWebAPI {
     private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
 
 //    private static final String QUERY_ITMES=HOST_NAME+"";
+
+    public static String getUserLoginWxApi(String code){
+        return USER_LOGIN_WX_API + "?code=" + code;
+    }
 
     public static String getQueryItems(int pageNo, int pageSize,String categoryRef) {
         return QUERY_ITEMS + "?pageNo=" + pageNo + "&pageSize=" + pageSize + "&categoryRef=" + categoryRef;

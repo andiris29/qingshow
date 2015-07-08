@@ -28,6 +28,12 @@
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:exported="true"/>
+
         <activity
             android:name=".activity.S18ShowByDateActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -61,6 +67,7 @@
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_register"
+            android:exported="true"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -105,6 +112,7 @@
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s03_show"
+            android:exported="true"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />

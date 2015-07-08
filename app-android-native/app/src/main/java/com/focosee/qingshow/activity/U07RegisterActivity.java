@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,9 +39,12 @@ import com.umeng.analytics.MobclickAgent;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.greenrobot.event.EventBus;
+
 public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHandler{
 
     private static final String DEBUG_TAG = "注册页";
+    public static final String FINISH_CODE = "u07finish";
     private int shoeSizes[] = {34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44};
     private RequestQueue requestQueue;
     private IWXAPI wxApi;
@@ -67,6 +71,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        EventBus.getDefault().register(this);
 
         context = getApplicationContext();
 
@@ -179,6 +184,11 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
         wxApi.sendReq(req);
     }
 
+    public void onEventMainThread(String finish) {
+        if (FINISH_CODE.equals(finish))
+            finish();
+    }
+
     @Override
     public void reconn() {
 
@@ -187,6 +197,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -226,6 +237,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
 
     @Override
     public void onReq(BaseReq req) {
+        System.out.println("u07_baseReq");
         switch (req.getType()) {
             case ConstantsAPI.COMMAND_GETMESSAGE_FROM_WX:
                 Toast.makeText(this, "COMMAND_GETMESSAGE_FROM_WX", Toast.LENGTH_LONG).show();
@@ -240,6 +252,7 @@ public class U07RegisterActivity extends BaseActivity implements IWXAPIEventHand
 
     @Override
     public void onResp(BaseResp resp) {
+        System.out.println("u07_baseResp");
         String result = "";
 
         switch (resp.errCode) {
