@@ -48,6 +48,7 @@
     self = [self initWithNibName:@"QSS03ShowDetailViewController" bundle:nil];
     if (self) {
         self.showDict = showDict;
+        self.showDeletedBtn = NO;
     }
     return self;
 }
@@ -173,8 +174,7 @@
         self.headIconImageView.hidden = YES;
         self.modelNameLabel.hidden = YES;
     } else {
-        NSDictionary* currentUser = [QSUserManager shareUserManager].userInfo;
-        if ([[QSCommonUtil getIdOrEmptyStr:currentUser] isEqualToString:[QSCommonUtil getIdOrEmptyStr:peopleDict]]) {
+        if (self.showDeletedBtn) {
             //当前用户
             self.headIconImageView.hidden = YES;
             self.modelNameLabel.hidden = YES;

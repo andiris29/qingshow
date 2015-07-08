@@ -26,6 +26,7 @@
 
 #import "QSMatchCollectionViewProvider.h"
 #import "QSFavorTableViewProvider.h"
+#import "QSS03ShowDetailViewController.h"
 
 
 #import "QSDateUtil.h"
@@ -257,7 +258,7 @@
     };
     [self.followingProvider bindWithTableView:self.followingTableView];
     [self.followingProvider reloadData];
-    self.followerProvider.delegate = self;
+    self.followingProvider.delegate = self;
     //Follower
     self.followerProvider.hasRefreshControl = NO;
     self.followerProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
@@ -370,5 +371,12 @@
     p.y = -360;
     [scrollView setContentOffset:p animated:YES];
     _backToTopBtn.hidden = YES;
+}
+
+- (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
+{
+    QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    vc.showDeletedBtn = provider == self.matchProvider;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end

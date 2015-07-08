@@ -15,10 +15,10 @@
 
 @optional
 
-- (void)didClickShow:(NSDictionary*)showDict;
-- (void)addFavorShow:(NSDictionary*)showDict;
-- (void)didClickPeople:(NSDictionary*)peopleDict;
-- (void)didClickPlayButtonOfShow:(NSDictionary*)showDict;
+- (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider*)provider;
+- (void)addFavorShow:(NSDictionary*)showDict  provider:(QSAbstractListViewProvider*)provider;
+- (void)didClickPeople:(NSDictionary*)peopleDict provider:(QSAbstractListViewProvider*)provider;
+- (void)didClickPlayButtonOfShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider*)provider;
 
 @end
 

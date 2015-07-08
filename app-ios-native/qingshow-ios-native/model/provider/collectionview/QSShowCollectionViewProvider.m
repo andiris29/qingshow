@@ -103,8 +103,8 @@
     
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
-    if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:)]) {
-        [self.delegate didClickShow:showDict];
+    if (showDict && [self.delegate respondsToSelector:@selector(didClickShow:provider:)]) {
+        [self.delegate didClickShow:showDict provider:self];
     }
 }
 
@@ -141,8 +141,8 @@
     NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
-    if ([self.delegate respondsToSelector:@selector(addFavorShow:)]) {
-        [self.delegate addFavorShow:showDict];
+    if ([self.delegate respondsToSelector:@selector(addFavorShow:provider:)]) {
+        [self.delegate addFavorShow:showDict provider:self];
     }
 }
 
@@ -151,8 +151,8 @@
     NSIndexPath* indexPath = [self.view indexPathForCell:cell];
     NSDictionary* showDict = [self getShowDictForIndexPath:indexPath];
     self.clickedData = showDict;
-    if ([self.delegate respondsToSelector:@selector(didClickPlayButtonOfShow:)]) {
-        [self.delegate didClickPlayButtonOfShow:showDict];
+    if ([self.delegate respondsToSelector:@selector(didClickPlayButtonOfShow: provider:)]) {
+        [self.delegate didClickPlayButtonOfShow:showDict provider:self];
     }
 }
 

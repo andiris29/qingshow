@@ -226,18 +226,18 @@
 }
 
 #pragma mark - 
-- (void)didClickShow:(NSDictionary*)showDict
+- (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
     UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)didClickPeople:(NSDictionary *)peopleDict
+- (void)didClickPeople:(NSDictionary *)peopleDict provider:(QSAbstractListViewProvider *)provider
 {
 //    [self showPeopleDetailViewControl:peopleDict];
 }
 #pragma mark - QSModelListTableViewProviderDelegate
-- (void)clickModel:(NSDictionary*)model
+- (void)clickModel:(NSDictionary*)model 
 {
 //    [self showPeopleDetailViewControl:model];
 }

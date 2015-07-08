@@ -55,5 +55,5 @@
 
 @property (strong, nonatomic) QSS07ItemListViewController* itemListVc;
 @property (weak, nonatomic) NSObject<QSMenuProviderDelegate>* menuProvider;
-
+@property (assign, nonatomic) BOOL showDeletedBtn;
 @end
