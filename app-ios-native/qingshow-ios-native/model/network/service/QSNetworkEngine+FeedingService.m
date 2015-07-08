@@ -96,7 +96,7 @@
     
     NSMutableDictionary* paramDict = [@{} mutableCopy];
     if (userDict) {
-        paramDict[@"_id"] = userDict[@"_id"];
+        paramDict[@"_id"] = [QSCommonUtil getIdOrEmptyStr:userDict];
     }
     return [self getFeedingPath:PATH_FEEDING_LIKE otherParam:paramDict page:page onSucceed:succeedBlock onError:errorBlock];
 }

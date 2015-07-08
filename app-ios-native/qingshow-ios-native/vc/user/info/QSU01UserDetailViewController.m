@@ -13,6 +13,7 @@
 #import "QSMetadataUtil.h"
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
+#import "QSCommonUtil.h"
 
 #import "QSNetworkKit.h"
 #import "QSUserManager.h"
@@ -152,6 +153,12 @@
     self.navigationController.navigationBarHidden = YES;
     [self updateViewWithList];
     [MobClick beginLogPageView:PAGE_ID];
+    [SHARE_NW_ENGINE queryPeopleDetail:[QSCommonUtil getIdOrEmptyStr:self.userInfo] onSucceed:^(NSDictionary * p) {
+        if (p) {
+            self.userInfo = p;
+            [self.badgeView bindWithPeopleDict:self.userInfo];
+        }
+    } onError:nil];
 }
 
 - (void)updateViewWithList {
