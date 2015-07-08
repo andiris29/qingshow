@@ -40,11 +40,16 @@ show.query = {
             }).populate('modelRef').populate('itemRefs').exec(callback);
         },
         function(shows, callback) {
-            shows.forEach(function(show) {
-                Item.populate(show.itemRefs, {
-                    'path' : 'categoryRef',
-                    'model' : "categories"
-                }, callback);
+            var tasks = shows.map(function(show) {
+                return function(callback) {
+                    Item.populate(show.itemRefs, {
+                        'path' : 'categoryRef',
+                        'model' : "categories"
+                    }, callback);
+                };
+            });
+            async.parallel(tasks, function() {
+                callback(null, shows);
             });
         },
         function(shows, callback) {
