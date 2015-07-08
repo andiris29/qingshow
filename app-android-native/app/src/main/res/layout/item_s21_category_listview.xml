@@ -34,29 +34,34 @@
     </FrameLayout>
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/item_s21_middle"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_alignLeft="@id/item_s21_head"
-        android:layout_alignRight="@id/item_s21_head"
-        android:layout_below="@id/item_s21_head"
-         />
+        android:layout_below="@id/item_s21_head">
+        <ImageView
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/matcher_item_selection_pre_hover" />
 
+        <android.support.v4.view.ViewPager
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:id="@+id/item_s21_middle"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            />
 
-    <TextView
+    <ImageView
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/item_s21_head"
         android:layout_marginTop="5dp"
-        android:layout_toLeftOf="@id/item_s21_middle"
-        android:background="@drawable/title_left_btn" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/item_s21_head"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/item_s21_middle"
-        android:background="@drawable/title_left_btn" />
+        android:layout_alignParentRight="true"
+        android:background="@drawable/matcher_item_selection_next" />
+    </RelativeLayout>
 </RelativeLayout>

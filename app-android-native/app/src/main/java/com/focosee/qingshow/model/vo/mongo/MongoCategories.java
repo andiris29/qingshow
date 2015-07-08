@@ -9,7 +9,7 @@ public class MongoCategories {
     public String order;
     private String parentRef;
     private String icon;
-    private boolean activate;
+    private boolean activate = true;
     public MatchInfo matchInfo;
 
     public class MatchInfo {
