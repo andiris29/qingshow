@@ -25,9 +25,10 @@
 
 - (void)bindWithDic:(NSDictionary *)itemDic
 {
-    NSString *iconNum = itemDic[@"category"];
-    NSString *iconStr = [NSString stringWithFormat:@"itemIcon%@",iconNum];
-    self.itemIcomImageView.image = [UIImage imageNamed:iconStr];
+    NSString *iconNum = itemDic[@"categoryRef"];
+   // NSLog(@"num = %@",iconNum);
+    //NSString *iconStr = [NSString stringWithFormat:@"itemIcon%@",iconNum];
+    [self.itemIcomImageView setImageFromURL:[NSURL URLWithString:iconNum]];
     self.itemNameLabel.text = [QSItemUtil getItemName:itemDic];
 }
 @end

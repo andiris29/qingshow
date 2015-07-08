@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="backBtn" destination="ac3-Q3-Rae" id="iKG-6W-NmG"/>
                 <outlet property="backBtnTopConstrain" destination="DTe-9u-7lB" id="4Fn-1Z-TKD"/>
+                <outlet property="backToTopBtn" destination="a6i-HP-fvk" id="utL-d0-eQ4"/>
                 <outlet property="badgeContainer" destination="fec-uB-6s0" id="8N8-0e-tA1"/>
                 <outlet property="contentContainer" destination="AVA-uB-yhC" id="1cp-nS-AVe"/>
                 <outlet property="favorCollectionView" destination="wEv-xg-OsW" id="uAf-na-svz"/>
@@ -64,6 +65,15 @@
                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </collectionViewFlowLayout>
                         </collectionView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6i-HP-fvk">
+                            <rect key="frame" x="251" y="503" width="41" height="41"/>
+                            <state key="normal" image="backToTopBtnImg">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="topToTopBtnPressed:" destination="-1" eventType="touchUpInside" id="frz-ta-gnz"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -82,10 +92,12 @@
                         <constraint firstAttribute="bottom" secondItem="NhE-AF-avk" secondAttribute="bottom" id="U3G-Rw-ULy"/>
                         <constraint firstAttribute="trailing" secondItem="wEv-xg-OsW" secondAttribute="trailing" id="VUf-Jt-jSj"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2a-2R-OyG"/>
+                        <constraint firstAttribute="trailing" secondItem="a6i-HP-fvk" secondAttribute="trailing" constant="28" id="fJ5-W3-Px0"/>
                         <constraint firstAttribute="bottom" secondItem="wEv-xg-OsW" secondAttribute="bottom" id="hYo-fY-9r0"/>
                         <constraint firstItem="sg7-Ao-Jcv" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="l82-X2-0qy"/>
                         <constraint firstItem="wEv-xg-OsW" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="pv2-pq-dQv"/>
                         <constraint firstItem="XtV-4f-8cf" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="van-kQ-O1O"/>
+                        <constraint firstAttribute="bottom" secondItem="a6i-HP-fvk" secondAttribute="bottom" constant="24" id="vcQ-Bf-UqS"/>
                         <constraint firstAttribute="trailing" secondItem="DrY-X6-QFu" secondAttribute="trailing" id="z1p-nF-Kpg"/>
                     </constraints>
                 </view>
@@ -143,6 +155,7 @@
         </view>
     </objects>
     <resources>
+        <image name="backToTopBtnImg" width="41" height="41"/>
         <image name="nav_btn_back" width="28" height="28"/>
         <image name="nav_btn_menu" width="28" height="28"/>
     </resources>

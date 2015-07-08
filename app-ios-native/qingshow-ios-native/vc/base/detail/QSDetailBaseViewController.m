@@ -24,7 +24,7 @@
 
 
 #pragma mark - Data
-@property (assign, nonatomic) int currentSection;
+
 
 @property (assign, nonatomic) CGPoint touchLocation;
 @property (assign, nonatomic) CGPoint preTouchLocation;
