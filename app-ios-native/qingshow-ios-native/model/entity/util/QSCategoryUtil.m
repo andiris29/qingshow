@@ -40,8 +40,11 @@
 }
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict{
     NSString* path = [QSCommonUtil getStringValue:categoryDict key:@"icon"];
+    NSRange range = [path rangeOfString:@".png"];
+    NSString *rangeStr = [path substringToIndex:range.location];
+    NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_white.png",rangeStr];
     if (path) {
-        return [NSURL URLWithString:path];
+        return [NSURL URLWithString:imgSelectedUrl];
     } else {
         return nil;
     }

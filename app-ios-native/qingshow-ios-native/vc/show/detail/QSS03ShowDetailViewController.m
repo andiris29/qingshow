@@ -120,11 +120,11 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-#warning @mhy 在这里改边缘尺寸
-    float topMargin = 10.f;
-    float leftMargin = 10.f;
-    float rightMargin = 10.f;
-    float bottomMargin = 10.f;
+
+    float topMargin = 241.0/1.3f;
+    float leftMargin = 43.0/1.3f;
+    float rightMargin = 43.0/1.3f;
+    float bottomMargin = 124.0/1.3f;
     
     self.coverImageView.frame =
     CGRectMake(

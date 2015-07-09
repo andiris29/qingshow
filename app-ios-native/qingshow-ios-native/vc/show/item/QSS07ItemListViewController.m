@@ -109,7 +109,6 @@
     
     QSItemListCell *cell = [tableView dequeueReusableCellWithIdentifier:QSItemListCellID forIndexPath:indexPath];
     [cell bindWithDic:self.itemArray[indexPath.row]];
-    NSLog(@"item =  %@",self.itemArray);
     if ([UIScreen mainScreen].bounds.size.width == 414) {
         cell.contentView.transform = CGAffineTransformMakeScale(1.2, 1.2);
     }
