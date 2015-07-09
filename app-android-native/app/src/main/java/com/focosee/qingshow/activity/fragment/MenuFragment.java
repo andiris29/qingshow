@@ -35,9 +35,6 @@ import butterknife.InjectView;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MenuFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class MenuFragment extends Fragment implements View.OnClickListener{
@@ -62,6 +59,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -71,7 +69,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         return inflater.inflate(R.layout.fragment_menu, container, false);
     }
 
-    private void initDrawer() {
+    protected void initDrawer() {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawer,
                 R.string.menu_open, R.string.menu_close) {
             @Override
@@ -188,7 +186,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
         startActivity(new Intent(getActivity(), _class));
-        getActivity().finish();
+        if(!(getActivity() instanceof U02SettingsActivity)) getActivity().finish();
     }
 
     public boolean onBackPressed() {

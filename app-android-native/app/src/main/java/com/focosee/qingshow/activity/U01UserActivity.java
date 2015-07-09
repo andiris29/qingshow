@@ -8,12 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U01BaseFragment;
@@ -26,12 +23,11 @@ import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
-import com.focosee.qingshow.util.ImgUtil;
+import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
-
+import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.LinkedList;
 import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -46,11 +42,8 @@ public class U01UserActivity extends MenuActivity {
     public static final int PAGER_NUM = 5;
 
     @InjectView(R.id.user_bg)
-    SimpleDraweeView userBg;
+    ImageView userBg;
 
-    private final float DAMP = 3.0f;
-    @InjectView(R.id.user_match_layout)
-    RelativeLayout userMatchLayout;
     @InjectView(R.id.user_head_layout)
     RelativeLayout userHeadLayout;
     @InjectView(R.id.bg)
@@ -59,38 +52,18 @@ public class U01UserActivity extends MenuActivity {
     TextView userName;
     @InjectView(R.id.user_hw)
     TextView userHw;
-    @InjectView(R.id.center_layout)
-    LinearLayout centerLayout;
     @InjectView(R.id.user_follow_btn)
     ImageView userFollowBtn;
     @InjectView(R.id.user_match)
     ImageView userMatch;
     @InjectView(R.id.user_recomm)
     ImageView userRecomm;
-    @InjectView(R.id.user_recomm_layout)
-    RelativeLayout userRecommLayout;
     @InjectView(R.id.user_collection)
     ImageView userCollection;
-    @InjectView(R.id.user_collection_layout)
-    RelativeLayout userCollectionLayout;
     @InjectView(R.id.user_follow)
     ImageView userFollow;
-    @InjectView(R.id.user_follow_layout)
-    RelativeLayout userFollowLayout;
     @InjectView(R.id.user_fans)
     ImageView userFans;
-    @InjectView(R.id.user_fans_layout)
-    RelativeLayout userFansLayout;
-    @InjectView(R.id.user_tab_layout)
-    LinearLayout userTabLayout;
-    @InjectView(R.id.U01_head_relative)
-    RelativeLayout u01HeadRelative;
-    @InjectView(R.id.navigation_btn_match)
-    ImageButton navigationBtnMatch;
-    @InjectView(R.id.navigation_btn_good_match)
-    ImageButton navigationBtnGoodMatch;
-    @InjectView(R.id.u01_people)
-    ImageButton u01People;
     @InjectView(R.id.user_viewPager)
     MViewPager_NoScroll userViewPager;
     @InjectView(R.id.user_match_text)
@@ -111,8 +84,6 @@ public class U01UserActivity extends MenuActivity {
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
     private EventBus eventBus;
-
-    private boolean isFirstFocus = true;
 
     public void reconn() {
 
@@ -167,6 +138,7 @@ public class U01UserActivity extends MenuActivity {
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
 //
+        initDrawer();
 //        initRectcler();
 //        loadDataFormNet();
 
@@ -180,12 +152,12 @@ public class U01UserActivity extends MenuActivity {
         }
 
         userName.setText(user.nickname);
-        userHw.setText((null == user.height ? "0" : user.height) + "cm," + (null == user.weight ? "0" : user.weight) + "kg");
+        userHw.setText(user.height + "cm," + user.weight + "kg");
         if (user.portrait != null) {
             userHead.setImageURI(Uri.parse(user.portrait));
         }
         if (null != user.background)
-            userBg.setImageURI(Uri.parse(user.background), 2f);
+            ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
     }
 
     private View view;

@@ -50,10 +50,10 @@ public class UserCommand {
     }
 
     public static void update(Map params,final Callback callback){
-        QSStringRequest qxStringRequest = new QSStringRequest(params, Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new Response.Listener<String>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, QSAppWebAPI.UPDATE_SERVICE_URL, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                MongoPeople user = UserParser.parseUpdate(response);
+            public void onResponse(JSONObject response) {
+                MongoPeople user = UserParser._parsePeople(response);
                 if (user == null) {
                     callback.onError(MetadataParser.getError(response));
                 } else {
@@ -67,7 +67,7 @@ public class UserCommand {
                 callback.onError(ErrorCode.NoNetWork);
             }
         });
-        RequestQueueManager.INSTANCE.getQueue().add(qxStringRequest);
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     public static void likeOrFollow(String url, String _id, final Callback callback){

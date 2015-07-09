@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
+import com.focosee.qingshow.adapter.U01FansFragAdapter;
 import com.focosee.qingshow.adapter.U01FollowerFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -45,7 +46,7 @@ public class U01FansFragment extends U01BaseFragment {
     private static final String TAG = "U01CollectionFragment";
 
     private OnFragmentInteractionListener mListener;
-    private U01FollowerFragAdapter adapter;
+    private U01FansFragAdapter adapter;
     private static Context context;
 
     public static U01FansFragment newInstance(Context context1){
@@ -63,7 +64,7 @@ public class U01FansFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
+        adapter = new U01FansFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
