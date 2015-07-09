@@ -355,6 +355,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    [super scrollViewDidScroll:scrollView];
     //NSLog(@"scrollView.con = %f",scrollView.contentOffset.y);
     if (scrollView.contentOffset.y != -360) {
         _backToTopBtn.hidden = NO;

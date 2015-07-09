@@ -115,23 +115,25 @@
     self.currentSection = section;
     currentView = self.viewArray[self.currentSection];
     [currentView.layer addAnimation:transition2 forKey:@"transition"];
-
-
-    float time = ABS(self.topConstrain.constant) / 800;
-    self.topConstrain.constant = 0;
-    self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
-    self.canScrollBadgeViewUp = NO;
-    __weak QSDetailBaseViewController* weakSelf = self;
-    [UIView animateWithDuration:time animations:^{
-        [weakSelf.view layoutIfNeeded];
-        
-        CGPoint p = currentView.contentOffset;
-        p.y = -currentView.contentInset.top;
-        currentView.contentOffset = p;
-    } completion:^(BOOL finished) {
-        weakSelf.currentTouchView = nil;
-        weakSelf.canScrollBadgeViewUp = YES;
-    }];
+    
+    if ([UIScreen mainScreen].bounds.size.height > currentView.contentSize.height) {
+        //currentView无法撑满整个屏幕，需要下移
+        float time = ABS(self.topConstrain.constant) / 800;
+        self.topConstrain.constant = 0;
+        self.backBtnTopConstrain.constant = self.backPreTopCon + self.topConstrain.constant;
+        self.canScrollBadgeViewUp = NO;
+        __weak QSDetailBaseViewController* weakSelf = self;
+        [UIView animateWithDuration:time animations:^{
+            [weakSelf.view layoutIfNeeded];
+            
+            CGPoint p = currentView.contentOffset;
+            p.y = -currentView.contentInset.top;
+            currentView.contentOffset = p;
+        } completion:^(BOOL finished) {
+            weakSelf.currentTouchView = nil;
+            weakSelf.canScrollBadgeViewUp = YES;
+        }];
+    }
 }
 
 #pragma mark - Scroll View
