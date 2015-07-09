@@ -335,7 +335,7 @@
 #pragma mark - QSCanvasImageViewDelegate
 - (void)canvasImageViewDidClickRemoveBtn:(QSCanvasImageView*)view {
     self.imgViewToBeRemoved = view;
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"删除" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"需要删除搭配单品？" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
 }
 
