@@ -121,7 +121,7 @@
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    float topMargin = 241.0/1.3f;
+    float topMargin = 124.0/1.3f;
     float leftMargin = 43.0/1.3f;
     float rightMargin = 43.0/1.3f;
     float bottomMargin = 124.0/1.3f;
