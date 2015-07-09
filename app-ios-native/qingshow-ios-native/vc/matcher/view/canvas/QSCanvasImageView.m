@@ -28,6 +28,7 @@
         [self.hideRemoveBtnTimer invalidate];
         self.hideRemoveBtnTimer = nil;
     }
+    delay = 1.0f;
     self.hideRemoveBtnTimer = [NSTimer scheduledTimerWithTimeInterval:delay target:self selector:@selector(_hideRemoveBtnWithAnimation) userInfo:nil repeats:NO];
     
 }
