@@ -8,10 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
 import com.focosee.qingshow.util.AppUtil;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by Administrator on 2015/2/5.
@@ -23,7 +20,7 @@ public abstract class BaseActivity extends FragmentActivity {
     BroadcastReceiver netReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(NOTNET.equals(intent.getAction())) {
+            if (NOTNET.equals(intent.getAction())) {
                 if (!AppUtil.checkNetWork(BaseActivity.this)) {
                     new AlertDialog.Builder(BaseActivity.this)
                             .setTitle("连接失败")

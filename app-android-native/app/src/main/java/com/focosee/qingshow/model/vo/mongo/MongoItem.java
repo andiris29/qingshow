@@ -1,15 +1,10 @@
 package com.focosee.qingshow.model.vo.mongo;
 
-import android.util.Log;
-
-import com.focosee.qingshow.model.vo.metadata.ImageMetadata;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
-
 import static com.focosee.qingshow.util.StringUtil.FormatPrice;
 
 /**
@@ -22,7 +17,7 @@ public class MongoItem implements Serializable {
 
     public String _id;
 
-    public String categoryRef;
+    public MongoCategories categoryRef;
     public String name;
     public LinkedList<Image> images;
     public String source;

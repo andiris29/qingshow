@@ -1,8 +1,12 @@
 package com.focosee.qingshow.httpapi.gson;
 
+import com.focosee.qingshow.httpapi.gson.deserializer.MongoCategoryIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.MongoItemIdDeserializer;
+import com.focosee.qingshow.httpapi.gson.deserializer.MongoParentCategoryIdDeserializer;
 import com.focosee.qingshow.httpapi.gson.deserializer.UTCDeserializer;
+import com.focosee.qingshow.model.vo.mongo.MongoCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
+import com.focosee.qingshow.model.vo.mongo.MongoParentCategories;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,9 +27,21 @@ public class QSGsonFactory {
         return builder;
     }
 
-    public static GsonBuilder showBuilder(){
+    public static GsonBuilder itemBuilder(){
         GsonBuilder builder = createBuilder();
         builder.registerTypeAdapter(MongoItem.class, new MongoItemIdDeserializer());
+        return builder;
+    }
+
+    public static GsonBuilder cateGoryBuilder(){
+        GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(MongoCategories.class, new MongoCategoryIdDeserializer());
+        return builder;
+    }
+
+    public static GsonBuilder parentCateGoryBuilder(){
+        GsonBuilder builder = createBuilder();
+        builder.registerTypeAdapter(MongoParentCategories.class, new MongoParentCategoryIdDeserializer());
         return builder;
     }
 }

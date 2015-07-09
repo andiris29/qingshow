@@ -59,7 +59,7 @@ public class U09TradeListActivity extends BaseActivity{
 
         tradelist = (RecyclerView) findViewById(R.id.person_activity_tradelist_recycleview);
 
-        mAdapter = new U09TradeListAdapter(this);
+        mAdapter = new U09TradeListAdapter(new LinkedList<MongoTrade>(), U09TradeListActivity.this, R.layout.head_trade_list, R.layout.item_trade_list);
 
 //创建默认的线性LayoutManager
         mLayoutManager = new LinearLayoutManager(this);

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2015/6/24.
  */
-public class MongoCategories implements Serializable{
+public class MongoParentCategories implements Serializable{
     public String _id;
     public String name;
     public String icon;
@@ -20,7 +20,7 @@ public class MongoCategories implements Serializable{
         public int row;
         public int column;
     }
-    public MongoCategories() {
+    public MongoParentCategories() {
 
     }
 

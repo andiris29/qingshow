@@ -39,7 +39,7 @@ public class U01FollowerFragAdapter extends U01BaseAdapter<MongoPeople>{
             @Override
             public void onClick(View v) {
                 if(null == people.__context){
-                    Toast.makeText(context, "³ö´í£¬ÇëÖØÊÔ£¡", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "å‡ºé”™ï¼Œè¯·é‡è¯•ï¼", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String url = people.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleFollowApi() : QSAppWebAPI.getPeopleUnfollowApi();
@@ -49,10 +49,10 @@ public class U01FollowerFragAdapter extends U01BaseAdapter<MongoPeople>{
                         super.onComplete();
                         String msg = "";
                         if(people.__context.followedByCurrentUser){
-                            msg = "È¡Ïû¹Ø×¢";
+                            msg = "å–æ¶ˆå…³æ³¨";
                             holder.getView(R.id.item_u01_fans_follow).setBackgroundResource(R.drawable.follow_pink);
                         }else{
-                            msg = "Ìí¼Ó¹Ø×¢";
+                            msg = "æ·»åŠ å…³æ³¨";
                             holder.getView(R.id.item_u01_fans_follow).setBackgroundResource(R.drawable.follow);
                         }
                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();

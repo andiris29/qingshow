@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoTrade;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
+import com.focosee.qingshow.util.adapter.*;
+import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
 import com.focosee.qingshow.widget.MImageView_OriginSize;
@@ -41,13 +44,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapter.ViewHolder>{
+public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
 
     private final int TYPE_HEAD = 0;
     private final int TYPE_ITEM = 1;
@@ -57,44 +61,37 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 
     public LinkedList<MongoTrade> datas = null;
     private boolean isStatusSuccessed = false;
-    public U09TradeListAdapter(Context context) {
-        this.context = context;
-    }
-    //创建新View，被LayoutManager所调用
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
-        if(viewType == TYPE_HEAD) {
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.head_trade_list, viewGroup, false);
-            return new ViewHolder(view, TYPE_HEAD);
-        }else{
-            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_trade_list, viewGroup, false);
-            return new ViewHolder(view, TYPE_ITEM);
-        }
+    /**
+     * viewType的顺序的layoutId的顺序一致
+     *
+     * @param datas
+     * @param context
+     * @param layoutId
+     */
+    public U09TradeListAdapter(@NonNull List<MongoTrade> datas, Context context, int... layoutId) {
+        super(datas, context, layoutId);
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return position == 0 ? TYPE_HEAD : TYPE_ITEM;
-    }
-
-    //将数据与界面进行绑定的操作
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-
-        if(i == 0)return;
-        final int position = i - 1;
-        if(null == datas.get(position))return;
-        final MongoTrade trade = datas.get(position);
+    public void onBindViewHolder(AbsViewHolder holder, final int position) {
+        if(position == 0)return;
+        if(null == getItemData(position))return;
+        final MongoTrade trade = getItemData(position);
         if(null == trade)return;
 
-        viewHolder.tradeNo.setText(null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
-        viewHolder.creatTime.setText(TimeUtil.parseDateString(trade.create));
+        View tradingLayout = holder.getView(R.id.item_trade_time_layout);
+        Button applyReceive = holder.getView(R.id.item_tradelist_applyreceive);
+        Button applyChange = holder.getView(R.id.item_tradelist_applychange);
+        Button applyReturn = holder.getView(R.id.item_tradelist_applyreturn);
+
+        holder.setText(R.id.item_tradeno_text, null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
+        holder.setText(R.id.item_tradelist_createTime, TimeUtil.parseDateString(trade.create));
         if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
-            viewHolder.tradeStatus.setText(StatusCode.statusArrays[trade.status]);
+            holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
         }
         try {
-            viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+            holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
             LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
             MongoItem.TaoBaoInfo.SKU mSku = null;
             for (MongoItem.TaoBaoInfo.SKU sku : skus) {
@@ -120,31 +117,31 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 {
                     TextView label = new TextView(context);
                     label.setText(prop.getPropId());
-                    viewHolder.skuLayout.addView(label);
-                    TextView value = new TextView(context);
-                    value.setLayoutParams(params);
-                    value.setText(prop.getName());
-                    viewHolder.skuLayout.addView(value);
+//                    viewHolder.skuLayout.addView(label);
+//                    TextView value = new TextView(context);
+//                    value.setLayoutParams(params);
+//                    value.setText(prop.getName());
+//                    viewHolder.skuLayout.addView(value);
                 }
             }
 
-            viewHolder.color.setText(color);
-            viewHolder.measurement.setText(measurement);
-            viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
-            viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
-            viewHolder.image.setImageURI(Uri.parse(ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.images.get(0).url,-1)));
-
-            viewHolder.image.setAspectRatio(0.5f);
-            viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+//            viewHolder.color.setText(color);
+//            viewHolder.measurement.setText(measurement);
+//            viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
+//            viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
+//            viewHolder.image.setImageURI(Uri.parse(ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.images.get(0).url,-1)));
+//
+//            viewHolder.image.setAspectRatio(0.5f);
+//            viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){
             e.printStackTrace();
         }
         //等待买家付款
         if(trade.status == 0){
-            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
-            viewHolder.applyReceive.setText(context.getResources().getString(R.string.pay_activity_trade));
-            viewHolder.applyReceive.setVisibility(View.VISIBLE);
-            viewHolder.applyReceive.setOnClickListener(new View.OnClickListener() {
+            tradingLayout.setVisibility(View.VISIBLE);
+            applyReceive.setText(context.getResources().getString(R.string.pay_activity_trade));
+            applyReceive.setVisibility(View.VISIBLE);
+            applyReceive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -154,15 +151,15 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         //卖家已发货
         if(trade.status == 3){
 //            viewHolder.tradingLayout.setVisibility(View.GONE);
-            viewHolder.finishLayout.setVisibility(View.VISIBLE);
-            viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+            tradingLayout.setVisibility(View.VISIBLE);
+            applyReturn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, U12ReturnActivity.class);
                     context.startActivity(intent);
                 }
             });
-            viewHolder.applyReceive.setOnClickListener(new View.OnClickListener() {
+            applyReceive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final MaterialDialog dialog = new MaterialDialog(context);
@@ -180,8 +177,8 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                         @Override
                         public void onClick(View v) {
                             statusTo(trade, 1);
-                            if(context instanceof U09TradeListActivity){
-                                ((U09TradeListActivity)context).doRefresh();
+                            if (context instanceof U09TradeListActivity) {
+                                ((U09TradeListActivity) context).doRefresh();
                             }
                             dialog.dismiss();
                         }
@@ -193,10 +190,10 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 
         //显示申请退货
         if(trade .status == 1 || trade .status == 2 || trade .status == 3 || trade.status == 4){
-            viewHolder.tradingLayout.setVisibility(View.VISIBLE);
-            viewHolder.applyChange.setVisibility(View.VISIBLE);
-            viewHolder.applyReturn.setVisibility(View.VISIBLE);
-            viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
+            tradingLayout.setVisibility(View.VISIBLE);
+            applyChange.setVisibility(View.VISIBLE);
+            applyReturn.setVisibility(View.VISIBLE);
+            applyReturn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, U12ReturnActivity.class);
@@ -207,7 +204,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
                 }
             });
 
-            viewHolder.applyChange.setOnClickListener(new View.OnClickListener() {
+            applyChange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     statusTo(trade, 0);
@@ -242,7 +239,7 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 //        viewHolder.creatTime.setText(trade.create.toString());
 
         if(trade.status == 5 || trade.status == 9){
-            viewHolder.finishLayout.setVisibility(View.GONE);
+            tradingLayout.setVisibility(View.GONE);
 //            viewHolder.creatTime.setText(trade.create.toString());
         }
 
@@ -258,8 +255,18 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
 //                context.startActivity(intent);
 //            }
 //        });
-
     }
+
+    @Override
+    public MongoTrade getItemData(int position) {
+        return 0 == position ? null : datas.get(position - 1);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 0 == position ? 0 : 1;
+    }
+
     //获取数据的数量
     @Override
     public int getItemCount() {
@@ -295,6 +302,9 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
     private JSONObject getStatusJSONObjcet(MongoTrade trade){
 
         Map params = new HashMap();
+        Map taobaoInfo = new HashMap();
+        Map logistic = new HashMap();
+        Map returnLogistic = new HashMap();
         params.put("_id", trade._id);
         params.put("status", trade.status);
         if(trade.status == 1 || trade.status == 2 || trade.status == 3
@@ -302,18 +312,21 @@ public class U09TradeListAdapter extends RecyclerView.Adapter<U09TradeListAdapte
         switch (trade.status){
             case 2:
 //                params.put("taobaoInfo.userNick", trade.orders.get(0).itemSnapshot.taobaoInfo.nick);
-                params.put("taobaoInfo.tradeID", trade._id);
+                taobaoInfo.put("tradeID", trade._id);
                 break;
             case 3:
-                params.put("logistic.company", trade.logistic.company);
-                params.put("logistic.trackingID", trade.logistic.trackingID);
+                logistic.put("company", trade.logistic.company);
+                logistic.put("trackingID", trade.logistic.trackingID);
                 break;
             case 7:
-                params.put("return.logistic.company", trade.returnlogistic.company);
-                params.put("return.logistic.trackingID", trade.returnlogistic.trackingID);
+                returnLogistic.put("company", trade.returnlogistic.company);
+                returnLogistic.put("trackingID", trade.returnlogistic.trackingID);
                 break;
         }
 
+        params.put("taobaoInfo", taobaoInfo);
+        params.put("logistic", logistic);
+        params.put("returnLogistic", returnLogistic);
         return new JSONObject(params);
 
     }

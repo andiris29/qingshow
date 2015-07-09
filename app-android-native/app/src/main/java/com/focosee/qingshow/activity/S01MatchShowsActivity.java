@@ -123,10 +123,10 @@ public class S01MatchShowsActivity extends MenuActivity {
                 }
 
                 if (pageNo == 1) {
-                    adapter.addDataAtTop(ShowParser.parseQuery(response));
+                    adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
                     currentPageNo = pageNo;
                 } else {
-                    adapter.addData(ShowParser.parseQuery(response));
+                    adapter.addData(ShowParser.parseQuery_categoryString(response));
                 }
 
                 setLastUpdateTime();

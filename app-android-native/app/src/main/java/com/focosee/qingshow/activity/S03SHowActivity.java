@@ -85,26 +85,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     SimpleDraweeView s03ImagePreground;
     @InjectView(R.id.S03_describe)
     TextView s03Describe;
-    @InjectView(R.id.S03_video_start_btn)
-    ImageView S03VideoStartBtn;
-    @InjectView(R.id.S03_line_share_like)
-    ImageView S03LineShareLike;
-    @InjectView(R.id.S03_line_like_message)
-    ImageView S03LineLikeMessage;
-    @InjectView(R.id.S03_line_comment_item)
-    ImageView S03LineCommentItem;
     @InjectView(R.id.S03_back_btn)
     ImageButton S03BackBtn;
     @InjectView(R.id.S03_video_start_btn_real)
     ImageView s03VideoStartBtnReal;
-    @InjectView(R.id.S03_before_video_without_back)
-    RelativeLayout S03BeforeVideoWithoutBack;
-    @InjectView(R.id.S03_before_video_view_button)
-    RelativeLayout S03BeforeVideoViewButton;
-    @InjectView(R.id.S03_before_video_view)
-    RelativeLayout S03BeforeVideoView;
-    @InjectView(R.id.S03_relative_layout)
-    RelativeLayout S03RelativeLayout;
     @InjectView(R.id.s03_portrait)
     SimpleDraweeView s03Portrait;
     @InjectView(R.id.s03_nickname)
@@ -126,10 +110,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     VideoView videoView;
     @InjectView(R.id.S03_image)
     SimpleDraweeView image;
-    @InjectView(R.id.S03_item_btn)
-    ImageView itemBtn;
-    @InjectView(R.id.S03_comment_btn)
-    ImageView commentBtn;
     @InjectView(R.id.S03_comment_text_view)
     TextView commentTextView;
     @InjectView(R.id.S03_like_btn)
@@ -196,7 +176,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                     ErrorHandler.handle(S03SHowActivity.this, MetadataParser.getError(response));
                     return;
                 }
-                showDetailEntity = ShowParser.parseQuery(response).get(0);
+                showDetailEntity = ShowParser.parseQuery_parentCategoryString(response).get(0);
                 showData();
             }
         });
@@ -271,7 +251,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         if (null != showDetailEntity.__context)
             commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
 
-        likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike));
+        likeTextView.setText(String.valueOf(0 == showDetailEntity.numLike ? 0 : showDetailEntity.numLike));
 
         if (null != showDetailEntity.__context)
             itemTextView.setText(String.valueOf(showDetailEntity.itemRefs.length));
