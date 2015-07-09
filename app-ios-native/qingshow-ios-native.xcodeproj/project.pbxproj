@@ -45,9 +45,9 @@
 		8C5345471B4D61180062D638 /* welcome1_667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453A1B4D61180062D638 /* welcome1_667@2x.png */; };
 		8C5345481B4D61180062D638 /* welcome2_667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453B1B4D61180062D638 /* welcome2_667@2x.png */; };
 		8C5345491B4D61180062D638 /* welcome3_667@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453C1B4D61180062D638 /* welcome3_667@2x.png */; };
-		8C53454A1B4D61180062D638 /* welcome1_748@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453E1B4D61180062D638 /* welcome1_748@3x.png */; };
-		8C53454B1B4D61180062D638 /* welcome2_748@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453F1B4D61180062D638 /* welcome2_748@3x.png */; };
-		8C53454C1B4D61180062D638 /* welcome3_748@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C5345401B4D61180062D638 /* welcome3_748@3x.png */; };
+		8C53454A1B4D61180062D638 /* welcome1_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453E1B4D61180062D638 /* welcome1_736@3x.png */; };
+		8C53454B1B4D61180062D638 /* welcome2_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C53453F1B4D61180062D638 /* welcome2_736@3x.png */; };
+		8C53454C1B4D61180062D638 /* welcome3_736@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C5345401B4D61180062D638 /* welcome3_736@3x.png */; };
 		8C597FF41B213C010087225E /* QSCreateTradeHeight80Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C597FF31B213C010087225E /* QSCreateTradeHeight80Cell.m */; };
 		8C79DB8B1B1EDED700D5159E /* lantingjianhei_xi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C79DB8A1B1EDED700D5159E /* lantingjianhei_xi.ttf */; };
 		8C8658E51B33F2E7004DF14F /* QSU01MatchCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8658E31B33F2E7004DF14F /* QSU01MatchCollectionViewCell.m */; };
@@ -382,9 +382,9 @@
 		8C53453A1B4D61180062D638 /* welcome1_667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_667@2x.png"; sourceTree = "<group>"; };
 		8C53453B1B4D61180062D638 /* welcome2_667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_667@2x.png"; sourceTree = "<group>"; };
 		8C53453C1B4D61180062D638 /* welcome3_667@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_667@2x.png"; sourceTree = "<group>"; };
-		8C53453E1B4D61180062D638 /* welcome1_748@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_748@3x.png"; sourceTree = "<group>"; };
-		8C53453F1B4D61180062D638 /* welcome2_748@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_748@3x.png"; sourceTree = "<group>"; };
-		8C5345401B4D61180062D638 /* welcome3_748@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_748@3x.png"; sourceTree = "<group>"; };
+		8C53453E1B4D61180062D638 /* welcome1_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome1_736@3x.png"; sourceTree = "<group>"; };
+		8C53453F1B4D61180062D638 /* welcome2_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome2_736@3x.png"; sourceTree = "<group>"; };
+		8C5345401B4D61180062D638 /* welcome3_736@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "welcome3_736@3x.png"; sourceTree = "<group>"; };
 		8C597FF21B213C010087225E /* QSCreateTradeHeight80Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSCreateTradeHeight80Cell.h; sourceTree = "<group>"; };
 		8C597FF31B213C010087225E /* QSCreateTradeHeight80Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSCreateTradeHeight80Cell.m; sourceTree = "<group>"; };
 		8C79DB8A1B1EDED700D5159E /* lantingjianhei_xi.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = lantingjianhei_xi.ttf; path = libs/lantingjianhei_xi.ttf; sourceTree = "<group>"; };
@@ -1122,9 +1122,9 @@
 		8C53453D1B4D61180062D638 /* 6p */ = {
 			isa = PBXGroup;
 			children = (
-				8C53453E1B4D61180062D638 /* welcome1_748@3x.png */,
-				8C53453F1B4D61180062D638 /* welcome2_748@3x.png */,
-				8C5345401B4D61180062D638 /* welcome3_748@3x.png */,
+				8C53453E1B4D61180062D638 /* welcome1_736@3x.png */,
+				8C53453F1B4D61180062D638 /* welcome2_736@3x.png */,
+				8C5345401B4D61180062D638 /* welcome3_736@3x.png */,
 			);
 			path = 6p;
 			sourceTree = "<group>";
@@ -2506,7 +2506,7 @@
 				EF0C64361B21AAC20079B22E /* QSU02UserSettingViewController.xib in Resources */,
 				EFF5B9161A3F2FB50048E634 /* QSItemListTableViewCell.xib in Resources */,
 				8C5345491B4D61180062D638 /* welcome3_667@2x.png in Resources */,
-				8C53454C1B4D61180062D638 /* welcome3_748@3x.png in Resources */,
+				8C53454C1B4D61180062D638 /* welcome3_736@3x.png in Resources */,
 				EF49036D1A7E788200A848B4 /* QSItemCollectionViewCell.xib in Resources */,
 				EF1A59281A06761800001AE0 /* QSShowCollectionViewCell.xib in Resources */,
 				EFA1F5581A52E88A00010F79 /* QSShareViewController.xib in Resources */,
@@ -2518,7 +2518,7 @@
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
 				EF6753C01A6416C90045E96C /* QSG01ItemWebViewController.xib in Resources */,
 				EFB1ADE81B372080007893AB /* QSMatcherItemSelectionView.xib in Resources */,
-				8C53454A1B4D61180062D638 /* welcome1_748@3x.png in Resources */,
+				8C53454A1B4D61180062D638 /* welcome1_736@3x.png in Resources */,
 				EFED348F1AFC734F00F08A0D /* QSU06LoginViewController.xib in Resources */,
 				EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */,
 				8C5345441B4D61180062D638 /* welcome1_568@2x.png in Resources */,
@@ -2530,7 +2530,7 @@
 				8C5345431B4D61180062D638 /* welcome3_480@2x.png in Resources */,
 				8C5345471B4D61180062D638 /* welcome1_667@2x.png in Resources */,
 				8C5345451B4D61180062D638 /* welcome2_568@2x.png in Resources */,
-				8C53454B1B4D61180062D638 /* welcome2_748@3x.png in Resources */,
+				8C53454B1B4D61180062D638 /* welcome2_736@3x.png in Resources */,
 				EFE419F51A407AEE005175BB /* QSS03ItemShopDetailViewController.xib in Resources */,
 				EFEBAAE41ABEB0000000FEEE /* location.plist in Resources */,
 				EFAA5A301AFD16E2001032F7 /* QSImageItemCollectionViewCell.xib in Resources */,

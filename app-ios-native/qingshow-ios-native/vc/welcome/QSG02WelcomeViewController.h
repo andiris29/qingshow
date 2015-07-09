@@ -13,6 +13,8 @@
 @protocol QSG02WelcomeViewControllerDelegate <NSObject>
 
 - (void)dismissWelcomePage:(QSG02WelcomeViewController*)vc;
+- (void)presentRegisterVC:(QSG02WelcomeViewController *)vc;
+- (void)presentLoginVC:(QSG02WelcomeViewController *)vc;
 
 @end
 

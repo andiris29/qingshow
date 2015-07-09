@@ -7,8 +7,7 @@
 //
 
 #import "QSG02WelcomeViewController.h"
-#import "QSU06LoginViewController.h"
-#import "QSU07RegisterViewController.h"
+
 #define PAGE_ID @"G02 - 欢迎页"
 
 #define w ([UIScreen mainScreen].bounds.size.width)
@@ -54,7 +53,7 @@
     _pageControl.numberOfPages = 3;
     _pageControl.currentPage = 0;
     _pageControl.userInteractionEnabled = NO;
-    _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
+   // _pageControl.transform = CGAffineTransformMakeScale(1.3, 1.3);
     
     _loginBtn.hidden = YES;
     
@@ -74,9 +73,9 @@
 - (void)viewDidLayoutSubviews
 {
 //    _loginBtn.frame = CGRectMake(w/10*7, h/10*9, 100, 30);
-    _loginBtn.center = CGPointMake(w / 5 * 4, h / 10 * 9);
+    _loginBtn.center = CGPointMake(w / 5 * 4, h / 10 * 8.5);
 
-    _pageControl.center = CGPointMake(w / 2, h / 10 * 9);
+    _pageControl.center = CGPointMake(w / 2, h / 10 * 8.5);
 }
 
 //- (void)dealloc
@@ -176,18 +175,16 @@
     }
 }
 - (IBAction)loginBtnPressed:(id)sender {
-    QSU06LoginViewController *vc = [[QSU06LoginViewController alloc]init];
-    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:self];
-    vc.navigationItem.leftBarButtonItem = item;
-    [self.navigationController pushViewController:vc
-                                         animated:YES];
+    if ([self.delegate respondsToSelector:@selector(presentLoginVC:)]) {
+        [self.delegate presentLoginVC:self];
+    }
+    
 }
 - (IBAction)registeBtnPressed:(id)sender {
-    QSU07RegisterViewController *vc = [[QSU07RegisterViewController alloc]init];
-    QSBackBarItem *item = [[QSBackBarItem alloc]initWithActionVC:self];
-    vc.navigationItem.leftBarButtonItem = item;
-    [self.navigationController pushViewController:vc
-                                         animated:YES];
+    if ([self.delegate respondsToSelector:@selector(presentRegisterVC:)]) {
+        [self.delegate presentRegisterVC:self];
+    }
+   
 }
 
 #pragma mark - Third Part
