@@ -14,4 +14,6 @@
 + (float)getViewUncoveredSquare:(UIView*)view otherViews:(NSArray*)array;
 
 + (float)getSquare:(CGRect)rect;
+
++ (CGSize)scaleSize:(CGSize)fromSize toFitSize:(CGSize)toSize;
 @end

@@ -145,4 +145,13 @@
 + (float)getSquare:(CGRect)rect {
     return rect.size.width * rect.size.height;
 }
+
++ (CGSize)scaleSize:(CGSize)fromSize toFitSize:(CGSize)toSize {
+    CGSize retSize = CGSizeZero;
+    float scaleX = toSize.width / fromSize.width;
+    float scaleY = toSize.height / fromSize.height;
+    float s = scaleX < scaleY ? scaleX : scaleY;
+    retSize = CGSizeMake(fromSize.width * s, fromSize.height * s);
+    return retSize;
+}
 @end
