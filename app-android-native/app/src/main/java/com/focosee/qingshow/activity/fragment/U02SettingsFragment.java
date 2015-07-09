@@ -168,6 +168,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
 
         getUser();
         setJumpListener();
+        initDrawer();
 
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,10 +254,12 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                     getUser();
                 }
                 if (type == TYPE_PORTRAIT) {
-                    ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getPortraitDisplayOptions());
+                    portraitImageView.setImageURI(Uri.parse(user.portrait));
+                    portraitImageView.setAlpha(1f);
                 }
                 if (type == TYPE_BACKGROUD) {
-                    ImageLoader.getInstance().displayImage(user.getPortrait(), portraitImageView, AppUtil.getModelBackgroundDisplayOptions());
+                    backgroundImageView.setImageURI(Uri.parse(user.background));
+                    backgroundImageView.setAlpha(1f);
                 }
             }
         }, new Response.ErrorListener() {
@@ -288,17 +291,32 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
                 ImageLoader.getInstance().displayImage(people.background, backgroundImageView, AppUtil.getModelBackgroundDisplayOptions());
             if (null != people.nickname)
                 nameEditText.setText(people.nickname);
-            if (null != people.birthday) {
-                GregorianCalendar today = new GregorianCalendar();
-                today.setTimeInMillis(System.currentTimeMillis());
-                ageEditText.setText(people.birthday.compareTo(today));
-            }
-            if (null != people.height)
-                heightEditText.setText(people.height);
-            if (null != people.weight)
-                weightEditText.setText(people.weight);
+            if(0 != people.age)
+                ageEditText.setText(String.valueOf(people.age));
+            if(0 != people.height)
+                heightEditText.setText(String.valueOf(people.height));
+            if(0 != people.height)
+                weightEditText.setText(String.valueOf(people.weight));
             sexTextView.setText(sexArgs[people.gender]);
             sexTextView.setTag(people.gender);
+
+            if(null != people.measureInfo){
+                if(0 != people.measureInfo.bust)
+                    bustEditText.setText(String.valueOf(people.measureInfo.bust));
+                if(0 != people.measureInfo.shoulder)
+                    shoulderEditText.setText(String.valueOf(people.measureInfo.shoulder));
+                if(0 != people.measureInfo.waist)
+                    waistlineEditText.setText(String.valueOf(people.measureInfo.waist));
+                if(0 != people.measureInfo.hips)
+                    hiplineEditText.setText(String.valueOf(people.measureInfo.hips));
+            }
+
+            bodyTypeTextView.setText(bodyTypeArgs[people.bodyType]);
+            bodyTypeTextView.setTag(people.bodyType);
+            dressStyleEditText.setText(dressStyles[people.dressStyle]);
+            dressStyleEditText.setTag(people.dressStyle);
+//            effectEditText.setText(expectations[people.expectations]);
+//            effectEditText.setTag(people.expectations);
         }
     }
 
@@ -312,19 +330,17 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         commitForm();
-        getUser();
         UserCommand.refresh();
     }
 
     //获得用户信息
     private void getUser() {
 
-        people = QSModel.INSTANCE.getUser();
-        if (people != null) setData();
-        else UserCommand.refresh(new Callback() {
+        UserCommand.refresh(new Callback() {
             @Override
             public void onComplete() {
                 super.onComplete();
+                people = QSModel.INSTANCE.getUser();
                 setData();
             }
 
@@ -406,7 +422,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
     }
 
     private void commitForm() {
-        Map<String, String> params = new HashMap<>();
+        Map params = new HashMap();
         Map<String, String> measureInfo = new HashMap<>();
         if (!nameEditText.getText().toString().equals(""))
             params.put("name", nameEditText.getText().toString());
@@ -430,6 +446,7 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
             params.put("dressStyle", dressStyleEditText.getTag().toString());
         if (null != effectEditText.getTag())
             params.put("expectations", effectEditText.getTag().toString());
+        params.put("measureInfo", measureInfo);
         UserCommand.update(params, new Callback() {
             @Override
             public void onComplete() {
@@ -455,6 +472,14 @@ public class U02SettingsFragment extends MenuFragment implements View.OnFocusCha
         navigationBtnGoodMatch.setOnClickListener(this);
         u01People.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
+
+        ageEditText.setOnFocusChangeListener(this);
+        heightEditText.setOnFocusChangeListener(this);
+        weightEditText.setOnFocusChangeListener(this);
+        bustEditText.setOnFocusChangeListener(this);
+        shoulderEditText.setOnFocusChangeListener(this);
+        waistlineEditText.setOnFocusChangeListener(this);
+        hiplineEditText.setOnFocusChangeListener(this);
 
         backTextView.setOnClickListener(new View.OnClickListener()
 
