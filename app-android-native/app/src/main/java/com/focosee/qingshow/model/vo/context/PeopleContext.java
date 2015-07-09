@@ -9,6 +9,5 @@ public class PeopleContext implements Serializable {
     public boolean followedByCurrentUser = false;
     public int numFollowers;
     public int numShows;
-    public int numFollowBrands;
     public int numFollowPeoples;
 }

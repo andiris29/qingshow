@@ -70,6 +70,8 @@ public class S01MatchShowsActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s01_match_shows);
         ButterKnife.inject(this);
+
+        initDrawer();
         s01MenuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

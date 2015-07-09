@@ -17,12 +17,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S01MatchShowsActivity;
+import com.focosee.qingshow.activity.S21CategoryActivity;
+import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U02SettingsActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
-import com.focosee.qingshow.activity.U14CollectionActivity;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.util.BitMapUtil;
 
 import butterknife.InjectView;
@@ -30,12 +35,9 @@ import butterknife.InjectView;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MenuFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenuFragment extends Fragment{
+public class MenuFragment extends Fragment implements View.OnClickListener{
 
     @InjectView(R.id.drawer)
     DrawerLayout drawer;
@@ -57,6 +59,7 @@ public class MenuFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -66,7 +69,7 @@ public class MenuFragment extends Fragment{
         return inflater.inflate(R.layout.fragment_menu, container, false);
     }
 
-    private void initDrawer() {
+    protected void initDrawer() {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(getActivity(), drawer,
                 R.string.menu_open, R.string.menu_close) {
             @Override
@@ -85,6 +88,14 @@ public class MenuFragment extends Fragment{
             }
         };
         drawer.setDrawerListener(drawerToggle);
+    }
+
+    public void menuSwitch(){
+        if(isMenuOpened()){
+            closeMenu();
+        }else{
+            openMenu();
+        }
     }
 
     public void closeMenu() {
@@ -142,6 +153,40 @@ public class MenuFragment extends Fragment{
             }
         };
         thread.run();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        closeMenu();
+        if(v.getId() == R.id.navigation_btn_match){
+            startActivity(new Intent(getActivity(), S01MatchShowsActivity.class));
+            return;
+        }
+
+        Class _class = null;
+        switch (v.getId()) {
+            case R.id.navigation_btn_good_match:
+                _class = S21CategoryActivity.class;
+                break;
+            case R.id.u01_people:
+                U01Model.INSTANCE.setUser(QSModel.INSTANCE.getUser());
+                _class = U01UserActivity.class;
+                break;
+            case R.id.s17_settting:
+                _class = U02SettingsActivity.class;
+                break;
+        }
+
+        if(!QSModel.INSTANCE.loggedin()){
+            Toast.makeText(getActivity(), R.string.need_login, Toast.LENGTH_SHORT).show();
+            GoToWhereAfterLoginModel.INSTANCE.set_class(_class);
+            startActivity(new Intent(getActivity(), U07RegisterActivity.class));
+            return;
+        }
+
+        startActivity(new Intent(getActivity(), _class));
+        if(!(getActivity() instanceof U02SettingsActivity)) getActivity().finish();
     }
 
     public boolean onBackPressed() {

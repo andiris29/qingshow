@@ -62,6 +62,7 @@ public class AbsViewHolder extends RecyclerView.ViewHolder{
     public AbsViewHolder setImgeByUrl(int id,String url,float ratdio,String type){
         View view;
         SimpleDraweeView draweeView;
+        if(null == url || "".equals(url) || url.isEmpty()) return this;
         if(null != (view = getView(id))){
             draweeView = (SimpleDraweeView) view;
             if(null == type || "".equals(type))

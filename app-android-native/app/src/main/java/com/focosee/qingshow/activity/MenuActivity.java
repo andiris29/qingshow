@@ -44,7 +44,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
     }
 
-    private void initDrawer() {
+    protected void initDrawer() {
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
                 R.string.menu_open, R.string.menu_close) {
             @Override
@@ -74,7 +74,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
     }
 
     public void closeMenu() {
-//        blur.setVisibility(View.INVISIBLE);
+        blur.setVisibility(View.INVISIBLE);
         drawer.closeDrawer(navigation);
     }
 
@@ -84,12 +84,12 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
     public void openMenu() {
 
-//        if (isFirstFocus) {
-//            applyBlur();
-//            if (Build.VERSION.SDK_INT > 16)
-//                isFirstFocus = true;
-//        }
-//        blur.setVisibility(View.VISIBLE);
+        if (isFirstFocus) {
+            applyBlur();
+            if (Build.VERSION.SDK_INT > 16)
+                isFirstFocus = true;
+        }
+        blur.setVisibility(View.VISIBLE);
 
         navigation.setOnTouchListener(new View.OnTouchListener() {
             @Override

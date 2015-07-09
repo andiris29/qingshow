@@ -25,13 +25,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="360dp">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/user_bg"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                fresco:actualImageScaleType="focusCrop"
-                android:background="@color/white"
-                fresco:placeholderImage="@drawable/user_bg_default" />
+                android:scaleType="fitXY"
+                android:background="@color/white"/>
 
             <ImageView
                 android:id="@+id/user_nav_btn"

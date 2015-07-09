@@ -1,16 +1,14 @@
 package com.focosee.qingshow.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U02SettingsFragment;
 import com.umeng.analytics.MobclickAgent;
 
+public class U02SettingsActivity extends BaseActivity {
 
-public class U02SettingsActivity extends MenuActivity {
     private Context context;
     private U02SettingsFragment settingsFragment;
 
@@ -22,6 +20,11 @@ public class U02SettingsActivity extends MenuActivity {
 
         settingsFragment = U02SettingsFragment.newIntance();
         getFragmentManager().beginTransaction().replace(R.id.settingsScrollView, settingsFragment, "settingsFragment").commit();
+    }
+
+    @Override
+    public void reconn() {
+
     }
 
     @Override
@@ -41,7 +44,6 @@ public class U02SettingsActivity extends MenuActivity {
     @Override
     public void onBackPressed() {
         if(null == settingsFragment)return;
-        if(settingsFragment.onBackPressed())return;
         super.onBackPressed();
     }
 

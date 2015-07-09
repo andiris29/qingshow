@@ -16,15 +16,14 @@ public class MongoPeople implements Serializable {
     public String name;
     public String portrait;
     public String background;
-    public String height;
-    public String weight;
-    public GregorianCalendar birthday;
-    public int job;
-    public int shoeSize;
-    public int clothingSize;
+    public int height;
+    public int weight;
+    public int age;
     public int gender;
     public int hairType;
-    public String favoriteBrand;
+    public int bodyType;
+    public int dressStyle;
+    public int[] expectations;
     public UserInfo userInfo;
     public LinkedList<Receiver> receivers;
     public MeasureInfo measureInfo;
@@ -32,7 +31,7 @@ public class MongoPeople implements Serializable {
     //    +modelInfo
     //    +modelInfo.order
 
-    private PeopleContext __context;
+    public PeopleContext __context;
 
     public class Receiver implements Serializable {
         public String uuid;
@@ -54,32 +53,7 @@ public class MongoPeople implements Serializable {
         public String encryptedPassword;
     }
 
-    public String get_id() {
-        return _id;
-    }
-
-    public String getHeight() {
-        if (null == height) {
-            return "";
-        }
-        return height + "cm/";
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-
-    public String getBackground() {
-        return background;
-    }
-
-    public String getPortrait() {
-        return portrait;
-    }
-
-    public class MeasureInfo {
+    public class MeasureInfo implements Serializable {
         public int shoulder;
         public int bust;
         public int waist;
