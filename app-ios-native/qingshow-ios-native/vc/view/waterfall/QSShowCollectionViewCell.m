@@ -48,7 +48,7 @@
 #pragma mark - Data
 - (void)bindData:(NSDictionary*)showData
 {
-    [self updateLayoutWithData:showData];
+    //[self updateLayoutWithData:showData];
 
     
     
