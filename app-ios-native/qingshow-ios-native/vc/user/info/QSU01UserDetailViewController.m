@@ -60,7 +60,7 @@
 {
     self = [super initWithNibName:@"QSU01UserDetailViewController" bundle:nil];
     if (self) {
-        self.isCurrentUser = NO;
+        self.isCurrentUser = [[QSCommonUtil getIdOrEmptyStr:[QSUserManager shareUserManager].userInfo] isEqualToString:[QSCommonUtil getIdOrEmptyStr:peopleDict]];
         [self providerInit];
         self.userInfo = peopleDict;
     }
