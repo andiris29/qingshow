@@ -10,7 +10,7 @@
 #import "QSShowUtil.h"
 #import "QSPeopleUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-
+#import "QSDateUtil.h"
 @implementation QSMatchShowsCell
 {
     NSDictionary *_showDic;
@@ -40,12 +40,13 @@
 
     _showDic = dict;
     _peopleDic = [QSShowUtil getPeopleFromShow:dict];
-    
+   //NSLog(@"dic = %@",dict);
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic]];
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
-    
-    
+    //NSString *createDate = dict[@"__context"][@"createdBy"][@"create"];
+    //NSLog(@"%@",createDate);
+    self.timeLabel.text = @"2分钟前";
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];
     self.userNameLabel.text = [QSShowUtil getNameStr:dict];
     NSString *groupStr = [QSShowUtil getRecommendGroup:dict];

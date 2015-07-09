@@ -7,6 +7,7 @@
         <mutableArray key="lantingjianhei_xi.ttf">
             <string>FZLTXHJW--GB1-0</string>
             <string>FZLTXHJW--GB1-0</string>
+            <string>FZLTXHJW--GB1-0</string>
         </mutableArray>
     </customFonts>
     <objects>
@@ -23,49 +24,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="150" height="320"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dp9-gc-uNq">
-                        <rect key="frame" x="8" y="55" width="134" height="176"/>
+                        <rect key="frame" x="8" y="55" width="134" height="185"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vxf-Q3-EHu">
-                        <rect key="frame" x="1" y="1" width="148" height="259"/>
+                        <rect key="frame" x="1" y="1" width="148" height="275"/>
                     </imageView>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uOI-fk-NF4">
-                        <rect key="frame" x="0.0" y="261" width="150" height="1"/>
-                        <color key="backgroundColor" red="0.86618134469696972" green="0.86618134469696972" blue="0.86618134469696972" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q1F-Hf-8Wm">
-                        <rect key="frame" x="8" y="280" width="30" height="32"/>
+                        <rect key="frame" x="8" y="282" width="30" height="32"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4I4-W0-OJO">
-                        <rect key="frame" x="46" y="277" width="69" height="21"/>
+                        <rect key="frame" x="46" y="279" width="69" height="21"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="9"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="match_hongxin" translatesAutoresizingMaskIntoConstraints="NO" id="P0P-Sn-2vO">
-                        <rect key="frame" x="45" y="298" width="17" height="13"/>
+                        <rect key="frame" x="126" y="285" width="17" height="13"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9K-In-K1C">
-                        <rect key="frame" x="63" y="295" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a9K-In-K1C">
+                        <rect key="frame" x="123" y="295" width="25" height="21"/>
                         <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="8"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wPn-fC-WA3">
-                        <rect key="frame" x="114" y="282" width="16" height="29"/>
-                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S76-wp-gu0">
+                        <rect key="frame" x="60" y="297" width="36" height="15.5"/>
+                        <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="7"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="72z-ct-BgZ">
-                        <rect key="frame" x="1" y="277" width="148" height="39"/>
+                        <rect key="frame" x="1" y="276" width="148" height="39"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="match_item_clock" translatesAutoresizingMaskIntoConstraints="NO" id="Gg2-rQ-6mg">
+                                <rect key="frame" x="44" y="23" width="13" height="13"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
             </tableViewCellContentView>
             <connections>
                 <outlet property="bgImgView" destination="Vxf-Q3-EHu" id="vYh-LI-PVb"/>
-                <outlet property="bodyTypeImgView" destination="wPn-fC-WA3" id="XdY-Xp-WIb"/>
                 <outlet property="headerImageTapView" destination="72z-ct-BgZ" id="VEp-hj-hm7"/>
                 <outlet property="headerImgView" destination="q1F-Hf-8Wm" id="N2K-TK-ezw"/>
                 <outlet property="likeNumlabel" destination="a9K-In-K1C" id="Tx5-GU-V2V"/>
                 <outlet property="matchShowImgview" destination="dp9-gc-uNq" id="fqC-dK-oLy"/>
+                <outlet property="timeLabel" destination="S76-wp-gu0" id="Ymd-id-Wfi"/>
                 <outlet property="userNameLabel" destination="4I4-W0-OJO" id="JcY-r4-niW"/>
             </connections>
             <point key="canvasLocation" x="244" y="245"/>
@@ -73,7 +78,8 @@
     </objects>
     <resources>
         <image name="match_hongxin" width="23" height="17"/>
-        <image name="matchcell_bg_square" width="300" height="640"/>
+        <image name="match_item_clock" width="10" height="10"/>
+        <image name="matchcell_bg_square" width="152" height="310"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

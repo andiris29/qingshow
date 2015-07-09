@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *bodyTypeImgView;
 @property (weak, nonatomic) IBOutlet UIImageView *matchShowImgview;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @property (assign,nonatomic) NSObject <QSMatchShowCellDelegate>* delegate;
 
