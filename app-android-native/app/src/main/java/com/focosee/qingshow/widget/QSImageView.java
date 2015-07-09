@@ -5,6 +5,10 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -46,6 +50,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     private float intrinsicWidth = 0;
     private float intrinsicHeight = 0;
 
+    private boolean moveable = false;
+
     private OnClickListener onDelClickListener;
 
     public QSImageView(Context context) {
@@ -70,16 +76,6 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         imageView.setPadding((int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1, getContext())
                 , (int) AppUtil.transformToDip(1, getContext()), (int) AppUtil.transformToDip(1, getContext()));
         addView(imageView);
-
-        delBtn = new ImageView(getContext());
-        delBtn.setBackgroundResource(R.drawable.canvas_del);
-        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50,getContext()),
-                (int) AppUtil.transformToDip(50,getContext()));
-        btnParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        delBtn.setLayoutParams(btnParams);
-        delBtn.setOnClickListener(onDelClickListener);
-        delBtn.setVisibility(GONE);
-        addView(delBtn);
 
         scaleGestureDetector = new ScaleGestureDetector(getContext(), this);
     }
@@ -106,7 +102,10 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                 lastY = event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                goneDelBtn();
+                if (!isMoveable()) {
+                    return false;
+                }
+//                goneDelBtn();
                 if (isScaleJustEnd) {
                     isScaleJustEnd = false;
                     return true;
@@ -176,22 +175,22 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         if (isCheck) {
             this.setBackgroundResource(R.drawable.bg_canvas_item);
         } else {
+            goneDelBtn();
             this.setBackgroundResource(0);
         }
     }
 
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
-        goneDelBtn();
         float scaleFactor = detector.getScaleFactor();
         lastScaleFactor *= scaleFactor;
 
 //        Log.i("tag", getActualMaxScale() + "");
-
+        getArea();
         setScaleX(lastScaleFactor);
         setScaleY(lastScaleFactor);
 
-        Log.i("tag","height: " + imageView.getDrawable().getIntrinsicHeight() + "width: " + imageView.getDrawable().getIntrinsicWidth());
+//        Log.i("tag", "height: " + imageView.getDrawable().getIntrinsicHeight() + "width: " + imageView.getDrawable().getIntrinsicWidth());
 //        Log.i("tag", "scale " + "x: " + getX() + " y: " + getY() + " scaleFacctor: " + scaleFactor);
         return true;
     }
@@ -199,6 +198,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
         isScale = true;
+        goneDelBtn();
         return true;
     }
 
@@ -225,15 +225,22 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         this.onDelClickListener = onDelClickListener;
     }
 
-    public void showDelBtn(){
-        delBtn.setVisibility(VISIBLE);
+    public void showDelBtn() {
+        delBtn = new ImageView(getContext());
+        delBtn.setBackgroundResource(R.drawable.canvas_del);
+        LayoutParams btnParams = new LayoutParams((int) AppUtil.transformToDip(50, getContext()),
+                (int) AppUtil.transformToDip(50, getContext()));
+        btnParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        delBtn.setLayoutParams(btnParams);
+        delBtn.setOnClickListener(onDelClickListener);
+        this.addView(delBtn);
         Timer timer = new Timer("delBtn");
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 handler.sendEmptyMessage(1);
             }
-        },2000);
+        }, 1000);
     }
 
     Handler handler = new Handler(new Handler.Callback() {
@@ -244,19 +251,20 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         }
     });
 
-    public void goneDelBtn(){
-        delBtn.setVisibility(GONE);
+    public void goneDelBtn() {
+        if (null != delBtn)
+            this.removeView(delBtn);
     }
 
-    private void checkBorder(QSImageView view, float intrinsicWidth , float intrinsicHeight) {
+    private void checkBorder(QSImageView view, float intrinsicWidth, float intrinsicHeight) {
         float nextX = view.getX();
         float nextY = view.getY();
 
-        if (view.getX() + intrinsicWidth > ((QSCanvasView)getParent()).getWidth()) {
-            nextX = ((QSCanvasView)getParent()).getWidth() - intrinsicWidth;
+        if (view.getX() + intrinsicWidth > ((QSCanvasView) getParent()).getWidth()) {
+            nextX = ((QSCanvasView) getParent()).getWidth() - intrinsicWidth;
         }
-        if (view.getY() + intrinsicHeight > ((QSCanvasView)getParent()).getHeight()) {
-            nextY = ((QSCanvasView)getParent()).getHeight() - intrinsicHeight;
+        if (view.getY() + intrinsicHeight > ((QSCanvasView) getParent()).getHeight()) {
+            nextY = ((QSCanvasView) getParent()).getHeight() - intrinsicHeight;
         }
         if (view.getX() < 0) {
             nextX = 0;
@@ -281,4 +289,30 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     public void setContainerWidth(int containerWidth) {
         this.containerWidth = containerWidth;
     }
+
+    public boolean isMoveable() {
+        return moveable;
+    }
+
+    public void setMoveable(boolean moveable) {
+        this.moveable = moveable;
+    }
+
+    public float getArea(){
+        Rect rect = new Rect();
+        this.getGlobalVisibleRect(rect);
+        return Math.abs((rect.right - rect.left)) * Math.abs((rect.bottom - rect.top));
+    }
+
+    public Rect getRect(){
+        Rect rect = new Rect();
+        this.getGlobalVisibleRect(rect);
+        return rect;
+    }
+
+
+
+
+
+
 }

@@ -31,8 +31,8 @@ import de.greenrobot.event.EventBus;
 public class S21CategoryActivity extends BaseActivity {
 
     private ListView s21_listview;
-    private ArrayList<MongoCategories> categories = new ArrayList<MongoCategories>();
-    private ArrayList<ArrayList<MongoCategories>> items = new ArrayList<ArrayList<MongoCategories>>();
+    private ArrayList<MongoCategories> categories = new ArrayList<>();
+    private ArrayList<ArrayList<MongoCategories>> items = new ArrayList<>();
     private List<String> selectCategories;
 
     @Override
@@ -40,6 +40,7 @@ public class S21CategoryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s21_category_selector);
         ButterKnife.inject(this);
+
         s21_listview = (ListView) findViewById(R.id.s21_listview);
         selectCategories = new ArrayList<>();
     }
@@ -60,6 +61,7 @@ public class S21CategoryActivity extends BaseActivity {
     public void submit(){
         S21CategoryEvent event = new S21CategoryEvent(selectCategories);
         EventBus.getDefault().post(event);
+        this.finish();
     }
 
     public void back(View view) {
@@ -85,7 +87,7 @@ public class S21CategoryActivity extends BaseActivity {
                 }
                 for (int i = 0; i < categories.size(); i++) {
                     String id = categories.get(i).get_id();
-                    ArrayList<MongoCategories> item = new ArrayList<MongoCategories>();
+                    ArrayList<MongoCategories> item = new ArrayList<>();
                     for (MongoCategories cas : arrayList) {
                         String parentRef = cas.getParentRef();
                         boolean activate = cas.isActivate();

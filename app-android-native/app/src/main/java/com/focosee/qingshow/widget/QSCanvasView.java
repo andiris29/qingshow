@@ -1,6 +1,7 @@
 package com.focosee.qingshow.widget;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
@@ -20,9 +21,9 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/7/2.
  */
-public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.OnScaleGestureListener {
+public class QSCanvasView extends FrameLayout {
 
-    private List<QSImageView> views;
+    public List<QSImageView> views;
     private int lastCheckedIndex;
     private int checkedIndex;
 
@@ -30,10 +31,9 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
 
     private OnCheckedChangeListener onCheckedChangeListener;
     private GestureDetector gestureDetector;
-    private ScaleGestureDetector scaleGestureDetector;
 
     public interface OnCheckedChangeListener {
-        public void checkedChanged(QSImageView view);
+        void checkedChanged(QSImageView view);
     }
 
     public QSCanvasView(Context context) {
@@ -52,7 +52,6 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
     private void init() {
         views = new ArrayList<>();
         gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener());
-        scaleGestureDetector = new ScaleGestureDetector(getContext(), this);
     }
 
     public void attach(QSImageView view) {
@@ -72,9 +71,9 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
 
     /**
      * 分发前执行checked方法
-     * @return false
      *
-     * */
+     * @return false
+     */
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         notifyCheckedChange();
@@ -83,12 +82,12 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
 
     /**
      * 监听缩放手势，同时消费touch事件
-     * @return true
      *
-     * */
+     * @return true
+     */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        return scaleGestureDetector.onTouchEvent(ev);
+        return true;
     }
 
     public void notifyCheckedChange() {
@@ -111,6 +110,7 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
                     lastCheckedIndex = i;
                     if (null != onCheckedChangeListener) {
                         onCheckedChangeListener.checkedChanged(views.get(i));
+                        notifyChildrenMoveable(views.get(i));
                         checkedView = views.get(i);
                     }
                 }
@@ -126,6 +126,7 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
                     checkedIndex = i;
                     if (null != onCheckedChangeListener) {
                         onCheckedChangeListener.checkedChanged(views.get(i));
+                        notifyChildrenMoveable(views.get(i));
                         checkedView = views.get(i);
                     }
                 }
@@ -134,19 +135,84 @@ public class QSCanvasView extends FrameLayout implements ScaleGestureDetector.On
         }
     }
 
-    @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        return true;
+    public void notifyChildrenMoveable(QSImageView view) {
+        for (QSImageView imageView : views) {
+            if (view == imageView) {
+                imageView.setMoveable(true);
+            } else {
+                imageView.setMoveable(false);
+            }
+        }
     }
 
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        return true;
+    public void notifyChildrenUnClick() {
+        for (QSImageView view : views) {
+            view.setChecked(false);
+        }
     }
 
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {
+    public boolean checkOverlap(float percent){
+        boolean result = false;
+        List<float[]> areas = new ArrayList<>();
 
+        for (QSImageView view : views) {
+            areas.add(getOverlapArea(view));
+        }
+
+        for (int i = 0; i < areas.size(); i++) {
+        }
+
+        return result;
+    }
+
+    private void getRealArea(List<float[]> areas, int pos){
+        for (int i = 0; i < areas.size(); i++) {
+            float[] area = areas.get(i);
+
+        }
+    }
+
+    public float[] getOverlapArea(QSImageView view) {
+        float area[] = new float[views.size()];
+        Rect targetRect = view.getRect();
+
+        for (int i = 0; i < views.size(); i++) {
+            QSImageView imageView = views.get(i);
+
+            if (view == imageView) {
+                area[i] = -1;
+            }
+
+            Rect rect = imageView.getRect();
+            if (rect.right < targetRect.left || rect.top > targetRect.bottom || rect.left > targetRect.right || rect.bottom < targetRect.top) {
+                area[i] = 0;
+                continue;
+            }
+
+            float width = 0;
+            float height = 0;
+
+            int dw = rect.right - targetRect.right;
+            int dh = rect.bottom - targetRect.bottom;
+
+            if (dw > 0)
+                width = imageView.getWidth() - Math.abs(dw);
+            else
+                width = view.getWidth() - Math.abs(dw);
+
+            if (dh > 0)
+                height = imageView.getHeight() - Math.abs(dh);
+            else
+                height = view.getHeight() - Math.abs(dh);
+
+            area[i] = width * height;
+        }
+
+        for (int i = 0; i < area.length; i++) {
+            Log.i("tag", "area " + " i: " + area[i]);
+        }
+
+        return area;
     }
 
     public void setOnCheckedChangeListener(OnCheckedChangeListener onCheckedChangeListener) {

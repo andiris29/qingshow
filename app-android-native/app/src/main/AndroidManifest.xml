@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.focosee.qingshow" >
+    package="com.focosee.qingshow">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -27,12 +27,12 @@
         android:configChanges="orientation|keyboardHidden"
         android:icon="@drawable/app_icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@android:style/Theme.Light.NoTitleBar">
 
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:label="@string/app_name"
-            android:exported="true"/>
+            android:exported="true"
+            android:label="@string/app_name" />
 
         <activity
             android:name=".activity.S18ShowByDateActivity"
@@ -50,70 +50,60 @@
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <activity
             android:name=".activity.S10ItemDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.S11NewTradeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
             android:name=".activity.U07RegisterActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_register"
             android:exported="true"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:label="@string/title_activity_register"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.U06LoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.U09TradeListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_name_activity_trade"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.U10AddressListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_addresslist"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.U11EditAddressActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_address"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.U12ReturnActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_return"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" >
-        </activity>
+            android:windowSoftInputMode="stateHidden|stateUnchanged"></activity>
         <activity
             android:name=".activity.U13PersonalizeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_u13_person"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" >
-        </activity>
+            android:windowSoftInputMode="stateHidden|stateUnchanged"></activity>
         <activity
             android:name=".activity.S03SHowActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:label="@string/title_activity_s03_show"
             android:exported="true"
-            android:screenOrientation="portrait" >
+            android:label="@string/title_activity_s03_show"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
@@ -124,27 +114,24 @@
             android:name=".activity.S04CommentActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s04_comment"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.S07CollectActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s07_collect"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            android:theme="@style/Transparent" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/Transparent"></activity>
         <activity
             android:name=".activity.S05ItemActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s05_item"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.LaunchActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_launch"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -155,21 +142,18 @@
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
             android:configChanges="keyboardHidden|orientation"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" >
-        </activity>
+            android:windowSoftInputMode="adjustResize"></activity>
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
+            android:screenOrientation="behind"></activity>
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -182,28 +166,24 @@
             android:name=".activity.S14FashionMsgActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/title_activity_s14_fashion_msg"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.G02WelcomeActivity"
-            android:label="@string/title_activity_g02_welcome" >
-        </activity>
+            android:label="@string/title_activity_g02_welcome"></activity>
         <activity
             android:name=".activity.U14CollectionActivity"
-            android:label="@string/title_activity_u14_collection" >
-        </activity>
+            android:label="@string/title_activity_u14_collection"></activity>
         <activity
             android:name=".activity.MenuActivity"
-            android:label="@string/title_activity_menu" >
-        </activity>
-        <activity android:name=".activity.S21CategoryActivity" >
-        </activity>
-        <activity android:name=".activity.S20MatcherActivity" >
-        </activity>
+            android:label="@string/title_activity_menu"></activity>
+        <activity android:name=".activity.S21CategoryActivity"></activity>
+        <activity
+            android:name=".activity.S20MatcherActivity"
+            android:screenOrientation="behind"></activity>
+        <activity android:name=".activity.S20MatchPreviewActivity"></activity>
         <activity
             android:name=".activity.S01MatchShowsActivity"
-            android:label="@string/title_activity_s01_match_shows" >
-        </activity>
+            android:label="@string/title_activity_s01_match_shows"></activity>
     </application>
 
 </manifest>

@@ -190,4 +190,6 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_s01_match_shows">S01MatchShowsActivity</string>
 
+    <string name="s20_dialog">确定删除？</string>
+
 </resources>

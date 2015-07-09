@@ -9,41 +9,49 @@
         android:id="@+id/canvas"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11"/>
+        android:layout_weight="11"
+        android:background="@color/white" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/selectRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:background="@color/white" />
 
-    <LinearLayout
-        android:background="#A0A0A0"
-        android:padding="10dp"
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="2"
+        android:background="#A0A0A0">
 
         <Button
-            android:text="选择分类"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_marginRight="5dp"
             android:id="@+id/selectBtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/nomal_btn"/>
+            android:layout_marginRight="5dp"
+            android:background="@drawable/nomal_btn"
+            android:text="选择分类"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_marginBottomPercent="15%"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginTopPercent="15%"
+            app:layout_widthPercent="45%" />
 
         <Button
-            android:text="预览搭配"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_marginLeft="5dp"
             android:id="@+id/submitBtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/bg_submit_match" />
-    </LinearLayout>
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/bg_submit_match"
+            android:text="预览搭配"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_marginBottomPercent="15%"
+            app:layout_marginRightPercent="3%"
+            app:layout_marginTopPercent="15%"
+            app:layout_widthPercent="45%" />
+    </android.support.percent.PercentRelativeLayout>
 </LinearLayout>
