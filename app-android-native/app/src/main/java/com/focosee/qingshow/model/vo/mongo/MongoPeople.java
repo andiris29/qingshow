@@ -24,7 +24,8 @@ public class MongoPeople implements Serializable {
     public int clothingSize;
     public int gender;
     public int hairType;
-    public String favoriteBrand;
+    public int bodyType;
+    public int dressStyle;
     public UserInfo userInfo;
     public LinkedList<Receiver> receivers;
     public MeasureInfo measureInfo;
