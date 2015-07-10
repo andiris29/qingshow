@@ -21,6 +21,15 @@
             body {
                 margin: 0;
             }
+            #root {
+                max-width: 960px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+            }
         </style>
 
         <script src="./bower_components/jquery/dist/jquery.js"></script>
@@ -31,11 +40,21 @@
         <script src="./bower_components/less/dist/less.js"></script>
         <script src="./bower_components/moment/moment.js"></script>
         <script src="./bower_components/underscore/underscore.js"></script>
+        <script src="./bower_components/noty/js/noty/packaged/jquery.noty.packaged.js"></script>
         <script src="./libs/requirejs-2.1.18/comments/require.js"></script>
         <script src="./libs-andrea/violet/violet.js"></script>
 
         <script>
             (function() {
+                $.noty.defaults = $.extend(true, $.noty.defaults, {
+                    'theme' : 'relax',
+                    'layout' : 'topCenter',
+                    'animation' : {
+                        'speed' : 300
+                    },
+                    'timeout' : 600,
+                });
+
                 requirejs.config({
                     'baseUrl' : '',
                     'paths' : {

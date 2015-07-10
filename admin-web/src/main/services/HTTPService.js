@@ -1,31 +1,17 @@
 // @formatter:off
 define([
-    'qingshow/core/VERSION'
-], function(VERSION) {
+], function() {
 // @formatter:on
     var HTTPService = {};
 
-    var _manifests = (function() {
-        var result = {};
-        var add = function(path, method) {
-            result[path] = {
-                'method' : method
-            };
-        };
-        add('/show/query', 'get');
-        add('/feeding/chosen', 'get');
-        add('/itemFeeding/random', 'get');
-        return result;
-    })();
-
-    HTTPService.request = function(path, data, callback) {
+    HTTPService.request = function(path, method, data, callback) {
         // Handle optional parameters
         if (arguments.length === 2 && arguments[1] instanceof Function) {
             callback = data;
             data = null;
         }
         data = data || {};
-        data.version = VERSION;
+        data.version = window.appConfig.VERSION;
         // Transform data to requestable
         for (var key in data) {
             if (data[key] instanceof Array) {
@@ -33,10 +19,9 @@ define([
             }
         }
         // Build settings
-        var manifest = _manifests[path];
         var settings = {
-            'url' : window.appConfig.appServer + path,
-            'type' : manifest.method,
+            'url' : window.appConfig.appServiceRoot + path,
+            'type' : method,
             'data' : data,
             'dataType' : 'json',
             'cache' : false,
@@ -48,7 +33,7 @@ define([
         $.ajax(settings).done(function(json) {
             console.log('api done: ' + path, data, json);
             if (callback) {
-                callback(null, json);
+                callback(null, json.metadata, json.data);
             }
         }).fail(function(target, msg, err) {
             console.log('api fail: ' + path, msg, err);

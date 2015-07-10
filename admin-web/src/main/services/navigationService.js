@@ -5,7 +5,7 @@ define([
     /**
      * TODO Support animation
      */
-    var ViewManeger = function() {
+    var NavigationService = function() {
         this._root = null;
         this._root$ = null;
 
@@ -14,12 +14,12 @@ define([
         this._currentView = null;
     };
 
-    ViewManeger.prototype.root = function(value) {
+    NavigationService.prototype.root = function(value) {
         this._root = value;
         this._root$ = $(this._root);
     };
 
-    ViewManeger.prototype.push = function(module) {
+    NavigationService.prototype.push = function(module) {
         if (!this._cache[module]) {
             this._load(module, function() {
                 this._push(this._generateView(module));
@@ -31,11 +31,11 @@ define([
         }
     };
 
-    ViewManeger.prototype.pop = function() {
+    NavigationService.prototype.pop = function() {
 
     };
 
-    ViewManeger.prototype._push = function(view) {
+    NavigationService.prototype._push = function(view) {
         if (this._currentView) {
             this._currentView.hide();
         }
@@ -43,7 +43,7 @@ define([
         this._currentView = view;
     };
 
-    ViewManeger.prototype._load = function(module, callback) {
+    NavigationService.prototype._load = function(module, callback) {
         var path = window.appConfig.moduleToPath(module);
         async.parallel([
         function(callback) {
@@ -71,6 +71,7 @@ define([
                     'href' : path + '.css'
                 });
                 link$.appendTo(document.head);
+            }).always(function() {
                 callback(null);
             });
 
@@ -83,10 +84,10 @@ define([
         }.bind(this));
     };
 
-    ViewManeger.prototype._generateView = function(module) {
+    NavigationService.prototype._generateView = function(module) {
         var cache = this._cache[module];
         return new cache.ViewClass(cache.domTemplate$.clone().get(0));
     };
 
-    return new ViewManeger();
+    return new NavigationService();
 });

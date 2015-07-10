@@ -1,4 +1,9 @@
-define([], function() {
+// @formatter:off
+define([
+    'main/services/navigationService',
+    'main/services/httpService'
+], function(navigationService, httpService) {
+// @formatter:on
     var View = function(dom, initOptions) {
         if (dom.get) {
             this._dom = dom.get(0);
@@ -60,11 +65,16 @@ define([], function() {
     View.prototype.getPreferredSize = function() {
     };
 
-    // ------ Navigation ------
+    // ------ NavigationService ------
     View.prototype.pushView = function(id) {
     };
 
     View.prototype.popView = function() {
+    };
+
+    // ------ HTTPService ------
+    View.prototype.request = function() {
+        httpService.request.apply(null, arguments);
     };
 
     return View;

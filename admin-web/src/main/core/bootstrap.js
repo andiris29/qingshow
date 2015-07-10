@@ -1,10 +1,9 @@
 // @formatter:off
 define([
-    'main/core/viewManeger',
+    'main/services/navigationService',
     'require'
-], function(viewManeger) {
+], function(navigationService) {
 // @formatter:on
-
-    viewManeger.root($('#root').get(0));
-    viewManeger.push('main/views/login/P01Login');
+    navigationService.root($('#root').get(0));
+    navigationService.push('main/views/login/P01Login');
 });
