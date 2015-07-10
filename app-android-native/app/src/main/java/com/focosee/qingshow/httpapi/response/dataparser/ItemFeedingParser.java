@@ -21,7 +21,7 @@ public class ItemFeedingParser {
             String items = response.getJSONObject("data").getJSONArray("items").toString();
             Type listType = new TypeToken<ArrayList<MongoItem>>() {
             }.getType();
-            Gson gson = QSGsonFactory.create();
+            Gson gson = QSGsonFactory.cateGoryBuilder().create();
             return gson.fromJson(items, listType);
         } catch (JSONException e) {
             return null;

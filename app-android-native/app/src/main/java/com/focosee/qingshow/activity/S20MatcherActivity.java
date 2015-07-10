@@ -343,21 +343,22 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
     private void checkBorder(QSImageView view) {
-        float nextX = view.getX();
-        float nextY = view.getY();
-        int intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth();
-        int intrinsicHeight = view.getImageView().getDrawable().getIntrinsicHeight();
 
-        if (view.getX() + intrinsicWidth > canvas.getWidth()) {
+        int intrinsicWidth = (int) (view.getImageView().getDrawable().getIntrinsicWidth() * view.getLastScaleFactor());
+        int intrinsicHeight = (int) (view.getImageView().getDrawable().getIntrinsicHeight() * view.getLastScaleFactor());
+        float nextX = view.getX() + intrinsicWidth * (view.getLastScaleFactor() - 1) / 2;
+        float nextY = view.getY() + intrinsicHeight * (view.getLastScaleFactor() - 1) / 2;
+
+        if (nextX + intrinsicWidth > canvas.getWidth()) {
             nextX = canvas.getWidth() - intrinsicWidth;
         }
-        if (view.getY() + intrinsicHeight > canvas.getHeight()) {
+        if (nextY + intrinsicHeight > canvas.getHeight()) {
             nextY = canvas.getHeight() - intrinsicHeight;
         }
-        if (view.getX() < 0) {
+        if (nextX < 0) {
             nextX = 0;
         }
-        if (view.getY() < 0) {
+        if (nextY < 0) {
             nextY = 0;
         }
 

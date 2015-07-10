@@ -18,7 +18,7 @@ public class CategoryParser {
     public static ArrayList<MongoCategories> parseQuery(JSONObject response) {
         try {
             String trades = response.getJSONObject("data").getJSONArray("categories").toString();
-            Gson gson = QSGsonFactory.create();
+            Gson gson = QSGsonFactory.parentCateGoryBuilder().create();
             return gson.fromJson(trades, new TypeToken<ArrayList<MongoCategories>>() {
             }.getType());
         } catch (JSONException e) {
