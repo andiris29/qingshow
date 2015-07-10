@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QSMatcherItemSelectionView.h"
+#import "QSMatcherItemSelectionViewProtocol.h"
+#import "QSMatcherItemPageSelectionView.h"
+
 
 @class QSMatcherItemsProvider;
 

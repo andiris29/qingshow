@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QSMatcherItemImageView : UIControl
+@interface QSMatcherItemPageSelectionImageView : UIControl
 
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
 @property (weak, nonatomic) IBOutlet UILabel* priceLabel;

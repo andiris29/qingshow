@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "QSMatcherItemSelectionView.h"
+#import "QSMatcherItemPageSelectionImageView.h"
 #import "QSMatcherCanvasView.h"
 #import "QSS21CategorySelectorVC.h"
 #import "QSMatcherItemsProvider.h"

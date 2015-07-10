@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSMatcherItemSelectionView.h"
+#import "QSMatcherItemPageSelectionView.h"
 #import "UINib+QSExtension.h"
-#import "QSMatcherItemImageView.h"
+#import "QSMatcherItemPageSelectionImageView.h"
 #define DIVIDER_X_WIDTH 4.f
 #define ITEM_WIDTH 60.f
 #define ITEM_PER_PAGE 5
-@interface QSMatcherItemSelectionView ()
+@interface QSMatcherItemPageSelectionView ()
 
 @property (assign, nonatomic) int count;
 @property (assign, nonatomic) int currentIndex;
@@ -27,21 +27,24 @@
 
 @property (strong, nonatomic) NSArray* itemImageViews;
 
-
 @end
 
-@implementation QSMatcherItemSelectionView
+@implementation QSMatcherItemPageSelectionView
+
+@synthesize datasource;
+@synthesize delegate;
+@synthesize selectIndex;
 
 #pragma mark - Init
 + (instancetype)generateView {
-    return [UINib generateViewWithNibName:@"QSMatcherItemSelectionView"];
+    return [UINib generateViewWithNibName:@"QSMatcherItemPageSelectionView"];
 }
 - (void)awakeFromNib {
     self.currentIndex = 0;
 
     NSMutableArray* array = [@[] mutableCopy];
     for (int i = 0; i < ITEM_PER_PAGE * 3; i++) {
-        QSMatcherItemImageView* v = [QSMatcherItemImageView generateView];
+        QSMatcherItemPageSelectionImageView* v = [QSMatcherItemPageSelectionImageView generateView];
         [v addTarget:self action:@selector(didClick:) forControlEvents:UIControlEventTouchUpInside];
         [array addObject:v];
         [self.scrollView addSubview:v];
@@ -71,7 +74,7 @@
     CGFloat dividerWidhth = (bounds.size.width - ITEM_PER_PAGE * width) / (ITEM_PER_PAGE + 1);
     CGFloat height = ITEM_WIDTH;
     for (int i = 0; i < self.itemImageViews.count; i++) {
-        QSMatcherItemImageView* v = self.itemImageViews[i];
+        QSMatcherItemPageSelectionImageView* v = self.itemImageViews[i];
         int screenNumber = i / ITEM_PER_PAGE;
         int imgIndex = i % ITEM_PER_PAGE;
         CGFloat x = screenNumber * bounds.size.width + imgIndex * (width + dividerWidhth) + dividerWidhth;
@@ -192,7 +195,7 @@
     
     for (int i = 0; i < self.itemImageViews.count; i++) {
         int itemIndex = indexFrom + i;
-        QSMatcherItemImageView* v = self.itemImageViews[i];
+        QSMatcherItemPageSelectionImageView* v = self.itemImageViews[i];
         if (itemIndex >= 0 && itemIndex < self.count) {
             NSDictionary* itemDict = [self.datasource selectionView:self itemDictAtIndex:itemIndex];
             [v bindWithItem:itemDict];
@@ -206,8 +209,8 @@
 }
 
 
-- (void)didClick:(QSMatcherItemImageView*)imgView {
-    for (QSMatcherItemImageView* v in self.itemImageViews) {
+- (void)didClick:(QSMatcherItemPageSelectionImageView*)imgView {
+    for (QSMatcherItemPageSelectionImageView* v in self.itemImageViews) {
         v.hovered = v == imgView;
     }
     int index = [self.itemImageViews indexOfObject:imgView];

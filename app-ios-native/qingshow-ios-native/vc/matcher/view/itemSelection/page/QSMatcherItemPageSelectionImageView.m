@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 QS. All rights reserved.
 //
 
-#import "QSMatcherItemImageView.h"
+#import "QSMatcherItemPageSelectionImageView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSItemUtil.h"
@@ -14,11 +14,11 @@
 #define COLOR_GRAY [UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f]
 #define COLOR_PINK [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f]
 
-@implementation QSMatcherItemImageView
+@implementation QSMatcherItemPageSelectionImageView
 
 
 + (instancetype)generateView {
-    return [UINib generateViewWithNibName:@"QSMatcherItemImageView"];
+    return [UINib generateViewWithNibName:@"QSMatcherItemPageSelectionImageView"];
 }
 
 - (void)awakeFromNib {

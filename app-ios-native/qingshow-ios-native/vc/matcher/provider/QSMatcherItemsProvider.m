@@ -31,14 +31,14 @@
 
 
 #pragma mark - QSMatcherItemSelectionView
-- (NSUInteger)numberOfItemInSelectionView:(QSMatcherItemSelectionView*)view {
+- (NSUInteger)numberOfItemInSelectionView:(UIView*)view {
     return self.resultArray.count;
 }
-- (NSDictionary*)selectionView:(QSMatcherItemSelectionView*)view itemDictAtIndex:(NSUInteger)index {
+- (NSDictionary*)selectionView:(UIView*)view itemDictAtIndex:(NSUInteger)index {
     return self.resultArray[index];
 }
 
-- (void)selectionView:(QSMatcherItemSelectionView*)view didSelectItemAtIndex:(NSUInteger)index {
+- (void)selectionView:(UIView*)view didSelectItemAtIndex:(NSUInteger)index {
     self.selectIndex = index;
     if (index >= self.resultArray.count) {
         return;
@@ -49,7 +49,7 @@
         [self.delegate matcherItemProvider:self ofCategory:self.categoryDict didSelectItem:item];
     }
 }
-- (void)selectionViewDidReachEnd:(QSMatcherItemSelectionView *)view {
+- (void)selectionViewDidReachEnd:(UIView*)view {
     if (self.reloadOp || self.loadMoreOp) {
         return;
     }
