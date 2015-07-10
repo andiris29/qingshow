@@ -2,13 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "slider_left_image.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "slider_left_image@2x.png"
+      "filename" : "白线.png"
     },
     {
       "idiom" : "universal",

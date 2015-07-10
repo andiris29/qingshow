@@ -56,7 +56,7 @@
 
     self.loginButton.layer.cornerRadius = self.loginButton.frame.size.height / 8;
     self.loginButton.layer.masksToBounds = YES;
-    [self.loginButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.2f]];
+    [self.loginButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
     
     // tap Setting
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];

@@ -103,9 +103,17 @@
     self.armButton.layer.borderColor = [[UIColor whiteColor]CGColor];
 
     
-    self.OKButton.backgroundColor = [UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1];
+    self.OKButton.backgroundColor = [UIColor whiteColor];
+    [self.OKButton setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
     self.OKButton.layer.cornerRadius = self.OKButton.frame.size.height / 8;
     self.OKButton.layer.masksToBounds = YES;
+    
+    NSArray *array = [NSArray arrayWithObjects:self.thinButton,self.JKButton,self.EAButton,self.hightButton,self.shenButton,self.tunButton,self.duButton,self.armButton,self.OKButton, nil];
+    for (UIButton *btn in array) {
+        
+            [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+       
+    }
     
     [self.navigationController.navigationBar setTitleTextAttributes:
      
@@ -156,8 +164,12 @@
 - (IBAction)getWithJK:(id)sender {
     self.dressStyle = 0;
     [self.EAButton setBackgroundColor:[UIColor clearColor]];
+    self.EAButton.selected = NO;
+    self.JKButton.selected = YES;
+    self.EAButton.titleLabel.alpha = 1.0f;
+    self.JKButton.titleLabel.alpha = .6f;
     self.EAButton.layer.borderWidth = 1.0f;
-    [self.JKButton setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+    [self.JKButton setBackgroundColor:[UIColor whiteColor]];
     self.JKButton.layer.cornerRadius = 4.f;
     self.JKButton.layer.masksToBounds = YES;
     self.JKButton.layer.borderWidth = 0.f;
@@ -166,11 +178,15 @@
 - (IBAction)getWithEA:(id)sender {
     self.dressStyle = 1;
     [self.JKButton setBackgroundColor:[UIColor clearColor]];
+    self.JKButton.selected = NO;
+    self.EAButton.selected = YES;
+    self.EAButton.titleLabel.alpha = .6f;
+    self.JKButton.titleLabel.alpha = 1.0f;
     self.JKButton.layer.borderWidth = 1.0f;
-    [self.EAButton setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+    [self.EAButton setBackgroundColor:[UIColor whiteColor]];
+    //[self.EAButton setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
     self.EAButton.layer.cornerRadius = 4.f;
     self.EAButton.layer.masksToBounds = YES;
-    //self.EAButton.layer.borderColor = [[UIColor clearColor]CGColor];
     self.EAButton.layer.borderWidth = 0.f;
 
 }
@@ -221,13 +237,17 @@
                     [button setSelected:NO];
                     button.layer.borderWidth = 1.0f;
                     [button setBackgroundColor:[UIColor clearColor]];
+                    button.titleLabel.alpha = 1.0f;
                     [self.expectations removeObject:mat];
                 } else{
                     [button setSelected:YES];
                     button.layer.borderWidth = 0.f;
                     button.layer.cornerRadius = 4.f;
                     button.layer.masksToBounds = YES;
-                    [button setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+                     button.titleLabel.alpha = .6f;
+                    [button setBackgroundColor:[UIColor whiteColor]];
+                    //self.thinButton.titleLabel.textColor = [UIColor blackColor];
+                   //[button setTitleColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f] forState:UIControlStateHighlighted];
                     [self.expectations addObject:mat];
                 }
                 break;
@@ -235,6 +255,7 @@
                 if (button.selected) {
                     [button setSelected:NO];
                      button.layer.borderWidth = 1.0f;
+                     button.titleLabel.alpha = 1.0f;
                      [button setBackgroundColor:[UIColor clearColor]];
                     [self.expectations removeObject:mat];
                 } else{
@@ -242,7 +263,9 @@
                     button.layer.borderWidth = 0.f;
                     button.layer.cornerRadius = 4.f;
                     button.layer.masksToBounds = YES;
-                    [button setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+                     button.titleLabel.alpha = .6f;
+                    [button setBackgroundColor:[UIColor whiteColor]];
+                    [button setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
                     [self.expectations addObject:mat];
                 }
                 break;
@@ -250,6 +273,7 @@
                 if (button.selected) {
                     [button setSelected:NO];
                      button.layer.borderWidth = 1.0f;
+                      button.titleLabel.alpha = 1.0f;
                     [button setBackgroundColor:[UIColor clearColor]];
                     [self.expectations removeObject:mat];
                 } else{
@@ -257,7 +281,9 @@
                     button.layer.borderWidth = 0.f;
                     button.layer.cornerRadius = 4.f;
                     button.layer.masksToBounds = YES;
-                    [button setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+                    button.titleLabel.alpha = .6f;
+                    [button setBackgroundColor:[UIColor whiteColor]];
+                    [button setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
                     [self.expectations addObject:mat];
                 }
                 break;
@@ -265,6 +291,7 @@
                 if (button.selected) {
                     [button setSelected:NO];
                      button.layer.borderWidth = 1.0f;
+                     button.titleLabel.alpha = 1.0f;
                     [button setBackgroundColor:[UIColor clearColor]];
                     [self.expectations removeObject:mat];
                 } else{
@@ -272,7 +299,9 @@
                     button.layer.borderWidth = 0.f;
                     button.layer.cornerRadius = 4.f;
                     button.layer.masksToBounds = YES;
-                    [button setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+                      button.titleLabel.alpha = .6f;
+                    [button setBackgroundColor:[UIColor whiteColor]];
+                    [button setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
                     [self.expectations addObject:mat];
                 }
 
@@ -281,6 +310,7 @@
                 if (button.selected) {
                     [button setSelected:NO];
                      button.layer.borderWidth = 1.0f;
+                     button.titleLabel.alpha = 1.0f;
                     [button setBackgroundColor:[UIColor clearColor]];
                     [self.expectations removeObject:mat];
                 } else{
@@ -288,7 +318,9 @@
                     button.layer.borderWidth = 0.f;
                     button.layer.cornerRadius = 4.f;
                     button.layer.masksToBounds = YES;
-                    [button setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+                     button.titleLabel.alpha = .6f;
+                    [button setBackgroundColor:[UIColor whiteColor]];
+                    [button setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
                     [self.expectations addObject:mat];
                 }
 
@@ -298,6 +330,7 @@
                 if (button.selected) {
                     [button setSelected:NO];
                      button.layer.borderWidth = 1.0f;
+                     button.titleLabel.alpha = 1.0f;
                     [button setBackgroundColor:[UIColor clearColor]];
                     [self.expectations removeObject:mat];
                 } else{
@@ -305,7 +338,9 @@
                     button.layer.borderWidth = 0.f;
                     button.layer.cornerRadius = 4.f;
                     button.layer.masksToBounds = YES;
-                    [button setBackgroundColor:[UIColor colorWithRed:146.f / 255.f green:8.f / 255.f blue:62.f / 255.f alpha:1]];
+                     button.titleLabel.alpha = .6f;
+                    [button setBackgroundColor:[UIColor whiteColor]];
+                    [button setTintColor:[UIColor colorWithRed:240 green:149 blue:164 alpha:1.0f]];
                     [self.expectations addObject:mat];
                 }
 
