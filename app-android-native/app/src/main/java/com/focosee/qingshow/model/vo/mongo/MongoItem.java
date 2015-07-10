@@ -12,12 +12,11 @@ import static com.focosee.qingshow.util.StringUtil.FormatPrice;
  */
 public class MongoItem implements Serializable {
 
-    //
     public static final String DEBUG_TAG = "MongoItem";
 
     public String _id;
 
-    public String categoryRef;
+    public MongoCategories categoryRef;
     public String name;
     public LinkedList<Image> images;
     public String source;

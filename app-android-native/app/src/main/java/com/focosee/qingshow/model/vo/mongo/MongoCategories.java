@@ -6,12 +6,13 @@ import java.io.Serializable;
  * Created by Administrator on 2015/6/24.
  */
 public class MongoCategories implements Serializable{
+
     public String _id;
     public String name;
     public String icon;
     public String order;
     public MatchInfo matchInfo;
-    public String parentRef;
+    public MongoParentCategories parentRef;
     public boolean activate = true;
 
     public class MatchInfo implements Serializable{
@@ -20,6 +21,7 @@ public class MongoCategories implements Serializable{
         public int row;
         public int column;
     }
+
     public MongoCategories() {
 
     }
