@@ -67,7 +67,11 @@
                         </collectionView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6i-HP-fvk">
                             <rect key="frame" x="251" y="503" width="41" height="41"/>
-                            <state key="normal" image="backToTopBtnImg">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="41" id="Kny-43-ZQk"/>
+                                <constraint firstAttribute="height" constant="41" id="zoS-p0-4uU"/>
+                            </constraints>
+                            <state key="normal" image="backToTopBtnImg_black">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -80,6 +84,7 @@
                         <constraint firstItem="sg7-Ao-Jcv" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="0bv-cw-wWg"/>
                         <constraint firstItem="XtV-4f-8cf" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="2hA-Nq-XQl"/>
                         <constraint firstItem="NhE-AF-avk" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="59l-JZ-XLK"/>
+                        <constraint firstAttribute="bottom" secondItem="a6i-HP-fvk" secondAttribute="bottom" constant="24" id="5O2-rg-UIB"/>
                         <constraint firstItem="NhE-AF-avk" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="7eb-A7-t3f"/>
                         <constraint firstAttribute="bottom" secondItem="XtV-4f-8cf" secondAttribute="bottom" id="9Xo-np-AOX"/>
                         <constraint firstAttribute="trailing" secondItem="sg7-Ao-Jcv" secondAttribute="trailing" id="ExF-TL-snU"/>
@@ -92,12 +97,11 @@
                         <constraint firstAttribute="bottom" secondItem="NhE-AF-avk" secondAttribute="bottom" id="U3G-Rw-ULy"/>
                         <constraint firstAttribute="trailing" secondItem="wEv-xg-OsW" secondAttribute="trailing" id="VUf-Jt-jSj"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2a-2R-OyG"/>
-                        <constraint firstAttribute="trailing" secondItem="a6i-HP-fvk" secondAttribute="trailing" constant="28" id="fJ5-W3-Px0"/>
                         <constraint firstAttribute="bottom" secondItem="wEv-xg-OsW" secondAttribute="bottom" id="hYo-fY-9r0"/>
+                        <constraint firstAttribute="trailing" secondItem="a6i-HP-fvk" secondAttribute="trailing" constant="28" id="jLk-qk-7zw"/>
                         <constraint firstItem="sg7-Ao-Jcv" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="l82-X2-0qy"/>
                         <constraint firstItem="wEv-xg-OsW" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="pv2-pq-dQv"/>
                         <constraint firstItem="XtV-4f-8cf" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="van-kQ-O1O"/>
-                        <constraint firstAttribute="bottom" secondItem="a6i-HP-fvk" secondAttribute="bottom" constant="24" id="vcQ-Bf-UqS"/>
                         <constraint firstAttribute="trailing" secondItem="DrY-X6-QFu" secondAttribute="trailing" id="z1p-nF-Kpg"/>
                     </constraints>
                 </view>
@@ -155,7 +159,7 @@
         </view>
     </objects>
     <resources>
-        <image name="backToTopBtnImg" width="41" height="41"/>
+        <image name="backToTopBtnImg_black" width="35" height="35"/>
         <image name="nav_btn_back" width="28" height="28"/>
         <image name="nav_btn_menu" width="28" height="28"/>
     </resources>

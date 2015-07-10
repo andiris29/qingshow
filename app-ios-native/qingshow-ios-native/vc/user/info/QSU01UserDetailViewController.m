@@ -287,7 +287,8 @@
     self.recommendCollectionView,
     self.favorCollectionView,
     self.followingTableView,
-    self.followerTableView
+    self.followerTableView,
+    self.backToTopBtn
     ];
 }
 
