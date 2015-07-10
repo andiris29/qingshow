@@ -90,6 +90,7 @@ static char alertDelegateObjKey;
     UIViewController* vc = dict[@"vc"];
     UIImageView* imageView = dict[@"imageView"];
     [self presentViewController:vc animated:NO completion:^{
+        
         [imageView removeFromSuperview];
     }];
 

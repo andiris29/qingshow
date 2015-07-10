@@ -13,6 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="QSG02WelcomeViewController">
             <connections>
+                <outlet property="loginAndRegisterView" destination="dNe-BQ-ikP" id="nQd-ox-5hJ"/>
                 <outlet property="loginBtn" destination="Cxr-lF-hi7" id="D2Q-7j-ckS"/>
                 <outlet property="pageControl" destination="eco-0C-SYn" id="cSa-UN-vrf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -36,7 +37,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNe-BQ-ikP">
                     <rect key="frame" x="0.0" y="518" width="320" height="50"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Kw-46-gPC">
+                        <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Kw-46-gPC">
                             <rect key="frame" x="8" y="10" width="145" height="30"/>
                             <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="15"/>
                             <state key="normal" title="登入">

@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *welcomeSCV;
+@property (weak, nonatomic) IBOutlet UIView *loginAndRegisterView;
 
 @property (weak, nonatomic) NSObject<QSG02WelcomeViewControllerDelegate>* delegate;
 

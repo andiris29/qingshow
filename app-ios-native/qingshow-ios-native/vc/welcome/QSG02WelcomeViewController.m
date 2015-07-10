@@ -31,7 +31,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.view.frame = [UIScreen mainScreen].bounds;
-    
+    self.loginAndRegisterView.hidden = YES;
     [self.navigationController.navigationBar setTitleTextAttributes:
      
      @{NSFontAttributeName:NAVNEWFONT,

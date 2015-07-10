@@ -75,13 +75,13 @@
     
     self.registerButton.layer.cornerRadius = self.registerButton.frame.size.height / 8;
     self.registerButton.layer.masksToBounds = YES;
-    self.registerButton.backgroundColor = [UIColor colorWithWhite:1 alpha:0.2f];
+    self.registerButton.backgroundColor = [UIColor colorWithWhite:1 alpha:1.0f];
   
     self.weixinButton.layer.cornerRadius = self.weixinButton.frame.size.height / 8;
     self.weixinButton.layer.masksToBounds = YES;
-    [self.weixinButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.2f]];
+    [self.weixinButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
     self.weiboButton.layer.cornerRadius = self.weiboButton.frame.size.height / 8;
-    [self.weiboButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.2f]];
+    [self.weiboButton setBackgroundColor:[UIColor colorWithWhite:1 alpha:1.0f]];
     self.weiboButton.layer.masksToBounds = YES;
     
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(resignOnTap:)];

@@ -90,6 +90,7 @@
             continue;
         }
         [resultArray addObject:cell.recordDic];
+        [resultArray addObjectsFromArray:self.selectedArray];
     }
     return resultArray;
 }

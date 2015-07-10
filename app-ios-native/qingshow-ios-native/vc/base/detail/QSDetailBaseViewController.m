@@ -92,8 +92,9 @@
         return;
     }
     UIScrollView* currentView = self.viewArray[self.currentSection];
+    UIView *view = [self.viewArray lastObject];
     [currentView.superview bringSubviewToFront:currentView];
-    
+    [view.superview bringSubviewToFront:view];
     CATransition* transition = [[CATransition alloc] init];
     CATransition* transition2 = [[CATransition alloc] init];
     transition.type = kCATransitionPush;
@@ -141,7 +142,10 @@
 - (void)configContentInset
 {
     float height = self.badgeView.frame.size.height;
-    for (UIScrollView* view in self.viewArray) {
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.viewArray];
+    [array removeLastObject];
+    for (UIScrollView* view in array) {
+    
         view.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
     }
 }

@@ -106,8 +106,8 @@
     NSDate *nowDate = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSDate *oldDate = [dateFormatter dateFromString:date];
-    NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date];
+    NSDate *date01 = [self buildDateFromResponseString:date];
+    NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date01];
     if (seconds >= 24*60*60) {
         return [NSString stringWithFormat:@"%d天之前",(int)seconds/(24*60*60)];
     }
