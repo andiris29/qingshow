@@ -191,5 +191,5 @@
     <string name="title_activity_s01_match_shows">S01MatchShowsActivity</string>
 
     <string name="s20_dialog">确定删除？</string>
-
+    <string name="s20_notify_more">图片被遮挡太多,请调整</string>
 </resources>

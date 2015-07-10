@@ -80,7 +80,7 @@ public class S21CategoryActivity extends BaseActivity {
                 }
                 ArrayList<MongoCategories> arrayList = CategoryParser.parseQuery(response);
                 for (MongoCategories ca : arrayList) {
-                    MongoParentCategories parentRef = ca.getParentRef();
+                    String parentRef = ca.parentRef;
                     boolean activate = ca.isActivate();
                     if (activate && (parentRef == null)) {
                         categories.add(ca);
@@ -90,10 +90,10 @@ public class S21CategoryActivity extends BaseActivity {
                     String id = categories.get(i).get_id();
                     ArrayList<MongoCategories> item = new ArrayList<>();
                     for (MongoCategories cas : arrayList) {
-                        MongoParentCategories parentRef = cas.getParentRef();
+                        String parentRef = cas.parentRef;
                         boolean activate = cas.isActivate();
 
-                        if (activate && (id.equals(parentRef._id))) {
+                        if (activate && (id.equals(parentRef))) {
                             item.add(cas);
                         }
                     }

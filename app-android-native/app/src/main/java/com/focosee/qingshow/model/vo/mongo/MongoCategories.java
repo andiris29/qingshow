@@ -11,7 +11,7 @@ public class MongoCategories implements Serializable{
     public String icon;
     public String order;
     public MatchInfo matchInfo;
-    public MongoParentCategories parentRef;
+    public String parentRef;
     public boolean activate = true;
 
     public class MatchInfo implements Serializable{
@@ -40,13 +40,6 @@ public class MongoCategories implements Serializable{
         this.name = name;
     }
 
-    public MongoParentCategories getParentRef() {
-        return parentRef;
-    }
-
-    public void setParentRef(MongoParentCategories parentRef) {
-        this.parentRef = parentRef;
-    }
 
     public String getIcon() {
         return icon;

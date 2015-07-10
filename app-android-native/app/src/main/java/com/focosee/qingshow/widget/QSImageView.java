@@ -304,15 +304,4 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         return Math.abs((rect.right - rect.left)) * Math.abs((rect.bottom - rect.top));
     }
 
-    public Rect getRect(){
-        Rect rect = new Rect();
-        this.getGlobalVisibleRect(rect);
-        return rect;
-    }
-
-
-
-
-
-
 }

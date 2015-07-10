@@ -17,7 +17,7 @@ public class MongoItem implements Serializable {
 
     public String _id;
 
-    public MongoCategories categoryRef;
+    public String categoryRef;
     public String name;
     public LinkedList<Image> images;
     public String source;

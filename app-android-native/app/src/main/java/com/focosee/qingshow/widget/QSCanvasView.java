@@ -10,9 +10,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroupOverlay;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.focosee.qingshow.util.RectUtil;
 import com.focosee.qingshow.widget.QSImageView;
 
 import java.util.ArrayList;
@@ -151,67 +153,42 @@ public class QSCanvasView extends FrameLayout {
         }
     }
 
-    public boolean checkOverlap(float percent){
-        boolean result = false;
-        List<float[]> areas = new ArrayList<>();
+    public float calcUnOverlapArea(View view) {
+        float area = 0f;
+        int index = indexOfChild(view);
+        Rect targetRect = new Rect();
+        view.getGlobalVisibleRect(targetRect);
+        List<Rect> rects = null;
 
-        for (QSImageView view : views) {
-            areas.add(getOverlapArea(view));
+        if (index == getChildCount() - 1){
+            return RectUtil.getRectArea(targetRect);
         }
 
-        for (int i = 0; i < areas.size(); i++) {
-        }
-
-        return result;
-    }
-
-    private void getRealArea(List<float[]> areas, int pos){
-        for (int i = 0; i < areas.size(); i++) {
-            float[] area = areas.get(i);
-
-        }
-    }
-
-    public float[] getOverlapArea(QSImageView view) {
-        float area[] = new float[views.size()];
-        Rect targetRect = view.getRect();
-
-        for (int i = 0; i < views.size(); i++) {
-            QSImageView imageView = views.get(i);
-
-            if (view == imageView) {
-                area[i] = -1;
+        for (int i = index + 1; i < getChildCount(); i++) {
+            Rect rect = new Rect();
+            getChildAt(i).getGlobalVisibleRect(rect);
+            if (RectUtil.clipRect(targetRect, rect) == null){
+                return 0f;
             }
 
-            Rect rect = imageView.getRect();
-            if (rect.right < targetRect.left || rect.top > targetRect.bottom || rect.left > targetRect.right || rect.bottom < targetRect.top) {
-                area[i] = 0;
+            if (rects == null){
+                rects = RectUtil.clipRect(targetRect, rect);
                 continue;
             }
 
-            float width = 0;
-            float height = 0;
-
-            int dw = rect.right - targetRect.right;
-            int dh = rect.bottom - targetRect.bottom;
-
-            if (dw > 0)
-                width = imageView.getWidth() - Math.abs(dw);
-            else
-                width = view.getWidth() - Math.abs(dw);
-
-            if (dh > 0)
-                height = imageView.getHeight() - Math.abs(dh);
-            else
-                height = view.getHeight() - Math.abs(dh);
-
-            area[i] = width * height;
+            List<Rect> newRects = new ArrayList<>();
+            for (Rect rectChlid : rects) {
+                if (RectUtil.clipRect(rectChlid, rect) != null){
+                    newRects.addAll(RectUtil.clipRect(rectChlid, rect));
+                }
+            }
+            rects = newRects;
         }
 
-        for (int i = 0; i < area.length; i++) {
-            Log.i("tag", "area " + " i: " + area[i]);
+         for (Rect rect : rects) {
+            area += RectUtil.getRectArea(rect);
         }
-
+        Log.i("tag","unOverLap: " + area + "area: " + RectUtil.getRectArea(targetRect));
         return area;
     }
 

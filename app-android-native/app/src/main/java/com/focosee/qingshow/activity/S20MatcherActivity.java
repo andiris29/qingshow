@@ -386,7 +386,7 @@ public class S20MatcherActivity extends BaseActivity {
         }
 
         for (String ref : lastCategoryRefs) {
-            if (!categoryRefs.contains(ref)){
+            if (!categoryRefs.contains(ref)) {
                 if (allSelect.containsKey(ref)) {
                     canvas.detach(allSelect.get(ref).view);
                     allSelect.remove(ref);
@@ -405,10 +405,10 @@ public class S20MatcherActivity extends BaseActivity {
 
     @OnClick(R.id.submitBtn)
     public void submit() {
-//        if (!checkOverlap()){
-//            Toast.makeText(this,"图片重叠区域过大",Toast.LENGTH_LONG).show();
-//            return;
-//        }
+        if (!checkOverlap(0.7f)) {
+            Toast.makeText(this, getResources().getString(R.string.s20_notify_more), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         if (hasDraw) {
             canvas.destroyDrawingCache();
@@ -424,13 +424,12 @@ public class S20MatcherActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private boolean checkOverlap() {
+    private boolean checkOverlap(float limit) {
         for (String s : allSelect.keySet()) {
             QSImageView view = allSelect.get(s).view;
-//            Log.i("tag","a: " + view.getArea() + "va: " + view.getOverlapArea(canvas));
-//            if (view.getVisibleArea() / view.getArea() < 0.7f){
-//                return false;
-//            }
+            if (canvas.calcUnOverlapArea(view) / view.getArea() < limit) {
+                return false;
+            }
         }
         return true;
     }
