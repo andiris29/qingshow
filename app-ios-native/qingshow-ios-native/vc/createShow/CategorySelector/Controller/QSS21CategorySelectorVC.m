@@ -47,6 +47,7 @@
     UIImage *backImage = [UIImage imageNamed:@"nav_btn_back"];
     backImage  = [backImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithImage:backImage style:UIBarButtonItemStylePlain target:self  action:@selector(gotoBack)];
+    
     self.navigationItem.leftBarButtonItem = leftItem;
     
 }
