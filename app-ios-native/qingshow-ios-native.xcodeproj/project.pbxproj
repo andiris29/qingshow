@@ -153,6 +153,10 @@
 		EF80803F1B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8080391B4F44D6005198B6 /* QSMatcherItemPageSelectionImageView.xib */; };
 		EF8080401B4F44D6005198B6 /* QSMatcherItemPageSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF80803B1B4F44D6005198B6 /* QSMatcherItemPageSelectionView.m */; };
 		EF8080411B4F44D6005198B6 /* QSMatcherItemPageSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF80803C1B4F44D6005198B6 /* QSMatcherItemPageSelectionView.xib */; };
+		EF8080461B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8080451B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.m */; };
+		EF8080491B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF8080481B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib */; };
+		EF80804D1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF80804B1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m */; };
+		EF80804E1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF80804C1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib */; };
 		EF810F331AB5D18D0079BA76 /* QSS11CreateTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F311AB5D18D0079BA76 /* QSS11CreateTradeViewController.m */; };
 		EF810F341AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF810F321AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib */; };
 		EF810F4B1AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF810F441AB5F81B0079BA76 /* QSCreateTradeHeigh40Cell.m */; };
@@ -645,6 +649,12 @@
 		EF80803B1B4F44D6005198B6 /* QSMatcherItemPageSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemPageSelectionView.m; sourceTree = "<group>"; };
 		EF80803C1B4F44D6005198B6 /* QSMatcherItemPageSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemPageSelectionView.xib; sourceTree = "<group>"; };
 		EF8080421B4F4543005198B6 /* QSMatcherItemSelectionViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemSelectionViewProtocol.h; sourceTree = "<group>"; };
+		EF8080441B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemScrollSelectionView.h; sourceTree = "<group>"; };
+		EF8080451B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemScrollSelectionView.m; sourceTree = "<group>"; };
+		EF8080481B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemScrollSelectionView.xib; sourceTree = "<group>"; };
+		EF80804A1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSMatcherItemScrollSelectionCollectionViewCell.h; sourceTree = "<group>"; };
+		EF80804B1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSMatcherItemScrollSelectionCollectionViewCell.m; sourceTree = "<group>"; };
+		EF80804C1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSMatcherItemScrollSelectionCollectionViewCell.xib; sourceTree = "<group>"; };
 		EF810F301AB5D18D0079BA76 /* QSS11CreateTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS11CreateTradeViewController.h; sourceTree = "<group>"; };
 		EF810F311AB5D18D0079BA76 /* QSS11CreateTradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS11CreateTradeViewController.m; sourceTree = "<group>"; };
 		EF810F321AB5D18D0079BA76 /* QSS11CreateTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS11CreateTradeViewController.xib; sourceTree = "<group>"; };
@@ -1586,6 +1596,12 @@
 		EF80803D1B4F44D6005198B6 /* scroll */ = {
 			isa = PBXGroup;
 			children = (
+				EF8080441B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.h */,
+				EF8080451B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.m */,
+				EF8080481B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib */,
+				EF80804A1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.h */,
+				EF80804B1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m */,
+				EF80804C1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib */,
 			);
 			path = scroll;
 			sourceTree = "<group>";
@@ -2583,6 +2599,7 @@
 				68E18C111B3AC188000A7985 /* hoderImg.png in Resources */,
 				EF0C64281B21AAC20079B22E /* QSU02ImgCell.xib in Resources */,
 				EF2E0F2F1A2F790400F3A25C /* WeiboSDK.bundle in Resources */,
+				EF8080491B4F4BB3005198B6 /* QSMatcherItemScrollSelectionView.xib in Resources */,
 				82B696841A19123200518EE5 /* QSU08PasswordViewController.xib in Resources */,
 				EF2A41611A5D91BF003266E0 /* QSItemImageTableViewCell.xib in Resources */,
 				EF3013331AC3174000568D92 /* AlipaySDK.bundle in Resources */,
@@ -2607,6 +2624,7 @@
 				EF6567751A470FA800B66E21 /* QSBigImageFashionTableViewCell.xib in Resources */,
 				EF78E3371AAF459800665EDD /* QSU09OrderListViewController.xib in Resources */,
 				8C9240071B25A8030043561E /* user_bg_default@2x.jpg in Resources */,
+				EF80804E1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.xib in Resources */,
 				A76A66591AFCB0D100AF5559 /* user_regAndlogin_backImage.png in Resources */,
 				EFD28CFE1AB41CBE00991ADD /* QSU12RefundViewController.xib in Resources */,
 				EF8080411B4F44D6005198B6 /* QSMatcherItemPageSelectionView.xib in Resources */,
@@ -2814,9 +2832,11 @@
 				EF1A59251A06761800001AE0 /* QSTimeCollectionViewCell.m in Sources */,
 				68DE6A981B40EB19001B829C /* QSS21ItemView.m in Sources */,
 				EFAB9C2F1B34300D008A4EF5 /* QSBadgeBtnGroup.m in Sources */,
+				EF80804D1B4F507B005198B6 /* QSMatcherItemScrollSelectionCollectionViewCell.m in Sources */,
 				EF0C63FF1B2186360079B22E /* UINib+QSExtension.m in Sources */,
 				EF9740F81A49BBA3001300B5 /* UIViewController+QSExtension.m in Sources */,
 				EF4EFD121B1232CC002C6430 /* QSPromotionUtil.m in Sources */,
+				EF8080461B4F4BA3005198B6 /* QSMatcherItemScrollSelectionView.m in Sources */,
 				EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */,
 				EFA618AC1A125FCB00560699 /* QSS04CommentListViewController.m in Sources */,
 				EF7826AE1A4EBA2200C69460 /* UIImage+BlurryImage.m in Sources */,
