@@ -26,10 +26,7 @@ define([
                 'password' : password
             }, function(err, metadata, data) {
                 if (err || metadata.error) {
-                    noty({
-                        'text' : 'Login fail.',
-                        'type' : 'error'
-                    });
+                    alertify.error('Login fail.');
                 }
             }.bind(this));
         }.bind(this));
