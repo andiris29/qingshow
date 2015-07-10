@@ -47,14 +47,14 @@
 //        if (indexPath.item == 1) {
 //            NSLog(@"result Array = %@",self.resultArray);
 //        }
-        
+//        
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {
             [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
         }
        
-        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
+        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
         return (UICollectionViewCell *)cell;
