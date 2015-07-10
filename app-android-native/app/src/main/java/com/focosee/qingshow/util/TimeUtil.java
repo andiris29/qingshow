@@ -1,13 +1,13 @@
 package com.focosee.qingshow.util;
 
-import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 public class TimeUtil {
@@ -104,6 +104,52 @@ public class TimeUtil {
         }
         SimpleDateFormat _mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
         return _mDateFormat.format(new Date(time));
+    }
+
+    public static String formatDateTime_CN_Pre(GregorianCalendar time){
+        if(null == time){
+            return null;
+        }
+
+        int timeI = (int)Math.abs(time.getTimeInMillis() - System.currentTimeMillis()) / 1000;//s
+        int m = timeI / 60;//m
+        if(m < 60){
+            return String.valueOf(m + "分钟");
+        }else{
+            m = m / 60;//h
+        }
+        if(m < 24){
+            return String.valueOf(m + "小时");
+        }else{
+            m = m / 24;//d
+        }
+        if(m < 30){
+            return String.valueOf(m + "天");
+        }else{
+            return String.valueOf(m / 30 + "月");//month
+        }
+    }
+
+    public static String formatDateTime_CN(GregorianCalendar time){
+        if(null == time){
+            return null;
+        }
+        SimpleDateFormat simpleDateFormat = null;
+        Calendar todayStart = Calendar.getInstance();
+        todayStart.set(Calendar.HOUR, 0);
+        todayStart.set(Calendar.MINUTE, 0);
+        todayStart.set(Calendar.SECOND, 0);
+        todayStart.set(Calendar.MILLISECOND, 0);
+        int day = (int)Math.abs(time.getTimeInMillis() - todayStart.getTimeInMillis()) / (1000 * 60 * 60 * 24);
+        if(day < 1) {
+            simpleDateFormat = new SimpleDateFormat("HH:mm");
+            return simpleDateFormat.format(new Date(time.getTimeInMillis()));
+        }
+        if(day == 1){
+            return "昨天";
+        }
+        simpleDateFormat = new SimpleDateFormat("yy/MM/dd");
+        return simpleDateFormat.format(new Date(time.getTimeInMillis()));
     }
 
 }

@@ -10,6 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.focosee.qingshow.QSApplication;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
 import com.focosee.qingshow.activity.U07RegisterActivity;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -19,12 +20,14 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 
 import org.json.JSONObject;
@@ -56,6 +59,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         if(baseResp instanceof SendAuth.Resp){
             SendAuth.Resp resp = (SendAuth.Resp)baseResp;
             loginWX(resp.code);
+            return;
+        }
+        if(baseResp instanceof SendMessageToWX.Resp){
+            Toast.makeText(WXEntryActivity.this, "SendMessageToWX.Resp", Toast.LENGTH_SHORT).show();
+            SendMessageToWX.Resp resp = (SendMessageToWX.Resp)baseResp;
+            EventModel<Integer> eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
+            EventBus.getDefault().post(eventModel);
+            finish();
+            return;
         }
     }
 

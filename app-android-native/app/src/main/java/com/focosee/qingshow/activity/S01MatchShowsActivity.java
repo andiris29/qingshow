@@ -9,12 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
 import com.android.volley.Response;
-import com.focosee.qingshow.Listener.EndlessRecyclerOnScrollListener;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
@@ -27,11 +23,8 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
-
 import org.json.JSONObject;
-
 import java.util.LinkedList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -47,14 +40,6 @@ public class S01MatchShowsActivity extends MenuActivity {
     ImageView s01MenuBtn;
     @InjectView(R.id.s01_tab_hot)
     Button s01TabHot;
-    @InjectView(R.id.s01_title_layout)
-    RelativeLayout s01TitleLayout;
-    @InjectView(R.id.navigation_btn_match)
-    ImageButton navigationBtnMatch;
-    @InjectView(R.id.navigation_btn_good_match)
-    ImageButton navigationBtnGoodMatch;
-    @InjectView(R.id.u01_people)
-    ImageButton u01Collection;
     @InjectView(R.id.s01_recyclerView)
     RecyclerPullToRefreshView recyclerPullToRefreshView;
     @InjectView(R.id.s01_tab_new)
@@ -95,7 +80,7 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
         recyclerView.setAdapter(adapter);
-        recyclerPullToRefreshView.doPullRefreshing(true, 200);
+        recyclerPullToRefreshView.doPullRefreshing(true, 0);
     }
 
     public void doRefresh(int type) {
