@@ -101,23 +101,33 @@
     }
 }
 
-- (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category {
+- (void)setItem:(NSDictionary*)itemDict forCategory:(NSDictionary*)category isFirst:(BOOL)fFirst {
     NSString* categoryId = [QSCommonUtil getIdOrEmptyStr:category];
-    [self setItem:itemDict forCategoryId:categoryId];
+    [self setItem:itemDict forCategoryId:categoryId isFirst:fFirst];
 }
-- (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId {
+- (void)setItem:(NSDictionary *)itemDict forCategoryId:(NSString *)categoryId isFirst:(BOOL)fFirst {
     QSCanvasImageView* imgView = self.categoryIdToView[categoryId];
     __weak QSCanvasImageView* weakImgView = imgView;
     [imgView.imgView setImageFromURL:[QSItemUtil getThumbnail:itemDict] beforeCompleteBlock:^(UIImage *img) {
-        
-        CGSize viewSize = weakImgView.bounds.size;
-        CGRect bounds = weakImgView.bounds;
-        viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
-        bounds.size = viewSize;
-        weakImgView.bounds = bounds;
-    
-        weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
-        
+        if (fFirst) {
+            CGSize viewSize = weakImgView.bounds.size;
+            CGRect bounds = weakImgView.bounds;
+            viewSize = [QSRectUtil scaleSize:img.size toFitSize:viewSize];
+            bounds.size = viewSize;
+            weakImgView.bounds = bounds;
+            
+            weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
+        } else {
+            CGSize imgSize = img.size;
+            CGSize viewSize = weakImgView.bounds.size;
+            CGFloat newHeigh = viewSize.width / imgSize.width * imgSize.height;
+            viewSize.height = newHeigh;
+            CGRect bounds = weakImgView.bounds;
+            bounds.size = viewSize;
+            weakImgView.bounds = bounds;
+            
+            weakImgView.frame = [QSRectUtil reducedFrame:weakImgView.frame forContainer:self.bounds];
+        }
     }];
 }
 

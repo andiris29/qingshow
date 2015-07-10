@@ -25,6 +25,7 @@
     if (self) {
         self.categoryDict = categoryDict;
         self.resultArray = [@[] mutableCopy];
+        self.fIsFirst = YES;
     }
     return self;
 }

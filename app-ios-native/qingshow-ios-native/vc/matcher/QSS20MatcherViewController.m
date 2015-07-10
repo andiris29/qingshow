@@ -231,7 +231,8 @@
 
 #pragma mark - QSMatcherItemsProviderDelegate
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider ofCategory:(NSDictionary*)categoryDict didSelectItem:(NSDictionary*)itemDict{
-    [self.canvasView setItem:itemDict forCategory:categoryDict];
+    [self.canvasView setItem:itemDict forCategory:categoryDict isFirst:provider.fIsFirst];
+    provider.fIsFirst = NO;
 }
 - (void)matcherItemProvider:(QSMatcherItemsProvider*)provider didFinishNetworkLoading:(NSDictionary*)categoryDict {
     if ([[QSCommonUtil getIdOrEmptyStr:categoryDict] isEqualToString:self.selectedCateId]) {

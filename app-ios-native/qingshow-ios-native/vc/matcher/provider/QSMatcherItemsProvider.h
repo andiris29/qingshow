@@ -28,7 +28,7 @@
 @property (assign, nonatomic) int selectIndex;
 @property (strong, nonatomic) NSMutableArray* resultArray;
 @property (weak, nonatomic) NSObject<QSMatcherItemsProviderDelegate>* delegate;
-
+@property (assign, nonatomic) BOOL fIsFirst;
 - (void)reloadData;
 
 @end
