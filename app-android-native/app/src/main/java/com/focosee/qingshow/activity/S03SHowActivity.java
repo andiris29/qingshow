@@ -405,7 +405,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         msg = new WXMediaMessage();
         msg.mediaObject = webpage;
         Bitmap thumb = BitmapFactory.decodeResource(getResources(), ShareConfig.IMG);
-        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false);
+        msg.thumbData = BitMapUtil.bmpToByteArray(thumb, false, Bitmap.CompressFormat.PNG);
         msg.setThumbImage(thumb);
         msg.title = ShareConfig.SHARE_TITLE;
         msg.description = ShareConfig.SHARE_DESCRIPTION;

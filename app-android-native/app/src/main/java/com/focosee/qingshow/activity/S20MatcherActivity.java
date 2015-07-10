@@ -199,9 +199,8 @@ public class S20MatcherActivity extends BaseActivity {
                         allSelect.get(categoryRef).view.setContainerWidth(allSelect.get(categoryRef).view.getImageView().getDrawable().getIntrinsicWidth());
                     }
                 });
-                if (allSelect.containsKey(categoryRef)) {
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setLastChecked(view).setSelectPos(position));
-                }
+                allSelect.put(categoryRef, allSelect.get(categoryRef).setLastChecked(view).setSelectPos(position).setItem(datas));
+
             }
         });
         selectRV.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
@@ -269,9 +268,9 @@ public class S20MatcherActivity extends BaseActivity {
                 }
                 datas = ItemFeedingParser.parse(response);
                 if (allSelect.containsKey(categoryRef)) {
-                    allSelect.put(categoryRef, allSelect.get(categoryRef).setData(datas));
+                    allSelect.put(categoryRef, allSelect.get(categoryRef).setData(datas).setItem(datas.get(0)));
                 } else {
-                    allSelect.put(categoryRef, new Select().setData(datas));
+                    allSelect.put(categoryRef, new Select().setData(datas).setItem(datas.get(0)));
                 }
 
                 int left = 0;
@@ -343,25 +342,24 @@ public class S20MatcherActivity extends BaseActivity {
     }
 
     private void checkBorder(QSImageView view) {
+        float nextX = view.getX();
+        float nextY = view.getY();
+        int intrinsicWidth = view.getImageView().getDrawable().getIntrinsicWidth();
+        int intrinsicHeight = view.getImageView().getDrawable().getIntrinsicHeight();
 
-        int intrinsicWidth = (int) (view.getImageView().getDrawable().getIntrinsicWidth() * view.getLastScaleFactor());
-        int intrinsicHeight = (int) (view.getImageView().getDrawable().getIntrinsicHeight() * view.getLastScaleFactor());
-        float nextX = view.getX() + intrinsicWidth * (view.getLastScaleFactor() - 1) / 2;
-        float nextY = view.getY() + intrinsicHeight * (view.getLastScaleFactor() - 1) / 2;
-
-        if (nextX + intrinsicWidth > canvas.getWidth()) {
+        if (view.getX() + intrinsicWidth > canvas.getWidth()) {
             nextX = canvas.getWidth() - intrinsicWidth;
         }
-        if (nextY + intrinsicHeight > canvas.getHeight()) {
+        if (view.getY() + intrinsicHeight > canvas.getHeight()) {
             nextY = canvas.getHeight() - intrinsicHeight;
         }
-        if (nextX < 0) {
+        if (view.getX() < 0) {
             nextX = 0;
         }
-        if (nextY < 0) {
+        if (view.getY() < 0) {
             nextY = 0;
         }
-
+        Log.i("tag", "nextX: " + nextX + " nextY: " + nextY + " width: " + intrinsicWidth + " height: " + intrinsicHeight);
         ObjectAnimator y = ObjectAnimator.ofFloat(view, "y", view.getY(), nextY);
         ObjectAnimator x = ObjectAnimator.ofFloat(view, "x", view.getX(), nextX);
 
@@ -422,6 +420,11 @@ public class S20MatcherActivity extends BaseActivity {
         hasDraw = true;
 
         Intent intent = new Intent(S20MatcherActivity.this, S20MatchPreviewActivity.class);
+        List<MongoItem> items = new ArrayList<>();
+        for (String s : allSelect.keySet()) {
+
+        }
+
         startActivity(intent);
     }
 
@@ -441,6 +444,7 @@ public class S20MatcherActivity extends BaseActivity {
         public QSImageView view;
         public int pageNo;
         public List<MongoItem> data;
+        public MongoItem item;
 
         public Select setData(List<MongoItem> data) {
             this.data = data;
@@ -464,6 +468,11 @@ public class S20MatcherActivity extends BaseActivity {
 
         public Select setLastChecked(RadioLayout lastChecked) {
             this.lastChecked = lastChecked;
+            return this;
+        }
+
+        public Select setItem(MongoItem item) {
+            this.item = item;
             return this;
         }
     }

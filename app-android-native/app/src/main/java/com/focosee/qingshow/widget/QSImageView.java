@@ -42,15 +42,17 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     private String categoryId;
 
     private ScaleGestureDetector scaleGestureDetector;
+
     private float lastScaleFactor = 1.0f;
-    private boolean isScale = false;
-    boolean isScaleJustEnd = false;
+    private boolean isScaling = false;
+    boolean isScalingJustEnd = false;
     private int doubleFlag = 2;
 
     private float intrinsicWidth = 0;
     private float intrinsicHeight = 0;
 
     private boolean moveable = false;
+    private boolean hasScaled = false;
 
     private OnClickListener onDelClickListener;
 
@@ -88,7 +90,7 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         scaleGestureDetector.onTouchEvent(event);
-        if (isScale) {
+        if (isScaling) {
             doubleFlag = 2;
             return true;
         }
@@ -106,8 +108,8 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
                     return false;
                 }
 //                goneDelBtn();
-                if (isScaleJustEnd) {
-                    isScaleJustEnd = false;
+                if (isScalingJustEnd) {
+                    isScalingJustEnd = false;
                     return true;
                 }
 
@@ -185,27 +187,28 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         float scaleFactor = detector.getScaleFactor();
         lastScaleFactor *= scaleFactor;
 
-//        Log.i("tag", getActualMaxScale() + "");
         getArea();
         setScaleX(lastScaleFactor);
         setScaleY(lastScaleFactor);
 
-//        Log.i("tag", "height: " + imageView.getDrawable().getIntrinsicHeight() + "width: " + imageView.getDrawable().getIntrinsicWidth());
-//        Log.i("tag", "scale " + "x: " + getX() + " y: " + getY() + " scaleFacctor: " + scaleFactor);
+        if (lastScaleFactor != 1.0f) hasScaled = true;
+        else hasScaled = false;
+
+
         return true;
     }
 
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
-        isScale = true;
+        isScaling = true;
         goneDelBtn();
         return true;
     }
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
-        isScale = false;
-        isScaleJustEnd = true;
+        isScaling = false;
+        isScalingJustEnd = true;
     }
 
     public ImageView getImageView() {
@@ -298,10 +301,13 @@ public class QSImageView extends RelativeLayout implements ScaleGestureDetector.
         this.moveable = moveable;
     }
 
-    public float getArea(){
+    public float getArea() {
         Rect rect = new Rect();
         this.getGlobalVisibleRect(rect);
         return Math.abs((rect.right - rect.left)) * Math.abs((rect.bottom - rect.top));
     }
 
+    public float getLastScaleFactor() {
+        return lastScaleFactor;
+    }
 }

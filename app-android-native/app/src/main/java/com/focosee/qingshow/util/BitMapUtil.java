@@ -56,7 +56,6 @@ public class BitMapUtil {
         int wh = w * h;
         int div = radius + radius + 1;
         if(isFirstBlur) {//defind outOfmenmry
-            Log.d("BitMapUtil*******************", wh + "");
             r = new int[wh];
             g = new int[wh];
             b = new int[wh];
@@ -242,9 +241,9 @@ public class BitMapUtil {
         return (bitmap);
     }
 
-    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle, Bitmap.CompressFormat type) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
+        bmp.compress(type, 100, output);
         if (needRecycle) {
             bmp.recycle();
         }
