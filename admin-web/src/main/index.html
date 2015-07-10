@@ -16,39 +16,48 @@
         <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
         <link rel="shortcut icon" href="/favicon.ico">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-        
+
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+
         <script src="./bower_components/jquery/dist/jquery.js"></script>
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap-theme.css" />
         <script src="./bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script src="./bower_components/async/dist/async.min.js"></script>
         <script src="./bower_components/less/dist/less.js"></script>
         <script src="./bower_components/moment/moment.js"></script>
         <script src="./bower_components/underscore/underscore.js"></script>
         <script src="./libs/requirejs-2.1.18/comments/require.js"></script>
+        <script src="./libs-andrea/violet/violet.js"></script>
+
+        <script>
+            (function() {
+                requirejs.config({
+                    'baseUrl' : '',
+                    'paths' : {
+                        'main' : './'
+                    }
+                });
+
+                window.appConfig = {
+                    'VERSION' : '2.1.0',
+                    'appServiceRoot' : 'http://121.41.161.239/services',
+                    'moduleToPath' : function(module) {
+                        return module.replace('main/', './');
+                    }
+                };
+                $(function() {
+                    require(['main/core/bootstrap']);
+                });
+            })();
+        </script>
     </head>
 
     <body>
-        <div>
-            <header>
-                <h1>index</h1>
-            </header>
-            <nav>
-                <p>
-                    <a href="/">Home</a>
-                </p>
-                <p>
-                    <a href="/contact">Contact</a>
-                </p>
-            </nav>
-
-            <div>
-
-            </div>
-
-            <footer>
-                <p>
-                    &copy; Copyright  by Wang, Andrea
-                </p>
-            </footer>
-        </div>
+        <div id="root"></div>
     </body>
 </html>
