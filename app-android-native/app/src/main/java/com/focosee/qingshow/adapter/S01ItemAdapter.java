@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.TextView;
+
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.S03SHowActivity;
 import com.focosee.qingshow.activity.U01UserActivity;
@@ -12,6 +12,7 @@ import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
+import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import java.util.LinkedList;
@@ -50,7 +51,7 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
             }
         });
         holder.setImgeByUrl(R.id.item_s01_preground, show.coverForeground, 0.5f);
-        holder.setImgeByUrl(R.id.item_s01_img, show.cover, 1f, "jpeg");
+        holder.setImgeByUrl(R.id.item_s01_img, show.cover, 1f, "JPG");
         MongoPeople user = new MongoPeople();
         if(null != show.__context){
             if(null != show.__context.createdBy){
@@ -61,8 +62,10 @@ public class S01ItemAdapter extends AbsAdapter<MongoShow> {
         if(null != user.portrait || "".equals(user.portrait))
             holder.setImgeByUrl(R.id.item_s01_head_img, user.portrait, 1f);
 
-        ((TextView)holder.getView(R.id.item_s01_nikename)).setText(user.nickname);
-        ((TextView)holder.getView(R.id.item_s01_likeNum)).setText(String.valueOf(show.numLike));
+        holder.setText(R.id.item_s01_time, null == TimeUtil.formatDateTime_CN_Pre(show.create) ? "刚刚" :TimeUtil.formatDateTime_CN_Pre(show.create) + "前");
+        holder.setText(R.id.item_s01_nikename, user.nickname);
+        holder.setText(R.id.item_s01_likeNum, String.valueOf(show.numLike));
 
     }
+
 }

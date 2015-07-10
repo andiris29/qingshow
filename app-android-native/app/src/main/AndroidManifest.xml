@@ -171,9 +171,6 @@
             android:name=".activity.G02WelcomeActivity"
             android:label="@string/title_activity_g02_welcome"></activity>
         <activity
-            android:name=".activity.U14CollectionActivity"
-            android:label="@string/title_activity_u14_collection"></activity>
-        <activity
             android:name=".activity.MenuActivity"
             android:label="@string/title_activity_menu"></activity>
         <activity android:name=".activity.S21CategoryActivity"></activity>
