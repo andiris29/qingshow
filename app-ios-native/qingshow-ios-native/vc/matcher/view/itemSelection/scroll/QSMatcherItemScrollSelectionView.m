@@ -8,6 +8,8 @@
 
 #import "QSMatcherItemScrollSelectionView.h"
 #import "QSMatcherItemScrollSelectionCollectionViewCell.h"
+#import "UINib+QSExtension.h"
+#import "QSHorizontalCollectionViewLayout.h"
 
 @interface QSMatcherItemScrollSelectionView ()
 
@@ -17,14 +19,35 @@
 
 @implementation QSMatcherItemScrollSelectionView
 
-@synthesize selectIndex;
-@synthesize datasource;
-@synthesize delegate;
+@synthesize selectIndex = _selectIndex;
+@synthesize datasource = _datasource;
+@synthesize delegate = _delegate;
 
+- (void)setSelectIndex:(int)selectIndex {
+    NSIndexPath* indexPath = [NSIndexPath indexPathForItem:_selectIndex inSection:0];
+    QSMatcherItemScrollSelectionCollectionViewCell* cell = (QSMatcherItemScrollSelectionCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+    cell.hover = NO;
+    
+    _selectIndex = selectIndex;
+    indexPath = [NSIndexPath indexPathForItem:_selectIndex inSection:0];
+    cell = (QSMatcherItemScrollSelectionCollectionViewCell*)[self.collectionView cellForItemAtIndexPath:indexPath];
+    cell.hover = YES;
+}
+
+#pragma mark - Static
++ (instancetype)generateView {
+    return [UINib generateViewWithNibName:@"QSMatcherItemScrollSelectionView"];
+}
+#pragma mark - Life Cycle
 - (void)awakeFromNib {
     [self.collectionView registerNib:[UINib nibWithNibName:@"QSMatcherItemScrollSelectionCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:QSMatcherItemScrollSelectionCollectionViewCellIdentifier];
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
+    QSHorizontalCollectionViewLayout* layout = [[QSHorizontalCollectionViewLayout alloc] init];
+    layout.itemWidth = 60.f;
+    layout.itemHeight = 78.f;
+    layout.horizontalSpace = 4.f;
+    self.collectionView.collectionViewLayout = layout;
 }
 
 #pragma mark - QSMatcherItemSelectionViewProtocol
@@ -33,6 +56,35 @@
 }
 - (void)offsetToZero:(BOOL)fAnimate {
     [self.collectionView setContentOffset:CGPointZero animated:fAnimate];
+}
+
+
+#pragma mark - UICollectionView DataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [self.datasource numberOfItemInSelectionView:self];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSDictionary* dict = [self.datasource selectionView:self itemDictAtIndex:indexPath.item];
+    QSMatcherItemScrollSelectionCollectionViewCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:QSMatcherItemScrollSelectionCollectionViewCellIdentifier forIndexPath:indexPath];
+    [cell bindWithDict:dict];
+    cell.hover = self.selectIndex == indexPath.item;
+    return cell;
+}
+
+#pragma mark - UICollectionView Delegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectIndex = indexPath.item;
+    [self.delegate selectionView:self didSelectItemAtIndex:indexPath.item];
+}
+
+#pragma mark - UIScrollView Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if (scrollView.contentOffset.x + scrollView.bounds.size.width * 3 >= scrollView.contentSize.width) {
+        [self.delegate selectionViewDidReachEnd:self];
+    }
 }
 
 @end

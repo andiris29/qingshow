@@ -10,6 +10,6 @@
 #import "QSMatcherItemSelectionViewProtocol.h"
 @interface QSMatcherItemScrollSelectionView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, QSMatcherItemSelectionViewProtocol>
 
-
++ (instancetype)generateView;
 
 @end

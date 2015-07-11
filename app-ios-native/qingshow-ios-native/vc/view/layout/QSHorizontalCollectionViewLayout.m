@@ -11,14 +11,19 @@
 @interface QSHorizontalCollectionViewLayout ()
 
 @property (assign, nonatomic) int cellCount;
-
+@property (assign, nonatomic) CGFloat verticalSpace;
 @end
 
 @implementation QSHorizontalCollectionViewLayout
 
+- (void)setItemHeight:(CGFloat)itemHeight {
+    _itemHeight = itemHeight;
+
+}
 - (void)prepareLayout {
     [super prepareLayout];
     self.cellCount = [self.collectionView numberOfItemsInSection:0];
+    self.verticalSpace = (self.collectionView.bounds.size.height - self.itemHeight) / 2;
 }
 
 - (CGSize)collectionViewContentSize {
@@ -28,7 +33,7 @@
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    CGFloat x = indexPath.row * (self.itemWidth + self.horizontalSpace);
+    CGFloat x = self.horizontalSpace / 2 + indexPath.row * (self.itemWidth + self.horizontalSpace);
     attributes.frame = CGRectMake(x, self.verticalSpace, self.itemWidth, self.itemHeight);
     return attributes;
     
@@ -38,9 +43,8 @@
 -(NSArray*)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray* attributes = [NSMutableArray array];
-    NSInteger start = rect.origin.x / (self.itemWidth + self.horizontalSpace);
-    NSInteger end = (rect.origin.x + rect.size.width) / (self.itemWidth + self.horizontalSpace);
-    for (NSInteger i= start ; i < end; i++) {
+    
+    for (NSInteger i=0 ; i < self.cellCount; i++) {
         
         NSIndexPath* indexPath = [NSIndexPath indexPathForItem:i inSection:0];
         [attributes addObject:[self layoutAttributesForItemAtIndexPath:indexPath]];

@@ -7,11 +7,33 @@
 //
 
 #import "QSMatcherItemScrollSelectionCollectionViewCell.h"
+#import "QSItemUtil.h"
+#import "UIImageView+MKNetworkKitAdditions.h"
+
+#define COLOR_GRAY [UIColor colorWithRed:149.f/255.f green:149.f/255.f blue:149.f/255.f alpha:1.f]
+#define COLOR_PINK [UIColor colorWithRed:240.f/255.f green:149.f/255.f blue:164.f/255.f alpha:1.f]
 
 @implementation QSMatcherItemScrollSelectionCollectionViewCell
 
 - (void)awakeFromNib {
     // Initialization code
+    self.imgView.layer.borderWidth = 1.f;
 }
 
+- (void)bindWithDict:(NSDictionary*)dict {
+    [self.imgView setImageFromURL:[QSItemUtil getThumbnail:dict]];
+    self.label.text = [QSItemUtil getPrice:dict];
+}
+
+- (void)setHover:(BOOL)hover {
+    _hover = hover;
+    [self _updateColor];
+}
+- (void)_updateColor {
+    if (self.hover) {
+        self.imgView.layer.borderColor = COLOR_PINK.CGColor;
+    } else {
+        self.imgView.layer.borderColor = COLOR_GRAY.CGColor;
+    }
+}
 @end

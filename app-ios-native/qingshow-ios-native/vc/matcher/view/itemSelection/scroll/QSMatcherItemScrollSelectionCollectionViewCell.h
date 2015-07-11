@@ -13,4 +13,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
 @property (weak, nonatomic) IBOutlet UILabel* label;
 
+@property (assign, nonatomic) BOOL hover;
+
+- (void)bindWithDict:(NSDictionary*)dict;
+
+
 @end
+

@@ -13,6 +13,5 @@
 @property (assign, nonatomic) CGFloat itemWidth;
 @property (assign, nonatomic) CGFloat itemHeight;
 @property (assign, nonatomic) CGFloat horizontalSpace;
-@property (assign, nonatomic) CGFloat verticalSpace;
 
 @end

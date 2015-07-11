@@ -19,11 +19,14 @@
 #import "UIView+ScreenShot.h"
 #import "QSS03ShowDetailViewController.h"
 
+#import "QSMatcherItemPageSelectionImageView.h"
+#import "QSMatcherItemScrollSelectionView.h"
+
 #import "NSArray+QSExtension.h"
 
 @interface QSS20MatcherViewController ()
 
-@property (strong, nonatomic) QSMatcherItemPageSelectionView* itemSelectionView;
+@property (strong, nonatomic) UIView<QSMatcherItemSelectionViewProtocol>* itemSelectionView;
 @property (strong, nonatomic) QSMatcherCanvasView* canvasView;
 
 @property (strong, nonatomic) NSMutableDictionary* cateIdToProvider;
@@ -54,7 +57,8 @@
     self.categorySelectionButton.layer.cornerRadius = 4.f;
     self.categorySelectionButton.layer.masksToBounds = YES;
     // Do any additional setup after loading the view from its nib.
-    self.itemSelectionView = [QSMatcherItemPageSelectionView generateView];
+//    self.itemSelectionView = [QSMatcherItemPageSelectionView generateView];
+    self.itemSelectionView = [QSMatcherItemScrollSelectionView generateView];
     self.itemSelectionView.frame = self.itemSelectionContainer.bounds;
     [self.itemSelectionContainer addSubview:self.itemSelectionView];
     [self.itemSelectionView reloadData];
