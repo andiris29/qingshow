@@ -470,7 +470,7 @@ trade.find = {
     'func' : function(req, res) {
         MongoHelper.querySchema(Trade, req.queryString, function(err, trades) {
             ResponseHelper.response(res, err, {
-                'trade' : trades
+                'trades' : trades
             });
         });
     }
