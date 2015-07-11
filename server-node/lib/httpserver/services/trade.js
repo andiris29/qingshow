@@ -10,6 +10,7 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var TradeHelper = require('../helpers/TradeHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
+var MongoHelper = require('../helpers/MongoHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
@@ -459,6 +460,17 @@ trade.refreshPaymentStatus = {
         function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
+            });
+        });
+    }
+};
+
+trade.find = {
+    'method' : 'get',
+    'func' : function(req, res) {
+        MongoHelper.querySchema(Trade, req.queryString, function(err, trades) {
+            ResponseHelper.response(res, err, {
+                'trade' : trades
             });
         });
     }
