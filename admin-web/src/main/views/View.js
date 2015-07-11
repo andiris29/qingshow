@@ -1,18 +1,16 @@
 // @formatter:off
 define([
-    'main/core/UI',
     'main/services/navigationService',
-    'main/services/httpService'
+    'main/services/appService'
 ], function(
-    UI,
     navigationService, 
-    httpService
+    appService
 ) {
 // @formatter:on
     var View = function(dom, initOptions) {
         View.superclass.constructor.apply(this, arguments);
     };
-    violet.oo.extend(View, UI);
+    violet.oo.extend(View, violet.ui.ViewBase);
     
     // ------ NavigationService ------
     View.prototype.pushView = function(id) {
@@ -23,7 +21,7 @@ define([
 
     // ------ HTTPService ------
     View.prototype.request = function() {
-        httpService.request.apply(null, arguments);
+        appService.request.apply(null, arguments);
     };
 
     return View;

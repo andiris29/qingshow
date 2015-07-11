@@ -7,7 +7,7 @@
         Remove this if you use the .htaccess -->
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>index</title>
+        <title>Admin</title>
         <meta name="description" content="">
         <meta name="author" content="Wang, Andrea">
 
@@ -50,16 +50,21 @@
                 requirejs.config({
                     'baseUrl' : '',
                     'paths' : {
-                        'main' : './'
+                        'main' : '.'
                     }
                 });
 
+                violet.ui.factory.config({
+                    'moduleToControllerClass' : function(module) {
+                        return module;
+                    },
+                    'moduleToTemplatePath' : function(module) {
+                        return module.replace('main/', './') + '.html';
+                    }
+                });
                 window.appConfig = {
                     'VERSION' : '2.1.0',
-                    'appServiceRoot' : 'http://121.41.161.239/services',
-                    'moduleToPath' : function(module) {
-                        return module.replace('main/', './');
-                    }
+                    'appServiceRoot' : 'http://121.41.161.239/services'
                 };
                 $(function() {
                     require(['main/core/bootstrap']);

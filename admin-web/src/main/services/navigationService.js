@@ -1,7 +1,6 @@
 // @formatter:off
 define([
-    'main/services/uiService'
-], function(uiService) {
+], function() {
 // @formatter:on
     /**
      * TODO Support animation
@@ -19,8 +18,8 @@ define([
         this._root$ = $(this._root);
     };
 
-    NavigationService.prototype.push = function(module) {
-        uiService.loadView(module, function(err, view) {
+    NavigationService.prototype.push = function(module, initOptions) {
+        violet.ui.factory.createView(module, initOptions, function(err, view) {
             this._push(view);
         }.bind(this));
     };

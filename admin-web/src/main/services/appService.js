@@ -2,9 +2,10 @@
 define([
 ], function() {
 // @formatter:on
-    var HTTPService = {};
+    var AppService = function() {
+    };
 
-    HTTPService.request = function(path, method, data, callback) {
+    AppService.prototype.request = function(path, method, data, callback) {
         // Handle optional parameters
         if (arguments.length === 2 && arguments[1] instanceof Function) {
             callback = data;
@@ -44,5 +45,5 @@ define([
         });
     };
 
-    return HTTPService;
+    return new AppService();
 });
