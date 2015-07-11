@@ -3,7 +3,7 @@
     // ------------------
     // violet.oo
     // ------------------
-    var _extend = function(subClz, superClz) {
+    var extend = function(subClz, superClz) {
         var subClzPrototype = subClz.prototype;
         // Add the superclass prototype to the subclass definition
         subClz.superclass = superClz.prototype;
@@ -25,12 +25,12 @@
     };
 
     violet.oo = {
-        'extend' : _extend
+        'extend' : extend
     };
     // ------------------
     // violet.string
     // ------------------
-    var _substitute = function(str, rest) {
+    var substitute = function(str, rest) {
         if (!str) {
             return '';
         }
@@ -41,7 +41,7 @@
     };
 
     violet.string = {
-        'substitute' : _substitute
+        'substitute' : substitute
     };
     // ------------------
     // violet.ui
@@ -63,21 +63,25 @@
             _config = value;
         };
 
-        uiFactory.createView = function(module, initOptions, callback) {
-            uiFactory.createUi(module, initOptions, null, callback);
+        uiFactory.createView = function(module, initOptions, parent, callback) {
+            uiFactory.createUi(module, initOptions, parent, null, callback);
         };
 
-        uiFactory.createUi = function(module, initOptions, view, callback) {
+        uiFactory.createUi = function(module, initOptions, parent, ownerView, callback) {
             _load(module, function() {
-                callback(null, _generateUi(module, initOptions, view));
+                var ui = _generateUi(module, initOptions, ownerView);
+                if (parent) {
+                    ui.dom$().appendTo(parent);
+                }
+                if (callback) {
+                    callback(null, ui);
+                }
             });
         };
 
         var _load = function(module, callback) {
             if (_cache[module]) {
-                _.defer(function() {
-                    callback(null);
-                });
+                callback(null);
             } else {
                 async.parallel([
                 function(callback) {
@@ -118,19 +122,19 @@
             }
         };
 
-        var _generateUi = function(module, initOptions, view) {
+        var _generateUi = function(module, initOptions, ownerView) {
             var cache = _cache[module];
-            var ui = new cache.UiClass(cache.dom$.clone().get(0), initOptions, view);
+            var ui = new cache.UiClass(cache.dom$.clone().get(0), initOptions, ownerView);
 
             _generateSubModule(ui, ui.ownerView());
 
             return ui;
         };
 
-        var _generateSubModule = function(ui, view) {
+        var _generateSubModule = function(ui, ownerView) {
             $('[module]', ui.dom$()).each(function(index, placeholder) {
                 var def = $(placeholder).attr('module').split(' as ');
-                ui[def[1]] = _generateUi([def[0]], null, view);
+                ui[def[1]] = _generateUi([def[0]], null, ownerView);
             });
         };
 

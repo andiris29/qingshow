@@ -13,10 +13,11 @@ define([
     violet.oo.extend(View, violet.ui.ViewBase);
     
     // ------ NavigationService ------
-    View.prototype.pushView = function(id) {
+    View.prototype.push = function(module) {
+        navigationService.push(module);
     };
 
-    View.prototype.popView = function() {
+    View.prototype.pop = function() {
     };
 
     // ------ HTTPService ------

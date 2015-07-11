@@ -19,7 +19,7 @@ define([
     };
 
     NavigationService.prototype.push = function(module, initOptions) {
-        violet.ui.factory.createView(module, initOptions, function(err, view) {
+        violet.ui.factory.createView(module, initOptions, this._root$, function(err, view) {
             this._push(view);
         }.bind(this));
     };
@@ -32,7 +32,6 @@ define([
         if (this._currentView) {
             this._currentView.hide();
         }
-        this._root$.append(view.dom());
         this._currentView = view;
     };
 
