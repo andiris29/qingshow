@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface QSMatcherItemScrollSelectionView : UIView
+#import "QSMatcherItemSelectionViewProtocol.h"
+@interface QSMatcherItemScrollSelectionView : UIView <UICollectionViewDelegate, UICollectionViewDataSource, QSMatcherItemSelectionViewProtocol>
 
 
 

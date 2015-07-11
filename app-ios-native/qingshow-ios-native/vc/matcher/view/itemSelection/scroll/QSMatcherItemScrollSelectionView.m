@@ -7,6 +7,7 @@
 //
 
 #import "QSMatcherItemScrollSelectionView.h"
+#import "QSMatcherItemScrollSelectionCollectionViewCell.h"
 
 @interface QSMatcherItemScrollSelectionView ()
 
@@ -16,12 +17,22 @@
 
 @implementation QSMatcherItemScrollSelectionView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+@synthesize selectIndex;
+@synthesize datasource;
+@synthesize delegate;
+
+- (void)awakeFromNib {
+    [self.collectionView registerNib:[UINib nibWithNibName:@"QSMatcherItemScrollSelectionCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:QSMatcherItemScrollSelectionCollectionViewCellIdentifier];
+    self.collectionView.dataSource = self;
+    self.collectionView.delegate = self;
 }
-*/
+
+#pragma mark - QSMatcherItemSelectionViewProtocol
+- (void)reloadData {
+    [self.collectionView reloadData];
+}
+- (void)offsetToZero:(BOOL)fAnimate {
+    [self.collectionView setContentOffset:CGPointZero animated:fAnimate];
+}
 
 @end

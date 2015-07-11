@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define QSMatcherItemScrollSelectionCollectionViewCellIdentifier @"QSMatcherItemScrollSelectionCollectionViewCell"
 @interface QSMatcherItemScrollSelectionCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView* imgView;
