@@ -7,6 +7,7 @@
 //
 
 #import "QSCanvasImageView.h"
+#import "QSRectUtil.h"
 
 @interface QSCanvasImageView ()
 
@@ -84,6 +85,14 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     CGSize size = self.bounds.size;
+
+    [self.removeBtn sizeToFit];
+    if (self.removeBtn.bounds.size.width > size.width / 2 || self.removeBtn.bounds.size.height > size.height / 2) {
+        CGSize s = [QSRectUtil scaleSize:self.removeBtn.bounds.size toFitSize:CGSizeMake(size.width / 2, size.height / 2)];
+        CGRect b = self.removeBtn.bounds;
+        b.size = s;
+        self.removeBtn.bounds = b;
+    }
     self.removeBtn.center = CGPointMake(size.width / 2, size.height / 2);
     self.imgView.frame = self.bounds;
 }

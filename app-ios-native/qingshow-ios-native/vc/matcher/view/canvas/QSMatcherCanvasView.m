@@ -208,13 +208,11 @@
         self.prePinchScale = ges.scale;
     } else if (ges.state == UIGestureRecognizerStateChanged) {
         float newScale = ges.scale;
-        CGAffineTransform preTrans = self.currentFocusView.transform;
-        self.currentFocusView.transform = CGAffineTransformScale(self.currentFocusView.transform, newScale / self.prePinchScale, newScale / self.prePinchScale);
-        
-
+        CGRect preBound = self.currentFocusView.bounds;
+        self.currentFocusView.bounds = CGRectMake(0, 0, preBound.size.width * newScale / self.prePinchScale, preBound.size.height * newScale / self.prePinchScale);
         if (!CGRectContainsRect(self.bounds, self.currentFocusView.frame)) {
             //不移出画布
-            self.currentFocusView.transform = preTrans;
+            self.currentFocusView.bounds = preBound;
         } else {
             self.prePinchScale = newScale;
         }
