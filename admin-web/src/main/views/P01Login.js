@@ -8,8 +8,6 @@ define([
     var P01Login = function(dom, initOptions) {
         P01Login.superclass.constructor.apply(this, arguments);
 
-        var idOrNickName$ = $('#exampleInputEmail1', this._dom);
-        var password$ = $('#exampleInputPassword1', this._dom);
         var submit$ = $('button', this._dom);
 
         // Auto login
@@ -17,6 +15,7 @@ define([
             if (err || metadata.error) {
                 submit$.on('click', this._login.bind(this));
             } else {
+                alertify.success('自动登录成功');
                 this.push('main/views/P02Portal');
             }
         }.bind(this));
@@ -24,6 +23,9 @@ define([
     violet.oo.extend(P01Login, View);
 
     P01Login.prototype._login = function() {
+        var idOrNickName$ = $('#exampleInputEmail1', this._dom);
+        var password$ = $('#exampleInputPassword1', this._dom);
+
         var idOrNickName = idOrNickName$.val();
         var password = password$.val();
         if (!idOrNickName) {

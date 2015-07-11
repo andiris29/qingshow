@@ -63,23 +63,44 @@
             _config = value;
         };
 
-        uiFactory.createView = function(module, initOptions, parent, callback) {
-            uiFactory.createUi(module, initOptions, parent, null, callback);
+        uiFactory.createViewAsync = function(module, initOptions, parent, callback) {
+            uiFactory.createUiAsync(module, initOptions, parent, null, callback);
         };
 
-        uiFactory.createUi = function(module, initOptions, parent, ownerView, callback) {
-            _load(module, function() {
-                var ui = _generateUi(module, initOptions, ownerView);
-                if (parent) {
-                    ui.dom$().appendTo(parent);
-                }
+        uiFactory.createUiAsync = function(module, initOptions, parent, ownerView, callback) {
+            uiFactory.load(module, function() {
                 if (callback) {
-                    callback(null, ui);
+                    callback(null, uiFactory.createUi(module, initOptions, parent, ownerView));
                 }
             });
         };
 
-        var _load = function(module, callback) {
+        uiFactory.createUi = function(module, initOptions, parent, ownerView) {
+            if (!_cache[module]) {
+                throw 'You must load the module at first: ' + module;
+            }
+
+            var cache = _cache[module];
+            var ui = new cache.UiClass(cache.dom$.clone().get(0), initOptions, ownerView);
+            _generateSubModule(ui, ui.ownerView());
+
+            if (parent) {
+                ui.dom$().appendTo(parent);
+            }
+            return ui;
+        };
+
+        uiFactory.load = function(module, callback) {
+            // Load multiple
+            if (_.isArray(module)) {
+                async.parallel(module.map(function(module) {
+                    return function(callback) {
+                        uiFactory.load(module, callback);
+                    };
+                }), callback);
+                return;
+            }
+            // Load single
             if (_cache[module]) {
                 callback(null);
             } else {
@@ -105,10 +126,10 @@
                     };
 
                     var tasks = [];
-                    $('[module]', dom$).each(function(index, placeholder) {
-                        var def = $(placeholder).attr('module').split(' as ');
+                    $('[violet-module]', dom$).each(function(index, placeholder) {
+                        var def = $(placeholder).attr('violet-module').split(' as ');
                         tasks.push(function(callback) {
-                            _load(def[0], function(err) {
+                            uiFactory.load(def[0], function(err) {
                                 var subCache = _cache[def[0]];
                                 subCache.dom$.appendTo(placeholder);
                                 callback(null);
@@ -132,9 +153,25 @@
         };
 
         var _generateSubModule = function(ui, ownerView) {
-            $('[module]', ui.dom$()).each(function(index, placeholder) {
-                var def = $(placeholder).attr('module').split(' as ');
-                ui[def[1]] = _generateUi([def[0]], null, ownerView);
+            $('[violet-module]', ui.dom$()).each(function(index, placeholder) {
+                var placeholder$ = $(placeholder);
+
+                var def = placeholder$.attr('violet-module').split(' as '),
+                    subModule = def[0],
+                    subModuleInstanceName = def[1];
+
+                var initOptions;
+                try {
+                    eval('initOptions = ' + placeholder$.attr('violet-initOptions'));
+                } catch(err) {
+                    initOptions = null;
+                }
+
+                var cache = _cache[subModule];
+                var subUi = new cache.UiClass(placeholder$.children()[0], initOptions, ownerView);
+                _generateSubModule(subUi, ownerView);
+
+                ui[def[1]] = subUi;
             });
         };
 
@@ -152,6 +189,9 @@
         this._initOptions = initOptions;
 
         this._ownerView = ownerView;
+        if (this._ownerView) {
+            this._ownerView.one('destroying', this.destroy.bind(this));
+        }
 
         this._trigger$ = $({});
         this.$ = function(selector) {
@@ -193,6 +233,10 @@
     // ------ Event ------
     UIBase.prototype.on = function() {
         this._trigger$.on.apply(this._trigger$, arguments);
+    };
+    
+    UIBase.prototype.one = function() {
+        this._trigger$.one.apply(this._trigger$, arguments);
     };
 
     UIBase.prototype.off = function() {
