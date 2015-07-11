@@ -10,7 +10,7 @@ define([
 
         var category = initOptions.category,
             parentRef = initOptions.parentRef;
-        var text = parentRef.name + '－' + category.name;
+        var text = violet.string.substitute('商品管理－{0}：{1}', parentRef.name, category.name);
         $('#anchor', this._dom).text(text).on('click', function() {
             // TODO
         }.bind(this));
