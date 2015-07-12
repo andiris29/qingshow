@@ -1,42 +1,26 @@
 package com.focosee.qingshow.activity;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.TextView;
-
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S07ListAdapter;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
-import com.focosee.qingshow.util.QSComponent;
 import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
 import com.umeng.analytics.MobclickAgent;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class S07CollectActivity extends BaseActivity {
 
     public static final String INPUT_ITEMS = "S07CollectActivity_input_items";
-    public static final String INPUT_BACK_IMAGE = "S07CollectActivity_input_back_image";
     public static boolean isOpened = false;
     @InjectView(R.id.s07_back_icon)
     ImageButton s07BackIcon;
-    @InjectView(R.id.s07_tv)
-    TextView s07Tv;
-    @InjectView(R.id.s07_brand_tv)
-    TextView s07BrandTv;
-    @InjectView(R.id.s07_top_line)
-    View s07TopLine;
     @InjectView(R.id.s07_item_list)
     RecyclerView recyclerView;
 
@@ -78,13 +62,6 @@ public class S07CollectActivity extends BaseActivity {
     @Override
     public void reconn() {
 
-    }
-
-    private Point getScreenSize() {
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        return size;
     }
 
     @Override

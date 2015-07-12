@@ -43,6 +43,7 @@ public class S07ListAdapter extends AbsAdapter<MongoItem> {
 
         final MongoItem item = getItemData(position);
 
+        holder.setImgeByUrl(R.id.item_s07_category, item.categoryRef.icon);
         holder.setText(R.id.item_s07_name, item.name);
         holder.getView(R.id.item_s07_detail_btn).setOnClickListener(new View.OnClickListener() {
             @Override

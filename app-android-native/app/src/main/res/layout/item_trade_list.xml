@@ -61,7 +61,7 @@
             android:layout_alignParentRight="true"
             android:layout_weight="4"
             android:singleLine="true"
-            android:text="交易完成"
+            android:text=""
             android:textColor="@color/pink"
             android:textSize="@dimen/text_size" />
     </RelativeLayout>
@@ -93,6 +93,7 @@
                 android:layout_marginLeft="0dp"
                 android:scaleType="fitStart"
                 android:layout_weight="1"
+                fresco:viewAspectRatio="0.5"
                 fresco:placeholderImage="@drawable/user_bg_default" />
 
             <LinearLayout
@@ -134,7 +135,7 @@
                             android:layout_above="@+id/item_tradelist_color"
                             android:layout_alignLeft="@+id/item_tradelist_quantity"
                             android:layout_marginLeft="5dp"
-                            android:text="S"
+                            android:text=""
                             android:textColor="@color/p01_text_color_model_height" />
                     </LinearLayout>
 
@@ -158,7 +159,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/item_tradelist_color_left"
-                            android:text="黑"
+                            android:text=""
                             android:textColor="@color/p01_text_color_model_height" />
                     </LinearLayout>
                     <LinearLayout
@@ -191,7 +192,7 @@
                                 android:layout_alignLeft="@+id/item_tradelist_color"
                                 android:layout_alignParentBottom="true"
                                 android:layout_marginLeft="5dp"
-                                android:text="1件"
+                                android:text=""
                                 android:textColor="@color/p01_text_color_model_height" />
                         </LinearLayout>
 
@@ -216,7 +217,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@+id/item_tradelist_price_text"
-                            android:text="￥350.00"
+                            android:text=""
                             android:textColor="@color/p01_text_color_model_height" />
                     </LinearLayout>
                     </LinearLayout>
@@ -225,15 +226,17 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/item_tradelist_finish_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -284,11 +287,13 @@
                 </LinearLayout>
 
             </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/item_tradelist_trading"
                 android:layout_width="fill_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
+                android:visibility="gone"
                 android:gravity="center_vertical">
 
                 <Button
@@ -299,7 +304,6 @@
                     android:layout_toLeftOf="@+id/item_tradelist_applyreturn"
                     android:background="@drawable/tradelist_btn"
                     android:text="@string/apply_change_activity_trade"
-                    android:visibility="gone"
                     android:textColor="@color/master"/>
 
                 <Button
@@ -311,7 +315,6 @@
                     android:layout_toLeftOf="@+id/item_tradelist_applyreceive"
                     android:background="@drawable/tradelist_btn"
                     android:text="@string/apply_return_activity_trade"
-                    android:visibility="gone"
                     android:textColor="@color/master"/>
 
                 <Button
@@ -323,13 +326,21 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/tradelist_btn"
                     android:text="@string/comfirm_receive_activity_trade"
-                    android:visibility="gone"
                     android:textColor="@color/master"/>
             </RelativeLayout>
 
-
-
-        </LinearLayout>
+            <Button
+                android:id="@+id/item_tradelist_payBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+                android:background="@drawable/tradelist_btn"
+                android:text="@string/pay_activity_trade"
+                android:textColor="@color/master"/>
+        </RelativeLayout>
 
 
     </LinearLayout>

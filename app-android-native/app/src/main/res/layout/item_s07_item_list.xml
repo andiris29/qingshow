@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:freso="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_s07_collection"
     android:layout_width="match_parent"
     android:layout_height="100dp">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_s07_category"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/user_head_default"/>
+        freso:placeholderImage="@drawable/user_head_default"/>
 
     <TextView
         android:id="@+id/item_s07_name"
