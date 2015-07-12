@@ -138,14 +138,14 @@ MongoHelper.updateCoverMetaData = function(models, callback) {
     async.parallel(tasks, callback);
 };
 
-MongoHelper.querySchema = function(Model, qsParam, callback) {
+MongoHelper.querySchema = function(Model, qsParam) {
     var criteria = {};
     for (var key in qsParam) {
         var value = qsParam[key];
         if (!qsParam[key] || qsParam[key].length == 0) {
             continue;
         }
-        if (key === '__context' || key === '__v') {
+        if (key === '__context' || key === '__v' || key === 'pageNo' || key === 'pageSize') {
             continue;
         }
         if (!value || value.length == 0) {
@@ -175,5 +175,5 @@ MongoHelper.querySchema = function(Model, qsParam, callback) {
         criteria[key] = rawValue;
     }
 
-    Model.find(criteria, callback);
+    return criteria;
 };

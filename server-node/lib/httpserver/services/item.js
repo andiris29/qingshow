@@ -9,6 +9,7 @@ var Item = require('../../model/items');
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var MongoHelper = require('../helpers/MongoHelper');
+var ServiceHelper = require('../helpers/ServiceHelper.js');
 
 var ServerError = require('../server-error');
 
@@ -17,11 +18,18 @@ var item = module.exports;
 item.find = {
     'method' : 'get',
     'func' : function(req, res) {
-        MongoHelper.querySchema(Item, req.queryString, function(err, items) {
-            ResponseHelper.response(res, err, {
-                'items' : items
-            });
-        });
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            // querier
+            var criteria = MongoHelper.querySchema(Item, req.queryString);
+            MongoHelper.queryPaging(Item.find(criteria).sort({
+                'create' : -1
+            }), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(models) {
+            // responseDataBuilder
+            return {
+                'items' : models
+            };
+        }, null);
     }
 };
 
