@@ -2,7 +2,6 @@ package com.focosee.qingshow.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,17 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U09TradeListActivity;
 import com.focosee.qingshow.activity.U12ReturnActivity;
+import com.focosee.qingshow.command.PayCommand;
 import com.focosee.qingshow.constants.code.StatusCode;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -30,17 +28,15 @@ import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoTrade;
-import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.util.ImgUtil;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
 import com.focosee.qingshow.util.sku.Prop;
 import com.focosee.qingshow.util.sku.SkuUtil;
-import com.focosee.qingshow.widget.MImageView_OriginSize;
-import com.focosee.qingshow.widget.RecyclerView.SpacesItemDecoration;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONObject;
+
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -51,16 +47,11 @@ import me.drakeet.materialdialog.MaterialDialog;
 /**
  * Created by Administrator on 2015/3/16.
  */
-public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
+public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.OnClickListener{
 
-    private final int TYPE_HEAD = 0;
-    private final int TYPE_ITEM = 1;
-
-    private Context context;
     private OnViewHolderListener onViewHolderListener;
 
     public LinkedList<MongoTrade> datas = null;
-    private boolean isStatusSuccessed = false;
 
     /**
      * viewType的顺序的layoutId的顺序一致
@@ -84,14 +75,15 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
         Button applyReceive = holder.getView(R.id.item_tradelist_applyreceive);
         Button applyChange = holder.getView(R.id.item_tradelist_applychange);
         Button applyReturn = holder.getView(R.id.item_tradelist_applyreturn);
+        Button payBtn = holder.getView(R.id.item_tradelist_payBtn);
 
         holder.setText(R.id.item_tradeno_text, null == trade.orders.get(0).selectedItemSkuId ? "" : trade.orders.get(0).selectedItemSkuId);
-        holder.setText(R.id.item_tradelist_createTime, TimeUtil.parseDateString(trade.create));
-        if(!(trade.status > 8 || trade.status < 0)){//设置交易状态
+
+        if(!(trade.status > 18 || trade.status < 0)){//设置交易状态
             holder.setText(R.id.item_tradelist_status, StatusCode.statusArrays[trade.status]);
         }
+
         try {
-            holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
             LinkedList<MongoItem.TaoBaoInfo.SKU> skus = trade.orders.get(0).itemSnapshot.taobaoInfo.skus;
             MongoItem.TaoBaoInfo.SKU mSku = null;
             for (MongoItem.TaoBaoInfo.SKU sku : skus) {
@@ -99,6 +91,7 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
                     mSku = sku;
                 }
             }
+
             ArrayList<Prop> props = SkuUtil.filter(mSku);
             String color = "";
             String measurement = "";
@@ -113,49 +106,38 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
                     measurement = prop.getName();
                     continue;
                 }
-                //其他sku名称
-                {
-                    TextView label = new TextView(context);
-                    label.setText(prop.getPropId());
-//                    viewHolder.skuLayout.addView(label);
-//                    TextView value = new TextView(context);
-//                    value.setLayoutParams(params);
-//                    value.setText(prop.getName());
-//                    viewHolder.skuLayout.addView(value);
-                }
             }
 
-//            viewHolder.color.setText(color);
-//            viewHolder.measurement.setText(measurement);
-//            viewHolder.quantity.setText(String.valueOf(trade.orders.get(0).quantity));
-//            viewHolder.price.setText("￥" + String.valueOf(trade.orders.get(0).price));
-//            viewHolder.image.setImageURI(Uri.parse(ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.images.get(0).url,-1)));
-//
-//            viewHolder.image.setAspectRatio(0.5f);
-//            viewHolder.description.setText(trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
+            holder.setText(R.id.item_tradelist_color, color);
+            holder.setText(R.id.item_tradelist_measurement, measurement);
+            holder.setText(R.id.item_tradelist_quantity, String.valueOf(trade.orders.get(0).quantity));
+            holder.setText(R.id.item_tradelist_price, "￥" + String.valueOf(trade.orders.get(0).price));
+            holder.setImgeByUrl(R.id.item_tradelist_image, ImgUtil.getImgSrc(trade.orders.get(0).itemSnapshot.images.get(0).url, -1));
+            holder.setText(R.id.item_tradelist_description, trade.orders.get(0).itemSnapshot.taobaoInfo.top_title);
         }catch (Exception e){
             e.printStackTrace();
         }
         //等待买家付款
         if(trade.status == 0){
-            tradingLayout.setVisibility(View.VISIBLE);
-            applyReceive.setText(context.getResources().getString(R.string.pay_activity_trade));
-            applyReceive.setVisibility(View.VISIBLE);
-            applyReceive.setOnClickListener(new View.OnClickListener() {
+            payBtn.setVisibility(View.VISIBLE);
+            payBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                 }
             });
+            return;
         }
         //卖家已发货
-        if(trade.status == 3){
-//            viewHolder.tradingLayout.setVisibility(View.GONE);
+        if(trade.status == 3 || trade.status == 14){
             tradingLayout.setVisibility(View.VISIBLE);
             applyReturn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, U12ReturnActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
@@ -186,24 +168,6 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
                     dialog.show();
                 }
             });
-        }
-
-        //显示申请退货
-        if(trade .status == 1 || trade .status == 2 || trade .status == 3 || trade.status == 4){
-            tradingLayout.setVisibility(View.VISIBLE);
-            applyChange.setVisibility(View.VISIBLE);
-            applyReturn.setVisibility(View.VISIBLE);
-            applyReturn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, U12ReturnActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, datas.get(position));
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                }
-            });
-
             applyChange.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -232,29 +196,11 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
                     dialog.show();
                 }
             });
-        }
-        //交易成功，交易自动关闭
-
-//        viewHolder.finishLayout.setVisibility(View.GONE);
-//        viewHolder.creatTime.setText(trade.create.toString());
-
-        if(trade.status == 5 || trade.status == 9){
-            tradingLayout.setVisibility(View.GONE);
-//            viewHolder.creatTime.setText(trade.create.toString());
+            return;
         }
 
-        //test
-//        viewHolder.applyReturn.setVisibility(View.VISIBLE);
-//        viewHolder.applyReturn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, U12ReturnActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(U12ReturnActivity.TRADE_ENTITY, trade);
-//                intent.putExtras(bundle);
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.getView(R.id.item_trade_finishTime_layout).setVisibility(View.VISIBLE);
+        holder.setText(R.id.item_tradelist_createTime, TimeUtil.formatDateTime(trade.create.getTimeInMillis()));
     }
 
     @Override
@@ -359,55 +305,9 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade>{
         this.datas.addAll(datas);
     }
 
-    //自定义的ViewHolder，持有每个Item的的所有界面元素
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tradeNo;
-        public TextView tradeStatus;
-        public SimpleDraweeView image;
-        public TextView description;
-        public TextView measurement;
-        public TextView quantity;
-        public TextView color;
-        public TextView price;
-        public TextView creatTime;
-        public TextView finishTime;
-        public LinearLayout skuLayout;
-        public LinearLayout finishLayout;
-        public RelativeLayout tradingLayout;
-        public Button applyChange;
-        public Button applyReturn;
-        public Button applyReceive;
-        public ViewHolder instance;
-        public ViewHolder(View view, int type){
-            super(view);
-            if(1 == type){
-                getItemViewHolder(view);
-            }
-        }
-
-        public void getItemViewHolder(View view){
-            tradeNo = (TextView) view.findViewById(R.id.item_tradelist_num);
-            tradeStatus = (TextView) view.findViewById(R.id.item_tradelist_status);
-            image = (SimpleDraweeView) view.findViewById(R.id.item_tradelist_image);
-            description = (TextView) view.findViewById(R.id.item_tradelist_description);
-            measurement = (TextView) view.findViewById(R.id.item_tradelist_measurement);
-            quantity = (TextView) view.findViewById(R.id.item_tradelist_quantity);
-            color = (TextView) view.findViewById(R.id.item_tradelist_color);
-            price = (TextView) view.findViewById(R.id.item_tradelist_price);
-            creatTime = (TextView) view.findViewById(R.id.item_tradelist_createTime);
-            finishTime = (TextView) view.findViewById(R.id.item_tradelist_finishTime);
-            skuLayout = (LinearLayout) view.findViewById(R.id.item_tradelist_sku);
-            finishLayout = (LinearLayout) view.findViewById(R.id.item_trade_finishTime_layout);
-            tradingLayout = (RelativeLayout) view.findViewById(R.id.item_tradelist_trading);
-            applyChange = (Button) view.findViewById(R.id.item_tradelist_applychange);
-            applyReturn = (Button) view.findViewById(R.id.item_tradelist_applyreturn);
-            applyReceive = (Button) view.findViewById(R.id.item_tradelist_applyreceive);
-        }
-    }
-
     @Override
-    public long getItemId(int position) {
-        return 0;
+    public void onClick(View v) {
+
     }
 
     public interface OnViewHolderListener {

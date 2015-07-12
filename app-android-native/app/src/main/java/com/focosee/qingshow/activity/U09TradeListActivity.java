@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.android.volley.Response;
@@ -32,6 +33,7 @@ import de.greenrobot.event.EventBus;
  */
 public class U09TradeListActivity extends BaseActivity{
 
+    private final String TAG = "U09TradeListActivity";
     private RecyclerView tradelist;
     private U09TradeListAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -61,17 +63,11 @@ public class U09TradeListActivity extends BaseActivity{
 
         mAdapter = new U09TradeListAdapter(new LinkedList<MongoTrade>(), U09TradeListActivity.this, R.layout.head_trade_list, R.layout.item_trade_list);
 
-//创建默认的线性LayoutManager
         mLayoutManager = new LinearLayoutManager(this);
-//        mLayoutManager.addView(findViewById(R.id.U09_head_layout));
         tradelist.setLayoutManager(mLayoutManager);
-//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View headerPlaceHolder = inflater.inflate(R.layout.head_trade_list, null, false);
-//        mLayoutManager.addView(headerPlaceHolder, 0);
 
 //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
         tradelist.setHasFixedSize(true);
-//创建并设置Adapter
         mAdapter.setOnViewHolderListener(new U09TradeListAdapter.OnViewHolderListener() {
             @Override
             public void onRequestedLastItem() {
@@ -80,7 +76,6 @@ public class U09TradeListActivity extends BaseActivity{
             }
         });
         tradelist.setAdapter(mAdapter);
-//        tradelist.addView(headerPlaceHolder);
         tradelist.addItemDecoration(new SpacesItemDecoration(10));
 
         tradelist.addOnScrollListener(new EndlessRecyclerOnScrollListener(mLayoutManager) {
@@ -124,7 +119,7 @@ public class U09TradeListActivity extends BaseActivity{
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getTradeQueryApi(people._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                Log.d(TAG, "response:" + response);
                 if(MetadataParser.hasError(response)){
                     ErrorHandler.handle(U09TradeListActivity.this, MetadataParser.getError(response));
                     progressDialog.dismiss();
