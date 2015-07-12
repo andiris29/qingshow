@@ -9,11 +9,11 @@ define([
         P01Login.superclass.constructor.apply(this, arguments);
 
         var submit$ = $('button', this._dom);
+        submit$.on('click', this._login.bind(this));
 
         // Auto login
         this.request('/user/get', 'get', {}, function(err, metadata, data) {
             if (err || metadata.error) {
-                submit$.on('click', this._login.bind(this));
             } else {
                 alertify.success('自动登录成功');
                 this.push('main/views/P02Portal');

@@ -56,11 +56,16 @@
             'moduleToTemplatePath' : function(module) {
                 return module;
             }
-        };
-        var _cache = {};
+        },
+            _dependencies = {},
+            _cache = {};
 
         uiFactory.config = function(value) {
             _config = value;
+        };
+
+        uiFactory.registerDependencies = function(module, depModules) {
+            _dependencies[module] = depModules;
         };
 
         uiFactory.createViewAsync = function(module, initOptions, parent, callback) {
@@ -91,7 +96,7 @@
         };
 
         uiFactory.load = function(module, callback) {
-            // Load multiple
+            // Multiple
             if (_.isArray(module)) {
                 async.parallel(module.map(function(module) {
                     return function(callback) {
@@ -100,47 +105,58 @@
                 }), callback);
                 return;
             }
-            // Load single
+            // Single
             if (_cache[module]) {
                 callback(null);
             } else {
-                async.parallel([
-                function(callback) {
-                    // Load controller class
-                    require([_config.moduleToControllerClass(module)], function(UiClass) {
-                        callback(null, UiClass);
-                    });
-                },
-                function(callback) {
-                    // Load dom template
-                    $.ajax({
-                        'url' : _config.moduleToTemplatePath(module)
-                    }).done(function(data) {
-                        callback(null, $(data));
-                    });
-                }], function(err, resuls) {
-                    var dom$ = resuls[1];
-                    var cache = _cache[module] = {
-                        'UiClass' : resuls[0],
-                        'dom$' : dom$
-                    };
+                // Load module
+                _load(module, function(err) {
+                    var cache = _cache[module],
+                        dom$ = cache.dom$;
 
-                    var tasks = [];
+                    var dependencies = _dependencies[module] || [];
+                    // Parse sub modules as dependencies
                     $('[violet-module]', dom$).each(function(index, placeholder) {
                         var def = $(placeholder).attr('violet-module').split(' as ');
-                        tasks.push(function(callback) {
-                            uiFactory.load(def[0], function(err) {
-                                var subCache = _cache[def[0]];
-                                subCache.dom$.appendTo(placeholder);
-                                callback(null);
-                            });
-                        });
+                        dependencies.push(def[0]);
                     });
-                    async.parallel(tasks, function() {
-                        callback(null);
-                    });
+                    if (dependencies.length) {
+                        _dependencies[module] = dependencies;
+                    }
+                    // Load dependent modules
+                    async.parallel(dependencies.map(function(depModule) {
+                        return function(callback) {
+                            uiFactory.load(depModule, callback);
+                        };
+                    }), callback);
                 });
             }
+        };
+
+        var _load = function(module, callback) {
+            async.parallel([
+            function(callback) {
+                // Load controller class
+                require([_config.moduleToControllerClass(module)], function(UiClass) {
+                    callback(null, UiClass);
+                });
+            },
+            function(callback) {
+                // Load dom template
+                $.ajax({
+                    'url' : _config.moduleToTemplatePath(module)
+                }).done(function(data) {
+                    callback(null, $(data));
+                });
+            }], function(err, resuls) {
+                var dom$ = resuls[1];
+                var cache = _cache[module] = {
+                    'UiClass' : resuls[0],
+                    'dom$' : dom$
+                };
+                callback();
+            });
+
         };
 
         var _generateUi = function(module, initOptions, ownerView) {
@@ -168,10 +184,11 @@
                 }
 
                 var cache = _cache[subModule];
-                var subUi = new cache.UiClass(placeholder$.children()[0], initOptions, ownerView);
-                _generateSubModule(subUi, ownerView);
+                var subUi = new cache.UiClass(cache.dom$.clone().get(0), initOptions, ownerView);
+                subUi.dom$().appendTo(placeholder$);
+                ui[subModuleInstanceName] = subUi;
 
-                ui[def[1]] = subUi;
+                _generateSubModule(subUi, ownerView);
             });
         };
 
@@ -234,7 +251,7 @@
     UIBase.prototype.on = function() {
         this._trigger$.on.apply(this._trigger$, arguments);
     };
-    
+
     UIBase.prototype.one = function() {
         this._trigger$.one.apply(this._trigger$, arguments);
     };
