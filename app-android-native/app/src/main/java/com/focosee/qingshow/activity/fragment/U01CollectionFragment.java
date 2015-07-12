@@ -76,7 +76,7 @@ public class U01CollectionFragment extends U01BaseFragment {
                 EventBus.getDefault().post(recyclerView);
             }
         });
-        recyclerPullToRefreshView.doPullRefreshing(true, 200);
+        recyclerPullToRefreshView.doPullRefreshing(true, 0);
         return view;
     }
 
@@ -106,11 +106,11 @@ public class U01CollectionFragment extends U01BaseFragment {
                 }
 
                 if(pageNo == 1) {
-                    adapter.addDataAtTop(ShowParser.parseQuery(response));
+                     adapter.addDataAtTop(ShowParser.parseQuery_categoryString(response));
                     recyclerPullToRefreshView.onPullDownRefreshComplete();
                     currentPageN0 = pageNo;
                 }else{
-                    adapter.addData(ShowParser.parseQuery(response));
+                    adapter.addData(ShowParser.parseQuery_categoryString(response));
                     recyclerPullToRefreshView.onPullUpRefreshComplete();
                 }
                 currentPageN0++;

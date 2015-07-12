@@ -218,6 +218,7 @@ public class S04CommentActivity extends BaseActivity implements ActionSheet.Acti
             @Override
             public void onResponse(JSONObject response) {
                 if(MetadataParser.hasError(response)){
+                    recyclerPullToRefreshView.onPullDownRefreshComplete();
                     ErrorHandler.handle(S04CommentActivity.this, MetadataParser.getError(response));
                     return;
                 }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -137,11 +138,8 @@ public class U01UserActivity extends MenuActivity {
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
-//
-        initDrawer();
-//        initRectcler();
-//        loadDataFormNet();
 
+        initDrawer();
     }
 
     private void initUserInfo() {
@@ -171,10 +169,10 @@ public class U01UserActivity extends MenuActivity {
 
     private void initRectcler(RecyclerView recyclerView) {
 
-        //reset
         if (null == recyclerView) return;
-        userHeadLayout.setY(0);
-//        preRecyclerView.scrollToPosition(0);
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        if(recyclerView.getBottom() >= recyclerView.getChildAt(layoutManager.findLastVisibleItemPosition()).getBottom())
+            userHeadLayout.setY(0);
         view = null;
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -229,7 +227,9 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void tabOnclick(int pos) {
-        preRecyclerView.scrollToPosition(0);
+        LinearLayoutManager layoutManager = (LinearLayoutManager) preRecyclerView.getLayoutManager();
+        if(preRecyclerView.getBottom() >= preRecyclerView.getChildAt(layoutManager.findLastVisibleItemPosition()).getBottom())
+            preRecyclerView.scrollToPosition(0);
         userViewPager.setCurrentItem(pos);
         fragments[pos].getRecyclerPullToRefreshView().doPullRefreshing(true, 200);
         this.pos = pos;
