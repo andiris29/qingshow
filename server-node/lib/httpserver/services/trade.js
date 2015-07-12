@@ -464,21 +464,3 @@ trade.refreshPaymentStatus = {
         });
     }
 };
-
-trade.find = {
-    'method' : 'get',
-    'func' : function(req, res) {
-        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            // querier
-            var criteria = MongoHelper.querySchema(Trade, req.queryString);
-            MongoHelper.queryPaging(Trade.find(criteria).sort({
-                'create' : -1
-            }), Trade.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
-        }, function(models) {
-            // responseDataBuilder
-            return {
-                'trades' : models
-            };
-        }, null);
-    }
-};
