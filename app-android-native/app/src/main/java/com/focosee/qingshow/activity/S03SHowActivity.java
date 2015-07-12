@@ -34,6 +34,7 @@ import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S03Model;
+import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoItem;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.persist.SinaAccessTokenKeeper;
@@ -70,6 +71,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
+import static com.focosee.qingshow.R.id.s03_nickname;
+
 public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
 
     // Input data
@@ -86,13 +89,13 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     ImageView s03VideoStartBtnReal;
     @InjectView(R.id.s03_portrait)
     SimpleDraweeView s03Portrait;
-    @InjectView(R.id.s03_nickname)
+    @InjectView(s03_nickname)
     TextView s03Nickname;
     @InjectView(R.id.s03_del_btn)
     ImageView s03DelBtn;
 
     private String showId;
-    private MongoShow showDetailEntity;// TODO remove the duplicated one
+    private MongoShow showDetailEntity;
     private MongoItem[] itemsData;
     private String videoUriString;
     private int playTime = 0;
@@ -368,7 +371,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
             @Override
             public void onComplete(Bundle bundle) {
-                // TODO Auto-generated method stub
                 Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
                 SinaAccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
             }
@@ -503,6 +505,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }
                 break;
             case R.id.s03_del_btn:
+                break;
+            case R.id.s03_portrait:
+                U01Model.INSTANCE.setUser(showDetailEntity.__context.createdBy);
+                startActivity(new Intent(S03SHowActivity.this, U01UserActivity.class));
                 break;
         }
     }

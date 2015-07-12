@@ -169,16 +169,35 @@ public class U01UserActivity extends MenuActivity {
 
     private void initRectcler(RecyclerView recyclerView) {
 
-        if (null == recyclerView) return;
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        if(recyclerView.getBottom() >= recyclerView.getChildAt(layoutManager.findLastVisibleItemPosition()).getBottom())
-            userHeadLayout.setY(0);
+        if (null == recyclerView || preRecyclerView == recyclerView) return;
         view = null;
+        if (null != recyclerView.getChildAt(0)) {
+            view = recyclerView.getChildAt(0);
+        }
+        //TODO head scroll
+        boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
+                * (recyclerView.getChildCount() - 1) + userHeadLayout.getBottom() + userHeadLayout.getY();
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+        System.out.println("top1:" +  recyclerView.getChildAt(recyclerView.getChildCount() - 1).getBottom());
+        if(userHeadLayout.getY() != 0){
+            if(isShort) {//短列表
+                userHeadLayout.setY(0);
+                recyclerView.scrollToPosition(0);
+            }else{
+                System.out.println("top:" + userHeadLayout.getY());
+//                if(userHeadLayout.getY() != (view.getBottom() - view.getHeight())){
+//                    userHeadLayout.setY(0);
+//                    recyclerView.scrollToPosition(0);
+//                }
+                layoutManager.scrollToPositionWithOffset(0, (int)userHeadLayout.getY());
+            }
+        }else{
+            recyclerView.scrollToPosition(0);
+        }
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (null == view && null != recyclerView.getChildAt(0))
-                    view = recyclerView.getChildAt(0);
                 if (view == recyclerView.getChildAt(0))
                     userHeadLayout.setY(view.getBottom() - view.getHeight());
                 else
@@ -227,11 +246,9 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void tabOnclick(int pos) {
-        LinearLayoutManager layoutManager = (LinearLayoutManager) preRecyclerView.getLayoutManager();
-        if(preRecyclerView.getBottom() >= preRecyclerView.getChildAt(layoutManager.findLastVisibleItemPosition()).getBottom())
-            preRecyclerView.scrollToPosition(0);
+
         userViewPager.setCurrentItem(pos);
-        fragments[pos].getRecyclerPullToRefreshView().doPullRefreshing(true, 200);
+        fragments[pos].getRecyclerPullToRefreshView().doPullRefreshing(true, 0);
         this.pos = pos;
         initRectcler(recyclerViews[pos]);
     }

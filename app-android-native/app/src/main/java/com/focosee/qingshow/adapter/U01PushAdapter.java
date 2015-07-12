@@ -118,11 +118,11 @@ public class U01PushAdapter extends AbsAdapter<MongoShow> {
         });
     }
 
+
     @Override
     public int getItemCount() {
-//        int i = datas.get(0).recommend.date.compareTo(datas.get(datas.size() - 1).recommend.date);
-//        System.out.println("i:" + i);
-        return datas.size() + 1;
+        if(null == datas || datas.size() == 0) return 1;
+        return datas.size() + 1 + TimeUtil.day_between(datas.get(0).recommend.date, datas.get(datas.size() - 1).recommend.date);
     }
 
 }

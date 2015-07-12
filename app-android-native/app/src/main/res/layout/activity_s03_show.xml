@@ -73,6 +73,7 @@
                         android:layout_marginBottom="20dp"
                         android:layout_marginLeft="15dp"
                         android:layout_alignParentBottom="true"
+                        android:onClick="onClick"
                         fresco:placeholderImage="@drawable/root_cell_placehold_head"/>
 
                     <TextView
@@ -85,6 +86,7 @@
                         android:layout_alignBottom="@+id/s03_portrait"
                         android:visibility="gone"
                         android:gravity="center"
+                        android:onClick="onClick"
                         android:textColor="@color/white"/>
 
                     <ImageView

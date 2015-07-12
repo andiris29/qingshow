@@ -1,10 +1,14 @@
 package com.focosee.qingshow.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.TextView;
 
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.activity.S03SHowActivity;
+import com.focosee.qingshow.model.S03Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.adapter.*;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
@@ -25,10 +29,18 @@ public class U01MatchFragAdapter extends U01BaseAdapter<MongoShow>{
     public void onBindViewHolder(AbsViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         if(0 == position) return;
-        MongoShow show = getItemData(position);
+        final MongoShow show = getItemData(position);
 
         holder.setImgeByUrl(R.id.item_u01_match_img, show.cover, 0.5f);
         ((TextView)holder.getView(R.id.item_u01_match_likeNum)).setText(String.valueOf(show.numLike));
+
+        holder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                S03Model.INSTANCE.setShow(show);
+                context.startActivity(new Intent(context, S03SHowActivity.class));
+            }
+        });
 
     }
 

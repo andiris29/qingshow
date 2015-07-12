@@ -152,4 +152,8 @@ public class TimeUtil {
         return simpleDateFormat.format(new Date(time.getTimeInMillis()));
     }
 
+    public static int day_between(GregorianCalendar date1, GregorianCalendar date2){
+        return Integer.parseInt(String.valueOf(Math.abs(date1.getTimeInMillis() - date2.getTimeInMillis()) / (1000 * 3600 * 24)));
+    }
+
 }
