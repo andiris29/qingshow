@@ -14,11 +14,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.QSApplication;
@@ -32,6 +30,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.S03Model;
@@ -64,21 +63,17 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.umeng.analytics.MobclickAgent;
-
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Collections;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler, IWeiboHandler.Response, View.OnClickListener {
 
     // Input data
     public static final String INPUT_SHOW_ENTITY_ID = "S03SHowActivity_input_show_entity_id";
-    public static final String INPUT_SHOW_LIST_ENTITY = "S03SHowActivity_input_show_list_entity";
-    public static String ACTION_MESSAGE = "";//动态变化的
     public final String TAG = "S03SHowActivity";
     private static final int shareMsgShowTime = 2000;//分享优惠显示时间
     @InjectView(R.id.S03_image_preground)
@@ -95,10 +90,8 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     TextView s03Nickname;
     @InjectView(R.id.s03_del_btn)
     ImageView s03DelBtn;
-    private int position;
 
     private String showId;
-    private MongoShow showListEntity;
     private MongoShow showDetailEntity;// TODO remove the duplicated one
     private MongoItem[] itemsData;
     private String videoUriString;
@@ -120,8 +113,6 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     TextView itemTextView;
     @InjectView(R.id.S03_share_msg)
     TextView shareMsgTextView;
-    //    @InjectView(R.id.S03_share_btn)
-//    ImageView shareBtn;
     private SharePopupWindow sharePopupWindow;
 
     private IWeiboShareAPI mWeiboShareAPI;
@@ -141,6 +132,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_s03_show);
         ButterKnife.inject(this);
+        EventBus.getDefault().register(this);
         if (null == S03Model.INSTANCE.getShow()) {
             Toast.makeText(S03SHowActivity.this, "未知错误，请重试！", Toast.LENGTH_SHORT).show();
             finish();
@@ -168,6 +160,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     }
 
     private void getShowDetailFromNet() {
+
         final QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getShowDetailApi(S03Model.INSTANCE.getShow()._id), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -265,11 +258,14 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 }
             }, shareMsgShowTime);
         }
-
-        if(showDetailEntity.__context.createdBy._id.equals(QSModel.INSTANCE.getUser()._id))
-            showData_self();
-        else
+        if(!QSModel.INSTANCE.loggedin()) {
             showData_other();
+        }else if(showDetailEntity.__context.createdBy._id.equals(QSModel.INSTANCE.getUser()._id)) {
+            showData_self();
+        }else{
+            showData_other();
+        }
+
         setLikedImageButtonBackgroundImage();
     }
 
@@ -316,11 +312,16 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
         });
     }
 
-    private String arrayToString(String[] input) {
-        String result = "";
-        for (String str : input)
-            result += str + " ";
-        return result;
+    public void onEventMainThread(EventModel<Integer> event) {
+        if(event.tag == S03SHowActivity.class){
+            if(null != showDetailEntity.__context)
+                if(null != showDetailEntity.__context.createdBy)
+                    if(null != showDetailEntity.__context.createdBy.__context)
+                        if(!showDetailEntity.__context.createdBy.__context.followedByCurrentUser) {
+                            Toast.makeText(S03SHowActivity.this, "onEventMainThread", Toast.LENGTH_SHORT).show();
+                            clickLikeShowButton();
+                        }
+        }
     }
 
     private void configVideo() {
@@ -485,6 +486,11 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 clickLikeShowButton();
                 break;
             case R.id.S03_share_btn://分享
+                if (!QSModel.INSTANCE.loggedin()) {
+                    Toast.makeText(S03SHowActivity.this, R.string.need_login, Toast.LENGTH_SHORT).show();
+                    GoToWhereAfterLoginModel.INSTANCE.set_class(null);
+                    startActivity(new Intent(S03SHowActivity.this, U07RegisterActivity.class));
+                }
                 sharePopupWindow = new SharePopupWindow(S03SHowActivity.this, new ShareClickListener());
                 sharePopupWindow.setAnimationStyle(R.style.popwin_anim_style);
                 sharePopupWindow.showAtLocation(S03SHowActivity.this.findViewById(R.id.S03_share_btn), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -540,6 +546,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
     @Override
     protected void onDestroy() {
         unregisterReceiver(receiver);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 }
