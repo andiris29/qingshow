@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var _ = require('underscore');
 
 var RequestHelper = module.exports;
 
@@ -45,8 +46,16 @@ RequestHelper.parseId = function(string) {
     return string === undefined ? undefined : new mongoose.Types.ObjectId(string);
 };
 
-RequestHelper.parseArray = function(string) {
-    return string === undefined ? undefined : string.split(',');
+RequestHelper.parseArray = function(raw) {
+    if (raw === undefined) {
+        return undefined;
+    } else if (_.isString(raw)){
+        return raw.split(',');
+    } else if (_.isArray(raw)){
+        return raw;
+    } else {
+        return undefined;
+    }
 };
 
 RequestHelper.parseIds = function(string) {
@@ -54,3 +63,23 @@ RequestHelper.parseIds = function(string) {
         return RequestHelper.parseId(element);
     });
 };
+
+RequestHelper.parseFile = function(req, uploadPath, callback) {
+    var formidable = require('formidable');
+    var path = require('path');
+
+    var form = new formidable.IncomingForm();
+    form.uploadDir = uploadPath;
+    form.keepExtensions = true;
+    form.parse(req, function(err, fields, files) {
+        if (err) {
+            callback(err);
+        }
+        var file;
+        for (var key in files) {
+            file = files[key];
+        }
+        callback(null, fields, file);
+    });
+};
+

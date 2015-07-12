@@ -27,8 +27,6 @@ goblin-tbshop/.idea
 #ignore public
 server-node/public
 .project
-mongodb/_dump
-folder-uploads
 winston.log.*
 
 #for goblin
@@ -45,4 +43,3 @@ app-web/bin
 server-pay/payment/build/
 server-pay/payment/target/
 
-script

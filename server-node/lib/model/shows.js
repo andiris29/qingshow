@@ -6,19 +6,12 @@ showSchema = Schema({
     __context : Object,
     icon : String,
     cover : String,
-    coverInfo : {
-        backgroud : String,
-        foreground : String
-    },
+    coverForeground : String,
     video : String,
     posters : [String],
     numLike : {
         type : Number,
         'default' : 0
-    },
-    modelRef : {
-        type : Schema.Types.ObjectId,
-        ref : 'peoples'
     },
     itemRefs : {
         type : [{

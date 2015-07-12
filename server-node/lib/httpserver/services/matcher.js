@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
+var path = require('path');
+var _ = require('underscore');
 
 // model
 var Category = require('../../model/categories');
@@ -18,7 +20,7 @@ var ServerError = require('../server-error');
 
 var matcher = module.exports;
 
-matcher.queryCategory = {
+matcher.queryCategories = {
     'method' : 'get',
     'func' : function(req, res) {
         Category.find({}).exec(function(err, categories) {
@@ -34,18 +36,12 @@ matcher.queryItems = {
     'func' : function(req, res) {
         var qsParam = req.body;
 
-        //if (!qsParam.category || !qsParam.category.length) {
-        //    ResponseHelper.response(res, ServerError.NotEnoughParam);
-        //    return;
-        //}
         ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
-            var id = RequestHelper.parseId(qsParam.category);
             var criteria = {
-                'categoryRef' : id
-            }
-            MongoHelper.queryPaging(Item.find(criteria), Item.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+                'categoryRef' : RequestHelper.parseId(qsParam.categoryRef)
+            };
+            MongoHelper.queryRandom(Item.find(criteria), Item.find(criteria), qsParam.pageSize, callback);
         }, function(items) {
-            // responseDataBuilder
             return {
                 'items' : items 
             };
@@ -64,23 +60,56 @@ matcher.save = {
 
         var itemRefs = RequestHelper.parseIds(req.body.itemRefs);
 
-        var show = new Show({
-            'itemRefs' : itemRefs, 
-            'ugc' : true
-        });
+        if (!req.body._id || !req.body._id.length) {
+            // Add a new show
+            var coverUrl = global.qsConfig.show.coverForeground.template;
+            coverUrl = coverUrl.replace(/\{0\}/g, _.random(1, global.qsConfig.show.coverForeground.max));
+            var show = new Show({
+                'itemRefs' : itemRefs, 
+                'ugc' : true,
+                'coverForeground' : coverUrl
+            });
 
-        show.save(function(err, show) {
+            show.save(function(err, show) {
+                if (err) {
+                    ResponseHelper.response(res, err);
+                } else if (!show) {
+                    ResponseHelper.response(res, ServerError.ServerError);
+                } else {
+                    var initiatorRef = req.qsCurrentUserId;
+                    var targetRef = show._id;
+                    // Add PeopleCreateShow Relationship
+                    RelationshipHelper.create(RPeopleCreateShow, initiatorRef, targetRef, function(err, relationship) {
+                        if (err) {
+                            ResponseHelper.response(res, err);
+                        } else if (!relationship) {
+                            ResponseHelper.response(res, ServerError.ServerError);
+                        } else {
+                            ResponseHelper.response(res, null, {
+                                'show' : show
+                            });
+                        }
+                    });
+                }
+            });
+            return;
+        } 
+
+        // Update a show
+        var _id = RequestHelper.parseId(req.body._id);
+        Show.findOne({
+            '_id' : _id
+        }, function(err, show) {
             if (err) {
                 ResponseHelper.response(res, err);
             } else if (!show) {
-                ResponseHelper.response(res, ServerError.ServerError);
+                ResponseHelper.response(res, ServerError.ShowNotExist);
             } else {
-                var initiatorRef = req.qsCurrentUserId;
-                var targetRef = show._id;
-                RelationshipHelper.create(RPeopleCreateShow, initiatorRef, targetRef, function(err, relationship) {
+                show.itemRefs = itemRefs;
+                show.save(function(err, show) {
                     if (err) {
                         ResponseHelper.response(res, err);
-                    } else if (!relationship) {
+                    } else if (!show) {
                         ResponseHelper.response(res, ServerError.ServerError);
                     } else {
                         ResponseHelper.response(res, null, {
@@ -91,19 +120,13 @@ matcher.save = {
             }
         });
     }
-}
+};
 
 matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        var formidable = require('formidable');
-        var path = require('path');
-
-        var form = new formidable.IncomingForm();
-        form.uploadDir = global.__qingshow_uploads.folder;
-        form.keepExtensions = true;
-        form.parse(req, function(err, fields, files) {
+        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.localPath, function(err, fields, file) {
             if (err) {
                 ResponseHelper.response(res, err);
                 return;
@@ -112,7 +135,6 @@ matcher.updateCover = {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
                 return;
             }
-            var file = files['cover'];
             if (!file) {
                 ResponseHelper.response(res, ServerError.NotEnoughParam);
                 return;
@@ -121,7 +143,7 @@ matcher.updateCover = {
                 '_id' : RequestHelper.parseId(fields['_id']),
                 'ugc' : true
             }, function(err, show) {
-                show.set('cover', global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
+                show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.localPath, file.path));
                 show.save(function(err, show) {
                     ResponseHelper.response(res, err, {
                         'show' : show
@@ -131,4 +153,33 @@ matcher.updateCover = {
         });
         return;
     }
-}
+};
+
+matcher.hide = {
+    'method' : 'post',
+    'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            RPeopleCreateShow.findOne({
+                'initiatorRef' : req.qsCurrentUserId,
+                'targetRef' : RequestHelper.parseId(req.body._id)
+            }, function(err, relationship) {
+                callback(err, relationship);
+            });
+        },
+        function(relationship, callback) {
+            relationship.hideAgainstCreator = true;
+            relationship.save(function(err, relationship) {
+                callback(err, relationship);
+            });
+        }],
+        function(err, relationship) {
+            if (!relationship) {
+                ResponseHelper.response(res, ServerError.ShowNotExist);
+            } else {
+                ResponseHelper.response(res, err);
+            }
+        });
+    }
+};

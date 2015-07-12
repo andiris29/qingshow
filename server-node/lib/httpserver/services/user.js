@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var uuid = require('node-uuid');
+var path = require('path');
 
 var People = require('../../model/peoples');
 
@@ -267,11 +268,11 @@ _update = function(req, res) {
 };
 
 _updatePortrait = function(req, res) {
-    _upload(req, res, 'portrait');
+    _upload(req, res, global.qsConfig.uploads.user.portrait, 'portrait');
 };
 
 _updateBackground = function(req, res) {
-    _upload(req, res, 'background');
+    _upload(req, res, global.qsConfig.uploads.user.background, 'background');
 };
 
 _saveReceiver = function(req, res) {
@@ -348,26 +349,16 @@ _saveReceiver = function(req, res) {
     });
 };
 
-var _upload = function(req, res, keyword) {
-    var formidable = require('formidable');
-    var path = require('path');
-
-    var form = new formidable.IncomingForm();
-    form.uploadDir = global.__qingshow_uploads.folder;
-    form.keepExtensions = true;
-    form.parse(req, function(err, fields, files) {
+var _upload = function(req, res, config, keyword) {
+    RequestHelper.parseFile(req, config.localPath, function(err, fields, file) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
         }
-        var file;
-        for (var key in files) {
-            file = files[key];
-        }
         People.findOne({
             '_id' : req.qsCurrentUserId
         }, function(err, people) {
-            people.set(keyword, global.__qingshow_uploads.path + '/' + path.relative(form.uploadDir, file.path));
+            people.set(keyword, config.exposeToUrl + '/' + path.relative(config.localPath, file.path));
             people.save(function(err) {
                 if (err) {
                     ResponseHelper.response(res, err);
