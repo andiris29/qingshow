@@ -62,6 +62,7 @@
     [self.titleButton setTitle:titleStr forState:UIControlStateNormal];
     
     NSArray *array = cellDic[@"children"];
+   // NSLog(@"cellDic = %@",cellDic);
     [self setItemsWith:array];
 }
 

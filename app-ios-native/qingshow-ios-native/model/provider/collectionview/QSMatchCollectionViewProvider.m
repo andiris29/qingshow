@@ -44,10 +44,10 @@
         if (!cell) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
-        if (indexPath.item == 1) {
-            NSLog(@"result Array = %@",self.resultArray[indexPath.item]);
-        }
-        
+//        if (indexPath.item == 1) {
+//            NSLog(@"result Array = %@",self.resultArray[indexPath.item]);
+//        }
+//        
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {
