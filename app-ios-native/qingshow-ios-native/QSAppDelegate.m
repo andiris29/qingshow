@@ -27,25 +27,21 @@
 @end
 
 @implementation QSAppDelegate
-
+#pragma mark - Life Cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //标记第一次载入
     [self rememberFirstLaunch];
-    //Weibo
-    [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kWeiboAppKeyNum];
-    
-    //Wechat
-    [WXApi registerApp:kWechatAppID];
+    //注册第三方登陆、分享平台
+    [self registerSharePlatform];
     
     //umeng
-    [MobClick setLogEnabled:NO];
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
-    [MobClick setEncryptEnabled:YES];
-    [MobClick updateOnlineConfig];
-    [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];
+    [self registerMobClick];
+    
+    //Push Notification
+    [self registerPushNotification];
+
+    //Start App
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
@@ -118,12 +114,6 @@
                     [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
                 }
             }];
-//            [[AlipaySDK defaultService] processAuth_V2Result:url
-//                                             standbyCallback:^(NSDictionary *resultDic) {
-//                                                 NSLog(@"result = %@",resultDic);
-//                                                 NSString *resultStr = resultDic[@"result"];
-//                                             }];
-            
         }
     }
     return YES;
@@ -140,6 +130,15 @@
     return YES;
 }
 
+#pragma mark - Share Platform
+- (void)registerSharePlatform {
+    //Weibo
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kWeiboAppKeyNum];
+    
+    //Wechat
+    [WXApi registerApp:kWechatAppID];
+}
 #pragma mark - Weibo
 - (void)didReceiveWeiboRequest:(WBBaseRequest *)request
 {
@@ -172,6 +171,46 @@
 }
 
 #pragma mark - WeChat
+-(void) onReq:(BaseReq*)req
+{
+    
+}
+
+-(void) onResp:(BaseResp*)resp
+{
+    if ([resp isKindOfClass:[SendAuthResp class]]) {
+        //微信登陆
+        SendAuthResp* authResp = (SendAuthResp*)resp;
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeSucceedNotification object:nil userInfo:@{@"code" : authResp.code}];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeFailNotification object:nil];
+        }
+    } else if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatSuccessNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatFailNotification object:nil];
+        }
+    }else {
+        //微信支付
+        if (resp.errCode == kWechatPaymentSuccessCode) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
+        }
+    }
+}
+
+#pragma mark - Mob Click 友盟
+- (void)registerMobClick {
+    [MobClick setLogEnabled:NO];
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    [MobClick setEncryptEnabled:YES];
+    [MobClick updateOnlineConfig];
+    [MobClick startWithAppkey:@"54ceec7cfd98c595030008d5" reportPolicy:BATCH channelId:nil];
+}
 
 #pragma mark - Launch Image
 - (void)showLaunchImage
@@ -204,36 +243,7 @@
     
 }
 
--(void) onReq:(BaseReq*)req
-{
 
-}
-
--(void) onResp:(BaseResp*)resp
-{
-    if ([resp isKindOfClass:[SendAuthResp class]]) {
-        //微信登陆
-        SendAuthResp* authResp = (SendAuthResp*)resp;
-        if (resp.errCode == kWechatPaymentSuccessCode) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeSucceedNotification object:nil userInfo:@{@"code" : authResp.code}];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kWechatAuthorizeFailNotification object:nil];
-        }
-    } else if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
-        if (resp.errCode == kWechatPaymentSuccessCode) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatSuccessNotification object:nil];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kShareWechatFailNotification object:nil];
-        }
-    }else {
-        //微信支付
-        if (resp.errCode == kWechatPaymentSuccessCode) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentSuccessNotification object:nil];
-        } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:kPaymentFailNotification object:nil];
-        }
-    }
-}
 
 #pragma mark -- rememberFirstLaunch
 - (void)logTraceFirstLaunch
@@ -276,5 +286,57 @@
     [self logTraceFirstLaunch];
     [userDefaults setBool:YES forKey:kTraceLogFirstLaunch];
     [userDefaults synchronize];
+}
+
+#pragma mark - Push Notification
+- (void)registerPushNotification {
+
+    UIApplication* app = [UIApplication sharedApplication];
+    if ([app respondsToSelector:@selector(registerForRemoteNotifications)]) {
+        //IOS8
+//        UIMutableUserNotificationAction *action = [[UIMutableUserNotificationAction alloc] init];
+//        action.identifier = @"action";//按钮的标示
+//        action.title=@"Accept";//按钮的标题
+//        action.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+//        //    action.authenticationRequired = YES;
+//        //    action.destructive = YES;
+//        
+//        UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+//        action2.identifier = @"action2";
+//        action2.title=@"Reject";
+//        action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+//        action.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+//        action.destructive = YES;
+        
+        
+        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+        categorys.identifier = @"alert";//这组动作的唯一标示
+//        [categorys setActions:@[action,action2] forContext:(UIUserNotificationActionContextMinimal)];
+        
+        
+        UIUserNotificationSettings *uns = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:[NSSet setWithObjects:categorys, nil]];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:uns];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
+#pragma clang diagnostic pop
+    }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)pToken {
+    NSLog(@"regisger success:%@",pToken);
+    //注册成功，将deviceToken保存到应用服务器数据库中
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    // 处理推送消息
+    NSLog(@"userinfo:%@",userInfo);
+    
+    NSLog(@"收到推送消息:%@",[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]);
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"Registfail%@",error);
 }
 @end
