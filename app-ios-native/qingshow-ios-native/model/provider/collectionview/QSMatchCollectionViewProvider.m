@@ -31,7 +31,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width/2-10, w/320*320);
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width/2-10, w);
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -44,10 +44,10 @@
         if (!cell) {
             cell = [[[NSBundle mainBundle]loadNibNamed:@"QSMatchShowsCell" owner:nil options:nil]lastObject];
         }
-//        if (indexPath.item == 1) {
-//            NSLog(@"result Array = %@",self.resultArray);
-//        }
-//        
+        if (indexPath.item == 1) {
+            NSLog(@"result Array = %@",self.resultArray[indexPath.item]);
+        }
+        
         //NSLog(@"count === %d",self.resultArray.count);
         if(self.resultArray.count)
         {

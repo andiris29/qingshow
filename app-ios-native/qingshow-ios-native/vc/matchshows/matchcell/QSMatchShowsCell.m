@@ -44,7 +44,7 @@
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic]];
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
-    NSString *createDate = dict[@"__context"][@"createdBy"][@"create"];
+    NSString *createDate = dict[@"create"];
     //NSLog(@"%@",createDate);
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];

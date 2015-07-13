@@ -66,7 +66,7 @@
                             </collectionViewFlowLayout>
                         </collectionView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a6i-HP-fvk">
-                            <rect key="frame" x="251" y="503" width="41" height="41"/>
+                            <rect key="frame" x="256" y="503" width="41" height="41"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="41" id="Kny-43-ZQk"/>
                                 <constraint firstAttribute="height" constant="41" id="zoS-p0-4uU"/>
@@ -98,7 +98,7 @@
                         <constraint firstAttribute="trailing" secondItem="wEv-xg-OsW" secondAttribute="trailing" id="VUf-Jt-jSj"/>
                         <constraint firstItem="DrY-X6-QFu" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="Z2a-2R-OyG"/>
                         <constraint firstAttribute="bottom" secondItem="wEv-xg-OsW" secondAttribute="bottom" id="hYo-fY-9r0"/>
-                        <constraint firstAttribute="trailing" secondItem="a6i-HP-fvk" secondAttribute="trailing" constant="28" id="jLk-qk-7zw"/>
+                        <constraint firstAttribute="trailing" secondItem="a6i-HP-fvk" secondAttribute="trailing" constant="23" id="jLk-qk-7zw"/>
                         <constraint firstItem="sg7-Ao-Jcv" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="l82-X2-0qy"/>
                         <constraint firstItem="wEv-xg-OsW" firstAttribute="top" secondItem="AVA-uB-yhC" secondAttribute="top" id="pv2-pq-dQv"/>
                         <constraint firstItem="XtV-4f-8cf" firstAttribute="leading" secondItem="AVA-uB-yhC" secondAttribute="leading" id="van-kQ-O1O"/>
