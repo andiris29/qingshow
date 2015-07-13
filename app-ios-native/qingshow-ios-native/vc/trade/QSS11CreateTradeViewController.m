@@ -125,6 +125,10 @@
 }
 
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self hidekeyboardAndPicker];
+}
 #pragma mark - Private Method
 - (void)updateAllCell
 {

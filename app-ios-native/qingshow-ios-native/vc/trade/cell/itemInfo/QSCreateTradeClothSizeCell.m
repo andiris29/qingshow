@@ -52,6 +52,10 @@
 {
     return [self.shoulderOrHiplineTextField.text floatValue];
 }
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self resignFirstResponder];
+}
 
 
 @end

@@ -15,11 +15,11 @@
 {
     NSString *itemName = self.itemDic[@"name"];
     self.titleLabel.text = itemName;
-    NSLog(@"self.itemdic = %@",self.itemDic);
+    //NSLog(@"self.itemdic = %@",self.itemDic);
     
     NSDictionary *dic = [self.itemDic valueForKey:@"matchInfo"];
     NSInteger enable = (NSInteger)[dic valueForKey:@"enabled"];
-    NSLog(@"enable == %d",enable);
+   // NSLog(@"enable == %d",enable);
     NSString *imgUrl = self.itemDic[@"icon"];
     NSRange range = [imgUrl rangeOfString:@".png"];
     NSString *rangeStr = [imgUrl substringToIndex:range.location];

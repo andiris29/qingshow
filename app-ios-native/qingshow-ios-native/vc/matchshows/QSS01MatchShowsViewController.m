@@ -91,7 +91,7 @@
             return [SHARE_NW_ENGINE getfeedingMatchNew:nil page:page onSucceed:succeedBlock onError:errorBlock];
            
         };
-        NSLog(@"self.newresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
+        //NSLog(@"self.newresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
         
@@ -102,7 +102,7 @@
         _matchCollectionViewProvider.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock,ErrorBlock errorBlock,int page){
             return [SHARE_NW_ENGINE getfeedingMatchHot:nil page:page onSucceed:succeedBlock onError:errorBlock];
         };
-        NSLog(@"self.hotresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
+       // NSLog(@"self.hotresultArray = %d",self.matchCollectionViewProvider.resultArray.count);
         [_matchCollectionViewProvider fetchDataOfPage:1];
         [self reloadCollectionViewData];
        

@@ -8,7 +8,7 @@
 
 #import "QSCreateTradeHeigh60Cell.h"
 
-@interface QSCreateTradeClothSizeCell : QSCreateTradeTableViewCellBase
+@interface QSCreateTradeClothSizeCell : QSCreateTradeTableViewCellBase<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *bustCircleOrWaistlineTextField;
 @property (weak, nonatomic) IBOutlet UITextField *shoulderOrHiplineTextField;
