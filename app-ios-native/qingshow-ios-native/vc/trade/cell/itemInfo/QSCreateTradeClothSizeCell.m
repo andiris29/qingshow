@@ -52,6 +52,8 @@
 {
     return [self.shoulderOrHiplineTextField.text floatValue];
 }
-
-
+- (void)hideKeyboard {
+    [self.bustCircleOrWaistlineTextField resignFirstResponder];
+    [self.shoulderOrHiplineTextField resignFirstResponder];
+}
 @end
