@@ -15,11 +15,11 @@
 {
     NSString *itemName = self.itemDic[@"name"];
     self.titleLabel.text = itemName;
-    //NSLog(@"self.itemdic = %@",self.itemDic);
+    NSLog(@"self.itemdic = %@",self.itemDic[@"name"]);
     
     NSDictionary *dic = [self.itemDic valueForKey:@"matchInfo"];
-    NSInteger enable = (NSInteger)[dic valueForKey:@"enabled"];
-   // NSLog(@"enable == %d",enable);
+    BOOL enable = (BOOL)[dic valueForKey:@"enabled"];
+    //NSLog(@"enable == %d",enable);
     NSString *imgUrl = self.itemDic[@"icon"];
     NSRange range = [imgUrl rangeOfString:@".png"];
     NSString *rangeStr = [imgUrl substringToIndex:range.location];
@@ -29,7 +29,7 @@
 
     if (self.itemDic == selectedDic) {
         [self.imgView setImageFromURL:[NSURL URLWithString:imgSelectedUrl] placeHolderImage:[UIImage imageNamed:@"selectedHoderImg"]];
-    }else if(enable == 0)
+    }else if(enable != 0 && enable != 88)
     {
         self.userInteractionEnabled = NO;
         [self.imgView setImageFromURL:[NSURL URLWithString:imgDisableUrl] placeHolderImage:[UIImage imageNamed:@"hoderImg"]];
