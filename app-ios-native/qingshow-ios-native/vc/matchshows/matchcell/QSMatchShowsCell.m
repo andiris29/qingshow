@@ -16,8 +16,10 @@
     NSDictionary *_showDic;
     NSDictionary *_peopleDic;
 }
+
 - (void)awakeFromNib {
     // Initialization code
+     self.matchShowImgview.translatesAutoresizingMaskIntoConstraints = YES;
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = 16.0;
     self.headerImgView.userInteractionEnabled = YES;
