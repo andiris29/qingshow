@@ -31,7 +31,7 @@
                         <constraint firstAttribute="width" constant="41" id="Qrs-pA-5lc"/>
                         <constraint firstAttribute="height" constant="41" id="ka9-Zc-aL7"/>
                     </constraints>
-                    <state key="normal" image="backToTopBtnImg">
+                    <state key="normal" image="backToTopBtnImg_black">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -62,7 +62,7 @@
         </segmentedControl>
     </objects>
     <resources>
-        <image name="backToTopBtnImg" width="41" height="41"/>
+        <image name="backToTopBtnImg_black" width="35" height="35"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

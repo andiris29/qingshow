@@ -15,20 +15,31 @@
 {
     NSString *itemName = self.itemDic[@"name"];
     self.titleLabel.text = itemName;
+    NSLog(@"self.itemdic = %@",self.itemDic[@"name"]);
     
+    NSDictionary *dic = [self.itemDic valueForKey:@"matchInfo"];
+    BOOL enable = (BOOL)[dic valueForKey:@"enabled"];
+    //NSLog(@"enable == %d",enable);
     NSString *imgUrl = self.itemDic[@"icon"];
     NSRange range = [imgUrl rangeOfString:@".png"];
     NSString *rangeStr = [imgUrl substringToIndex:range.location];
-    NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_grey.png",rangeStr];
+    NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_selected.png",rangeStr];
+    NSString *imgUnSelectedUrl = [NSString stringWithFormat:@"%@_normal.png",rangeStr];
+    NSString *imgDisableUrl = [NSString stringWithFormat:@"%@_disabled.png",rangeStr];
 
     if (self.itemDic == selectedDic) {
         [self.imgView setImageFromURL:[NSURL URLWithString:imgSelectedUrl] placeHolderImage:[UIImage imageNamed:@"selectedHoderImg"]];
-    }else {
+    }else if(enable != 0 && enable != 88)
+    {
+        self.userInteractionEnabled = NO;
+        [self.imgView setImageFromURL:[NSURL URLWithString:imgDisableUrl] placeHolderImage:[UIImage imageNamed:@"hoderImg"]];
+    }
+    else {
         //缓存selectedimage
         UIImageView *cashView = [[UIImageView alloc] init];
         [cashView setImageFromURL:[NSURL URLWithString:imgSelectedUrl]];
         
-        [self.imgView setImageFromURL:[NSURL URLWithString:imgUrl] placeHolderImage:[UIImage imageNamed:@"hoderImg"]];
+        [self.imgView setImageFromURL:[NSURL URLWithString:imgUnSelectedUrl] placeHolderImage:[UIImage imageNamed:@"hoderImg"]];
     }
 }
 @end

@@ -56,4 +56,9 @@
     [self.bustCircleOrWaistlineTextField resignFirstResponder];
     [self.shoulderOrHiplineTextField resignFirstResponder];
 }
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self resignFirstResponder];
+}
+
 @end

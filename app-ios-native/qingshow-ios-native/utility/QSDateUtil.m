@@ -104,8 +104,8 @@
         return nil;
     }
     NSDate *nowDate = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
     NSDate *date01 = [self buildDateFromResponseString:date];
     NSTimeInterval seconds = [nowDate timeIntervalSinceDate:date01];
     if (seconds >= 24*60*60) {
