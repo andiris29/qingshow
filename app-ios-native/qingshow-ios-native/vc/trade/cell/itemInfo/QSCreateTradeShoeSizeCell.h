@@ -8,7 +8,7 @@
 
 #import "QSCreateTradeHeigh60Cell.h"
 
-@interface QSCreateTradeShoeSizeCell : QSCreateTradeHeigh60Cell
+@interface QSCreateTradeShoeSizeCell : QSCreateTradeHeigh60Cell <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField* textField;
 
