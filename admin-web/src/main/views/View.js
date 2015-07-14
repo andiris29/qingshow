@@ -15,14 +15,14 @@ define([
     violet.oo.extend(View, violet.ui.ViewBase);
 
     // ------ NavigationService ------
-    View.prototype.push = function(module) {
-        navigationService.push(module);
+    View.prototype.push = function() {
+        navigationService.push.apply(navigationService, arguments);
     };
     View.prototype.pop = function() {
-        navigationService.pop();
+        navigationService.pop.apply(navigationService, arguments);
     };
     View.prototype.popAll = function() {
-        navigationService.popAll();
+        navigationService.popAll.apply(navigationService, arguments);
     };
     // ------ HTTPService ------
     View.prototype.request = function() {

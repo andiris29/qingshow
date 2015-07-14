@@ -4,6 +4,9 @@ define([
 ], function(
     View
 ) {
+    violet.ui.factory.registerDependencies('main/views/P02Portal', [
+        'main/views/components/p02/TradeStatusLi', 
+        'main/views/components/p02/ItemCategoryLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
@@ -11,11 +14,6 @@ define([
         this._initManagerTrades();
         this._initManagerItems();
     };
-    // @formatter:off
-    violet.ui.factory.registerDependencies('main/views/P02Portal', [
-        'main/views/components/p02/TradeStatusLi', 
-        'main/views/components/p02/ItemCategoryLi']);
-    // @formatter:on
 
     P02Portal.prototype._initManagerTrades = function() {
         var ul$ = $('#managerTrades', this._dom);
