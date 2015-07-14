@@ -36,9 +36,10 @@
 - (NSArray*)filteredArrayUsingBlock:(FilterBlock)block {
     NSMutableArray* retArray = [@[] mutableCopy];
     [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if (block(obj)) {
-            [retArray addObject:obj];
-        }
+//        if (block(obj)) {
+//            [retArray addObject:obj];
+//        }
+        [retArray addObject:obj];
     }];
     return retArray;
 }

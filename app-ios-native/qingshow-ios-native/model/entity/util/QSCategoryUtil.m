@@ -26,6 +26,7 @@
     } else {
         return n.boolValue;
     }
+   // return n.boolValue;
 }
 
 + (BOOL)getDefaultOnCanvas:(NSDictionary*)categoryDict {
