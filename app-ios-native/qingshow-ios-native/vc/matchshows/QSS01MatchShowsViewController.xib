@@ -28,8 +28,8 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Zc-Cp-IlS">
                     <rect key="frame" x="257" y="509" width="41" height="41"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="41" id="Qrs-pA-5lc"/>
-                        <constraint firstAttribute="height" constant="41" id="ka9-Zc-aL7"/>
+                        <constraint firstAttribute="width" constant="41" id="3Lg-iI-hC0"/>
+                        <constraint firstAttribute="height" constant="41" id="cnL-ng-6vl"/>
                     </constraints>
                     <state key="normal" image="backToTopBtnImg_black">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -41,12 +41,12 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="5Zc-Cp-IlS" secondAttribute="trailing" constant="22" id="19f-VQ-B16"/>
-                <constraint firstAttribute="bottom" secondItem="z6K-De-9g3" secondAttribute="bottom" id="7wa-bw-eFd"/>
-                <constraint firstItem="z6K-De-9g3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="E2o-u4-7D8"/>
-                <constraint firstAttribute="trailing" secondItem="z6K-De-9g3" secondAttribute="trailing" id="W02-HX-6kA"/>
-                <constraint firstAttribute="bottom" secondItem="5Zc-Cp-IlS" secondAttribute="bottom" constant="18" id="nN5-K7-cKJ"/>
-                <constraint firstItem="z6K-De-9g3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="xoq-46-hKm"/>
+                <constraint firstAttribute="trailing" secondItem="z6K-De-9g3" secondAttribute="trailing" id="Q1U-ea-Bam"/>
+                <constraint firstItem="z6K-De-9g3" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZF7-zg-HaG"/>
+                <constraint firstItem="z6K-De-9g3" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="b8o-63-vgk"/>
+                <constraint firstAttribute="trailing" secondItem="5Zc-Cp-IlS" secondAttribute="trailing" constant="22" id="hAW-Af-SNH"/>
+                <constraint firstAttribute="bottom" secondItem="5Zc-Cp-IlS" secondAttribute="bottom" constant="18" id="mDk-4M-f6H"/>
+                <constraint firstAttribute="bottom" secondItem="z6K-De-9g3" secondAttribute="bottom" id="wKw-oO-Y9F"/>
             </constraints>
             <point key="canvasLocation" x="244" y="269"/>
         </view>

@@ -16,24 +16,28 @@
     NSDictionary *_showDic;
     NSDictionary *_peopleDic;
 }
-//- (void)layoutSubviews
-//{
-//    float topMargin = 218;
-//    float leftMargin = 25;
-//    float rightMargin = 25;
-//    float bottomMargin = 98;
-//    
-//    self.matchShowImgview.frame =
-//    CGRectMake(
-//               self.matchShowImgview.frame.origin.x + leftMargin,
-//               self.matchShowImgview.frame.origin.y + topMargin,
-//               self.matchShowImgview.frame.size.width - leftMargin - rightMargin,
-//               self.matchShowImgview.frame.size.height - topMargin - bottomMargin);
-//}
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    float ratioX = 1;
+    float ratioY =1;
+    float leftMargin = 6*ratioX;
+    float topMargin = 54*ratioY;
+    float weight = 138*ratioX;
+    float height = 191.8*ratioY;
+    
+    self.matchShowImgview.frame =
+    CGRectMake(
+               leftMargin,
+               topMargin,
+               weight,
+               height);
+}
 
 - (void)awakeFromNib {
     // Initialization code
-     self.matchShowImgview.translatesAutoresizingMaskIntoConstraints = YES;
+//     self.matchShowImgview.translatesAutoresizingMaskIntoConstraints = YES;
+//    self.matchShowImgview.layer.masksToBounds = NO;
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = 16.0;
     self.headerImgView.userInteractionEnabled = YES;

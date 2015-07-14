@@ -53,8 +53,14 @@
         {
             [cell bindWithDic:self.resultArray[indexPath.item] withIndex:(int)indexPath.item];
         }
-       
-        cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
+        if (w == 414) {
+            cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-12));
+        }
+        else
+        {
+            cell.contentView.transform = CGAffineTransformMakeScale(w/(320-15), w/(320-16));
+        }
+        
         cell.backgroundColor = [UIColor whiteColor];
         cell.delegate = self;
         return (UICollectionViewCell *)cell;
