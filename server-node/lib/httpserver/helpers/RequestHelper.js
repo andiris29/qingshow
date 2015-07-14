@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var async = require('async');
 
 var RequestHelper = module.exports;
 
@@ -69,6 +70,7 @@ RequestHelper.parseFile = function(req, uploadPath, callback) {
     var path = require('path');
 
     var form = new formidable.IncomingForm();
+    //TODO remove following line, add runtime.ftp
     form.uploadDir = uploadPath;
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {

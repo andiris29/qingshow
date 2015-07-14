@@ -33,6 +33,11 @@ properties.parse(configPath, {
     var qsdb = require('./runtime/qsdb');
     qsdb.connect(config.mongodb);
 
+
+
+    var qsftp = require('./runtime/qsftp');
+    qsftp.connect(config.ftp);
+
     // Startup http server
     require('./httpserver/startup')(config, qsdb);
 
