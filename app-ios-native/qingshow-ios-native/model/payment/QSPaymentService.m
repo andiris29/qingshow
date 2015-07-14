@@ -81,13 +81,14 @@
 
     } else {
         //Pay with Alipay
-        [self payWithAliPayTradeId:tradeId productName:names];
+        [self payWithAliPayTrade:tradeDict productName:names];
     }
 }
 
-- (void)payWithAliPayTradeId:(NSString*)tradeId
-                 productName:(NSString*)productName
+- (void)payWithAliPayTrade:(NSDictionary*)tradeDict
+               productName:(NSString*)productName;
 {
+    NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
     AlipayOrder* order = [[AlipayOrder alloc] init];
     order.partner = ALIPAY_PARTNER;
     order.seller = ALIPAY_SELLER;
@@ -95,7 +96,7 @@
     //item name
     order.productName = productName;
     order.productDescription = @"desc";
-    order.amount = @"0.01";
+    order.amount = [QSTradeUtil getTotalFeeDesc:tradeDict];
     order.notifyURL = ALIPAY_NOTIFY_URL;
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";

@@ -451,9 +451,6 @@
     
     [self.totalCell updateWithPrice:totalPrice.stringValue];
     
-    totalPrice = @(0.01f);
-    quantity = @1;
-    price = @(0.01f);
     __weak QSS11CreateTradeViewController* weakSelf = self;
     self.createTradeOp =
     [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue
