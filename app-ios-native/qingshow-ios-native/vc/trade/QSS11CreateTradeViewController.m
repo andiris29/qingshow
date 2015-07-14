@@ -315,9 +315,9 @@
     if (cell == self.receiverInfoLocationCell) {
         [self showPicker];
     }
-    if (![self.receiverInfoCellArray containsObject:cell] || cell == self.receiverInfoTitleCell) {
-        [self hidekeyboardAndPicker];
-    }
+
+    [self hidekeyboardAndPicker];
+
     
 }
 
