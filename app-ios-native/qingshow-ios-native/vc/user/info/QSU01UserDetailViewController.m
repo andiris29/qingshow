@@ -377,7 +377,7 @@
 - (void)didClickShow:(NSDictionary*)showDict provider:(QSAbstractListViewProvider *)provider
 {
     QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
-    vc.showDeletedBtn = provider == self.matchProvider;
+    vc.showDeletedBtn = provider == self.matchProvider && self.isCurrentUser;
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

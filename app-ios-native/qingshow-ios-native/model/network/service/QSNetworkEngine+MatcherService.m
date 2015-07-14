@@ -30,6 +30,7 @@
             
             resArray = [resArray filteredArrayUsingBlock:^BOOL(NSDictionary* category) {
                 return [QSCategoryUtil getMatchEnabled:category];
+                //return category;
             }];
             NSMutableArray* retArray = [@[] mutableCopy];
             for (NSDictionary* dict in resArray) {

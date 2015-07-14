@@ -18,7 +18,10 @@
     // Drawing code
 }
 */
-
+- (void)awakeFromNib {
+    self.shoulderOrHiplineTextField.delegate = self;
+    self.bustCircleOrWaistlineTextField.delegate = self;
+}
 - (void)bindWithDict:(NSDictionary *)dict
 {
     QSItemCategory category = [QSItemUtil getItemCategory:dict];
@@ -52,6 +55,13 @@
 {
     return [self.shoulderOrHiplineTextField.text floatValue];
 }
+- (void)hideKeyboard {
+    [self.bustCircleOrWaistlineTextField resignFirstResponder];
+    [self.shoulderOrHiplineTextField resignFirstResponder];
+}
 
-
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self hideKeyboard];
+    return YES;
+}
 @end

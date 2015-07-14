@@ -98,15 +98,31 @@
 }
 
 + (QSItemCategory)getItemCategory:(NSDictionary*)itemDict {
-    if (![QSCommonUtil checkIsDict:itemDict]) {
-        return QSItemCategoryUnknown;
-    }
-    NSNumber* category = itemDict[@"category"];
-    if (category.intValue < QSItemCategoryCount) {
-        return category.intValue;
+#warning just workaround
+    NSDictionary* categoryDict = [self getCategoryRef:itemDict];
+    NSString* categoryId = @"";
+    if (categoryDict) {
+        categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
     } else {
-        return QSItemCategoryUnknown;
+        categoryId = itemDict[@"categoryRef"];
     }
+
+    NSArray* cateArray = @[
+                           @[@"5593b3df38dadbed5a998b62", @"5593b3df38dadbed5a998b63", @"5593b7d638dadbed5a998b75", @"5593b88838dadbed5a998b7a", @"5593b88838dadbed5a998b7b", @"5593b88838dadbed5a998b7c", @"5593b88838dadbed5a998b7d", @"5593b88838dadbed5a998b7e", @"5593b88838dadbed5a998b7f", @"5593b88838dadbed5a998b80", @"5593b88838dadbed5a998b81", @"5593b88838dadbed5a998b82"],//上衣
+                           @[ @"5593b3df38dadbed5a998b64", @"5593b3df38dadbed5a998b65", @"5593b88838dadbed5a998b83", @"5593b88838dadbed5a998b84", @"5593b88838dadbed5a998b85", @"5593b88838dadbed5a998b86", @"5593b88838dadbed5a998b87", @"5593b88838dadbed5a998b88", @"5593b88838dadbed5a998b89", @"5593b88838dadbed5a998b8a"],//下装
+                           @[@"5593b88838dadbed5a998b8c", @"5593b88838dadbed5a998b8e", @"5593b3df38dadbed5a998b66", @"5593b88838dadbed5a998b8b", @"5593b88838dadbed5a998b8d", @"5593b88838dadbed5a998b8f", @"5593b88838dadbed5a998b90"],//连衣裙
+                           @[],//内搭
+                           @[@"5593b88838dadbed5a998b91", @"5593b88838dadbed5a998b92", @"5593b88838dadbed5a998b93", @"5593b88838dadbed5a998b94", @"5593b88838dadbed5a998b95", @"5593b88838dadbed5a998b96", @"5593b3df38dadbed5a998b67"],//鞋子
+                           @[@"5593b88838dadbed5a998b97", @"5593b88838dadbed5a998b98", @"5593b88838dadbed5a998b99", @"5593b88838dadbed5a998b9a", @"5593b88838dadbed5a998b9b", @"5593b3df38dadbed5a998b68"],//包
+                           @[@"5593b88838dadbed5a998b9c", @"5593b88838dadbed5a998b9d", @"5593b88838dadbed5a998b9e", @"5593b88838dadbed5a998b9f", @"5593b88838dadbed5a998ba0", @"5593b88838dadbed5a998ba1", @"5593b3df38dadbed5a998b69"]//配饰
+                           ];
+    for (NSInteger i = 0; i < cateArray.count; i++) {
+        NSArray* a = cateArray[i];
+        if ([a indexOfObject:categoryId] != NSNotFound) {
+            return i;
+        }
+    }
+    return QSItemCategoryUnknown;
 }
 
 + (NSArray*)getSkusArray:(NSDictionary*)itemDict

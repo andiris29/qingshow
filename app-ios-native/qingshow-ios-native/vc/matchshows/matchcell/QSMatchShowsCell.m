@@ -16,8 +16,28 @@
     NSDictionary *_showDic;
     NSDictionary *_peopleDic;
 }
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    float ratioX = 1;
+    float ratioY =1;
+    float leftMargin = 6*ratioX;
+    float topMargin = 54*ratioY;
+    float weight = 138*ratioX;
+    float height = 191.8*ratioY;
+    
+    self.matchShowImgview.frame =
+    CGRectMake(
+               leftMargin,
+               topMargin,
+               weight,
+               height);
+}
+
 - (void)awakeFromNib {
     // Initialization code
+//     self.matchShowImgview.translatesAutoresizingMaskIntoConstraints = YES;
+//    self.matchShowImgview.layer.masksToBounds = NO;
     self.headerImgView.layer.masksToBounds = YES;
     self.headerImgView.layer.cornerRadius = 16.0;
     self.headerImgView.userInteractionEnabled = YES;
@@ -44,7 +64,7 @@
     [self.matchShowImgview setImageFromURL:[QSShowUtil getCoverUrl:dict]];
     [self.headerImgView setImageFromURL:[QSPeopleUtil getHeadIconUrl:_peopleDic]];
     [self.bgImgView setImageFromURL:[QSShowUtil getCoverForegroundUrl:dict]];
-    NSString *createDate = dict[@"__context"][@"createdBy"][@"create"];
+    NSString *createDate = dict[@"create"];
     //NSLog(@"%@",createDate);
     self.timeLabel.text = [QSDateUtil gettimeSinceDate:createDate];
     self.likeNumlabel.text = [QSShowUtil getNumberLikeDescription:dict];

@@ -125,6 +125,10 @@
 }
 
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self hidekeyboardAndPicker];
+}
 #pragma mark - Private Method
 - (void)updateAllCell
 {
@@ -311,9 +315,9 @@
     if (cell == self.receiverInfoLocationCell) {
         [self showPicker];
     }
-    if (![self.receiverInfoCellArray containsObject:cell] || cell == self.receiverInfoTitleCell) {
-        [self hidekeyboardAndPicker];
-    }
+
+    [self hidekeyboardAndPicker];
+
     
 }
 
@@ -447,9 +451,6 @@
     
     [self.totalCell updateWithPrice:totalPrice.stringValue];
     
-    totalPrice = @(0.01f);
-    quantity = @1;
-    price = @(0.01f);
     __weak QSS11CreateTradeViewController* weakSelf = self;
     self.createTradeOp =
     [SHARE_NW_ENGINE createTradeTotalFee:totalPrice.doubleValue

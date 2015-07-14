@@ -19,8 +19,8 @@
           onSuccess:(VoidBlock)succeedBlock
             onError:(ErrorBlock)errorBlock;
 
-- (void)payWithAliPayTradeId:(NSString*)tradeId
-                 productName:(NSString*)productName;
+- (void)payWithAliPayTrade:(NSDictionary*)tradeDict
+               productName:(NSString*)productName;
 - (void)payWithWechatPrepayId:(NSString*)prepayId
                   productName:(NSString*)productName;
 @end
