@@ -36,13 +36,15 @@ properties.parse(configPath, {
 
 
     var qsftp = require('./runtime/qsftp');
-    qsftp.connect(config.ftp);
+    qsftp.connect(config.ftp, function () {
+        // Startup http server
+        require('./httpserver/startup')(config, qsdb);
 
-    // Startup http server
-    require('./httpserver/startup')(config, qsdb);
+        // Startup scheduled
+        require('./scheduled/startup')();
+    });
 
-    // Startup scheduled
-    require('./scheduled/startup')();
+
 });
 
 // Handle uncaught exceptions

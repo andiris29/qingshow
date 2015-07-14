@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var _ = require('underscore');
 var winston = require('winston');
+var qsftp = require('../runtime/qsftp');
 
 //Services Name
 var servicesNames = ['feeding', 'user', 'show', 'admin', 'trade', 'spread', 'people', 'matcher'];
@@ -40,14 +41,14 @@ var wrapCallback = function (fullpath, callback) {
     };
 };
 
-var mkdirUploads = function(config) {
+var mkdirUploads = function (config) {
     for (var key in config) {
         var value = config[key];
         if (_.isObject(value)) {
             mkdirUploads(value);
         } else {
-            if (value.indexOf('http://') !== 0 && !fs.existsSync(value)) {
-                require('mkdirp').sync(value);
+            if (value.indexOf('http://') !== 0) {
+                qsftp.getConnection().mkdir(value, true, function (err){});
             }
         }
     }
@@ -60,6 +61,7 @@ module.exports = function (config, qsdb) {
 
     // Upload
     mkdirUploads(config.uploads);
+
     // Cross domain
     app.use(function (req, res, next) {
         // Set header for cross domain

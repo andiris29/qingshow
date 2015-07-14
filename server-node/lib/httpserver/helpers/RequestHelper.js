@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var async = require('async');
+var qsftp = require('../../runtime/qsftp');
+var path = require('path');
 
 var RequestHelper = module.exports;
 
@@ -67,11 +69,10 @@ RequestHelper.parseIds = function(string) {
 
 RequestHelper.parseFile = function(req, uploadPath, callback) {
     var formidable = require('formidable');
-    var path = require('path');
 
     var form = new formidable.IncomingForm();
     //TODO remove following line, add runtime.ftp
-    form.uploadDir = uploadPath;
+//    form.uploadDir = uploadPath;
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
         if (err) {
@@ -81,7 +82,15 @@ RequestHelper.parseFile = function(req, uploadPath, callback) {
         for (var key in files) {
             file = files[key];
         }
-        callback(null, fields, file);
+
+        var savedName = path.basename(file.path);
+        var fullPath = path.join(uploadPath, savedName);
+
+        qsftp.upload(file.path, fullPath, function (err) {
+            file.path = fullPath;
+            callback(err, fields, file);
+        });
+
     });
 };
 

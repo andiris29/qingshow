@@ -6,16 +6,21 @@ var winston = require('winston');
 var ftpConnection;
 
 
-var _connectToFtp = function (ftpConfig, reconnect) {
+var _connectToFtp = function (ftpConfig, reconnect, callback) {
     ftpConnection = new FtpClient();
     ftpConnection.on('ready', function () {
         winston.info('FTP connection ready');
+        if (callback) {
+            callback();
+            callback = null;
+        }
+
     });
     ftpConnection.on('end', function () {
         winston.info('FTP connection end');
         ftpConnection = null;
         if (reconnect) {
-            _connectToFtp(ftpConfig);
+            _connectToFtp(ftpConfig, reconnect);
         }
     });
 
@@ -23,7 +28,14 @@ var _connectToFtp = function (ftpConfig, reconnect) {
         winston.info('FTP connection close');
         ftpConnection = null;
         if (reconnect) {
-            _connectToFtp(ftpConfig);
+            _connectToFtp(ftpConfig, reconnect);
+        }
+    });
+
+    ftpConnection.on('error', function (err) {
+        if (callback) {
+            callback(err);
+            callback = null;
         }
     });
 
@@ -39,8 +51,8 @@ var _connectToFtp = function (ftpConfig, reconnect) {
 
 };
 
-var connect = function (ftpConfig) {
-    _connectToFtp(ftpConfig, true);
+var connect = function (ftpConfig, callback) {
+    _connectToFtp(ftpConfig, true, callback);
 };
 
 var getConnection = function () {
