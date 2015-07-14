@@ -16,6 +16,20 @@
     NSDictionary *_showDic;
     NSDictionary *_peopleDic;
 }
+//- (void)layoutSubviews
+//{
+//    float topMargin = 218;
+//    float leftMargin = 25;
+//    float rightMargin = 25;
+//    float bottomMargin = 98;
+//    
+//    self.matchShowImgview.frame =
+//    CGRectMake(
+//               self.matchShowImgview.frame.origin.x + leftMargin,
+//               self.matchShowImgview.frame.origin.y + topMargin,
+//               self.matchShowImgview.frame.size.width - leftMargin - rightMargin,
+//               self.matchShowImgview.frame.size.height - topMargin - bottomMargin);
+//}
 
 - (void)awakeFromNib {
     // Initialization code

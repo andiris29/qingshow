@@ -28,7 +28,8 @@
 #import "QSU01UserDetailViewController.h"
 
 #define PAGE_ID @"S03 - 秀"
-
+#define w ([UIScreen mainScreen].bounds.size.width)
+#define h ([UIScreen mainScreen].bounds.size.height)
 @interface QSS03ShowDetailViewController ()
 
 @property (strong, nonatomic) NSDictionary* showDict;
@@ -49,6 +50,7 @@
     if (self) {
         self.showDict = showDict;
         self.showDeletedBtn = NO;
+        
     }
     return self;
 }
@@ -120,18 +122,20 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-
-    float topMargin = 124.0/1.3f;
-    float leftMargin = 43.0/1.3f;
-    float rightMargin = 43.0/1.3f;
-    float bottomMargin = 124.0/1.3f;
+    
+    float ratioX = w/150;
+    float ratioY = h/277;
+    float leftMargin = 6*ratioX;
+    float topMargin = 54*ratioY;
+    float weight = 138*ratioX;
+    float height = 191.8*ratioY;
     
     self.coverImageView.frame =
     CGRectMake(
-               self.coverForegroundImageView.frame.origin.x + leftMargin,
-               self.coverForegroundImageView.frame.origin.y + topMargin,
-               self.coverForegroundImageView.frame.size.width - leftMargin - rightMargin,
-               self.coverForegroundImageView.frame.size.height - topMargin - bottomMargin);
+                leftMargin,
+               topMargin,
+                weight,
+              height);
     
 }
 
