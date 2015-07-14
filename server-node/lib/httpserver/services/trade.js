@@ -77,7 +77,7 @@ trade.create = {
 
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + 
                     '&totalFee=' + trade.totalFee + 
-                    '&orderName=' + orderName + 
+                    '&orderName=' + encodeURIComponent(orderName) + 
                     '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
