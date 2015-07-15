@@ -2,7 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "user_reg_winxin_login.png"
     },
     {
       "idiom" : "universal",

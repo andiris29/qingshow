@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "s03_like_btn_full.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "点赞红.png"
+      "filename" : "s03_like_btn_full@2x.png"
     },
     {
       "idiom" : "universal",

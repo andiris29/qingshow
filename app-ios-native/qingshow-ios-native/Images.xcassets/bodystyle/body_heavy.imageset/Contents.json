@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "body_heavy.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "胖(1).png"
+      "filename" : "body_heavy@2x.png"
     },
     {
       "idiom" : "universal",

@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "s03_share_btn.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "分享.png"
+      "filename" : "s03_share_btn@2x.png"
     },
     {
       "idiom" : "universal",

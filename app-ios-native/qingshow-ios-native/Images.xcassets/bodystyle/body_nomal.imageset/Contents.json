@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "body_nomal.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "标准(1).png"
+      "filename" : "body_nomal@2x.png"
     },
     {
       "idiom" : "universal",

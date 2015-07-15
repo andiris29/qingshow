@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x"
+      "scale" : "1x",
+      "filename" : "matchcell_bg_square.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "未标题-1.png"
+      "filename" : "matchcell_bg_square@2x.png"
     },
     {
       "idiom" : "universal",
