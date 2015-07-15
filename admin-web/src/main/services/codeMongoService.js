@@ -25,5 +25,9 @@ define([], function() {
         return _map[field][code];
     };
 
+    codeMongoService.toNameWithCode = function(field, code) {
+        return _map[field][code] + '(' + code + ')';
+    };
+
     return codeMongoService;
 });

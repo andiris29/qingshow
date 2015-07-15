@@ -29,9 +29,11 @@ define([
         var idOrNickName = idOrNickName$.val();
         var password = password$.val();
         if (!idOrNickName) {
+            alertify.error('需要输入用户名');
             return;
         }
         if (!password) {
+            alertify.error('需要输入密码');
             return;
         }
         this.request('/user/login', 'post', {

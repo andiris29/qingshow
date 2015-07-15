@@ -17,7 +17,7 @@ define([
             'status' : initOptions.status
         }, function(err, metadata, data) {
             if (err || metadata.error) {
-                alertify.error(violet.string.substitute('不存在{0} ({1})的交易', codeMongoService.toName('trade.status', initOptions.status), initOptions.status));
+                alertify.error(violet.string.substitute('不存在{0}的交易', codeMongoService.toNameWithCode('trade.status', initOptions.status)));
                 return;
             }
             var parent$ = $('tbody', this._dom);
