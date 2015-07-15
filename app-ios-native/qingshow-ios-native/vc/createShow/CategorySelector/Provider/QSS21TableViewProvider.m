@@ -92,6 +92,39 @@
         [resultArray addObject:cell.recordDic];
         [resultArray addObjectsFromArray:self.selectedArray];
     }
-    return resultArray;
+
+    NSMutableArray *returnArray = [NSMutableArray array];
+    for (int i = 0; i < resultArray.count; i ++) {
+        NSDictionary *dic = resultArray[i];
+        if (returnArray.count == 0) {
+            [returnArray addObject:dic];
+        }
+        else{
+            for (int j = 0; j < returnArray.count; j ++) {
+                NSDictionary *dict = returnArray[j];
+                if (dic == dict) {
+                    break;
+                }
+                if (j == returnArray.count-1) {
+                    [returnArray addObject:dic];
+                }
+        
+            }
+            
+        }
+    }
+//    for (int i = 0; i < resultArray.count; i ++) {
+//        NSDictionary *dic = resultArray[i];
+//        for (int j = 0 ; j < self.selectedArray.count; j ++) {
+//            NSDictionary *dict = self.selectedArray[j];
+//            if (dic == dict) {
+//                break;
+//            }
+//            if (j == self.selectedArray.count-1) {
+//                [returnArray addObject:dic];
+//            }
+//        }
+//    }
+       return returnArray;
 }
 @end

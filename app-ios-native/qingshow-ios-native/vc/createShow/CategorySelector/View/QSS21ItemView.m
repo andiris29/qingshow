@@ -15,11 +15,9 @@
 {
     NSString *itemName = self.itemDic[@"name"];
     self.titleLabel.text = itemName;
-    NSLog(@"self.itemdic = %@",self.itemDic[@"name"]);
     
     NSDictionary *dic = [self.itemDic valueForKey:@"matchInfo"];
     BOOL enable = (BOOL)[dic valueForKey:@"enabled"];
-    //NSLog(@"enable == %d",enable);
     NSString *imgUrl = self.itemDic[@"icon"];
     NSRange range = [imgUrl rangeOfString:@".png"];
     NSString *rangeStr = [imgUrl substringToIndex:range.location];

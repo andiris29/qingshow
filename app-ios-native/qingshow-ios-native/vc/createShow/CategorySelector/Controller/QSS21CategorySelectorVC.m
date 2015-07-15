@@ -41,6 +41,7 @@
     [self setProvider];
     
 }
+
 #pragma mark -- 返回按钮设置
 - (void)setLeftBarButtonItem
 {
@@ -62,6 +63,11 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:NEWFONT}];
     
     self.title = @"百搭秀场";
+    //刷新所有的cell
+    UIScrollView *scrollView = self.tableView;
+    CGPoint p = CGPointMake(0, scrollView.contentSize.height);
+    [scrollView setContentOffset:p];
+    [scrollView scrollsToTop];
 }
 
 #pragma mark -- bindTableView
