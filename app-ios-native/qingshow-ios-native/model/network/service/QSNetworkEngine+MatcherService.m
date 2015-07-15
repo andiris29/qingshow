@@ -27,11 +27,6 @@
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             NSArray* resArray = [((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy];
-            
-            resArray = [resArray filteredArrayUsingBlock:^BOOL(NSDictionary* category) {
-                return [QSCategoryUtil getMatchEnabled:category];
-                //return category;
-            }];
             NSMutableArray* retArray = [@[] mutableCopy];
             for (NSDictionary* dict in resArray) {
                 if ([QSCategoryUtil getParentId:dict].length == 0) {
