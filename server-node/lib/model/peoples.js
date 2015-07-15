@@ -70,6 +70,9 @@ peopleSchema = Schema({
     update : {
         type : Date,
         'default' : Date.now
+    },
+    jPushInfo : {
+        registrationIDs : [String]
     }
 });
 var People = mongoose.model('peoples', peopleSchema);
