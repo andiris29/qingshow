@@ -18,4 +18,5 @@
 + (NSNumber*)getMathchInfoRow:(NSDictionary*)categoryDict;
 + (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict;
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict;
++ (NSNumber*)getOrder:(NSDictionary*)categoryDict;
 @end

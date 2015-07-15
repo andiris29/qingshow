@@ -27,6 +27,10 @@
         NSDictionary* responseDict = completedOperation.responseJSON;
         if (succeedBlock) {
             NSArray* resArray = [((NSArray*)[responseDict valueForKeyPath:@"data.categories"]) deepMutableCopy];
+            resArray = [resArray sortedArrayUsingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
+                return [[QSCategoryUtil getOrder:obj1] compare:[QSCategoryUtil getOrder:obj2]];
+            }];
+            
             NSMutableArray* retArray = [@[] mutableCopy];
             for (NSDictionary* dict in resArray) {
                 if ([QSCategoryUtil getParentId:dict].length == 0) {

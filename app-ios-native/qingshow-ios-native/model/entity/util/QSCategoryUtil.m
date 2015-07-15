@@ -51,4 +51,7 @@
         return nil;
     }
 }
++ (NSNumber*)getOrder:(NSDictionary*)categoryDict {
+    return [QSCommonUtil getNumberValue:categoryDict key:@"order"];
+}
 @end
