@@ -17,6 +17,7 @@
 #import "QSNetworkKit.h"
 #import "QSRootContainerViewController.h"
 #import "QSNetworkKit.h"
+#import "APService.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -39,7 +40,7 @@
     [self registerMobClick];
     
     //Push Notification
-    [self registerPushNotification];
+    [self registerPushNotification:launchOptions];
 
     //Start App
     
@@ -289,48 +290,43 @@
 }
 
 #pragma mark - Push Notification
-- (void)registerPushNotification {
+- (void)registerPushNotification:(NSDictionary*)launchOptions {
 
-    UIApplication* app = [UIApplication sharedApplication];
-    if ([app respondsToSelector:@selector(registerForRemoteNotifications)]) {
-        //IOS8
-//        UIMutableUserNotificationAction *action = [[UIMutableUserNotificationAction alloc] init];
-//        action.identifier = @"action";//按钮的标示
-//        action.title=@"Accept";//按钮的标题
-//        action.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
-//        //    action.authenticationRequired = YES;
-//        //    action.destructive = YES;
-//        
-//        UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
-//        action2.identifier = @"action2";
-//        action2.title=@"Reject";
-//        action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
-//        action.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-//        action.destructive = YES;
-        
-        
-        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-        categorys.identifier = @"alert";//这组动作的唯一标示
-//        [categorys setActions:@[action,action2] forContext:(UIUserNotificationActionContextMinimal)];
-        
-        
-        UIUserNotificationSettings *uns = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound) categories:[NSSet setWithObjects:categorys, nil]];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:uns];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        [APService
+         registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                             UIUserNotificationTypeSound |
+                                             UIUserNotificationTypeAlert)
+         categories:nil];
     } else {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeBadge |UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert];
+        [APService
+         registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                             UIRemoteNotificationTypeSound |
+                                             UIRemoteNotificationTypeAlert)
 #pragma clang diagnostic pop
+         
+#else
+         categories:nil];
+        [APService
+         registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                             UIRemoteNotificationTypeSound |
+                                             UIRemoteNotificationTypeAlert)
+#endif
+
+         categories:nil];
     }
+    [APService setupWithOption:launchOptions];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)pToken {
-    NSLog(@"regisger success:%@",pToken);
-    //注册成功，将deviceToken保存到应用服务器数据库中
+    [APService registerDeviceToken:pToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    [APService handleRemoteNotification:userInfo];
     // 处理推送消息
     NSLog(@"userinfo:%@",userInfo);
     
@@ -338,5 +334,12 @@
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"Registfail%@",error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void
+                        (^)(UIBackgroundFetchResult))completionHandler {
+    // IOS 7 Support Required
+    [APService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 @end

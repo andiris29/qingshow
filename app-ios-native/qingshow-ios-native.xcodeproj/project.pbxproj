@@ -300,6 +300,12 @@
 		EFF114B31A0D2EEC009B7361 /* MKNetworkEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF1149F1A0D2EEC009B7361 /* MKNetworkEngine.m */; };
 		EFF114B41A0D2EEC009B7361 /* MKNetworkOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A21A0D2EEC009B7361 /* MKNetworkOperation.m */; };
 		EFF114B51A0D2EEC009B7361 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF114A51A0D2EEC009B7361 /* Reachability.m */; };
+		EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */; };
+		EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */; };
+		EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */; };
+		EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */; };
+		EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFF58B551B55DDB1001A9AC8 /* Security.framework */; };
+		EFF58B591B55DE86001A9AC8 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFF58B581B55DE86001A9AC8 /* PushConfig.plist */; };
 		EFF5B90B1A3F2F640048E634 /* QSS07ItemListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B9081A3F2F640048E634 /* QSS07ItemListViewController.m */; };
 		EFF5B90C1A3F2F640048E634 /* QSS07ItemListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFF5B9091A3F2F640048E634 /* QSS07ItemListViewController.xib */; };
 		EFF5B90F1A3F2F890048E634 /* QSItemListHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF5B90E1A3F2F890048E634 /* QSItemListHeaderView.m */; };
@@ -915,6 +921,13 @@
 		EFF114A51A0D2EEC009B7361 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		EFF114A81A0D2EEC009B7361 /* MKNetworkKit-iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKNetworkKit-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		EFF114A91A0D2EEC009B7361 /* MKNetworkKit-iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "MKNetworkKit-iOS.xcodeproj"; sourceTree = "<group>"; };
+		EFF58B4B1B55DD5D001A9AC8 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPushSDK-1.8.3.a"; sourceTree = "<group>"; };
+		EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EFF58B551B55DDB1001A9AC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		EFF58B581B55DE86001A9AC8 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		EFF5B9071A3F2F640048E634 /* QSS07ItemListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSS07ItemListViewController.h; sourceTree = "<group>"; };
 		EFF5B9081A3F2F640048E634 /* QSS07ItemListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSS07ItemListViewController.m; sourceTree = "<group>"; };
 		EFF5B9091A3F2F640048E634 /* QSS07ItemListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSS07ItemListViewController.xib; sourceTree = "<group>"; };
@@ -941,6 +954,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFF58B561B55DDB1001A9AC8 /* Security.framework in Frameworks */,
+				EFF58B541B55DD94001A9AC8 /* CoreTelephony.framework in Frameworks */,
+				EFF58B521B55DD88001A9AC8 /* CoreFoundation.framework in Frameworks */,
+				EFF58B501B55DD79001A9AC8 /* CFNetwork.framework in Frameworks */,
 				EF921FBC1ACBB11100669124 /* libc++.dylib in Frameworks */,
 				EF7826AB1A4EB9EC00C69460 /* CoreImage.framework in Frameworks */,
 				EFEF03311A30BBFC00EC9B48 /* libsqlite3.0.dylib in Frameworks */,
@@ -948,6 +965,7 @@
 				EFEF032F1A30BBF100EC9B48 /* libz.dylib in Frameworks */,
 				EFEF032D1A30BBE600EC9B48 /* SystemConfiguration.framework in Frameworks */,
 				EF46462B1A2B5DBC00172618 /* Social.framework in Frameworks */,
+				EFF58B4D1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a in Frameworks */,
 				EF05E9441A7928DC00A58F72 /* libMobClickLibrary.a in Frameworks */,
 				EF46461F1A2AEB5C00172618 /* CoreText.framework in Frameworks */,
 				EFEF032B1A30BBC000EC9B48 /* libWeChatSDK.a in Frameworks */,
@@ -1731,6 +1749,10 @@
 		EF9A74101A02A82600095F07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B551B55DDB1001A9AC8 /* Security.framework */,
+				EFF58B531B55DD94001A9AC8 /* CoreTelephony.framework */,
+				EFF58B511B55DD88001A9AC8 /* CoreFoundation.framework */,
+				EFF58B4F1B55DD79001A9AC8 /* CFNetwork.framework */,
 				EF921FBB1ACBB11100669124 /* libc++.dylib */,
 				EF7826AA1A4EB9EC00C69460 /* CoreImage.framework */,
 				EFEF03301A30BBFC00EC9B48 /* libsqlite3.0.dylib */,
@@ -1751,6 +1773,7 @@
 		EF9A74171A02A82600095F07 /* qingshow-ios-native */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B571B55DE18001A9AC8 /* pns */,
 				EF7826A41A4EB4F200C69460 /* resource */,
 				EFF1148C1A0D2EEC009B7361 /* libs */,
 				EF1A59191A06761800001AE0 /* vc */,
@@ -2310,6 +2333,7 @@
 		EFF1148C1A0D2EEC009B7361 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				EFF58B4A1B55DD5D001A9AC8 /* JPush */,
 				EF3012CE1AC3174000568D92 /* AlipaySDK */,
 				EF05E9401A7928DC00A58F72 /* umeng */,
 				EFA1F5631A5305DE00010F79 /* ImageCropper */,
@@ -2397,6 +2421,23 @@
 				EFF114B81A0D2EEC009B7361 /* libMKNetworkKit-iOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		EFF58B4A1B55DD5D001A9AC8 /* JPush */ = {
+			isa = PBXGroup;
+			children = (
+				EFF58B4B1B55DD5D001A9AC8 /* APService.h */,
+				EFF58B4C1B55DD5D001A9AC8 /* libPushSDK-1.8.3.a */,
+			);
+			path = JPush;
+			sourceTree = "<group>";
+		};
+		EFF58B571B55DE18001A9AC8 /* pns */ = {
+			isa = PBXGroup;
+			children = (
+				EFF58B581B55DE86001A9AC8 /* PushConfig.plist */,
+			);
+			path = pns;
 			sourceTree = "<group>";
 		};
 		EFF5B9061A3F2F220048E634 /* item */ = {
@@ -2560,6 +2601,7 @@
 				EF78E34D1AAF4CA400665EDD /* QSOrderListHeaderView.xib in Resources */,
 				EFB1ADD01B371525007893AB /* QSS20MatcherViewController.xib in Resources */,
 				EFA618AD1A125FCB00560699 /* QSS04CommentListViewController.xib in Resources */,
+				EFF58B591B55DE86001A9AC8 /* PushConfig.plist in Resources */,
 				68D16D051B341A4700A4646C /* QSS01MatchShowsViewController.xib in Resources */,
 				EF88D08E1ACEF90C002C4963 /* area.json in Resources */,
 				EFBC764B1B332AEC00832116 /* QSBadgeButton.xib in Resources */,
@@ -2994,14 +3036,15 @@
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3032,14 +3075,15 @@
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/AliSDKDemo/AliSDKDemo",
 					"$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK",
+					"$(PROJECT_DIR)/qingshow-ios-native/libs/JPush",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_MODULE_NAME = "倾秀";
 				PRODUCT_NAME = "倾秀";
-				PROVISIONING_PROFILE = "";
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/";
+				PROVISIONING_PROFILE = "f1934603-6139-474b-b953-ade7030a6083";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/qingshow-ios-native/libs/AlipaySDK/ $(PROJECT_DIR)/qingshow-ios-native/libs/JPush";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
