@@ -7,7 +7,8 @@
 //
 
 #import "QSS21TableViewProvider.h"
-#import "QSS21TableViewCell.h"
+#import "QSCategoryUtil.h"
+#import "NSArray+QSExtension.h"
 
 #define selectorCellID @"QSS21SelectorCell"
 
@@ -45,7 +46,7 @@
 {
     
     QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[indexPath.row];
-    
+    cell.delegate = self;
     NSDictionary *cellDic = self.dataArray[indexPath.row];
     
     NSDictionary *dic = [self getSelectedDicCompareWithCellDic:cellDic];
@@ -83,48 +84,30 @@
 #pragma mark -- 获取选择categorys
 - (NSMutableArray *)getResultArray
 {
-    NSMutableArray *resultArray = [NSMutableArray array];
-    for (int i = 0 ; i < self.dataArray.count; i ++) {
-        QSS21TableViewCell *cell = (QSS21TableViewCell *)self.cellArray[i];
-        if (cell.recordDic == nil) {
-            continue;
-        }
-        [resultArray addObject:cell.recordDic];
-        [resultArray addObjectsFromArray:self.selectedArray];
-    }
+    return self.selectedArray;
+}
 
-    NSMutableArray *returnArray = [NSMutableArray array];
-    for (int i = 0; i < resultArray.count; i ++) {
-        NSDictionary *dic = resultArray[i];
-        if (returnArray.count == 0) {
-            [returnArray addObject:dic];
-        }
-        else{
-            for (int j = 0; j < returnArray.count; j ++) {
-                NSDictionary *dict = returnArray[j];
-                if (dic == dict) {
-                    break;
-                }
-                if (j == returnArray.count-1) {
-                    [returnArray addObject:dic];
-                }
-        
+- (void)didSelectItem:(NSDictionary*)itemDict ofCell:(QSS21TableViewCell*)cell {
+    
+    BOOL f = YES;
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        NSDictionary* dict = self.selectedArray[i];
+        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCategoryUtil getParentId:itemDict]]) {
+            [self.selectedArray removeObject:dict];
+            i--;
+            if (dict == itemDict) {
+                f = NO;
             }
             
         }
+        
     }
-//    for (int i = 0; i < resultArray.count; i ++) {
-//        NSDictionary *dic = resultArray[i];
-//        for (int j = 0 ; j < self.selectedArray.count; j ++) {
-//            NSDictionary *dict = self.selectedArray[j];
-//            if (dic == dict) {
-//                break;
-//            }
-//            if (j == self.selectedArray.count-1) {
-//                [returnArray addObject:dic];
-//            }
-//        }
-//    }
-       return returnArray;
+
+    if (f && itemDict) {
+        [self.selectedArray addObject:itemDict];
+    }
+    
+    [self.view reloadData];
+    
 }
 @end

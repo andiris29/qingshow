@@ -76,7 +76,7 @@
     self.provider = [[QSS21TableViewProvider alloc] init];
     self.provider.delegate = self;
     self.provider.dataArray = self.categories;
-    self.provider.selectedArray = self.selectedCategories;
+    self.provider.selectedArray = [self.selectedCategories mutableCopy];
     [self.provider bindWithTableView:self.tableView];
 }
 

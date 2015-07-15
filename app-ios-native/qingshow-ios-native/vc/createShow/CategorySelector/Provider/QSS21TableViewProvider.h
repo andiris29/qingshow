@@ -7,19 +7,19 @@
 //
 
 #import "QSTableViewBasicProvider.h"
-
+#import "QSS21TableViewCell.h"
 @class QSS21TableViewProvider;
 
 @protocol QSS21TableViewProviderDelegate <QSAbstractScrollProviderDelegate>
 @end
 
-@interface QSS21TableViewProvider : QSTableViewBasicProvider
+@interface QSS21TableViewProvider : QSTableViewBasicProvider<QSS21TableViewCellDelegate>
 
 @property (weak , nonatomic) NSObject<QSS21TableViewProviderDelegate>* delegate;
 
 @property (strong , nonatomic) NSArray *dataArray;
 
-@property (strong , nonatomic) NSArray *selectedArray;
+@property (strong , nonatomic) NSMutableArray *selectedArray;
 
 //获取cell的记录结果
 - (NSMutableArray *)getResultArray;
