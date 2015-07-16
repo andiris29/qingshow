@@ -53,7 +53,7 @@
     
     
     
-    
+    //NSLog(@"showData = %@",showData);
     NSDictionary* modelDict = [QSShowUtil getPeopleFromShow:showData];
     if (modelDict) {
         self.nameLabel.hidden = NO;
