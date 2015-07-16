@@ -289,6 +289,7 @@
         [self setPlayModeBtnsHidden:NO];
         [self.itemListVc.view removeFromSuperview];
         [self.itemListVc removeFromParentViewController];
+        self.backBtn.hidden = YES;
         self.itemListVc = nil;
     }];
 
