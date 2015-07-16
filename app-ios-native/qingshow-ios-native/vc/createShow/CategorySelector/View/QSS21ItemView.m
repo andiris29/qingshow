@@ -24,10 +24,10 @@
     NSString *imgSelectedUrl = [NSString stringWithFormat:@"%@_selected.png",rangeStr];
     NSString *imgUnSelectedUrl = [NSString stringWithFormat:@"%@_normal.png",rangeStr];
     NSString *imgDisableUrl = [NSString stringWithFormat:@"%@_disabled.png",rangeStr];
-
+   // NSLog(@"enabeld = %d",enable);
     if (self.itemDic == selectedDic) {
         [self.imgView setImageFromURL:[NSURL URLWithString:imgSelectedUrl] placeHolderImage:[UIImage imageNamed:@"selectedHoderImg"]];
-    }else if(enable != 0 && enable != 88)
+    }else if(enable == 96)
     {
         self.userInteractionEnabled = NO;
         [self.imgView setImageFromURL:[NSURL URLWithString:imgDisableUrl] placeHolderImage:[UIImage imageNamed:@"hoderImg"]];
