@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="158" height="282"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="root_cell_placehold_image1" translatesAutoresizingMaskIntoConstraints="NO" id="0gK-JO-VWd">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="root_cell_placehold_image1" translatesAutoresizingMaskIntoConstraints="NO" id="0gK-JO-VWd">
                         <rect key="frame" x="16" y="58" width="125" height="192"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="buo-TK-mWn">
