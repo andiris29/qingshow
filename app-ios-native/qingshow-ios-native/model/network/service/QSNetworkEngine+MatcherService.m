@@ -12,6 +12,7 @@
 #import "NSArray+QSExtension.h"
 #import "NSDictionary+QSExtension.h"
 #import "QSCategoryUtil.h"
+#import "QSCategoryManager.h"
 
 #define PATH_MATCHER_QUERY_CATEGORIES @"matcher/queryCategories"
 #define PATH_MATCHER_QUERY_ITEMS @"matcher/queryItems"
@@ -50,6 +51,7 @@
                 }
             }
                     
+            [QSCategoryManager getInstance].categories = retArray;
             
             succeedBlock(retArray, responseDict[@"metadata"]);
         }

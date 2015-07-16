@@ -10,14 +10,10 @@
 
 typedef NS_ENUM(NSUInteger, QSItemCategory) {
     QSItemCategoryUnknown = -1,
-    QSItemCategoryShangyi = 0,
-    QSItemCategoryPant = 1,
-    QSItemCategoryDress = 2,
-    QSItemCategoryNeida = 3,
-    QSItemCategoryShoe = 4,
-    QSItemCategoryBag = 5,
-    QSItemCategoryPeishi = 6,
-    QSItemCategoryCount
+    QSItemCategoryNone = 0,
+    QSItemCategoryClothSize = 1,
+    QSItemCategoryPant = 2,
+    QSItemCategoryShoe = 3
 };
 
 @interface QSItemUtil : NSObject
@@ -50,6 +46,7 @@ typedef NS_ENUM(NSUInteger, QSItemCategory) {
 + (QSItemCategory)getItemCategory:(NSDictionary*)itemDict;
 
 + (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict;
++ (NSString*)getCategoryStr:(NSDictionary*)itemDict;
 
 + (NSString*)getItemColorDesc:(NSDictionary*)itemDict;
 

@@ -19,4 +19,5 @@
 + (NSNumber*)getMatchInfoColumn:(NSDictionary*)categoryDict;
 + (NSURL*)getIconUrl:(NSDictionary*)categoryDict;
 + (NSNumber*)getOrder:(NSDictionary*)categoryDict;
++ (NSNumber*)getMeasureComposition:(NSDictionary*)categoryDict;
 @end

@@ -10,6 +10,7 @@
 #import "QSNetworkEngine.h"
 #import "QSSharePlatformConst.h"
 #import "QSUserManager.h"
+#import "QSCategoryManager.h"
 #import "MobClick.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "QSPaymentConst.h"
@@ -42,8 +43,10 @@
     //Push Notification
     [self registerPushNotification:launchOptions];
 
-    //Start App
+    //Init Matcher Categories List
+    [QSCategoryManager getInstance];
     
+    //Start App
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     QSRootContainerViewController* vc = [[QSRootContainerViewController alloc] init];
     
