@@ -62,6 +62,11 @@
         self.updateCoverOp =
         [SHARE_NW_ENGINE matcher:dict updateCover:self.coverImage  onSucceed:^(NSDictionary *d) {
             self.updateCoverOp = nil;
+            
+            if ([self.delegate respondsToSelector:@selector(vc:didCreateNewMatcher:)]) {
+                [self.delegate vc:self didCreateNewMatcher:d];
+            }
+            
             QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:d];
             vc.menuProvider = self.menuProvider;
             [self.navigationController pushViewController:vc animated:YES];
@@ -74,6 +79,7 @@
         self.createMatcherOp = nil;
         [self showErrorHudWithError:error];
     }];
-
 }
+
+
 @end

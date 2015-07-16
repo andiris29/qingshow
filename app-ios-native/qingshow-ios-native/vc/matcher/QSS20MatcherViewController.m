@@ -8,7 +8,6 @@
 
 #import "QSS20MatcherViewController.h"
 #import "QSS21CategorySelectorVC.h"
-#import "QSS23MatcherPreviewViewController.h"
 
 #import "QSAbstractRootViewController.h"
 #import "QSNetworkKit.h"
@@ -33,6 +32,7 @@
 
 @property (strong, nonatomic) NSString* selectedCateId;
 @property (strong, nonatomic) NSArray* allCategories;
+@property (assign, nonatomic) BOOL fShouldReload;
 @end
 
 @implementation QSS20MatcherViewController
@@ -69,51 +69,8 @@
     self.canvasView.frame = self.canvasContainer.bounds;
     [self.canvasContainer addSubview:self.canvasView];
     
-    
-    [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
-        self.allCategories = array;
-        NSMutableArray* selectedCategories = [@[] mutableCopy];
-        
-        __block int maxRow = -1;
-        __block int maxColumn = -1;
-        
-        DicBlock updateMaxRowAndColumn = ^(NSDictionary* dict){
-            NSNumber* n = [QSCategoryUtil getMathchInfoRow:dict];
-            if (n && n.intValue > maxRow) {
-                maxRow = n.intValue;
-            }
-            n = [QSCategoryUtil getMatchInfoColumn:dict];
-            if (n && n.intValue > maxColumn) {
-                maxColumn = n.intValue;
-            }
-        };
-        
-        for (NSDictionary* category in array) {
-            if ([QSCategoryUtil getDefaultOnCanvas:category]) {
-                [selectedCategories addObject:category];
-                updateMaxRowAndColumn(category);
-                
-            }
-            NSArray* childrens = [QSCategoryUtil getChildren:category];
-            for (NSDictionary* c in childrens) {
-                if ([QSCategoryUtil getDefaultOnCanvas:c]) {
-                    [selectedCategories addObject:c];
-                    updateMaxRowAndColumn(c);
-                }
-            }
-        }
-        
-        if (maxRow >= 0) {
-            self.canvasView.maxRow = maxRow;
-        }
-        
-        if (maxColumn >= 0) {
-            self.canvasView.maxColumn = maxColumn;
-        }
-        
-        [self updateCategory:selectedCategories];
-    } onError:nil];
-    self.cateIdToProvider = [@{} mutableCopy];
+    self.fShouldReload = YES;
+
 }
 
 
@@ -121,6 +78,55 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
+    if (self.fShouldReload) {
+        self.fShouldReload = NO;
+        [self updateCategory:@[]];
+        [SHARE_NW_ENGINE matcherQueryCategoriesOnSucceed:^(NSArray *array, NSDictionary *metadata) {
+            self.allCategories = array;
+            NSMutableArray* selectedCategories = [@[] mutableCopy];
+            
+            __block int maxRow = -1;
+            __block int maxColumn = -1;
+            
+            DicBlock updateMaxRowAndColumn = ^(NSDictionary* dict){
+                NSNumber* n = [QSCategoryUtil getMathchInfoRow:dict];
+                if (n && n.intValue > maxRow) {
+                    maxRow = n.intValue;
+                }
+                n = [QSCategoryUtil getMatchInfoColumn:dict];
+                if (n && n.intValue > maxColumn) {
+                    maxColumn = n.intValue;
+                }
+            };
+            
+            for (NSDictionary* category in array) {
+                if ([QSCategoryUtil getDefaultOnCanvas:category]) {
+                    [selectedCategories addObject:category];
+                    updateMaxRowAndColumn(category);
+                    
+                }
+                NSArray* childrens = [QSCategoryUtil getChildren:category];
+                for (NSDictionary* c in childrens) {
+                    if ([QSCategoryUtil getDefaultOnCanvas:c]) {
+                        [selectedCategories addObject:c];
+                        updateMaxRowAndColumn(c);
+                    }
+                }
+            }
+            
+            if (maxRow >= 0) {
+                self.canvasView.maxRow = maxRow;
+            }
+            
+            if (maxColumn >= 0) {
+                self.canvasView.maxColumn = maxColumn;
+            }
+            
+            [self updateCategory:selectedCategories];
+        } onError:nil];
+        self.cateIdToProvider = [@{} mutableCopy];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -163,7 +169,8 @@
     
     UIImage* snapshot = [self.canvasView submitView];
     
-    UIViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items coverImages:snapshot menuProvider:self.menuProvider];
+    QSS23MatcherPreviewViewController* vc = [[QSS23MatcherPreviewViewController alloc] initWithItems:items coverImages:snapshot menuProvider:self.menuProvider];
+    vc.delegate = self;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -242,5 +249,10 @@
     if ([[QSCommonUtil getIdOrEmptyStr:categoryDict] isEqualToString:self.selectedCateId]) {
         [self.itemSelectionView reloadData];
     }
+}
+
+#pragma mark - QSS23MatcherPreviewViewControllerDelegate
+- (void)vc:(UIViewController *)vc didCreateNewMatcher:(NSDictionary *)matcherDict {
+    self.fShouldReload = YES;
 }
 @end
