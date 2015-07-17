@@ -6,13 +6,16 @@ define([
 ) {
     violet.ui.factory.registerDependencies('main/views/P02Portal', [
         'main/views/components/p02/TradeStatusLi', 
-        'main/views/components/p02/ItemCategoryLi']);
+        'main/views/components/p02/ItemCategoryLi', 
+        'main/views/components/p02/NewRecommandationsLi',
+        'main/views/components/p02/QuestSharingObjectiveCompleteLi']);
 // @formatter:on
     var P02Portal = function(dom, initOptions) {
         P02Portal.superclass.constructor.apply(this, arguments);
 
         this._initManagerTrades();
         this._initManagerItems();
+        this._initManagerPush();
     };
 
     P02Portal.prototype._initManagerTrades = function() {
@@ -43,6 +46,19 @@ define([
                 }, ul$, this);
             }.bind(this));
         }.bind(this));
+    };
+
+    P02Portal.prototype._initManagerPush = function() {
+        var ul$ = $('#managerPush', this._dom);
+
+        ['A1', 'A2', 'A3', 'A4'].forEach( function(group) {
+            violet.ui.factory.createUi('main/views/components/p02/NewRecommandationsLi', {
+                'group' : group
+            }, ul$, this);
+        }.bind(this));
+
+        violet.ui.factory.createUi('main/views/components/p02/QuestSharingObjectiveCompleteLi', {
+        }, ul$, this);
     };
 
     violet.oo.extend(P02Portal, View);
