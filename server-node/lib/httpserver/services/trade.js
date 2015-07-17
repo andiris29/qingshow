@@ -214,21 +214,6 @@ trade.statusTo = {
             TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
-        },
-        function(trade, callback) {
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }).exec(function(error, people) {
-                callback(error, trade, people);
-            });
-        },
-        function(trade, people, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade
