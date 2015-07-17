@@ -39,7 +39,7 @@ define([
         }).fail(function(target, msg, err) {
             console.log('api fail: ' + path, msg, err);
             if (callback) {
-                callback(err);
+                callback(err || 'API fail.');
             }
         }).always(function() {
         });

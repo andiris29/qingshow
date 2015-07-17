@@ -25,8 +25,8 @@ define([
             return;
         }
         return {
-            'company' : company,
-            'trackingID' : trackingID
+            'logistic.company' : company,
+            'logistic.trackingID' : trackingID
         };
     };
 

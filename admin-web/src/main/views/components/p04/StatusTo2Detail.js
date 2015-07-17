@@ -10,7 +10,7 @@ define([
 
     StatusTo2Detail.prototype.render = function() {
         $('.detail', this._ownerViewDom).hide();
-        $('.taobaoInfo', this._ownerViewDom).show();
+        $('.agent', this._ownerViewDom).show();
     };
 
     StatusTo2Detail.prototype.getDetails = function() {
@@ -25,8 +25,8 @@ define([
             return;
         }
         return {
-            'userNick' : userNick,
-            'tradeID' : tradeID
+            'agent.taobaoUserNick' : userNick,
+            'agent.taobaoTradeId' : tradeID
         };
     };
 
