@@ -25,8 +25,10 @@ define([
             return;
         }
         return {
-            'agent.taobaoUserNick' : userNick,
-            'agent.taobaoTradeId' : tradeID
+            'agent' : {
+                'taobaoUserNick' : userNick,
+                'taobaoTradeId' : tradeID
+            }
         };
     };
 

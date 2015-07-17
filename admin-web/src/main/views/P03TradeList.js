@@ -1,8 +1,10 @@
 // @formatter:off
 define([
+    'main/core/model',
     'main/views/View',
     'main/services/codeMongoService'
 ], function(
+    model,
     View,
     codeMongoService
 ) {
@@ -12,15 +14,24 @@ define([
     var P03TradeList = function(dom, initOptions) {
         P03TradeList.superclass.constructor.apply(this, arguments);
 
+        this._refresh();
+        model.on('trades.changed', this._refresh.bind(this));
+    };
+
+    violet.oo.extend(P03TradeList, View);
+
+    P03TradeList.prototype._refresh = function() {
+        var status = this._initOptions.status;
+        var parent$ = $('tbody', this._dom).empty();
+
         this.request('/admin/find', 'get', {
             'collection' : 'trades',
-            'status' : initOptions.status
+            'status' : status
         }, function(err, metadata, data) {
             if (err || metadata.error) {
-                alertify.error(violet.string.substitute('不存在{0}的交易', codeMongoService.toNameWithCode('trade.status', initOptions.status)));
+                alertify.error(violet.string.substitute('不存在{0}的交易', codeMongoService.toNameWithCode('trade.status', status)));
                 return;
             }
-            var parent$ = $('tbody', this._dom);
             data.models.forEach( function(trade) {
                 violet.ui.factory.createUi('main/views/components/p03/TradeTr', {
                     'trade' : trade
@@ -28,8 +39,6 @@ define([
             }.bind(this));
         }.bind(this));
     };
-
-    violet.oo.extend(P03TradeList, View);
 
     return P03TradeList;
 });

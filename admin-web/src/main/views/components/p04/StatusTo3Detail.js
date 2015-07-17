@@ -19,14 +19,16 @@ define([
             alertify.error('需要输入快递公司');
             return;
         }
-        var trackingID = $('#trackingID', this._ownerViewDom).val();
-        if (!trackingID) {
+        var trackingId = $('#trackingId', this._ownerViewDom).val();
+        if (!trackingId) {
             alertify.error('需要输入快递单号');
             return;
         }
         return {
-            'logistic.company' : company,
-            'logistic.trackingID' : trackingID
+            'logistic' : {
+                'company' : company,
+                'trackingId' : trackingId
+            }
         };
     };
 

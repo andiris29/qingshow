@@ -1,11 +1,13 @@
 // @formatter:off
 define([
+    'main/core/model',
     'main/views/View',
     'main/views/components/p04/StatusTo2Detail',
     'main/views/components/p04/StatusTo3Detail',
     'main/views/components/p04/StatusToEndDetail',
     'main/services/codeMongoService'
 ], function(
+    model,
     View,
     StatusTo2Detail,
     StatusTo3Detail,
@@ -20,19 +22,24 @@ define([
 
         var trade = initOptions.trade;
         // [1, 2, 7, 11, 16]
-        var status$ = $('#status', this._dom);
-        _statusToMap[trade.status].forEach(function(newStatus) {
-            var option$ = $(document.createElement('option'));
-            option$.attr('value', newStatus);
-            option$.text(codeMongoService.toNameWithCode('trade.status', newStatus));
-            status$.append(option$);
-        });
-        status$.on('change', this._render.bind(this));
-        this._render();
+        var status$ = $('#status', this._dom),
+            button$ = $('button', this._dom);
+        if (_statusToMap[trade.status]) {
+            _statusToMap[trade.status].forEach(function(newStatus) {
+                var option$ = $(document.createElement('option'));
+                option$.attr('value', newStatus);
+                option$.text(codeMongoService.toNameWithCode('trade.status', newStatus));
+                status$.append(option$);
+            });
+            status$.on('change', this._render.bind(this));
+            this._render();
 
+            button$.on('click', this._submit.bind(this));
+        } else {
+            $('.form-group', this._dom).hide();
+            button$.hide();
+        }
         $('pre', this._dom).get(0).innerHTML = _syntaxHighlight(JSON.stringify(trade, null, 4));
-
-        $('button', this._dom).on('click', this._submit.bind(this));
     };
 
     violet.oo.extend(P04EditTrade, View);
@@ -70,6 +77,7 @@ define([
                 alertify.error('编辑失败－' + metadata.error);
             } else {
                 alertify.success('编辑成功');
+                model.trigger('trades.changed');
                 this.pop();
             }
         }.bind(this));
