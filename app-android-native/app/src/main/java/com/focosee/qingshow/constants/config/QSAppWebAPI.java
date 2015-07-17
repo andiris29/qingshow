@@ -59,6 +59,11 @@ public class QSAppWebAPI {
 
     private static final String MATCH_CREATEDBY_API = HOST_NAME + "/feeding/matchCreatedBy";
     private static final String PEOPLE_QUERY_FOLLOW_PEOPLES_API = HOST_NAME + "/people/queryFollowingPeoples";
+    private static final String PEOPLE_QUERY_API = HOST_NAME + "/people/query";
+
+    public static String getPeopleQueryApi(String _ids) {
+        return PEOPLE_QUERY_API + "?_ids=" + _ids;
+    }
 
     public static String getMatchSaveApi() {
         return MATCH_SAVE;

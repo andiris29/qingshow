@@ -198,6 +198,9 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
                 setLikedImageButtonBackgroundImage();
                 likeTextView.setText(String.valueOf(Integer.parseInt(likeTextView.getText().toString()) + change));
                 likeBtn.setClickable(true);
+                EventModel eventModel = new EventModel(U01UserActivity.class, null);
+                eventModel.setFrom(S03SHowActivity.class);
+                EventBus.getDefault().post(eventModel);
             }
 
             @Override
@@ -239,10 +242,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
         s03ImagePreground.setImageURI(Uri.parse(showDetailEntity.coverForeground));
-        s03ImagePreground.setAspectRatio(0.5f);
+        s03ImagePreground.setAspectRatio(0.56f);
 
-        image.setImageURI(Uri.parse(ImgUtil.getImgSrc(showDetailEntity.cover, 2)));
-        image.setAspectRatio(1f);
+        image.setImageURI(Uri.parse(showDetailEntity.cover));
+        image.setAspectRatio(0.72f);
 
         if (null != showDetailEntity.__context)
             commentTextView.setText(String.valueOf(showDetailEntity.__context.numComments));
@@ -317,13 +320,10 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     public void onEventMainThread(EventModel<Integer> event) {
         if(event.tag == S03SHowActivity.class){
-            if(null != showDetailEntity.__context)
-                if(null != showDetailEntity.__context.createdBy)
-                    if(null != showDetailEntity.__context.createdBy.__context)
-                        if(!showDetailEntity.__context.createdBy.__context.followedByCurrentUser) {
-                            Toast.makeText(S03SHowActivity.this, "onEventMainThread", Toast.LENGTH_SHORT).show();
-                            clickLikeShowButton();
-                        }
+            if(!showDetailEntity.__context.createdBy.__context.followedByCurrentUser) {
+                Toast.makeText(S03SHowActivity.this, "onEventMainThread", Toast.LENGTH_SHORT).show();
+                clickLikeShowButton();
+            }
         }
     }
 

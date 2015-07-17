@@ -6,11 +6,16 @@ package com.focosee.qingshow.model;
 public class EventModel<T> {
     public Class tag;
     public T msg;
+    public Class from;
 
     public EventModel(){}
 
     public EventModel(Class tag, T msg){
         this.tag = tag;
         this.msg = msg;
+    }
+
+    public void setFrom(Class from){
+        this.from = from;
     }
 }

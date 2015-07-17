@@ -253,26 +253,29 @@ public class U09TradeListAdapter extends AbsAdapter<MongoTrade> implements View.
         Map returnLogistic = new HashMap();
         params.put("_id", trade._id);
         params.put("status", trade.status);
-        if(trade.status == 1 || trade.status == 2 || trade.status == 3
-                || trade.status == 6 || trade.status == 7) params.put("status", trade.status);
+        params.put("comment", (trade.statusLogs.get(0)).comment);
+
         switch (trade.status){
             case 2:
 //                params.put("taobaoInfo.userNick", trade.orders.get(0).itemSnapshot.taobaoInfo.nick);
-                taobaoInfo.put("tradeID", trade._id);
+                taobaoInfo.put("tradeID", trade.taobaoInfo.tradeID);
+                taobaoInfo.put("userNick", trade.taobaoInfo.userNick);
+                params.put("taobaoInfo", taobaoInfo);
                 break;
             case 3:
+            case 14:
                 logistic.put("company", trade.logistic.company);
                 logistic.put("trackingID", trade.logistic.trackingID);
+                params.put("logistic", logistic);
                 break;
             case 7:
-                returnLogistic.put("company", trade.returnlogistic.company);
-                returnLogistic.put("trackingID", trade.returnlogistic.trackingID);
+            case 11:
+                logistic.put("company", trade.returnlogistic.company);
+                logistic.put("trackingID", trade.returnlogistic.trackingID);
+                params.put("returnLogistic", returnLogistic);
                 break;
         }
 
-        params.put("taobaoInfo", taobaoInfo);
-        params.put("logistic", logistic);
-        params.put("returnLogistic", returnLogistic);
         return new JSONObject(params);
 
     }

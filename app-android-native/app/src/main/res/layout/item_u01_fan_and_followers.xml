@@ -17,7 +17,6 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_toLeftOf="@+id/item_u01_fans_follow"
         android:layout_toRightOf="@+id/item_u01_fans_image"
         android:orientation="vertical"
         android:layout_marginLeft="5dp">
@@ -68,15 +67,4 @@
                 android:textColor="@color/p01_text_color_model_height" />
         </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/item_u01_fans_follow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:textColor="#ffffff"
-        android:background="@drawable/follow_pink"
-        android:layout_marginRight="10dp"/>
-
 </RelativeLayout>

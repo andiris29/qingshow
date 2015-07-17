@@ -1,35 +1,36 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.focosee.qingshow.activity.S03SHowActivity">
 
-    <RelativeLayout
+    <android.support.percent.PercentRelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/S03_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/S03_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_marginTopPercent="20%"
+            app:layout_marginBottomPercent="4%"
+            app:layout_marginLeftPercent="8%"
+            app:layout_marginRightPercent="8%"
+            fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/S03_image_preground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/S03_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="218dp"
-            android:layout_marginBottom="98dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
-
         <RelativeLayout
+            android:layout_height="match_parent"
             android:id="@+id/S03_before_video_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_width="match_parent">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -277,5 +278,5 @@
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
-</RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
+</android.support.percent.PercentRelativeLayout>

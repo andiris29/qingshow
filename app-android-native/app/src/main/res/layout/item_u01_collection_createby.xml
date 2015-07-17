@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
@@ -12,23 +11,27 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-        <RelativeLayout
+        <android.support.percent.PercentRelativeLayout
             android:id="@+id/item_u01_collection_top_layout"
             android:layout_width="match_parent"
             android:background="@color/white"
             android:layout_height="300dp">
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_u01_collection_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_marginTopPercent="20%"
+                app:layout_marginBottomPercent="4%"
+                app:layout_marginLeftPercent="8%"
+                app:layout_marginRightPercent="8%"
+                fresco:placeholderImage="@drawable/root_cell_placehold_image1"/>
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/item_u01_collection_preground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"/>
-        </RelativeLayout>
+        </android.support.percent.PercentRelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

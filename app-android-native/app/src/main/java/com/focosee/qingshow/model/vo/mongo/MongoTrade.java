@@ -18,6 +18,7 @@ public class MongoTrade implements Serializable {
     public Logistic logistic;
     public Returnlogistic returnlogistic;
     public Pay pay;
+    public LinkedList<StatusLog> statusLogs;
 
     public class Pay implements Serializable{
 
@@ -45,10 +46,11 @@ public class MongoTrade implements Serializable {
     }
 
     public class StatusLog implements Serializable{
-        public GregorianCalendar update;
+        public GregorianCalendar date;
         public String _id;
         public String peopleRef;
         public int status;
+        public String comment;
     }
 
 }

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.adapter.S01ItemAdapter;
@@ -23,14 +24,19 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.TimeUtil;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
+
 import org.json.JSONObject;
+
 import java.util.LinkedList;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class S01MatchShowsActivity extends MenuActivity {
 
     private static final String TAG = "S01MatchShowsActivity";
+    @InjectView(R.id.s01_backTop_btn)
+    ImageView s01BackTopBtn;
 
     private int TYPE_HOT = 0;
     private int TYPE_NEW = 1;
@@ -80,6 +86,23 @@ public class S01MatchShowsActivity extends MenuActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new S01ItemAdapter(new LinkedList<MongoShow>(), this, R.layout.item_s01_matchlist);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy < 0) {
+                    s01BackTopBtn.setVisibility(View.VISIBLE);
+                } else {
+                    s01BackTopBtn.setVisibility(View.GONE);
+                }
+            }
+        });
+        s01BackTopBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerView.scrollToPosition(0);
+            }
+        });
         recyclerPullToRefreshView.doPullRefreshing(true, 0);
     }
 
@@ -99,7 +122,7 @@ public class S01MatchShowsActivity extends MenuActivity {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d(TAG, "response: "+ response);
+                Log.d(TAG, "response: " + response);
                 if (MetadataParser.hasError(response)) {
                     ErrorHandler.handle(S01MatchShowsActivity.this, MetadataParser.getError(response));
                     recyclerPullToRefreshView.onPullDownRefreshComplete();

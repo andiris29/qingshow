@@ -37,7 +37,6 @@ public class UserCommand {
             public void onResponse(JSONObject response) {
                 MongoPeople user = UserParser.parseGet(response);
                 QSModel.INSTANCE.setUser(user);
-
                 callback.onComplete();
             }
         }, new Response.ErrorListener() {
@@ -78,6 +77,7 @@ public class UserCommand {
         QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                System.out.println("likeOrFollow:  response:" + response);
                 if (!MetadataParser.hasError(response)) {
                     callback.onComplete(response);
                     UserCommand.refresh();
