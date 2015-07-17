@@ -8,6 +8,7 @@ var categorySchema = {
     order : Number,
     matchInfo : {
         enabled : Boolean,
+        exclusive : Boolean,
         defaultOnCanvas : Boolean,
         row : Number,
         column : Number
@@ -15,7 +16,8 @@ var categorySchema = {
     parentRef : {
         type : Schema.Types.ObjectId,
         ref : 'categories'
-    }
+    },
+    measureComposition : Number
 };
 
 var Category = mongoose.model('categories', categorySchema);

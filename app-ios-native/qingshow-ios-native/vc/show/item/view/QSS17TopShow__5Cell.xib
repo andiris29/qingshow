@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TopShow_5Cell" rowHeight="339" id="KGk-i7-Jjw" customClass="QSS17TopShow__5Cell">
+            <rect key="frame" x="0.0" y="0.0" width="433" height="339"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0N-36-Nfe">
+                        <rect key="frame" x="20" y="41" width="393" height="287"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rBt-4E-ZdB">
+                                <rect key="frame" x="20" y="21" width="353" height="247"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2KK-yK-u49">
+                                <rect key="frame" x="327" y="203" width="46" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="7hf-Zv-PF6"/>
+                                    <constraint firstAttribute="height" constant="49" id="9js-Vm-Lwh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="100" backgroundImage="topShow_hear5">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="topShows_top5" translatesAutoresizingMaskIntoConstraints="NO" id="FZL-Xn-5hs">
+                                <rect key="frame" x="0.0" y="-16" width="108" height="89"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="108" id="gpH-0B-tMm"/>
+                                    <constraint firstAttribute="height" constant="89" id="vzZ-Ia-BfC"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.41797218219999999" green="1" blue="0.2001537608" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="rBt-4E-ZdB" secondAttribute="trailing" constant="20" id="DNj-b0-F3s"/>
+                            <constraint firstItem="rBt-4E-ZdB" firstAttribute="leading" secondItem="c0N-36-Nfe" secondAttribute="leading" constant="20" id="E4i-yy-6uH"/>
+                            <constraint firstAttribute="trailing" secondItem="2KK-yK-u49" secondAttribute="trailing" constant="20" id="OAk-9k-A12"/>
+                            <constraint firstItem="FZL-Xn-5hs" firstAttribute="top" secondItem="c0N-36-Nfe" secondAttribute="top" constant="-16" id="QTX-2X-PWm"/>
+                            <constraint firstItem="FZL-Xn-5hs" firstAttribute="leading" secondItem="c0N-36-Nfe" secondAttribute="leading" id="dkt-Oq-pfX"/>
+                            <constraint firstAttribute="bottom" secondItem="2KK-yK-u49" secondAttribute="bottom" constant="35" id="gqe-nz-uOT"/>
+                            <constraint firstAttribute="bottom" secondItem="rBt-4E-ZdB" secondAttribute="bottom" constant="19" id="tc7-ae-vS9"/>
+                            <constraint firstItem="rBt-4E-ZdB" firstAttribute="top" secondItem="c0N-36-Nfe" secondAttribute="top" constant="21" id="toi-6V-K7Z"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="c0N-36-Nfe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="41" id="5U9-mU-s7V"/>
+                    <constraint firstAttribute="bottom" secondItem="c0N-36-Nfe" secondAttribute="bottom" constant="10" id="OcN-eS-w9G"/>
+                    <constraint firstItem="c0N-36-Nfe" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="byS-OE-kNS"/>
+                    <constraint firstAttribute="trailing" secondItem="c0N-36-Nfe" secondAttribute="trailing" constant="20" id="dVv-17-MCA"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="backImage" destination="rBt-4E-ZdB" id="LaU-GA-BRs"/>
+                <outlet property="backView" destination="c0N-36-Nfe" id="WKt-4R-hLg"/>
+                <outlet property="likeButton" destination="2KK-yK-u49" id="SOP-7h-hcN"/>
+            </connections>
+            <point key="canvasLocation" x="294.5" y="231.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="topShow_hear5" width="191" height="188"/>
+        <image name="topShows_top5" width="280" height="273"/>
+    </resources>
+</document>

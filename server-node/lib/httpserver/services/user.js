@@ -350,7 +350,7 @@ _saveReceiver = function(req, res) {
 };
 
 var _upload = function(req, res, config, keyword) {
-    RequestHelper.parseFile(req, config.localPath, function(err, fields, file) {
+    RequestHelper.parseFile(req, config.ftpPath, function(err, fields, file) {
         if (err) {
             ResponseHelper.response(res, err);
             return;
@@ -358,7 +358,7 @@ var _upload = function(req, res, config, keyword) {
         People.findOne({
             '_id' : req.qsCurrentUserId
         }, function(err, people) {
-            people.set(keyword, config.exposeToUrl + '/' + path.relative(config.localPath, file.path));
+            people.set(keyword, config.exposeToUrl + '/' + path.relative(config.ftpPath, file.path));
             people.save(function(err) {
                 if (err) {
                     ResponseHelper.response(res, err);

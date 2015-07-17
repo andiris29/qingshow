@@ -17,8 +17,9 @@
 #define PATH_PEOPLE_FOLLOW @"people/follow"
 #define PATH_PEOPLE_UNFOLLOW @"people/unfollow"
 #define PATH_PEOPLE_QUERY_FOLLOWER @"people/queryFollowers"
-#define PATH_PEOPLE_QUERY_FOLLOWED @"people/queryFollowed"
+#define PATH_PEOPLE_QUERY_FOLLOWED @"people/queryFollowingPeoples"
 #define PATH_PEOPLE_QUERY_FOLLOWED_BRAND @"brand/queryFollowed"
+#define PATH_PEOPLE_QUERY_DETAIL @"people/query"
 
 
 @implementation QSNetworkEngine(PeopleService)
@@ -47,6 +48,24 @@
                     errorBlock(error);
                 }
             }];
+}
+
+- (MKNetworkOperation*)queryPeopleDetail:(NSString*)peopleId
+                               onSucceed:(DicBlock)succeedBlock
+                                 onError:(ErrorBlock)errorBlock{
+    return [self startOperationWithPath:PATH_PEOPLE_QUERY_DETAIL method:@"GET" paramers:@{@"_ids" : peopleId} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSArray* retArray = completedOperation.responseJSON[@"data"][@"peoples"];
+        if (retArray.count) {
+            succeedBlock([retArray deepMutableCopy][0]);
+        } else {
+            succeedBlock(nil);
+        }
+        
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
 }
 #pragma mark - Follow
 - (MKNetworkOperation*)peopleQueryFollowed:(NSDictionary*)peopleDict
@@ -110,6 +129,9 @@
                                  onSucceed:(ArraySuccessBlock)succeedBlock
                                    onError:(ErrorBlock)errorBlock
 {
+    if (!peopleDict) {
+        return nil;
+    }
     return [self startOperationWithPath:PATH_PEOPLE_QUERY_FOLLOWER method:@"GET" paramers:@{@"_id" : peopleDict[@"_id"], @"pageNo" : @(page),@"paegSize" : @10} onSucceeded:^(MKNetworkOperation *completedOperation) {
         NSDictionary* responseDict = completedOperation.responseJSON;
         NSArray* a = responseDict[@"data"][@"peoples"];

@@ -38,4 +38,42 @@
     }
     return idString;
 }
++ (NSString *)getCommentsStr:(NSDictionary *)dict
+{
+    if (![self checkIsDict:dict]) {
+        return nil;
+    }
+    NSString *commentsStr = dict[@"_comments"];
+    if ([self checkIsNil:commentsStr]) {
+        return @"";
+    }
+    return commentsStr;
+}
+
++ (id)getValue:(NSDictionary*)dict key:(NSString*)key class:(Class)c {
+    if ([self checkIsNil:dict]) {
+        return nil;
+    }
+    id v = [dict valueForKeyPath:key];
+    if ([self checkIsNil:v] || ![v isKindOfClass:c]) {
+        return nil;
+    } else {
+        return v;
+    }
+}
+
++ (NSString*)getStringValue:(NSDictionary*)dict key:(NSString*)key {
+    return [self getValue:dict key:key class:[NSString class]];
+}
+
++ (NSNumber*)getNumberValue:(NSDictionary*)dict key:(NSString*)key {
+    return [self getValue:dict key:key class:[NSNumber class]];
+}
+
++ (NSArray*)getArrayValue:(NSDictionary*)dict key:(NSString*)key {
+    return [self getValue:dict key:key class:[NSArray class]];
+}
++ (NSDictionary*)getDictValue:(NSDictionary*)dict key:(NSString*)key {
+    return [self getValue:dict key:key class:[NSDictionary class]];
+}
 @end

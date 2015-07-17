@@ -14,4 +14,11 @@
 + (BOOL)checkIsDict:(id)obj;
 + (BOOL)checkIsArray:(id)obj;
 + (NSString*)getIdOrEmptyStr:(NSDictionary*)dict;
++ (NSString *)getCommentsStr:(NSDictionary *)dict;
+
+
++ (NSString*)getStringValue:(NSDictionary*)dict key:(NSString*)key;
++ (NSArray*)getArrayValue:(NSDictionary*)dict key:(NSString*)key;
++ (NSDictionary*)getDictValue:(NSDictionary*)dict key:(NSString*)key;
++ (NSNumber*)getNumberValue:(NSDictionary*)dict key:(NSString*)key;
 @end

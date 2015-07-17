@@ -14,6 +14,7 @@
 
 
 typedef void (^VoidBlock)(void);
+typedef void (^ImgBlock) (UIImage* image);
 typedef void (^DicBlock) (NSDictionary*);
 typedef void (^BoolBlock)(BOOL);
 typedef BOOL (^FilterBlock)(id);
@@ -24,5 +25,7 @@ typedef void (^OperationErrorBlock)(MKNetworkOperation *completedOperation, NSEr
 typedef void (^ArraySuccessBlock)(NSArray* array, NSDictionary* metadata);
 typedef void (^EntitySuccessBlock)(NSDictionary *data, NSDictionary *metadata);
 typedef MKNetworkOperation* (^ArrayNetworkBlock)(ArraySuccessBlock, ErrorBlock, int);
+typedef NSArray* (^ArrayBlock)(id);
+typedef id(^IdBlock)(id);
 
 #endif

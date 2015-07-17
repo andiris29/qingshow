@@ -77,6 +77,10 @@ public class WeChatPaymentController {
         log.info("wechat/prepay start");
         
         ResponseJsonEntity returnEntity = new ResponseJsonEntity();
+        log.debug("id=" + id);
+        log.debug("totalFee=" + totalFee);
+        log.debug("orderName=" + orderName);
+        log.debug("clientIp=" + clientIp);
         
         try {
             UnifiedOrderReqBean bean = new UnifiedOrderReqBean();

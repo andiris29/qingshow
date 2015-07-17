@@ -1,249 +1,29 @@
 var mongoose = require('mongoose');
 var async = require('async');
 
-var People = require('../../model/peoples');
-var Show = require('../../model/shows');
-var Item = require('../../model/items');
-
 var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
-var RequestHelper = require('../helpers/RequestHelper');
+var MongoHelper = require('../helpers/MongoHelper');
 
 var ServerError = require('../server-error');
-var crypto = require('crypto'), _secret = 'qingshow@secret';
 
-var _encrypt = function(string) {
-    var cipher = crypto.createCipher('aes192', _secret);
-    var enc = cipher.update(string, 'utf8', 'hex');
-    enc += cipher.final('hex');
-    return enc;
-};
+var admin = module.exports;
 
-var _savePeople, _removePeopleById, _saveItem, _removeItemById, _saveShow, _removeShowById, _removeModelById, _saveModel;
-
-_savePeople = function(req, res) {
-
-    _saveModel(People, 'people', req, res, function(req, res) {
-        var param = req.body;
-        var id = param.id;
-        var password = param.password;
-        var people = new People({
-            userInfo : {}
-        });
-        if (id && id.length) {
-            people.userInfo['id'] = id;
-        }
-        if (password && password.length) {
-            people.userInfo['password'] = _encrypt(password);
-        }
-
-        ['name', 'portrait'].forEach(function(field) {
-            if (param[field]) {
-                people.set(field, param[field]);
-            }
-        });
-        ['height', 'weight'].forEach(function(field) {
-            if (param[field]) {
-                people.set(field, parseFloat(param[field]));
-            }
-        });
-        ['roles'].forEach(function(field) {
-            if (req.body[field]) {
-                people.set(field, RequestHelper.parseArray(param[field]));
-            }
-        });
-
-        return people;
-    });
-};
-
-_removePeopleById = function(req, res) {
-    _removeModelById(People, "people", req, res);
-};
-
-_saveItem = function(req, res) {
-    _saveModel(Item, 'item', req, res, function(req, res) {
-        var param = req.body;
-        var item = new Item({
-            imageMetadata : {
-                url : ( param.imageMetadataUrl ? param.imageMetadataUrl: ''),
-                width : ( param.imageMetadataWidth ? RequestHelper.parseNumber(param.imageMetadataWidth) : 0),
-                height : ( param.imageMetadataHeight ? RequestHelper.parseNumber(param.imageMetadataHeight) : 0)
-            },
-            images: []
-        });
-
-        var urls = RequestHelper.paraseArray(param.imagesUrl);
-        var descriptions = RequestHelper.paraseArray(param.imagesDescription);
-
-        urls.forEach(function(element, index) {
-            item.images.push({
-                url: element,
-                description : descriptions[index]
-            });
-        });
-
-        ['name', 'source'].forEach(function(field) {
-            if (param[field]) {
-                item.set(field, param[field]);
-            }
-        });
-
-        ['brandRef'].forEach(function(field) {
-            if (param[field]) {
-                item.set(field, RequestHelper.parseId(param[field]));
-            }
-        });
-
-        ['category'].forEach(function(field) {
-            if (param[field]) {
-                item.set(field, parseInt(param[field]));
-            }
-        });
-
-        return item;
-    });
-};
-
-_removeItemById = function(req, res) {
-    _removeModelById(Item, 'item', req, res);
-};
-
-_saveShow = function(req, res) {
-    _saveModel(Show, 'show', req, res, function(req, res) {
-        var param = req.body;
-        var show = new Show({
-        });
-
-        ['cover', 'video'].forEach(function(field) {
-            if (param[field]) {
-                show.set(field, param[field]);
-            }
-        });
-
-        ['numLike', 'numView', 'brandNewOrder', 'brandDiscountOrder'].forEach(function(field) {
-            if (param[field]) {
-                show.set(field, parseInt(param[field]));
-            }
-        });
-        ['posters'].forEach(function(field) {
-            if (param[field]) {
-                show.set(field, RequestHelper.parseArray(param[field]));
-            }
-        });
-        ['itemRefs'].forEach(function(field) {
-            if (param[field]) {
-                show.set(field, RequestHelper.parseIds(param[field]));
-            }
-        });
-
-        ['modelRef', 'studioRef', 'brandRef'].forEach(function(field) {
-            if (param[field]) {
-                show.set(field, RequestHelper.parseId(param[field]));
-            }
-        });
-
-        return show;
-    });
-};
-
-_removeShowById = function(req, res) {
-    _removeModelById(Show, 'show', req, res);
-};
-
-_removeModelById = function(Model, name, req, res) {
-    async.waterfall([
-    function(callback) {
-        var id = req.body['id'];
-        if (!id || !id.length) {
-            callback(ServerError.NotEnoughParam);
-        } else {
-            callback(null, id);
-        }
-    },
-    function(id, callback) {
-        Model.findOne({
-            '_id' : RequestHelper.parseId(id)
-        }, function(err, model) {
-            if (err) {
-                callback(err);
-            } else if (!model) {
-                callback(_getNotExistError(name));
-            } else {
-                callback(null, model);
-            }
-        });
-    },
-    function(model, callback) {
-        model.remove(function(err, model) {
-            var entity = {};
-            entity[name] = model;
-            ResponseHelper.response(res, err, entity);
-        });
-    }], function(err) {
-        ResponseHelper.response(res, err);
-    });
-};
-
-_saveModel = function(Model, key, req, res, parser) {
-    async.waterfall([
-    function(callback) {
-        var model = parser(req, res);
-        callback(null, model);
-    },
-    function(model, callback) {
-        model.save(function(err, savedObject) {
-            var entity = {};
-            entity[key] = savedObject;
-            ResponseHelper.response(res, err, entity);
-        });
-    }], function(err) {
-        ResponseHelper.response(res, err);
-    });
-};
-
-var _getNotExistError = function(key) {
-    switch(key) {
-        case 'people':
-            return ServerError.PeopleNotExist;
-        case 'item':
-            return ServerError.ItemNotExist;
-        case 'show':
-            return ServerError.ShowNotExist;
-        default:
-            return ServerError.RequestValidationFail;
-    }
-};
-
-module.exports = {
-    'savePeople' : {
-        method : 'post',
-        func : _savePeople,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'removePeopleById' : {
-        method : 'post',
-        func : _removePeopleById,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'saveItem' : {
-        method : 'post',
-        func : _saveItem,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'removeItemById' : {
-        method : 'post',
-        func : _removeItemById,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'saveShow' : {
-        method : 'post',
-        func : _saveShow,
-        permissionValidators : ['loginValidator', 'adminValidator']
-    },
-    'removeShowById' : {
-        method : 'post',
-        func : _removeShowById,
-        permissionValidators : ['loginValidator', 'adminValidator']
+admin.find = {
+    'method' : 'get',
+    // 'permissionValidators' : ['loginValidator'],
+    'func' : function(req, res) {
+        var Model = require('../../model/' + req.queryString.collection);
+        ServiceHelper.queryPaging(req, res, function(qsParam, callback) {
+            // querier
+            var criteria = MongoHelper.querySchema(Model, req.queryString);
+            MongoHelper.queryPaging(Model.find(criteria).sort({
+                'create' : -1
+            }), Model.find(criteria), qsParam.pageNo, qsParam.pageSize, callback);
+        }, function(models) {
+            return {
+                'models' : models
+            };
+        }, null);
     }
 };

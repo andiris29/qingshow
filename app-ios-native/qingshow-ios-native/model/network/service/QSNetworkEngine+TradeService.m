@@ -140,6 +140,27 @@
                          onSucceed:(VoidBlock)succeedBlock
                            onError:(ErrorBlock)errorBlock
 {
+    if (status == 3 || status == 14) {
+        return [self startOperationWithPath:PAHT_TRADE_STATUS_TO
+                                     method:@"POST"
+                                   paramers:@{
+                                              @"_id" : [QSCommonUtil getIdOrEmptyStr:tradeDict],
+                                              @"status" : @(status),
+                                              @"comments":[QSCommonUtil getCommentsStr:tradeDict]}
+                                onSucceeded:^(MKNetworkOperation *completedOperation)
+                {
+                    if (succeedBlock) {
+                        succeedBlock();
+                    }
+                }
+                                    onError:^(MKNetworkOperation *completedOperation, NSError *error)
+                {
+                    if (errorBlock) {
+                        errorBlock(error);
+                    }
+                }];
+
+    }
     return [self startOperationWithPath:PAHT_TRADE_STATUS_TO
                                  method:@"POST"
                                paramers:@{

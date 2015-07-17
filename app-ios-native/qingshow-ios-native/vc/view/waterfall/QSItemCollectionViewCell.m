@@ -98,22 +98,7 @@
 
 + (CGFloat)getHeight:(NSDictionary*)itemDict
 {
-    NSDictionary* coverMetadata = nil;
-    
-    float iniWidth = ([UIScreen mainScreen].bounds.size.width - 4) / 2;
-    
-    float height = iniWidth;
-    float width = iniWidth;
-    
-    coverMetadata = itemDict[@"imageMetadata"];
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
+    return 200;
 }
 + (CGSize)getSize:(NSDictionary*)itemDict
 {

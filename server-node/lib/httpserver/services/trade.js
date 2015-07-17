@@ -10,6 +10,7 @@ var RequestHelper = require('../helpers/RequestHelper');
 var ResponseHelper = require('../helpers/ResponseHelper');
 var TradeHelper = require('../helpers/TradeHelper');
 var RelationshipHelper = require('../helpers/RelationshipHelper');
+var MongoHelper = require('../helpers/MongoHelper');
 
 var ServerError = require('../server-error');
 var request = require('request');
@@ -76,7 +77,7 @@ trade.create = {
 
                 var url = 'http://localhost:8080/payment/wechat/prepay?id=' + trade._id.toString() + 
                     '&totalFee=' + trade.totalFee + 
-                    '&orderName=' + orderName + 
+                    '&orderName=' + encodeURIComponent(orderName) + 
                     '&clientIp=' + RequestHelper.getIp(req);
                 request.get(url, function(error, response, body) {
                     var jsonObject = JSON.parse(body);
@@ -213,21 +214,6 @@ trade.statusTo = {
             TradeHelper.updateStatus(trade, newStatus, req.qsCurrentUserId, function(err, trade) {
                 callback(err, trade);
             });
-        },
-        function(trade, callback) {
-            People.findOne({
-                '_id' : req.qsCurrentUserId
-            }).exec(function(error, people) {
-                callback(error, trade, people);
-            });
-        },
-        function(trade, people, callback) {
-            // Send notification mail
-            TradeHelper.notify(trade, function(err, info) {
-                callback(err, trade);
-            });
-        },
-        function(trade, callback) {
         }], function(error, trade) {
             ResponseHelper.response(res, error, {
                 'trade' : trade

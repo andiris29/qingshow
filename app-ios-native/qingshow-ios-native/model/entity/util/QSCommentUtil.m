@@ -9,6 +9,7 @@
 #import "QSCommonUtil.h"
 #import "QSCommentUtil.h"
 #import "QSDateUtil.h"
+#import "NSDate+QSExtension.h"
 
 @implementation QSCommentUtil
 + (NSString*)getContent:(NSDictionary*)commentDict
@@ -44,7 +45,16 @@
     }
     NSString* dateStr = commentDict[@"create"];
     NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
-    NSString* currentDateStr = [QSDateUtil buildStringFromDate:date];
-    return currentDateStr;
+    
+    if ([date isToday]) {
+        return [QSDateUtil getTime:date];
+    }else if ([date isYesterday]){
+        NSString *timeStr = [NSString stringWithFormat:@"昨天 %@",[QSDateUtil getTime:date]];
+        return timeStr;
+    }else {
+        NSString *currentDateStr = [QSDateUtil getMonthAndDate:date];
+        return currentDateStr;
+    }
 }
+
 @end

@@ -31,7 +31,12 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboAuthorizeNotiHander:) name:kWeiboAuthorizeResultNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(weiboSendMessageNotiHandler:) name:kWeiboSendMessageResultNotification object:nil];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveShareWechatSuccess:) name:kShareWechatSuccessNotification object:nil];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.shareContainer.hidden = YES;
     self.sharePanel.hidden = YES;
 }
@@ -50,7 +55,7 @@
 - (void)showSharePanelWithUrl:(NSString*)urlStr
 {
     self.shareUrl = urlStr;
-    if (self.shareContainer.hidden == NO && self.sharePanel.hidden == NO){
+    if (!self.shareContainer.hidden && !self.sharePanel.hidden){
         return;
     }
 
@@ -65,7 +70,7 @@
 }
 - (void)hideSharePanel
 {
-    if (self.shareContainer.hidden == YES && self.sharePanel.hidden == YES) {
+    if (self.shareContainer.hidden && self.sharePanel.hidden) {
         return;
     }
 
@@ -100,7 +105,7 @@
     if (self.shareUrl) {
         webPage.webpageUrl = self.shareUrl;
     } else {
-        webPage.webpageUrl = @"http://chingshow.com/";
+        webPage.webpageUrl = @"http://121.41.161.239/";
     }
 
     webPage.thumbnailData = UIImagePNGRepresentation([UIImage imageNamed:@"share_icon"]);
@@ -143,7 +148,7 @@
     if (self.shareUrl) {
         ext.webpageUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
 
     message.mediaObject = ext;
@@ -171,7 +176,7 @@
 
         ext.webpageUrl = self.shareUrl;
     } else {
-        ext.webpageUrl = @"http://chingshow.com/web-mobile/src/index.html#?entry=S03&_id=";
+        ext.webpageUrl = @"http://121.41.161.239/web-mobile/src/index.html#?entry=S03&_id=";
     }
 
     message.mediaObject = ext;
@@ -183,6 +188,12 @@
     
     [WXApi sendReq:req];
     [self hideSharePanel];
+}
+
+- (void)didReceiveShareWechatSuccess:(NSNotification*)noti {
+    if ([self.delegate respondsToSelector:@selector(didShareWechatSuccess)]) {
+        [self.delegate didShareWechatSuccess];
+    }
 }
 
 - (IBAction)shareCancelPressed:(id)sender {

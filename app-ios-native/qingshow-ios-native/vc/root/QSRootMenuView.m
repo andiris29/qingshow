@@ -10,21 +10,20 @@
 #import "QSAppDelegate.h"
 #import "UIImage+BlurryImage.h"
 #import "UIView+ScreenShot.h"
+#import "UINib+QSExtension.h"
 
 @interface QSRootMenuView ()
 @property (strong, nonatomic) NSMutableArray* itemArray;
+@property (assign, nonatomic) int currentType;
 @end
 
 @implementation QSRootMenuView
 + (QSRootMenuView*)generateView
 {
-    UINib* nib = [UINib nibWithNibName:@"QSRootMenuView" bundle:nil];
-    NSArray* array = [nib instantiateWithOwner:self options:nil];
-    QSRootMenuView* v = array[0];
+    QSRootMenuView* v = [UINib generateViewWithNibName:@"QSRootMenuView"];
     CGRect rect = [UIScreen mainScreen].bounds;
     v.frame = rect;
     v.bgImageView.backgroundColor = [UIColor lightGrayColor];
-//    v.bgImageView.layer.transform = CATransform3DMakeScale(1.03, 1.02, 0);
     return v;
 }
 
@@ -32,7 +31,7 @@
 - (void)showMenuAnimationComple:(VoidBlock)block
 {
     self.bgImageView.hidden = YES;
-    UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShow];
+    UIImage *img = [((QSAppDelegate*)[UIApplication sharedApplication].delegate).window makeScreenShot];
     self.bgImageView.image = [img blurryImageWithBlurLevel:5.f];
     
     self.bgImageView.alpha = 0.f;
@@ -65,17 +64,21 @@
 #pragma mark - Life Cycle
 - (void)awakeFromNib
 {
-
-    NSArray* typeArray = @[@1, @9, @8, @2, @3];   //1,9,8,2,3
+    NSArray *typeArray = @[
+                           @(QSRootMenuItemMeida),
+                           @(QSRootMenuItemMatcher),
+                           @(QSRootMenuItemMy),
+                           @(QSRootMenuItemSetting)];
     self.itemArray = [@[] mutableCopy];
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < typeArray.count; i++) {
         NSNumber* typeNum = typeArray[i];
         QSRootMenuItem* item = [QSRootMenuItem generateItemWithType:typeNum.intValue];
         item.delegate = self;
         [self.itemArray addObject:item];
         [self.containerView addSubview:item];
     }
+    self.currentType = -1;
 }
 
 #pragma mark - Init
@@ -95,7 +98,7 @@
     float deltaY = (size.height - (QSRootMenuItemHeight * self.itemArray.count)) / 2;
     float originX = (self.containerView.frame.size.width - QSRootMenuItemWidth) / 2;
     
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 4; i++) {
         QSRootMenuItem* item = self.itemArray[i];
         CGRect frame = item.frame;
         frame.origin.x = originX;
@@ -114,8 +117,27 @@
 }
 - (void)menuItemPressed:(QSRootMenuItem*)item
 {
-    if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:)]) {
-        [self.delegate rootMenuItemPressedType:item.type];
+    QSRootMenuItemType oldType = self.currentType;
+    self.currentType = item.type;
+    for (QSRootMenuItem* i in self.itemArray) {
+        [i.button setSelected:(i == item)];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(rootMenuItemPressedType:oldType:)]) {
+        [self.delegate rootMenuItemPressedType:item.type oldType:oldType];
+    }
+}
+
+- (void)triggerItemTypePressed:(QSRootMenuItemType)type {
+    QSRootMenuItem* item = nil;
+    for (QSRootMenuItem* i in self.itemArray) {
+        if (i.type == type) {
+            item = i;
+            break;
+        }
+    }
+    if (item) {
+        [self menuItemPressed:item];
     }
 }
 - (IBAction)didTapView:(id)sender

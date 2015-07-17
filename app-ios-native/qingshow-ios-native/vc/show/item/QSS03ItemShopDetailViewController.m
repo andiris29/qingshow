@@ -10,7 +10,6 @@
 
 #import "QSShowUtil.h"
 #import "QSItemUtil.h"
-#import "QSBrandUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "UIViewController+ShowHud.h"
 
@@ -62,6 +61,11 @@
     self.label2.isWithStrikeThrough = YES;
     self.label2.isNotStrikeDollor = YES;
 
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)viewDidLayoutSubviews
 {
@@ -124,14 +128,13 @@
     self.label3.frame = rect3;
     [self.label2 setNeedsDisplay];
     
-    NSDictionary* brand = [QSItemUtil getBrand:item];
-    NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
-    if (iconUrl) {
-        self.iconImageView.hidden = NO;
+//    NSDictionary* brand = [QSItemUtil getBrand:item];
+//    NSURL* iconUrl = [QSBrandUtil getBrandLogoUrl:brand];
+//    if (iconUrl) {
+//        self.iconImageView.hidden = NO;
 //        [self.iconImageView setImageFromURL:[QSItemUtil getIconUrl:item]];
-    } else {
-        self.iconImageView.hidden = YES;
-    }
-
+//    } else {
+//        self.iconImageView.hidden = YES;
+//    }
 }
 @end

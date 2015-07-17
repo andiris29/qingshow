@@ -54,28 +54,14 @@
     return @"";
 }
 
-+ (NSString*)buildNumLikeString:(NSDictionary*)peopleDict
+
++ (NSString*)getNickname:(NSDictionary*)peopleDict
 {
     if ([QSCommonUtil checkIsNil:peopleDict]) {
         return nil;
     }
     
-    NSDictionary* modelInfo = peopleDict[@"modelInfo"];
-    if (modelInfo) {
-        NSNumber* numLike = modelInfo[@"numLikes"];
-        if (numLike) {
-            return [numLike stringValue];
-        }
-    }
-    return @"0";
-}
-+ (NSString*)getName:(NSDictionary*)peopleDict
-{
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return nil;
-    }
-    
-    NSString* name = peopleDict[@"name"];
+    NSString* name = peopleDict[@"nickname"];
     if (!name || !name.length) {
         name = @"倾秀用户";
     }
@@ -131,58 +117,6 @@
     [m appendString:statusStr];
     return m;
 }
-+ (NSString*)getStatus:(NSDictionary*)modelDict
-{
-    if ([QSCommonUtil checkIsNil:modelDict]) {
-        return nil;
-    }
-    
-    if (modelDict && modelDict[@"modelInfo"] && modelDict[@"modelInfo"][@"status"]) {
-        return modelDict[@"modelInfo"][@"status"];
-    }
-    return nil;
-}
-+ (NSString*)getRolesDescription:(NSDictionary*)modelDict
-{
-    if ([QSCommonUtil checkIsNil:modelDict]) {
-        return nil;
-    }
-    
-    NSArray* roles = modelDict[@"roles"];
-    for (NSNumber* r in roles) {
-        if (r.intValue == 1) {
-            return @"模特";
-        }
-    }
-    return @"";
-}
-
-+ (NSString*)getJobDesc:(NSDictionary*)peopleDict
-{
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return @"";
-    }
-    NSArray* jobArray = @[@"职员",@"学生", @"模特", @"演员", @"设计师"];
-    NSNumber* job = peopleDict[@"job"];
-    if ([QSCommonUtil checkIsNil:job] || job.intValue >= jobArray.count) {
-        return @"";
-    }
-    return jobArray[job.intValue];
-}
-
-+ (NSString*)getClothingSizeDesc:(NSDictionary*)peopleDict
-{
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return @"";
-    }
-    NSArray* clothingSizeArray = @[@"XXS", @"XS", @"S", @"M", @"L", @"XL", @"2XL", @"3XL"];
-    NSNumber* clothingSize = peopleDict[@"clothingSize"];
-    if ([QSCommonUtil checkIsNil:clothingSize] || clothingSize.intValue >= clothingSizeArray.count) {
-        return @"";
-    }
-    return clothingSizeArray[clothingSize.intValue];
-}
-
 
 + (NSString*)getProvinceDesc:(NSDictionary*)peopleDict
 {
@@ -196,21 +130,6 @@
         return @"";
     }
     return provinceArray[provinceNum.intValue];
-}
-
-+ (BOOL)checkPeopleIsModel:(NSDictionary*)peopleDict
-{
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return NO;
-    }
-    
-    NSArray* roles = peopleDict[@"roles"];
-    for (NSNumber* r in roles) {
-        if (r.intValue == 1) {
-            return YES;
-        }
-    }
-    return NO;
 }
 
 + (NSString*)getNumberFollowersDescription:(NSDictionary*)modelDict
@@ -358,28 +277,6 @@
     return @"";
 }
 
-+ (NSString *)getShoeSizeDesc:(NSDictionary *)peopleDict {
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return @"";
-    }
-    NSNumber* shoeSize= peopleDict[@"shoeSize"];
-    if ([QSCommonUtil checkIsNil:shoeSize]) {
-        return @"";
-    }
-    return [shoeSize stringValue];
-}
-
-+ (NSString *)getHairTypeDesc:(NSDictionary *)peopleDict {
-    if ([QSCommonUtil checkIsNil:peopleDict]) {
-        return @"";
-    }
-    NSArray* hairTypeArray = @[@"所有", @"长发", @"超长发", @"中长发", @"短发"];
-    NSNumber* hairType = peopleDict[@"hairType"];
-    if ([QSCommonUtil checkIsNil:hairType] || hairType.intValue >= hairTypeArray.count) {
-        return @"";
-    }
-    return hairTypeArray[hairType.intValue];
-}
 
 + (NSArray*)getReceiverList:(NSDictionary*)dict
 {
@@ -387,5 +284,151 @@
         return nil;
     }
     return dict[@"receivers"];
+}
+
++ (BOOL)hasPersonalizeData:(NSDictionary*)dict
+{
+    NSArray* keys = [dict allKeys];
+    return
+    [keys containsObject:@"age"] &&
+    [keys containsObject:@"height"] &&
+    [keys containsObject:@"weight"] &&
+    [keys containsObject:@"bodyType"] &&
+    [keys containsObject:@"dressStyle"] &&
+    [keys containsObject:@"expectations"];
+}
+
++ (NSString*)getBodyTypeDesc:(NSDictionary*)dict{
+    NSArray* array = @[@"A型",@"H型",@"V型",@"X型"];
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+
+    NSNumber* bodyType = dict[@"bodyType"];
+    if ([QSCommonUtil checkIsNil:bodyType]) {
+        return nil;
+    }
+    int type = bodyType.intValue;
+    if (type < array.count) {
+        return array[type];
+    } else {
+        return nil;
+    }
+}
+
++ (NSString*)getDressStyleDesc:(NSDictionary*)dict {
+    NSArray* array = @[@"日韩系", @"欧美系"];
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* dressStyle = dict[@"dressStyle"];
+    if ([QSCommonUtil checkIsNil:dressStyle]) {
+        return nil;
+    }
+    if ([QSCommonUtil checkIsNil:dressStyle]) {
+        return nil;
+    }
+    int style = dressStyle.intValue;
+    if (style < array.count) {
+        return array[style];
+    } else {
+        return nil;
+    }
+}
+
++ (NSArray*)getExpectations:(NSDictionary*)dict {
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSArray* expectations = dict[@"expectations"];
+    if ([QSCommonUtil checkIsNil:expectations]) {
+        return nil;
+    } else {
+        return expectations;
+    }
+}
+
++ (NSString*)getExpectationsDesc:(NSDictionary*)dict {
+    NSArray* array = @[@"显瘦", @"显高", @"显身材", @"遮臀部", @"遮肚腩", @"遮手臂"];
+    NSArray* expectations = [self getExpectations:dict];
+    if (!expectations) {
+        return nil;
+    }
+    NSMutableString* str = [@"" mutableCopy];
+    for (NSNumber* n in expectations) {
+        int v = n.intValue;
+        if (v < array.count) {
+            [str appendFormat:@"%@ ",array[v]];
+        }
+    }
+    return str;
+}
++ (NSString*)getAge:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* age = dict[@"age"];
+    if ([QSCommonUtil checkIsNil:age]) {
+        return nil;
+    } else {
+        return age.stringValue;
+    }
+}
+
++ (NSString*)getShoulder:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.shoulder"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getBust:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.bust"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getWaist:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.waist"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getHips:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.hips"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
+}
++ (NSString*)getShoeSize:(NSDictionary*)dict
+{
+    if (![QSCommonUtil checkIsDict:dict]) {
+        return nil;
+    }
+    NSNumber* s = [dict valueForKeyPath:@"measureInfo.shoeSize"];
+    if ([QSCommonUtil checkIsNil:s]) {
+        return nil;
+    }
+    return s.stringValue;
 }
 @end

@@ -208,7 +208,7 @@ static NSOperationQueue *_sharedNetworkQueue;
   if([self.reachability currentReachabilityStatus] == ReachableViaWiFi)
   {
     DLog(@"Server [%@] is reachable via Wifi", self.hostName);
-    [_sharedNetworkQueue setMaxConcurrentOperationCount:6];
+    [_sharedNetworkQueue setMaxConcurrentOperationCount:8];
     
     [self checkAndRestoreFrozenOperations];
   }

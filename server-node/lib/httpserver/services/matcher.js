@@ -126,7 +126,7 @@ matcher.updateCover = {
     'method' : 'post',
     'permissionValidators' : ['loginValidator'],
     'func' : function(req, res) {
-        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.localPath, function(err, fields, file) {
+        RequestHelper.parseFile(req, global.qsConfig.uploads.show.cover.ftpPath, function(err, fields, file) {
             if (err) {
                 ResponseHelper.response(res, err);
                 return;
@@ -143,7 +143,7 @@ matcher.updateCover = {
                 '_id' : RequestHelper.parseId(fields['_id']),
                 'ugc' : true
             }, function(err, show) {
-                show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.localPath, file.path));
+                show.set('cover', global.qsConfig.uploads.show.cover.exposeToUrl + '/' + path.relative(global.qsConfig.uploads.show.cover.ftpPath, file.path));
                 show.save(function(err, show) {
                     ResponseHelper.response(res, err, {
                         'show' : show

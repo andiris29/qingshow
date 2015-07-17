@@ -59,4 +59,13 @@
     }
     return dict[@"pay"][@"weixin"][@"prepayid"];
 }
+
++ (NSString*)getTotalFeeDesc:(NSDictionary*)dict {
+    NSNumber* num = [QSCommonUtil getNumberValue:dict key:@"totalFee"];;
+    if (num) {
+        return num.stringValue;
+    } else {
+        return @"";
+    }
+}
 @end

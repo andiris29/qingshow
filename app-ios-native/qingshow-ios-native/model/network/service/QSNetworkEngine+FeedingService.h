@@ -23,10 +23,10 @@
 - (MKNetworkOperation*)getRecommendationFeedingPage:(int)page
                                           onSucceed:(ArraySuccessBlock)succeedBlock
                                             onError:(ErrorBlock)errorBlock;
-- (MKNetworkOperation*)getCategoryFeeding:(int)type
-                                     page:(int)page
-                                onSucceed:(ArraySuccessBlock)succeedBlock
-                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)getRecommendationFeedingDate:(NSDate*)date
+                                               page:(int)page
+                                          onSucceed:(ArraySuccessBlock)succeedBlock
+                                            onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)getFeedByModel:(NSString*)modelId
                                  page:(int)page
                             onSucceed:(ArraySuccessBlock)succeedBlock
@@ -44,4 +44,21 @@
                                  page:(int)page
                             onSucceed:(ArraySuccessBlock)succeedBlock
                               onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation *)getHotFeedingPage:(int)page
+                                onSucceed:(ArraySuccessBlock)succeedBlock
+                                  onError:(ErrorBlock)errorBlock;
+- (MKNetworkOperation*)feedingMatchCreateBy:(NSDictionary*)peopleDict
+                                       page:(int)page
+                                  onSucceed:(ArraySuccessBlock)succeedBlock
+                                    onError:(ErrorBlock)errorBlock;
+#pragma mark - add matchHot/matchNew
+- (MKNetworkOperation *)getfeedingMatchHot:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
+
+- (MKNetworkOperation *)getfeedingMatchNew:(NSDictionary *)peopleDict
+                                      page:(int)page
+                                 onSucceed:(ArraySuccessBlock)succeedBlock
+                                   onError:(ErrorBlock)errorBlock;
 @end

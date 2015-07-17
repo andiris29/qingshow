@@ -11,12 +11,16 @@
 #import "QSU06LoginViewController.h"
 #import "QSError.h"
 #import "QSUserLoginAlertDelegateObj.h"
-#import "QSU01UserDetailViewController.h"
-#import "QSP02ModelDetailViewController.h"
+//#import "QSU01UserDetailViewController.h"
 #import "QSPeopleUtil.h"
 
 #import <objc/runtime.h>
 
+#import "QSS03ShowDetailViewController.h"
+#import "QSS10ItemDetailVideoViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "QSBlock.h"
+#import "UIView+ScreenShot.h"
 
 
 static char alertDelegateObjKey;
@@ -55,24 +59,6 @@ static char alertDelegateObjKey;
     }
 }
 
-- (UIViewController*)generateDetailViewControlOfPeople:(NSDictionary*)peopleDict
-{
-    UIViewController* vc = nil;
-    if ([QSPeopleUtil checkPeopleIsModel:peopleDict]) {
-        vc = [[QSP02ModelDetailViewController alloc] initWithModel:peopleDict];
-    } else {
-        vc = [[QSU01UserDetailViewController alloc] initWithPeople:peopleDict];
-    }
-    return vc;
-}
-- (void)showPeopleDetailViewControl:(NSDictionary*)peopleDict
-{
-    if (!peopleDict || ![peopleDict isKindOfClass:[NSDictionary class]]) {
-        return;
-    }
-    
-    [self.navigationController pushViewController:[self generateDetailViewControlOfPeople:peopleDict] animated:YES];
-}
 - (void)hideNaviBackBtnTitle
 {
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@" " style:UIBarButtonItemStyleDone target:nil action:nil];
@@ -84,6 +70,29 @@ static char alertDelegateObjKey;
     {
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
+
+}
+
+#pragma mark - Detail
+- (void)showShowDetailViewController:(NSDictionary*)showDict
+{
+    UIViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:showDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)showItemDetailViewController:(NSDictionary*)itemDict
+{
+    UIViewController* vc = [[QSS10ItemDetailVideoViewController alloc] initWithItem:itemDict];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)presentPreviewDetailVc:(NSDictionary*)dict {
+    UIViewController* vc = dict[@"vc"];
+    UIImageView* imageView = dict[@"imageView"];
+    [self presentViewController:vc animated:NO completion:^{
+        
+        [imageView removeFromSuperview];
+    }];
 
 }
 @end

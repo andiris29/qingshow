@@ -25,4 +25,8 @@
     return [self checkString:passwd ByPattern:PASSWD_PATTERN];
 }
 
+- (BOOL)checkMobile:(NSString *)mobile {
+    return [self checkString:mobile ByPattern:PHONE_PATTERN];
+}
+
 @end

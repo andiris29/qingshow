@@ -59,7 +59,11 @@
     } else {
         self.title = @"选择省份";
     }
-  
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,6 +85,7 @@
     }
     NSString* key = self.nameIdListArray[indexPath.row];
     id value = self.idToNameDict[key];
+    cell.textLabel.font = NEWFONT;
     if ([value isKindOfClass:[NSDictionary class]]) {
         NSDictionary* valueDict = value;
         cell.textLabel.text = valueDict[@"name"];

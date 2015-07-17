@@ -16,7 +16,7 @@
 
 @end
 
-@interface QSU10ReceiverListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSUserLocationTableViewCellDelegate>
+@interface QSU10ReceiverListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, QSUserLocationTableViewCellDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) NSObject<QSU10ReceiverListViewControllerDelegate>* delegate;

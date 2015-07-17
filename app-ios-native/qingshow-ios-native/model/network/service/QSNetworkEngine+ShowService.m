@@ -11,6 +11,10 @@
 #import "QSShowUtil.h"
 #import "NSMutableDictionary+QSExtension.h"
 #import "QSError.h"
+#import "QSCommonUtil.h"
+#import "NSDictionary+QSExtension.h"
+#import "NSArray+QSExtension.h"
+
 //Query
 #define PATH_QUERY_SHOW @"show/query"
 //Comment
@@ -20,14 +24,35 @@
 //Like
 #define PATH_SHOW_LIKE @"show/like"
 #define PATH_SHOW_UNLIKE @"show/unlike"
+//Share
+#define PATH_SHOW_SHARE @"show/share"
+
 
 @implementation QSNetworkEngine(ShowService)
 #pragma mark - Query
+- (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : @"555aa9d538dadbed5a997eed"} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        NSDictionary *retDict = completedOperation.responseJSON;
+        NSArray* dataArray = retDict[@"data"][@"shows"];
+        
+        succeedBlock([dataArray deepMutableCopy], retDict[@"metadata"]);
+        
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
 - (MKNetworkOperation*)queryShowDetail:(NSDictionary*)showDict
                              onSucceed:(DicBlock)succeedBlock
                                onError:(ErrorBlock)errorBlock
 {
-    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+
+    return [self startOperationWithPath:PATH_QUERY_SHOW method:@"GET" paramers:@{@"_ids" : [QSCommonUtil getIdOrEmptyStr:showDict]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+      
         if (succeedBlock) {
             if ([completedOperation.responseJSON isKindOfClass:[NSDictionary class]])
             {
@@ -131,6 +156,23 @@
 }
 
 #pragma mark - Like
+- (MKNetworkOperation*)handleShowLike:(NSDictionary*)showDict
+                            onSucceed:(BoolBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock
+{
+    MKNetworkOperation* op = nil;
+    if ([QSShowUtil getIsLike:showDict]) {
+        op = [self unlikeShow:showDict onSucceed:^{
+            succeedBlock(NO);
+        } onError:errorBlock];
+    } else {
+        op = [self likeShow:showDict onSucceed:^{
+            succeedBlock(YES);
+        } onError:errorBlock];
+    }
+    return op;
+}
+
 - (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock
@@ -172,6 +214,22 @@
                 [QSShowUtil setIsLike:NO show:showDict];
             }
         }
+        if (errorBlock) {
+            errorBlock(error);
+        }
+    }];
+}
+
+#pragma mark - Share
+- (MKNetworkOperation*)didShareShow:(NSDictionary*)showDict
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock
+{
+    return [self startOperationWithPath:PATH_SHOW_SHARE method:@"POST" paramers:@{@"_id" : showDict[@"_id"]} onSucceeded:^(MKNetworkOperation *completedOperation) {
+        if (succeedBlock) {
+            succeedBlock();
+        }
+    } onError:^(MKNetworkOperation *completedOperation, NSError *error) {
         if (errorBlock) {
             errorBlock(error);
         }

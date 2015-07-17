@@ -10,7 +10,6 @@
 #import "QSCommentTableViewCell.h"
 #import "QSNetworkKit.h"
 #import "UIViewController+ShowHud.h"
-#import "QSP02ModelDetailViewController.h"
 #import "QSShowUtil.h"
 #import "QSCommentUtil.h"
 #import "QSPeopleUtil.h"
@@ -30,8 +29,6 @@
 @property (strong, nonatomic) QSCommentListTableViewProvider* delegateObj;
 @property (assign, nonatomic) int clickIndex;
 
-@property (assign, nonatomic) QSCommentListViewControllerType type;
-
 @end
 
 @implementation QSS04CommentListViewController
@@ -43,27 +40,11 @@
 {
     self = [self initWithNibName:@"QSS04CommentListViewController" bundle:nil];
     if (self) {
-        self.type = QSCommentListViewControllerTypeShow;
         __weak QSS04CommentListViewController* weakSelf = self;
         self.showDict = showDict;
         self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
         self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
             return [SHARE_NW_ENGINE getCommentsOfShow:weakSelf.showDict page:page onSucceed:succeedBlock onError:errorBlock];
-        };
-        [self.delegateObj fetchDataOfPage:1];
-    }
-    return self;
-}
-- (id)initWithPreview:(NSDictionary*)previewDict
-{
-    self = [self initWithNibName:@"QSS04CommentListViewController" bundle:nil];
-    if (self) {
-        self.type = QSCommentListViewControllerTypePreview;
-        __weak QSS04CommentListViewController* weakSelf = self;
-        self.previewDict = previewDict;
-        self.delegateObj = [[QSCommentListTableViewProvider alloc] init];
-        self.delegateObj.networkBlock = ^MKNetworkOperation*(ArraySuccessBlock succeedBlock, ErrorBlock errorBlock, int page){
-            return [SHARE_NW_ENGINE queryCommentPreview:weakSelf.previewDict page:page onSucceed:succeedBlock onError:errorBlock];
         };
         [self.delegateObj fetchDataOfPage:1];
     }
@@ -77,7 +58,11 @@
     [self.delegateObj bindWithTableView:self.tableView];
     self.delegateObj.delegate = self;
     self.title = @"评论";
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.headIcon.layer.cornerRadius = self.headIcon.frame.size.width / 2;
     self.headIcon.layer.masksToBounds = YES;
     self.textField.layer.cornerRadius = 4;
@@ -120,26 +105,21 @@
 }
 
 #pragma mark - QSCommentListTableViewProviderDelegate
-- (void)didClickPeople:(NSDictionary *)peopleDict
-{
-    [self showPeopleDetailViewControl:peopleDict];
-}
 - (void)didClickComment:(NSDictionary*)commemntDict atIndex:(int)index
 {
     NSString* destructiveTitle = nil;
-    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]] || [QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSShowUtil getPeopleFromShow:self.showDict]])
+    if ([QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSCommentUtil getPeople:commemntDict]]/* || [QSPeopleUtil isPeople:[QSUserManager shareUserManager].userInfo equalToPeople:[QSShowUtil getPeopleFromShow:self.showDict]]*/)
     {
         destructiveTitle = @"删除";
     }
     [self.textField resignFirstResponder];
     self.clickIndex = index;
-    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复",*/ @"查看个人主页", nil];
+    UIActionSheet* sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:destructiveTitle otherButtonTitles:/*@"回复", @"查看个人主页",*/ nil];
     [sheet showInView:self.view];
 }
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSDictionary* comment = self.delegateObj.resultArray[self.clickIndex];
-    NSDictionary* people = [QSCommentUtil getPeople:comment];
 
     //0 查看个人主页
     
@@ -147,24 +127,13 @@
         //删除评论
         int index = self.clickIndex;
         self.clickIndex = -1;
-        if (self.type == QSCommentListViewControllerTypeShow) {
-            [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
-                [self.delegateObj.resultArray removeObjectAtIndex:index];
-                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        } else if (self.type == QSCommentListViewControllerTypePreview) {
-            [SHARE_NW_ENGINE deletePreviewComment:comment ofPreview:self.previewDict onSucceed:^{
-                [self.delegateObj.resultArray removeObjectAtIndex:index];
-                [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        }
-
-    }
-    else if (buttonIndex == actionSheet.cancelButtonIndex)
+        [SHARE_NW_ENGINE deleteComment:comment ofShow:self.showDict onSucceed:^{
+            [self.delegateObj.resultArray removeObjectAtIndex:index];
+            [self.delegateObj.view deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } onError:^(NSError *error) {
+            [self handleError:error];
+        }];
+    } else if (buttonIndex == actionSheet.cancelButtonIndex)
     {
         self.clickIndex = -1;
     }
@@ -175,11 +144,11 @@
 //    }
     else
     {
-        if (!people) {
-            [self showErrorHudWithText:@"系统错误"];
-        } else {
-            [self showPeopleDetailViewControl:people];
-        }
+//        if (!people) {
+//            [self showErrorHudWithText:@"系统错误"];
+//        } else {
+//            [self showPeopleDetailViewControl:people];
+//        }
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -216,23 +185,13 @@
             people = [QSCommentUtil getPeople:comment];
         }
         __weak QSS04CommentListViewController* weakSelf = self;
-        if (self.type == QSCommentListViewControllerTypeShow) {
-            [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
-                [weakSelf.delegateObj reloadData];
-                [self showSuccessHudWithText:@"发送成功"];
-                self.textField.text = @"";
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        } else if (self.type == QSCommentListViewControllerTypePreview) {
-            [SHARE_NW_ENGINE addComment:self.textField.text onPreview:self.previewDict reply:people onSucceed:^{
-                [weakSelf.delegateObj reloadData];
-                [self showSuccessHudWithText:@"发送成功"];
-                self.textField.text = @"";
-            } onError:^(NSError *error) {
-                [self handleError:error];
-            }];
-        }
+        [SHARE_NW_ENGINE addComment:self.textField.text onShow:self.showDict reply:people onSucceed:^{
+            [weakSelf.delegateObj reloadData];
+            [self showSuccessHudWithText:@"发送成功"];
+            self.textField.text = @"";
+        } onError:^(NSError *error) {
+            [self handleError:error];
+        }];
 
         self.clickIndex = -1;
 
@@ -253,7 +212,7 @@
 }
 
 - (void)keyboardWillHide:(NSNotification *)notif {
-    self.textField.placeholder = @"回复评论";
+    self.textField.placeholder = @"输入新评论";
     [UIView animateWithDuration:0.5 animations:^{
         self.commentBottomConstrain.constant = 0;
         [self.view layoutIfNeeded];

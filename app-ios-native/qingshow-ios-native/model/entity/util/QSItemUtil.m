@@ -8,21 +8,12 @@
 
 #import "QSItemUtil.h"
 #import "QSCommonUtil.h"
+#import "NSNumber+QSExtension.h"
 #import <CoreText/CoreText.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import "QSDateUtil.h"
+#import "QSTaobaoInfoUtil.h"
 @implementation QSItemUtil
-+ (NSURL*)getCoverUrl:(NSDictionary*)itemDict
-{
-    if (![QSCommonUtil checkIsDict:itemDict]) {
-        return nil;
-    }
-    NSString* path = itemDict[@"cover"];
-    if (![QSCommonUtil checkIsNil:path]) {
-        NSURL* url = [NSURL URLWithString:path];
-        return url;
-    }
-    return nil;
-}
 + (NSArray*)getImagesUrl:(NSDictionary*)itemDict
 {
     NSArray* array = itemDict[@"images"];
@@ -60,17 +51,6 @@
     }
     return @"";
 }
-//+ (NSArray*)getCoverAndImagesUrl:(NSDictionary*)itemDict
-//{
-//    NSURL* cover = [self getCoverUrl:itemDict];
-//    NSArray* imagesUrl = [self getImagesUrl:itemDict];
-//    NSMutableArray* m = [@[] mutableCopy];
-//    if (cover) {
-//        [m addObject:cover];
-//    }
-//    [m addObjectsFromArray:imagesUrl];
-//    return m;
-//}
 
 + (NSURL*)getShopUrl:(NSDictionary*)itemDict
 {
@@ -84,31 +64,16 @@
     }
     return nil;
 }
-+ (NSAttributedString*)getItemsAttributedDescription:(NSArray*)itemsArray
-{
-    if ([QSCommonUtil checkIsNil:itemsArray]) {
+
++ (NSString*)getSource:(NSDictionary*)itemDict{
+    if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    if (!itemsArray.count || ![itemsArray[0] isKindOfClass:[NSDictionary class]]) {
-        return [[NSAttributedString alloc] init];
+    NSString* path = itemDict[@"source"];
+    if (![QSCommonUtil checkIsNil:path]) {
+        return path;
     }
-    
-    NSMutableAttributedString* str = [[NSMutableAttributedString alloc] init];
-    for (NSDictionary* itemDict in itemsArray) {
-        NSString* typeStr = [QSItemUtil getItemTypeName:itemDict];
-//        NSAttributedString* typeAttributedStr = [NSAttributedString alloc] initWithString:typeStr attributes:@{}
-        NSString* des = [QSItemUtil getItemName:itemDict];
-        NSMutableAttributedString * a = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@ ", typeStr, des] attributes:nil];
-
-        [a addAttribute:NSFontAttributeName value:CFBridgingRelease(CTFontCreateWithName((CFStringRef)[UIFont fontWithName:@"Arial" size:14].fontName, 14, nil)) range:NSMakeRange(0, a.length)];
-        [a addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:78.f/255.f green:78.f/255.f blue:78.f/255.f alpha:1.f] range:NSMakeRange(0, a.length)];
-        [a addAttribute:NSForegroundColorAttributeName
-                  value:[UIColor colorWithRed:238.f/255.f green:120.f/255.f blue:37.f/255.f alpha:1.f]
-                  range:NSMakeRange(0, typeStr.length)];
-
-        [str appendAttributedString:a];
-    }
-    return str;
+    return nil;
 }
 
 + (NSString*)getItemName:(NSDictionary*)itemDict
@@ -123,55 +88,41 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    NSArray* array = @[@"上装", @"下装", @"鞋子", @"配饰"];
-    NSNumber* category = itemDict[@"category"];
-    if (category.intValue < array.count) {
-        return array[category.intValue];
-    } else {
+    NSArray* array = @[@"上衣", @"下装", @"连衣裙", @"内搭", @"鞋子", @"包", @"配饰"];
+    QSItemCategory category = [self getItemCategory:itemDict];
+    if (category == QSItemCategoryUnknown) {
         return @"";
-    }
-}
-
-+ (NSDictionary*)getBrand:(NSDictionary*)itemDict
-{
-    if (![QSCommonUtil checkIsDict:itemDict]) {
-        return nil;
-    }
-    NSDictionary* b = itemDict[@"brandRef"];
-    if ([QSCommonUtil checkIsNil:b]) {
-        return b;
     } else {
-        NSMutableDictionary* mb = [b mutableCopy];
-        [self setBrand:mb forItem:itemDict];
-        return mb;
+        return array[category];
     }
 }
 
-+ (void)setBrand:(NSDictionary*)brandDict forItem:(NSDictionary*)item
-{
-    if (![item isKindOfClass:[NSMutableDictionary class]]) {
-        return;
++ (QSItemCategory)getItemCategory:(NSDictionary*)itemDict {
+#warning just workaround
+    NSDictionary* categoryDict = [self getCategoryRef:itemDict];
+    NSString* categoryId = @"";
+    if (categoryDict) {
+        categoryId = [QSCommonUtil getIdOrEmptyStr:categoryDict];
+    } else {
+        categoryId = itemDict[@"categoryRef"];
     }
-    NSMutableDictionary* m = (NSMutableDictionary*)item;
-    m[@"brandRef"] = brandDict;
-}
 
-+ (NSArray*)getItemsImageUrlArray:(NSArray*)itemArray;
-{
-    if ([QSCommonUtil checkIsNil:itemArray]) {
-        return nil;
+    NSArray* cateArray = @[
+                           @[@"5593b3df38dadbed5a998b62", @"5593b3df38dadbed5a998b63", @"5593b7d638dadbed5a998b75", @"5593b88838dadbed5a998b7a", @"5593b88838dadbed5a998b7b", @"5593b88838dadbed5a998b7c", @"5593b88838dadbed5a998b7d", @"5593b88838dadbed5a998b7e", @"5593b88838dadbed5a998b7f", @"5593b88838dadbed5a998b80", @"5593b88838dadbed5a998b81", @"5593b88838dadbed5a998b82"],//上衣
+                           @[ @"5593b3df38dadbed5a998b64", @"5593b3df38dadbed5a998b65", @"5593b88838dadbed5a998b83", @"5593b88838dadbed5a998b84", @"5593b88838dadbed5a998b85", @"5593b88838dadbed5a998b86", @"5593b88838dadbed5a998b87", @"5593b88838dadbed5a998b88", @"5593b88838dadbed5a998b89", @"5593b88838dadbed5a998b8a"],//下装
+                           @[@"5593b88838dadbed5a998b8c", @"5593b88838dadbed5a998b8e", @"5593b3df38dadbed5a998b66", @"5593b88838dadbed5a998b8b", @"5593b88838dadbed5a998b8d", @"5593b88838dadbed5a998b8f", @"5593b88838dadbed5a998b90"],//连衣裙
+                           @[],//内搭
+                           @[@"5593b88838dadbed5a998b91", @"5593b88838dadbed5a998b92", @"5593b88838dadbed5a998b93", @"5593b88838dadbed5a998b94", @"5593b88838dadbed5a998b95", @"5593b88838dadbed5a998b96", @"5593b3df38dadbed5a998b67"],//鞋子
+                           @[@"5593b88838dadbed5a998b97", @"5593b88838dadbed5a998b98", @"5593b88838dadbed5a998b99", @"5593b88838dadbed5a998b9a", @"5593b88838dadbed5a998b9b", @"5593b3df38dadbed5a998b68"],//包
+                           @[@"5593b88838dadbed5a998b9c", @"5593b88838dadbed5a998b9d", @"5593b88838dadbed5a998b9e", @"5593b88838dadbed5a998b9f", @"5593b88838dadbed5a998ba0", @"5593b88838dadbed5a998ba1", @"5593b3df38dadbed5a998b69"]//配饰
+                           ];
+    for (NSInteger i = 0; i < cateArray.count; i++) {
+        NSArray* a = cateArray[i];
+        if ([a indexOfObject:categoryId] != NSNotFound) {
+            return i;
+        }
     }
-    if (!itemArray.count || ![itemArray[0] isKindOfClass:[NSDictionary class]]) {
-        return @[];
-    }
-    
-    NSMutableArray* array = [@[] mutableCopy];
-    for (NSDictionary* itemDict in itemArray) {
-        NSString* path = itemDict[@"cover"];
-        NSURL* url = [NSURL URLWithString:path];
-        [array addObject:url];
-    }
-    return array;
+    return QSItemCategoryUnknown;
 }
 
 + (NSArray*)getSkusArray:(NSDictionary*)itemDict
@@ -179,10 +130,11 @@
     if (![QSCommonUtil checkIsDict:itemDict]) {
         return nil;
     }
-    NSDictionary* taobaoInfoDict = itemDict[@"taobaoInfo"];
+    NSDictionary* taobaoInfoDict = [self getTaobaoInfo:itemDict];
     if (![QSCommonUtil checkIsDict:taobaoInfoDict]) {
         return nil;
     }
+    
     NSArray* skus = taobaoInfoDict[@"skus"];
     if (![QSCommonUtil checkIsArray:skus]) {
         return nil;
@@ -325,17 +277,6 @@
     return itemDict[@"taobaoInfo"];
 }
 
-+ (NSURL*)getSizeExplanation:(NSDictionary*)item
-{
-    if (![QSCommonUtil checkIsDict:item]) {
-        return nil;
-    }
-    NSString* e = item[@"sizeExplanation"];
-    if (![QSCommonUtil checkIsNil:e]) {
-        return [NSURL URLWithString:e];
-    }
-    return nil;
-}
 
 + (NSString*)getVideoPath:(NSDictionary*)item
 {
@@ -348,5 +289,117 @@
     } else {
         return path;
     }
+}
+
+
++ (BOOL)getIsLike:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return NO;
+    }
+    NSDictionary* context = itemDict[@"__context"];
+    if (context) {
+        return ((NSNumber*)context[@"likedByCurrentUser"]).boolValue;
+    }
+    return NO;
+}
+
++ (void)setIsLike:(BOOL)isLike item:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return;
+    }
+    if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)itemDict;
+        NSDictionary* context = itemDict[@"__context"];
+        NSMutableDictionary* m = nil;
+        if ([context isKindOfClass:[NSDictionary class]]) {
+            m = [context mutableCopy];
+        } else
+        {
+            m = [@{} mutableCopy];
+        }
+        m[@"likedByCurrentUser"] = @(isLike);
+        s[@"__context"] = m;
+    }
+}
+
++ (void)addNumberLike:(long long)num forItem:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return;
+    }
+    if ([itemDict isKindOfClass:[NSMutableDictionary class]]) {
+        NSMutableDictionary* s = (NSMutableDictionary*)itemDict;
+        long long preNumlike = ((NSNumber*)s[@"numLike"]).longLongValue;
+        s[@"numLike"] = @(preNumlike + num);
+    }
+}
+
++ (NSString*)getNumberLikeDescription:(NSDictionary*)itemDict
+{
+    if ([QSCommonUtil checkIsNil:itemDict]) {
+        return nil;
+    }
+    return ((NSNumber*)itemDict[@"numLike"]).kmbtStringValue;
+}
+
++ (NSDate*)getLikeDate:(NSDictionary*)itemDict
+{
+    NSString* dateStr = [itemDict valueForKeyPath:@"__context.likeDate"];
+    if (!dateStr) {
+        return nil;
+    }
+    NSDate* date = [QSDateUtil buildDateFromResponseString:dateStr];
+    return date;
+}
+
++ (NSString*)getSelectedSku:(NSDictionary*)item
+{
+    NSString* source = [self getSource:item];
+    if ([QSCommonUtil checkIsNil:source]) {
+        return nil;
+    }
+    NSArray* comps = [source componentsSeparatedByString:@"&"];
+    NSString* skuStr = nil;
+    for (NSString* c in comps) {
+        if ([c hasPrefix:@"sku="]) {
+            NSArray* a = [c componentsSeparatedByString:@"="];
+            skuStr = [a lastObject];
+        }
+    }
+    if (!skuStr) {
+        NSArray* array = [self getSkusArray:item];
+        if (array.count) {
+            NSDictionary* skuDict = [array firstObject];
+            skuStr = skuDict[@"sku_id"];
+        }
+    }
+    skuStr = [NSString stringWithFormat:@"%@", skuStr];
+    return skuStr;
+}
+
++ (NSString*)getItemColorDesc:(NSDictionary*)item
+{
+    
+    //http://detail.tmall.com/item.htm?spm=a1z10.5-b.w4011-8651694057.389.luXHAj&id=43637272792&rn=7f3fef736d52e1a21ca8c9041f4dc74d&abbucket=9&sku_properties=1627207:28320
+    
+    NSString* sku = [self getSelectedSku:item];
+    NSDictionary* taobaoInfo = [self getTaobaoInfo:item];
+    
+    return [QSTaobaoInfoUtil getColorPropertyName:taobaoInfo sku:sku];
+    
+}
++ (NSURL*)getThumbnail:(NSDictionary *)itemDict {
+    NSString* s = [QSCommonUtil getStringValue:itemDict key:@"thumbnail"];
+    if (s) {
+        return [NSURL URLWithString:s];
+    } else {
+        return nil;
+    }
+}
+
++ (NSDictionary*)getCategoryRef:(NSDictionary*)itemDict {
+    return [QSCommonUtil getDictValue:itemDict key:@"categoryRef"];
 }
 @end

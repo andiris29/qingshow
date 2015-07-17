@@ -31,6 +31,9 @@
                              onError:(ErrorBlock)errorBlock;
 
 #pragma mark - Like
+- (MKNetworkOperation*)handleShowLike:(NSDictionary*)showDict
+                            onSucceed:(BoolBlock)succeedBlock
+                              onError:(ErrorBlock)errorBlock;
 - (MKNetworkOperation*)likeShow:(NSDictionary*)showDict
                       onSucceed:(VoidBlock)succeedBlock
                         onError:(ErrorBlock)errorBlock;
@@ -38,5 +41,11 @@
                         onSucceed:(VoidBlock)succeedBlock
                           onError:(ErrorBlock)errorBlock;
 
+#pragma mark - Share
+- (MKNetworkOperation*)didShareShow:(NSDictionary*)showDict
+                          onSucceed:(VoidBlock)succeedBlock
+                            onError:(ErrorBlock)errorBlock;
 
+- (MKNetworkOperation*)getTestShowsOnSucceed:(ArraySuccessBlock)succeedBlock
+                                     onError:(ErrorBlock)errorBlock;
 @end

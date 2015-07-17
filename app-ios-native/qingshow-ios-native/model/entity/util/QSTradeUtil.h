@@ -14,4 +14,5 @@
 + (NSNumber*)getStatus:(NSDictionary*)dict;
 + (NSString*)getStatusDesc:(NSDictionary*)dict;
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict;
++ (NSString*)getTotalFeeDesc:(NSDictionary*)dict;
 @end

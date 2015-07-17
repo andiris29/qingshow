@@ -13,7 +13,10 @@
 #import "QSItemUtil.h"
 #import "QSNetworkKit.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
-#import "QSP04BrandDetailViewController.h"
+#import "UIViewController+QSExtension.h"
+#import "QSItemListCell.h"
+
+#define QSItemListCellID @"QSItemListCellID"
 
 #define PAGE_ID @"S07 - 搭配清单"
 
@@ -43,8 +46,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     UIView* headerView = [QSItemListHeaderView generateView];
+    
     self.tableView.tableHeaderView = headerView;
-    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListTableViewCell" bundle:nil] forCellReuseIdentifier:QSItemListTableViewCellIdentifier];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListTableViewCell" bundle:nil] forCellReuseIdentifier:QSItemListTableViewCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"QSItemListCell" bundle:nil] forCellReuseIdentifier:QSItemListCellID];
+    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 //    [self.bgImageView setImageFromURL:[QSShowUtil getCoverUrl:self.showDict] placeHolderImage:[UIImage imageNamed:@"root_cell_placehold_image1"] animation:YES];
     
@@ -55,6 +61,15 @@
         
     }];
     self.view.alpha = 0.9f;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    if([UIScreen mainScreen].bounds.size.width == 414)
+    {
+        self.tableView.tableHeaderView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,25 +104,35 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
-    [cell bindWithItem:self.itemArray[indexPath.row]];
+//    QSItemListTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:QSItemListTableViewCellIdentifier forIndexPath:indexPath];
+//    [cell bindWithItem:self.itemArray[indexPath.row]];
+    
+    QSItemListCell *cell = [tableView dequeueReusableCellWithIdentifier:QSItemListCellID forIndexPath:indexPath];
+    [cell bindWithDic:self.itemArray[indexPath.row]];
+   // NSLog(@"itemArray = %@",self.itemArray[indexPath.row]);
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        cell.contentView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+    }
     return cell;
 }
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     NSDictionary* itemDict = self.itemArray[indexPath.row];
-    NSDictionary* brandDict = [QSItemUtil getBrand:itemDict];
-    if (itemDict && brandDict) {
-        UIViewController* vc = [[QSP04BrandDetailViewController alloc] initWithBrand:brandDict item:itemDict];
-        [self.navigationController pushViewController:vc animated:YES];
-    }   
+    if (itemDict) {
+        [self showItemDetailViewController:itemDict];
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 75.f;
+//    return 75.f;
+    return [UIScreen mainScreen].bounds.size.width/32*5;
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return [UIScreen mainScreen].bounds.size.width/5;
+//}
 
 @end

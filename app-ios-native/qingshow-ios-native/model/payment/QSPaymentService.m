@@ -24,7 +24,7 @@
 #define ALIPAY_PARTNER @"2088301244798510"
 #define ALIPAY_SELLER @"service@focosee.com"
 #define ALIPAY_PRIVATE_KEY @"MIICXAIBAAKBgQDB/r4VcnLMRYodfK0vh8i37fL+VggeLnAhn7vxEvR1vOwxnaNXwjMJYk9abLe3YUPyeBTC07IXMlrjFakw367vNqj+E6vJUA1y4np6VQLbcl7wejyH4aOEe4ytrOabCVC2XsZ+BPfQoH6KtVWDghVN+18D4fD7FWYLYhCmgkNVrQIDAQABAoGAATdyw7mrBKLvAc5VW7XzSUwBuRybAm1yIJPa3uEqjU55ALqnWpaKMWXfb4a9BDZk8bFVF/+x3zlenov1Oqw8cZrOy2lNt30mBZ49rGZXHF5UDKndxIhyYQFX+h4/8+2VqFM0acjK5gjU6on9kEiBz5gONnXdU7mtO3gUUmrs7PUCQQDpmXUiPU82fRn4F71S66JsyREbVGjl3nPJQukZ+UJJWUHvLjnK0YSmNRr1692QVw6cLRzO3UzB8B41Zc7YKd/PAkEA1JkNjbFA4S/ymdqNqVMzJHf61FxZZlXpoNva2yLNg85m0YxwUqOaAStOyy7th8vjRSedhxAy/sbPFSDg2ng1wwJACs+QTTJbLSFjB0lJ+MFw9enkQciJRkIiR6kyEoKnn69izsfr4sgJhIumoMT2rwxoX6/yylwRhlQvgbcheH2PnwJBAKET4dAEh+rWgFKP5Btx/WLZQQPbgKTn3R7S1UyJXvtJzF9ir8v9Rvcxz/5kbPYhxe2kqVcnL+wXx9jzU0pUIC8CQDGei23BahmXvkNPF07JwGIoikoNZyUQZyd/NKpPiwMJTnyYrjp/rZEkwEUz5z3yJGLsuauqInWZDxyx32BUpUM="
-#define ALIPAY_NOTIFY_URL @"http://chingshow.com/payment/alipay/callback"
+#define ALIPAY_NOTIFY_URL @"http://121.41.161.239/payment/alipay/callback"
 #define ALIPAY_URL_SCHEMA @"alipay2088301244798510"
 
 #define WECHAT_SIGN_KEY @"1qaz2wsx3edc4rfv1234qwerasdfzxcv"
@@ -45,11 +45,16 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         s_paymentService = [[QSPaymentService alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserver:s_paymentService selector:@selector(invokePaymentSuccessCallback:) name:kPaymentSuccessNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:s_paymentService selector:@selector(invokePaymentFailCallback:) name:kPaymentFailNotification object:nil];
-        
     });
     return s_paymentService;
+}
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invokePaymentSuccessCallback:) name:kPaymentSuccessNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invokePaymentFailCallback:) name:kPaymentFailNotification object:nil];
+    }
+    return self;
 }
 
 - (void)payForTrade:(NSDictionary*)tradeDict
@@ -76,13 +81,14 @@
 
     } else {
         //Pay with Alipay
-        [self payWithAliPayTradeId:tradeId productName:names];
+        [self payWithAliPayTrade:tradeDict productName:names];
     }
 }
 
-- (void)payWithAliPayTradeId:(NSString*)tradeId
-                 productName:(NSString*)productName
+- (void)payWithAliPayTrade:(NSDictionary*)tradeDict
+               productName:(NSString*)productName;
 {
+    NSString* tradeId = [QSCommonUtil getIdOrEmptyStr:tradeDict];
     AlipayOrder* order = [[AlipayOrder alloc] init];
     order.partner = ALIPAY_PARTNER;
     order.seller = ALIPAY_SELLER;
@@ -90,7 +96,7 @@
     //item name
     order.productName = productName;
     order.productDescription = @"desc";
-    order.amount = @"0.01";
+    order.amount = [QSTradeUtil getTotalFeeDesc:tradeDict];
     order.notifyURL = ALIPAY_NOTIFY_URL;
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -136,6 +142,7 @@
     if (self.succeedBlock) {
         self.succeedBlock();
         self.succeedBlock = nil;
+        self.errorBlock = nil;
     }
 }
 
@@ -143,6 +150,7 @@
 {
     if (self.errorBlock) {
         self.errorBlock(nil);
+        self.succeedBlock = nil;
         self.errorBlock = nil;
     }
 }

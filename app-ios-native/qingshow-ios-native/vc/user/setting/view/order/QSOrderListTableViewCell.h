@@ -18,7 +18,13 @@
 
 - (void)didClickRefundBtnForCell:(QSOrderListTableViewCell*)cell;
 //- (void)didClickSubmitBtnForCell:(QSOrderListTableViewCell*)cell;
+
 - (void)didClickPayBtnForCell:(QSOrderListTableViewCell*)cell;
+
+- (void)didClickExchangeBtnForCell:(QSOrderListTableViewCell *)cell;
+
+- (void)didClickReceiveBtnForCell:(QSOrderListTableViewCell *)cell;
+
 @end
 
 //typedef NS_ENUM(NSUInteger, QSOrderListTableViewCellType) {
@@ -49,11 +55,15 @@
 
 //@property (weak, nonatomic) IBOutlet UIButton* refundButton;
 @property (weak, nonatomic) IBOutlet UIButton* submitButton;
+@property (weak, nonatomic) IBOutlet UIButton *exchangeButton;
+@property (weak, nonatomic) IBOutlet UIButton *returnButton;
 
 //@property (assign, nonatomic) QSOrderListTableViewCellType type;
 
 //- (IBAction)refundBtnPressed:(id)sender;
 - (IBAction)submitBtnPressed:(id)sender;
+- (IBAction)returnBtnPressed:(id)sender;
+- (IBAction)exchangeBtnPressed:(id)sender;
 
 - (void)bindWithDict:(NSDictionary*)dict;
 

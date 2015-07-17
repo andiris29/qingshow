@@ -10,7 +10,7 @@
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import <QuartzCore/QuartzCore.h>
 #import "QSPeopleUtil.h"
-#import "QSBrandUtil.h"
+#import "UINib+QSExtension.h"
 
 @interface QSBadgeView ()
 
@@ -18,10 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *roleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 
-@property (weak, nonatomic) IBOutlet UIView *sectionGroupContainer;
 
 @end
 
@@ -30,22 +28,7 @@
 #pragma mark - Static Method
 + (QSBadgeView*)generateView
 {
-    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
-    NSArray* array = [nib instantiateWithOwner:self options:nil];
-    QSBadgeView* v = array[0];
-    v.type = QSSectionButtonGroupTypeImage;
-    [v updateView];
-    return array[0];
-}
-+ (QSBadgeView*)generateViewWithType:(QSSectionButtonGroupType)type
-{
-
-    UINib* nib = [UINib nibWithNibName:@"QSBadgeView" bundle:nil];
-    NSArray* array = [nib instantiateWithOwner:self options:nil];
-    QSBadgeView* v = array[0];
-    v.type = type;
-    [v updateView];
-    return array[0];
+    return [UINib generateViewWithNibName:@"QSBadgeView"];
 }
 
 #pragma mark - Life Cycle
@@ -53,76 +36,56 @@
 {
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-}
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    CGRect rect = self.statusLabel.frame;
-    rect.origin.x = self.nameLabel.frame.origin.x + self.nameLabel.frame.size.width + 20;
-    self.statusLabel.frame = rect;
-}
-
-- (void)updateView
-{
+    
     CGRect rect = self.frame;
     rect.size.width = [UIScreen mainScreen].bounds.size.width;
     self.frame = rect;
-    self.btnGroup = [[QSSectionButtonGroup alloc] initWithType:self.type];
-    [self.sectionGroupContainer addSubview:self.btnGroup];
-    [self.btnGroup setSelect:0];
-    self.btnGroup.delegate = self;
+    self.btnGroup = [[QSBadgeBtnGroup alloc] initWithTypes:
+  @[
+    @(QSBadgeButtonTypeMatcher),
+    @(QSBadgeButtonTypeRecommend),
+    @(QSBadgeButtonTypeFavor),
+    @(QSBadgeButtonTypeFollowing),
+    @(QSBadgeButtonTypeFollower)
+    ]];
+    self.btnGroup.frame = self.btnsContainer.bounds;
+    [self.btnsContainer addSubview:self.btnGroup];
 }
+
 
 #pragma mark - Binding
 - (void)bindWithPeopleDict:(NSDictionary*)peopleDict
 {
     self.iconImageView.layer.cornerRadius = self.iconImageView.frame.size.height / 2;
     self.iconImageView.layer.masksToBounds = YES;
-    
-    self.nameLabel.text = [QSPeopleUtil getName:peopleDict];
-    self.roleLabel.text = [QSPeopleUtil getJobDesc:peopleDict];
-    self.statusLabel.text = [QSPeopleUtil getDetailDesc:peopleDict];
-
-    
-    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"people_placehold"] animation:YES];
-    [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:nil animation:YES];
-    
-    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
-        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
-        [f setFollowed:[QSPeopleUtil getPeopleIsFollowed:peopleDict]];
+    self.iconImageView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.iconImageView.layer.borderWidth = 2.f;
+    self.nameLabel.font = NEWFONT;
+    self.nameLabel.text = [QSPeopleUtil getNickname:peopleDict];
+    NSMutableString* statusStr = [@"" mutableCopy];
+    NSString* height = [QSPeopleUtil getHeight:peopleDict];
+    if (height && height.length) {
+        [statusStr appendFormat:@"%@cm ", height];
     }
-
-    self.roleLabel.text = [QSPeopleUtil getRolesDescription:peopleDict];
-}
-- (void)bindWithBrandDict:(NSDictionary*)brandDict
-{
-    self.iconImageView.layer.cornerRadius = 0;
-    self.iconImageView.layer.masksToBounds = YES;
-    
-    [self.iconImageView setImageFromURL:[QSBrandUtil getBrandLogoUrl:brandDict]];
-    [self.backgroundImageView setImageFromURL:[QSBrandUtil getBrandBgUrl:brandDict] placeHolderImage:nil animation:YES];
-    self.nameLabel.text = [QSBrandUtil getBrandName:brandDict];
-    self.roleLabel.text = @"";
-    self.statusLabel.text = @"";
-    if ([self.btnGroup.singleButton isKindOfClass:[QSSectionFollowButton class]]) {
-        QSSectionFollowButton* f = (QSSectionFollowButton*)self.btnGroup.singleButton;
-        
-        [f setFollowed:[QSBrandUtil getHasFollowBrand:brandDict]];
+    NSString* weight = [QSPeopleUtil getWeight:peopleDict];
+    if (weight && weight.length) {
+        [statusStr appendFormat:@"%@kg ", weight];
     }
+    self.statusLabel.text = statusStr;
+    
+   
+    if([QSPeopleUtil getHeadIconUrl:peopleDict])
+    {
+    [self.iconImageView setImageFromURL:[QSPeopleUtil getHeadIconUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_head_default.jpg"] animation:YES];
+    [self.backgroundImageView setImageFromURL:[QSPeopleUtil getBackgroundUrl:peopleDict] placeHolderImage:[UIImage imageNamed:@"user_bg_default.jpg"] animation:YES];
+    }
+    self.followBtn.selected = [QSPeopleUtil getPeopleIsFollowed:peopleDict];
 }
 
-#pragma mark - QSSectionButtonGroupDelegate
-- (void)groupButtonPressed:(int)index
-{
-    if ([self.delegate respondsToSelector:@selector(changeToSection:)]) {
-        [self.delegate changeToSection:index];
-    }
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.btnGroup.frame = self.btnsContainer.bounds;
 }
-- (void)singleButtonPressed
-{
-    if ([self.delegate respondsToSelector:@selector(singleButtonPressed)]){
-        [self.delegate singleButtonPressed];
-    }
-}
+
 
 @end

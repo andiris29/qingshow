@@ -13,7 +13,7 @@
 #import "UIViewController+ShowHud.h"
 #define PAGE_ID @"U12 - 申请退货"
 
-@interface QSU12RefundViewController ()
+@interface QSU12RefundViewController ()<UITextFieldDelegate>
 
 @property (strong, nonatomic) NSDictionary* orderDict;
 @end
@@ -40,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.title = @"退货方式";
+    [self setPageType];
     self.widthCon.constant = [UIScreen mainScreen].bounds.size.width;
 //    ((UIScrollView*)self.view).contentInset = UIEdgeInsetsMake(0, 0, 300.f, 0);
     UITapGestureRecognizer* ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapView)];
@@ -49,11 +49,33 @@
     
     UITapGestureRecognizer* tapDate = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapTextField)];
     [self.sendDateTextField addGestureRecognizer:tapDate];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 - (void)didTapTextField
 {
     [self showPicker];
     
+}
+
+- (void)setPageType
+{
+    if (self.type == 1) {
+        self.title  = @"退货方式";
+        self.typeAddrLabel.text = @"退货地址";
+        self.typeReceiverLabel.text = @"退货收件人";
+        [self.submitBtn setTitle:@"申请退货" forState:UIControlStateNormal];
+    }
+    else if(self.type == 2)
+    {
+        self.title = @"换货方式";
+        self.typeAddrLabel.text = @"换货地址";
+        self.typeReceiverLabel.text = @"换货收件人";
+        [self.submitBtn setTitle:@"申请换货" forState:UIControlStateNormal];
+    }
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -87,7 +109,7 @@
 }
 - (void)hideKeyboardAndPicker
 {
-    for (UITextField* f in @[self.companyTextField, self.expressOrderTextField, self.sendDateTextField]) {
+    for (UITextField* f in @[self.companyTextField, self.expressOrderTextField, self.resonTextField]) {
         [f resignFirstResponder];
     }
     [self hidePicker];
@@ -117,19 +139,54 @@
     [self.scrollView setContentOffset:CGPointMake(0, keyboardHeight) animated:YES];
 }
 
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self configContentInset:300.0f];
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSString *resonStr = @"";
+    if (self.resonTextField.text) {
+        resonStr = self.resonTextField.text;
+    }
+     [self.orderDict setValue:resonStr forKey:@"comments"];
+    [self configContentInset:-300.0f];
+        [self.view resignFirstResponder];
+}
+
 - (IBAction)submitBtnPressed:(id)sender {
-    __weak QSU12RefundViewController* weakSelf = self;
-    [self hideKeyboardAndPicker];
-    [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:6 onSucceed:^{
+   
+    if (self.type == 1) {
+        __weak QSU12RefundViewController* weakSelf = self;
+        [self hideKeyboardAndPicker];
         [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
-            [self showTextHud:@"退款成功"];
-            [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
+                [self showTextHud:@"退款成功"];
+                [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+            } onError:^(NSError *error) {
+                [self showErrorHudWithError:error];
+            }];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
+
+    }
+    else if (self.type == 2)
+    {
+        __weak QSU12RefundViewController* weakSelf = self;
+        [self hideKeyboardAndPicker];
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:11 onSucceed:^{
+            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
+                [self showTextHud:@"退款成功"];
+                [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
+            } onError:^(NSError *error) {
+                [self showErrorHudWithError:error];
+            }];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    }
 }
 - (void)popBack
 {

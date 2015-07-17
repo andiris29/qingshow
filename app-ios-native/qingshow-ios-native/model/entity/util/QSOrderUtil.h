@@ -13,7 +13,7 @@
 + (NSDictionary*)getItemSnapshot:(NSDictionary*)dict;
 + (NSString*)getPriceDesc:(NSDictionary*)dict;
 + (NSString*)getQuantityDesc:(NSDictionary*)dict;
-+ (NSNumber*)getSkuId:(NSDictionary*)dict;
++ (NSString*)getSkuId:(NSDictionary*)dict;
 + (NSString*)getReceiverUuid:(NSDictionary*)dict;
 
 @end

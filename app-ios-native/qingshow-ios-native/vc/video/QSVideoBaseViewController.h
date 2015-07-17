@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *pauseBtn;
 @property (strong, nonatomic) QSSingleImageScrollView* imageScrollView;
 
+@property (assign, nonatomic) BOOL fNeedScreenShot;
+
 - (void)playMovie:(NSString *)path;
 - (void)startVideo;
 - (void)pauseVideo;

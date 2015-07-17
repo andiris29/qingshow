@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSArray* receiverArray;
 @property (strong, nonatomic) NSDictionary* selectedRecevier;
 @property (strong, nonatomic) MKNetworkOperation* removeOperation;
+@property (strong, nonatomic) QSUserLocationTableViewCell* toRemoveCell;
 @end
 
 @implementation QSU10ReceiverListViewController
@@ -47,12 +48,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.tableView registerNib:[UINib nibWithNibName:@"QSUserLocationTableViewCell" bundle:nil] forCellReuseIdentifier:QSUserLocationTableViewCellIdentifier];
-    self.title = @"收获地址管理";
+    self.title = @"收货地址管理";
     [self hideNaviBackBtnTitle];
     
     UIBarButtonItem* item = [[UIBarButtonItem alloc] initWithTitle:@"新增地址" style:UIBarButtonItemStylePlain target:self action:@selector(newLocationBtnPressed)];
     item.tintColor = [UIColor colorWithRed:169.f/255.f green:26.f/255.f blue:78.f/255.f alpha:1.f];
     self.navigationItem.rightBarButtonItem = item;
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{NSFontAttributeName:NAVNEWFONT,
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+
+    QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+    self.navigationItem.leftBarButtonItem = backItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -97,7 +104,7 @@
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QSUserLocationTableViewCellHeight;
+    return [QSUserLocationTableViewCell getHeightWithDict:[self receiverDictForIndexPath:indexPath]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,27 +129,22 @@
 {
     NSDictionary* dict = [self receiverDictForCell:cell];
     UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:dict];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (void)backAction
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didClickDeleteButtonOfCell:(QSUserLocationTableViewCell*)cell
 {
     if (self.removeOperation) {
         return;
     }
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
-    NSDictionary* locationDict = [self receiverDictForCell:cell];
-    self.removeOperation =
-    [SHARE_NW_ENGINE removeReceiver:locationDict onSuccess:^{
-        self.removeOperation = nil;
-        if ([self.receiverArray isKindOfClass:[NSMutableArray class]]) {
-            NSMutableArray* m = (NSMutableArray*)self.receiverArray;
-            [m removeObject:locationDict];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    } onError:^(NSError *error) {
-        self.removeOperation = nil;
-        [self showErrorHudWithError:error];
-    }];
+    self.toRemoveCell = cell;
+    UIAlertView* v =  [[UIAlertView alloc] initWithTitle:@"确认删除" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [v show];
 }
 - (void)didClickSelectedIndicatorOfCell:(QSUserLocationTableViewCell*)cell
 {
@@ -154,6 +156,8 @@
 - (void)newLocationBtnPressed
 {
     UIViewController* vc = [[QSU11ReceiverEditingViewController alloc] initWithDict:nil];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"nav_btn_back"] style:UIBarButtonItemStyleDone target:self action:@selector(backAction)];
+    vc.navigationItem.leftBarButtonItem = backItem;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (NSDictionary*)receiverDictForIndexPath:(NSIndexPath*)indexPath
@@ -170,5 +174,28 @@
 {
     NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
     return [self receiverDictForIndexPath:indexPath];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    UITableViewCell* cell = self.toRemoveCell;
+    self.toRemoveCell = nil;
+    NSIndexPath* indexPath = [self.tableView indexPathForCell:cell];
+    NSDictionary* locationDict = [self receiverDictForCell:cell];
+    
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        self.removeOperation =
+        [SHARE_NW_ENGINE removeReceiver:locationDict onSuccess:^{
+            self.removeOperation = nil;
+            if ([self.receiverArray isKindOfClass:[NSMutableArray class]]) {
+                NSMutableArray* m = (NSMutableArray*)self.receiverArray;
+                [m removeObject:locationDict];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+        } onError:^(NSError *error) {
+            self.removeOperation = nil;
+            [self showErrorHudWithError:error];
+        }];
+    }
 }
 @end

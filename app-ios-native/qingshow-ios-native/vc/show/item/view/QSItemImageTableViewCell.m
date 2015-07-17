@@ -34,7 +34,10 @@
         size = [str boundingRectWithSize:conSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font, NSParagraphStyleAttributeName : paragraphStyle} context:nil].size;
     } else {
         //Below IOS 7
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         size = [str sizeWithFont:font constrainedToSize:conSize lineBreakMode:NSLineBreakByWordWrapping];
+#pragma clang diagnostic pop
     }
     if (size.height < 17) {
         size.height = 17;
@@ -65,7 +68,7 @@
     self.itemDict = itemDict;
     float height = [QSItemImageTableViewCell getHeightWithItem:itemDict];
     [self resizeWithHeight:height];
-    self.imageScrollView.imageUrlArray = [QSImageNameUtil generate2xImageNameUrlArray:[QSItemUtil getImagesUrl:itemDict]];
+    self.imageScrollView.imageUrlArray = [QSItemUtil getImagesUrl:itemDict];
     if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.saleLabel.hidden = NO;
         self.discountLabel.hidden = NO;
@@ -130,23 +133,7 @@
 #pragma mark - Static
 + (CGFloat)getHeightWithItem:(NSDictionary*)itemDict
 {
-    NSDictionary* coverMetadata = nil;
-
-    
-    float iniWidth = [UIScreen mainScreen].bounds.size.width;
-    
-    float height = iniWidth;
-    float width = iniWidth;
-
-    coverMetadata = itemDict[@"imageMetadata"];
-    if (coverMetadata && coverMetadata[@"height"]) {
-        height = ((NSNumber*)coverMetadata[@"height"]).floatValue;
-    }
-    if (coverMetadata && coverMetadata[@"width"]) {
-        width = ((NSNumber*)coverMetadata[@"width"]).floatValue;
-    }
-    height = height * iniWidth / width;
-    return height;
+    return 200;
 }
 
 - (IBAction)shopBtnPressed:(id)sender

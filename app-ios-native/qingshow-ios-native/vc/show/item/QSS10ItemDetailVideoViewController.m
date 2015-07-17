@@ -11,6 +11,10 @@
 #import "QSItemUtil.h"
 #import "QSImageNameUtil.h"
 #import "UILabelStrikeThrough.h"
+#import "QSNetworkKit.h"
+#import "UIViewController+QSExtension.h"
+#import "QSUserManager.h"
+#import "QSU07RegisterViewController.h"
 #define PAGE_ID @"S10 - 商品详细"
 
 @interface QSS10ItemDetailVideoViewController ()
@@ -35,8 +39,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.imageScrollView.pageControlOffsetY = 120.f;
+    self.imageScrollView.pageControlOffsetY = 10.f;
     [self bindWithDict:self.itemDict];
+    self.priceLabel.hidden = YES;
+   
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     
+     @{NSFontAttributeName:NAVNEWFONT,
+       
+       NSForegroundColorAttributeName:[UIColor blackColor]}];
+    
+    if ([UIScreen mainScreen].bounds.size.width == 414) {
+        self.view.transform = CGAffineTransformMakeScale(1.3, 1.3);
+        self.backBtn.transform = CGAffineTransformMakeScale(1/1.3, 1/1.3);
+    }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    if([UIScreen mainScreen].bounds.size.width == 320 && [UIScreen mainScreen].bounds.size.height == 480)
+    {
+        CGRect imgFrame = self.imageScrollView.frame;
+        imgFrame.origin.y -= 50;
+        self.imageScrollView.frame = imgFrame;
+        CGRect labelFrame = self.labelContainer.frame;
+        labelFrame.origin.y -= 50;
+        self.labelContainer.frame = labelFrame;
+        
+    }
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,14 +91,28 @@
 #pragma mark - IBAction
 - (IBAction)shopBtnPressed:(id)sender
 {
-    UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
-    [self.navigationController pushViewController:vc animated:YES];
+    NSDictionary *peopleDic = [QSUserManager shareUserManager].userInfo;
+    NSLog(@"dic = %@",peopleDic);
+    if (!peopleDic) {
+        UIViewController *vc = [[QSU07RegisterViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else
+    {
+        UIViewController* vc = [[QSS11CreateTradeViewController alloc] initWithDict:self.itemDict];
+        QSBackBarItem *backItem = [[QSBackBarItem alloc]initWithActionVC:self];
+        vc.navigationItem.leftBarButtonItem = backItem;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+  
 }
+
 #pragma mark - Private
 - (void)bindWithDict:(NSDictionary*)itemDict
 {
     [self updateShowImgScrollView];
     self.nameLabel.text = [QSItemUtil getItemName:itemDict];
+    //Discount
     if ([QSItemUtil hasDiscountInfo:itemDict]) {
         self.priceLabel.hidden = NO;
         self.priceAfterDiscountLabel.text = [QSItemUtil getPriceAfterDiscount:itemDict];
@@ -83,15 +129,17 @@
         [self.priceLabel sizeToFit];
         [self.priceAfterDiscountLabel sizeToFit];
     }
+
     
-    
+    self.discountContainer.hidden = YES;
 }
+
 
 #pragma mark - Override
 #pragma mark Data
 - (NSArray*)generateImagesData
 {
-    return [QSImageNameUtil generate2xImageNameUrlArray:[QSItemUtil getImagesUrl:self.itemDict]];;
+    return [QSItemUtil getImagesUrl:self.itemDict];
 }
 - (NSString*)generateVideoPath
 {
@@ -110,12 +158,7 @@
 - (void)setBtnsHiddenExceptBack:(BOOL)hidden
 {
     [self setBtnsHiddenExceptBackAndPlay:hidden];
-    NSString* videoPath = [QSItemUtil getVideoPath:self.itemDict];
-    if (videoPath) {
-        self.playBtn.hidden = hidden;
-    } else {
-        self.playBtn.hidden = YES;
-    }
+
 }
 - (void)setBtnsHiddenExceptBackAndPlay:(BOOL)hidden
 {
