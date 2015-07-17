@@ -10,7 +10,8 @@
 
 @protocol QSS03ItemListViewControllerDelegate <NSObject>
 
-- (void)didClickItemListCloseBtn;
+- (void)didClickItemListCloseBtn:(BOOL)showBackBtn;
+
 
 @end
 
@@ -20,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) NSObject<QSS03ItemListViewControllerDelegate>* delegate;
 @property (strong, nonatomic) NSDictionary* showDict;
-
+@property (assign,nonatomic) BOOL showBackBtn;
 - (id)initWithShow:(NSDictionary*)showDict;
 
 - (IBAction)closeBtnPressed:(id)sender;

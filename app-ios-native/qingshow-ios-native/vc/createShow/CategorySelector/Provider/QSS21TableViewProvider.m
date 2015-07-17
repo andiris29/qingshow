@@ -92,7 +92,7 @@
     BOOL f = YES;
     for (int i = 0; i < self.selectedArray.count; i++) {
         NSDictionary* dict = self.selectedArray[i];
-        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCategoryUtil getParentId:itemDict]]) {
+        if ([[QSCategoryUtil getParentId:dict] isEqualToString:[QSCategoryUtil getParentId:itemDict]] ) {
             [self.selectedArray removeObject:dict];
             i--;
             if (dict == itemDict) {

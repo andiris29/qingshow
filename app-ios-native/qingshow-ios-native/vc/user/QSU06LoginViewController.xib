@@ -92,11 +92,11 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cVr-g0-gMn">
-                    <rect key="frame" x="72" y="243" width="178" height="32"/>
+                    <rect key="frame" x="72" y="243" width="178" height="40"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="32" id="WSe-kK-wzU"/>
+                        <constraint firstAttribute="height" constant="40" id="WSe-kK-wzU"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="20"/>
+                    <fontDescription key="fontDescription" name="FZLTXHJW--GB1-0" family="FZLanTingHeiS-EL-GB" pointSize="16"/>
                     <state key="normal" title="登录倾秀">
                         <color key="titleColor" red="0.91764705882352937" green="0.49803921568627452" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
                     </state>

@@ -68,6 +68,7 @@
             }
             
             QSS03ShowDetailViewController* vc = [[QSS03ShowDetailViewController alloc] initWithShow:d];
+            vc.showBackBtn = YES;
             vc.menuProvider = self.menuProvider;
             [self.navigationController pushViewController:vc animated:YES];
             //            [self showShowDetailViewController:d];

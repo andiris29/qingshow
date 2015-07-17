@@ -254,6 +254,7 @@
 #pragma mark -
 - (IBAction)itemButtonPressed:(id)sender {
     QSS07ItemListViewController* vc = [[QSS07ItemListViewController alloc] initWithShow:self.showDict];
+    vc.showBackBtn = self.showBackBtn;
     vc.delegate = self;
     self.itemListVc = vc;
     vc.view.frame = self.view.bounds;
@@ -281,7 +282,7 @@
 }
 
 
-- (void)didClickItemListCloseBtn
+- (void)didClickItemListCloseBtn:(BOOL)showBackBtn
 {
     [UIView animateWithDuration:.3f animations:^{
         self.itemListVc.view.alpha = 0.f;
@@ -289,7 +290,10 @@
         [self setPlayModeBtnsHidden:NO];
         [self.itemListVc.view removeFromSuperview];
         [self.itemListVc removeFromParentViewController];
-        self.backBtn.hidden = YES;
+        if (showBackBtn == YES) {
+              self.backBtn.hidden = YES;
+        }
+      
         self.itemListVc = nil;
     }];
 

@@ -91,8 +91,9 @@
 #pragma mark - IBAction
 - (IBAction)closeBtnPressed:(id)sender {
 //    [self.navigationController popViewControllerAnimated:YES];
-    if ([self.delegate respondsToSelector:@selector(didClickItemListCloseBtn)]) {
-        [self.delegate didClickItemListCloseBtn];
+  
+    if ([self.delegate respondsToSelector:@selector(didClickItemListCloseBtn:)]) {
+        [self.delegate didClickItemListCloseBtn:self.showBackBtn];
     }
 }
 
