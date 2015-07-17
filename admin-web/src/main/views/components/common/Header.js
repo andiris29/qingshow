@@ -29,5 +29,9 @@ define([
     };
     violet.oo.extend(Header, violet.ui.UIBase);
 
+    Header.prototype.title = function(value) {
+        $('#title', this._dom).text(value);
+    };
+
     return Header;
 });

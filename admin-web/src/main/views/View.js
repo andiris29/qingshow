@@ -10,10 +10,18 @@ define([
     var View = function(dom, initOptions) {
         View.superclass.constructor.apply(this, arguments);
 
-        this.header = null;
+        this._header = null;
     };
     violet.oo.extend(View, violet.ui.ViewBase);
 
+    // ------ Components ------
+    View.prototype.header = function(value) {
+        if (arguments.length) {
+            this._header = value;
+        } else {
+            return this._header;
+        }
+    };
     // ------ NavigationService ------
     View.prototype.push = function() {
         navigationService.push.apply(navigationService, arguments);

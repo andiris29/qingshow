@@ -186,7 +186,7 @@
                 var cache = _cache[subModule];
                 var subUi = new cache.UiClass(cache.dom$.clone().get(0), initOptions, ownerView);
                 subUi.dom$().appendTo(placeholder$);
-                ui[subModuleInstanceName] = subUi;
+                ui[subModuleInstanceName](subUi);
 
                 _generateSubModule(subUi, ownerView);
             });
