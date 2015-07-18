@@ -41,8 +41,37 @@ notify.newRecommandations = {
                     registrationIDs = registrationIDs.concat(people.jPushInfo.registrationIDs);
                 }
             });
-            PushNotificationHelper.push(registrationIDs, "倾秀精选搭配上新，看看吧!", callback);
-        }], function(err) {
+            PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageNewRecommandations, {
+                'command' : PushNotificationHelper.CommandNewRecommandations
+            }, callback);
+        }], 
+        function(err) {
+            ResponseHelper.response(res, err, null);
+        });
+    }
+};
+
+notify.questSharingObjectiveComplete = {
+    'method' : 'post',
+    'func' : function(req, res) {
+        async.waterfall([
+        function(callback) {
+            People.find({
+                'querySharing.status' : 1
+            }).exec(callback);
+        },
+        function(peoples, callback) {
+            var registrationIDs = [];
+            targets.forEach(function(people, index) {
+                if(people.jPushInfo.registrationIDs && people.jPushInfo.registrationIDs.length > 0) {
+                    registrationIDs = registrationIDs.concat(people.jPushInfo.registrationIDs);
+                }
+            });
+            PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
+                'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
+            }, callback);
+        }], 
+        function(err) {
             ResponseHelper.response(res, err, null);
         });
     }
