@@ -9,6 +9,7 @@
 #import "QSTradeUtil.h"
 #import "QSCommonUtil.h"
 #import "QSDateUtil.h"
+#import "QSTradeStatus.h"
 
 @implementation QSTradeUtil
 + (NSArray*)getOrderArray:(NSDictionary*)dict
@@ -37,21 +38,9 @@
 + (NSString*)getStatusDesc:(NSDictionary*)dict
 {
     NSNumber* status = [self getStatus:dict];
-    NSArray* statusStrArray = @[
-                                @"未付款",
-                                @"已付款",
-                                @"已付款",
-                                @"已发货",
-                                @"已签收",
-                                @"交易成功",
-                                @"申请退货",
-                                @"退货中",
-                                @"退款中",
-                                @"退款成功",
-                                @"退款失败"
-                               ];
-    return statusStrArray[status.integerValue];
+    return QSTradeStatusToDesc(status.integerValue);
 }
+
 + (NSString*)getWechatPrepayId:(NSDictionary*)dict
 {
     if (![QSCommonUtil checkIsDict:dict]) {

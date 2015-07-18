@@ -15,6 +15,7 @@
 #import "QSCommonUtil.h"
 #import "UIImageView+MKNetworkKitAdditions.h"
 #import "QSNetworkKit.h"
+#import "QSTradeStatus.h"
 
 @interface QSOrderListTableViewCell ()<UIAlertViewDelegate>
 
@@ -28,7 +29,6 @@
 #pragma mark - Init Config
 - (void)awakeFromNib {
     // Initialization code
-//    [self configBtn:self.refundButton];
     [self configBtn:self.submitButton];
     [self configBtn:self.returnButton];
     [self configBtn:self.exchangeButton];
@@ -63,7 +63,6 @@
     }
     NSDictionary* itemDict = [QSOrderUtil getItemSnapshot:orderDict];
     
-//    self.orderIdLabel.text = [QSCommonUtil getIdOrEmptyStr:tradeDict];
     self.stateLabel.text = [QSTradeUtil getStatusDesc:tradeDict];
     self.titleLabel.text = [QSItemUtil getItemName:itemDict];
     [self.itemImgView setImageFromURL:[QSItemUtil getFirstImagesUrl:itemDict]];
@@ -80,80 +79,33 @@
     }
     
     NSNumber* status = [QSTradeUtil getStatus:tradeDict];
-    NSLog(@"status = %@",status);
-    if (status.intValue == 0) {
-        self.submitButton.hidden = NO;
-        self.returnButton.hidden = YES;
-        self.exchangeButton.hidden = YES;
-        [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
-        
-    }
-    else if(status.intValue == 3 || status.intValue == 14)
-    {
-        self.submitButton.hidden = NO;
-        self.exchangeButton.hidden = NO;
-        self.returnButton.hidden = NO;
-        [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
-        
-    }
-    else
-    {
-        self.submitButton.hidden = NO;
-        self.exchangeButton.hidden = NO;
-        self.returnButton.hidden = NO;
-    }
-//    if (status.intValue == 0) {
-//        self.submitButton.hidden = NO;
-//        self.returnButton.hidden = YES;
-//        self.exchangeButton.hidden = YES;
-//        [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
-//    } else if ((status.intValue < 3 && status.intValue > 0) || status.intValue == 4) {
-//        self.exchangeButton.hidden = NO;
-//        self.submitButton.hidden = YES;
-//        self.returnButton.hidden = NO;
-//       
-//    }else if(status.intValue == 3)
-//    {
-//        self.submitButton.hidden = NO;
-//        self.exchangeButton.hidden = NO;
-//        self.returnButton.hidden = NO;
-//        [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
-//    }
-//    else if(status.intValue == 5 ){
-//        [self.submitButton setTitle:@"交易成功" forState:UIControlStateNormal];
-//        self.returnButton.hidden = YES;
-//        self.exchangeButton.hidden = YES;
-//    }else if(status.intValue == 7)
-//    {
-//        self.submitButton.hidden = NO;
-//        self.submitButton.userInteractionEnabled = NO;
-//        [self.submitButton setTitle:@"退货中" forState:UIControlStateNormal];
-//        self.returnButton.hidden = YES;
-//        self.exchangeButton.hidden = YES;
-//    }
-//    else if (status.intValue == 11)
-//    {
-//        self.submitButton.hidden = NO;
-//        [self.submitButton setTitle:@"换货中" forState:UIControlStateNormal];
-//        self.returnButton.hidden = NO;
-//        self.exchangeButton.hidden = NO;
-//    }
-//    else if(status.intValue == 17)
-//    {
-//        self.submitButton.hidden = NO;
-//        self.exchangeButton.hidden = YES;
-//        self.returnButton.hidden = YES;
-//        [self.submitButton setTitle:@"退款中" forState:UIControlStateNormal];
-//    }
-//    else
-//    {
-//        self.submitButton.hidden = NO;
-//        self.returnButton.hidden = YES;
-//        self.exchangeButton.hidden = YES;
-//        [self.submitButton setTitle:@"确认收货" forState:UIControlStateNormal];
-//        
-//    }
     
+    QSTradeStatus s = status.integerValue;
+
+    switch (s) {
+        case QSTradeStatusUnpaid:
+        {
+            self.submitButton.hidden = NO;
+            self.returnButton.hidden = YES;
+            self.exchangeButton.hidden = YES;
+            [self.submitButton setTitle:@"付款" forState:UIControlStateNormal];
+            break;
+        }
+        case QSTradeStatusFahuo:
+        case QSTradeStatusHuanhuoFachu: {
+            self.submitButton.hidden = NO;
+            self.exchangeButton.hidden = NO;
+            self.returnButton.hidden = NO;
+            [self.submitButton setTitle:@"确认付款" forState:UIControlStateNormal];
+            break;
+        }
+        default: {
+            self.submitButton.hidden = YES;
+            self.exchangeButton.hidden = YES;
+            self.returnButton.hidden = YES;
+            break;
+        }
+    }
 }
 - (void)updateView:(UIView*)view y:(float)y
 {
@@ -161,38 +113,6 @@
     rect.origin.y = y;
     view.frame = rect;
 }
-
-#pragma mark - Getter And Setter
-//- (void)setType:(QSOrderListTableViewCellType)type
-//{
-//    _type = type;
-//    BOOL fHiddenLabel = NO;
-//    switch (type) {
-//        case QSOrderListTableViewCellTypeComplete:
-//        {
-//            self.stateLabel.text = @"交易完成";
-//            fHiddenLabel = NO;
-//
-//            break;
-//        }
-//        case QSOrderListTableViewCellTypeWaiting:
-//        {
-//            self.stateLabel.text = @"待收货";
-//            fHiddenLabel = YES;
-//            break;
-//        }
-//        default:
-//        {
-//            break;
-//        }
-//    }
-//    self.dateEndLabel.hidden = fHiddenLabel;
-//    self.dateEndTextLabel.hidden = fHiddenLabel;
-//    self.dateStartLabel.hidden = fHiddenLabel;
-//    self.dateStartTextLabel.hidden = fHiddenLabel;
-//    self.submitButton.hidden = !fHiddenLabel;
-//    self.refundButton.hidden = !fHiddenLabel;
-//}
 
 #pragma mark - IBAction
 - (IBAction)refundBtnPressed:(id)sender
@@ -224,23 +144,7 @@
         [self.delegate didClickExchangeBtnForCell:self];
     }
 }
-//- (void)willPresentAlertView:(UIAlertView *)alertView
-//{
-//    
-//  
-//    for (UIView *view in alertView.subviews) {
-//        NSLog(@"111");
-//        NSLog(@"view.class == %@",view.class);
-//        if ([view isKindOfClass:[UILabel class]]) {
-//            UILabel *label = (UILabel *)view;
-//            if ([label.text isEqualToString:alertView.message]) {
-//                label.font = NEWFONT;
-//            }
-//            NSLog(@"label.text = %@",label.text);
-//            
-//        }
-//    }
-//}
+
 - (void)payBtnPressed
 {
     if ([self.delegate respondsToSelector:@selector(didClickPayBtnForCell:)]) {

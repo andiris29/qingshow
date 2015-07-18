@@ -156,33 +156,40 @@
 }
 
 - (IBAction)submitBtnPressed:(id)sender {
-   
+    if (!self.companyTextField.text.length) {
+        [self showErrorHudWithText:@"请填写快递公司"];
+        return;
+    }
+    if (!self.expressOrderTextField.text.length) {
+        [self showErrorHudWithText:@"请填写物流单号"];
+        return;
+    }
+    
+    NSDictionary* dict = @{
+                           @"returnLogistic" : @{
+                                   @"company" : self.companyTextField.text,
+                                   @"trackingId" : self.expressOrderTextField.text
+                                   }
+                           };
+    
     if (self.type == 1) {
         __weak QSU12RefundViewController* weakSelf = self;
         [self hideKeyboardAndPicker];
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
-            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
-                [self showTextHud:@"退款成功"];
-                [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-            } onError:^(NSError *error) {
-                [self showErrorHudWithError:error];
-            }];
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 info:dict onSucceed:^{
+            [self showTextHud:@"退款成功"];
+            [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
-
+        
     }
     else if (self.type == 2)
     {
         __weak QSU12RefundViewController* weakSelf = self;
         [self hideKeyboardAndPicker];
-        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:11 onSucceed:^{
-            [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict status:7 onSucceed:^{
-                [self showTextHud:@"退款成功"];
-                [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
-            } onError:^(NSError *error) {
-                [self showErrorHudWithError:error];
-            }];
+        [SHARE_NW_ENGINE changeTrade:weakSelf.orderDict  status:11 info:dict onSucceed:^{
+            [self showTextHud:@"退款成功"];
+            [self performSelector:@selector(popBack) withObject:nil afterDelay:TEXT_HUD_DELAY];
         } onError:^(NSError *error) {
             [self showErrorHudWithError:error];
         }];
