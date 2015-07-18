@@ -69,6 +69,8 @@
         [vc showDefaultVc];
     }];
 
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
     return YES;
 }
 
@@ -294,7 +296,7 @@
 
 #pragma mark - Push Notification
 - (void)registerPushNotification:(NSDictionary*)launchOptions {
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveJPushRegistrionId:) name:kJPFNetworkDidLoginNotification object:nil];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
         [APService
@@ -325,6 +327,7 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)pToken {
+    
     [APService registerDeviceToken:pToken];
 }
 
@@ -344,5 +347,16 @@
     // IOS 7 Support Required
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+
+#pragma mark - JPush
+- (void)didReceiveJPushRegistrionId:(NSNotification*)notification {
+    [QSUserManager shareUserManager].JPushRegistrationID = [APService registrationID];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kJPFNetworkDidLoginNotification object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end
