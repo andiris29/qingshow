@@ -279,7 +279,7 @@ trade.wechatCallback = {
         function(trade, callback) {
             _validateStatus(trade, newStatus, callback);
         },
-        function(trade, newStatus, callback) {
+        function(trade, callback) {
             trade.pay.weixin['trade_mode'] = req.body['trade_type'];
             trade.pay.weixin['partner'] = req.body['mch_id'];
             trade.pay.weixin['total_fee'] = req.body['total_fee'] / 100;
