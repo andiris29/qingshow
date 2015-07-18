@@ -73,6 +73,14 @@ peopleSchema = Schema({
     },
     jPushInfo : {
         registrationIDs : [String]
+    },
+    questSharing : {
+        status : Number,
+        progress : Number,
+        reward : {
+            id : String,
+            receiverUuid : String
+        }
     }
 });
 var People = mongoose.model('peoples', peopleSchema);

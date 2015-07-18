@@ -18,7 +18,6 @@ var RequestHelper = require('../helpers/RequestHelper');
 var PushNotificationHelper = require('../helpers/PushNotificationHelper');
 
 var ServerError = require('../server-error');
-var winston = require('winston');
 
 var show = module.exports;
 
@@ -189,13 +188,10 @@ show.comment = {
                         '_id' : relationship.initiatorRef
                     }).exec(function(err, people) {
                         if (people) {
-                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, "您的搭配有新评论", function(err, res){
-                                if (err) {
-                                    winston.error('show/comment push error', err);
-                                } else {
-                                    winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
-                                }
-                            });
+                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageShowComment, {
+                                'id' : param._id,
+                                'command' : PushNotificationHelper.CommandNewShowComments
+                            }, null);
                         }
                     });
                 }
