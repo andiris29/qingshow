@@ -188,7 +188,7 @@ show.comment = {
                         '_id' : relationship.initiatorRef
                     }).exec(function(err, people) {
                         if (people) {
-                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageShowComment, {
+                            PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageNewShowComment, {
                                 'id' : param._id,
                                 'command' : PushNotificationHelper.CommandNewShowComments
                             }, null);
