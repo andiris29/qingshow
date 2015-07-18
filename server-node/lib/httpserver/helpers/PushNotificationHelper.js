@@ -34,6 +34,9 @@ PushNotificationHelper.push = function(registrationIDs, message, extras, callbac
             } else {
                 winston.info('show/comment push success => error:[', err, '], res:[', res, ']');
             }
-            callback(err, res);
+            if (callback) {
+                callback(err, res);
+            }
+
         });
 };

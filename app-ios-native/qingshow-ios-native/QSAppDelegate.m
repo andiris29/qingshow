@@ -19,6 +19,7 @@
 #import "QSRootContainerViewController.h"
 #import "QSNetworkKit.h"
 #import "APService.h"
+#import "QSPnsHelper.h"
 
 #define kTraceLogFirstLaunch @"kTraceLogFirstLaunch"
 
@@ -296,6 +297,7 @@
 
 #pragma mark - Push Notification
 - (void)registerPushNotification:(NSDictionary*)launchOptions {
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveJPushRegistrionId:) name:kJPFNetworkDidLoginNotification object:nil];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
@@ -331,13 +333,13 @@
     [APService registerDeviceToken:pToken];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    [APService handleRemoteNotification:userInfo];
-    // 处理推送消息
-    NSLog(@"userinfo:%@",userInfo);
-    
-    NSLog(@"收到推送消息:%@",[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]);
-}
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+//    [APService handleRemoteNotification:userInfo];
+//    // 处理推送消息
+//    NSLog(@"userinfo:%@",userInfo);
+//    
+//    NSLog(@"收到推送消息:%@",[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]);
+//}
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"Registfail%@",error);
 }
@@ -345,8 +347,23 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void
                         (^)(UIBackgroundFetchResult))completionHandler {
-    
 
+    switch (application.applicationState) {
+        case 0:{
+            //程序在前台，不响应
+            break;
+        }
+        case 1: {
+            //后台收到推送并点击badge进入，处理推送
+            [QSPnsHelper handlePnsData:userInfo];
+            break;
+        }
+        default: {
+            break;
+        }
+            
+    }
+    
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
