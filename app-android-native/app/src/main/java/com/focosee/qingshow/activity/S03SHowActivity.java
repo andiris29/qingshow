@@ -238,7 +238,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
         videoUriString = showDetailEntity.video;
 
-        if (null != videoUriString || !"".equals(videoUriString))
+        if (null != videoUriString && !"".equals(videoUriString))
             s03VideoStartBtnReal.setVisibility(View.VISIBLE);
 
         s03ImagePreground.setImageURI(Uri.parse(showDetailEntity.coverForeground));

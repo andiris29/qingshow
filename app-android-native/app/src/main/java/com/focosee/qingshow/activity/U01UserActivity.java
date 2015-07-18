@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -65,8 +66,6 @@ public class U01UserActivity extends MenuActivity {
 
     @InjectView(R.id.user_head_layout)
     RelativeLayout userHeadLayout;
-    @InjectView(R.id.bg)
-    ImageView bg;
     @InjectView(R.id.user_name)
     TextView userName;
     @InjectView(R.id.user_hw)
@@ -105,6 +104,8 @@ public class U01UserActivity extends MenuActivity {
     private EventBus eventBus;
     private MongoPeople user;
 
+    private BackBtnListener btnListener;
+
     public void reconn() {
 
     }
@@ -124,6 +125,15 @@ public class U01UserActivity extends MenuActivity {
                     menuSwitch();
                 }
             });
+            btnListener = new BackBtnListener() {
+                @Override
+                public boolean onKeyDown(int keyCode, KeyEvent event) {
+                    if(keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK){
+                       menuSwitch();
+                    }
+                    return true;
+                }
+            };
         }else{
             userNavBtn.setImageResource(R.drawable.s03_back_btn);
             userNavBtn.setOnClickListener(new View.OnClickListener() {
@@ -132,6 +142,18 @@ public class U01UserActivity extends MenuActivity {
                     finish();
                 }
             });
+            btnListener = new BackBtnListener() {
+                @Override
+                public boolean onKeyDown(int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_MENU) {
+                        menuSwitch();
+                    }
+                    if(keyCode == KeyEvent.KEYCODE_BACK){
+                        finish();
+                    }
+                    return true;
+                }
+            };
             userFollowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -216,7 +238,8 @@ public class U01UserActivity extends MenuActivity {
     private RecyclerView preRecyclerView = null;
 
     private void initRecyclerViews(RecyclerView recyclerView) {
-        recyclerViews[Integer.parseInt(String.valueOf(recyclerView.getTag()))] = recyclerView;
+        if(null == recyclerViews[Integer.parseInt(String.valueOf(recyclerView.getTag()))])
+            recyclerViews[Integer.parseInt(String.valueOf(recyclerView.getTag()))] = recyclerView;
     }
 
     private void initRectcler(RecyclerView recyclerView) {
@@ -390,11 +413,11 @@ public class U01UserActivity extends MenuActivity {
     }
 
     @Override
-    public void onBackPressed() {
-
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return btnListener.onKeyDown(keyCode, event);
     }
 
     public interface BackBtnListener {
-        public void onBackPressed();
+        public boolean onKeyDown(int keyCode, KeyEvent event);
     }
 }

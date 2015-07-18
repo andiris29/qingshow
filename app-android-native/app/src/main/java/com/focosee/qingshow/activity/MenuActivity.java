@@ -137,7 +137,7 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onBackPressed() {
-        if (drawer.isScrollbarFadingEnabled() && isMenuOpened())
+        if (isMenuOpened())
             closeMenu();
         else
             super.onBackPressed();
@@ -145,9 +145,8 @@ public class MenuActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            if (isMenuOpened()) closeMenu();
-            else openMenu();
+        if (keyCode == KeyEvent.KEYCODE_MENU || keyCode == KeyEvent.KEYCODE_BACK) {
+            menuSwitch();
         }
         return true;
     }
