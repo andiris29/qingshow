@@ -69,8 +69,6 @@
         [vc showDefaultVc];
     }];
 
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    
     return YES;
 }
 
@@ -95,6 +93,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -342,9 +341,11 @@
     NSLog(@"Registfail%@",error);
 }
 
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void
                         (^)(UIBackgroundFetchResult))completionHandler {
-    // IOS 7 Support Required
+    
+
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
