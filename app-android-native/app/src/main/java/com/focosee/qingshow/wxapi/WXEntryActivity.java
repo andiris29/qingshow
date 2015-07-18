@@ -21,6 +21,7 @@ import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.EventModel;
+import com.focosee.qingshow.model.GoToWhereAfterLoginModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -62,7 +63,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
             return;
         }
         if(baseResp instanceof SendMessageToWX.Resp){
-            Toast.makeText(WXEntryActivity.this, "SendMessageToWX.Resp", Toast.LENGTH_SHORT).show();
             SendMessageToWX.Resp resp = (SendMessageToWX.Resp)baseResp;
             EventModel<Integer> eventModel = new EventModel<>(S03SHowActivity.class, resp.errCode);
             EventBus.getDefault().post(eventModel);
@@ -91,7 +91,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 MongoPeople user = UserParser._parsePeople(response);
                 QSModel.INSTANCE.setUser(user);
                 U01Model.INSTANCE.setUser(user);
-                startActivity(new Intent(WXEntryActivity.this, U01UserActivity.class));
+                startActivity(new Intent(WXEntryActivity.this, GoToWhereAfterLoginModel.INSTANCE.get_class()));
                 EventBus.getDefault().post(U07RegisterActivity.FINISH_CODE);
                 finish();
             }

@@ -320,8 +320,7 @@ public class S03SHowActivity extends BaseActivity implements IWXAPIEventHandler,
 
     public void onEventMainThread(EventModel<Integer> event) {
         if(event.tag == S03SHowActivity.class){
-            if(!showDetailEntity.__context.createdBy.__context.followedByCurrentUser) {
-                Toast.makeText(S03SHowActivity.this, "onEventMainThread", Toast.LENGTH_SHORT).show();
+            if(!showDetailEntity.__context.likedByCurrentUser) {
                 clickLikeShowButton();
             }
         }
