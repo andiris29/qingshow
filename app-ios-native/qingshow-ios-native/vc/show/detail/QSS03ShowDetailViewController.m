@@ -322,11 +322,9 @@
 {
     NSString* showId = [QSCommonUtil getIdOrEmptyStr:self.showDict];
     
-//    NSString* urlStr = [NSString stringWithFormat:@"http://121.41.161.239/app-web?action=shareShow&_id=%@", showId];
-    
     //获取userID
     QSUserManager *um = [QSUserManager shareUserManager];
-    NSString* peopleID = um.userInfo[@"_id"];
+    NSString* peopleID = [QSCommonUtil getIdOrEmptyStr:um.userInfo];
     
     NSString *urlStr = [NSString stringWithFormat:@"http://chingshow.com/app-web?action=shareShow&_id=%@&people.id=%@",showId,peopleID];
     [self.shareVc showSharePanelWithUrl:urlStr];
@@ -385,7 +383,7 @@
 #pragma mark Mob
 - (void)logMobPlayVideo:(NSTimeInterval)playbackTime
 {
-    [MobClick event:@"playVideo" attributes:@{@"showId" : self.showDict[@"_id"], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
+    [MobClick event:@"playVideo" attributes:@{@"showId" : [QSCommonUtil getIdOrEmptyStr:self.showDict], @"length": @(playbackTime).stringValue} durations:(int)(playbackTime * 1000)];
 }
 
 #pragma mark - Discount
