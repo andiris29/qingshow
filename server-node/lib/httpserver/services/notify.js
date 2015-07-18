@@ -62,14 +62,15 @@ notify.questSharingObjectiveComplete = {
         },
         function(peoples, callback) {
             var registrationIDs = [];
-            targets.forEach(function(people, index) {
+            peoples.forEach(function(people, index) {
                 if(people.jPushInfo.registrationIDs && people.jPushInfo.registrationIDs.length > 0) {
                     registrationIDs = registrationIDs.concat(people.jPushInfo.registrationIDs);
                 }
             });
             PushNotificationHelper.push(registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
                 'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
-            }, callback);
+            }, null);
+            callback();
         }], 
         function(err) {
             ResponseHelper.response(res, err, null);

@@ -12,7 +12,6 @@ var ServerError = require('../server-error');
 var _channelStore = {};
 
 var spread = module.exports;
-var MAX_PROGRESS = 20;
 
 spread.download = {
     'method' : 'get',
@@ -26,6 +25,7 @@ spread.download = {
 spread.firstLaunch = {
     'method' : 'post',
     'func' : function(req, res) {
+        var MAX_PROGRESS = global.qsConfig.quest.maxProgress;
         var param = req.body;
         var ip = RequestHelper.getIp(req);
         var newlog = new Trace({
@@ -55,7 +55,16 @@ spread.firstLaunch = {
                             people.questSharing.progress = people.questSharing.progress + 1;
                             if (people.questSharing.progress >= MAX_PROGRESS) {
                                 people.questSharing.status = 1;
-                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, null, null);
+                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, PushNotificationHelper.MessageQuestSharingObjectiveComplete, {
+                                    'command' : PushNotificationHelper.CommandQuestSharingObjectiveComplete
+                                }, null);
+                            } else {
+                                var message = PushNotificationHelper.MessageQuestSharingProgress;
+                                var objective = MAX_PROGRESS - people.questSharing.progress;
+                                message = message.replace("{0}", objective);
+                                PushNotificationHelper.push(people.jPushInfo.registrationIDs, message, {
+                                    'command' : PushNotificationHelper.CommandQuestSharingProgress
+                                }, null);
                             }
                         } else {
                             people.questSharing = {
