@@ -13,7 +13,7 @@
 #import "QSVideoBaseViewController.h"
 #import "QSAbstractRootViewController.h"
 
-@interface QSS03ShowDetailViewController : QSVideoBaseViewController < UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate>
+@interface QSS03ShowDetailViewController : QSVideoBaseViewController < UIScrollViewDelegate, UIGestureRecognizerDelegate, QSShareViewControllerDelegate, QSS03ItemListViewControllerDelegate,UIAlertViewDelegate>
 
 #pragma mark - IBOutlet
 @property (weak, nonatomic) IBOutlet UILabel *modelNameLabel;
