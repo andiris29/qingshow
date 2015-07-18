@@ -8,10 +8,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Response;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.fragment.U01BaseFragment;
@@ -20,6 +24,15 @@ import com.focosee.qingshow.activity.fragment.U01FansFragment;
 import com.focosee.qingshow.activity.fragment.U01FollowerFragment;
 import com.focosee.qingshow.activity.fragment.U01MatchFragment;
 import com.focosee.qingshow.activity.fragment.U01RecommFragment;
+import com.focosee.qingshow.command.Callback;
+import com.focosee.qingshow.command.UserCommand;
+import com.focosee.qingshow.constants.config.QSAppWebAPI;
+import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
+import com.focosee.qingshow.httpapi.request.RequestQueueManager;
+import com.focosee.qingshow.httpapi.response.MetadataParser;
+import com.focosee.qingshow.httpapi.response.dataparser.UserParser;
+import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -27,6 +40,9 @@ import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.util.AppUtil;
 import com.focosee.qingshow.widget.MViewPager_NoScroll;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 import butterknife.ButterKnife;
@@ -34,6 +50,8 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 public class U01UserActivity extends MenuActivity {
+
+    private static final String TAG = "U01UserActivity";
 
     public static final int POS_MATCH = 0;
     public static final int POS_RECOMM = 1;
@@ -85,6 +103,7 @@ public class U01UserActivity extends MenuActivity {
     private List<MongoShow> datas;
     private UserPagerAdapter pagerAdapter;
     private EventBus eventBus;
+    private MongoPeople user;
 
     public void reconn() {
 
@@ -95,46 +114,65 @@ public class U01UserActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_u01_base);
         ButterKnife.inject(this);
-        userNavBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                menuSwitch();
-            }
-        });
-
-        if(U01Model.INSTANCE.getUser() == QSModel.INSTANCE.getUser()) {//进入自己的页面时不显示关注按钮
+        user = U01Model.INSTANCE.getUser();
+        initUserInfo();
+        if(user._id == QSModel.INSTANCE.getUser()._id) {//进入自己的页面时不显示关注按钮
             userFollowBtn.setVisibility(View.GONE);
+            userNavBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    menuSwitch();
+                }
+            });
         }else{
+            userNavBtn.setImageResource(R.drawable.s03_back_btn);
+            userNavBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
             userFollowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    userFollowBtn.setEnabled(false);
+                    String url = user.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleUnfollowApi() : QSAppWebAPI.getPeopleFollowApi();
+                    UserCommand.likeOrFollow(url, user._id, new Callback() {
+                        @Override
+                        public void onComplete(JSONObject response) {
+                            super.onComplete();
+                            String msg = "";
+                            if (user.__context.followedByCurrentUser) {
+                                msg = "取消关注";
+                                userFollowBtn.setImageResource(R.drawable.follow_btn);
+                            } else {
+                                msg = "添加关注";
+                                userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+                            }
+                            fragments[POS_FANS].refresh();
+                            UserCommand.refresh();
+                            user.__context.followedByCurrentUser = !user.__context.followedByCurrentUser;
+                            Toast.makeText(U01UserActivity.this, msg, Toast.LENGTH_SHORT).show();
+                            userFollowBtn.setEnabled(true);
+                            EventModel eventModel = new EventModel(U01UserActivity.class, null);
+                            eventModel.setFrom(U01UserActivity.class);
+                            EventBus.getDefault().post(eventModel);
+                        }
 
+                        @Override
+                        public void onError(int errorCode) {
+                            ErrorHandler.handle(U01UserActivity.this, errorCode);
+                            userFollowBtn.setEnabled(true);
+                        }
+                    });
                 }
             });
         }
         eventBus = EventBus.getDefault();
         eventBus.register(this);
         datas = new LinkedList<>();
-        initUserInfo();
-
         pagerAdapter = new UserPagerAdapter(getSupportFragmentManager());
         userViewPager.setAdapter(pagerAdapter);
-        userViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setIndicatorBackground(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         userViewPager.setOffscreenPageLimit(5);
         userViewPager.setCurrentItem(POS_MATCH);
         userViewPager.setScrollble(false);
@@ -143,19 +181,33 @@ public class U01UserActivity extends MenuActivity {
     }
 
     private void initUserInfo() {
-        MongoPeople user = U01Model.INSTANCE.getUser();
 
         if (null == user) {
             return;
         }
 
-        userName.setText(user.nickname);
-        userHw.setText(user.height + "cm," + user.weight + "kg");
-        if (user.portrait != null) {
-            userHead.setImageURI(Uri.parse(user.portrait));
-        }
-        if (null != user.background)
-            ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryApi(user._id), null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, "response:" + response);
+                if(MetadataParser.hasError(response)){
+                    ErrorHandler.handle(U01UserActivity.this, MetadataParser.getError(response));
+                    return;
+                }
+                LinkedList<MongoPeople> users = UserParser._parsePeoples(response);
+                user = users.get(0);
+                userName.setText(user.nickname);
+                userHw.setText(user.height + "cm," + user.weight + "kg");
+                if (user.portrait != null)
+                    userHead.setImageURI(Uri.parse(user.portrait));
+                if (null != user.background)
+                    ImageLoader.getInstance().displayImage(user.background, userBg, AppUtil.getModelBackgroundDisplayOptions());
+                if(user.__context.followedByCurrentUser)
+                    userFollowBtn.setImageResource(R.drawable.unfollow_btn);
+            }
+        });
+
+        RequestQueueManager.INSTANCE.getQueue().add(jsonObjectRequest);
     }
 
     private View view;
@@ -174,21 +226,14 @@ public class U01UserActivity extends MenuActivity {
         if (null != recyclerView.getChildAt(0)) {
             view = recyclerView.getChildAt(0);
         }
-        //TODO head scroll
         boolean isShort = recyclerView.getHeight() > recyclerView.getChildAt(recyclerView.getChildCount() - 1).getHeight()
                 * (recyclerView.getChildCount() - 1) + userHeadLayout.getBottom() + userHeadLayout.getY();
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        System.out.println("top1:" +  recyclerView.getChildAt(recyclerView.getChildCount() - 1).getBottom());
         if(userHeadLayout.getY() != 0){
             if(isShort) {//短列表
                 userHeadLayout.setY(0);
                 recyclerView.scrollToPosition(0);
             }else{
-                System.out.println("top:" + userHeadLayout.getY());
-//                if(userHeadLayout.getY() != (view.getBottom() - view.getHeight())){
-//                    userHeadLayout.setY(0);
-//                    recyclerView.scrollToPosition(0);
-//                }
                 layoutManager.scrollToPositionWithOffset(0, (int)userHeadLayout.getY());
             }
         }else{
@@ -210,10 +255,17 @@ public class U01UserActivity extends MenuActivity {
 
     private int currentPos = 0;
 
-    public void onEventMainThread(RecyclerView recyclerView) {
+    public void onEventMainThread(EventModel eventModel) {
+        //TODO recyclerviews
+        if(eventModel.tag != U01UserActivity.class )return;
+        if(eventModel.from == S03SHowActivity.class)
+            fragments[POS_COLL].refresh();
+        if(eventModel.from == U01UserActivity.class) {
+            fragments[POS_FOLLOW].refresh();
+        }
         if (null == recyclerViews[POS_MATCH])
-            initRectcler(recyclerView);
-        initRecyclerViews(recyclerView);
+            initRectcler((RecyclerView)eventModel.msg);
+        initRecyclerViews((RecyclerView)eventModel.msg);
     }
 
     int pos = 0;
@@ -241,15 +293,12 @@ public class U01UserActivity extends MenuActivity {
 
     }
 
-    private void clickFollow(){
-        MongoPeople user = U01Model.INSTANCE.getUser();
-    }
-
     private void tabOnclick(int pos) {
 
         userViewPager.setCurrentItem(pos);
         fragments[pos].getRecyclerPullToRefreshView().doPullRefreshing(true, 0);
         this.pos = pos;
+        setIndicatorBackground(pos);
         initRectcler(recyclerViews[pos]);
     }
 
@@ -257,6 +306,12 @@ public class U01UserActivity extends MenuActivity {
     protected void onDestroy() {
         super.onDestroy();
         eventBus.unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("onResume");
     }
 
     public class UserPagerAdapter extends FragmentPagerAdapter {
@@ -268,29 +323,32 @@ public class U01UserActivity extends MenuActivity {
         @Override
         public Fragment getItem(int pos) {
             U01BaseFragment fragment = null;
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("user", user);
             switch (pos) {
                 case POS_MATCH:
-                    fragment = U01MatchFragment.newInstance(U01UserActivity.this);
+                    fragment = U01MatchFragment.newInstance();
                     break;
                 case POS_RECOMM:
-                    fragment = U01RecommFragment.newInstance(U01UserActivity.this);
+                    fragment = U01RecommFragment.newInstance();
                     break;
                 case POS_COLL:
-                    fragment = U01CollectionFragment.newInstance(U01UserActivity.this);
+                    fragment = U01CollectionFragment.newInstance();
                     break;
                 case POS_FOLLOW:
-                    fragment = U01FollowerFragment.newInstance(U01UserActivity.this);
+                    fragment = U01FollowerFragment.newInstance();
                     break;
                 case POS_FANS:
-                    fragment = U01FansFragment.newInstance(U01UserActivity.this);
+                    fragment = U01FansFragment.newInstance();
                     break;
                 default:
-                    fragment = U01MatchFragment.newInstance(U01UserActivity.this);
+                    fragment = U01MatchFragment.newInstance();
             }
             if (fragment == null) {
-                fragment = U01MatchFragment.newInstance(U01UserActivity.this);
+                fragment = U01MatchFragment.newInstance();
             }
             fragments[pos] = fragment;
+            fragment.setArguments(bundle);
             return fragment;
         }
 
@@ -331,4 +389,12 @@ public class U01UserActivity extends MenuActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
+    public interface BackBtnListener {
+        public void onBackPressed();
+    }
 }

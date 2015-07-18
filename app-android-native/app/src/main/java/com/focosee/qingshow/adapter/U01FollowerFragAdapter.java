@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
@@ -14,6 +15,9 @@ import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.util.adapter.AbsViewHolder;
+
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
@@ -38,36 +42,6 @@ public class U01FollowerFragAdapter extends U01BaseAdapter<MongoPeople>{
         super.onBindViewHolder(holder, position);
         if(0 == position) return;
         final MongoPeople people = getItemData(position);
-        holder.getView(R.id.item_u01_fans_follow).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(null == people.__context){
-                    Toast.makeText(context, "出错，请重试！", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                String url = people.__context.followedByCurrentUser ? QSAppWebAPI.getPeopleFollowApi() : QSAppWebAPI.getPeopleUnfollowApi();
-                UserCommand.likeOrFollow(url, people._id, new Callback(){
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        String msg = "";
-                        if(people.__context.followedByCurrentUser){
-                            msg = "取消关注";
-                            holder.getView(R.id.item_u01_fans_follow).setBackgroundResource(R.drawable.follow_pink);
-                        }else{
-                            msg = "添加关注";
-                            holder.getView(R.id.item_u01_fans_follow).setBackgroundResource(R.drawable.follow);
-                        }
-                        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(int errorCode) {
-                        ErrorHandler.handle(context, errorCode);
-                    }
-                });
-            }
-        });
         if(null != people.portrait && !"".equals(people.portrait))
             holder.setImgeByUrl(R.id.item_u01_fans_image, people.portrait);
         holder.setText(R.id.item_u01_fans_name, people.nickname);

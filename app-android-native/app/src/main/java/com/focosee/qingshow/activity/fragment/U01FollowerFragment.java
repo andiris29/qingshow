@@ -1,21 +1,17 @@
 package com.focosee.qingshow.activity.fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.android.volley.Response;
 import com.focosee.qingshow.R;
 import com.focosee.qingshow.activity.U01UserActivity;
-import com.focosee.qingshow.adapter.U01CollectionFragAdapter;
 import com.focosee.qingshow.adapter.U01FollowerFragAdapter;
 import com.focosee.qingshow.constants.config.QSAppWebAPI;
 import com.focosee.qingshow.httpapi.request.QSJsonObjectRequest;
@@ -23,17 +19,13 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
-import com.focosee.qingshow.model.QSModel;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
-import com.focosee.qingshow.model.vo.mongo.MongoShow;
-
 import org.json.JSONObject;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
-
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -48,24 +40,24 @@ public class U01FollowerFragment extends U01BaseFragment {
 
     private OnFragmentInteractionListener mListener;
     private U01FollowerFragAdapter adapter;
-    private static Context context;
 
-    public static U01FollowerFragment newInstance(Context context1){
-        context = context1;
+    public static U01FollowerFragment newInstance(){
         return new U01FollowerFragment();
     }
     public U01FollowerFragment() {
 
-
-
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
+        adapter = new U01FollowerFragAdapter(new LinkedList<MongoPeople>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -73,7 +65,8 @@ public class U01FollowerFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_FOLLOW);
-                EventBus.getDefault().post(recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventBus.getDefault().post(eventModel);
             }
         });
         getDatasFromNet(1, 20);
@@ -94,7 +87,7 @@ public class U01FollowerFragment extends U01BaseFragment {
 
         if(U01Model.INSTANCE.getUser() == null) return;
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryFollowPeoplesApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getPeopleQueryFollowPeoplesApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);
@@ -106,7 +99,9 @@ public class U01FollowerFragment extends U01BaseFragment {
                 }
                 recyclerPullToRefreshView.onPullUpRefreshComplete();
                 recyclerPullToRefreshView.onPullDownRefreshComplete();
-                adapter.addDataAtTop(PeopleParser.parseQueryFollowers(response));
+                ArrayList<MongoPeople> peoples = PeopleParser.parseQueryFollowers(response);
+
+                adapter.addDataAtTop(peoples);
                 adapter.notifyDataSetChanged();
             }
         });

@@ -41,7 +41,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/nav_btn_menu_n"/>
+                android:src="@drawable/nav_btn_menu_n_white"/>
 
             <include layout="@layout/item_u01_header"/>
             </RelativeLayout>

@@ -35,7 +35,6 @@ public class U01FansFragAdapter extends U01BaseAdapter<MongoPeople>{
         super.onBindViewHolder(holder, position);
         if(0 == position) return;
         final MongoPeople people = getItemData(position);
-        holder.getView(R.id.item_u01_fans_follow).setVisibility(View.GONE);
         holder.setImgeByUrl(R.id.item_u01_fans_image, people.portrait);
         holder.setText(R.id.item_u01_fans_name, people.nickname);
         holder.setOnClickListener(new View.OnClickListener() {

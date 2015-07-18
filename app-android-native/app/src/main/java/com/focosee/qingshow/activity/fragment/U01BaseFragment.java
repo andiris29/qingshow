@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.alipay.sdk.widget.Loading;
 import com.focosee.qingshow.R;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.widget.LoadingLayout;
 import com.focosee.qingshow.widget.PullToRefreshBase;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
@@ -26,13 +27,20 @@ public abstract class U01BaseFragment extends Fragment {
     @InjectView(R.id.fragment_u01_recyclerview)
     RecyclerPullToRefreshView recyclerPullToRefreshView;
     RecyclerView recyclerView;
+    MongoPeople user;
 
     int currentPageN0 = 1;
 
     public U01BaseFragment() {
         // Required empty public constructor
+
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        user = (MongoPeople)getArguments().getSerializable("user");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -20,6 +20,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import org.json.JSONObject;
@@ -39,16 +40,17 @@ public class U01RecommFragment extends U01BaseFragment {
 
     private OnFragmentInteractionListener mListener;
     private U01PushAdapter adapter;
-    private static Context context;
 
-    public static U01RecommFragment newInstance(Context context1){
-        context = context1;
+    public static U01RecommFragment newInstance(){
         return new U01RecommFragment();
     }
     public U01RecommFragment() {
 
+    }
 
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
 
@@ -56,7 +58,7 @@ public class U01RecommFragment extends U01BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01PushAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_date, R.layout.item_s17);
+        adapter = new U01PushAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_date, R.layout.item_s17);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -70,7 +72,8 @@ public class U01RecommFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_RECOMM);
-                EventBus.getDefault().post(recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventBus.getDefault().post(eventModel);
             }
         });
         getDatasFromNet();

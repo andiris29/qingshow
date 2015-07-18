@@ -20,7 +20,9 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.ShowParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.U01Model;
+import com.focosee.qingshow.model.vo.mongo.MongoPeople;
 import com.focosee.qingshow.model.vo.mongo.MongoShow;
 import com.focosee.qingshow.widget.RecyclerPullToRefreshView;
 
@@ -35,20 +37,25 @@ public class U01MatchFragment extends U01BaseFragment {
     private static final String TAG = "U01MatchFragment";
 
     private U01MatchFragAdapter adapter;
-    private static Context context;
 
-    public static U01MatchFragment newInstance(Context context1){
-        context = context1;
+    public static U01MatchFragment newInstance(){
         return new U01MatchFragment();
     }
 
-    public U01MatchFragment() {}
+    public U01MatchFragment() {
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), context, R.layout.item_u01_push, R.layout.item_u01_match_frag);
+        adapter = new U01MatchFragAdapter(new LinkedList<MongoShow>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_match_frag);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -63,7 +70,8 @@ public class U01MatchFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_MATCH);
-                EventBus.getDefault().post(recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventBus.getDefault().post(eventModel);
             }
         });
 
@@ -85,7 +93,7 @@ public class U01MatchFragment extends U01BaseFragment {
 
         if(U01Model.INSTANCE.getUser() == null) return;
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getMatchCreatedbyApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);

@@ -67,8 +67,8 @@ public class U01CollectionFragAdapter extends U01BaseAdapter<MongoShow>{
     }
 
     private void bindCreateBy(AbsViewHolder holder, final MongoShow show){
-        holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover + ".jpeg", 0.5f);
-        holder.setImgeByUrl(R.id.item_u01_collection_preground, show.coverForeground, 0.5f);
+        holder.setImgeByUrl(R.id.item_u01_collection_img, show.cover, 0.72f);
+        holder.setImgeByUrl(R.id.item_u01_collection_preground, show.coverForeground, 0.56f);
         MongoPeople people = show.__context.createdBy;
         holder.getView(R.id.item_u01_collection_top_layout).setOnClickListener(new View.OnClickListener() {
             @Override

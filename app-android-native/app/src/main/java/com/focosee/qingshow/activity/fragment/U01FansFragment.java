@@ -23,6 +23,7 @@ import com.focosee.qingshow.httpapi.request.RequestQueueManager;
 import com.focosee.qingshow.httpapi.response.MetadataParser;
 import com.focosee.qingshow.httpapi.response.dataparser.PeopleParser;
 import com.focosee.qingshow.httpapi.response.error.ErrorHandler;
+import com.focosee.qingshow.model.EventModel;
 import com.focosee.qingshow.model.QSModel;
 import com.focosee.qingshow.model.U01Model;
 import com.focosee.qingshow.model.vo.mongo.MongoPeople;
@@ -47,24 +48,24 @@ public class U01FansFragment extends U01BaseFragment {
 
     private OnFragmentInteractionListener mListener;
     private U01FansFragAdapter adapter;
-    private static Context context;
 
-    public static U01FansFragment newInstance(Context context1){
-        context = context1;
+    public static U01FansFragment newInstance(){
         return new U01FansFragment();
     }
     public U01FansFragment() {
 
-
-
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        adapter = new U01FansFragAdapter(new LinkedList<MongoPeople>(), context, R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
+        adapter = new U01FansFragAdapter(new LinkedList<MongoPeople>(), getActivity(), R.layout.item_u01_push, R.layout.item_u01_fan_and_followers);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -72,7 +73,8 @@ public class U01FansFragment extends U01BaseFragment {
             @Override
             public void run() {
                 recyclerView.setTag(U01UserActivity.POS_FANS);
-                EventBus.getDefault().post(recyclerView);
+                EventModel eventModel = new EventModel(U01UserActivity.class, recyclerView);
+                EventBus.getDefault().post(eventModel);
             }
         });
         getDatasFromNet(1, 20);
@@ -93,7 +95,7 @@ public class U01FansFragment extends U01BaseFragment {
 
         if(U01Model.INSTANCE.getUser() == null) return;
 
-        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(U01Model.INSTANCE.getUser()._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
+        QSJsonObjectRequest jsonObjectRequest = new QSJsonObjectRequest(QSAppWebAPI.getQueryPeopleFollowerApi(user._id, pageNo, pageSize), null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "response:" + response);

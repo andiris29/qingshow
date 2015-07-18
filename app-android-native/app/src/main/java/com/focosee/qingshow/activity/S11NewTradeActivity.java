@@ -229,6 +229,7 @@ public class S11NewTradeActivity extends BaseActivity implements View.OnClickLis
                     return;
                 }
                 trade = TradeParser.parse(response);
+                trade.totalFee = 0.01;
                 pay(trade);
             }
         });

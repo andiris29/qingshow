@@ -31,9 +31,9 @@ public class U01MatchFragAdapter extends U01BaseAdapter<MongoShow>{
         if(0 == position) return;
         final MongoShow show = getItemData(position);
 
-        holder.setImgeByUrl(R.id.item_u01_match_img, show.cover, 0.5f);
+        holder.setImgeByUrl(R.id.item_u01_match_img, show.cover, 0.72f);
         ((TextView)holder.getView(R.id.item_u01_match_likeNum)).setText(String.valueOf(show.numLike));
-
+        holder.setImgeByUrl(R.id.item_u01_match_preImg, show.coverForeground, 0.56f);
         holder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
