@@ -273,12 +273,25 @@
 }
 
 - (IBAction)trashBtnPressed:(id)sender {
-    [SHARE_NW_ENGINE matcherHide:self.showDict onSucceed:^{
-        [self showTextHud:@"删除成功"];
-        [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
-    } onError:^(NSError *error) {
-        [self showErrorHudWithError:error];
-    }];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"确定删除？" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+    [alert show];
+    
+}
+#pragma mark - AlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [SHARE_NW_ENGINE matcherHide:self.showDict onSucceed:^{
+            [self showTextHud:@"删除成功"];
+            [self performSelector:@selector(backBtnPressed:) withObject:nil afterDelay:TEXT_HUD_DELAY];
+        } onError:^(NSError *error) {
+            [self showErrorHudWithError:error];
+        }];
+    }
+    else
+    {
+        [self showTextHud:@"取消删除"];
+    }
 }
 
 
