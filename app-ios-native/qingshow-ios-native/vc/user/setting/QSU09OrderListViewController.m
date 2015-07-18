@@ -70,8 +70,6 @@
             if ([label.text isEqualToString:alertView.message]) {
                 label.font = NEWFONT;
             }
-            NSLog(@"label.text = %@",label.text);
-            
         }
     }
 }
