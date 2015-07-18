@@ -24,6 +24,7 @@ define([
 
         this.request('/admin/find', 'get', {
             'collection' : 'items',
+            'pageSize' : 1000,
             'categoryRef' : category._id
         }, function(err, metadata, data) {
             if (err || metadata.error) {
