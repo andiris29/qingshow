@@ -14,8 +14,8 @@ define([
     };
 
     StatusToEndDetail.prototype.getDetails = function() {
-        var userNick = $('#comment', this._ownerViewDom).val();
-        if (!userNick) {
+        var comment = $('#comment', this._ownerViewDom).val();
+        if (!comment) {
             alertify.error('需要输入备注');
             return;
         }
