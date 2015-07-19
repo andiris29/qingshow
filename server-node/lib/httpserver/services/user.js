@@ -516,7 +516,9 @@ _loginViaWeixin = function(req, res) {
                 return;
             } else if (people !== null) {
                 people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
-                people.save(callback);
+                people.save(function(err, people) {
+                    callback(err, people);
+                });
                 return;
             }
             require('../../runtime/qsmail').debug('New user[weixin]: ' + user.openid, user.openid, function(err, info) {
@@ -553,7 +555,7 @@ _loginViaWeixin = function(req, res) {
             });
         });
     }, function(people, callback) {
-        req.session.userId = people.id;
+        req.session.userId = people._id;
         req.session.loginDate = new Date();
         callback(null, people);
     }], function(error, people) {
@@ -598,7 +600,9 @@ _loginViaWeibo = function(req, res) {
                 return;
             } else if (people !== null) {
                 people.jPushInfo = _addRegistrationId(people.jPushInfo, param.registrationId);
-                people.save(callback);
+                people.save(function(err, people) {
+                    callback(err, people);
+                });
                 return;
             }
             require('../../runtime/qsmail').debug('New user[weibo]: ' + user.id, user.id, function(err, info) {
@@ -633,7 +637,7 @@ _loginViaWeibo = function(req, res) {
             });
         });
     }, function(people, callback) {
-        req.session.userId = people.id;
+        req.session.userId = people._id;
         req.session.loginDate = new Date();
         callback(null, people);
     }], function(error, people) {
